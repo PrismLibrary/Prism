@@ -21,7 +21,9 @@ namespace Sandbox.ViewModels
         private void Click(string message)
         {
             _eventAggregator.GetEvent<MessageSentEvent>().Publish(message);
-            GoBack();
+
+            //when navigating within a NavigationPage, set useModalNavigation = false
+            GoBack(useModalNavigation:false); 
         }
     }
 }

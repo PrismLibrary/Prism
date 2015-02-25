@@ -15,6 +15,7 @@ namespace Sandbox.ViewModels
 
         private void Click()
         {
+            //when navigating within a NavigationPage, set useModalNavigation = false
             Navigate("ViewC");
         }
     }
