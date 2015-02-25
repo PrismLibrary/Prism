@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AdapterInvalidTypeException" xml:space="preserve">
+    <value>The object must be of type '{0}' in order to use the current region adapter.</value>
+  </data>
+  <data name="CannotChangeRegionNameException" xml:space="preserve">
+    <value>Cannot change the region name once is set. The current region name is '{0}'.</value>
+  </data>
+  <data name="CannotCreateNavigationTarget" xml:space="preserve">
+    <value>Cannot create navigation target '{0}'.</value>
+  </data>
+  <data name="CanOnlyAddTypesThatInheritIFromRegionBehavior" xml:space="preserve">
+    <value>Type '{0}' does not implement from IRegionBehavior.</value>
+  </data>
+  <data name="ConfigurationStoreCannotBeNull" xml:space="preserve">
+    <value>The ConfigurationStore cannot contain a null value. </value>
+  </data>
+  <data name="ContentControlHasContentException" xml:space="preserve">
+    <value>ContentControl's Content property is not empty. 
+    This control is being associated with a region, but the control is already bound to something else. 
+    If you did not explicitly set the control's Content property, 
+    this exception may be caused by a change in the value of the inherited RegionManager attached property.</value>
+  </data>
+  <data name="CyclicDependencyFound" xml:space="preserve">
+    <value>At least one cyclic dependency has been found in the module catalog. Cycles in the module dependencies must be avoided.</value>
+  </data>
+  <data name="DeactiveNotPossibleException" xml:space="preserve">
+    <value>Deactivation is not possible in this type of region.</value>
+  </data>
+  <data name="DefaultTextLoggerPattern" xml:space="preserve">
+    <value>{1}: {2}. Priority: {3}. Timestamp:{0:u}.</value>
+  </data>
+  <data name="DelegateCommandDelegatesCannotBeNull" xml:space="preserve">
+    <value>Neither the executeMethod nor the canExecuteMethod delegates can be null.</value>
+  </data>
+  <data name="DelegateCommandInvalidGenericPayloadType" xml:space="preserve">
+    <value>T for DelegateCommand&lt;T&gt; is not an object nor Nullable.</value>
+  </data>
+  <data name="DependencyForUnknownModule" xml:space="preserve">
+    <value>Cannot add dependency for unknown module {0}</value>
+  </data>
+  <data name="DependencyOnMissingModule" xml:space="preserve">
+    <value>A module declared a dependency on another module which is not declared to be loaded. Missing module(s): {0}</value>
+  </data>
+  <data name="DirectoryNotFound" xml:space="preserve">
+    <value>Directory {0} was not found.</value>
+  </data>
+  <data name="DuplicatedModule" xml:space="preserve">
+    <value>A duplicated module with name {0} has been found by the loader.</value>
+  </data>
+  <data name="DuplicatedModuleGroup" xml:space="preserve">
+    <value>A duplicated module group with name {0} has been found by the loader.</value>
+  </data>
+  <data name="FailedToGetType" xml:space="preserve">
+    <value>Unable to retrieve the module type {0} from the loaded assemblies.  You may need to specify a more fully-qualified type name.</value>
+  </data>
+  <data name="FailedToLoadModule" xml:space="preserve">
+    <value>An exception occurred while initializing module '{0}'. 
+    - The exception message was: {2}
+    - The Assembly that the module was trying to be loaded from was:{1}
+    Check the InnerException property of the exception for more information. If the exception occurred while creating an object in a DI container, you can exception.GetRootException() to help locate the root cause of the problem. 
+  </value>
+  </data>
+  <data name="FailedToLoadModuleNoAssemblyInfo" xml:space="preserve">
+    <value>An exception occurred while initializing module '{0}'. 
+    - The exception message was: {1}
+    Check the InnerException property of the exception for more information. If the exception occurred 
+    while creating an object in a DI container, you can exception.GetRootException() to help locate the 
+    root cause of the problem. </value>
+  </data>
+  <data name="FailedToRetrieveModule" xml:space="preserve">
+    <value>Failed to load type for module {0}. 
+Error was: {1}.</value>
+  </data>
+  <data name="HostControlCannotBeNull" xml:space="preserve">
+    <value>HostControl cannot have null value when behavior attaches. </value>
+  </data>
+  <data name="HostControlCannotBeSetAfterAttach" xml:space="preserve">
+    <value>The HostControl property cannot be set after Attach method has been called.</value>
+  </data>
+  <data name="HostControlMustBeATabControl" xml:space="preserve">
+    <value>HostControl type must be a TabControl.</value>
+  </data>
+  <data name="IEnumeratorObsolete" xml:space="preserve">
+    <value>The IModuleEnumerator interface is no longer used and has been replaced by ModuleCatalog.</value>
+  </data>
+  <data name="InvalidArgumentAssemblyUri" xml:space="preserve">
+    <value>The argument must be a valid absolute Uri to an assembly file.</value>
+  </data>
+  <data name="InvalidDelegateRerefenceTypeException" xml:space="preserve">
+    <value>The Target of the IDelegateReference should be of type {0}.</value>
+  </data>
+  <data name="ItemsControlHasItemsSourceException" xml:space="preserve">
+    <value>ItemsControl's ItemsSource property is not empty. 
+    This control is being associated with a region, but the control is already bound to something else. 
+    If you did not explicitly set the control's ItemSource property, 
+    this exception may be caused by a change in the value of the inherited RegionManager attached property.</value>
+  </data>
+  <data name="MappingExistsException" xml:space="preserve">
+    <value>Mapping with the given type is already registered: {0}.</value>
+  </data>
+  <data name="ModuleDependenciesNotMetInGroup" xml:space="preserve">
+    <value>Module {0} depends on other modules that don't belong to the same group.</value>
+  </data>
+  <data name="ModuleNotFound" xml:space="preserve">
+    <value>Module {0} was not found in the catalog.</value>
+  </data>
+  <data name="ModulePathCannotBeNullOrEmpty" xml:space="preserve">
+    <value>The ModulePath cannot contain a null value or be empty</value>
+  </data>
+  <data name="ModuleTypeNotFound" xml:space="preserve">
+    <value>Failed to load type '{0}' from assembly '{1}'.</value>
+  </data>
+  <data name="NavigationInProgress" xml:space="preserve">
+    <value>Navigation is already in progress on region with name '{0}'.</value>
+  </data>
+  <data name="NavigationServiceHasNoRegion" xml:space="preserve">
+    <value>Navigation cannot proceed until a region is set for the RegionNavigationService.</value>
+  </data>
+  <data name="NoRegionAdapterException" xml:space="preserve">
+    <value>The IRegionAdapter for the type {0} is not registered in the region adapter mappings. You can register an IRegionAdapter for this control by overriding the ConfigureRegionAdapterMappings method in the bootstrapper.</value>
+  </data>
+  <data name="NoRetrieverCanRetrieveModule" xml:space="preserve">
+    <value>There is currently no moduleTypeLoader in the ModuleManager that can retrieve the specified module.</value>
+  </data>
+  <data name="OnViewRegisteredException" xml:space="preserve">
+    <value>An exception has occurred while trying to add a view to region '{0}'. 
+    - The most likely causing exception was was: '{1}'.
+    But also check the InnerExceptions for more detail or call .GetRootException(). </value>
+  </data>
+  <data name="PropertySupport_ExpressionNotProperty_Exception" xml:space="preserve">
+    <value>The member access expression does not access a property.</value>
+  </data>
+  <data name="PropertySupport_NotMemberAccessExpression_Exception" xml:space="preserve">
+    <value>The expression is not a member access expression.</value>
+  </data>
+  <data name="PropertySupport_StaticExpression_Exception" xml:space="preserve">
+    <value>The referenced property is a static property.</value>
+  </data>
+  <data name="RegionBehaviorAttachCannotBeCallWithNullRegion" xml:space="preserve">
+    <value>The Attach method cannot be called when Region property is null.</value>
+  </data>
+  <data name="RegionBehaviorRegionCannotBeSetAfterAttach" xml:space="preserve">
+    <value>The Region property cannot be set after Attach method has been called.</value>
+  </data>
+  <data name="RegionCreationException" xml:space="preserve">
+    <value>An exception occurred while creating a region with name '{0}'. The exception was: {1}. </value>
+  </data>
+  <data name="RegionManagerWithDifferentNameException" xml:space="preserve">
+    <value>The region being added already has a name of '{0}' and cannot be added to the region manager with a different name ('{1}').</value>
+  </data>
+  <data name="RegionNameCannotBeEmptyException" xml:space="preserve">
+    <value>The region name cannot be null or empty.</value>
+  </data>
+  <data name="RegionNameExistsException" xml:space="preserve">
+    <value>Region with the given name is already registered: {0}</value>
+  </data>
+  <data name="RegionNotFound" xml:space="preserve">
+    <value>This RegionManager does not contain a Region with the name '{0}'.</value>
+  </data>
+  <data name="RegionNotInRegionManagerException" xml:space="preserve">
+    <value>The region manager does not contain the {0} region.</value>
+  </data>
+  <data name="RegionViewExistsException" xml:space="preserve">
+    <value>View already exists in region.</value>
+  </data>
+  <data name="RegionViewNameExistsException" xml:space="preserve">
+    <value>View with name '{0}' already exists in the region.</value>
+  </data>
+  <data name="StartupModuleDependsOnAnOnDemandModule" xml:space="preserve">
+    <value>Module {0} is marked for automatic initialization when the application starts, but it depends on modules that are marked as OnDemand initialization. To fix this error, mark the dependency modules for InitializationMode=WhenAvailable, or remove this validation by extending the ModuleCatalog class.</value>
+  </data>
+  <data name="StringCannotBeNullOrEmpty" xml:space="preserve">
+    <value>The provided String argument {0} must not be null or empty.</value>
+  </data>
+  <data name="StringCannotBeNullOrEmpty1" xml:space="preserve">
+    <value>The provided String argument {0} must not be null or empty.</value>
+  </data>
+  <data name="TypeWithKeyNotRegistered" xml:space="preserve">
+    <value>No BehaviorType with key '{0}' was registered.</value>
+  </data>
+  <data name="UpdateRegionException" xml:space="preserve">
+    <value>An exception occurred while trying to create region objects. 
+    - The most likely causing exception was: '{0}'.
+    But also check the InnerExceptions for more detail or call .GetRootException(). </value>
+  </data>
+  <data name="ValueMustBeOfTypeModuleInfo" xml:space="preserve">
+    <value>The value must be of type ModuleInfo.</value>
+  </data>
+  <data name="ValueNotFound" xml:space="preserve">
+    <value>{0} not found.</value>
+  </data>
+  <data name="ViewNotInRegionException" xml:space="preserve">
+    <value>The region does not contain the specified view.</value>
+  </data>
+</root>
