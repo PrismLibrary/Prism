@@ -23,7 +23,7 @@ namespace Sandbox.ViewModels
             _eventAggregator.GetEvent<MessageSentEvent>().Publish(message);
 
             //when navigating within a NavigationPage, set useModalNavigation = false
-            GoBack(useModalNavigation:false); 
+            GoBack(); 
         }
     }
 }
