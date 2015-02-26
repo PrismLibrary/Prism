@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Navigation;
 
 namespace Sandbox.ViewModels
 {
@@ -15,8 +16,11 @@ namespace Sandbox.ViewModels
 
         private void Click()
         {
+            var parameters = new NavigationParameters();
+            parameters.Add("Message", "A message from ViewA");
+
             //when navigating within a NavigationPage, set useModalNavigation = false
-            Navigate("ViewC");
+            Navigate("ViewCKey", parameters);
         }
     }
 }

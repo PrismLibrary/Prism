@@ -20,9 +20,9 @@ namespace Sandbox
 
         protected override void RegisterTypes()
         {
-            Container.RegisterTypeForNavigation<ViewB>("ViewA");
-            Container.RegisterTypeForNavigation<ViewB>("ViewB");
-            Container.RegisterTypeForNavigation<ViewC>("ViewC");
+            Container.RegisterTypeForNavigation<ViewA>();
+            Container.RegisterTypeForNavigation<ViewB>();
+            Container.RegisterTypeForNavigation<ViewC>("ViewCKey");
         }
     }
 }

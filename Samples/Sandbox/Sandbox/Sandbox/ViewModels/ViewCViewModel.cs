@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Navigation;
 using Sandbox.Events;
 
 namespace Sandbox.ViewModels
@@ -11,6 +12,13 @@ namespace Sandbox.ViewModels
         private readonly IEventAggregator _eventAggregator;
 
         public ICommand ClickCommand { get; set; }
+
+        private string _messageToSend;
+        public string MessageToSend
+        {
+            get { return _messageToSend; }
+            set { SetProperty(ref _messageToSend, value); }
+        }
 
         public ViewCViewModel(IEventAggregator eventAggregator)
         {
@@ -24,6 +32,11 @@ namespace Sandbox.ViewModels
 
             //when navigating within a NavigationPage, set useModalNavigation = false
             GoBack(); 
+        }
+
+        public override void OnNavigatedTo(NavigationParameters parameters)
+        {
+            MessageToSend = parameters["Message"].ToString();
         }
     }
 }

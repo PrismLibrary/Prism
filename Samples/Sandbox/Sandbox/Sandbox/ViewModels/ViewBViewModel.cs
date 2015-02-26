@@ -6,7 +6,7 @@ namespace Sandbox.ViewModels
 {
     public class ViewBViewModel : NavigationViewModelBase
     {
-        private string _message;
+        private string _message = "View B";
 
         public string Message
         {

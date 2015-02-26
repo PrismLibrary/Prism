@@ -6,7 +6,8 @@
              x:Class="Sandbox.Views.ViewC">
   <StackLayout>
     <Label Text="View C" VerticalOptions="Center" HorizontalOptions="Center" />
-    <Button Command="{Binding ClickCommand}" CommandParameter="Hello from View C" Text="Send Message to View B and Go Back" />
+    <Entry Text="{Binding MessageToSend}"/>
+    <Button Command="{Binding ClickCommand}" CommandParameter="{Binding MessageToSend}" Text="Send Message to View B and Go Back" />
   </StackLayout>
   
 </ContentPage>

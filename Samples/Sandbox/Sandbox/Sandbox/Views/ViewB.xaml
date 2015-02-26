@@ -5,8 +5,7 @@
              mvvm:ViewModelLocator.AutowireViewModel="True"
              x:Class="Sandbox.Views.ViewB">
   <StackLayout>
-    <Label Text="View B" VerticalOptions="Center" HorizontalOptions="Center" />
-    <Label Text="{Binding Message}" />
+    <Label Text="{Binding Message}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="200" />
   </StackLayout>
   
 </ContentPage>
