@@ -143,7 +143,10 @@ namespace Prism.Interactivity
 
             if (this.WindowContent != null)
             {
-                wrapperWindow = new Window();
+                wrapperWindow = CreateWindow();
+
+                if (wrapperWindow == null)
+                    throw new NullReferenceException("CreateWindow cannot return null");
 
                 // If the WindowContent does not have its own DataContext, it will inherit this one.
                 wrapperWindow.DataContext = notification;
@@ -193,6 +196,15 @@ namespace Prism.Interactivity
                 interactionAware.Notification = notification;
                 interactionAware.FinishInteraction = () => wrapperWindow.Close();
             }
+        }
+
+        /// <summary>
+        /// Creates a Window that is used when providing custom Window Content
+        /// </summary>
+        /// <returns>The Window</returns>
+        protected virtual Window CreateWindow()
+        {
+            return new Window();
         }
 
         /// <summary>
