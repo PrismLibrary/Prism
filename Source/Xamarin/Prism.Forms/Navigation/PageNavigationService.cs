@@ -7,6 +7,7 @@ namespace Prism.Navigation
 {
     public class PageNavigationService : INavigationService
     {
+        //TODO:  keep internal stack for instance navigation
         //TODO:  need ability to hook into Popping event to see if a view can be popped and cancel the action if it can't.
 
         public void GoBack(bool animated = true, bool useModalNavigation = true)
