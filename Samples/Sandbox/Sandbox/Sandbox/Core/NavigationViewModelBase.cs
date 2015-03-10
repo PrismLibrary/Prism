@@ -1,15 +1,13 @@
-﻿using Microsoft.Practices.ServiceLocation;
+﻿using Microsoft.Practices.Unity;
+using Prism.Mvvm;
 using Prism.Navigation;
 
-namespace Prism.Mvvm
+namespace Sandbox.Core
 {
     public class NavigationViewModelBase : BindableBase, IPageAware, IConfirmNavigation
     {
-        private INavigationService _navigationService;
-        private INavigationService NavigationService
-        {
-            get { return _navigationService ?? (_navigationService = ServiceLocator.Current.GetInstance<INavigationService>()); }
-        }
+        [Dependency]
+        public INavigationService NavigationService { get; set; }
 
         public object Page { get; set; }
 
@@ -30,22 +28,26 @@ namespace Prism.Mvvm
 
         protected virtual void GoBack(bool animated = true, bool useModalNavigation = true)
         {
-            NavigationService.GoBack(Page, new NavigationParameters(), animated, useModalNavigation);
+            if (NavigationService != null)
+                NavigationService.GoBack(Page, new NavigationParameters(), animated, useModalNavigation);
         }
 
         protected virtual void GoBack(NavigationParameters parameters, bool animated = true, bool useModalNavigation = true)
         {
-            NavigationService.GoBack(Page, parameters, animated, useModalNavigation);
+            if (NavigationService != null)
+                NavigationService.GoBack(Page, parameters, animated, useModalNavigation);
         }
 
         protected virtual void Navigate(string name, bool useModalNavigation = true)
         {
-            Navigate(name, new NavigationParameters(), useModalNavigation);
+            if (NavigationService != null)
+                Navigate(name, new NavigationParameters(), useModalNavigation);
         }
 
         protected virtual void Navigate(string name, NavigationParameters parameters, bool useModalNavigation = true)
         {
-            NavigationService.Navigate(Page, name, parameters, useModalNavigation);
+            if (NavigationService != null)
+                NavigationService.Navigate(Page, name, parameters, useModalNavigation);
         }
     }
 }

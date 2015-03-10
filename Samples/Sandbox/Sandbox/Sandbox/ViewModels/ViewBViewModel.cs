@@ -1,5 +1,5 @@
 ﻿using Prism.Events;
-using Prism.Mvvm;
+using Sandbox.Core;
 using Sandbox.Events;
 
 namespace Sandbox.ViewModels

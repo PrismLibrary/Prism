@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
+using Sandbox.Core;
 
 namespace Sandbox.ViewModels
 {

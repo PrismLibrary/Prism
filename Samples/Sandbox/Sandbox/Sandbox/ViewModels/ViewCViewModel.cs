@@ -1,8 +1,8 @@
 ﻿using System.Windows.Input;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using Prism.Navigation;
+using Sandbox.Core;
 using Sandbox.Events;
 
 namespace Sandbox.ViewModels

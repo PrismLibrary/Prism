@@ -37,7 +37,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Mvvm\NavigationViewModelBase.cs" />
     <Compile Include="Mvvm\ViewModelLocator.cs" />
     <Compile Include="Navigation\IConfirmNavigation.cs" />
     <Compile Include="Navigation\INavigationAware.cs" />

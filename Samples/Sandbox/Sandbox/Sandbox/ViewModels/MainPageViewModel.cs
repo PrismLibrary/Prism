@@ -1,4 +1,4 @@
-﻿using Prism.Mvvm;
+﻿using Sandbox.Core;
 
 namespace Sandbox.ViewModels
 {
