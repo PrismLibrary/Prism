@@ -3,6 +3,7 @@ using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 
 namespace Prism.Unity
 {
@@ -47,6 +48,7 @@ namespace Prism.Unity
             Container.RegisterInstance<INavigationService>(NavigationService);
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IServiceLocator, UnityServiceLocatorAdapter>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IDependencyService, DependencyService>(new ContainerControlledLifetimeManager());
         }
 
         protected override void ConfigureServiceLocator()
