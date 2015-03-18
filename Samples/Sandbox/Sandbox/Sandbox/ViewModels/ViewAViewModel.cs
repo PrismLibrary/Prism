@@ -20,7 +20,7 @@ namespace Sandbox.ViewModels
             parameters.Add("Message", "A message from ViewA");
 
             //when navigating within a NavigationPage, set useModalNavigation = false
-            Navigate("ViewCKey", parameters);
+            NavigationService.Navigate("ViewCKey", parameters);
         }
     }
 }

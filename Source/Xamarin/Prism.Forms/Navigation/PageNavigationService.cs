@@ -7,42 +7,41 @@ namespace Prism.Navigation
 {
     public class PageNavigationService : INavigationService
     {
-        //TODO:  keep internal stack for instance navigation
-        //TODO:  need ability to hook into Popping event to see if a view can be popped and cancel the action if it can't.
+        internal Page Page { get; set; }
 
         public void GoBack(bool animated = true, bool useModalNavigation = true)
         {
-            GoBack(null, new NavigationParameters(), animated, useModalNavigation);
+            GoBack(new NavigationParameters(), animated, useModalNavigation);
         }
 
-        public void GoBack(object page, NavigationParameters parameters, bool animated = true, bool useModalNavigation = true)
+        public void GoBack(NavigationParameters parameters, bool animated = true, bool useModalNavigation = true)
         {
-            var navigation = GetPageNavigation(page);
+            var navigation = GetPageNavigation();
 
-            if (!CanNavigate(page, parameters))
+            if (!CanNavigate(Page, parameters))
                 return;
 
-            OnNavigatedFrom(page, parameters);
+            OnNavigatedFrom(Page, parameters);
 
             DoPop(navigation, animated, useModalNavigation);
         }
 
         public void Navigate(string name, bool animated = true, bool useModalNavigation = true)
         {
-            Navigate(null, name, new NavigationParameters(), animated, useModalNavigation);
+            Navigate(name, new NavigationParameters(), animated, useModalNavigation);
         }
 
-        public void Navigate(object page, string name, NavigationParameters parameters, bool animated = true, bool useModalNavigation = true)
+        public void Navigate(string name, NavigationParameters parameters, bool animated = true, bool useModalNavigation = true)
         {
             var view = ServiceLocator.Current.GetInstance<object>(name) as Page;
             if (view != null)
             {
-                var navigation = GetPageNavigation(page);
+                var navigation = GetPageNavigation();
 
-                if (!CanNavigate(page, parameters))
+                if (!CanNavigate(Page, parameters))
                     return;
 
-                OnNavigatedFrom(page, parameters);
+                OnNavigatedFrom(Page, parameters);
 
                 DoPush(navigation, view, animated, useModalNavigation);
 
@@ -79,20 +78,12 @@ namespace Prism.Navigation
                 await navigation.PopAsync(animated);
         }
 
-        private static INavigation GetPageNavigation(object page)
+        private INavigation GetPageNavigation()
         {
-            var currentPage = page as Page;
-            return currentPage != null ? currentPage.Navigation : Application.Current.MainPage.Navigation;
+            return Page.Navigation ?? Application.Current.MainPage.Navigation;
         }
 
-        private static void OnNavigatedFrom(object page, NavigationParameters parameters)
-        {
-            var currentPage = page as Page;
-            if (currentPage != null)
-                InvokeOnNavigationAwareElement(currentPage, v => v.OnNavigatedFrom(parameters));
-        }
-
-        private static bool CanNavigate(object item, NavigationParameters parameters)
+        protected static bool CanNavigate(object item, NavigationParameters parameters)
         {
             var confirmNavigationItem = item as IConfirmNavigation;
             if (confirmNavigationItem != null)
@@ -113,7 +104,14 @@ namespace Prism.Navigation
             return true;
         }
 
-        private static void InvokeOnNavigationAwareElement(object item, Action<INavigationAware> invocation)
+        protected static void OnNavigatedFrom(object page, NavigationParameters parameters)
+        {
+            var currentPage = page as Page;
+            if (currentPage != null)
+                InvokeOnNavigationAwareElement(currentPage, v => v.OnNavigatedFrom(parameters));
+        }
+
+        protected static void InvokeOnNavigationAwareElement(object item, Action<INavigationAware> invocation)
         {
             var navigationAwareItem = item as INavigationAware;
             if (navigationAwareItem != null)

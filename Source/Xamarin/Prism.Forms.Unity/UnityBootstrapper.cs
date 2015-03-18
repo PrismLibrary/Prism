@@ -14,7 +14,6 @@ namespace Prism.Unity
         public override void Run()
         {
             Container = CreateContainer();
-            NavigationService = CreateNavigationService();
 
             ConfigureContainer();
             ConfigureServiceLocator();
@@ -38,14 +37,9 @@ namespace Prism.Unity
             return new UnityContainer();
         }
 
-        protected virtual INavigationService CreateNavigationService()
-        {
-            return new PageNavigationService();
-        }
-
         protected virtual void ConfigureContainer()
         {
-            Container.RegisterInstance<INavigationService>(NavigationService);
+            Container.RegisterType<INavigationService, PageNavigationService>();
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IServiceLocator, UnityServiceLocatorAdapter>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDependencyService, DependencyService>(new ContainerControlledLifetimeManager());

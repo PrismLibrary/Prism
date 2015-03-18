@@ -41,7 +41,7 @@
     <Compile Include="Navigation\IConfirmNavigation.cs" />
     <Compile Include="Navigation\INavigationAware.cs" />
     <Compile Include="Navigation\INavigationService.cs" />
-    <Compile Include="Navigation\IPageAware.cs" />
+    <Compile Include="Navigation\INavigationServiceAware.cs" />
     <Compile Include="Navigation\NavigationParameters.cs" />
     <Compile Include="Navigation\PageNavigationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

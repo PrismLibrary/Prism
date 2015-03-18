@@ -31,7 +31,7 @@ namespace Sandbox.ViewModels
             _eventAggregator.GetEvent<MessageSentEvent>().Publish(message);
 
             //when navigating within a NavigationPage, set useModalNavigation = false
-            GoBack(); 
+            NavigationService.GoBack(); 
         }
 
         public override void OnNavigatedTo(NavigationParameters parameters)

@@ -11,13 +11,6 @@ namespace Sandbox
             return new MainPage();
         }
 
-        protected override void InitializeMainPage()
-        {
-            //use if CreateMainPage returns a NavigationPage   
-            //when navigating within a NavigationPage, set useModalNavigation = false
-            //NavigationService.Navigate("ViewA");
-        }
-
         protected override void RegisterTypes()
         {
             Container.RegisterTypeForNavigation<ViewA>();

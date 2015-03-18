@@ -1,4 +1,5 @@
-﻿using Prism.Navigation;
+﻿using Microsoft.Practices.ServiceLocation;
+using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.Mvvm
@@ -34,18 +35,27 @@ namespace Prism.Mvvm
         /// Sets the DataContext of a View
         /// </summary>
         /// <param name="view">The View to set the DataContext on</param>
-        /// <param name="dataContext">The object to use as the DataContext for the View</param>
+        /// <param name="viewModel">The object to use as the DataContext for the View</param>
         static void Bind(object view, object viewModel)
         {
             BindableObject element = view as BindableObject;
             if (element != null)
                 element.BindingContext = viewModel;
 
-            if (view is Page)
+            var page = view as Page;
+            if (page != null)
             {
-                var iPageAware = viewModel as IPageAware;
-                if (iPageAware != null)
-                    iPageAware.Page = view;
+                var iNavAware = viewModel as INavigationServiceAware;
+                if (iNavAware != null)
+                {
+                    var navService = ServiceLocator.Current.GetInstance<INavigationService>();
+
+                    var pageNavigationService = navService as PageNavigationService;
+                    if (pageNavigationService != null)
+                        pageNavigationService.Page = page;
+
+                    iNavAware.NavigationService = navService;
+                }
             }
         }
     }
