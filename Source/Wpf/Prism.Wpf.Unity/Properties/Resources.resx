@@ -139,7 +139,7 @@
     <value>Configuring the Unity container.</value>
   </data>
   <data name="ConfiguringViewModelLocator" xml:space="preserve">
-    <value>Configuring the ViewModelLocator to use Unity</value>
+    <value>Configuring the ViewModelLocator to use Unity.</value>
   </data>
   <data name="CreatingModuleCatalog" xml:space="preserve">
     <value>Creating module catalog.</value>
