@@ -50,6 +50,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Mocks\ViewModels\MockViewModel.cs" />
+    <Compile Include="Mvvm\BindableBaseFixture.cs" />
+    <Compile Include="Mvvm\CompositeCommandFixture.cs" />
+    <Compile Include="Mvvm\DelegateCommandFixture.cs" />
+    <Compile Include="Mvvm\ErrorsContainerFixture.cs" />
+    <Compile Include="Mvvm\PropertySupportFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +63,10 @@
       <Project>{e6c50355-d01e-4caa-884d-d7929861315c}</Project>
       <Name>Prism</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Events\" />
+    <Folder Include="Logging\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
