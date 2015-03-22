@@ -82,6 +82,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase">
@@ -99,6 +100,11 @@
     </Compile>
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="ExceptionExtensionsFixture.cs" />
+    <Compile Include="Interactivity\CommandBehaviorBaseFixture.cs" />
+    <Compile Include="Interactivity\InteractionRequestFixture.cs" />
+    <Compile Include="Interactivity\InteractionRequestTriggerFixture.cs" />
+    <Compile Include="Interactivity\InvokeCommandActionFixture.cs" />
+    <Compile Include="Interactivity\PopupWindowActionFixture.cs" />
     <Compile Include="ListDictionaryFixture.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -120,6 +126,8 @@
     </Compile>
     <Compile Include="Mocks\MockDelegateReference.cs" />
     <Compile Include="Mocks\MockConfigurationStore.Desktop.cs" />
+    <Compile Include="Mocks\MockFrameworkElement.cs" />
+    <Compile Include="Mocks\MockInteractionRequestAwareElement.cs" />
     <Compile Include="Mocks\MockSortableViews.cs" />
     <Compile Include="Regions\Behaviors\ClearChildViewsRegionBehaviorFixture.cs" />
     <Compile Include="Regions\Behaviors\RegionMemberLifetimeBehaviorFixture.cs" />

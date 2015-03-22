@@ -4,11 +4,7 @@ using System.Windows;
 
 namespace Prism.Wpf.Tests.Mocks
 {
-    class MockDependencyObject : DependencyObject
-    {
-    }
-
-    class MockFrameworkElement : FrameworkElement
+    public class MockDependencyObject : DependencyObject
     {
     }
 }
