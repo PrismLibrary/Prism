@@ -21,7 +21,7 @@
                 <Label Text="{Binding PriceDescription}" FontSize="32" TextColor="White" />
               </Frame>
             </StackLayout>
-
+          
           </Grid>
         </ViewCell>
       </DataTemplate>
