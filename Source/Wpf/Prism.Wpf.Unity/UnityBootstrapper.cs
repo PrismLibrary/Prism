@@ -9,6 +9,7 @@ using Prism.Regions;
 using Prism.Unity.Properties;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
+using Prism.Mvvm;
 using Prism.Unity.Regions;
 
 namespace Prism.Unity
@@ -73,6 +74,9 @@ namespace Prism.Unity
             this.Logger.Log(Resources.ConfiguringServiceLocatorSingleton, Category.Debug, Priority.Low);
             this.ConfigureServiceLocator();
 
+            this.Logger.Log(Resources.ConfiguringViewModelLocator, Category.Debug, Priority.Low);
+            this.ConfigureViewModelLocator();
+
             this.Logger.Log(Resources.ConfiguringRegionAdapters, Category.Debug, Priority.Low);
             this.ConfigureRegionAdapterMappings();
 
@@ -111,6 +115,14 @@ namespace Prism.Unity
         protected override void ConfigureServiceLocator()
         {
             ServiceLocator.SetLocatorProvider(() => this.Container.Resolve<IServiceLocator>());
+        }
+
+        /// <summary>
+        /// Configures the <see cref="ViewModelLocator"/> used by Prism.
+        /// </summary>
+        protected override void ConfigureViewModelLocator()
+        {
+            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => Container.Resolve(type));
         }
 
         /// <summary>

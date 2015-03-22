@@ -124,6 +124,15 @@ namespace Prism.Unity.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Configuring the ViewModelLocator to use Unity.
+        /// </summary>
+        internal static string ConfiguringViewModelLocator {
+            get {
+                return ResourceManager.GetString("ConfiguringViewModelLocator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creating module catalog..
         /// </summary>
         internal static string CreatingModuleCatalog {

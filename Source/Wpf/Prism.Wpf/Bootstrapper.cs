@@ -9,6 +9,7 @@ using Prism.Modularity;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Microsoft.Practices.ServiceLocation;
+using Prism.Mvvm;
 
 namespace Prism
 {
@@ -73,6 +74,13 @@ namespace Prism
         /// Configures the <see cref="IModuleCatalog"/> used by Prism.
         /// </summary>
         protected virtual void ConfigureModuleCatalog()
+        {
+        }
+
+        /// <summary>
+        /// Configures the <see cref="ViewModelLocator"/> used by Prism.
+        /// </summary>
+        protected virtual void ConfigureViewModelLocator()
         {
         }
 
