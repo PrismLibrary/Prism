@@ -50,6 +50,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Events\BackgroundEventSubscriptionFixture.cs" />
+    <Compile Include="Events\DataEventArgsFixture.cs" />
+    <Compile Include="Events\DelegateReferenceFixture.cs" />
+    <Compile Include="Events\DispatcherEventSubscriptionFixture.cs" />
+    <Compile Include="Events\EventAggregatorFixture.cs" />
+    <Compile Include="Events\EventBaseFixture.cs" />
+    <Compile Include="Events\EventSubscriptionFixture.cs" />
+    <Compile Include="Events\MockDelegateReference.cs" />
+    <Compile Include="Events\PubSubEventFixture.cs" />
     <Compile Include="Mocks\ViewModels\MockViewModel.cs" />
     <Compile Include="Mvvm\BindableBaseFixture.cs" />
     <Compile Include="Mvvm\CompositeCommandFixture.cs" />
@@ -65,7 +74,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Events\" />
     <Folder Include="Logging\" />
   </ItemGroup>
   <Choose>
