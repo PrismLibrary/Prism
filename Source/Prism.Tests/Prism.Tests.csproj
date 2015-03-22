@@ -59,6 +59,7 @@
     <Compile Include="Events\EventSubscriptionFixture.cs" />
     <Compile Include="Events\MockDelegateReference.cs" />
     <Compile Include="Events\PubSubEventFixture.cs" />
+    <Compile Include="Logging\EmptyLoggerFixture.cs" />
     <Compile Include="Mocks\ViewModels\MockViewModel.cs" />
     <Compile Include="Mvvm\BindableBaseFixture.cs" />
     <Compile Include="Mvvm\CompositeCommandFixture.cs" />
@@ -73,9 +74,7 @@
       <Name>Prism</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logging\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
