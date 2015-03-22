@@ -56,7 +56,6 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CollectionExtensions.cs" />
-    <Compile Include="Events\DelegateReference.cs" />
     <Compile Include="Events\WeakDelegatesManager.cs" />
     <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="Interactivity\CommandBehaviorBase.cs" />
