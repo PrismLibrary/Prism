@@ -16,123 +16,108 @@ namespace Prism.Tests.Events
         {
         }
 
-        //todo: fix
-        //[TestMethod]
-        //public void NullTargetInActionThrows()
-        //{
-        //    Assert.ThrowsException<ArgumentException>(() =>
-        //    {
-        //        var actionDelegateReference = new MockDelegateReference()
-        //        {
-        //            Target = null
-        //        };
-        //        var filterDelegateReference = new MockDelegateReference()
-        //        {
-        //            Target = (Predicate<object>)(arg =>
-        //            {
-        //                return true;
-        //            })
-        //        };
-        //        var eventSubscription = new EventSubscription<object>(actionDelegateReference,
-        //                                                                        filterDelegateReference);
-        //    });
-        //}
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void NullTargetInActionThrows()
+        {
+            var actionDelegateReference = new MockDelegateReference()
+            {
+                Target = null
+            };
+            var filterDelegateReference = new MockDelegateReference()
+            {
+                Target = (Predicate<object>)(arg =>
+                {
+                    return true;
+                })
+            };
+            var eventSubscription = new EventSubscription<object>(actionDelegateReference,
+                                                                            filterDelegateReference);
+        }
 
-        //[TestMethod]
-        //public void DifferentTargetTypeInActionThrows()
-        //{
-        //    Assert.ThrowsException<ArgumentException>(() =>
-        //    {
-        //        var actionDelegateReference = new MockDelegateReference()
-        //        {
-        //            Target = (Action<int>)delegate { }
-        //        };
-        //        var filterDelegateReference = new MockDelegateReference()
-        //        {
-        //            Target = (Predicate<string>)(arg =>
-        //            {
-        //                return true;
-        //            })
-        //        };
-        //        var eventSubscription = new EventSubscription<string>(actionDelegateReference,
-        //                                                                        filterDelegateReference);
-        //    });
-        //}
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void DifferentTargetTypeInActionThrows()
+        {
+            var actionDelegateReference = new MockDelegateReference()
+            {
+                Target = (Action<int>)delegate { }
+            };
+            var filterDelegateReference = new MockDelegateReference()
+            {
+                Target = (Predicate<string>)(arg =>
+                {
+                    return true;
+                })
+            };
+            var eventSubscription = new EventSubscription<string>(actionDelegateReference,
+                                                                            filterDelegateReference);
+        }
 
-        //[TestMethod]
-        //public void NullActionThrows()
-        //{
-        //    Assert.ThrowsException<ArgumentNullException>(() =>
-        //    {
-        //        var filterDelegateReference = new MockDelegateReference()
-        //        {
-        //            Target = (Predicate<object>)(arg =>
-        //            {
-        //                return true;
-        //            })
-        //        };
-        //        var eventSubscription = new EventSubscription<object>(null,
-        //                                                                        filterDelegateReference);
-        //    });
-        //}
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NullActionThrows()
+        {
+            var filterDelegateReference = new MockDelegateReference()
+            {
+                Target = (Predicate<object>)(arg =>
+                {
+                    return true;
+                })
+            };
+            var eventSubscription = new EventSubscription<object>(null, filterDelegateReference);
+        }
 
-        //[TestMethod]
-        //public void NullTargetInFilterThrows()
-        //{
-        //    Assert.ThrowsException<ArgumentException>(() =>
-        //    {
-        //        var actionDelegateReference = new MockDelegateReference()
-        //        {
-        //            Target = (Action<object>)delegate { }
-        //        };
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void NullTargetInFilterThrows()
+        {
+            var actionDelegateReference = new MockDelegateReference()
+            {
+                Target = (Action<object>)delegate { }
+            };
 
-        //        var filterDelegateReference = new MockDelegateReference()
-        //        {
-        //            Target = null
-        //        };
-        //        var eventSubscription = new EventSubscription<object>(actionDelegateReference,
-        //                                                                        filterDelegateReference);
-        //    });
-        //}
+            var filterDelegateReference = new MockDelegateReference()
+            {
+                Target = null
+            };
+            var eventSubscription = new EventSubscription<object>(actionDelegateReference,
+                                                                            filterDelegateReference);
+        }
 
 
-        //[TestMethod]
-        //public void DifferentTargetTypeInFilterThrows()
-        //{
-        //    Assert.ThrowsException<ArgumentException>(() =>
-        //    {
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void DifferentTargetTypeInFilterThrows()
+        {
+            var actionDelegateReference = new MockDelegateReference()
+            {
+                Target = (Action<string>)delegate { }
+            };
 
-        //        var actionDelegateReference = new MockDelegateReference()
-        //        {
-        //            Target = (Action<string>)delegate { }
-        //        };
+            var filterDelegateReference = new MockDelegateReference()
+            {
+                Target = (Predicate<int>)(arg =>
+                {
+                    return true;
+                })
+            };
+            var eventSubscription = new EventSubscription<string>(actionDelegateReference,
+                                                                            filterDelegateReference);
+        }
 
-        //        var filterDelegateReference = new MockDelegateReference()
-        //        {
-        //            Target = (Predicate<int>)(arg =>
-        //            {
-        //                return true;
-        //            })
-        //        };
-        //        var eventSubscription = new EventSubscription<string>(actionDelegateReference,
-        //                                                                        filterDelegateReference);
-        //    });
-        //}
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NullFilterThrows()
+        {
+            var actionDelegateReference = new MockDelegateReference()
+            {
+                Target = (Action<object>)delegate { }
+            };
 
-        //[TestMethod]
-        //public void NullFilterThrows()
-        //{
-        //    Assert.ThrowsException<ArgumentNullException>(() =>
-        //    {
-        //        var actionDelegateReference = new MockDelegateReference()
-        //        {
-        //            Target = (Action<object>)delegate { }
-        //        };
-
-        //        var eventSubscription = new EventSubscription<object>(actionDelegateReference,
-        //                                                                        null);
-        //    });
-        //}
+            var eventSubscription = new EventSubscription<object>(actionDelegateReference,
+                                                                            null);
+        }
 
         [TestMethod]
         public void CanInitEventSubscription()
@@ -162,7 +147,6 @@ namespace Prism.Tests.Events
                                                     executedDelegates.Add(
                                                         "Filter");
                                                     return true;
-
                                                 });
 
             var eventSubscription = new EventSubscription<object>(actionDelegateReference, filterDelegateReference);
@@ -226,9 +210,9 @@ namespace Prism.Tests.Events
                 Target = (Action<int>)delegate { actionExecuted = true; }
             };
             var filterDelegateReference = new MockDelegateReference((Predicate<int>)delegate
-                                                                                            {
-                                                                                                return false;
-                                                                                            });
+            {
+                return false;
+            });
 
             var eventSubscription = new EventSubscription<int>(actionDelegateReference, filterDelegateReference);
 
@@ -248,10 +232,10 @@ namespace Prism.Tests.Events
 
             var actionDelegateReference = new MockDelegateReference((Action<string>)(obj => passedArgumentToAction = obj));
             var filterDelegateReference = new MockDelegateReference((Predicate<string>)(obj =>
-                                                                                            {
-                                                                                                passedArgumentToFilter = obj;
-                                                                                                return true;
-                                                                                            }));
+            {
+                passedArgumentToFilter = obj;
+                return true;
+            }));
 
             var eventSubscription = new EventSubscription<string>(actionDelegateReference, filterDelegateReference);
             var publishAction = eventSubscription.GetExecutionStrategy();
@@ -261,8 +245,5 @@ namespace Prism.Tests.Events
             Assert.AreEqual("TestString", passedArgumentToAction);
             Assert.AreEqual("TestString", passedArgumentToFilter);
         }
-
-
-
     }
 }
