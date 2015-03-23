@@ -19,13 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Forms", "Xamarin\Pris
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Forms.Unity", "Xamarin\Prism.Forms.Unity\Prism.Forms.Unity.csproj", "{79EBB8F1-5D80-4EA1-9100-EBDC1EC51CB7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{910B95E9-AA52-4558-8208-FD554F34F1BF}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Tests", "Prism.Tests\Prism.Tests.csproj", "{B6E74918-D92B-4690-BEC9-0BB199A6E933}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Wpf.Unity.Tests", "Wpf\Prism.Wpf.Unity.Tests\Prism.Wpf.Unity.Tests.csproj", "{75511F4B-2602-4623-945C-AF8156B51F4E}"
