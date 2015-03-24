@@ -80,7 +80,7 @@ namespace Prism.Navigation
 
         private INavigation GetPageNavigation()
         {
-            return Page.Navigation ?? Application.Current.MainPage.Navigation;
+            return Page != null ? Page.Navigation : Application.Current.MainPage.Navigation;
         }
 
         protected static bool CanNavigate(object item, NavigationParameters parameters)
