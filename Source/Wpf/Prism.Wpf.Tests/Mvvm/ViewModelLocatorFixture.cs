@@ -24,6 +24,19 @@ namespace Prism.Wpf.Tests.Mvvm
         }
 
         [TestMethod]
+        public void ShouldLocateViewModelWithDefaultSettingsForViewsThatEndWithView()
+        {
+            ResetViewModelLocationProvider();
+
+            MockView view = new MockView();
+            Assert.IsNull(view.DataContext);
+
+            ViewModelLocator.SetAutoWireViewModel(view, true);
+            Assert.IsNotNull(view.DataContext);
+            Assert.IsInstanceOfType(view.DataContext, typeof(MockViewModel));
+        }
+
+        [TestMethod]
         public void ShouldUseCustomDefaultViewModelFactoryWhenSet()
         {
             ResetViewModelLocationProvider();

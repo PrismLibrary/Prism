@@ -132,6 +132,7 @@
     <Compile Include="Mocks\ViewModels\MockViewModel.cs" />
     <Compile Include="Mocks\Views\Mock.cs" />
     <Compile Include="Mvvm\ViewModelLocatorFixture.cs" />
+    <Compile Include="Mocks\Views\MockView.cs" />
     <Compile Include="Regions\Behaviors\ClearChildViewsRegionBehaviorFixture.cs" />
     <Compile Include="Regions\Behaviors\RegionMemberLifetimeBehaviorFixture.cs" />
     <Compile Include="Regions\LocatorNavigationTargetHandlerFixture.cs" />
