@@ -17,14 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism", "..\..\Source\Prism
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Forms", "..\..\Source\Xamarin\Prism.Forms\Prism.Forms.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Forms.Unity", "..\..\Source\Xamarin\Prism.Forms.Unity\Prism.Forms.Unity.csproj", "{79EBB8F1-5D80-4EA1-9100-EBDC1EC51CB7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{93634177-89CC-4C86-A7EE-F757BF32A1F8}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Unity.Forms", "..\..\Source\Xamarin\Prism.Unity.Forms\Prism.Unity.Forms.csproj", "{79EBB8F1-5D80-4EA1-9100-EBDC1EC51CB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
