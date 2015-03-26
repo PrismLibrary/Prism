@@ -86,7 +86,7 @@
       <Project>{e6c50355-d01e-4caa-884d-d7929861315c}</Project>
       <Name>Prism</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Prism.Wpf.Mef.Tests.Support\Prism.Mef.Wpf.Tests.Support.csproj">
+    <ProjectReference Include="..\Prism.Mef.Wpf.Tests.Support\Prism.Mef.Wpf.Tests.Support.csproj">
       <Project>{f6443399-3e76-4b51-964a-95a166239d56}</Project>
       <Name>Prism.Mef.Wpf.Tests.Support</Name>
     </ProjectReference>
