@@ -4,6 +4,7 @@ using System;
 using System.Windows;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Prism.IocContainer.Tests.Support;
 using Prism.Unity;
 
 namespace Prism.Wpf.Unity.Tests

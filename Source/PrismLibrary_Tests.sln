@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism", "Prism\Prism.csproj", "{E6C50355-D01E-4CAA-884D-D7929861315C}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Mef.Wpf.Tests", "Wpf\Prism.Mef.Wpf.Tests\Prism.Mef.Wpf.Tests.csproj", "{B9BD4B23-8163-4EF3-955F-02B9578C45BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Wpf.Tests", "Wpf\Prism.Wpf.Tests\Prism.Wpf.Tests.csproj", "{7DB8E74D-214F-4840-B294-58372D369958}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.IocContainer.Wpf.Tests.Support", "Wpf\Prism.IocContainer.Wpf.Tests.Support\Prism.IocContainer.Wpf.Tests.Support.csproj", "{FF6F1B2C-BECC-4477-B918-B75615BAA3A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +81,10 @@ Global
 		{7DB8E74D-214F-4840-B294-58372D369958}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DB8E74D-214F-4840-B294-58372D369958}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DB8E74D-214F-4840-B294-58372D369958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF6F1B2C-BECC-4477-B918-B75615BAA3A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF6F1B2C-BECC-4477-B918-B75615BAA3A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF6F1B2C-BECC-4477-B918-B75615BAA3A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF6F1B2C-BECC-4477-B918-B75615BAA3A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,5 +99,6 @@ Global
 		{F6443399-3E76-4B51-964A-95A166239D56} = {6BED0A37-BE6B-42D2-AAF0-C612FF57D9EB}
 		{B9BD4B23-8163-4EF3-955F-02B9578C45BA} = {6BED0A37-BE6B-42D2-AAF0-C612FF57D9EB}
 		{7DB8E74D-214F-4840-B294-58372D369958} = {6BED0A37-BE6B-42D2-AAF0-C612FF57D9EB}
+		{FF6F1B2C-BECC-4477-B918-B75615BAA3A5} = {6BED0A37-BE6B-42D2-AAF0-C612FF57D9EB}
 	EndGlobalSection
 EndGlobal

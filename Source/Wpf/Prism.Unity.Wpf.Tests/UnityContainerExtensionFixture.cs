@@ -3,8 +3,8 @@
 using System.Collections.Generic;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Prism.IocContainer.Tests.Support.Mocks;
 using Prism.Unity;
-using Prism.Wpf.Unity.Tests.Mocks;
 
 namespace Prism.Wpf.Unity.Tests
 {

@@ -100,30 +100,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mocks\DependantA.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\DependantB.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockLoggerAdapter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockModuleLoader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockRegionManager.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockService.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnityBootstrapperNullModuleManagerFixture.cs" />
     <Compile Include="UnityBootstrapperFixture.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BootstrapperFixtureBase.cs" />
     <Compile Include="UnityBootstrapperNullContainerFixture.cs" />
     <Compile Include="UnityBootstrapperNullLoggerFixture.cs" />
     <Compile Include="UnityBootstrapperNullModuleCatalogFixture.cs" />
@@ -166,6 +147,10 @@
     <ProjectReference Include="..\..\Prism\Prism.csproj">
       <Project>{e6c50355-d01e-4caa-884d-d7929861315c}</Project>
       <Name>Prism</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Prism.IocContainer.Wpf.Tests.Support\Prism.IocContainer.Wpf.Tests.Support.csproj">
+      <Project>{ff6f1b2c-becc-4477-b918-b75615baa3a5}</Project>
+      <Name>Prism.IocContainer.Wpf.Tests.Support</Name>
     </ProjectReference>
     <ProjectReference Include="..\Prism.Unity.Wpf\Prism.Unity.Wpf.csproj">
       <Project>{c1ce34c7-6ac9-4d54-bad0-8467e9f9f38d}</Project>
