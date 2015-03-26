@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xamarin", "Xamarin", "{77BD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Wpf", "Wpf\Prism.Wpf\Prism.Wpf.csproj", "{5912FF03-C72B-4F56-BAA1-8642FDBFBC26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Wpf.Mef", "Wpf\Prism.Wpf.Mef\Prism.Wpf.Mef.csproj", "{3D6AEBE9-F824-4350-A007-EAC3CF030338}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Mef.Wpf", "Wpf\Prism.Mef.Wpf\Prism.Mef.Wpf.csproj", "{3D6AEBE9-F824-4350-A007-EAC3CF030338}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Wpf.Unity", "Wpf\Prism.Wpf.Unity\Prism.Wpf.Unity.csproj", "{C1CE34C7-6AC9-4D54-BAD0-8467E9F9F38D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Unity.Wpf", "Wpf\Prism.Unity.Wpf\Prism.Unity.Wpf.csproj", "{C1CE34C7-6AC9-4D54-BAD0-8467E9F9F38D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Forms", "Xamarin\Prism.Forms\Prism.Forms.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Forms.Unity", "Xamarin\Prism.Forms.Unity\Prism.Forms.Unity.csproj", "{79EBB8F1-5D80-4EA1-9100-EBDC1EC51CB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Unity.Forms", "Xamarin\Prism.Unity.Forms\Prism.Unity.Forms.csproj", "{79EBB8F1-5D80-4EA1-9100-EBDC1EC51CB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

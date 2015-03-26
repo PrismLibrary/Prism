@@ -36,7 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\Wpf\Prism.Wpf.Unity\UnityServiceLocatorAdapter.cs">
+    <Compile Include="..\..\Wpf\Prism.Unity.Wpf\UnityServiceLocatorAdapter.cs">
       <Link>UnityServiceLocatorAdapter.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

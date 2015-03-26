@@ -9,8 +9,8 @@
     <ProjectGuid>{B9BD4B23-8163-4EF3-955F-02B9578C45BA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Prism.Wpf.Mef.Tests</RootNamespace>
-    <AssemblyName>Prism.Wpf.Mef.Tests</AssemblyName>
+    <RootNamespace>Prism.Mef.Wpf.Tests</RootNamespace>
+    <AssemblyName>Prism.Mef.Wpf.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -86,13 +86,13 @@
       <Project>{e6c50355-d01e-4caa-884d-d7929861315c}</Project>
       <Name>Prism</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Prism.Wpf.Mef.Tests.Support\Prism.Wpf.Mef.Tests.Support.csproj">
+    <ProjectReference Include="..\Prism.Wpf.Mef.Tests.Support\Prism.Mef.Wpf.Tests.Support.csproj">
       <Project>{f6443399-3e76-4b51-964a-95a166239d56}</Project>
-      <Name>Prism.Wpf.Mef.Tests.Support</Name>
+      <Name>Prism.Mef.Wpf.Tests.Support</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Prism.Wpf.Mef\Prism.Wpf.Mef.csproj">
+    <ProjectReference Include="..\Prism.Mef.Wpf\Prism.Mef.Wpf.csproj">
       <Project>{3d6aebe9-f824-4350-a007-eac3cf030338}</Project>
-      <Name>Prism.Wpf.Mef</Name>
+      <Name>Prism.Mef.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\Prism.Wpf\Prism.Wpf.csproj">
       <Project>{5912ff03-c72b-4f56-baa1-8642fdbfbc26}</Project>
