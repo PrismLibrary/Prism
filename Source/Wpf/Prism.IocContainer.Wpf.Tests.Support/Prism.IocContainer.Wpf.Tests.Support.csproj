@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BootstrapperFixtureBase.cs" />
+    <Compile Include="Mocks\MockView.cs" />
     <Compile Include="Mocks\DependantA.cs" />
     <Compile Include="Mocks\DependantB.cs" />
     <Compile Include="Mocks\MockLoggerAdapter.cs" />

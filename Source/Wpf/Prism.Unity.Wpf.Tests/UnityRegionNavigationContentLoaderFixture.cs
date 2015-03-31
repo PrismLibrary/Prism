@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Prism.IocContainer.Tests.Support.Mocks;
 using Prism.Regions;
-using Prism.Unity.Regions;
+using Prism.Unity.Tests.Mocks;
 
 namespace Prism.Wpf.Unity.Tests
 {
@@ -65,36 +64,6 @@ namespace Prism.Wpf.Unity.Tests
         {
             MockServiceLocator serviceLocator = new MockServiceLocator(container);
             ServiceLocator.SetLocatorProvider(() => serviceLocator);
-        }
-    }
-
-    public class MockView
-    {
-    }
-
-    public class MockServiceLocator : ServiceLocatorImplBase
-    {
-        IUnityContainer container;
-
-        public MockServiceLocator(IUnityContainer container)
-        {
-            this.container = container;
-        }
-
-        protected override IEnumerable<object> DoGetAllInstances(Type serviceType)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override object DoGetInstance(Type serviceType, string key)
-        {
-            if (serviceType == typeof(IRegionNavigationService))
-            {
-                UnityRegionNavigationContentLoader loader = new UnityRegionNavigationContentLoader(this, this.container);
-                return new RegionNavigationService(this, loader, new RegionNavigationJournal());
-            }
-
-            return null;
         }
     }
 }
