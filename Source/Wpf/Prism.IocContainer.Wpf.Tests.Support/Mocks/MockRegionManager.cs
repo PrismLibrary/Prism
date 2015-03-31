@@ -3,9 +3,9 @@
 using System;
 using Prism.Regions;
 
-namespace Prism.Wpf.Unity.Tests.Mocks
+namespace Prism.IocContainer.Tests.Support.Mocks
 {
-    class MockRegionManager : IRegionManager
+    public class MockRegionManager : IRegionManager
     {
         #region IRegionManager Members
 

@@ -2,9 +2,9 @@
 
 using Prism.Modularity;
 
-namespace Prism.Wpf.Unity.Tests.Mocks
+namespace Prism.IocContainer.Tests.Support.Mocks
 {
-    internal class MockModuleInitializer : IModuleInitializer
+    public class MockModuleInitializer : IModuleInitializer
     {
         public bool LoadCalled;
 

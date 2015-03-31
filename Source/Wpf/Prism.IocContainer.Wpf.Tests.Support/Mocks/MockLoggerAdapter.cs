@@ -3,9 +3,9 @@
 using System.Collections.Generic;
 using Prism.Logging;
 
-namespace Prism.Wpf.Unity.Tests.Mocks
+namespace Prism.IocContainer.Tests.Support.Mocks
 {
-    internal class MockLoggerAdapter : ILoggerFacade
+    public class MockLoggerAdapter : ILoggerFacade
     {
         public IList<string> Messages = new List<string>();
 

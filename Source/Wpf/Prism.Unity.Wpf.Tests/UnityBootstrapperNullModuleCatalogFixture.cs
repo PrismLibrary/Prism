@@ -3,6 +3,7 @@
 using System;
 using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Prism.IocContainer.Tests.Support;
 using Prism.Modularity;
 using Prism.Unity;
 
