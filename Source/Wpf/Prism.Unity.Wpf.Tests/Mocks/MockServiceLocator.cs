@@ -5,7 +5,7 @@ using Microsoft.Practices.Unity;
 using Prism.Regions;
 using Prism.Unity.Regions;
 
-namespace Prism.Unity.Tests.Mocks
+namespace Prism.Unity.Wpf.Tests.Mocks
 {
     public class MockServiceLocator : ServiceLocatorImplBase
     {
