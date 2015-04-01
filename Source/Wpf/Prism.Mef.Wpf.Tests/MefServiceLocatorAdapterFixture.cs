@@ -7,9 +7,8 @@ using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Prism.Mef;
 
-namespace Prism.Wpf.Mef.Tests
+namespace Prism.Mef.Wpf.Tests
 {
     [TestClass]
     public class MefServiceLocatorAdapterFixture

@@ -6,14 +6,13 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Prism.IocContainer.Tests.Support;
-using Prism.IocContainer.Tests.Support.Mocks;
+using Prism.IocContainer.Wpf.Tests.Support;
+using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
-using Prism.Unity;
 
-namespace Prism.Wpf.Unity.Tests
+namespace Prism.Unity.Wpf.Tests
 {
     [TestClass]
     public class UnityBootstrapperFixture: BootstrapperFixtureBase

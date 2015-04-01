@@ -3,7 +3,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Prism.IocContainer.Tests.Support
+namespace Prism.IocContainer.Wpf.Tests.Support
 {
     public class BootstrapperFixtureBase
     {

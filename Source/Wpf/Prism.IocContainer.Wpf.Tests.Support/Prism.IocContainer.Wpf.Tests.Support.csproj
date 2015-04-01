@@ -7,7 +7,7 @@
     <ProjectGuid>{FF6F1B2C-BECC-4477-B918-B75615BAA3A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Prism.IocContainer.Tests.Support</RootNamespace>
+    <RootNamespace>Prism.IocContainer.Wpf.Tests.Support</RootNamespace>
     <AssemblyName>Prism.IocContainer.Wpf.Tests.Support</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

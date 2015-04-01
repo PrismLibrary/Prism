@@ -3,10 +3,9 @@
 using System.Collections.Generic;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Prism.IocContainer.Tests.Support.Mocks;
-using Prism.Unity;
+using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 
-namespace Prism.Wpf.Unity.Tests
+namespace Prism.Unity.Wpf.Tests
 {
     [TestClass]
     public class UnityContainerExtensionFixture

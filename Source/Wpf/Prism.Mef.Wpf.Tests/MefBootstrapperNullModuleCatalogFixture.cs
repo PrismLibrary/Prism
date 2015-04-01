@@ -3,10 +3,10 @@
 using System;
 using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Prism.Mef;
+using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.Modularity;
 
-namespace Prism.Wpf.Mef.Tests
+namespace Prism.Mef.Wpf.Tests
 {
     [TestClass]
     public class MefBootstrapperNullModuleCatalogFixture : BootstrapperFixtureBase

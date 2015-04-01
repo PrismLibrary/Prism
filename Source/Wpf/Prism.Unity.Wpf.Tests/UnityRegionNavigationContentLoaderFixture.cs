@@ -4,11 +4,11 @@ using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Prism.IocContainer.Tests.Support.Mocks;
+using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.Regions;
-using Prism.Unity.Tests.Mocks;
+using Prism.Unity.Wpf.Tests.Mocks;
 
-namespace Prism.Wpf.Unity.Tests
+namespace Prism.Unity.Wpf.Tests
 {
     [TestClass]
     public class UnityRegionNavigationContentLoaderFixture

@@ -5,9 +5,8 @@ using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Prism.Unity;
 
-namespace Prism.Wpf.Unity.Tests
+namespace Prism.Unity.Wpf.Tests
 {
     [TestClass]
     public class UnityServiceLocatorAdapterFixture

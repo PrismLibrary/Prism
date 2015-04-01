@@ -8,7 +8,7 @@
     <ProjectGuid>{75511F4B-2602-4623-945C-AF8156B51F4E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Prism.Unity.Tests</RootNamespace>
+    <RootNamespace>Prism.Unity.Wpf.Tests</RootNamespace>
     <AssemblyName>Prism.Unity.Wpf.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -2,10 +2,9 @@
 
 using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Prism.Mef;
 using Prism.Regions;
 
-namespace Prism.Wpf.Mef.Tests
+namespace Prism.Mef.Wpf.Tests
 {
     [TestClass]
     public class MefNullModuleManagerFixture
