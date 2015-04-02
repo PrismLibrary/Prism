@@ -6,29 +6,22 @@ namespace Prism.Mvvm
 {
     public static class ViewModelLocator
     {
-        public static readonly BindableProperty AutowireViewModelProperty = BindableProperty.CreateAttached<BindableObject, bool>(
-            p => ViewModelLocator.GetAutowireViewModel(p),
-            default(bool),
-            BindingMode.OneWay,
-            null,
-            OnAutowireViewModelChanged,
-            null,
-            null,
-            null);
+        public static readonly BindableProperty AutowireViewModelProperty =
+            BindableProperty.CreateAttached("AutowireViewModel", typeof(bool), typeof(ViewModelLocator), default(bool), propertyChanged: OnAutowireViewModelChanged);
 
-        public static bool GetAutowireViewModel(BindableObject bo)
+        public static bool GetAutowireViewModel(BindableObject bindable)
         {
-            return (bool)bo.GetValue(ViewModelLocator.AutowireViewModelProperty);
+            return (bool)bindable.GetValue(ViewModelLocator.AutowireViewModelProperty);
         }
-        public static void SetAutowireViewModel(BindableObject bo, bool value)
+        public static void SetAutowireViewModel(BindableObject bindable, bool value)
         {
-            bo.SetValue(ViewModelLocator.AutowireViewModelProperty, value);
+            bindable.SetValue(ViewModelLocator.AutowireViewModelProperty, value);
         }
 
-        public static void OnAutowireViewModelChanged(BindableObject bo, bool oldValue, bool newValue)
+        private static void OnAutowireViewModelChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (newValue)
-                ViewModelLocationProvider.AutoWireViewModelChanged(bo, Bind);
+            if ((bool)newValue)
+                ViewModelLocationProvider.AutoWireViewModelChanged(bindable, Bind);
         }
 
         /// <summary>
