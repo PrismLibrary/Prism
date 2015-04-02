@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Prism
+namespace Prism.Common
 {
     /// <summary>
     /// A dictionary of lists.

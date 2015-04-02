@@ -3,6 +3,7 @@
 using System;
 using System.Windows;
 using Prism.Properties;
+using Prism.Common;
 
 namespace Prism.Regions.Behaviors
 {

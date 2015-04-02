@@ -3,7 +3,7 @@
 using System;
 using Prism.Regions;
 
-namespace Prism
+namespace Prism.Common
 {
     /// <summary>
     /// Helper class for parsing <see cref="Uri"/> instances.

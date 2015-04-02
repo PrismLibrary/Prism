@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System;
 using System.Collections.Generic;
 
-namespace Prism
+namespace System
 {
     /// <summary>
     /// Class that provides extension methods for the Exception class. These extension methods provide
