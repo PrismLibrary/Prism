@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
+using Prism.Common;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {

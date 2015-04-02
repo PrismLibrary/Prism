@@ -11,6 +11,7 @@ using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
+using System;
 
 namespace Prism.Unity.Wpf.Tests
 {

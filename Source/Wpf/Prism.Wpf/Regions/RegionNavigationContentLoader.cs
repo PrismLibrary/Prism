@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows;
 using Prism.Properties;
 using Microsoft.Practices.ServiceLocation;
+using Prism.Common;
 
 namespace Prism.Regions
 {

@@ -3,7 +3,7 @@
 using System.ComponentModel;
 using System.Windows;
 
-namespace Prism
+namespace Prism.Common
 {
     /// <summary>
     /// Class that wraps an object, so that other classes can notify for Change events. Typically, this class is set as 

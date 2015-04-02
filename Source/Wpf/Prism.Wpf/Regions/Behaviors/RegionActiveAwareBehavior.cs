@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Linq;
 using System.Reflection;
+using Prism.Common;
 
 namespace Prism.Regions.Behaviors
 {
@@ -54,25 +55,6 @@ namespace Prism.Regions.Behaviors
             }
         }
         
-        private static void InvokeOnActiveAwareElement(object item, Action<IActiveAware> invocation)
-        {
-            var activeAware = item as IActiveAware;
-            if (activeAware != null)
-            {
-                invocation(activeAware);
-            }
-
-            var frameworkElement = item as FrameworkElement;
-            if (frameworkElement != null)
-            {
-                var activeAwareDataContext = frameworkElement.DataContext as IActiveAware;
-                if (activeAwareDataContext != null)
-                {
-                    invocation(activeAwareDataContext);
-                }
-            }
-        }
-
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
@@ -81,7 +63,7 @@ namespace Prism.Regions.Behaviors
                 {
                     Action<IActiveAware> invocation = activeAware => activeAware.IsActive = true;
 
-                    InvokeOnActiveAwareElement(item, invocation);
+                    MvvmHelpers.ViewAndViewModelAction(item, invocation);
                     InvokeOnSynchronizedActiveAwareChildren(item, invocation);
                 }
             }
@@ -91,7 +73,7 @@ namespace Prism.Regions.Behaviors
                 {
                     Action<IActiveAware> invocation = activeAware => activeAware.IsActive = false;
 
-                    InvokeOnActiveAwareElement(item, invocation);
+                    MvvmHelpers.ViewAndViewModelAction(item, invocation);
                     InvokeOnSynchronizedActiveAwareChildren(item, invocation);
                 }
             }
@@ -119,10 +101,11 @@ namespace Prism.Regions.Behaviors
 
                 foreach (var syncActiveView in syncActiveViews)
                 {
-                    InvokeOnActiveAwareElement(syncActiveView, invocation);
+                    MvvmHelpers.ViewAndViewModelAction(syncActiveView, invocation);
                 }
             }
         }
+
 
         private bool ShouldSyncActiveState(object view)
         {
