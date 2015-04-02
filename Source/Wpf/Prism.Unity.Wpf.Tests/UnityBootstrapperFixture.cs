@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
@@ -11,7 +12,6 @@ using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
-using System;
 
 namespace Prism.Unity.Wpf.Tests
 {

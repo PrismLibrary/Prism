@@ -106,7 +106,6 @@ namespace Prism.Regions.Behaviors
             }
         }
 
-
         private bool ShouldSyncActiveState(object view)
         {
             if (Attribute.IsDefined(view.GetType(), typeof(SyncActiveStateAttribute)))
