@@ -2,7 +2,7 @@
 
 namespace Sandbox.Events
 {
-    public class MessageSentEvent : PrismEvent<string>
+    public class MessageSentEvent : PubSubEvent<string>
     {
     }
 }
