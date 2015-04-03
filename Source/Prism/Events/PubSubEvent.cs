@@ -11,7 +11,7 @@ namespace Prism.Events
     /// Defines a class that manages publication and subscription to events.
     /// </summary>
     /// <typeparam name="TPayload">The type of message that will be passed to the subscribers.</typeparam>
-    public class PrismEvent<TPayload> : EventBase
+    public class PubSubEvent<TPayload> : EventBase
     {
         /// <summary>
         /// Subscribes a delegate to an event that will be published on the <see cref="ThreadOption.PublisherThread"/>.

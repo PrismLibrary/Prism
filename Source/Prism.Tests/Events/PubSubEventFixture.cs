@@ -326,7 +326,7 @@ namespace Prism.Tests.Events
             }
         }
 
-        class TestablePubSubEvent<TPayload> : PrismEvent<TPayload>
+        class TestablePubSubEvent<TPayload> : PubSubEvent<TPayload>
         {
             public ICollection<IEventSubscription> BaseSubscriptions
             {
