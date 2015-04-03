@@ -118,14 +118,6 @@ namespace Prism.Unity
         }
 
         /// <summary>
-        /// Configures the <see cref="ViewModelLocator"/> used by Prism.
-        /// </summary>
-        protected override void ConfigureViewModelLocator()
-        {
-            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => Container.Resolve(type));
-        }
-
-        /// <summary>
         /// Registers in the <see cref="IUnityContainer"/> the <see cref="Type"/> of the Exceptions
         /// that are not considered root exceptions by the <see cref="ExceptionExtensions"/>.
         /// </summary>
