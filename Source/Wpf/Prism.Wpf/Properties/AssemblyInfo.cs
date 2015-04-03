@@ -26,13 +26,19 @@ using System.Windows.Markup;
 [assembly: CLSCompliant(true)]
 [assembly: NeutralResourcesLanguage("en")]
 
+// -----  Legacy -----
 [assembly: XmlnsDefinition("http://www.codeplex.com/prism", "Prism.Regions")]
 [assembly: XmlnsDefinition("http://www.codeplex.com/prism", "Prism.Regions.Behaviors")]
-
 [assembly: XmlnsDefinition("http://www.codeplex.com/prism", "Prism.Mvvm")]
-
 [assembly: XmlnsDefinition("http://www.codeplex.com/prism", "Prism.Interactivity")]
 [assembly: XmlnsDefinition("http://www.codeplex.com/prism", "Prism.Interactivity.InteractionRequest")]
+// -----  Legacy -----
+
+[assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Regions")]
+[assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Regions.Behaviors")]
+[assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Mvvm")]
+[assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Interactivity")]
+[assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Interactivity.InteractionRequest")]
 
 // Version information for an assembly consists of the following four values:
 //
