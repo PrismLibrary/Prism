@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Prism</RootNamespace>
-    <AssemblyName>Prism.Windows</AssemblyName>
+    <AssemblyName>Prism.Windows.Store</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
@@ -106,33 +106,17 @@
       <Project>{e6c50355-d01e-4caa-884d-d7929861315c}</Project>
       <Name>Prism</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Prism.Windows\Prism.Windows.csproj">
+      <Project>{95485773-463b-4c42-ade6-24285f049b9b}</Project>
+      <Name>Prism.Windows</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Wpf\Prism.Wpf\Mvvm\ViewModelLocator.cs">
       <Link>Mvvm\ViewModelLocator.cs</Link>
     </Compile>
-    <Compile Include="AppManifestHelper.cs" />
-    <Compile Include="FrameFacadeAdapter.cs" />
-    <Compile Include="FrameNavigationService.cs" />
-    <Compile Include="Interfaces\ICredentialStore.cs" />
-    <Compile Include="Interfaces\IFlyoutViewModel.cs" />
-    <Compile Include="Interfaces\IFrameFacade.cs" />
-    <Compile Include="Interfaces\INavigationAware.cs" />
-    <Compile Include="Interfaces\INavigationService.cs" />
-    <Compile Include="Interfaces\IResourceLoader.cs" />
-    <Compile Include="Interfaces\ISessionStateService.cs" />
     <Compile Include="MvvmAppBase.cs" />
-    <Compile Include="MvvmNavigatedEventArgs.cs" />
-    <Compile Include="PrismConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceLoaderAdapter.cs" />
-    <Compile Include="RestorableStateAttribute.cs" />
-    <Compile Include="SessionStateService.cs" />
-    <Compile Include="ViewModel.cs" />
-    <Compile Include="VisualStateAwarePage.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

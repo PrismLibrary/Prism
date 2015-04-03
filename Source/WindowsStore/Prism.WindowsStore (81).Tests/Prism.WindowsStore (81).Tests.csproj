@@ -153,7 +153,7 @@
     <Folder Include="Mocks\ValidationMocks\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WindowsStore\Prism.WindowsStore %2881%29\Prism.WindowsStore %2881%29.csproj">
+    <ProjectReference Include="..\Prism.WindowsStore %2881%29\Prism.WindowsStore %2881%29.csproj">
       <Project>{3e6538ba-ac58-4f64-9b1d-e3185570c1dc}</Project>
       <Name>Prism.WindowsStore %2881%29</Name>
     </ProjectReference>

@@ -125,7 +125,6 @@
     <Compile Include="Mocks\MockViewModelWithRestorableStateCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModelFixture.cs" />
-    <Compile Include="ViewModelLocatorFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -152,9 +151,9 @@
       <Project>{e6c50355-d01e-4caa-884d-d7929861315c}</Project>
       <Name>Prism</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Prism.Windows %2881%29\Prism.Windows %2881%29.csproj">
-      <Project>{c4bd55d0-9512-44f8-84a6-dc244c7d4ded}</Project>
-      <Name>Prism.Windows %2881%29</Name>
+    <ProjectReference Include="..\Prism.Windows\Prism.Windows.csproj">
+      <Project>{95485773-463b-4c42-ade6-24285f049b9b}</Project>
+      <Name>Prism.Windows</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
