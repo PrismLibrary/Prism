@@ -86,10 +86,69 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\AppManifestHelper.cs">
+      <Link>AppManifestHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\FrameFacadeAdapter.cs">
+      <Link>FrameFacadeAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\FrameNavigationService.cs">
+      <Link>FrameNavigationService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\Interfaces\ICredentialStore.cs">
+      <Link>Interfaces\ICredentialStore.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\Interfaces\IFlyoutViewModel.cs">
+      <Link>Interfaces\IFlyoutViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\Interfaces\IFrameFacade.cs">
+      <Link>Interfaces\IFrameFacade.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\Interfaces\INavigationAware.cs">
+      <Link>Interfaces\INavigationAware.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\Interfaces\INavigationService.cs">
+      <Link>Interfaces\INavigationService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\Interfaces\IResourceLoader.cs">
+      <Link>Interfaces\IResourceLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\Interfaces\ISessionStateService.cs">
+      <Link>Interfaces\ISessionStateService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\MvvmAppBase.cs">
+      <Link>MvvmAppBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\MvvmNavigatedEventArgs.cs">
+      <Link>MvvmNavigatedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\PrismConstants.cs">
+      <Link>PrismConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\ResourceLoaderAdapter.cs">
+      <Link>ResourceLoaderAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\RestorableStateAttribute.cs">
+      <Link>RestorableStateAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\SessionStateService.cs">
+      <Link>SessionStateService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\ViewModel.cs">
+      <Link>ViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\Prism.Windows %2881%29\VisualStateAwarePage.cs">
+      <Link>VisualStateAwarePage.cs</Link>
+    </Compile>
     <Compile Include="..\..\Wpf\Prism.Wpf\Mvvm\ViewModelLocator.cs">
       <Link>Mvvm\ViewModelLocator.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="..\..\Windows\Prism.Windows %2881%29\Strings\en-US\Resources.resw">
+      <Link>Strings\en-US\Resources.resw</Link>
+    </PRIResource>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

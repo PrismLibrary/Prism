@@ -6,23 +6,26 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C4BD55D0-9512-44F8-84A6-DC244C7D4DED}</ProjectGuid>
+    <ProjectGuid>{A1B3E8B8-65AE-4C59-97CE-08686EB7B8D4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Prism</RootNamespace>
-    <AssemblyName>Prism.Windows</AssemblyName>
+    <RootNamespace>Prism.Windows.Tests</RootNamespace>
+    <AssemblyName>Prism.Windows.Tests</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>Prism.Windows (81).Tests_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxBundle>Never</AppxBundle>
+    <AllowCrossPlatformRetargeting>False</AllowCrossPlatformRetargeting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_APP</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -30,14 +33,14 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_APP</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_APP</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
@@ -47,7 +50,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_APP</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -59,7 +62,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_APP</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -69,7 +72,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_APP</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -81,7 +84,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_APP</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -91,7 +94,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_APP</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -100,39 +103,62 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <AppXPackage>True</AppXPackage>
+    <AppxPackageIncludePrivateSymbols>true</AppxPackageIncludePrivateSymbols>
+  </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <!--A reference to the entire .Net Framework and Windows SDK are automatically included-->
+    <SDKReference Include="MSTestFramework, Version=11.0" />
+    <SDKReference Include="TestPlatform, Version=11.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FrameNavigationServiceFixture.cs" />
+    <Compile Include="Mocks\MockDelegateReference.cs" />
+    <Compile Include="Mocks\MockPage.cs" />
+    <Compile Include="Mocks\MockPageViewModel.cs" />
+    <Compile Include="Mocks\MockPageWithViewModel.cs" />
+    <Compile Include="Mocks\MockResourceLoader.cs" />
+    <Compile Include="Mocks\MockSessionStateService.cs" />
+    <Compile Include="Mocks\MockViewModelWithNoRestorableStateAttributes.cs" />
+    <Compile Include="Mocks\MockViewModelWithRestorableStateAttributes.cs" />
+    <Compile Include="Mocks\MockViewModelWithRestorableStateCollection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelFixture.cs" />
+    <Compile Include="ViewModelLocatorFixture.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="Prism.Windows (81).Tests_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\UnitTestLogo.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\UnitTestSmallLogo.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\UnitTestSplashScreen.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\UnitTestStoreLogo.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\Prism\Prism.csproj">
       <Project>{e6c50355-d01e-4caa-884d-d7929861315c}</Project>
       <Name>Prism</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Prism.Windows %2881%29\Prism.Windows %2881%29.csproj">
+      <Project>{c4bd55d0-9512-44f8-84a6-dc244c7d4ded}</Project>
+      <Name>Prism.Windows %2881%29</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Wpf\Prism.Wpf\Mvvm\ViewModelLocator.cs">
-      <Link>Mvvm\ViewModelLocator.cs</Link>
-    </Compile>
-    <Compile Include="AppManifestHelper.cs" />
-    <Compile Include="FrameFacadeAdapter.cs" />
-    <Compile Include="FrameNavigationService.cs" />
-    <Compile Include="Interfaces\ICredentialStore.cs" />
-    <Compile Include="Interfaces\IFlyoutViewModel.cs" />
-    <Compile Include="Interfaces\IFrameFacade.cs" />
-    <Compile Include="Interfaces\INavigationAware.cs" />
-    <Compile Include="Interfaces\INavigationService.cs" />
-    <Compile Include="Interfaces\IResourceLoader.cs" />
-    <Compile Include="Interfaces\ISessionStateService.cs" />
-    <Compile Include="MvvmAppBase.cs" />
-    <Compile Include="MvvmNavigatedEventArgs.cs" />
-    <Compile Include="PrismConstants.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceLoaderAdapter.cs" />
-    <Compile Include="RestorableStateAttribute.cs" />
-    <Compile Include="SessionStateService.cs" />
-    <Compile Include="ViewModel.cs" />
-    <Compile Include="VisualStateAwarePage.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PRIResource Include="Strings\en-US\Resources.resw" />
+    <Folder Include="Mocks\ValidationMocks\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
@@ -141,7 +167,7 @@
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
-  </Target>
+  </Target>  
   <Target Name="AfterBuild">
   </Target>
   -->
