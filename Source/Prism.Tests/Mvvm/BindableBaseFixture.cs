@@ -21,6 +21,21 @@ namespace Prism.Tests.Mvvm
         }
 
         [TestMethod]
+        public void SetPropertyMethodShouldNotSetTheNewValue()
+        {
+            int value = 10;
+            MockViewModel mockViewModel = new MockViewModel();
+            mockViewModel.MockProperty = 10;
+
+            bool invoked = false;
+            mockViewModel.PropertyChanged += (o, e) => { if (e.PropertyName.Equals("MockProperty")) invoked = true; };
+            mockViewModel.MockProperty = value;
+
+            Assert.IsFalse(invoked);
+            Assert.AreEqual(mockViewModel.MockProperty, value);
+        }
+
+        [TestMethod]
         public void SetPropertyMethodShouldRaisePropertyRaised()
         {
             bool invoked = false;
