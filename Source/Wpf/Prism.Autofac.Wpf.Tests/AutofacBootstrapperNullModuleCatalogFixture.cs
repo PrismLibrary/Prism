@@ -34,6 +34,5 @@ namespace Prism.Autofac.Tests
                 throw new NotImplementedException();
             }
         }
-
     }
 }

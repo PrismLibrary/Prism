@@ -154,8 +154,9 @@ namespace Prism.Autofac.Tests
         public RegionAdapterMappings DefaultRegionAdapterMappings;
         public bool CreateLoggerCalled;
         public bool CreateModuleCatalogCalled;
-        public bool ConfigureContainerCalled;
         public bool CreateShellCalled;
+        public bool CreateContainerBuilderCalled;
+        public bool ConfigureContainerBuilderCalled;
         public bool CreateContainerCalled;
         public bool ConfigureModuleCatalogCalled;
         public bool InitializeShellCalled;
@@ -187,14 +188,14 @@ namespace Prism.Autofac.Tests
         protected override ContainerBuilder CreateContainerBuilder()
         {
             MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            ConfigureContainerCalled = true;
+            CreateContainerBuilderCalled = true;
             return base.CreateContainerBuilder();
         }
 
         protected override void ConfigureContainerBuilder(ContainerBuilder builder)
         {
             MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            ConfigureContainerCalled = true;
+            ConfigureContainerBuilderCalled = true;
             base.ConfigureContainerBuilder(builder);
         }
         

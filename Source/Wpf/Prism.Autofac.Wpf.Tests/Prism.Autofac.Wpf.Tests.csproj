@@ -91,6 +91,10 @@
     <Compile Include="AutofacBootstrapperNullContainerFixture.cs" />
     <Compile Include="AutofacBootstrapperNullLoggerFixture.cs" />
     <Compile Include="AutofacBootstrapperNullModuleCatalogFixture.cs" />
+    <Compile Include="AutofacBootstrapperNullModuleManagerFixture.cs" />
+    <Compile Include="AutofacBootstrapperRunMethodFixture.cs" />
+    <Compile Include="Mocks\MockView.cs" />
+    <Compile Include="Mocks\MockServiceLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

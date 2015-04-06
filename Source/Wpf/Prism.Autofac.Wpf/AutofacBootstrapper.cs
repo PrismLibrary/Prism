@@ -77,10 +77,6 @@ namespace Prism.Autofac
                 throw new InvalidOperationException(Resources.NullAutofacContainerException);
             }
 
-            // TODO review for removal
-            //Logger.Log(Resources.ConfiguringAutofacContainer, Category.Debug, Priority.Low);
-            //ConfigureContainer();
-            
             Logger.Log(Resources.ConfiguringServiceLocatorSingleton, Category.Debug, Priority.Low);
             ConfigureServiceLocator();
 
@@ -124,7 +120,11 @@ namespace Prism.Autofac
         /// </summary>
         protected override void ConfigureServiceLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(Container));
+            var serviceLocator = new AutofacServiceLocator(Container);
+            ServiceLocator.SetLocatorProvider(() => serviceLocator);
+
+            // register the locator in Autofac as well
+            RegisterInstance(serviceLocator, typeof(IServiceLocator), registerAsSingleton: true);
         }
 
         /// <summary>
@@ -188,11 +188,11 @@ namespace Prism.Autofac
         protected virtual IContainer CreateContainer(ContainerBuilder containerBuilder)
         {
             IContainer container = containerBuilder.Build();
-            
+
             // Register container instance
-             var updater = new ContainerBuilder();
-             updater.RegisterInstance(container);
-             updater.Update(container);
+            var updater = new ContainerBuilder();
+            updater.RegisterInstance(container);
+            updater.Update(container);
 
             return container;
         }
@@ -282,6 +282,46 @@ namespace Prism.Autofac
                 }
                 builder.Update(Container);
             }
+        }
+
+        /// <summary>
+        /// Registers an object instance in the container.
+        /// </summary>
+        /// <param name="instance">Object instance.</param>
+        /// <param name="fromType">The interface type to register.</param>
+        /// <param name="key">Optional key for registration.</param>
+        /// <param name="registerAsSingleton">Registers the type as a singleton.</param>
+        protected void RegisterInstance<T>(T instance, Type fromType, string key = "", bool registerAsSingleton = false)
+            where T : class 
+        {
+            if (instance == null)
+            {
+                throw new ArgumentNullException("instance");
+            }
+            if (fromType == null)
+            {
+                throw new ArgumentNullException("fromType");
+            }
+            
+            ContainerBuilder containerUpdater = CreateContainerBuilder();
+
+            var registration = containerUpdater.RegisterInstance(instance);
+            // named instance
+            if (!string.IsNullOrEmpty(key))
+            {
+                registration = registration.Named(key, fromType);
+            }
+            else
+            {
+                registration = registration.As(fromType);
+            }
+            // singleton
+            if (registerAsSingleton)
+            {
+                registration.SingleInstance();
+            }
+            
+            containerUpdater.Update(Container);
         }
     }
 }
