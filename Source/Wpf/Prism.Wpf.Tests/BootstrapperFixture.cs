@@ -12,6 +12,9 @@ using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
+using Prism.Mvvm;
+using Prism.Wpf.Tests.Mocks.Views;
+using Prism.Wpf.Tests.Mocks.ViewModels;
 
 namespace Prism.Wpf.Tests
 {
@@ -51,6 +54,31 @@ namespace Prism.Wpf.Tests
             Assert.IsNotNull(bootstrapper.BaseLogger);
 
             Assert.IsInstanceOfType(bootstrapper.BaseLogger, typeof(TextLogger));
+        }
+
+        [TestMethod]
+        public void ConfigureViewModelLocatorShouldUserServiceLocatorAsResolver()
+        {
+            var bootstrapper = new DefaultBootstrapper();
+
+            CreateAndConfigureServiceLocatorForViewModelLocator();
+
+            bootstrapper.CallConfigureViewModelLocator();
+
+            var view = new MockView();
+
+            ViewModelLocationProvider.AutoWireViewModelChanged(view, (v, vm) =>
+                {
+                    Assert.IsNotNull(v);
+                    Assert.IsNotNull(vm);
+                    Assert.IsInstanceOfType(vm, typeof(MockViewModel));
+                });
+        }
+
+        private static void CreateAndConfigureServiceLocatorForViewModelLocator()
+        {
+            var serviceLocator = new Prism.Wpf.Tests.ServiceLocatorExtensionsFixture.MockServiceLocator(() => new MockViewModel());
+            ServiceLocator.SetLocatorProvider(() => serviceLocator);
         }
 
         [TestMethod]
@@ -256,6 +284,11 @@ namespace Prism.Wpf.Tests
         public RegionAdapterMappings CallConfigureRegionAdapterMappings()
         {
             return base.ConfigureRegionAdapterMappings();
+        }
+
+        public void CallConfigureViewModelLocator()
+        {
+            base.ConfigureViewModelLocator();
         }
 
         public override void Run(bool runWithDefaultConfiguration)

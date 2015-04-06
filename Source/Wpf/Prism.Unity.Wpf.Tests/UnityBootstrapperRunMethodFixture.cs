@@ -11,9 +11,8 @@ using Prism.Events;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
-using Prism.Unity;
 
-namespace Prism.Wpf.Unity.Tests
+namespace Prism.Unity.Wpf.Tests
 {
     [TestClass]
     public class UnityBootstrapperRunMethodFixture

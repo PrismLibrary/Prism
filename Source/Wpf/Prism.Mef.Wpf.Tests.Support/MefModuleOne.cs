@@ -3,7 +3,7 @@
 using Prism.Mef.Modularity;
 using Prism.Modularity;
 
-namespace Prism.Wpf.Mef.Tests.Support
+namespace Prism.Mef.Wpf.Tests.Support
 {
     [ModuleExport("MefModuleOne", typeof(MefModuleOne))]
     public class MefModuleOne : IModule

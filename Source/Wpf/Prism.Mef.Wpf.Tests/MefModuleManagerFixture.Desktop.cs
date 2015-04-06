@@ -10,10 +10,15 @@ using Prism.Logging;
 using Prism.Mef.Modularity;
 using Prism.Modularity;
 
-namespace Prism.Wpf.Mef.Tests
+namespace Prism.Mef.Wpf.Tests
 {
     public partial class MefModuleManagerFixture
     {
+        private const string WpfTestSupportAssemblyName = "Prism.Mef.Wpf.Tests.Support";
+        private const string WpfTestSupportAssemblyNamespace = "Prism.Mef.Wpf.Tests.Support";
+        private const string SupportAssemblyDebug = @"..\..\..\Prism.Mef.Wpf.Tests.Support\bin\debug\Prism.Mef.Wpf.Tests.Support.dll";
+        private const string SupportAssemblyRelease = @"..\..\..\Prism.Mef.Wpf.Tests.Support\bin\release\Prism.Mef.Wpf.Tests.Support.dll";
+
         [TestMethod]
         public void ConstructorThrowsWithNullModuleInitializer()
         {
@@ -57,9 +62,9 @@ namespace Prism.Wpf.Mef.Tests
         }
 
 #if DEBUG
-        [DeploymentItem(@"..\..\..\Prism.Wpf.Mef.Tests.Support\bin\debug\Prism.Wpf.Mef.Tests.Support.dll")]
+        [DeploymentItem(SupportAssemblyDebug)]
 #else
-        [DeploymentItem(@"..\..\..\Prism.Wpf.Mef.Tests.Support\bin\release\Prism.Wpf.Mef.Tests.Support.dll")]
+        [DeploymentItem(SupportAssemblyRelease)]
 #endif
         [TestMethod]
         public void ModuleInUnreferencedAssemblyInitializedByModuleInitializer()
@@ -93,9 +98,9 @@ namespace Prism.Wpf.Mef.Tests
         }
 
 #if DEBUG
-        [DeploymentItem(@"..\..\..\Prism.Wpf.Mef.Tests.Support\bin\debug\Prism.Wpf.Mef.Tests.Support.dll")]
+        [DeploymentItem(SupportAssemblyDebug)]
 #else
-        [DeploymentItem(@"..\..\..\Prism.Wpf.Mef.Tests.Support\bin\release\Prism.Wpf.Mef.Tests.Support.dll")]
+        [DeploymentItem(SupportAssemblyRelease)]
 #endif
         [TestMethod]
         public void DeclaredModuleWithoutTypeInUnreferencedAssemblyIsUpdatedWithTypeNameFromExportAttribute()
@@ -137,14 +142,14 @@ namespace Prism.Wpf.Mef.Tests
 
             mockFileTypeLoader.Raise(tl => tl.LoadModuleCompleted += null, new LoadModuleCompletedEventArgs(moduleInfo, null));
 
-            Assert.AreEqual("Prism.Wpf.Mef.Tests.Support.MefModuleOne, Prism.Wpf.Mef.Tests.Support, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", moduleInfo.ModuleType);
+            Assert.AreEqual(BuildMefSupportTypeName(), moduleInfo.ModuleType);
             Assert.IsTrue(wasInit);
         }
 
 #if DEBUG
-        [DeploymentItem(@"..\..\..\Prism.Wpf.Mef.Tests.Support\bin\debug\Prism.Wpf.Mef.Tests.Support.dll")]
+        [DeploymentItem(SupportAssemblyDebug)]
 #else
-        [DeploymentItem(@"..\..\..\Prism.Wpf.Mef.Tests.Support\bin\release\Prism.Wpf.Mef.Tests.Support.dll")]
+        [DeploymentItem(SupportAssemblyRelease)]
 #endif
         [TestMethod]
         public void DeclaredModuleWithTypeInUnreferencedAssemblyIsUpdatedWithTypeNameFromExportAttribute()
@@ -186,28 +191,52 @@ namespace Prism.Wpf.Mef.Tests
 
             mockFileTypeLoader.Raise(tl => tl.LoadModuleCompleted += null, new LoadModuleCompletedEventArgs(moduleInfo, null));
 
-            Assert.AreEqual("Prism.Wpf.Mef.Tests.Support.MefModuleOne, Prism.Wpf.Mef.Tests.Support, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", moduleInfo.ModuleType);
+            Assert.AreEqual(BuildMefSupportTypeName(), moduleInfo.ModuleType);
             Assert.IsTrue(wasInit);
+        }
+
+        // All test namespaces should be conform assembly name.
+        // These tests help find typos in declared constants
+        [TestMethod]
+        public void SupportAssemblyDebugIsConformAssemblyName()
+        {
+            string debugDllPath = BuildMefSupportDllPath(false);
+
+            Assert.AreEqual(SupportAssemblyDebug, debugDllPath);
+        }
+
+        [TestMethod]
+        public void SupportAssemblyReleaseIsConformAssemblyName()
+        {
+            string debugDllPath = BuildMefSupportDllPath(true);
+
+            Assert.AreEqual(SupportAssemblyRelease, debugDllPath);
+        }
+
+        [TestMethod]
+        public void MefSupportTypeNameIsConformAssemblyName()
+        {
+            string typeName = BuildMefSupportTypeName();
+
+            Assert.AreEqual("Prism.Mef.Wpf.Tests.Support.MefModuleOne, Prism.Mef.Wpf.Tests.Support, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", typeName);
         }
 
         // Due to different test runners and file locations, this helper function will help find the 
         // necessary DLL for tests to execute.
         private static string GetPathToModuleDll()
         {
-            const string debugDll = @"..\..\..\Prism.Wpf.Mef.Tests.Support\bin\debug\Prism.Wpf.Mef.Tests.Support.dll";
-            const string releaseDll = @"..\..\..\Prism.Wpf.Mef.Tests.Support\bin\release\Prism.Wpf.Mef.Tests.Support.dll";
             string fileLocation = null;
-            if (File.Exists("Prism.Wpf.Mef.Tests.Support.dll"))
+            if (File.Exists(WpfTestSupportAssemblyName + ".dll"))
             {
-                fileLocation = "Prism.Wpf.Mef.Tests.Support.dll";
+                fileLocation = WpfTestSupportAssemblyName + ".dll";
             }
-            else if (File.Exists(debugDll))
+            else if (File.Exists(SupportAssemblyDebug))
             {
-                fileLocation = debugDll;
+                fileLocation = SupportAssemblyDebug;
             }
-            else if (File.Exists(releaseDll))
+            else if (File.Exists(SupportAssemblyRelease))
             {
-                fileLocation = releaseDll;
+                fileLocation = SupportAssemblyRelease;
             }
             else
             {
@@ -215,6 +244,24 @@ namespace Prism.Wpf.Mef.Tests
             }
 
             return fileLocation;
+        }
+
+        private static string BuildMefSupportDllPath(bool release)
+        {
+            if (release)
+            {
+                return string.Format(@"..\..\..\{0}\bin\release\{0}.dll", WpfTestSupportAssemblyName);
+            }
+            else
+            {
+                return string.Format(@"..\..\..\{0}\bin\debug\{0}.dll", WpfTestSupportAssemblyName);
+            }
+        }
+
+        private string BuildMefSupportTypeName()
+        {
+            return string.Format("{0}.MefModuleOne, {1}, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                WpfTestSupportAssemblyNamespace, WpfTestSupportAssemblyName);
         }
     }
 }

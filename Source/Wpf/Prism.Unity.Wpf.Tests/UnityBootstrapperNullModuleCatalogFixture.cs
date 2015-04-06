@@ -3,10 +3,10 @@
 using System;
 using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.Modularity;
-using Prism.Unity;
 
-namespace Prism.Wpf.Unity.Tests
+namespace Prism.Unity.Wpf.Tests
 {
     [TestClass]
     public class UnityBootstrapperNullModuleCatalogFixture : BootstrapperFixtureBase

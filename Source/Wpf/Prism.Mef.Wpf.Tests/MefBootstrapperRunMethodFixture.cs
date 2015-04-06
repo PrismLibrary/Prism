@@ -3,11 +3,11 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.Logging;
-using Prism.Mef;
 using Prism.Regions;
 
-namespace Prism.Wpf.Mef.Tests
+namespace Prism.Mef.Wpf.Tests
 {
     [TestClass]
     public class MefBootstrapperRunMethodFixture : BootstrapperFixtureBase

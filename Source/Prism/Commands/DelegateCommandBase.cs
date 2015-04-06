@@ -96,7 +96,7 @@ namespace Prism.Commands
         /// <returns>Returns <see langword="true"/> if the command can execute.  <see langword="False"/> otherwise.</returns>
         protected bool CanExecute(object parameter)
         {
-            return _canExecuteMethod == null || _canExecuteMethod(parameter);
+            return _canExecuteMethod(parameter);
         }
 
         /// <summary>

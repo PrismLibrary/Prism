@@ -55,7 +55,7 @@
     <Compile Include="Events\IDelegateReference.cs" />
     <Compile Include="Events\IEventAggregator.cs" />
     <Compile Include="Events\IEventSubscription.cs" />
-    <Compile Include="Events\PrismEvent.cs" />
+    <Compile Include="Events\PubSubEvent.cs" />
     <Compile Include="Events\SubscriptionToken.cs" />
     <Compile Include="Events\ThreadOption.cs" />
     <Compile Include="IActiveAware.cs" />

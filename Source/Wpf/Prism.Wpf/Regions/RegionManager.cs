@@ -13,6 +13,7 @@ using Prism.Events;
 using Prism.Properties;
 using Prism.Regions.Behaviors;
 using Microsoft.Practices.ServiceLocation;
+using Prism.Common;
 
 namespace Prism.Regions
 {

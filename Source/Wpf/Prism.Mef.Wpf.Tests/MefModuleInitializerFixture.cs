@@ -11,7 +11,7 @@ using Prism.Logging;
 using Prism.Mef.Modularity;
 using Prism.Modularity;
 
-namespace Prism.Wpf.Mef.Tests
+namespace Prism.Mef.Wpf.Tests
 {
     [TestClass]
     public class MefModuleInitializerFixture

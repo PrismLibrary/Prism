@@ -3,12 +3,10 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Prism.Wpf.Mef.Tests
+namespace Prism.IocContainer.Wpf.Tests.Support
 {
-    [TestClass]
     public class BootstrapperFixtureBase
     {
-        // TODO: Move to shared DLL
         protected static void AssertExceptionThrownOnRun(Bootstrapper bootstrapper, Type expectedExceptionType, string expectedExceptionMessageSubstring)
         {
             bool exceptionThrown = false;

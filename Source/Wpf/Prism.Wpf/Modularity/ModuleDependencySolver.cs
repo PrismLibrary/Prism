@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Prism.Properties;
+using Prism.Common;
 
 namespace Prism.Modularity
 {

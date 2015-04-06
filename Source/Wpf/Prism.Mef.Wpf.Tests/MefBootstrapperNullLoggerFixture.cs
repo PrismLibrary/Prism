@@ -3,10 +3,10 @@
 using System;
 using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.Logging;
-using Prism.Mef;
 
-namespace Prism.Wpf.Mef.Tests
+namespace Prism.Mef.Wpf.Tests
 {
     [TestClass]
     public class MefBootstrapperNullLoggerFixture : BootstrapperFixtureBase

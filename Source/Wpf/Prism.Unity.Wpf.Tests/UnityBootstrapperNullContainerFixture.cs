@@ -4,9 +4,9 @@ using System;
 using System.Windows;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Prism.Unity;
+using Prism.IocContainer.Wpf.Tests.Support;
 
-namespace Prism.Wpf.Unity.Tests
+namespace Prism.Unity.Wpf.Tests
 {
     [TestClass]
     public class UnityBootstrapperNullContainerFixture : BootstrapperFixtureBase

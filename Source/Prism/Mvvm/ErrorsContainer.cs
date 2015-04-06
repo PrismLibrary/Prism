@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Prism.Mvvm;
 
-namespace Prism.ViewModel
+namespace Prism.Mvvm
 {
     /// <summary>
     /// Manages validation errors for an object, notifying when the error state changes.

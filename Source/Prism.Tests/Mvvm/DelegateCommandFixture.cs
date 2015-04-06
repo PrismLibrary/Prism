@@ -4,6 +4,8 @@ using System;
 using System.Windows.Input;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Commands;
+using System.Threading.Tasks;
+using Prism.Tests.Mocks.Commands;
 
 namespace Prism.Tests.Mvvm
 {
@@ -31,7 +33,7 @@ namespace Prism.Tests.Mvvm
             // Prepare
 
             // Act
-            var actual = new DelegateCommand<int?>(param => {});
+            var actual = new DelegateCommand<int?>(param => { });
 
             // verify
             Assert.IsNotNull(actual);
@@ -50,13 +52,13 @@ namespace Prism.Tests.Mvvm
         }
 
         [TestMethod]
-        public void ExecuteCallsPassedInExecuteDelegate()
+        public async Task ExecuteCallsPassedInExecuteDelegate()
         {
             var handlers = new DelegateHandlers();
             var command = new DelegateCommand<object>(handlers.Execute);
             object parameter = new object();
 
-            command.Execute(parameter);
+            await command.Execute(parameter);
 
             Assert.AreSame(parameter, handlers.ExecuteParameter);
         }
@@ -100,19 +102,21 @@ namespace Prism.Tests.Mvvm
             Assert.IsTrue(canExecuteChangedRaised);
         }
 
-        //rlb: Removed, there is no point to allow a DelegateCommand without an execute method action.
-        //[TestMethod]
-        //public void ShouldAllowOnlyCanExecuteDelegate()
-        //{
-        //    bool canExecuteCalled = false;
-        //    var command = new DelegateCommand<object>(null, delegate
-        //    {
-        //        canExecuteCalled = true;
-        //        return true;
-        //    });
-        //    command.CanExecute(0);
-        //    Assert.IsTrue(canExecuteCalled);
-        //}
+        [TestMethod]
+        public void CanRemoveCanExecuteChangedHandler()
+        {
+            var command = new DelegateCommand<object>((o) => { });
+
+            bool canExecuteChangedRaised = false;
+
+            EventHandler handler = (s, e) => canExecuteChangedRaised = true;
+
+            command.CanExecuteChanged += handler;
+            command.CanExecuteChanged -= handler;
+            command.RaiseCanExecuteChanged();
+
+            Assert.IsFalse(canExecuteChangedRaised);
+        }
 
         [TestMethod]
         public void ShouldPassParameterInstanceOnExecute()
@@ -134,7 +138,7 @@ namespace Prism.Tests.Mvvm
         {
             bool canExecuteCalled = false;
             MyClass testClass = new MyClass();
-            ICommand command = new DelegateCommand<MyClass>((p)=>{}, delegate(MyClass parameter)
+            ICommand command = new DelegateCommand<MyClass>((p) => { }, delegate(MyClass parameter)
             {
                 Assert.AreSame(testClass, parameter);
                 canExecuteCalled = true;
@@ -145,16 +149,62 @@ namespace Prism.Tests.Mvvm
             Assert.IsTrue(canExecuteCalled);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void ShouldThrowIfAllDelegatesAreNull()
         {
             var command = new DelegateCommand<object>(null, null);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void ShouldThrowIfExecuteMethodDelegateNull()
         {
             var command = new DelegateCommand<object>(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ShouldThrowIfCanExecuteMethodDelegateNull()
+        {
+            var command = new DelegateCommand<object>((o) => { }, null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DelegateCommandBaseShouldThrowIfAllDelegatesAreNull()
+        {
+            var command = new DelegateCommandMock(null, null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DelegateCommandBaseShouldThrowIfExecuteMethodDelegateNull()
+        {
+            var command = new DelegateCommandMock(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DelegateCommandBaseShouldThrowIfCanExecuteMethodDelegateNull()
+        {
+            var command = new DelegateCommandMock((o) => { }, null);
+        }
+
+        [TestMethod]
+        public void NonGenericDelegateCommandShouldInvokeExplicitExecuteFunc()
+        {
+            bool executed = false;
+            ICommand command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { executed = true; }));
+            command.Execute(null);
+            Assert.IsTrue(executed);
+        }
+
+        [TestMethod]
+        public void IsActivePropertyIsFalseByDeafult()
+        {
+            var command = new DelegateCommand<object>(DoNothing);
+            Assert.IsFalse(command.IsActive);
         }
 
         [TestMethod]
@@ -186,11 +236,11 @@ namespace Prism.Tests.Mvvm
         }
 
         [TestMethod]
-        public void NonGenericDelegateCommandExecuteShouldInvokeExecuteAction()
+        public async Task NonGenericDelegateCommandExecuteShouldInvokeExecuteAction()
         {
             bool executed = false;
             var command = new DelegateCommand(() => { executed = true; });
-            command.Execute();
+            await command.Execute();
 
             Assert.IsTrue(executed);
         }
@@ -226,6 +276,129 @@ namespace Prism.Tests.Mvvm
         public void NonGenericDelegateCommandThrowsIfExecuteDelegateIsNull()
         {
             var command = new DelegateCommand(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NonGenericDelegateCommandThrowsIfCanExecuteDelegateIsNull()
+        {
+            var command = new DelegateCommand(() => { }, null);
+        }
+
+        [TestMethod]
+        public void GenericDelegateCommandFromAsyncHandlerWithExecuteFuncShouldNotBeNull()
+        {
+            var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => { }));
+            Assert.IsNotNull(command);
+        }
+
+        [TestMethod]
+        public void GenericDelegateCommandFromAsyncHandlerWithExecuteAndCanExecuteFuncShouldNotBeNull()
+        {
+            var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => { }), (o) => true);
+            Assert.IsNotNull(command);
+        }
+
+        [TestMethod]
+        public void GenericDelegateCommandFromAsyncHandlerCanExecuteShouldBeTrueByDefault()
+        {
+            var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => { }));
+            var canExecute = command.CanExecute(null);
+            Assert.IsTrue(canExecute);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GenericDelegateCommandFromAsyncHandlerWithNullExecuteFuncShouldThrow()
+        {
+            var command = DelegateCommand<object>.FromAsyncHandler(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GenericDelegateCommandFromAsyncHandlerWithNullCanExecuteFuncShouldThrow()
+        {
+            var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => { }), null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DelegateCommandBaseWithNullExecuteFuncShouldThrow()
+        {
+            var command = DelegateCommandMock.FromAsyncHandler(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DelegateCommandBaseWithNullCanExecuteFuncShouldThrow()
+        {
+            var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => { }), null);
+        }
+
+        [TestMethod]
+        public async Task GenericDelegateCommandFromAsyncHandlerExecuteShouldInvokeExecuteFunc()
+        {
+            bool executed = false;
+
+            var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => executed = true));
+            await command.Execute(null);
+
+            Assert.IsTrue(executed);
+        }
+
+        [TestMethod]
+        public void DelegateCommandFromAsyncHandlerWithExecuteFuncShouldNotBeNull()
+        {
+            var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { }));
+            Assert.IsNotNull(command);
+        }
+
+        [TestMethod]
+        public void DelegateCommandFromAsyncHandlerCanExecuteShouldBeTrueByDefault()
+        {
+            var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { }));
+            var canExecute = command.CanExecute();
+            Assert.IsTrue(canExecute);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DelegateCommandFromAsyncHandlerWithNullExecuteFuncShouldThrow()
+        {
+            var command = DelegateCommand.FromAsyncHandler(null);
+        }
+
+        [TestMethod]
+        public void DelegateCommandFromAsyncHandlerWithExecuteAndCanExecuteFuncShouldNotBeNull()
+        {
+            var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { }), () => true);
+            Assert.IsNotNull(command);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DelegateCommandFromAsyncHandlerWithNullCanExecuteFuncShouldThrow()
+        {
+            var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { }), null);
+        }
+
+        [TestMethod]
+        public async Task DelegateCommandFromAsyncHandlerExecuteShouldInvokeExecuteFunc()
+        {
+            bool executed = false;
+
+            var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => executed = true));
+            await command.Execute();
+
+            Assert.IsTrue(executed);
+        }
+
+        [TestMethod]
+        public void DelegateCommandFromAsyncHandlerCanExecuteShouldInvokeCanExecuteFunc()
+        {
+            var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { }), () => true);
+            var canExecute = command.CanExecute();
+            Assert.IsTrue(canExecute);
         }
 
         class CanExecutChangeHandler

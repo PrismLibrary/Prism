@@ -4,9 +4,9 @@ using System;
 using System.ComponentModel.Composition.Hosting;
 using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Prism.Mef;
+using Prism.IocContainer.Wpf.Tests.Support;
 
-namespace Prism.Wpf.Mef.Tests
+namespace Prism.Mef.Wpf.Tests
 {
     [TestClass]
     public class MefNullContainerBootstrapperFixture : BootstrapperFixtureBase

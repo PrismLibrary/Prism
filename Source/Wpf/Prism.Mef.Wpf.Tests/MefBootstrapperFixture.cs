@@ -9,13 +9,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Prism.Events;
 using Prism.Logging;
-using Prism.Mef;
 using Prism.Mef.Modularity;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 
-namespace Prism.Wpf.Mef.Tests
+namespace Prism.Mef.Wpf.Tests
 {
     [TestClass]
     public class MefBootstrapperFixture

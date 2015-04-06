@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows;
 using Prism.Properties;
 using Microsoft.Practices.ServiceLocation;
+using Prism.Common;
 
 namespace Prism.Regions
 {
@@ -271,7 +272,8 @@ namespace Prism.Regions
                 this.journal.RecordNavigation(journalEntry);
 
                 // The view can be informed of navigation
-                InvokeOnNavigationAwareElement(view, (n) => n.OnNavigatedTo(navigationContext));
+                Action<INavigationAware> action = (n) => n.OnNavigatedTo(navigationContext);
+                MvvmHelpers.ViewAndViewModelAction(view, action);
 
                 navigationCallback(new NavigationResult(navigationContext, true));
 
@@ -302,26 +304,7 @@ namespace Prism.Regions
         {
             foreach (var item in items)
             {
-                InvokeOnNavigationAwareElement(item, invocation);
-            }
-        }
-
-        private static void InvokeOnNavigationAwareElement(object item, Action<INavigationAware> invocation)
-        {
-            var navigationAwareItem = item as INavigationAware;
-            if (navigationAwareItem != null)
-            {
-                invocation(navigationAwareItem);
-            }
-
-            FrameworkElement frameworkElement = item as FrameworkElement;
-            if (frameworkElement != null)
-            {
-                INavigationAware navigationAwareDataContext = frameworkElement.DataContext as INavigationAware;
-                if (navigationAwareDataContext != null)
-                {
-                    invocation(navigationAwareDataContext);
-                }
+                MvvmHelpers.ViewAndViewModelAction(item, invocation);
             }
         }
     }

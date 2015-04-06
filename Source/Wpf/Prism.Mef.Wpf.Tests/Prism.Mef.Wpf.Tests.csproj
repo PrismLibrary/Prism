@@ -67,7 +67,6 @@
     <Compile Include="DefaultPrismServiceRegistrarFixture.cs" />
     <Compile Include="DownloadedPartCatalogCollectionFixture.cs" />
     <Compile Include="MefBootstrapperFixture.cs" />
-    <Compile Include="BootstrapperFixtureBase.cs" />
     <Compile Include="MefBootstrapperNullLoggerFixture.cs" />
     <Compile Include="MefBootstrapperNullModuleCatalogFixture.cs" />
     <Compile Include="MefBootstrapperRunMethodFixture.cs" />
@@ -85,6 +84,10 @@
     <ProjectReference Include="..\..\Prism\Prism.csproj">
       <Project>{e6c50355-d01e-4caa-884d-d7929861315c}</Project>
       <Name>Prism</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Prism.IocContainer.Wpf.Tests.Support\Prism.IocContainer.Wpf.Tests.Support.csproj">
+      <Project>{FF6F1B2C-BECC-4477-B918-B75615BAA3A5}</Project>
+      <Name>Prism.IocContainer.Wpf.Tests.Support</Name>
     </ProjectReference>
     <ProjectReference Include="..\Prism.Mef.Wpf.Tests.Support\Prism.Mef.Wpf.Tests.Support.csproj">
       <Project>{f6443399-3e76-4b51-964a-95a166239d56}</Project>

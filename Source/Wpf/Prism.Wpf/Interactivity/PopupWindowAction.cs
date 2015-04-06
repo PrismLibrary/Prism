@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
+using Prism.Common;
 using Prism.Interactivity.DefaultPopupWindows;
 using Prism.Interactivity.InteractionRequest;
 using System;
@@ -179,23 +180,13 @@ namespace Prism.Interactivity
             // We set the WindowContent as the content of the window. 
             wrapperWindow.Content = this.WindowContent;
 
-            IInteractionRequestAware interactionAware;
-
-            // If the WindowContent implements IInteractionRequestAware we set the corresponding properties.
-            interactionAware = this.WindowContent as IInteractionRequestAware;
-            if (interactionAware != null)
+            Action<IInteractionRequestAware> setNotificationAndClose = (iira) =>
             {
-                interactionAware.Notification = notification;
-                interactionAware.FinishInteraction = () => wrapperWindow.Close();
-            }
+                iira.Notification = notification;
+                iira.FinishInteraction = () => wrapperWindow.Close();
+            };
 
-            // If the WindowContent's DataContext implements IInteractionRequestAware we set the corresponding properties.
-            interactionAware = this.WindowContent.DataContext as IInteractionRequestAware;
-            if (interactionAware != null)
-            {
-                interactionAware.Notification = notification;
-                interactionAware.FinishInteraction = () => wrapperWindow.Close();
-            }
+            MvvmHelpers.ViewAndViewModelAction(this.WindowContent, setNotificationAndClose);
         }
 
         /// <summary>

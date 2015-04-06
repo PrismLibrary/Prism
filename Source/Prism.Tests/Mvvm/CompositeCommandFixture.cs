@@ -153,6 +153,14 @@ namespace Prism.Tests.Mvvm
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void UnregisteringCommandWithNullThrows()
+        {
+            var compositeCommand = new CompositeCommand();
+            compositeCommand.UnregisterCommand(null);
+        }
+
+        [TestMethod]
         public void UnregisterCommandRemovesFromExecuteDelegation()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
@@ -206,6 +214,22 @@ namespace Prism.Tests.Mvvm
             multiCommand.CanExecuteChangedRaised = false;
             testCommandOne.FireCanExecuteChanged();
             Assert.IsFalse(multiCommand.CanExecuteChangedRaised);
+        }
+
+        [TestMethod]
+        public void UnregisterCommandDisconnectsIsActiveChangedDelegate()
+        {
+            CompositeCommand activeAwareCommand = new CompositeCommand(true);
+            MockActiveAwareCommand commandOne = new MockActiveAwareCommand() { IsActive = true, IsValid = true };
+            MockActiveAwareCommand commandTwo = new MockActiveAwareCommand() { IsActive = false, IsValid = false };
+            activeAwareCommand.RegisterCommand(commandOne);
+            activeAwareCommand.RegisterCommand(commandTwo);
+
+            Assert.IsTrue(activeAwareCommand.CanExecute(null));
+
+            activeAwareCommand.UnregisterCommand(commandOne);
+
+            Assert.IsFalse(activeAwareCommand.CanExecute(null));
         }
 
         [TestMethod, ExpectedException(typeof(DivideByZeroException))]
@@ -328,6 +352,29 @@ namespace Prism.Tests.Mvvm
         }
 
         [TestMethod]
+        public void ShouldRemoveCanExecuteChangedHandler()
+        {
+            bool canExecuteChangedRaised = false;
+
+            var compositeCommand = new CompositeCommand();
+            var commmand = new DelegateCommand(() => { });
+            compositeCommand.RegisterCommand(commmand);
+
+            EventHandler handler = (s, e) => canExecuteChangedRaised = true;
+
+            compositeCommand.CanExecuteChanged += handler;
+            commmand.RaiseCanExecuteChanged();
+
+            Assert.IsTrue(canExecuteChangedRaised);
+
+            canExecuteChangedRaised = false;
+            compositeCommand.CanExecuteChanged -= handler;
+            commmand.RaiseCanExecuteChanged();
+
+            Assert.IsFalse(canExecuteChangedRaised);
+        }
+
+        [TestMethod]
         public void ShouldIgnoreChangesToIsActiveDuringExecution()
         {
             var firstCommand = new MockActiveAwareCommand { IsActive = true };
@@ -357,6 +404,14 @@ namespace Prism.Tests.Mvvm
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisteringCommandWithNullThrows()
+        {
+            var compositeCommand = new CompositeCommand();
+            compositeCommand.RegisterCommand(null);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void RegisteringCommandTwiceThrows()
         {
@@ -365,6 +420,21 @@ namespace Prism.Tests.Mvvm
             compositeCommand.RegisterCommand(duplicateCommand);
 
             compositeCommand.RegisterCommand(duplicateCommand);
+        }
+
+        [TestMethod]
+        public void ShouldGetRegisteredCommands()
+        {
+            var firstCommand = new TestCommand();
+            var secondCommand = new TestCommand();
+
+            var compositeCommand = new CompositeCommand();
+            compositeCommand.RegisterCommand(firstCommand);
+            compositeCommand.RegisterCommand(secondCommand);
+
+            var commands = compositeCommand.RegisteredCommands;
+
+            Assert.IsTrue(commands.Count > 0);
         }
 
         [TestMethod]

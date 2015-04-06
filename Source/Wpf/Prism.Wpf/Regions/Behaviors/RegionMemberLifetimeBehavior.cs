@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections.Specialized;
+using Prism.Common;
 
 namespace Prism.Regions.Behaviors
 {
@@ -65,7 +66,7 @@ namespace Prism.Regions.Behaviors
 
         private static bool ShouldKeepAlive(object inactiveView)
         {
-            IRegionMemberLifetime lifetime = GetItemOrContextLifetime(inactiveView);
+            IRegionMemberLifetime lifetime = MvvmHelpers.GetImplementerFromViewOrViewModel<IRegionMemberLifetime>(inactiveView);
             if (lifetime != null)
             {
                 return lifetime.KeepAlive;
@@ -95,23 +96,6 @@ namespace Prism.Regions.Behaviors
                 var contextLifetimeAttribute =
                     GetCustomAttributes<RegionMemberLifetimeAttribute>(dataContext.GetType()).FirstOrDefault();
                 return contextLifetimeAttribute;
-            }
-
-            return null;
-        }
-
-        private static IRegionMemberLifetime GetItemOrContextLifetime(object inactiveView)
-        {
-            var regionLifetime = inactiveView as IRegionMemberLifetime;
-            if (regionLifetime != null)
-            {
-                return regionLifetime;
-            }
-
-            var frameworkElement = inactiveView as System.Windows.FrameworkElement;
-            if (frameworkElement != null)
-            {
-                return frameworkElement.DataContext as IRegionMemberLifetime;
             }
 
             return null;
