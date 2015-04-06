@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.Logging;
-using Prism.Wpf.Unity.Tests;
 
-namespace Prism.Autofac.Tests
+namespace Prism.Autofac.Wpf.Tests
 {
     [TestClass]
     public class AutofacBootstrapperNullLoggerFixture : BootstrapperFixtureBase

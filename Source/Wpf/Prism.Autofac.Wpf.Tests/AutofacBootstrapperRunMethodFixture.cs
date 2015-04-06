@@ -10,6 +10,7 @@ using Autofac.Extras.CommonServiceLocator;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Prism.Autofac.Wpf.Tests;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Modularity;

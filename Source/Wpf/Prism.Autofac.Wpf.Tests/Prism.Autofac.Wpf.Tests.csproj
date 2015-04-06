@@ -6,7 +6,7 @@
     <ProjectGuid>{2F5019EA-2692-4B43-B73A-A65BEA2EB2F7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Prism.Autofac.Tests</RootNamespace>
+    <RootNamespace>Prism.Autofac.Wpf.Tests</RootNamespace>
     <AssemblyName>Prism.Autofac.Wpf.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -66,34 +66,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="..\Prism.Unity.Wpf.Tests\BootstrapperFixtureBase.cs">
-      <Link>BootstrapperFixtureBase.cs</Link>
-    </Compile>
-    <Compile Include="..\Prism.Unity.Wpf.Tests\Mocks\DependantA.cs">
-      <Link>Mocks\DependantA.cs</Link>
-    </Compile>
-    <Compile Include="..\Prism.Unity.Wpf.Tests\Mocks\DependantB.cs">
-      <Link>Mocks\DependantB.cs</Link>
-    </Compile>
-    <Compile Include="..\Prism.Unity.Wpf.Tests\Mocks\MockLoggerAdapter.cs">
-      <Link>Mocks\MockLoggerAdapter.cs</Link>
-    </Compile>
-    <Compile Include="..\Prism.Unity.Wpf.Tests\Mocks\MockModuleLoader.cs">
-      <Link>Mocks\MockModuleLoader.cs</Link>
-    </Compile>
-    <Compile Include="..\Prism.Unity.Wpf.Tests\Mocks\MockRegionManager.cs">
-      <Link>Mocks\MockRegionManager.cs</Link>
-    </Compile>
-    <Compile Include="..\Prism.Unity.Wpf.Tests\Mocks\MockService.cs">
-      <Link>Mocks\MockService.cs</Link>
-    </Compile>
     <Compile Include="AutofacBootstrapperFixture.cs" />
     <Compile Include="AutofacBootstrapperNullContainerFixture.cs" />
     <Compile Include="AutofacBootstrapperNullLoggerFixture.cs" />
     <Compile Include="AutofacBootstrapperNullModuleCatalogFixture.cs" />
     <Compile Include="AutofacBootstrapperNullModuleManagerFixture.cs" />
     <Compile Include="AutofacBootstrapperRunMethodFixture.cs" />
-    <Compile Include="Mocks\MockView.cs" />
     <Compile Include="Mocks\MockServiceLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -105,6 +83,10 @@
     <ProjectReference Include="..\Prism.Autofac.Wpf\Prism.Autofac.Wpf.csproj">
       <Project>{a47fa62e-8c9a-4c9f-9f65-a58b9ad7e8e0}</Project>
       <Name>Prism.Autofac.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Prism.IocContainer.Wpf.Tests.Support\Prism.IocContainer.Wpf.Tests.Support.csproj">
+      <Project>{ff6f1b2c-becc-4477-b918-b75615baa3a5}</Project>
+      <Name>Prism.IocContainer.Wpf.Tests.Support</Name>
     </ProjectReference>
     <ProjectReference Include="..\Prism.Wpf\Prism.Wpf.csproj">
       <Project>{5912ff03-c72b-4f56-baa1-8642fdbfbc26}</Project>

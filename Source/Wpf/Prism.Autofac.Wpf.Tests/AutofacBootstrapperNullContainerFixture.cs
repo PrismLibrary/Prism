@@ -2,9 +2,9 @@
 using System.Windows;
 using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Prism.Wpf.Unity.Tests;
+using Prism.IocContainer.Wpf.Tests.Support;
 
-namespace Prism.Autofac.Tests
+namespace Prism.Autofac.Wpf.Tests
 {
     [TestClass]
     public class AutofacBootstrapperNullContainerFixture : BootstrapperFixtureBase

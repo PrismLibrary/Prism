@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Logging;
 using Prism.Regions;
 
-namespace Prism.Autofac.Tests
+namespace Prism.Autofac.Wpf.Tests
 {
     [TestClass]
     public class AutofacBootstrapperNullModuleManagerFixture

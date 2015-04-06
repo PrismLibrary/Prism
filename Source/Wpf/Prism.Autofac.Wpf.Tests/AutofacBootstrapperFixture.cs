@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using Autofac;
 using Autofac.Core.Registration;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Autofac;
-using AutofacCore = Autofac.Core;
+using Prism.IocContainer.Wpf.Tests.Support;
+using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
-using Prism.Wpf.Unity.Tests;
-using Prism.Wpf.Unity.Tests.Mocks;
 
-namespace Prism.Autofac.Tests
+namespace Prism.Autofac.Wpf.Tests
 {
     [TestClass]
     public class AutofacBootstrapperFixture : BootstrapperFixtureBase
@@ -140,7 +140,7 @@ namespace Prism.Autofac.Tests
             bootstrapper.CallRegisterFrameworkExceptionTypes();
 
             Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
-                typeof(AutofacCore.DependencyResolutionException)));
+                typeof(global::Autofac.Core.DependencyResolutionException)));
             Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
                 typeof(ComponentNotRegisteredException)));
         }
