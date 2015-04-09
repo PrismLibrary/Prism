@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using Autofac;
-using Autofac.Extras.CommonServiceLocator;
 using Autofac.Features.ResolveAnything;
 using AutofacCore = Autofac.Core;
 using Microsoft.Practices.ServiceLocation;
@@ -120,7 +119,7 @@ namespace Prism.Autofac
         /// </summary>
         protected override void ConfigureServiceLocator()
         {
-            var serviceLocator = new AutofacServiceLocator(Container);
+            var serviceLocator = new AutofacServiceLocatorAdapter(Container);
             ServiceLocator.SetLocatorProvider(() => serviceLocator);
 
             // register the locator in Autofac as well

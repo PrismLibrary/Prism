@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Linq;
 using Autofac;
-using Autofac.Extras.CommonServiceLocator;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Prism.Autofac.Wpf.Tests;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 
-namespace Prism.Autofac.Tests
+namespace Prism.Autofac.Wpf.Tests
 {
     [TestClass]
     public class AutofacBootstrapperRunMethodFixture
@@ -41,7 +32,7 @@ namespace Prism.Autofac.Tests
             var bootstrapper = new DefaultAutofacBootstrapper();
             bootstrapper.Run();
 
-            Assert.IsTrue(ServiceLocator.Current is AutofacServiceLocator);
+            Assert.IsTrue(ServiceLocator.Current is AutofacServiceLocatorAdapter);
         }
 
         [TestMethod]
@@ -218,7 +209,7 @@ namespace Prism.Autofac.Tests
             var serviceLocator = bootstrapper.BaseContainer.Resolve<IServiceLocator>();
             Assert.IsNotNull(serviceLocator);
             Assert.IsTrue(serviceLocator.GetType().IsClass);
-            Assert.AreEqual(typeof(AutofacServiceLocator), serviceLocator.GetType());
+            Assert.AreEqual(typeof(AutofacServiceLocatorAdapter), serviceLocator.GetType());
             Assert.IsTrue(serviceLocator.GetType().GetInterfaces().Contains(typeof(IServiceLocator)));
         }
 
