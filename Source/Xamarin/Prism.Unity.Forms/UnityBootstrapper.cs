@@ -39,7 +39,6 @@ namespace Prism.Unity
 
         protected virtual void ConfigureContainer()
         {
-            Container.RegisterType<INavigationService, PageNavigationService>();
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IServiceLocator, UnityServiceLocatorAdapter>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDependencyService, DependencyService>(new ContainerControlledLifetimeManager());

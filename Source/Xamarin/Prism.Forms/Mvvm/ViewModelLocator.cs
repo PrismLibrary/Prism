@@ -40,15 +40,7 @@ namespace Prism.Mvvm
             {
                 var iNavAware = viewModel as INavigationServiceAware;
                 if (iNavAware != null)
-                {
-                    var navService = ServiceLocator.Current.GetInstance<INavigationService>();
-
-                    var pageNavigationService = navService as PageNavigationService;
-                    if (pageNavigationService != null)
-                        pageNavigationService.Page = page;
-
-                    iNavAware.NavigationService = navService;
-                }
+                    iNavAware.NavigationService = new PageNavigationService { Page = page };
             }
         }
     }
