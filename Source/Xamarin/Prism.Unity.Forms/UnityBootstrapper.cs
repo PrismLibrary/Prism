@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using Prism.Events;
+using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
@@ -13,6 +14,8 @@ namespace Prism.Unity
 
         public override void Run()
         {
+            Logger = CreateLogger();
+
             Container = CreateContainer();
 
             ConfigureContainer();
@@ -39,6 +42,8 @@ namespace Prism.Unity
 
         protected virtual void ConfigureContainer()
         {
+            Container.RegisterInstance<ILoggerFacade>(Logger);
+
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IServiceLocator, UnityServiceLocatorAdapter>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDependencyService, DependencyService>(new ContainerControlledLifetimeManager());
