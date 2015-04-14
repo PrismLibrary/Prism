@@ -60,6 +60,7 @@
     <Compile Include="Events\ThreadOption.cs" />
     <Compile Include="IActiveAware.cs" />
     <Compile Include="Logging\Category.cs" />
+    <Compile Include="Logging\DebugLogger.cs" />
     <Compile Include="Logging\EmptyLogger.cs" />
     <Compile Include="Logging\ILoggerFacade.cs" />
     <Compile Include="Logging\Priority.cs" />

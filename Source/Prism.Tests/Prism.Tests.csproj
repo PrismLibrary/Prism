@@ -59,6 +59,7 @@
     <Compile Include="Events\EventSubscriptionFixture.cs" />
     <Compile Include="Events\MockDelegateReference.cs" />
     <Compile Include="Events\PubSubEventFixture.cs" />
+    <Compile Include="Logging\DebugLoggerFixture.cs" />
     <Compile Include="Logging\EmptyLoggerFixture.cs" />
     <Compile Include="Mocks\Commands\DelegateCommandMock.cs" />
     <Compile Include="Mocks\ViewModels\MockValidatingViewModel.cs" />

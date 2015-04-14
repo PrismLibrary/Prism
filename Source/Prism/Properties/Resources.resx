@@ -123,6 +123,9 @@
   <data name="CannotRegisterSameCommandTwice" xml:space="preserve">
     <value>Cannot register the same command twice in the same CompositeCommand.</value>
   </data>
+  <data name="DefaultDebugLoggerPattern" xml:space="preserve">
+    <value>{1}: {2}. Priority: {3}. Timestamp:{0:u}.</value>
+  </data>
   <data name="DelegateCommandDelegatesCannotBeNull" xml:space="preserve">
     <value>Neither the executeMethod nor the canExecuteMethod delegates can be null.</value>
   </data>
