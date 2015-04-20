@@ -9,12 +9,7 @@ namespace Prism.Navigation
     {
         internal Page Page { get; set; }
 
-        public void GoBack(bool animated = true, bool useModalNavigation = true)
-        {
-            GoBack(new NavigationParameters(), animated, useModalNavigation);
-        }
-
-        public void GoBack(NavigationParameters parameters, bool animated = true, bool useModalNavigation = true)
+        public void GoBack(NavigationParameters parameters = null, bool animated = true, bool useModalNavigation = true)
         {
             var navigation = GetPageNavigation();
 
@@ -23,15 +18,12 @@ namespace Prism.Navigation
 
             OnNavigatedFrom(Page, parameters);
 
-            DoPop(navigation, animated, useModalNavigation);
+            DoPop(navigation, useModalNavigation, animated);
+
+            //TODO: figure out how to call OnNavigatedTo on new page viewmodel after calling pop
         }
 
-        public void Navigate(string name, bool animated = true, bool useModalNavigation = true)
-        {
-            Navigate(name, new NavigationParameters(), animated, useModalNavigation);
-        }
-
-        public void Navigate(string name, NavigationParameters parameters, bool animated = true, bool useModalNavigation = true)
+        public void Navigate(string name, NavigationParameters parameters = null, bool animated = true, bool useModalNavigation = true)
         {
             var view = ServiceLocator.Current.GetInstance<object>(name) as Page;
             if (view != null)
@@ -45,21 +37,10 @@ namespace Prism.Navigation
 
                 DoPush(navigation, view, animated, useModalNavigation);
 
-                InvokeOnNavigationAwareElement(view, v => v.OnNavigatedTo(parameters));
+                OnNavigatedTo(view, parameters);
             }
             else
                 Debug.WriteLine("Navigation ERROR: {0} not found. Make sure you have registered {0} for navigation.", name);
-        }
-
-        public void Remove(object page)
-        {
-            var currentPage = page as Page;
-            if (currentPage == null) return;
-
-            var navigation = currentPage.Navigation;
-
-            InvokeOnNavigationAwareElement(currentPage, v => v.OnNavigatedFrom(new NavigationParameters()));
-            navigation.RemovePage(currentPage);
         }
 
         private async static void DoPush(INavigation navigation, Page view, bool animated, bool useModalNavigation)
@@ -70,7 +51,7 @@ namespace Prism.Navigation
                 await navigation.PushAsync(view, animated);
         }
 
-        private async static void DoPop(INavigation navigation, bool animated, bool useModalNavigation)
+        private async static void DoPop(INavigation navigation, bool useModalNavigation, bool animated)
         {
             if (useModalNavigation)
                 await navigation.PopModalAsync(animated);
@@ -109,6 +90,13 @@ namespace Prism.Navigation
             var currentPage = page as Page;
             if (currentPage != null)
                 InvokeOnNavigationAwareElement(currentPage, v => v.OnNavigatedFrom(parameters));
+        }
+
+        protected static void OnNavigatedTo(object page, NavigationParameters parameters)
+        {
+            var currentPage = page as Page;
+            if (currentPage != null)
+                InvokeOnNavigationAwareElement(page, v => v.OnNavigatedTo(parameters));
         }
 
         protected static void InvokeOnNavigationAwareElement(object item, Action<INavigationAware> invocation)
