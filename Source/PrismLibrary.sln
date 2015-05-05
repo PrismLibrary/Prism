@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Windows.Phone", "Wind
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Windows.Store", "Windows\Prism.Windows.Store\Prism.Windows.Store.csproj", "{C4BD55D0-9512-44F8-84A6-DC244C7D4DED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.StructureMap.Wpf", "Wpf\Prism.StructureMap.Wpf\Prism.StructureMap.Wpf.csproj", "{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -245,6 +247,16 @@ Global
 		{C4BD55D0-9512-44F8-84A6-DC244C7D4DED}.Release|x64.Build.0 = Release|x64
 		{C4BD55D0-9512-44F8-84A6-DC244C7D4DED}.Release|x86.ActiveCfg = Release|x86
 		{C4BD55D0-9512-44F8-84A6-DC244C7D4DED}.Release|x86.Build.0 = Release|x86
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Release|ARM.ActiveCfg = Release|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Release|x64.ActiveCfg = Release|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -265,5 +277,6 @@ Global
 		{95485773-463B-4C42-ADE6-24285F049B9B} = {24630717-273D-4A73-A2B2-E0EDC5A68ECC}
 		{C1E989F3-B96A-4E69-BDDF-B6108CFA42E8} = {24630717-273D-4A73-A2B2-E0EDC5A68ECC}
 		{C4BD55D0-9512-44F8-84A6-DC244C7D4DED} = {24630717-273D-4A73-A2B2-E0EDC5A68ECC}
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9} = {6BED0A37-BE6B-42D2-AAF0-C612FF57D9EB}
 	EndGlobalSection
 EndGlobal
