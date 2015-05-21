@@ -189,19 +189,6 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.IsTrue(moduleCatalog.GetType().GetInterfaces().Contains(typeof(IModuleCatalog)));
         }
 
-        //[TestMethod]
-        //public void RunRegistersTypeForIServiceLocator()
-        //{
-        //    var mockedContainer = new Mock<IContainer>();
-        //    SetupMockedContainerForVerificationTests(mockedContainer);
-
-        //    var bootstrapper = new MockedContainerBootstrapper(mockedContainer.Object);
-
-        //    bootstrapper.Run();
-
-        //    mockedContainer.Verify(c => c.RegisterType(typeof(IServiceLocator), typeof(StructureMapServiceLocatorAdapter), null, It.IsAny<LifetimeManager>()), Times.Once());
-        //}
-
         [TestMethod]
         public void RunRegistersTypeForIModuleInitializer()
         {
