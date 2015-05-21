@@ -127,8 +127,9 @@ namespace Prism.StructureMap
         {
             base.RegisterFrameworkExceptionTypes();
 
-            ExceptionExtensions.RegisterFrameworkExceptionType(typeof(global::StructureMap.StructureMapBuildPlanException));
-            ExceptionExtensions.RegisterFrameworkExceptionType(typeof(global::StructureMap.StructureMapConfigurationException)); ExceptionExtensions.RegisterFrameworkExceptionType(typeof(global::StructureMap.StructureMapException));
+            ExceptionExtensions.RegisterFrameworkExceptionType(typeof(StructureMapBuildPlanException));
+            ExceptionExtensions.RegisterFrameworkExceptionType(typeof(StructureMapConfigurationException));
+            ExceptionExtensions.RegisterFrameworkExceptionType(typeof(StructureMapException));
         }
 
         /// <summary>
@@ -180,7 +181,7 @@ namespace Prism.StructureMap
             {
                 manager = Container.GetInstance<IModuleManager>();
             }
-            catch (global::StructureMap.StructureMapException ex)
+            catch (StructureMapException ex)
             {
                 if (ex.Message.Contains("IModuleCatalog"))
                 {

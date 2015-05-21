@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism", "Prism\Prism.csproj", "{E6C50355-D01E-4CAA-884D-D7929861315C}"
 EndProject
@@ -62,6 +62,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Windows.Tests", "Windows\Prism.Windows.Tests\Prism.Windows.Tests.csproj", "{A1B3E8B8-65AE-4C59-97CE-08686EB7B8D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Windows.Phone", "Windows\Prism.Windows.Phone\Prism.Windows.Phone.csproj", "{C1E989F3-B96A-4E69-BDDF-B6108CFA42E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.StructureMap.Wpf", "Wpf\Prism.StructureMap.Wpf\Prism.StructureMap.Wpf.csproj", "{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.StructureMap.Wpf.Tests", "Wpf\Prism.StructureMap.Wpf.Tests\Prism.StructureMap.Wpf.Tests.csproj", "{2823CA8B-DCBD-4694-B842-8A327DFCAA02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -381,6 +385,38 @@ Global
 		{C1E989F3-B96A-4E69-BDDF-B6108CFA42E8}.Release|x64.ActiveCfg = Release|Any CPU
 		{C1E989F3-B96A-4E69-BDDF-B6108CFA42E8}.Release|x86.ActiveCfg = Release|x86
 		{C1E989F3-B96A-4E69-BDDF-B6108CFA42E8}.Release|x86.Build.0 = Release|x86
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Debug|ARM.Build.0 = Debug|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Debug|x64.Build.0 = Debug|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Debug|x86.Build.0 = Debug|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Release|ARM.ActiveCfg = Release|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Release|ARM.Build.0 = Release|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Release|x64.ActiveCfg = Release|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Release|x64.Build.0 = Release|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Release|x86.ActiveCfg = Release|Any CPU
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}.Release|x86.Build.0 = Release|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Debug|ARM.Build.0 = Debug|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Debug|x64.Build.0 = Debug|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Debug|x86.Build.0 = Debug|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Release|ARM.ActiveCfg = Release|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Release|ARM.Build.0 = Release|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Release|x64.ActiveCfg = Release|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Release|x64.Build.0 = Release|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Release|x86.ActiveCfg = Release|Any CPU
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -409,5 +445,7 @@ Global
 		{95485773-463B-4C42-ADE6-24285F049B9B} = {D3C342EC-E6FF-45EB-BBE9-169EB8CCA772}
 		{A1B3E8B8-65AE-4C59-97CE-08686EB7B8D4} = {D3C342EC-E6FF-45EB-BBE9-169EB8CCA772}
 		{C1E989F3-B96A-4E69-BDDF-B6108CFA42E8} = {D3C342EC-E6FF-45EB-BBE9-169EB8CCA772}
+		{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9} = {6BED0A37-BE6B-42D2-AAF0-C612FF57D9EB}
+		{2823CA8B-DCBD-4694-B842-8A327DFCAA02} = {6BED0A37-BE6B-42D2-AAF0-C612FF57D9EB}
 	EndGlobalSection
 EndGlobal
