@@ -22,24 +22,28 @@ namespace Prism.Mvvm
         /// <summary>
         /// A dictionary that contains all the registered factories for the views.
         /// </summary>
-        static Dictionary<string, Func<object>> factories = new Dictionary<string, Func<object>>();
+        static Dictionary<string, Func<object>> _factories = new Dictionary<string, Func<object>>();
+
         /// <summary>
-        /// The default view model factory.
+        /// The default view model factory whic provides the ViewModel type as a parameter.
         /// </summary>
-        private static Func<Type, object> defaultViewModelFactory = type => Activator.CreateInstance(type);
+        static Func<Type, object> _defaultViewModelFactory = type => Activator.CreateInstance(type);
+
+        /// <summary>
+        /// ViewModelfactory that provides the View instance and ViewModel type as parameters.
+        /// </summary>
+        static Func<object, Type, object> _defaultViewModelFactoryWithViewParameter;
 
         /// <summary>
         /// Default view type to view model type resolver, assumes the view model is in same assembly as the view type, but in the "ViewModels" namespace.
         /// </summary>
-        private static Func<Type, Type> defaultViewTypeToViewModelTypeResolver =
+        static Func<Type, Type> _defaultViewTypeToViewModelTypeResolver =
             viewType =>
             {
                 var viewName = viewType.FullName;
                 viewName = viewName.Replace(".Views.", ".ViewModels.");
                 var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-                var suffix = viewName.EndsWith("View")
-                                ? "Model"
-                                : "ViewModel";
+                var suffix = viewName.EndsWith("View") ? "Model" : "ViewModel";
                 var viewModelName = String.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", viewName, suffix, viewAssemblyName);
                 return Type.GetType(viewModelName);
             };
@@ -47,10 +51,19 @@ namespace Prism.Mvvm
         /// <summary>
         /// Sets the default view model factory.
         /// </summary>
-        /// <param name="viewModelFactory">The view model factory.</param>
+        /// <param name="viewModelFactory">The view model factory which provides the ViewModel type as a parameter.</param>
         public static void SetDefaultViewModelFactory(Func<Type, object> viewModelFactory)
         {
-            defaultViewModelFactory = viewModelFactory;
+            _defaultViewModelFactory = viewModelFactory;
+        }
+
+        /// <summary>
+        /// Sets the default view model factory.
+        /// </summary>
+        /// <param name="viewModelFactory">The view model factory that provides the View instance and ViewModel type as parameters.</param>
+        public static void SetDefaultViewModelFactory(Func<object, Type, object> viewModelFactory)
+        {
+            _defaultViewModelFactoryWithViewParameter = viewModelFactory;
         }
 
         /// <summary>
@@ -59,28 +72,28 @@ namespace Prism.Mvvm
         /// <param name="viewTypeToViewModelTypeResolver">The view type to view model type resolver.</param>
         public static void SetDefaultViewTypeToViewModelTypeResolver(Func<Type, Type> viewTypeToViewModelTypeResolver)
         {
-            defaultViewTypeToViewModelTypeResolver = viewTypeToViewModelTypeResolver;
+            _defaultViewTypeToViewModelTypeResolver = viewTypeToViewModelTypeResolver;
         }
-
 
         /// <summary>
         /// Automatically looks up the viewmodel that corresponds to the current view, using two strategies:
         /// It first looks to see if there is a mapping registered for that view, if not it will fallback to the convention based approach.
         /// </summary>
         /// <param name="view">The dependency object, typically a view.</param>
-        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+        /// <param name="setDataContextCallback">The call back to use to create the binding between the View and ViewModel</param>
         public static void AutoWireViewModelChanged(object view, Action<object, object> setDataContextCallback)
         {
             // Try mappings first
             object viewModel = GetViewModelForView(view);
+
             // Fallback to convention based
             if (viewModel == null)
             {
-                var viewModelType = defaultViewTypeToViewModelTypeResolver(view.GetType());
-                if (viewModelType == null) return;
+                var viewModelType = _defaultViewTypeToViewModelTypeResolver(view.GetType());
+                if (viewModelType == null) 
+                    return;
 
-                // Really need Container or Factories here to deal with injecting dependencies on construction
-                viewModel = defaultViewModelFactory(viewModelType);
+                viewModel = _defaultViewModelFactoryWithViewParameter != null ? _defaultViewModelFactoryWithViewParameter(view, viewModelType) : _defaultViewModelFactory(viewModelType);
             }
 
             setDataContextCallback(view, viewModel);
@@ -96,8 +109,8 @@ namespace Prism.Mvvm
             var viewKey = view.GetType().ToString();
 
             // Mapping of view models base on view type (or instance) goes here
-            if (factories.ContainsKey(viewKey))
-                return factories[viewKey]();
+            if (_factories.ContainsKey(viewKey))
+                return _factories[viewKey]();
 
             return null;
         }
@@ -109,7 +122,7 @@ namespace Prism.Mvvm
         /// <param name="factory">The viewmodel factory.</param>
         public static void Register(string viewTypeName, Func<object> factory)
         {
-            factories[viewTypeName] = factory;
+            _factories[viewTypeName] = factory;
         }
     }
 }

@@ -20,8 +20,9 @@ namespace Sandbox.ViewModels
             set { SetProperty(ref _messageToSend, value); }
         }
 
-        public ViewCViewModel(IEventAggregator eventAggregator)
+        public ViewCViewModel(IEventAggregator eventAggregator, INavigationService navigationService)
         {
+            NavigationService = navigationService;
             _eventAggregator = eventAggregator;
             ClickCommand = new DelegateCommand<string>(Click);
         }

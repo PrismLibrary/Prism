@@ -1,4 +1,5 @@
 ﻿using Prism.Events;
+using Prism.Navigation;
 using Sandbox.Core;
 using Sandbox.Events;
 

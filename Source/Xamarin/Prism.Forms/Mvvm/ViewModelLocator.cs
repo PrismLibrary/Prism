@@ -34,14 +34,6 @@ namespace Prism.Mvvm
             BindableObject element = view as BindableObject;
             if (element != null)
                 element.BindingContext = viewModel;
-
-            var page = view as Page;
-            if (page != null)
-            {
-                var iNavAware = viewModel as INavigationServiceAware;
-                if (iNavAware != null)
-                    iNavAware.NavigationService = new PageNavigationService { Page = page };
-            }
         }
     }
 }

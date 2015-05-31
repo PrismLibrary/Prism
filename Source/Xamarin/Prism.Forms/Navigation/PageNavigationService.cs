@@ -5,22 +5,20 @@ using Xamarin.Forms;
 
 namespace Prism.Navigation
 {
-    public class PageNavigationService : INavigationService
+    public class PageNavigationService : INavigationService, IPageAware
     {
-        internal Page Page { get; set; }
-
-        public void GoBack(NavigationParameters parameters = null, bool animated = true, bool useModalNavigation = true)
+        private Page _page;
+        Page IPageAware.Page
         {
+            get { return _page; }
+            set { _page = value; }
+        }
+
+        public void GoBack(bool animated = true, bool useModalNavigation = true)
+        {
+            //TODO: figure out how to reliably pass parameter to the target page after we have popped the current page
             var navigation = GetPageNavigation();
-
-            if (!CanNavigate(Page, parameters))
-                return;
-
-            OnNavigatedFrom(Page, parameters);
-
             DoPop(navigation, useModalNavigation, animated);
-
-            //TODO: figure out how to call OnNavigatedTo on new page viewmodel after calling pop
         }
 
         public void Navigate(string name, NavigationParameters parameters = null, bool animated = true, bool useModalNavigation = true)
@@ -30,10 +28,11 @@ namespace Prism.Navigation
             {
                 var navigation = GetPageNavigation();
 
-                if (!CanNavigate(Page, parameters))
-                    return;
+                //TODO: does this make sense to have?
+                //if (!CanNavigate(_page, parameters))
+                //    return;
 
-                OnNavigatedFrom(Page, parameters);
+                OnNavigatedFrom(_page, parameters);
 
                 DoPush(navigation, view, animated, useModalNavigation);
 
@@ -61,29 +60,30 @@ namespace Prism.Navigation
 
         private INavigation GetPageNavigation()
         {
-            return Page != null ? Page.Navigation : Application.Current.MainPage.Navigation;
+            return _page != null ? _page.Navigation : Application.Current.MainPage.Navigation;
         }
 
-        protected static bool CanNavigate(object item, NavigationParameters parameters)
-        {
-            var confirmNavigationItem = item as IConfirmNavigation;
-            if (confirmNavigationItem != null)
-            {
-                return confirmNavigationItem.CanNavigate(parameters);
-            }
+        //TODO: does this make sense to have?
+        //protected static bool CanNavigate(object item, NavigationParameters parameters)
+        //{
+        //    var confirmNavigationItem = item as IConfirmNavigation;
+        //    if (confirmNavigationItem != null)
+        //    {
+        //        return confirmNavigationItem.CanNavigate(parameters);
+        //    }
 
-            var bindableObject = item as BindableObject;
-            if (bindableObject != null)
-            {
-                var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigation;
-                if (confirmNavigationBindingContext != null)
-                {
-                    return confirmNavigationBindingContext.CanNavigate(parameters);
-                }
-            }
+        //    var bindableObject = item as BindableObject;
+        //    if (bindableObject != null)
+        //    {
+        //        var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigation;
+        //        if (confirmNavigationBindingContext != null)
+        //        {
+        //            return confirmNavigationBindingContext.CanNavigate(parameters);
+        //        }
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
 
         protected static void OnNavigatedFrom(object page, NavigationParameters parameters)
         {

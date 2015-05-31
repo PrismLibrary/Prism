@@ -1,7 +1,8 @@
 ﻿namespace Prism.Navigation
 {
-    public interface IConfirmNavigation : INavigationAware
-    {
-        bool CanNavigate(NavigationParameters parameters);
-    }
+    //TODO: does this make sense to have?
+    //public interface IConfirmNavigation : INavigationAware
+    //{
+    //    bool CanNavigate(NavigationParameters parameters);
+    //}
 }

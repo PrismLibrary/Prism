@@ -9,8 +9,9 @@ namespace Sandbox.ViewModels
     {
         public ICommand ClickCommand { get; set; }
 
-        public ViewAViewModel()
+        public ViewAViewModel(INavigationService navigationService)
         {
+            NavigationService = navigationService;
             ClickCommand = new DelegateCommand(Click);
         }
 
