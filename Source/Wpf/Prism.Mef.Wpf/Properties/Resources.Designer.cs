@@ -124,7 +124,7 @@ namespace Prism.Mef.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configuring the ViewModelLocator to use Autofac..
+        ///   Looks up a localized string similar to Configuring the ViewModelLocator to use MEF.
         /// </summary>
         internal static string ConfiguringViewModelLocator {
             get {
