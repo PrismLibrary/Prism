@@ -30,23 +30,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BootstrapperFixtureBase.cs" />
-    <Compile Include="Mocks\MockView.cs" />
     <Compile Include="Mocks\DependantA.cs" />
     <Compile Include="Mocks\DependantB.cs" />
     <Compile Include="Mocks\MockLoggerAdapter.cs" />
     <Compile Include="Mocks\MockModuleLoader.cs" />
     <Compile Include="Mocks\MockRegionManager.cs" />
     <Compile Include="Mocks\MockService.cs" />
+    <Compile Include="Mocks\ViewModels\MockViewModel.cs" />
+    <Compile Include="Mocks\Views\MockView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +67,7 @@
       <Name>Prism.Wpf</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

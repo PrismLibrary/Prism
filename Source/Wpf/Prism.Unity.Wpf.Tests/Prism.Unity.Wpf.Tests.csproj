@@ -117,6 +117,7 @@
     <Compile Include="UnityContainerExtensionFixture.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UnityViewModelLocatorFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
