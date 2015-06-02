@@ -80,6 +80,9 @@ namespace Prism.Mef
             this.Logger.Log(Resources.ConfiguringServiceLocatorSingleton, Category.Debug, Priority.Low);
             this.ConfigureServiceLocator();
 
+            this.Logger.Log(Resources.ConfiguringViewModelLocator, Category.Debug, Priority.Low);
+            this.ConfigureViewModelLocator();
+
             this.Logger.Log(Resources.ConfiguringRegionAdapters, Category.Debug, Priority.Low);
             this.ConfigureRegionAdapterMappings();
 
