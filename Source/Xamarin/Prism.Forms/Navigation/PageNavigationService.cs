@@ -28,9 +28,8 @@ namespace Prism.Navigation
             {
                 var navigation = GetPageNavigation();
 
-                //TODO: does this make sense to have?
-                //if (!CanNavigate(_page, parameters))
-                //    return;
+                if (!CanNavigate(_page, parameters))
+                    return;
 
                 OnNavigatedFrom(_page, parameters);
 
@@ -63,27 +62,26 @@ namespace Prism.Navigation
             return _page != null ? _page.Navigation : Application.Current.MainPage.Navigation;
         }
 
-        //TODO: does this make sense to have?
-        //protected static bool CanNavigate(object item, NavigationParameters parameters)
-        //{
-        //    var confirmNavigationItem = item as IConfirmNavigation;
-        //    if (confirmNavigationItem != null)
-        //    {
-        //        return confirmNavigationItem.CanNavigate(parameters);
-        //    }
+        protected static bool CanNavigate(object item, NavigationParameters parameters)
+        {
+            var confirmNavigationItem = item as IConfirmNavigation;
+            if (confirmNavigationItem != null)
+            {
+                return confirmNavigationItem.CanNavigate(parameters);
+            }
 
-        //    var bindableObject = item as BindableObject;
-        //    if (bindableObject != null)
-        //    {
-        //        var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigation;
-        //        if (confirmNavigationBindingContext != null)
-        //        {
-        //            return confirmNavigationBindingContext.CanNavigate(parameters);
-        //        }
-        //    }
+            var bindableObject = item as BindableObject;
+            if (bindableObject != null)
+            {
+                var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigation;
+                if (confirmNavigationBindingContext != null)
+                {
+                    return confirmNavigationBindingContext.CanNavigate(parameters);
+                }
+            }
 
-        //    return true;
-        //}
+            return true;
+        }
 
         protected static void OnNavigatedFrom(object page, NavigationParameters parameters)
         {
