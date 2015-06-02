@@ -167,6 +167,26 @@ namespace Prism.Unity.Wpf.Tests
         }
 
         [TestMethod]
+        public void RunShouldCallConfigureServiceLocator()
+        {
+            var bootstrapper = new DefaultUnityBootstrapper();
+
+            bootstrapper.Run();
+
+            Assert.IsTrue(bootstrapper.ConfigureServiceLocatorCalled);
+        }
+
+        [TestMethod]
+        public void RunShouldCallConfigureViewModelLocator()
+        {
+            var bootstrapper = new DefaultUnityBootstrapper();
+
+            bootstrapper.Run();
+
+            Assert.IsTrue(bootstrapper.ConfigureViewModelLocatorCalled);
+        }
+
+        [TestMethod]
         public void RunRegistersInstanceOfILoggerFacade()
         {
             var mockedContainer = new Mock<IUnityContainer>();
@@ -343,12 +363,13 @@ namespace Prism.Unity.Wpf.Tests
             Assert.AreEqual("CreateContainer", bootstrapper.MethodCalls[3]);
             Assert.AreEqual("ConfigureContainer", bootstrapper.MethodCalls[4]);
             Assert.AreEqual("ConfigureServiceLocator", bootstrapper.MethodCalls[5]);
-            Assert.AreEqual("ConfigureRegionAdapterMappings", bootstrapper.MethodCalls[6]);
-            Assert.AreEqual("ConfigureDefaultRegionBehaviors", bootstrapper.MethodCalls[7]);
-            Assert.AreEqual("RegisterFrameworkExceptionTypes", bootstrapper.MethodCalls[8]);
-            Assert.AreEqual("CreateShell", bootstrapper.MethodCalls[9]);
-            Assert.AreEqual("InitializeShell", bootstrapper.MethodCalls[10]);
-            Assert.AreEqual("InitializeModules", bootstrapper.MethodCalls[11]);
+            Assert.AreEqual("ConfigureViewModelLocator", bootstrapper.MethodCalls[6]);
+            Assert.AreEqual("ConfigureRegionAdapterMappings", bootstrapper.MethodCalls[7]);
+            Assert.AreEqual("ConfigureDefaultRegionBehaviors", bootstrapper.MethodCalls[8]);
+            Assert.AreEqual("RegisterFrameworkExceptionTypes", bootstrapper.MethodCalls[9]);
+            Assert.AreEqual("CreateShell", bootstrapper.MethodCalls[10]);
+            Assert.AreEqual("InitializeShell", bootstrapper.MethodCalls[11]);
+            Assert.AreEqual("InitializeModules", bootstrapper.MethodCalls[12]);
         }
 
         [TestMethod]
@@ -432,6 +453,17 @@ namespace Prism.Unity.Wpf.Tests
         }
 
         [TestMethod]
+        public void RunShouldLogAboutConfiguringViewModelLocator()
+        {
+            const string expectedMessageText = "Configuring the ViewModelLocator to use Unity.";
+            var bootstrapper = new DefaultUnityBootstrapper();
+            bootstrapper.Run();
+            var messages = bootstrapper.BaseLogger.Messages;
+
+            Assert.IsTrue(messages.Contains(expectedMessageText));
+        }
+
+        [TestMethod]
         public void RunShouldLogAboutConfiguringRegionAdapters()
         {
             const string expectedMessageText = "Configuring region adapters.";
@@ -441,7 +473,6 @@ namespace Prism.Unity.Wpf.Tests
 
             Assert.IsTrue(messages.Contains(expectedMessageText));
         }
-
 
         [TestMethod]
         public void RunShouldLogAboutConfiguringRegionBehaviors()

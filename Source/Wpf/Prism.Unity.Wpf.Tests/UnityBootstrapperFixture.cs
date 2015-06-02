@@ -158,6 +158,7 @@ namespace Prism.Unity.Wpf.Tests
         public bool ConfigureModuleCatalogCalled;
         public bool InitializeShellCalled;
         public bool ConfigureServiceLocatorCalled;
+        public bool ConfigureViewModelLocatorCalled;
         public bool ConfigureDefaultRegionBehaviorsCalled;
         public DependencyObject ShellObject = new UserControl();
 
@@ -213,6 +214,14 @@ namespace Prism.Unity.Wpf.Tests
             this.ConfigureServiceLocatorCalled = true;
             base.ConfigureServiceLocator();
         }
+
+        protected override void ConfigureViewModelLocator()
+        {
+            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            this.ConfigureViewModelLocatorCalled = true;
+            base.ConfigureViewModelLocator();
+        }
+
         protected override IModuleCatalog CreateModuleCatalog()
         {
             this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
