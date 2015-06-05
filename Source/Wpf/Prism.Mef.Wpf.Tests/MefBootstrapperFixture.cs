@@ -442,6 +442,7 @@ namespace Prism.Mef.Wpf.Tests
         public bool ConfigureModuleCatalogCalled;
         public bool CreateContainerCalled;
         public bool ConfigureContainerCalled;
+        public bool ConfigureViewModelLocatorCalled;
         public bool ConfigureDefaultRegionBehaviorsCalled;
         public bool RegisterFrameworkExceptionTypesCalled;
         public bool CreateShellCalled;
@@ -633,5 +634,13 @@ namespace Prism.Mef.Wpf.Tests
             this.MethodCalls.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
             base.ConfigureServiceLocator();
         }
+
+        protected override void ConfigureViewModelLocator()
+        {
+            this.ConfigureViewModelLocatorCalled = true;
+            this.MethodCalls.Add(System.Reflection.MethodBase.GetCurrentMethod().Name);
+            base.ConfigureViewModelLocator();
+        }
+
     }
 }
