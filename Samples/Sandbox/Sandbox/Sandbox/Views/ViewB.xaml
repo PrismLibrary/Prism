@@ -6,6 +6,7 @@
              x:Class="Sandbox.Views.ViewB">
   <StackLayout>
     <Label Text="{Binding Message}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="200" />
+    <Button Command="{Binding SpeakCommand}" Text="Say Message" />
   </StackLayout>
   
 </ContentPage>

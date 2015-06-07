@@ -41,6 +41,7 @@
     <Compile Include="Core\NavigationViewModelBase.cs" />
     <Compile Include="Events\MessageSentEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ITextToSpeech.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\ViewAViewModel.cs" />
     <Compile Include="ViewModels\ViewBViewModel.cs" />

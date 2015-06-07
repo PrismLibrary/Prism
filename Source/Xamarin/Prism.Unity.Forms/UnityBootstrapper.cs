@@ -5,6 +5,7 @@ using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using Prism.Unity.Extensions;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
 
@@ -61,6 +62,8 @@ namespace Prism.Unity
 
         protected virtual void ConfigureContainer()
         {
+            Container.AddNewExtension<DependencyServiceExtension>();
+
             Container.RegisterInstance<ILoggerFacade>(Logger);
 
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
