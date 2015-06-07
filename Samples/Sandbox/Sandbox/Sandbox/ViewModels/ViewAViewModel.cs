@@ -19,9 +19,10 @@ namespace Sandbox.ViewModels
         {
             var parameters = new NavigationParameters();
             parameters.Add("Message", "A message from ViewA");
-
+            
+            //uses the overload to navigate using a class as the key
             //when navigating within a NavigationPage, set useModalNavigation = false
-            NavigationService.Navigate("ViewCKey", parameters);
+            NavigationService.Navigate<ViewCViewModel>(parameters);
         }
     }
 }

@@ -8,23 +8,37 @@ namespace Prism.Unity
     public static class UnityExtensions
     {
         /// <summary>
-        /// Registers a Page for navigation using the name parameter.
+        /// Registers a Page for navigation.
         /// </summary>
-        /// <typeparam name="T">The type of Page to register</typeparam>
-        /// <param name="name">The unique name to associate with the registered Page</param>
+        /// <typeparam name="T">The Type of Page to register</typeparam>
+        /// <param name="name">The unique name to register with the Page</param>
         public static void RegisterTypeForNavigation<T>(this IUnityContainer container, string name) where T : Page
         {
             container.RegisterType(typeof(object), typeof(T), name);
         }
 
         /// <summary>
-        /// Registers a Page for navigation using a convention based approach, using the name of the type being passed in.
+        /// Registers a Page for navigation using a convention based approach, which uses the name of the Type being passed in as the unique name.
         /// </summary>
-        /// <typeparam name="T">The type of Page to register</typeparam>
+        /// <typeparam name="T">The Type of Page to register</typeparam>
         public static void RegisterTypeForNavigation<T>(this IUnityContainer container) where T : Page
         {
             Type type = typeof (T);
             container.RegisterType(typeof(object), type, type.Name);
+        }
+
+        /// <summary>
+        /// Registers a Page for navigation.
+        /// </summary>
+        /// <typeparam name="T">The Type of Page to register</typeparam>
+        /// <typeparam name="C">The Class to use as the unique name for the Page</typeparam>
+        /// <param name="container"></param>
+        public static void RegisterTypeForNavigation<T, C>(this IUnityContainer container) 
+            where T : Page
+            where C : class
+        {
+            Type type = typeof(T);
+            container.RegisterType(typeof(object), type, typeof(C).Name);  //TODO: decide if I should use FullName or just Name
         }
     }
 }

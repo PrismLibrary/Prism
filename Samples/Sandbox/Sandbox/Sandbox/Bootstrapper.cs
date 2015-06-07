@@ -1,4 +1,5 @@
 ﻿using Prism.Unity;
+using Sandbox.ViewModels;
 using Sandbox.Views;
 using Xamarin.Forms;
 
@@ -13,9 +14,14 @@ namespace Sandbox
 
         protected override void RegisterTypes()
         {
+            //default convention - NavigationService.Navigate("ViewA");
             Container.RegisterTypeForNavigation<ViewA>();
-            Container.RegisterTypeForNavigation<ViewB>();
-            Container.RegisterTypeForNavigation<ViewC>("ViewCKey");
+
+            //provide custom string as a unique name - NavigationService.Navigate("B");
+            Container.RegisterTypeForNavigation<ViewB>("B");
+
+            //use a ViewModel class to act as the unique name - NavigationService.Navigate<ViewCViewModel>();
+            Container.RegisterTypeForNavigation<ViewC, ViewCViewModel>();
         }
     }
 }

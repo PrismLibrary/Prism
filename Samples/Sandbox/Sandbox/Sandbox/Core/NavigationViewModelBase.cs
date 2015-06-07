@@ -3,7 +3,7 @@ using Prism.Navigation;
 
 namespace Sandbox.Core
 {
-    public class NavigationViewModelBase : BindableBase//, IConfirmNavigation, INavigationServiceAware
+    public class NavigationViewModelBase : BindableBase, IConfirmNavigation
     {
         public INavigationService NavigationService { get; set; }
 
