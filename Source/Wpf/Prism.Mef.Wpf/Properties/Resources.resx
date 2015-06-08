@@ -138,6 +138,9 @@
   <data name="ConfiguringServiceLocatorSingleton" xml:space="preserve">
     <value>Configuring ServiceLocator singleton</value>
   </data>
+  <data name="ConfiguringViewModelLocator" xml:space="preserve">
+    <value>Configuring the ViewModelLocator to use MEF</value>
+  </data>
   <data name="CreatingCatalogForMEF" xml:space="preserve">
     <value>Creating catalog for MEF</value>
   </data>
