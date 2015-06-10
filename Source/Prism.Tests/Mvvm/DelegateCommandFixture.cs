@@ -218,22 +218,22 @@ namespace Prism.Tests.Mvvm
             Assert.IsTrue(fired);
         }
 
-        [TestMethod]
-        public void ShouldKeepWeakReferenceToOnCanExecuteChangedHandlers()
-        {
-            var command = new DelegateCommand<MyClass>((MyClass c) => { });
+        //[TestMethod]
+        //public void ShouldKeepWeakReferenceToOnCanExecuteChangedHandlers()
+        //{
+        //    var command = new DelegateCommand<MyClass>((MyClass c) => { });
 
-            var handlers = new CanExecutChangeHandler();
-            var weakHandlerRef = new WeakReference(handlers);
-            command.CanExecuteChanged += handlers.CanExecuteChangeHandler;
-            handlers = null;
+        //    var handlers = new CanExecutChangeHandler();
+        //    var weakHandlerRef = new WeakReference(handlers);
+        //    command.CanExecuteChanged += handlers.CanExecuteChangeHandler;
+        //    handlers = null;
 
-            GC.Collect();
-            command.RaiseCanExecuteChanged();
+        //    GC.Collect();
+        //    command.RaiseCanExecuteChanged();
 
-            Assert.IsFalse(weakHandlerRef.IsAlive);
-            Assert.IsNotNull(command); // Only here to ensure command survives optimizations and the GC.Collect
-        }
+        //    Assert.IsFalse(weakHandlerRef.IsAlive);
+        //    Assert.IsNotNull(command); // Only here to ensure command survives optimizations and the GC.Collect
+        //}
 
         [TestMethod]
         public async Task NonGenericDelegateCommandExecuteShouldInvokeExecuteAction()

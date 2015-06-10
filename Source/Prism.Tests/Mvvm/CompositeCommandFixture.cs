@@ -437,21 +437,21 @@ namespace Prism.Tests.Mvvm
             Assert.IsTrue(commands.Count > 0);
         }
 
-        [TestMethod]
-        public void ShouldKeepWeakReferenceToOnCanExecuteChangedHandlers()
-        {
-            var command = new TestableCompositeCommand();
+        //[TestMethod]
+        //public void ShouldKeepWeakReferenceToOnCanExecuteChangedHandlers()
+        //{
+        //    var command = new TestableCompositeCommand();
 
-            var handlers = new CanExecutChangeHandler();
-            var weakHandlerRef = new WeakReference(handlers);
-            command.CanExecuteChanged += handlers.CanExecuteChangeHandler;
-            handlers = null;
+        //    var handlers = new CanExecutChangeHandler();
+        //    var weakHandlerRef = new WeakReference(handlers);
+        //    command.CanExecuteChanged += handlers.CanExecuteChangeHandler;
+        //    handlers = null;
 
-            GC.Collect();
+        //    GC.Collect();
 
-            Assert.IsFalse(weakHandlerRef.IsAlive);
-            Assert.IsNotNull(command); // Only here to ensure command survives optimizations and the GC.Collect
-        }
+        //    Assert.IsFalse(weakHandlerRef.IsAlive);
+        //    Assert.IsNotNull(command); // Only here to ensure command survives optimizations and the GC.Collect
+        //}
 
         private class CanExecutChangeHandler
         {
