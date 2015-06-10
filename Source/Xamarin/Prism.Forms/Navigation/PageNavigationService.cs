@@ -14,7 +14,7 @@ namespace Prism.Navigation
             set { _page = value; }
         }
 
-        public void GoBack(bool animated = true, bool useModalNavigation = true)
+        public void GoBack(bool useModalNavigation = true, bool animated = true)
         {
             //TODO: figure out how to reliably pass parameter to the target page after we have popped the current page
             var navigation = GetPageNavigation();
@@ -23,10 +23,10 @@ namespace Prism.Navigation
 
         public void Navigate<T>(NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)
         {
-            Navigate(typeof(T).Name, parameters, animated, useModalNavigation);
+            Navigate(typeof(T).Name, parameters, useModalNavigation, animated);
         }
 
-        public void Navigate(string name, NavigationParameters parameters = null, bool animated = true, bool useModalNavigation = true)
+        public void Navigate(string name, NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)
         {
             var view = ServiceLocator.Current.GetInstance<object>(name) as Page;
             if (view != null)
@@ -44,7 +44,7 @@ namespace Prism.Navigation
 
                 OnNavigatedFrom(_page, parameters);
 
-                DoPush(navigation, view, animated, useModalNavigation);
+                DoPush(navigation, view, useModalNavigation, animated);
 
                 OnNavigatedTo(view, parameters);
             }
@@ -52,7 +52,7 @@ namespace Prism.Navigation
                 Debug.WriteLine("Navigation ERROR: {0} not found. Make sure you have registered {0} for navigation.", name);
         }
 
-        private async static void DoPush(INavigation navigation, Page view, bool animated, bool useModalNavigation)
+        private async static void DoPush(INavigation navigation, Page view, bool useModalNavigation, bool animated)
         {
             if (useModalNavigation)
                 await navigation.PushModalAsync(view, animated);
