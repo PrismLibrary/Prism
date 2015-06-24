@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Commands;
 using System.Threading.Tasks;
 using Prism.Tests.Mocks.Commands;
+using Prism.Mvvm;
 
 namespace Prism.Tests.Mvvm
 {
@@ -13,7 +14,7 @@ namespace Prism.Tests.Mvvm
     /// Summary description for DelegateCommandFixture
     /// </summary>
     [TestClass]
-    public class DelegateCommandFixture
+    public class DelegateCommandFixture : BindableBase
     {
         [TestMethod]
         public void WhenConstructedWithGenericTypeOfObject_InitializesValues()
@@ -218,23 +219,6 @@ namespace Prism.Tests.Mvvm
             Assert.IsTrue(fired);
         }
 
-        //[TestMethod]
-        //public void ShouldKeepWeakReferenceToOnCanExecuteChangedHandlers()
-        //{
-        //    var command = new DelegateCommand<MyClass>((MyClass c) => { });
-
-        //    var handlers = new CanExecutChangeHandler();
-        //    var weakHandlerRef = new WeakReference(handlers);
-        //    command.CanExecuteChanged += handlers.CanExecuteChangeHandler;
-        //    handlers = null;
-
-        //    GC.Collect();
-        //    command.RaiseCanExecuteChanged();
-
-        //    Assert.IsFalse(weakHandlerRef.IsAlive);
-        //    Assert.IsNotNull(command); // Only here to ensure command survives optimizations and the GC.Collect
-        //}
-
         [TestMethod]
         public async Task NonGenericDelegateCommandExecuteShouldInvokeExecuteAction()
         {
@@ -399,6 +383,225 @@ namespace Prism.Tests.Mvvm
             var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { }), () => true);
             var canExecute = command.CanExecute();
             Assert.IsTrue(canExecute);
+        }
+
+        [TestMethod]
+        public void NonGenericDelegateCommandShouldObserveCanExecute()
+        {
+            bool canExecuteChangedRaised = false;
+
+            ICommand command = new DelegateCommand(() => { }).ObservesCanExecute((o) => BoolProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            Assert.IsFalse(canExecuteChangedRaised);
+            Assert.IsFalse(command.CanExecute(null));
+
+            BoolProperty = true;
+
+            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.IsTrue(command.CanExecute(null));
+        }
+
+        [TestMethod]
+        public void NonGenericDelegateCommandShouldObserveCanExecuteAndObserveOtherProperties()
+        {
+            bool canExecuteChangedRaised = false;
+
+            ICommand command = new DelegateCommand(() => { }).ObservesCanExecute((o) => BoolProperty).Observes(() => IntProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            Assert.IsFalse(canExecuteChangedRaised);
+            Assert.IsFalse(command.CanExecute(null));
+
+            IntProperty = 10;
+            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.IsFalse(command.CanExecute(null));
+
+            canExecuteChangedRaised = false;
+            Assert.IsFalse(canExecuteChangedRaised);
+
+            BoolProperty = true;
+
+            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.IsTrue(command.CanExecute(null));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void NonGenericDelegateCommandShouldNotObserveDuplicateCanExecute()
+        {
+            ICommand command =
+                new DelegateCommand(() => { }).ObservesCanExecute((o) => BoolProperty)
+                    .ObservesCanExecute((o) => BoolProperty);
+        }
+
+        [TestMethod]
+        public void NonGenericDelegateCommandShouldObserveOneProperty()
+        {
+            bool canExecuteChangedRaised = false;
+
+            var command = new DelegateCommand(() => { }).Observes(() => IntProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            IntProperty = 10;
+
+            Assert.IsTrue(canExecuteChangedRaised);
+        }
+
+        [TestMethod]
+        public void NonGenericDelegateCommandShouldObserveMultipleProperties()
+        {
+            bool canExecuteChangedRaised = false;
+
+            var command = new DelegateCommand(() => { }).Observes(() => IntProperty).Observes(() => BoolProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            IntProperty = 10;
+
+            Assert.IsTrue(canExecuteChangedRaised);
+
+            canExecuteChangedRaised = false;
+
+            BoolProperty = true;
+
+            Assert.IsTrue(canExecuteChangedRaised);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void NonGenericDelegateCommandShouldNotObserveDuplicateProperties()
+        {
+            var command = new DelegateCommand(() => { }).Observes(() => IntProperty).Observes(() => IntProperty);
+        }
+
+
+        [TestMethod]
+        public void GenericDelegateCommandShouldObserveCanExecute()
+        {
+            bool canExecuteChangedRaised = false;
+
+            ICommand command = new DelegateCommand<object>((o) => { }).ObservesCanExecute((o) => BoolProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            Assert.IsFalse(canExecuteChangedRaised);
+            Assert.IsFalse(command.CanExecute(null));
+
+            BoolProperty = true;
+
+            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.IsTrue(command.CanExecute(null));
+        }
+
+        [TestMethod]
+        public void GenericDelegateCommandShouldObserveCanExecuteAndObserveOtherProperties()
+        {
+            bool canExecuteChangedRaised = false;
+
+            ICommand command = new DelegateCommand<object>((o) => { }).ObservesCanExecute((o) => BoolProperty).Observes(() => IntProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            Assert.IsFalse(canExecuteChangedRaised);
+            Assert.IsFalse(command.CanExecute(null));
+
+            IntProperty = 10;
+            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.IsFalse(command.CanExecute(null));
+
+            canExecuteChangedRaised = false;
+            Assert.IsFalse(canExecuteChangedRaised);
+
+            BoolProperty = true;
+
+            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.IsTrue(command.CanExecute(null));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void GenericDelegateCommandShouldNotObserveDuplicateCanExecute()
+        {
+            ICommand command =
+                new DelegateCommand<object>((o) => { }).ObservesCanExecute((o) => BoolProperty)
+                    .ObservesCanExecute((o) => BoolProperty);
+        }
+
+        [TestMethod]
+        public void GenericDelegateCommandShouldObserveOneProperty()
+        {
+            bool canExecuteChangedRaised = false;
+
+            var command = new DelegateCommand<object>((o) => { }).Observes(() => IntProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            IntProperty = 10;
+
+            Assert.IsTrue(canExecuteChangedRaised);
+        }
+
+        [TestMethod]
+        public void GenericDelegateCommandShouldObserveMultipleProperties()
+        {
+            bool canExecuteChangedRaised = false;
+
+            var command = new DelegateCommand<object>((o) => { }).Observes(() => IntProperty).Observes(() => BoolProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            IntProperty = 10;
+
+            Assert.IsTrue(canExecuteChangedRaised);
+
+            canExecuteChangedRaised = false;
+
+            BoolProperty = true;
+
+            Assert.IsTrue(canExecuteChangedRaised);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void GenericDelegateCommandShouldNotObserveDuplicateProperties()
+        {
+            var command = new DelegateCommand<object>((o) => { }).Observes(() => IntProperty).Observes(() => IntProperty);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private bool _boolProperty;
+        public bool BoolProperty
+        {
+            get { return _boolProperty; }
+            set { SetProperty(ref _boolProperty, value); }
+        }
+
+        private int _intProperty;
+        public int IntProperty
+        {
+            get { return _intProperty; }
+            set { SetProperty(ref _intProperty, value); }
         }
 
         class CanExecutChangeHandler

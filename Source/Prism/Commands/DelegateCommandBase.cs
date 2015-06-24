@@ -1,9 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Prism.Mvvm;
 using Prism.Properties;
 
 namespace Prism.Commands
@@ -15,8 +20,11 @@ namespace Prism.Commands
     {
         private bool _isActive;
 
+        readonly HashSet<string> _propertiesToObserve = new HashSet<string>();
+        private INotifyPropertyChanged _inpc;
+
         protected readonly Func<object, Task> _executeMethod;
-        protected readonly Func<object, bool> _canExecuteMethod;
+        protected Func<object, bool> _canExecuteMethod;
 
         /// <summary>
         /// Creates a new instance of a <see cref="DelegateCommandBase"/>, specifying both the execute action and the can execute function.
@@ -102,6 +110,72 @@ namespace Prism.Commands
         protected bool CanExecute(object parameter)
         {
             return _canExecuteMethod(parameter);
+        }
+
+        public DelegateCommandBase Observes<T>(Expression<Func<T>> propertyExpression)
+        {
+            HookInpc(propertyExpression.Body as MemberExpression);
+
+            AddPropertyToObserve(PropertySupport.ExtractPropertyName(propertyExpression));
+
+            return this;
+        }
+
+        public DelegateCommandBase ObservesCanExecute(Expression<Func<object, bool>> canExecuteExpression)
+        {
+            _canExecuteMethod = canExecuteExpression.Compile();
+
+            var memberExpression = canExecuteExpression.Body as MemberExpression;
+            if (memberExpression == null)
+                throw new ArgumentException(Resources.PropertySupport_NotMemberAccessExpression_Exception,
+                    "canExecuteExpression");
+
+            var property = memberExpression.Member as PropertyInfo;
+            if (property == null)
+                throw new ArgumentException(Resources.PropertySupport_ExpressionNotProperty_Exception,
+                    "canExecuteExpression");
+
+            var getMethod = property.GetMethod;
+            if (getMethod.IsStatic)
+                throw new ArgumentException(Resources.PropertySupport_StaticExpression_Exception,
+                    "canExecuteExpression");
+
+            AddPropertyToObserve(property.Name);
+
+            HookInpc(memberExpression);
+
+            return this;
+        }
+
+        private void HookInpc(MemberExpression expression)
+        {
+            if (expression == null)
+                return;
+
+            if (_inpc == null)
+            {
+                var constantExpression = expression.Expression as ConstantExpression;
+                if (constantExpression != null)
+                {
+                    _inpc = constantExpression.Value as INotifyPropertyChanged;
+                    if (_inpc != null)
+                        _inpc.PropertyChanged += Inpc_PropertyChanged;
+                }
+            }
+        }
+
+        private void AddPropertyToObserve(string property)
+        {
+            if (_propertiesToObserve.Contains(property))
+                throw new ArgumentException(String.Format("{0} is already being observed.", property));
+
+            _propertiesToObserve.Add(property);
+        }
+
+        void Inpc_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (_propertiesToObserve.Contains(e.PropertyName))
+                RaiseCanExecuteChanged();
         }
 
         #region IsActive
