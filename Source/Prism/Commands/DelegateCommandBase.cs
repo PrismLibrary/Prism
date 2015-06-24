@@ -112,42 +112,38 @@ namespace Prism.Commands
             return _canExecuteMethod(parameter);
         }
 
-        public DelegateCommandBase Observes<T>(Expression<Func<T>> propertyExpression)
+        /// <summary>
+        /// Observes a property that implements INotifyPropertyChanged, and automatically calls DelegateCommandBase.RaiseCanExecuteChanged on property changed notifications.
+        /// </summary>
+        /// <typeparam name="T">The object type containing the property specified in the expression.</typeparam>
+        /// <param name="propertyExpression">The property expression. Example: ObservesProperty(() => PropertyName).</param>
+        /// <returns>The current instance of DelegateCommand</returns>
+        public DelegateCommandBase ObservesProperty<T>(Expression<Func<T>> propertyExpression)
         {
-            HookInpc(propertyExpression.Body as MemberExpression);
-
             AddPropertyToObserve(PropertySupport.ExtractPropertyName(propertyExpression));
+
+            HookInpc(propertyExpression.Body as MemberExpression);
 
             return this;
         }
 
+        /// <summary>
+        /// Observes a property that is used to determine if this command can execute, and if it implements INotifyPropertyChanged it will automatically call DelegateCommandBase.RaiseCanExecuteChanged on property changed notifications.
+        /// </summary>
+        /// <param name="canExecuteExpression">The property expression. Example: ObservesCanExecute((o) => PropertyName).</param>
+        /// <returns>The current instance of DelegateCommand</returns>
         public DelegateCommandBase ObservesCanExecute(Expression<Func<object, bool>> canExecuteExpression)
         {
             _canExecuteMethod = canExecuteExpression.Compile();
 
-            var memberExpression = canExecuteExpression.Body as MemberExpression;
-            if (memberExpression == null)
-                throw new ArgumentException(Resources.PropertySupport_NotMemberAccessExpression_Exception,
-                    "canExecuteExpression");
+            AddPropertyToObserve(PropertySupport.ExtractPropertyNameFromLambda(canExecuteExpression));
 
-            var property = memberExpression.Member as PropertyInfo;
-            if (property == null)
-                throw new ArgumentException(Resources.PropertySupport_ExpressionNotProperty_Exception,
-                    "canExecuteExpression");
-
-            var getMethod = property.GetMethod;
-            if (getMethod.IsStatic)
-                throw new ArgumentException(Resources.PropertySupport_StaticExpression_Exception,
-                    "canExecuteExpression");
-
-            AddPropertyToObserve(property.Name);
-
-            HookInpc(memberExpression);
+            HookInpc(canExecuteExpression.Body as MemberExpression);
 
             return this;
         }
 
-        private void HookInpc(MemberExpression expression)
+        void HookInpc(MemberExpression expression)
         {
             if (expression == null)
                 return;
@@ -164,7 +160,7 @@ namespace Prism.Commands
             }
         }
 
-        private void AddPropertyToObserve(string property)
+        void AddPropertyToObserve(string property)
         {
             if (_propertiesToObserve.Contains(property))
                 throw new ArgumentException(String.Format("{0} is already being observed.", property));

@@ -408,7 +408,7 @@ namespace Prism.Tests.Mvvm
         {
             bool canExecuteChangedRaised = false;
 
-            ICommand command = new DelegateCommand(() => { }).ObservesCanExecute((o) => BoolProperty).Observes(() => IntProperty);
+            ICommand command = new DelegateCommand(() => { }).ObservesCanExecute((o) => BoolProperty).ObservesProperty(() => IntProperty);
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
@@ -442,7 +442,7 @@ namespace Prism.Tests.Mvvm
         {
             bool canExecuteChangedRaised = false;
 
-            var command = new DelegateCommand(() => { }).Observes(() => IntProperty);
+            var command = new DelegateCommand(() => { }).ObservesProperty(() => IntProperty);
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
@@ -456,7 +456,7 @@ namespace Prism.Tests.Mvvm
         {
             bool canExecuteChangedRaised = false;
 
-            var command = new DelegateCommand(() => { }).Observes(() => IntProperty).Observes(() => BoolProperty);
+            var command = new DelegateCommand(() => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => BoolProperty);
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
@@ -475,7 +475,7 @@ namespace Prism.Tests.Mvvm
         [ExpectedException(typeof(ArgumentException))]
         public void NonGenericDelegateCommandShouldNotObserveDuplicateProperties()
         {
-            var command = new DelegateCommand(() => { }).Observes(() => IntProperty).Observes(() => IntProperty);
+            var command = new DelegateCommand(() => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => IntProperty);
         }
 
 
@@ -502,7 +502,7 @@ namespace Prism.Tests.Mvvm
         {
             bool canExecuteChangedRaised = false;
 
-            ICommand command = new DelegateCommand<object>((o) => { }).ObservesCanExecute((o) => BoolProperty).Observes(() => IntProperty);
+            ICommand command = new DelegateCommand<object>((o) => { }).ObservesCanExecute((o) => BoolProperty).ObservesProperty(() => IntProperty);
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
@@ -536,7 +536,7 @@ namespace Prism.Tests.Mvvm
         {
             bool canExecuteChangedRaised = false;
 
-            var command = new DelegateCommand<object>((o) => { }).Observes(() => IntProperty);
+            var command = new DelegateCommand<object>((o) => { }).ObservesProperty(() => IntProperty);
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
@@ -550,7 +550,7 @@ namespace Prism.Tests.Mvvm
         {
             bool canExecuteChangedRaised = false;
 
-            var command = new DelegateCommand<object>((o) => { }).Observes(() => IntProperty).Observes(() => BoolProperty);
+            var command = new DelegateCommand<object>((o) => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => BoolProperty);
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
@@ -569,7 +569,7 @@ namespace Prism.Tests.Mvvm
         [ExpectedException(typeof(ArgumentException))]
         public void GenericDelegateCommandShouldNotObserveDuplicateProperties()
         {
-            var command = new DelegateCommand<object>((o) => { }).Observes(() => IntProperty).Observes(() => IntProperty);
+            var command = new DelegateCommand<object>((o) => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => IntProperty);
         }
 
 

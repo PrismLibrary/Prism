@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 using Prism.Properties;
 
 namespace Prism.Mvvm
@@ -30,29 +27,40 @@ namespace Prism.Mvvm
         public static string ExtractPropertyName<T>(Expression<Func<T>> propertyExpression)
         {
             if (propertyExpression == null)
-            {
                 throw new ArgumentNullException("propertyExpression");
-            }
 
-            var memberExpression = propertyExpression.Body as MemberExpression;
+            return ExtractPropertyNameFromLambda(propertyExpression);
+        }
+
+        /// <summary>
+        /// Extracts the property name from a LambdaExpression.
+        /// </summary>
+        /// <param name="expression">The LambdaExpression</param>
+        /// <returns>The name of the property.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the <paramref name="expression"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when the expression is:<br/>
+        ///     The <see cref="MemberExpression"/> does not represent a property.<br/>
+        ///     Or, the property is static.
+        /// </exception>
+        internal static string ExtractPropertyNameFromLambda(LambdaExpression expression)
+        {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            var memberExpression = expression.Body as MemberExpression;
             if (memberExpression == null)
-            {
-                throw new ArgumentException(Resources.PropertySupport_NotMemberAccessExpression_Exception, "propertyExpression");
-            }
+                throw new ArgumentException(Resources.PropertySupport_NotMemberAccessExpression_Exception, "expression");
 
             var property = memberExpression.Member as PropertyInfo;
             if (property == null)
-            {
-                throw new ArgumentException(Resources.PropertySupport_ExpressionNotProperty_Exception, "propertyExpression");
-            }
+                throw new ArgumentException(Resources.PropertySupport_ExpressionNotProperty_Exception, "expression");
 
             var getMethod = property.GetMethod;
             if (getMethod.IsStatic)
-            {
-                throw new ArgumentException(Resources.PropertySupport_StaticExpression_Exception, "propertyExpression");
-            }
+                throw new ArgumentException(Resources.PropertySupport_StaticExpression_Exception, "expression");
 
             return memberExpression.Member.Name;
         }
+
     }
 }
