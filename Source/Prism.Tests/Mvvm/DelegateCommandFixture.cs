@@ -475,7 +475,7 @@ namespace Prism.Tests.Mvvm
         [ExpectedException(typeof(ArgumentException))]
         public void NonGenericDelegateCommandShouldNotObserveDuplicateProperties()
         {
-            var command = new DelegateCommand(() => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => IntProperty);
+            DelegateCommand command = new DelegateCommand(() => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => IntProperty);
         }
 
 
@@ -569,26 +569,8 @@ namespace Prism.Tests.Mvvm
         [ExpectedException(typeof(ArgumentException))]
         public void GenericDelegateCommandShouldNotObserveDuplicateProperties()
         {
-            var command = new DelegateCommand<object>((o) => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => IntProperty);
+            DelegateCommand<object> command = new DelegateCommand<object>((o) => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => IntProperty);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         private bool _boolProperty;
         public bool BoolProperty

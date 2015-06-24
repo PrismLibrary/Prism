@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Mvvm;
@@ -118,13 +117,10 @@ namespace Prism.Commands
         /// <typeparam name="T">The object type containing the property specified in the expression.</typeparam>
         /// <param name="propertyExpression">The property expression. Example: ObservesProperty(() => PropertyName).</param>
         /// <returns>The current instance of DelegateCommand</returns>
-        public DelegateCommandBase ObservesProperty<T>(Expression<Func<T>> propertyExpression)
+        protected internal void ObservesPropertyInternal<T>(Expression<Func<T>> propertyExpression)
         {
             AddPropertyToObserve(PropertySupport.ExtractPropertyName(propertyExpression));
-
             HookInpc(propertyExpression.Body as MemberExpression);
-
-            return this;
         }
 
         /// <summary>
@@ -132,18 +128,14 @@ namespace Prism.Commands
         /// </summary>
         /// <param name="canExecuteExpression">The property expression. Example: ObservesCanExecute((o) => PropertyName).</param>
         /// <returns>The current instance of DelegateCommand</returns>
-        public DelegateCommandBase ObservesCanExecute(Expression<Func<object, bool>> canExecuteExpression)
+        protected internal void ObservesCanExecuteInternal(Expression<Func<object, bool>> canExecuteExpression)
         {
             _canExecuteMethod = canExecuteExpression.Compile();
-
             AddPropertyToObserve(PropertySupport.ExtractPropertyNameFromLambda(canExecuteExpression));
-
             HookInpc(canExecuteExpression.Body as MemberExpression);
-
-            return this;
         }
 
-        void HookInpc(MemberExpression expression)
+        protected void HookInpc(MemberExpression expression)
         {
             if (expression == null)
                 return;
@@ -160,7 +152,7 @@ namespace Prism.Commands
             }
         }
 
-        void AddPropertyToObserve(string property)
+        protected void AddPropertyToObserve(string property)
         {
             if (_propertiesToObserve.Contains(property))
                 throw new ArgumentException(String.Format("{0} is already being observed.", property));
