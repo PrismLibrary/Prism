@@ -78,6 +78,7 @@
     <Compile Include="Regions\UnityRegionNavigationContentLoader.cs" />
     <Compile Include="UnityBootstrapper.cs" />
     <Compile Include="UnityBootstrapperExtension.cs" />
+    <Compile Include="UnityContainerExtensions.cs" />
     <Compile Include="UnityContainerHelper.cs" />
     <Compile Include="UnityServiceLocatorAdapter.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
