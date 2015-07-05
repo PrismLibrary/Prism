@@ -142,7 +142,7 @@ namespace Prism.StructureMap
         }
 
         /// <summary>
-        /// Configures the <see cref="ContainerBuilder"/>. 
+        /// Configures the <see cref="IContainer"/>. 
         /// May be overwritten in a derived class to add specific type mappings required by the application.
         /// </summary>
         protected virtual void ConfigureContainer()

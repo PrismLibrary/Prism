@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacBootstrapper.cs" />
+    <Compile Include="AutofacExtensions.cs" />
     <Compile Include="AutofacServiceLocatorAdapter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

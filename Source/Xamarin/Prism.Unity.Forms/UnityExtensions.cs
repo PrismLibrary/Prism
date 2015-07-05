@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Utility;
 using Xamarin.Forms;
 
 namespace Prism.Unity
@@ -23,8 +22,8 @@ namespace Prism.Unity
         /// <typeparam name="T">The Type of Page to register</typeparam>
         public static void RegisterTypeForNavigation<T>(this IUnityContainer container) where T : Page
         {
-            Type type = typeof (T);
-            container.RegisterType(typeof(object), type, type.Name);
+            Type type = typeof(T);
+            container.RegisterType(typeof(object), typeof(T), type.Name);
         }
 
         /// <summary>
@@ -33,12 +32,11 @@ namespace Prism.Unity
         /// <typeparam name="T">The Type of Page to register</typeparam>
         /// <typeparam name="C">The Class to use as the unique name for the Page</typeparam>
         /// <param name="container"></param>
-        public static void RegisterTypeForNavigation<T, C>(this IUnityContainer container) 
+        public static void RegisterTypeForNavigation<T, C>(this IUnityContainer container)
             where T : Page
             where C : class
         {
-            Type type = typeof(T);
-            container.RegisterType(typeof(object), type, typeof(C).Name);  //TODO: decide if I should use FullName or just Name
+            container.RegisterType(typeof(object), typeof(T), typeof(C).FullName);
         }
     }
 }
