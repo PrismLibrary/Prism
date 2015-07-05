@@ -5,20 +5,20 @@ namespace Prism.Windows.Mvvm
 {
     public class ViewModelLocator
     {
-        public static readonly DependencyProperty AutowireViewModelProperty =
-            DependencyProperty.RegisterAttached("AutowireViewModel", typeof(bool), typeof(ViewModelLocator), new PropertyMetadata(false, OnAutowireViewModelChanged));
+        public static readonly DependencyProperty AutoWireViewModelProperty =
+            DependencyProperty.RegisterAttached("AutoWireViewModel", typeof(bool), typeof(ViewModelLocator), new PropertyMetadata(false, OnAutoWireViewModelChanged));
 
-        public static bool GetAutowireViewModel(DependencyObject obj)
+        public static bool GetAutoWireViewModel(DependencyObject obj)
         {
-            return (bool)obj.GetValue(AutowireViewModelProperty);
+            return (bool)obj.GetValue(AutoWireViewModelProperty);
         }
 
-        public static void SetAutowireViewModel(DependencyObject obj, bool value)
+        public static void SetAutoWireViewModel(DependencyObject obj, bool value)
         {
-            obj.SetValue(AutowireViewModelProperty, value);
+            obj.SetValue(AutoWireViewModelProperty, value);
         }
 
-        private static void OnAutowireViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnAutoWireViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if ((bool)e.NewValue)
                 ViewModelLocationProvider.AutoWireViewModelChanged(d, Bind);
