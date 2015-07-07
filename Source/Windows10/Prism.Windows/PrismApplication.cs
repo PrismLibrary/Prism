@@ -10,6 +10,8 @@ using Prism.Windows.Mvvm;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
+using Windows.Foundation.Metadata;
+using Windows.Phone.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -185,6 +187,12 @@ namespace Prism.Windows
                 //TODO: BDN Figure out what to do about settings pane stuff
                 //SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
 
+                // Register hardware back button event if present
+                if (ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed"))
+                {
+                    HardwareButtons.BackPressed += HardwareButtonsOnBackPressed;
+                }
+
                 // Set a factory for the ViewModelLocator to use the default resolution mechanism to construct view models
                 ViewModelLocationProvider.SetDefaultViewModelFactory(Resolve);
 
@@ -257,6 +265,22 @@ namespace Prism.Windows
                 IsSuspending = false;
             }
         }
+
+        /// <summary>
+        /// Handle hardware back button by navigating back if possible using the NavigationService
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HardwareButtonsOnBackPressed(object sender, BackPressedEventArgs e)
+        {
+            if (NavigationService.CanGoBack())
+            {
+                NavigationService.GoBack();
+                e.Handled = true;
+            }
+            else Exit();
+        }
+
 
         //TODO: BDN Figure out what to do about settings pane stuff
         /// <summary>
