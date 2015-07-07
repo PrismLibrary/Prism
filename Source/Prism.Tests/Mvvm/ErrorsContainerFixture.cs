@@ -1,34 +1,29 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Mvvm;
-using Prism.Tests.Mocks.ViewModels;
 
 namespace Prism.Tests.Mvvm
 {
-    [TestClass]
     public class ErrorsContainerFixture
     {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void WhenCreatingAnInstanceWithANullAction_ThenAnExceptionIsThrown()
         {
-            new ErrorsContainer<object>(null);
+            Assert.Throws<ArgumentNullException>(() => new ErrorsContainer<object>(null));
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenCreatingInstance_ThenHasNoErrors()
         {
             var validation = new ErrorsContainer<string>(pn => { });
 
-            Assert.IsFalse(validation.HasErrors);
-            Assert.IsFalse(validation.GetErrors("property1").Any());
+            Assert.False(validation.HasErrors);
+            Assert.False(validation.GetErrors("property1").Any());
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenSettingErrorsForPropertyWithNoErrors_ThenNotifiesChangesAndHasErrors()
         {
             List<string> validatedProperties = new List<string>();
@@ -37,12 +32,12 @@ namespace Prism.Tests.Mvvm
 
             validation.SetErrors("property1", new[] { "message"});
 
-            Assert.IsTrue(validation.HasErrors);
-            Assert.IsTrue(validation.GetErrors("property1").Contains("message"));
-            CollectionAssert.AreEqual(new[] { "property1" }, validatedProperties);
+            Assert.True(validation.HasErrors);
+            Assert.True(validation.GetErrors("property1").Contains("message"));
+            Assert.Equal(new[] { "property1" }, validatedProperties);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenSettingNoErrorsForPropertyWithNoErrors_ThenDoesNotNotifyChangesAndHasNoErrors()
         {
             List<string> validatedProperties = new List<string>();
@@ -51,12 +46,12 @@ namespace Prism.Tests.Mvvm
 
             validation.SetErrors("property1", new string[0]);
 
-            Assert.IsFalse(validation.HasErrors);
-            Assert.IsFalse(validation.GetErrors("property1").Any());
-            Assert.IsFalse(validatedProperties.Any());
+            Assert.False(validation.HasErrors);
+            Assert.False(validation.GetErrors("property1").Any());
+            Assert.False(validatedProperties.Any());
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenSettingErrorsForPropertyWithErrors_ThenNotifiesChangesAndHasErrors()
         {
             List<string> validatedProperties = new List<string>();
@@ -69,12 +64,12 @@ namespace Prism.Tests.Mvvm
 
             validation.SetErrors("property1", new[] { "message" });
 
-            Assert.IsTrue(validation.HasErrors);
-            Assert.IsTrue(validation.GetErrors("property1").Contains("message"));
-            CollectionAssert.AreEqual(new[] { "property1" }, validatedProperties);
+            Assert.True(validation.HasErrors);
+            Assert.True(validation.GetErrors("property1").Contains("message"));
+            Assert.Equal(new[] { "property1" }, validatedProperties);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenSettingNoErrorsForPropertyWithErrors_ThenNotifiesChangesAndHasNoErrors()
         {
             List<string> validatedProperties = new List<string>();
@@ -87,12 +82,12 @@ namespace Prism.Tests.Mvvm
 
             validation.SetErrors("property1", new string[0]);
 
-            Assert.IsFalse(validation.HasErrors);
-            Assert.IsFalse(validation.GetErrors("property1").Any());
-            CollectionAssert.AreEqual(new[] { "property1" }, validatedProperties);
+            Assert.False(validation.HasErrors);
+            Assert.False(validation.GetErrors("property1").Any());
+            Assert.Equal(new[] { "property1" }, validatedProperties);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenClearingErrorsForPropertyWithErrors_ThenPropertyHasNoErrors()
         {
             List<string> validatedProperties = new List<string>();
@@ -104,12 +99,12 @@ namespace Prism.Tests.Mvvm
 
             validation.ClearErrors("property1");
 
-            Assert.IsTrue(validation.HasErrors);
-            Assert.IsFalse(validation.GetErrors("property1").Any());
-            Assert.IsTrue(validation.GetErrors("property2").Any());
+            Assert.True(validation.HasErrors);
+            Assert.False(validation.GetErrors("property1").Any());
+            Assert.True(validation.GetErrors("property2").Any());
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenClearingErrorsWithNullPropertyname_ThenHasErrors()
         {
             List<string> validatedProperties = new List<string>();
@@ -120,23 +115,23 @@ namespace Prism.Tests.Mvvm
 
             validation.ClearErrors(null);
 
-            Assert.IsTrue(validation.HasErrors);
-            Assert.IsTrue(validation.GetErrors("property1").Any());
+            Assert.True(validation.HasErrors);
+            Assert.True(validation.GetErrors("property1").Any());
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenClearingErrorsForPropertyWithErrorsGeneric_ThenPropertyHasNoErrors()
         {
             var viewModel = new Prism.Tests.Mocks.ViewModels.MockValidatingViewModel();
             viewModel.MockProperty = -5;
-            Assert.IsTrue(viewModel.HasErrors);
+            Assert.True(viewModel.HasErrors);
 
             viewModel.ClearMockPropertyErrors();
 
-            Assert.IsFalse(viewModel.HasErrors);
+            Assert.False(viewModel.HasErrors);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenGettingErrorsWithPropertyName_ThenErrorsReturned()
         {
             List<string> validatedProperties = new List<string>();
@@ -147,10 +142,10 @@ namespace Prism.Tests.Mvvm
 
             var errors = validation.GetErrors("property1");
 
-            Assert.IsTrue(errors.Any());
+            Assert.True(errors.Any());
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenGettingErrorsWithNullPropertyName_ThenNoErrorsReturned()
         {
             List<string> validatedProperties = new List<string>();
@@ -161,20 +156,20 @@ namespace Prism.Tests.Mvvm
 
             var errors = validation.GetErrors(null);
 
-            Assert.IsTrue(validation.HasErrors);
-            Assert.IsTrue(errors.Count() == 0);
+            Assert.True(validation.HasErrors);
+            Assert.True(errors.Count() == 0);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenSettingsErrorsForPropertyWithNullCollection_ThenPropertyHasNoErrors()
         {
             var viewModel = new Prism.Tests.Mocks.ViewModels.MockValidatingViewModel();
             viewModel.MockProperty = 10;
-            Assert.IsFalse(viewModel.HasErrors);
+            Assert.False(viewModel.HasErrors);
 
             viewModel.SetMockPropertyErrorsWithNullCollection();
 
-            Assert.IsFalse(viewModel.HasErrors);
+            Assert.False(viewModel.HasErrors);
         }
     }
 }

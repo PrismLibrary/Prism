@@ -1,6 +1,6 @@
 using System;
 using System.Windows.Input;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Commands;
 using System.Threading.Tasks;
 using Prism.Tests.Mocks.Commands;
@@ -11,10 +11,9 @@ namespace Prism.Tests.Mvvm
     /// <summary>
     /// Summary description for DelegateCommandFixture
     /// </summary>
-    [TestClass]
     public class DelegateCommandFixture : BindableBase
     {
-        [TestMethod]
+        [Fact]
         public void WhenConstructedWithGenericTypeOfObject_InitializesValues()
         {
             // Prepare
@@ -23,10 +22,10 @@ namespace Prism.Tests.Mvvm
             var actual = new DelegateCommand<object>(param => { });
 
             // verify
-            Assert.IsNotNull(actual);
+            Assert.NotNull(actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenConstructedWithGenericTypeOfNullable_InitializesValues()
         {
             // Prepare
@@ -35,22 +34,19 @@ namespace Prism.Tests.Mvvm
             var actual = new DelegateCommand<int?>(param => { });
 
             // verify
-            Assert.IsNotNull(actual);
+            Assert.NotNull(actual);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidCastException))]
+        [Fact]
         public void WhenConstructedWithGenericTypeIsNonNullableValueType_Throws()
         {
-            // Prepare
-
-            // Act
-            var actual = new DelegateCommand<int>(param => { });
-
-            // verify
+            Assert.Throws<InvalidCastException>(() =>
+            {
+                var actual = new DelegateCommand<int>(param => { });
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ExecuteCallsPassedInExecuteDelegate()
         {
             var handlers = new DelegateHandlers();
@@ -59,10 +55,10 @@ namespace Prism.Tests.Mvvm
 
             await command.Execute(parameter);
 
-            Assert.AreSame(parameter, handlers.ExecuteParameter);
+            Assert.Same(parameter, handlers.ExecuteParameter);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanExecuteCallsPassedInCanExecuteDelegate()
         {
             var handlers = new DelegateHandlers();
@@ -72,11 +68,11 @@ namespace Prism.Tests.Mvvm
             handlers.CanExecuteReturnValue = true;
             bool retVal = command.CanExecute(parameter);
 
-            Assert.AreSame(parameter, handlers.CanExecuteParameter);
-            Assert.AreEqual(handlers.CanExecuteReturnValue, retVal);
+            Assert.Same(parameter, handlers.CanExecuteParameter);
+            Assert.Equal(handlers.CanExecuteReturnValue, retVal);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanExecuteReturnsTrueWithouthCanExecuteDelegate()
         {
             var handlers = new DelegateHandlers();
@@ -84,11 +80,11 @@ namespace Prism.Tests.Mvvm
 
             bool retVal = command.CanExecute(null);
 
-            Assert.AreEqual(true, retVal);
+            Assert.Equal(true, retVal);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void RaiseCanExecuteChangedRaisesCanExecuteChanged()
         {
             var handlers = new DelegateHandlers();
@@ -98,10 +94,10 @@ namespace Prism.Tests.Mvvm
 
             command.RaiseCanExecuteChanged();
 
-            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.True(canExecuteChangedRaised);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanRemoveCanExecuteChangedHandler()
         {
             var command = new DelegateCommand<object>((o) => { });
@@ -114,99 +110,111 @@ namespace Prism.Tests.Mvvm
             command.CanExecuteChanged -= handler;
             command.RaiseCanExecuteChanged();
 
-            Assert.IsFalse(canExecuteChangedRaised);
+            Assert.False(canExecuteChangedRaised);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldPassParameterInstanceOnExecute()
         {
             bool executeCalled = false;
             MyClass testClass = new MyClass();
             ICommand command = new DelegateCommand<MyClass>(delegate(MyClass parameter)
             {
-                Assert.AreSame(testClass, parameter);
+                Assert.Same(testClass, parameter);
                 executeCalled = true;
             });
 
             command.Execute(testClass);
-            Assert.IsTrue(executeCalled);
+            Assert.True(executeCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldPassParameterInstanceOnCanExecute()
         {
             bool canExecuteCalled = false;
             MyClass testClass = new MyClass();
             ICommand command = new DelegateCommand<MyClass>((p) => { }, delegate(MyClass parameter)
             {
-                Assert.AreSame(testClass, parameter);
+                Assert.Same(testClass, parameter);
                 canExecuteCalled = true;
                 return true;
             });
 
             command.CanExecute(testClass);
-            Assert.IsTrue(canExecuteCalled);
+            Assert.True(canExecuteCalled);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void ShouldThrowIfAllDelegatesAreNull()
         {
-            var command = new DelegateCommand<object>(null, null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = new DelegateCommand<object>(null, null);
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void ShouldThrowIfExecuteMethodDelegateNull()
         {
-            var command = new DelegateCommand<object>(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = new DelegateCommand<object>(null);
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void ShouldThrowIfCanExecuteMethodDelegateNull()
         {
-            var command = new DelegateCommand<object>((o) => { }, null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = new DelegateCommand<object>((o) => { }, null);
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void DelegateCommandBaseShouldThrowIfAllDelegatesAreNull()
         {
-            var command = new DelegateCommandMock(null, null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = new DelegateCommandMock(null, null);
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void DelegateCommandBaseShouldThrowIfExecuteMethodDelegateNull()
         {
-            var command = new DelegateCommandMock(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = new DelegateCommandMock(null);
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void DelegateCommandBaseShouldThrowIfCanExecuteMethodDelegateNull()
         {
-            var command = new DelegateCommandMock((o) => { }, null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = new DelegateCommandMock((o) => { }, null);
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public void NonGenericDelegateCommandShouldInvokeExplicitExecuteFunc()
         {
             bool executed = false;
             ICommand command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { executed = true; }));
             command.Execute(null);
-            Assert.IsTrue(executed);
+            Assert.True(executed);
         }
 
-        [TestMethod]
+        [Fact]
         public void IsActivePropertyIsFalseByDeafult()
         {
             var command = new DelegateCommand<object>(DoNothing);
-            Assert.IsFalse(command.IsActive);
+            Assert.False(command.IsActive);
         }
 
-        [TestMethod]
+        [Fact]
         public void IsActivePropertyChangeFiresEvent()
         {
             bool fired = false;
@@ -214,20 +222,20 @@ namespace Prism.Tests.Mvvm
             command.IsActiveChanged += delegate { fired = true; };
             command.IsActive = true;
 
-            Assert.IsTrue(fired);
+            Assert.True(fired);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task NonGenericDelegateCommandExecuteShouldInvokeExecuteAction()
         {
             bool executed = false;
             var command = new DelegateCommand(() => { executed = true; });
             await command.Execute();
 
-            Assert.IsTrue(executed);
+            Assert.True(executed);
         }
 
-        [TestMethod]
+        [Fact]
         public void NonGenericDelegateCommandCanExecuteShouldInvokeCanExecuteFunc()
         {
             bool invoked = false;
@@ -235,89 +243,103 @@ namespace Prism.Tests.Mvvm
 
             bool canExecute = command.CanExecute();
 
-            Assert.IsTrue(invoked);
-            Assert.IsTrue(canExecute);
+            Assert.True(invoked);
+            Assert.True(canExecute);
         }
 
-        [TestMethod]
+        [Fact]
         public void NonGenericDelegateCommandShouldDefaultCanExecuteToTrue()
         {
             var command = new DelegateCommand(() => { });
-            Assert.IsTrue(command.CanExecute());
+            Assert.True(command.CanExecute());
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NonGenericDelegateThrowsIfDelegatesAreNull()
         {
-            var command = new DelegateCommand(null, null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = new DelegateCommand(null, null);
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NonGenericDelegateCommandThrowsIfExecuteDelegateIsNull()
         {
-            var command = new DelegateCommand(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = new DelegateCommand(null);
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NonGenericDelegateCommandThrowsIfCanExecuteDelegateIsNull()
         {
-            var command = new DelegateCommand(() => { }, null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = new DelegateCommand(() => { }, null);
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public void GenericDelegateCommandFromAsyncHandlerWithExecuteFuncShouldNotBeNull()
         {
             var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => { }));
-            Assert.IsNotNull(command);
+            Assert.NotNull(command);
         }
 
-        [TestMethod]
+        [Fact]
         public void GenericDelegateCommandFromAsyncHandlerWithExecuteAndCanExecuteFuncShouldNotBeNull()
         {
             var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => { }), (o) => true);
-            Assert.IsNotNull(command);
+            Assert.NotNull(command);
         }
 
-        [TestMethod]
+        [Fact]
         public void GenericDelegateCommandFromAsyncHandlerCanExecuteShouldBeTrueByDefault()
         {
             var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => { }));
             var canExecute = command.CanExecute(null);
-            Assert.IsTrue(canExecute);
+            Assert.True(canExecute);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void GenericDelegateCommandFromAsyncHandlerWithNullExecuteFuncShouldThrow()
         {
-            var command = DelegateCommand<object>.FromAsyncHandler(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = DelegateCommand<object>.FromAsyncHandler(null);
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void GenericDelegateCommandFromAsyncHandlerWithNullCanExecuteFuncShouldThrow()
         {
-            var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => { }), null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => { }), null);
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void DelegateCommandBaseWithNullExecuteFuncShouldThrow()
         {
-            var command = DelegateCommandMock.FromAsyncHandler(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = DelegateCommandMock.FromAsyncHandler(null);
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void DelegateCommandBaseWithNullCanExecuteFuncShouldThrow()
         {
-            var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => { }), null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => { }), null);
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GenericDelegateCommandFromAsyncHandlerExecuteShouldInvokeExecuteFunc()
         {
             bool executed = false;
@@ -325,46 +347,50 @@ namespace Prism.Tests.Mvvm
             var command = DelegateCommand<object>.FromAsyncHandler(async (o) => await Task.Run(() => executed = true));
             await command.Execute(null);
 
-            Assert.IsTrue(executed);
+            Assert.True(executed);
         }
 
-        [TestMethod]
+        [Fact]
         public void DelegateCommandFromAsyncHandlerWithExecuteFuncShouldNotBeNull()
         {
             var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { }));
-            Assert.IsNotNull(command);
+            Assert.NotNull(command);
         }
 
-        [TestMethod]
+        [Fact]
         public void DelegateCommandFromAsyncHandlerCanExecuteShouldBeTrueByDefault()
         {
             var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { }));
             var canExecute = command.CanExecute();
-            Assert.IsTrue(canExecute);
+            Assert.True(canExecute);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void DelegateCommandFromAsyncHandlerWithNullExecuteFuncShouldThrow()
         {
-            var command = DelegateCommand.FromAsyncHandler(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = DelegateCommand.FromAsyncHandler(null);
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public void DelegateCommandFromAsyncHandlerWithExecuteAndCanExecuteFuncShouldNotBeNull()
         {
             var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { }), () => true);
-            Assert.IsNotNull(command);
+            Assert.NotNull(command);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void DelegateCommandFromAsyncHandlerWithNullCanExecuteFuncShouldThrow()
         {
-            var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { }), null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { }), null);
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public async Task DelegateCommandFromAsyncHandlerExecuteShouldInvokeExecuteFunc()
         {
             bool executed = false;
@@ -372,18 +398,18 @@ namespace Prism.Tests.Mvvm
             var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => executed = true));
             await command.Execute();
 
-            Assert.IsTrue(executed);
+            Assert.True(executed);
         }
 
-        [TestMethod]
+        [Fact]
         public void DelegateCommandFromAsyncHandlerCanExecuteShouldInvokeCanExecuteFunc()
         {
             var command = DelegateCommand.FromAsyncHandler(async () => await Task.Run(() => { }), () => true);
             var canExecute = command.CanExecute();
-            Assert.IsTrue(canExecute);
+            Assert.True(canExecute);
         }
 
-        [TestMethod]
+        [Fact]
         public void NonGenericDelegateCommandShouldObserveCanExecute()
         {
             bool canExecuteChangedRaised = false;
@@ -392,16 +418,16 @@ namespace Prism.Tests.Mvvm
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
-            Assert.IsFalse(canExecuteChangedRaised);
-            Assert.IsFalse(command.CanExecute(null));
+            Assert.False(canExecuteChangedRaised);
+            Assert.False(command.CanExecute(null));
 
             BoolProperty = true;
 
-            Assert.IsTrue(canExecuteChangedRaised);
-            Assert.IsTrue(command.CanExecute(null));
+            Assert.True(canExecuteChangedRaised);
+            Assert.True(command.CanExecute(null));
         }
 
-        [TestMethod]
+        [Fact]
         public void NonGenericDelegateCommandShouldObserveCanExecuteAndObserveOtherProperties()
         {
             bool canExecuteChangedRaised = false;
@@ -410,32 +436,32 @@ namespace Prism.Tests.Mvvm
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
-            Assert.IsFalse(canExecuteChangedRaised);
-            Assert.IsFalse(command.CanExecute(null));
+            Assert.False(canExecuteChangedRaised);
+            Assert.False(command.CanExecute(null));
 
             IntProperty = 10;
-            Assert.IsTrue(canExecuteChangedRaised);
-            Assert.IsFalse(command.CanExecute(null));
+            Assert.True(canExecuteChangedRaised);
+            Assert.False(command.CanExecute(null));
 
             canExecuteChangedRaised = false;
-            Assert.IsFalse(canExecuteChangedRaised);
+            Assert.False(canExecuteChangedRaised);
 
             BoolProperty = true;
 
-            Assert.IsTrue(canExecuteChangedRaised);
-            Assert.IsTrue(command.CanExecute(null));
+            Assert.True(canExecuteChangedRaised);
+            Assert.True(command.CanExecute(null));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void NonGenericDelegateCommandShouldNotObserveDuplicateCanExecute()
         {
-            ICommand command =
-                new DelegateCommand(() => { }).ObservesCanExecute((o) => BoolProperty)
-                    .ObservesCanExecute((o) => BoolProperty);
+            Assert.Throws<ArgumentException>(() =>
+            {
+                ICommand command = new DelegateCommand(() => { }).ObservesCanExecute((o) => BoolProperty).ObservesCanExecute((o) => BoolProperty);
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public void NonGenericDelegateCommandShouldObserveOneProperty()
         {
             bool canExecuteChangedRaised = false;
@@ -446,10 +472,10 @@ namespace Prism.Tests.Mvvm
 
             IntProperty = 10;
 
-            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.True(canExecuteChangedRaised);
         }
 
-        [TestMethod]
+        [Fact]
         public void NonGenericDelegateCommandShouldObserveMultipleProperties()
         {
             bool canExecuteChangedRaised = false;
@@ -460,24 +486,26 @@ namespace Prism.Tests.Mvvm
 
             IntProperty = 10;
 
-            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.True(canExecuteChangedRaised);
 
             canExecuteChangedRaised = false;
 
             BoolProperty = true;
 
-            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.True(canExecuteChangedRaised);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void NonGenericDelegateCommandShouldNotObserveDuplicateProperties()
         {
-            DelegateCommand command = new DelegateCommand(() => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => IntProperty);
+            Assert.Throws<ArgumentException>(() =>
+            {
+                DelegateCommand command = new DelegateCommand(() => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => IntProperty);
+            });
         }
 
 
-        [TestMethod]
+        [Fact]
         public void GenericDelegateCommandShouldObserveCanExecute()
         {
             bool canExecuteChangedRaised = false;
@@ -486,16 +514,16 @@ namespace Prism.Tests.Mvvm
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
-            Assert.IsFalse(canExecuteChangedRaised);
-            Assert.IsFalse(command.CanExecute(null));
+            Assert.False(canExecuteChangedRaised);
+            Assert.False(command.CanExecute(null));
 
             BoolProperty = true;
 
-            Assert.IsTrue(canExecuteChangedRaised);
-            Assert.IsTrue(command.CanExecute(null));
+            Assert.True(canExecuteChangedRaised);
+            Assert.True(command.CanExecute(null));
         }
 
-        [TestMethod]
+        [Fact]
         public void GenericDelegateCommandShouldObserveCanExecuteAndObserveOtherProperties()
         {
             bool canExecuteChangedRaised = false;
@@ -504,32 +532,34 @@ namespace Prism.Tests.Mvvm
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
-            Assert.IsFalse(canExecuteChangedRaised);
-            Assert.IsFalse(command.CanExecute(null));
+            Assert.False(canExecuteChangedRaised);
+            Assert.False(command.CanExecute(null));
 
             IntProperty = 10;
-            Assert.IsTrue(canExecuteChangedRaised);
-            Assert.IsFalse(command.CanExecute(null));
+            Assert.True(canExecuteChangedRaised);
+            Assert.False(command.CanExecute(null));
 
             canExecuteChangedRaised = false;
-            Assert.IsFalse(canExecuteChangedRaised);
+            Assert.False(canExecuteChangedRaised);
 
             BoolProperty = true;
 
-            Assert.IsTrue(canExecuteChangedRaised);
-            Assert.IsTrue(command.CanExecute(null));
+            Assert.True(canExecuteChangedRaised);
+            Assert.True(command.CanExecute(null));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void GenericDelegateCommandShouldNotObserveDuplicateCanExecute()
         {
-            ICommand command =
-                new DelegateCommand<object>((o) => { }).ObservesCanExecute((o) => BoolProperty)
-                    .ObservesCanExecute((o) => BoolProperty);
+            Assert.Throws<ArgumentException>(() =>
+            {
+                ICommand command =
+                    new DelegateCommand<object>((o) => { }).ObservesCanExecute((o) => BoolProperty)
+                        .ObservesCanExecute((o) => BoolProperty);
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public void GenericDelegateCommandShouldObserveOneProperty()
         {
             bool canExecuteChangedRaised = false;
@@ -540,10 +570,10 @@ namespace Prism.Tests.Mvvm
 
             IntProperty = 10;
 
-            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.True(canExecuteChangedRaised);
         }
 
-        [TestMethod]
+        [Fact]
         public void GenericDelegateCommandShouldObserveMultipleProperties()
         {
             bool canExecuteChangedRaised = false;
@@ -554,20 +584,22 @@ namespace Prism.Tests.Mvvm
 
             IntProperty = 10;
 
-            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.True(canExecuteChangedRaised);
 
             canExecuteChangedRaised = false;
 
             BoolProperty = true;
 
-            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.True(canExecuteChangedRaised);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void GenericDelegateCommandShouldNotObserveDuplicateProperties()
         {
-            DelegateCommand<object> command = new DelegateCommand<object>((o) => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => IntProperty);
+            Assert.Throws<ArgumentException>(() =>
+            {
+                DelegateCommand<object> command = new DelegateCommand<object>((o) => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => IntProperty);
+            });
         }
 
         private bool _boolProperty;

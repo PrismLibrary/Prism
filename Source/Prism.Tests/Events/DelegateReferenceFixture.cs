@@ -1,16 +1,12 @@
-
-
-
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Events;
 
 namespace Prism.Tests.Events
 {
-    [TestClass]
     public class DelegateReferenceFixture
     {
-        [TestMethod]
+        [Fact]
         public void KeepAlivePreventsDelegateFromBeingCollected()
         {
             var delegates = new SomeClassHandler();
@@ -19,10 +15,10 @@ namespace Prism.Tests.Events
             delegates = null;
             GC.Collect();
 
-            Assert.IsNotNull(delegateReference.Target);
+            Assert.NotNull(delegateReference.Target);
         }
 
-        [TestMethod]
+        [Fact]
         public void NotKeepAliveAllowsDelegateToBeCollected()
         {
             var delegates = new SomeClassHandler();
@@ -31,10 +27,10 @@ namespace Prism.Tests.Events
             delegates = null;
             GC.Collect();
 
-            Assert.IsNull(delegateReference.Target);
+            Assert.Null(delegateReference.Target);
         }
 
-        [TestMethod]
+        [Fact]
         public void NotKeepAliveKeepsDelegateIfStillAlive()
         {
             var delegates = new SomeClassHandler();
@@ -42,16 +38,16 @@ namespace Prism.Tests.Events
 
             GC.Collect();
 
-            Assert.IsNotNull(delegateReference.Target);
+            Assert.NotNull(delegateReference.Target);
 
             GC.KeepAlive(delegates);  //Makes delegates ineligible for garbage collection until this point (to prevent oompiler optimizations that may release the referenced object prematurely).
             delegates = null;
             GC.Collect();
 
-            Assert.IsNull(delegateReference.Target);
+            Assert.Null(delegateReference.Target);
         }
 
-        [TestMethod]
+        [Fact]
         public void TargetShouldReturnAction()
         {
             var classHandler = new SomeClassHandler();
@@ -60,10 +56,10 @@ namespace Prism.Tests.Events
             var weakAction = new DelegateReference(myAction, false);
 
             ((Action<string>)weakAction.Target)("payload");
-            Assert.AreEqual("payload", classHandler.MyActionArg);
+            Assert.Equal("payload", classHandler.MyActionArg);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldAllowCollectionOfOriginalDelegate()
         {
             var classHandler = new SomeClassHandler();
@@ -74,13 +70,13 @@ namespace Prism.Tests.Events
             var originalAction = new WeakReference(myAction);
             myAction = null;
             GC.Collect();
-            Assert.IsFalse(originalAction.IsAlive);
+            Assert.False(originalAction.IsAlive);
 
             ((Action<string>)weakAction.Target)("payload");
-            Assert.AreEqual("payload", classHandler.MyActionArg);
+            Assert.Equal("payload", classHandler.MyActionArg);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldReturnNullIfTargetNotAlive()
         {
             SomeClassHandler handler = new SomeClassHandler();
@@ -90,21 +86,21 @@ namespace Prism.Tests.Events
 
             handler = null;
             GC.Collect();
-            Assert.IsFalse(weakHandlerRef.IsAlive);
+            Assert.False(weakHandlerRef.IsAlive);
 
-            Assert.IsNull(action.Target);
+            Assert.Null(action.Target);
         }
 
-        [TestMethod]
+        [Fact]
         public void WeakDelegateWorksWithStaticMethodDelegates()
         {
             var action = new DelegateReference((Action)SomeClassHandler.StaticMethod, false);
 
-            Assert.IsNotNull(action.Target);
+            Assert.NotNull(action.Target);
         }
 
         //todo: fix
-        //[TestMethod]
+        //[Fact]
         //public void NullDelegateThrows()
         //{
         //    Assert.ThrowsException<ArgumentNullException>(() =>

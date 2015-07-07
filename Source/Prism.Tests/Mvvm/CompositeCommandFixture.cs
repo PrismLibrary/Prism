@@ -1,26 +1,23 @@
-
-
 using System;
 using System.Windows.Input;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Commands;
 
 namespace Prism.Tests.Mvvm
 {
-    [TestClass]
     public class CompositeCommandFixture
     {
-        [TestMethod]
+        [Fact]
         public void RegisterACommandShouldRaiseCanExecuteEvent()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
             TestCommand testCommand = new TestCommand();
 
             multiCommand.RegisterCommand(new TestCommand());
-            Assert.IsTrue(multiCommand.CanExecuteChangedRaised);
+            Assert.True(multiCommand.CanExecuteChangedRaised);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldDelegateExecuteToSingleRegistrant()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
@@ -28,12 +25,12 @@ namespace Prism.Tests.Mvvm
 
             multiCommand.RegisterCommand(testCommand);
 
-            Assert.IsFalse(testCommand.ExecuteCalled);
+            Assert.False(testCommand.ExecuteCalled);
             multiCommand.Execute(null);
-            Assert.IsTrue(testCommand.ExecuteCalled);
+            Assert.True(testCommand.ExecuteCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldDelegateExecuteToMultipleRegistrants()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
@@ -43,14 +40,14 @@ namespace Prism.Tests.Mvvm
             multiCommand.RegisterCommand(testCommandOne);
             multiCommand.RegisterCommand(testCommandTwo);
 
-            Assert.IsFalse(testCommandOne.ExecuteCalled);
-            Assert.IsFalse(testCommandTwo.ExecuteCalled);
+            Assert.False(testCommandOne.ExecuteCalled);
+            Assert.False(testCommandTwo.ExecuteCalled);
             multiCommand.Execute(null);
-            Assert.IsTrue(testCommandOne.ExecuteCalled);
-            Assert.IsTrue(testCommandTwo.ExecuteCalled);
+            Assert.True(testCommandOne.ExecuteCalled);
+            Assert.True(testCommandTwo.ExecuteCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldDelegateCanExecuteToSingleRegistrant()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
@@ -58,12 +55,12 @@ namespace Prism.Tests.Mvvm
 
             multiCommand.RegisterCommand(testCommand);
 
-            Assert.IsFalse(testCommand.CanExecuteCalled);
+            Assert.False(testCommand.CanExecuteCalled);
             multiCommand.CanExecute(null);
-            Assert.IsTrue(testCommand.CanExecuteCalled);
+            Assert.True(testCommand.CanExecuteCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldDelegateCanExecuteToMultipleRegistrants()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
@@ -73,14 +70,14 @@ namespace Prism.Tests.Mvvm
             multiCommand.RegisterCommand(testCommandOne);
             multiCommand.RegisterCommand(testCommandTwo);
 
-            Assert.IsFalse(testCommandOne.CanExecuteCalled);
-            Assert.IsFalse(testCommandTwo.CanExecuteCalled);
+            Assert.False(testCommandOne.CanExecuteCalled);
+            Assert.False(testCommandTwo.CanExecuteCalled);
             multiCommand.CanExecute(null);
-            Assert.IsTrue(testCommandOne.CanExecuteCalled);
-            Assert.IsTrue(testCommandTwo.CanExecuteCalled);
+            Assert.True(testCommandOne.CanExecuteCalled);
+            Assert.True(testCommandTwo.CanExecuteCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanExecuteShouldReturnTrueIfAllRegistrantsTrue()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
@@ -90,10 +87,10 @@ namespace Prism.Tests.Mvvm
             multiCommand.RegisterCommand(testCommandOne);
             multiCommand.RegisterCommand(testCommandTwo);
 
-            Assert.IsTrue(multiCommand.CanExecute(null));
+            Assert.True(multiCommand.CanExecute(null));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanExecuteShouldReturnFalseIfASingleRegistrantsFalse()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
@@ -103,64 +100,66 @@ namespace Prism.Tests.Mvvm
             multiCommand.RegisterCommand(testCommandOne);
             multiCommand.RegisterCommand(testCommandTwo);
 
-            Assert.IsFalse(multiCommand.CanExecute(null));
+            Assert.False(multiCommand.CanExecute(null));
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldReraiseCanExecuteChangedEvent()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
             TestCommand testCommandOne = new TestCommand() { CanExecuteValue = true };
 
-            Assert.IsFalse(multiCommand.CanExecuteChangedRaised);
+            Assert.False(multiCommand.CanExecuteChangedRaised);
             multiCommand.RegisterCommand(testCommandOne);
             multiCommand.CanExecuteChangedRaised = false;
 
             testCommandOne.FireCanExecuteChanged();
-            Assert.IsTrue(multiCommand.CanExecuteChangedRaised);
+            Assert.True(multiCommand.CanExecuteChangedRaised);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldReraiseCanExecuteChangedEventAfterCollect()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
             TestCommand testCommandOne = new TestCommand() { CanExecuteValue = true };
 
-            Assert.IsFalse(multiCommand.CanExecuteChangedRaised);
+            Assert.False(multiCommand.CanExecuteChangedRaised);
             multiCommand.RegisterCommand(testCommandOne);
             multiCommand.CanExecuteChangedRaised = false;
 
             GC.Collect();
 
             testCommandOne.FireCanExecuteChanged();
-            Assert.IsTrue(multiCommand.CanExecuteChangedRaised);
+            Assert.True(multiCommand.CanExecuteChangedRaised);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldReraiseDelegateCommandCanExecuteChangedEventAfterCollect()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
             DelegateCommand<object> delegateCommand = new DelegateCommand<object>(delegate { });
 
-            Assert.IsFalse(multiCommand.CanExecuteChangedRaised);
+            Assert.False(multiCommand.CanExecuteChangedRaised);
             multiCommand.RegisterCommand(delegateCommand);
             multiCommand.CanExecuteChangedRaised = false;
 
             GC.Collect();
 
             delegateCommand.RaiseCanExecuteChanged();
-            Assert.IsTrue(multiCommand.CanExecuteChangedRaised);
+            Assert.True(multiCommand.CanExecuteChangedRaised);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void UnregisteringCommandWithNullThrows()
         {
-            var compositeCommand = new CompositeCommand();
-            compositeCommand.UnregisterCommand(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var compositeCommand = new CompositeCommand();
+                compositeCommand.UnregisterCommand(null);
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public void UnregisterCommandRemovesFromExecuteDelegation()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
@@ -169,12 +168,12 @@ namespace Prism.Tests.Mvvm
             multiCommand.RegisterCommand(testCommandOne);
             multiCommand.UnregisterCommand(testCommandOne);
 
-            Assert.IsFalse(testCommandOne.ExecuteCalled);
+            Assert.False(testCommandOne.ExecuteCalled);
             multiCommand.Execute(null);
-            Assert.IsFalse(testCommandOne.ExecuteCalled);
+            Assert.False(testCommandOne.ExecuteCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void UnregisterCommandShouldRaiseCanExecuteEvent()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
@@ -184,10 +183,10 @@ namespace Prism.Tests.Mvvm
             multiCommand.CanExecuteChangedRaised = false;
             multiCommand.UnregisterCommand(testCommandOne);
 
-            Assert.IsTrue(multiCommand.CanExecuteChangedRaised);
+            Assert.True(multiCommand.CanExecuteChangedRaised);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExecuteDoesNotThrowWhenAnExecuteCommandModifiesTheCommandsCollection()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
@@ -199,11 +198,11 @@ namespace Prism.Tests.Mvvm
 
             multiCommand.Execute(null);
 
-            Assert.IsTrue(commandOne.ExecutedCalled);
-            Assert.IsTrue(commandTwo.ExecutedCalled);
+            Assert.True(commandOne.ExecutedCalled);
+            Assert.True(commandTwo.ExecutedCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void UnregisterCommandDisconnectsCanExecuteChangedDelegate()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
@@ -213,10 +212,10 @@ namespace Prism.Tests.Mvvm
             multiCommand.UnregisterCommand(testCommandOne);
             multiCommand.CanExecuteChangedRaised = false;
             testCommandOne.FireCanExecuteChanged();
-            Assert.IsFalse(multiCommand.CanExecuteChangedRaised);
+            Assert.False(multiCommand.CanExecuteChangedRaised);
         }
 
-        [TestMethod]
+        [Fact]
         public void UnregisterCommandDisconnectsIsActiveChangedDelegate()
         {
             CompositeCommand activeAwareCommand = new CompositeCommand(true);
@@ -225,31 +224,34 @@ namespace Prism.Tests.Mvvm
             activeAwareCommand.RegisterCommand(commandOne);
             activeAwareCommand.RegisterCommand(commandTwo);
 
-            Assert.IsTrue(activeAwareCommand.CanExecute(null));
+            Assert.True(activeAwareCommand.CanExecute(null));
 
             activeAwareCommand.UnregisterCommand(commandOne);
 
-            Assert.IsFalse(activeAwareCommand.CanExecute(null));
+            Assert.False(activeAwareCommand.CanExecute(null));
         }
 
-        [TestMethod, ExpectedException(typeof(DivideByZeroException))]
+        [Fact]
         public void ShouldBubbleException()
         {
-            TestableCompositeCommand multiCommand = new TestableCompositeCommand();
-            BadDivisionCommand testCommand = new BadDivisionCommand();
+            Assert.Throws<DivideByZeroException>(() =>
+            {
+                TestableCompositeCommand multiCommand = new TestableCompositeCommand();
+                BadDivisionCommand testCommand = new BadDivisionCommand();
 
-            multiCommand.RegisterCommand(testCommand);
-            multiCommand.Execute(null);
+                multiCommand.RegisterCommand(testCommand);
+                multiCommand.Execute(null);
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public void CanExecuteShouldReturnFalseWithNoCommandsRegistered()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
-            Assert.IsFalse(multiCommand.CanExecute(null));
+            Assert.False(multiCommand.CanExecute(null));
         }
 
-        [TestMethod]
+        [Fact]
         public void MultiDispatchCommandExecutesActiveRegisteredCommands()
         {
             CompositeCommand activeAwareCommand = new CompositeCommand();
@@ -259,10 +261,10 @@ namespace Prism.Tests.Mvvm
 
             activeAwareCommand.Execute(null);
 
-            Assert.IsTrue(command.WasExecuted);
+            Assert.True(command.WasExecuted);
         }
 
-        [TestMethod]
+        [Fact]
         public void MultiDispatchCommandDoesNotExecutesInactiveRegisteredCommands()
         {
             CompositeCommand activeAwareCommand = new CompositeCommand(true);
@@ -272,10 +274,10 @@ namespace Prism.Tests.Mvvm
 
             activeAwareCommand.Execute(null);
 
-            Assert.IsFalse(command.WasExecuted);
+            Assert.False(command.WasExecuted);
         }
 
-        [TestMethod]
+        [Fact]
         public void DispatchCommandDoesNotIncludeInactiveRegisteredCommandInVoting()
         {
             CompositeCommand activeAwareCommand = new CompositeCommand(true);
@@ -284,19 +286,19 @@ namespace Prism.Tests.Mvvm
             command.IsValid = true;
             command.IsActive = false;
 
-            Assert.IsFalse(activeAwareCommand.CanExecute(null), "Registered Click is inactive so should not participate in CanExecute vote");
+            Assert.False(activeAwareCommand.CanExecute(null), "Registered Click is inactive so should not participate in CanExecute vote");
 
             command.IsActive = true;
 
-            Assert.IsTrue(activeAwareCommand.CanExecute(null));
+            Assert.True(activeAwareCommand.CanExecute(null));
 
             command.IsValid = false;
 
-            Assert.IsFalse(activeAwareCommand.CanExecute(null));
+            Assert.False(activeAwareCommand.CanExecute(null));
 
         }
 
-        [TestMethod]
+        [Fact]
         public void DispatchCommandShouldIgnoreInactiveCommandsInCanExecuteVote()
         {
             CompositeCommand activeAwareCommand = new CompositeCommand(true);
@@ -306,10 +308,10 @@ namespace Prism.Tests.Mvvm
             activeAwareCommand.RegisterCommand(commandOne);
             activeAwareCommand.RegisterCommand(commandTwo);
 
-            Assert.IsTrue(activeAwareCommand.CanExecute(null));
+            Assert.True(activeAwareCommand.CanExecute(null));
         }
 
-        [TestMethod]
+        [Fact]
         public void ActivityCausesActiveAwareCommandToRequeryCanExecute()
         {
             CompositeCommand activeAwareCommand = new CompositeCommand(true);
@@ -323,12 +325,12 @@ namespace Prism.Tests.Mvvm
                                                             globalCanExecuteChangeFired = true;
                                                         };
 
-            Assert.IsFalse(globalCanExecuteChangeFired);
+            Assert.False(globalCanExecuteChangeFired);
             command.IsActive = false;
-            Assert.IsTrue(globalCanExecuteChangeFired);
+            Assert.True(globalCanExecuteChangeFired);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldNotMonitorActivityIfUseActiveMonitoringFalse()
         {
             var mockCommand = new MockActiveAwareCommand();
@@ -344,14 +346,14 @@ namespace Prism.Tests.Mvvm
 
             mockCommand.IsActive = false;
 
-            Assert.IsFalse(canExecuteChangedRaised);
+            Assert.False(canExecuteChangedRaised);
 
             nonActiveAwareCompositeCommand.Execute(null);
 
-            Assert.IsTrue(mockCommand.WasExecuted);
+            Assert.True(mockCommand.WasExecuted);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldRemoveCanExecuteChangedHandler()
         {
             bool canExecuteChangedRaised = false;
@@ -365,16 +367,16 @@ namespace Prism.Tests.Mvvm
             compositeCommand.CanExecuteChanged += handler;
             commmand.RaiseCanExecuteChanged();
 
-            Assert.IsTrue(canExecuteChangedRaised);
+            Assert.True(canExecuteChangedRaised);
 
             canExecuteChangedRaised = false;
             compositeCommand.CanExecuteChanged -= handler;
             commmand.RaiseCanExecuteChanged();
 
-            Assert.IsFalse(canExecuteChangedRaised);
+            Assert.False(canExecuteChangedRaised);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldIgnoreChangesToIsActiveDuringExecution()
         {
             var firstCommand = new MockActiveAwareCommand { IsActive = true };
@@ -391,38 +393,44 @@ namespace Prism.Tests.Mvvm
 
             compositeCommand.Execute(null);
 
-            Assert.IsTrue(secondCommand.WasExecuted);
+            Assert.True(secondCommand.WasExecuted);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void RegisteringCommandInItselfThrows()
         {
-            var compositeCommand = new CompositeCommand();
-
-            compositeCommand.RegisterCommand(compositeCommand);
+            Assert.Throws<ArgumentException>(() =>
+            {
+                var compositeCommand = new CompositeCommand();
+                compositeCommand.RegisterCommand(compositeCommand);
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void RegisteringCommandWithNullThrows()
         {
-            var compositeCommand = new CompositeCommand();
-            compositeCommand.RegisterCommand(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var compositeCommand = new CompositeCommand();
+                compositeCommand.RegisterCommand(null);
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Fact]
         public void RegisteringCommandTwiceThrows()
         {
-            var compositeCommand = new CompositeCommand();
-            var duplicateCommand = new TestCommand();
-            compositeCommand.RegisterCommand(duplicateCommand);
+            Assert.Throws<InvalidOperationException>(() =>
+            {
+                var compositeCommand = new CompositeCommand();
+                var duplicateCommand = new TestCommand();
+                compositeCommand.RegisterCommand(duplicateCommand);
 
-            compositeCommand.RegisterCommand(duplicateCommand);
+                compositeCommand.RegisterCommand(duplicateCommand);
+            });
+
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldGetRegisteredCommands()
         {
             var firstCommand = new TestCommand();
@@ -434,33 +442,7 @@ namespace Prism.Tests.Mvvm
 
             var commands = compositeCommand.RegisteredCommands;
 
-            Assert.IsTrue(commands.Count > 0);
-        }
-
-        //[TestMethod]
-        //public void ShouldKeepWeakReferenceToOnCanExecuteChangedHandlers()
-        //{
-        //    var command = new TestableCompositeCommand();
-
-        //    var handlers = new CanExecutChangeHandler();
-        //    var weakHandlerRef = new WeakReference(handlers);
-        //    command.CanExecuteChanged += handlers.CanExecuteChangeHandler;
-        //    handlers = null;
-
-        //    GC.Collect();
-
-        //    Assert.IsFalse(weakHandlerRef.IsAlive);
-        //    Assert.IsNotNull(command); // Only here to ensure command survives optimizations and the GC.Collect
-        //}
-
-        private class CanExecutChangeHandler
-        {
-            private int callCount = 0;
-
-            public void CanExecuteChangeHandler(object sender, EventArgs e)
-            {
-                callCount++;
-            }
+            Assert.True(commands.Count > 0);
         }
     }
 

@@ -1,17 +1,13 @@
-
-
-
 using System;
 using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Events;
 
 namespace Prism.Tests.Events
 {
-    [TestClass]
     public class DispatcherEventSubscriptionFixture
     {
-        [TestMethod]
+        [Fact]
         public void ShouldCallInvokeOnDispatcher()
         {
             DispatcherEventSubscription<object> eventSubscription = null;
@@ -34,10 +30,10 @@ namespace Prism.Tests.Events
 
             eventSubscription.GetExecutionStrategy().Invoke(new object[0]);
 
-            Assert.IsTrue(mockSyncContext.InvokeCalled);
+            Assert.True(mockSyncContext.InvokeCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldPassParametersCorrectly()
         {
             IDelegateReference actionDelegateReference = new MockDelegateReference()
@@ -58,13 +54,13 @@ namespace Prism.Tests.Events
             DispatcherEventSubscription<object> eventSubscription = new DispatcherEventSubscription<object>(actionDelegateReference, filterDelegateReference, mockSyncContext);
 
             var executionStrategy = eventSubscription.GetExecutionStrategy();
-            Assert.IsNotNull(executionStrategy);
+            Assert.NotNull(executionStrategy);
 
             object argument1 = new object();
 
             executionStrategy.Invoke(new[] { argument1 });
 
-            Assert.AreSame(argument1, mockSyncContext.InvokeArg);
+            Assert.Same(argument1, mockSyncContext.InvokeArg);
         }
     }
 

@@ -1,47 +1,40 @@
-
-
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Mvvm;
+using Xunit;
 
 namespace Prism.Tests.Mvvm
 {
-    [TestClass]
     public class PropertySupportFixture
     {
-        [TestMethod]
+        [Fact]
         public virtual void WhenExtractingNameFromAValidPropertyExpression_ThenPropertyNameReturned()
         {
             var propertyName = PropertySupport.ExtractPropertyName(() => this.InstanceProperty);
-            Assert.AreEqual("InstanceProperty", propertyName);
+            Assert.Equal("InstanceProperty", propertyName);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void WhenExpressionRepresentsAStaticProperty_ThenExceptionThrown()
         {
-            PropertySupport.ExtractPropertyName(() => StaticProperty);
+            Assert.Throws<ArgumentException>(() => PropertySupport.ExtractPropertyName(() => StaticProperty));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void WhenExpressionIsNull_ThenAnExceptionIsThrown()
         {
-            PropertySupport.ExtractPropertyName<int>(null);
+            Assert.Throws<ArgumentNullException>(() => PropertySupport.ExtractPropertyName<int>(null));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void WhenExpressionRepresentsANonMemberAccessExpression_ThenAnExceptionIsThrown()
         {
-            PropertySupport.ExtractPropertyName(() => this.GetHashCode());
+            Assert.Throws<ArgumentException>(() => PropertySupport.ExtractPropertyName(() => GetHashCode()));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void WhenExpressionRepresentsANonPropertyMemberAccessExpression_ThenAnExceptionIsThrown()
         {
-            PropertySupport.ExtractPropertyName(() => this.InstanceField);
+            Assert.Throws<ArgumentException>(() => PropertySupport.ExtractPropertyName(() => InstanceField));
         }
 
         public static int StaticProperty { get; set; }

@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Mvvm;
 using System.Reflection;
 using Prism.Tests.Mocks.Views;
@@ -7,10 +7,9 @@ using Prism.Tests.Mocks.ViewModels;
 
 namespace Prism.Tests.Mvvm
 {
-    [TestClass]
     public class ViewModelLocationProviderFixture
     {
-        [TestMethod]
+        [Fact]
         public void ShouldLocateViewModelWithDefaultSettings()
         {
             ResetViewModelLocationProvider();
@@ -19,13 +18,13 @@ namespace Prism.Tests.Mvvm
 
             ViewModelLocationProvider.AutoWireViewModelChanged(view, (v, vm) =>
             {
-                Assert.IsNotNull(v);
-                Assert.IsNotNull(vm);
-                Assert.IsInstanceOfType(vm, typeof(MockViewModel));
+                Assert.NotNull(v);
+                Assert.NotNull(vm);
+                Assert.IsType<MockViewModel>(vm);
             });
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldLocateViewModelWithDefaultSettingsForViewsThatEndWithView()
         {
             ResetViewModelLocationProvider();
@@ -34,13 +33,13 @@ namespace Prism.Tests.Mvvm
 
             ViewModelLocationProvider.AutoWireViewModelChanged(view, (v, vm) =>
             {
-                Assert.IsNotNull(v);
-                Assert.IsNotNull(vm);
-                Assert.IsInstanceOfType(vm, typeof(MockViewModel));
+                Assert.NotNull(v);
+                Assert.NotNull(vm);
+                Assert.IsType<MockViewModel>(vm);
             });
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldUseCustomDefaultViewModelFactoryWhenSet()
         {
             ResetViewModelLocationProvider();
@@ -52,13 +51,13 @@ namespace Prism.Tests.Mvvm
 
             ViewModelLocationProvider.AutoWireViewModelChanged(view, (v, vm) =>
             {
-                Assert.IsNotNull(v);
-                Assert.IsNotNull(vm);
-                Assert.IsInstanceOfType(vm, mockObject.GetType());
-            }); 
+                Assert.NotNull(v);
+                Assert.NotNull(vm);
+                Assert.IsType(mockObject.GetType(), vm);
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldUseCustomDefaultViewTypeToViewModelTypeResolverWhenSet()
         {
             ResetViewModelLocationProvider();
@@ -69,13 +68,13 @@ namespace Prism.Tests.Mvvm
 
             ViewModelLocationProvider.AutoWireViewModelChanged(view, (v, vm) =>
             {
-                Assert.IsNotNull(v);
-                Assert.IsNotNull(vm);
-                Assert.IsInstanceOfType(vm, typeof(ViewModelLocationProviderFixture));
-            });            
+                Assert.NotNull(v);
+                Assert.NotNull(vm);
+                Assert.IsType<ViewModelLocationProviderFixture>(vm);
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldFailWhenCustomDefaultViewTypeToViewModelTypeResolverIsNull()
         {
             ResetViewModelLocationProvider();
@@ -86,12 +85,12 @@ namespace Prism.Tests.Mvvm
 
             ViewModelLocationProvider.AutoWireViewModelChanged(view, (v, vm) =>
             {
-                Assert.IsNotNull(v);
-                Assert.IsNull(vm);
+                Assert.NotNull(v);
+                Assert.Null(vm);
             });
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldUseCustomFactoryWhenSet()
         {
             ResetViewModelLocationProvider();
@@ -103,9 +102,9 @@ namespace Prism.Tests.Mvvm
 
             ViewModelLocationProvider.AutoWireViewModelChanged(view, (v, vm) =>
                 {
-                    Assert.IsNotNull(v);
-                    Assert.IsNotNull(vm);
-                    Assert.AreEqual(viewModel, vm);
+                    Assert.NotNull(v);
+                    Assert.NotNull(vm);
+                    Assert.Equal(viewModel, vm);
                 });
         }
 

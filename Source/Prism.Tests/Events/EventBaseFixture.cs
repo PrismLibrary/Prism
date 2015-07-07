@@ -1,16 +1,12 @@
-
-
-
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Events;
 
 namespace Prism.Tests.Events
 {
-    [TestClass]
     public class EventBaseFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanPublishSimpleEvents()
         {
             var eventBase = new TestableEventBase();
@@ -24,11 +20,11 @@ namespace Prism.Tests.Events
 
             eventBase.Publish();
 
-            Assert.IsTrue(eventSubscription.GetPublishActionCalled);
-            Assert.IsTrue(eventPublished);
+            Assert.True(eventSubscription.GetPublishActionCalled);
+            Assert.True(eventPublished);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanHaveMultipleSubscribersAndRaiseCustomEvent()
         {
             var customEvent = new TestableEventBase();
@@ -45,14 +41,14 @@ namespace Prism.Tests.Events
 
             customEvent.Publish(payload);
 
-            Assert.AreEqual(1, received1.Length);
-            Assert.AreSame(received1[0], payload);
+            Assert.Equal(1, received1.Length);
+            Assert.Same(received1[0], payload);
 
-            Assert.AreEqual(1, received2.Length);
-            Assert.AreSame(received2[0], payload);
+            Assert.Equal(1, received2.Length);
+            Assert.Same(received2[0], payload);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldSubscribeAndUnsubscribe()
         {
             var eventBase = new TestableEventBase();
@@ -60,15 +56,15 @@ namespace Prism.Tests.Events
             var eventSubscription = new MockEventSubscription();
             eventBase.Subscribe(eventSubscription);
 
-            Assert.IsNotNull(eventSubscription.SubscriptionToken);
-            Assert.IsTrue(eventBase.Contains(eventSubscription.SubscriptionToken));
+            Assert.NotNull(eventSubscription.SubscriptionToken);
+            Assert.True(eventBase.Contains(eventSubscription.SubscriptionToken));
 
             eventBase.Unsubscribe(eventSubscription.SubscriptionToken);
 
-            Assert.IsFalse(eventBase.Contains(eventSubscription.SubscriptionToken));
+            Assert.False(eventBase.Contains(eventSubscription.SubscriptionToken));
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenEventSubscriptionActionIsNullPruneItFromList()
         {
             var eventBase = new TestableEventBase();
@@ -80,7 +76,7 @@ namespace Prism.Tests.Events
 
             eventBase.Publish();
 
-            Assert.IsFalse(eventBase.Contains(token));
+            Assert.False(eventBase.Contains(token));
         }
 
 

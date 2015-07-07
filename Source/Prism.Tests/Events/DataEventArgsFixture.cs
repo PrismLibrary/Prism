@@ -1,28 +1,24 @@
-
-
-
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Events;
 
 namespace Prism.Tests.Events
 {
-    [TestClass]
     public class DataEventArgsFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanPassData()
         {
             DataEventArgs<int> e = new DataEventArgs<int>(32);
-            Assert.AreEqual(32, e.Value);
+            Assert.Equal(32, e.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void IsEventArgs()
         {
             DataEventArgs<string> dea = new DataEventArgs<string>("");
             EventArgs ea = dea as EventArgs;
-            Assert.IsNotNull(ea);
+            Assert.NotNull(ea);
         }
     }
 }
