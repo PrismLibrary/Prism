@@ -1,4 +1,3 @@
-
 using Prism.Properties;
 using System;
 using System.Collections.Generic;
