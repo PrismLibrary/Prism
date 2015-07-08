@@ -111,6 +111,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PrismUnityApplication.cs" />
+    <Compile Include="PrismUnityExtension.cs" />
+    <Compile Include="UnityContainerHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

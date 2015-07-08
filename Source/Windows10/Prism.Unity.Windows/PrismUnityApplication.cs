@@ -1,88 +1,70 @@
 ﻿using System;
-using Windows.ApplicationModel.Activation;
-using Windows.UI.Xaml;
+using System.Globalization;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
+using Prism.Events;
+using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Windows;
+using Windows.ApplicationModel.Activation;
+using Windows.UI.Xaml;
 
 namespace Prism.Unity.Windows
 {
     /// <summary>
     /// Provides the base class for the Windows Store Application object which
-    /// includes the automatic creation and wiring of the Unity container.
+    /// includes the automatic creation and wiring of the Unity container and 
+    /// the bootstrapping process for Prism services in the container.
     /// </summary>
-    public abstract class PrismUnityApplication : PrismApplication
+    public abstract class PrismUnityApplication : PrismApplication, IDisposable
     {
-        /// <summary>
-		/// Get the IoC Unity Container 
-		/// </summary>
-        public IUnityContainer Container { get; } = new UnityContainer();
-
-        /// <summary>
-		/// Creates a new instance of PrismUnityApplication.
-		/// </summary>
+        #region Constructor
         public PrismUnityApplication()
         {
-            // Register the unity container
-            Container.RegisterInstance(Container);
-
-            // Set up the global locator service
-            ServiceLocator.SetLocatorProvider(() => new UnityServiceLocator(Container));
-
-            // Allow the implementation class the opportunity to register
-            // types early in the process. Do not allow exceptions to abort
-            // the object creation.
-            try
+            Logger = CreateLogger();
+            if (Logger == null)
             {
-                OnEarlyContainerRegistration(Container);
+                throw new InvalidOperationException("Logger Facade is null");
             }
-            catch (Exception ex)
+
+            Logger.Log("Created Logger", Category.Debug, Priority.Low);
+
+            Container = CreateContainer();
+            if (Container == null)
             {
-                OnUnhandledRegistrationException(ex);
+                throw new InvalidOperationException("Unity container is null");
             }
         }
+        #endregion
 
-        public static new PrismUnityApplication Current => (PrismUnityApplication)Application.Current;
-
+        #region Properties
+        /// <summary>
+        /// Allow strongly typed access to the Application as a global
+        /// </summary>
+        public static new PrismUnityApplication Current => (PrismUnityApplication) Application.Current;
 
         /// <summary>
-        /// Implements and seals the OnInitialize method. The implementation
-        /// of this method calls a new OnApplcationInitialize method.
+        /// Get the IoC Unity Container 
         /// </summary>
-        /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
-        protected override sealed void OnInitialize(IActivatedEventArgs args)
-        {
-            try
-            {
-                // Allow the implementing class the opportunity to
-                // register types. Do not allow exceptions to abort
-                // the initialization process.
-                try
-                {
-                    OnContainerRegistration(Container);
-                }
-                catch (Exception ex)
-                {
-                    OnUnhandledRegistrationException(ex);
-                }
-
-                // Set the ViewModel Locator service to use the Unity Container
-                ViewModelLocationProvider.SetDefaultViewModelFactory(viewModelType => ServiceLocator.Current.GetInstance(viewModelType));
-            }
-            finally
-            {
-                OnApplicationInitialize(args);
-            }
-        }
+        public IUnityContainer Container { get; private set; }
 
         /// <summary>
-        /// Override this method with the initialization logic of your application. Here you can initialize 
-        /// services, repositories, and so on.
+        /// Gets the <see cref="ILoggerFacade"/> for the application.
+        /// </summary>
+        /// <value>A <see cref="ILoggerFacade"/> instance.</value>
+        protected ILoggerFacade Logger { get; set; }
+        #endregion
+
+        #region Overrides
+        /// <summary>
+        /// Implements and seals the OnInitialize method to configure the container.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
-        protected virtual void OnApplicationInitialize(IActivatedEventArgs args)
+        protected override void OnInitialize(IActivatedEventArgs args)
         {
+            ConfigureContainer();
+
+            ConfigureViewModelLocator();
         }
 
         /// <summary>
@@ -92,34 +74,110 @@ namespace Prism.Unity.Windows
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>A concrete instance of the specified type.</returns>
-        protected override sealed object Resolve(Type type) => ServiceLocator.Current.GetInstance<IUnityContainer>().Resolve(type);
-
-        /// <summary>
-        /// Override this method with code to initialize your container. This method will contain calls
-        /// to the Unity container's RegisterType and RegisterInstance methods for example.
-        /// </summary>
-        /// <param name="container">The instance of the unity container that should be used for registering types.</param>
-        protected virtual void OnContainerRegistration(IUnityContainer container)
+        protected override sealed object Resolve(Type type)
         {
+            return Container.Resolve(type);
+        }
+        #endregion
+
+        #region Protected Methods
+        /// <summary>
+        /// Create the <see cref="ILoggerFacade" /> used by the bootstrapper.
+        /// </summary>
+        /// <remarks>
+        /// The base implementation returns a new DebugLogger.
+        /// </remarks>
+        protected virtual ILoggerFacade CreateLogger()
+        {
+            return new DebugLogger();
         }
 
         /// <summary>
-        /// Override this method to register types in the container prior to any other code
-        /// being run. This is especially useful when types need to be registered for application
-        /// session state to be restored. Certain types may not be available or should not be registered
-        /// in this method. For example, registering the Pub/Sub 
+        /// Creates the <see cref="IUnityContainer"/> that will be used as the default container.
         /// </summary>
-        /// <param name="container">The instance of the unity container that should be used for registering types.</param>
-        protected virtual void OnEarlyContainerRegistration(IUnityContainer container)
+        /// <returns>A new instance of <see cref="IUnityContainer"/>.</returns>
+        protected virtual IUnityContainer CreateContainer()
         {
+            return new UnityContainer();
         }
 
         /// <summary>
-        /// Override this method to catch any unhandled exceptions that occur during the registration process.
+        /// Configures the <see cref="ViewModelLocator"/> used by Prism.
         /// </summary>
-        /// <param name="ex">The exception that was thrown.</param>
-        protected virtual void OnUnhandledRegistrationException(Exception ex)
+        protected virtual void ConfigureViewModelLocator()
         {
+            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => Container.Resolve(type));
         }
+
+        protected virtual void ConfigureContainer()
+        {
+            // Register the unity container with itself so that it can be dependency injected
+            // for programmatic registration and resolving of types
+            Container.RegisterInstance(Container);
+
+            // Set up the global locator service for any Prism framework code that needs DI 
+            // without being coupled to Unity
+            Logger.Log("Setting up ServiceLocator", Category.Debug, Priority.Low);
+            var serviceLocator = new UnityServiceLocator(Container);
+            ServiceLocator.SetLocatorProvider(() => serviceLocator);
+            Container.RegisterInstance<IServiceLocator>(serviceLocator);
+
+            Logger.Log("Adding UnityExtensions to container", Category.Debug, Priority.Low);
+            Container.AddNewExtension<PrismUnityExtension>();
+
+            Logger.Log("Registering Prism services with container", Category.Debug, Priority.Low);
+            Container.RegisterInstance<ILoggerFacade>(Logger);
+            RegisterTypeIfMissing(typeof(IEventAggregator), typeof(EventAggregator), true);
+        }
+
+        /// <summary>
+        /// Registers a type in the container only if that type was not already registered.
+        /// </summary>
+        /// <param name="fromType">The interface type to register.</param>
+        /// <param name="toType">The type implementing the interface.</param>
+        /// <param name="registerAsSingleton">Registers the type as a singleton.</param>
+        protected void RegisterTypeIfMissing(Type fromType, Type toType, bool registerAsSingleton)
+        {
+            if (fromType == null)
+            {
+                throw new ArgumentNullException("fromType");
+            }
+            if (toType == null)
+            {
+                throw new ArgumentNullException("toType");
+            }
+            if (Container.IsTypeRegistered(fromType))
+            {
+                Logger.Log(
+                    String.Format(CultureInfo.CurrentCulture,
+                                  "Type {0} already registered with container",
+                                  fromType.Name), Category.Debug, Priority.Low);
+            }
+            else
+            {
+                if (registerAsSingleton)
+                {
+                    Container.RegisterType(fromType, toType, new ContainerControlledLifetimeManager());
+                }
+                else
+                {
+                    Container.RegisterType(fromType, toType);
+                }
+            }
+        }
+        #endregion
+
+        #region IDisposable
+        public void Dispose()
+        {
+            if (Container != null)
+            {
+                Container.Dispose();
+                Container = null;
+            }
+        }
+        #endregion
+
+
     }
 }
