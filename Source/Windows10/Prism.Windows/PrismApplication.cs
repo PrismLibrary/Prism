@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
-using Prism.Mvvm;
-using Prism.Windows.AppModel;
-using Prism.Windows.Interfaces;
-using Prism.Windows.Mvvm;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
 using Windows.Phone.UI.Input;
+using Windows.UI.ApplicationSettings;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Prism.Mvvm;
+using Prism.Windows.AppModel;
+using Prism.Windows.Interfaces;
+using Prism.Windows.Mvvm;
 
 namespace Prism.Windows
 {
@@ -68,7 +68,7 @@ namespace Prism.Windows
         /// Override this method with logic that will be performed after the application is initialized. For example, navigating to the application's home page.
         /// </summary>
         /// <param name="args">The <see cref="LaunchActivatedEventArgs"/> instance containing the event data.</param>
-        protected abstract Task OnLaunchApplication(LaunchActivatedEventArgs args);
+        protected abstract Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args);
 
         /// <summary>
         /// Gets the type of the page based on a page token.
@@ -104,17 +104,19 @@ namespace Prism.Windows
         /// Override this method with the initialization logic of your application. Here you can initialize services, repositories, and so on.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
-        protected virtual void OnInitialize(IActivatedEventArgs args) { }
+        protected virtual Task OnInitializeAsync(IActivatedEventArgs args)
+        {
+            return Task.FromResult<object>(null);
+        }
 
-        //TODO: BDN Figure out what to do about settings pane stuff
         /// <summary>
         /// Gets the Settings charm action items.
         /// </summary>
         /// <returns>The list of Setting charm action items that will populate the Settings pane.</returns>
-        //protected virtual IList<SettingsCommand> GetSettingsCommands()
-        //{
-        //    return null;
-        //}
+        protected virtual IList<SettingsCommand> GetSettingsCommands()
+        {
+            return new List<SettingsCommand>();
+        }
 
         /// <summary>
         /// Resolves the specified type.
@@ -143,7 +145,7 @@ namespace Prism.Windows
 
             if (rootFrame != null && (!_isRestoringFromTermination || (args != null && args.TileId != tileId)))
             {
-                await OnLaunchApplication(args);
+                await OnLaunchApplicationAsync(args);
             }
 
             // Ensure the current window is active
@@ -184,9 +186,14 @@ namespace Prism.Windows
                 SessionStateService.RegisterFrame(frameFacade, "AppFrame");
 
                 NavigationService = CreateNavigationService(frameFacade, SessionStateService);
-                //TODO: BDN Figure out what to do about settings pane stuff
-                //SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
 
+                if (ApiInformation.IsTypePresent("Windows.UI.ApplicationSettings.SettingsPane"))
+                {
+                    // TODO BL : keep an eye on MSDN for future SDK release updates on SettingsPane
+#pragma warning disable CS0618 // Type or member is obsolete // Still marked on MSDN as a valid type for the Windows family
+                    SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
+#pragma warning restore CS0618
+                }
                 // Register hardware back button event if present
                 if (ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed"))
                 {
@@ -202,7 +209,7 @@ namespace Prism.Windows
                     await SessionStateService.RestoreSessionStateAsync();
                 }
 
-                OnInitialize(args);
+                await OnInitializeAsync(args);
                 if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     // Restore the saved session state and navigate to the last page visited
@@ -281,27 +288,27 @@ namespace Prism.Windows
             else Exit();
         }
 
-
-        //TODO: BDN Figure out what to do about settings pane stuff
+#pragma warning disable CS0618 // Type or member is obsolete  // Still marked on MSDN as a valid type for the Windows family
         /// <summary>
         /// Called when the Settings charm is invoked, this handler populates the Settings charm with the charm items returned by the GetSettingsCommands function.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="SettingsPaneCommandsRequestedEventArgs"/> instance containing the event data.</param>
-        //private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
-        //{
-        //    if (args == null || args.Request == null || args.Request.ApplicationCommands == null)
-        //    {
-        //        return;
-        //    }
+        private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
+        {
+            if (args == null || args.Request == null || args.Request.ApplicationCommands == null)
+            {
+                return;
+            }
 
-        //    var applicationCommands = args.Request.ApplicationCommands;
-        //    var settingsCommands = GetSettingsCommands();
+            var applicationCommands = args.Request.ApplicationCommands;
+            var settingsCommands = GetSettingsCommands();
 
-        //    foreach (var settingsCommand in settingsCommands)
-        //    {
-        //        applicationCommands.Add(settingsCommand);
-        //    }
-        //}
+            foreach (var settingsCommand in settingsCommands)
+            {
+                applicationCommands.Add(settingsCommand);
+            }
+        }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }
