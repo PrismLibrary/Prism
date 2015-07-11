@@ -8,6 +8,7 @@ using Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
 using Windows.Phone.UI.Input;
 using Windows.UI.ApplicationSettings;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Prism.Mvvm;
@@ -194,11 +195,8 @@ namespace Prism.Windows
                     SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
 #pragma warning restore CS0618
                 }
-                // Register hardware back button event if present
-                if (ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed"))
-                {
-                    HardwareButtons.BackPressed += HardwareButtonsOnBackPressed;
-                }
+                // Register back request event
+                SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationmanagerBackRequested;
 
                 // Set a factory for the ViewModelLocator to use the default resolution mechanism to construct view models
                 ViewModelLocationProvider.SetDefaultViewModelFactory(Resolve);
@@ -274,11 +272,11 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        /// Handle hardware back button by navigating back if possible using the NavigationService
+        /// Handle back request if possible using the NavigationService
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void HardwareButtonsOnBackPressed(object sender, BackPressedEventArgs e)
+        private void SystemNavigationmanagerBackRequested(object sender, BackRequestedEventArgs e)
         {
             if (NavigationService.CanGoBack())
             {
