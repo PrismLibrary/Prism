@@ -8,6 +8,7 @@ using Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
 using Windows.Phone.UI.Input;
 using Windows.UI.ApplicationSettings;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Prism.Mvvm;
@@ -200,6 +201,8 @@ namespace Prism.Windows
                     HardwareButtons.BackPressed += HardwareButtonsOnBackPressed;
                 }
 
+                SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
+
                 // Set a factory for the ViewModelLocator to use the default resolution mechanism to construct view models
                 ViewModelLocationProvider.SetDefaultViewModelFactory(Resolve);
 
@@ -286,6 +289,15 @@ namespace Prism.Windows
                 e.Handled = true;
             }
             else Exit();
+        }
+
+        private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (NavigationService.CanGoBack())
+            {
+                NavigationService.GoBack();
+                e.Handled = true;
+            }
         }
 
 #pragma warning disable CS0618 // Type or member is obsolete  // Still marked on MSDN as a valid type for the Windows family

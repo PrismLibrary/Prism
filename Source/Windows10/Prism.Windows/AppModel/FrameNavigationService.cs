@@ -44,7 +44,6 @@ namespace Prism.Windows.AppModel
 
             // Register back request
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
         }
 
         /// <summary>
@@ -213,14 +212,6 @@ namespace Prism.Windows.AppModel
                 CanGoBack() ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
 
-        private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            if (CanGoBack())
-            {
-                GoBack();
-                e.Handled = true;
-            }
-        }
         
         /// <summary>
         /// Returns true if both objects are equal. Two objects are equal if they are null or the same string object.
