@@ -4,6 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Windows.ApplicationModel.Resources;
+using Windows.Foundation.Metadata;
+using Windows.Phone.UI.Input;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 
@@ -38,6 +41,10 @@ namespace Prism.Windows.AppModel
                 _frame.Navigating += frame_Navigating;
                 _frame.Navigated += frame_Navigated;
             }
+
+            // Register software back button in titlebar event
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_OnBackRequested;
         }
 
         /// <summary>
@@ -201,8 +208,20 @@ namespace Prism.Windows.AppModel
             _sessionStateService.SessionState[LastNavigationParameterKey] = e.Parameter;
 
             NavigateToCurrentViewModel(e.NavigationMode, e.Parameter);
+
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                CanGoBack() ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
 
+        private void SystemNavigationManager_OnBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (CanGoBack())
+            {
+                GoBack();
+            }
+            e.Handled = true;
+        }
+        
         /// <summary>
         /// Returns true if both objects are equal. Two objects are equal if they are null or the same string object.
         /// </summary>
