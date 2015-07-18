@@ -41,9 +41,6 @@ namespace Prism.Windows.AppModel
                 _frame.Navigating += frame_Navigating;
                 _frame.Navigated += frame_Navigated;
             }
-
-            // Register back request
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
 
         /// <summary>
@@ -207,9 +204,6 @@ namespace Prism.Windows.AppModel
             _sessionStateService.SessionState[LastNavigationParameterKey] = e.Parameter;
 
             NavigateToCurrentViewModel(e.NavigationMode, e.Parameter);
-
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                CanGoBack() ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
 
         

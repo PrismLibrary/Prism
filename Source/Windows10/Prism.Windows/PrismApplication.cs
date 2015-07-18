@@ -11,6 +11,7 @@ using Windows.UI.ApplicationSettings;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using Prism.Mvvm;
 using Prism.Windows.AppModel;
 using Prism.Windows.Interfaces;
@@ -174,6 +175,8 @@ namespace Prism.Windows
                     rootFrame.Content = extendedSplashScreen;
                 }
 
+                rootFrame.Navigated += OnNavigated;
+                
                 var frameFacade = new FrameFacadeAdapter(rootFrame);
 
                 //Initialize PrismApplication common services
@@ -234,6 +237,10 @@ namespace Prism.Windows
             }
 
             return rootFrame;
+        }
+
+        protected virtual void OnNavigated(object sender, NavigationEventArgs e)
+        {
         }
 
         /// <summary>
