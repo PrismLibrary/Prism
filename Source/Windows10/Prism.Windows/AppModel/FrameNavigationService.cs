@@ -4,9 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation.Metadata;
-using Windows.Phone.UI.Input;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 
@@ -205,7 +202,6 @@ namespace Prism.Windows.AppModel
 
             NavigateToCurrentViewModel(e.NavigationMode, e.Parameter);
         }
-
         
         /// <summary>
         /// Returns true if both objects are equal. Two objects are equal if they are null or the same string object.
