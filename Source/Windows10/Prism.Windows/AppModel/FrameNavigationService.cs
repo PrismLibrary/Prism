@@ -44,7 +44,7 @@ namespace Prism.Windows.AppModel
 
             // Register software back button in titlebar event
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_OnBackRequested;
+            SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace Prism.Windows.AppModel
                 CanGoBack() ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
 
-        private void SystemNavigationManager_OnBackRequested(object sender, BackRequestedEventArgs e)
+        private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
         {
             if (CanGoBack())
             {
