@@ -1,6 +1,8 @@
 using Prism.Windows.Mvvm;
 using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Navigation;
 
 namespace Prism.Windows.Interfaces
 {
@@ -55,6 +57,7 @@ namespace Prism.Windows.Interfaces
         /// </returns>
         int BackStackDepth { get; }
 
+        IList<PageStackEntry> BackStack { get; }
         /// <summary>
         /// Gets a value that indicates whether there is at least one entry in back navigation history.
         /// </summary>
