@@ -8,8 +8,10 @@ using Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
 using Windows.Phone.UI.Input;
 using Windows.UI.ApplicationSettings;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using Prism.Mvvm;
 using Prism.Windows.AppModel;
 using Prism.Windows.Interfaces;
@@ -173,6 +175,8 @@ namespace Prism.Windows
                     rootFrame.Content = extendedSplashScreen;
                 }
 
+                rootFrame.Navigated += OnNavigated;
+                
                 var frameFacade = new FrameFacadeAdapter(rootFrame);
 
                 //Initialize PrismApplication common services
@@ -199,6 +203,8 @@ namespace Prism.Windows
                 {
                     HardwareButtons.BackPressed += HardwareButtonsOnBackPressed;
                 }
+
+                SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
 
                 // Set a factory for the ViewModelLocator to use the default resolution mechanism to construct view models
                 ViewModelLocationProvider.SetDefaultViewModelFactory(Resolve);
@@ -231,6 +237,10 @@ namespace Prism.Windows
             }
 
             return rootFrame;
+        }
+
+        protected virtual void OnNavigated(object sender, NavigationEventArgs e)
+        {
         }
 
         /// <summary>
@@ -286,6 +296,15 @@ namespace Prism.Windows
                 e.Handled = true;
             }
             else Exit();
+        }
+
+        private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (NavigationService.CanGoBack())
+            {
+                NavigationService.GoBack();
+                e.Handled = true;
+            }
         }
 
 #pragma warning disable CS0618 // Type or member is obsolete  // Still marked on MSDN as a valid type for the Windows family
