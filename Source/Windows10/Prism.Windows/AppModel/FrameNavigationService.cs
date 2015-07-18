@@ -42,7 +42,7 @@ namespace Prism.Windows.AppModel
                 _frame.Navigated += frame_Navigated;
             }
 
-            // Register software back button in titlebar event
+            // Register back request
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
         }
@@ -218,8 +218,8 @@ namespace Prism.Windows.AppModel
             if (CanGoBack())
             {
                 GoBack();
+                e.Handled = true;
             }
-            e.Handled = true;
         }
         
         /// <summary>
