@@ -206,11 +206,6 @@ namespace Prism.Windows
                     SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
 #pragma warning restore CS0618
                 }
-                // Register hardware back button event if present
-                if (ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed"))
-                {
-                    //HardwareButtons.BackPressed += HardwareButtonsOnBackPressed;
-                }
 
                 DeviceGestureService = CreateDeviceGestureService();
                 DeviceGestureService.InitializeEventHandlers();
