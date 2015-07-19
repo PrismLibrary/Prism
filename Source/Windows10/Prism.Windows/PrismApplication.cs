@@ -14,6 +14,8 @@ using Prism.Mvvm;
 using Prism.Windows.AppModel;
 using Prism.Windows.Interfaces;
 using Prism.Windows.Mvvm;
+using Windows.UI.Xaml.Navigation;
+using Windows.UI.Core;
 
 namespace Prism.Windows
 {
@@ -46,6 +48,14 @@ namespace Prism.Windows
         /// The navigation service.
         /// </value>
         protected INavigationService NavigationService { get; set; }
+
+        /// <summary>
+        /// Gets or sets the device gesture service.
+        /// </summary>
+        /// <value>
+        /// The device gesture service.
+        /// </value>
+        protected IDeviceGestureService DeviceGestureService { get; set; }
 
         /// <summary>
         /// Factory for creating the ExtendedSplashScreen instance.
@@ -173,6 +183,8 @@ namespace Prism.Windows
                     rootFrame.Content = extendedSplashScreen;
                 }
 
+                rootFrame.Navigated += OnNavigated;
+
                 var frameFacade = new FrameFacadeAdapter(rootFrame);
 
                 //Initialize PrismApplication common services
@@ -197,8 +209,13 @@ namespace Prism.Windows
                 // Register hardware back button event if present
                 if (ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed"))
                 {
-                    HardwareButtons.BackPressed += HardwareButtonsOnBackPressed;
+                    //HardwareButtons.BackPressed += HardwareButtonsOnBackPressed;
                 }
+
+                DeviceGestureService = CreateDeviceGestureService();
+                DeviceGestureService.InitializeEventHandlers();
+                DeviceGestureService.GoBackRequested += OnGoBackRequested;
+                DeviceGestureService.GoForwardRequested += OnGoForwardRequested;
 
                 // Set a factory for the ViewModelLocator to use the default resolution mechanism to construct view models
                 ViewModelLocationProvider.SetDefaultViewModelFactory(Resolve);
@@ -231,6 +248,62 @@ namespace Prism.Windows
             }
 
             return rootFrame;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnGoForwardRequested(object sender, DeviceGestureEventArgs e)
+        {
+            if (NavigationService.CanGoForward())
+            {
+                NavigationService.GoForward();
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnGoBackRequested(object sender, DeviceGestureEventArgs e)
+        {
+            if (NavigationService.CanGoBack())
+            {
+                NavigationService.GoBack();
+                e.Handled = true;
+            }
+            else if (DeviceGestureService.IsHardwareBackButtonPresent && e.IsHardwareButton)
+            {
+                Exit();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnNavigated(object sender, NavigationEventArgs e)
+        {
+            if (DeviceGestureService.UseTitleBarBackButton)
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    NavigationService.CanGoBack() ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        protected virtual IDeviceGestureService CreateDeviceGestureService()
+        {
+            DeviceGestureService deviceGestureService = new DeviceGestureService();
+            deviceGestureService.UseTitleBarBackButton = true;
+
+            return deviceGestureService;
         }
 
         /// <summary>

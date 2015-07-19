@@ -56,6 +56,19 @@ namespace Prism.Windows.Interfaces
         int BackStackDepth { get; }
 
         /// <summary>
+        /// Goes to the next page in the navigation stack.
+        /// </summary>
+        void GoForward();
+
+        /// <summary>
+        /// Determines whether the navigation service can navigate to the next page or not.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if the navigation service can go forward; otherwise, <c>false</c>.
+        /// </returns>
+        bool CanGoForward();
+
+        /// <summary>
         /// Gets a value that indicates whether there is at least one entry in back navigation history.
         /// </summary>
         /// 
