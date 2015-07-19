@@ -20,27 +20,23 @@ namespace Prism.Windows.AppModel
 
         public event EventHandler<DeviceGestureEventArgs> GoBackRequested;
         public event EventHandler<DeviceGestureEventArgs> GoForwardRequested;
+        public event EventHandler<DeviceGestureEventArgs> CameraButtonHalfPressed;
+        public event EventHandler<DeviceGestureEventArgs> CameraButtonPressed;
+        public event EventHandler<DeviceGestureEventArgs> CameraButtonReleased;
 
         /// <summary>
-        /// 
+        /// Event helper method.
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="eventHandler">The EventHandler</param>
+        /// <param name="sender"></param>
         /// <param name="args"></param>
-        protected void RaiseGoBackRequested(DeviceGestureEventArgs args)
+        private void InvokeEvent<T>(EventHandler<T> eventHandler, object sender, T args) where T : EventArgs
         {
-            EventHandler<DeviceGestureEventArgs> eventHandler = GoBackRequested;
-            if (eventHandler != null)
-                eventHandler(this, args);
-        }
+            EventHandler<T> handler = eventHandler;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="args"></param>
-        protected void RaiseGoForwardRequested(DeviceGestureEventArgs args)
-        {
-            EventHandler<DeviceGestureEventArgs> eventHandler = GoForwardRequested;
-            if (eventHandler != null)
-                eventHandler(this, args);
+            if (handler != null)
+                handler(sender, args);
         }
 
         /// <summary>
@@ -60,6 +56,13 @@ namespace Prism.Windows.AppModel
             if (IsHardwareBackButtonPresent)
                 HardwareButtons.BackPressed += OnHardwareButtonsBackPressed;
 
+            if (IsHardwareCameraButtonPresent)
+            {
+                HardwareButtons.CameraHalfPressed += OnHardwareButtonCameraHalfPressed;
+                HardwareButtons.CameraPressed += OnHardwareButtonCameraPressed;
+                HardwareButtons.CameraReleased += OnHardwareButtonCameraReleased;
+            }
+
             SystemNavigationManager.GetForCurrentView().BackRequested += OnSystemNavigationManagerBackRequested;
 
             Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += OnAcceleratorKeyActivated;
@@ -75,7 +78,7 @@ namespace Prism.Windows.AppModel
         protected virtual void OnSystemNavigationManagerBackRequested(object sender, BackRequestedEventArgs e)
         {
             e.Handled = true;
-            RaiseGoBackRequested(new DeviceGestureEventArgs(e.Handled));
+            InvokeEvent<DeviceGestureEventArgs>(GoBackRequested, this, new DeviceGestureEventArgs(e.Handled));
         }
 
         /// <summary>
@@ -86,7 +89,7 @@ namespace Prism.Windows.AppModel
         protected virtual void OnHardwareButtonsBackPressed(object sender, BackPressedEventArgs e)
         {
             e.Handled = true;
-            RaiseGoBackRequested(new DeviceGestureEventArgs(e.Handled, true));
+            InvokeEvent<DeviceGestureEventArgs>(GoBackRequested, this, new DeviceGestureEventArgs(e.Handled, true));
         }
 
         /// <summary>
@@ -116,19 +119,19 @@ namespace Prism.Windows.AppModel
                 {
                     // When the previous key or Alt+Left are pressed navigate back
                     args.Handled = true;
-                    RaiseGoBackRequested(new DeviceGestureEventArgs(args.Handled));
+                    InvokeEvent<DeviceGestureEventArgs>(GoBackRequested, this, new DeviceGestureEventArgs(args.Handled));
                 }
                 else if (virtualKey == VirtualKey.Back && winKey)
                 {
                     // When Win+Backspace is pressed navigate back
                     args.Handled = true;
-                    RaiseGoBackRequested(new DeviceGestureEventArgs(args.Handled));
+                    InvokeEvent<DeviceGestureEventArgs>(GoBackRequested, this, new DeviceGestureEventArgs(args.Handled));
                 }
                 else if (((int)virtualKey == 167 && noModifiers) || (virtualKey == VirtualKey.Right && onlyAlt))
                 {
                     // When the next key or Alt+Right are pressed navigate forward
                     args.Handled = true;
-                    RaiseGoForwardRequested(new DeviceGestureEventArgs(args.Handled));
+                    InvokeEvent<DeviceGestureEventArgs>(GoForwardRequested, this, new DeviceGestureEventArgs(args.Handled));
                 }
             }
         }
@@ -156,11 +159,41 @@ namespace Prism.Windows.AppModel
                 args.Handled = true;
 
                 if (backPressed)
-                    RaiseGoBackRequested(new DeviceGestureEventArgs(args.Handled));
+                    InvokeEvent<DeviceGestureEventArgs>(GoBackRequested, this, new DeviceGestureEventArgs(args.Handled));
 
                 if (forwardPressed)
-                    RaiseGoForwardRequested(new DeviceGestureEventArgs(args.Handled));
+                    InvokeEvent<DeviceGestureEventArgs>(GoForwardRequested, this, new DeviceGestureEventArgs(args.Handled));
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnHardwareButtonCameraHalfPressed(object sender, CameraEventArgs e)
+        {
+            InvokeEvent<DeviceGestureEventArgs>(CameraButtonHalfPressed, this, new DeviceGestureEventArgs(true, true));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnHardwareButtonCameraPressed(object sender, CameraEventArgs e)
+        {
+            InvokeEvent<DeviceGestureEventArgs>(CameraButtonPressed, this, new DeviceGestureEventArgs(true, true));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnHardwareButtonCameraReleased(object sender, CameraEventArgs e)
+        {
+            InvokeEvent<DeviceGestureEventArgs>(CameraButtonReleased, this, new DeviceGestureEventArgs(true, true));
         }
     }
 }

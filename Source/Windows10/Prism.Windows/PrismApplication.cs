@@ -282,7 +282,7 @@ namespace Prism.Windows
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnNavigated(object sender, NavigationEventArgs e)
+        protected virtual void OnNavigated(object sender, NavigationEventArgs e)
         {
             if (DeviceGestureService.UseTitleBarBackButton)
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =

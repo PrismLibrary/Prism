@@ -1,5 +1,6 @@
 ﻿using System;
 using Prism.Windows.AppModel;
+using Windows.Phone.UI.Input;
 
 namespace Prism.Windows.Interfaces
 {
@@ -32,6 +33,21 @@ namespace Prism.Windows.Interfaces
         /// 
         /// </summary>
         event EventHandler<DeviceGestureEventArgs> GoForwardRequested;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        event EventHandler<DeviceGestureEventArgs> CameraButtonHalfPressed;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        event EventHandler<DeviceGestureEventArgs> CameraButtonPressed;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        event EventHandler<DeviceGestureEventArgs> CameraButtonReleased;
 
         /// <summary>
         /// 
