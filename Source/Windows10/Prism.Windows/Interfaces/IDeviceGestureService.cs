@@ -1,6 +1,6 @@
 ﻿using System;
 using Prism.Windows.AppModel;
-using Windows.Phone.UI.Input;
+using Windows.Devices.Input;
 
 namespace Prism.Windows.Interfaces
 {
@@ -18,6 +18,21 @@ namespace Prism.Windows.Interfaces
         /// 
         /// </summary>
         bool IsHardwareCameraButtonPresent { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        bool IsKeyboardPresent { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        bool IsMousePresent { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        bool IsTouchPresent { get; }
 
         /// <summary>
         /// 
@@ -48,6 +63,11 @@ namespace Prism.Windows.Interfaces
         /// 
         /// </summary>
         event EventHandler<DeviceGestureEventArgs> CameraButtonReleased;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        event EventHandler<MouseEventArgs> MouseMoved;
 
         /// <summary>
         /// 

@@ -5,7 +5,7 @@ namespace Prism.Windows.AppModel
     /// <summary>
     /// 
     /// </summary>
-    public class DeviceGestureEventArgs : EventArgs
+    public class DeviceGestureEventArgs : CancelableEventArgs
     {
         public bool IsHardwareButton { get; set; }
 

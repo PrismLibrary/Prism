@@ -1,5 +1,6 @@
 ﻿using System;
 using Prism.Windows.Interfaces;
+using Windows.Devices.Input;
 using Windows.Foundation.Metadata;
 using Windows.Phone.UI.Input;
 using Windows.System;
@@ -16,27 +17,85 @@ namespace Prism.Windows.AppModel
         public bool IsHardwareBackButtonPresent { get; private set; }
         public bool IsHardwareCameraButtonPresent { get; private set; }
 
+        public bool IsKeyboardPresent { get; private set; }
+        public bool IsMousePresent { get; private set; }
+        public bool IsTouchPresent { get; private set; }
+
         public bool UseTitleBarBackButton { get; set; }
 
+        /// <summary>
+        /// The handlers attached to GoBackRequested are invoked in reverse order
+        /// so that handlers added by the users are invoked before handlers in the system.
+        /// </summary>
         public event EventHandler<DeviceGestureEventArgs> GoBackRequested;
+
+        /// <summary>
+        /// The handlers attached to GoForwardRequested are invoked in reverse order
+        /// so that handlers added by the users are invoked before handlers in the system.
+        /// </summary>
         public event EventHandler<DeviceGestureEventArgs> GoForwardRequested;
         public event EventHandler<DeviceGestureEventArgs> CameraButtonHalfPressed;
         public event EventHandler<DeviceGestureEventArgs> CameraButtonPressed;
         public event EventHandler<DeviceGestureEventArgs> CameraButtonReleased;
+        public event EventHandler<MouseEventArgs> MouseMoved;
 
         /// <summary>
-        /// Event helper method.
+        /// Invokes the handlers attached to an eventhandler.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="eventHandler">The EventHandler</param>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void InvokeEvent<T>(EventHandler<T> eventHandler, object sender, T args) where T : EventArgs
+        protected void RaiseEvent<T>(EventHandler<T> eventHandler, object sender, T args)
         {
             EventHandler<T> handler = eventHandler;
 
             if (handler != null)
-                handler(sender, args);
+                foreach (EventHandler<T> del in handler.GetInvocationList())
+                {
+                    try
+                    {
+                        del(sender, args);
+                    }
+                    catch (Exception e)
+                    {
+                        //TODO: Do some sort of logging?
+                    }
+                }
+        }
+
+        /// <summary>
+        /// Invokes the handlers attached to an eventhandler in reverse order and stops if a handler has canceled the event.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="eventHandler"></param>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        protected void RaiseCancelableEvent<T>(EventHandler<T> eventHandler, object sender, T args) where T : CancelableEventArgs
+        {
+            EventHandler<T> handler = eventHandler;
+
+            if (handler != null)
+            {
+                Delegate[] invocationList = handler.GetInvocationList();
+
+                for (int i = invocationList.Length - 1; i >= 0; i--)
+                {
+                    EventHandler<T> del = (EventHandler<T>)invocationList[i];
+
+                    try
+                    {
+                        del(sender, args);
+
+                        if (args.Cancel)
+                            break;
+                    }
+                    catch (Exception e)
+                    {
+                        //TODO: Do some sort of logging?
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -46,6 +105,10 @@ namespace Prism.Windows.AppModel
         {
             IsHardwareBackButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed");
             IsHardwareCameraButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "CameraPressed");
+
+            IsKeyboardPresent = new KeyboardCapabilities().KeyboardPresent != 0;
+            IsMousePresent = new MouseCapabilities().MousePresent != 0;
+            IsTouchPresent = new TouchCapabilities().TouchPresent != 0;
         }
 
         /// <summary>
@@ -63,6 +126,9 @@ namespace Prism.Windows.AppModel
                 HardwareButtons.CameraReleased += OnHardwareButtonCameraReleased;
             }
 
+            if (IsMousePresent)
+                MouseDevice.GetForCurrentView().MouseMoved += OnMouseMoved;
+
             SystemNavigationManager.GetForCurrentView().BackRequested += OnSystemNavigationManagerBackRequested;
 
             Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += OnAcceleratorKeyActivated;
@@ -74,11 +140,24 @@ namespace Prism.Windows.AppModel
         /// 
         /// </summary>
         /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void OnMouseMoved(MouseDevice sender, MouseEventArgs args)
+        {
+            RaiseEvent<MouseEventArgs>(MouseMoved, this, args);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
         /// <param name="e"></param>
         protected virtual void OnSystemNavigationManagerBackRequested(object sender, BackRequestedEventArgs e)
         {
-            e.Handled = true;
-            InvokeEvent<DeviceGestureEventArgs>(GoBackRequested, this, new DeviceGestureEventArgs(e.Handled));
+            DeviceGestureEventArgs args = new DeviceGestureEventArgs();
+
+            RaiseCancelableEvent<DeviceGestureEventArgs>(GoBackRequested, this, args);
+
+            e.Handled = args.Handled;
         }
 
         /// <summary>
@@ -88,8 +167,11 @@ namespace Prism.Windows.AppModel
         /// <param name="e"></param>
         protected virtual void OnHardwareButtonsBackPressed(object sender, BackPressedEventArgs e)
         {
-            e.Handled = true;
-            InvokeEvent<DeviceGestureEventArgs>(GoBackRequested, this, new DeviceGestureEventArgs(e.Handled, true));
+            DeviceGestureEventArgs args = new DeviceGestureEventArgs(false, true);
+
+            RaiseCancelableEvent<DeviceGestureEventArgs>(GoBackRequested, this, args);
+
+            e.Handled = args.Handled;
         }
 
         /// <summary>
@@ -119,19 +201,19 @@ namespace Prism.Windows.AppModel
                 {
                     // When the previous key or Alt+Left are pressed navigate back
                     args.Handled = true;
-                    InvokeEvent<DeviceGestureEventArgs>(GoBackRequested, this, new DeviceGestureEventArgs(args.Handled));
+                    RaiseCancelableEvent<DeviceGestureEventArgs>(GoBackRequested, this, new DeviceGestureEventArgs());
                 }
                 else if (virtualKey == VirtualKey.Back && winKey)
                 {
                     // When Win+Backspace is pressed navigate back
                     args.Handled = true;
-                    InvokeEvent<DeviceGestureEventArgs>(GoBackRequested, this, new DeviceGestureEventArgs(args.Handled));
+                    RaiseCancelableEvent<DeviceGestureEventArgs>(GoBackRequested, this, new DeviceGestureEventArgs());
                 }
                 else if (((int)virtualKey == 167 && noModifiers) || (virtualKey == VirtualKey.Right && onlyAlt))
                 {
                     // When the next key or Alt+Right are pressed navigate forward
                     args.Handled = true;
-                    InvokeEvent<DeviceGestureEventArgs>(GoForwardRequested, this, new DeviceGestureEventArgs(args.Handled));
+                    RaiseCancelableEvent<DeviceGestureEventArgs>(GoForwardRequested, this, new DeviceGestureEventArgs());
                 }
             }
         }
@@ -159,10 +241,10 @@ namespace Prism.Windows.AppModel
                 args.Handled = true;
 
                 if (backPressed)
-                    InvokeEvent<DeviceGestureEventArgs>(GoBackRequested, this, new DeviceGestureEventArgs(args.Handled));
+                    RaiseCancelableEvent<DeviceGestureEventArgs>(GoBackRequested, this, new DeviceGestureEventArgs());
 
                 if (forwardPressed)
-                    InvokeEvent<DeviceGestureEventArgs>(GoForwardRequested, this, new DeviceGestureEventArgs(args.Handled));
+                    RaiseCancelableEvent<DeviceGestureEventArgs>(GoForwardRequested, this, new DeviceGestureEventArgs());
             }
         }
 
@@ -173,7 +255,7 @@ namespace Prism.Windows.AppModel
         /// <param name="e"></param>
         protected virtual void OnHardwareButtonCameraHalfPressed(object sender, CameraEventArgs e)
         {
-            InvokeEvent<DeviceGestureEventArgs>(CameraButtonHalfPressed, this, new DeviceGestureEventArgs(true, true));
+            RaiseEvent<DeviceGestureEventArgs>(CameraButtonHalfPressed, this, new DeviceGestureEventArgs(false, true));
         }
 
         /// <summary>
@@ -183,7 +265,7 @@ namespace Prism.Windows.AppModel
         /// <param name="e"></param>
         protected virtual void OnHardwareButtonCameraPressed(object sender, CameraEventArgs e)
         {
-            InvokeEvent<DeviceGestureEventArgs>(CameraButtonPressed, this, new DeviceGestureEventArgs(true, true));
+            RaiseEvent<DeviceGestureEventArgs>(CameraButtonPressed, this, new DeviceGestureEventArgs(false, true));
         }
 
         /// <summary>
@@ -193,7 +275,7 @@ namespace Prism.Windows.AppModel
         /// <param name="e"></param>
         protected virtual void OnHardwareButtonCameraReleased(object sender, CameraEventArgs e)
         {
-            InvokeEvent<DeviceGestureEventArgs>(CameraButtonReleased, this, new DeviceGestureEventArgs(true, true));
+            RaiseEvent<DeviceGestureEventArgs>(CameraButtonReleased, this, new DeviceGestureEventArgs(false, true));
         }
     }
 }

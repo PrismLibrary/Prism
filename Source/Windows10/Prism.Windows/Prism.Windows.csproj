@@ -110,6 +110,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AppModel\AppManifestHelper.cs" />
+    <Compile Include="AppModel\CancelableEventArgs.cs" />
     <Compile Include="AppModel\DeviceGestureService.cs" />
     <Compile Include="AppModel\FrameNavigationService.cs" />
     <Compile Include="AppModel\DeviceGestureEventArgs.cs" />
