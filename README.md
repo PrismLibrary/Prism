@@ -1,3 +1,6 @@
+#Important Notice
+We will be taking vacation over the next few weeks, so you can expect a delay in our responses to any issues and PR's you submit.  We will respond as soon as we are back.  Thank you for your understanding.
+
 # Prism
 Prism 6 in the works - breaking changes are guaranteed!
 
