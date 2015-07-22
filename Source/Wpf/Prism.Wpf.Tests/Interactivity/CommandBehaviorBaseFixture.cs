@@ -143,7 +143,13 @@ namespace Prism.Wpf.Tests.Interactivity
 
     class TestCommand : ICommand
     {
-        public bool CanExecuteResult { get; set; } = true;
+        bool _canExecte = true;
+        public bool CanExecuteResult
+        {
+            get { return _canExecte; }
+            set { _canExecte = value; }
+        }
+
         public object CanExecuteCalledWithParameter { get; set; }
         public bool CanExecute(object parameter)
         {
