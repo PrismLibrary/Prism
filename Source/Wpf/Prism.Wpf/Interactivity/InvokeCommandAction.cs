@@ -1,5 +1,3 @@
-
-
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
@@ -13,34 +11,37 @@ namespace Prism.Interactivity
     /// </summary>
     public class InvokeCommandAction : TriggerAction<UIElement>
     {
+        private ExecutableCommandBehavior _commandBehavior;
+
+        /// <summary>
+        /// Dependency property identifying if the associated element should automaticlaly be enabled or disabled based on the result of the Command's CanExecute
+        /// </summary>
+        public static readonly DependencyProperty AutoEnableProperty =
+            DependencyProperty.Register("AutoEnable", typeof(bool), typeof(InvokeCommandAction),
+                new PropertyMetadata(true, (d, e) => ((InvokeCommandAction)d).OnAllowDisableChanged((bool)e.NewValue)));
+
+        /// <summary>
+        /// Gets or sets whther or not the associated element will automatically be enabled or disabled based on the result of the commands CanExecute
+        /// </summary>
+        public bool AutoEnable
+        {
+            get { return (bool)GetValue(AutoEnableProperty); }
+            set { SetValue(AutoEnableProperty, value); }
+        }
+
+        private void OnAllowDisableChanged(bool newValue)
+        {
+            var behavior = GetOrCreateBehavior();
+            if (behavior != null)
+                behavior.AutoEnable = newValue;
+        }
+
         /// <summary>
         /// Dependency property identifying the command to execute when invoked.
         /// </summary>
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(
-            "Command",
-            typeof(ICommand),
-            typeof(InvokeCommandAction),
-            new PropertyMetadata(null, (d, e) => ((InvokeCommandAction)d).OnCommandChanged((ICommand)e.NewValue)));
-
-        /// <summary>
-        /// Dependency property identifying the command parameter to supply on command execution.
-        /// </summary>
-        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(
-            "CommandParameter",
-            typeof(object),
-            typeof(InvokeCommandAction),
-            new PropertyMetadata(null, (d, e) => ((InvokeCommandAction)d).OnCommandParameterChanged(e.NewValue)));
-
-        /// <summary>
-        /// Dependency property identifying the TriggerParameterPath to be parsed to identify the child property of the trigger parameter to be used as the command parameter.
-        /// </summary>
-        public static readonly DependencyProperty TriggerParameterPathProperty = DependencyProperty.Register(
-            "TriggerParameterPath",
-            typeof(string),
-            typeof(InvokeCommandAction),
-            new PropertyMetadata(null, (d, e) => {}));
-
-        private ExecutableCommandBehavior _commandBehavior;
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register("Command", typeof(ICommand), typeof(InvokeCommandAction),
+                new PropertyMetadata(null, (d, e) => ((InvokeCommandAction)d).OnCommandChanged((ICommand)e.NewValue)));
 
         /// <summary>
         /// Gets or sets the command to execute when invoked.
@@ -51,6 +52,20 @@ namespace Prism.Interactivity
             set { SetValue(CommandProperty, value); }
         }
 
+        private void OnCommandChanged(ICommand newValue)
+        {
+            var behavior = GetOrCreateBehavior();
+            if (behavior != null)
+                behavior.Command = newValue;
+        }
+
+        /// <summary>
+        /// Dependency property identifying the command parameter to supply on command execution.
+        /// </summary>
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(InvokeCommandAction),
+                new PropertyMetadata(null, (d, e) => ((InvokeCommandAction)d).OnCommandParameterChanged(e.NewValue)));
+
         /// <summary>
         /// Gets or sets the command parameter to supply on command execution.
         /// </summary>
@@ -60,6 +75,20 @@ namespace Prism.Interactivity
             set { SetValue(CommandParameterProperty, value); }
         }
 
+        private void OnCommandParameterChanged(object newValue)
+        {
+            var behavior = GetOrCreateBehavior();
+            if (behavior != null)
+                behavior.CommandParameter = newValue;
+        }
+
+        /// <summary>
+        /// Dependency property identifying the TriggerParameterPath to be parsed to identify the child property of the trigger parameter to be used as the command parameter.
+        /// </summary>
+        public static readonly DependencyProperty TriggerParameterPathProperty = 
+            DependencyProperty.Register("TriggerParameterPath", typeof(string), typeof(InvokeCommandAction), 
+                new PropertyMetadata(null, (d, e) => { }));
+
         /// <summary>
         /// Gets or sets the TriggerParameterPath value.
         /// </summary>
@@ -68,7 +97,7 @@ namespace Prism.Interactivity
             get { return GetValue(TriggerParameterPathProperty) as string; }
             set { SetValue(TriggerParameterPathProperty, value); }
         }
-       
+
         /// <summary>
         /// Public wrapper of the Invoke method.
         /// </summary>
@@ -130,35 +159,13 @@ namespace Prism.Interactivity
             // To cover this scenario, the Command and CommandParameter properties of the behavior are updated here.
             var behavior = GetOrCreateBehavior();
 
+            behavior.AutoEnable = AutoEnable;
+
             if (behavior.Command != Command)
-            {
                 behavior.Command = Command;
-            }
 
             if (behavior.CommandParameter != CommandParameter)
-            {
                 behavior.CommandParameter = CommandParameter;
-            }
-        }
-
-        private void OnCommandChanged(ICommand newValue)
-        {
-            var behavior = GetOrCreateBehavior();
-
-            if (behavior != null)
-            {
-                behavior.Command = newValue;
-            }
-        }
-
-        private void OnCommandParameterChanged(object newValue)
-        {
-            var behavior = GetOrCreateBehavior();
-
-            if (behavior != null)
-            {
-                behavior.CommandParameter = newValue;
-            }
         }
 
         private ExecutableCommandBehavior GetOrCreateBehavior()

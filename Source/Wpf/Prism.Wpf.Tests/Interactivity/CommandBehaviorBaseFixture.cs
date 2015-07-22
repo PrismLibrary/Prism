@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -37,13 +35,105 @@ namespace Prism.Wpf.Tests.Interactivity
 
             Assert.AreEqual("testparam", testCommand.ExecuteCalledWithParameter);
         }
+
+        [TestMethod]
+        public void CommandBehaviorBaseAllowsDisableByDefault()
+        {
+            var targetUIElement = new UIElement();
+            var target = new TestableCommandBehaviorBase(targetUIElement);
+
+            Assert.IsTrue(target.AutoEnable);
+        }
+
+        [TestMethod]
+        public void CommandBehaviorBaseEnablesUIElement()
+        {
+            var targetUIElement = new UIElement();
+            targetUIElement.IsEnabled = false;
+
+            var target = new TestableCommandBehaviorBase(targetUIElement);
+            TestCommand testCommand = new TestCommand();
+            target.Command = testCommand;
+            target.ExecuteCommand(null);
+
+            Assert.IsTrue(targetUIElement.IsEnabled);
+        }
+
+        [TestMethod]
+        public void CommandBehaviorBaseDisablesUIElement()
+        {
+            var targetUIElement = new UIElement();
+            targetUIElement.IsEnabled = true;
+
+            var target = new TestableCommandBehaviorBase(targetUIElement);
+            TestCommand testCommand = new TestCommand();
+            testCommand.CanExecuteResult = false;
+            target.Command = testCommand;
+            target.ExecuteCommand(null);
+
+            Assert.IsFalse(targetUIElement.IsEnabled);
+        }
+
+        [TestMethod]
+        public void WhenAutoEnableIsFalse_ThenDisabledUIElementRemainsDisabled()
+        {
+            var targetUIElement = new UIElement();
+            targetUIElement.IsEnabled = false;
+
+            var target = new TestableCommandBehaviorBase(targetUIElement);
+            target.AutoEnable = false;
+            TestCommand testCommand = new TestCommand();
+            target.Command = testCommand;
+            target.ExecuteCommand(null);
+
+            Assert.IsFalse(targetUIElement.IsEnabled);
+        }
+
+        [TestMethod]
+        public void WhenAutoEnableIsUpdated_ThenDisabledUIElementIsEnabled()
+        {
+            var targetUIElement = new UIElement();
+            targetUIElement.IsEnabled = false;
+
+            var target = new TestableCommandBehaviorBase(targetUIElement);
+            target.AutoEnable = false;
+            TestCommand testCommand = new TestCommand();
+            target.Command = testCommand;
+            target.ExecuteCommand(null);
+
+            Assert.IsFalse(targetUIElement.IsEnabled);
+
+            target.AutoEnable = true;
+
+            Assert.IsTrue(targetUIElement.IsEnabled);
+        }
+
+        [TestMethod]
+        public void WhenAutoEnableIsUpdated_ThenEnabledUIElementIsDisabled()
+        {
+            var targetUIElement = new UIElement();
+            targetUIElement.IsEnabled = true;
+
+            var target = new TestableCommandBehaviorBase(targetUIElement);
+            target.AutoEnable = false;
+            TestCommand testCommand = new TestCommand();
+            testCommand.CanExecuteResult = false;
+            target.Command = testCommand;
+            target.ExecuteCommand(null);
+
+            Assert.IsTrue(targetUIElement.IsEnabled);
+
+            target.AutoEnable = true;
+
+            Assert.IsFalse(targetUIElement.IsEnabled);
+        }
     }
 
     class TestableCommandBehaviorBase : CommandBehaviorBase<UIElement>
     {
         public TestableCommandBehaviorBase(UIElement targetObject)
             : base(targetObject)
-        {}
+        { }
 
         public new void ExecuteCommand(object parameter)
         {
@@ -53,11 +143,12 @@ namespace Prism.Wpf.Tests.Interactivity
 
     class TestCommand : ICommand
     {
+        public bool CanExecuteResult { get; set; } = true;
         public object CanExecuteCalledWithParameter { get; set; }
         public bool CanExecute(object parameter)
         {
             CanExecuteCalledWithParameter = parameter;
-            return true;
+            return CanExecuteResult;
         }
 
         public event EventHandler CanExecuteChanged;
