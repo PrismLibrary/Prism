@@ -65,6 +65,9 @@
     <Compile Include="Interactivity\DefaultPopupWindows\DefaultNotificationWindow.xaml.cs">
       <DependentUpon>DefaultNotificationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interactivity\DefaultPopupWindows\DefaultWindow.xaml.cs">
+      <DependentUpon>DefaultWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interactivity\InteractionRequest\Confirmation.cs" />
     <Compile Include="Interactivity\InteractionRequest\IConfirmation.cs" />
     <Compile Include="Interactivity\InteractionRequest\IInteractionRequest.cs" />
@@ -229,6 +232,10 @@
     <Page Include="Interactivity\DefaultPopupWindows\DefaultNotificationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interactivity\DefaultPopupWindows\DefaultWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

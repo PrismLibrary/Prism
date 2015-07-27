@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Prism.Interactivity.DefaultPopupWindows.DefaultConfirmationWindow"
            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-           MinWidth="300" MinHeight="150"
+           MinWidth="300" MinHeight="150" SizeToContent="WidthAndHeight"
            Title="{Binding Title}" >
 
     <Grid x:Name="LayoutRoot" Margin="5">
