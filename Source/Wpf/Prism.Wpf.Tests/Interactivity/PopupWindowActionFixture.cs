@@ -135,7 +135,7 @@ namespace Prism.Wpf.Tests.Interactivity
 
             Window window = popupWindowAction.GetWindow(notification);
 
-            Assert.IsNull(window.Style);
+            Assert.AreNotSame(window.Style, style);
         }
     }
 
