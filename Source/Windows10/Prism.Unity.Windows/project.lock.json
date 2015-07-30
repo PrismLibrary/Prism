@@ -3,6 +3,14 @@
   "version": 1,
   "targets": {
     "UAP,Version=v10.0": {
+      "CommonServiceLocator/1.2.0": {
+        "compile": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        },
+        "runtime": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.0.0": {
         "dependencies": {
           "System.Runtime": "[4.0.20, )",
@@ -1535,9 +1543,30 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "Unity/3.5.1404": {
+        "dependencies": {
+          "CommonServiceLocator": "[1.2.0, )"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-arm": {
+      "CommonServiceLocator/1.2.0": {
+        "compile": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        },
+        "runtime": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.0.0": {
         "dependencies": {
           "System.Runtime": "[4.0.20, )",
@@ -3160,9 +3189,30 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "Unity/3.5.1404": {
+        "dependencies": {
+          "CommonServiceLocator": "[1.2.0, )"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
+      "CommonServiceLocator/1.2.0": {
+        "compile": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        },
+        "runtime": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.0.0": {
         "dependencies": {
           "System.Runtime": "[4.0.20, )",
@@ -4757,9 +4807,30 @@
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "Unity/3.5.1404": {
+        "dependencies": {
+          "CommonServiceLocator": "[1.2.0, )"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-x86": {
+      "CommonServiceLocator/1.2.0": {
+        "compile": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        },
+        "runtime": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.0.0": {
         "dependencies": {
           "System.Runtime": "[4.0.20, )",
@@ -6387,9 +6458,30 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "Unity/3.5.1404": {
+        "dependencies": {
+          "CommonServiceLocator": "[1.2.0, )"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
+      "CommonServiceLocator/1.2.0": {
+        "compile": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        },
+        "runtime": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.0.0": {
         "dependencies": {
           "System.Runtime": "[4.0.20, )",
@@ -7984,9 +8076,30 @@
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "Unity/3.5.1404": {
+        "dependencies": {
+          "CommonServiceLocator": "[1.2.0, )"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-x64": {
+      "CommonServiceLocator/1.2.0": {
+        "compile": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        },
+        "runtime": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.0.0": {
         "dependencies": {
           "System.Runtime": "[4.0.20, )",
@@ -9614,9 +9727,30 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "Unity/3.5.1404": {
+        "dependencies": {
+          "CommonServiceLocator": "[1.2.0, )"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        }
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
+      "CommonServiceLocator/1.2.0": {
+        "compile": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        },
+        "runtime": {
+          "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.0.0": {
         "dependencies": {
           "System.Runtime": "[4.0.20, )",
@@ -11211,10 +11345,36 @@
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "Unity/3.5.1404": {
+        "dependencies": {
+          "CommonServiceLocator": "[1.2.0, )"
+        },
+        "compile": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        },
+        "runtime": {
+          "lib/win8/Microsoft.Practices.Unity.dll": {},
+          "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
+        }
       }
     }
   },
   "libraries": {
+    "CommonServiceLocator/1.2.0": {
+      "sha512": "AIX32yb4Y1DMlFtpCfbwWpIN1ARr+xTcgu/0u1YkeFl/gBIz1cbxuj607FHwf6dh7ks8le5LP6zl7iucYWbkGw==",
+      "type": "Package",
+      "files": [
+        "_rels/.rels",
+        "CommonServiceLocator.nuspec",
+        "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.dll",
+        "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.pdb",
+        "lib/portable-windows8+net40+sl5+windowsphone8/Microsoft.Practices.ServiceLocation.XML",
+        "package/services/metadata/core-properties/99be0c88b2fd41c8b07c42071005ee47.psmdcp",
+        "[Content_Types].xml"
+      ]
+    },
     "Microsoft.CSharp/4.0.0": {
       "sha512": "oWqeKUxHXdK6dL2CFjgMcaBISbkk+AqEg+yvJHE4DElNzS4QaTsCflgkkqZwVlWby1Dg9zo9n+iCAMFefFdJ/A==",
       "type": "Package",
@@ -14562,11 +14722,40 @@
         "package/services/metadata/core-properties/1cffc42bca944f1d81ef3c3abdb0f0be.psmdcp",
         "[Content_Types].xml"
       ]
+    },
+    "Unity/3.5.1404": {
+      "sha512": "1wNboi2d9H0I14KevW7o7NTVN2IYsGC6L9m/gPztiQxhsXDTDxVJ3jddX0P03x3gd+goGB9zB2569HHaDA47SA==",
+      "type": "Package",
+      "files": [
+        "_rels/.rels",
+        "Unity.nuspec",
+        "lib/portable-net45+wp80+win8+MonoAndroid10+MonoTouch10/Microsoft.Practices.Unity.dll",
+        "lib/portable-net45+wp80+win8+MonoAndroid10+MonoTouch10/Microsoft.Practices.Unity.xml",
+        "lib/net45/Microsoft.Practices.Unity.dll",
+        "lib/net45/Microsoft.Practices.Unity.xml",
+        "lib/net45/Microsoft.Practices.Unity.Configuration.dll",
+        "lib/net45/Microsoft.Practices.Unity.Configuration.XML",
+        "lib/net45/Microsoft.Practices.Unity.RegistrationByConvention.dll",
+        "lib/net45/Microsoft.Practices.Unity.RegistrationByConvention.XML",
+        "lib/wp80/Microsoft.Practices.Unity.dll",
+        "lib/wp80/Microsoft.Practices.Unity.xml",
+        "lib/wp80/Microsoft.Practices.Unity.RegistrationByConvention.dll",
+        "lib/wp80/Microsoft.Practices.Unity.RegistrationByConvention.XML",
+        "lib/win8/Microsoft.Practices.Unity.dll",
+        "lib/win8/Microsoft.Practices.Unity.xml",
+        "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll",
+        "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.pri",
+        "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.XML",
+        "UnityConfiguration30.xsd",
+        "package/services/metadata/core-properties/e3a16be5fc4446da9ac9290e1d23e420.psmdcp",
+        "[Content_Types].xml"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     "": [
-      "Microsoft.NETCore.UniversalWindowsPlatform >= 5.0.0"
+      "Microsoft.NETCore.UniversalWindowsPlatform >= 5.0.0",
+      "Unity >= 3.5.1404"
     ],
     "UAP,Version=v10.0": []
   }

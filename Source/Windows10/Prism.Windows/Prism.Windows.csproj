@@ -130,7 +130,6 @@
     <Compile Include="Mvvm\ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
