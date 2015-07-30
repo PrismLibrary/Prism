@@ -139,11 +139,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Xml.XDocument">
-      <HintPath>..\..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v4.0.30319\System.Xml.XDocument.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
