@@ -8,7 +8,10 @@ using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Windows;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
+using Prism.Windows.AppModel;
+using Prism.Windows.Interfaces;
 
 namespace Prism.Unity.Windows
 {
@@ -42,7 +45,7 @@ namespace Prism.Unity.Windows
         /// <summary>
         /// Allow strongly typed access to the Application as a global
         /// </summary>
-        public static new PrismUnityApplication Current => (PrismUnityApplication) Application.Current;
+        public static new PrismUnityApplication Current => (PrismUnityApplication)Application.Current;
 
         /// <summary>
         /// Get the IoC Unity Container 
@@ -129,7 +132,17 @@ namespace Prism.Unity.Windows
 
             Logger.Log("Registering Prism services with container", Category.Debug, Priority.Low);
             Container.RegisterInstance<ILoggerFacade>(Logger);
+            Container.RegisterInstance<ISessionStateService>(SessionStateService);
+            Container.RegisterInstance<INavigationService>(NavigationService);
+            Container.RegisterInstance<IDeviceGestureService>(DeviceGestureService);
             RegisterTypeIfMissing(typeof(IEventAggregator), typeof(EventAggregator), true);
+
+            try
+            {
+                Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(ResourceLoader.GetForCurrentView()));
+            }
+            // Catch no ResourceMap is found exception
+            catch (Exception) { }
         }
 
         /// <summary>
