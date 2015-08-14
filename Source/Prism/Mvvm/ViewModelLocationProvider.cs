@@ -67,6 +67,14 @@ namespace Prism.Mvvm
         }
 
         /// <summary>
+        /// Get the default view model factory.
+        /// </summary>
+        public static Func<Type, Type> GetDefaultViewTypeToViewModelTypeResolver()
+        {
+            return _defaultViewTypeToViewModelTypeResolver;
+        }
+
+        /// <summary>
         /// Sets the default view type to view model type resolver.
         /// </summary>
         /// <param name="viewTypeToViewModelTypeResolver">The view type to view model type resolver.</param>
