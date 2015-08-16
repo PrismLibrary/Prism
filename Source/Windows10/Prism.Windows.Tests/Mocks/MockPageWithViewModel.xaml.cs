@@ -1,8 +1,7 @@
-using Windows.UI.Xaml.Controls;
 
 namespace Prism.Windows.Tests.Mocks
 {
-    public class MockPageWithViewModel : Page
+    public partial class MockPageWithViewModel
     {
         public MockPageWithViewModel()
         {

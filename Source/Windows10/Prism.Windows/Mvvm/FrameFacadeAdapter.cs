@@ -28,7 +28,7 @@ namespace Prism.Windows.Mvvm
         /// <summary>
         /// Gets or sets the content of a ContentControl.
         /// </summary>
-        /// 
+        ///
         /// <returns>
         /// An object that contains the control's content. The default is null.
         /// </returns>
@@ -69,7 +69,7 @@ namespace Prism.Windows.Mvvm
         /// </summary>
         /// <param name="sourcePageType">The type of the page that will be navigated to.</param>
         /// <param name="parameter">The page's navigation parameter.</param>
-        /// 
+        ///
         /// <returns>True if navigation was successful; false otherwise.</returns>
         public bool Navigate(Type sourcePageType, object parameter)
         {
@@ -86,7 +86,7 @@ namespace Prism.Windows.Mvvm
         /// <summary>
         /// Gets the number of entries in the navigation back stack.
         /// </summary>
-        /// 
+        ///
         /// <returns>
         /// The number of entries in the navigation back stack.
         /// </returns>
@@ -98,7 +98,7 @@ namespace Prism.Windows.Mvvm
         /// <summary>
         /// Gets a value that indicates whether there is at least one entry in back navigation history.
         /// </summary>
-        /// 
+        ///
         /// <returns>
         /// True if there is at least one entry in back navigation history; false if there are no entries in back navigation history or the Frame does not own its own navigation history.
         /// </returns>
@@ -166,7 +166,7 @@ namespace Prism.Windows.Mvvm
         /// <summary>
         /// Returns the current effective value of a dependency property from a DependencyObject.
         /// </summary>
-        /// 
+        ///
         /// <returns>
         /// Returns the current effective value.
         /// </returns>
@@ -214,6 +214,5 @@ namespace Prism.Windows.Mvvm
                 handler(this, new EventArgs());
             }
         }
-
     }
 }

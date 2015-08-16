@@ -18,6 +18,12 @@ bld/
 [Bb]in/
 [Oo]bj/
 
+# Visual Studio 2015 cache/options directory
+.vs/
+
+# DNX
+artifacts/
+
 # Roslyn cache directories
 *.ide/
 
@@ -130,6 +136,10 @@ publish/
 *.pubxml
 *.publishproj
 
+# NuGet
+.nuget/
+project.lock.json
+
 # NuGet Packages
 *.nupkg
 # The packages folder can be ignored because of Package Restore
@@ -145,6 +155,7 @@ csx/
 
 # Windows Store app package directory
 AppPackages/
+BundleArtifacts/
 
 # Others
 sql/

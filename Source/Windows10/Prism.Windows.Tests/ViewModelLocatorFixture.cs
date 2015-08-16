@@ -16,7 +16,7 @@ namespace Prism.Windows.Tests
         public IAsyncAction ExecuteOnUIThread(DispatchedHandler action)
         {
             return CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, action);
-        } 
+        }
 
         [TestMethod]
         public async Task AutoWireViewModel_With_Factory_Registration()
