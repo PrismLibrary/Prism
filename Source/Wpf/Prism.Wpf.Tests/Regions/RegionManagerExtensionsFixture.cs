@@ -13,25 +13,6 @@ namespace Prism.Wpf.Tests.Regions
     public class RegionManagerExtensionsFixture
     {
         [TestMethod]
-        public void CanAddViewToRegion()
-        {
-            var regionManager = new MockRegionManager();
-            var view1 = new object();
-            var view2 = new object();
-
-
-            IRegion region = new MockRegion();
-            region.Name = "RegionName";
-            regionManager.Regions.Add(region);
-
-            regionManager.AddToRegion("RegionName", view1);
-            regionManager.AddToRegion("RegionName", view2);
-
-            Assert.IsTrue(regionManager.Regions["RegionName"].Views.Contains(view1));
-            Assert.IsTrue(regionManager.Regions["RegionName"].Views.Contains(view2));
-        }
-
-        [TestMethod]
         public void CanRegisterViewType()
         {
             try

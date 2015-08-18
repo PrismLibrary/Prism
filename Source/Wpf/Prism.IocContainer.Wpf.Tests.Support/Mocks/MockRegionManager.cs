@@ -19,6 +19,11 @@ namespace Prism.IocContainer.Wpf.Tests.Support.Mocks
             throw new NotImplementedException();
         }
 
+        public IRegionManager AddToRegion(string regionName, object view)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         public bool Navigate(Uri source)

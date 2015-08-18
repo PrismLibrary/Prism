@@ -15,28 +15,6 @@ namespace Prism.Regions
     public static class RegionManagerExtensions
     {
         /// <summary>
-        ///     Add a view to the Views collection of a Region. Note that the region must already exist in this regionmanager. 
-        /// </summary>
-        /// <param name="regionManager">The regionmanager that this extension method effects.</param>
-        /// <param name="regionName">The name of the region to add a view to</param>
-        /// <param name="view">The view to add to the views collection</param>
-        /// <returns>The RegionManager, to easily add several views. </returns>
-        public static IRegionManager AddToRegion(this IRegionManager regionManager, string regionName, object view)
-        {
-            if (regionManager == null) throw new ArgumentNullException("regionManager");
-
-            if (!regionManager.Regions.ContainsRegionWithName(regionName))
-            {
-                throw new ArgumentException(
-                    string.Format(Thread.CurrentThread.CurrentCulture, Resources.RegionNotFound, regionName), "regionName");
-            }
-
-            IRegion region = regionManager.Regions[regionName];
-
-            return region.Add(view);
-        }
-
-        /// <summary>
         /// Associate a view with a region, by registering a type. When the region get's displayed
         /// this type will be resolved using the ServiceLocator into a concrete instance. The instance
         /// will be added to the Views collection of the region

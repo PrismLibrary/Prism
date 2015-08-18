@@ -27,6 +27,11 @@ namespace Prism.Wpf.Tests.Mocks
             throw new System.NotImplementedException();
         }
 
+        public IRegionManager AddToRegion(string regionName, object view)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public bool Navigate(System.Uri source)
         {
             throw new System.NotImplementedException();

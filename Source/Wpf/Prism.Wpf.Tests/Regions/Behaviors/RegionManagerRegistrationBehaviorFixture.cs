@@ -228,6 +228,11 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
                 throw new System.NotImplementedException();
             }
 
+            public IRegionManager AddToRegion(string regionName, object view)
+            {
+                throw new NotImplementedException();
+            }
+
             #endregion
 
             public bool Navigate(Uri source)

@@ -18,5 +18,13 @@ namespace Prism.Regions
         /// </summary>
         /// <returns>A new region manager that can be used as a different scope from the current region manager.</returns>
         IRegionManager CreateRegionManager();
+
+        /// <summary>
+        ///     Add a view to the Views collection of a Region. Note that the region must already exist in this regionmanager. 
+        /// </summary>
+        /// <param name="regionName">The name of the region to add a view to</param>
+        /// <param name="view">The view to add to the views collection</param>
+        /// <returns>The RegionManager, to easily add several views. </returns>
+        IRegionManager AddToRegion(string regionName, object view);
     }
 }

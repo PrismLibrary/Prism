@@ -437,6 +437,11 @@ namespace Prism.Wpf.Tests.Regions
                 return new MockRegionManager();
             }
 
+            public IRegionManager AddToRegion(string regionName, object view)
+            {
+                throw new NotImplementedException();
+            }
+
             public IRegionCollection Regions
             {
                 get { throw new NotImplementedException(); }

@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Windows;
 using Prism.Events;
 using Prism.Properties;
@@ -252,6 +253,22 @@ namespace Prism.Regions
         public IRegionManager CreateRegionManager()
         {
             return new RegionManager();
+        }
+
+        /// <summary>
+        ///     Add a view to the Views collection of a Region. Note that the region must already exist in this regionmanager. 
+        /// </summary>
+        /// <param name="regionName">The name of the region to add a view to</param>
+        /// <param name="view">The view to add to the views collection</param>
+        /// <returns>The RegionManager, to easily add several views. </returns>
+        public IRegionManager AddToRegion(string regionName, object view)
+        {
+            if (!Regions.ContainsRegionWithName(regionName))
+            {
+                throw new ArgumentException(string.Format(Thread.CurrentThread.CurrentCulture, Resources.RegionNotFound, regionName), "regionName");
+            }
+
+            return Regions[regionName].Add(view);
         }
 
         private class RegionCollection : IRegionCollection

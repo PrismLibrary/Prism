@@ -297,6 +297,24 @@ namespace Prism.Wpf.Tests.Regions
             Assert.IsNull(args);
         }
 
+        [TestMethod]
+        public void CanAddViewToRegion()
+        {
+            var regionManager = new RegionManager();
+            var view1 = new object();
+            var view2 = new object();
+
+
+            IRegion region = new MockRegion();
+            region.Name = "RegionName";
+            regionManager.Regions.Add(region);
+
+            regionManager.AddToRegion("RegionName", view1);
+            regionManager.AddToRegion("RegionName", view2);
+
+            Assert.IsTrue(regionManager.Regions["RegionName"].Views.Contains(view1));
+            Assert.IsTrue(regionManager.Regions["RegionName"].Views.Contains(view2));
+        }
     }
 
     internal class FrameworkException : Exception
