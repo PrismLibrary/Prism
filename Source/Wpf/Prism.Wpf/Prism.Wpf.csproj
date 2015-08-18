@@ -188,7 +188,6 @@
     <Compile Include="Regions\RegionBehaviorFactory.cs" />
     <Compile Include="Regions\RegionContext.cs" />
     <Compile Include="Regions\RegionManager.cs" />
-    <Compile Include="Regions\RegionManagerExtensions.cs" />
     <Compile Include="Regions\RegionMemberLifetimeAttribute.cs" />
     <Compile Include="Regions\RegionNavigationContentLoader.cs" />
     <Compile Include="Regions\RegionNavigationEventArgs.cs" />

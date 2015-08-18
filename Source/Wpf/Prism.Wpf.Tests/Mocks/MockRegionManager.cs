@@ -43,6 +43,46 @@ namespace Prism.Wpf.Tests.Mocks
             throw new NotImplementedException();
         }
 
+        public void RequestNavigate(string regionName, Uri source, Action<NavigationResult> navigationCallback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RequestNavigate(string regionName, Uri source)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RequestNavigate(string regionName, string source, Action<NavigationResult> navigationCallback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RequestNavigate(string regionName, string source)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RequestNavigate(string regionName, string target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RequestNavigate(string regionName, Uri target, NavigationParameters navigationParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RequestNavigate(string regionName, string target, NavigationParameters navigationParameters)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool Navigate(System.Uri source)
         {
             throw new System.NotImplementedException();
