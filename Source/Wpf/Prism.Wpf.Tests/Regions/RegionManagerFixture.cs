@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Regions;
@@ -391,6 +392,30 @@ namespace Prism.Wpf.Tests.Regions
                 ServiceLocator.SetLocatorProvider(null);
             }
         }
+
+        [TestMethod]
+        public void CanAddRegionToRegionManager()
+        {
+            var regionManager = new RegionManager();
+            var region = new MockRegion();
+
+            regionManager.Regions.Add("region", region);
+
+            Assert.AreEqual(1, regionManager.Regions.Count());
+            Assert.AreEqual("region", region.Name);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ShouldThrowIfRegionNameArgumentIsDifferentToRegionNameProperty()
+        {
+            var regionManager = new RegionManager();
+            var region = new MockRegion();
+
+            region.Name = "region";
+
+            regionManager.Regions.Add("another region", region);
+        }
     }
 
     internal class FrameworkException : Exception
@@ -398,6 +423,34 @@ namespace Prism.Wpf.Tests.Regions
         public FrameworkException(Exception inner)
             : base(string.Empty, inner)
         {
+
+        }
+    }
+
+    internal class MockRegionContentRegistry : IRegionViewRegistry
+    {
+        public Func<string, Type, object> RegisterContentWithViewType;
+        public Func<string, Func<object>, object> RegisterContentWithDelegate;
+        public event EventHandler<ViewRegisteredEventArgs> ContentRegistered;
+        public IEnumerable<object> GetContents(string regionName)
+        {
+            return null;
+        }
+
+        void IRegionViewRegistry.RegisterViewWithRegion(string regionName, Type viewType)
+        {
+            if (RegisterContentWithViewType != null)
+            {
+                RegisterContentWithViewType(regionName, viewType);
+            }
+        }
+
+        void IRegionViewRegistry.RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
+        {
+            if (RegisterContentWithDelegate != null)
+            {
+                RegisterContentWithDelegate(regionName, getContentDelegate);
+            }
 
         }
     }

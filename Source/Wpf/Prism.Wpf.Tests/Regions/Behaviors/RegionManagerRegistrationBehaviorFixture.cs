@@ -290,6 +290,11 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             throw new System.NotImplementedException();
         }
 
+        public void Add(string regionName, IRegion region)
+        {
+            throw new NotImplementedException();
+        }
+
         public event System.Collections.Specialized.NotifyCollectionChangedEventHandler CollectionChanged;
     }
 }

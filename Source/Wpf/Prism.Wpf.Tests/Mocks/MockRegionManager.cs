@@ -81,6 +81,11 @@ namespace Prism.Wpf.Tests.Mocks
             return true;
         }
 
+        public void Add(string regionName, IRegion region)
+        {
+            throw new NotImplementedException();
+        }
+
         public event System.Collections.Specialized.NotifyCollectionChangedEventHandler CollectionChanged;
     }
 }
