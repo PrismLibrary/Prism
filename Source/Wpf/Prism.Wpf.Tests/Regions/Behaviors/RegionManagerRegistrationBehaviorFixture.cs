@@ -233,6 +233,16 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
                 throw new NotImplementedException();
             }
 
+            public IRegionManager RegisterViewWithRegion(string regionName, Type viewType)
+            {
+                throw new NotImplementedException();
+            }
+
+            public IRegionManager RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
+            {
+                throw new NotImplementedException();
+            }
+
             #endregion
 
             public bool Navigate(Uri source)

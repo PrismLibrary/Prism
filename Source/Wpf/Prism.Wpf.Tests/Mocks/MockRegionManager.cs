@@ -1,5 +1,6 @@
 
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Prism.Regions;
@@ -30,6 +31,16 @@ namespace Prism.Wpf.Tests.Mocks
         public IRegionManager AddToRegion(string regionName, object view)
         {
             throw new System.NotImplementedException();
+        }
+
+        public IRegionManager RegisterViewWithRegion(string regionName, Type viewType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IRegionManager RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
+        {
+            throw new NotImplementedException();
         }
 
         public bool Navigate(System.Uri source)

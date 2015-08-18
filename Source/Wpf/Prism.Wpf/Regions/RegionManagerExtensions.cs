@@ -2,9 +2,7 @@
 
 using System;
 using System.Globalization;
-using System.Threading;
 using Prism.Properties;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Prism.Regions
 {
@@ -14,42 +12,6 @@ namespace Prism.Regions
     /// </summary>
     public static class RegionManagerExtensions
     {
-        /// <summary>
-        /// Associate a view with a region, by registering a type. When the region get's displayed
-        /// this type will be resolved using the ServiceLocator into a concrete instance. The instance
-        /// will be added to the Views collection of the region
-        /// </summary>
-        /// <param name="regionManager">The regionmanager that this extension method effects.</param>
-        /// <param name="regionName">The name of the region to associate the view with.</param>
-        /// <param name="viewType">The type of the view to register with the </param>
-        /// <returns>The regionmanager, for adding several views easily</returns>
-        public static IRegionManager RegisterViewWithRegion(this IRegionManager regionManager, string regionName, Type viewType)
-        {
-            var regionViewRegistry = ServiceLocator.Current.GetInstance<IRegionViewRegistry>();
-
-            regionViewRegistry.RegisterViewWithRegion(regionName, viewType);
-
-            return regionManager;
-        }
-
-        /// <summary>
-        /// Associate a view with a region, using a delegate to resolve a concreate instance of the view. 
-        /// When the region get's displayed, this delelgate will be called and the result will be added to the
-        /// views collection of the region. 
-        /// </summary>
-        /// <param name="regionManager">The regionmanager that this extension method effects.</param>
-        /// <param name="regionName">The name of the region to associate the view with.</param>
-        /// <param name="getContentDelegate">The delegate used to resolve a concreate instance of the view.</param>
-        /// <returns>The regionmanager, for adding several views easily</returns>
-        public static IRegionManager RegisterViewWithRegion(this IRegionManager regionManager, string regionName, Func<object> getContentDelegate)
-        {
-            var regionViewRegistry = ServiceLocator.Current.GetInstance<IRegionViewRegistry>();
-
-            regionViewRegistry.RegisterViewWithRegion(regionName, getContentDelegate);
-
-            return regionManager;
-        }
-
         /// <summary>
         /// Adds a region to the regionmanager with the name received as argument.
         /// </summary>
