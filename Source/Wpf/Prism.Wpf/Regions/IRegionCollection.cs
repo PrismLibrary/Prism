@@ -1,5 +1,6 @@
 
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
@@ -36,5 +37,14 @@ namespace Prism.Regions
         /// <param name="regionName">The name of the region to look for.</param>
         /// <returns><see langword="true"/> if the region is contained in the collection, otherwise <see langword="false"/>.</returns>
         bool ContainsRegionWithName(string regionName);
+
+        /// <summary>
+        /// Adds a region to the regionmanager with the name received as argument.
+        /// </summary>
+        /// <param name="regionName">The name to be given to the region.</param>
+        /// <param name="region">The region to be added to the regionmanager.</param>        
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="region"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="regionName"/> and <paramref name="region"/>'s name do not match and the <paramref name="region"/> <see cref="IRegion.Name"/> is not <see langword="null"/>.</exception>
+        void Add(string regionName, IRegion region);
     }
 }
