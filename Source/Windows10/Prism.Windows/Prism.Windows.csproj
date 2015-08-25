@@ -110,12 +110,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AppModel\AppManifestHelper.cs" />
+    <Compile Include="AppModel\CancelableEventArgs.cs" />
+    <Compile Include="AppModel\DeviceGestureService.cs" />
     <Compile Include="AppModel\FrameNavigationService.cs" />
+    <Compile Include="AppModel\DeviceGestureEventArgs.cs" />
     <Compile Include="AppModel\ResourceLoaderAdapter.cs" />
     <Compile Include="AppModel\RestorableStateAttribute.cs" />
     <Compile Include="AppModel\SessionStateService.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Interfaces\IDeviceGestureService.cs" />
     <Compile Include="Interfaces\IFrameFacade.cs" />
     <Compile Include="Interfaces\INavigationAware.cs" />
     <Compile Include="Interfaces\INavigationService.cs" />
@@ -139,8 +143,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsDesktop, Version=10.0.10158.0">
-      <Name>Windows Desktop Extensions for the UWP</Name>
+    <SDKReference Include="WindowsDesktop, Version=10.0.10069.0">
+      <Name>Microsoft Desktop Extension SDK for Universal App Platform</Name>
     </SDKReference>
     <SDKReference Include="WindowsMobile, Version=10.0.0.1">
       <Name>Microsoft Mobile Extension SDK for Universal App Platform</Name>

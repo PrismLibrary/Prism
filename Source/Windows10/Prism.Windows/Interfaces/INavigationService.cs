@@ -29,6 +29,19 @@ namespace Prism.Windows.Interfaces
         bool CanGoBack();
 
         /// <summary>
+        /// Goes to the next page in the navigation stack.
+        /// </summary>
+        void GoForward();
+
+        /// <summary>
+        /// Determines whether the navigation service can navigate to the next page or not.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if the navigation service can go forward; otherwise, <c>false</c>.
+        /// </returns>
+        bool CanGoForward();
+
+        /// <summary>
         /// Clears the navigation history.
         /// </summary>
         void ClearHistory();
