@@ -20,7 +20,7 @@ namespace Prism.Windows.Tests
             };
 
             var result = new Dictionary<string, object>();
-            
+
             vm.OnNavigatedFrom(result, true);
 
             Assert.IsTrue(result.Keys.Count == 0);
@@ -59,7 +59,6 @@ namespace Prism.Windows.Tests
             Assert.IsNull(vm.Title);
             Assert.IsNull(vm.Description);
         }
-
 
         [TestMethod]
         public void OnNavigatedTo_With_RestorableStateAttribute()

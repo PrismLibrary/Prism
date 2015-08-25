@@ -1,9 +1,8 @@
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Prism.Windows.Tests.Mocks
 {
-    public class MockPage : Page
+    public partial class MockPage
     {
         public object PageParameter { get; set; }
 
