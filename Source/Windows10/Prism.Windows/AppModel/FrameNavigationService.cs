@@ -91,6 +91,25 @@ namespace Prism.Windows.AppModel
         }
 
         /// <summary>
+        /// Goes to the next page in the navigation stack.
+        /// </summary>
+        public void GoForward()
+        {
+            _frame.GoForward();
+        }
+
+        /// <summary>
+        /// Determines whether the navigation service can navigate to the next page or not.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if the navigation service can go forward; otherwise, <c>false</c>.
+        /// </returns>
+        public bool CanGoForward()
+        {
+            return _frame.CanGoForward();
+        }
+
+        /// <summary>
         /// Clears the navigation history.
         /// </summary>
         public void ClearHistory()
