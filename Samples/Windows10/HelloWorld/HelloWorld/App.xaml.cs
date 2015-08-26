@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Activation;
-using Windows.UI.ApplicationSettings;
+﻿using System.Threading.Tasks;
 using HelloWorld.Services;
 using HelloWorld.ViewModels;
 using HelloWorld.Views;
 using Prism.Mvvm;
 using Prism.Windows;
+using Windows.ApplicationModel.Activation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace HelloWorld
 {
@@ -20,6 +20,16 @@ namespace HelloWorld
         public App() : base()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rootFrame"></param>
+        /// <returns></returns>
+        protected override UIElement CreateShell(Frame rootFrame)
+        {
+            return rootFrame;
         }
 
         /// <summary>
