@@ -47,10 +47,6 @@
             <Grid HorizontalAlignment="Right"
                   Margin="0,20,120,0">
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="Show settings"
-                            Command="{Binding ShowSettingsCommand}"
-                            Visibility="{Binding IsSettingsPresent, Converter={StaticResource BooleanToVisibilityConverter}}"
-                            Margin="0,0,20,0"/>
                     <Button Content="Navigate To User Input Page"
                             Command="{Binding NavigateCommand}" />
                 </StackPanel>

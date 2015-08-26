@@ -110,15 +110,6 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        /// Gets the Settings charm action items.
-        /// </summary>
-        /// <returns>The list of Setting charm action items that will populate the Settings pane.</returns>
-        protected virtual IList<SettingsCommand> GetSettingsCommands()
-        {
-            return new List<SettingsCommand>();
-        }
-
-        /// <summary>
         /// Resolves the specified type.
         /// </summary>
         /// <param name="type">The type.</param>
@@ -187,13 +178,6 @@ namespace Prism.Windows
 
                 NavigationService = CreateNavigationService(frameFacade, SessionStateService);
 
-                if (ApiInformation.IsTypePresent("Windows.UI.ApplicationSettings.SettingsPane"))
-                {
-                    // TODO BL : keep an eye on MSDN for future SDK release updates on SettingsPane
-#pragma warning disable CS0618 // Type or member is obsolete // Still marked on MSDN as a valid type for the Windows family
-                    SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
-#pragma warning restore CS0618
-                }
                 // Register hardware back button event if present
                 if (ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed"))
                 {
@@ -287,28 +271,5 @@ namespace Prism.Windows
             }
             else Exit();
         }
-
-#pragma warning disable CS0618 // Type or member is obsolete  // Still marked on MSDN as a valid type for the Windows family
-        /// <summary>
-        /// Called when the Settings charm is invoked, this handler populates the Settings charm with the charm items returned by the GetSettingsCommands function.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="SettingsPaneCommandsRequestedEventArgs"/> instance containing the event data.</param>
-        private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
-        {
-            if (args == null || args.Request == null || args.Request.ApplicationCommands == null)
-            {
-                return;
-            }
-
-            var applicationCommands = args.Request.ApplicationCommands;
-            var settingsCommands = GetSettingsCommands();
-
-            foreach (var settingsCommand in settingsCommands)
-            {
-                applicationCommands.Add(settingsCommand);
-            }
-        }
-#pragma warning restore CS0618 // Type or member is obsolete
     }
 }
