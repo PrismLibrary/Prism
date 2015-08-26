@@ -34,6 +34,12 @@ namespace Prism.Windows
         }
 
         /// <summary>
+        /// Gets the shell user interface
+        /// </summary>
+        /// <value>The shell user interface.</value>
+        protected UIElement Shell { get; set; }
+
+        /// <summary>
         /// Gets or sets the session state service.
         /// </summary>
         /// <value>
@@ -137,14 +143,25 @@ namespace Prism.Windows
         /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
-            var rootFrame = await InitializeFrameAsync(args);
+            if (Window.Current.Content == null)
+            {
+                Frame rootFrame = await InitializeFrameAsync(args);
+
+                Shell = CreateShell(rootFrame);
+
+                if (Shell != null)
+                    Window.Current.Content = Shell;
+                else
+                    Window.Current.Content = rootFrame;
+            }
+            //var rootFrame = await InitializeFrameAsync(args);
 
             // If the app is launched via the app's primary tile, the args.TileId property
             // will have the same value as the AppUserModelId, which is set in the Package.appxmanifest.
             // See http://go.microsoft.com/fwlink/?LinkID=288842
             string tileId = AppManifestHelper.GetApplicationId();
 
-            if (rootFrame != null && (!_isRestoringFromTermination || (args != null && args.TileId != tileId)))
+            if (Window.Current.Content != null && (!_isRestoringFromTermination || (args != null && args.TileId != tileId)))
             {
                 await OnLaunchApplicationAsync(args);
             }
@@ -160,68 +177,61 @@ namespace Prism.Windows
         /// <returns>A task of a Frame that holds the app content.</returns>
         protected async Task<Frame> InitializeFrameAsync(IActivatedEventArgs args)
         {
-            var rootFrame = Window.Current.Content as Frame;
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (rootFrame == null)
+            // Create a Frame to act as the navigation context and navigate to the first page
+            var rootFrame = new Frame();
+
+            if (ExtendedSplashScreenFactory != null)
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                Page extendedSplashScreen = this.ExtendedSplashScreenFactory.Invoke(args.SplashScreen);
+                rootFrame.Content = extendedSplashScreen;
+            }
 
-                if (ExtendedSplashScreenFactory != null)
+            rootFrame.Navigated += OnNavigated;
+
+            var frameFacade = new FrameFacadeAdapter(rootFrame);
+
+            //Initialize PrismApplication common services
+            SessionStateService = new SessionStateService();
+
+            //Configure VisualStateAwarePage with the ability to get the session state for its frame
+            VisualStateAwarePage.GetSessionStateForFrame =
+                frame => SessionStateService.GetSessionStateForFrame(frameFacade);
+
+            //Associate the frame with a key
+            SessionStateService.RegisterFrame(frameFacade, "AppFrame");
+
+            NavigationService = CreateNavigationService(frameFacade, SessionStateService);
+
+            DeviceGestureService = CreateDeviceGestureService();
+            DeviceGestureService.InitializeEventHandlers();
+            DeviceGestureService.GoBackRequested += OnGoBackRequested;
+            DeviceGestureService.GoForwardRequested += OnGoForwardRequested;
+
+            // Set a factory for the ViewModelLocator to use the default resolution mechanism to construct view models
+            ViewModelLocationProvider.SetDefaultViewModelFactory(Resolve);
+
+            OnRegisterKnownTypesForSerialization();
+            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+            {
+                await SessionStateService.RestoreSessionStateAsync();
+            }
+
+            await OnInitializeAsync(args);
+
+            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+            {
+                // Restore the saved session state and navigate to the last page visited
+                try
                 {
-                    Page extendedSplashScreen = this.ExtendedSplashScreenFactory.Invoke(args.SplashScreen);
-                    rootFrame.Content = extendedSplashScreen;
+                    SessionStateService.RestoreFrameState();
+                    NavigationService.RestoreSavedNavigation();
+                    _isRestoringFromTermination = true;
                 }
-
-                rootFrame.Navigated += OnNavigated;
-                var frameFacade = new FrameFacadeAdapter(rootFrame);
-
-                //Initialize PrismApplication common services
-                SessionStateService = new SessionStateService();
-
-                //Configure VisualStateAwarePage with the ability to get the session state for its frame
-                VisualStateAwarePage.GetSessionStateForFrame =
-                    frame => SessionStateService.GetSessionStateForFrame(frameFacade);
-
-                //Associate the frame with a key
-                SessionStateService.RegisterFrame(frameFacade, "AppFrame");
-
-                NavigationService = CreateNavigationService(frameFacade, SessionStateService);
-
-                DeviceGestureService = CreateDeviceGestureService();
-                DeviceGestureService.InitializeEventHandlers();
-                DeviceGestureService.GoBackRequested += OnGoBackRequested;
-                DeviceGestureService.GoForwardRequested += OnGoForwardRequested;
-
-                // Set a factory for the ViewModelLocator to use the default resolution mechanism to construct view models
-                ViewModelLocationProvider.SetDefaultViewModelFactory(Resolve);
-
-                OnRegisterKnownTypesForSerialization();
-                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                catch (SessionStateServiceException)
                 {
-                    await SessionStateService.RestoreSessionStateAsync();
+                    // Something went wrong restoring state.
+                    // Assume there is no state and continue
                 }
-
-                await OnInitializeAsync(args);
-                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    // Restore the saved session state and navigate to the last page visited
-                    try
-                    {
-                        SessionStateService.RestoreFrameState();
-                        NavigationService.RestoreSavedNavigation();
-                        _isRestoringFromTermination = true;
-                    }
-                    catch (SessionStateServiceException)
-                    {
-                        // Something went wrong restoring state.
-                        // Assume there is no state and continue
-                    }
-                }
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
             }
 
             return rootFrame;
@@ -294,6 +304,13 @@ namespace Prism.Windows
             var navigationService = new FrameNavigationService(rootFrame, GetPageType, sessionStateService);
             return navigationService;
         }
+
+        /// <summary>
+        /// Creates the shell of the app.
+        /// </summary>
+        /// <param name="rootFrame"></param>
+        /// <returns>The shell of the app.</returns>
+        protected abstract UIElement CreateShell(Frame rootFrame);
 
         /// <summary>
         /// Invoked when application execution is being suspended. Application state is saved
