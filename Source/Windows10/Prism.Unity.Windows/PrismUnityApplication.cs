@@ -137,12 +137,6 @@ namespace Prism.Unity.Windows
             Container.RegisterInstance<IDeviceGestureService>(DeviceGestureService);
             RegisterTypeIfMissing(typeof(IEventAggregator), typeof(EventAggregator), true);
 
-            try
-            {
-                Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(ResourceLoader.GetForCurrentView()));
-            }
-            // Catch no ResourceMap is found exception
-            catch (Exception) { }
         }
 
         /// <summary>
