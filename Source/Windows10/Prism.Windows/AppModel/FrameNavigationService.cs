@@ -3,6 +3,7 @@ using Prism.Windows.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
@@ -117,6 +118,84 @@ namespace Prism.Windows.AppModel
             _frame.SetNavigationState("1,0");
         }
 
+        public void RemoveFirstPage(string pageToken = null, object parameter = null)
+        {
+            PageStackEntry page;
+            if (pageToken != null)
+            {
+                var pageType = _navigationResolver(pageToken);
+                if (parameter != null)
+                {
+                    page = _frame.BackStack.FirstOrDefault(x => x.SourcePageType == pageType && x.Parameter.Equals(parameter));
+                }
+                else
+                {
+                    page = _frame.BackStack.FirstOrDefault(x => x.SourcePageType == pageType);
+                }
+            }
+            else
+            {
+                page = _frame.BackStack.FirstOrDefault();
+            }
+
+            if (page != null)
+            {
+                _frame.BackStack.Remove(page);
+            }
+        }
+
+        public void RemoveLastPage(string pageToken = null, object parameter = null)
+        {
+            PageStackEntry page;
+            if (pageToken != null)
+            {
+                var pageType = _navigationResolver(pageToken);
+                if (parameter != null)
+                {
+                    page = _frame.BackStack.LastOrDefault(x => x.SourcePageType == pageType && x.Parameter.Equals(parameter));
+                }
+                else
+                {
+                    page = _frame.BackStack.LastOrDefault(x => x.SourcePageType == pageType);
+                }
+            }
+            else
+            {
+                page = _frame.BackStack.LastOrDefault();
+            }
+
+            if (page != null)
+            {
+                _frame.BackStack.Remove(page);
+            }
+        }
+
+        public void RemoveAllPages(string pageToken = null, object parameter = null)
+        {
+            if (pageToken != null)
+            {
+                IEnumerable<PageStackEntry> pages;
+                var pageType = _navigationResolver(pageToken);
+                if (parameter != null)
+                {
+                    pages = _frame.BackStack.Where(x => x.SourcePageType == pageType && x.Parameter.Equals(parameter));
+                }
+                else
+                {
+                    pages = _frame.BackStack.Where(x => x.SourcePageType == pageType);
+                }
+
+                foreach (var page in pages)
+                {
+                    _frame.BackStack.Remove(page);
+                }
+            }
+            else
+            {
+                _frame.BackStack.Clear();
+            }
+        }
+
         /// <summary>
         /// Restores the saved navigation.
         /// </summary>
@@ -133,7 +212,7 @@ namespace Prism.Windows.AppModel
         {
             NavigateFromCurrentViewModel(true);
         }
-
+        
         /// <summary>
         /// This method is triggered after navigating to a view model. It is used to load the view model state that was saved previously.
         /// </summary>
