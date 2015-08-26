@@ -47,6 +47,26 @@ namespace Prism.Windows.Interfaces
         void ClearHistory();
 
         /// <summary>
+        /// Remove the first page of the backstack with optional pageToken and parameter
+        /// </summary>
+        /// <param name="pageToken"></param>
+        /// <param name="parameter"></param>
+        void RemoveFirstPage(string pageToken = null, object parameter = null);
+
+        /// <summary>
+        /// Remove the last page of the backstack with optional pageToken and parameter
+        /// </summary>
+        /// <param name="pageToken"></param>
+        /// <param name="parameter"></param>
+        void RemoveLastPage(string pageToken = null, object parameter = null);
+
+        /// <summary>
+        /// Remove the all pages of the backstack with optional pageToken and parameter
+        /// </summary>
+        /// <param name="pageToken"></param>
+        /// <param name="parameter"></param>
+        void RemoveAllPages(string pageToken = null, object parameter = null);
+        /// <summary>
         /// Restores the saved navigation.
         /// </summary>
         void RestoreSavedNavigation();
