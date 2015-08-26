@@ -91,12 +91,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AppModel\AppManifestHelper.cs" />
+    <Compile Include="AppModel\CancelableEventArgs.cs" />
+    <Compile Include="AppModel\DeviceGestureEventArgs.cs" />
+    <Compile Include="AppModel\DeviceGestureService.cs" />
     <Compile Include="AppModel\FrameNavigationService.cs" />
     <Compile Include="AppModel\ResourceLoaderAdapter.cs" />
     <Compile Include="AppModel\RestorableStateAttribute.cs" />
     <Compile Include="AppModel\SessionStateService.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Interfaces\IDeviceGestureService.cs" />
     <Compile Include="Interfaces\IFrameFacade.cs" />
     <Compile Include="Interfaces\INavigationAware.cs" />
     <Compile Include="Interfaces\INavigationService.cs" />
