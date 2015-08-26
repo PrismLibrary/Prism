@@ -189,12 +189,6 @@ namespace Prism.Windows
 
                 NavigationService = CreateNavigationService(frameFacade, SessionStateService);
 
-                // Register hardware back button event if present
-                if (ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed"))
-                {
-                    HardwareButtons.BackPressed += HardwareButtonsOnBackPressed;
-                }
-
                 DeviceGestureService = CreateDeviceGestureService();
                 DeviceGestureService.InitializeEventHandlers();
                 DeviceGestureService.GoBackRequested += OnGoBackRequested;
@@ -327,21 +321,6 @@ namespace Prism.Windows
             {
                 IsSuspending = false;
             }
-        }
-
-        /// <summary>
-        /// Handle hardware back button by navigating back if possible using the NavigationService
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HardwareButtonsOnBackPressed(object sender, BackPressedEventArgs e)
-        {
-            if (NavigationService.CanGoBack())
-            {
-                NavigationService.GoBack();
-                e.Handled = true;
-            }
-            else Exit();
         }
     }
 }
