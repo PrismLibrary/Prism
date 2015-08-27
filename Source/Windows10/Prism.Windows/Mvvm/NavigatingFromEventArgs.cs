@@ -7,7 +7,7 @@ namespace Prism.Windows.Mvvm
     /// A wrapper class for <see cref="NavigatingCancelEventArgs"/> providing data for
     /// navigation methods and event handlers that can be used to cancel a navigation request from origination.
     /// </summary>
-    public sealed class FrameNavigatingFromEventArgs : EventArgs
+    public sealed class NavigatingFromEventArgs : EventArgs
     {
         private NavigatingCancelEventArgs _eventArgs;
 
@@ -42,13 +42,13 @@ namespace Prism.Windows.Mvvm
         /// <summary>
         /// 
         /// </summary>
-        public FrameNavigatingFromEventArgs() { }
+        public NavigatingFromEventArgs() { }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="args"></param>
-        public FrameNavigatingFromEventArgs(NavigatingCancelEventArgs args)
+        public NavigatingFromEventArgs(NavigatingCancelEventArgs args)
         {
             _eventArgs = args;
 

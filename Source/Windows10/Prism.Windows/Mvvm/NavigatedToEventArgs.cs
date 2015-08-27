@@ -7,7 +7,7 @@ namespace Prism.Windows.Mvvm
     /// A wrapper class for <see cref="NavigationEventArgs"/> providing data for
     /// navigation methods and event handlers that cannot cancel the navigation request.
     /// </summary>
-    public sealed class FrameNavigatedToEventArgs : EventArgs
+    public sealed class NavigatedToEventArgs : EventArgs
     {
         /// <summary>
         /// Gets a value that indicates the direction of movement during navigation.
@@ -27,13 +27,13 @@ namespace Prism.Windows.Mvvm
         /// <summary>
         /// 
         /// </summary>
-        public FrameNavigatedToEventArgs() { }
+        public NavigatedToEventArgs() { }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="args"></param>
-        public FrameNavigatedToEventArgs(NavigationEventArgs args)
+        public NavigatedToEventArgs(NavigationEventArgs args)
         {
             NavigationMode = args.NavigationMode;
             Parameter = args.Parameter;

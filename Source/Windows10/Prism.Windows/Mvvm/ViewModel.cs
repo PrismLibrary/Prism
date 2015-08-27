@@ -15,9 +15,9 @@ namespace Prism.Windows.Mvvm
         /// <summary>
         /// Called when navigation is performed to a page. You can use this method to load state if it is available.
         /// </summary>
-        /// <param name="e">The <see cref="FrameNavigatedToEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="NavigatedToEventArgs"/> instance containing the event data.</param>
         /// <param name="viewModelState">The state of the view model.</param>
-        public virtual void OnNavigatedTo(FrameNavigatedToEventArgs e, Dictionary<string, object> viewModelState)
+        public virtual void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             if (viewModelState != null)
             {
@@ -28,10 +28,10 @@ namespace Prism.Windows.Mvvm
         /// <summary>
         /// This method will be called when navigating away from a page. You can use this method to save your view model data in case of a suspension event.
         /// </summary>
-        /// <param name="e">The <see cref="FrameNavigatingFromEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="NavigatingFromEventArgs"/> instance containing the event data.</param>
         /// <param name="viewModelState">The state of the view model.</param>
         /// <param name="suspending">if set to <c>true</c> you are navigating away from this viewmodel due to a suspension event.</param>
-        public virtual void OnNavigatingFrom(FrameNavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
+        public virtual void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
         {
             if (viewModelState != null)
             {

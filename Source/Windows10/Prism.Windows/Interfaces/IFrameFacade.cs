@@ -83,12 +83,12 @@ namespace Prism.Windows.Interfaces
         /// <summary>
         /// Occurs when the content that is being navigated to has been found and is available from the Content property, although it may not have completed loading.
         /// </summary>
-        event EventHandler<FrameNavigatedToEventArgs> NavigatedTo;
+        event EventHandler<NavigatedToEventArgs> NavigatedTo;
 
         /// <summary>
         /// Occurs when a new navigation is requested.
         /// </summary>
-        event EventHandler<FrameNavigatingFromEventArgs> NavigatingFrom;
+        event EventHandler<NavigatingFromEventArgs> NavigatingFrom;
 
         /// <summary>
         /// Returns the current effective value of a dependency property from a DependencyObject.

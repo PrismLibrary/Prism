@@ -22,7 +22,7 @@ namespace Prism.Windows.Tests
 
             var result = new Dictionary<string, object>();
 
-            FrameNavigatingFromEventArgs args = new FrameNavigatingFromEventArgs();
+            NavigatingFromEventArgs args = new NavigatingFromEventArgs();
 
             vm.OnNavigatingFrom(args, result, true);
 
@@ -39,7 +39,7 @@ namespace Prism.Windows.Tests
             };
             var result = new Dictionary<string, object>();
 
-            FrameNavigatingFromEventArgs args = new FrameNavigatingFromEventArgs();
+            NavigatingFromEventArgs args = new NavigatingFromEventArgs();
 
             vm.OnNavigatingFrom(args, result, true);
 
@@ -60,7 +60,7 @@ namespace Prism.Windows.Tests
 
             var vm = new MockViewModelWithNoRestorableStateAttributes();
 
-            FrameNavigatedToEventArgs args = new FrameNavigatedToEventArgs();
+            NavigatedToEventArgs args = new NavigatedToEventArgs();
             args.NavigationMode = NavigationMode.Back;
 
             vm.OnNavigatedTo(args, viewState);
@@ -78,7 +78,7 @@ namespace Prism.Windows.Tests
 
             var vm = new MockViewModelWithRestorableStateAttributes();
 
-            FrameNavigatedToEventArgs args = new FrameNavigatedToEventArgs();
+            NavigatedToEventArgs args = new NavigatedToEventArgs();
             args.NavigationMode = NavigationMode.Back;
 
             vm.OnNavigatedTo(args, viewModelState);
@@ -111,7 +111,7 @@ namespace Prism.Windows.Tests
                     }
                 }
             };
-            FrameNavigatedToEventArgs args = new FrameNavigatedToEventArgs();
+            NavigatedToEventArgs args = new NavigatedToEventArgs();
             args.NavigationMode = NavigationMode.Back;
 
             vm.OnNavigatedTo(args, viewState);

@@ -13,8 +13,8 @@ namespace Prism.Windows.Mvvm
     public class FrameFacadeAdapter : IFrameFacade
     {
         private readonly Frame _frame;
-        private readonly List<EventHandler<FrameNavigatedToEventArgs>> _navigatedToEventHandlers = new List<EventHandler<FrameNavigatedToEventArgs>>();
-        private readonly List<EventHandler<FrameNavigatingFromEventArgs>> _navigatingFromEventHandlers = new List<EventHandler<FrameNavigatingFromEventArgs>>();
+        private readonly List<EventHandler<NavigatedToEventArgs>> _navigatedToEventHandlers = new List<EventHandler<NavigatedToEventArgs>>();
+        private readonly List<EventHandler<NavigatingFromEventArgs>> _navigatingFromEventHandlers = new List<EventHandler<NavigatingFromEventArgs>>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameFacadeAdapter"/> class.
@@ -131,7 +131,7 @@ namespace Prism.Windows.Mvvm
         /// <summary>
         /// Occurs when the content that is being navigated to has been found and is available from the Content property, although it may not have completed loading.
         /// </summary>
-        public event EventHandler<FrameNavigatedToEventArgs> NavigatedTo
+        public event EventHandler<NavigatedToEventArgs> NavigatedTo
         {
             add
             {
@@ -159,7 +159,7 @@ namespace Prism.Windows.Mvvm
         /// <summary>
         /// Occurs when a new navigation is requested.
         /// </summary>
-        public event EventHandler<FrameNavigatingFromEventArgs> NavigatingFrom
+        public event EventHandler<NavigatingFromEventArgs> NavigatingFrom
         {
             add
             {
@@ -219,7 +219,7 @@ namespace Prism.Windows.Mvvm
         {
             if (_navigatedToEventHandlers.Count > 0)
             {
-                var args = new FrameNavigatedToEventArgs(e);
+                var args = new NavigatedToEventArgs(e);
 
                 foreach (var handler in _navigatedToEventHandlers)
                     handler(this, args);
@@ -230,7 +230,7 @@ namespace Prism.Windows.Mvvm
         {
             if (_navigatingFromEventHandlers.Count > 0)
             {
-                var args = new FrameNavigatingFromEventArgs(e);
+                var args = new NavigatingFromEventArgs(e);
 
                 foreach (var handler in _navigatingFromEventHandlers)
                     handler(this, args);
