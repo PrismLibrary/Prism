@@ -309,7 +309,10 @@ namespace Prism.Windows
         /// </summary>
         /// <param name="rootFrame"></param>
         /// <returns>The shell of the app.</returns>
-        protected abstract UIElement CreateShell(Frame rootFrame);
+        protected virtual UIElement CreateShell(Frame rootFrame)
+        {
+            return rootFrame;
+        }
 
         /// <summary>
         /// Invoked when application execution is being suspended. Application state is saved
