@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using HelloWorld.Services;
 using Prism.Commands;
 using Prism.Windows.AppModel;
@@ -32,6 +33,21 @@ namespace HelloWorld.ViewModels
         {
             get { return _dataRepository.GetUserEnteredData(); }
             set { _dataRepository.SetUserEnteredData(value); }
+        }
+
+        private bool _isNavigationDisabled;
+
+        public bool IsNavigationDisabled
+        {
+            get { return _isNavigationDisabled; }
+            set { SetProperty(ref _isNavigationDisabled, value); }
+        }
+
+        public override void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
+        {
+            e.Cancel = _isNavigationDisabled;
+
+            base.OnNavigatingFrom(e, viewModelState, suspending);
         }
     }
 }

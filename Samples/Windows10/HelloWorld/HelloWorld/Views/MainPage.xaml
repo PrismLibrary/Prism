@@ -46,9 +46,12 @@
                       SelectionMode="None" />
             <Grid HorizontalAlignment="Right"
                   Margin="0,20,120,0">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
                     <Button Content="Navigate To User Input Page"
                             Command="{Binding NavigateCommand}" />
+                    <CheckBox x:Name="checkBox" Content="Disable Navigation" Margin="0,15,0,0"
+                              IsChecked="{Binding IsNavigationDisabled, Mode=TwoWay}"
+                              HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 </StackPanel>
             </Grid>
         </StackPanel>

@@ -57,7 +57,10 @@
                      Text="{Binding ServiceState, Mode=TwoWay}"
                      VerticalAlignment="Top"
                      Width="219" />
-
+            <CheckBox x:Name="checkBox" Content="Disable Navigation"
+                      Margin="40,150,0,0"
+                      IsChecked="{Binding IsNavigationDisabled, Mode=TwoWay}"
+                      HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </prism:VisualStateAwarePage>
