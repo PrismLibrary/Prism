@@ -36,8 +36,8 @@ namespace Prism.Windows.AppModel
 
             if (frame != null)
             {
-                _frame.Navigating += frame_Navigating;
-                _frame.Navigated += frame_Navigated;
+                _frame.NavigatingFrom += OnFrameNavigatingFrom;
+                _frame.NavigatedTo += OnFrameNavigatedTo;
             }
         }
 
@@ -201,8 +201,11 @@ namespace Prism.Windows.AppModel
         /// </summary>
         public void RestoreSavedNavigation()
         {
-            var navigationParameter = _sessionStateService.SessionState[LastNavigationParameterKey];
-            NavigateToCurrentViewModel(NavigationMode.Refresh, navigationParameter);
+            NavigateToCurrentViewModel(new FrameNavigatedToEventArgs()
+            {
+                NavigationMode = NavigationMode.Refresh,
+                Parameter = _sessionStateService.SessionState[LastNavigationParameterKey]
+            });
         }
 
         /// <summary>
@@ -210,20 +213,19 @@ namespace Prism.Windows.AppModel
         /// </summary>
         public void Suspending()
         {
-            NavigateFromCurrentViewModel(true);
+            NavigateFromCurrentViewModel(new FrameNavigatingFromEventArgs(), true);
         }
-        
+
         /// <summary>
         /// This method is triggered after navigating to a view model. It is used to load the view model state that was saved previously.
         /// </summary>
-        /// <param name="navigationMode">The navigation mode.</param>
-        /// <param name="parameter">The parameter.</param>
-        private void NavigateToCurrentViewModel(NavigationMode navigationMode, object parameter)
+        /// <param name="e">The <see cref="FrameNavigatedToEventArgs"/> instance containing the event data.</param>
+        private void NavigateToCurrentViewModel(FrameNavigatedToEventArgs e)
         {
             var frameState = _sessionStateService.GetSessionStateForFrame(_frame);
             var viewModelKey = "ViewModel-" + _frame.BackStackDepth;
 
-            if (navigationMode == NavigationMode.New)
+            if (e.NavigationMode == NavigationMode.New)
             {
                 // Clear existing state for forward navigation when adding a new page/view model to the
                 // navigation stack
@@ -250,7 +252,7 @@ namespace Prism.Windows.AppModel
                 {
                     viewModelState = new Dictionary<string, object>();
                 }
-                newViewModel.OnNavigatedTo(parameter, navigationMode, viewModelState);
+                newViewModel.OnNavigatedTo(e, viewModelState);
                 frameState[viewModelKey] = viewModelState;
             }
         }
@@ -258,8 +260,9 @@ namespace Prism.Windows.AppModel
         /// <summary>
         /// Navigates away from the current viewmodel.
         /// </summary>
+        /// <param name="e">The <see cref="FrameNavigatingFromEventArgs"/> instance containing the event data.</param>
         /// <param name="suspending">True if it is navigating away from the viewmodel due to a suspend event.</param>
-        private void NavigateFromCurrentViewModel(bool suspending)
+        private void NavigateFromCurrentViewModel(FrameNavigatingFromEventArgs e, bool suspending)
         {
             var departingView = _frame.Content as FrameworkElement;
             if (departingView == null) return;
@@ -273,7 +276,7 @@ namespace Prism.Windows.AppModel
                                          ? frameState[viewModelKey] as Dictionary<string, object>
                                          : null;
 
-                departingViewModel.OnNavigatedFrom(viewModelState, suspending);
+                departingViewModel.OnNavigatingFrom(e, viewModelState, suspending);
             }
         }
 
@@ -281,24 +284,24 @@ namespace Prism.Windows.AppModel
         /// Handles the Navigating event of the Frame control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void frame_Navigating(object sender, EventArgs e)
+        /// <param name="e">The <see cref="FrameNavigatingFromEventArgs"/> instance containing the event data.</param>
+        private void OnFrameNavigatingFrom(object sender, FrameNavigatingFromEventArgs e)
         {
-            NavigateFromCurrentViewModel(false);
+            NavigateFromCurrentViewModel(e, false);
         }
 
         /// <summary>
         /// Handles the Navigated event of the Frame control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="MvvmNavigatedEventArgs"/> instance containing the event data.</param>
-        private void frame_Navigated(object sender, MvvmNavigatedEventArgs e)
+        /// <param name="e">The <see cref="FrameNavigatedToEventArgs"/> instance containing the event data.</param>
+        private void OnFrameNavigatedTo(object sender, FrameNavigatedToEventArgs e)
         {
             // Update the page type and parameter of the last navigation
             _sessionStateService.SessionState[LastNavigationPageKey] = _frame.Content.GetType().FullName;
             _sessionStateService.SessionState[LastNavigationParameterKey] = e.Parameter;
 
-            NavigateToCurrentViewModel(e.NavigationMode, e.Parameter);
+            NavigateToCurrentViewModel(e);
         }
 
         /// <summary>
