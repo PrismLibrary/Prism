@@ -154,7 +154,6 @@ namespace Prism.Windows
                 else
                     Window.Current.Content = rootFrame;
             }
-            //var rootFrame = await InitializeFrameAsync(args);
 
             // If the app is launched via the app's primary tile, the args.TileId property
             // will have the same value as the AppUserModelId, which is set in the Package.appxmanifest.
