@@ -28,3 +28,8 @@ As part of taking over the code base from Microsoft and moving towards Prism 6, 
 
 #Prism for Xamarin.Forms Preview
 Check out the new Prism for Xamarin.Forms Preview: http://brianlagunas.com/first-look-at-the-prism-for-xamarin-forms-preview/
+
+### .NET Foundation
+
+This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/projects).
+
