@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Windows.UI.Xaml.Navigation;
 using Prism.Windows.Tests.Mocks;
 using Prism.Mvvm;
+using Prism.Windows.Mvvm;
 
 namespace Prism.Windows.Tests
 {
@@ -21,7 +22,9 @@ namespace Prism.Windows.Tests
 
             var result = new Dictionary<string, object>();
 
-            vm.OnNavigatedFrom(result, true);
+            NavigatingFromEventArgs args = new NavigatingFromEventArgs();
+
+            vm.OnNavigatingFrom(args, result, true);
 
             Assert.IsTrue(result.Keys.Count == 0);
         }
@@ -36,7 +39,9 @@ namespace Prism.Windows.Tests
             };
             var result = new Dictionary<string, object>();
 
-            vm.OnNavigatedFrom(result, true);
+            NavigatingFromEventArgs args = new NavigatingFromEventArgs();
+
+            vm.OnNavigatingFrom(args, result, true);
 
             Assert.IsTrue(result.Keys.Count == 2);
             Assert.AreEqual("MyMock", result["Title"]);
@@ -54,7 +59,11 @@ namespace Prism.Windows.Tests
             viewState.Add("Tests.Mocks.MockViewModelWithNoResumableStateAttributes1", viewModelState);
 
             var vm = new MockViewModelWithNoRestorableStateAttributes();
-            vm.OnNavigatedTo(null, NavigationMode.Back, viewState);
+
+            NavigatedToEventArgs args = new NavigatedToEventArgs();
+            args.NavigationMode = NavigationMode.Back;
+
+            vm.OnNavigatedTo(args, viewState);
 
             Assert.IsNull(vm.Title);
             Assert.IsNull(vm.Description);
@@ -68,7 +77,11 @@ namespace Prism.Windows.Tests
             viewModelState.Add("Description", "MyDescription");
 
             var vm = new MockViewModelWithRestorableStateAttributes();
-            vm.OnNavigatedTo(null, NavigationMode.Back, viewModelState);
+
+            NavigatedToEventArgs args = new NavigatedToEventArgs();
+            args.NavigationMode = NavigationMode.Back;
+
+            vm.OnNavigatedTo(args, viewModelState);
 
             Assert.AreEqual(vm.Title, viewModelState["Title"]);
             Assert.AreEqual(vm.Description, viewModelState["Description"]);
@@ -98,7 +111,10 @@ namespace Prism.Windows.Tests
                     }
                 }
             };
-            vm.OnNavigatedTo(null, NavigationMode.Back, viewState);
+            NavigatedToEventArgs args = new NavigatedToEventArgs();
+            args.NavigationMode = NavigationMode.Back;
+
+            vm.OnNavigatedTo(args, viewState);
 
             var childViewModel = (MockViewModelWithRestorableStateAttributes)vm.ChildViewModels.FirstOrDefault();
 

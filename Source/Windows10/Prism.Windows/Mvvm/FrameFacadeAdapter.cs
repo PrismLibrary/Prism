@@ -13,8 +13,8 @@ namespace Prism.Windows.Mvvm
     public class FrameFacadeAdapter : IFrameFacade
     {
         private readonly Frame _frame;
-        private readonly List<EventHandler<MvvmNavigatedEventArgs>> _navigatedEventHandlers = new List<EventHandler<MvvmNavigatedEventArgs>>();
-        private readonly List<EventHandler> _navigatingEventHandlers = new List<EventHandler>();
+        private readonly List<EventHandler<NavigatedToEventArgs>> _navigatedToEventHandlers = new List<EventHandler<NavigatedToEventArgs>>();
+        private readonly List<EventHandler<NavigatingFromEventArgs>> _navigatingFromEventHandlers = new List<EventHandler<NavigatingFromEventArgs>>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameFacadeAdapter"/> class.
@@ -131,27 +131,27 @@ namespace Prism.Windows.Mvvm
         /// <summary>
         /// Occurs when the content that is being navigated to has been found and is available from the Content property, although it may not have completed loading.
         /// </summary>
-        public event EventHandler<MvvmNavigatedEventArgs> Navigated
+        public event EventHandler<NavigatedToEventArgs> NavigatedTo
         {
             add
             {
-                if (_navigatedEventHandlers.Contains(value)) return;
-                _navigatedEventHandlers.Add(value);
+                if (_navigatedToEventHandlers.Contains(value)) return;
+                _navigatedToEventHandlers.Add(value);
 
-                if (_navigatedEventHandlers.Count == 1)
+                if (_navigatedToEventHandlers.Count == 1)
                 {
-                    _frame.Navigated += FacadeNavigatedEventHandler;
+                    _frame.Navigated += OnFrameNavigatedTo;
                 }
             }
 
             remove
             {
-                if (!_navigatedEventHandlers.Contains(value)) return;
-                _navigatedEventHandlers.Remove(value);
+                if (!_navigatedToEventHandlers.Contains(value)) return;
+                _navigatedToEventHandlers.Remove(value);
 
-                if (_navigatedEventHandlers.Count == 0)
+                if (_navigatedToEventHandlers.Count == 0)
                 {
-                    _frame.Navigated -= FacadeNavigatedEventHandler;
+                    _frame.Navigated -= OnFrameNavigatedTo;
                 }
             }
         }
@@ -159,27 +159,27 @@ namespace Prism.Windows.Mvvm
         /// <summary>
         /// Occurs when a new navigation is requested.
         /// </summary>
-        public event EventHandler Navigating
+        public event EventHandler<NavigatingFromEventArgs> NavigatingFrom
         {
             add
             {
-                if (_navigatingEventHandlers.Contains(value)) return;
-                _navigatingEventHandlers.Add(value);
+                if (_navigatingFromEventHandlers.Contains(value)) return;
+                _navigatingFromEventHandlers.Add(value);
 
-                if (_navigatingEventHandlers.Count == 1)
+                if (_navigatingFromEventHandlers.Count == 1)
                 {
-                    _frame.Navigating += FacadeNavigatingCancelEventHandler;
+                    _frame.Navigating += OnFrameNavigatingFrom;
                 }
             }
 
             remove
             {
-                if (!_navigatingEventHandlers.Contains(value)) return;
-                _navigatingEventHandlers.Remove(value);
+                if (!_navigatingFromEventHandlers.Contains(value)) return;
+                _navigatingFromEventHandlers.Remove(value);
 
-                if (_navigatingEventHandlers.Count == 0)
+                if (_navigatingFromEventHandlers.Count == 0)
                 {
-                    _frame.Navigating -= FacadeNavigatingCancelEventHandler;
+                    _frame.Navigating -= OnFrameNavigatingFrom;
                 }
             }
         }
@@ -215,24 +215,25 @@ namespace Prism.Windows.Mvvm
             _frame.ClearValue(dependencyProperty);
         }
 
-        private void FacadeNavigatedEventHandler(object sender, NavigationEventArgs e)
+        private void OnFrameNavigatedTo(object sender, NavigationEventArgs e)
         {
-            foreach (var handler in _navigatedEventHandlers)
+            if (_navigatedToEventHandlers.Count > 0)
             {
-                var eventArgs = new MvvmNavigatedEventArgs()
-                {
-                    NavigationMode = e.NavigationMode,
-                    Parameter = e.Parameter
-                };
-                handler(this, eventArgs);
+                var args = new NavigatedToEventArgs(e);
+
+                foreach (var handler in _navigatedToEventHandlers)
+                    handler(this, args);
             }
         }
 
-        private void FacadeNavigatingCancelEventHandler(object sender, NavigatingCancelEventArgs e)
+        private void OnFrameNavigatingFrom(object sender, NavigatingCancelEventArgs e)
         {
-            foreach (var handler in _navigatingEventHandlers)
+            if (_navigatingFromEventHandlers.Count > 0)
             {
-                handler(this, new EventArgs());
+                var args = new NavigatingFromEventArgs(e);
+
+                foreach (var handler in _navigatingFromEventHandlers)
+                    handler(this, args);
             }
         }
     }

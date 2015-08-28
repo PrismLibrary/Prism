@@ -107,7 +107,8 @@
     <Compile Include="Interfaces\IResourceLoader.cs" />
     <Compile Include="Interfaces\ISessionStateService.cs" />
     <Compile Include="Mvvm\FrameFacadeAdapter.cs" />
-    <Compile Include="Mvvm\MvvmNavigatedEventArgs.cs" />
+    <Compile Include="Mvvm\NavigatedToEventArgs.cs" />
+    <Compile Include="Mvvm\NavigatingFromEventArgs.cs" />
     <Compile Include="Mvvm\ViewModelLocator.cs" />
     <Compile Include="Mvvm\VisualStateAwarePage.cs" />
     <Compile Include="PrismApplication.cs" />

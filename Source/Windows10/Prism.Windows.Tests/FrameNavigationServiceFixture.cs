@@ -76,7 +76,7 @@ namespace Prism.Windows.Tests
                 };
 
                 // Set up the viewModel to the Page we navigated
-                frame.Navigated += (sender, e) =>
+                frame.NavigatedTo += (sender, e) =>
                 {
                     var view = frame.Content as FrameworkElement;
                     view.DataContext = viewModel;
