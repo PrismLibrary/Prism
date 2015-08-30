@@ -1,0 +1,8 @@
+﻿<prism:PrismUnityApplication
+    x:Class="SplitViewNavigation.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:prism="using:Prism.Unity.Windows"
+    RequestedTheme="Light">
+
+</prism:PrismUnityApplication>
