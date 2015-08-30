@@ -40,7 +40,7 @@
     <Compile Include="Navigation\INavigationAware.cs" />
     <Compile Include="Navigation\INavigationService.cs" />
     <Compile Include="Navigation\IPageAware.cs" />
-    <Compile Include="Navigation\IPageProvider.cs" />
+    <Compile Include="Navigation\ApplicationPageProvider.cs" />
     <Compile Include="Navigation\NavigationParameters.cs" />
     <Compile Include="Navigation\PageNavigationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
