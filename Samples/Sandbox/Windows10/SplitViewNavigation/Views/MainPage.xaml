@@ -3,9 +3,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:SplitViewNavigation.Converters"
+    xmlns:mvvm="using:Prism.Windows.Mvvm"
+    mvvm:ViewModelLocator.AutoWireViewModel="true"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
+
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="MainPage"/>
+        <StackPanel Orientation="Horizontal" Height="48" VerticalAlignment="Top">
+            <Rectangle x:Name="Spacer" Width="48"
+                       Visibility="{Binding IsSpacerVisible, Mode=TwoWay, Converter={StaticResource VisibilityConverter}}"/>
+            <TextBlock Text="MainPage" Margin="5"/>
+        </StackPanel>
     </Grid>
 </Page>

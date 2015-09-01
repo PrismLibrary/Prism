@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System.Diagnostics;
+using Windows.UI.Xaml.Controls;
 
 namespace SplitViewNavigation.Views
 {
@@ -9,6 +10,7 @@ namespace SplitViewNavigation.Views
     {
         public MainPage()
         {
+            Debug.WriteLine("MainPage()");
             this.InitializeComponent();
         }
     }

@@ -5,4 +5,26 @@
     xmlns:prism="using:Prism.Unity.Windows"
     RequestedTheme="Light">
 
+    <prism:PrismUnityApplication.Resources>
+
+        <ResourceDictionary>
+            
+            <!--General styles-->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--Theme styles-->
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <SolidColorBrush x:Key="NavigationPaneBackgroundColor" Color="#FF2B2B2B"/>
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="NavigationPaneBackgroundColor" Color="#FF2B2B2B"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </prism:PrismUnityApplication.Resources>
+
 </prism:PrismUnityApplication>

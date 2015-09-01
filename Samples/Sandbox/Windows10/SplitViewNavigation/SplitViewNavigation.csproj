@@ -96,10 +96,40 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Controls\NavigationListView.cs" />
+    <Compile Include="Controls\NavigationSplitView.cs" />
+    <Compile Include="Events\PubSubNames.cs" />
+    <Compile Include="Models\NavigationItem.cs" />
+    <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\Page5PageViewModel.cs" />
+    <Compile Include="ViewModels\Page4PageViewModel.cs" />
+    <Compile Include="ViewModels\Page3PageViewModel.cs" />
+    <Compile Include="ViewModels\Page2PageViewModel.cs" />
+    <Compile Include="ViewModels\Page1PageViewModel.cs" />
+    <Compile Include="ViewModels\ShellPageViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Page1Page.xaml.cs">
+      <DependentUpon>Page1Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Page2Page.xaml.cs">
+      <DependentUpon>Page2Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Page3Page.xaml.cs">
+      <DependentUpon>Page3Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Page4Page.xaml.cs">
+      <DependentUpon>Page4Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Page5Page.xaml.cs">
+      <DependentUpon>Page5Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShellPage.xaml.cs">
+      <DependentUpon>ShellPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -122,7 +152,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Styles\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Views\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Page1Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Page2Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Page3Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Page4Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Page5Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShellPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -141,6 +200,7 @@
       <Name>Prism.Windows</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
