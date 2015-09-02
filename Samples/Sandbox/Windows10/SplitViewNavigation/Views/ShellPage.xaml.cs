@@ -22,17 +22,6 @@ namespace SplitViewNavigation.Views
             this.DataContext = viewModel;
             this.RootSplitView.Content = rootFrame;
 
-            //< Frame.ContentTransitions >
-            //    < TransitionCollection >
-            //        < NavigationThemeTransition >
-            //            < NavigationThemeTransition.DefaultNavigationTransitionInfo >
-            //                < EntranceNavigationTransitionInfo />
-            //            </ NavigationThemeTransition.DefaultNavigationTransitionInfo >
-            //        </ NavigationThemeTransition >
-            //    </ TransitionCollection >
-            //</ Frame.ContentTransitions >
-            //Debug.WriteLine(DisplayInformation.GetForCurrentView().ResolutionScale);
-            //Debug.WriteLine(DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel);
             this.ScreenSize.Text = string.Format("{0},{1}",
                 Window.Current.Bounds.Width.ToString("0.00"),
                 Window.Current.Bounds.Height.ToString("0.00"));
