@@ -65,25 +65,27 @@
                                   IsPaneOpen="{Binding IsNavigationPaneOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <controls:NavigationSplitView.Pane>
                 <Grid>
-                    <Border Margin="0,48,0,0" Background="{ThemeResource SystemControlBackgroundListLowBrush}" BorderThickness="0">
-                        <controls:NavigationListView ItemsSource="{Binding NavigationItems}" VerticalAlignment="Top"
+                    <Border Margin="0,48,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        <Border Background="{ThemeResource SystemControlBackgroundListLowBrush}" BorderThickness="0">
+                            <controls:NavigationListView ItemsSource="{Binding NavigationItems}" VerticalAlignment="Top"
                                                  ItemContainerStyle="{StaticResource ListViewItemNavigationStyle}">
-                            <controls:NavigationListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="0" Padding="0">
-                                        <Border>
-                                            <FontIcon x:Name="Glyph" FontFamily="Segoe MDL2 Assets"
+                                <controls:NavigationListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="0" Padding="0">
+                                            <Border>
+                                                <FontIcon x:Name="Glyph" FontFamily="Segoe MDL2 Assets"
                                                       Glyph="{Binding Glyph}" FontSize="16"
                                                       Width="48" Height="48"
                                                       ToolTipService.ToolTip="{Binding Text}"/>
-                                        </Border>
-                                        <Border VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Text}" FontSize="16" FontWeight="Normal"/>
-                                        </Border>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </controls:NavigationListView.ItemTemplate>
-                        </controls:NavigationListView>
+                                            </Border>
+                                            <Border VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Text}" FontSize="16" FontWeight="Normal"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </controls:NavigationListView.ItemTemplate>
+                            </controls:NavigationListView>
+                        </Border>
                     </Border>
                     <!--Bottom navigation items-->
                 </Grid>
@@ -96,7 +98,7 @@
                 Background="{ThemeResource SystemControlBackgroundAccentBrush}" Foreground="WhiteSmoke"
                 TabIndex="1" Width="48" Height="48" VerticalAlignment="Top" BorderThickness="0"
                 Content="&#xE700;" Command="{Binding NavigationToggleCommand}"/>
-        
+
         <!--For debugging only-->
         <Border Background="Black" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <TextBlock x:Name="ScreenSize" Foreground="WhiteSmoke" MinWidth="50"/>
