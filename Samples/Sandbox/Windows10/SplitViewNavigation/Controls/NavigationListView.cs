@@ -101,7 +101,6 @@ namespace SplitViewNavigation.Controls
             {
                 _selectedIndex = SelectedIndex;
                 Debug.WriteLine(string.Format("NavigationListView.OnSelectionChanged() - SelectedIndex: {0}", SelectedIndex));
-                Debug.WriteLine(string.Empty);
             }
         }
 

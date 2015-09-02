@@ -52,6 +52,7 @@ namespace SplitViewNavigation.ViewModels
         public override void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
         {
             Debug.WriteLine("MainPageViewModel.OnNavigatingFrom()");
+            _eventAggregator.GetEvent<PubSubNames.NavigationDisplayModeChangedEvent>().Unsubscribe(OnNavigationDisplayModeChangedEvent);
             base.OnNavigatingFrom(e, viewModelState, suspending);
         }
 

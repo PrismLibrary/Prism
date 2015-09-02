@@ -1,7 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Unity.Windows;
+using Prism.Windows.Mvvm;
 using SplitViewNavigation.Events;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml.Controls;
@@ -26,9 +28,36 @@ namespace SplitViewNavigation.Controls
             if (!DesignMode.DesignModeEnabled)
             {
                 _eventAggregator = PrismUnityApplication.Current.Container.Resolve<IEventAggregator>();
+
+                _eventAggregator.GetEvent<PubSubNames.NavigatedToPageEvent>().Subscribe(OnNavigatedToPageEvent, true);
             }
 
+            Loaded += OnLoaded;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Debug.WriteLine("NavigationSplitView.OnLoaded()");
+
             RegisterSplitViewCallbacks();
+
+            _eventAggregator.GetEvent<PubSubNames.NavigationDisplayModeChangedEvent>().Publish(DisplayMode);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnNavigatedToPageEvent(NavigatedToEventArgs obj)
+        {
+            Debug.WriteLine("NavigationSplitView.OnNavigatedToPageEvent()");
+
+            _eventAggregator.GetEvent<PubSubNames.NavigationDisplayModeChangedEvent>().Publish(DisplayMode);
         }
 
         /// <summary>
