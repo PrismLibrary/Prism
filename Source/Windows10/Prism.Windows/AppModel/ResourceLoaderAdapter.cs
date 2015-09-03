@@ -1,4 +1,3 @@
-using Prism.Windows.Interfaces;
 using Windows.ApplicationModel.Resources;
 
 namespace Prism.Windows.AppModel

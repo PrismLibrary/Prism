@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using Prism.Mvvm;
+using Prism.Windows.AppModel;
+using Prism.Windows.Mvvm;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation.Metadata;
-using Windows.Phone.UI.Input;
-using Windows.UI.ApplicationSettings;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Prism.Mvvm;
-using Prism.Windows.AppModel;
-using Prism.Windows.Interfaces;
-using Prism.Windows.Mvvm;
 using Windows.UI.Xaml.Navigation;
-using Windows.UI.Core;
+using Prism.Windows.Navigation;
 
 namespace Prism.Windows
 {
@@ -202,7 +199,6 @@ namespace Prism.Windows
             NavigationService = CreateNavigationService(frameFacade, SessionStateService);
 
             DeviceGestureService = CreateDeviceGestureService();
-            DeviceGestureService.InitializeEventHandlers();
             DeviceGestureService.GoBackRequested += OnGoBackRequested;
             DeviceGestureService.GoForwardRequested += OnGoForwardRequested;
 

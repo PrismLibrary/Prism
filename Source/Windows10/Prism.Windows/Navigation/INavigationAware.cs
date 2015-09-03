@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Prism.Windows.Mvvm;
 
-namespace Prism.Windows.Interfaces
+namespace Prism.Windows.Navigation
 {
     /// <summary>
     /// The INavigationAware interface should be used for view models that require persisting and loading state due to suspend/resume events.

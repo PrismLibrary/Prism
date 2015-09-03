@@ -1,19 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Prism.Windows.AppModel
 {
     /// <summary>
     /// 
     /// </summary>
-    public class DeviceGestureEventArgs : CancelableEventArgs
+    public class DeviceGestureEventArgs : CancelEventArgs
     {
-        public bool IsHardwareButton { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool Handled { get; set; }
-
         /// <summary>
         /// 
         /// </summary>
@@ -37,5 +31,16 @@ namespace Prism.Windows.AppModel
             Handled = handled;
             IsHardwareButton = isHardwareButton;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsHardwareButton { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Handled { get; set; }
+
     }
 }

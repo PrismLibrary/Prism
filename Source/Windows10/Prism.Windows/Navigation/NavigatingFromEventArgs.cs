@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Navigation;
 
-namespace Prism.Windows.Mvvm
+namespace Prism.Windows.Navigation
 {
     /// <summary>
     /// A wrapper class for <see cref="NavigatingCancelEventArgs"/> providing data for

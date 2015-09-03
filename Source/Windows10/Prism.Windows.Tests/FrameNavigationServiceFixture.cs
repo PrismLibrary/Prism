@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Navigation;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Tests.Mocks;
 using Prism.Windows.AppModel;
+using Prism.Windows.Navigation;
 
 namespace Prism.Windows.Tests
 {

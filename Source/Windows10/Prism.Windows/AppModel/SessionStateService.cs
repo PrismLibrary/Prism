@@ -1,9 +1,9 @@
+using Prism.Windows.Navigation;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using Prism.Windows.Interfaces;
 using Windows.ApplicationModel.Resources;
 using Windows.Security.Cryptography.DataProtection;
 using Windows.Storage;

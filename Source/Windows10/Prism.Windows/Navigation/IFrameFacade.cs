@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 
-namespace Prism.Windows.Interfaces
+namespace Prism.Windows.Navigation
 {
     /// <summary>
     /// The IFrameFacade interface abstracts the Windows.UI.Xaml.Controls.Frame object for use by apps that derive from the PrismApplication class. A Frame 

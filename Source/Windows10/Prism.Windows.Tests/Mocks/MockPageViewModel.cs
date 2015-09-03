@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Navigation;
 using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
 
 namespace Prism.Windows.Tests.Mocks
 {
