@@ -1,5 +1,4 @@
-using Prism.Windows.Interfaces;
-using Prism.Windows.Mvvm;
+using Prism.Windows.AppModel;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,7 +7,7 @@ using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 
-namespace Prism.Windows.AppModel
+namespace Prism.Windows.Navigation
 {
     /// <summary>
     /// The FrameNavigationService interface is used for navigating across the pages of your Windows Store app.

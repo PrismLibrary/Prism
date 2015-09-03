@@ -1,11 +1,10 @@
-using Prism.Windows.Interfaces;
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Prism.Windows.Mvvm
+namespace Prism.Windows.Navigation
 {
     /// <summary>
     /// Abstracts the Windows.UI.Xaml.Controls.Frame object for use by apps that derive from the PrismApplication class.

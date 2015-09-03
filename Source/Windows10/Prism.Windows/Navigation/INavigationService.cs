@@ -1,4 +1,4 @@
-namespace Prism.Windows.Interfaces
+namespace Prism.Windows.Navigation
 {
     /// <summary>
     /// The INavigationService interface is used for creating a navigation service for your Windows Store app.

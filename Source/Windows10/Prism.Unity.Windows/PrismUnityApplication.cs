@@ -7,11 +7,10 @@ using Prism.Events;
 using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Windows;
-using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Resources;
-using Windows.UI.Xaml;
 using Prism.Windows.AppModel;
-using Prism.Windows.Interfaces;
+using Prism.Windows.Navigation;
+using Windows.ApplicationModel.Activation;
+using Windows.UI.Xaml;
 
 namespace Prism.Unity.Windows
 {

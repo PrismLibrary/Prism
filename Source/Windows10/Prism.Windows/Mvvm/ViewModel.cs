@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Prism.Mvvm;
 using Prism.Windows.AppModel;
-using Prism.Windows.Interfaces;
+using Prism.Windows.Navigation;
 
 namespace Prism.Windows.Mvvm
 {
