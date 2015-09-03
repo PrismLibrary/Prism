@@ -1,4 +1,4 @@
-namespace Prism.Windows.Interfaces
+namespace Prism.Windows.AppModel
 {
     /// <summary>
     /// The IResourceLoader interface abstracts the Windows.ApplicationModel.Resources.ResourceLoader object for use by apps that derive from the PrismApplication class.

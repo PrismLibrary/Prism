@@ -1,8 +1,9 @@
+using Prism.Windows.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Prism.Windows.Interfaces
+namespace Prism.Windows.AppModel
 {
     /// <summary>
     /// The ISessionStateService interface will be implemented by a class that handles the application's state saving and retrieving. The default implementation of ISessionStateService

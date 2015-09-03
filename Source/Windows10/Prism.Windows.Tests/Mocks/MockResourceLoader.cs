@@ -1,4 +1,4 @@
-using Prism.Windows.Interfaces;
+using Prism.Windows.AppModel;
 using System;
 
 namespace Prism.Windows.Tests.Mocks
