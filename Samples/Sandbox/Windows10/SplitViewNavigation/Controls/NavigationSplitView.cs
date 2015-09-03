@@ -1,9 +1,8 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Unity.Windows;
-using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
 using SplitViewNavigation.Events;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml.Controls;

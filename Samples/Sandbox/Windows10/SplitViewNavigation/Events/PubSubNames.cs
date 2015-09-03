@@ -1,5 +1,5 @@
 ﻿using Prism.Events;
-using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
 using SplitViewNavigation.Models;
 using Windows.UI.Xaml.Controls;
 

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using Prism.Events;
 using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
 using SplitViewNavigation.Events;
 using Windows.UI.Xaml.Controls;
 

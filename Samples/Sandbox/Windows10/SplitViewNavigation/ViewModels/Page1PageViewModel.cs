@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Prism.Events;
 using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
 using SplitViewNavigation.Events;
 
 namespace SplitViewNavigation.ViewModels
