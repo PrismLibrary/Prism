@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Prism.Windows.Tests.Mocks
 {
-    public class MockViewModelWithNoRestorableStateAttributes : ViewModel
+    public class MockViewModelWithNoRestorableStateAttributes : ViewModelBase
     {
         private string title;
         public string Title
@@ -21,9 +21,9 @@ namespace Prism.Windows.Tests.Mocks
 
         }
 
-        private ICollection<ViewModel> childViewModels;
+        private ICollection<ViewModelBase> childViewModels;
 
-        public ICollection<ViewModel> ChildViewModels
+        public ICollection<ViewModelBase> ChildViewModels
         {
             get { return this.childViewModels; }
             set { this.SetProperty(ref this.childViewModels, value); }

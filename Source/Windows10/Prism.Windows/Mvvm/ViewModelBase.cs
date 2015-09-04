@@ -10,7 +10,7 @@ namespace Prism.Windows.Mvvm
     /// <summary>
     /// This is the view model base class that includes INotifyPropertyChange support and is aware of navigation events.
     /// </summary>
-    public class ViewModel : BindableBase, INavigationAware
+    public class ViewModelBase : BindableBase, INavigationAware
     {
         /// <summary>
         /// Called when navigation is performed to a page. You can use this method to load state if it is available.
