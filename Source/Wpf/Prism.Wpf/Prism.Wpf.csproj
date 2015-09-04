@@ -75,6 +75,7 @@
     <Compile Include="Interactivity\InteractionRequest\INotification.cs" />
     <Compile Include="Interactivity\InteractionRequest\InteractionRequest.cs" />
     <Compile Include="Interactivity\InteractionRequest\InteractionRequestedEventArgs.cs" />
+    <Compile Include="Interactivity\InteractionRequest\InteractionRequestMixins.cs" />
     <Compile Include="Interactivity\InteractionRequest\InteractionRequestTrigger.cs" />
     <Compile Include="Interactivity\InteractionRequest\Notification.cs" />
     <Compile Include="Interactivity\InvokeCommandAction.cs" />
