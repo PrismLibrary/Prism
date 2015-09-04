@@ -111,7 +111,7 @@
     <Compile Include="Mvvm\ViewModelLocator.cs" />
     <Compile Include="Mvvm\VisualStateAwarePage.cs" />
     <Compile Include="PrismApplication.cs" />
-    <Compile Include="Mvvm\ViewModel.cs" />
+    <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="Validation\BindableValidator.cs" />
     <Compile Include="Validation\IValidatableBindableBase.cs" />
     <Compile Include="Validation\ValidatableBindableBase.cs" />

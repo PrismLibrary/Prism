@@ -82,7 +82,7 @@ namespace Prism.Windows.Tests
                 ViewModelLocationProvider.SetDefaultViewModelFactory((viewModelType) =>
                 {
                     // The ViewModel has a constructor with no parameters
-                    return Activator.CreateInstance(viewModelType) as ViewModel;
+                    return Activator.CreateInstance(viewModelType) as ViewModelBase;
                 });
 
                 // Fire AutoWireViewModelChanged

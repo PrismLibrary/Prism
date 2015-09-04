@@ -6,7 +6,7 @@ using Prism.Windows.Navigation;
 
 namespace Prism.Windows.Tests.Mocks
 {
-    public class MockPageViewModel : ViewModel
+    public class MockPageViewModel : ViewModelBase
     {
         public Action<object, NavigationMode, Dictionary<string, object>> OnNavigatedToCommand { get; set; }
         public Action<Dictionary<string, object>, bool> OnNavigatedFromCommand { get; set; }

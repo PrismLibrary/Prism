@@ -1,16 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Windows.UI.Xaml.Navigation;
-using Prism.Windows.Tests.Mocks;
 using Prism.Mvvm;
-using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
+using Prism.Windows.Tests.Mocks;
+using Windows.UI.Xaml.Navigation;
 
 namespace Prism.Windows.Tests
 {
     [TestClass]
-    public class ViewModelFixture
+    public class ViewModelBaseFixture
     {
         [TestMethod]
         public void OnNavigatedFrom_With_No_RestorableStateAttributes()
