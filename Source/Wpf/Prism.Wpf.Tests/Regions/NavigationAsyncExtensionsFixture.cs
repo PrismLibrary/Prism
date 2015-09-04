@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Prism.Regions;
@@ -102,6 +103,34 @@ namespace Prism.Wpf.Tests.Regions
             navigateMock.Object.RequestNavigate(target);
 
             navigateMock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task WhenNavigatingAsync_NavigationResultIsReturned()
+        {
+            Uri target = new Uri("relative", UriKind.Relative);
+
+            var navServiceMock = new Mock<IRegionNavigationService>();
+            var navigateMock = new Mock<INavigateAsync>();
+            navigateMock
+                .Setup(nv =>
+                    nv.RequestNavigate(
+                        target,
+                        It.Is<Action<NavigationResult>>(c => c != null),
+                        It.IsAny<NavigationParameters>()))
+                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((uri, callback, np) =>
+                {
+                    callback(new NavigationResult(new NavigationContext(navServiceMock.Object, uri), true));
+                })
+                .Verifiable();
+
+            var result = await navigateMock.Object.RequestNavigateAsync(target);
+
+            navigateMock.VerifyAll();
+
+            Assert.AreEqual(true, result.Result);
+            Assert.AreEqual(target, result.Context.Uri);
+            Assert.IsNull(result.Error);
         }
     }
 }
