@@ -87,7 +87,10 @@ namespace Prism.Wpf.Tests.Interactivity
         protected override void Invoke(object parameter)
         {
             this.ExecutionCount++;
-            (parameter as InteractionRequestedEventArgs)?.Callback();
+            if (parameter is InteractionRequestedEventArgs)
+            {
+                ((InteractionRequestedEventArgs)parameter).Callback();
+            }
         }
     }
 }
