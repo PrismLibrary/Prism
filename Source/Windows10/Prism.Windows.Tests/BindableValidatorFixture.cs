@@ -1,9 +1,9 @@
 using System;
-using Prism.Windows.Validation;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Prism.Windows.Tests.Mocks;
+using Prism.Windows.Validation;
 
-namespace Microsoft.Practices.Prism.StoreApps.Tests
+namespace Prism.Windows.Tests
 {
     [TestClass]
     public class BindableValidatorFixture
