@@ -112,6 +112,9 @@
     <Compile Include="Mvvm\VisualStateAwarePage.cs" />
     <Compile Include="PrismApplication.cs" />
     <Compile Include="Mvvm\ViewModel.cs" />
+    <Compile Include="Validation\BindableValidator.cs" />
+    <Compile Include="Validation\IValidatableBindableBase.cs" />
+    <Compile Include="Validation\ValidatableBindableBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
