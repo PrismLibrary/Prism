@@ -45,6 +45,16 @@ namespace Prism.Interactivity
                 new PropertyMetadata(null));
 
         /// <summary>
+        /// If set, applies this Style to the child window.
+        /// </summary>
+        public static readonly DependencyProperty WindowStyleProperty =
+            DependencyProperty.Register(
+                "WindowStyle",
+                typeof(Style),
+                typeof(PopupWindowAction),
+                new PropertyMetadata(null));
+
+        /// <summary>
         /// Gets or sets the content of the window.
         /// </summary>
         public FrameworkElement WindowContent
@@ -72,6 +82,15 @@ namespace Prism.Interactivity
         }
 
         /// <summary>
+        /// Gets or sets the Style of the Window.
+        /// </summary>
+        public Style WindowStyle
+        {
+            get { return (Style)GetValue(WindowStyleProperty); }
+            set { SetValue(WindowStyleProperty, value); }
+        }
+
+        /// <summary>
         /// Displays the child window and collects results for <see cref="IInteractionRequest"/>.
         /// </summary>
         /// <param name="parameter">The parameter to the action. If the action does not require a parameter, the parameter may be set to a null reference.</param>
@@ -90,7 +109,6 @@ namespace Prism.Interactivity
             }
 
             Window wrapperWindow = this.GetWindow(args.Context);
-            wrapperWindow.SizeToContent = SizeToContent.WidthAndHeight;
 
             // We invoke the callback when the interaction's window is closed.
             var callback = args.Callback;
@@ -160,6 +178,12 @@ namespace Prism.Interactivity
                 wrapperWindow = this.CreateDefaultWindow(notification);
             }
 
+            // If the user provided a Style for a Window we set it as the window's style.
+            if (this.WindowStyle != null && this.WindowStyle.TargetType == typeof(Window))
+            {
+                wrapperWindow.Style = this.WindowStyle;
+            }
+
             return wrapperWindow;
         }
 
@@ -195,7 +219,7 @@ namespace Prism.Interactivity
         /// <returns>The Window</returns>
         protected virtual Window CreateWindow()
         {
-            return new Window();
+            return new DefaultWindow();
         }
 
         /// <summary>

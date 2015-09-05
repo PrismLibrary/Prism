@@ -10,7 +10,6 @@ namespace Prism.Interactivity.InteractionRequest
     /// The standard <see cref="System.Windows.Interactivity.EventTrigger"/> class can be used instead, as long as the 'Raised' event 
     /// name is specified.
     /// </remarks>
-    [Obsolete("InteractionRequestTrigger is not needed to use the PopupWindowAction. You can use the built-in EventTrigger the same way except you also have to set EventName='Raised'")]
     public class InteractionRequestTrigger : EventTrigger
     {
         /// <summary>

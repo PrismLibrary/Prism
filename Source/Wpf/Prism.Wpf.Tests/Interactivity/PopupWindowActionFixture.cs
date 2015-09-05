@@ -1,11 +1,10 @@
-
-
-using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Interactivity;
 using Prism.Interactivity.DefaultPopupWindows;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Wpf.Tests.Mocks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Prism.Wpf.Tests.Interactivity
 {
@@ -105,6 +104,38 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.IsNotNull(dataContext.Notification);
             Assert.ReferenceEquals(dataContext.Notification, notification);
             Assert.IsNotNull(dataContext.FinishInteraction);
+        }
+
+        [TestMethod]
+        public void WhenStyleForWindowIsSet_WindowShouldHaveTheStyle()
+        {
+            TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
+            Style style = new Style(typeof(Window));
+            popupWindowAction.WindowStyle = style;
+
+            INotification notification = new Notification();
+            notification.Title = "Title";
+            notification.Content = "Content";
+
+            Window window = popupWindowAction.GetWindow(notification);
+
+            Assert.AreSame(window.Style, style);
+        }
+
+        [TestMethod]
+        public void WhenStyleIsNotForWindowIsSet_WindowShouldNotHaveTheStyle()
+        {
+            TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
+            Style style = new Style(typeof(StackPanel));
+            popupWindowAction.WindowStyle = style;
+
+            INotification notification = new Notification();
+            notification.Title = "Title";
+            notification.Content = "Content";
+
+            Window window = popupWindowAction.GetWindow(notification);
+
+            Assert.AreNotSame(window.Style, style);
         }
     }
 

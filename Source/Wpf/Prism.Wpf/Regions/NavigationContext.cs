@@ -1,5 +1,3 @@
-
-
 using Prism.Common;
 using System;
 using System.Collections.Generic;
@@ -30,11 +28,10 @@ namespace Prism.Regions
         /// <param name="uri">The Uri.</param>
         public NavigationContext(IRegionNavigationService navigationService, Uri uri, NavigationParameters navigationParameters)
         {
-            this.NavigationService = navigationService;
-
-            this.Uri = uri;
-            this.Parameters = uri != null ? UriParsingHelper.ParseQuery(uri) : null;
-            this.GetNavigationParameters(navigationParameters);
+            NavigationService = navigationService;
+            Uri = uri;
+            Parameters = uri != null ? UriParsingHelper.ParseQuery(uri) : null;
+            GetNavigationParameters(navigationParameters);
         }
 
         /// <summary>
@@ -57,17 +54,18 @@ namespace Prism.Regions
 
         private void GetNavigationParameters(NavigationParameters navigationParameters)
         {
-            if (this.Parameters == null || this.NavigationService == null || this.NavigationService.Region == null)
+            if (Parameters == null || NavigationService == null || NavigationService.Region == null)
             {
-                this.Parameters = new NavigationParameters();
+                Parameters = new NavigationParameters();
                 return;
             }
 
             if (navigationParameters != null)
-            { 
+            {
                 foreach (KeyValuePair<string, object> navigationParameter in navigationParameters)
                 {
-                    this.Parameters.Add(navigationParameter.Key, navigationParameter.Value);
+                    if (!Parameters.ContainsKey(navigationParameter.Key))
+                        Parameters.Add(navigationParameter.Key, navigationParameter.Value);
                 }
             }
         }

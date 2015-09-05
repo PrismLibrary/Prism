@@ -1,8 +1,5 @@
-
-
 using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Prism.Interactivity
@@ -21,7 +18,6 @@ namespace Prism.Interactivity
         private readonly WeakReference _targetObject;
         private readonly EventHandler _commandCanExecuteChangedHandler;
 
-
         /// <summary>
         /// Constructor specifying the target object.
         /// </summary>
@@ -31,6 +27,17 @@ namespace Prism.Interactivity
             _targetObject = new WeakReference(targetObject);
 
             _commandCanExecuteChangedHandler = CommandCanExecuteChanged;
+        }
+
+        bool _autoEnabled = true;
+        public bool AutoEnable
+        {
+            get { return _autoEnabled; }
+            set
+            {
+                _autoEnabled = value;
+                UpdateEnabledState();
+            }
         }
 
         /// <summary>
@@ -95,7 +102,8 @@ namespace Prism.Interactivity
             }
             else if (Command != null)
             {
-                TargetObject.IsEnabled = Command.CanExecute(CommandParameter);
+                if (AutoEnable)
+                    TargetObject.IsEnabled = Command.CanExecute(CommandParameter);
             }
         }
 

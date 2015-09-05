@@ -65,6 +65,9 @@
     <Compile Include="Interactivity\DefaultPopupWindows\DefaultNotificationWindow.xaml.cs">
       <DependentUpon>DefaultNotificationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interactivity\DefaultPopupWindows\DefaultWindow.xaml.cs">
+      <DependentUpon>DefaultWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interactivity\InteractionRequest\Confirmation.cs" />
     <Compile Include="Interactivity\InteractionRequest\IConfirmation.cs" />
     <Compile Include="Interactivity\InteractionRequest\IInteractionRequest.cs" />
@@ -188,7 +191,6 @@
     <Compile Include="Regions\RegionBehaviorFactory.cs" />
     <Compile Include="Regions\RegionContext.cs" />
     <Compile Include="Regions\RegionManager.cs" />
-    <Compile Include="Regions\RegionManagerExtensions.cs" />
     <Compile Include="Regions\RegionMemberLifetimeAttribute.cs" />
     <Compile Include="Regions\RegionNavigationContentLoader.cs" />
     <Compile Include="Regions\RegionNavigationEventArgs.cs" />
@@ -229,6 +231,10 @@
     <Page Include="Interactivity\DefaultPopupWindows\DefaultNotificationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interactivity\DefaultPopupWindows\DefaultWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

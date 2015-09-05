@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Windows;
+using Prism.Windows.AppModel;
+using Prism.Windows.Navigation;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 
@@ -41,7 +44,7 @@ namespace Prism.Unity.Windows
         /// <summary>
         /// Allow strongly typed access to the Application as a global
         /// </summary>
-        public static new PrismUnityApplication Current => (PrismUnityApplication) Application.Current;
+        public static new PrismUnityApplication Current => (PrismUnityApplication)Application.Current;
 
         /// <summary>
         /// Get the IoC Unity Container 
@@ -60,11 +63,12 @@ namespace Prism.Unity.Windows
         /// Implements and seals the OnInitialize method to configure the container.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
-        protected override void OnInitialize(IActivatedEventArgs args)
+        protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
             ConfigureContainer();
-
             ConfigureViewModelLocator();
+
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -127,7 +131,11 @@ namespace Prism.Unity.Windows
 
             Logger.Log("Registering Prism services with container", Category.Debug, Priority.Low);
             Container.RegisterInstance<ILoggerFacade>(Logger);
+            Container.RegisterInstance<ISessionStateService>(SessionStateService);
+            Container.RegisterInstance<INavigationService>(NavigationService);
+            Container.RegisterInstance<IDeviceGestureService>(DeviceGestureService);
             RegisterTypeIfMissing(typeof(IEventAggregator), typeof(EventAggregator), true);
+
         }
 
         /// <summary>

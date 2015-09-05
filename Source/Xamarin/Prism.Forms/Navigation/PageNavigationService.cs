@@ -23,7 +23,7 @@ namespace Prism.Navigation
 
         public void Navigate<T>(NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)
         {
-            Navigate(typeof(T).Name, parameters, useModalNavigation, animated);
+            Navigate(typeof(T).FullName, parameters, useModalNavigation, animated);
         }
 
         public void Navigate(string name, NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)

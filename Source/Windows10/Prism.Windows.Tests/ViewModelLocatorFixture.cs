@@ -16,7 +16,7 @@ namespace Prism.Windows.Tests
         public IAsyncAction ExecuteOnUIThread(DispatchedHandler action)
         {
             return CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, action);
-        } 
+        }
 
         [TestMethod]
         public async Task AutoWireViewModel_With_Factory_Registration()
@@ -82,7 +82,7 @@ namespace Prism.Windows.Tests
                 ViewModelLocationProvider.SetDefaultViewModelFactory((viewModelType) =>
                 {
                     // The ViewModel has a constructor with no parameters
-                    return Activator.CreateInstance(viewModelType) as ViewModel;
+                    return Activator.CreateInstance(viewModelType) as ViewModelBase;
                 });
 
                 // Fire AutoWireViewModelChanged
