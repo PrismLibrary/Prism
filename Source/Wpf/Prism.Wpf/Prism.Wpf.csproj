@@ -198,6 +198,7 @@
     <Compile Include="Regions\RegionNavigationJournal.cs" />
     <Compile Include="Regions\RegionNavigationJournalEntry.cs" />
     <Compile Include="Regions\RegionNavigationService.cs" />
+    <Compile Include="Regions\RegionNavigationServiceMixins.cs" />
     <Compile Include="Regions\RegionViewRegistry.cs" />
     <Compile Include="Regions\SelectorRegionAdapter.cs" />
     <Compile Include="Regions\SingleActiveRegion.cs" />
