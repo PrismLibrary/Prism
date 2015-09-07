@@ -3,12 +3,12 @@ using Windows.Foundation.Metadata;
 using Windows.UI.ApplicationSettings;
 using HelloWorld.Services;
 using Prism.Windows.Mvvm;
-using Prism.Windows.Interfaces;
 using Prism.Commands;
+using Prism.Windows.Navigation;
 
 namespace HelloWorld.ViewModels
 {
-    public class MainPageViewModel : ViewModel
+    public class MainPageViewModel : ViewModelBase
     {
         private readonly IDataRepository _dataRepository;
         

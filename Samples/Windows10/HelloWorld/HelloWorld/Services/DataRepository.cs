@@ -1,5 +1,5 @@
-using Prism.Windows.Interfaces;
 using System.Collections.Generic;
+using Prism.Windows.AppModel;
 
 namespace HelloWorld.Services
 {
