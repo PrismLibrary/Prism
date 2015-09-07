@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using HelloWorld.Services;
 using Prism.Commands;
 using Prism.Windows.AppModel;
-using Prism.Windows.Interfaces;
 using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
 
 namespace HelloWorld.ViewModels
 {
-    public class UserInputPageViewModel : ViewModel
+    public class UserInputPageViewModel : ViewModelBase
     {
         private readonly IDataRepository _dataRepository;
         private readonly INavigationService _navService;
