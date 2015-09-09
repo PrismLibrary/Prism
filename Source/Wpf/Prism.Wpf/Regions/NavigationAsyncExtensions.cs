@@ -2,6 +2,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Prism.Common;
 
 namespace Prism.Regions
 {
@@ -97,30 +98,22 @@ namespace Prism.Regions
         /// </summary>
         /// <param name="navigation">The navigation object.</param>
         /// <param name="target">A string that represents the target where the region will navigate.</param>
-        /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
         /// <returns>The result of the navigation request.</returns>
-        public static async Task<NavigationResult> RequestNavigateAsync(this INavigateAsync navigateAsync, string target, NavigationParameters navigationParameters = null)
+        public static async Task<NavigationResult> RequestNavigateAsync(this INavigateAsync navigation, string target)
         {
-            return await AwaitCallbackResult<NavigationResult>(callback => navigateAsync.RequestNavigate(target, callback, navigationParameters));
+            return await navigation.RequestNavigateAsync(new Uri(target, UriKind.RelativeOrAbsolute));
         }
 
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="target"/>.
         /// </summary>
         /// <param name="navigation">The navigation object.</param>
-        /// <param name="target">A Uri that represents the target where the region will navigate.</param>
+        /// <param name="target">A string that represents the target where the region will navigate.</param>
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
         /// <returns>The result of the navigation request.</returns>
-        public static async Task<NavigationResult> RequestNavigateAsync(this INavigateAsync navigateAsync, Uri target, NavigationParameters navigationParameters = null)
+        public static async Task<NavigationResult> RequestNavigateAsync(this INavigateAsync navigation, string target, NavigationParameters navigationParameters)
         {
-            return await AwaitCallbackResult<NavigationResult>(callback => navigateAsync.RequestNavigate(target, callback, navigationParameters));
-        }
-
-        private static async Task<TResult> AwaitCallbackResult<TResult>(Action<Action<TResult>> f)
-        {
-            var tcs = new TaskCompletionSource<TResult>();
-            f(n => tcs.SetResult(n));
-            return await tcs.Task;
+            return await navigation.RequestNavigateAsync(new Uri(target, UriKind.RelativeOrAbsolute), navigationParameters);
         }
     }
 }

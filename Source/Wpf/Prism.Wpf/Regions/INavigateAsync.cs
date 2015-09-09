@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Threading.Tasks;
 
 namespace Prism.Regions
 {
@@ -35,5 +36,19 @@ namespace Prism.Regions
         /// <see cref="NavigationAsyncExtensions"/> class.
         /// </remarks>
         void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters);
+
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="target"/>.
+        /// </summary>
+        /// <param name="target">A Uri that represents the target where the region will navigate.</param>
+        Task<NavigationResult> RequestNavigateAsync(Uri target);
+
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="target"/>.
+        /// </summary>
+        /// <param name="target">A Uri that represents the target where the region will navigate.</param>
+        /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
+        /// <returns>The result of the navigation request.</returns>
+        Task<NavigationResult> RequestNavigateAsync(Uri target, NavigationParameters navigationParameters);
     }
 }

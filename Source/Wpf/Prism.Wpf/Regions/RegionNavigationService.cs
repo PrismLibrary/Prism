@@ -8,6 +8,7 @@ using System.Windows;
 using Prism.Properties;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Common;
+using System.Threading.Tasks;
 
 namespace Prism.Regions
 {
@@ -136,6 +137,29 @@ namespace Prism.Regions
             {
                 this.NotifyNavigationFailed(new NavigationContext(this, target), navigationCallback, e);
             }
+        }
+
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="target"/>.
+        /// </summary>
+        /// <param name="navigation">The navigation object.</param>
+        /// <param name="target">A Uri that represents the target where the region will navigate.</param>
+        /// <returns>The result of the navigation request.</returns>
+        public async Task<NavigationResult> RequestNavigateAsync(Uri target)
+        {
+            return await CallbackHelper.AwaitCallbackResult<NavigationResult>(callback => this.RequestNavigate(target, callback));
+        }
+
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="target"/>.
+        /// </summary>
+        /// <param name="navigation">The navigation object.</param>
+        /// <param name="target">A Uri that represents the target where the region will navigate.</param>
+        /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
+        /// <returns>The result of the navigation request.</returns>
+        public async Task<NavigationResult> RequestNavigateAsync(Uri target, NavigationParameters navigationParameters)
+        {
+            return await CallbackHelper.AwaitCallbackResult<NavigationResult>(callback => this.RequestNavigate(target, callback, navigationParameters));
         }
 
         private void DoNavigate(Uri source, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
