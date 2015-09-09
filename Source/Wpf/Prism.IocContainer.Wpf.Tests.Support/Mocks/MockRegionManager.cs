@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Threading.Tasks;
 using Prism.Regions;
 
 namespace Prism.IocContainer.Wpf.Tests.Support.Mocks
@@ -74,11 +75,31 @@ namespace Prism.IocContainer.Wpf.Tests.Support.Mocks
             throw new NotImplementedException();
         }
 
-        #endregion
-
         public bool Navigate(Uri source)
         {
             throw new NotImplementedException();
         }
+
+        public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri target, NavigationParameters navigationParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri target)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<NavigationResult> RequestNavigateAsync(string regionName, string target, NavigationParameters navigationParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<NavigationResult> RequestNavigateAsync(string regionName, string target)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

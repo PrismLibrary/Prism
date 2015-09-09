@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -503,6 +504,26 @@ namespace Prism.Wpf.Tests.Regions
             }
 
             public bool Navigate(Uri source)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri target, NavigationParameters navigationParameters)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri target)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, string target, NavigationParameters navigationParameters)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, string target)
             {
                 throw new NotImplementedException();
             }
