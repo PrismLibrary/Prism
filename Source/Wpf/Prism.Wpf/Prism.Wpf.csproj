@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Common\CallbackHelper.cs" />
     <Compile Include="Common\MvvmHelpers.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Events\WeakDelegatesManager.cs" />
