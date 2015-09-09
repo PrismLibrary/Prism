@@ -1,6 +1,8 @@
 
 
 using System;
+using System.Threading.Tasks;
+using Prism.Common;
 
 namespace Prism.Interactivity.InteractionRequest
 {
@@ -38,6 +40,17 @@ namespace Prism.Interactivity.InteractionRequest
             {
                 handler(this, new InteractionRequestedEventArgs(context, () => { if(callback != null) callback(context); } ));
             }
+        }
+
+        /// <summary>
+        /// Fires the Raised event asynchronously. Please note that this request may never return
+        /// if the InteractionRequest is unhandled.
+        /// </summary>
+        /// <param name="context">The context for the interaction request.</param>
+        /// <returns>The context after the request has been handled by the UI.</returns>
+        public async Task<T> RaiseAsync(T context)
+        {
+            return await CallbackHelper.AwaitCallbackResult<T>(callback => this.Raise(context, callback));
         }
     }
 }

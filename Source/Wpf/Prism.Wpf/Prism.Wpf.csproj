@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Common\CallbackHelper.cs" />
     <Compile Include="Common\MvvmHelpers.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Events\WeakDelegatesManager.cs" />
@@ -75,7 +76,6 @@
     <Compile Include="Interactivity\InteractionRequest\INotification.cs" />
     <Compile Include="Interactivity\InteractionRequest\InteractionRequest.cs" />
     <Compile Include="Interactivity\InteractionRequest\InteractionRequestedEventArgs.cs" />
-    <Compile Include="Interactivity\InteractionRequest\InteractionRequestMixins.cs" />
     <Compile Include="Interactivity\InteractionRequest\InteractionRequestTrigger.cs" />
     <Compile Include="Interactivity\InteractionRequest\Notification.cs" />
     <Compile Include="Interactivity\InvokeCommandAction.cs" />
