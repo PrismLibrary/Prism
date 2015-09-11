@@ -8,7 +8,7 @@ namespace Prism.Services
     {
         private Page _page;
 
-        #region Implementation of IAlertService
+        #region Implementation of IPageDialogService
 
         public async Task<bool> DisplayAlert(string title, string message, string acceptButton, string cancelButton)
         {
@@ -19,10 +19,6 @@ namespace Prism.Services
         {
             await _page.DisplayAlert(title, message, cancelButton);
         }
-
-        #endregion
-
-        #region Implementaiton of IActionSheetService
 
         public async Task<string> DisplayActionSheet(string title, string cancelButton, string destroyButton, params string[] otherButtons)
         {
