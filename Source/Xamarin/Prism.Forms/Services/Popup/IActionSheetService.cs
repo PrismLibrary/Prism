@@ -1,11 +1,12 @@
 using System.Threading.Tasks;
+using Prism.Navigation;
 
-namespace Prism.UserInteraction.Abstractions
+namespace Prism.Services
 {
     /// <summary>
     /// Service to display a view with multiple options.
     /// </summary>
-    public interface IUserActionService
+    public interface IActionSheetService : IPageAware
     {
         /// <summary>
         /// Display a view with multiple options

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Prism.UserInteraction.Abstractions
+namespace Prism.Services
 {
 
     /// <summary>
@@ -16,10 +16,10 @@ namespace Prism.UserInteraction.Abstractions
         /// </para>
         /// <param name="title">Title to display.</param>
         /// <param name="message">Message to display.</param>
-        /// <param name="accepetButton">Text for the accept button.</param>
+        /// <param name="acceptButton">Text for the accept button.</param>
         /// <param name="cancelButton">Text for the cancel button.</param>
         /// <returns><c>true</c> iff non-destructive button pressed; otherwise <c>false</c>/></returns>
-        Task<bool> DisplayAlert(string title, string message, string accepetButton, string cancelButton);
+        Task<bool> DisplayAlert(string title, string message, string acceptButton, string cancelButton);
 
         /// <summary>
         /// Display an alert view with one button with <paramref name="title"/> and <paramref name="message"/>.
