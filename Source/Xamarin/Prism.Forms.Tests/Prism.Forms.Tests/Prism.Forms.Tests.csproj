@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Mocks\PopupServiceMock.cs" />
+    <Compile Include="Mocks\PageDialogServiceMock.cs" />
     <Compile Include="PopupServiceFixture.cs" />
   </ItemGroup>
   <ItemGroup>

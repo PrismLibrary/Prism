@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace Prism.Services
 {
-    public class PopupService : IPopupService
+    public class PageDialogService : IPageDialogService
     {
         private Page _page;
 
