@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism", "Prism\Prism.csproj", "{E6C50355-D01E-4CAA-884D-D7929861315C}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FEC22018-CBB0-493A-942D-59D1B93496E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{9B88B369-86FE-4FE2-90ED-4B723B4EDA05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Forms.Tests", "Xamarin\Prism.Forms.Tests\Prism.Forms.Tests.csproj", "{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,22 @@ Global
 		{B6E74918-D92B-4690-BEC9-0BB199A6E933}.Release|ARM.ActiveCfg = Release|Any CPU
 		{B6E74918-D92B-4690-BEC9-0BB199A6E933}.Release|x64.ActiveCfg = Release|Any CPU
 		{B6E74918-D92B-4690-BEC9-0BB199A6E933}.Release|x86.ActiveCfg = Release|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Debug|ARM.Build.0 = Debug|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Debug|x64.Build.0 = Debug|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Debug|x86.Build.0 = Debug|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Release|ARM.Build.0 = Release|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Release|x64.ActiveCfg = Release|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Release|x64.Build.0 = Release|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Release|x86.ActiveCfg = Release|Any CPU
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,5 +92,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E6C50355-D01E-4CAA-884D-D7929861315C} = {9B88B369-86FE-4FE2-90ED-4B723B4EDA05}
 		{B6E74918-D92B-4690-BEC9-0BB199A6E933} = {9B88B369-86FE-4FE2-90ED-4B723B4EDA05}
+		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F} = {FEC22018-CBB0-493A-942D-59D1B93496E8}
 	EndGlobalSection
 EndGlobal

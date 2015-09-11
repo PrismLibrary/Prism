@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace Prism.Navigation
+namespace Prism.Common
 {
     public interface IPageAware
     {
