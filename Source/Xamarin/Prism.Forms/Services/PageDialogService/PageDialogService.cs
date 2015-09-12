@@ -73,7 +73,7 @@ namespace Prism.Services
         public virtual async Task DisplayActionSheet(string title, params IActionSheetButton[] buttons)
         {
             if (buttons == null || buttons.All(b => b == null))
-                throw new ArgumentException("At least one button needs to be supplied", nameof(buttons));
+                throw new ArgumentException("At least one button needs to be supplied", "buttons");
 
             var destroyButton = buttons.FirstOrDefault(button => button != null && button.IsDestroy);
             var cancelButton = buttons.FirstOrDefault(button => button != null && button.IsCancel);
