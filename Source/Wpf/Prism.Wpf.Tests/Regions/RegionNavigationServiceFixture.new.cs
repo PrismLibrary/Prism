@@ -930,7 +930,7 @@ namespace Prism.Wpf.Tests.Regions
             mockDataContext.Verify(v => v.OnNavigatedFrom(It.Is<NavigationContext>(ctx => ctx.Uri == navigationUri && ctx.Parameters.Count() == 0)));
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void WhenNavigatingWithNullCallback_ThenThrows()
         {
             var region = new Region();

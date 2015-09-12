@@ -125,21 +125,19 @@ namespace Prism.Regions
         /// <param name="target">The target.</param>
         /// <param name="navigationCallback">A callback to execute when the navigation request is completed.</param>
         /// <param name="navigationParameters">The navigation parameters specific to the navigation request.</param>
-        public async void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
         {
             if (navigationCallback == null) throw new ArgumentNullException("navigationCallback");
 
-            NavigationResult result;
             try
             {
-                result = await this.DoNavigate(target, navigationParameters);
+                this.DoNavigate(target, navigationCallback, navigationParameters);
             }
             catch (Exception e)
             {
-                result = this.NotifyNavigationFailed(new NavigationContext(this, target), e);
+                var result = this.NotifyNavigationFailed(new NavigationContext(this, target), e);
+                navigationCallback(result);
             }
-
-            navigationCallback(result);
         }
 
         /// <summary>
@@ -165,7 +163,9 @@ namespace Prism.Regions
             return await CallbackHelper.AwaitCallbackResult<NavigationResult>(callback => this.RequestNavigate(target, callback, navigationParameters));
         }
 
-        private async Task<NavigationResult> DoNavigate(Uri source, NavigationParameters navigationParameters)
+        #region synchronous implementation
+
+        private void DoNavigate(Uri source, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
         {
             if (source == null)
             {
@@ -180,13 +180,165 @@ namespace Prism.Regions
             this.currentNavigationContext = new NavigationContext(this, source, navigationParameters);
 
             // starts querying the active views
-            return await RequestCanNavigateFromOnCurrentlyActiveView(
+            RequestCanNavigateFromOnCurrentlyActiveView(
+                this.currentNavigationContext,
+                navigationCallback,
+                this.Region.ActiveViews.ToArray(),
+                0);
+        }
+
+        private void RequestCanNavigateFromOnCurrentlyActiveView(
+            NavigationContext navigationContext,
+            Action<NavigationResult> navigationCallback,
+            object[] activeViews,
+            int currentViewIndex)
+        {
+            if (currentViewIndex < activeViews.Length)
+            {
+                var vetoingView = activeViews[currentViewIndex] as IConfirmNavigationRequest;
+                if (vetoingView != null)
+                {
+                    // the current active view implements IConfirmNavigationRequest, request confirmation
+                    // providing a callback to resume the navigation request
+                    vetoingView.ConfirmNavigationRequest(
+                        navigationContext,
+                        canNavigate =>
+                        {
+                            if (this.currentNavigationContext == navigationContext && canNavigate)
+                            {
+                                RequestCanNavigateFromOnCurrentlyActiveViewModel(
+                                    navigationContext,
+                                    navigationCallback,
+                                    activeViews,
+                                    currentViewIndex);
+                            }
+                            else
+                            {
+                                navigationCallback(this.NotifyNavigationFailed(navigationContext, null));
+                            }
+                        });
+                }
+                else
+                {
+                    RequestCanNavigateFromOnCurrentlyActiveViewModel(
+                        navigationContext,
+                        navigationCallback,
+                        activeViews,
+                        currentViewIndex);
+                }
+            }
+            else
+            {
+                ExecuteNavigation(navigationContext, activeViews, navigationCallback);
+            }
+        }
+
+        private void RequestCanNavigateFromOnCurrentlyActiveViewModel(
+            NavigationContext navigationContext,
+            Action<NavigationResult> navigationCallback,
+            object[] activeViews,
+            int currentViewIndex)
+        {
+            var frameworkElement = activeViews[currentViewIndex] as FrameworkElement;
+
+            if (frameworkElement != null)
+            {
+                var vetoingViewModel = frameworkElement.DataContext as IConfirmNavigationRequest;
+
+                if (vetoingViewModel != null)
+                {
+                    // the data model for the current active view implements IConfirmNavigationRequest, request confirmation
+                    // providing a callback to resume the navigation request
+                    vetoingViewModel.ConfirmNavigationRequest(
+                        navigationContext,
+                        canNavigate =>
+                        {
+                            if (this.currentNavigationContext == navigationContext && canNavigate)
+                            {
+                                RequestCanNavigateFromOnCurrentlyActiveView(
+                                    navigationContext,
+                                    navigationCallback,
+                                    activeViews,
+                                    currentViewIndex + 1);
+                            }
+                            else
+                            {
+                                navigationCallback(this.NotifyNavigationFailed(navigationContext, null));
+                            }
+                        });
+
+                    return;
+                }
+            }
+
+            RequestCanNavigateFromOnCurrentlyActiveView(
+                navigationContext,
+                navigationCallback,
+                activeViews,
+                currentViewIndex + 1);
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exception is marshalled to callback")]
+        private void ExecuteNavigation(NavigationContext navigationContext, object[] activeViews, Action<NavigationResult> navigationCallback)
+        {
+            try
+            {
+                NotifyActiveViewsNavigatingFrom(navigationContext, activeViews);
+
+                object view = this.regionNavigationContentLoader.LoadContent(this.Region, navigationContext);
+
+                // Raise the navigating event just before activing the view.
+                this.RaiseNavigating(navigationContext);
+
+                this.Region.Activate(view);
+
+                // Update the navigation journal before notifying others of navigaton
+                IRegionNavigationJournalEntry journalEntry = this.serviceLocator.GetInstance<IRegionNavigationJournalEntry>();
+                journalEntry.Uri = navigationContext.Uri;
+                journalEntry.Parameters = navigationContext.Parameters;
+                this.journal.RecordNavigation(journalEntry);
+
+                // The view can be informed of navigation
+                Action<INavigationAware> action = (n) => n.OnNavigatedTo(navigationContext);
+                MvvmHelpers.ViewAndViewModelAction(view, action);
+
+                navigationCallback(new NavigationResult(navigationContext, true));
+
+                // Raise the navigated event when navigation is completed.
+                this.RaiseNavigated(navigationContext);
+            }
+            catch (Exception e)
+            {
+                navigationCallback(this.NotifyNavigationFailed(navigationContext, e));
+            }
+        }
+
+        #endregion
+
+        #region async implementation
+
+        private async Task<NavigationResult> DoNavigateAsync(Uri source, NavigationParameters navigationParameters)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            if (this.Region == null)
+            {
+                throw new InvalidOperationException(Resources.NavigationServiceHasNoRegion);
+            }
+
+            this.currentNavigationContext = new NavigationContext(this, source, navigationParameters);
+
+            // starts querying the active views
+            return await RequestCanNavigateFromOnCurrentlyActiveViewAsync(
                 this.currentNavigationContext,
                 this.Region.ActiveViews.ToArray(),
                 0);
         }
 
-        private async Task<NavigationResult> RequestCanNavigateFromOnCurrentlyActiveView(
+        private async Task<NavigationResult> RequestCanNavigateFromOnCurrentlyActiveViewAsync(
             NavigationContext navigationContext,
             object[] activeViews,
             int currentViewIndex)
@@ -203,7 +355,7 @@ namespace Prism.Regions
 
                     if (this.currentNavigationContext == navigationContext && canNavigate)
                     {
-                        return await RequestCanNavigateFromOnCurrentlyActiveViewModel(
+                        return await RequestCanNavigateFromOnCurrentlyActiveViewModelAsync(
                             navigationContext,
                             activeViews,
                             currentViewIndex);
@@ -215,7 +367,7 @@ namespace Prism.Regions
                 }
                 else
                 {
-                    return await RequestCanNavigateFromOnCurrentlyActiveViewModel(
+                    return await RequestCanNavigateFromOnCurrentlyActiveViewModelAsync(
                         navigationContext,
                         activeViews,
                         currentViewIndex);
@@ -227,7 +379,7 @@ namespace Prism.Regions
             }
         }
 
-        private async Task<NavigationResult> RequestCanNavigateFromOnCurrentlyActiveViewModel(
+        private async Task<NavigationResult> RequestCanNavigateFromOnCurrentlyActiveViewModelAsync(
             NavigationContext navigationContext,
             object[] activeViews,
             int currentViewIndex)
@@ -242,12 +394,12 @@ namespace Prism.Regions
                 {
                     // the data model for the current active view implements IConfirmNavigationRequest, request confirmation
                     // providing a callback to resume the navigation request
-                    var canNavigate = await CallbackHelper.AwaitCallbackResult<bool>(callback => 
+                    var canNavigate = await CallbackHelper.AwaitCallbackResult<bool>(callback =>
                         vetoingViewModel.ConfirmNavigationRequest(navigationContext, callback));
 
                     if (this.currentNavigationContext == navigationContext && canNavigate)
                     {
-                        return await RequestCanNavigateFromOnCurrentlyActiveView(
+                        return await RequestCanNavigateFromOnCurrentlyActiveViewAsync(
                             navigationContext,
                             activeViews,
                             currentViewIndex + 1);
@@ -259,11 +411,13 @@ namespace Prism.Regions
                 }
             }
 
-            return await RequestCanNavigateFromOnCurrentlyActiveView(
+            return await RequestCanNavigateFromOnCurrentlyActiveViewAsync(
                 navigationContext,
                 activeViews,
                 currentViewIndex + 1);
         }
+
+        #endregion
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exception is marshalled to callback")]
         private NavigationResult ExecuteNavigation(NavigationContext navigationContext, object[] activeViews)
