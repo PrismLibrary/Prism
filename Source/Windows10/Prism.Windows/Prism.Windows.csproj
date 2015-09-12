@@ -91,27 +91,30 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AppModel\AppManifestHelper.cs" />
-    <Compile Include="AppModel\CancelableEventArgs.cs" />
     <Compile Include="AppModel\DeviceGestureEventArgs.cs" />
     <Compile Include="AppModel\DeviceGestureService.cs" />
-    <Compile Include="AppModel\FrameNavigationService.cs" />
+    <Compile Include="Navigation\FrameNavigationService.cs" />
     <Compile Include="AppModel\ResourceLoaderAdapter.cs" />
     <Compile Include="AppModel\RestorableStateAttribute.cs" />
     <Compile Include="AppModel\SessionStateService.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Interfaces\IDeviceGestureService.cs" />
-    <Compile Include="Interfaces\IFrameFacade.cs" />
-    <Compile Include="Interfaces\INavigationAware.cs" />
-    <Compile Include="Interfaces\INavigationService.cs" />
-    <Compile Include="Interfaces\IResourceLoader.cs" />
-    <Compile Include="Interfaces\ISessionStateService.cs" />
-    <Compile Include="Mvvm\FrameFacadeAdapter.cs" />
-    <Compile Include="Mvvm\MvvmNavigatedEventArgs.cs" />
+    <Compile Include="AppModel\IDeviceGestureService.cs" />
+    <Compile Include="Navigation\IFrameFacade.cs" />
+    <Compile Include="Navigation\INavigationAware.cs" />
+    <Compile Include="Navigation\INavigationService.cs" />
+    <Compile Include="AppModel\IResourceLoader.cs" />
+    <Compile Include="AppModel\ISessionStateService.cs" />
+    <Compile Include="Navigation\FrameFacadeAdapter.cs" />
+    <Compile Include="Navigation\NavigatedToEventArgs.cs" />
+    <Compile Include="Navigation\NavigatingFromEventArgs.cs" />
     <Compile Include="Mvvm\ViewModelLocator.cs" />
     <Compile Include="Mvvm\VisualStateAwarePage.cs" />
     <Compile Include="PrismApplication.cs" />
-    <Compile Include="Mvvm\ViewModel.cs" />
+    <Compile Include="Mvvm\ViewModelBase.cs" />
+    <Compile Include="Validation\BindableValidator.cs" />
+    <Compile Include="Validation\IValidatableBindableBase.cs" />
+    <Compile Include="Validation\ValidatableBindableBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->

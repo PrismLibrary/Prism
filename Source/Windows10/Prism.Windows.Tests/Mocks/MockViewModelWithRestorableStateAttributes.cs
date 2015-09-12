@@ -5,7 +5,7 @@ using Prism.Windows.AppModel;
 
 namespace Prism.Windows.Tests.Mocks
 {
-    public class MockViewModelWithRestorableStateAttributes : ViewModel
+    public class MockViewModelWithRestorableStateAttributes : ViewModelBase
     {
         private string _title;
         private string _description;

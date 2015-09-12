@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Prism.Windows.Interfaces;
-using Windows.ApplicationModel;
-using Windows.System;
+using Prism.Commands;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Prism.Commands;
+using Prism.Windows.Navigation;
 
 namespace Prism.Windows.Mvvm
 {

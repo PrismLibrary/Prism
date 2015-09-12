@@ -3,12 +3,12 @@ using Windows.Foundation.Metadata;
 using Windows.UI.ApplicationSettings;
 using HelloWorld.Services;
 using Prism.Windows.Mvvm;
-using Prism.Windows.Interfaces;
 using Prism.Commands;
+using Prism.Windows.Navigation;
 
 namespace HelloWorld.ViewModels
 {
-    public class MainPageViewModel : ViewModel
+    public class MainPageViewModel : ViewModelBase
     {
         private readonly IDataRepository _dataRepository;
         
@@ -24,6 +24,21 @@ namespace HelloWorld.ViewModels
         public List<string> DisplayItems
         {
             get { return _dataRepository.GetFeatures(); }
+        }
+
+        private bool _isNavigationDisabled;
+
+        public bool IsNavigationDisabled
+        {
+            get { return _isNavigationDisabled; }
+            set { SetProperty(ref _isNavigationDisabled, value); }
+        }
+
+        public override void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
+        {
+            e.Cancel = _isNavigationDisabled;
+
+            base.OnNavigatingFrom(e, viewModelState, suspending);
         }
     }
 }

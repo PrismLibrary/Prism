@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Navigation;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Tests.Mocks;
 using Prism.Windows.AppModel;
+using Prism.Windows.Navigation;
 
 namespace Prism.Windows.Tests
 {
@@ -76,7 +77,7 @@ namespace Prism.Windows.Tests
                 };
 
                 // Set up the viewModel to the Page we navigated
-                frame.Navigated += (sender, e) =>
+                frame.NavigatedTo += (sender, e) =>
                 {
                     var view = frame.Content as FrameworkElement;
                     view.DataContext = viewModel;

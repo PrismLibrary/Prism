@@ -1,5 +1,5 @@
 ﻿using System;
-using Prism.Windows.Interfaces;
+using System.ComponentModel;
 using Windows.Devices.Input;
 using Windows.Foundation.Metadata;
 using Windows.Phone.UI.Input;
@@ -10,10 +10,44 @@ using Windows.UI.Xaml;
 namespace Prism.Windows.AppModel
 {
     /// <summary>
-    /// The DeviceGestureService class is used for handling mouse, keyboard, hardware button and other gesture events.
+    /// The DeviceGestureService class is used for handling mouse, 
+    /// keyboard, hardware button and other gesture events.
     /// </summary>
     public class DeviceGestureService : IDeviceGestureService
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public DeviceGestureService()
+        {
+            IsHardwareBackButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed");
+            IsHardwareCameraButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "CameraPressed");
+
+            IsKeyboardPresent = new KeyboardCapabilities().KeyboardPresent != 0;
+            IsMousePresent = new MouseCapabilities().MousePresent != 0;
+            IsTouchPresent = new TouchCapabilities().TouchPresent != 0;
+
+            if (IsHardwareBackButtonPresent)
+                HardwareButtons.BackPressed += OnHardwareButtonsBackPressed;
+
+            if (IsHardwareCameraButtonPresent)
+            {
+                HardwareButtons.CameraHalfPressed += OnHardwareButtonCameraHalfPressed;
+                HardwareButtons.CameraPressed += OnHardwareButtonCameraPressed;
+                HardwareButtons.CameraReleased += OnHardwareButtonCameraReleased;
+            }
+
+            if (IsMousePresent)
+                MouseDevice.GetForCurrentView().MouseMoved += OnMouseMoved;
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnSystemNavigationManagerBackRequested;
+
+            Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += OnAcceleratorKeyActivated;
+
+            Window.Current.CoreWindow.PointerPressed += OnPointerPressed;
+
+        }
+
         public bool IsHardwareBackButtonPresent { get; private set; }
         public bool IsHardwareCameraButtonPresent { get; private set; }
 
@@ -57,10 +91,7 @@ namespace Prism.Windows.AppModel
                     {
                         del(sender, args);
                     }
-                    catch (Exception e)
-                    {
-                        //TODO: Do some sort of logging?
-                    }
+                    catch { } // Events should be fire and forget, subscriber fail should not affect publishing process
                 }
         }
 
@@ -71,7 +102,7 @@ namespace Prism.Windows.AppModel
         /// <param name="eventHandler"></param>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        protected void RaiseCancelableEvent<T>(EventHandler<T> eventHandler, object sender, T args) where T : CancelableEventArgs
+        protected void RaiseCancelableEvent<T>(EventHandler<T> eventHandler, object sender, T args) where T : CancelEventArgs
         {
             EventHandler<T> handler = eventHandler;
 
@@ -90,58 +121,18 @@ namespace Prism.Windows.AppModel
                         if (args.Cancel)
                             break;
                     }
-                    catch (Exception e)
-                    {
-                        //TODO: Do some sort of logging?
-                    }
+                    catch { } // Events should be fire and forget, subscriber fail should not affect publishing process
                 }
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public DeviceGestureService()
-        {
-            IsHardwareBackButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed");
-            IsHardwareCameraButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "CameraPressed");
-
-            IsKeyboardPresent = new KeyboardCapabilities().KeyboardPresent != 0;
-            IsMousePresent = new MouseCapabilities().MousePresent != 0;
-            IsTouchPresent = new TouchCapabilities().TouchPresent != 0;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public virtual void InitializeEventHandlers()
-        {
-            if (IsHardwareBackButtonPresent)
-                HardwareButtons.BackPressed += OnHardwareButtonsBackPressed;
-
-            if (IsHardwareCameraButtonPresent)
-            {
-                HardwareButtons.CameraHalfPressed += OnHardwareButtonCameraHalfPressed;
-                HardwareButtons.CameraPressed += OnHardwareButtonCameraPressed;
-                HardwareButtons.CameraReleased += OnHardwareButtonCameraReleased;
-            }
-
-            if (IsMousePresent)
-                MouseDevice.GetForCurrentView().MouseMoved += OnMouseMoved;
-
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnSystemNavigationManagerBackRequested;
-
-            Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += OnAcceleratorKeyActivated;
-
-            Window.Current.CoreWindow.PointerPressed += OnPointerPressed;
-        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void OnMouseMoved(MouseDevice sender, MouseEventArgs args)
+        protected virtual void OnMouseMoved(MouseDevice sender, MouseEventArgs args)
         {
             RaiseEvent<MouseEventArgs>(MouseMoved, this, args);
         }

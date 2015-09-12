@@ -1,4 +1,5 @@
-using Prism.Windows.Interfaces;
+using Prism.Windows.AppModel;
+using Prism.Windows.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

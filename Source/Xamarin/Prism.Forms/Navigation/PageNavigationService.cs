@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Microsoft.Practices.ServiceLocation;
 using Xamarin.Forms;
+using Prism.Common;
 
 namespace Prism.Navigation
 {
@@ -16,7 +17,6 @@ namespace Prism.Navigation
 
         public void GoBack(bool useModalNavigation = true, bool animated = true)
         {
-            //TODO: figure out how to reliably pass parameter to the target page after we have popped the current page
             var navigation = GetPageNavigation();
             DoPop(navigation, useModalNavigation, animated);
         }
@@ -31,12 +31,6 @@ namespace Prism.Navigation
             var view = ServiceLocator.Current.GetInstance<object>(name) as Page;
             if (view != null)
             {
-                //TODO: I can automatically invoke the VML without the need for the developer to worry about it.
-                //TODO: but this would only work when using the NavigationFramework, and not when declaring Pages in another Page directly (think TabbedPage)
-                //TODO: so I am not sure I should do this.  Community thoughts?
-                //if (view.BindingContext == null)
-                //    ViewModelLocator.SetAutowireViewModel(view, true);
-
                 var navigation = GetPageNavigation();
 
                 if (!CanNavigate(_page, parameters))

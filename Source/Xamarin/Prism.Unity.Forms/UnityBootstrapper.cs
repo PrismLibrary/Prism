@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
+using Prism.Common;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Mvvm;
@@ -69,6 +70,7 @@ namespace Prism.Unity
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IServiceLocator, UnityServiceLocatorAdapter>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDependencyService, DependencyService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IPageDialogService, PageDialogService>(new ContainerControlledLifetimeManager());
         }
 
         protected override void ConfigureServiceLocator()
