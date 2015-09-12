@@ -79,7 +79,10 @@ namespace Prism.Services
             var cancelButton = buttons.FirstOrDefault(button => button != null && button.IsCancel);
             var otherButtonsText = buttons.Where(button => button != null && !(button.IsDestroy || button.IsCancel)).Select(b => b.Text).ToArray();
 
-            var pressedButton = await DisplayActionSheet(title, cancelButton?.Text, destroyButton?.Text, otherButtonsText);
+            //Appveyor doesn't like this, so until they support it, we need to do it the hard way.
+            //var pressedButton = await DisplayActionSheet(title, cancelButton?.Text, destroyButton?.Text, otherButtonsText);
+            //TODO: delete when Appveyor suppports new C# 6 features
+            var pressedButton = await DisplayActionSheet(title, cancelButton != null ? cancelButton.Text : null, destroyButton != null ? destroyButton.Text : null, otherButtonsText);
 
             foreach (var button in buttons.Where(button => button != null && button.Text.Equals(pressedButton)))
             {
