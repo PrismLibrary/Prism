@@ -3,7 +3,7 @@
 namespace Prism.Services
 {
     /// <summary>
-    /// Convenient contract to enable executing commands directly when using <see cref="IPageDialogService.DisplayActionSheet"/>
+    /// Convenient contract to enable executing commands directly when using <see cref="IPageDialogService.DisplayActionSheet(string,string,string,string[])"/>
     /// </summary>
     public interface IActionSheetButton
     {

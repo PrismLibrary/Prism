@@ -30,7 +30,7 @@ namespace Prism.Services
         Task DisplayAlert(string title, string message, string cancelButton);
 
         /// <summary>
-        /// Displays a native platform action sheet, allowing the application user to choose from serveral buttons.
+        /// Displays a native platform action sheet, allowing the application user to choose from several buttons.
         /// </summary>
         /// <param name="title">Title to display in view.</param>
         /// <param name="cancelButton">Text for the cancel button.</param>
@@ -40,13 +40,12 @@ namespace Prism.Services
         Task<string> DisplayActionSheet(string title, string cancelButton, string destroyButton, params string[] otherButtons);
 
         /// <summary>
-        /// Displays a native platform action sheet, allowing the application user to choose from serveral buttons.
+        /// Displays a native platform action sheet, allowing the application user to choose from several buttons.
         /// </summary>
         /// <para>
         /// The text displayed in the action sheet will be the value for <see cref="IActionSheetButton.Text"/> and when pressed
-        /// the <see cref="IActionSheetButton.Callback"/> will be executed.
+        /// the <see cref="IActionSheetButton.Command"/> will be executed.
         /// </para>
-        /// <param name="service">Instance of <see cref="IPageDialogService"/></param>
         /// <param name="title">Text to display in action sheet</param>
         /// <param name="buttons">Buttons displayed in action sheet</param>
         /// <returns></returns>
