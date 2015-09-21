@@ -73,16 +73,13 @@ namespace Prism.Services
         public virtual async Task DisplayActionSheet(string title, params IActionSheetButton[] buttons)
         {
             if (buttons == null || buttons.All(b => b == null))
-                throw new ArgumentException("At least one button needs to be supplied", "buttons");
+                throw new ArgumentException("At least one button needs to be supplied", nameof(buttons));
 
             var destroyButton = buttons.FirstOrDefault(button => button != null && button.IsDestroy);
             var cancelButton = buttons.FirstOrDefault(button => button != null && button.IsCancel);
             var otherButtonsText = buttons.Where(button => button != null && !(button.IsDestroy || button.IsCancel)).Select(b => b.Text).ToArray();
 
-            //Appveyor doesn't like this, so until they support it, we need to do it the hard way.
-            //var pressedButton = await DisplayActionSheet(title, cancelButton?.Text, destroyButton?.Text, otherButtonsText);
-            //TODO: delete when Appveyor suppports new C# 6 features
-            var pressedButton = await DisplayActionSheet(title, cancelButton != null ? cancelButton.Text : null, destroyButton != null ? destroyButton.Text : null, otherButtonsText);
+            var pressedButton = await DisplayActionSheet(title, cancelButton?.Text, destroyButton?.Text, otherButtonsText);
 
             foreach (var button in buttons.Where(button => button != null && button.Text.Equals(pressedButton)))
             {
