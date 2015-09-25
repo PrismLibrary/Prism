@@ -146,10 +146,7 @@ namespace Prism.Windows
 
                 Shell = CreateShell(rootFrame);
 
-                if (Shell != null)
-                    Window.Current.Content = Shell;
-                else
-                    Window.Current.Content = rootFrame;
+                Window.Current.Content = Shell ?? rootFrame;
             }
 
             // If the app is launched via the app's primary tile, the args.TileId property
@@ -167,6 +164,30 @@ namespace Prism.Windows
         }
 
         /// <summary>
+        /// Creates the root frame.
+        /// </summary>
+        /// <returns>The initialized root frame.</returns>
+        private Frame CreateRootFrame() => OnCreateRootFrame() ?? new Frame();
+
+        /// <summary>
+        /// Creates the root frame. Use this to inject your own Frame implementation.
+        /// </summary>
+        /// <returns>The initialized root frame.</returns>
+        protected virtual Frame OnCreateRootFrame() => null;
+
+        /// <summary>
+        /// Creates the session state service.
+        /// </summary>
+        /// <returns>The initialized session state service.</returns>
+        private ISessionStateService CreateSessionStateService() => OnCreateSessionStateService() ?? new SessionStateService();
+
+        /// <summary>
+        /// Creates the session state service. Use this to inject your own ISessionStateService implementation.
+        /// </summary>
+        /// <returns>The initialized session state service.</returns>
+        protected virtual ISessionStateService OnCreateSessionStateService() => null;
+
+        /// <summary>
         /// Initializes the Frame and its content.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
@@ -174,7 +195,7 @@ namespace Prism.Windows
         protected async Task<Frame> InitializeFrameAsync(IActivatedEventArgs args)
         {
             // Create a Frame to act as the navigation context and navigate to the first page
-            var rootFrame = new Frame();
+            var rootFrame = CreateRootFrame();
 
             if (ExtendedSplashScreenFactory != null)
             {
@@ -187,7 +208,7 @@ namespace Prism.Windows
             var frameFacade = new FrameFacadeAdapter(rootFrame);
 
             //Initialize PrismApplication common services
-            SessionStateService = new SessionStateService();
+            SessionStateService = CreateSessionStateService();
 
             //Configure VisualStateAwarePage with the ability to get the session state for its frame
             VisualStateAwarePage.GetSessionStateForFrame =
@@ -233,7 +254,7 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -247,7 +268,7 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -265,7 +286,7 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -277,16 +298,27 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        /// 
+        /// Creates the device gesture service. Use this to inject your own INavigationService implementation.
         /// </summary>
-        /// <returns></returns>
-        protected virtual IDeviceGestureService CreateDeviceGestureService()
-        {
-            DeviceGestureService deviceGestureService = new DeviceGestureService();
-            deviceGestureService.UseTitleBarBackButton = true;
+        /// <returns>The initialized device gesture service.</returns>
+        protected virtual IDeviceGestureService OnCreateDeviceGestureService() => null;
 
+        /// <summary>
+        /// Creates the device gesture service.
+        /// </summary>
+        /// <returns>The initialized device gesture service.</returns>
+        private IDeviceGestureService CreateDeviceGestureService()
+        {
+            var deviceGestureService = OnCreateDeviceGestureService() ?? new DeviceGestureService {UseTitleBarBackButton = true};
             return deviceGestureService;
         }
+
+        /// <summary>
+        /// Creates the navigation service. Use this to inject your own INavigationService implementation.
+        /// </summary>
+        /// <param name="rootFrame">The root frame.</param>
+        /// <returns>The initialized navigation service.</returns>
+        protected virtual INavigationService OnCreateNavigationService(IFrameFacade rootFrame) => null;
 
         /// <summary>
         /// Creates the navigation service.
@@ -296,7 +328,7 @@ namespace Prism.Windows
         /// <returns>The initialized navigation service.</returns>
         private INavigationService CreateNavigationService(IFrameFacade rootFrame, ISessionStateService sessionStateService)
         {
-            var navigationService = new FrameNavigationService(rootFrame, GetPageType, sessionStateService);
+            var navigationService = OnCreateNavigationService(rootFrame) ?? new FrameNavigationService(rootFrame, GetPageType, sessionStateService);
             return navigationService;
         }
 
@@ -324,6 +356,9 @@ namespace Prism.Windows
             {
                 var deferral = e.SuspendingOperation.GetDeferral();
 
+                //Custom calls before suspending.
+                await OnSuspendingApplicationAsync();
+
                 //Bootstrap inform navigation service that app is suspending.
                 NavigationService.Suspending();
 
@@ -337,5 +372,11 @@ namespace Prism.Windows
                 IsSuspending = false;
             }
         }
+
+        /// <summary>
+        /// Invoked when the application is suspending, but before the general suspension calls.
+        /// </summary>
+        /// <returns>Task to complete.</returns>
+        protected virtual Task OnSuspendingApplicationAsync() => Task.FromResult<object>(null);
     }
 }
