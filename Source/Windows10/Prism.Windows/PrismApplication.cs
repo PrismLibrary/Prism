@@ -163,39 +163,39 @@ namespace Prism.Windows
             Window.Current.Activate();
         }
 
-		/// <summary>
-		/// Creates the root frame.
-		/// </summary>
-		/// <returns>The initialized root frame.</returns>
-		private Frame CreateRootFrame() => OnCreateRootFrame() ?? new Frame();
+        /// <summary>
+        /// Creates the root frame.
+        /// </summary>
+        /// <returns>The initialized root frame.</returns>
+        private Frame CreateRootFrame() => OnCreateRootFrame() ?? new Frame();
 
-		/// <summary>
-		/// Creates the root frame. Use this to inject your own Frame implementation.
-		/// </summary>
-		/// <returns>The initialized root frame.</returns>
-		protected virtual Frame OnCreateRootFrame() => null;
+        /// <summary>
+        /// Creates the root frame. Use this to inject your own Frame implementation.
+        /// </summary>
+        /// <returns>The initialized root frame.</returns>
+        protected virtual Frame OnCreateRootFrame() => null;
 
-		/// <summary>
-		/// Creates the session state service.
-		/// </summary>
-		/// <returns>The initialized session state service.</returns>
-		private ISessionStateService CreateSessionStateService() => OnCreateSessionStateService() ?? new SessionStateService();
+        /// <summary>
+        /// Creates the session state service.
+        /// </summary>
+        /// <returns>The initialized session state service.</returns>
+        private ISessionStateService CreateSessionStateService() => OnCreateSessionStateService() ?? new SessionStateService();
 
-		/// <summary>
-		/// Creates the session state service. Use this to inject your own ISessionStateService implementation.
-		/// </summary>
-		/// <returns>The initialized session state service.</returns>
-		protected virtual ISessionStateService OnCreateSessionStateService() => null;
+        /// <summary>
+        /// Creates the session state service. Use this to inject your own ISessionStateService implementation.
+        /// </summary>
+        /// <returns>The initialized session state service.</returns>
+        protected virtual ISessionStateService OnCreateSessionStateService() => null;
 
-		/// <summary>
-		/// Initializes the Frame and its content.
-		/// </summary>
-		/// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
-		/// <returns>A task of a Frame that holds the app content.</returns>
-		protected async Task<Frame> InitializeFrameAsync(IActivatedEventArgs args)
+        /// <summary>
+        /// Initializes the Frame and its content.
+        /// </summary>
+        /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
+        /// <returns>A task of a Frame that holds the app content.</returns>
+        protected async Task<Frame> InitializeFrameAsync(IActivatedEventArgs args)
         {
             // Create a Frame to act as the navigation context and navigate to the first page
-			var rootFrame = CreateRootFrame();
+            var rootFrame = CreateRootFrame();
 
             if (ExtendedSplashScreenFactory != null)
             {
@@ -297,36 +297,36 @@ namespace Prism.Windows
                     NavigationService.CanGoBack() ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
 
-		/// <summary>
-		/// Creates the device gesture service. Use this to inject your own INavigationService implementation.
-		/// </summary>
-		/// <returns>The initialized device gesture service.</returns>
-		protected virtual IDeviceGestureService OnCreateDeviceGestureService() => null;
+        /// <summary>
+        /// Creates the device gesture service. Use this to inject your own INavigationService implementation.
+        /// </summary>
+        /// <returns>The initialized device gesture service.</returns>
+        protected virtual IDeviceGestureService OnCreateDeviceGestureService() => null;
 
-		/// <summary>
-		/// Creates the device gesture service.
-		/// </summary>
-		/// <returns>The initialized device gesture service.</returns>
-		private IDeviceGestureService CreateDeviceGestureService()
+        /// <summary>
+        /// Creates the device gesture service.
+        /// </summary>
+        /// <returns>The initialized device gesture service.</returns>
+        private IDeviceGestureService CreateDeviceGestureService()
         {
-			var deviceGestureService = OnCreateDeviceGestureService() ?? new DeviceGestureService {UseTitleBarBackButton = true};
-			return deviceGestureService;
+            var deviceGestureService = OnCreateDeviceGestureService() ?? new DeviceGestureService {UseTitleBarBackButton = true};
+            return deviceGestureService;
         }
 
-		/// <summary>
-		/// Creates the navigation service. Use this to inject your own INavigationService implementation.
-		/// </summary>
-		/// <param name="rootFrame">The root frame.</param>
-		/// <returns>The initialized navigation service.</returns>
-		protected virtual INavigationService OnCreateNavigationService(IFrameFacade rootFrame) => null;
+        /// <summary>
+        /// Creates the navigation service. Use this to inject your own INavigationService implementation.
+        /// </summary>
+        /// <param name="rootFrame">The root frame.</param>
+        /// <returns>The initialized navigation service.</returns>
+        protected virtual INavigationService OnCreateNavigationService(IFrameFacade rootFrame) => null;
 
-		/// <summary>
-		/// Creates the navigation service.
-		/// </summary>
-		/// <param name="rootFrame">The root frame.</param>
-		/// <param name="sessionStateService">The session state service.</param>
-		/// <returns>The initialized navigation service.</returns>
-		private INavigationService CreateNavigationService(IFrameFacade rootFrame, ISessionStateService sessionStateService)
+        /// <summary>
+        /// Creates the navigation service.
+        /// </summary>
+        /// <param name="rootFrame">The root frame.</param>
+        /// <param name="sessionStateService">The session state service.</param>
+        /// <returns>The initialized navigation service.</returns>
+        private INavigationService CreateNavigationService(IFrameFacade rootFrame, ISessionStateService sessionStateService)
         {
             var navigationService = OnCreateNavigationService(rootFrame) ?? new FrameNavigationService(rootFrame, GetPageType, sessionStateService);
             return navigationService;
@@ -356,8 +356,8 @@ namespace Prism.Windows
             {
                 var deferral = e.SuspendingOperation.GetDeferral();
 
-				//Custom calls before suspending.
-	            await OnSuspendingApplicationAsync();
+                //Custom calls before suspending.
+                await OnSuspendingApplicationAsync();
 
                 //Bootstrap inform navigation service that app is suspending.
                 NavigationService.Suspending();
@@ -373,10 +373,10 @@ namespace Prism.Windows
             }
         }
 
-		/// <summary>
-		/// Invoked when the application is suspending, but before the general suspension calls.
-		/// </summary>
-		/// <returns>Task to complete.</returns>
-	    protected virtual Task OnSuspendingApplicationAsync() => Task.FromResult<object>(null);
+        /// <summary>
+        /// Invoked when the application is suspending, but before the general suspension calls.
+        /// </summary>
+        /// <returns>Task to complete.</returns>
+        protected virtual Task OnSuspendingApplicationAsync() => Task.FromResult<object>(null);
     }
 }
