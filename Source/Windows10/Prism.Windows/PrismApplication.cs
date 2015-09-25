@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using Prism.Mvvm;
@@ -34,7 +33,7 @@ namespace Prism.Windows
         /// Gets the shell user interface
         /// </summary>
         /// <value>The shell user interface.</value>
-        protected UIElement Shell { get; set; }
+        protected UIElement Shell { get; private set; }
 
         /// <summary>
         /// Gets or sets the session state service.
@@ -42,7 +41,7 @@ namespace Prism.Windows
         /// <value>
         /// The session state service.
         /// </value>
-        protected ISessionStateService SessionStateService { get; set; }
+        protected ISessionStateService SessionStateService { get; private set; }
 
         /// <summary>
         /// Gets or sets the navigation service.
@@ -50,7 +49,7 @@ namespace Prism.Windows
         /// <value>
         /// The navigation service.
         /// </value>
-        protected INavigationService NavigationService { get; set; }
+        protected INavigationService NavigationService { get; private set; }
 
         /// <summary>
         /// Gets or sets the device gesture service.
@@ -58,7 +57,7 @@ namespace Prism.Windows
         /// <value>
         /// The device gesture service.
         /// </value>
-        protected IDeviceGestureService DeviceGestureService { get; set; }
+        protected IDeviceGestureService DeviceGestureService { get; private set; }
 
         /// <summary>
         /// Factory for creating the ExtendedSplashScreen instance.
@@ -254,7 +253,7 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        ///
+        /// Handling the forward navigation request from the <see cref="IDeviceGestureService"/>
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -268,7 +267,7 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        ///
+        /// Handling the back navigation request from the <see cref="IDeviceGestureService"/>
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -298,7 +297,7 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        /// Creates the device gesture service. Use this to inject your own INavigationService implementation.
+        /// Creates the device gesture service. Use this to inject your own IDeviceGestureService implementation.
         /// </summary>
         /// <returns>The initialized device gesture service.</returns>
         protected virtual IDeviceGestureService OnCreateDeviceGestureService() => null;
