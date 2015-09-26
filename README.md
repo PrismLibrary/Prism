@@ -26,6 +26,7 @@ As part of taking over the code base from Microsoft and moving towards Prism 6, 
 - Moved a number of types around to better organize and to get as much into a single Portable Class Library as possible
 - ViewModeLocator naming convention changes: [Name]View now requires [Name]ViewModel.  No longer [Name]ViewViewModel
 - NavigationParameters now derives from Dictionary which will break various scenraios such as duplicate params, and non-existant params throwing an exception now instead of null.
+
 ###Prism for UWP Preview
 - Prism for UWP is a port of the Prism for Windows Runtime 2.0 release
 - Removed SettingsPane functionality from PrismApplication because it is deprecated in UWP
