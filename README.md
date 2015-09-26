@@ -27,6 +27,11 @@ As part of taking over the code base from Microsoft and moving towards Prism 6, 
 - ViewModeLocator naming convention changes: [Name]View now requires [Name]ViewModel.  No longer [Name]ViewViewModel
 - NavigationParameters now derives from Dictionary which will break various scenraios such as duplicate params, and non-existant params throwing an exception now instead of null.
 
+###Prism for UWP Preview
+- Prism for UWP is a port of the Prism for Windows Runtime 2.0 release
+- Removed SettingsPane functionality from PrismApplication because it is deprecated in UWP
+- Visual State management parts of VisualStateAwarePage were removed and it is now renamed to SessionStateAwarePage. 
+
 #Prism for Xamarin.Forms Preview
 Check out the new Prism for Xamarin.Forms Preview: http://brianlagunas.com/first-look-at-the-prism-for-xamarin-forms-preview/
 
