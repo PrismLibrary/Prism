@@ -210,7 +210,7 @@ namespace Prism.Windows
             SessionStateService = CreateSessionStateService();
 
             //Configure VisualStateAwarePage with the ability to get the session state for its frame
-            VisualStateAwarePage.GetSessionStateForFrame =
+            SessionStateAwarePage.GetSessionStateForFrame =
                 frame => SessionStateService.GetSessionStateForFrame(frameFacade);
 
             //Associate the frame with a key
