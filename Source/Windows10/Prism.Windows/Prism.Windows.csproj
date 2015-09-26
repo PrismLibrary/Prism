@@ -88,6 +88,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+    <DocumentationFile>bin\x86\Release\Prism.Windows.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AppModel\AppManifestHelper.cs" />
