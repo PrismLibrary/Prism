@@ -121,7 +121,7 @@
     <Compile Include="PrismUnityApplication.cs" />
     <Compile Include="PrismUnityExtension.cs" />
     <Compile Include="UnityContainerHelper.cs" />
-    <Content Include="Properties\Prism.Unity.Windows.rd.xml" />
+    <None Include="Properties\Prism.Unity.Windows.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Prism\Prism.csproj">

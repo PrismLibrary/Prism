@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Prism.Windows</id>
-    <version>6.0.0-prerelease001</version>
+    <version>6.0.0-prerelease002</version>
     <title>Prism 6 for Windows UWP</title>
     <authors>Brian Lagunas, Brian Noyes</authors>
     <owners>Brian Lagunas, Brian Noyes</owners>
@@ -39,6 +39,6 @@
   </metadata>
   <files>
     <file src="..\Windows10\Prism.Windows\bin\Release\Prism.Windows.*" target="lib\uap10.0\" />
-    <file src="..\Windows10\Prism.Windows\bin\Release\Prism.Windows\Properties\Prism.Windows.rd.xml" target="lib\uap10.0\Prism.Windows\Properties\Prism.Windows.rd.xml" />
+    <!--<file src="..\Windows10\Prism.Windows\bin\Release\Prism.Windows\Properties\Prism.Windows.rd.xml" target="lib\uap10.0\Prism.Windows\Properties\Prism.Windows.rd.xml" />-->
   </files>
 </package>
