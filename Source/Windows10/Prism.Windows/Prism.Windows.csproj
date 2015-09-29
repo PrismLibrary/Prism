@@ -146,7 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="Properties\Prism.Windows.rd.xml" />
+    <EmbeddedResource Include="Properties\Prism.Windows.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Prism\Prism.csproj">

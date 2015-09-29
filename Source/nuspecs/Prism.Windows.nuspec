@@ -39,6 +39,5 @@
   </metadata>
   <files>
     <file src="..\Windows10\Prism.Windows\bin\Release\Prism.Windows.*" target="lib\uap10.0\" />
-    <!--<file src="..\Windows10\Prism.Windows\bin\Release\Prism.Windows\Properties\Prism.Windows.rd.xml" target="lib\uap10.0\Prism.Windows\Properties\Prism.Windows.rd.xml" />-->
   </files>
 </package>

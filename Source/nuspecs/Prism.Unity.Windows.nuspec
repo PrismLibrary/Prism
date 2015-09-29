@@ -29,6 +29,5 @@
   </metadata>
   <files>
     <file src="..\Windows10\Prism.Unity.Windows\bin\Release\Prism.Unity.Windows.*" target="lib\uap10.0\" />
-    <!--<file src="..\Windows10\Prism.Unity.Windows\bin\Release\Prism.Unity.Windows\Properties\Prism.Unity.Windows.rd.xml" target="lib\uap10.0\Prism.Unity.Windows\Properties\Prism.Unity.Windows.rd.xml" />-->
   </files>
 </package>
