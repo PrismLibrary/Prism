@@ -9,6 +9,32 @@ Prism 6 is a fully open source version of the Prism guidance [originally produce
 
 At the current time we have no plans to create new versions of the library for Silverlight or for Windows 8/8.1/WP8.1. For those you can still use the previous releases from Microsoft p&p [here](https://msdn.microsoft.com/en-us/library/Gg430869%28v=PandP.40%29.aspx) and [here](http://prismwindowsruntime.codeplex.com/). If there is enough interest and contributors to do the work, we can consider it, but it is not on our roadmap for now.
 
+#NuGet Packages
+######Prism PCL
+| Assembly | Package |
+| -------- | ------- |
+| Prism.dll | [Prism.Core](https://www.nuget.org/packages/Prism.Core/) |
+
+######WPF
+| Assembly | Package |
+| -------- | ------- |
+| Prism.Wpf.dll | [Prism.Wpf](https://www.nuget.org/packages/Prism.Wpf/) |
+| Prism.Unity.Wpf.dll | [Prism.Unity](https://www.nuget.org/packages/Prism.Unity/) |
+| Prism.Mef.Wpf.dll | [Prism.Mef](https://www.nuget.org/packages/Prism.Mef/) |
+| Prism.Autofac.Wpf.dll | [Prism.Autofac](https://www.nuget.org/packages/Prism.Autofac/) |
+| Prism.StructureMap.Wpf.dll | [Prism.StructureMap](https://www.nuget.org/packages/Prism.StructureMap/) |
+| Prism.Ninject.Wpf.dll | [Prism.Ninject](https://www.nuget.org/packages/Prism.Ninject/) |
+
+######Xamarin.Forms
+| Assembly | Package |
+| -------- | ------- |
+| Prism.dll, Prism.Forms, Prism.Unity.Forms | [Prism.Forms](https://www.nuget.org/packages/Prism.Forms/) |
+
+######Universal Windows Platform
+| Assembly | Package |
+| -------- | ------- |
+| TBD | TBD |
+
 #Roadmap/Milestones
 You can check out our milestones for coming releases [here](https://github.com/PrismLibrary/Prism/milestones).
 
