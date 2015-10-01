@@ -28,7 +28,7 @@ At the current time we have no plans to create new versions of the library for S
 ######Xamarin.Forms
 | Assembly | Package |
 | -------- | ------- |
-| Prism.dll, Prism.Forms, Prism.Unity.Forms | [Prism.Forms](https://www.nuget.org/packages/Prism.Forms/) |
+| Prism.dll, Prism.Forms.dll, Prism.Unity.Forms.dll | [Prism.Forms](https://www.nuget.org/packages/Prism.Forms/) |
 
 ######Universal Windows Platform
 | Assembly | Package |
