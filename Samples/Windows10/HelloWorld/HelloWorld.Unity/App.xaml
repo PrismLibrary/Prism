@@ -1,0 +1,12 @@
+﻿<windows:PrismUnityApplication
+    x:Class="HelloWorld.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HelloWorld.Unity"
+    xmlns:windows="using:Prism.Unity.Windows"
+    RequestedTheme="Light">
+    <Application.Resources>
+        <x:String x:Key="AppName">Hello World!</x:String>
+    </Application.Resources>
+
+</windows:PrismUnityApplication>
