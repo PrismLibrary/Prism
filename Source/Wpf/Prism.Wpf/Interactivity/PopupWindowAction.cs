@@ -179,10 +179,8 @@ namespace Prism.Interactivity
             }
 
             // If the user provided a Style for a Window we set it as the window's style.
-            if (this.WindowStyle != null && this.WindowStyle.TargetType == typeof(Window))
-            {
-                wrapperWindow.Style = this.WindowStyle;
-            }
+            if (WindowStyle != null)
+                wrapperWindow.Style = WindowStyle;
 
             return wrapperWindow;
         }
