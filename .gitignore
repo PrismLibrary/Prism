@@ -192,3 +192,7 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+# Security
+*.pfx
+*.snk
