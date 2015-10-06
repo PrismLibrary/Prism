@@ -159,6 +159,22 @@ namespace Prism
         }
 
         /// <summary>
+        /// Creates the shell or main window of the application.
+        /// </summary>
+        /// <returns>The shell of the application.</returns>
+        /// <remarks>
+        /// If the returned instance is a <see cref="DependencyObject"/>, the
+        /// <see cref="Bootstrapper"/> will attach the default <see cref="IRegionManager"/> of
+        /// the application in its <see cref="RegionManager.RegionManagerProperty"/> attached property
+        /// in order to be able to add regions by using the <see cref="RegionManager.RegionNameProperty"/>
+        /// attached property from XAML.
+        /// </remarks>
+        protected virtual DependencyObject CreateShell()
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Initializes the shell.
         /// </summary>
         protected virtual void InitializeShell()
@@ -171,19 +187,6 @@ namespace Prism
         /// <param name="runWithDefaultConfiguration">If <see langword="true"/>, registers default 
         /// Prism Library services in the container. This is the default behavior.</param>
         public abstract void Run(bool runWithDefaultConfiguration);
-
-        /// <summary>
-        /// Creates the shell or main window of the application.
-        /// </summary>
-        /// <returns>The shell of the application.</returns>
-        /// <remarks>
-        /// If the returned instance is a <see cref="DependencyObject"/>, the
-        /// <see cref="Bootstrapper"/> will attach the default <see cref="IRegionManager"/> of
-        /// the application in its <see cref="RegionManager.RegionManagerProperty"/> attached property
-        /// in order to be able to add regions by using the <see cref="RegionManager.RegionNameProperty"/>
-        /// attached property from XAML.
-        /// </remarks>
-        protected abstract DependencyObject CreateShell();
 
         /// <summary>
         /// Configures the LocatorProvider for the <see cref="Microsoft.Practices.ServiceLocation.ServiceLocator" />.
