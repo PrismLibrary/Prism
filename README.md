@@ -1,7 +1,7 @@
 # Prism
 <img src="https://ci.appveyor.com/api/projects/status/pn4fcaghmlwueu52?svg=true" width="300"/>
 
-Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Windows 10 UWP, and Xamarin Forms. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for UWP and Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
+Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Windows 10 UWP, and Xamarin Forms. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for UWP and Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
 
 Prism 6 in the works - we plan to have Prism 6 for WPF and Prism 6 for UWP out in the September timeframe. Xamarin Forms will follow, but hopefully not by far.
 
@@ -53,7 +53,7 @@ As part of taking over the code base from Microsoft and moving towards Prism 6, 
 - Changed namespaces to remove Microsoft namespaces
 - Moved a number of types around to better organize and to get as much into a single Portable Class Library as possible
 - ViewModeLocator naming convention changes: [Name]View now requires [Name]ViewModel.  No longer [Name]ViewViewModel
-- NavigationParameters now derives from Dictionary which will break various scenraios such as duplicate params, and non-existant params throwing an exception now instead of null.
+- NavigationParameters now derives from Dictionary which will break various scenarios such as duplicate params, and non-existent params throwing an exception now instead of null.
 
 ###Prism for UWP Preview
 - Prism for UWP is a port of the Prism for Windows Runtime 2.0 release
