@@ -40,6 +40,7 @@ You can check out our milestones for coming releases [here](https://github.com/P
 
 #Contributing
 We strongly encourage you to get involved and help us evolve the code base. 
+- For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism)
 - You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues).
 - You can see what our expectations are for pull requests [here](https://github.com/PrismLibrary/Prism/blob/master/CONTRIBUTE.md).
 
