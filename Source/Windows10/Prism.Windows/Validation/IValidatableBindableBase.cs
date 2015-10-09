@@ -47,6 +47,13 @@ namespace Prism.Windows.Validation
         bool ValidateProperties();
 
         /// <summary>
+        /// Validates a single property with the given name of the current instance.
+        /// </summary>
+        /// <param name="propertyName">The property to be validated.</param>
+        /// <returns>Returns <c>true</c> if the property passes the validation rules; otherwise, false.</returns>
+        bool ValidateProperty(string propertyName);
+
+        /// <summary>
         /// Sets the error collection of this instance.
         /// </summary>
         /// <param name="entityErrors">The entity errors.</param>
