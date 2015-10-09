@@ -3,6 +3,8 @@ using System.Diagnostics;
 using Microsoft.Practices.ServiceLocation;
 using Xamarin.Forms;
 using Prism.Common;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace Prism.Navigation
 {
@@ -31,6 +33,8 @@ namespace Prism.Navigation
             var view = ServiceLocator.Current.GetInstance<object>(name) as Page;
             if (view != null)
             {
+                Page navigationPageFromProvider = GetNavigationPageFromProvider(view);
+
                 var navigation = GetPageNavigation();
 
                 if (!CanNavigate(_page, parameters))
@@ -38,7 +42,7 @@ namespace Prism.Navigation
 
                 OnNavigatedFrom(_page, parameters);
 
-                DoPush(navigation, view, useModalNavigation, animated);
+                DoPush(navigation, (navigationPageFromProvider != null ? navigationPageFromProvider : view), useModalNavigation, animated);
 
                 OnNavigatedTo(view, parameters);
             }
@@ -119,6 +123,40 @@ namespace Prism.Navigation
                     invocation(navigationAwareDataContext);
                 }
             }
+        }
+
+        static Dictionary<Type, INavigationPageProvider> _navigationProviderCache = new Dictionary<Type, INavigationPageProvider>();
+
+        private Page GetNavigationPageFromProvider(Page view)
+        {
+            INavigationPageProvider provider = null;
+            Type viewType = view.GetType();
+
+            if (_navigationProviderCache.ContainsKey(viewType))
+            {
+                provider = _navigationProviderCache[viewType];
+            }
+            else
+            {
+                var navOptions = viewType.GetTypeInfo().GetCustomAttribute<NavigationPageProviderAttribute>(true);
+                if (navOptions != null)
+                {
+                    provider = ServiceLocator.Current.GetInstance(navOptions.Type) as INavigationPageProvider;
+                    if (provider == null)
+                        throw new InvalidCastException("Could not create the navigation page provider.  Please make sure the navigation page provider implements the INavigationPageProvider interface.");
+                }
+            }
+
+            if (!_navigationProviderCache.ContainsKey(viewType))
+                _navigationProviderCache.Add(viewType, provider);
+
+            if (provider != null)
+            {
+                provider.Initialize(view);
+                return provider.CreateNavigationPage();
+            }
+
+            return null;
         }
     }
 }
