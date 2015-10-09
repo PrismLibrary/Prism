@@ -153,7 +153,7 @@ namespace Prism.Navigation
             if (provider != null)
             {
                 provider.Initialize(view);
-                return provider.CreateNavigationPage();
+                return provider.CreatePageForNavigation();
             }
 
             return null;

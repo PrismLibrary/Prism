@@ -24,6 +24,6 @@ namespace Prism.Navigation
         /// return new NavigationPage(_page);
         /// </example>
         /// <returns>A new page</returns>
-        Page CreateNavigationPage();
+        Page CreatePageForNavigation();
     }
 }
