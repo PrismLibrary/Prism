@@ -1,63 +1,41 @@
-1.  **\#!155CharTopicSummary!\#:**
+﻿# Introduction to the Prism Library for WPF
 
-    1.  Learn how to create a composite application from loosely coupled WPF components that can evolve independently using the Prism library.
+Composite applications typically feature multiple screens, rich user interaction and data visualization, and that embody significant presentation and business logic. These applications typically interact with multiple back-end systems and services and, using a layered architecture, may be physically deployed across multiple tiers. It is expected that the application will evolve significantly over its lifetime in response to new requirements and business opportunities. In short, these applications are "built to last" and "built for change." Applications that do not demand these characteristics may not benefit from using Prism.
 
-    <!-- -->
+Prism includes reference implementations, QuickStarts, reusable library code (the Prism Library), and extensive documentation. This version of Prism targets the Microsoft .NET Framework 4.5 and includes new guidance around the Model-View-ViewModel (MVVM) pattern, navigation, and the Managed Extensibility Framework (MEF). Because Prism is built on the .NET Framework 4.5 (which includes WPF) , familiarity with these technologies is useful for evaluating and adopting Prism.
 
-    1.  Composite applications typically feature multiple screens, rich user interaction and data visualization, and that embody significant presentation and business logic. These applications typically interact with multiple back-end systems and services and, using a layered architecture, may be physically deployed across multiple tiers. It is expected that the application will evolve significantly over its lifetime in response to new requirements and business opportunities. In short, these applications are "built to last" and "built for change." Applications that do not demand these characteristics may not benefit from using Prism.
+It should be noted that while Prism is not difficult to learn, developers must be ready and willing to embrace patterns and practices that may be new to them. Management understanding and commitment is crucial, and the project deadline must accommodate an investment of time up front for learning these patterns and practices.
 
-        Prism includes reference implementations, QuickStarts, reusable library code (the Prism Library), and extensive documentation. This version of Prism targets the Microsoft .NET Framework 4.5 and includes new guidance around the Model-View-ViewModel (MVVM) pattern, navigation, and the Managed Extensibility Framework (MEF). Because Prism is built on the .NET Framework 4.5 (which includes WPF) , familiarity with these technologies is useful for evaluating and adopting Prism.
+### Why Use Prism?
 
-        It should be noted that while Prism is not difficult to learn, developers must be ready and willing to embrace patterns and practices that may be new to them. Management understanding and commitment is crucial, and the project deadline must accommodate an investment of time up front for learning these patterns and practices.<span id="_Installing_the_Composite" class="anchor"><span id="_Create_Your_Hello" class="anchor"><span id="_Building_and_running" class="anchor"><span id="_Building_the_Composite" class="anchor"><span id="_Building_and_running_1" class="anchor"><span id="NewInThisRelease" class="anchor"><span id="WhenToUseThisGuidance" class="anchor"></span></span></span></span></span></span></span>
+Designing and building rich WPF client applications that are flexible and easy to maintain can be challenging. This section describes some of the common challenges you might encounter when building WPF client applications, and describes how Prism helps you to address those challenges.
 
-Why Use Prism?
-==============
+### Client Application Development Challenges
 
-1.  Designing and building rich WPF client applications that are flexible and easy to maintain can be challenging. This section describes some of the common challenges you might encounter when building WPF client applications, and describes how Prism helps you to address those challenges.
+Typically, developers of client applications face quite a few challenges. Application requirements can change over time. New business opportunities and challenges may present themselves, new technologies may become available, or even ongoing customer feedback during the development cycle may significantly affect the requirements of the application. Therefore, it is important to build the application so that it is flexible and can be easily modified or extended over time. Designing for this type of flexibility can be hard to accomplish. It requires an architecture that allows individual parts of the application to be independently developed and tested and that can be modified or updated later, in isolation, without affecting the rest of the application.
 
-Client Application Development Challenges
------------------------------------------
+Most enterprise applications are sufficiently complex that they require more than one developer, maybe even a large team of developers that includes user interface (UI) designers and localizers in addition to developers. It can be a significant challenge to decide how to design the application so that multiple developers or subteams can work effectively on different pieces of the application independently, yet ensuring that the pieces come together seamlessly when integrated into the application.
 
-1.  Typically, developers of client applications face quite a few challenges. Application requirements can change over time. New business opportunities and challenges may present themselves, new technologies may become available, or even ongoing customer feedback during the development cycle may significantly affect the requirements of the application. Therefore, it is important to build the application so that it is flexible and can be easily modified or extended over time. Designing for this type of flexibility can be hard to accomplish. It requires an architecture that allows individual parts of the application to be independently developed and tested and that can be modified or updated later, in isolation, without affecting the rest of the application.
+Designing and building applications in a *monolithic* style can lead to an application that is very difficult and inefficient to maintain. In this case, "monolithic" refers to an application in which the components are very tightly coupled and there is no clear separation between them. Typically, applications designed and built this way suffer from problems that make the developer's life hard. It is difficult to add new features to the system or replace existing features, it is difficult to resolve bugs without breaking other portions of the system, and it is difficult to test and deploy. Also, it impacts the ability of developers and designers to work efficiently together.
 
-    Most enterprise applications are sufficiently complex that they require more than one developer, maybe even a large team of developers that includes user interface (UI) designers and localizers in addition to developers. It can be a significant challenge to decide how to design the application so that multiple developers or subteams can work effectively on different pieces of the application independently, yet ensuring that the pieces come together seamlessly when integrated into the application.
+### The Composite Approach
 
-    Designing and building applications in a *monolithic* style can lead to an application that is very difficult and inefficient to maintain. In this case, "monolithic" refers to an application in which the components are very tightly coupled and there is no clear separation between them. Typically, applications designed and built this way suffer from problems that make the developer's life hard. It is difficult to add new features to the system or replace existing features, it is difficult to resolve bugs without breaking other portions of the system, and it is difficult to test and deploy. Also, it impacts the ability of developers and designers to work efficiently together.
+An effective remedy for these challenges is to partition the application into a number of discrete, loosely coupled, semi-independent components that can then be easily integrated together into an application "shell" to form a coherent solution. Applications designed and built this way are often known as composite applications.
 
-The Composite Approach
-----------------------
+Composite applications provide many benefits, including the following:
 
-1.  An effective remedy for these challenges is to partition the application into a number of discrete, loosely coupled, semi-independent components that can then be easily integrated together into an application "shell" to form a coherent solution. Applications designed and built this way are often known as composite applications.
+-  They allow modules to be individually developed, tested, and deployed by different individuals or subteams; they also allow them to be modified or extended with new functionality more easily, thereby allowing the application to be more easily extended and maintained. Note that even single-person projects experience benefits in creating more testable and maintainable applications using the composite approach.
+-  They provide a common shell composed of UI components contributed from various modules that interact in a loosely coupled way. This reduces the contention that arises from multiple developers adding new functionality to the UI, and it promotes a common appearance.
+-  They promote reuse and a clean separation of concerns between the application's horizontal capabilities, such as logging and authentication, and the vertical capabilities, such as business functionality that is specific to your application. This also allows you to more easily manage the dependencies and interactions between application components.
+-  They help maintain a separation of roles by allowing different individuals or subteams to focus on a specific task or piece of functionality according to their focus or expertise. In particular, it provides a cleaner separation between the UI and the business logic of the application—this means the UI designer can focus on creating a richer user experience.
 
-    Composite applications provide many benefits, including the following:
+Composite applications are highly suited to a range of client application scenarios. For example, a composite application is ideal for creating a rich end-user experience over disparate back-end systems. The following illustration shows an example of this type of a composite application.
 
-<!-- -->
+Composite application with multiple back-end systems
 
-1.  They allow modules to be individually developed, tested, and deployed by different individuals or subteams; they also allow them to be modified or extended with new functionality more easily, thereby allowing the application to be more easily extended and maintained. Note that even single-person projects experience benefits in creating more testable and maintainable applications using the composite approach.
+![](images/Ch1IntroFig1.png)
 
-    They provide a common shell composed of UI components contributed from various modules that interact in a loosely coupled way. This reduces the contention that arises from multiple developers adding new functionality to the UI, and it promotes a common appearance.
-
-    They promote reuse and a clean separation of concerns between the application's horizontal capabilities, such as logging and authentication, and the vertical capabilities, such as business functionality that is specific to your application. This also allows you to more easily manage the dependencies and interactions between application components.
-
-    They help maintain a separation of roles by allowing different individuals or subteams to focus on a specific task or piece of functionality according to their focus or expertise. In particular, it provides a cleaner separation between the UI and the business logic of the application—this means the UI designer can focus on creating a richer user experience.
-
-    1.  
-
-    <!-- -->
-
-    1.  Composite applications are highly suited to a range of client application scenarios. For example, a composite application is ideal for creating a rich end-user experience over disparate back-end systems. The following illustration shows an example of this type of a composite application.
-
-    <!-- -->
-
-    1.  Composite application with multiple back-end systems
-
-    <!-- -->
-
-    1.  ![](media/image1.png)
-
-    <!-- -->
-
-    1.  Additionally, a composite application can be useful when there are independently evolving components in the UI that heavily integrate with each other and that are often maintained by separate teams. The following illustration shows a screen shot of this type of application. Each of the areas highlighted represent independent components that are composed into the UI.
+Additionally, a composite application can be useful when there are independently evolving components in the UI that heavily integrate with each other and that are often maintained by separate teams. The following illustration shows a screen shot of this type of application. Each of the areas highlighted represent independent components that are composed into the UI.
 
     <!-- -->
 
@@ -269,9 +247,9 @@ Using Prism
 
 <!-- -->
 
-1.  ![](media/image5.png)
+![](images/Ch1IntroFig1.png)
 
-<!-- -->
+
 
 1.  Shells, views, and regions
 
@@ -300,124 +278,3 @@ Using Prism
 ### Add a Module View to the Shell
 
 1.  Modules take advantage of the shell's regions for placing content. During initialization, modules use the **RegionManager** to locate regions in the shell and add one or more views to those regions or register one or more view types to be created within those regions. The **RegionManager** is responsible for keeping track of regions throughout the application and is a core service initialized from the bootstrapper.
-
-    The remaining topics in this guide provide details about Prism key concepts.
-
-<span id="_1.5_Compiling_the" class="anchor"><span id="ExploringPrism" class="anchor"></span></span>Exploring Prism
--------------------------------------------------------------------------------------------------------------------
-
-1.  <span id="WhatsNewinThisRelease" class="anchor"><span id="WhatsIntheBox" class="anchor"></span></span>Prism consists of the following:
-
-<!-- -->
-
-1.  [**Prism Library source code**](http://aka.ms/prism-wpf-code). The source code for the Prism Library assemblies, including the core Prism functionality, plus Unity and MEF extensions, which provide additional components for using Prism with the [Unity Application Block](http://msdn.microsoft.com/en-us/library/dd203101.aspx) (Unity) and the [Managed Extensibility Framework](http://msdn.microsoft.com/en-us/library/dd460648.aspx). The source code also includes Prism.PubSubEvents and Prism.Mvvm assemblies.
-
-    [**Prism binary assemblies**](http://aka.ms/prism-wpf-nuget). Signed binary versions of the Prism Library assemblies. These assemblies can be downloaded from NuGet by searching for Prism, Prism.Composition, Prism.PubSubEvents, and Prism.Mvvm, Prism.Interactivity, Prism.UnityExtensions, and Prism.MefExtensions. These NuGet packages will load dependencies such as the [Unity Application Block](http://msdn.microsoft.com/en-us/library/dd203101.aspx) and the [Service Locator](http://commonservicelocator.codeplex.com/).
-
-    1.  The Prism NuGet package will download the Prism.Composition, Prism.PubSubEvents, Prism.Mvvm, Prism.Interactivity, Prism.PubSubEvents, and Prism.Mvvm NuGet packages.
-
-    [**Code samples**](http://aka.ms/prism-wpf-code). Prism includes a reference implementation sample and QuickStart samples. The Stock Trader Reference Implementation is a comprehensive sample application that illustrates how Prism can be used to implement real-world application scenarios. The reference implementation is intentionally incomplete, but they illustrate how many of the patterns in Prism can work together within a single application. The QuickStart samples include several small, focused sample applications that illustrate the MVVM pattern, navigation, UI composition, modularity, commanding, event aggregation, and interactivity.
-
-    [**Documentation**](http://aka.ms/prism-wpf-doc). The Prism 5.0 documentation provides an overview of the goals and concepts behind Prism and detailed guidance on using each of the capabilities and design patterns provided by Prism. The next section provides an overview of the topics covered.
-
-    1.  
-
-### Exploring the Documentation
-
-1.  The Prism documentation spans a wide range of topics, including an overview of common development challenges and the composite application approach, an overview of the Prism Library and the design patterns that it implements, as well as step-by-step instructions for using the Prism Library during development. The documentation is intended to appeal to a broad technical audience to help the reader to understand and use Prism within their own applications. The documentation includes the following:
-
-<!-- -->
-
-1.  . This topic discusses what needs to happen to get a modular Prism application up and running.
-
-    . Applications based on the Prism Library rely on a dependency injection container. Although Prism has the ability to work with nearly any dependency injection container, the Prism Library provides two default options for dependency injection containers: Unity or MEF. This topic discusses the different capabilities and what you need to think about when working with a dependency injection container.
-
-    . This topic discusses the core concepts, key decisions, and core scenarios when you create a modular client application with Prism.
-
-    . Using the MVVM pattern, you separate the UI of your application and the underlying presentation and business logic into three separate classes: the view, model, and view model. This topic discusses the core concepts behind the MVVM pattern and describes how to implement it in your application using Prism.
-
-    . This topic provides guidance on implementing more advanced scenarios using the MVVM pattern, including how to implement composite commands (commands that represent a group of commands), and how to handle asynchronous web service and user interactions. This topic also provides guidance on using a dependency injection container, such as Unity or MEF, to handle the construction and wire-up of the MVVM classes.
-
-    . Regions are placeholders that allow a developer to specify where views will be displayed in the application's UI. In Prism, there are two approaches to displaying views in a region: view discovery and view injection. This topic describes how to work with regions and the UI. It also includes information for UI designers to understand composite applications.
-
-    . Navigation is the process by which the application coordinates changes to its UI as a result of the user's interaction with the application or internal application state changes. This topic provides guidance on implementing state-based navigation, where the state of the UI in a view is updated to reflect navigation, and view-switching navigation, where a new view is created and displayed in a region.
-
-    . This topic discusses the various options for communicating between components in different modules, using commanding, the EventAggregator, region context, and shared services.
-
-    . This topic addresses deployment considerations for Prism WPF applications.
-
-    . This appendix provides a concise summary of the terms, concepts, design patterns and capabilities provided by Prism.
-
-    . This appendix describes the software design patterns applied in the Prism Library and the Stock Trader RI. This topic primarily targets architects and developers wanting to familiarize themselves with the patterns used to address the challenges in building composite applications.
-
-    . This appendix provides an overview of the Prism Library for WPF.
-
-    . This appendix discusses what you need to know if you are upgrading from previous versions of Prism.
-
-    . This appendix discusses how you can extend Prism modularity, behaviors, and navigation.
-
-    . Prism includes the source code for several samples that demonstrate key concepts. For more information, see the next section, "Code Samples Using the Prism Library for WPF."
-
-    . This hands-on labs demonstrates building a simple composite application, step-by-step, in WPF. It primarily targets developers who want to understand the basic concepts of the Prism Library.
-
-    . This hands-on lab walks you through the process of for publishing and updating a Prism WPF application with ClickOnce.
-
-    1.  
-
-### <span id="QuickStarts" class="anchor"><span id="ExploringtheQuickStarts" class="anchor"></span></span>Exploring the Code Samples
-
-1.  The code samples illustrate specific Prism-related concepts. The samples are an ideal starting point if you want to gain an understanding of a key concept and you are comfortable learning new techniques by examining source code. Prism includes the following:
-
-<!-- -->
-
-1.  . The Stock Trader RI is a composite application that demonstrates an implementation of the baseline architecture using the Prism Library.
-
-    . These QuickStarts demonstrate how to build WPF applications composed of modules. The modules can be statically loaded, when the shell contains a reference to the module's assembly, or dynamically loaded, when modules are dynamically discovered and loaded at run time. The QuickStarts also demonstrate using the Unity container and MEF.
-
-    . This QuickStart demonstrates how to create a view and view model that work together when the view model needs to interact with the user or a user gesture needs to raise an event that invokes a command. In each of these scenarios the view model should not need to know about the view. The first scenario is handled by using **InteractionRequests** and **InteractionRequestTriggers**. The second scenario is handled by **InvokeCommandAction**.
-
-    . This QuickStart demonstrates how to build an application that implements the MVVM presentation pattern, showing some of the more common challenges that developers can face, such as validation, UI interactions, and data templates.
-
-    . This QuickStart demonstrates how to build a WPF UI that uses commands provided by the Prism.Mvvm Library to handle UI actions in a decoupled way.
-
-    . This QuickStart demonstrates how to build WPF UIs composed of different views that are dynamically loaded into regions and that interact with each other in a decoupled way. It illustrates how to use both the view discovery and view injection approaches for UI composition.
-
-    . This QuickStart demonstrates an approach to define the navigation of a simple application. The approach used in this QuickStart uses the WPF Visual State Manager (VSM) to define the different states that the application has and defines animations for both the states and the transitions between states.
-
-    . This QuickStart demonstrates how to use the Prism Region Navigation API. The QuickStart shows multiple navigation scenarios, including navigating to a view in a region, navigating to a view in a region contained in another view (nested navigation), navigation journal support, just-in-time view creation, passing contextual information when navigating to a view, views and view models participating in navigation, and using navigation as part of an application built through modularity and UI composition.
-
-    . This QuickStart demonstrates how to build a WPF application that uses the Event Aggregator service. This service enables you to establish loosely coupled communications between components in your application.
-
-<!-- -->
-
-1.  
-
-<span id="ExploringtheReferenceImplementations" class="anchor"><span id="UpgradingfromEarlierReleases" class="anchor"><span id="AnOverviewofPrism" class="anchor"><span id="PrismDesignGoals" class="anchor"><span id="UsingPrism" class="anchor"><span id="DefinetheShell" class="anchor"><span id="CreatetheBootstrapper" class="anchor"><span id="CreatetheModule" class="anchor"><span id="AddaModuleViewtotheShell" class="anchor"></span></span></span></span></span></span></span></span></span>More Information
-=======================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
-
-1.  Prism assumes you have hands-on experience with WPF. If you need general information about WPF , see the following resources:
-
--   [Windows Presentation Foundation](http://msdn2.microsoft.com/en-us/library/ms754130.aspx) on MSDN.
-
--   MacDonald, Matthew. *Pro WPF in C\# 2010: Windows Presentation Foundation in .NET 4*, Apress, 2010.
-
--   Nathan, Adam. *WPF 4 Unleashed*. Sams Publishing, 2010.
-
-1.  
-
-Community
----------
-
-1.  Prism's community sites are:
-
-<!-- -->
-
-1.  Prism: <http://www.codeplex.com/Prism>
-
-    PubSubEvents (Event Aggregator): <http://www.codeplex.com/pnpPubSub>
-
-    MVVM (Model-View-ViewModel): <http://www.codeplex.com/pnpMvvm>
-
-    1.  On this these community sites, you can post questions, provide feedback, or connect with other users for sharing ideas. Community members can also help Microsoft plan and test future offerings and download additional content, such as extensions and training material.
-
-
