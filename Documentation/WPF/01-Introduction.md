@@ -187,3 +187,5 @@ The module contains the views and services specific to a piece of the applicatio
 ### Add a Module View to the Shell
 
 Modules take advantage of the shell's regions for placing content. During initialization, modules use the **RegionManager** to locate regions in the shell and add one or more views to those regions or register one or more view types to be created within those regions. The **RegionManager** is responsible for keeping track of regions throughout the application and is a core service initialized from the bootstrapper.
+
+The remaining topics in the documentation provide details about Prism key concepts.
