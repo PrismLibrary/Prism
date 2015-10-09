@@ -8,8 +8,6 @@ namespace Prism
     {
         protected Application App { get; set; }
 
-        public INavigationService NavigationService { get; set; }
-
         /// <summary>
         /// Gets the <see cref="ILoggerFacade"/> for the application.
         /// </summary>
