@@ -277,11 +277,7 @@ namespace Prism.Windows.Validation
         /// <param name="propertyName">Name of the property used to notify listeners.</param>
         private void OnPropertyChanged(string propertyName)
         {
-            var eventHandler = PropertyChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
@@ -290,11 +286,7 @@ namespace Prism.Windows.Validation
         /// <param name="propertyName">Name of the property used to notify listeners.</param>
         private void OnErrorsChanged(string propertyName)
         {
-            var eventHandler = ErrorsChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(this, new DataErrorsChangedEventArgs(propertyName));
-            }
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
     }
 }
