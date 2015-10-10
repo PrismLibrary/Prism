@@ -83,6 +83,8 @@
     <Compile Include="Logging\DebugLoggerFixture.cs" />
     <Compile Include="Logging\EmptyLoggerFixture.cs" />
     <Compile Include="Mocks\Commands\DelegateCommandMock.cs" />
+    <Compile Include="Mocks\Models\MockPropertyChangedModel.cs" />
+    <Compile Include="Mocks\ViewModels\MockPropertyChangedViewModel.cs" />
     <Compile Include="Mocks\ViewModels\MockValidatingViewModel.cs" />
     <Compile Include="Mocks\ViewModels\MockViewModel.cs" />
     <Compile Include="Mocks\Views\Mock.cs" />

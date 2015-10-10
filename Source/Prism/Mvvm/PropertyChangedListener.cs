@@ -11,9 +11,11 @@ namespace Prism.Mvvm
     /// </summary>
     public sealed class PropertyChangedListener : IDisposable, IEnumerable
     {
-        private INotifyPropertyChanged Target { get; set; }
+        private WeakReference<INotifyPropertyChanged> Target { get; set; }
 
         private Dictionary<string, List<PropertyChangedEventHandler>> PropertyChangeds { get; } = new Dictionary<string, List<PropertyChangedEventHandler>>();
+
+        private Action DisposeAction { get; set; }
 
         /// <summary>
         /// Init
@@ -21,8 +23,9 @@ namespace Prism.Mvvm
         /// <param name="target">PropertyChanged event invoke target.</param>
         public PropertyChangedListener(INotifyPropertyChanged target)
         {
-            this.Target = target;
+            this.Target = new WeakReference<INotifyPropertyChanged>(target);
             target.PropertyChanged += Target_PropertyChanged;
+            DisposeAction = () => target.PropertyChanged -= Target_PropertyChanged;
         }
 
         ~PropertyChangedListener()
@@ -62,6 +65,9 @@ namespace Prism.Mvvm
 
         private void Target_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            var target = default(INotifyPropertyChanged);
+            if (!Target.TryGetTarget(out target)) { return; }
+
             lock (PropertyChangeds)
             {
                 var l = default(List<PropertyChangedEventHandler>);
@@ -69,7 +75,7 @@ namespace Prism.Mvvm
                 {
                     foreach (var h in l)
                     {
-                        h?.Invoke(sender, e);
+                        h?.Invoke(target, e);
                     }
                 }
             }
@@ -79,8 +85,12 @@ namespace Prism.Mvvm
         {
             if (disposing)
             {
-                this.Target.PropertyChanged -= Target_PropertyChanged;
+                DisposeAction();
                 this.Target = null;
+                lock(PropertyChangeds)
+                {
+                    PropertyChangeds.Clear();
+                }
             }
         }
 

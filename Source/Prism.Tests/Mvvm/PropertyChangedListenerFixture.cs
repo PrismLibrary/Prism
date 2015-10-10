@@ -1,4 +1,5 @@
 ﻿using Prism.Mvvm;
+using Prism.Tests.Mocks.Models;
 using Prism.Tests.Mocks.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,21 +15,21 @@ namespace Prism.Tests.Mvvm
         [Fact]
         public void DefaultUseCase()
         {
-            var count = 0;
-            var mockViewModel = new MockViewModel();
-            var l = new PropertyChangedListener(mockViewModel)
-            {
-                { nameof(MockViewModel.MockProperty), (s, e) => count++ }
-            };
+            var model = new MockPropertyChangedModel();
+            // create wrapper
+            var viewModel = new MockPropertyChangedViewModel(model);
 
-            Assert.Equal(0, count);
-            mockViewModel.MockProperty = 10;
-            Assert.Equal(1, count);
+            model.Value = 1;
+            Assert.Equal("Model value is 1", viewModel.Value);
 
-            l.Dispose();
+            model.Value2 = 1;
+            Assert.Equal("Model value2 is 1", viewModel.Value2);
 
-            mockViewModel.MockProperty = 11;
-            Assert.Equal(1, count);
+            // disconnect
+            viewModel.Dispose();
+
+            model.Value = 10;
+            Assert.Equal("Model value is 1", viewModel.Value);
         }
     }
 }
