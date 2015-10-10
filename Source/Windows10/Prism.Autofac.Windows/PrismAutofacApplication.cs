@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Autofac;
+using Autofac.Features.ResolveAnything;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Events;
 using Prism.Logging;
@@ -126,9 +127,13 @@ namespace Prism.Autofac.Windows
         /// </summary>
         private void CreateAndConfigureContainer()
         {
-            ContainerBuilder containerBuilder = CreateContainerBuilder();
-            ConfigureContainer(containerBuilder);
-            Container = CreateContainer(containerBuilder);
+            ContainerBuilder builder = CreateContainerBuilder();
+            // Make sure any not specifically registered concrete type can resolve.
+            builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
+
+            ConfigureContainer(builder);
+
+            Container = CreateContainer(builder);
             if (Container == null)
             {
                 throw new InvalidOperationException("Autofac container is null");
