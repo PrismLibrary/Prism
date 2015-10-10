@@ -22,7 +22,7 @@ namespace Prism.Unity.Windows
     public abstract class PrismUnityApplication : PrismApplication, IDisposable
     {
         #region Constructor
-        public PrismUnityApplication()
+        protected PrismUnityApplication()
         {
             Logger = CreateLogger();
             if (Logger == null)
@@ -63,7 +63,7 @@ namespace Prism.Unity.Windows
         /// Implements and seals the OnInitialize method to configure the container.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
-        protected override Task OnInitializeAsync(IActivatedEventArgs args)
+        protected override sealed Task OnInitializeAsync(IActivatedEventArgs args)
         {
             ConfigureContainer();
             ConfigureViewModelLocator();
