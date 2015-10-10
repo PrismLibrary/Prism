@@ -91,6 +91,7 @@
     <Compile Include="Mvvm\CompositeCommandFixture.cs" />
     <Compile Include="Mvvm\DelegateCommandFixture.cs" />
     <Compile Include="Mvvm\ErrorsContainerFixture.cs" />
+    <Compile Include="Mvvm\PropertyChangedListenerFixture.cs" />
     <Compile Include="Mvvm\PropertySupportFixture.cs" />
     <Compile Include="Mvvm\ViewModelLocationProviderFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -82,6 +82,7 @@
     <Compile Include="Logging\Priority.cs" />
     <Compile Include="Mvvm\BindableBase.cs" />
     <Compile Include="Mvvm\ErrorsContainer.cs" />
+    <Compile Include="Mvvm\PropertyChangedListener.cs" />
     <Compile Include="Mvvm\PropertySupport.cs" />
     <Compile Include="Mvvm\ViewModelLocationProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
