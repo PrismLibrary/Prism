@@ -138,6 +138,7 @@ publish/
 
 # NuGet
 .nuget/
+nuget.exe
 *.nuget.props
 *.nuget.targets
 *.lock.json
