@@ -25,6 +25,8 @@ In the context of an application based on the Prism Library, there are specific 
 
 ## Key Decision: Choosing a Dependency Injection Container
 
+The Prism Library provides two options for dependency injection containers: Unity or MEF. Prism is extensible, thereby allowing other containers to be used instead with a little bit of work. Both Unity and MEF provide the same basic functionality for dependency injection, even though they work very differently. Some of the capabilities provided by both containers include the following:
+
 
 * They both register types with the container.
 * They both register instances with the container.
