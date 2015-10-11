@@ -71,7 +71,7 @@ Typically, there are two ways of registering types and objects in the container 
 * You can register an existing object instance in the container as a singleton. The container will return a reference to the existing object.
 
 #### Registering Types with the Unity Container
-**C\#**
+
 ```
 // OrderModule.cs
 public class OrderModule : IModule
@@ -92,7 +92,6 @@ Depending on which container you use, registration can also be performed outside
 
 MEF uses an attribute-based system for registering types with the container. As a result, adding type registration to the container is simple: it requires the addition of the **\[Export\]** attribute to a type as shown in the following code example.
 
-**C\#**
 ```
 [Export(typeof(ILoggerFacade))]
 public class CallbackLogger: ILoggerFacade
@@ -103,7 +102,6 @@ public class CallbackLogger: ILoggerFacade
 
 Another option when using MEF is to create an instance of a class and register that particular instance with the container. The **QuickStartBootstrapper** in the Modularity with MEF QuickStart shows an example of this in the **ConfigureContainer** method, as shown here.
 
-**C\#**
 ```
 protected override void ConfigureContainer()
 {
@@ -135,7 +133,6 @@ In general, when a type is resolved, one of three things happens:
 
 The following code example from the Commanding QuickStart shows where the **OrdersEditorView** and **OrdersToolBar** views are resolved from the container to associate them to the corresponding regions.
 
-**C\#**
 ```
 // OrderModule.cs
 public class OrderModule : IModule
@@ -158,7 +155,6 @@ public class OrderModule : IModule
 
 The **OrdersEditorViewModel** constructor contains the following dependencies (the orders repository and the orders command proxy), which are injected when it is resolved.
 
-**C\#**
 ```
 // OrdersEditorViewModel.cs
 public OrdersEditorViewModel(IOrdersRepository ordersRepository, OrdersCommandProxy commandProxy)
@@ -183,7 +179,6 @@ In addition to the constructor injection shown in the preceding code, Unity also
 
 The following code example shows how the **Bootstrapper** in the Modularity with MEF QuickStart obtains an instance of the shell. Instead of requesting a concrete type, the code could request an instance of an interface.
 
-**C\#**
 ```
 protected override DependencyObject CreateShell()
 {
@@ -193,7 +188,6 @@ protected override DependencyObject CreateShell()
 
 In any class that is resolved by MEF, you can also use constructor injection, as shown in the following code example from ModuleA in the Modularity with MEF QuickStart, which has an **ILoggerFacade** and an **IModuleTracker** injected.
 
-**C\#**
 ```
 [ImportingConstructor]
 public ModuleA(ILoggerFacade logger, IModuleTracker moduleTracker)
@@ -214,7 +208,6 @@ public ModuleA(ILoggerFacade logger, IModuleTracker moduleTracker)
 
 Another option is to use property injection, as shown in the **ModuleTracker** class from the Modularity with MEF QuickStart, which has an instance of the **ILoggerFacade** injected.
 
-**C\#**
 ```
 [Export(typeof(IModuleTracker))]
 public class ModuleTracker : IModuleTracker
@@ -238,7 +231,6 @@ Although the Prism Library does not reference or rely on a specific container, i
 
 The following code shows the **IServiceLocator** interface.
 
-**C\#**
 ```
 public interface IServiceLocator : IServiceProvider
 {
@@ -251,7 +243,6 @@ public interface IServiceLocator : IServiceProvider
 }
 ```
 
-**C\#**
 ```
 // ServiceLocatorExtensions
 public static class ServiceLocatorExtensions
@@ -275,7 +266,6 @@ public static class ServiceLocatorExtensions
 }
 ```
 
-**C\#**
 ```
 // ModuleInitializer.cs - Initialize()
 IModule moduleInstance = null;
@@ -286,7 +276,7 @@ try
 }
 ...
 ```
-**C\#**
+
 ```
 // ModuleInitializer.cs - CreateModule()
 protected virtual IModule CreateModule(string typeName)
