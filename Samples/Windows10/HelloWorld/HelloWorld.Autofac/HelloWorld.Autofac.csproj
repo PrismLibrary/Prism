@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{0797C306-43CD-4E8D-BC3D-3C1E7B40345F}</ProjectGuid>
+    <ProjectGuid>{AF988D7B-F7D7-4EB9-AD31-B92BA6CDD6DB}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HelloWorld</RootNamespace>
-    <AssemblyName>HelloWorld.Unity</AssemblyName>
+    <AssemblyName>HelloWorld.Autofac</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
@@ -17,7 +17,7 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>HelloWorld.Unity_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>HelloWorld.Autofac_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -125,7 +125,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="HelloWorld.Unity_TemporaryKey.pfx" />
+    <None Include="HelloWorld.Autofac_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
@@ -158,9 +158,9 @@
       <Project>{e6c50355-d01e-4caa-884d-d7929861315c}</Project>
       <Name>Prism</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Source\Windows10\Prism.Unity.Windows\Prism.Unity.Windows.csproj">
-      <Project>{b4060ad6-7a34-479c-b5eb-4c542a681f42}</Project>
-      <Name>Prism.Unity.Windows</Name>
+    <ProjectReference Include="..\..\..\..\Source\Windows10\Prism.Autofac.Windows\Prism.Autofac.Windows.csproj">
+      <Project>{cce23e5b-335f-4b62-a964-77e42482f49a}</Project>
+      <Name>Prism.Autofac.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Source\Windows10\Prism.Windows\Prism.Windows.csproj">
       <Project>{3b7c3599-a336-4db2-8678-710e3b36203b}</Project>
