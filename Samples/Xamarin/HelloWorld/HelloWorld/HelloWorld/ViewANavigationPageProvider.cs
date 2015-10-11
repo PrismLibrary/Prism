@@ -7,9 +7,9 @@ namespace HelloWorld
     {
         Page _page = null;
 
-        public void Initialize(Page page)
+        public void Initialize(Page sourcePage, Page targetPage)
         {
-            _page = page;
+            _page = targetPage;
             NavigationPage.SetHasNavigationBar(_page, true);
             NavigationPage.SetBackButtonTitle(_page, "Go Back Sucka");
             NavigationPage.SetHasBackButton(_page, true);

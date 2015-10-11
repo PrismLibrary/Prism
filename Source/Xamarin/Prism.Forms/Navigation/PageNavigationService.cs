@@ -30,21 +30,21 @@ namespace Prism.Navigation
 
         public void Navigate(string name, NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)
         {
-            var view = ServiceLocator.Current.GetInstance<object>(name) as Page;
-            if (view != null)
+            var targetView = ServiceLocator.Current.GetInstance<object>(name) as Page;
+            if (targetView != null)
             {
-                Page navigationPageFromProvider = GetNavigationPageFromProvider(view);
-
                 var navigation = GetPageNavigation();
 
                 if (!CanNavigate(_page, parameters))
                     return;
 
+                Page navigationPageFromProvider = GetNavigationPageFromProvider(_page, targetView);
+
                 OnNavigatedFrom(_page, parameters);
 
-                DoPush(navigation, (navigationPageFromProvider != null ? navigationPageFromProvider : view), useModalNavigation, animated);
+                DoPush(navigation, (navigationPageFromProvider != null ? navigationPageFromProvider : targetView), useModalNavigation, animated);
 
-                OnNavigatedTo(view, parameters);
+                OnNavigatedTo(targetView, parameters);
             }
             else
                 Debug.WriteLine("Navigation ERROR: {0} not found. Make sure you have registered {0} for navigation.", name);
@@ -127,10 +127,10 @@ namespace Prism.Navigation
 
         static Dictionary<Type, INavigationPageProvider> _navigationProviderCache = new Dictionary<Type, INavigationPageProvider>();
 
-        private Page GetNavigationPageFromProvider(Page view)
+        private Page GetNavigationPageFromProvider(Page sourceView, Page targetView)
         {
             INavigationPageProvider provider = null;
-            Type viewType = view.GetType();
+            Type viewType = targetView.GetType();
 
             if (_navigationProviderCache.ContainsKey(viewType))
             {
@@ -152,7 +152,7 @@ namespace Prism.Navigation
 
             if (provider != null)
             {
-                provider.Initialize(view);
+                provider.Initialize(sourceView, targetView);
                 return provider.CreatePageForNavigation();
             }
 
