@@ -1,4 +1,4 @@
-﻿# Create maintainable apps using dependency injection to manage components' dependencies and lifetimes, facilitate testing, and wire views and view models.
+﻿# Managing Dependencies Between Components Using the Prism Library for WPF
 
 Applications based on the Prism Library are composite applications that potentially consist of many loosely coupled types and services. They need to interact to contribute content and receive notifications based on user actions. Because they are loosely coupled, they need a way to interact and communicate with one another to deliver the required business functionality. To tie together these various pieces, applications based on the Prism Library rely on a dependency injection container.
 
@@ -10,11 +10,16 @@ There are several advantages of using a container:
 * A container allows swapping of implemented dependencies without affecting the component.
 * A container facilitates testability by allowing dependencies to be mocked.
 * A container increases maintainability by allowing new components to be easily added to the system.
+
+In the context of an application based on the Prism Library, there are specific advantages to a container:
+
 * A container injects module dependencies into the module when it is loaded.
 * A container is used for registering and resolving view models and views.
 * A container can create the view models and injects the view.
 * A container injects the composition services, such as the region manager and the event aggregator.
 * A container is used for registering module-specific services, which are services that have module-specific functionality.
+
+
 
 **Note:** Some samples in the Prism guidance rely on the Unity Application Block (Unity) as the container. Other code samples, for example the Modularity QuickStarts, use Managed Extensibility Framework (MEF). The Prism Library itself is not container-specific, and you can use its services and patterns with other containers, such as Castle Windsor, StructureMap, and Spring.NET.
 
@@ -28,14 +33,25 @@ There are several advantages of using a container:
 * They both inject instances of registered types into properties.
 * They both have declarative attributes for marking types and dependencies that need to be managed.
 * They both resolve dependencies in an object graph.
+
+
+Unity provides several capabilities that MEF does not:
+
 * It resolves concrete types without registration.
 * It resolves open generics.
-* It uses interception to capture calls to objects and add additional functionality to the target object.
+* It uses interception to capture calls to
+objects and add additional functionality to the target object.
+
+
+MEF provides several capabilities that Unity does not:
+
 * It discovers assemblies in a directory.
 * It uses XAP file download and assembly discovery.
 * It recomposes properties and collections as new types are discovered.
 * It automatically exports derived types.
 * It is deployed with the .NET Framework.
+
+The containers have differences in capabilities and work differently, but the Prism Library will work with either container and provide similar functionality. When considering which container to use, keep in mind the preceding capabilities and determine which fits your scenario better. 
 
 ## Considerations for Using the Container
 You should consider the following before using containers:
@@ -62,6 +78,8 @@ You should consider the following before using containers:
 
 ## Core Scenarios
 
+Containers are used for two primary purposes, namely registering and resolving.
+
 ### Registering
 Before you can inject dependencies into an object, the types of the dependencies need to be registered with the container. Registering a type typically involves passing the container an interface and a concrete type that implements that interface. There are primarily two means for registering types and objects: through code or through configuration. The specific means vary from container to container.
 
@@ -71,6 +89,8 @@ Typically, there are two ways of registering types and objects in the container 
 * You can register an existing object instance in the container as a singleton. The container will return a reference to the existing object.
 
 #### Registering Types with the Unity Container
+
+During initialization, a type can register other types, such as views and services. Registration allows their dependencies to be provided through the container and allows them to be accessed from other types. To do this, the type will need to have the container injected into the module constructor. The following code shows how the **OrderModule** type in the Commanding QuickStart registers a type.
 
 ```
 // OrderModule.cs
@@ -90,13 +110,12 @@ Depending on which container you use, registration can also be performed outside
 
 #### Registering Types with MEF
 
-MEF uses an attribute-based system for registering types with the container. As a result, adding type registration to the container is simple: it requires the addition of the **\[Export\]** attribute to a type as shown in the following code example.
+MEF uses an attribute-based system for registering types with the container. As a result, adding type registration to the container is simple: it requires the addition of the **[Export]** attribute to a type as shown in the following code example.
 
 ```
 [Export(typeof(ILoggerFacade))]
 public class CallbackLogger: ILoggerFacade
 {
-
 }
 ```
 
@@ -173,7 +192,7 @@ public OrdersEditorViewModel(IOrdersRepository ordersRepository, OrdersCommandPr
 }
 ```
 
-In addition to the constructor injection shown in the preceding code, Unity also allows for property injection. Any properties that have a **\[Dependency\]** attribute applied are automatically resolved and injected when the object is resolved.
+In addition to the constructor injection shown in the preceding code, Unity also allows for property injection. Any properties that have a **[Dependency]** attribute applied are automatically resolved and injected when the object is resolved.
 
 #### Resolving Instances with MEF
 
@@ -212,7 +231,7 @@ Another option is to use property injection, as shown in the **ModuleTracker** c
 [Export(typeof(IModuleTracker))]
 public class ModuleTracker : IModuleTracker
 {
-
+    [Import] private ILoggerFacade Logger;
 }
 ```
 ## Using Dependency Injection Containers and Services in Prism
@@ -243,6 +262,8 @@ public interface IServiceLocator : IServiceProvider
 }
 ```
 
+The Service Locator is extended in the Prism Library with the extension methods shown in the following code. You can see that **IServiceLocator** is used only for resolving, meaning it is used to obtain an instance; it is not used for registration.
+
 ```
 // ServiceLocatorExtensions
 public static class ServiceLocatorExtensions
@@ -265,6 +286,10 @@ public static class ServiceLocatorExtensions
     }
 }
 ```
+
+The **TryResolve** extension method—which the Unity container does not support—returns an instance of the type to be resolved if it has been registered; otherwise, it returns **null**.
+
+The **ModuleInitializer** uses **IServiceLocator** for resolving the module during module loading, as shown in the following code examples.
 
 ```
 // ModuleInitializer.cs - Initialize()
