@@ -55,7 +55,7 @@ As part of taking over the code base from Microsoft and moving towards Prism 6, 
 - Removed all types that were marked as "Obsolete" in Prism 5
 - Changed namespaces to remove Microsoft namespaces
 - Moved a number of types around to better organize and to get as much into a single Portable Class Library as possible
-- ViewModeLocator naming convention changes: [Name]View now requires [Name]ViewModel.  No longer [Name]ViewViewModel
+- ViewModelLocator naming convention changes: [Name]View now requires [Name]ViewModel.  No longer [Name]ViewViewModel
 - NavigationParameters now derives from Dictionary which will break various scenarios such as duplicate params, and non-existent params throwing an exception now instead of null.
 
 ###Prism for UWP Preview
