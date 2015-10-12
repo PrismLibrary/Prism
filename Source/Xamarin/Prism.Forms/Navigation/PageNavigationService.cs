@@ -75,18 +75,14 @@ namespace Prism.Navigation
         {
             var confirmNavigationItem = item as IConfirmNavigation;
             if (confirmNavigationItem != null)
-            {
                 return confirmNavigationItem.CanNavigate(parameters);
-            }
 
             var bindableObject = item as BindableObject;
             if (bindableObject != null)
             {
                 var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigation;
                 if (confirmNavigationBindingContext != null)
-                {
                     return confirmNavigationBindingContext.CanNavigate(parameters);
-                }
             }
 
             return true;
@@ -110,23 +106,19 @@ namespace Prism.Navigation
         {
             var navigationAwareItem = item as INavigationAware;
             if (navigationAwareItem != null)
-            {
                 invocation(navigationAwareItem);
-            }
 
             var bindableObject = item as BindableObject;
             if (bindableObject != null)
             {
                 var navigationAwareDataContext = bindableObject.BindingContext as INavigationAware;
                 if (navigationAwareDataContext != null)
-                {
                     invocation(navigationAwareDataContext);
-                }
             }
         }
 
         static Dictionary<Type, INavigationPageProvider> _navigationProviderCache = new Dictionary<Type, INavigationPageProvider>();
-
+        
         private Page GetNavigationPageFromProvider(Page sourceView, Page targetView)
         {
             INavigationPageProvider provider = null;
@@ -138,10 +130,10 @@ namespace Prism.Navigation
             }
             else
             {
-                var navOptions = viewType.GetTypeInfo().GetCustomAttribute<NavigationPageProviderAttribute>(true);
-                if (navOptions != null)
+                var navigationPageProvider = viewType.GetTypeInfo().GetCustomAttribute<NavigationPageProviderAttribute>(true);
+                if (navigationPageProvider != null)
                 {
-                    provider = ServiceLocator.Current.GetInstance(navOptions.Type) as INavigationPageProvider;
+                    provider = ServiceLocator.Current.GetInstance(navigationPageProvider.Type) as INavigationPageProvider;
                     if (provider == null)
                         throw new InvalidCastException("Could not create the navigation page provider.  Please make sure the navigation page provider implements the INavigationPageProvider interface.");
                 }
@@ -151,10 +143,7 @@ namespace Prism.Navigation
                 _navigationProviderCache.Add(viewType, provider);
 
             if (provider != null)
-            {
-                provider.Initialize(sourceView, targetView);
-                return provider.CreatePageForNavigation();
-            }
+                return provider.CreatePageForNavigation(sourceView, targetView);
 
             return null;
         }

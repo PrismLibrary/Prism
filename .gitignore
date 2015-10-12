@@ -138,7 +138,10 @@ publish/
 
 # NuGet
 .nuget/
-project.lock.json
+nuget.exe
+*.nuget.props
+*.nuget.targets
+*.lock.json
 
 # NuGet Packages
 *.nupkg
