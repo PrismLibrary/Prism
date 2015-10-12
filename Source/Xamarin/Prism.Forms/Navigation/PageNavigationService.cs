@@ -3,6 +3,8 @@ using System.Diagnostics;
 using Microsoft.Practices.ServiceLocation;
 using Xamarin.Forms;
 using Prism.Common;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace Prism.Navigation
 {
@@ -28,19 +30,21 @@ namespace Prism.Navigation
 
         public void Navigate(string name, NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)
         {
-            var view = ServiceLocator.Current.GetInstance<object>(name) as Page;
-            if (view != null)
+            var targetView = ServiceLocator.Current.GetInstance<object>(name) as Page;
+            if (targetView != null)
             {
                 var navigation = GetPageNavigation();
 
                 if (!CanNavigate(_page, parameters))
                     return;
 
+                Page navigationPageFromProvider = GetNavigationPageFromProvider(_page, targetView);
+
                 OnNavigatedFrom(_page, parameters);
 
-                DoPush(navigation, view, useModalNavigation, animated);
+                DoPush(navigation, (navigationPageFromProvider != null ? navigationPageFromProvider : targetView), useModalNavigation, animated);
 
-                OnNavigatedTo(view, parameters);
+                OnNavigatedTo(targetView, parameters);
             }
             else
                 Debug.WriteLine("Navigation ERROR: {0} not found. Make sure you have registered {0} for navigation.", name);
@@ -119,6 +123,40 @@ namespace Prism.Navigation
                     invocation(navigationAwareDataContext);
                 }
             }
+        }
+
+        static Dictionary<Type, INavigationPageProvider> _navigationProviderCache = new Dictionary<Type, INavigationPageProvider>();
+
+        private Page GetNavigationPageFromProvider(Page sourceView, Page targetView)
+        {
+            INavigationPageProvider provider = null;
+            Type viewType = targetView.GetType();
+
+            if (_navigationProviderCache.ContainsKey(viewType))
+            {
+                provider = _navigationProviderCache[viewType];
+            }
+            else
+            {
+                var navOptions = viewType.GetTypeInfo().GetCustomAttribute<NavigationPageProviderAttribute>(true);
+                if (navOptions != null)
+                {
+                    provider = ServiceLocator.Current.GetInstance(navOptions.Type) as INavigationPageProvider;
+                    if (provider == null)
+                        throw new InvalidCastException("Could not create the navigation page provider.  Please make sure the navigation page provider implements the INavigationPageProvider interface.");
+                }
+            }
+
+            if (!_navigationProviderCache.ContainsKey(viewType))
+                _navigationProviderCache.Add(viewType, provider);
+
+            if (provider != null)
+            {
+                provider.Initialize(sourceView, targetView);
+                return provider.CreatePageForNavigation();
+            }
+
+            return null;
         }
     }
 }
