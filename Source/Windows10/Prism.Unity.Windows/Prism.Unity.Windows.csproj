@@ -195,6 +195,7 @@
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <DocumentationFile>bin\Release-Signed\Prism.Unity.Windows.xml</DocumentationFile>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
+	<SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\prism.pfx</AssemblyOriginatorKeyFile>
