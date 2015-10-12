@@ -5,19 +5,13 @@ namespace HelloWorld
 {
     public class ViewANavigationPageProvider : INavigationPageProvider
     {
-        Page _page = null;
-
-        public void Initialize(Page sourcePage, Page targetPage)
+        public Page CreatePageForNavigation(Page sourcePage, Page targetPage)
         {
-            _page = targetPage;
-            NavigationPage.SetHasNavigationBar(_page, true);
-            NavigationPage.SetBackButtonTitle(_page, "Go Back Sucka");
-            NavigationPage.SetHasBackButton(_page, true);
-        }
+            NavigationPage.SetHasNavigationBar(targetPage, true);
+            NavigationPage.SetBackButtonTitle(targetPage, "Go Back Sucka");
+            NavigationPage.SetHasBackButton(targetPage, true);
 
-        public Page CreatePageForNavigation()
-        {
-            var newPage = new NavigationPage(_page);
+            var newPage = new NavigationPage(targetPage);
             newPage.BarBackgroundColor = Color.Green;
             newPage.BarTextColor = Color.White;
             return newPage;
