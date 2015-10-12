@@ -11,27 +11,27 @@ namespace Prism.Navigation
     /// </remarks>
     public interface INavigationPageProvider
     {
-        /// <summary>
-        /// Initializes the INavigationPageProvider and allows various properties of the sourcePage and targetPage can be read/set prior to navigation completion.
+        // <summary>
+        /// Use this method to wrap, or replace, the current target Page with a new page, such as a NavigationPage. The source page is also provided
+        /// to enable you to make decisions based on the source of the navigation.
         /// </summary>
         /// <param name="sourcePage">The Page that is the source of the navigation. This is the page being navigated away from.</param>
         /// <param name="targetPage">The Page that is the target for navigation. This is the Page being navigated to.</param>
-        void Initialize(Page sourcePage, Page targetPage);
-
-        /// <summary>
-        /// Use this method to wrap, or replace, the current target Page with a new page type, such as a NavigationPage.
-        /// </summary>
+        /// <returns>A new page</returns>
+        /// <remarks>Returning null will have no affect on navigation. The targetPage will remain the navigation target.</remarks>
         /// <example>
-        /// public Page CreatePageForNavigation()
+        /// public Page CreatePageForNavigation(Page sourcePage, Page targetPage)
         /// {
-        ///     var newPage = new NavigationPage(_page);
+        ///     NavigationPage.SetHasNavigationBar(targetPage, true);
+        ///     NavigationPage.SetBackButtonTitle(targetPage, "Go Back Sucka");
+        ///     NavigationPage.SetHasBackButton(targetPage, true);
+        /// 
+        ///     var newPage = new NavigationPage(targetPage);
         ///     newPage.BarBackgroundColor = Color.Green;
         ///     newPage.BarTextColor = Color.White;
         ///     return newPage;
         /// }
         /// </example>
-        /// <returns>A new page</returns>
-        /// <remarks>Return null if you do not need to wrap, or replace, the targetPage.</remarks>
-        Page CreatePageForNavigation();
+        Page CreatePageForNavigation(Page sourcePage, Page targetPage);
     }
 }
