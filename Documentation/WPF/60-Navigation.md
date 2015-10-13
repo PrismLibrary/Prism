@@ -190,7 +190,7 @@ The **RequestNavigate** method also allows you to specify a callback method, or 
         ...
     }
 
-The **NavigationResult** class defines properties that provide information about the navigation operation. The **Result** property indicates whether or not navigation succeeded. If navigation failed, the **Error** property provides a reference to any exception that was thrown during navigation. The **Context** property provides access to the navigation URI and any parameters it contains, and a reference to the navigation service that coordinated the navigation operation.
+The **NavigationResult** class defines properties that provide information about the navigation operation. The **Result** property indicates whether or not navigation succeeded. If navigation was successful, then the **Result** property will be _true_. If navigation failed, normally because of returning 'continuationCallBack(false)' in the **IConfirmNavigationResult.ConfirmNavigationRequest** method, then the **Result** property will be _false_. If navigation failed due to an exception, the **Result** property will be _false_ and the **Error** property provides a reference to any exception that was thrown during navigation. The **Context** property provides access to the navigation URI and any parameters it contains, and a reference to the navigation service that coordinated the navigation operation.
 
 ### View and View Model Participation in Navigation
 
