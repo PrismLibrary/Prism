@@ -2,17 +2,18 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Prism.Windows</id>
-    <version>6.0.0-prerelease002</version>
+    <version>$version$</version>
     <title>Prism 6 for Windows UWP</title>
     <authors>Brian Lagunas, Brian Noyes</authors>
     <owners>Brian Lagunas, Brian Noyes</owners>
     <licenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://prismlibrary.com/</projectUrl>
+    <iconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Prism 6 is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices.  Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism.Windows contains the platform specific features for Windows 10 UWP.</description>
     <summary>Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable applications.</summary>
-    <releaseNotes></releaseNotes>
-    <language />
+    <releaseNotes>$notes$</releaseNotes>
+    <language>en-US</language>
     <tags>prism mvvm uwp uap xaml</tags>
     <dependencies>
       <group targetFramework="uap10.0">
@@ -38,6 +39,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Windows10\Prism.Windows\bin\Release\Prism.Windows.*" target="lib\uap10.0\" />
+    <file src="..\Windows10\Prism.Windows\bin\Release\Prism.Windows.*" target="lib\uap10.0\" exclude="**\*.pdb" />
   </files>
 </package>
