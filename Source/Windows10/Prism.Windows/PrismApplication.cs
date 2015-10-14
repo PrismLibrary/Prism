@@ -83,6 +83,12 @@ namespace Prism.Windows
         protected abstract Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args);
 
         /// <summary>
+        /// Override this method with logic that will be performed after the application is activated. For example, navigating to the application's home page.
+        /// </summary>
+        /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
+        protected abstract Task OnActivateApplicationAsync(IActivatedEventArgs args);
+
+        /// <summary>
         /// Gets the type of the page based on a page token.
         /// </summary>
         /// <param name="pageToken">The page token.</param>
@@ -129,6 +135,35 @@ namespace Prism.Windows
         protected virtual object Resolve(Type type)
         {
             return Activator.CreateInstance(type);
+        }
+
+        /// <summary>
+        /// OnActivated is the entry point for an application when it is launched via
+        /// means other normal user interaction. This includes Voice Commands, URI activation,
+        /// being used as a share target from another app, etc.
+        /// </summary>
+        /// <param name="args">Details about the activation method, including the activation
+        /// phrase (for voice commands) and the semantic interpretation, parameters, etc.</param>
+        protected override async void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
+
+            if (Window.Current.Content == null)
+            {
+                Frame rootFrame = await InitializeFrameAsync(args);
+
+                Shell = CreateShell(rootFrame);
+
+                Window.Current.Content = Shell ?? rootFrame;
+            }
+
+            if (Window.Current.Content != null && (!_isRestoringFromTermination || args != null))
+            {
+                await OnActivateApplicationAsync(args);
+            }
+
+            // Ensure the current window is active
+            Window.Current.Activate();
         }
 
         /// <summary>
