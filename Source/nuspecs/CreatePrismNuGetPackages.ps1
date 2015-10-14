@@ -1,6 +1,6 @@
 ﻿### This is just the initial script to get the nuget packages out.  We need to refactor this script to make it easier to maintain and update
 ### One idea is to force a Visual Studio build using the Release-Signed build configuration before packing the nuspecs
-### What happens if we need t update just one package?
+### What happens if we need to update just one package?
 ### We need to get the highest file version from multi-assembly packages like Unity and Autofac and use that as the package version
 
 $releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes---6.1.0'
