@@ -29,14 +29,14 @@ At the current time we have no plans to create new versions of the library for S
 | Assembly | Package |
 | -------- | ------- |
 | Prism.Forms.dll | [Prism.Forms](https://www.nuget.org/packages/Prism.Forms/) |
-| Prism.Unity.Forms.dll | [Prism.Forms](https://www.nuget.org/packages/Prism.Unity/) |
+| Prism.Unity.Forms.dll | [Prism.Unity](https://www.nuget.org/packages/Prism.Unity/) |
 
 ######Universal Windows Platform
 | Assembly | Package |
 | -------- | ------- |
 | Prism.Windows.dll | [Prism.Windows](https://www.nuget.org/packages/Prism.Windows/) |
-| Prism.Unity.Windows.dll | [Prism.Windows](https://www.nuget.org/packages/Prism.Unity/) |
-| Prism.Autofac.Windows.dll | [Prism.Windows](https://www.nuget.org/packages/Prism.Autofac/) |
+| Prism.Unity.Windows.dll | [Prism.Unity](https://www.nuget.org/packages/Prism.Unity/) |
+| Prism.Autofac.Windows.dll | [Prism.Autofac](https://www.nuget.org/packages/Prism.Autofac/) |
 
 #Roadmap/Milestones
 You can check out our milestones for coming releases [here](https://github.com/PrismLibrary/Prism/milestones).
