@@ -28,12 +28,15 @@ At the current time we have no plans to create new versions of the library for S
 ######Xamarin.Forms
 | Assembly | Package |
 | -------- | ------- |
-| Prism.dll, Prism.Forms.dll, Prism.Unity.Forms.dll | [Prism.Forms](https://www.nuget.org/packages/Prism.Forms/) |
+| Prism.Forms.dll | [Prism.Forms](https://www.nuget.org/packages/Prism.Forms/) |
+| Prism.Unity.Forms.dll | [Prism.Forms](https://www.nuget.org/packages/Prism.Unity/) |
 
 ######Universal Windows Platform
 | Assembly | Package |
 | -------- | ------- |
-| TBD | TBD |
+| Prism.Windows.dll | [Prism.Windows](https://www.nuget.org/packages/Prism.Windows/) |
+| Prism.Unity.Windows.dll | [Prism.Windows](https://www.nuget.org/packages/Prism.Unity/) |
+| Prism.Autofac.Windows.dll | [Prism.Windows](https://www.nuget.org/packages/Prism.Autofac/) |
 
 #Roadmap/Milestones
 You can check out our milestones for coming releases [here](https://github.com/PrismLibrary/Prism/milestones).
