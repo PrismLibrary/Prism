@@ -58,5 +58,7 @@
     <file src="..\Wpf\Prism.Unity.Wpf\bin\Release-Signed\Prism.Unity.Wpf.*" target="lib\net45\" exclude="**\*.pdb;**\*.config" />
     
     <file src="..\Windows10\Prism.Unity.Windows\bin\Release-Signed\Prism.Unity.Windows.*" target="lib\uap10.0\" exclude="**\*.pdb" />
+
+    <file src="..\Xamarin\Prism.Unity.Forms\bin\Release-Signed\Prism.Unity.Forms.*" target="lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\" exclude="**\*.pdb" />
   </files>
 </package>
