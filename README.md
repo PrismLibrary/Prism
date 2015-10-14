@@ -49,14 +49,14 @@ We strongly encourage you to get involved and help us evolve the code base.
 #Moving to Prism 6 from Previous Releases
 As part of taking over the code base from Microsoft and moving towards Prism 6, there are a number of breaking changes users of Prism 5 or Prism for Windows Runtime will have to deal with. Those changes are summarized below.
 
-[Release Notes](https://github.com/PrismLibrary/Prism/wiki/Release-Notes---6.0.0)
+[Current Release Notes](https://github.com/PrismLibrary/Prism/wiki/Release-Notes---6.1.0)
 
 ##Breaking Changes
 - Removed all types that were marked as "Obsolete" in Prism 5
+- Removed IView interface
 - Changed namespaces to remove Microsoft namespaces
 - Moved a number of types around to better organize and to get as much into a single Portable Class Library as possible
 - ViewModelLocator naming convention changes: [Name]View now requires [Name]ViewModel.  No longer [Name]ViewViewModel
-- NavigationParameters now derives from Dictionary which will break various scenarios such as duplicate params, and non-existent params throwing an exception now instead of null.
 
 ###Prism for UWP Preview
 - Prism for UWP is a port of the Prism for Windows Runtime 2.0 release
