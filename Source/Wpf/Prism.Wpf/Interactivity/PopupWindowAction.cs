@@ -45,6 +45,16 @@ namespace Prism.Interactivity
                 new PropertyMetadata(null));
 
         /// <summary>
+        /// If set, applies this WindowStartupLocation to the child window.
+        /// </summary>
+        public static readonly DependencyProperty WindowStartupLocationProperty =
+            DependencyProperty.Register(
+                "WindowStartupLocation",
+                typeof(WindowStartupLocation?),
+                typeof(PopupWindowAction),
+                new PropertyMetadata(null));
+
+        /// <summary>
         /// If set, applies this Style to the child window.
         /// </summary>
         public static readonly DependencyProperty WindowStyleProperty =
@@ -79,6 +89,15 @@ namespace Prism.Interactivity
         {
             get { return (bool)GetValue(CenterOverAssociatedObjectProperty); }
             set { SetValue(CenterOverAssociatedObjectProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the startup location of the Window.
+        /// </summary>
+        public WindowStartupLocation? WindowStartupLocation
+        {
+            get { return (WindowStartupLocation?)GetValue(WindowStartupLocationProperty); }
+            set { SetValue(WindowStartupLocationProperty, value); }
         }
 
         /// <summary>
@@ -181,6 +200,10 @@ namespace Prism.Interactivity
             // If the user provided a Style for a Window we set it as the window's style.
             if (WindowStyle != null)
                 wrapperWindow.Style = WindowStyle;
+
+            // If the user has provided a startup location for a Window we set it as the window's startup location.
+            if (WindowStartupLocation.HasValue)
+                wrapperWindow.WindowStartupLocation = WindowStartupLocation.Value;
 
             return wrapperWindow;
         }
