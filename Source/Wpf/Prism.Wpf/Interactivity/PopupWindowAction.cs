@@ -45,26 +45,6 @@ namespace Prism.Interactivity
                 new PropertyMetadata(null));
 
         /// <summary>
-        /// Determines if the AssociatedObject should be searched for its owner window.
-        /// </summary>
-        public static readonly DependencyProperty FindOwnerWindowProperty =
-            DependencyProperty.Register(
-                "FindOwnerWindow",
-                typeof(bool),
-                typeof(PopupWindowAction),
-                new PropertyMetadata(false));
-
-        /// <summary>
-        /// If set, applies this WindowStartupLocation to the child window.
-        /// </summary>
-        public static readonly DependencyProperty WindowStartupLocationProperty =
-            DependencyProperty.Register(
-                "WindowStartupLocation",
-                typeof(WindowStartupLocation?),
-                typeof(PopupWindowAction),
-                new PropertyMetadata(null));
-
-        /// <summary>
         /// If set, applies this Style to the child window.
         /// </summary>
         public static readonly DependencyProperty WindowStyleProperty =
@@ -99,23 +79,6 @@ namespace Prism.Interactivity
         {
             get { return (bool)GetValue(CenterOverAssociatedObjectProperty); }
             set { SetValue(CenterOverAssociatedObjectProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets if the window's owner will be setup from the associated object's window.
-        /// </summary>
-        public bool FindOwnerWindow {
-            get { return (bool)GetValue(FindOwnerWindowProperty); }
-            set { SetValue(FindOwnerWindowProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the startup location of the Window.
-        /// </summary>
-        public WindowStartupLocation? WindowStartupLocation
-        {
-            get { return (WindowStartupLocation?)GetValue(WindowStartupLocationProperty); }
-            set { SetValue(WindowStartupLocationProperty, value); }
         }
 
         /// <summary>
@@ -178,9 +141,6 @@ namespace Prism.Interactivity
                 wrapperWindow.SizeChanged += sizeHandler;
             }
 
-            if (FindOwnerWindow)
-                wrapperWindow.Owner = FindWindowFromElement(AssociatedObject);
-
             if (this.IsModal)
             {
                 wrapperWindow.ShowDialog();
@@ -221,10 +181,6 @@ namespace Prism.Interactivity
             // If the user provided a Style for a Window we set it as the window's style.
             if (WindowStyle != null)
                 wrapperWindow.Style = WindowStyle;
-
-            // If the user has provided a startup location for a Window we set it as the window's startup location.
-            if (WindowStartupLocation.HasValue)
-                wrapperWindow.WindowStartupLocation = WindowStartupLocation.Value;
 
             return wrapperWindow;
         }
@@ -285,33 +241,5 @@ namespace Prism.Interactivity
 
             return window;
         }
-
-        /// <summary>
-        /// Attempt to find a <see cref="Window"/> from a given <see cref="FrameworkElement"/>
-        /// </summary>
-        /// <param name="element">The element to find the window from.</param>
-        /// <returns>The element's Window, if found.</returns>
-        protected virtual Window FindWindowFromElement(FrameworkElement element)
-        {
-
-            if (element == null)
-                return null;
-
-            var window = element as Window;
-            if (window != null)
-                return window;
-
-            var parent = element.Parent as FrameworkElement;
-            if (parent != null)
-                return FindWindowFromElement(parent);
-
-            var templatedParent = element.TemplatedParent as FrameworkElement;
-            if (templatedParent != null)
-                return FindWindowFromElement(templatedParent);
-
-            return null;
-
-        }
-
-	}
+    }
 }
