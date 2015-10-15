@@ -45,6 +45,16 @@ namespace Prism.Interactivity
                 new PropertyMetadata(null));
 
         /// <summary>
+        /// Determines if the AssociatedObject should be searched for its owner window.
+        /// </summary>
+        public static readonly DependencyProperty FindOwnerWindowProperty =
+            DependencyProperty.Register(
+                "FindOwnerWindow",
+                typeof(bool),
+                typeof(PopupWindowAction),
+                new PropertyMetadata(false));
+
+        /// <summary>
         /// If set, applies this WindowStartupLocation to the child window.
         /// </summary>
         public static readonly DependencyProperty WindowStartupLocationProperty =
@@ -89,6 +99,14 @@ namespace Prism.Interactivity
         {
             get { return (bool)GetValue(CenterOverAssociatedObjectProperty); }
             set { SetValue(CenterOverAssociatedObjectProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets if the window's owner will be setup from the associated object's window.
+        /// </summary>
+        public bool FindOwnerWindow {
+            get { return (bool)GetValue(FindOwnerWindowProperty); }
+            set { SetValue(FindOwnerWindowProperty, value); }
         }
 
         /// <summary>
@@ -159,6 +177,9 @@ namespace Prism.Interactivity
                     };
                 wrapperWindow.SizeChanged += sizeHandler;
             }
+
+            if (FindOwnerWindow)
+                wrapperWindow.Owner = FindWindowFromElement(AssociatedObject);
 
             if (this.IsModal)
             {
@@ -264,5 +285,33 @@ namespace Prism.Interactivity
 
             return window;
         }
-    }
+
+        /// <summary>
+        /// Attempt to find a <see cref="Window"/> from a given <see cref="FrameworkElement"/>
+        /// </summary>
+        /// <param name="element">The element to find the window from.</param>
+        /// <returns>The element's Window, if found.</returns>
+        protected virtual Window FindWindowFromElement(FrameworkElement element)
+        {
+
+            if (element == null)
+                return null;
+
+            var window = element as Window;
+            if (window != null)
+                return window;
+
+            var parent = element.Parent as FrameworkElement;
+            if (parent != null)
+                return FindWindowFromElement(parent);
+
+            var templatedParent = element.TemplatedParent as FrameworkElement;
+            if (templatedParent != null)
+                return FindWindowFromElement(templatedParent);
+
+            return null;
+
+        }
+
+	}
 }
