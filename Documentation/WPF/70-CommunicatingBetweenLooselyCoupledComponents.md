@@ -316,7 +316,7 @@ fundAddedEvent.Subscribe(FundAddedEventHandler, ThreadOption.UIThread, keepSubsc
 
 The **keepSubscriberReferenceAlive** parameter is of type **bool**:
 
-- When set to **true**, the event instance keeps a strong reference to the subscriber instance, thereby not allowing it to get garbage collected. For information about how to unsubscribe, see the section [Unsubscribing from an Event](#UnsubscribingfromanEvent) later in this topic.
+- When set to **true**, the event instance keeps a strong reference to the subscriber instance, thereby not allowing it to get garbage collected. For information about how to unsubscribe, see the section [Unsubscribing from an Event](#unsubscribing-from-an-event) later in this topic.
 
 - When set to **false** (the default value when this parameter omitted), the event maintains a weak reference to the subscriber instance, thereby allowing the garbage collector to dispose the subscriber instance when there are no other references to it. When the subscriber instance gets collected, the event is automatically unsubscribed.
 
