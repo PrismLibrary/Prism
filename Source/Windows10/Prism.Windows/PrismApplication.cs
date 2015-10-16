@@ -257,7 +257,7 @@ namespace Prism.Windows
         /// Invoked when the application is restoreing.
         /// </summary>
         /// <returns>Task to complete.</returns>
-        protected Task OnRestoreApplicationAsync() => Task.FromResult<object>(null);
+        protected virtual Task OnRestoreApplicationAsync() => Task.FromResult<object>(null);
 
         /// <summary>
         /// Handling the forward navigation request from the <see cref="IDeviceGestureService"/>
