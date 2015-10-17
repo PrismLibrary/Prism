@@ -22,7 +22,7 @@ The **CompositeCommand** is an implementation of **ICommand** so that it can be 
 
 How does this help you with cross module communication? Applications based on the Prism Library may have global **CompositeCommands** that are defined in the shell that have meaning across modules, such as **Save**, **Save All**, and **Cancel**. Modules can then register their local commands with these global commands and participate in their execution.
 
-_**Note:** **DelegateCommand** and **CompositeCommands** can be found in the Microsoft.Practices.Prism.Mvvm namespace which is located in the Prism.Mvvm NuGet package._
+_**Note:** **DelegateCommand** and **CompositeCommand** can be found in the Prism.Commands namespace which is located in the Prism.Core NuGet package._
 
 >**About WPF Routed Events and Routed Commands**
 
@@ -191,7 +191,7 @@ The real work of connecting publishers and subscribers is done by the **PubSubEv
 
 The **PubSubEvent** class is a generic class that requires the payload type to be defined as the generic type. This helps enforce, at compile time, that publishers and subscribers provide the correct methods for successful event connection. The following code shows a partial definition of the **PubSubEvent** class.
 
-_**Note:** **PubSubEvent** can be found in the Microsoft.Practices.SubSubEvents namespace which is located in the Prism.PubSubEvents NuGet package._
+_**Note:** **PubSubEvent** can be found in the Prism.Events namespace which is located in the Prism.Core NuGet package._
 
 ```
 // PubSubEvent.cs
@@ -292,7 +292,7 @@ fundAddedEvent.Subscribe(FundAddedEventHandler, ThreadOption.UIThread, false,
 fundOrder => fundOrder.CustomerId == this.customerId);
 ```
 
-_**Note:** The **Subscribe** method returns a subscription token of type **Microsoft.Practices.Prism.Events.SubscriptionToken** that can be used to remove a subscription to the event later. This token is particularly useful when you are using anonymous delegates or lambda expressions as the callback delegate or when you are subscribing the same event handler with different filters._
+_**Note:** The **Subscribe** method returns a subscription token of type **Prism.Events.SubscriptionToken** that can be used to remove a subscription to the event later. This token is particularly useful when you are using anonymous delegates or lambda expressions as the callback delegate or when you are subscribing the same event handler with different filters._
 
 _**Note:** It is not recommended to modify the payload object from within a callback delegate because several threads could be accessing the payload object simultaneously. You could have the payload be immutable to avoid concurrency errors._
 
