@@ -408,7 +408,7 @@ The **RegionManager** supplies an attached property that you can use for simple 
 Notice the use of the **x:Static** markup extension to reference the **MainRegion** string constant. This practice eliminates magic strings in the XAML.
 
 ```
-<!—(WPF) -->
+<!-- (WPF) -->
 <Controls:AnimatedTabControl 
     x:Name="PositionBuySellTab"
     prism:RegionManager.RegionName="{x:Static inf:RegionNames.MainRegion}"/>
@@ -502,7 +502,7 @@ To allow views to participate in ordering themselves, the Prism Library provides
 
 When displaying views, the **Region** class uses a default view sorting routine that uses the hint to order the views. This is a simple case-sensitive ordinal sort. Views that have the sort hint attribute are ordered ahead of those without. Also, those without the attribute appear in the order they were added to the region.
 
-If you want to change how views are ordered, the **Region** class provides a **SortComparison** property that you can set with your own **Comparison_&lt;object&gt;_** delegate method. It is important to note that the ordering of the region's **Views** and **ActiveViews** properties are reflected in the UI because adapters such as the **ItemsControlRegionAdapter** bind directly to these properties. A custom region adapter could implement its own sorting and filter that will override how the region orders views.
+If you want to change how views are ordered, the **Region** class provides a **SortComparison** property that you can set with your own **Comparison&lt;_object_&gt;** delegate method. It is important to note that the ordering of the region's **Views** and **ActiveViews** properties are reflected in the UI because adapters such as the **ItemsControlRegionAdapter** bind directly to these properties. A custom region adapter could implement its own sorting and filter that will override how the region orders views.
 
 The View Switching QuickStart demonstrates a simple numbering scheme to order the views in the left-hand-side navigation region. The following code examples show **ViewSortHint** applied to each of the navigation item views.
 
