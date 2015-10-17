@@ -626,7 +626,7 @@ Blend for Visual Studio 2013 and Visual Studio 2013 have full visual design supp
 
 Resources such as styles, resource dictionaries, and control templates can be scattered throughout an application. This is especially true with a composite application. When you consider where to place resources, pay special attention to dependencies between UI elements and the resources they need. The Stock Trader RI solution, shown in the following figure, contains labels that indicate the various areas where resources can live.
 
-![](images/Ch7UIFig13.PNG)
+![](images/Ch7UIFig13.png)
 
 Resource distribution across a solution
 
