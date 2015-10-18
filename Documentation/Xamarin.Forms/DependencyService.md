@@ -40,14 +40,17 @@ In this examples, we will leverage the speech API of each platform to provide te
 
 This will require two steps:
 
-1. Add an interface to the Portable project that will define the contract for our speech service:
+* Add an interface to the Portable project that will define the contract for our speech service:
+
 ```
 public interface ITextToSpeech
 {
     void Speak(string text);
 }
 ```
-2. Add a class that implements our interface to each specific platform.#### Windows Phone
+* Add a class that implements our interface to each specific platform.
+
+#### Windows Phone
 ```
 public class TextToSpeech_WinPhone : ITextToSpeech
 {
