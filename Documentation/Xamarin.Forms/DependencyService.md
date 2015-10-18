@@ -47,8 +47,7 @@ public interface ITextToSpeech
     void Speak(string text);
 }
 ```
-2. Add a class that implements our interface to each specific platform.
-#### Windows Phone
+2. Add a class that implements our interface to each specific platform.#### Windows Phone
 ```
 public class TextToSpeech_WinPhone : ITextToSpeech
 {
