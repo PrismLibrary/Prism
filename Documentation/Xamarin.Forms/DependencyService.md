@@ -4,21 +4,19 @@ Xamarin.Forms includes a DependencyService to let shared code to easily resolve 
 
 The **problem** with Xamarin's DependencyService is that it requires a static call to DependencyService.Get<> in your shared code to get a platform-specific instance of the interface at run time.  This makes your ViewModels less testable, and hides the dependencies of your class.
 
-##### Xamarin.Forms Way (**Not Good**)
-```
-public MainPageViewModel()
-{
-    DependencyService.Get<ITextToSpeech>().Speak("Hello World");
-}
-```
-
 Prism **simplifies** this feature by allowing you to simply request any dependencies that have been registered with Xamarin's DependencyService via your class constructor.
 
-##### Prism Way (**Better**)
 ```
 public MainPageViewModel(ITextToSpeech textToSpeechService)
 {
     textToSpeechService.Speak("Hello World");
+}
+```
+You can also gain access to Xamarin's DependencyService by using the **IDependencyService** interface.  This interface removes the static call in your ViewModel, but still gives you access to Xamarin's DependencyService API.
+```
+public MainPageViewModel(IDependencyService dependencyService)
+{
+    dependencyService.Get<ITextToSpeech>().Speak("Hello World");
 }
 ```
 
