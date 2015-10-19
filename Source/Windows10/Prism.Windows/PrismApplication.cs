@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading.Tasks;
+using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Windows.AppModel;
 using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
@@ -11,7 +13,6 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Prism.Windows.Navigation;
 
 namespace Prism.Windows
 {
@@ -27,7 +28,21 @@ namespace Prism.Windows
         protected PrismApplication()
         {
             this.Suspending += OnSuspending;
+            Logger = CreateLogger();
+            if (Logger == null)
+            {
+                throw new InvalidOperationException("Logger Facade is null");
+            }
+
+            Logger.Log("Created Logger", Category.Debug, Priority.Low);
+
         }
+
+        /// <summary>
+        /// Gets the <see cref="ILoggerFacade"/> for the application.
+        /// </summary>
+        /// <value>A <see cref="ILoggerFacade"/> instance.</value>
+        protected ILoggerFacade Logger { get; set; }
 
         /// <summary>
         /// Gets the shell user interface
@@ -81,6 +96,35 @@ namespace Prism.Windows
         /// </summary>
         /// <param name="args">The <see cref="LaunchActivatedEventArgs"/> instance containing the event data.</param>
         protected abstract Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args);
+
+        /// <summary>
+        /// Creates and Configures the container if using a container
+        /// </summary>
+        protected virtual void CreateAndConfigureContainer() { }
+
+        /// <summary>
+        /// Configures the LocatorProvider for the <see cref="Microsoft.Practices.ServiceLocation.ServiceLocator" />.
+        /// </summary>
+        protected virtual void ConfigureServiceLocator() { }
+
+        /// <summary>
+        /// Create the <see cref="ILoggerFacade" /> used by the bootstrapper.
+        /// </summary>
+        /// <remarks>
+        /// The base implementation returns a new DebugLogger.
+        /// </remarks>
+        protected virtual ILoggerFacade CreateLogger()
+        {
+            return new DebugLogger();
+        }
+
+        /// <summary>
+        /// Configures the <see cref="ViewModelLocator"/> used by Prism.
+        /// </summary>
+        protected virtual void ConfigureViewModelLocator()
+        {
+            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => Resolve(type));
+        }
 
         /// <summary>
         /// Gets the type of the page based on a page token.
@@ -191,8 +235,10 @@ namespace Prism.Windows
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
         /// <returns>A task of a Frame that holds the app content.</returns>
-        protected async Task<Frame> InitializeFrameAsync(IActivatedEventArgs args)
+        protected virtual async Task<Frame> InitializeFrameAsync(IActivatedEventArgs args)
         {
+            CreateAndConfigureContainer();
+
             // Create a Frame to act as the navigation context and navigate to the first page
             var rootFrame = CreateRootFrame();
 
@@ -223,7 +269,8 @@ namespace Prism.Windows
             DeviceGestureService.GoForwardRequested += OnGoForwardRequested;
 
             // Set a factory for the ViewModelLocator to use the default resolution mechanism to construct view models
-            ViewModelLocationProvider.SetDefaultViewModelFactory(Resolve);
+            Logger.Log("Configuring ViewModelLocator", Category.Debug, Priority.Low);
+            ConfigureViewModelLocator();
 
             OnRegisterKnownTypesForSerialization();
             if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
@@ -325,7 +372,7 @@ namespace Prism.Windows
         /// <param name="rootFrame">The root frame.</param>
         /// <param name="sessionStateService">The session state service.</param>
         /// <returns>The initialized navigation service.</returns>
-        private INavigationService CreateNavigationService(IFrameFacade rootFrame, ISessionStateService sessionStateService)
+        protected virtual INavigationService CreateNavigationService(IFrameFacade rootFrame, ISessionStateService sessionStateService)
         {
             var navigationService = OnCreateNavigationService(rootFrame) ?? new FrameNavigationService(rootFrame, GetPageType, sessionStateService);
             return navigationService;
