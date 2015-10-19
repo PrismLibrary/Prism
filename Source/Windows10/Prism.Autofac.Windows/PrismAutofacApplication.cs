@@ -13,6 +13,7 @@ using Prism.Windows;
 using Prism.Windows.AppModel;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
+using Windows.UI.Xaml.Controls;
 
 namespace Prism.Autofac.Windows
 {
@@ -25,13 +26,6 @@ namespace Prism.Autofac.Windows
     {
         protected PrismAutofacApplication()
         {
-            Logger = CreateLogger();
-            if (Logger == null)
-            {
-                throw new InvalidOperationException("Logger Facade is null");
-            }
-
-            Logger.Log("Created Logger", Category.Debug, Priority.Low);
         }
 
         /// <summary>
@@ -45,51 +39,14 @@ namespace Prism.Autofac.Windows
         public IContainer Container { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="ILoggerFacade"/> for the application.
-        /// </summary>
-        /// <value>A <see cref="ILoggerFacade"/> instance.</value>
-        protected ILoggerFacade Logger { get; set; }
-
-        /// <summary>
-        /// Implements and seals the OnInitialize method to configure the container.
-        /// </summary>
-        /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
-        protected sealed override Task OnInitializeAsync(IActivatedEventArgs args)
-        {
-            CreateAndConfigureContainer();
-            ConfigureViewModelLocator();
-
-            return Task.FromResult<object>(null);
-        }
-
-        /// <summary>
         /// Implements and seals the Resolves method to be handled by the Autofac Container.
         /// Use the container to resolve types (e.g. ViewModels and Flyouts) so their dependencies get injected
         /// </summary>
-        /// <param name="type">The type.</param>
+        /// <param name="type">The type.</param
         /// <returns>A concrete instance of the specified type.</returns>
         protected override sealed object Resolve(Type type)
         {
             return Container.Resolve(type);
-        }
-
-        /// <summary>
-        /// Create the <see cref="ILoggerFacade" /> used by the bootstrapper.
-        /// </summary>
-        /// <remarks>
-        /// The base implementation returns a new DebugLogger.
-        /// </remarks>
-        protected virtual ILoggerFacade CreateLogger()
-        {
-            return new DebugLogger();
-        }
-
-        /// <summary>
-        /// Configures the <see cref="ViewModelLocator"/> used by Prism.
-        /// </summary>
-        protected virtual void ConfigureViewModelLocator()
-        {
-            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => Container.Resolve(type));
         }
 
         /// <summary>
@@ -111,22 +68,58 @@ namespace Prism.Autofac.Windows
             return containerBuilder.Build();
         }
 
+        /// <summary>
+        /// Configures Prism services in the container
+        /// </summary>
+        /// <param name="builder">The ContainerBuilder instance that is used to</param>
         protected virtual void ConfigureContainer(ContainerBuilder builder)
         {
             Logger.Log("Registering Prism services with container", Category.Debug, Priority.Low);
             builder.RegisterInstance<ILoggerFacade>(Logger);
-            builder.RegisterInstance<ISessionStateService>(SessionStateService);
-            builder.RegisterInstance<INavigationService>(NavigationService);
-            builder.RegisterInstance<IDeviceGestureService>(DeviceGestureService);
-
+            RegisterTypeIfMissing<ISessionStateService, SessionStateService>(builder, true);
+            RegisterTypeIfMissing<IDeviceGestureService, DeviceGestureService>(builder, true);
             RegisterTypeIfMissing<IEventAggregator, EventAggregator>(builder, true);
+        }
+
+        /// <summary>
+        /// Creates the nav service through the base class and gets it registered with the container
+        /// </summary>
+        /// <param name="rootFrame">The frame where nav happens</param>
+        /// <param name="sessionStateService">The session state service that stores nav state on suspend.</param>
+        /// <returns>The NavigationService instance</returns>
+        protected override INavigationService CreateNavigationService(IFrameFacade rootFrame, ISessionStateService sessionStateService)
+        {
+            var svc = base.CreateNavigationService(rootFrame, sessionStateService);
+            RegisterInstance(svc, typeof(INavigationService), registerAsSingleton: true);
+            return svc;
+        }
+
+        /// <summary>
+        /// Creates the DeviceGestureService through the container
+        /// </summary>
+        /// <returns>DeviceGestureService</returns>
+        protected override IDeviceGestureService OnCreateDeviceGestureService()
+        {
+            var svc = Container.Resolve<IDeviceGestureService>();
+            svc.UseTitleBarBackButton = true;
+            return svc;
+        }
+
+        /// <summary>
+        /// Creates the SessionStateService through the container
+        /// </summary>
+        /// <returns>SessionStateService</returns>
+        protected override ISessionStateService OnCreateSessionStateService()
+        {
+            return Container.Resolve<ISessionStateService>();
         }
 
         /// <summary>
         /// Creates and configures the Autofac container
         /// </summary>
-        private void CreateAndConfigureContainer()
+        protected override void CreateAndConfigureContainer()
         {
+            Logger.Log("Creating and Configuring Container", Category.Debug, Priority.Low);
             ContainerBuilder builder = CreateContainerBuilder();
             // Make sure any not specifically registered concrete type can resolve.
             builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
@@ -142,7 +135,10 @@ namespace Prism.Autofac.Windows
             ConfigureServiceLocator();
         }
 
-        private void ConfigureServiceLocator()
+        /// <summary>
+        /// Sets up the ServiceLocator to use the Autofac container for any creation of types
+        /// </summary>
+        protected override void ConfigureServiceLocator()
         {
             var serviceLocator = new AutofacServiceLocatorAdapter(Container);
             ServiceLocator.SetLocatorProvider(() => serviceLocator);
@@ -264,6 +260,7 @@ namespace Prism.Autofac.Windows
                 Container.Dispose();
                 Container = null;
             }
+            GC.SuppressFinalize(this);
         }
         #endregion
     }
