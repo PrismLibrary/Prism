@@ -128,7 +128,9 @@ In this task, you will edit the ClickOnce manifests of your deployed application
 1. **Open the deployment manifest in the Manifest Manager Utility**. In this task, you run the utility to simplify editing of the manifests.
 
  _**Important**: You must run this utility as an administrator._
+ 
 2. **Add the dynamically loaded modules to the manifests**. In this task, you locate and add the dynamic module assemblies to the manifest and get them deployed to the publish location.
+
 3. **Save and sign the manifests**. In this task, you select the publisher certificate used for signing the ClickOnce manifests to save and re-sign the manifests.
 
 The following procedure describes how to add the dynamic module assemblies to the ClickOnce manifests.
