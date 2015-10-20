@@ -55,13 +55,13 @@ As part of shipping the Prism Library as NuGet packages, the Prism Library proje
 menu, and then clear the **Build** check box for all Prism Library projects in both the debug and release configurations.
 -  **Set a breakpoint and step in**. Set a break point in your application's bootstrapper, and then step in to a method within the base class (F11 is the typical C\# keyboard shortcut for this). You may be asked to locate the Prism Library source code, but often, the full program database (PDB) file is available and the file will simply open. You may set breakpoints in any Prism Library project by opening the file and setting the breakpoint.
 
-# NuGet Packages
-###### Prism PCL
+#NuGet Packages
+######Prism PCL
 | Assembly | Package |
 | -------- | ------- |
 | Prism.dll | [Prism.Core](https://www.nuget.org/packages/Prism.Core/) |
 
-###### WPF
+######WPF
 | Assembly | Package |
 | -------- | ------- |
 | Prism.Wpf.dll | [Prism.Wpf](https://www.nuget.org/packages/Prism.Wpf/) |
@@ -71,12 +71,15 @@ menu, and then clear the **Build** check box for all Prism Library projects in b
 | Prism.StructureMap.Wpf.dll | [Prism.StructureMap](https://www.nuget.org/packages/Prism.StructureMap/) |
 | Prism.Ninject.Wpf.dll | [Prism.Ninject](https://www.nuget.org/packages/Prism.Ninject/) |
 
-###### Xamarin.Forms
+######Xamarin.Forms
 | Assembly | Package |
 | -------- | ------- |
-| Prism.dll, Prism.Forms.dll, Prism.Unity.Forms.dll | [Prism.Forms](https://www.nuget.org/packages/Prism.Forms/) |
+| Prism.Forms.dll | [Prism.Forms](https://www.nuget.org/packages/Prism.Forms/) |
+| Prism.Unity.Forms.dll | [Prism.Unity](https://www.nuget.org/packages/Prism.Unity/) |
 
-###### Universal Windows Platform
+######Universal Windows Platform
 | Assembly | Package |
 | -------- | ------- |
-| TBD | TBD |
+| Prism.Windows.dll | [Prism.Windows](https://www.nuget.org/packages/Prism.Windows/) |
+| Prism.Unity.Windows.dll | [Prism.Unity](https://www.nuget.org/packages/Prism.Unity/) |
+| Prism.Autofac.Windows.dll | [Prism.Autofac](https://www.nuget.org/packages/Prism.Autofac/) |
