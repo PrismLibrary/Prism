@@ -42,9 +42,13 @@ namespace Prism.Unity
                     var navService = new PageNavigationService();
                     ((IPageAware)navService).Page = page;
 
+                    var pageDialogService = new PageDialogService();
+                    ((IPageAware)pageDialogService).Page = page;
+
                     overrides = new ParameterOverrides
                     {
-                        { "navigationService", navService }
+                        { "navigationService", navService },
+                        { "pageDialogService", pageDialogService }
                     };
                 }
 
