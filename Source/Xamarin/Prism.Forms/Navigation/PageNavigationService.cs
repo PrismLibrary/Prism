@@ -3,6 +3,8 @@ using System.Diagnostics;
 using Microsoft.Practices.ServiceLocation;
 using Xamarin.Forms;
 using Prism.Common;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace Prism.Navigation
 {
@@ -28,19 +30,21 @@ namespace Prism.Navigation
 
         public void Navigate(string name, NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)
         {
-            var view = ServiceLocator.Current.GetInstance<object>(name) as Page;
-            if (view != null)
+            var targetView = ServiceLocator.Current.GetInstance<object>(name) as Page;
+            if (targetView != null)
             {
                 var navigation = GetPageNavigation();
 
                 if (!CanNavigate(_page, parameters))
                     return;
 
+                Page navigationPageFromProvider = GetNavigationPageFromProvider(_page, targetView);
+
                 OnNavigatedFrom(_page, parameters);
 
-                DoPush(navigation, view, useModalNavigation, animated);
+                DoPush(navigation, (navigationPageFromProvider != null ? navigationPageFromProvider : targetView), useModalNavigation, animated);
 
-                OnNavigatedTo(view, parameters);
+                OnNavigatedTo(targetView, parameters);
             }
             else
                 Debug.WriteLine("Navigation ERROR: {0} not found. Make sure you have registered {0} for navigation.", name);
@@ -71,18 +75,14 @@ namespace Prism.Navigation
         {
             var confirmNavigationItem = item as IConfirmNavigation;
             if (confirmNavigationItem != null)
-            {
                 return confirmNavigationItem.CanNavigate(parameters);
-            }
 
             var bindableObject = item as BindableObject;
             if (bindableObject != null)
             {
                 var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigation;
                 if (confirmNavigationBindingContext != null)
-                {
                     return confirmNavigationBindingContext.CanNavigate(parameters);
-                }
             }
 
             return true;
@@ -106,19 +106,46 @@ namespace Prism.Navigation
         {
             var navigationAwareItem = item as INavigationAware;
             if (navigationAwareItem != null)
-            {
                 invocation(navigationAwareItem);
-            }
 
             var bindableObject = item as BindableObject;
             if (bindableObject != null)
             {
                 var navigationAwareDataContext = bindableObject.BindingContext as INavigationAware;
                 if (navigationAwareDataContext != null)
-                {
                     invocation(navigationAwareDataContext);
+            }
+        }
+
+        static Dictionary<Type, INavigationPageProvider> _navigationProviderCache = new Dictionary<Type, INavigationPageProvider>();
+        
+        private Page GetNavigationPageFromProvider(Page sourceView, Page targetView)
+        {
+            INavigationPageProvider provider = null;
+            Type viewType = targetView.GetType();
+
+            if (_navigationProviderCache.ContainsKey(viewType))
+            {
+                provider = _navigationProviderCache[viewType];
+            }
+            else
+            {
+                var navigationPageProvider = viewType.GetTypeInfo().GetCustomAttribute<NavigationPageProviderAttribute>(true);
+                if (navigationPageProvider != null)
+                {
+                    provider = ServiceLocator.Current.GetInstance(navigationPageProvider.Type) as INavigationPageProvider;
+                    if (provider == null)
+                        throw new InvalidCastException("Could not create the navigation page provider.  Please make sure the navigation page provider implements the INavigationPageProvider interface.");
                 }
             }
+
+            if (!_navigationProviderCache.ContainsKey(viewType))
+                _navigationProviderCache.Add(viewType, provider);
+
+            if (provider != null)
+                return provider.CreatePageForNavigation(sourceView, targetView);
+
+            return null;
         }
     }
 }

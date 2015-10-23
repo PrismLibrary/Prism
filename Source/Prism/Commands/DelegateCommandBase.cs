@@ -20,7 +20,9 @@ namespace Prism.Commands
         readonly HashSet<string> _propertiesToObserve = new HashSet<string>();
         private INotifyPropertyChanged _inpc;
 
+        [CLSCompliant(false)] // Non-private identifier beginning with underscore breaks compliance.
         protected readonly Func<object, Task> _executeMethod;
+        [CLSCompliant(false)] // Non-private identifier beginning with underscore breaks compliance.
         protected Func<object, bool> _canExecuteMethod;
 
         /// <summary>

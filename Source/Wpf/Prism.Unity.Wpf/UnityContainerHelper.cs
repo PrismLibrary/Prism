@@ -8,7 +8,6 @@ namespace Prism.Unity
     /// <summary>
     /// Extensions methods to extend and facilitate the usage of <see cref="IUnityContainer"/>.
     /// </summary>
-    [CLSCompliant(false)]
     public static class UnityContainerHelper
     {
         /// <summary>

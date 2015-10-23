@@ -31,7 +31,6 @@ namespace Prism.Unity
         /// Gets the default <see cref="IUnityContainer"/> for the application.
         /// </summary>
         /// <value>The default <see cref="IUnityContainer"/> instance.</value>
-        [CLSCompliant(false)]
         public IUnityContainer Container { get; protected set; }
 
 
@@ -187,7 +186,6 @@ namespace Prism.Unity
         /// Creates the <see cref="IUnityContainer"/> that will be used as the default container.
         /// </summary>
         /// <returns>A new instance of <see cref="IUnityContainer"/>.</returns>
-        [CLSCompliant(false)]
         protected virtual IUnityContainer CreateContainer()
         {
             return new UnityContainer();

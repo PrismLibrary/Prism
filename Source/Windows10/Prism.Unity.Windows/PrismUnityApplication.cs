@@ -11,6 +11,7 @@ using Prism.Windows.AppModel;
 using Prism.Windows.Navigation;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Prism.Unity.Windows
 {
@@ -22,21 +23,8 @@ namespace Prism.Unity.Windows
     public abstract class PrismUnityApplication : PrismApplication, IDisposable
     {
         #region Constructor
-        public PrismUnityApplication()
+        protected PrismUnityApplication()
         {
-            Logger = CreateLogger();
-            if (Logger == null)
-            {
-                throw new InvalidOperationException("Logger Facade is null");
-            }
-
-            Logger.Log("Created Logger", Category.Debug, Priority.Low);
-
-            Container = CreateContainer();
-            if (Container == null)
-            {
-                throw new InvalidOperationException("Unity container is null");
-            }
         }
         #endregion
 
@@ -51,51 +39,37 @@ namespace Prism.Unity.Windows
         /// </summary>
         public IUnityContainer Container { get; private set; }
 
-        /// <summary>
-        /// Gets the <see cref="ILoggerFacade"/> for the application.
-        /// </summary>
-        /// <value>A <see cref="ILoggerFacade"/> instance.</value>
-        protected ILoggerFacade Logger { get; set; }
         #endregion
 
         #region Overrides
-        /// <summary>
-        /// Implements and seals the OnInitialize method to configure the container.
-        /// </summary>
-        /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
-        protected override Task OnInitializeAsync(IActivatedEventArgs args)
+
+        protected override void CreateAndConfigureContainer()
         {
+            Logger.Log("Creating Container", Category.Debug, Priority.Low);
+            Container = CreateContainer();
+            if (Container == null)
+            {
+                throw new InvalidOperationException("Unity container is null");
+            }
+            Logger.Log("Configuring Container", Category.Debug, Priority.Low);
             ConfigureContainer();
-            ConfigureViewModelLocator();
-
-            return Task.FromResult<object>(null);
+            Logger.Log("Configuring ServiceLocator", Category.Debug, Priority.Low);
+            ConfigureServiceLocator();
         }
-
         /// <summary>
-        /// Implements and seals the Resolves method to be handled by the Unity Container.
+        /// Implements the Resolves method to be handled by the Unity Container.
         /// Use the container to resolve types (e.g. ViewModels and Flyouts)
         /// so their dependencies get injected
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>A concrete instance of the specified type.</returns>
-        protected override sealed object Resolve(Type type)
+        protected override object Resolve(Type type)
         {
             return Container.Resolve(type);
         }
         #endregion
 
         #region Protected Methods
-        /// <summary>
-        /// Create the <see cref="ILoggerFacade" /> used by the bootstrapper.
-        /// </summary>
-        /// <remarks>
-        /// The base implementation returns a new DebugLogger.
-        /// </remarks>
-        protected virtual ILoggerFacade CreateLogger()
-        {
-            return new DebugLogger();
-        }
-
         /// <summary>
         /// Creates the <see cref="IUnityContainer"/> that will be used as the default container.
         /// </summary>
@@ -106,13 +80,8 @@ namespace Prism.Unity.Windows
         }
 
         /// <summary>
-        /// Configures the <see cref="ViewModelLocator"/> used by Prism.
+        /// Creates and configures the container and service locator
         /// </summary>
-        protected virtual void ConfigureViewModelLocator()
-        {
-            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => Container.Resolve(type));
-        }
-
         protected virtual void ConfigureContainer()
         {
             // Register the unity container with itself so that it can be dependency injected
@@ -122,20 +91,57 @@ namespace Prism.Unity.Windows
             // Set up the global locator service for any Prism framework code that needs DI 
             // without being coupled to Unity
             Logger.Log("Setting up ServiceLocator", Category.Debug, Priority.Low);
-            var serviceLocator = new UnityServiceLocator(Container);
-            ServiceLocator.SetLocatorProvider(() => serviceLocator);
-            Container.RegisterInstance<IServiceLocator>(serviceLocator);
+            RegisterTypeIfMissing(typeof(IServiceLocator), typeof(UnityServiceLocatorAdapter), true);
 
             Logger.Log("Adding UnityExtensions to container", Category.Debug, Priority.Low);
             Container.AddNewExtension<PrismUnityExtension>();
 
             Logger.Log("Registering Prism services with container", Category.Debug, Priority.Low);
             Container.RegisterInstance<ILoggerFacade>(Logger);
-            Container.RegisterInstance<ISessionStateService>(SessionStateService);
-            Container.RegisterInstance<INavigationService>(NavigationService);
-            Container.RegisterInstance<IDeviceGestureService>(DeviceGestureService);
+            RegisterTypeIfMissing(typeof(ISessionStateService), typeof(SessionStateService), true);
+            RegisterTypeIfMissing(typeof(IDeviceGestureService), typeof(DeviceGestureService), true);
             RegisterTypeIfMissing(typeof(IEventAggregator), typeof(EventAggregator), true);
+        }
 
+        /// <summary>
+        /// Configures the LocatorProvider for the <see cref="ServiceLocator" />.
+        /// </summary>
+        protected override void ConfigureServiceLocator()
+        {
+            ServiceLocator.SetLocatorProvider(() => this.Container.Resolve<IServiceLocator>());
+        }
+
+        /// <summary>
+        /// Creates the nav service through the base class and registers it with the container
+        /// </summary>
+        /// <param name="rootFrame">The frame where nav happens</param>
+        /// <param name="sessionStateService">The session state service</param>
+        /// <returns>NavigationService</returns>
+        protected override INavigationService CreateNavigationService(IFrameFacade rootFrame, ISessionStateService sessionStateService)
+        {
+            var svc = base.CreateNavigationService(rootFrame, sessionStateService);
+            Container.RegisterInstance<INavigationService>(svc);
+            return svc;
+        }
+
+        /// <summary>
+        /// Creates the SessionStateService as a singleton through the container
+        /// </summary>
+        /// <returns>The SessionStateService</returns>
+        protected override ISessionStateService OnCreateSessionStateService()
+        {
+            return Container.Resolve<ISessionStateService>();
+        }
+
+        /// <summary>
+        /// Creates the DeviceGestureService as a singleton through the container
+        /// </summary>
+        /// <returns>DeviceGestureService instance</returns>
+        protected override IDeviceGestureService OnCreateDeviceGestureService()
+        {
+            var svc = Container.Resolve<IDeviceGestureService>();
+            svc.UseTitleBarBackButton = true;
+            return svc;
         }
 
         /// <summary>
@@ -183,6 +189,7 @@ namespace Prism.Unity.Windows
                 Container.Dispose();
                 Container = null;
             }
+            GC.SuppressFinalize(this);
         }
         #endregion
 
