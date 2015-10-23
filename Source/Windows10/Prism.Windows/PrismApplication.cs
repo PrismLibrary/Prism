@@ -98,10 +98,12 @@ namespace Prism.Windows
         protected abstract Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args);
 
         /// <summary>
-        /// Override this method with logic that will be performed after the application is activated. For example, navigating to the application's home page.
+        /// Override this method with logic that will be performed after the application is activated through other means 
+        /// than a normal launch (i.e. Voice Commands, URI activation, being used as a share target from another app).
+        ///  For example, navigating to the application's home page.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
-        protected abstract Task OnActivateApplicationAsync(IActivatedEventArgs args);
+        protected virtual Task OnActivateApplicationAsync(IActivatedEventArgs args) { return Task.FromResult<object>(null); }
 
         /// <summary>
         /// Creates and Configures the container if using a container
@@ -192,14 +194,7 @@ namespace Prism.Windows
         {
             base.OnActivated(args);
 
-            if (Window.Current.Content == null)
-            {
-                Frame rootFrame = await InitializeFrameAsync(args);
-
-                Shell = CreateShell(rootFrame);
-
-                Window.Current.Content = Shell ?? rootFrame;
-            }
+            await InitializeShell(args);
 
             if (Window.Current.Content != null && (!_isRestoringFromTermination || args != null))
             {
@@ -210,13 +205,7 @@ namespace Prism.Windows
             Window.Current.Activate();
         }
 
-        /// <summary>
-        /// Invoked when the application is launched normally by the end user. Other entry points
-        /// will be used when the application is launched to open a specific file, to display
-        /// search results, and so forth.
-        /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        private async Task InitializeShell(IActivatedEventArgs args)
         {
             if (Window.Current.Content == null)
             {
@@ -226,6 +215,17 @@ namespace Prism.Windows
 
                 Window.Current.Content = Shell ?? rootFrame;
             }
+        }
+
+        /// <summary>
+        /// Invoked when the application is launched normally by the end user. Other entry points
+        /// will be used when the application is launched to open a specific file, to display
+        /// search results, and so forth.
+        /// </summary>
+        /// <param name="args">Details about the launch request and process.</param>
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            await InitializeShell(args);
 
             // If the app is launched via the app's primary tile, the args.TileId property
             // will have the same value as the AppUserModelId, which is set in the Package.appxmanifest.
