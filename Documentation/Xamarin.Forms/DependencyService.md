@@ -200,7 +200,7 @@ private void Speak()
 }
 ```
 
-This is **not** good.  You always want to avoid making calls to static methods in your ViewModela for a number of reasons. So how do we fix this?  Easy!  Let Prism do it for you.
+This is **not** good.  You always want to avoid making calls to static methods in your ViewModels for a number of reasons. So how do we fix this?  Easy!  Let Prism do it for you.
 
 When you attribute a class with the Xamarin.Forms DependencyService attribute, Prism automatically registers that class with the container.  This means you can now request the service via the ViewModel constructor as you do with your other dependencies.
 
