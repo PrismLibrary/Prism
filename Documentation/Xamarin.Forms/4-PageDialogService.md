@@ -59,10 +59,27 @@ actionButton2.Clicked += async (sender, e) =>
 };
 ```
 
-![](images/pagedialogservice_03.png)
+![](images/pagedialogservice_04.png)
 
-Additionally, Prism provides another option which accepts an array of **IActionSheetButton** that allow you to specificy the title of the buttons, as well as the **DelegateCommand** that should be executed when the option is selcted by the user.  This eliminates the need to capture a string result, perform a logical check against the result, and then execute a method or logic in response.
+Additionally, Prism provides another option which accepts an array of **IActionSheetButton** that allow you to specificy the title of the buttons, as well as the **DelegateCommand** that should be executed when the option is selected by the user.  This eliminates the need to capture a string result, perform a logical check against the result, and then execute a method or logic in response.
+
+To create an IActionSheetButton, use one of the three factory methods off of the **ActionSheetButton** class.
+- ActionSheetButton.CreateButton
+- ActionSheetButton.CreateCancelButton
+- ActionSheetButton.CreateDestroyButton
 
 
+```
+DelegateCommand _selectACommand = new DelegateCommand(() => { Debug.WriteLine("Select A"); });
+DelegateCommand _cancelCommand = new DelegateCommand(() => { Debug.WriteLine("Cancel"); });
+DelegateCommand _destroyCommand = new DelegateCommand(() => { Debug.WriteLine("Destroy"); });
 
+void ShowActionSheet()
+{
+        IActionSheetButton selectAAction = ActionSheetButton.CreateButton("Select A", _selectACommand);
+        IActionSheetButton cancelAction = ActionSheetButton.CreateCancelButton("Cancel", _cancelCommand);
+        IActionSheetButton destroyAction = ActionSheetButton.CreateDestroyButton("Destroy", _destroyCommand);
 
+        _pageDialogService.DisplayActionSheet("My Action Sheet", selectAAction, cancelAction, destroyAction);
+}
+```
