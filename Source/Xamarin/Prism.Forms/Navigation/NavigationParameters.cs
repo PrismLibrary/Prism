@@ -4,6 +4,12 @@ using System.Text;
 
 namespace Prism.Navigation
 {
+    /// <summary>
+    /// Represents Navigation parameters.
+    /// </summary>
+    /// <remarks>
+    /// This class can be used to to pass object parameters during Navigation. 
+    /// </remarks>
     public class NavigationParameters : Dictionary<string, object>
     {
         /// <summary>
