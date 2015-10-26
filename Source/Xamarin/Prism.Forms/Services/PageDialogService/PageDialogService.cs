@@ -1,11 +1,13 @@
-﻿using Prism.Common;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Prism.Services
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class PageDialogService : IPageDialogService
     {
         /// <summary>
@@ -57,9 +59,8 @@ namespace Prism.Services
         /// </summary>
         /// <para>
         /// The text displayed in the action sheet will be the value for <see cref="IActionSheetButton.Text"/> and when pressed
-        /// the <see cref="IActionSheetButton.Callback"/> will be executed.
+        /// the <see cref="IActionSheetButton.Command"/> will be executed.
         /// </para>
-        /// <param name="service">Instance of <see cref="IPageDialogService"/></param>
         /// <param name="title">Text to display in action sheet</param>
         /// <param name="buttons">Buttons displayed in action sheet</param>
         /// <returns></returns>
