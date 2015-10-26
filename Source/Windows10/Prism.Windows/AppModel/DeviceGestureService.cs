@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Prism.Events;
+using Prism.Windows.Navigation;
+using System;
 using System.ComponentModel;
 using Windows.Devices.Input;
 using Windows.Foundation.Metadata;
@@ -13,13 +15,24 @@ namespace Prism.Windows.AppModel
     /// The DeviceGestureService class is used for handling mouse, 
     /// keyboard, hardware button and other gesture events.
     /// </summary>
-    public class DeviceGestureService : IDeviceGestureService
+    public class DeviceGestureService : IDeviceGestureService, IDisposable
     {
+        private SubscriptionToken _navigationStateChangedEventToken;
+        private WeakReference<NavigationStateChangedEvent> _navigationStateChangedEventWeakRef;
+
         /// <summary>
         /// 
         /// </summary>
-        public DeviceGestureService()
+        /// <param name="eventAggregator">The event aggregator to be used for listening to NavigationStateChangedEvents for use with UseTitleBarBackButton. Can be null if UseTitleBarBackButton is false.</param>
+        public DeviceGestureService(IEventAggregator eventAggregator = null)
         {
+            if (eventAggregator != null)
+            {
+                var navigationStateChangedEvent = eventAggregator.GetEvent<NavigationStateChangedEvent>();
+                _navigationStateChangedEventToken = navigationStateChangedEvent.Subscribe(OnNavigationStateChanged);
+                _navigationStateChangedEventWeakRef = new WeakReference<NavigationStateChangedEvent>(navigationStateChangedEvent);
+            }
+
             IsHardwareBackButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed");
             IsHardwareCameraButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "CameraPressed");
 
@@ -46,6 +59,15 @@ namespace Prism.Windows.AppModel
 
             Window.Current.CoreWindow.PointerPressed += OnPointerPressed;
 
+        }
+
+        public void Dispose()
+        {
+            NavigationStateChangedEvent navigationStateChangedEvent = null;
+            if (_navigationStateChangedEventWeakRef != null && _navigationStateChangedEventWeakRef.TryGetTarget(out navigationStateChangedEvent))
+            {
+                navigationStateChangedEvent.Unsubscribe(_navigationStateChangedEventToken);
+            }
         }
 
         public bool IsHardwareBackButtonPresent { get; private set; }
@@ -267,6 +289,15 @@ namespace Prism.Windows.AppModel
         protected virtual void OnHardwareButtonCameraReleased(object sender, CameraEventArgs e)
         {
             RaiseEvent<DeviceGestureEventArgs>(CameraButtonReleased, this, new DeviceGestureEventArgs(false, true));
+        }
+
+        private void OnNavigationStateChanged(NavigationStateChangedEventArgs e)
+        {
+            if (UseTitleBarBackButton && e.Sender != null)
+            {
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    e.Sender.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+            }
         }
     }
 }

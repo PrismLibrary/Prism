@@ -1,3 +1,4 @@
+using Prism.Events;
 using Prism.Windows.AppModel;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Prism.Windows.Navigation
         private const string LastNavigationPageKey = "LastNavigationPageKey";
         private readonly IFrameFacade _frame;
         private readonly Func<string, Type> _navigationResolver;
+        private NavigationStateChangedEvent _navigationStateChangedEvent;
         private readonly ISessionStateService _sessionStateService;
 
         /// <summary>
@@ -27,11 +29,16 @@ namespace Prism.Windows.Navigation
         /// <param name="frame">The frame.</param>
         /// <param name="navigationResolver">The navigation resolver.</param>
         /// <param name="sessionStateService">The session state service.</param>
-        public FrameNavigationService(IFrameFacade frame, Func<string, Type> navigationResolver, ISessionStateService sessionStateService)
+        /// <param name="eventAggregator">The event aggregator to be used for publishing NavigationStateChangedEvents. Can be null if events aren't needed.</param>
+        public FrameNavigationService(IFrameFacade frame, Func<string, Type> navigationResolver, ISessionStateService sessionStateService, IEventAggregator eventAggregator = null)
         {
             _frame = frame;
             _navigationResolver = navigationResolver;
             _sessionStateService = sessionStateService;
+            if (eventAggregator != null)
+            {
+                _navigationStateChangedEvent = eventAggregator.GetEvent<NavigationStateChangedEvent>();
+            }
 
             if (frame != null)
             {
@@ -140,6 +147,10 @@ namespace Prism.Windows.Navigation
             if (page != null)
             {
                 _frame.BackStack.Remove(page);
+                if (_navigationStateChangedEvent != null)
+                {
+                    _navigationStateChangedEvent.Publish(new NavigationStateChangedEventArgs(_frame, StateChangeType.Remove));
+                }
             }
         }
 
@@ -166,6 +177,10 @@ namespace Prism.Windows.Navigation
             if (page != null)
             {
                 _frame.BackStack.Remove(page);
+                if (_navigationStateChangedEvent != null)
+                {
+                    _navigationStateChangedEvent.Publish(new NavigationStateChangedEventArgs(_frame, StateChangeType.Remove));
+                }
             }
         }
 
@@ -192,6 +207,11 @@ namespace Prism.Windows.Navigation
             else
             {
                 _frame.BackStack.Clear();
+            }
+
+            if (_navigationStateChangedEvent != null)
+            {
+                _navigationStateChangedEvent.Publish(new NavigationStateChangedEventArgs(_frame, StateChangeType.Clear));
             }
         }
 

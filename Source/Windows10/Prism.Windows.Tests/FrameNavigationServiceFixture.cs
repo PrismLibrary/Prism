@@ -12,21 +12,17 @@ using Prism.Windows.Mvvm;
 using Prism.Windows.Tests.Mocks;
 using Prism.Windows.AppModel;
 using Prism.Windows.Navigation;
+using Prism.Windows.Tests.Utilities;
 
 namespace Prism.Windows.Tests
 {
     [TestClass]
     public class FrameNavigationServiceFixture
     {
-        public IAsyncAction ExecuteOnUIThread(DispatchedHandler action)
-        {
-            return CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, action);
-        }
-
         [TestMethod]
         public async Task Navigate_To_Valid_Page()
         {
-            await ExecuteOnUIThread(() =>
+            await DispatcherHelper.ExecuteOnUIThread(() =>
             {
                 var frame = new FrameFacadeAdapter(new Frame());
                 var sessionStateService = new MockSessionStateService();
@@ -45,7 +41,7 @@ namespace Prism.Windows.Tests
         [TestMethod]
         public async Task Navigate_To_Invalid_Page()
         {
-            await ExecuteOnUIThread(() =>
+            await DispatcherHelper.ExecuteOnUIThread(() =>
             {
                 var frame = new FrameFacadeAdapter(new Frame());
                 var sessionStateService = new MockSessionStateService();
@@ -63,7 +59,7 @@ namespace Prism.Windows.Tests
         [TestMethod]
         public async Task NavigateToCurrentViewModel_Calls_VieModel_OnNavigatedTo()
         {
-            await ExecuteOnUIThread(() =>
+            await DispatcherHelper.ExecuteOnUIThread(() =>
             {
                 var frame = new FrameFacadeAdapter(new Frame());
 
@@ -97,7 +93,7 @@ namespace Prism.Windows.Tests
         [TestMethod]
         public async Task NavigateFromCurrentViewModel_Calls_VieModel_OnNavigatedFrom()
         {
-            await ExecuteOnUIThread(() =>
+            await DispatcherHelper.ExecuteOnUIThread(() =>
             {
                 var frame = new FrameFacadeAdapter(new Frame());
 
@@ -132,7 +128,7 @@ namespace Prism.Windows.Tests
         [TestMethod]
         public async Task Suspending_Calls_VieModel_OnNavigatedFrom()
         {
-            await ExecuteOnUIThread(() =>
+            await DispatcherHelper.ExecuteOnUIThread(() =>
             {
                 var frame = new FrameFacadeAdapter(new Frame());
                 var sessionStateService = new MockSessionStateService();
@@ -157,7 +153,7 @@ namespace Prism.Windows.Tests
         [TestMethod]
         public async Task Resuming_Calls_ViewModel_OnNavigatedTo()
         {
-            await ExecuteOnUIThread(() =>
+            await DispatcherHelper.ExecuteOnUIThread(() =>
             {
                 var frame = new FrameFacadeAdapter(new Frame());
                 var sessionStateService = new MockSessionStateService();
@@ -182,7 +178,7 @@ namespace Prism.Windows.Tests
         [TestMethod]
         public async Task GoBack_When_CanGoBack()
         {
-            await ExecuteOnUIThread(() =>
+            await DispatcherHelper.ExecuteOnUIThread(() =>
             {
                 var frame = new FrameFacadeAdapter(new Frame());
                 var sessionStateService = new MockSessionStateService();
@@ -212,7 +208,7 @@ namespace Prism.Windows.Tests
         [TestMethod]
         public async Task ViewModelOnNavigatedFromCalled_WithItsOwnStateDictionary()
         {
-            await ExecuteOnUIThread(() =>
+            await DispatcherHelper.ExecuteOnUIThread(() =>
             {
                 var frame = new FrameFacadeAdapter(new Frame());
                 var sessionStateService = new MockSessionStateService();
@@ -237,7 +233,7 @@ namespace Prism.Windows.Tests
         [TestMethod]
         public async Task RestoreSavedNavigation_ClearsOldForwardNavigation()
         {
-            await ExecuteOnUIThread(() =>
+            await DispatcherHelper.ExecuteOnUIThread(() =>
             {
                 var frame = new FrameFacadeAdapter(new Frame());
                 var sessionStateService = new MockSessionStateService();
@@ -267,7 +263,7 @@ namespace Prism.Windows.Tests
         [TestMethod]
         public async Task PageTokenThatCannotBeResolved_ThrowsMeaningfulException()
         {
-            await ExecuteOnUIThread(() =>
+            await DispatcherHelper.ExecuteOnUIThread(() =>
             {
                 var frame = new FrameFacadeAdapter(new Frame());
                 var sessionStateService = new MockSessionStateService();

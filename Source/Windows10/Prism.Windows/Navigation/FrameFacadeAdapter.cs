@@ -1,3 +1,4 @@
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
@@ -12,6 +13,7 @@ namespace Prism.Windows.Navigation
     public class FrameFacadeAdapter : IFrameFacade
     {
         private readonly Frame _frame;
+        private NavigationStateChangedEvent _navigationStateChangedEvent;
         private readonly List<EventHandler<NavigatedToEventArgs>> _navigatedToEventHandlers = new List<EventHandler<NavigatedToEventArgs>>();
         private readonly List<EventHandler<NavigatingFromEventArgs>> _navigatingFromEventHandlers = new List<EventHandler<NavigatingFromEventArgs>>();
 
@@ -19,8 +21,14 @@ namespace Prism.Windows.Navigation
         /// Initializes a new instance of the <see cref="FrameFacadeAdapter"/> class.
         /// </summary>
         /// <param name="frame">The Frame that will be wrapped.</param>
-        public FrameFacadeAdapter(Frame frame)
+        /// <param name="eventAggregator">The event aggregator to be used for publishing NavigationStateChangedEvents. Can be null if events aren't needed.</param>
+        public FrameFacadeAdapter(Frame frame, IEventAggregator eventAggregator = null)
         {
+            if (eventAggregator != null)
+            {
+                _navigationStateChangedEvent = eventAggregator.GetEvent<NavigationStateChangedEvent>();
+            }
+
             _frame = frame;
         }
 
@@ -43,6 +51,10 @@ namespace Prism.Windows.Navigation
         public void GoBack()
         {
             _frame.GoBack();
+            if (_navigationStateChangedEvent != null)
+            {
+                _navigationStateChangedEvent.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Back));
+            }
         }
 
         /// <returns>
@@ -61,6 +73,10 @@ namespace Prism.Windows.Navigation
         public void SetNavigationState(string navigationState)
         {
             _frame.SetNavigationState(navigationState);
+            if (_navigationStateChangedEvent != null)
+            {
+                _navigationStateChangedEvent.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Set));
+            }
         }
 
         /// <summary>
@@ -74,7 +90,14 @@ namespace Prism.Windows.Navigation
         {
             try
             {
-                return _frame.Navigate(sourcePageType, parameter);
+                var success = _frame.Navigate(sourcePageType, parameter);
+
+                if (success && _navigationStateChangedEvent != null)
+                {
+                    _navigationStateChangedEvent.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Forward));
+                }
+
+                return success;
             }
             catch
             {
@@ -114,6 +137,10 @@ namespace Prism.Windows.Navigation
         public void GoForward()
         {
             _frame.GoForward();
+            if (_navigationStateChangedEvent != null)
+            {
+                _navigationStateChangedEvent.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Forward));
+            }
         }
 
         /// <summary>

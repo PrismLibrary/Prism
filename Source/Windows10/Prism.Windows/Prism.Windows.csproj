@@ -142,6 +142,8 @@
     <Compile Include="Navigation\NavigatingFromEventArgs.cs" />
     <Compile Include="Mvvm\ViewModelLocator.cs" />
     <Compile Include="Mvvm\SessionStateAwarePage.cs" />
+    <Compile Include="Navigation\NavigationStateChangedEvent.cs" />
+    <Compile Include="Navigation\NavigationStateChangedEventArgs.cs" />
     <Compile Include="PrismApplication.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="Validation\BindableValidator.cs" />

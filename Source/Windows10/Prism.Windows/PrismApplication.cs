@@ -13,6 +13,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Prism.Events;
 
 namespace Prism.Windows
 {
@@ -36,6 +37,7 @@ namespace Prism.Windows
 
             Logger.Log("Created Logger", Category.Debug, Priority.Low);
 
+            EventAggregator = CreateEventAggregator();
         }
 
         /// <summary>
@@ -73,6 +75,14 @@ namespace Prism.Windows
         /// The device gesture service.
         /// </value>
         protected IDeviceGestureService DeviceGestureService { get; private set; }
+
+        /// <summary>
+        /// Gets the event aggregator that is used to publish Prism framework events.
+        /// </summary>
+        /// <value>
+        /// The Prism framework event aggregator.
+        /// </value>
+        protected IEventAggregator EventAggregator { get; private set; }
 
         /// <summary>
         /// Factory for creating the ExtendedSplashScreen instance.
@@ -124,6 +134,17 @@ namespace Prism.Windows
         protected virtual ILoggerFacade CreateLogger()
         {
             return new DebugLogger();
+        }
+
+        /// <summary>
+        /// Create the <see cref="IEventAggregator" /> used for Prism framework events.
+        /// </summary>
+        /// <remarks>
+        /// The base implementation returns a new <see cref="EventAggregator">EventAggregator</see>.
+        /// </remarks>
+        protected virtual IEventAggregator CreateEventAggregator()
+        {
+            return new EventAggregator();
         }
 
         /// <summary>
@@ -283,9 +304,7 @@ namespace Prism.Windows
                 rootFrame.Content = extendedSplashScreen;
             }
 
-            rootFrame.Navigated += OnNavigated;
-
-            var frameFacade = new FrameFacadeAdapter(rootFrame);
+            var frameFacade = new FrameFacadeAdapter(rootFrame, EventAggregator);
 
             //Initialize PrismApplication common services
             SessionStateService = CreateSessionStateService();
@@ -367,18 +386,6 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected virtual void OnNavigated(object sender, NavigationEventArgs e)
-        {
-            if (DeviceGestureService.UseTitleBarBackButton)
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    NavigationService.CanGoBack() ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
-        }
-
-        /// <summary>
         /// Creates the device gesture service. Use this to inject your own IDeviceGestureService implementation.
         /// </summary>
         /// <returns>The initialized device gesture service.</returns>
@@ -390,7 +397,7 @@ namespace Prism.Windows
         /// <returns>The initialized device gesture service.</returns>
         private IDeviceGestureService CreateDeviceGestureService()
         {
-            var deviceGestureService = OnCreateDeviceGestureService() ?? new DeviceGestureService {UseTitleBarBackButton = true};
+            var deviceGestureService = OnCreateDeviceGestureService() ?? new DeviceGestureService(EventAggregator) { UseTitleBarBackButton = true };
             return deviceGestureService;
         }
 
@@ -409,7 +416,7 @@ namespace Prism.Windows
         /// <returns>The initialized navigation service.</returns>
         protected virtual INavigationService CreateNavigationService(IFrameFacade rootFrame, ISessionStateService sessionStateService)
         {
-            var navigationService = OnCreateNavigationService(rootFrame) ?? new FrameNavigationService(rootFrame, GetPageType, sessionStateService);
+            var navigationService = OnCreateNavigationService(rootFrame) ?? new FrameNavigationService(rootFrame, GetPageType, sessionStateService, EventAggregator);
             return navigationService;
         }
 
