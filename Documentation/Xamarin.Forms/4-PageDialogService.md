@@ -79,3 +79,5 @@ void ShowActionSheet()
     _pageDialogService.DisplayActionSheet("My Action Sheet", selectAAction, cancelAction, destroyAction);
 }
 ```
+
+_Note: The order in which you pass in the IActionSheetButton parameters does not matter. The IPageDialogService will make sure the parameters are handled properly for you._
