@@ -9,7 +9,7 @@ Prism includes the following documentation:
 
 -  [WPF](https://github.com/PrismLibrary/Prism/tree/master/Documentation/WPF)
 -  Universal Windows Platform
--  Xamarin.Forms
+-  [Xamarin.Forms](https://github.com/PrismLibrary/Prism/tree/master/Documentation/Xamarin.Forms)
 
 # Download and Setup the Prism Source Code
 

@@ -70,16 +70,14 @@ To create an IActionSheetButton, use one of the three factory methods off of the
 
 
 ```
-DelegateCommand _selectACommand = new DelegateCommand(() => { Debug.WriteLine("Select A"); });
-DelegateCommand _cancelCommand = new DelegateCommand(() => { Debug.WriteLine("Cancel"); });
-DelegateCommand _destroyCommand = new DelegateCommand(() => { Debug.WriteLine("Destroy"); });
+IActionSheetButton selectAAction = ActionSheetButton.CreateButton("Select A", new DelegateCommand(() => { Debug.WriteLine("Select A"); }));
+IActionSheetButton cancelAction = ActionSheetButton.CreateCancelButton("Cancel", new DelegateCommand(() => { Debug.WriteLine("Cancel"); }));
+IActionSheetButton destroyAction = ActionSheetButton.CreateDestroyButton("Destroy", new DelegateCommand(() => { Debug.WriteLine("Destroy"); }));
 
 void ShowActionSheet()
 {
-        IActionSheetButton selectAAction = ActionSheetButton.CreateButton("Select A", _selectACommand);
-        IActionSheetButton cancelAction = ActionSheetButton.CreateCancelButton("Cancel", _cancelCommand);
-        IActionSheetButton destroyAction = ActionSheetButton.CreateDestroyButton("Destroy", _destroyCommand);
-
-        _pageDialogService.DisplayActionSheet("My Action Sheet", selectAAction, cancelAction, destroyAction);
+    _pageDialogService.DisplayActionSheet("My Action Sheet", selectAAction, cancelAction, destroyAction);
 }
 ```
+
+_Note: The order in which you pass in the IActionSheetButton parameters does not matter. The IPageDialogService will make sure the parameters are handled properly for you._
