@@ -101,8 +101,17 @@ namespace Prism.Autofac.Windows
         protected override IDeviceGestureService OnCreateDeviceGestureService()
         {
             var svc = Container.Resolve<IDeviceGestureService>();
-            svc.UseTitleBarBackButton = true;
+            svc.EnableTitleBarBackButton(Container.Resolve<IEventAggregator>());
             return svc;
+        }
+
+        /// <summary>
+        /// Creates the IEventAggregator through the container
+        /// </summary>
+        /// <returns>IEventAggregator</returns>
+        protected override IEventAggregator OnCreateEventAggregator()
+        {
+            return Container.Resolve<IEventAggregator>();
         }
 
         /// <summary>

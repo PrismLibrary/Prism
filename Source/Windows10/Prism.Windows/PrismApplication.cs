@@ -36,8 +36,6 @@ namespace Prism.Windows
             }
 
             Logger.Log("Created Logger", Category.Debug, Priority.Low);
-
-            EventAggregator = CreateEventAggregator();
         }
 
         /// <summary>
@@ -134,17 +132,6 @@ namespace Prism.Windows
         protected virtual ILoggerFacade CreateLogger()
         {
             return new DebugLogger();
-        }
-
-        /// <summary>
-        /// Create the <see cref="IEventAggregator" /> used for Prism framework events.
-        /// </summary>
-        /// <remarks>
-        /// The base implementation returns a new <see cref="EventAggregator">EventAggregator</see>.
-        /// </remarks>
-        protected virtual IEventAggregator CreateEventAggregator()
-        {
-            return new EventAggregator();
         }
 
         /// <summary>
@@ -263,6 +250,18 @@ namespace Prism.Windows
         }
 
         /// <summary>
+        /// Create the <see cref="IEventAggregator" /> used for Prism framework events.
+        /// </summary>
+        /// <returns>The initialized EventAggregator.</returns>
+        private IEventAggregator CreateEventAggregator() => OnCreateEventAggregator() ?? new EventAggregator();
+
+        /// <summary>
+        /// Create the <see cref="IEventAggregator" /> used for Prism framework events. Use this to inject your own IEventAggregator implementation.
+        /// </summary>
+        /// <returns>The initialized EventAggregator.</returns>
+        protected virtual IEventAggregator OnCreateEventAggregator() => null;
+
+        /// <summary>
         /// Creates the root frame.
         /// </summary>
         /// <returns>The initialized root frame.</returns>
@@ -294,6 +293,7 @@ namespace Prism.Windows
         protected virtual async Task<Frame> InitializeFrameAsync(IActivatedEventArgs args)
         {
             CreateAndConfigureContainer();
+            EventAggregator = CreateEventAggregator();
 
             // Create a Frame to act as the navigation context and navigate to the first page
             var rootFrame = CreateRootFrame();
@@ -397,7 +397,13 @@ namespace Prism.Windows
         /// <returns>The initialized device gesture service.</returns>
         private IDeviceGestureService CreateDeviceGestureService()
         {
-            var deviceGestureService = OnCreateDeviceGestureService() ?? new DeviceGestureService(EventAggregator) { UseTitleBarBackButton = true };
+            var deviceGestureService = OnCreateDeviceGestureService();
+            if (deviceGestureService == null)
+            {
+                deviceGestureService = new DeviceGestureService();
+                deviceGestureService.EnableTitleBarBackButton(EventAggregator);
+            }
+
             return deviceGestureService;
         }
 
