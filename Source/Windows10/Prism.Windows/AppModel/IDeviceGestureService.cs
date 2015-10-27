@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Events;
+using System;
 using Windows.Devices.Input;
 
 namespace Prism.Windows.AppModel
@@ -34,9 +35,15 @@ namespace Prism.Windows.AppModel
         bool IsTouchPresent { get; }
 
         /// <summary>
-        /// Determines if title bar back button is shown
+        /// Enables automatic handling of the title bar back button.
         /// </summary>
-        bool UseTitleBarBackButton { get; set; }
+        /// <param name="eventAggregator">The event aggregator that is publishing the Prism framework's NavigationStateChangedEvents</param>
+        void EnableTitleBarBackButton(IEventAggregator eventAggregator);
+
+        /// <summary>
+        /// Disables automatic handling of the window chrome back buton.
+        /// </summary>
+        void DisableTitleBarBackButton();
 
         /// <summary>
         /// Raised when a navigation go back event occurs

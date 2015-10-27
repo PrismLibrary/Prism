@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Prism.Events;
+using Prism.Windows.Navigation;
+using System;
 using System.ComponentModel;
 using Windows.Devices.Input;
 using Windows.Foundation.Metadata;
@@ -13,8 +15,12 @@ namespace Prism.Windows.AppModel
     /// The DeviceGestureService class is used for handling mouse, 
     /// keyboard, hardware button and other gesture events.
     /// </summary>
-    public class DeviceGestureService : IDeviceGestureService
+    public class DeviceGestureService : IDeviceGestureService, IDisposable
     {
+        private SubscriptionToken _navigationStateChangedEventToken;
+        private WeakReference<NavigationStateChangedEvent> _navigationStateChangedEventWeakRef;
+        private bool _useTitleBarBackButton = false;
+
         /// <summary>
         /// 
         /// </summary>
@@ -55,8 +61,6 @@ namespace Prism.Windows.AppModel
         public bool IsMousePresent { get; private set; }
         public bool IsTouchPresent { get; private set; }
 
-        public bool UseTitleBarBackButton { get; set; }
-
         /// <summary>
         /// The handlers attached to GoBackRequested are invoked in reverse order
         /// so that handlers added by the users are invoked before handlers in the system.
@@ -72,6 +76,35 @@ namespace Prism.Windows.AppModel
         public event EventHandler<DeviceGestureEventArgs> CameraButtonPressed;
         public event EventHandler<DeviceGestureEventArgs> CameraButtonReleased;
         public event EventHandler<MouseEventArgs> MouseMoved;
+
+        /// <summary>
+        /// Enables automatic handling of the title bar back button.
+        /// </summary>
+        /// <param name="eventAggregator">The event aggregator that is publishing the Prism framework's NavigationStateChangedEvents</param>
+        public void EnableTitleBarBackButton(IEventAggregator eventAggregator)
+        {
+            if (eventAggregator == null)
+            {
+                throw new ArgumentNullException("eventAggregator", "An event aggregator that publishes NavigationstateChangedEvents is required to enable automatic title bar back button handling.");
+            }
+
+            SubscribeToNavigationStateChanges(eventAggregator);
+            _useTitleBarBackButton = true;
+        }
+
+        /// <summary>
+        /// Disables automatic handling of the window chrome back buton.
+        /// </summary>
+        public void DisableTitleBarBackButton()
+        {
+            _useTitleBarBackButton = false;
+            UnsubscribeFromNavigationStateChanges();
+        }
+
+        public void Dispose()
+        {
+            UnsubscribeFromNavigationStateChanges();
+        }
 
         /// <summary>
         /// Invokes the handlers attached to an eventhandler.
@@ -267,6 +300,31 @@ namespace Prism.Windows.AppModel
         protected virtual void OnHardwareButtonCameraReleased(object sender, CameraEventArgs e)
         {
             RaiseEvent<DeviceGestureEventArgs>(CameraButtonReleased, this, new DeviceGestureEventArgs(false, true));
+        }
+
+        private void SubscribeToNavigationStateChanges(IEventAggregator eventAggregator)
+        {
+            var navigationStateChangedEvent = eventAggregator.GetEvent<NavigationStateChangedEvent>();
+            _navigationStateChangedEventToken = navigationStateChangedEvent.Subscribe(OnNavigationStateChanged);
+            _navigationStateChangedEventWeakRef = new WeakReference<NavigationStateChangedEvent>(navigationStateChangedEvent);
+        }
+
+        private void UnsubscribeFromNavigationStateChanges()
+        {
+            NavigationStateChangedEvent navigationStateChangedEvent = null;
+            if (_navigationStateChangedEventWeakRef != null && _navigationStateChangedEventWeakRef.TryGetTarget(out navigationStateChangedEvent))
+            {
+                navigationStateChangedEvent.Unsubscribe(_navigationStateChangedEventToken);
+            }
+        }
+
+        private void OnNavigationStateChanged(NavigationStateChangedEventArgs e)
+        {
+            if (_useTitleBarBackButton && e.Sender != null)
+            {
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    e.Sender.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+            }
         }
     }
 }

@@ -57,7 +57,8 @@ namespace Prism.Windows.Navigation
         /// </returns>
         int BackStackDepth { get; }
 
-        IList<PageStackEntry> BackStack { get; }
+        IReadOnlyList<PageStackEntry> BackStack { get; }
+
         /// <summary>
         /// Goes to the next page in the navigation stack.
         /// </summary>
@@ -79,6 +80,18 @@ namespace Prism.Windows.Navigation
         /// True if there is at least one entry in back navigation history; false if there are no entries in back navigation history or the Frame does not own its own navigation history.
         /// </returns>
         bool CanGoBack { get; }
+
+        /// <summary>
+        /// Remove a <see cref="PageStackEntry"/> from the Frame's back stack.
+        /// </summary>
+        /// <param name="entry">The <see cref="PageStackEntry"/> to remove.</param>
+        /// <returns>True if item was successfully removed from the back stack; otherwise, false. This method also returns false if item is not found in the back stack.</returns>
+        bool RemoveBackStackEntry(PageStackEntry entry);
+
+        /// <summary>
+        /// Clears the Frame's back stack.
+        /// </summary>
+        void ClearBackStack();
 
         /// <summary>
         /// Occurs when the content that is being navigated to has been found and is available from the Content property, although it may not have completed loading.
