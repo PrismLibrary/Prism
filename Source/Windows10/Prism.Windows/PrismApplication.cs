@@ -400,8 +400,8 @@ namespace Prism.Windows
             var deviceGestureService = OnCreateDeviceGestureService();
             if (deviceGestureService == null)
             {
-                deviceGestureService = new DeviceGestureService();
-                deviceGestureService.EnableTitleBarBackButton(EventAggregator);
+                deviceGestureService = new DeviceGestureService(EventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
             }
 
             return deviceGestureService;

@@ -140,7 +140,7 @@ namespace Prism.Unity.Windows
         protected override IDeviceGestureService OnCreateDeviceGestureService()
         {
             var svc = Container.Resolve<IDeviceGestureService>();
-            svc.EnableTitleBarBackButton(Container.Resolve<IEventAggregator>());
+            svc.UseTitleBarBackButton = true;
             return svc;
         }
 
