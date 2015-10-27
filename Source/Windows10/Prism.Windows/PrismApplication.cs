@@ -13,6 +13,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Prism.Events;
 
 namespace Prism.Windows
 {
@@ -35,7 +36,6 @@ namespace Prism.Windows
             }
 
             Logger.Log("Created Logger", Category.Debug, Priority.Low);
-
         }
 
         /// <summary>
@@ -73,6 +73,14 @@ namespace Prism.Windows
         /// The device gesture service.
         /// </value>
         protected IDeviceGestureService DeviceGestureService { get; private set; }
+
+        /// <summary>
+        /// Gets the event aggregator that is used to publish Prism framework events.
+        /// </summary>
+        /// <value>
+        /// The Prism framework event aggregator.
+        /// </value>
+        protected IEventAggregator EventAggregator { get; private set; }
 
         /// <summary>
         /// Factory for creating the ExtendedSplashScreen instance.
@@ -242,6 +250,18 @@ namespace Prism.Windows
         }
 
         /// <summary>
+        /// Create the <see cref="IEventAggregator" /> used for Prism framework events.
+        /// </summary>
+        /// <returns>The initialized EventAggregator.</returns>
+        private IEventAggregator CreateEventAggregator() => OnCreateEventAggregator() ?? new EventAggregator();
+
+        /// <summary>
+        /// Create the <see cref="IEventAggregator" /> used for Prism framework events. Use this to inject your own IEventAggregator implementation.
+        /// </summary>
+        /// <returns>The initialized EventAggregator.</returns>
+        protected virtual IEventAggregator OnCreateEventAggregator() => null;
+
+        /// <summary>
         /// Creates the root frame.
         /// </summary>
         /// <returns>The initialized root frame.</returns>
@@ -273,6 +293,7 @@ namespace Prism.Windows
         protected virtual async Task<Frame> InitializeFrameAsync(IActivatedEventArgs args)
         {
             CreateAndConfigureContainer();
+            EventAggregator = CreateEventAggregator();
 
             // Create a Frame to act as the navigation context and navigate to the first page
             var rootFrame = CreateRootFrame();
@@ -283,9 +304,7 @@ namespace Prism.Windows
                 rootFrame.Content = extendedSplashScreen;
             }
 
-            rootFrame.Navigated += OnNavigated;
-
-            var frameFacade = new FrameFacadeAdapter(rootFrame);
+            var frameFacade = new FrameFacadeAdapter(rootFrame, EventAggregator);
 
             //Initialize PrismApplication common services
             SessionStateService = CreateSessionStateService();
@@ -367,18 +386,6 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected virtual void OnNavigated(object sender, NavigationEventArgs e)
-        {
-            if (DeviceGestureService.UseTitleBarBackButton)
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    NavigationService.CanGoBack() ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
-        }
-
-        /// <summary>
         /// Creates the device gesture service. Use this to inject your own IDeviceGestureService implementation.
         /// </summary>
         /// <returns>The initialized device gesture service.</returns>
@@ -390,7 +397,13 @@ namespace Prism.Windows
         /// <returns>The initialized device gesture service.</returns>
         private IDeviceGestureService CreateDeviceGestureService()
         {
-            var deviceGestureService = OnCreateDeviceGestureService() ?? new DeviceGestureService {UseTitleBarBackButton = true};
+            var deviceGestureService = OnCreateDeviceGestureService();
+            if (deviceGestureService == null)
+            {
+                deviceGestureService = new DeviceGestureService();
+                deviceGestureService.EnableTitleBarBackButton(EventAggregator);
+            }
+
             return deviceGestureService;
         }
 

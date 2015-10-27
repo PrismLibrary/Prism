@@ -1,5 +1,7 @@
+using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -12,6 +14,7 @@ namespace Prism.Windows.Navigation
     public class FrameFacadeAdapter : IFrameFacade
     {
         private readonly Frame _frame;
+        private NavigationStateChangedEvent _navigationStateChangedEvent;
         private readonly List<EventHandler<NavigatedToEventArgs>> _navigatedToEventHandlers = new List<EventHandler<NavigatedToEventArgs>>();
         private readonly List<EventHandler<NavigatingFromEventArgs>> _navigatingFromEventHandlers = new List<EventHandler<NavigatingFromEventArgs>>();
 
@@ -19,8 +22,14 @@ namespace Prism.Windows.Navigation
         /// Initializes a new instance of the <see cref="FrameFacadeAdapter"/> class.
         /// </summary>
         /// <param name="frame">The Frame that will be wrapped.</param>
-        public FrameFacadeAdapter(Frame frame)
+        /// <param name="eventAggregator">The event aggregator to be used for publishing NavigationStateChangedEvents. Can be null if events aren't needed.</param>
+        public FrameFacadeAdapter(Frame frame, IEventAggregator eventAggregator = null)
         {
+            if (eventAggregator != null)
+            {
+                _navigationStateChangedEvent = eventAggregator.GetEvent<NavigationStateChangedEvent>();
+            }
+
             _frame = frame;
         }
 
@@ -43,6 +52,10 @@ namespace Prism.Windows.Navigation
         public void GoBack()
         {
             _frame.GoBack();
+            if (_navigationStateChangedEvent != null)
+            {
+                _navigationStateChangedEvent.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Back));
+            }
         }
 
         /// <returns>
@@ -61,6 +74,10 @@ namespace Prism.Windows.Navigation
         public void SetNavigationState(string navigationState)
         {
             _frame.SetNavigationState(navigationState);
+            if (_navigationStateChangedEvent != null)
+            {
+                _navigationStateChangedEvent.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Set));
+            }
         }
 
         /// <summary>
@@ -74,7 +91,14 @@ namespace Prism.Windows.Navigation
         {
             try
             {
-                return _frame.Navigate(sourcePageType, parameter);
+                var success = _frame.Navigate(sourcePageType, parameter);
+
+                if (success && _navigationStateChangedEvent != null)
+                {
+                    _navigationStateChangedEvent.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Forward));
+                }
+
+                return success;
             }
             catch
             {
@@ -94,7 +118,7 @@ namespace Prism.Windows.Navigation
             get { return _frame.BackStackDepth; }
         }
 
-        public IList<PageStackEntry> BackStack => _frame.BackStack;
+        public IReadOnlyList<PageStackEntry> BackStack => _frame.BackStack.ToList();
 
         /// <summary>
         /// Gets a value that indicates whether there is at least one entry in back navigation history.
@@ -114,6 +138,10 @@ namespace Prism.Windows.Navigation
         public void GoForward()
         {
             _frame.GoForward();
+            if (_navigationStateChangedEvent != null)
+            {
+                _navigationStateChangedEvent.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Forward));
+            }
         }
 
         /// <summary>
@@ -125,6 +153,35 @@ namespace Prism.Windows.Navigation
         public bool CanGoForward()
         {
             return _frame.CanGoForward;
+        }
+
+        /// <summary>
+        /// Remove a <see cref="PageStackEntry"/> from the Frame's back stack.
+        /// </summary>
+        /// <param name="entry">The <see cref="PageStackEntry"/> to remove.</param>
+        /// <returns>True if item was successfully removed from the back stack; otherwise, false. This method also returns false if item is not found in the back stack.</returns>
+        public bool RemoveBackStackEntry(PageStackEntry entry)
+        {
+            var success = _frame.BackStack.Remove(entry);
+            if (success && _navigationStateChangedEvent != null)
+            {
+                _navigationStateChangedEvent.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Remove));
+            }
+            
+            return success;
+        }
+
+        /// <summary>
+        /// Clears the Frame's back stack.
+        /// </summary>
+        /// <returns></returns>
+        public void ClearBackStack()
+        {
+            _frame.BackStack.Clear();
+            if(_navigationStateChangedEvent != null)
+            {
+                _navigationStateChangedEvent.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Clear));
+            }
         }
 
         /// <summary>

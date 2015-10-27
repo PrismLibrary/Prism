@@ -1,3 +1,4 @@
+using Prism.Events;
 using Prism.Windows.AppModel;
 using System;
 using System.Collections.Generic;
@@ -139,7 +140,7 @@ namespace Prism.Windows.Navigation
 
             if (page != null)
             {
-                _frame.BackStack.Remove(page);
+                _frame.RemoveBackStackEntry(page);
             }
         }
 
@@ -165,7 +166,7 @@ namespace Prism.Windows.Navigation
 
             if (page != null)
             {
-                _frame.BackStack.Remove(page);
+                _frame.RemoveBackStackEntry(page);
             }
         }
 
@@ -186,12 +187,12 @@ namespace Prism.Windows.Navigation
 
                 foreach (var page in pages)
                 {
-                    _frame.BackStack.Remove(page);
+                    _frame.RemoveBackStackEntry(page);
                 }
             }
             else
             {
-                _frame.BackStack.Clear();
+                _frame.ClearBackStack();
             }
         }
 
