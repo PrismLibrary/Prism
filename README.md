@@ -38,6 +38,9 @@ At the current time we have no plans to create new versions of the library for S
 | Prism.Unity.Windows.dll | [Prism.Unity](https://www.nuget.org/packages/Prism.Unity/) |
 | Prism.Autofac.Windows.dll | [Prism.Autofac](https://www.nuget.org/packages/Prism.Autofac/) |
 
+# Samples
+We have both development (frequently changing) and stable samples for using Prism with WPF, UWP and Xamarin Forms. An overview of the samples can be found [here](Samples/README.md).
+
 #Roadmap/Milestones
 You can check out our milestones for coming releases [here](https://github.com/PrismLibrary/Prism/milestones).
 
@@ -72,4 +75,3 @@ Check out the new Prism for Xamarin.Forms Preview: http://brianlagunas.com/first
 ### .NET Foundation
 
 This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/projects).
-
