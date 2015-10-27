@@ -26,7 +26,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
                 var deviceGestureService = new DeviceGestureService(eventAggregator) { UseTitleBarBackButton = true };
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
@@ -51,7 +51,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
                 var deviceGestureService = new DeviceGestureService(eventAggregator) { UseTitleBarBackButton = true };
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
@@ -127,7 +127,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
                 var deviceGestureService = new DeviceGestureService(eventAggregator) { UseTitleBarBackButton = true };
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
@@ -165,7 +165,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
                 var deviceGestureService = new DeviceGestureService(eventAggregator) { UseTitleBarBackButton = true };
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
@@ -199,7 +199,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
                 var deviceGestureService = new DeviceGestureService(eventAggregator) { UseTitleBarBackButton = true };
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
@@ -237,7 +237,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
                 var deviceGestureService = new DeviceGestureService(eventAggregator) { UseTitleBarBackButton = true };
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
@@ -271,7 +271,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
                 var deviceGestureService = new DeviceGestureService(eventAggregator) { UseTitleBarBackButton = true };
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
@@ -303,7 +303,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
                 var deviceGestureService = new DeviceGestureService(eventAggregator) { UseTitleBarBackButton = true };
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
@@ -327,7 +327,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
                 var deviceGestureService = new DeviceGestureService(eventAggregator) { UseTitleBarBackButton = true };
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
@@ -359,7 +359,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
                 var deviceGestureService = new DeviceGestureService(eventAggregator) { UseTitleBarBackButton = true };
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
@@ -391,7 +391,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
                 var deviceGestureService = new DeviceGestureService(eventAggregator) { UseTitleBarBackButton = true };
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 

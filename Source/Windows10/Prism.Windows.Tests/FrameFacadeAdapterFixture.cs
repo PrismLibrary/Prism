@@ -28,7 +28,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
 
                 navigationService.Navigate("Mock", 1);
             });
@@ -64,7 +64,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
 
                 navigationService.Navigate("Mock", 1);
                 navigationService.Navigate("Mock", 2);
@@ -104,7 +104,7 @@ namespace Prism.Windows.Tests
                 var frame = new FrameFacadeAdapter(new Frame(), eventAggregator);
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
-                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService, eventAggregator);
+                var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
 
                 navigationService.Navigate("Mock", 1);
                 navigationService.Navigate("Mock", 2);
