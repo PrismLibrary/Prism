@@ -15,12 +15,20 @@ namespace Prism.Windows.Navigation
     {
         private WeakReference<IFrameFacade> _frameFacadeWeakRef;
 
+        /// <summary>
+        /// Creates a new NavigationStateChangedEventArgs instance given the frame the event pertains to and the change that occurred.
+        /// </summary>
+        /// <param name="frameFacade">The frame that is raising the event.</param>
+        /// <param name="stateChange">The type of state change that occurred.</param>
         public NavigationStateChangedEventArgs(IFrameFacade frameFacade, StateChangeType stateChange)
         {
             _frameFacadeWeakRef = new WeakReference<IFrameFacade>(frameFacade);
             StateChange = stateChange;
         }
 
+        /// <summary>
+        /// The Frame that raised the event.
+        /// </summary>
         public IFrameFacade Sender
         {
             get
@@ -35,6 +43,9 @@ namespace Prism.Windows.Navigation
             }
         }
 
+        /// <summary>
+        /// The type of state change that occurred.
+        /// </summary>
         public StateChangeType StateChange { get; private set; }
     }
 }
