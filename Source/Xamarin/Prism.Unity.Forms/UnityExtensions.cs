@@ -23,7 +23,7 @@ namespace Prism.Unity
         public static void RegisterTypeForNavigation<T>(this IUnityContainer container) where T : Page
         {
             Type type = typeof(T);
-            container.RegisterType(typeof(object), typeof(T), type.Name);
+            container.RegisterType(typeof(object), typeof(T), type.FullName);
         }
 
         /// <summary>
