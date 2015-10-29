@@ -27,8 +27,8 @@ namespace Prism.Windows.Tests
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
                 var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
-                var deviceGestureService = new DeviceGestureService();
-                deviceGestureService.EnableTitleBarBackButton(eventAggregator);
+                var deviceGestureService = new DeviceGestureService(eventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
                 // Reset back button visibility before running, can't do this in TestInitialize because CoreWindow sometimes isn't ready
@@ -53,8 +53,8 @@ namespace Prism.Windows.Tests
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
                 var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
-                var deviceGestureService = new DeviceGestureService();
-                deviceGestureService.EnableTitleBarBackButton(eventAggregator);
+                var deviceGestureService = new DeviceGestureService(eventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
                 // Reset back button visibility before running, can't do this in TestInitialize because CoreWindow sometimes isn't ready
@@ -102,8 +102,8 @@ namespace Prism.Windows.Tests
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
                 var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
-                var deviceGestureService = new DeviceGestureService();
-                deviceGestureService.EnableTitleBarBackButton(eventAggregator);
+                var deviceGestureService = new DeviceGestureService(eventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
                 // Reset back button visibility before running, can't do this in TestInitialize because CoreWindow sometimes isn't ready
@@ -131,8 +131,8 @@ namespace Prism.Windows.Tests
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
                 var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
-                var deviceGestureService = new DeviceGestureService();
-                deviceGestureService.EnableTitleBarBackButton(eventAggregator);
+                var deviceGestureService = new DeviceGestureService(eventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
                 // Reset back button visibility before running, can't do this in TestInitialize because CoreWindow sometimes isn't ready
@@ -170,8 +170,8 @@ namespace Prism.Windows.Tests
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
                 var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
-                var deviceGestureService = new DeviceGestureService();
-                deviceGestureService.EnableTitleBarBackButton(eventAggregator);
+                var deviceGestureService = new DeviceGestureService(eventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
                 // Reset back button visibility before running, can't do this in TestInitialize because CoreWindow sometimes isn't ready
@@ -205,8 +205,8 @@ namespace Prism.Windows.Tests
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
                 var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
-                var deviceGestureService = new DeviceGestureService();
-                deviceGestureService.EnableTitleBarBackButton(eventAggregator);
+                var deviceGestureService = new DeviceGestureService(eventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
                 // Reset back button visibility before running, can't do this in TestInitialize because CoreWindow sometimes isn't ready
@@ -244,8 +244,8 @@ namespace Prism.Windows.Tests
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
                 var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
-                var deviceGestureService = new DeviceGestureService();
-                deviceGestureService.EnableTitleBarBackButton(eventAggregator);
+                var deviceGestureService = new DeviceGestureService(eventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
                 // Reset back button visibility before running, can't do this in TestInitialize because CoreWindow sometimes isn't ready
@@ -279,8 +279,8 @@ namespace Prism.Windows.Tests
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
                 var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
-                var deviceGestureService = new DeviceGestureService();
-                deviceGestureService.EnableTitleBarBackButton(eventAggregator);
+                var deviceGestureService = new DeviceGestureService(eventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
                 // Reset back button visibility before running, can't do this in TestInitialize because CoreWindow sometimes isn't ready
@@ -312,8 +312,8 @@ namespace Prism.Windows.Tests
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
                 var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
-                var deviceGestureService = new DeviceGestureService();
-                deviceGestureService.EnableTitleBarBackButton(eventAggregator);
+                var deviceGestureService = new DeviceGestureService(eventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
                 // Reset back button visibility before running, can't do this in TestInitialize because CoreWindow sometimes isn't ready
@@ -337,8 +337,8 @@ namespace Prism.Windows.Tests
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
                 var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
-                var deviceGestureService = new DeviceGestureService();
-                deviceGestureService.EnableTitleBarBackButton(eventAggregator);
+                var deviceGestureService = new DeviceGestureService(eventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
                 // Reset back button visibility before running, can't do this in TestInitialize because CoreWindow sometimes isn't ready
@@ -370,8 +370,8 @@ namespace Prism.Windows.Tests
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
                 var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
-                var deviceGestureService = new DeviceGestureService();
-                deviceGestureService.EnableTitleBarBackButton(eventAggregator);
+                var deviceGestureService = new DeviceGestureService(eventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
                 // Reset back button visibility before running, can't do this in TestInitialize because CoreWindow sometimes isn't ready
@@ -403,8 +403,8 @@ namespace Prism.Windows.Tests
                 var sessionStateService = new MockSessionStateService();
                 sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
                 var navigationService = new FrameNavigationService(frame, (pageToken) => typeof(MockPage), sessionStateService);
-                var deviceGestureService = new DeviceGestureService();
-                deviceGestureService.EnableTitleBarBackButton(eventAggregator);
+                var deviceGestureService = new DeviceGestureService(eventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
                 var navigationManager = SystemNavigationManager.GetForCurrentView();
 
                 // Reset back button visibility before running, can't do this in TestInitialize because CoreWindow sometimes isn't ready
