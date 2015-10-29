@@ -1,4 +1,3 @@
-using Prism.Events;
 using Prism.Windows.AppModel;
 using System;
 using System.Collections.Generic;
@@ -11,8 +10,8 @@ using Windows.UI.Xaml.Navigation;
 namespace Prism.Windows.Navigation
 {
     /// <summary>
-    /// The FrameNavigationService interface is used for navigating across the pages of your Windows Store app.
-    /// The FrameNavigationService class, uses a class that implements the IFrameFacade interface to provide page navigation.
+    /// The <see cref="FrameNavigationService"/> interface is used for navigating across the pages of your Windows Store app.
+    /// The <see cref="FrameNavigationService"/> class, uses a class that implements the <see cref="IFrameFacade"/> interface to provide page navigation.
     /// </summary>
     public class FrameNavigationService : INavigationService
     {
@@ -55,7 +54,7 @@ namespace Prism.Windows.Navigation
             {
                 var resourceLoader = ResourceLoader.GetForCurrentView(Constants.InfrastructureResourceMapId);
                 var error = string.Format(CultureInfo.CurrentCulture, resourceLoader.GetString("FrameNavigationServiceUnableResolveMessage"), pageToken);
-                throw new ArgumentException(error, "pageToken");
+                throw new ArgumentException(error, nameof(pageToken));
             }
 
             // Get the page type and parameter of the last navigation to check if we
@@ -118,6 +117,12 @@ namespace Prism.Windows.Navigation
             _frame.SetNavigationState("1,0");
         }
 
+
+        /// <summary>
+        /// Remove the first page of the backstack with optional pageToken and parameter
+        /// </summary>
+        /// <param name="pageToken"></param>
+        /// <param name="parameter"></param>
         public void RemoveFirstPage(string pageToken = null, object parameter = null)
         {
             PageStackEntry page;
@@ -144,6 +149,11 @@ namespace Prism.Windows.Navigation
             }
         }
 
+        /// <summary>
+        /// Remove the last page of the backstack with optional pageToken and parameter
+        /// </summary>
+        /// <param name="pageToken"></param>
+        /// <param name="parameter"></param>
         public void RemoveLastPage(string pageToken = null, object parameter = null)
         {
             PageStackEntry page;
@@ -170,6 +180,11 @@ namespace Prism.Windows.Navigation
             }
         }
 
+        /// <summary>
+        /// Remove the all pages of the backstack with optional pageToken and parameter
+        /// </summary>
+        /// <param name="pageToken"></param>
+        /// <param name="parameter"></param>
         public void RemoveAllPages(string pageToken = null, object parameter = null)
         {
             if (pageToken != null)
@@ -305,7 +320,7 @@ namespace Prism.Windows.Navigation
         }
 
         /// <summary>
-        /// Returns true if both objects are equal. Two objects are equal if they are null or the same string object.
+        /// Returns <c>true</c> if both objects are equal. Two objects are equal if they are null or the same string object.
         /// </summary>
         /// <param name="obj1">First object to compare.</param>
         /// <param name="obj2">Second object to compare.</param>

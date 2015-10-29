@@ -49,7 +49,7 @@ namespace Prism.Windows.Validation
         {
             if (entityToValidate == null)
             {
-                throw new ArgumentNullException("entityToValidate");
+                throw new ArgumentNullException(nameof(entityToValidate));
             }
 
             _entityToValidate = entityToValidate;
@@ -120,7 +120,7 @@ namespace Prism.Windows.Validation
         {
             if (entityErrors == null)
             {
-                throw new ArgumentNullException("entityErrors");
+                throw new ArgumentNullException(nameof(entityErrors));
             }
 
             _errors.Clear();
@@ -146,7 +146,7 @@ namespace Prism.Windows.Validation
         {
             if (string.IsNullOrEmpty(propertyName))
             {
-                throw new ArgumentNullException("propertyName");
+                throw new ArgumentNullException(nameof(propertyName));
             }
 
             var propertyInfo = _entityToValidate.GetType().GetRuntimeProperty(propertyName);
@@ -253,7 +253,7 @@ namespace Prism.Windows.Validation
             {
                 // If the property has errors, check if the number of errors are different.
                 // If the number of errors is the same, check if there are new ones
-                if (propertyNewErrors.Count != _errors[propertyName].Count || _errors[propertyName].Intersect(propertyNewErrors).Count() != propertyNewErrors.Count())
+                if (propertyNewErrors.Count != _errors[propertyName].Count || _errors[propertyName].Intersect(propertyNewErrors).Count() != propertyNewErrors.Count)
                 {
                     if (propertyNewErrors.Count > 0)
                     {

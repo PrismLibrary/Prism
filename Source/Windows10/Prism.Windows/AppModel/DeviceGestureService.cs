@@ -18,7 +18,6 @@ namespace Prism.Windows.AppModel
     public class DeviceGestureService : IDeviceGestureService, IDisposable
     {
         private SubscriptionToken _navigationStateChangedEventToken;
-        private WeakReference<NavigationStateChangedEvent> _navigationStateChangedEventWeakRef;
         private IEventAggregator _eventAggregator;
 
         /// <summary>

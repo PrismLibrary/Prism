@@ -9,14 +9,16 @@ using Prism.Windows.Navigation;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 using Prism.Events;
 
 namespace Prism.Windows
 {
+    /// <summary>
+    /// Provides the Prism base class for your Universal Windows Platform application.
+    /// Takes care of the automatic creation and wiring needed to initialize and start the application.
+    /// </summary>
     public abstract class PrismApplication : Application
     {
 
@@ -28,7 +30,7 @@ namespace Prism.Windows
         /// </summary>
         protected PrismApplication()
         {
-            this.Suspending += OnSuspending;
+            Suspending += OnSuspending;
             Logger = CreateLogger();
             if (Logger == null)
             {
@@ -161,7 +163,7 @@ namespace Prism.Windows
                 var resourceLoader = ResourceLoader.GetForCurrentView(Constants.InfrastructureResourceMapId);
                 throw new ArgumentException(
                     string.Format(CultureInfo.InvariantCulture, resourceLoader.GetString("DefaultPageTypeLookupErrorMessage"), pageToken, this.GetType().Namespace + ".Views"),
-                    "pageToken");
+                    nameof(pageToken));
             }
 
             return viewType;
