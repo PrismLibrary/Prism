@@ -56,8 +56,7 @@
     <Compile Include="..\..\Wpf\Prism.Ninject.Wpf\NinjectServiceLocatorAdapter.cs">
       <Link>NinjectServiceLocatorAdapter.cs</Link>
     </Compile>
-    <Compile Include="Extensions\DependencyServiceExtension.cs" />
-    <Compile Include="Extensions\DependencyServiceStrategy.cs" />
+    <Compile Include="Extensions\DependencyServiceKernel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NinjectBootstrapper.cs" />
     <Compile Include="NinjectExtensions.cs" />
