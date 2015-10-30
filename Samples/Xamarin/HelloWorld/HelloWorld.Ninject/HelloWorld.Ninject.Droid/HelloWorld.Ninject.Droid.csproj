@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9774D4CB-99CD-470A-85C9-762647381972}</ProjectGuid>
+    <ProjectGuid>{6D9E926B-E5A8-4D02-9795-CA9C7B536E9C}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HelloWorld.Droid</RootNamespace>
-    <AssemblyName>HelloWorld.Droid</AssemblyName>
+    <RootNamespace>HelloWorld.Ninject.Droid</RootNamespace>
+    <AssemblyName>HelloWorld.Ninject.Droid</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidApplication>true</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
@@ -56,12 +56,12 @@
       <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Unity.4.0.1\lib\portable-net45+wp80+win8+wpa81+MonoAndroid10+MonoTouch10\Microsoft.Practices.Unity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
+    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Portable.Ninject.3.3.1\lib\monoandroid\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -115,12 +115,12 @@
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
       <Name>Prism.Forms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Source\Xamarin\Prism.Unity.Forms\Prism.Unity.Forms.csproj">
-      <Project>{79ebb8f1-5d80-4ea1-9100-ebdc1ec51cb7}</Project>
-      <Name>Prism.Unity.Forms</Name>
+    <ProjectReference Include="..\..\..\..\..\Source\Xamarin\Prism.Ninject.Forms\Prism.Ninject.Forms.csproj">
+      <Project>{f8424f1d-a7bf-4113-af23-0f0a7be6bbb1}</Project>
+      <Name>Prism.Ninject.Forms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HelloWorld\HelloWorld.csproj">
-      <Name>HelloWorld</Name>
+    <ProjectReference Include="..\HelloWorld.Ninject\HelloWorld.Ninject.csproj">
+      <Name>HelloWorld.Ninject</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
