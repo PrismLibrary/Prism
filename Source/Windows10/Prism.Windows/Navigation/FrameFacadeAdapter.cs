@@ -235,7 +235,7 @@ namespace Prism.Windows.Navigation
         /// <returns>
         /// Returns the current effective value.
         /// </returns>
-        /// <param name="dependencyProperty">The DependencyProperty identifier of the property for which to retrieve the value.</param>
+        /// <param name="dependencyProperty">The <see cref="DependencyProperty"/> identifier of the property for which to retrieve the value.</param>
         public object GetValue(DependencyProperty dependencyProperty)
         {
             return _frame.GetValue(dependencyProperty);
