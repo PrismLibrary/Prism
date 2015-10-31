@@ -17,7 +17,7 @@ This section describes how to install Prism. It involves the following three ste
 
 -  Install system requirements.
 -  Download and extract the Prism source code and documentation.
--  Compile and run the samples
+-  Compile and run the samples.
 
 ### Step 1: Install System Requirements 
 
@@ -41,7 +41,7 @@ You can download the source code, documentation, and samples for the Prism libra
     -  [Universal Windows Platform](https://github.com/PrismLibrary/Prism-Samples-Windows)
     -  [Xamarin.Forms](https://github.com/PrismLibrary/Prism-Samples-Forms)
 
-_Optionally you can add the Prism assemblies directly to your projects by using the Nuget packages._
+_Optionally you can add the Prism assemblies directly to your projects by using the [Nuget packages](#nuget-packages)._
 
 ### Step 3: Compile and Run Samples
 
@@ -56,30 +56,73 @@ menu, and then clear the **Build** check box for all Prism Library projects in b
 -  **Set a breakpoint and step in**. Set a break point in your application's bootstrapper, and then step in to a method within the base class (F11 is the typical C\# keyboard shortcut for this). You may be asked to locate the Prism Library source code, but often, the full program database (PDB) file is available and the file will simply open. You may set breakpoints in any Prism Library project by opening the file and setting the breakpoint.
 
 #NuGet Packages
+### Core Packages
+
+These are the base packages for each platform, together with the Prism's Core assembly as a cross-platform PCL.
+
+| Platform | Assembly | Package |
+| -------- | -------- | ------- |
+| PCL | Prism.dll | [Prism.Core][1] |
+| WPF | Prism.Wpf.dll | [Prism.Wpf][2] |
+| Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][3] |
+| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][4] |
+
+### Container-specific packages
+
+Each supported IoC container has its own package assisting in the setup and use of that container together with Prism. The assembly is named using this convention: Prism.*Container.Platform*.dll, e.g. **Prism.Unity.Wpf.dll**. 
+
+Following matrix shows the platform specific support currently available.
+
+| Package               | WPF | Win10 UWP | Xamarin.Forms |
+|-----------------------|:---:|:---:|:---:|
+| [Prism.Unity][5]      |  X  |  X  |  X  |
+| [Prism.Mef][6]        |  X  |     |     |
+| [Prism.Autofac][7]    |  X  |  X  |     |
+| [Prism.StructureMap][8]| X  |     |     |
+| [Prism.Ninject][9]    |  X  |     |     |
+
+Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package
+
+![NuGet package tree](images/NuGetPackageTree.png)
+
+### Overview of assemblies
+
+To recapitulate the packages described above, this is the list of all assemblies added to your solution by Prism 6 depending on the container and platform used.
+
 ######Prism PCL
 | Assembly | Package |
 | -------- | ------- |
-| Prism.dll | [Prism.Core](https://www.nuget.org/packages/Prism.Core/) |
+| Prism.dll | [Prism.Core][1] |
 
 ######WPF
 | Assembly | Package |
 | -------- | ------- |
-| Prism.Wpf.dll | [Prism.Wpf](https://www.nuget.org/packages/Prism.Wpf/) |
-| Prism.Unity.Wpf.dll | [Prism.Unity](https://www.nuget.org/packages/Prism.Unity/) |
-| Prism.Mef.Wpf.dll | [Prism.Mef](https://www.nuget.org/packages/Prism.Mef/) |
-| Prism.Autofac.Wpf.dll | [Prism.Autofac](https://www.nuget.org/packages/Prism.Autofac/) |
-| Prism.StructureMap.Wpf.dll | [Prism.StructureMap](https://www.nuget.org/packages/Prism.StructureMap/) |
-| Prism.Ninject.Wpf.dll | [Prism.Ninject](https://www.nuget.org/packages/Prism.Ninject/) |
+| Prism.Wpf.dll | [Prism.Wpf][2] |
+| Prism.Unity.Wpf.dll | [Prism.Unity][5] |
+| Prism.Mef.Wpf.dll | [Prism.Mef][6] |
+| Prism.Autofac.Wpf.dll | [Prism.Autofac][7] |
+| Prism.StructureMap.Wpf.dll | [Prism.StructureMap][8] |
+| Prism.Ninject.Wpf.dll | [Prism.Ninject][9] |
 
 ######Xamarin.Forms
 | Assembly | Package |
 | -------- | ------- |
-| Prism.Forms.dll | [Prism.Forms](https://www.nuget.org/packages/Prism.Forms/) |
-| Prism.Unity.Forms.dll | [Prism.Unity](https://www.nuget.org/packages/Prism.Unity/) |
+| Prism.Forms.dll | [Prism.Forms][3] |
+| Prism.Unity.Forms.dll | [Prism.Unity][5] |
 
 ######Universal Windows Platform
 | Assembly | Package |
 | -------- | ------- |
-| Prism.Windows.dll | [Prism.Windows](https://www.nuget.org/packages/Prism.Windows/) |
-| Prism.Unity.Windows.dll | [Prism.Unity](https://www.nuget.org/packages/Prism.Unity/) |
-| Prism.Autofac.Windows.dll | [Prism.Autofac](https://www.nuget.org/packages/Prism.Autofac/) |
+| Prism.Windows.dll | [Prism.Windows][4] |
+| Prism.Unity.Windows.dll | [Prism.Unity][5] |
+| Prism.Autofac.Windows.dll | [Prism.Autofac][7] |
+
+[1]: https://www.nuget.org/packages/Prism.Core/
+[2]: https://www.nuget.org/packages/Prism.Wpf/
+[3]: https://www.nuget.org/packages/Prism.Forms/
+[4]: https://www.nuget.org/packages/Prism.Windows/
+[5]: https://www.nuget.org/packages/Prism.Unity/
+[6]: https://www.nuget.org/packages/Prism.Mef/
+[7]: https://www.nuget.org/packages/Prism.Autofac/
+[8]: https://www.nuget.org/packages/Prism.StructureMap/
+[9]: https://www.nuget.org/packages/Prism.Ninject/

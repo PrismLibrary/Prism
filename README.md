@@ -8,33 +8,36 @@ Prism 6 is a fully open source version of the Prism guidance [originally produce
 At the current time we have no plans to create new versions of the library for Silverlight or for Windows 8/8.1/WP8.1. For those you can still use the previous releases from Microsoft p&p [here](https://msdn.microsoft.com/en-us/library/Gg430869%28v=PandP.40%29.aspx) and [here](http://prismwindowsruntime.codeplex.com/). If there is enough interest and contributors to do the work, we can consider it, but it is not on our roadmap for now.
 
 #NuGet Packages
-######Prism PCL
-| Assembly | Package |
-| -------- | ------- |
-| Prism.dll | [Prism.Core](https://www.nuget.org/packages/Prism.Core/) |
+### Core Packages
 
-######WPF
-| Assembly | Package |
-| -------- | ------- |
-| Prism.Wpf.dll | [Prism.Wpf](https://www.nuget.org/packages/Prism.Wpf/) |
-| Prism.Unity.Wpf.dll | [Prism.Unity](https://www.nuget.org/packages/Prism.Unity/) |
-| Prism.Mef.Wpf.dll | [Prism.Mef](https://www.nuget.org/packages/Prism.Mef/) |
-| Prism.Autofac.Wpf.dll | [Prism.Autofac](https://www.nuget.org/packages/Prism.Autofac/) |
-| Prism.StructureMap.Wpf.dll | [Prism.StructureMap](https://www.nuget.org/packages/Prism.StructureMap/) |
-| Prism.Ninject.Wpf.dll | [Prism.Ninject](https://www.nuget.org/packages/Prism.Ninject/) |
+These are the base packages for each platform, together with the Prism's Core assembly as a cross-platform PCL.
 
-######Xamarin.Forms
-| Assembly | Package |
-| -------- | ------- |
-| Prism.Forms.dll | [Prism.Forms](https://www.nuget.org/packages/Prism.Forms/) |
-| Prism.Unity.Forms.dll | [Prism.Unity](https://www.nuget.org/packages/Prism.Unity/) |
+| Platform | Assembly | Package |
+| -------- | -------- | ------- |
+| PCL | Prism.dll | [Prism.Core][1] |
+| WPF | Prism.Wpf.dll | [Prism.Wpf][2] |
+| Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][3] |
+| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][4] |
 
-######Universal Windows Platform
-| Assembly | Package |
-| -------- | ------- |
-| Prism.Windows.dll | [Prism.Windows](https://www.nuget.org/packages/Prism.Windows/) |
-| Prism.Unity.Windows.dll | [Prism.Unity](https://www.nuget.org/packages/Prism.Unity/) |
-| Prism.Autofac.Windows.dll | [Prism.Autofac](https://www.nuget.org/packages/Prism.Autofac/) |
+### Container-specific packages
+
+Each supported IoC container has its own package assisting in the setup and use of that container together with Prism. The assembly is named using this convention: Prism.*Container.Platform*.dll, e.g. **Prism.Unity.Wpf.dll**. 
+
+Following matrix shows the platform specific support currently available.
+
+| Package               | WPF | Win10 UWP | Xamarin.Forms |
+|-----------------------|:---:|:---:|:---:|
+| [Prism.Unity][5]      |  X  |  X  |  X  |
+| [Prism.Mef][6]        |  X  |     |     |
+| [Prism.Autofac][7]    |  X  |  X  |     |
+| [Prism.StructureMap][8]| X  |     |     |
+| [Prism.Ninject][9]    |  X  |     |     |
+
+Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package
+
+![NuGet package tree](Documentation/images/NuGetPackageTree.png)
+
+A detailed overview of each assembly per package is available [here](Documentation/DownloadandSetupPrism.md#overview-of-assemblies).
 
 # Samples
 We have both development (frequently changing) and stable samples for using Prism with WPF, UWP and Xamarin Forms. An overview of the samples can be found [here](Samples/README.md).
@@ -73,3 +76,14 @@ Check out the new Prism for Xamarin.Forms Preview: http://brianlagunas.com/first
 ### .NET Foundation
 
 This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/projects).
+
+
+[1]: https://www.nuget.org/packages/Prism.Core/
+[2]: https://www.nuget.org/packages/Prism.Wpf/
+[3]: https://www.nuget.org/packages/Prism.Forms/
+[4]: https://www.nuget.org/packages/Prism.Windows/
+[5]: https://www.nuget.org/packages/Prism.Unity/
+[6]: https://www.nuget.org/packages/Prism.Mef/
+[7]: https://www.nuget.org/packages/Prism.Autofac/
+[8]: https://www.nuget.org/packages/Prism.StructureMap/
+[9]: https://www.nuget.org/packages/Prism.Ninject/
