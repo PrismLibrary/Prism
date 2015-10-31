@@ -92,6 +92,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\HelloWorld\HelloWorld.WinPhone\Services\MessageService.cs">
+      <Link>Services\MessageService.cs</Link>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>

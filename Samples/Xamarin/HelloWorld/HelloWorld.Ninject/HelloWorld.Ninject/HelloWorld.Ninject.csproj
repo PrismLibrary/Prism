@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\HelloWorld\HelloWorld\Interfaces\IMessageService.cs">
+      <Link>Interfaces\IMessageService.cs</Link>
+    </Compile>
     <Compile Include="..\..\HelloWorld\HelloWorld\ViewANavigationPageProvider.cs">
       <Link>ViewANavigationPageProvider.cs</Link>
     </Compile>
