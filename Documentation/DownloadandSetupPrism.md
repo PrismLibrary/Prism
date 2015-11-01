@@ -41,7 +41,7 @@ You can download the source code, documentation, and samples for the Prism libra
     -  [Universal Windows Platform](https://github.com/PrismLibrary/Prism-Samples-Windows)
     -  [Xamarin.Forms](https://github.com/PrismLibrary/Prism-Samples-Forms)
 
-_Optionally you can add the Prism assemblies directly to your projects by using the [Nuget packages](#nuget-packages)._
+_Optionally you can add the Prism assemblies directly to your projects by using the [NuGet packages](#nuget-packages)._
 
 ### Step 3: Compile and Run Samples
 
@@ -69,7 +69,7 @@ These are the base packages for each platform, together with the Prism's Core as
 
 ### Container-specific packages
 
-Each supported IoC container has its own package assisting in the setup and use of that container together with Prism. The assembly is named using this convention: Prism.*Container.Platform*.dll, e.g. **Prism.Unity.Wpf.dll**. 
+Each supported IoC container has its own package assisting in the setup and usage of that container together with Prism. The assembly is named using this convention: Prism.*Container.Platform*.dll, e.g. **Prism.Unity.Wpf.dll**. 
 
 Following matrix shows the platform specific support currently available.
 
@@ -81,7 +81,7 @@ Following matrix shows the platform specific support currently available.
 | [Prism.StructureMap][8]| X  |     |     |
 | [Prism.Ninject][9]    |  X  |     |     |
 
-Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package
+Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package and the rest will be pulled in as well.
 
 ![NuGet package tree](images/NuGetPackageTree.png)
 
