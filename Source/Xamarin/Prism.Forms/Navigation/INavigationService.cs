@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace Prism.Navigation
@@ -46,5 +45,14 @@ namespace Prism.Navigation
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         Task Navigate(string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true);
+
+        Task<NavigationParameters> NavigateAndWait<T>(NavigationParameters parameters = null, bool useModalNavigation = true,
+            bool animated = true);
+
+        Task<NavigationParameters> NavigateAndWait(string name, NavigationParameters parameters = null,
+            bool useModalNavigation = true, bool animated = true);
+
+		Task<NavigationParameters> NavigateAndWait(Uri uri, NavigationParameters parameters = null,
+			bool useModalNavigation = true, bool animated = true);
     }
 }
