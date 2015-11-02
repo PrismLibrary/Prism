@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
 
         <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Content="{Binding Content}"/>
-        <Button x:Name="OKButton" Content="OK" Width="75" Height="25" HorizontalAlignment="Right" Margin="0,10,0,0" Grid.Row="1" Click="OKButton_Click" />
+        <Button x:Name="OKButton" Content="OK" Width="75" Height="25" HorizontalAlignment="Right" Margin="0,10,0,0" Grid.Row="1" Click="OKButton_Click" IsDefault="True" />
 
     </Grid>
 </Window>
