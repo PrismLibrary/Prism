@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.ServiceLocation;
 using Ninject;
 using Ninject.Parameters;
+using Ninject.Planning.Bindings.Resolvers;
 using Prism.Common;
 using Prism.Events;
 using Prism.Logging;
@@ -23,9 +24,8 @@ namespace Prism.Ninject
         /// </summary>
         public IKernel Kernel { get; protected set; }
 
-        /// <summary>
-        /// Run the bootstrapper process.
-        /// </summary>
+
+        /// <inheritDoc />
         public override void Run()
         {
             Logger = CreateLogger();
@@ -40,9 +40,7 @@ namespace Prism.Ninject
             InitializeMainPage();
         }
 
-        /// <summary>
-        /// Configures the <see cref="T:Prism.Mvvm.ViewModelLocator" /> used by Prism.
-        /// </summary>
+        /// <inheritDoc />
         protected override void ConfigureViewModelLocator()
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
@@ -65,9 +63,7 @@ namespace Prism.Ninject
             });
         }
 
-        /// <summary>
-        /// Override to add initialization to the main page
-        /// </summary>
+        /// <inheritDoc />
         protected virtual void InitializeMainPage()
         {
         }
@@ -80,7 +76,7 @@ namespace Prism.Ninject
         /// <returns>A Ninject <see cref="IKernel"/></returns>
         protected virtual IKernel CreateKernel()
         {
-            return new DependencyServiceKernel();
+            return new StandardKernel();
         }
 
         /// <summary>
@@ -88,6 +84,8 @@ namespace Prism.Ninject
         /// </summary>
         protected virtual void ConfigureKernel()
         {
+            Kernel.Components.Add<IMissingBindingResolver, DependencyServiceBindingResolver>();
+
             Kernel.Bind<ILoggerFacade>().ToConstant(Logger).InSingletonScope();
 
             Kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
@@ -96,9 +94,7 @@ namespace Prism.Ninject
             Kernel.Bind<IPageDialogService>().To<PageDialogService>().InSingletonScope();
         }
 
-        /// <summary>
-        /// Configures the LocatorProvider for the <see cref="T:Microsoft.Practices.ServiceLocation.ServiceLocator" />.
-        /// </summary>
+        /// <inheritDoc />
         protected override void ConfigureServiceLocator()
         {
             ServiceLocator.SetLocatorProvider(() => this.Kernel.Get<IServiceLocator>());
