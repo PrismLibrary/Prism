@@ -129,6 +129,7 @@
     <Compile Include="PrismUnityApplication.cs" />
     <Compile Include="PrismUnityExtension.cs" />
     <Compile Include="UnityContainerHelper.cs" />
+    <Compile Include="UnityServiceLocatorAdapter.cs" />
     <EmbeddedResource Include="Properties\Prism.Unity.Windows.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -197,7 +198,7 @@
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <DocumentationFile>bin\Release-Signed\Prism.Unity.Windows.xml</DocumentationFile>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
-	  <SignAssembly>true</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\prism.pfx</AssemblyOriginatorKeyFile>

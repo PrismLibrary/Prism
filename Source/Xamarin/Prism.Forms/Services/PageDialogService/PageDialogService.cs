@@ -1,20 +1,15 @@
-﻿using Prism.Common;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Prism.Services
 {
-    public class PageDialogService : IPageDialogService, IPageAware
+    /// <summary>
+    /// 
+    /// </summary>
+    public class PageDialogService : IPageDialogService
     {
-        Page _page;
-        Page IPageAware.Page
-        {
-            get { return _page ?? (_page = Application.Current.MainPage); }
-            set { _page = value; }
-        }
-
         /// <summary>
         /// Presents an alert dialog to the application user with an accept and a cancel button.
         /// </summary>
@@ -28,7 +23,7 @@ namespace Prism.Services
         /// <returns><c>true</c> if non-destructive button pressed; otherwise <c>false</c>/></returns>
         public virtual async Task<bool> DisplayAlert(string title, string message, string acceptButton, string cancelButton)
         {
-            return await _page.DisplayAlert(title, message, acceptButton, cancelButton);
+            return await Application.Current.MainPage.DisplayAlert(title, message, acceptButton, cancelButton);
         }
 
         /// <summary>
@@ -43,7 +38,7 @@ namespace Prism.Services
         /// <returns></returns>
         public virtual async Task DisplayAlert(string title, string message, string cancelButton)
         {
-            await _page.DisplayAlert(title, message, cancelButton);
+            await Application.Current.MainPage.DisplayAlert(title, message, cancelButton);
         }
 
         /// <summary>
@@ -56,7 +51,7 @@ namespace Prism.Services
         /// <returns>Text for the pressed button</returns>
         public virtual async Task<string> DisplayActionSheet(string title, string cancelButton, string destroyButton, params string[] otherButtons)
         {
-            return await _page.DisplayActionSheet(title, cancelButton, destroyButton, otherButtons);
+            return await Application.Current.MainPage.DisplayActionSheet(title, cancelButton, destroyButton, otherButtons);
         }
 
         /// <summary>
@@ -64,9 +59,8 @@ namespace Prism.Services
         /// </summary>
         /// <para>
         /// The text displayed in the action sheet will be the value for <see cref="IActionSheetButton.Text"/> and when pressed
-        /// the <see cref="IActionSheetButton.Callback"/> will be executed.
+        /// the <see cref="IActionSheetButton.Command"/> will be executed.
         /// </para>
-        /// <param name="service">Instance of <see cref="IPageDialogService"/></param>
         /// <param name="title">Text to display in action sheet</param>
         /// <param name="buttons">Buttons displayed in action sheet</param>
         /// <returns></returns>

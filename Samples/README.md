@@ -8,9 +8,8 @@ These samples are no replacement for the unit test suite that covers the code ba
 
 More complete samples showing how to use Prism 6 for your application development will be posted in separate repositories under the [PrismLibrary GitHub organization](https://github.com/PrismLibrary). These samples are based on public released NuGet packages and are thus more stable than the development samples.
 
-### [Xamarin Forms](https://github.com/PrismLibrary/Prism-Samples-Forms)
+* [WPF](https://github.com/PrismLibrary/Prism-Samples-Wpf)
+* [Xamarin Forms](https://github.com/PrismLibrary/Prism-Samples-Forms)
+* [Windows 10 UWP](https://github.com/PrismLibrary/Prism-Samples-Windows)
 
-| Solution | Description |
------------|-------------|
-|UsingDependencyService|How to use Unity as a dependency service to handle your IoC.
 

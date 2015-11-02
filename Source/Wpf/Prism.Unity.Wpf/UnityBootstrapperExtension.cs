@@ -9,7 +9,6 @@ namespace Prism.Unity
     /// <summary>
     /// Implements a <see cref="UnityContainerExtension"/> that checks if a specific type was registered with the container.
     /// </summary>
-    [CLSCompliant(false)]
     public class UnityBootstrapperExtension : UnityContainerExtension
     {
         /// <summary>

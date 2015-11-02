@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading.Tasks;
+using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Windows.AppModel;
 using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using Prism.Windows.Navigation;
+using Prism.Events;
 
 namespace Prism.Windows
 {
+    /// <summary>
+    /// Provides the Prism base class for your Universal Windows Platform application.
+    /// Takes care of the automatic creation and wiring needed to initialize and start the application.
+    /// </summary>
     public abstract class PrismApplication : Application
     {
 
@@ -26,8 +30,21 @@ namespace Prism.Windows
         /// </summary>
         protected PrismApplication()
         {
-            this.Suspending += OnSuspending;
+            Suspending += OnSuspending;
+            Logger = CreateLogger();
+            if (Logger == null)
+            {
+                throw new InvalidOperationException("Logger Facade is null");
+            }
+
+            Logger.Log("Created Logger", Category.Debug, Priority.Low);
         }
+
+        /// <summary>
+        /// Gets the <see cref="ILoggerFacade"/> for the application.
+        /// </summary>
+        /// <value>A <see cref="ILoggerFacade"/> instance.</value>
+        protected ILoggerFacade Logger { get; set; }
 
         /// <summary>
         /// Gets the shell user interface
@@ -60,6 +77,14 @@ namespace Prism.Windows
         protected IDeviceGestureService DeviceGestureService { get; private set; }
 
         /// <summary>
+        /// Gets the event aggregator that is used to publish Prism framework events.
+        /// </summary>
+        /// <value>
+        /// The Prism framework event aggregator.
+        /// </value>
+        protected IEventAggregator EventAggregator { get; private set; }
+
+        /// <summary>
         /// Factory for creating the ExtendedSplashScreen instance.
         /// </summary>
         /// <value>
@@ -83,6 +108,43 @@ namespace Prism.Windows
         protected abstract Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args);
 
         /// <summary>
+        /// Override this method with logic that will be performed after the application is activated through other means 
+        /// than a normal launch (i.e. Voice Commands, URI activation, being used as a share target from another app).
+        ///  For example, navigating to the application's home page.
+        /// </summary>
+        /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
+        protected virtual Task OnActivateApplicationAsync(IActivatedEventArgs args) { return Task.FromResult<object>(null); }
+
+        /// <summary>
+        /// Creates and Configures the container if using a container
+        /// </summary>
+        protected virtual void CreateAndConfigureContainer() { }
+
+        /// <summary>
+        /// Configures the LocatorProvider for the <see cref="Microsoft.Practices.ServiceLocation.ServiceLocator" />.
+        /// </summary>
+        protected virtual void ConfigureServiceLocator() { }
+
+        /// <summary>
+        /// Create the <see cref="ILoggerFacade" /> used by the bootstrapper.
+        /// </summary>
+        /// <remarks>
+        /// The base implementation returns a new DebugLogger.
+        /// </remarks>
+        protected virtual ILoggerFacade CreateLogger()
+        {
+            return new DebugLogger();
+        }
+
+        /// <summary>
+        /// Configures the <see cref="ViewModelLocator"/> used by Prism.
+        /// </summary>
+        protected virtual void ConfigureViewModelLocator()
+        {
+            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => Resolve(type));
+        }
+
+        /// <summary>
         /// Gets the type of the page based on a page token.
         /// </summary>
         /// <param name="pageToken">The page token.</param>
@@ -101,7 +163,7 @@ namespace Prism.Windows
                 var resourceLoader = ResourceLoader.GetForCurrentView(Constants.InfrastructureResourceMapId);
                 throw new ArgumentException(
                     string.Format(CultureInfo.InvariantCulture, resourceLoader.GetString("DefaultPageTypeLookupErrorMessage"), pageToken, this.GetType().Namespace + ".Views"),
-                    "pageToken");
+                    nameof(pageToken));
             }
 
             return viewType;
@@ -132,12 +194,28 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        /// Invoked when the application is launched normally by the end user. Other entry points
-        /// will be used when the application is launched to open a specific file, to display
-        /// search results, and so forth.
+        /// OnActivated is the entry point for an application when it is launched via
+        /// means other normal user interaction. This includes Voice Commands, URI activation,
+        /// being used as a share target from another app, etc.
         /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        /// <param name="args">Details about the activation method, including the activation
+        /// phrase (for voice commands) and the semantic interpretation, parameters, etc.</param>
+        protected override async void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
+
+            await InitializeShell(args);
+
+            if (Window.Current.Content != null && (!_isRestoringFromTermination || args != null))
+            {
+                await OnActivateApplicationAsync(args);
+            }
+
+            // Ensure the current window is active
+            Window.Current.Activate();
+        }
+
+        private async Task InitializeShell(IActivatedEventArgs args)
         {
             if (Window.Current.Content == null)
             {
@@ -147,6 +225,17 @@ namespace Prism.Windows
 
                 Window.Current.Content = Shell ?? rootFrame;
             }
+        }
+
+        /// <summary>
+        /// Invoked when the application is launched normally by the end user. Other entry points
+        /// will be used when the application is launched to open a specific file, to display
+        /// search results, and so forth.
+        /// </summary>
+        /// <param name="args">Details about the launch request and process.</param>
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            await InitializeShell(args);
 
             // If the app is launched via the app's primary tile, the args.TileId property
             // will have the same value as the AppUserModelId, which is set in the Package.appxmanifest.
@@ -161,6 +250,18 @@ namespace Prism.Windows
             // Ensure the current window is active
             Window.Current.Activate();
         }
+
+        /// <summary>
+        /// Create the <see cref="IEventAggregator" /> used for Prism framework events.
+        /// </summary>
+        /// <returns>The initialized EventAggregator.</returns>
+        private IEventAggregator CreateEventAggregator() => OnCreateEventAggregator() ?? new EventAggregator();
+
+        /// <summary>
+        /// Create the <see cref="IEventAggregator" /> used for Prism framework events. Use this to inject your own IEventAggregator implementation.
+        /// </summary>
+        /// <returns>The initialized EventAggregator.</returns>
+        protected virtual IEventAggregator OnCreateEventAggregator() => null;
 
         /// <summary>
         /// Creates the root frame.
@@ -191,8 +292,11 @@ namespace Prism.Windows
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
         /// <returns>A task of a Frame that holds the app content.</returns>
-        protected async Task<Frame> InitializeFrameAsync(IActivatedEventArgs args)
+        protected virtual async Task<Frame> InitializeFrameAsync(IActivatedEventArgs args)
         {
+            CreateAndConfigureContainer();
+            EventAggregator = CreateEventAggregator();
+
             // Create a Frame to act as the navigation context and navigate to the first page
             var rootFrame = CreateRootFrame();
 
@@ -202,9 +306,7 @@ namespace Prism.Windows
                 rootFrame.Content = extendedSplashScreen;
             }
 
-            rootFrame.Navigated += OnNavigated;
-
-            var frameFacade = new FrameFacadeAdapter(rootFrame);
+            var frameFacade = new FrameFacadeAdapter(rootFrame, EventAggregator);
 
             //Initialize PrismApplication common services
             SessionStateService = CreateSessionStateService();
@@ -223,7 +325,8 @@ namespace Prism.Windows
             DeviceGestureService.GoForwardRequested += OnGoForwardRequested;
 
             // Set a factory for the ViewModelLocator to use the default resolution mechanism to construct view models
-            ViewModelLocationProvider.SetDefaultViewModelFactory(Resolve);
+            Logger.Log("Configuring ViewModelLocator", Category.Debug, Priority.Low);
+            ConfigureViewModelLocator();
 
             OnRegisterKnownTypesForSerialization();
             if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
@@ -285,18 +388,6 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        ///
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected virtual void OnNavigated(object sender, NavigationEventArgs e)
-        {
-            if (DeviceGestureService.UseTitleBarBackButton)
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    NavigationService.CanGoBack() ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
-        }
-
-        /// <summary>
         /// Creates the device gesture service. Use this to inject your own IDeviceGestureService implementation.
         /// </summary>
         /// <returns>The initialized device gesture service.</returns>
@@ -308,7 +399,13 @@ namespace Prism.Windows
         /// <returns>The initialized device gesture service.</returns>
         private IDeviceGestureService CreateDeviceGestureService()
         {
-            var deviceGestureService = OnCreateDeviceGestureService() ?? new DeviceGestureService {UseTitleBarBackButton = true};
+            var deviceGestureService = OnCreateDeviceGestureService();
+            if (deviceGestureService == null)
+            {
+                deviceGestureService = new DeviceGestureService(EventAggregator);
+                deviceGestureService.UseTitleBarBackButton = true;
+            }
+
             return deviceGestureService;
         }
 
@@ -325,7 +422,7 @@ namespace Prism.Windows
         /// <param name="rootFrame">The root frame.</param>
         /// <param name="sessionStateService">The session state service.</param>
         /// <returns>The initialized navigation service.</returns>
-        private INavigationService CreateNavigationService(IFrameFacade rootFrame, ISessionStateService sessionStateService)
+        protected virtual INavigationService CreateNavigationService(IFrameFacade rootFrame, ISessionStateService sessionStateService)
         {
             var navigationService = OnCreateNavigationService(rootFrame) ?? new FrameNavigationService(rootFrame, GetPageType, sessionStateService);
             return navigationService;
