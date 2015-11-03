@@ -206,6 +206,8 @@ namespace Prism.Interactivity
                 wrapperWindow = this.CreateDefaultWindow(notification);
             }
 
+            wrapperWindow.Owner = Window.GetWindow(this);
+
             // If the user provided a Style for a Window we set it as the window's style.
             if (WindowStyle != null)
                 wrapperWindow.Style = WindowStyle;
