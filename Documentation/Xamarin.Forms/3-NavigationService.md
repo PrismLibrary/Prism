@@ -1,22 +1,11 @@
-# Using the Navigation Service
+﻿# Using the Navigation Service
 
-Navigating between screens is a UI task that nearly every app requires. Xamarin Forms provides the INavigation interface for this task. However, this interface has a few limitations that Prism.Forms Navigation Service tries to address. The Navigation Service makes it possible not only to navigate between Views, but to ViewModels as well, which helps to make Views more loosely coupled.
+Navigating in a Prism application is conceptually different than standard navigation in Xamarin.Forms.  While Xamarin.Forms navigation relies on a Page class instance to navigate, Prism removes all dependencies on Page types to achieve loosely coupled navigation from within a ViewModel.  In Prism, the concept of navigating to a View or navigating to a ViewModel does not exist.  Instead, you simply navigate to an experience, or a unique identifier, which represents the target view you wish to navigate to in your application.
 
-## Registering
-Every View or ViewModel that's used to navigate to by the Navigation Service has to be registered in the bootstrapping phase of the app. Without registration, Prism is unable to inject dependencies that are required by the ViewModel you're navigating to.
+Page navigation in Prism is accomplished by using the **INavigationService**.
 
-Bootstrapper:
-```
-protected override void RegisterTypes()
-{
-  Container.RegisterTypeForNavigation<ContactPage, ContactPageViewModel>();
-}
-```
-
-It is also possible to override the View name that is being registered for navigation. The RegisterTypeForNavigation method accepts a name parameter for this reason.
-
-## Navigating
-There is a caveat while injection the Navigation Service into your ViewModels. The current version of the Prism Forms library requires that you name the injection parameter precisely as ```navigationService```. Otherwise the Navigation Service is unaware of the current View it is used on. We are looking to change this, so you should be able to change the name of this parameter in the future.
+## Getting the Navigation Service
+To obtain the **INavigationService** in your ViewModels simply ask for it as a constructor parameter.  There is a caveat while injecting the Navigation Service into your ViewModels. The current version of the Prism.Forms library requires that you name the injection parameter precisely as ```navigationService```. Otherwise the Navigation Service is unaware of the current View it is used on.  This is a limitation of the dependency injection container.
 
 ```
 public MainPageViewModel(INavigationService navigationService) // has to be named correctly
@@ -25,32 +14,89 @@ public MainPageViewModel(INavigationService navigationService) // has to be name
 }
 ```
 
-### Navigate
-Navigation to a View can be done by using the generic Navigate method, which can be used to navigate based on ViewModel in a typesafe way. The other option is to use the regular Navigate method which accepts the View name as a string.
+## Navigating
+Once you have the **INavigationService** in your ViewModel, you can navigate to your target views by calling the `INavigationService.Navigate` method and provide the unique identifier/key that represents the target Page.
 
 ```
-_navigationService.Navigate("ContactPage");
-// or better
-_navigationService.Navigate<ContactPageViewModel>();
+_navigationService.Navigate("MainPage");
 ```
 
-Depending on whether or not you're using a NavigationPage in your application, you might need to add the parameter useModalNavigation in the Navigate method, which defaults to true. When navigating within a NavigationPage you have to navigate like in this example:
+Depending on whether or not you're using a NavigationPage in your application, you might need to add the parameter **useModalNavigation** in the Navigate method, which defaults to _true_. When navigating within a NavigationPage you have must set **useModalNavigation** to _false_:
 
 ```
-_navigationService.Navigate<ContactPageViewModel(useModalNavigation: false);
+_navigationService.Navigate("MainPage", useModalNavigation: false);
+```
+**Important:** If you do not register your Pages with Prism, navigation will not work.
+
+## Registering
+Registering your Page for navigation is essentially mapping a unique identifier/key to the target view during the bootstrapping process.  In order to register your Pages for Navigation, override the **RegisterTypes** method in your **Bootstrapper**.
+
+Bootstrapper:
+```
+protected override void RegisterTypes()
+{
+    //register pages for navigation
+}
 ```
 
-### GoBack
-Going back to the previous View is fairly simple by using the following example. The same applies for navigating within a NavigationPage regarding the use of the useModalNavigation parameter.
+Next, use the `RegisterTypeForNavigation<T>` extension method off of the current dependency injection container.  There are three ways to register your Pages for navigation.
+
+#### Default Registration
+By default, **RegisterTypeForNavigation** will use the **Name** of the Page type as the unique identifier/key.  The following code snippet results in a mapping between the MainPage type, and the unique identifier/key of "MainPage".  This means when you request to navigate to the MainPage, you will provide the string "MainPage" as the navigation target.
+```
+protected override void RegisterTypes()
+{
+    Container.RegisterTypeForNavigation<MainPage>();
+}
+```
+
+To navigate to the MainPage using this registration method:
+```
+_navigationService.Navigate("MainPage");
+```
+
+#### Custom Registration
+You can override this convention by providing a custom unique identifier/key as a method parameter.  In this case, we are overriding the convention for MainPage, and are creating a mapping between the MainPage Page type, and the unique identifier/key of "CustomKey".  So when we want to navigate to the MainPage, we would provide the "CustomKey" as the navigation target.
+```
+protected override void RegisterTypes()
+{
+    Container.RegisterTypeForNavigation<MainPage>("CustomKey");
+}
+```
+To navigate to the MainPage using this registration method:
+```
+_navigationService.Navigate("CustomKey");
+```
+#### Strongly Typed Registration
+While navigating to strings provides a loosely coupled navigation mechanism, it does introduce some issues with code maintenance.  There are many developers that would rather not rely on "magic strings" sprinkled throughout their code base.  For this reason, Prism provides the ability to register your Page types to a strongly typed class.  While you can provide any class you wish, most people think in terms of navigating to ViewModels.
+```
+protected override void RegisterTypes()
+{
+    Container.RegisterTypeForNavigation<MainPage, MainPageViewModel>();
+}
+```
+
+To navigate to the MainPage using this registration method:
+```
+_navigationService.Navigate<MainPageViewModel>();
+```
+
+_Note: If your registered your Page using the default method of `RegisterTypeForNavigation<MainPage>()`, you cannot use `INavigationService.Navigate<MainPage>()`.  For one, shame on you for trying to reference a View type in your ViewModel.  Also, the naming convention for the strongly typed registration uses the fully qualified name of the provided object type. Whereas the default registration method uses only the short name of the view type, which results in a registration mapping mismatch._
+
+## GoBack
+Going back to the previous View is as simple calling the `INavigationService.GoBack` method. 
 
 ```
 _navigationService.GoBack();
-// or 
+```
+
+The same applies for navigating within a NavigationPage regarding the use of the useModalNavigation parameter.
+```
 _navigationService.GoBack(useModalNavigation: true);
 ```
 
 ## Passing parameters
-Passing parameters to the next View can be done using an overload of the Navigate method. This overload accepts a NavigationParameters object that can be used to supply data to the next View. The NavigationParameters object is in fact just a dictionary. It can accept any arbitrary object as a value.
+The Prism navigation service also allows you to pass parameters to the target view during the navigation process.  Passing parameters to the next View can be done using an overload of the **INavigationService.Navigate** method. This overload accepts a **NavigationParameters** object that can be used to supply data to the next View. The **NavigationParameters** object is in fact just a dictionary. It can accept any arbitrary object as a value.
 
 ```
 var navigationParams = new NavigationParameters ();
@@ -58,39 +104,79 @@ navigationParams.Add("model", new Contact ());
 _navigationService.Navigate<ContactPageViewModel>(navigationParams);
 ```
 
-Getting to this data in the View that is being navigated to, can be achieved by using the INavigationAware interface.
+You can also create an HTML query string to generate your parameter collection.
+```
+var queryString = "code=CR&desc=Red";
+var navigationParams = new NavigationParameters(queryString);
+_navigationService.Navigate("MainPage", navigationParameters);
+```
+
+Getting to this data in the target View that is being navigated to, can be achieved by using the INavigationAware interface on the corresponding ViewModel.
 
 ## INavigationAware
-This interface adds two methods to your ViewModel so you can intercept when the ViewModel is navigated to, or navigated away from. Any object that is added to the NavigationParameters object in the OnNavigatedFrom method will be available in the View that is being navigated to, which in return can get to this parameter by the OnNavigatedTo method.
+The ViewModel of the target navigation Page can participate in the navigation process by implementing the **INavigationAware** interface.  This interface adds two methods to your ViewModel so you can intercept when the ViewModel is navigated to, or navigated away from.
 
 Example:
 ```
-public class ContactPageViewModel : INavigationAware {
+public class ContactPageViewModel : INavigationAware
+{
   private Contact _contact;
   
-  public void OnNavigatedTo (NavigationParameters parameters)
+  public void OnNavigatedTo(NavigationParameters parameters)
   {
     _contact = (Contact)parameters["model"];
   }
   
-  public void OnNavigatedFrom (NavigationParameters parameters)
+  public void OnNavigatedFrom(NavigationParameters parameters)
   {
-    parameters = _contact;
+    
   }
 }
 ```
 
 ## IConfirmNavigation
-A View can determine whether it can be navigated to or not. When implementing the IConfirmNavigation interface, the navigation process looks to see if this method returns true. Otherwise the page won't be navigated to.
+A ViewModel can determine whether or not it can perform a navigation operation. When a ViewModel implements the **IConfirmNavigation** interface, the navigation process looks to see what the result of this method is.  If _true_, a navigation process can be invoked, meaning a call to `NavigationService.Navigate("target")` can be made.  If _false_, the ViewModel cannot invoke the navigation process. 
 
 ```
-public class ContactPageViewModel : IConfirmNavigation {
+public class ContactPageViewModel : IConfirmNavigation 
+{
   public bool CanNavigate(NavigationParameters parameters)
   {
-    // determine whether or not viewmodel can be navigated to
     return true;
   }
 }
 ```
-## NavigationPageProviderAttribute
-TODO
+## Wrapping the Target in a NavigationPage
+When navigating to a view, sometimes it is necessary to wrap the target view into a different page type such as a Xamarin.Forms.NavigationPage.  To support this scenario, Prism provides the **INavigationPageProvider** and **NavigationPageProviderAttribute**.
+
+Start by creating a new class that implements the **INavigationPageProvider** interface.  You will have access to both the source Xamarin.Forms.Page, as well as the target Xamarin.Forms.Page that are part of the navigation operation.
+
+```
+public class ViewANavigationPageProvider : INavigationPageProvider
+{
+    public Page CreatePageForNavigation(Page sourcePage, Page targetPage)
+    {
+        NavigationPage.SetHasNavigationBar(targetPage, true);
+        NavigationPage.SetBackButtonTitle(targetPage, "Go Back Sucka");
+        NavigationPage.SetHasBackButton(targetPage, true);
+
+        var newPage = new NavigationPage(targetPage);
+        newPage.BarBackgroundColor = Color.Green;
+        newPage.BarTextColor = Color.White;
+        return newPage;
+    }
+}
+```
+
+Next, attribute the target Xamarin.Forms.Page class with the **NavigationPageProviderAttribute** and provide the type of the class that implements the **INavigationPageProvider** interface.
+```
+[NavigationPageProvider(typeof(ViewANavigationPageProvider))]
+public partial class ViewA : ContentPage
+{
+    public ViewA()
+    {
+        InitializeComponent();
+    }
+}
+```
+To see this feature in action, check out the [NavigationPageProvider sample](https://github.com/PrismLibrary/Prism-Samples-Forms/tree/master/UsingNavPageProvider).
