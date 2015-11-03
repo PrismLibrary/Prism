@@ -135,8 +135,17 @@ namespace Prism.Interactivity
                         FrameworkElement view = this.AssociatedObject;
                         Point position = view.PointToScreen(new Point(0, 0));
 
-                        wrapperWindow.Top = position.Y + ((view.ActualHeight - wrapperWindow.ActualHeight) / 2);
-                        wrapperWindow.Left = position.X + ((view.ActualWidth - wrapperWindow.ActualWidth) / 2);
+                        PresentationSource source = PresentationSource.FromVisual(view);
+                        position = source.CompositionTarget.TransformFromDevice.Transform(position);
+
+                        double x = position.X + ((view.ActualWidth - wrapperWindow.ActualWidth) / 2);
+                        double y = position.Y + ((view.ActualHeight - wrapperWindow.ActualHeight) / 2);
+
+                        x = Math.Max(0, Math.Min(x, SystemParameters.WorkArea.Right - wrapperWindow.ActualWidth));
+                        y = Math.Max(0, Math.Min(y, SystemParameters.WorkArea.Bottom - wrapperWindow.ActualHeight));
+
+                        wrapperWindow.Left = x;
+                        wrapperWindow.Top = y;
                     };
                 wrapperWindow.SizeChanged += sizeHandler;
             }
