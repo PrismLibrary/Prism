@@ -92,7 +92,7 @@ _navigationService.GoBack();
 
 The same applies for navigating within a NavigationPage regarding the use of the useModalNavigation parameter.
 ```
-_navigationService.GoBack(useModalNavigation: true);
+_navigationService.GoBack(useModalNavigation: false);
 ```
 
 ## Passing parameters
