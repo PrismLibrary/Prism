@@ -101,7 +101,7 @@ The Prism navigation service also allows you to pass parameters to the target vi
 ```
 var navigationParams = new NavigationParameters ();
 navigationParams.Add("model", new Contact ());
-_navigationService.Navigate<ContactPageViewModel>(navigationParams);
+_navigationService.Navigate("MainPage", navigationParams);
 ```
 
 You can also create an HTML query string to generate your parameter collection.
