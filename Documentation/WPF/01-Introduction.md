@@ -33,7 +33,7 @@ Composite applications are highly suited to a range of client application scenar
 
 Composite application with multiple back-end systems
 
-![](images/Ch1IntroFig1.png)
+![Chapter 1 Figure 1](images/Ch1IntroFig1.png)
 
 In this type of application, the user can be presented with a rich and flexible user experience that provides a task-oriented focus over functionality that spans multiple back-end systems, services, and data stores, where each is represented by one or more dedicated modules. The clean separation between the application logic and the UI allows the application to provide a consistent and differentiated appearance across all constituent modules.
 
