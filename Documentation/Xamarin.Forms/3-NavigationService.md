@@ -21,11 +21,27 @@ Once you have the **INavigationService** in your ViewModel, you can navigate to 
 _navigationService.Navigate("MainPage");
 ```
 
+If using strings to navigate is not your style, and you would rather navigate to a strongly typed object (such as a ViewModel), you can use the following syntax.
+```
+_navigationService.Navigate<MainPageviewModel>();
+```
+_Note: you must register your object properly using the RegisterTypeFornavigation<T, C> method.  See the Registering topic for more information._
+
+For more dynamic scenarios, or scenarios which involve navigating with Uris, you can use either a relative or an absolute Uri to navigate.
+```
+//relative
+_navigationService.Navigate(new Uri("MainPage", UriKind.Relative));
+
+//absolute
+_navigationService.Navigate(new Uri("http://www.brianlagunas.com/MainPage", UriKind.Absolute);
+```
+
 Depending on whether or not you're using a NavigationPage in your application, you might need to add the parameter **useModalNavigation** in the Navigate method, which defaults to _true_. When navigating within a NavigationPage you have must set **useModalNavigation** to _false_:
 
 ```
 _navigationService.Navigate("MainPage", useModalNavigation: false);
 ```
+
 **Important:** If you do not register your Pages with Prism, navigation will not work.
 
 ## Registering
@@ -110,8 +126,22 @@ var queryString = "code=CR&desc=Red";
 var navigationParams = new NavigationParameters(queryString);
 _navigationService.Navigate("MainPage", navigationParameters);
 ```
+When using a Uri to navigate, you may append the Uri with parameters, which will be used as the navigation parameters.
+```
+//query string
+_navigationService.Navigate(new Uri("MainPage?id=3&name=brian", UriKind.Relative));
 
-Getting to this data in the target View that is being navigated to, can be achieved by using the INavigationAware interface on the corresponding ViewModel.
+//using NavigationParameters in Uri
+_navigationService.Navigate(new Uri("MainPage" + navParameters.ToString(), UriKind.Relative));
+
+//using both Uri parameters and NavigationParameters
+var navParameters = new NavigationParameters ();
+navParameters.Add("name", "brian");
+_navigationService.Navigate(new Uri("MainPage?id=3", UriKind.Relative), navParameters);
+```
+
+
+Getting to this data in the target View that is being navigated to, can be achieved by using the **INavigationAware** interface on the corresponding ViewModel.
 
 ## INavigationAware
 The ViewModel of the target navigation Page can participate in the navigation process by implementing the **INavigationAware** interface.  This interface adds two methods to your ViewModel so you can intercept when the ViewModel is navigated to, or navigated away from.
