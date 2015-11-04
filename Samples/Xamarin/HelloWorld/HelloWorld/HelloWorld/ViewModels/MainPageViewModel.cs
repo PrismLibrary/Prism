@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using System;
 
 namespace HelloWorld.ViewModels
 {
@@ -31,10 +32,13 @@ namespace HelloWorld.ViewModels
 
         void Navigate()
         {
-            NavigationParameters parameters = new NavigationParameters();
-            parameters.Add("message", "Message from MainPage");
+            //NavigationParameters parameters = new NavigationParameters();
+            //parameters.Add("message", "Message from MainPage");
+            //_navigationService.Navigate("ViewA", parameters);
 
-            _navigationService.Navigate("ViewA", parameters);
+            var uri = new Uri("ViewA?message=Parameter%20from%20Uri", UriKind.Relative);
+
+            _navigationService.Navigate(uri);
         }
     }
 
