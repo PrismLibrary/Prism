@@ -137,6 +137,22 @@ namespace Prism.Wpf.Tests.Interactivity
 
             Window window = popupWindowAction.GetWindow(notification);
         }
+
+        [TestMethod]
+        public void WhenStartupLocationForWindowIsSet_ChildWindowHasProperty()
+        {
+            TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
+            popupWindowAction.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            INotification notification = new Notification();
+            notification.Title = "Title";
+            notification.Content = "Content";
+
+            Window window = popupWindowAction.GetWindow(notification);
+
+            Assert.AreEqual(window.WindowStartupLocation, WindowStartupLocation.CenterScreen);
+        }
+
     }
 
     public class TestablePopupWindowAction : PopupWindowAction

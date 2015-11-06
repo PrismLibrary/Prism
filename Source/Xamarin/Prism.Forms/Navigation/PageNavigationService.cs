@@ -44,6 +44,24 @@ namespace Prism.Navigation
         }
 
         /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="uri"/>.
+        /// </summary>
+        /// <param name="uri">The Uri to navigate to</param>
+        /// <param name="parameters">The navigation parameters</param>
+        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
+        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
+        /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
+        /// <example>
+        /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
+        /// </example>
+        public void Navigate(Uri uri, NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)
+        {
+            var name = UriParsingHelper.GetAbsolutePath(uri).TrimStart('/');
+            var navParameters = GetParametersForUriNavigation(uri, parameters);
+            Navigate(name, navParameters, useModalNavigation, animated);
+        }
+
+        /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="name"/>.
         /// </summary>
         /// <param name="name">The name of the target to navigate to.</param>
@@ -168,6 +186,24 @@ namespace Prism.Navigation
                 return provider.CreatePageForNavigation(sourceView, targetView);
 
             return null;
+        }
+
+        NavigationParameters GetParametersForUriNavigation(Uri uri, NavigationParameters parameters)
+        {
+            var navParameters = UriParsingHelper.ParseQuery(uri);
+
+            if (parameters != null)
+            {
+                foreach (KeyValuePair<string, object> navigationParameter in parameters)
+                {
+                    navParameters.Add(navigationParameter.Key, navigationParameter.Value);
+                }
+            }
+
+            if (navParameters.Count == 0)
+                return null;
+
+            return navParameters;
         }
     }
 }

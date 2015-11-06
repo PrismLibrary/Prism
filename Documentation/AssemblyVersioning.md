@@ -8,23 +8,23 @@ Assembly versioning is an important, and often ignored, aspect of a project.  Th
 ```
 By convention, the four parts of each version are referred to as the **Major** Version, **Minor** Version, **Build**, and **Revision**.
 
-This document decribes how Prism unitilizes each of these attributes to version it's assemblies, and what numbering convention each attribute follows.
+This document decribes how Prism unitilizes each of these attributes to version its assemblies, and what numbering convention each attribute follows.
 
 ## AssemblyVersion
 The **AssemblyVersion** is used by the CLR to bind to strongly named assemblies. It is stored in the AssemblyDef manifest metadata table of the built assembly, and in the AssemblyRef table of any assembly that references it. When you reference a strongly named assembly, which Prism is strongly named, you are tightly bound to that specific AssemblyVersion of that assembly.
 
-For example; assume you referenced version 1.0.0.0 of an assembly and then built and released your application to your users.  Then, an updated version of 1.0.2.0 which fixes a critcial bug became available, and was dropped into the executing folder (possibly GAC) of your application. That binding would fail and your application would crash.  You would have to reference the new 1.0.2.0 version and rebuild and redeploy your application.
+For example; assume you referenced version 1.0.0.0 of an assembly and then built and released your application to your users.  Then, an updated version of 1.0.2.0 which fixes a critical bug became available, and was dropped into the executing folder (possibly GAC) of your application. That binding would fail and your application would crash.  You would have to reference the new 1.0.2.0 version and rebuild and redeploy your application.
 
 To avoid this, Prism has adopted the following format for the **AssemblyVersion**:
 
 **[Major].[Minor]**
 
-We will only update the **AssemblyVerison** when there is a major or minor change in the functionality of the assembly.  We will not update the **AssemblyVersion** when releasing bug fixes and updates.
+We will only update the **AssemblyVersion** when there is a major or minor change in the functionality of the assembly.  We will not update the **AssemblyVersion** when releasing bug fixes and updates.
 
 ## AssemblyFileVersion
-The **AssemblyFileVersion** is intented to uniquely identify the build of an assembly.  When patchs and bug fixes are released, the **AssemblyFileVersion** is incremented to reflect those changes.
+The **AssemblyFileVersion** is intended to uniquely identify the build of an assembly.  When patches and bug fixes are released, the **AssemblyFileVersion** is incremented to reflect those changes.
 
-Prism has standardize on the following format for **AssemblyFileVersion**:
+Prism has standardized on the following format for **AssemblyFileVersion**:
 
 **[Major].[Minor].[Revision]**
 

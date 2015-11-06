@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Prism.Mvvm;
@@ -8,7 +9,7 @@ using Prism.Windows.Navigation;
 namespace Prism.Windows.Mvvm
 {
     /// <summary>
-    /// This is the view model base class that includes INotifyPropertyChange support and is aware of navigation events.
+    /// This is the view model base class that includes <see cref="INotifyPropertyChanged"/> support and is aware of navigation events.
     /// </summary>
     public class ViewModelBase : BindableBase, INavigationAware
     {

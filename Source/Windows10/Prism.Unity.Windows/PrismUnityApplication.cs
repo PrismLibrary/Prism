@@ -1,33 +1,23 @@
 ﻿using System;
 using System.Globalization;
-using System.Threading.Tasks;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Logging;
-using Prism.Mvvm;
 using Prism.Windows;
 using Prism.Windows.AppModel;
 using Prism.Windows.Navigation;
-using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Prism.Unity.Windows
 {
     /// <summary>
-    /// Provides the base class for the Windows Store Application object which
+    /// Provides the base class for the Universal Windows Platform application object which
     /// includes the automatic creation and wiring of the Unity container and 
     /// the bootstrapping process for Prism services in the container.
     /// </summary>
     public abstract class PrismUnityApplication : PrismApplication, IDisposable
     {
-        #region Constructor
-        protected PrismUnityApplication()
-        {
-        }
-        #endregion
-
         #region Properties
         /// <summary>
         /// Allow strongly typed access to the Application as a global
@@ -108,7 +98,7 @@ namespace Prism.Unity.Windows
         /// </summary>
         protected override void ConfigureServiceLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => this.Container.Resolve<IServiceLocator>());
+            ServiceLocator.SetLocatorProvider(() => Container.Resolve<IServiceLocator>());
         }
 
         /// <summary>
@@ -140,7 +130,7 @@ namespace Prism.Unity.Windows
         protected override IDeviceGestureService OnCreateDeviceGestureService()
         {
             var svc = Container.Resolve<IDeviceGestureService>();
-            svc.EnableTitleBarBackButton(Container.Resolve<IEventAggregator>());
+            svc.UseTitleBarBackButton = true;
             return svc;
         }
 
@@ -163,11 +153,11 @@ namespace Prism.Unity.Windows
         {
             if (fromType == null)
             {
-                throw new ArgumentNullException("fromType");
+                throw new ArgumentNullException(nameof(fromType));
             }
             if (toType == null)
             {
-                throw new ArgumentNullException("toType");
+                throw new ArgumentNullException(nameof(toType));
             }
             if (Container.IsTypeRegistered(fromType))
             {
@@ -191,6 +181,10 @@ namespace Prism.Unity.Windows
         #endregion
 
         #region IDisposable
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             if (Container != null)
@@ -201,7 +195,5 @@ namespace Prism.Unity.Windows
             GC.SuppressFinalize(this);
         }
         #endregion
-
-
     }
 }

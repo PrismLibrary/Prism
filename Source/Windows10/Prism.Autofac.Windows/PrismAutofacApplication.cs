@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Globalization;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Autofac;
 using Autofac.Features.ResolveAnything;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Events;
 using Prism.Logging;
-using Prism.Mvvm;
 using Prism.Windows;
 using Prism.Windows.AppModel;
-using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
-using Windows.UI.Xaml.Controls;
 
 namespace Prism.Autofac.Windows
 {
@@ -24,10 +19,6 @@ namespace Prism.Autofac.Windows
     /// </summary>
     public abstract class PrismAutofacApplication : PrismApplication, IDisposable
     {
-        protected PrismAutofacApplication()
-        {
-        }
-
         /// <summary>
         /// Allow strongly typed access to the Application as a global
         /// </summary>
@@ -42,7 +33,7 @@ namespace Prism.Autofac.Windows
         /// Implements and seals the Resolves method to be handled by the Autofac Container.
         /// Use the container to resolve types (e.g. ViewModels and Flyouts) so their dependencies get injected
         /// </summary>
-        /// <param name="type">The type.</param
+        /// <param name="type">The type.</param>
         /// <returns>A concrete instance of the specified type.</returns>
         protected override sealed object Resolve(Type type)
         {
@@ -101,7 +92,7 @@ namespace Prism.Autofac.Windows
         protected override IDeviceGestureService OnCreateDeviceGestureService()
         {
             var svc = Container.Resolve<IDeviceGestureService>();
-            svc.EnableTitleBarBackButton(Container.Resolve<IEventAggregator>());
+            svc.UseTitleBarBackButton = true;
             return svc;
         }
 
@@ -262,6 +253,10 @@ namespace Prism.Autofac.Windows
         }
 
         #region IDisposable
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             if (Container != null)

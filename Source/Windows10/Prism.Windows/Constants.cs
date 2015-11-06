@@ -5,7 +5,6 @@ namespace Prism.Windows
     /// </summary>
     internal sealed class Constants
     {
-        private Constants(){}
         public const string InfrastructureResourceMapId = "/Prism.Windows/Resources/";
         public const string SessionStateFileName = "_sessionState.xml";
     }

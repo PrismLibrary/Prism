@@ -18,14 +18,15 @@ namespace Prism.Windows.AppModel
     public class DeviceGestureService : IDeviceGestureService, IDisposable
     {
         private SubscriptionToken _navigationStateChangedEventToken;
-        private WeakReference<NavigationStateChangedEvent> _navigationStateChangedEventWeakRef;
-        private bool _useTitleBarBackButton = false;
+        private IEventAggregator _eventAggregator;
 
         /// <summary>
         /// 
         /// </summary>
-        public DeviceGestureService()
+        public DeviceGestureService(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
+            SubscribeToNavigationStateChanges();
             IsHardwareBackButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed");
             IsHardwareCameraButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "CameraPressed");
 
@@ -60,6 +61,8 @@ namespace Prism.Windows.AppModel
         public bool IsKeyboardPresent { get; private set; }
         public bool IsMousePresent { get; private set; }
         public bool IsTouchPresent { get; private set; }
+        public bool UseTitleBarBackButton { get; set; }
+
 
         /// <summary>
         /// The handlers attached to GoBackRequested are invoked in reverse order
@@ -78,29 +81,8 @@ namespace Prism.Windows.AppModel
         public event EventHandler<MouseEventArgs> MouseMoved;
 
         /// <summary>
-        /// Enables automatic handling of the title bar back button.
+        /// Dispose implementation - unsubscribes from nav state changes
         /// </summary>
-        /// <param name="eventAggregator">The event aggregator that is publishing the Prism framework's NavigationStateChangedEvents</param>
-        public void EnableTitleBarBackButton(IEventAggregator eventAggregator)
-        {
-            if (eventAggregator == null)
-            {
-                throw new ArgumentNullException("eventAggregator", "An event aggregator that publishes NavigationstateChangedEvents is required to enable automatic title bar back button handling.");
-            }
-
-            SubscribeToNavigationStateChanges(eventAggregator);
-            _useTitleBarBackButton = true;
-        }
-
-        /// <summary>
-        /// Disables automatic handling of the window chrome back buton.
-        /// </summary>
-        public void DisableTitleBarBackButton()
-        {
-            _useTitleBarBackButton = false;
-            UnsubscribeFromNavigationStateChanges();
-        }
-
         public void Dispose()
         {
             UnsubscribeFromNavigationStateChanges();
@@ -302,25 +284,20 @@ namespace Prism.Windows.AppModel
             RaiseEvent<DeviceGestureEventArgs>(CameraButtonReleased, this, new DeviceGestureEventArgs(false, true));
         }
 
-        private void SubscribeToNavigationStateChanges(IEventAggregator eventAggregator)
+        private void SubscribeToNavigationStateChanges()
         {
-            var navigationStateChangedEvent = eventAggregator.GetEvent<NavigationStateChangedEvent>();
+            var navigationStateChangedEvent = _eventAggregator.GetEvent<NavigationStateChangedEvent>();
             _navigationStateChangedEventToken = navigationStateChangedEvent.Subscribe(OnNavigationStateChanged);
-            _navigationStateChangedEventWeakRef = new WeakReference<NavigationStateChangedEvent>(navigationStateChangedEvent);
         }
 
         private void UnsubscribeFromNavigationStateChanges()
         {
-            NavigationStateChangedEvent navigationStateChangedEvent = null;
-            if (_navigationStateChangedEventWeakRef != null && _navigationStateChangedEventWeakRef.TryGetTarget(out navigationStateChangedEvent))
-            {
-                navigationStateChangedEvent.Unsubscribe(_navigationStateChangedEventToken);
-            }
+            _eventAggregator.GetEvent<NavigationStateChangedEvent>().Unsubscribe(_navigationStateChangedEventToken);
         }
 
         private void OnNavigationStateChanged(NavigationStateChangedEventArgs e)
         {
-            if (_useTitleBarBackButton && e.Sender != null)
+            if (UseTitleBarBackButton && e.Sender != null)
             {
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                     e.Sender.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;

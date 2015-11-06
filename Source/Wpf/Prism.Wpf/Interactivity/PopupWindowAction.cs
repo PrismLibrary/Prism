@@ -45,6 +45,16 @@ namespace Prism.Interactivity
                 new PropertyMetadata(null));
 
         /// <summary>
+        /// If set, applies this WindowStartupLocation to the child window.
+        /// </summary>
+        public static readonly DependencyProperty WindowStartupLocationProperty =
+            DependencyProperty.Register(
+                "WindowStartupLocation",
+                typeof(WindowStartupLocation?),
+                typeof(PopupWindowAction),
+                new PropertyMetadata(null));
+
+        /// <summary>
         /// If set, applies this Style to the child window.
         /// </summary>
         public static readonly DependencyProperty WindowStyleProperty =
@@ -79,6 +89,15 @@ namespace Prism.Interactivity
         {
             get { return (bool)GetValue(CenterOverAssociatedObjectProperty); }
             set { SetValue(CenterOverAssociatedObjectProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the startup location of the Window.
+        /// </summary>
+        public WindowStartupLocation? WindowStartupLocation
+        {
+            get { return (WindowStartupLocation?)GetValue(WindowStartupLocationProperty); }
+            set { SetValue(WindowStartupLocationProperty, value); }
         }
 
         /// <summary>
@@ -135,8 +154,17 @@ namespace Prism.Interactivity
                         FrameworkElement view = this.AssociatedObject;
                         Point position = view.PointToScreen(new Point(0, 0));
 
-                        wrapperWindow.Top = position.Y + ((view.ActualHeight - wrapperWindow.ActualHeight) / 2);
-                        wrapperWindow.Left = position.X + ((view.ActualWidth - wrapperWindow.ActualWidth) / 2);
+                        PresentationSource source = PresentationSource.FromVisual(view);
+                        position = source.CompositionTarget.TransformFromDevice.Transform(position);
+
+                        double x = position.X + ((view.ActualWidth - wrapperWindow.ActualWidth) / 2);
+                        double y = position.Y + ((view.ActualHeight - wrapperWindow.ActualHeight) / 2);
+
+                        x = Math.Max(0, Math.Min(x, SystemParameters.WorkArea.Right - wrapperWindow.ActualWidth));
+                        y = Math.Max(0, Math.Min(y, SystemParameters.WorkArea.Bottom - wrapperWindow.ActualHeight));
+
+                        wrapperWindow.Left = x;
+                        wrapperWindow.Top = y;
                     };
                 wrapperWindow.SizeChanged += sizeHandler;
             }
@@ -178,9 +206,15 @@ namespace Prism.Interactivity
                 wrapperWindow = this.CreateDefaultWindow(notification);
             }
 
+            wrapperWindow.Owner = Window.GetWindow(this);
+
             // If the user provided a Style for a Window we set it as the window's style.
             if (WindowStyle != null)
                 wrapperWindow.Style = WindowStyle;
+
+            // If the user has provided a startup location for a Window we set it as the window's startup location.
+            if (WindowStartupLocation.HasValue)
+                wrapperWindow.WindowStartupLocation = WindowStartupLocation.Value;
 
             return wrapperWindow;
         }

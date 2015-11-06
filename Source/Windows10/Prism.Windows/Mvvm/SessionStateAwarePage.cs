@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Prism.Commands;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Prism.Windows.AppModel;
 using Prism.Windows.Navigation;
 
 namespace Prism.Windows.Mvvm
@@ -30,24 +28,24 @@ namespace Prism.Windows.Mvvm
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
-        /// <param name="e">Event data that describes how this page was reached. The Parameter
+        /// <param name="navigationEventArgs">Event data that describes how this page was reached. The Parameter
         /// property provides the group to be displayed.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs navigationEventArgs)
         {
-            if (e == null) throw new ArgumentNullException("e");
+            if (navigationEventArgs == null) throw new ArgumentNullException(nameof(navigationEventArgs));
 
             // Returning to a cached page through navigation shouldn't trigger state loading
-            if (this._pageKey != null) return;
+            if (_pageKey != null) return;
 
-            var frameFacade = new FrameFacadeAdapter(this.Frame);
+            var frameFacade = new FrameFacadeAdapter(Frame);
             var frameState = GetSessionStateForFrame(frameFacade);
-            this._pageKey = "Page-" + frameFacade.BackStackDepth;
+            _pageKey = "Page-" + frameFacade.BackStackDepth;
 
-            if (e.NavigationMode == NavigationMode.New)
+            if (navigationEventArgs.NavigationMode == NavigationMode.New)
             {
                 // Clear existing state for forward navigation when adding a new page to the
                 // navigation stack
-                var nextPageKey = this._pageKey;
+                var nextPageKey = _pageKey;
                 int nextPageIndex = frameFacade.BackStackDepth;
                 while (frameState.Remove(nextPageKey))
                 {
@@ -56,14 +54,14 @@ namespace Prism.Windows.Mvvm
                 }
 
                 // Pass the navigation parameter to the new page
-                this.LoadState(e.Parameter, null);
+                LoadState(navigationEventArgs.Parameter, null);
             }
             else
             {
                 // Pass the navigation parameter and preserved page state to the page, using
                 // the same strategy for loading suspended state and recreating pages discarded
                 // from cache
-                this.LoadState(e.Parameter, (Dictionary<String, Object>)frameState[this._pageKey]);
+                LoadState(navigationEventArgs.Parameter, (Dictionary<String, Object>)frameState[_pageKey]);
             }
         }
 

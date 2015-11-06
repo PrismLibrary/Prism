@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
@@ -19,7 +17,6 @@ namespace Prism.Unity.Windows
         /// </summary>
         /// <param name="unityContainer">The <see cref="IUnityContainer"/> that will be used
         /// by the <see cref="DoGetInstance"/> and <see cref="DoGetAllInstances"/> methods.</param>
-        [CLSCompliant(false)]
         public UnityServiceLocatorAdapter(IUnityContainer unityContainer)
         {
             _unityContainer = unityContainer;

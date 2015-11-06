@@ -46,6 +46,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Common\UriParsingHelperFixture.cs" />
     <Compile Include="Mocks\PageDialogServiceMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PageDialogServiceFixture.cs" />

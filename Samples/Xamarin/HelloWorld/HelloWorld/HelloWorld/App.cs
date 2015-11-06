@@ -12,7 +12,7 @@ namespace HelloWorld
         public App()
         {
             Bootstrapper bs = new Bootstrapper();
-            bs.Run(this);            
+            bs.Run(this);
         }
 
         protected override void OnStart()

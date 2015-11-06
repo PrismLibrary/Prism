@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Prism.Windows.Navigation
 {
@@ -13,7 +9,7 @@ namespace Prism.Windows.Navigation
 
     public class NavigationStateChangedEventArgs
     {
-        private WeakReference<IFrameFacade> _frameFacadeWeakRef;
+        private readonly WeakReference<IFrameFacade> _frameFacadeWeakRef;
 
         /// <summary>
         /// Creates a new NavigationStateChangedEventArgs instance given the frame the event pertains to and the change that occurred.

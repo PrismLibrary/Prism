@@ -173,6 +173,9 @@ ClientBin/
 *.publishsettings
 node_modules/
 
+# Allow demo temporary keys
+!*_TemporaryKey.pfx
+
 # RIA/Silverlight projects
 Generated_Code/
 
