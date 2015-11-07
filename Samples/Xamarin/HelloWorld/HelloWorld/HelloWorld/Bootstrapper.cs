@@ -19,8 +19,9 @@ namespace HelloWorld
 
         protected override void RegisterTypes()
         {
-            Container.RegisterTypeForNavigation<ViewB>();
             Container.RegisterTypeForNavigation<ViewA>();
+            Container.RegisterTypeForNavigation<ViewB>();
+            Container.RegisterTypeForNavigation<ViewC>();
         }
     }
 }

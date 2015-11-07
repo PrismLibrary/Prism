@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Events\NavigationUriReceivedEvent.cs" />
     <Compile Include="Interfaces\IMessageService.cs" />
     <Compile Include="ViewANavigationPageProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,6 +51,9 @@
     </Compile>
     <Compile Include="Views\ViewB.xaml.cs">
       <DependentUpon>ViewB.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewC.xaml.cs">
+      <DependentUpon>ViewC.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +109,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\ViewA.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\ViewC.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

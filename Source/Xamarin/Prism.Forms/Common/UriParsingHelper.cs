@@ -34,9 +34,44 @@ namespace Prism.Common
         /// Parses the query of <paramref name="uri"/> into a dictionary.
         /// </summary>
         /// <param name="uri">The URI.</param>
-        public static NavigationParameters ParseQuery(Uri uri)
+        public static NavigationParameters GetParametersFromUri(Uri uri)
         {
             var query = GetQuery(uri);
+
+            return new NavigationParameters(query);
+        }
+
+        public static Queue<string> GetSegmentStack(Uri uri)
+        {
+            Queue<string> segmentStack = new Queue<string>();
+
+            var segments = uri.PathAndQuery.Split('/');
+
+            for (int i = 0; i < segments.Length; i++)
+            {
+                var s = segments[i];
+                if (string.IsNullOrEmpty(s))
+                    continue;
+
+                s = Uri.UnescapeDataString(s);
+                segmentStack.Enqueue(s);
+            }
+
+            return segmentStack;
+        }
+
+        public static string GetSegmentName(string segment)
+        {
+            return segment.Split('?')[0];
+        }
+
+        public static NavigationParameters GetSegmentParameters(string segment)
+        {
+            string query = string.Empty;
+
+            var indexOfQuery = segment.IndexOf('?');
+            if (indexOfQuery > 0)
+                query = segment.Substring(indexOfQuery);
 
             return new NavigationParameters(query);
         }

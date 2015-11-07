@@ -5,6 +5,8 @@ using Xamarin.Forms;
 using Prism.Common;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Prism.Navigation
 {
@@ -56,10 +58,90 @@ namespace Prism.Navigation
         /// </example>
         public void Navigate(Uri uri, NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)
         {
-            var name = UriParsingHelper.GetAbsolutePath(uri).TrimStart('/');
-            var navParameters = GetParametersForUriNavigation(uri, parameters);
-            Navigate(name, navParameters, useModalNavigation, animated);
+            var deepLinkSegments = UriParsingHelper.GetSegmentStack(uri);
+
+            if (deepLinkSegments.Count > 1)
+            {
+                var currentNavigation = GetPageNavigation();
+                var rootPage = currentNavigation.ModalStack.Last();
+
+                HandleDeepLinkNavigation(rootPage, deepLinkSegments);
+            }
+            else
+            {
+                var name = UriParsingHelper.GetAbsolutePath(uri).TrimStart('/');
+                var navParameters = GetParametersForUriNavigation(uri, parameters);
+                Navigate(name, navParameters, useModalNavigation, animated);
+            }
         }
+
+        private static void HandleDeepLinkNavigation(Page currentPage, Queue<string> segments)
+        {
+            if (segments.Count == 0)
+                return;
+
+            var nextSegment = segments.Dequeue();
+
+            var nextSegmentName = UriParsingHelper.GetSegmentName(nextSegment);
+
+            var targetView = ServiceLocator.Current.GetInstance<object>(nextSegmentName) as Page;
+            if (targetView != null)
+            {
+                Page pageFromProvider = GetPageFromProvider(currentPage, targetView);
+
+                HandleDeepLinkNavigation(pageFromProvider, segments);
+
+                if (pageFromProvider is ContentPage)
+                {
+                    
+                }
+                if (pageFromProvider is NavigationPage)
+                {
+                    
+                }
+                if (pageFromProvider is TabbedPage)
+                {
+                    
+                }
+                if (pageFromProvider is CarouselPage)
+                {
+                    
+                }
+                if (pageFromProvider is MasterDetailPage)
+                {
+                    
+                }
+
+                bool useModalNavigation = GetDeepLinkNavigationMode(pageFromProvider) == NavigationMode.Modal;
+
+                var nextSegmentPrameters = UriParsingHelper.GetSegmentParameters(nextSegment);
+
+                //Should we call OnNavigatedFrom during a deep link?
+                //OnNavigatedFrom(targetView, nextSegmentPrameters); 
+
+                DoPush(currentPage.Navigation, pageFromProvider, useModalNavigation, false);
+
+                OnNavigatedTo(targetView, nextSegmentPrameters);
+            }
+            else
+            {
+                HandleDeepLinkNavigation(currentPage, segments);
+            }
+        }
+
+        private static NavigationMode GetDeepLinkNavigationMode(Page page)
+        {
+            var deepLinkNavigationMode = NavigationMode.Modal;
+
+            var deepLinkInfo = page.GetType().GetTypeInfo().GetCustomAttribute<NavigationDeepLinkAttribute>();
+            if (deepLinkInfo != null)
+            {
+                deepLinkNavigationMode = deepLinkInfo.NavigationMode;
+            }
+
+            return deepLinkNavigationMode;
+        }
+
 
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="name"/>.
@@ -78,11 +160,11 @@ namespace Prism.Navigation
                 if (!CanNavigate(_page, parameters))
                     return;
 
-                Page navigationPageFromProvider = GetNavigationPageFromProvider(_page, targetView);
+                Page navigationPageFromProvider = GetPageFromProvider(_page, targetView);
 
                 OnNavigatedFrom(_page, parameters);
 
-                DoPush(navigation, (navigationPageFromProvider != null ? navigationPageFromProvider : targetView), useModalNavigation, animated);
+                DoPush(navigation, navigationPageFromProvider, useModalNavigation, animated);
 
                 OnNavigatedTo(targetView, parameters);
             }
@@ -158,8 +240,8 @@ namespace Prism.Navigation
         }
 
         static Dictionary<Type, INavigationPageProvider> _navigationProviderCache = new Dictionary<Type, INavigationPageProvider>();
-        
-        private Page GetNavigationPageFromProvider(Page sourceView, Page targetView)
+
+        private static Page GetPageFromProvider(Page sourceView, Page targetView)
         {
             INavigationPageProvider provider = null;
             Type viewType = targetView.GetType();
@@ -185,12 +267,13 @@ namespace Prism.Navigation
             if (provider != null)
                 return provider.CreatePageForNavigation(sourceView, targetView);
 
-            return null;
+            // if no provider found return the targetView
+            return targetView;
         }
 
         NavigationParameters GetParametersForUriNavigation(Uri uri, NavigationParameters parameters)
         {
-            var navParameters = UriParsingHelper.ParseQuery(uri);
+            var navParameters = UriParsingHelper.GetParametersFromUri(uri);
 
             if (parameters != null)
             {

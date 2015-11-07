@@ -10,9 +10,9 @@ using Xamarin.Forms;
 namespace HelloWorld.Views
 {
     [NavigationDeepLink(NavigationMode.Push)]
-    public partial class ViewB : ContentPage
+    public partial class ViewC : ContentPage
     {
-        public ViewB()
+        public ViewC()
         {
             InitializeComponent();
         }
