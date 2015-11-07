@@ -23,8 +23,11 @@ namespace HelloWorld.Droid
             LoadApplication(new App());
 
             IEventAggregator ea = ServiceLocator.Current.GetInstance<IEventAggregator>();
-            //ea.GetEvent<NavigationUriReceivedEvent>().Publish("android-app://HelloWorld/ViewA?viewName=ViewA&id=1/ViewB?viewName=ViewB&id=2/ViewC?message=DeepLink&id=3");
+            //ea.GetEvent<NavigationUriReceivedEvent>().Publish("android-app://HelloWorld/MyNavigationPage/ViewA?viewName=ViewA&id=1/ViewB?viewName=ViewB&id=2/ViewC?message=DeepLink&id=3");
+            //ea.GetEvent<NavigationUriReceivedEvent>().Publish("android-app://HelloWorld/MyNavigationPage/ViewB/ViewC");
             //ea.GetEvent<NavigationUriReceivedEvent>().Publish("android-app://HelloWorld/ViewA/ViewB/ViewC");
+
+            ea.GetEvent<NavigationUriReceivedEvent>().Publish("android-app://HelloWorld/MyTabbedPage/ViewB/ViewC");
         }
     }
 }

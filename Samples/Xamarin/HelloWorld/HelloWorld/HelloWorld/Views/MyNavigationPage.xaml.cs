@@ -1,5 +1,4 @@
-﻿using Prism.Navigation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +8,9 @@ using Xamarin.Forms;
 
 namespace HelloWorld.Views
 {
-    //[NavigationPageProvider(typeof(ViewANavigationPageProvider))]
-    [NavigationServiceParameters(false)]
-    public partial class ViewA : ContentPage
+    public partial class MyNavigationPage : NavigationPage
     {
-        public ViewA()
+        public MyNavigationPage() : base (new ViewA())
         {
             InitializeComponent();
         }

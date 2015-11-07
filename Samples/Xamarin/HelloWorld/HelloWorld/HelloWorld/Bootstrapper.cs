@@ -19,6 +19,8 @@ namespace HelloWorld
 
         protected override void RegisterTypes()
         {
+            Container.RegisterTypeForNavigation<MyNavigationPage>();
+            Container.RegisterTypeForNavigation<MyTabbedPage>();
             Container.RegisterTypeForNavigation<ViewA>();
             Container.RegisterTypeForNavigation<ViewB>();
             Container.RegisterTypeForNavigation<ViewC>();

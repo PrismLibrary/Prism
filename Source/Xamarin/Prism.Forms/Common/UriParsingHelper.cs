@@ -41,9 +41,33 @@ namespace Prism.Common
             return new NavigationParameters(query);
         }
 
-        public static Queue<string> GetSegmentStack(Uri uri)
+        public static Queue<string> GetSegmentQue(Uri uri)
         {
             Queue<string> segmentStack = new Queue<string>();
+            string[] segments;
+
+            if (!uri.IsAbsoluteUri)
+                segments = EnsureAbsolute(uri).PathAndQuery.Split('/');
+            else
+                segments = uri.PathAndQuery.Split('/');
+
+            for (int i = 0; i < segments.Length; i++)
+            {
+                var s = segments[i];
+                if (string.IsNullOrEmpty(s))
+                    continue;
+
+                s = Uri.UnescapeDataString(s);
+                segmentStack.Enqueue(s);
+            }
+
+
+            return segmentStack;
+        }
+
+        public static Stack<string> GetSegmentStack(Uri uri)
+        {
+            Stack<string> segmentStack = new Stack<string>();
 
             var segments = uri.PathAndQuery.Split('/');
 
@@ -54,7 +78,7 @@ namespace Prism.Common
                     continue;
 
                 s = Uri.UnescapeDataString(s);
-                segmentStack.Enqueue(s);
+                segmentStack.Push(s);
             }
 
             return segmentStack;

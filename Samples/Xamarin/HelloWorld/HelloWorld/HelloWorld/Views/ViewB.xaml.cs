@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace HelloWorld.Views
 {
-    [NavigationDeepLink(NavigationMode.Push)]
+    [NavigationServiceParameters(false)]
     public partial class ViewB : ContentPage
     {
         public ViewB()
