@@ -16,7 +16,7 @@ namespace Prism.Navigation
     public class PageNavigationService : INavigationService, IPageAware
     {
         static Dictionary<Type, INavigationPageProvider> _navigationProviderCache = new Dictionary<Type, INavigationPageProvider>();
-        static Dictionary<Type, NavigationServiceParametersAttribute> _navigationServiceParametersAttributeCache = new Dictionary<Type, NavigationServiceParametersAttribute>();
+        static Dictionary<Type, PageNavigationParametersAttribute> _navigationServiceParametersAttributeCache = new Dictionary<Type, PageNavigationParametersAttribute>();
 
         private Page _page;
         Page IPageAware.Page
@@ -92,25 +92,35 @@ namespace Prism.Navigation
             {
                 Page navigationPageFromProvider = GetPageFromProvider(currentPage, targetPage);
 
-                if (navigationPageFromProvider is ContentPage)
-                {
-                    HandleNavigationForContentPage((ContentPage)navigationPageFromProvider, segments);
-                }
                 if (navigationPageFromProvider is NavigationPage)
                 {
                     HandleNavigationForNavigationPage((NavigationPage)navigationPageFromProvider, segments);
                 }
+                else if (navigationPageFromProvider is TabbedPage || navigationPageFromProvider is CarouselPage)
+                {
+                    HandleNavigationForMultiPage((TabbedPage)navigationPageFromProvider, segments);
+                }
+                else if (navigationPageFromProvider is MasterDetailPage)
+                {
+                    HandleNavigationForMasterDetailPage((NavigationPage)navigationPageFromProvider, segments);
+                }
+                else
+                {
+                    HandleDeepLinkNavigation(navigationPageFromProvider, segments);
+                }
+
 
                 //Should we call OnNavigatedFrom during a deep link?
                 //OnNavigatedFrom(targetView, nextSegmentPrameters);
 
                 bool useModalNavigation = true;
 
-                var navParams = GetNavigationServiceParametersAttribute(targetPage);
+                var navParams = GetNavigationServiceParametersAttribute(targetPage);             
                 if (navParams != null)
                     useModalNavigation = navParams.UseModalNavigation;
 
                 var nextSegmentPrameters = UriParsingHelper.GetSegmentParameters(nextSegment);
+
                 DoPush(currentPage.Navigation, navigationPageFromProvider, useModalNavigation, false);
 
                 OnNavigatedTo(navigationPageFromProvider, nextSegmentPrameters);
@@ -119,6 +129,31 @@ namespace Prism.Navigation
             {
                 HandleDeepLinkNavigation(currentPage, segments);
             }
+        }
+
+        private static void HandleNavigationForMasterDetailPage(NavigationPage targetPage, Queue<string> segments)
+        {
+            //TODO:  implement
+            HandleDeepLinkNavigation(targetPage, segments);
+        }
+
+        private static void HandleNavigationForMultiPage(TabbedPage targetPage, Queue<string> segments)
+        {
+            //var nextSegmentType = PageNavigationRegistry.PageRegistrationCache[segments.Peek()];
+            var nextSegmentType = PageNavigationRegistry.GetPageType(segments.Peek());
+
+            foreach (var child in targetPage.Children)
+            {
+                if (child.GetType() != nextSegmentType)
+                    continue;
+
+                segments.Dequeue();
+                HandleDeepLinkNavigation(child, segments);
+                targetPage.CurrentPage = child;
+                return;
+            }
+
+            HandleDeepLinkNavigation(targetPage, segments);
         }
 
         private static void HandleNavigationForContentPage(ContentPage targetPage, Queue<string> segments)
@@ -240,7 +275,7 @@ namespace Prism.Navigation
             }
             else
             {
-                currentPage = page as Page;                
+                currentPage = page as Page;
             }
 
             if (currentPage != null)
@@ -292,15 +327,15 @@ namespace Prism.Navigation
             return targetView;
         }
 
-        private static NavigationServiceParametersAttribute GetNavigationServiceParametersAttribute(Page page)
+        private static PageNavigationParametersAttribute GetNavigationServiceParametersAttribute(Page page)
         {
-            NavigationServiceParametersAttribute navParams = null;
+            PageNavigationParametersAttribute navParams = null;
             Type pageType = page.GetType();
 
             if (_navigationServiceParametersAttributeCache.ContainsKey(pageType))
                 navParams = _navigationServiceParametersAttributeCache[pageType];
             else
-                navParams = pageType.GetTypeInfo().GetCustomAttribute<NavigationServiceParametersAttribute>();
+                navParams = pageType.GetTypeInfo().GetCustomAttribute<PageNavigationParametersAttribute>();
 
             if (!_navigationServiceParametersAttributeCache.ContainsKey(pageType))
                 _navigationServiceParametersAttributeCache.Add(pageType, navParams);

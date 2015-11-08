@@ -54,6 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Common\PageNavigationRegistry.cs" />
     <Compile Include="Common\UriParsingHelper.cs" />
     <Compile Include="Mvvm\ViewModelLocator.cs" />
     <Compile Include="Navigation\IConfirmNavigation.cs" />
@@ -61,7 +62,7 @@
     <Compile Include="Navigation\INavigationPageProvider.cs" />
     <Compile Include="Navigation\INavigationService.cs" />
     <Compile Include="Common\IPageAware.cs" />
-    <Compile Include="Navigation\NavigationServiceParametersAttribute.cs" />
+    <Compile Include="Navigation\PageNavigationParametersAttribute.cs" />
     <Compile Include="Navigation\NavigationPageProviderAttribute.cs" />
     <Compile Include="Navigation\NavigationParameters.cs" />
     <Compile Include="Navigation\PageNavigationService.cs" />

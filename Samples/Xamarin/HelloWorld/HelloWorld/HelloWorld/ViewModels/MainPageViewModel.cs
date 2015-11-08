@@ -41,9 +41,10 @@ namespace HelloWorld.ViewModels
         {
             var relative = "MyNavigationPage?viewName=ViewA&id=1";
             var http = "http://HelloWorld.com/ViewB?message=DeepLink";
-            var nonHttp = "android-app://HelloWorld/ViewA/ViewB?message=DeepLink";
 
-            var uri = new Uri(relative, UriKind.Relative);
+            var nonHttp = "android-app://HelloWorld/MyTabbedPage?selectedItem=Orangutan/ViewC/ViewA/ViewB/ViewC";
+
+            var uri = new Uri(nonHttp, UriKind.Absolute);
 
             _navigationService.Navigate(uri);
         }

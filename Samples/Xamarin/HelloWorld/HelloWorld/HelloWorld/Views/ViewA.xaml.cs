@@ -9,8 +9,8 @@ using Xamarin.Forms;
 
 namespace HelloWorld.Views
 {
-    //[NavigationPageProvider(typeof(ViewANavigationPageProvider))]
-    [NavigationServiceParameters(false)]
+    [NavigationPageProvider(typeof(ViewANavigationPageProvider))]
+    //[PageNavigationParameters(false)]
     public partial class ViewA : ContentPage
     {
         public ViewA()

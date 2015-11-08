@@ -37,11 +37,13 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Converters\NonNullToBooleanConverter.cs" />
     <Compile Include="Events\NavigationUriReceivedEvent.cs" />
     <Compile Include="Interfaces\IMessageService.cs" />
     <Compile Include="ViewANavigationPageProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\MyTabbedPageViewModel.cs" />
     <Compile Include="ViewModels\ViewAViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

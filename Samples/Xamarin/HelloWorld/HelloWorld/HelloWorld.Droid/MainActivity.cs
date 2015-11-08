@@ -27,7 +27,7 @@ namespace HelloWorld.Droid
             //ea.GetEvent<NavigationUriReceivedEvent>().Publish("android-app://HelloWorld/MyNavigationPage/ViewB/ViewC");
             //ea.GetEvent<NavigationUriReceivedEvent>().Publish("android-app://HelloWorld/ViewA/ViewB/ViewC");
 
-            ea.GetEvent<NavigationUriReceivedEvent>().Publish("android-app://HelloWorld/MyTabbedPage/ViewB/ViewC");
+            //ea.GetEvent<NavigationUriReceivedEvent>().Publish("android-app://HelloWorld/MyTabbedPage?selectedItem=Orangutan");
         }
     }
 }
