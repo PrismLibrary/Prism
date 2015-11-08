@@ -8,10 +8,8 @@ namespace Prism.Common
 {
     public static class PageNavigationRegistry
     {
-        //public static Dictionary<string, Type> PageRegistrationCache = new Dictionary<string, Type>();
-
         static Dictionary<string, PageNavigationInfo> _pageRegistrationCache = new Dictionary<string, PageNavigationInfo>();
-        static Dictionary<Type, INavigationPageProvider> _navigationProviderCache = new Dictionary<Type, INavigationPageProvider>();
+        static Dictionary<Type, IPageNavigationProvider> _navigationProviderCache = new Dictionary<Type, IPageNavigationProvider>();
         static Dictionary<Type, PageNavigationParametersAttribute> _pageNavigationParametersAttributeCache = new Dictionary<Type, PageNavigationParametersAttribute>();
 
         public static void Register(string name, Type pageType)
@@ -19,7 +17,7 @@ namespace Prism.Common
             var info = new PageNavigationInfo();
             info.PageName = name;
             info.PageType = pageType;
-            info.NavigationPageProvider = GetNavigationPageProvider(pageType);
+            info.PageNavigationProvider = GetPageNavigationProvider(pageType);  //TODO: Not sure I want to create the provider now, or wait until it is requested during navigation
             info.PageNavigationParameters = GetPageNavigationParameters(pageType);
 
             _pageRegistrationCache.Add(name, info);
@@ -43,14 +41,34 @@ namespace Prism.Common
             return GetPageNavigationInfo(name)?.PageType;
         }
 
-        public static INavigationPageProvider GetNavigatinPageProvider(string name)
+        public static IPageNavigationProvider GetPageNavigationProvider(string name)
         {
-            return GetPageNavigationInfo(name)?.NavigationPageProvider;
+            return GetPageNavigationInfo(name)?.PageNavigationProvider;
         }
 
-        static INavigationPageProvider GetNavigationPageProvider(Type pageType)
+        static PageNavigationParametersAttribute GetPageNavigationParameters(Type pageType)
         {
-            INavigationPageProvider provider = null;
+            PageNavigationParametersAttribute attribute = null;
+
+            if (_pageNavigationParametersAttributeCache.ContainsKey(pageType))
+                attribute = _pageNavigationParametersAttributeCache[pageType];
+            else
+                attribute = pageType.GetTypeInfo().GetCustomAttribute<PageNavigationParametersAttribute>();
+
+            if (!_pageNavigationParametersAttributeCache.ContainsKey(pageType))
+                _pageNavigationParametersAttributeCache.Add(pageType, attribute);
+
+            return attribute;
+        }
+
+        static PageNavigationProviderAttribute GetNavigationPageProviderAttribute(Type pageType)
+        {
+            return pageType.GetTypeInfo().GetCustomAttribute<PageNavigationProviderAttribute>(true);
+        }
+
+        static IPageNavigationProvider GetPageNavigationProvider(Type pageType)
+        {
+            IPageNavigationProvider provider = null;
 
             if (_navigationProviderCache.ContainsKey(pageType))
             {
@@ -58,12 +76,12 @@ namespace Prism.Common
             }
             else
             {
-                var navigationPageProvider = pageType.GetTypeInfo().GetCustomAttribute<NavigationPageProviderAttribute>(true);
+                var navigationPageProvider = pageType.GetTypeInfo().GetCustomAttribute<PageNavigationProviderAttribute>();
                 if (navigationPageProvider != null)
                 {
-                    provider = ServiceLocator.Current.GetInstance(navigationPageProvider.Type) as INavigationPageProvider;
+                    provider = ServiceLocator.Current.GetInstance(navigationPageProvider.Type) as IPageNavigationProvider;
                     if (provider == null)
-                        throw new InvalidCastException("Could not create the navigation page provider.  Please make sure the navigation page provider implements the INavigationPageProvider interface.");
+                        throw new InvalidCastException("Could not create the navigation page provider.  Please make sure the page navigation provider implements the IPageNavigationProvider interface.");
                 }
             }
 
@@ -72,26 +90,11 @@ namespace Prism.Common
 
             return provider;
         }
-
-        static PageNavigationParametersAttribute GetPageNavigationParameters(Type pageType)
-        {
-            PageNavigationParametersAttribute attributes = null;
-
-            if (_pageNavigationParametersAttributeCache.ContainsKey(pageType))
-                attributes = _pageNavigationParametersAttributeCache[pageType];
-            else
-                attributes = pageType.GetTypeInfo().GetCustomAttribute<PageNavigationParametersAttribute>();
-
-            if (!_pageNavigationParametersAttributeCache.ContainsKey(pageType))
-                _pageNavigationParametersAttributeCache.Add(pageType, attributes);
-
-            return attributes;
-        }
     }
 
     public class PageNavigationInfo
     {
-        public INavigationPageProvider NavigationPageProvider { get; set; }
+        public IPageNavigationProvider PageNavigationProvider { get; set; }
 
         public PageNavigationParametersAttribute PageNavigationParameters { get; set; }
 

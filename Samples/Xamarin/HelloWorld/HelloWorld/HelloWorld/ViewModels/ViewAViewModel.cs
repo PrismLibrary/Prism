@@ -26,7 +26,7 @@ namespace HelloWorld.ViewModels
 
         void Navigate()
         {
-            _navigationService.Navigate("ViewB", useModalNavigation: false);
+            _navigationService.Navigate("ViewB");
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)

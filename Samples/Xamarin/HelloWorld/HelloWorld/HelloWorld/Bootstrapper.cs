@@ -21,6 +21,7 @@ namespace HelloWorld
         {
             Container.RegisterTypeForNavigation<MyNavigationPage>();
             Container.RegisterTypeForNavigation<MyTabbedPage>();
+            Container.RegisterTypeForNavigation<MyMasterDetail>();
             Container.RegisterTypeForNavigation<ViewA>();
             Container.RegisterTypeForNavigation<ViewB>();
             Container.RegisterTypeForNavigation<ViewC>();

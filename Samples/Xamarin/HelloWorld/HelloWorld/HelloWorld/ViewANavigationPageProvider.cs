@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace HelloWorld
 {
-    public class ViewANavigationPageProvider : INavigationPageProvider
+    public class ViewANavigationPageProvider : IPageNavigationProvider
     {
         public Page CreatePageForNavigation(Page sourcePage, Page targetPage)
         {

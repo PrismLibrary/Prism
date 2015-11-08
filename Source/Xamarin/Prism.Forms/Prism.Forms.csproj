@@ -63,7 +63,7 @@
     <Compile Include="Navigation\INavigationService.cs" />
     <Compile Include="Common\IPageAware.cs" />
     <Compile Include="Navigation\PageNavigationParametersAttribute.cs" />
-    <Compile Include="Navigation\NavigationPageProviderAttribute.cs" />
+    <Compile Include="Navigation\PageNavigationProviderAttribute.cs" />
     <Compile Include="Navigation\NavigationParameters.cs" />
     <Compile Include="Navigation\PageNavigationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
