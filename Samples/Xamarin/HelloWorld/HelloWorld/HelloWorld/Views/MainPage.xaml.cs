@@ -14,5 +14,20 @@ namespace HelloWorld.Views
         {
             InitializeComponent();
         }
+
+        void Button_Clicked(object sender, EventArgs e)
+        {
+            //a navigation deep link can't be added without showing the transitions to the pages
+            var p1 = new ViewA();
+            var p2 = new ViewB();
+            var p3 = new ViewC();
+            var p4 = new MyTabbedPage();
+
+            p1.Navigation.PushModalAsync(p2, false);
+            p2.Navigation.PushModalAsync(p3, false);
+            p3.Navigation.PushModalAsync(p4, false);
+
+            Navigation.PushModalAsync(p1, false);
+        }
     }
 }

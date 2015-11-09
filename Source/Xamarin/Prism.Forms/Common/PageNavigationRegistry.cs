@@ -10,15 +10,14 @@ namespace Prism.Common
     {
         static Dictionary<string, PageNavigationInfo> _pageRegistrationCache = new Dictionary<string, PageNavigationInfo>();
         static Dictionary<Type, IPageNavigationProvider> _navigationProviderCache = new Dictionary<Type, IPageNavigationProvider>();
-        static Dictionary<Type, PageNavigationParametersAttribute> _pageNavigationParametersAttributeCache = new Dictionary<Type, PageNavigationParametersAttribute>();
+        static Dictionary<Type, PageNavigationOptionsAttribute> _pageNavigationOptionsAttributeCache = new Dictionary<Type, PageNavigationOptionsAttribute>();
 
         public static void Register(string name, Type pageType)
         {
             var info = new PageNavigationInfo();
-            info.PageName = name;
-            info.PageType = pageType;
-            info.PageNavigationProvider = GetPageNavigationProvider(pageType);  //TODO: Not sure I want to create the provider now, or wait until it is requested during navigation
-            info.PageNavigationParameters = GetPageNavigationParameters(pageType);
+            info.Name = name;
+            info.Type = pageType;
+            info.NavigationOptions = GetPageNavigationOptions(pageType);
 
             _pageRegistrationCache.Add(name, info);
         }
@@ -31,75 +30,65 @@ namespace Prism.Common
             return null;
         }
 
-        public static PageNavigationParametersAttribute GetPageNavigationParameters(string name)
+        public static PageNavigationOptionsAttribute GetPageNavigationOptions(string name)
         {
-            return GetPageNavigationInfo(name)?.PageNavigationParameters;
+            return GetPageNavigationInfo(name)?.NavigationOptions;
         }
 
         public static Type GetPageType(string name)
         {
-            return GetPageNavigationInfo(name)?.PageType;
+            return GetPageNavigationInfo(name)?.Type;
         }
 
         public static IPageNavigationProvider GetPageNavigationProvider(string name)
         {
-            return GetPageNavigationInfo(name)?.PageNavigationProvider;
-        }
-
-        static PageNavigationParametersAttribute GetPageNavigationParameters(Type pageType)
-        {
-            PageNavigationParametersAttribute attribute = null;
-
-            if (_pageNavigationParametersAttributeCache.ContainsKey(pageType))
-                attribute = _pageNavigationParametersAttributeCache[pageType];
-            else
-                attribute = pageType.GetTypeInfo().GetCustomAttribute<PageNavigationParametersAttribute>();
-
-            if (!_pageNavigationParametersAttributeCache.ContainsKey(pageType))
-                _pageNavigationParametersAttributeCache.Add(pageType, attribute);
-
-            return attribute;
-        }
-
-        static PageNavigationProviderAttribute GetNavigationPageProviderAttribute(Type pageType)
-        {
-            return pageType.GetTypeInfo().GetCustomAttribute<PageNavigationProviderAttribute>(true);
-        }
-
-        static IPageNavigationProvider GetPageNavigationProvider(Type pageType)
-        {
             IPageNavigationProvider provider = null;
 
-            if (_navigationProviderCache.ContainsKey(pageType))
+            var info = GetPageNavigationInfo(name);
+
+            if (_navigationProviderCache.ContainsKey(info.Type))
             {
-                provider = _navigationProviderCache[pageType];
+                provider = _navigationProviderCache[info.Type];
             }
             else
             {
-                var navigationPageProvider = pageType.GetTypeInfo().GetCustomAttribute<PageNavigationProviderAttribute>();
-                if (navigationPageProvider != null)
+                var navigationPageProviderType = info.NavigationOptions?.PageNavigationProviderType;
+                if (navigationPageProviderType != null)
                 {
-                    provider = ServiceLocator.Current.GetInstance(navigationPageProvider.Type) as IPageNavigationProvider;
+                    provider = ServiceLocator.Current.GetInstance(navigationPageProviderType) as IPageNavigationProvider;
                     if (provider == null)
-                        throw new InvalidCastException("Could not create the navigation page provider.  Please make sure the page navigation provider implements the IPageNavigationProvider interface.");
+                        throw new InvalidCastException("Could not create the page navigation provider.  Please make sure the page navigation provider implements the IPageNavigationProvider interface.");
                 }
             }
 
-            if (!_navigationProviderCache.ContainsKey(pageType))
-                _navigationProviderCache.Add(pageType, provider);
+            if (!_navigationProviderCache.ContainsKey(info.Type))
+                _navigationProviderCache.Add(info.Type, provider);
 
             return provider;
+        }
+
+        static PageNavigationOptionsAttribute GetPageNavigationOptions(Type pageType)
+        {
+            PageNavigationOptionsAttribute attribute = null;
+
+            if (_pageNavigationOptionsAttributeCache.ContainsKey(pageType))
+                attribute = _pageNavigationOptionsAttributeCache[pageType];
+            else
+                attribute = pageType.GetTypeInfo().GetCustomAttribute<PageNavigationOptionsAttribute>();
+
+            if (!_pageNavigationOptionsAttributeCache.ContainsKey(pageType))
+                _pageNavigationOptionsAttributeCache.Add(pageType, attribute);
+
+            return attribute;
         }
     }
 
     public class PageNavigationInfo
     {
-        public IPageNavigationProvider PageNavigationProvider { get; set; }
+        public PageNavigationOptionsAttribute NavigationOptions { get; set; }
 
-        public PageNavigationParametersAttribute PageNavigationParameters { get; set; }
+        public string Name { get; set; }
 
-        public string PageName { get; set; }
-
-        public Type PageType { get; set; }
+        public Type Type { get; set; }
     }
 }

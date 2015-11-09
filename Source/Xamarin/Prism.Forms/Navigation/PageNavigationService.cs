@@ -3,7 +3,6 @@ using System.Diagnostics;
 using Microsoft.Practices.ServiceLocation;
 using Xamarin.Forms;
 using Prism.Common;
-using System.Reflection;
 using System.Collections.Generic;
 
 namespace Prism.Navigation
@@ -13,8 +12,6 @@ namespace Prism.Navigation
     /// </summary>
     public class PageNavigationService : INavigationService, IPageAware
     {
-        //static Dictionary<Type, IPageNavigationProvider> _navigationProviderCache = new Dictionary<Type, IPageNavigationProvider>();
-
         private Page _page;
         Page IPageAware.Page
         {
@@ -148,17 +145,20 @@ namespace Prism.Navigation
 
         static void ProcessNavigationForMultiPage(TabbedPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
         {
-            var nextSegmentType = PageNavigationRegistry.GetPageType(segments.Peek());
-
-            foreach (var child in targetPage.Children)
+            if (segments.Count > 0) // we have a next page
             {
-                if (child.GetType() != nextSegmentType)
-                    continue;
+                var nextSegmentType = PageNavigationRegistry.GetPageType(segments.Peek());
 
-                segments.Dequeue();
-                ProcessNavigationSegments(child, segments, parameters, useModalNavigation, animated);
-                targetPage.CurrentPage = child;
-                return;
+                foreach (var child in targetPage.Children)
+                {
+                    if (child.GetType() != nextSegmentType)
+                        continue;
+
+                    segments.Dequeue();
+                    ProcessNavigationSegments(child, segments, parameters, useModalNavigation, animated);
+                    targetPage.CurrentPage = child;
+                    return;
+                }
             }
 
             ProcessNavigationSegments(targetPage, segments, parameters, useModalNavigation, animated);
@@ -175,12 +175,15 @@ namespace Prism.Navigation
                 return;
             }
 
-            var nextSegmentType = PageNavigationRegistry.GetPageType(segments.Peek());
-            if (detail.GetType() == nextSegmentType)
+            if (segments.Count > 0) // we have a next page
             {
-                segments.Dequeue();
-                ProcessNavigationSegments(detail, segments, parameters, useModalNavigation, animated);
-                return;
+                var nextSegmentType = PageNavigationRegistry.GetPageType(segments.Peek());
+                if (detail.GetType() == nextSegmentType)
+                {
+                    segments.Dequeue();
+                    ProcessNavigationSegments(detail, segments, parameters, useModalNavigation, animated);
+                    return;
+                }
             }
 
             ProcessNavigationSegments(targetPage, segments, parameters, useModalNavigation, animated);
@@ -214,7 +217,7 @@ namespace Prism.Navigation
         {
             bool useModalNavigation = useModalNavigationDefault;
 
-            var navParams = PageNavigationRegistry.GetPageNavigationParameters(name);
+            var navParams = PageNavigationRegistry.GetPageNavigationOptions(name);
             if (navParams != null)
                 useModalNavigation = navParams.UseModalNavigation;
 
@@ -225,7 +228,7 @@ namespace Prism.Navigation
         {
             bool animate = animateDefault;
 
-            var navParams = PageNavigationRegistry.GetPageNavigationParameters(name);
+            var navParams = PageNavigationRegistry.GetPageNavigationOptions(name);
             if (navParams != null)
                 animate = navParams.Animated;
 

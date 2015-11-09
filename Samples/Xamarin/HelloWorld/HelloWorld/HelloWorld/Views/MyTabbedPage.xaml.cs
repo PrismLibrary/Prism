@@ -15,9 +15,9 @@ namespace HelloWorld.Views
         {
             InitializeComponent();
 
-            Children.Add(new ViewA());
-            Children.Add(new ViewB());
-            Children.Add(new ViewC());
+            //Children.Add(new ViewA());
+            //Children.Add(new ViewB());
+            //Children.Add(new ViewC());
         }
     }
 }
