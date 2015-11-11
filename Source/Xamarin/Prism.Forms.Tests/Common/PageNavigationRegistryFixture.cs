@@ -3,17 +3,19 @@ using Prism.Common;
 using Prism.Forms.Tests.Mocks;
 using Prism.Forms.Tests.Mocks.Views;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Prism.Forms.Tests.Common
 {
-    public class PageNavigationRegistryFixture
+    [Collection("ServiceLocator")]
+    public class PageNavigationRegistryFixture : IDisposable
     {
+        public PageNavigationRegistryFixture()
+        {
+            ServiceLocator.SetLocatorProvider(null);
+        }
+
         [Fact]
         public void RegisterPageForNavigation()
         {
@@ -105,45 +107,59 @@ namespace Prism.Forms.Tests.Common
         [Fact]
         public void GetPageNavigationProvider()
         {
-            ResetPageNavigationRegistry();
+            try
+            {
+                ResetPageNavigationRegistry();
 
-            var serviceLocator = new MockServiceLocator(() => new PageNavigationProviderMock());
-            ServiceLocator.SetLocatorProvider(() => serviceLocator);
+                var serviceLocator = new ServiceLocatorMock(() => new PageNavigationProviderMock());
+                ServiceLocator.SetLocatorProvider(() => serviceLocator);
 
-            var name = "MainPage";
-            var type = typeof(PageWithNavigationProviderMock);
-            PageNavigationRegistry.Register(name, type);
+                var name = "MainPage";
+                var type = typeof(PageWithNavigationProviderMock);
+                PageNavigationRegistry.Register(name, type);
 
-            var provider = PageNavigationRegistry.GetPageNavigationProvider(name);
+                var provider = PageNavigationRegistry.GetPageNavigationProvider(name);
 
-            Assert.NotNull(provider);
+                Assert.NotNull(provider);
+            }
+            finally
+            {
+                ServiceLocator.SetLocatorProvider(null);
+            }
         }
 
         [Fact]
         public void GetPageNavigationProviderFromCache()
         {
-            ResetPageNavigationRegistry();
+            try
+            {
+                ResetPageNavigationRegistry();
 
-            var serviceLocator = new MockServiceLocator(() => new PageNavigationProviderMock());
-            ServiceLocator.SetLocatorProvider(() => serviceLocator);
+                var serviceLocator = new ServiceLocatorMock(() => new PageNavigationProviderMock());
+                ServiceLocator.SetLocatorProvider(() => serviceLocator);
 
-            var name = "MainPage";
-            var type = typeof(PageWithNavigationProviderMock);
-            PageNavigationRegistry.Register(name, type);
+                var name = "MainPage";
+                var type = typeof(PageWithNavigationProviderMock);
+                PageNavigationRegistry.Register(name, type);
 
-            var provider = PageNavigationRegistry.GetPageNavigationProvider(name);
+                var provider = PageNavigationRegistry.GetPageNavigationProvider(name);
 
-            Assert.NotNull(provider);
+                Assert.NotNull(provider);
 
-            var name2 = "SecondPage";
-            var type2 = typeof(PageWithAllPageNavigationOptionsMock);
-            PageNavigationRegistry.Register(name2, type2);
+                var name2 = "SecondPage";
+                var type2 = typeof(PageWithAllPageNavigationOptionsMock);
+                PageNavigationRegistry.Register(name2, type2);
 
-            var secondProvider = PageNavigationRegistry.GetPageNavigationProvider(name2);
+                var secondProvider = PageNavigationRegistry.GetPageNavigationProvider(name2);
 
-            Assert.NotNull(secondProvider);
+                Assert.NotNull(secondProvider);
 
-            Assert.Equal(provider, secondProvider);
+                Assert.Equal(provider, secondProvider);
+            }
+            finally
+            {
+                ServiceLocator.SetLocatorProvider(() => null);
+            }
         }
 
         [Fact]
@@ -153,14 +169,21 @@ namespace Prism.Forms.Tests.Common
 
             Assert.Throws<InvalidCastException>(() =>
             {
-                var serviceLocator = new MockServiceLocator(() => new PageMock());
-                ServiceLocator.SetLocatorProvider(() => serviceLocator);
+                try
+                {
+                    var serviceLocator = new ServiceLocatorMock(() => new PageMock());
+                    ServiceLocator.SetLocatorProvider(() => serviceLocator);
 
-                var name = "MainPage";
-                var type = typeof(PageWithInvalidPageNavigationProviderMock);
-                PageNavigationRegistry.Register(name, type);
+                    var name = "MainPage";
+                    var type = typeof(PageWithInvalidPageNavigationProviderMock);
+                    PageNavigationRegistry.Register(name, type);
 
-                var provider = PageNavigationRegistry.GetPageNavigationProvider(name);
+                    var provider = PageNavigationRegistry.GetPageNavigationProvider(name);
+                }
+                finally
+                {
+                    ServiceLocator.SetLocatorProvider(null);
+                }
             });
         }
 
@@ -211,10 +234,14 @@ namespace Prism.Forms.Tests.Common
                 ci = ctor;
                 continue;
             }
-            
+
             object[] parameters = new object[0];
             ci.Invoke(null, parameters);
         }
-    }
 
+        public void Dispose()
+        {
+            ServiceLocator.SetLocatorProvider(null);
+        }
+    }
 }

@@ -50,8 +50,13 @@
     <Compile Include="Common\PageNavigationInfoFixture.cs" />
     <Compile Include="Common\PageNavigationRegistryFixture.cs" />
     <Compile Include="Common\UriParsingHelperFixture.cs" />
-    <Compile Include="Mocks\MockServiceLocator.cs" />
+    <Compile Include="Mocks\ServiceLocatorMock.cs" />
     <Compile Include="Mocks\PageDialogServiceMock.cs" />
+    <Compile Include="Mocks\ViewModels\ContentPageMockViewModel.cs" />
+    <Compile Include="Mocks\ViewModels\NavigationPageMockViewModel.cs" />
+    <Compile Include="Mocks\ViewModels\ViewModelBase.cs" />
+    <Compile Include="Mocks\Views\ContentPageMock.cs" />
+    <Compile Include="Mocks\Views\NavigationPageMock.cs" />
     <Compile Include="Mocks\Views\PageMock.cs" />
     <Compile Include="Mocks\ViewModels\PageMockViewModel.cs" />
     <Compile Include="Mocks\PageNavigationProviderMock.cs" />
