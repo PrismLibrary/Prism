@@ -39,7 +39,7 @@ namespace HelloWorld.ViewModels
 
         void Navigate()
         {
-            var relative = "android-app://HelloWorld/ViewA/ViewB/MyTabbedPage?selectedItem=Orangutan";
+            var relative = "android-app://HelloWorld/ViewA?id=3/ViewB?id=5/MyTabbedPage?selectedItem=Orangutan";
             var http = "http://HelloWorld.com/ViewB?message=DeepLink";
 
             var nonHttp = "android-app://HelloWorld/MyMasterDetail/ViewA/ViewB/MyTabbedPage?selectedItem=Orangutan/ViewC/ViewA/ViewB/ViewC";

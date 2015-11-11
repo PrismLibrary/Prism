@@ -7,9 +7,9 @@ namespace Prism.Common
     /// <summary>
     /// Helper class for parsing <see cref="Uri"/> instances.
     /// </summary>
-    internal static class UriParsingHelper
+    public static class UriParsingHelper
     {
-        internal static Queue<string> GetSegmentQue(Uri uri)
+        public static Queue<string> GetUriSegments(Uri uri)
         {
             Queue<string> segmentStack = new Queue<string>();
             string[] segments;
@@ -33,12 +33,12 @@ namespace Prism.Common
             return segmentStack;
         }
 
-        internal static string GetSegmentName(string segment)
+        public static string GetSegmentName(string segment)
         {
             return segment.Split('?')[0];
         }
 
-        internal static NavigationParameters GetSegmentParameters(string segment)
+        public static NavigationParameters GetSegmentParameters(string segment)
         {
             string query = string.Empty;
 
@@ -49,14 +49,14 @@ namespace Prism.Common
             return new NavigationParameters(query);
         }
 
-        internal static Uri EnsureAbsolute(Uri uri)
+        public static Uri EnsureAbsolute(Uri uri)
         {
             if (uri.IsAbsoluteUri)
             {
                 return uri;
             }
 
-            if ((uri != null) && !uri.OriginalString.StartsWith("/", StringComparison.Ordinal))
+            if (!uri.OriginalString.StartsWith("/", StringComparison.Ordinal))
             {
                 return new Uri("http://localhost/" + uri, UriKind.Absolute);
             }

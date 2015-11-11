@@ -7,6 +7,8 @@ namespace Prism.Forms.Tests.Mocks
     {
         private readonly string pressedButton;
 
+        public bool DisplayAlertCalled { get; set; } = false;
+
         /// <summary>
         /// Create an instance of <see cref="PageDialogServiceMock"/> with the pressed button on any alert/sheet is <paramref name="pressedButton"/>
         /// </summary>
@@ -23,7 +25,8 @@ namespace Prism.Forms.Tests.Mocks
 
         public override async Task DisplayAlert(string title, string message, string cancelButton)
         {
-
+            if (pressedButton.Equals(cancelButton))
+                await Task.Run(() => DisplayAlertCalled = true);
         }
 
         public override Task<string> DisplayActionSheet(string title, string cancelButton, string destroyButton, params string[] otherButtons)

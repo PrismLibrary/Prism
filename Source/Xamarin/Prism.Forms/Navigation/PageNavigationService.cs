@@ -67,7 +67,7 @@ namespace Prism.Navigation
         /// </example>
         public void Navigate(Uri uri, NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)
         {
-            var navigationSegments = UriParsingHelper.GetSegmentQue(uri);
+            var navigationSegments = UriParsingHelper.GetUriSegments(uri);
             ProcessNavigationSegments(GetRootPage(), navigationSegments, parameters, useModalNavigation, navigationSegments.Count > 1 ? false : animated);
         }
 

@@ -54,6 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Common\PageNavigationInfo.cs" />
     <Compile Include="Common\PageNavigationRegistry.cs" />
     <Compile Include="Common\UriParsingHelper.cs" />
     <Compile Include="Mvvm\ViewModelLocator.cs" />

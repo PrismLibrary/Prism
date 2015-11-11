@@ -7,13 +7,13 @@ namespace Prism.Navigation
     {
         public bool Animated { get; set; } = true;
 
-        public bool UseModalNavigation { get; private set; } = true;
-
         public Type PageNavigationProviderType { get; set; }
 
-        public PageNavigationOptionsAttribute(bool useModalNavigation)
+        public bool UseModalNavigation { get; set; } = true;
+
+        public PageNavigationOptionsAttribute()
         {
-            UseModalNavigation = useModalNavigation;
+            
         }
     }
 }

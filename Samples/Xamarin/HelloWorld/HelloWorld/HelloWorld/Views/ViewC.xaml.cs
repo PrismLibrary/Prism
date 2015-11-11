@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace HelloWorld.Views
 {
-    [PageNavigationOptions(true)]
+    [PageNavigationOptions()]
     public partial class ViewC : ContentPage
     {
         public ViewC()

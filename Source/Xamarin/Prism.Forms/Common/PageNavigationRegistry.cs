@@ -19,7 +19,8 @@ namespace Prism.Common
             info.Type = pageType;
             info.NavigationOptions = GetPageNavigationOptions(pageType);
 
-            _pageRegistrationCache.Add(name, info);
+            if (!_pageRegistrationCache.ContainsKey(name))
+                _pageRegistrationCache.Add(name, info);
         }
 
         public static PageNavigationInfo GetPageNavigationInfo(string name)
@@ -44,25 +45,27 @@ namespace Prism.Common
         {
             IPageNavigationProvider provider = null;
 
-            var info = GetPageNavigationInfo(name);
+            var providerType = GetPageNavigationInfo(name)?.NavigationOptions?.PageNavigationProviderType;
 
-            if (_navigationProviderCache.ContainsKey(info.Type))
+            if (providerType == null)
+                return null;
+
+            if (_navigationProviderCache.ContainsKey(providerType))
             {
-                provider = _navigationProviderCache[info.Type];
+                provider = _navigationProviderCache[providerType];
             }
             else
             {
-                var navigationPageProviderType = info.NavigationOptions?.PageNavigationProviderType;
-                if (navigationPageProviderType != null)
+                if (providerType != null)
                 {
-                    provider = ServiceLocator.Current.GetInstance(navigationPageProviderType) as IPageNavigationProvider;
+                    provider = ServiceLocator.Current.GetInstance(providerType) as IPageNavigationProvider;
                     if (provider == null)
                         throw new InvalidCastException("Could not create the page navigation provider.  Please make sure the page navigation provider implements the IPageNavigationProvider interface.");
                 }
             }
 
-            if (!_navigationProviderCache.ContainsKey(info.Type))
-                _navigationProviderCache.Add(info.Type, provider);
+            if (!_navigationProviderCache.ContainsKey(providerType))
+                _navigationProviderCache.Add(providerType, provider);
 
             return provider;
         }
@@ -81,14 +84,5 @@ namespace Prism.Common
 
             return attribute;
         }
-    }
-
-    public class PageNavigationInfo
-    {
-        public PageNavigationOptionsAttribute NavigationOptions { get; set; }
-
-        public string Name { get; set; }
-
-        public Type Type { get; set; }
     }
 }

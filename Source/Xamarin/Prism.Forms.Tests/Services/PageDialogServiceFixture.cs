@@ -10,6 +10,31 @@ namespace Prism.Forms.Tests.Services
     public class PageDialogServiceFixture
     {
         [Fact]
+        public async Task DisplayAlert_AcceptButtonPressed()
+        {
+            var service = new PageDialogServiceMock("accept");
+            var result = await service.DisplayAlert("title", "message", "accept", "cancel");
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task DisplayAlert_CancelButtonPressed()
+        {
+            var service = new PageDialogServiceMock("cancel");
+            Assert.False(service.DisplayAlertCalled);
+            await service.DisplayAlert("title", "message", "cancel");
+            Assert.True(service.DisplayAlertCalled);
+        }
+
+        [Fact]
+        public async Task DisplayActionSheet_ButtonPressed()
+        {
+            var service = new PageDialogServiceMock("other");
+            var result = await service.DisplayActionSheet("title", "cancel", "destroy", "other");
+            Assert.Equal("other", result);            
+        }
+
+        [Fact]
         public async Task DisplayActionSheetNoButtons_ShouldThrowException()
         {
             var service = new PageDialogServiceMock("cancel");
