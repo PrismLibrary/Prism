@@ -31,12 +31,12 @@ namespace HelloWorld.ViewModels
 
         void Navigate()
         {
-            var nonHttp = "android-app://HelloWorld/MyNavigationPage/ViewA/MyTabbedPage?selectedItem=Orangutan/ViewA/ViewB/ViewC";
+            var basic = "ViewA?id=23";
 
-            var basic = "ViewB?message=DeepLink";
+            //skips MainPage because it is the current root and not registered for navigation
+            var nonHttp = "android-app://HelloWorld/MainPage/MyNavigationPage/ViewA/MyTabbedPage?selectedItem=Orangutan/ViewA/ViewB/ViewC";
 
             var uri = new Uri(nonHttp);
-
             _navigationService.Navigate(uri);
         }
     }

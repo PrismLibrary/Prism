@@ -37,7 +37,7 @@ namespace HelloWorld.ViewModels
         public void OnNavigatedTo(NavigationParameters parameters)
         {
             if (parameters?.Count > 0)
-                Title = string.Format("{0}: {1}", (string)parameters["viewName"], (string)parameters["id"]);
+                Title = string.Format("ViewA : {0}", (string)parameters["id"]);
         }
     }
 
