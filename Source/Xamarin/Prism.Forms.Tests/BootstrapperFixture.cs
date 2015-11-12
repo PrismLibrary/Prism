@@ -71,11 +71,6 @@ namespace Prism.Forms.Tests
             RunCalled = true;
         }
 
-        protected override void ConfigureServiceLocator()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void ConfigureViewModelLocator()
         {
             ConfigureViewModelLocatorCalled = true;

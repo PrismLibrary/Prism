@@ -22,13 +22,5 @@ namespace Prism.Forms.Tests.Navigation
             Assert.NotNull(attribute);
             Assert.True(attribute.Animated);
         }
-
-        [Fact]
-        public void PageNavigationParameterTypeDefaultIsNull()
-        {
-            var attribute = typeof(PageWithDefaultNavigationOptionsMock).GetTypeInfo().GetCustomAttribute<PageNavigationOptionsAttribute>();
-            Assert.NotNull(attribute);
-            Assert.Null(attribute.PageNavigationProviderType);
-        }
     }
 }

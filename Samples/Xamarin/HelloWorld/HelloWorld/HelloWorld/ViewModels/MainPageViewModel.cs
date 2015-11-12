@@ -1,5 +1,4 @@
-﻿using HelloWorld.Events;
-using HelloWorld.Interfaces;
+﻿using HelloWorld.Interfaces;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -28,23 +27,15 @@ namespace HelloWorld.ViewModels
             _eventAggregator = eventAggregator;
 
             NavigateCommand = new DelegateCommand(Navigate);
-            _eventAggregator.GetEvent<NavigationUriReceivedEvent>().Subscribe(UriReceived);
-        }
-
-        private void UriReceived(string uri)
-        {
-            var navUri = new Uri(uri);
-            _navigationService.Navigate(navUri);
         }
 
         void Navigate()
         {
-            var relative = "android-app://HelloWorld/ViewA?id=3/ViewB?id=5/MyTabbedPage?selectedItem=Orangutan";
-            var http = "http://HelloWorld.com/ViewB?message=DeepLink";
+            var nonHttp = "android-app://HelloWorld/MyNavigationPage/ViewA/MyTabbedPage?selectedItem=Orangutan/ViewA/ViewB/ViewC";
 
-            var nonHttp = "android-app://HelloWorld/MyMasterDetail/ViewA/ViewB/MyTabbedPage?selectedItem=Orangutan/ViewC/ViewA/ViewB/ViewC";
+            var basic = "ViewB?message=DeepLink";
 
-            var uri = new Uri(nonHttp, UriKind.Absolute);
+            var uri = new Uri(nonHttp);
 
             _navigationService.Navigate(uri);
         }

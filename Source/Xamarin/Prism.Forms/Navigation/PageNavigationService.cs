@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using Microsoft.Practices.ServiceLocation;
 using Xamarin.Forms;
 using Prism.Common;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ namespace Prism.Navigation
     /// <summary>
     /// Provides page based navigation for ViewModels.
     /// </summary>
-    public class PageNavigationService : INavigationService, IPageAware
+    public abstract class PageNavigationService : INavigationService, IPageAware
     {
         private Page _page;
         Page IPageAware.Page
@@ -68,10 +67,10 @@ namespace Prism.Navigation
         public void Navigate(Uri uri, NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)
         {
             var navigationSegments = UriParsingHelper.GetUriSegments(uri);
-            ProcessNavigationSegments(GetRootPage(), navigationSegments, parameters, useModalNavigation, navigationSegments.Count > 1 ? false : animated);
+            ProcessNavigationSegments(GetRootPage(), navigationSegments, parameters, navigationSegments.Count > 1 ? false : useModalNavigation, navigationSegments.Count > 1 ? false : animated);
         }
 
-        static void ProcessNavigationSegments(Page currentPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
+        void ProcessNavigationSegments(Page currentPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
         {
             if (segments.Count == 0)
                 return;
@@ -79,7 +78,7 @@ namespace Prism.Navigation
             var segment = segments.Dequeue();
             var segmentName = UriParsingHelper.GetSegmentName(segment);
 
-            var targetPage = CreatePage(segmentName, currentPage);
+            var targetPage = CreatePage(segmentName);
             if (targetPage != null)
             {
                 var segmentPrameters = GetSegmentParameters(segment, parameters);
@@ -100,7 +99,7 @@ namespace Prism.Navigation
             }
         }
 
-        static void ProcessNavigationForPages(Page targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
+        void ProcessNavigationForPages(Page targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
         {
             if (targetPage is NavigationPage)
             {
@@ -120,7 +119,7 @@ namespace Prism.Navigation
             }
         }
 
-        static void ProcessNavigationForNavigationPage(NavigationPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
+        void ProcessNavigationForNavigationPage(NavigationPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
         {
             if (targetPage.Navigation.NavigationStack.Count == 0)
             {
@@ -143,7 +142,7 @@ namespace Prism.Navigation
             ProcessNavigationSegments(targetPage, segments, parameters, useModalNavigation, animated);
         }
 
-        static void ProcessNavigationForMultiPage(TabbedPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
+        void ProcessNavigationForMultiPage(TabbedPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
         {
             if (segments.Count > 0) // we have a next page
             {
@@ -164,12 +163,12 @@ namespace Prism.Navigation
             ProcessNavigationSegments(targetPage, segments, parameters, useModalNavigation, animated);
         }
 
-        static void ProcessNavigationForMasterDetailPage(MasterDetailPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
+        void ProcessNavigationForMasterDetailPage(MasterDetailPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
         {
             var detail = targetPage.Detail;
             if (detail == null)
             {
-                var newDetail = CreatePage(segments.Dequeue(), targetPage);
+                var newDetail = CreatePage(segments.Dequeue());
                 ProcessNavigationSegments(newDetail, segments, parameters, useModalNavigation, animated);
                 targetPage.Detail = newDetail;
                 return;
@@ -189,29 +188,7 @@ namespace Prism.Navigation
             ProcessNavigationSegments(targetPage, segments, parameters, useModalNavigation, animated);
         }
 
-        static Page CreatePage(string name)
-        {
-            return ServiceLocator.Current.GetInstance<object>(name) as Page;
-        }
-
-        static Page CreatePage(string name, Page currentPage)
-        {
-            var targetPage = CreatePage(name);
-            if (targetPage != null)
-                targetPage = GetPageFromProvider(name, currentPage, targetPage);
-            return targetPage;
-        }
-
-        static Page GetPageFromProvider(string name, Page sourceView, Page targetView)
-        {
-            Type viewType = targetView.GetType();
-
-            IPageNavigationProvider provider = PageNavigationRegistry.GetPageNavigationProvider(name);            
-            if (provider != null)
-                return provider.CreatePageForNavigation(sourceView, targetView);
-
-            return targetView;
-        }
+        protected abstract Page CreatePage(string name);
 
         static bool UseModalNavigation(string name, bool useModalNavigationDefault)
         {

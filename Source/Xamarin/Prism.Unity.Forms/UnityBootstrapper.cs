@@ -7,6 +7,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using Prism.Unity.Extensions;
+using Prism.Unity.Navigation;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
 
@@ -23,7 +24,6 @@ namespace Prism.Unity
             Container = CreateContainer();
 
             ConfigureContainer();
-            ConfigureServiceLocator();
             RegisterTypes();
 
             App.MainPage = CreateMainPage();
@@ -39,7 +39,7 @@ namespace Prism.Unity
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navService = new PageNavigationService();
+                    var navService = Container.Resolve<UnityPageNavigationService>();
                     ((IPageAware)navService).Page = page;
 
                     overrides = new ParameterOverrides
@@ -68,14 +68,8 @@ namespace Prism.Unity
             Container.RegisterInstance<ILoggerFacade>(Logger);
 
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IServiceLocator, UnityServiceLocatorAdapter>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDependencyService, DependencyService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IPageDialogService, PageDialogService>(new ContainerControlledLifetimeManager());
-        }
-
-        protected override void ConfigureServiceLocator()
-        {
-            ServiceLocator.SetLocatorProvider(() => this.Container.Resolve<IServiceLocator>());
         }
     }
 }

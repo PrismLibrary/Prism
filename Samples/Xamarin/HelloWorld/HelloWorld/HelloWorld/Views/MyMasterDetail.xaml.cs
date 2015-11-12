@@ -67,11 +67,7 @@ namespace HelloWorld.Views
             // Initialize the ListView selection.
             listView.SelectedItem = namedColors[0];
 
-
         }
-
-
-
     }
 
     class NamedColor

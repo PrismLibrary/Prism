@@ -46,6 +46,9 @@ namespace HelloWorld.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
+            if (parameters == null)
+                return;
+
             var selectedItemName = (string)parameters["selectedItem"];
 
             SelectedPage = Pages.Where(p => p.Name == selectedItemName).FirstOrDefault();

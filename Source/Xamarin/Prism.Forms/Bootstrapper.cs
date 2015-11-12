@@ -61,11 +61,6 @@ namespace Prism
         protected abstract void ConfigureViewModelLocator();
 
         /// <summary>
-        /// Configures the LocatorProvider for the <see cref="Microsoft.Practices.ServiceLocation.ServiceLocator" />.
-        /// </summary>
-        protected abstract void ConfigureServiceLocator();
-
-        /// <summary>
         /// Used to register types with the container that will be used by your application.
         /// </summary>
         protected abstract void RegisterTypes();
