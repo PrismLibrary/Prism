@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Prism.Events;
+using Microsoft.Practices.ServiceLocation;
 
 namespace HelloWorld.Droid
 {

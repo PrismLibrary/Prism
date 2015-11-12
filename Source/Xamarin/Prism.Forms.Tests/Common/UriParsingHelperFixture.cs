@@ -8,13 +8,14 @@ namespace Prism.Forms.Tests.Common
     public class UriParsingHelperFixture
     {
         const string _relativeUri = "MainPage?id=3&name=brian";
-        const string _absoluteUri = "htp://www.google.com/MainPage?id=3&name=brian";
+        const string _absoluteUri = "htp://www.brianlagunas.com/MainPage?id=3&name=brian";
+        const string _deepLinkAbsoluteUri = "android-app://HellowWorld/MainPage?id=1/ViewA?id=2/ViewB?id=3/ViewC?id=4";
+        const string _deepLinkRelativeUri = "MainPage?id=1/ViewA?id=2/ViewB?id=3/ViewC?id=4";
 
         [Fact]
         public void ParametersParsedFromRelativeUri()
         {
-            var uri = new Uri(_relativeUri, UriKind.Relative);
-            var parameters = UriParsingHelper.ParseQuery(uri);
+            var parameters = UriParsingHelper.GetSegmentParameters(_relativeUri);
 
             Assert.NotEmpty(parameters);
 
@@ -28,8 +29,7 @@ namespace Prism.Forms.Tests.Common
         [Fact]
         public void ParametersParsedFromAbsoluteUri()
         {
-            var uri = new Uri(_absoluteUri, UriKind.Absolute);
-            var parameters = UriParsingHelper.ParseQuery(uri);
+            var parameters = UriParsingHelper.GetSegmentParameters(_absoluteUri);
 
             Assert.NotEmpty(parameters);
 
@@ -47,8 +47,7 @@ namespace Prism.Forms.Tests.Common
             navParameters.Add("id", 3);
             navParameters.Add("name", "brian");
 
-            var uri = new Uri("MainPage" + navParameters.ToString(), UriKind.Relative);
-            var parameters = UriParsingHelper.ParseQuery(uri);
+            var parameters = UriParsingHelper.GetSegmentParameters("MainPage" + navParameters.ToString());
 
             Assert.NotEmpty(parameters);
 
@@ -66,8 +65,7 @@ namespace Prism.Forms.Tests.Common
             navParameters.Add("id", 3);
             navParameters.Add("name", "brian");
 
-            var uri = new Uri("http://www.google.com/MainPage" + navParameters.ToString(), UriKind.Absolute);
-            var parameters = UriParsingHelper.ParseQuery(uri);
+            var parameters = UriParsingHelper.GetSegmentParameters("http://www.brianlagunas.com/MainPage" + navParameters.ToString());
 
             Assert.NotEmpty(parameters);
 
@@ -79,39 +77,77 @@ namespace Prism.Forms.Tests.Common
         }
 
         [Fact]
-        public void TargetParsedFromRelativeUri()
+        public void TargetNameParsedFromSingleSegment()
         {
-            var uri = new Uri(_relativeUri, UriKind.Relative);
-            var target = UriParsingHelper.GetAbsolutePath(uri);
-
-            Assert.Equal("/MainPage", target);
+            var target = UriParsingHelper.GetSegmentName(_relativeUri);
+            Assert.Equal("MainPage", target);
         }
 
         [Fact]
-        public void TargetParsedFromAbsoluteUri()
+        public void SegmentsParsedFromDeepLinkUri()
         {
-            var uri = new Uri(_absoluteUri, UriKind.Absolute);
-            var target = UriParsingHelper.GetAbsolutePath(uri);
-
-            Assert.Equal("/MainPage", target);
+            var target = UriParsingHelper.GetUriSegments(new Uri(_deepLinkAbsoluteUri));
+            Assert.Equal(target.Count, 4);
         }
 
         [Fact]
-        public void GetParametersFromRelativeUri()
+        public void ParametersParsedFromDeepLinkAbsoluteUri()
         {
-            var uri = new Uri(_relativeUri, UriKind.Relative);
-            var parameters = UriParsingHelper.GetQuery(uri);
+            var target = UriParsingHelper.GetUriSegments(new Uri(_deepLinkAbsoluteUri));
+            Assert.Equal(target.Count, 4);
 
-            Assert.Equal("?id=3&name=brian", parameters);
+            var p1 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
+            Assert.Equal(p1["id"], "1");
+
+            var p2 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
+            Assert.Equal(p2["id"], "2");
+
+            var p3 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
+            Assert.Equal(p3["id"], "3");
+
+            var p4 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
+            Assert.Equal(p4["id"], "4");
         }
 
         [Fact]
-        public void GetParametersFromAbsoluteUri()
+        public void ParametersParsedFromDeepLinkRelativeUri()
         {
-            var uri = new Uri(_absoluteUri, UriKind.Absolute);
-            var parameters = UriParsingHelper.GetQuery(uri);
+            var target = UriParsingHelper.GetUriSegments(new Uri(_deepLinkRelativeUri, UriKind.Relative));
+            Assert.Equal(target.Count, 4);
 
-            Assert.Equal("?id=3&name=brian", parameters);
+            var p1 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
+            Assert.Equal(p1["id"], "1");
+
+            var p2 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
+            Assert.Equal(p2["id"], "2");
+
+            var p3 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
+            Assert.Equal(p3["id"], "3");
+
+            var p4 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
+            Assert.Equal(p4["id"], "4");
         }
+
+        [Fact]
+        public void EnsureAbsoluteUriForRelativeUri()
+        {
+            var uri = UriParsingHelper.EnsureAbsolute(new Uri(_relativeUri, UriKind.Relative));
+            Assert.True(uri.IsAbsoluteUri);
+        }
+
+        [Fact]
+        public void EnsureAbsoluteUriForRelativeUriThatStartsWithSlash()
+        {
+            var uri = UriParsingHelper.EnsureAbsolute(new Uri("/" + _relativeUri, UriKind.Relative));
+            Assert.True(uri.IsAbsoluteUri);
+        }
+
+        [Fact]
+        public void EnsureAbsoluteUriForAbsoluteUri()
+        {
+            var uri = UriParsingHelper.EnsureAbsolute(new Uri(_absoluteUri, UriKind.Absolute));
+            Assert.True(uri.IsAbsoluteUri);
+        }
+
     }
 }

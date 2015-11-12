@@ -46,8 +46,24 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BootstrapperFixture.cs" />
+    <Compile Include="Common\PageNavigationInfoFixture.cs" />
+    <Compile Include="Common\PageNavigationRegistryFixture.cs" />
     <Compile Include="Common\UriParsingHelperFixture.cs" />
+    <Compile Include="Mocks\PageNavigationContainerMock.cs" />
+    <Compile Include="Mocks\PageNavigationServiceMock.cs" />
     <Compile Include="Mocks\PageDialogServiceMock.cs" />
+    <Compile Include="Mocks\ViewModels\ContentPageMockViewModel.cs" />
+    <Compile Include="Mocks\ViewModels\NavigationPageMockViewModel.cs" />
+    <Compile Include="Mocks\ViewModels\ViewModelBase.cs" />
+    <Compile Include="Mocks\Views\ContentPageMock.cs" />
+    <Compile Include="Mocks\Views\NavigationPageMock.cs" />
+    <Compile Include="Mocks\Views\PageMock.cs" />
+    <Compile Include="Mocks\ViewModels\PageMockViewModel.cs" />
+    <Compile Include="Mvvm\ViewModelLocatorFixture.cs" />
+    <Compile Include="Navigation\NavigationParametersFixture.cs" />
+    <Compile Include="Navigation\PageNavigationOptionsFixture.cs" />
+    <Compile Include="Navigation\PageNavigationServiceFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PageDialogServiceFixture.cs" />
   </ItemGroup>
@@ -97,6 +113,7 @@
       <Name>Prism.Forms</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

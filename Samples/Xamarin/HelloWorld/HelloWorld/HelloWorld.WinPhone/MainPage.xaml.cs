@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Prism.Events;
+using Microsoft.Practices.ServiceLocation;
 
 namespace HelloWorld.WinPhone
 {

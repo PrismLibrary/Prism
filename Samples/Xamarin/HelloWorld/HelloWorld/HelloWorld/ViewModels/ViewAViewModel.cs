@@ -21,13 +21,12 @@ namespace HelloWorld.ViewModels
         {
             _navigationService = navigationService;
 
-            NavigateCommand = new DelegateCommand(GoBack);
+            NavigateCommand = new DelegateCommand(Navigate);
         }
 
-        void GoBack()
+        void Navigate()
         {
-            //_navigationService.GoBack();
-            _navigationService.Navigate("ViewB", useModalNavigation:false);
+            _navigationService.Navigate("ViewB");
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
@@ -37,7 +36,8 @@ namespace HelloWorld.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-            Title = (string)parameters["message"];
+            if (parameters?.Count > 0)
+                Title = string.Format("ViewA : {0}", (string)parameters["id"]);
         }
     }
 
