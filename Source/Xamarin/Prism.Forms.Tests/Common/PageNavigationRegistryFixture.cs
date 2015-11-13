@@ -53,7 +53,7 @@ namespace Prism.Forms.Tests.Common
             Assert.Null(infoType);
         }
 
-        private static void ResetPageNavigationRegistry()
+        public static void ResetPageNavigationRegistry()
         {
             TypeInfo staticType = typeof(PageNavigationRegistry).GetTypeInfo();
 
