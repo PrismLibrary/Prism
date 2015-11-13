@@ -10,7 +10,6 @@ using Xamarin.Forms;
 
 namespace HelloWorld.Views
 {
-    //[PageNavigationOptions()]
     public partial class MyTabbedPage : TabbedPage
     {
         public MyTabbedPage()

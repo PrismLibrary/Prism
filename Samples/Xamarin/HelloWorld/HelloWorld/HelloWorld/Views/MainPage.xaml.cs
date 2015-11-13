@@ -28,7 +28,7 @@ namespace HelloWorld.Views
             //p1.Navigation.PushModalAsync(p2, false);
             //Navigation.PushModalAsync(p1, false);
 
-            //BUG:  MyNavigationPage/ViewA/ViewC/MyTabbedPage navigated in reverse order
+            //BUG:  TabbedPage tab header are not shown, only first page in TabbedPage children is shown.
             //var p1 = new MyNavigationPage();
             //var p2 = new ViewA();
             //var p3 = new ViewC();
