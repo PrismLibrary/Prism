@@ -53,48 +53,6 @@ namespace Prism.Forms.Tests.Common
             Assert.Null(infoType);
         }
 
-        [Fact]
-        public void GetPageNavigationOptions()
-        {
-            ResetPageNavigationRegistry();
-
-            var name = "MainPage";
-            var type = typeof(PageWithDefaultNavigationOptionsMock);
-            PageNavigationRegistry.Register(name, type);
-
-            var navOptions = PageNavigationRegistry.GetPageNavigationOptions(name);
-
-            Assert.NotNull(navOptions);
-        }
-
-        [Fact]
-        public void GetPageNavigationOptionsFromCache()
-        {
-            ResetPageNavigationRegistry();
-
-            var name = "MainPage";
-            var type = typeof(PageWithDefaultNavigationOptionsMock);
-            PageNavigationRegistry.Register(name, type);
-            var navOptions = PageNavigationRegistry.GetPageNavigationOptions(name);
-
-            var name2 = "SecondPage";
-            var type2 = typeof(PageWithDefaultNavigationOptionsMock);
-            PageNavigationRegistry.Register(name2, type2);
-
-            var navOptions2 = PageNavigationRegistry.GetPageNavigationOptions(name2);
-
-            Assert.Equal(navOptions, navOptions2);
-        }
-
-        [Fact]
-        public void PageNavigationOptionsAreNullForUnregisteredPage()
-        {
-            var name = "UnRegisteredPage";
-            var navOptions = PageNavigationRegistry.GetPageNavigationOptions(name);
-
-            Assert.Null(navOptions);
-        }
-
         private static void ResetPageNavigationRegistry()
         {
             TypeInfo staticType = typeof(PageNavigationRegistry).GetTypeInfo();

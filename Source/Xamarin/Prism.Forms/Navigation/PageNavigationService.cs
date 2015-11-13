@@ -36,7 +36,7 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public void Navigate<T>(NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)
+        public void Navigate<T>(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             Navigate(typeof(T).FullName, parameters, useModalNavigation, animated);
         }
@@ -48,7 +48,7 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public void Navigate(string name, NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)
+        public void Navigate(string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             Navigate(new Uri(name, UriKind.RelativeOrAbsolute), parameters, useModalNavigation, animated);
         }
@@ -64,13 +64,16 @@ namespace Prism.Navigation
         /// <example>
         /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
         /// </example>
-        public void Navigate(Uri uri, NavigationParameters parameters = null, bool useModalNavigation = true, bool animated = true)
+        public void Navigate(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             var navigationSegments = UriParsingHelper.GetUriSegments(uri);
-            ProcessNavigationSegments(GetRootPage(), navigationSegments, parameters, navigationSegments.Count > 1 ? false : useModalNavigation, navigationSegments.Count > 1 ? false : animated);
+
+            var isDeepLink = navigationSegments.Count > 1;
+
+            ProcessNavigationSegments(GetRootPage(), navigationSegments, parameters, useModalNavigation, isDeepLink ? false : animated);
         }
 
-        void ProcessNavigationSegments(Page currentPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
+        void ProcessNavigationSegments(Page currentPage, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             if (segments.Count == 0)
                 return;
@@ -81,73 +84,92 @@ namespace Prism.Navigation
             var targetPage = CreatePage(segmentName);
             if (targetPage != null)
             {
-                var segmentPrameters = GetSegmentParameters(segment, parameters);
+                bool useModalForDoNav = UseModalNavigation(currentPage, UriParsingHelper.GetSegmentName(segment), useModalNavigation);
 
-                if (!CanNavigate(currentPage, parameters))
-                    return;
-
-                ProcessNavigationForPages(targetPage, segments, parameters, useModalNavigation, animated);
-
-                DoNavigate(currentPage, targetPage, segmentPrameters, UseModalNavigation(segmentName, useModalNavigation), AnimateNavigation(segmentName, animated));
+                ProcessNavigationForPages(currentPage, segment, targetPage, segments, parameters, useModalForDoNav, animated);
             }
             else
             {
+                //TODO: log this using the logger
                 Debug.WriteLine("Navigation ERROR: {0} not found. Make sure you have registered {0} for navigation.", segmentName);
 
-                //something went wrong and the page couldn't be created, so let's try and move on to the next segment in the uri
+                //TODO: since an error occured, should we stop processing, or continue?
                 ProcessNavigationSegments(currentPage, segments, parameters, useModalNavigation, animated);
             }
         }
 
-        void ProcessNavigationForPages(Page targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
+        void ProcessNavigationForPages(Page currentPage, string targetSegment, Page targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
         {
-            if (targetPage is NavigationPage)
+            if (targetPage is ContentPage)
             {
-                ProcessNavigationForNavigationPage((NavigationPage)targetPage, segments, parameters, useModalNavigation, animated);
+                ProcessNavigationForContentPage(currentPage, targetSegment, (ContentPage)targetPage, segments, parameters, useModalNavigation, animated);
             }
-            else if (targetPage is TabbedPage || targetPage is CarouselPage)
+            else if (targetPage is NavigationPage)
             {
-                ProcessNavigationForMultiPage((TabbedPage)targetPage, segments, parameters, useModalNavigation, animated);
+                ProcessNavigationForNavigationPage(currentPage, targetSegment, (NavigationPage)targetPage, segments, parameters, useModalNavigation, animated);
+            }
+            else if (targetPage is TabbedPage)
+            {
+                ProcessNavigationForTabbedPage(currentPage, targetSegment, (TabbedPage)targetPage, segments, parameters, useModalNavigation, animated);
+            }
+            else if (targetPage is CarouselPage)
+            {
+                ProcessNavigationForCarouselPage(currentPage, targetSegment, (CarouselPage)targetPage, segments, parameters, useModalNavigation, animated);
             }
             else if (targetPage is MasterDetailPage)
             {
-                ProcessNavigationForMasterDetailPage((MasterDetailPage)targetPage, segments, parameters, useModalNavigation, animated);
-            }
-            else
-            {
-                ProcessNavigationSegments(targetPage, segments, parameters, useModalNavigation, animated);
+                ProcessNavigationForMasterDetailPage(currentPage, targetSegment, (MasterDetailPage)targetPage, segments, parameters, useModalNavigation, animated);
             }
         }
 
-        void ProcessNavigationForNavigationPage(NavigationPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
+        void ProcessNavigationForContentPage(Page currentPage, string targetSegment, ContentPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
+        {
+            ProcessNavigationSegments(targetPage, segments, parameters, useModalNavigation, animated);
+            DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
+        }
+
+        void ProcessNavigationForNavigationPage(Page currentPage, string targetSegment, NavigationPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
         {
             if (targetPage.Navigation.NavigationStack.Count == 0)
             {
-                ProcessNavigationSegments(targetPage, segments, parameters, useModalNavigation, animated);
+                ProcessNavigationSegments(targetPage, segments, parameters, false, animated);
+                DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
                 return;
             }
 
             if (segments.Count > 0) // we have a next page
             {
                 var currentNavRoot = targetPage.Navigation.NavigationStack[0];
-                var nextPageType = PageNavigationRegistry.GetPageType(segments.Peek());
+                var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(segments.Peek()));
                 if (currentNavRoot.GetType() == nextPageType)
                 {
+                    if (targetPage.Navigation.NavigationStack.Count > 1)
+                        targetPage.Navigation.PopToRootAsync(false);
+
                     segments.Dequeue();
-                    ProcessNavigationSegments(currentNavRoot, segments, parameters, useModalNavigation, animated);
+                    ProcessNavigationSegments(currentNavRoot, segments, parameters, false, animated);
+                    DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
+                    return;
+                }
+                else
+                {
+                    targetPage.Navigation.PopToRootAsync(false);
+                    ProcessNavigationSegments(targetPage, segments, parameters, false, animated);
+                    DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
+                    targetPage.Navigation.RemovePage(currentNavRoot);
                     return;
                 }
             }
 
             ProcessNavigationSegments(targetPage, segments, parameters, useModalNavigation, animated);
+            DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
         }
 
-        void ProcessNavigationForMultiPage(TabbedPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
+        void ProcessNavigationForTabbedPage(Page currentPage, string targetSegment, TabbedPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
         {
             if (segments.Count > 0) // we have a next page
             {
-                var nextSegmentType = PageNavigationRegistry.GetPageType(segments.Peek());
-
+                var nextSegmentType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(segments.Peek()));
                 foreach (var child in targetPage.Children)
                 {
                     if (child.GetType() != nextSegmentType)
@@ -156,60 +178,87 @@ namespace Prism.Navigation
                     segments.Dequeue();
                     ProcessNavigationSegments(child, segments, parameters, useModalNavigation, animated);
                     targetPage.CurrentPage = child;
+                    DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
                     return;
                 }
             }
 
             ProcessNavigationSegments(targetPage, segments, parameters, useModalNavigation, animated);
+            DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
         }
 
-        void ProcessNavigationForMasterDetailPage(MasterDetailPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
+        //TODO: this is the exact same code as TabbedPage, how can I use this same method for both page types?
+        void ProcessNavigationForCarouselPage(Page currentPage, string targetSegment, CarouselPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
+        {
+            if (segments.Count > 0) // we have a next page
+            {
+                var nextSegmentType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(segments.Peek()));
+                foreach (var child in targetPage.Children)
+                {
+                    if (child.GetType() != nextSegmentType)
+                        continue;
+
+                    segments.Dequeue();
+                    ProcessNavigationSegments(child, segments, parameters, useModalNavigation, animated);
+                    targetPage.CurrentPage = child;
+                    DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
+                    return;
+                }
+            }
+
+            ProcessNavigationSegments(targetPage, segments, parameters, useModalNavigation, animated);
+            DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
+        }
+
+        void ProcessNavigationForMasterDetailPage(Page currentPage, string targetSegment, MasterDetailPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
         {
             var detail = targetPage.Detail;
             if (detail == null)
             {
                 var newDetail = CreatePage(segments.Dequeue());
-                ProcessNavigationSegments(newDetail, segments, parameters, useModalNavigation, animated);
+                ProcessNavigationSegments(newDetail, segments, parameters, newDetail is NavigationPage ? false : true, animated);
                 targetPage.Detail = newDetail;
+                DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
                 return;
             }
 
             if (segments.Count > 0) // we have a next page
             {
-                var nextSegmentType = PageNavigationRegistry.GetPageType(segments.Peek());
+                var nextSegmentType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(segments.Peek()));
                 if (detail.GetType() == nextSegmentType)
                 {
                     segments.Dequeue();
                     ProcessNavigationSegments(detail, segments, parameters, useModalNavigation, animated);
+                    DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
                     return;
                 }
             }
 
             ProcessNavigationSegments(targetPage, segments, parameters, useModalNavigation, animated);
+            DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
         }
 
         protected abstract Page CreatePage(string name);
 
-        static bool UseModalNavigation(string name, bool useModalNavigationDefault)
+        static bool HasNavigationPageParent(Page page)
         {
-            bool useModalNavigation = useModalNavigationDefault;
-
-            var navParams = PageNavigationRegistry.GetPageNavigationOptions(name);
-            if (navParams != null)
-                useModalNavigation = navParams.UseModalNavigation;
-
-            return useModalNavigation;
+            //TODO:  may need to traverse the navigation stack to look for a NavigationPage
+            //good chance there is another page type, like a TabbedPage, within a NavigationPage
+            return page.Parent != null && page.Parent is NavigationPage;
         }
 
-        static bool AnimateNavigation(string name, bool animateDefault)
+        static bool UseModalNavigation(Page currentPage, string name, bool? useModalNavigationDefault)
         {
-            bool animate = animateDefault;
+            bool useModalNavigation = true;
 
-            var navParams = PageNavigationRegistry.GetPageNavigationOptions(name);
-            if (navParams != null)
-                animate = navParams.Animated;
+            if (useModalNavigationDefault.HasValue)
+                useModalNavigation = useModalNavigationDefault.Value;
+            else
+                useModalNavigation = !HasNavigationPageParent(currentPage);
 
-            return animate;
+            //TODO: think about using an interface instead to give the developer a hook to perform conditional logic to return the proper result
+
+            return useModalNavigation;
         }
 
         async static void DoPush(INavigation navigation, Page page, bool useModalNavigation, bool animated)
@@ -228,13 +277,18 @@ namespace Prism.Navigation
                 await navigation.PopAsync(animated);
         }
 
-        static void DoNavigate(Page currentPage, Page targetPage, NavigationParameters parameters, bool useModalNavigation, bool animated)
+        static void DoNavigate(Page currentPage, string segment, Page targetPage, NavigationParameters parameters, bool useModalNavigation, bool animated)
         {
-            OnNavigatedFrom(currentPage, parameters);
+            var segmentPrameters = GetSegmentParameters(segment, parameters);
+
+            if (!CanNavigate(currentPage, segmentPrameters))
+                return;
+
+            OnNavigatedFrom(currentPage, segmentPrameters);
 
             DoPush(currentPage.Navigation, targetPage, useModalNavigation, animated);
 
-            OnNavigatedTo(targetPage, parameters);
+            OnNavigatedTo(targetPage, segmentPrameters);
         }
 
         static bool CanNavigate(object page, NavigationParameters parameters)

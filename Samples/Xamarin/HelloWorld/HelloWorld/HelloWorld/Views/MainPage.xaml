@@ -6,7 +6,6 @@
              x:Class="HelloWorld.Views.MainPage">
   <StackLayout>
     <Label Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" />
-    <Label Text="{Binding Message}" VerticalOptions="Center" HorizontalOptions="Center" />
     <Button Command="{Binding NavigateCommand}" Text="Navigate" />
     <Button Text="Hard Coded Navigation Test" Clicked="Button_Clicked" />
   </StackLayout>
