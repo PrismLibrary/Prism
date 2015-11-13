@@ -324,6 +324,16 @@ namespace Prism.Navigation
                 var navpage = (NavigationPage)page;
                 InvokeOnNavigationAwareElement(navpage.CurrentPage, v => v.OnNavigatedTo(parameters));
             }
+            else if (currentPage is TabbedPage)
+            {
+                var navpage = (TabbedPage)page;
+                InvokeOnNavigationAwareElement(navpage.CurrentPage, v => v.OnNavigatedTo(parameters));
+            }
+            if (currentPage is CarouselPage)
+            {
+                var navpage = (CarouselPage)page;
+                InvokeOnNavigationAwareElement(navpage.CurrentPage, v => v.OnNavigatedTo(parameters));
+            }
             else if (currentPage is MasterDetailPage)
             {
                 var mdPage = (MasterDetailPage)page;
@@ -360,9 +370,6 @@ namespace Prism.Navigation
                     navParameters.Add(navigationParameter.Key, navigationParameter.Value);
                 }
             }
-
-            if (navParameters.Count == 0)
-                return null;
 
             return navParameters;
         }
