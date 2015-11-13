@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,15 +10,16 @@ using Xamarin.Forms;
 
 namespace HelloWorld.Views
 {
+    //[PageNavigationOptions()]
     public partial class MyTabbedPage : TabbedPage
     {
         public MyTabbedPage()
         {
             InitializeComponent();
 
-            //Children.Add(new ViewA());
-            //Children.Add(new ViewB());
-            //Children.Add(new ViewC());
+            Children.Add(new ViewA());
+            Children.Add(new ViewB());
+            Children.Add(new ViewC());
         }
     }
 }

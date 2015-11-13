@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace HelloWorld.Views
 {
-    [PageNavigationOptions(Animated = false)]
+    //[PageNavigationOptions(Animated = false)]
     public partial class MyNavigationPage : NavigationPage
     {
         public MyNavigationPage() : base(new ViewA())

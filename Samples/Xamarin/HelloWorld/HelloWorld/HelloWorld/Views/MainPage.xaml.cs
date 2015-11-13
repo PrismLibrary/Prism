@@ -17,17 +17,41 @@ namespace HelloWorld.Views
 
         void Button_Clicked(object sender, EventArgs e)
         {
-            //a navigation deep link can't be added without showing the transitions to the pages
-            var p1 = new ViewA();
-            var p2 = new ViewB();
-            var p3 = new ViewC();
-            var p4 = new MyTabbedPage();
+            //BUG:  Navigating Modal with animated = false does not prevent animated transition
+            //var p1 = new ViewA();
+            //var p2 = new ViewB();
+            //var p3 = new ViewC();
+            //var p4 = new MyTabbedPage();
 
-            p1.Navigation.PushModalAsync(p2, false);
-            p2.Navigation.PushModalAsync(p3, false);
-            p3.Navigation.PushModalAsync(p4, false);
+            //p3.Navigation.PushModalAsync(p4, false);
+            //p2.Navigation.PushModalAsync(p3, false);
+            //p1.Navigation.PushModalAsync(p2, false);
+            //Navigation.PushModalAsync(p1, false);
 
-            Navigation.PushModalAsync(p1, false);
+            //BUG:  MyNavigationPage/ViewA/ViewC/MyTabbedPage navigated in reverse order
+            //var p1 = new MyNavigationPage();
+            //var p2 = new ViewA();
+            //var p3 = new ViewC();
+            //var p4 = new MyTabbedPage();
+
+            //p3.Navigation.PushAsync(p4, false);
+            //p2.Navigation.PushAsync(p3, false);
+            //p1.Navigation.PushAsync(p2, false);
+            //Navigation.PushModalAsync(p1, false);
+
+
+            //BUG: Results in the MyTabbedPage tab headers showing on ViewC. Hit the back button, pops to ViewB, then ViewA, then to the TabbedPage page as expected.
+            //var p1 = new MyNavigationPage();
+            //var p2 = new MyTabbedPage();
+            //var p3 = new ViewA();
+            //var p4 = new ViewB();
+            //var p5 = new ViewC();
+
+            //p4.Navigation.PushAsync(p5, false);
+            //p3.Navigation.PushAsync(p4, false);
+            //p2.Navigation.PushAsync(p3, false);
+            //p1.Navigation.PushAsync(p2, false);
+            //Navigation.PushModalAsync(p1, false);
         }
     }
 }
