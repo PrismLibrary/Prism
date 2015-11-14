@@ -2,6 +2,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Prism.Regions;
 
 namespace Prism.Wpf.Tests.Mocks
@@ -116,6 +117,16 @@ namespace Prism.Wpf.Tests.Mocks
         }
 
         public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<NavigationResult> RequestNavigateAsync(Uri target)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<NavigationResult> RequestNavigateAsync(Uri target, NavigationParameters navigationParameters)
         {
             throw new NotImplementedException();
         }

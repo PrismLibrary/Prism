@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Prism.Regions;
 
 namespace Prism.Wpf.Tests.Mocks
@@ -86,6 +87,26 @@ namespace Prism.Wpf.Tests.Mocks
         public bool Navigate(System.Uri source)
         {
             throw new System.NotImplementedException();
+        }
+
+        public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri target, NavigationParameters navigationParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri target)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<NavigationResult> RequestNavigateAsync(string regionName, string target, NavigationParameters navigationParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<NavigationResult> RequestNavigateAsync(string regionName, string target)
+        {
+            throw new NotImplementedException();
         }
     }
 

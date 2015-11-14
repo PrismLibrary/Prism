@@ -15,6 +15,7 @@ using Prism.Properties;
 using Prism.Regions.Behaviors;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Common;
+using System.Threading.Tasks;
 
 namespace Prism.Regions
 {
@@ -405,6 +406,56 @@ namespace Prism.Regions
         public void RequestNavigate(string regionName, string target, NavigationParameters navigationParameters)
         {
             RequestNavigate(regionName, new Uri(target, UriKind.RelativeOrAbsolute), nr => { }, navigationParameters);
+        }
+
+        /// <summary>
+        /// This method allows an IRegionManager to locate a specified region and navigate in it to the specified target Uri, passing a navigation callback and an instance of NavigationParameters, which holds a collection of object parameters.
+        /// </summary>
+        /// <param name="regionName">The name of the region where the navigation will occur.</param>
+        /// <param name="target">A Uri that represents the target where the region will navigate.</param>
+        /// <param name="navigationCallback">The navigation callback that will be executed after the navigation is completed.</param>
+        /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
+        public async Task<NavigationResult> RequestNavigateAsync(string regionName, Uri target, NavigationParameters navigationParameters)
+        {
+            if (Regions.ContainsRegionWithName(regionName))
+            {
+                return await Regions[regionName].RequestNavigateAsync(target, navigationParameters);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// This method allows an IRegionManager to locate a specified region and navigate in it to the specified target Uri, passing a navigation callback and an instance of NavigationParameters, which holds a collection of object parameters.
+        /// </summary>
+        /// <param name="regionName">The name of the region where the navigation will occur.</param>
+        /// <param name="target">A Uri that represents the target where the region will navigate.</param>
+        /// <param name="navigationCallback">The navigation callback that will be executed after the navigation is completed.</param>
+        /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
+        public async Task<NavigationResult> RequestNavigateAsync(string regionName, Uri target)
+        {
+            return await RequestNavigateAsync(regionName, target, null);
+        }
+
+        /// <summary>
+        /// This method allows an IRegionManager to locate a specified region and navigate in it to the specified target string, passing an instance of NavigationParameters, which holds a collection of object parameters.
+        /// </summary>
+        /// <param name="regionName">The name of the region where the navigation will occur.</param>
+        /// <param name="target">A string that represents the target where the region will navigate.</param>
+        /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
+        public async Task<NavigationResult> RequestNavigateAsync(string regionName, string target, NavigationParameters navigationParameters)
+        {
+            return await RequestNavigateAsync(regionName, new Uri(target, UriKind.RelativeOrAbsolute), navigationParameters);
+        }
+
+        /// <summary>
+        /// This method allows an IRegionManager to locate a specified region and navigate in it to the specified target string, passing an instance of NavigationParameters, which holds a collection of object parameters.
+        /// </summary>
+        /// <param name="regionName">The name of the region where the navigation will occur.</param>
+        /// <param name="target">A string that represents the target where the region will navigate.</param>
+        public async Task<NavigationResult> RequestNavigateAsync(string regionName, string target)
+        {
+            return await RequestNavigateAsync(regionName, new Uri(target, UriKind.RelativeOrAbsolute), null);
         }
 
         private class RegionCollection : IRegionCollection
