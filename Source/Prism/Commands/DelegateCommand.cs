@@ -129,9 +129,9 @@ namespace Prism.Commands
         ///Executes the command and invokes the <see cref="Action{T}"/> provided during construction.
         ///</summary>
         ///<param name="parameter">Data used by the command.</param>
-        public virtual async Task Execute(T parameter)
+        public virtual Task Execute(T parameter)
         {
-            await base.Execute(parameter);
+            return base.Execute(parameter);
         }
 
 
@@ -225,9 +225,9 @@ namespace Prism.Commands
         ///<summary>
         /// Executes the command.
         ///</summary>
-        public virtual async Task Execute()
+        public virtual Task Execute()
         {
-            await Execute(null);
+            return Execute(null);
         }
 
         /// <summary>
