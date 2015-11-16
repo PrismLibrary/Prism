@@ -1,0 +1,22 @@
+﻿<resources>
+
+  <style name="MyTheme.Base" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+
+
+  </style>
+
+  <style name="MyTheme" parent="MyTheme.Base">
+    <item name="android:actionBarStyle">@style/MyTheme.ActionBarStyle</item>
+  </style>
+
+  <style name="MyTheme.ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
+    <item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
+    <item name="android:background">@color/material_blue_500</item>
+  </style>
+
+  <style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+    <item name="android:textColor">@android:color/white</item>
+  </style>
+
+</resources>
+

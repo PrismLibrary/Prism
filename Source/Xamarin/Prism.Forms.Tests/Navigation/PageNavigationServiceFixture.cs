@@ -291,7 +291,7 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public void Navigate_ToNavigatonPage_ByName_ViewModelHasINavigationAware()
+        public void Navigate_ToNavigatonPage_ViewModelHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.Page();
@@ -315,7 +315,7 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public void Navigate_ToMasterDetailPage_ByName_ViewModelHasINavigationAware()
+        public void Navigate_ToMasterDetailPage_ViewModelHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.Page();
