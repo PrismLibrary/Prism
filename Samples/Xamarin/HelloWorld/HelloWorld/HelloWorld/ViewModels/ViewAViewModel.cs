@@ -36,7 +36,7 @@ namespace HelloWorld.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-            if (parameters?.Count > 0)
+            if (parameters.ContainsKey("id"))
                 Title = string.Format("ViewA : {0}", (string)parameters["id"]);
         }
     }

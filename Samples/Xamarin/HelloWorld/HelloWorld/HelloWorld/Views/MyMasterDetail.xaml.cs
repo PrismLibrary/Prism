@@ -14,58 +14,60 @@ namespace HelloWorld.Views
         {
             InitializeComponent();
 
-            Label header = new Label
-            {
-                Text = "MasterDetailPage",
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
-                HorizontalOptions = LayoutOptions.Center
-            };
+            Detail = new ViewA();
 
-            // Assemble an array of NamedColor objects.
-            NamedColor[] namedColors =
-                {
-                    new NamedColor("Aqua", Color.Aqua),
-                    new NamedColor("Black", Color.Black),
-                    new NamedColor("Blue", Color.Blue),
-                    new NamedColor("Fuschia", Color.Fuschia),
-                    new NamedColor("Gray", Color.Gray),
-                    new NamedColor("Green", Color.Green),
-                    new NamedColor("Lime", Color.Lime),
-                    new NamedColor("Maroon", Color.Maroon),
-                    new NamedColor("Navy", Color.Navy),
-                    new NamedColor("Olive", Color.Olive),
-                    new NamedColor("Purple", Color.Purple),
-                    new NamedColor("Red", Color.Red),
-                    new NamedColor("Silver", Color.Silver),
-                    new NamedColor("Teal", Color.Teal),
-                    new NamedColor("White", Color.White),
-                    new NamedColor("Yellow", Color.Yellow)
-                };
+            //Label header = new Label
+            //{
+            //    Text = "MasterDetailPage",
+            //    FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+            //    HorizontalOptions = LayoutOptions.Center
+            //};
 
-            // Create ListView for the master page.
-            ListView listView = new ListView
-            {
-                ItemsSource = namedColors
-            };
+            //// Assemble an array of NamedColor objects.
+            //NamedColor[] namedColors =
+            //    {
+            //        new NamedColor("Aqua", Color.Aqua),
+            //        new NamedColor("Black", Color.Black),
+            //        new NamedColor("Blue", Color.Blue),
+            //        new NamedColor("Fuschia", Color.Fuschia),
+            //        new NamedColor("Gray", Color.Gray),
+            //        new NamedColor("Green", Color.Green),
+            //        new NamedColor("Lime", Color.Lime),
+            //        new NamedColor("Maroon", Color.Maroon),
+            //        new NamedColor("Navy", Color.Navy),
+            //        new NamedColor("Olive", Color.Olive),
+            //        new NamedColor("Purple", Color.Purple),
+            //        new NamedColor("Red", Color.Red),
+            //        new NamedColor("Silver", Color.Silver),
+            //        new NamedColor("Teal", Color.Teal),
+            //        new NamedColor("White", Color.White),
+            //        new NamedColor("Yellow", Color.Yellow)
+            //    };
 
-            // Create the master page with the ListView.
-            this.Master = new ContentPage
-            {
-                Title = header.Text,
-                Content = new StackLayout
-                {
-                    Children =
-                    {
-                        header,
-                        listView
-                    }
-                }
-            };
+            //// Create ListView for the master page.
+            //ListView listView = new ListView
+            //{
+            //    ItemsSource = namedColors
+            //};
 
-            //this.Detail = new ViewA();
+            //// Create the master page with the ListView.
+            //this.Master = new ContentPage
+            //{
+            //    Title = header.Text,
+            //    Content = new StackLayout
+            //    {
+            //        Children =
+            //        {
+            //            header,
+            //            listView
+            //        }
+            //    }
+            //};
 
-            // Initialize the ListView selection.
-            listView.SelectedItem = namedColors[0];
+            ////this.Detail = new ViewA();
+
+            //// Initialize the ListView selection.
+            //listView.SelectedItem = namedColors[0];
 
         }
     }
