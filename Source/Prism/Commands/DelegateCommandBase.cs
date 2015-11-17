@@ -59,7 +59,7 @@ namespace Prism.Commands
         public virtual event EventHandler CanExecuteChanged;
 
         /// <summary>
-        /// Raises <see cref="ICommand.CanExecuteChanged"/> on the UI thread so every 
+        /// Raises <see cref="ICommand.CanExecuteChanged"/> so every 
         /// command invoker can requery <see cref="ICommand.CanExecute"/>.
         /// </summary>
         protected virtual void OnCanExecuteChanged()
@@ -72,7 +72,7 @@ namespace Prism.Commands
         }
 
         /// <summary>
-        /// Raises <see cref="DelegateCommandBase.CanExecuteChanged"/> on the UI thread so every command invoker
+        /// Raises <see cref="DelegateCommandBase.CanExecuteChanged"/> so every command invoker
         /// can requery to check if the command can execute.
         /// <remarks>Note that this will trigger the execution of <see cref="DelegateCommandBase.CanExecute"/> once for each invoker.</remarks>
         /// </summary>
