@@ -1,0 +1,15 @@
+﻿<resources>
+
+  <style name="MyTheme" parent="@android:style/Theme.Material.Light.DarkActionBar">
+    <item name="android:colorPrimary">@color/material_blue_500</item>
+    <item name="android:colorPrimaryDark">@color/material_blue_700</item>
+    <item name="android:colorAccent">@color/accent</item>
+    <item name="android:windowContentTransitions">true</item>
+    <item name="android:windowAllowEnterTransitionOverlap">true</item>
+    <item name="android:windowAllowReturnTransitionOverlap">true</item>
+    <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
+    <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
+    <item name="android:actionBarStyle">@style/MyTheme.ActionBarStyle</item>
+  </style>
+</resources>
+

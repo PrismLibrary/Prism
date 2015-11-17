@@ -1,10 +1,5 @@
 ﻿using HelloWorld.Views;
 using Prism.Unity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Microsoft.Practices.Unity;
 
@@ -14,7 +9,7 @@ namespace HelloWorld
     {
         protected override Page CreateMainPage()
         {
-            return Container.Resolve<MainPage>();
+            return Container.Resolve<MyMasterDetail>();
         }
 
         protected override void RegisterTypes()

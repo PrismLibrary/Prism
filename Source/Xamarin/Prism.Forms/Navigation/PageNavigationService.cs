@@ -67,10 +67,52 @@ namespace Prism.Navigation
         public void Navigate(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             var navigationSegments = UriParsingHelper.GetUriSegments(uri);
-
+            var rootPage = GetRootPage();
             var isDeepLink = navigationSegments.Count > 1;
 
-            ProcessNavigationSegments(GetRootPage(), navigationSegments, parameters, useModalNavigation, isDeepLink ? false : animated);
+            if (isDeepLink)
+                ProcessNavigationSegments(rootPage, navigationSegments, parameters, useModalNavigation, false);
+            else
+                NavigateToPage(rootPage, navigationSegments.Dequeue(), parameters, useModalNavigation, animated);
+        }
+
+        void NavigateToPage(Page currentPage, string segment, NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            var segmentName = UriParsingHelper.GetSegmentName(segment);
+
+            var targetPage = CreatePage(segmentName);
+            if (targetPage != null)
+            {
+                var segmentParameters = GetSegmentParameters(segment, parameters);
+
+                if (!CanNavigate(currentPage, segmentParameters))
+                    return;
+
+                bool useModalForDoPush = UseModalNavigation(currentPage, segmentName, useModalNavigation);
+
+                if (currentPage is MasterDetailPage)
+                {
+                    NavigateToPageFromMasterDetailPage((MasterDetailPage)currentPage, segment, targetPage, segmentParameters);
+                    return;
+                }
+
+                OnNavigatedFrom(currentPage, segmentParameters);
+                DoPush(currentPage.Navigation, targetPage, useModalForDoPush, animated);
+                OnNavigatedTo(targetPage, segmentParameters, true);
+            }
+        }
+
+        void NavigateToPageFromMasterDetailPage(MasterDetailPage currentPage, string targetSegment, Page targetPage, NavigationParameters parameters)
+        {
+            var detail = currentPage.Detail;
+            var segmentType = PageNavigationRegistry.GetPageType(targetSegment);
+
+            if (detail.GetType() == segmentType)
+                return;
+
+            OnNavigatedFrom(detail, parameters);
+            currentPage.Detail = targetPage;
+            OnNavigatedTo(targetPage, parameters);
         }
 
         void ProcessNavigationSegments(Page currentPage, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -84,9 +126,9 @@ namespace Prism.Navigation
             var targetPage = CreatePage(segmentName);
             if (targetPage != null)
             {
-                bool useModalForDoNav = UseModalNavigation(currentPage, UriParsingHelper.GetSegmentName(segment), useModalNavigation);
+                bool useModalForDoPush = UseModalNavigation(currentPage, segmentName, useModalNavigation);
 
-                ProcessNavigationForPages(currentPage, segment, targetPage, segments, parameters, useModalForDoNav, animated);
+                ProcessNavigationForPages(currentPage, segment, targetPage, segments, parameters, useModalForDoPush, animated);
             }
             else
             {
@@ -232,6 +274,14 @@ namespace Prism.Navigation
                     DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
                     return;
                 }
+                else
+                {
+                    var newDetail = CreatePage(segments.Dequeue());
+                    ProcessNavigationSegments(newDetail, segments, parameters, newDetail is NavigationPage ? false : true, animated);
+                    targetPage.Detail = newDetail;
+                    DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
+                    return;
+                }
             }
 
             ProcessNavigationSegments(targetPage, segments, parameters, useModalNavigation, animated);
@@ -242,8 +292,6 @@ namespace Prism.Navigation
 
         static bool HasNavigationPageParent(Page page)
         {
-            //TODO:  may need to traverse the navigation stack to look for a NavigationPage
-            //good chance there is another page type, like a TabbedPage, within a NavigationPage
             return page.Parent != null && page.Parent is NavigationPage;
         }
 
@@ -315,23 +363,27 @@ namespace Prism.Navigation
                 InvokeOnNavigationAwareElement(currentPage, v => v.OnNavigatedFrom(parameters));
         }
 
-        static void OnNavigatedTo(object page, NavigationParameters parameters)
+        static void OnNavigatedTo(object page, NavigationParameters parameters, bool includeChild = false)
         {
-            var currentPage = page as Page;
+            if (page != null)
+                InvokeOnNavigationAwareElement(page, v => v.OnNavigatedTo(parameters));
 
-            if (currentPage is NavigationPage)
+            if (includeChild)
             {
-                var navpage = (NavigationPage)page;
-                InvokeOnNavigationAwareElement(navpage.CurrentPage, v => v.OnNavigatedTo(parameters));
-            }
-            else if (currentPage is MasterDetailPage)
-            {
-                var mdPage = (MasterDetailPage)page;
-                InvokeOnNavigationAwareElement(mdPage.Detail, v => v.OnNavigatedTo(parameters));
-            }
+                Page childPage = null;
 
-            if (currentPage != null)
-                InvokeOnNavigationAwareElement(currentPage, v => v.OnNavigatedTo(parameters));
+                if (page is NavigationPage)
+                    childPage = ((NavigationPage)page).CurrentPage;
+                else if (page is TabbedPage)
+                    childPage = ((TabbedPage)page).CurrentPage;
+                if (page is CarouselPage)
+                    childPage = ((CarouselPage)page).CurrentPage;
+                else if (page is MasterDetailPage)
+                    childPage = ((MasterDetailPage)page).Detail;
+
+                if (childPage != null)
+                    InvokeOnNavigationAwareElement(childPage, c => c.OnNavigatedTo(parameters));
+            }
         }
 
         static void InvokeOnNavigationAwareElement(object item, Action<INavigationAware> invocation)
@@ -360,9 +412,6 @@ namespace Prism.Navigation
                     navParameters.Add(navigationParameter.Key, navigationParameter.Value);
                 }
             }
-
-            if (navParameters.Count == 0)
-                return null;
 
             return navParameters;
         }

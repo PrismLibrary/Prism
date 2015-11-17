@@ -1,6 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="HelloWorld.Views.MyMasterDetail">
+
+  <MasterDetailPage.Master>
+    <ContentPage Title="My MatserDetailPage">
+      <StackLayout>
+        <Button Text="ViewA" Command="{Binding NavigateCommand}" CommandParameter="ViewA" />
+        <Button Text="ViewB" Command="{Binding NavigateCommand}" CommandParameter="ViewB" />
+        <Button Text="ViewC" Command="{Binding NavigateCommand}" CommandParameter="ViewC" />
+      </StackLayout>
+    </ContentPage>
+  </MasterDetailPage.Master>
   
 </MasterDetailPage>
