@@ -9,9 +9,9 @@ namespace Prism.Forms.Tests.Mocks.Views
         {
             ViewModelLocator.SetAutowireViewModel(this, true);
 
-            Children.Add(new ContentPageMock() { Title = "Page 1" });
+            Children.Add(new ContentPage() { Title = "Page 1" });
             Children.Add(new ContentPageMock() { Title = "Page 2" });
-            Children.Add(new ContentPageMock() { Title = "Page 3" });
+            Children.Add(new ContentPage() { Title = "Page 3" });
         }
     }
 }

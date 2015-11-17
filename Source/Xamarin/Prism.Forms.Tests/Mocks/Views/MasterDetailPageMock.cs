@@ -12,4 +12,12 @@ namespace Prism.Forms.Tests.Mocks.Views
             ViewModelLocator.SetAutowireViewModel(this, true);
         }
     }
+
+    public class MasterDetailPageEmptyMock : MasterDetailPage
+    {
+        public MasterDetailPageEmptyMock()
+        {
+
+        }
+    }
 }

@@ -105,22 +105,14 @@ namespace Prism.Navigation
         void NavigateToPageFromMasterDetailPage(MasterDetailPage currentPage, string targetSegment, Page targetPage, NavigationParameters parameters)
         {
             var detail = currentPage.Detail;
-            if (detail == null)
-            {
-                currentPage.Detail = targetPage;
-                OnNavigatedTo(targetPage, parameters);
-            }
-            else
-            {
-                var segmentType = PageNavigationRegistry.GetPageType(targetSegment);
+            var segmentType = PageNavigationRegistry.GetPageType(targetSegment);
 
-                if (detail.GetType() == segmentType)
-                    return;
+            if (detail.GetType() == segmentType)
+                return;
 
-                OnNavigatedFrom(detail, parameters);
-                currentPage.Detail = targetPage;
-                OnNavigatedTo(targetPage, parameters);
-            }
+            OnNavigatedFrom(detail, parameters);
+            currentPage.Detail = targetPage;
+            OnNavigatedTo(targetPage, parameters);
         }
 
         void ProcessNavigationSegments(Page currentPage, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -279,6 +271,14 @@ namespace Prism.Navigation
                 {
                     segments.Dequeue();
                     ProcessNavigationSegments(detail, segments, parameters, useModalNavigation, animated);
+                    DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
+                    return;
+                }
+                else
+                {
+                    var newDetail = CreatePage(segments.Dequeue());
+                    ProcessNavigationSegments(newDetail, segments, parameters, newDetail is NavigationPage ? false : true, animated);
+                    targetPage.Detail = newDetail;
                     DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
                     return;
                 }
