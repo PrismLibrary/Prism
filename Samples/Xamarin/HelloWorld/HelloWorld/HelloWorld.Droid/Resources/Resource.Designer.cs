@@ -4022,35 +4022,35 @@ namespace HelloWorld.Droid
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f07007f
-			public const int AlertDialog_AppCompat = 2131165311;
-			
-			// aapt resource value: 0x7f070080
-			public const int AlertDialog_AppCompat_Light = 2131165312;
-			
 			// aapt resource value: 0x7f070081
-			public const int Animation_AppCompat_Dialog = 2131165313;
+			public const int AlertDialog_AppCompat = 2131165313;
 			
 			// aapt resource value: 0x7f070082
-			public const int Animation_AppCompat_DropDownUp = 2131165314;
+			public const int AlertDialog_AppCompat_Light = 2131165314;
 			
 			// aapt resource value: 0x7f070083
-			public const int Base_AlertDialog_AppCompat = 2131165315;
+			public const int Animation_AppCompat_Dialog = 2131165315;
 			
 			// aapt resource value: 0x7f070084
-			public const int Base_AlertDialog_AppCompat_Light = 2131165316;
+			public const int Animation_AppCompat_DropDownUp = 2131165316;
 			
 			// aapt resource value: 0x7f070085
-			public const int Base_Animation_AppCompat_Dialog = 2131165317;
+			public const int Base_AlertDialog_AppCompat = 2131165317;
 			
 			// aapt resource value: 0x7f070086
-			public const int Base_Animation_AppCompat_DropDownUp = 2131165318;
+			public const int Base_AlertDialog_AppCompat_Light = 2131165318;
 			
 			// aapt resource value: 0x7f070087
-			public const int Base_DialogWindowTitle_AppCompat = 2131165319;
+			public const int Base_Animation_AppCompat_Dialog = 2131165319;
 			
 			// aapt resource value: 0x7f070088
-			public const int Base_DialogWindowTitleBackground_AppCompat = 2131165320;
+			public const int Base_Animation_AppCompat_DropDownUp = 2131165320;
+			
+			// aapt resource value: 0x7f070089
+			public const int Base_DialogWindowTitle_AppCompat = 2131165321;
+			
+			// aapt resource value: 0x7f07008a
+			public const int Base_DialogWindowTitleBackground_AppCompat = 2131165322;
 			
 			// aapt resource value: 0x7f070034
 			public const int Base_TextAppearance_AppCompat = 2131165236;
@@ -4106,8 +4106,8 @@ namespace HelloWorld.Droid
 			// aapt resource value: 0x7f070041
 			public const int Base_TextAppearance_AppCompat_Menu = 2131165249;
 			
-			// aapt resource value: 0x7f070089
-			public const int Base_TextAppearance_AppCompat_SearchResult = 2131165321;
+			// aapt resource value: 0x7f07008b
+			public const int Base_TextAppearance_AppCompat_SearchResult = 2131165323;
 			
 			// aapt resource value: 0x7f070042
 			public const int Base_TextAppearance_AppCompat_SearchResult_Subtitle = 2131165250;
@@ -4157,11 +4157,11 @@ namespace HelloWorld.Droid
 			// aapt resource value: 0x7f07004e
 			public const int Base_TextAppearance_AppCompat_Widget_Button = 2131165262;
 			
-			// aapt resource value: 0x7f07008a
-			public const int Base_TextAppearance_AppCompat_Widget_Button_Inverse = 2131165322;
+			// aapt resource value: 0x7f07007d
+			public const int Base_TextAppearance_AppCompat_Widget_Button_Inverse = 2131165309;
 			
-			// aapt resource value: 0x7f07008b
-			public const int Base_TextAppearance_AppCompat_Widget_DropDownItem = 2131165323;
+			// aapt resource value: 0x7f07008c
+			public const int Base_TextAppearance_AppCompat_Widget_DropDownItem = 2131165324;
 			
 			// aapt resource value: 0x7f07004f
 			public const int Base_TextAppearance_AppCompat_Widget_PopupMenu_Large = 2131165263;
@@ -4175,8 +4175,8 @@ namespace HelloWorld.Droid
 			// aapt resource value: 0x7f070052
 			public const int Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem = 2131165266;
 			
-			// aapt resource value: 0x7f07008c
-			public const int Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item = 2131165324;
+			// aapt resource value: 0x7f07008d
+			public const int Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item = 2131165325;
 			
 			// aapt resource value: 0x7f070053
 			public const int Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle = 2131165267;
@@ -4187,20 +4187,20 @@ namespace HelloWorld.Droid
 			// aapt resource value: 0x7f070055
 			public const int Base_Theme_AppCompat = 2131165269;
 			
-			// aapt resource value: 0x7f07008d
-			public const int Base_Theme_AppCompat_CompactMenu = 2131165325;
+			// aapt resource value: 0x7f07008e
+			public const int Base_Theme_AppCompat_CompactMenu = 2131165326;
 			
 			// aapt resource value: 0x7f070010
 			public const int Base_Theme_AppCompat_Dialog = 2131165200;
 			
-			// aapt resource value: 0x7f07008e
-			public const int Base_Theme_AppCompat_Dialog_Alert = 2131165326;
-			
 			// aapt resource value: 0x7f07008f
-			public const int Base_Theme_AppCompat_Dialog_FixedSize = 2131165327;
+			public const int Base_Theme_AppCompat_Dialog_Alert = 2131165327;
 			
 			// aapt resource value: 0x7f070090
-			public const int Base_Theme_AppCompat_Dialog_MinWidth = 2131165328;
+			public const int Base_Theme_AppCompat_Dialog_FixedSize = 2131165328;
+			
+			// aapt resource value: 0x7f070091
+			public const int Base_Theme_AppCompat_Dialog_MinWidth = 2131165329;
 			
 			// aapt resource value: 0x7f070008
 			public const int Base_Theme_AppCompat_DialogWhenLarge = 2131165192;
@@ -4208,38 +4208,38 @@ namespace HelloWorld.Droid
 			// aapt resource value: 0x7f070056
 			public const int Base_Theme_AppCompat_Light = 2131165270;
 			
-			// aapt resource value: 0x7f070091
-			public const int Base_Theme_AppCompat_Light_DarkActionBar = 2131165329;
+			// aapt resource value: 0x7f070092
+			public const int Base_Theme_AppCompat_Light_DarkActionBar = 2131165330;
 			
 			// aapt resource value: 0x7f070011
 			public const int Base_Theme_AppCompat_Light_Dialog = 2131165201;
 			
-			// aapt resource value: 0x7f070092
-			public const int Base_Theme_AppCompat_Light_Dialog_Alert = 2131165330;
-			
 			// aapt resource value: 0x7f070093
-			public const int Base_Theme_AppCompat_Light_Dialog_FixedSize = 2131165331;
+			public const int Base_Theme_AppCompat_Light_Dialog_Alert = 2131165331;
 			
 			// aapt resource value: 0x7f070094
-			public const int Base_Theme_AppCompat_Light_Dialog_MinWidth = 2131165332;
+			public const int Base_Theme_AppCompat_Light_Dialog_FixedSize = 2131165332;
+			
+			// aapt resource value: 0x7f070095
+			public const int Base_Theme_AppCompat_Light_Dialog_MinWidth = 2131165333;
 			
 			// aapt resource value: 0x7f070009
 			public const int Base_Theme_AppCompat_Light_DialogWhenLarge = 2131165193;
 			
-			// aapt resource value: 0x7f070095
-			public const int Base_ThemeOverlay_AppCompat = 2131165333;
-			
 			// aapt resource value: 0x7f070096
-			public const int Base_ThemeOverlay_AppCompat_ActionBar = 2131165334;
+			public const int Base_ThemeOverlay_AppCompat = 2131165334;
 			
 			// aapt resource value: 0x7f070097
-			public const int Base_ThemeOverlay_AppCompat_Dark = 2131165335;
+			public const int Base_ThemeOverlay_AppCompat_ActionBar = 2131165335;
 			
 			// aapt resource value: 0x7f070098
-			public const int Base_ThemeOverlay_AppCompat_Dark_ActionBar = 2131165336;
+			public const int Base_ThemeOverlay_AppCompat_Dark = 2131165336;
 			
 			// aapt resource value: 0x7f070099
-			public const int Base_ThemeOverlay_AppCompat_Light = 2131165337;
+			public const int Base_ThemeOverlay_AppCompat_Dark_ActionBar = 2131165337;
+			
+			// aapt resource value: 0x7f07009a
+			public const int Base_ThemeOverlay_AppCompat_Light = 2131165338;
 			
 			// aapt resource value: 0x7f070012
 			public const int Base_V11_Theme_AppCompat_Dialog = 2131165202;
@@ -4271,38 +4271,38 @@ namespace HelloWorld.Droid
 			// aapt resource value: 0x7f07007c
 			public const int Base_V22_Theme_AppCompat_Light = 2131165308;
 			
-			// aapt resource value: 0x7f07007d
-			public const int Base_V23_Theme_AppCompat = 2131165309;
-			
 			// aapt resource value: 0x7f07007e
-			public const int Base_V23_Theme_AppCompat_Light = 2131165310;
+			public const int Base_V23_Theme_AppCompat = 2131165310;
 			
-			// aapt resource value: 0x7f07009a
-			public const int Base_V7_Theme_AppCompat = 2131165338;
+			// aapt resource value: 0x7f07007f
+			public const int Base_V23_Theme_AppCompat_Light = 2131165311;
 			
 			// aapt resource value: 0x7f07009b
-			public const int Base_V7_Theme_AppCompat_Dialog = 2131165339;
+			public const int Base_V7_Theme_AppCompat = 2131165339;
 			
 			// aapt resource value: 0x7f07009c
-			public const int Base_V7_Theme_AppCompat_Light = 2131165340;
+			public const int Base_V7_Theme_AppCompat_Dialog = 2131165340;
 			
 			// aapt resource value: 0x7f07009d
-			public const int Base_V7_Theme_AppCompat_Light_Dialog = 2131165341;
+			public const int Base_V7_Theme_AppCompat_Light = 2131165341;
 			
 			// aapt resource value: 0x7f07009e
-			public const int Base_V7_Widget_AppCompat_AutoCompleteTextView = 2131165342;
+			public const int Base_V7_Theme_AppCompat_Light_Dialog = 2131165342;
 			
 			// aapt resource value: 0x7f07009f
-			public const int Base_V7_Widget_AppCompat_EditText = 2131165343;
+			public const int Base_V7_Widget_AppCompat_AutoCompleteTextView = 2131165343;
 			
 			// aapt resource value: 0x7f0700a0
-			public const int Base_Widget_AppCompat_ActionBar = 2131165344;
+			public const int Base_V7_Widget_AppCompat_EditText = 2131165344;
 			
 			// aapt resource value: 0x7f0700a1
-			public const int Base_Widget_AppCompat_ActionBar_Solid = 2131165345;
+			public const int Base_Widget_AppCompat_ActionBar = 2131165345;
 			
 			// aapt resource value: 0x7f0700a2
-			public const int Base_Widget_AppCompat_ActionBar_TabBar = 2131165346;
+			public const int Base_Widget_AppCompat_ActionBar_Solid = 2131165346;
+			
+			// aapt resource value: 0x7f0700a3
+			public const int Base_Widget_AppCompat_ActionBar_TabBar = 2131165347;
 			
 			// aapt resource value: 0x7f07005b
 			public const int Base_Widget_AppCompat_ActionBar_TabText = 2131165275;
@@ -4319,11 +4319,11 @@ namespace HelloWorld.Droid
 			// aapt resource value: 0x7f07005f
 			public const int Base_Widget_AppCompat_ActionButton_Overflow = 2131165279;
 			
-			// aapt resource value: 0x7f0700a3
-			public const int Base_Widget_AppCompat_ActionMode = 2131165347;
-			
 			// aapt resource value: 0x7f0700a4
-			public const int Base_Widget_AppCompat_ActivityChooserView = 2131165348;
+			public const int Base_Widget_AppCompat_ActionMode = 2131165348;
+			
+			// aapt resource value: 0x7f0700a5
+			public const int Base_Widget_AppCompat_ActivityChooserView = 2131165349;
 			
 			// aapt resource value: 0x7f07001d
 			public const int Base_Widget_AppCompat_AutoCompleteTextView = 2131165213;
@@ -4337,11 +4337,11 @@ namespace HelloWorld.Droid
 			// aapt resource value: 0x7f070062
 			public const int Base_Widget_AppCompat_Button_Borderless_Colored = 2131165282;
 			
-			// aapt resource value: 0x7f0700a5
-			public const int Base_Widget_AppCompat_Button_ButtonBar_AlertDialog = 2131165349;
-			
 			// aapt resource value: 0x7f0700a6
-			public const int Base_Widget_AppCompat_Button_Colored = 2131165350;
+			public const int Base_Widget_AppCompat_Button_ButtonBar_AlertDialog = 2131165350;
+			
+			// aapt resource value: 0x7f070080
+			public const int Base_Widget_AppCompat_Button_Colored = 2131165312;
 			
 			// aapt resource value: 0x7f070063
 			public const int Base_Widget_AppCompat_Button_Small = 2131165283;
