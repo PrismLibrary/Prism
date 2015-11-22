@@ -152,19 +152,29 @@ namespace Prism.Interactivity
                         wrapperWindow.SizeChanged -= sizeHandler;
 
                         FrameworkElement view = this.AssociatedObject;
-                        Point position = view.PointToScreen(new Point(0, 0));
+                        
+                        // Position is the top left position of the view from which the request was initiated.
+                        // On multiple monitors, if the X or Y coordinate is negative it represent that the monitor from which
+                        // the request was initiated is either on the left or above the PrimaryScreen
 
+                        Point position = view.PointToScreen(new Point(0, 0));
                         PresentationSource source = PresentationSource.FromVisual(view);
                         position = source.CompositionTarget.TransformFromDevice.Transform(position);
 
-                        double x = position.X + ((view.ActualWidth - wrapperWindow.ActualWidth) / 2);
-                        double y = position.Y + ((view.ActualHeight - wrapperWindow.ActualHeight) / 2);
+                        // Find the middle of the calling view.
+                        // Take the width and height of the view divided by 2 and add to the X and Y coordinates.
 
-                        x = Math.Max(0, Math.Min(x, SystemParameters.WorkArea.Right - wrapperWindow.ActualWidth));
-                        y = Math.Max(0, Math.Min(y, SystemParameters.WorkArea.Bottom - wrapperWindow.ActualHeight));
+                        var middleOfView = new Point(position.X + (view.ActualWidth / 2),
+                                                     position.Y + (view.ActualHeight / 2));
 
-                        wrapperWindow.Left = x;
-                        wrapperWindow.Top = y;
+                        // Set the coordinates for the top left part of the wrapperWindow.
+                        // Take the width of the wrapperWindow, divide it by 2 and substract it from 
+                        // the X coordinate of middleOfView. Do the same thing for the Y coordinate.
+                        // If the wrapper window is wider or taller than the view, it will be behind the view.
+
+                        wrapperWindow.Left = middleOfView.X - (wrapperWindow.ActualWidth / 2);
+                        wrapperWindow.Top = middleOfView.Y - (wrapperWindow.ActualHeight / 2);
+                       
                     };
                 wrapperWindow.SizeChanged += sizeHandler;
             }
