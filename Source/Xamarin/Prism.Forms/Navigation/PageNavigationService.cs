@@ -112,6 +112,7 @@ namespace Prism.Navigation
 
             OnNavigatedFrom(detail, parameters);
             currentPage.Detail = targetPage;
+            currentPage.IsPresented = false;
             OnNavigatedTo(targetPage, parameters);
         }
 
