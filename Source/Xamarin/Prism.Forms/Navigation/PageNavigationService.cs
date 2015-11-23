@@ -23,10 +23,13 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public void GoBack(bool useModalNavigation = true, bool animated = true)
+        public void GoBack(bool? useModalNavigation = null, bool animated = true)
         {
             var page = GetRootPage();
-            DoPop(page.Navigation, useModalNavigation, animated);
+
+            bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
+
+            DoPop(page.Navigation, useModalForDoPop, animated);
         }
 
         /// <summary>
@@ -88,7 +91,7 @@ namespace Prism.Navigation
                 if (!CanNavigate(currentPage, segmentParameters))
                     return;
 
-                bool useModalForDoPush = UseModalNavigation(currentPage, segmentName, useModalNavigation);
+                bool useModalForDoPush = UseModalNavigation(currentPage, useModalNavigation);
 
                 if (currentPage is MasterDetailPage)
                 {
@@ -127,7 +130,7 @@ namespace Prism.Navigation
             var targetPage = CreatePage(segmentName);
             if (targetPage != null)
             {
-                bool useModalForDoPush = UseModalNavigation(currentPage, segmentName, useModalNavigation);
+                bool useModalForDoPush = UseModalNavigation(currentPage, useModalNavigation);
 
                 ProcessNavigationForPages(currentPage, segment, targetPage, segments, parameters, useModalForDoPush, animated);
             }
@@ -296,7 +299,7 @@ namespace Prism.Navigation
             return page.Parent != null && page.Parent is NavigationPage;
         }
 
-        static bool UseModalNavigation(Page currentPage, string name, bool? useModalNavigationDefault)
+        static bool UseModalNavigation(Page currentPage, bool? useModalNavigationDefault)
         {
             bool useModalNavigation = true;
 
