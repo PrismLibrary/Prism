@@ -13,6 +13,20 @@ namespace Prism.Forms.Tests.Common
         const string _deepLinkRelativeUri = "MainPage?id=1/ViewA?id=2/ViewB?id=3/ViewC?id=4";
 
         [Fact]
+        public void ParametersParsedFromNullSegment()
+        {
+            var parameters = UriParsingHelper.GetSegmentParameters(null);
+            Assert.NotNull(parameters);
+        }
+
+        [Fact]
+        public void ParametersParsedFromEmptySegment()
+        {
+            var parameters = UriParsingHelper.GetSegmentParameters(string.Empty);
+            Assert.NotNull(parameters);
+        }
+
+        [Fact]
         public void ParametersParsedFromRelativeUri()
         {
             var parameters = UriParsingHelper.GetSegmentParameters(_relativeUri);

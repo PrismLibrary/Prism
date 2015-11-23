@@ -13,7 +13,7 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        void GoBack(bool useModalNavigation = true, bool animated = true);
+        void GoBack(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true);
 
         /// <summary>
         /// Initiates navigation to the target specified by the <typeparamref name="T"/>.
