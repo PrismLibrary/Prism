@@ -1,8 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using Xamarin.Forms;
-using Prism.Common;
+﻿using Prism.Common;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Prism.Navigation
 {
@@ -23,13 +24,23 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public void GoBack(bool? useModalNavigation = null, bool animated = true)
+        public async void GoBack(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             var page = GetRootPage();
+            var navParameters = GetSegmentParameters(null, parameters);
+
+            if (!CanNavigate(page, navParameters))
+                return;
 
             bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
+            Page previousPage = GetPreviousPage(page, useModalForDoPop);
 
-            DoPop(page.Navigation, useModalForDoPop, animated);
+            OnNavigatedFrom(page, navParameters);
+
+            var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
+
+            if (poppedPage != null)
+                OnNavigatedTo(previousPage, navParameters);
         }
 
         /// <summary>
@@ -313,6 +324,35 @@ namespace Prism.Navigation
             return useModalNavigation;
         }
 
+        static Page GetPreviousPage(Page page, bool useModalNavigation)
+        {
+            Page previousPage = null;
+
+            if (useModalNavigation)
+            {
+                int modalStackCount = page.Navigation.ModalStack.Count;
+                int previousPageIndex = modalStackCount - 2;
+                if (modalStackCount > 0 && previousPageIndex >= 0)
+                {
+                    previousPage = page.Navigation.ModalStack[previousPageIndex];
+                }
+            }
+            else
+            {
+                int navStackCount = page.Navigation.NavigationStack.Count;
+                int previousPageIndex = navStackCount - 2;
+                if (navStackCount > 0 && previousPageIndex >= 0)
+                {
+                    previousPage = page.Navigation.NavigationStack[previousPageIndex];
+                }
+
+                if (previousPage == null)
+                    previousPage = GetPreviousPage(page, true);
+            }
+
+            return previousPage;
+        }
+
         async static void DoPush(INavigation navigation, Page page, bool useModalNavigation, bool animated)
         {
             if (useModalNavigation)
@@ -321,12 +361,12 @@ namespace Prism.Navigation
                 await navigation.PushAsync(page, animated);
         }
 
-        async static void DoPop(INavigation navigation, bool useModalNavigation, bool animated)
+        async static Task<Page> DoPop(INavigation navigation, bool useModalNavigation, bool animated)
         {
             if (useModalNavigation)
-                await navigation.PopModalAsync(animated);
+                return await navigation.PopModalAsync(animated);
             else
-                await navigation.PopAsync(animated);
+                return await navigation.PopAsync(animated);
         }
 
         static void DoNavigate(Page currentPage, string segment, Page targetPage, NavigationParameters parameters, bool useModalNavigation, bool animated)

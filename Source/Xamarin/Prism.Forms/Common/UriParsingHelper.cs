@@ -42,9 +42,12 @@ namespace Prism.Common
         {
             string query = string.Empty;
 
-            var indexOfQuery = segment.IndexOf('?');
-            if (indexOfQuery > 0)
-                query = segment.Substring(indexOfQuery);
+            if (!String.IsNullOrWhiteSpace(segment))
+            {
+                var indexOfQuery = segment.IndexOf('?');
+                if (indexOfQuery > 0)
+                    query = segment.Substring(indexOfQuery);
+            }
 
             return new NavigationParameters(query);
         }
