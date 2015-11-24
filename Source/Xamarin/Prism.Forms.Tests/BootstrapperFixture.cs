@@ -2,6 +2,7 @@
 using System;
 using Xamarin.Forms;
 using Xunit;
+using Prism.Navigation;
 
 namespace Prism.Forms.Tests
 {
@@ -82,6 +83,16 @@ namespace Prism.Forms.Tests
         }
 
         protected override void RegisterTypes()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override INavigationService CreateNavigationService()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void OnInitialized()
         {
             throw new NotImplementedException();
         }

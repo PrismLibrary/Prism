@@ -1,7 +1,6 @@
 ﻿using Prism.Common;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -81,9 +80,10 @@ namespace Prism.Navigation
         public void Navigate(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             var navigationSegments = UriParsingHelper.GetUriSegments(uri);
-            var rootPage = GetRootPage();
-            var isDeepLink = navigationSegments.Count > 1;
 
+            var rootPage = GetRootPage();
+
+            var isDeepLink = navigationSegments.Count > 1;
             if (isDeepLink)
                 ProcessNavigationSegments(rootPage, navigationSegments, parameters, useModalNavigation, false);
             else
@@ -111,7 +111,7 @@ namespace Prism.Navigation
                 }
 
                 OnNavigatedFrom(currentPage, segmentParameters);
-                DoPush(currentPage.Navigation, targetPage, useModalForDoPush, animated);
+                DoPush(currentPage, targetPage, useModalForDoPush, animated);
                 OnNavigatedTo(targetPage, segmentParameters, true);
             }
         }
@@ -144,14 +144,6 @@ namespace Prism.Navigation
                 bool useModalForDoPush = UseModalNavigation(currentPage, useModalNavigation);
 
                 ProcessNavigationForPages(currentPage, segment, targetPage, segments, parameters, useModalForDoPush, animated);
-            }
-            else
-            {
-                //TODO: log this using the logger
-                Debug.WriteLine("Navigation ERROR: {0} not found. Make sure you have registered {0} for navigation.", segmentName);
-
-                //TODO: since an error occured, should we stop processing, or continue?
-                ProcessNavigationSegments(currentPage, segments, parameters, useModalNavigation, animated);
             }
         }
 
@@ -244,7 +236,6 @@ namespace Prism.Navigation
             DoNavigate(currentPage, targetSegment, targetPage, parameters, useModalNavigation, animated);
         }
 
-        //TODO: this is the exact same code as TabbedPage, how can I use this same method for both page types?
         void ProcessNavigationForCarouselPage(Page currentPage, string targetSegment, CarouselPage targetPage, Queue<string> segments, NavigationParameters parameters, bool useModalNavigation, bool animated)
         {
             if (segments.Count > 0) // we have a next page
@@ -307,7 +298,7 @@ namespace Prism.Navigation
 
         static bool HasNavigationPageParent(Page page)
         {
-            return page.Parent != null && page.Parent is NavigationPage;
+            return page?.Parent != null && page?.Parent is NavigationPage;
         }
 
         static bool UseModalNavigation(Page currentPage, bool? useModalNavigationDefault)
@@ -353,12 +344,19 @@ namespace Prism.Navigation
             return previousPage;
         }
 
-        async static void DoPush(INavigation navigation, Page page, bool useModalNavigation, bool animated)
+        async static void DoPush(Page currentPage, Page page, bool useModalNavigation, bool animated)
         {
-            if (useModalNavigation)
-                await navigation.PushModalAsync(page, animated);
+            if (currentPage == null && Application.Current.MainPage == null)
+            {
+                Application.Current.MainPage = page;
+            }
             else
-                await navigation.PushAsync(page, animated);
+            {
+                if (useModalNavigation)
+                    await currentPage.Navigation.PushModalAsync(page, animated);
+                else
+                    await currentPage.Navigation.PushAsync(page, animated);
+            }
         }
 
         async static Task<Page> DoPop(INavigation navigation, bool useModalNavigation, bool animated)
@@ -378,7 +376,7 @@ namespace Prism.Navigation
 
             OnNavigatedFrom(currentPage, segmentPrameters);
 
-            DoPush(currentPage.Navigation, targetPage, useModalNavigation, animated);
+            DoPush(currentPage, targetPage, useModalNavigation, animated);
 
             OnNavigatedTo(targetPage, segmentPrameters);
         }
@@ -402,9 +400,8 @@ namespace Prism.Navigation
 
         static void OnNavigatedFrom(object page, NavigationParameters parameters)
         {
-            var currentPage = page as Page;
-            if (currentPage != null)
-                InvokeOnNavigationAwareElement(currentPage, v => v.OnNavigatedFrom(parameters));
+            if (page != null)
+                InvokeOnNavigationAwareElement(page, v => v.OnNavigatedFrom(parameters));
         }
 
         static void OnNavigatedTo(object page, NavigationParameters parameters, bool includeChild = false)
