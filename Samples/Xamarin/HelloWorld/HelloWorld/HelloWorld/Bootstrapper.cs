@@ -1,19 +1,18 @@
 ﻿using HelloWorld.Views;
 using Prism.Unity;
-using Xamarin.Forms;
-using Microsoft.Practices.Unity;
 
 namespace HelloWorld
 {
     public class Bootstrapper : UnityBootstrapper
     {
-        protected override Page CreateMainPage()
+        protected override void OnInitialized()
         {
-            return Container.Resolve<MyMasterDetail>();
+            NavigationService.Navigate("MyMasterDetail/MyTabbedPage/ViewB");
         }
 
         protected override void RegisterTypes()
         {
+            Container.RegisterTypeForNavigation<MainPage>();
             Container.RegisterTypeForNavigation<MyNavigationPage>();
             Container.RegisterTypeForNavigation<MyTabbedPage>();
             Container.RegisterTypeForNavigation<MyMasterDetail>();

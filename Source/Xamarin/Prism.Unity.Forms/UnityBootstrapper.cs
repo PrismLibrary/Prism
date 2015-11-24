@@ -1,4 +1,4 @@
-﻿using Microsoft.Practices.ServiceLocation;
+﻿using System;
 using Microsoft.Practices.Unity;
 using Prism.Common;
 using Prism.Events;
@@ -24,10 +24,20 @@ namespace Prism.Unity
             Container = CreateContainer();
 
             ConfigureContainer();
+
+            NavigationService = CreateNavigationService();
+
             RegisterTypes();
 
-            App.MainPage = CreateMainPage();
+            //****** Obsolete ******//
+            var page = CreateMainPage();
+            if (page != null)
+                App.MainPage = page;
+
             InitializeMainPage();
+            //**********************//
+
+            OnInitialized();
         }
 
         protected override void ConfigureViewModelLocator()
@@ -52,6 +62,7 @@ namespace Prism.Unity
             });
         }
 
+        [Obsolete]
         protected virtual void InitializeMainPage()
         {
         }
@@ -59,6 +70,11 @@ namespace Prism.Unity
         protected virtual IUnityContainer CreateContainer()
         {
             return new UnityContainer();
+        }
+
+        protected override INavigationService CreateNavigationService()
+        {
+            return Container.Resolve<UnityPageNavigationService>();
         }
 
         protected virtual void ConfigureContainer()

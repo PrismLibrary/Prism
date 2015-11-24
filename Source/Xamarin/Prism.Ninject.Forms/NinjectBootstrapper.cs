@@ -9,6 +9,7 @@ using Prism.Navigation;
 using Prism.Ninject.Extensions;
 using Prism.Ninject.Navigation;
 using Prism.Services;
+using System;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
 
@@ -33,10 +34,20 @@ namespace Prism.Ninject
             Kernel = CreateKernel();
 
             ConfigureKernel();
+
+            NavigationService = CreateNavigationService();
+
             RegisterTypes();
 
-            App.MainPage = CreateMainPage();
+            //****** Obsolete ******//
+            var page = CreateMainPage();
+            if (page != null)
+                App.MainPage = page;
+
             InitializeMainPage();
+            //**********************//
+
+            OnInitialized();
         }
 
         /// <inheritDoc />
@@ -63,6 +74,7 @@ namespace Prism.Ninject
         }
 
         /// <inheritDoc />
+        [Obsolete]
         protected virtual void InitializeMainPage()
         {
         }
@@ -90,6 +102,11 @@ namespace Prism.Ninject
             Kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
             Kernel.Bind<IDependencyService>().To<DependencyService>().InSingletonScope();
             Kernel.Bind<IPageDialogService>().To<PageDialogService>().InSingletonScope();
+        }
+
+        protected override INavigationService CreateNavigationService()
+        {
+            return Kernel.Get<NinjectNavigationService>();
         }
     }
 }
