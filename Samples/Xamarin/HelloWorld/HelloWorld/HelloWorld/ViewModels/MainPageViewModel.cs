@@ -7,7 +7,7 @@ using System;
 
 namespace HelloWorld.ViewModels
 {
-    public class MainPageViewModel : BindableBase
+    public class MainPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
@@ -33,11 +33,21 @@ namespace HelloWorld.ViewModels
         {
             var basic = "MyTabbedPage?selectedItem=Orangutan";
 
-            var nonHttp = "MyMasterDetail/MyNavigationPage/ViewB/ViewC";
+            var nonHttp = "MyMasterDetail?id=1/MyNavigationPage?id=Nav/ViewA?id=A/ViewB?id=B";
 
             var uri = new Uri(nonHttp, UriKind.Relative);
 
             _navigationService.Navigate(uri);
+        }
+
+        public override void OnNavigatedFrom(NavigationParameters parameters)
+        {
+            base.OnNavigatedFrom(parameters);
+        }
+
+        public override void OnNavigatedTo(NavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
         }
     }
 

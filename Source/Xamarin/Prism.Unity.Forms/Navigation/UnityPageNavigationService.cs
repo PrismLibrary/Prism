@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
+using Prism.Common;
 using Prism.Navigation;
 using Xamarin.Forms;
 

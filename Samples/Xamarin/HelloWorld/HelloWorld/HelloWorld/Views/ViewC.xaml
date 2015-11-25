@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HelloWorld.Views.ViewC"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+              prism:ViewModelLocator.AutowireViewModel="True"
              Title="View C">
   <Label Text="ViewC" VerticalOptions="Center" HorizontalOptions="Center" />
 </ContentPage>

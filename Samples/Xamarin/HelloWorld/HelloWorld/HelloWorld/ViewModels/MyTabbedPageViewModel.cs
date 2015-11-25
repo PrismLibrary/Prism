@@ -1,18 +1,11 @@
-﻿using Prism.Mvvm;
-using Prism.Navigation;
-using System;
+﻿using Prism.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HelloWorld.ViewModels
 {
-    class MyTabbedPageViewModel : BindableBase, INavigationAware
+    public class MyTabbedPageViewModel : ViewModelBase
     {
-        private readonly INavigationService _navigationService;
-
         string _title = "My Tabbed Page";
         public string Title
         {
@@ -39,19 +32,16 @@ namespace HelloWorld.ViewModels
             Pages = new ObservableCollection<MonkeyDataModel>(MonkeyDataModel.All);
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public override void OnNavigatedFrom(NavigationParameters parameters)
         {
 
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public override void OnNavigatedTo(NavigationParameters parameters)
         {
-            if (parameters == null)
-                return;
+            //var selectedItemName = (string)parameters["selectedItem"];
 
-            var selectedItemName = (string)parameters["selectedItem"];
-
-            SelectedPage = Pages.Where(p => p.Name == selectedItemName).FirstOrDefault();
+            //SelectedPage = Pages.Where(p => p.Name == selectedItemName).FirstOrDefault();
         }
     }
 

@@ -4,7 +4,7 @@ using Prism.Navigation;
 
 namespace HelloWorld.ViewModels
 {
-    public class ViewAViewModel : BindableBase, INavigationAware
+    public class ViewAViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
 
@@ -29,15 +29,14 @@ namespace HelloWorld.ViewModels
             _navigationService.Navigate("ViewB");
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public override void OnNavigatedFrom(NavigationParameters parameters)
         {
-
+            base.OnNavigatedFrom(parameters);
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public override void OnNavigatedTo(NavigationParameters parameters)
         {
-            if (parameters.ContainsKey("id"))
-                Title = string.Format("ViewA : {0}", (string)parameters["id"]);
+            base.OnNavigatedTo(parameters);
         }
     }
 
