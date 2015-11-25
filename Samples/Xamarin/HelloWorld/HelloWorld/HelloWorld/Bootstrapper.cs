@@ -7,7 +7,7 @@ namespace HelloWorld
     {
         protected override void OnInitialized()
         {
-            NavigationService.Navigate("MyMasterDetail/MyTabbedPage/ViewB");
+            NavigationService.Navigate("MainPage");
         }
 
         protected override void RegisterTypes()

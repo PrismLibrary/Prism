@@ -9,7 +9,7 @@ using Prism.Navigation;
 
 namespace HelloWorld.ViewModels
 {
-    public class MyMasterDetailViewModel : BindableBase
+    public class MyMasterDetailViewModel : ViewModelBase
     {
         INavigationService _navigationService;
 
@@ -23,6 +23,16 @@ namespace HelloWorld.ViewModels
         private void Navigate(string name)
         {
             _navigationService.Navigate(name);
+        }
+
+        public override void OnNavigatedFrom(NavigationParameters parameters)
+        {
+            base.OnNavigatedFrom(parameters);
+        }
+
+        public override void OnNavigatedTo(NavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
         }
     }
 }
