@@ -82,7 +82,7 @@ namespace Prism.Navigation
             var navigationSegments = UriParsingHelper.GetUriSegments(uri);
             var isDeepLink = navigationSegments.Count > 1;
 
-            ProcessNavigation(GetRootPage(), navigationSegments, parameters, useModalNavigation, false);
+            ProcessNavigation(GetRootPage(), navigationSegments, parameters, useModalNavigation, isDeepLink ? false : animated);
         }
 
         void ProcessNavigation(Page currentPage, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -129,7 +129,7 @@ namespace Prism.Navigation
             DoNavigateAction(null, nextSegment, nextPage, parameters, () =>
             {
                 DoPush(null, nextPage, true, animated);
-            }, true);
+            });
         }
 
         void ProcessNavigationForContentPage(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -143,7 +143,7 @@ namespace Prism.Navigation
             DoNavigateAction(currentPage, nextSegment, nextPage, parameters, () =>
             {
                 DoPush(currentPage, nextPage, useModalForDoPush, animated);
-            }, true);
+            });
         }
 
         void ProcessNavigationForNavigationPage(NavigationPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -241,7 +241,7 @@ namespace Prism.Navigation
             {
                 var newDetail = CreatePageFromSegment(nextSegment);
                 ProcessNavigation(newDetail, segments, parameters, newDetail is NavigationPage ? false : true, animated);
-                DoNavigateAction(detail, nextSegment, newDetail, parameters, () =>
+                DoNavigateAction(null, nextSegment, newDetail, parameters, () =>
                 {
                     currentPage.Detail = newDetail;
                     currentPage.IsPresented = false;
@@ -269,7 +269,7 @@ namespace Prism.Navigation
             }
         }
 
-        static void DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Action navigationAction = null, bool includeChild = false)
+        static void DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Action navigationAction = null)
         {
             var segmentPrameters = GetSegmentParameters(toSegment, parameters);
 
@@ -281,7 +281,7 @@ namespace Prism.Navigation
             if (navigationAction != null)
                 navigationAction();
 
-            OnNavigatedTo(toPage, segmentPrameters, includeChild);
+            OnNavigatedTo(toPage, segmentPrameters);
         }
 
         protected abstract Page CreatePage(string segment);

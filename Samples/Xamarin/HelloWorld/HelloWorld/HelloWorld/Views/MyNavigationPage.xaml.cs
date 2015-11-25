@@ -11,7 +11,7 @@ namespace HelloWorld.Views
 {
     public partial class MyNavigationPage : NavigationPage
     {
-        public MyNavigationPage() : base(new ViewA())
+        public MyNavigationPage() //: base(new ViewA())
         {
             InitializeComponent();
         }
