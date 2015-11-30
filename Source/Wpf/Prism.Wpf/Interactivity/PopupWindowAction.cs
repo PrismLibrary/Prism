@@ -6,6 +6,7 @@ using Prism.Interactivity.InteractionRequest;
 using System;
 using System.Windows;
 using System.Windows.Interactivity;
+using System.Windows.Shell;
 
 namespace Prism.Interactivity
 {
@@ -65,6 +66,24 @@ namespace Prism.Interactivity
                 new PropertyMetadata(null));
 
         /// <summary>
+        /// If set, applies WindowResizeMode to the child window.
+        /// </summary>
+        public static readonly DependencyProperty WindowResizeProperty =
+            DependencyProperty.Register("WindowResizeProperty",
+                typeof(ResizeMode),
+                typeof(PopupWindowAction),
+                new PropertyMetadata(null));
+
+        /// <summary>
+        /// If set, applies TaskbarItemInfo to the child window.
+        /// </summary>
+        public static readonly DependencyProperty ShowInTaskbarProperty =
+            DependencyProperty.Register("ShowInTaskbarProperty",
+                typeof(TaskbarItemInfo),
+                typeof(PopupWindowAction),
+                new PropertyMetadata(null));
+
+        /// <summary>
         /// Gets or sets the content of the window.
         /// </summary>
         public FrameworkElement WindowContent
@@ -107,6 +126,24 @@ namespace Prism.Interactivity
         {
             get { return (Style)GetValue(WindowStyleProperty); }
             set { SetValue(WindowStyleProperty, value); }
+        }
+
+        /// <summary>
+        /// Shows or hides the window icon from the taskbar.
+        /// </summary>
+        public bool ShowInTaskbar
+        {
+            get { return (bool)GetValue(ShowInTaskbarProperty); }
+            set { SetValue(ShowInTaskbarProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the window resize mode.
+        /// </summary>
+        public ResizeMode ResizeMode
+        {
+            get { return (ResizeMode)GetValue(WindowResizeProperty); }
+            set { SetValue(WindowResizeProperty, value); }
         }
 
         /// <summary>
