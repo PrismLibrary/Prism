@@ -7,8 +7,8 @@ At the current time we have no plans to create new versions of the library for S
 
 #Build Status
 
-|          | Build Status |
-| -------- | ------------ |
+|          | Status |
+| -------- | ------ |
 | Prism.Core | <img src="https://ci.appveyor.com/api/projects/status/pn4fcaghmlwueu52?svg=true"/> |
 | Prism.Wpf | <img src="https://ci.appveyor.com/api/projects/status/4lt3n2wf5m2efms7?svg=true" /> |
 | Prism.Windows | <img src="https://ci.appveyor.com/api/projects/status/j04r6a45fi2f9pv4?svg=true" /> |
