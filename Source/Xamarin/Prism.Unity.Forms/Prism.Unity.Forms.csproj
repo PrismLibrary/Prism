@@ -56,6 +56,7 @@
     <Compile Include="Extensions\DependencyServiceExtension.cs" />
     <Compile Include="Extensions\DependencyServiceStrategy.cs" />
     <Compile Include="Navigation\UnityPageNavigationService.cs" />
+    <Compile Include="PrismApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnityBootstrapper.cs" />
     <Compile Include="UnityExtensions.cs" />

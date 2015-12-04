@@ -36,7 +36,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Converters\NonNullToBooleanConverter.cs" />
     <Compile Include="Interfaces\IMessageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,24 +1,27 @@
 ﻿using System;
-using Microsoft.Practices.Unity;
-using Prism.Common;
-using Prism.Events;
-using Prism.Logging;
-using Prism.Mvvm;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Prism.Navigation;
-using Prism.Services;
-using Prism.Unity.Extensions;
+using Microsoft.Practices.Unity;
+using Prism.Mvvm;
 using Prism.Unity.Navigation;
+using Prism.Common;
 using Xamarin.Forms;
+using Prism.Unity.Extensions;
+using Prism.Logging;
+using Prism.Events;
+using Prism.Services;
 using DependencyService = Prism.Services.DependencyService;
 
 namespace Prism.Unity
 {
-    [Obsolete("Please have your App.cs derive from PrismApplication instead.")]
-    public abstract class UnityBootstrapper : Bootstrapper
+    public abstract class PrismApplication : PrismApplicationBase
     {
         public IUnityContainer Container { get; protected set; }
 
-        public override void Run()
+        public override void Initialize()
         {
             Logger = CreateLogger();
 
@@ -29,14 +32,6 @@ namespace Prism.Unity
             NavigationService = CreateNavigationService();
 
             RegisterTypes();
-
-            //****** Obsolete ******//
-            var page = CreateMainPage();
-            if (page != null)
-                App.MainPage = page;
-
-            InitializeMainPage();
-            //**********************//
 
             OnInitialized();
         }
@@ -61,11 +56,6 @@ namespace Prism.Unity
 
                 return Container.Resolve(type, overrides);
             });
-        }
-
-        [Obsolete]
-        protected virtual void InitializeMainPage()
-        {
         }
 
         protected virtual IUnityContainer CreateContainer()

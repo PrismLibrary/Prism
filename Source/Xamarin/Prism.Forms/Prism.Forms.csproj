@@ -53,6 +53,7 @@
     <AssemblyOriginatorKeyFile>..\..\prism.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ApplicationBase.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Common\PageNavigationInfo.cs" />
     <Compile Include="Common\PageNavigationRegistry.cs" />
