@@ -9,26 +9,19 @@ using Prism.Navigation;
 using Prism.Ninject.Extensions;
 using Prism.Ninject.Navigation;
 using Prism.Services;
-using System;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
 
 namespace Prism.Ninject
 {
-    /// <summary>
-    /// A Ninject specific bootstrap class
-    /// </summary>
-    [Obsolete("Please have your App.cs derive from PrismApplication instead.")]
-    public abstract class NinjectBootstrapper : Bootstrapper
+    public abstract class PrismApplication : PrismApplicationBase
     {
         /// <summary>
         /// The Ninject Kernel
         /// </summary>
         public IKernel Kernel { get; protected set; }
 
-
-        /// <inheritDoc />
-        public override void Run()
+        public override void Initialize()
         {
             Logger = CreateLogger();
 
@@ -39,14 +32,6 @@ namespace Prism.Ninject
             NavigationService = CreateNavigationService();
 
             RegisterTypes();
-
-            //****** Obsolete ******//
-            var page = CreateMainPage();
-            if (page != null)
-                App.MainPage = page;
-
-            InitializeMainPage();
-            //**********************//
 
             OnInitialized();
         }
@@ -72,12 +57,6 @@ namespace Prism.Ninject
 
                 return Kernel.Get(type, overrides);
             });
-        }
-
-        /// <inheritDoc />
-        [Obsolete]
-        protected virtual void InitializeMainPage()
-        {
         }
 
         /// <summary>

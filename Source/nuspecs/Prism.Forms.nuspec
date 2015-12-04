@@ -19,8 +19,7 @@
     <dependencies>
       <group targetFramework=".NETPortable0.0-win+net45+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10">
         <dependency id="Prism.Core" version="$coreVersion$" />
-        <dependency id="CommonServiceLocator" version="1.3" />
-        <dependency id="Xamarin.Forms" version="1.5.0.6447" />
+        <dependency id="Xamarin.Forms" version="2.0.0.6490" />
       </group>
     </dependencies>
   </metadata>

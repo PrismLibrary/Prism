@@ -9,11 +9,21 @@ using Xamarin.Forms;
 
 namespace HelloWorld.Views
 {
-    public partial class ViewA : ContentPage
+    public partial class ViewA : ContentPage, INavigationAware
     {
         public ViewA()
         {
             InitializeComponent();
+        }
+
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+            
+        }
+
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
+            
         }
     }
 }
