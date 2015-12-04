@@ -31,13 +31,13 @@ namespace HelloWorld.ViewModels
 
         void Navigate()
         {
-            var basic = "MyTabbedPage?selectedItem=Orangutan";
+            var basic = "http://www.brianlagunas.com/MyNavigationPage/ViewA/ViewC/";
 
             var nonHttp = "MyMasterDetail?id=1/MyNavigationPage?id=Nav/ViewA?id=A/ViewB?id=B";
 
-            var uri = new Uri(nonHttp, UriKind.Relative);
+            //var uri = new Uri(basic, UriKind.Relative);
 
-            _navigationService.Navigate(uri);
+            _navigationService.Navigate(basic);
         }
 
         public override void OnNavigatedFrom(NavigationParameters parameters)

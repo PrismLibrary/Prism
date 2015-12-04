@@ -25,7 +25,7 @@ namespace Prism.Navigation
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         public async void GoBack(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            var page = GetRootPage();
+            var page = GetCurrentPage();
             var navParameters = GetSegmentParameters(null, parameters);
 
             if (!CanNavigate(page, navParameters))
@@ -82,7 +82,10 @@ namespace Prism.Navigation
             var navigationSegments = UriParsingHelper.GetUriSegments(uri);
             var isDeepLink = navigationSegments.Count > 1;
 
-            ProcessNavigation(GetRootPage(), navigationSegments, parameters, useModalNavigation, isDeepLink ? false : animated);
+            if (uri.IsAbsoluteUri)
+                ProcessNavigationForAbsoulteUri(navigationSegments, parameters, useModalNavigation, isDeepLink ? false : animated);
+            else
+                ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, useModalNavigation, isDeepLink ? false : animated);
         }
 
         void ProcessNavigation(Page currentPage, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -118,6 +121,11 @@ namespace Prism.Navigation
             {
                 ProcessNavigationForMasterDetailPage((MasterDetailPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
+        }
+
+        void ProcessNavigationForAbsoulteUri(Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            ProcessNavigation(null, segments, parameters, useModalNavigation, animated);
         }
 
         void ProcessNavigationForRootPage(string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -180,7 +188,7 @@ namespace Prism.Navigation
                 {
                     DoPush(currentPage, newRoot, false, animated);
                     currentPage.Navigation.RemovePage(currentNavRoot);
-                });                
+                });
                 return;
             }
         }
@@ -344,7 +352,7 @@ namespace Prism.Navigation
             if (page == null)
                 return;
 
-            if (currentPage == null && Application.Current.MainPage == null)
+            if (currentPage == null)
             {
                 Application.Current.MainPage = page;
             }
@@ -441,7 +449,7 @@ namespace Prism.Navigation
             return navParameters;
         }
 
-        Page GetRootPage()
+        Page GetCurrentPage()
         {
             return _page != null ? _page : Application.Current.MainPage;
         }
