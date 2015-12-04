@@ -95,19 +95,6 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public void Navigate_ToContentPage_ByAbsoluteUri()
-        {
-            var navigationService = new PageNavigationServiceMock(_container);
-            var rootPage = new Xamarin.Forms.ContentPage();
-            ((IPageAware)navigationService).Page = rootPage;
-
-            navigationService.Navigate(new Uri("http://brianlagunas.com/ContentPage", UriKind.Absolute));
-
-            Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
-        }
-
-        [Fact]
         public void Navigate_ToContentPage_ByObject()
         {
             var navigationService = new PageNavigationServiceMock(_container);
