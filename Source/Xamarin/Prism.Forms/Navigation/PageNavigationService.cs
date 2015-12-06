@@ -23,7 +23,7 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public async void GoBack(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public async Task GoBack(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             var page = GetCurrentPage();
             var navParameters = GetSegmentParameters(null, parameters);
