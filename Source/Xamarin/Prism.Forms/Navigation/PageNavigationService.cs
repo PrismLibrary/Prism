@@ -134,9 +134,9 @@ namespace Prism.Navigation
 
             ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
 
-            DoNavigateAction(null, nextSegment, nextPage, parameters, () =>
+            DoNavigateAction(null, nextSegment, nextPage, parameters, async () =>
             {
-                DoPush(null, nextPage, true, animated);
+                await DoPush(null, nextPage, true, animated);
             });
         }
 
@@ -148,9 +148,9 @@ namespace Prism.Navigation
 
             ProcessNavigation(nextPage, segments, parameters, useModalForDoPush, animated);
 
-            DoNavigateAction(currentPage, nextSegment, nextPage, parameters, () =>
+            DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
-                DoPush(currentPage, nextPage, useModalForDoPush, animated);
+                await DoPush(currentPage, nextPage, useModalForDoPush, animated);
             });
         }
 
@@ -160,9 +160,9 @@ namespace Prism.Navigation
             {
                 var newRoot = CreatePageFromSegment(nextSegment);
                 ProcessNavigation(newRoot, segments, parameters, false, animated);
-                DoNavigateAction(currentPage, nextSegment, newRoot, parameters, () =>
+                DoNavigateAction(currentPage, nextSegment, newRoot, parameters, async () =>
                 {
-                    DoPush(currentPage, newRoot, false, animated);
+                    await DoPush(currentPage, newRoot, false, animated);
                 });
                 return;
             }
@@ -184,9 +184,9 @@ namespace Prism.Navigation
                 var newRoot = CreatePageFromSegment(nextSegment);
                 ProcessNavigation(newRoot, segments, parameters, false, animated);
 
-                DoNavigateAction(currentPage, nextSegment, newRoot, parameters, () =>
+                DoNavigateAction(currentPage, nextSegment, newRoot, parameters, async () =>
                 {
-                    DoPush(currentPage, newRoot, false, animated);
+                    await DoPush(currentPage, newRoot, false, animated);
                     currentPage.Navigation.RemovePage(currentNavRoot);
                 });
                 return;
@@ -211,9 +211,9 @@ namespace Prism.Navigation
 
             var nextPage = CreatePageFromSegment(nextSegment);
             ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
-            DoNavigateAction(currentPage, nextSegment, nextPage, parameters, () =>
+            DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
-                DoPush(currentPage, nextPage, true, animated);
+                await DoPush(currentPage, nextPage, true, animated);
             });
         }
 
@@ -236,9 +236,9 @@ namespace Prism.Navigation
 
             var nextPage = CreatePageFromSegment(nextSegment);
             ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
-            DoNavigateAction(currentPage, nextSegment, nextPage, parameters, () =>
+            DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
-                DoPush(currentPage, nextPage, true, animated);
+                await DoPush(currentPage, nextPage, true, animated);
             });
         }
 
@@ -347,7 +347,7 @@ namespace Prism.Navigation
             return previousPage;
         }
 
-        async static void DoPush(Page currentPage, Page page, bool useModalNavigation, bool animated)
+        async static Task DoPush(Page currentPage, Page page, bool useModalNavigation, bool animated)
         {
             if (page == null)
                 return;
