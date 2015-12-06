@@ -38,7 +38,7 @@ Following matrix shows the platform specific support currently available.
 | [Prism.Mef][6]        |  X  |     |     |
 | [Prism.Autofac][7]    |  X  |  X  |     |
 | [Prism.StructureMap][8]| X  |     |     |
-| [Prism.Ninject][9]    |  X  |     |     |
+| [Prism.Ninject][9]    |  X  |     |  X  |
 
 Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package and the rest will be pulled in as well.
 
