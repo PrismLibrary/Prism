@@ -96,7 +96,7 @@ namespace Prism.LightInject.Windows
         /// </summary>
         protected override void ConfigureServiceLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => Container.GetInstance<IServiceLocator>());
+            ServiceLocator.SetLocatorProvider(() => new LightInjectServiceLocatorAdaptor(Container));
         }
 
         /// <summary>
