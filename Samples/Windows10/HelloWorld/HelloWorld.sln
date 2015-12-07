@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld", "HelloWorld\HelloWorld.csproj", "{EB276204-26C2-47C1-8F7D-E09C31636C18}"
 EndProject
@@ -22,6 +22,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.SimpleInjector.Windows", "..\..\..\Source\Windows10\Prism.SimpleInjector.Windows\Prism.SimpleInjector.Windows.csproj", "{E6F934A2-3962-46F2-A4B8-416394C351B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.SimpleInjector", "HelloWorld.SimpleInjector\HelloWorld.SimpleInjector.csproj", "{02BCA43A-1C84-4061-A459-A4CE3D118D76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.LightInject.Windows", "..\..\..\Source\Windows10\Prism.LightInject.Windows\Prism.LightInject.Windows.csproj", "{36D0550C-D4EC-428D-99E7-C01E4E3FB293}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.LightInject", "HelloWorld.LightInject\HelloWorld.LightInject.csproj", "{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -283,6 +287,62 @@ Global
 		{02BCA43A-1C84-4061-A459-A4CE3D118D76}.Release-Signed|x86.ActiveCfg = Release|x86
 		{02BCA43A-1C84-4061-A459-A4CE3D118D76}.Release-Signed|x86.Build.0 = Release|x86
 		{02BCA43A-1C84-4061-A459-A4CE3D118D76}.Release-Signed|x86.Deploy.0 = Release|x86
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Debug|ARM.ActiveCfg = Debug|ARM
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Debug|ARM.Build.0 = Debug|ARM
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Debug|x64.ActiveCfg = Debug|x64
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Debug|x64.Build.0 = Debug|x64
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Debug|x86.ActiveCfg = Debug|x86
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Debug|x86.Build.0 = Debug|x86
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release|ARM.ActiveCfg = Release|ARM
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release|ARM.Build.0 = Release|ARM
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release|x64.ActiveCfg = Release|x64
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release|x64.Build.0 = Release|x64
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release|x86.ActiveCfg = Release|x86
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release|x86.Build.0 = Release|x86
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release-Signed|ARM.ActiveCfg = Release-Signed|ARM
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release-Signed|ARM.Build.0 = Release-Signed|ARM
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release-Signed|x64.ActiveCfg = Release-Signed|x64
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release-Signed|x64.Build.0 = Release-Signed|x64
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release-Signed|x86.ActiveCfg = Release-Signed|x86
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293}.Release-Signed|x86.Build.0 = Release-Signed|x86
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Debug|ARM.ActiveCfg = Debug|ARM
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Debug|ARM.Build.0 = Debug|ARM
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Debug|ARM.Deploy.0 = Debug|ARM
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Debug|x64.ActiveCfg = Debug|x64
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Debug|x64.Build.0 = Debug|x64
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Debug|x64.Deploy.0 = Debug|x64
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Debug|x86.ActiveCfg = Debug|x86
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Debug|x86.Build.0 = Debug|x86
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Debug|x86.Deploy.0 = Debug|x86
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release|Any CPU.ActiveCfg = Release|x86
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release|ARM.ActiveCfg = Release|ARM
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release|ARM.Build.0 = Release|ARM
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release|ARM.Deploy.0 = Release|ARM
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release|x64.ActiveCfg = Release|x64
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release|x64.Build.0 = Release|x64
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release|x64.Deploy.0 = Release|x64
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release|x86.ActiveCfg = Release|x86
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release|x86.Build.0 = Release|x86
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release|x86.Deploy.0 = Release|x86
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release-Signed|Any CPU.ActiveCfg = Release|x64
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release-Signed|Any CPU.Build.0 = Release|x64
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release-Signed|Any CPU.Deploy.0 = Release|x64
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release-Signed|ARM.ActiveCfg = Release|ARM
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release-Signed|ARM.Build.0 = Release|ARM
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release-Signed|ARM.Deploy.0 = Release|ARM
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release-Signed|x64.ActiveCfg = Release|x64
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release-Signed|x64.Build.0 = Release|x64
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release-Signed|x64.Deploy.0 = Release|x64
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release-Signed|x86.ActiveCfg = Release|x86
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release-Signed|x86.Build.0 = Release|x86
+		{D7DD9684-6A2D-4A24-89F5-F6D8BCADC3C1}.Release-Signed|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -293,5 +353,6 @@ Global
 		{E6C50355-D01E-4CAA-884D-D7929861315C} = {C91631C0-B24C-4AA1-BD59-0E3DBF72B6BB}
 		{CCE23E5B-335F-4B62-A964-77E42482F49A} = {C91631C0-B24C-4AA1-BD59-0E3DBF72B6BB}
 		{E6F934A2-3962-46F2-A4B8-416394C351B8} = {C91631C0-B24C-4AA1-BD59-0E3DBF72B6BB}
+		{36D0550C-D4EC-428D-99E7-C01E4E3FB293} = {C91631C0-B24C-4AA1-BD59-0E3DBF72B6BB}
 	EndGlobalSection
 EndGlobal
