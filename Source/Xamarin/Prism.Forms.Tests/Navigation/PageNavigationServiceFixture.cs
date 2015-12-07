@@ -56,59 +56,59 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public void Navigate_ToContentPage_ByName()
+        public async void Navigate_ToContentPage_ByName()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage");
+            await navigationService.Navigate("ContentPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
             Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
         }
 
         [Fact]
-        public void NavigateAsync_ToContentPage_ByName()
+        public async void NavigateAsync_ToContentPage_ByName()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.NavigationPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage", useModalNavigation: false);
+            await navigationService.Navigate("ContentPage", useModalNavigation: false);
 
             Assert.True(rootPage.Navigation.NavigationStack.Count == 1);
             Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.NavigationStack[0]);
         }
 
         [Fact]
-        public void Navigate_ToContentPage_ByRelativeUri()
+        public async void Navigate_ToContentPage_ByRelativeUri()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate(new Uri("ContentPage", UriKind.Relative));
+            await navigationService.Navigate(new Uri("ContentPage", UriKind.Relative));
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
             Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
         }
 
         [Fact]
-        public void Navigate_ToContentPage_ByObject()
+        public async void Navigate_ToContentPage_ByObject()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate<ContentPageMockViewModel>();
+            await navigationService.Navigate<ContentPageMockViewModel>();
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
             Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
         }
 
         [Fact]
-        public void Navigate_ToContentPage_ByName_WithNavigationParameters()
+        public async void Navigate_ToContentPage_ByName_WithNavigationParameters()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
@@ -117,7 +117,7 @@ namespace Prism.Forms.Tests.Navigation
             var navParameters = new NavigationParameters();
             navParameters.Add("id", 3);
 
-            navigationService.Navigate("ContentPage", navParameters);
+            await navigationService.Navigate("ContentPage", navParameters);
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
             Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
@@ -131,24 +131,24 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public void Navigate_ToContentPage_ThenGoBack()
+        public async void Navigate_ToContentPage_ThenGoBack()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage");
+            await navigationService.Navigate("ContentPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
             Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
 
-            navigationService.GoBack();
+            await navigationService.GoBack();
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 0);
         }
 
         [Fact]
-        public void NavigateAsync_ToContentPage_ThenGoBack()
+        public async void NavigateAsync_ToContentPage_ThenGoBack()
         {
             var pageMock = new ContentPageMock();
             var navigationService = new PageNavigationServiceMock(_container);
@@ -158,25 +158,25 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.IsType(typeof(ContentPageMock), rootPage.CurrentPage);
 
-            navigationService.Navigate("TabbedPage");
+            await navigationService.Navigate("TabbedPage");
 
             Assert.True(rootPage.Navigation.NavigationStack.Count == 2);
             Assert.IsType(typeof(TabbedPageMock), rootPage.CurrentPage);
 
-            navigationService.GoBack();
+            await navigationService.GoBack();
 
             Assert.True(rootPage.Navigation.NavigationStack.Count == 1);
             Assert.IsType(typeof(ContentPageMock), rootPage.CurrentPage);
         }
 
         [Fact]
-        public void Navigate_ToContentPage_ViewModelHasINavigationAware()
+        public async void Navigate_ToContentPage_ViewModelHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage");
+            await navigationService.Navigate("ContentPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
             Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
@@ -187,19 +187,19 @@ namespace Prism.Forms.Tests.Navigation
 
             var nextPageNavService = new PageNavigationServiceMock(_container);
             ((IPageAware)navigationService).Page = rootPage.Navigation.ModalStack[0];
-            navigationService.Navigate("NavigationPage");
+            await navigationService.Navigate("NavigationPage");
 
             Assert.True(viewModel.OnNavigatedFromCalled);
         }
 
         [Fact]
-        public void Navigate_ToContentPage_PageHasINavigationAware()
+        public async void Navigate_ToContentPage_PageHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage");
+            await navigationService.Navigate("ContentPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
 
@@ -210,14 +210,14 @@ namespace Prism.Forms.Tests.Navigation
             var nextPageNavService = new PageNavigationServiceMock(_container);
             ((IPageAware)navigationService).Page = contentPage;
 
-            navigationService.Navigate("NavigationPage");
+            await navigationService.Navigate("NavigationPage");
 
             Assert.True(contentPage.OnNavigatedFromCalled);
             Assert.True(contentPage.Navigation.ModalStack.Count == 1);
         }
 
         [Fact]
-        public void Navigate_ToContentPage_PageHasIConfirmNavigation_True()
+        public async void Navigate_ToContentPage_PageHasIConfirmNavigation_True()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new ContentPageMock();
@@ -225,14 +225,14 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.False(rootPage.OnConfirmNavigationCalled);
 
-            navigationService.Navigate("ContentPage");
+            await navigationService.Navigate("ContentPage");
 
             Assert.True(rootPage.OnConfirmNavigationCalled);
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
         }
 
         [Fact]
-        public void Navigate_ToContentPage_PageHasIConfirmNavigation_False()
+        public async void Navigate_ToContentPage_PageHasIConfirmNavigation_False()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new ContentPageMock();
@@ -243,14 +243,14 @@ namespace Prism.Forms.Tests.Navigation
             var navParams = new NavigationParameters();
             navParams.Add("canNavigate", false);
 
-            navigationService.Navigate("ContentPage", navParams);
+            await navigationService.Navigate("ContentPage", navParams);
 
             Assert.True(rootPage.OnConfirmNavigationCalled);
             Assert.True(rootPage.Navigation.ModalStack.Count == 0);
         }
 
         [Fact]
-        public void Navigate_ToContentPage_ViewModelHasIConfirmNavigation_True()
+        public async void Navigate_ToContentPage_ViewModelHasIConfirmNavigation_True()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage() { BindingContext = new ContentPageMockViewModel() };
@@ -259,7 +259,7 @@ namespace Prism.Forms.Tests.Navigation
             var viewModel = rootPage.BindingContext as ContentPageMockViewModel;
             Assert.False(viewModel.OnConfirmNavigationCalled);
 
-            navigationService.Navigate("ContentPage");
+            await navigationService.Navigate("ContentPage");
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
 
             Assert.NotNull(viewModel);
@@ -267,7 +267,7 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public void Navigate_ToContentPage_ViewModelHasIConfirmNavigation_False()
+        public async void Navigate_ToContentPage_ViewModelHasIConfirmNavigation_False()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new ContentPage() { BindingContext = new ContentPageMockViewModel() };
@@ -279,20 +279,20 @@ namespace Prism.Forms.Tests.Navigation
             var navParams = new NavigationParameters();
             navParams.Add("canNavigate", false);
 
-            navigationService.Navigate("ContentPage", navParams);
+            await navigationService.Navigate("ContentPage", navParams);
 
             Assert.True(viewModel.OnConfirmNavigationCalled);
             Assert.True(rootPage.Navigation.ModalStack.Count == 0);
         }
 
         [Fact]
-        public void Navigate_ToNavigatonPage_ViewModelHasINavigationAware()
+        public async void Navigate_ToNavigatonPage_ViewModelHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("NavigationPage");
+            await navigationService.Navigate("NavigationPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
             Assert.IsType(typeof(NavigationPageMock), rootPage.Navigation.ModalStack[0]);
@@ -300,23 +300,16 @@ namespace Prism.Forms.Tests.Navigation
             var viewModel = rootPage.Navigation.ModalStack[0].BindingContext as NavigationPageMockViewModel;
             Assert.NotNull(viewModel);
             Assert.True(viewModel.OnNavigatedToCalled);
-
-            //var navPage = rootPage.Navigation.ModalStack[0] as NavigationPage;
-            //Assert.NotNull(navPage.CurrentPage);
-
-            //var childViewModel = navPage.CurrentPage.BindingContext as ContentPageMockViewModel;
-            //Assert.NotNull(childViewModel);
-            //Assert.True(childViewModel.OnNavigatedToCalled);
         }
 
         [Fact]
-        public void Navigate_ToMasterDetailPage_ViewModelHasINavigationAware()
+        public async void Navigate_ToMasterDetailPage_ViewModelHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("MasterDetailPage");
+            await navigationService.Navigate("MasterDetailPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
 
@@ -326,23 +319,16 @@ namespace Prism.Forms.Tests.Navigation
             var viewModel = mdPage.BindingContext as MasterDetailPageMockViewModel;
             Assert.NotNull(viewModel);
             Assert.True(viewModel.OnNavigatedToCalled);
-
-            //Assert.NotNull(mdPage.Detail);
-
-            //Assert.IsType(typeof(ContentPageMock), mdPage.Detail);
-            //var childViewModel = mdPage.Detail.BindingContext as ContentPageMockViewModel;
-            //Assert.NotNull(childViewModel);
-            //Assert.True(childViewModel.OnNavigatedToCalled);
         }
 
         [Fact]
-        public void Navigate_ToTabbedPage_ByName_ViewModelHasINavigationAware()
+        public async void Navigate_ToTabbedPage_ByName_ViewModelHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("TabbedPage");
+            await navigationService.Navigate("TabbedPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
 
@@ -355,13 +341,13 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public void Navigate_ToCarouselPage_ByName_ViewModelHasINavigationAware()
+        public async void Navigate_ToCarouselPage_ByName_ViewModelHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("CarouselPage");
+            await navigationService.Navigate("CarouselPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
 
@@ -374,124 +360,124 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public void DeepNavigate_From_ContentPage_To_ContentPage()
+        public async void DeepNavigate_From_ContentPage_To_ContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage/ContentPage");
+            await navigationService.Navigate("ContentPage/ContentPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
             Assert.True(rootPage.Navigation.ModalStack[0].Navigation.ModalStack.Count == 1);
         }
 
         [Fact]
-        public void DeepNavigate_From_ContentPage_To_NavigationPage()
+        public async void DeepNavigate_From_ContentPage_To_NavigationPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage/NavigationPage");
+            await navigationService.Navigate("ContentPage/NavigationPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
             Assert.True(rootPage.Navigation.ModalStack[0].Navigation.ModalStack.Count == 1);
         }
 
         [Fact]
-        public void DeepNavigate_From_ContentPage_To_NavigationPage_ToContentPage()
+        public async void DeepNavigate_From_ContentPage_To_NavigationPage_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage/NavigationPage/ContentPage");
+            await navigationService.Navigate("ContentPage/NavigationPage/ContentPage");
 
             var navPage = rootPage.Navigation.ModalStack[0].Navigation.ModalStack[0];
             Assert.True(navPage.Navigation.NavigationStack.Count == 1);
         }
 
         [Fact]
-        public void DeepNavigate_From_ContentPage_To_EmptyNavigationPage_ToContentPage()
+        public async void DeepNavigate_From_ContentPage_To_EmptyNavigationPage_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage/NavigationPage-Empty/ContentPage");
+            await navigationService.Navigate("ContentPage/NavigationPage-Empty/ContentPage");
 
             var navPage = rootPage.Navigation.ModalStack[0].Navigation.ModalStack[0];
             Assert.True(navPage.Navigation.NavigationStack.Count == 1);
         }
 
         [Fact]
-        public void DeepNavigate_From_ContentPage_To_NavigationPageWithNavigationStack_ToContentPage()
+        public async void DeepNavigate_From_ContentPage_To_NavigationPageWithNavigationStack_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage/NavigationPageWithStack/ContentPage");
+            await navigationService.Navigate("ContentPage/NavigationPageWithStack/ContentPage");
 
             var navPage = rootPage.Navigation.ModalStack[0].Navigation.ModalStack[0];
             Assert.True(navPage.Navigation.NavigationStack.Count == 1);
         }
 
         [Fact]
-        public void DeepNavigate_From_ContentPage_To_NavigationPageWithDifferentNavigationStack_ToContentPage()
+        public async void DeepNavigate_From_ContentPage_To_NavigationPageWithDifferentNavigationStack_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage/NavigationPageWithStackNoMatch/ContentPage");
+            await navigationService.Navigate("ContentPage/NavigationPageWithStackNoMatch/ContentPage");
 
             var navPage = rootPage.Navigation.ModalStack[0].Navigation.ModalStack[0];
             Assert.True(navPage.Navigation.NavigationStack.Count == 1);
         }
 
         [Fact]
-        public void DeepNavigate_From_ContentPage_To_TabbedPage()
+        public async void DeepNavigate_From_ContentPage_To_TabbedPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage/TabbedPage");
+            await navigationService.Navigate("ContentPage/TabbedPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
             Assert.True(rootPage.Navigation.ModalStack[0].Navigation.ModalStack.Count == 1);
         }
 
         [Fact]
-        public void DeepNavigate_From_ContentPage_To_CarouselPage()
+        public async void DeepNavigate_From_ContentPage_To_CarouselPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage/CarouselPage");
+            await navigationService.Navigate("ContentPage/CarouselPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
             Assert.True(rootPage.Navigation.ModalStack[0].Navigation.ModalStack.Count == 1);
         }
 
         [Fact]
-        public void DeepNavigate_From_ContentPage_To_MasterDetailPage()
+        public async void DeepNavigate_From_ContentPage_To_MasterDetailPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("ContentPage/MasterDetailPage");
+            await navigationService.Navigate("ContentPage/MasterDetailPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
             Assert.True(rootPage.Navigation.ModalStack[0].Navigation.ModalStack.Count == 1);
         }
 
         [Fact]
-        public void Navigate_FromMasterDetailPage()
+        public async void Navigate_FromMasterDetailPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new MasterDetailPageMock();
@@ -499,17 +485,17 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.IsType(typeof(ContentPageMock), rootPage.Detail);
 
-            navigationService.Navigate("TabbedPage");
+            await navigationService.Navigate("TabbedPage");
 
             Assert.IsType(typeof(TabbedPageMock), rootPage.Detail);
 
-            navigationService.Navigate("CarouselPage");
+            await navigationService.Navigate("CarouselPage");
 
             Assert.IsType(typeof(CarouselPageMock), rootPage.Detail);
         }
 
         [Fact]
-        public void Navigate_FromMasterDetailPage_ToSamePage()
+        public async void Navigate_FromMasterDetailPage_ToSamePage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new MasterDetailPageMock();
@@ -517,25 +503,25 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.IsType(typeof(ContentPageMock), rootPage.Detail);
 
-            navigationService.Navigate("TabbedPage");
+            await navigationService.Navigate("TabbedPage");
 
             var firstDetailPage = rootPage.Detail;
 
             Assert.IsType(typeof(TabbedPageMock), firstDetailPage);
 
-            navigationService.Navigate("TabbedPage");
+            await navigationService.Navigate("TabbedPage");
 
             Assert.Equal(firstDetailPage, rootPage.Detail);
         }
 
         [Fact]
-        public void DeepNavigate_ToEmptyMasterDetailPage_ToContentPage()
+        public async void DeepNavigate_ToEmptyMasterDetailPage_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("MasterDetailPage-Empty/ContentPage");
+            await navigationService.Navigate("MasterDetailPage-Empty/ContentPage");
 
             var masterDetail = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
             Assert.NotNull(masterDetail);
@@ -544,13 +530,13 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public void DeepNavigate_ToEmptyMasterDetailPage_ToNavigationPage()
+        public async void DeepNavigate_ToEmptyMasterDetailPage_ToNavigationPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("MasterDetailPage-Empty/NavigationPage");
+            await navigationService.Navigate("MasterDetailPage-Empty/NavigationPage");
 
             var masterDetail = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
             Assert.NotNull(masterDetail);
@@ -559,13 +545,13 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public void DeepNavigate_ToMasterDetailPage_ToDifferentPage()
+        public async void DeepNavigate_ToMasterDetailPage_ToDifferentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("MasterDetailPage/TabbedPage");
+            await navigationService.Navigate("MasterDetailPage/TabbedPage");
 
             var masterDetail = rootPage.Navigation.ModalStack[0] as MasterDetailPageMock;
             Assert.NotNull(masterDetail);
@@ -574,13 +560,13 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public void DeepNavigate_ToMasterDetailPage_ToSamePage_ToTabbedPage()
+        public async void DeepNavigate_ToMasterDetailPage_ToSamePage_ToTabbedPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("MasterDetailPage/ContentPage/TabbedPage");
+            await navigationService.Navigate("MasterDetailPage/ContentPage/TabbedPage");
 
             var masterDetail = rootPage.Navigation.ModalStack[0] as MasterDetailPageMock;
             Assert.NotNull(masterDetail);
@@ -592,13 +578,13 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public void DeepNavigate_ToTabbedPage_ToPage()
+        public async void DeepNavigate_ToTabbedPage_ToPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("TabbedPage/PageMock");
+            await navigationService.Navigate("TabbedPage/PageMock");
 
             var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
             Assert.NotNull(tabbedPage);
@@ -607,13 +593,13 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public void DeepNavigate_ToCarouselPage_ToContentPage()
+        public async void DeepNavigate_ToCarouselPage_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            navigationService.Navigate("CarouselPage/ContentPage");
+            await navigationService.Navigate("CarouselPage/ContentPage");
 
             var tabbedPage = rootPage.Navigation.ModalStack[0] as CarouselPageMock;
             Assert.NotNull(tabbedPage);

@@ -2,10 +2,11 @@
 using Prism.Mvvm;
 using Prism.Navigation;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class ContentPageMock : ContentPage, IConfirmNavigation
+    public class ContentPageMock : ContentPage, IConfirmNavigationAsync
     {
         public bool OnNavigatedToCalled { get; private set; } = false;
         public bool OnNavigatedFromCalled { get; private set; } = false;
@@ -27,14 +28,17 @@ namespace Prism.Forms.Tests.Mocks.Views
             OnNavigatedToCalled = true;
         }
 
-        public bool CanNavigate(NavigationParameters parameters)
+        public Task<bool> CanNavigateAsync(NavigationParameters parameters)
         {
-            OnConfirmNavigationCalled = true;
+            return Task.Run(() =>
+            {
+                OnConfirmNavigationCalled = true;
 
-            if (parameters.ContainsKey("canNavigate"))
-                return (bool)parameters["canNavigate"];
+                if (parameters.ContainsKey("canNavigate"))
+                    return (bool)parameters["canNavigate"];
 
-            return true;
+                return true;
+            });
         }
     }
 }
