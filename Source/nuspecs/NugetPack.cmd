@@ -1,3 +1,4 @@
+REM Obsolete, use ps1 file.
 nuget pack Prism.Core.nuspec -Prop Version=6.0.2-prerelease001 -Prop Notes="Signed assemblies"
 nuget pack Prism.Wpf.nuspec -Prop Version=6.0.2-prerelease001 -Prop Notes="Signed assemblies"
 nuget pack Prism.Windows.nuspec -Prop Version=6.0.2-prerelease001 -Prop Notes="Signed assemblies"

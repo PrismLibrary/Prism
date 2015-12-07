@@ -13,10 +13,10 @@
     <summary>Simple Injector extensions for Prism.</summary>
     <releaseNotes>$releaseNotes$</releaseNotes>
     <language>en-US</language>
-    <tags>prism mvvm uwp uap xaml simple injector</tags>
+    <tags>prism mvvm uwp uap xaml simpleinjector</tags>
     <dependencies>
 
-        <group targetFramework="uap10.0">
+      <group targetFramework="uap10.0">
         <dependency id="Prism.Windows" version="$uwpVersion$" />
         <dependency id="CommonServiceLocator" version="1.3.0" />
         <dependency id="SimpleInjector" version="3.1.1" />
