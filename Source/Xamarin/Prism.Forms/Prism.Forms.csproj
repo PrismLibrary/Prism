@@ -60,6 +60,7 @@
     <Compile Include="Common\UriParsingHelper.cs" />
     <Compile Include="Mvvm\ViewModelLocator.cs" />
     <Compile Include="Navigation\IConfirmNavigation.cs" />
+    <Compile Include="Navigation\IConfirmNavigationAsync.cs" />
     <Compile Include="Navigation\INavigationAware.cs" />
     <Compile Include="Navigation\INavigationService.cs" />
     <Compile Include="Common\IPageAware.cs" />

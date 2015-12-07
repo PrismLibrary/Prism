@@ -1,5 +1,6 @@
 ﻿using System;
 using Prism.Navigation;
+using System.Threading.Tasks;
 
 namespace Prism.Forms.Tests.Mocks.ViewModels
 {
