@@ -9,10 +9,10 @@ At the current time we have no plans to create new versions of the library for S
 
 |          | Status |
 | -------- | ------ |
-| Prism.Core | <img src="https://ci.appveyor.com/api/projects/status/pn4fcaghmlwueu52?svg=true"/> |
-| Prism.Wpf | <img src="https://ci.appveyor.com/api/projects/status/4lt3n2wf5m2efms7?svg=true" /> |
-| Prism.Windows | <img src="https://ci.appveyor.com/api/projects/status/j04r6a45fi2f9pv4?svg=true" /> |
-| Prism.Forms | <img src="https://ci.appveyor.com/api/projects/status/6ly53jgvwx62bm9u?svg=true" /> |
+| Prism.Core | <img src="https://ci.appveyor.com/api/projects/status/pn4fcaghmlwueu52/branch/master?svg=true"/> |
+| Prism.Wpf | <img src="https://ci.appveyor.com/api/projects/status/4lt3n2wf5m2efms7/branch/master?svg=true" /> |
+| Prism.Windows | <img src="https://ci.appveyor.com/api/projects/status/j04r6a45fi2f9pv4/branch/master?svg=true" /> |
+| Prism.Forms | <img src="https://ci.appveyor.com/api/projects/status/6ly53jgvwx62bm9u/branch/master?svg=true" /> |
 
 #NuGet Packages
 ### Core Packages
@@ -38,7 +38,7 @@ Following matrix shows the platform specific support currently available.
 | [Prism.Mef][6]        |  X  |     |     |
 | [Prism.Autofac][7]    |  X  |  X  |     |
 | [Prism.StructureMap][8]| X  |     |     |
-| [Prism.Ninject][9]    |  X  |     |     |
+| [Prism.Ninject][9]    |  X  |     |  X  |
 
 Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package and the rest will be pulled in as well.
 

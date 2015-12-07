@@ -79,7 +79,7 @@ Following matrix shows the platform specific support currently available.
 | [Prism.Mef][6]        |  X  |     |     |
 | [Prism.Autofac][7]    |  X  |  X  |     |
 | [Prism.StructureMap][8]| X  |     |     |
-| [Prism.Ninject][9]    |  X  |     |     |
+| [Prism.Ninject][9]    |  X  |     |  X  |
 
 Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package and the rest will be pulled in as well.
 
@@ -109,6 +109,7 @@ To recapitulate the packages described above, this is the list of all assemblies
 | -------- | ------- |
 | Prism.Forms.dll | [Prism.Forms][3] |
 | Prism.Unity.Forms.dll | [Prism.Unity][5] |
+| Prism.Ninject.Forms.dll | [Prism.Ninject][9] |
 
 ######Universal Windows Platform
 | Assembly | Package |
