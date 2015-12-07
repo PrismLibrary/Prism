@@ -157,9 +157,9 @@ if (!(Test-Path $simpleInjectorUwpAssemblyPath))
 else
 {
     $simpleInjectorFileInfo = Get-Item $simpleInjectorUwpAssemblyPath
-    $simpleInjectorFileVersion = $simpleInjectorFileInfo.VersionInfo.FileVersion
+    $simpleInjectorFileVersion = $simpleInjectorFileInfo.VersionInfo.ProductVersion
 
-    Invoke-Expression ".\$($nugetFileName) pack $($simpleInjectorNuspecPath) -Prop version=$($simpleInjectorFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($simpleInjectorNuspecPath) -Prop version=$($simpleInjectorFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop uwpVersion=$($uwpFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 
