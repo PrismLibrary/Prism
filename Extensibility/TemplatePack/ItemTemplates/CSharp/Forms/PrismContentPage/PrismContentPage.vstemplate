@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Prism ContentPage (Forms)</Name>
+    <Description>Creates a Xamarin.Forms ContentPage with Prism ViewModelLocator</Description>
+    <Icon>PrismContentPage.ico</Icon>
+    <TemplateID>a361a5e9-0592-4a77-8442-22f54a426a3d</TemplateID>
+    <ProjectType>CSharp</ProjectType>
+    <AppliesTo>CSharp + MultiTarget</AppliesTo>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>PrismContentPage.xaml</DefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ItemType="EmbeddedResource" CustomTool="MSBuild:UpdateDesignTimeXaml" TargetFileName="$fileinputname$.xaml" ReplaceParameters="true">PrismContentPage.xaml</ProjectItem>
+    <ProjectItem SubType="Code" TargetFileName="$fileinputname$.xaml.cs" ReplaceParameters="true">PrismContentPage.xaml.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

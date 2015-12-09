@@ -6,7 +6,7 @@
     <Icon>PrismViewModel.ico</Icon>
     <TemplateID>bfeb7adb-f776-4dfa-8cd3-dc796dbd8533</TemplateID>
     <ProjectType>CSharp</ProjectType>
-    <RequiredFrameworkVersion>4.5</RequiredFrameworkVersion>
+    <AppliesTo>CSharp + MultiTarget</AppliesTo>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
     <DefaultName>PrismViewModel.cs</DefaultName>
   </TemplateData>
