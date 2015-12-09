@@ -76,6 +76,13 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
+    <ProjectReference Include="..\ItemTemplates\CSharp\Forms\PrismMasterDetailPage\PrismMasterDetailPage.csproj">
+      <Project>{FB9BA142-8026-422D-9702-A3E4E1E23D32}</Project>
+      <Name>PrismMasterDetailPage</Name>
+      <VSIXSubPath>ItemTemplates</VSIXSubPath>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
     <ProjectReference Include="..\ItemTemplates\CSharp\Forms\PrismNavigationPage\PrismNavigationPage.csproj">
       <Project>{7BAD58C0-B427-45BD-AB1D-5C71B445F1FC}</Project>
       <Name>PrismNavigationPage</Name>

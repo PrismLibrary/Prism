@@ -28,11 +28,11 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{7BAD58C0-B427-45BD-AB1D-5C71B445F1FC}</ProjectGuid>
+    <ProjectGuid>{FB9BA142-8026-422D-9702-A3E4E1E23D32}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PrismNavigationPage</RootNamespace>
-    <AssemblyName>PrismNavigationPage</AssemblyName>
+    <RootNamespace>PrismMasterDetailPage</RootNamespace>
+    <AssemblyName>PrismMasterDetailPage</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
@@ -73,21 +73,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PrismNavigationPage.xaml.cs">
-      <DependentUpon>PrismNavigationPage.xaml</DependentUpon>
+    <None Include="PrismMasterDetailPage.xaml.cs">
+      <DependentUpon>PrismMasterDetailPage.xaml</DependentUpon>
     </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PrismNavigationPage.ico" />
+    <None Include="PrismMasterDetailPage.ico" />
   </ItemGroup>
   <ItemGroup>
-    <VSTemplate Include="PrismNavigationPage.vstemplate">
+    <VSTemplate Include="PrismMasterDetailPage.vstemplate">
       <OutputSubPath>Prism\Forms</OutputSubPath>
     </VSTemplate>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PrismNavigationPage.xaml">
+    <None Include="PrismMasterDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </None>
   </ItemGroup>
