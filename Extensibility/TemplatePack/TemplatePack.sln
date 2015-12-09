@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismNavigationPage", "Item
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismMasterDetailPage", "ItemTemplates\CSharp\Forms\PrismMasterDetailPage\PrismMasterDetailPage.csproj", "{FB9BA142-8026-422D-9702-A3E4E1E23D32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismCarouselPage", "ItemTemplates\CSharp\Forms\PrismCarouselPage\PrismCarouselPage.csproj", "{417AA570-FA00-46C7-833B-5CDCFD34DFF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{FB9BA142-8026-422D-9702-A3E4E1E23D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB9BA142-8026-422D-9702-A3E4E1E23D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB9BA142-8026-422D-9702-A3E4E1E23D32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{417AA570-FA00-46C7-833B-5CDCFD34DFF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{417AA570-FA00-46C7-833B-5CDCFD34DFF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{417AA570-FA00-46C7-833B-5CDCFD34DFF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{417AA570-FA00-46C7-833B-5CDCFD34DFF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,5 +91,6 @@ Global
 		{039FA025-9976-49A0-A8E0-5C49EA8F5336} = {662DE2FD-91C1-489F-951D-21A4560C2A06}
 		{7BAD58C0-B427-45BD-AB1D-5C71B445F1FC} = {662DE2FD-91C1-489F-951D-21A4560C2A06}
 		{FB9BA142-8026-422D-9702-A3E4E1E23D32} = {662DE2FD-91C1-489F-951D-21A4560C2A06}
+		{417AA570-FA00-46C7-833B-5CDCFD34DFF5} = {662DE2FD-91C1-489F-951D-21A4560C2A06}
 	EndGlobalSection
 EndGlobal

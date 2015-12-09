@@ -69,6 +69,13 @@
     <Folder Include="Snippets\VisualBasic\Prism\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ItemTemplates\CSharp\Forms\PrismCarouselPage\PrismCarouselPage.csproj">
+      <Project>{417AA570-FA00-46C7-833B-5CDCFD34DFF5}</Project>
+      <Name>PrismCarouselPage</Name>
+      <VSIXSubPath>ItemTemplates</VSIXSubPath>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
     <ProjectReference Include="..\ItemTemplates\CSharp\Forms\PrismContentPage\PrismContentPage.csproj">
       <Project>{62557536-A1D8-4380-916B-473A0815AD17}</Project>
       <Name>PrismContentPage</Name>
