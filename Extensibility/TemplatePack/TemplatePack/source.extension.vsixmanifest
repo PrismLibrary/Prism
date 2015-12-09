@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="Prism.TemplatePack.138e3411-ac97-4c11-8016-c27a831cba2e" Version="1.0" Language="en-US" Publisher="Brian Lagunas" />
+    <DisplayName>Prism Template Pack</DisplayName>
+    <Description xml:space="preserve">Snippets, Items Templates, and Project Templates for use in Prism application development.</Description>
+    <MoreInfo>https://github.com/PrismLibrary</MoreInfo>
+    <License>license.txt</License>
+    <Icon>Images\prism-logo-graphic-128.png</Icon>
+    <PreviewImage>Images\prism-logo-graphic-128.png</PreviewImage>
+    <Tags>prism</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="File" Path="Snippets\snippets.pkgdef" />
+  </Assets>
+</PackageManifest>
