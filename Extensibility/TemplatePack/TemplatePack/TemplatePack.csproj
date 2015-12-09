@@ -76,6 +76,13 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
+    <ProjectReference Include="..\ItemTemplates\CSharp\Forms\PrismNavigationPage\PrismNavigationPage.csproj">
+      <Project>{7BAD58C0-B427-45BD-AB1D-5C71B445F1FC}</Project>
+      <Name>PrismNavigationPage</Name>
+      <VSIXSubPath>ItemTemplates</VSIXSubPath>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
     <ProjectReference Include="..\ItemTemplates\CSharp\Forms\PrismTabbedPage\PrismTabbedPage.csproj">
       <Project>{039FA025-9976-49A0-A8E0-5C49EA8F5336}</Project>
       <Name>PrismTabbedPage</Name>
