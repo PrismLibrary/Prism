@@ -6,8 +6,8 @@
     <Description xml:space="preserve">Snippets, Items Templates, and Project Templates for use in Prism application development.</Description>
     <MoreInfo>https://github.com/PrismLibrary</MoreInfo>
     <License>license.txt</License>
-    <Icon>Images\prism-logo-graphic-128.png</Icon>
-    <PreviewImage>Images\prism-logo-graphic-128.png</PreviewImage>
+    <Icon>Images\prism-logo-32.jpg</Icon>
+    <PreviewImage>Images\prism-logo-200.jpg</PreviewImage>
     <Tags>prism</Tags>
   </Metadata>
   <Installation>
@@ -18,5 +18,8 @@
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="File" Path="Snippets\snippets.pkgdef" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismUserControl" d:TargetPath="|PrismUserControl;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismViewModel" d:TargetPath="|PrismViewModel;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismWindow" d:TargetPath="|PrismWindow;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
   </Assets>
 </PackageManifest>
