@@ -45,4 +45,4 @@ using System.Windows;
 
 [assembly: AssemblyVersion("6.2")]
 [assembly: AssemblyFileVersion("6.2.0")]
-[assembly: AssemblyInformationalVersion("6.2.0-pre1")]
+[assembly: AssemblyInformationalVersion("6.2.0-pre2")]
