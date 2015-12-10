@@ -26,5 +26,18 @@
     <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismNavigationPage" d:TargetPath="|PrismNavigationPage;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
     <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismMasterDetailPage" d:TargetPath="|PrismMasterDetailPage;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
     <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismCarouselPage" d:TargetPath="|PrismCarouselPage;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp" d:TargetPath="|PrismUnityApp;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\prism.unity.6.2.0-pre1.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="Nuget.Package" d:Source="File" Path="Packages\prism.core.6.1.0.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="Nuget.Package" d:Source="File" d:VsixSubPath="Packages" Path="Packages\prism.forms.6.1.0-pre1.nupkg" />
+    <Asset Type="Nuget.Package" d:Source="File" d:VsixSubPath="Packages" Path="Packages\Forms\xamarin.forms.2.0.0.6490.nupkg" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\commonservicelocator.1.3.0.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\unity.4.0.1.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\WinPhone\WPtoolkit.4.2013.8.16.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.design.23.0.1.3.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v4.23.0.1.3.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.appcompat.23.0.1.3.nupkg" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.cardview.23.0.1.3.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.mediarouter.23.0.1.3.nupkg" d:VsixSubPath="Packages" />
   </Assets>
 </PackageManifest>
