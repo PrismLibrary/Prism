@@ -55,9 +55,7 @@
     <Content Include="license.txt">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Snippets\CSharp\Prism\PrismProperty.snippet">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
+    <Content Include="Snippets\CSharp\Prism\PrismProperty.snippet" />
     <Content Include="Snippets\snippets.pkgdef">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -109,6 +107,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="Snippets\CSharp\Prism\PrismPropertyCommand.snippet" />
+    <Content Include="Snippets\CSharp\Prism\PrismPropertyCommandGeneric.snippet" />
+    <Content Include="Snippets\CSharp\Prism\PrismPubSubEvent.snippet" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

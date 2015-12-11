@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Prism DelegateCommand</Title>
+      <Shortcut>prismpubsubevent</Shortcut>
+      <Author>Brian Lagunas</Author>
+      <Description>Creates a DelegateCommand property</Description>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>EventName</ID>
+          <ToolTip>Replace with the event name</ToolTip>
+          <Default>EventName</Default>
+        </Literal>
+        <Literal>
+          <ID>payloadType</ID>
+          <ToolTip>Replace with the event payload type</ToolTip>
+          <Default>string</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public class $EventName$ : PubSubEvent<$payloadType$> {} $end$]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
