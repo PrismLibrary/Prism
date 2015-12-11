@@ -46,7 +46,7 @@ Note that adding the container-specific package to your project, will also pull 
 
 A detailed overview of each assembly per package is available [here](Documentation/DownloadandSetupPrism.md#overview-of-assemblies).
 
-# Prism Template PAck
+# Prism Template Pack
 Get the latest snippets, item templates, and projects templates for dveloping WPF, UWP, and Xamarin.Forms applications with Prism from the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/e7b6bde2-ba59-43dd-9d14-58409940ffa0).
 
 # Samples
