@@ -18,4 +18,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("6.1")]
 [assembly: AssemblyFileVersion("6.1.0")]
-[assembly: AssemblyInformationalVersion("6.1.0-pre1")]
+[assembly: AssemblyInformationalVersion("6.1.0-pre2")]
