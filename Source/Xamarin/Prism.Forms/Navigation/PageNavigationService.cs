@@ -294,11 +294,16 @@ namespace Prism.Navigation
             OnNavigatedTo(toPage, segmentPrameters);
         }
 
-        protected abstract Page CreatePage(string segment);
+        protected abstract Page CreatePage(string segmentName);
 
         Page CreatePageFromSegment(string segment)
         {
-            return CreatePage(UriParsingHelper.GetSegmentName(segment));
+            var segmentName = UriParsingHelper.GetSegmentName(segment);
+            var page = CreatePage(segmentName);
+            if (page == null)
+                throw new InvalidOperationException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
+
+            return page;
         }
 
         static bool HasNavigationPageParent(Page page)
