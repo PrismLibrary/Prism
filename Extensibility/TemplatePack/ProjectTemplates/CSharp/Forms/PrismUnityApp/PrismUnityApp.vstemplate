@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Prism Unity App (Forms)</Name>
+    <Description>A multiproject template for building Xamarin.Forms app with Prism and Unity, sharing code using a portable class library.</Description>
+    <Icon>PrismUnityApp.ico</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <TemplateID>6d0a03fa-d3ec-437d-8265-6965a179b07d</TemplateID>
+    <DefaultName>PrismUnityApp</DefaultName>
+    <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectCollection>
+      <ProjectTemplateLink ProjectName="$safeprojectname$">UnityApp\UnityApp.vstemplate</ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$safeprojectname$.Droid">UnityApp.Droid\UnityApp.Droid.vstemplate</ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$safeprojectname$.iOS">UnityApp.iOS\UnityApp.iOS.vstemplate</ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$safeprojectname$.WinPhone">UnityApp.WinPhone\UnityApp.WinPhone.vstemplate</ProjectTemplateLink>      
+    </ProjectCollection>
+  </TemplateContent>
+
+  <WizardExtension>
+    <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
+    <FullClassName>Xamarin.VisualStudio.TemplateWizards.EnsureRegistryWizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
+    <FullClassName>Xamarin.VisualStudio.TemplateWizards.FixBuildConfigurationWizard</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <EnsureRegistryWizard>
+      <Key>_Config\Projects\{786C830F-07A1-408B-BD7F-6EE04809D6DB}</Key>
+      <ErrorMessageTitle>Portable Library Tools 2 required</ErrorMessageTitle>
+      <ErrorMessage>To create Xamarin Forms projects please install Portable Library Tools 2.</ErrorMessage>
+    </EnsureRegistryWizard>
+  </WizardData>
+  
+</VSTemplate>

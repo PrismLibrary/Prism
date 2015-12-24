@@ -145,6 +145,23 @@ else
 }
 
 
+##################################
+#####  Prism.SimpleInjector  #####
+##################################
+$simpleInjectorNuspecPath = 'Prism.SimpleInjector.nuspec'
+$simpleInjectorUwpAssemblyPath = '../Windows10/Prism.SimpleInjector.Windows/bin/Release-Signed/Prism.SimpleInjector.Windows.dll'
+if (!(Test-Path $simpleInjectorUwpAssemblyPath))
+{
+    Write-Host 'Prism.SimpleInjector.Windows.dll not found'
+}
+else
+{
+    $simpleInjectorFileInfo = Get-Item $simpleInjectorUwpAssemblyPath
+    $simpleInjectorFileVersion = $simpleInjectorFileInfo.VersionInfo.ProductVersion
+
+    Invoke-Expression ".\$($nugetFileName) pack $($simpleInjectorNuspecPath) -Prop version=$($simpleInjectorFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop uwpVersion=$($uwpFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+}
+
 
 ###########################
 #######  Prism.Mef  #######

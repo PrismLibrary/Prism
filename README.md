@@ -46,8 +46,11 @@ Note that adding the container-specific package to your project, will also pull 
 
 A detailed overview of each assembly per package is available [here](Documentation/DownloadandSetupPrism.md#overview-of-assemblies).
 
+# Prism Template Pack
+Get the latest snippets, item templates, and projects templates for dveloping WPF, UWP, and Xamarin.Forms applications with Prism from the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/e7b6bde2-ba59-43dd-9d14-58409940ffa0).
+
 # Samples
-We have both development (frequently changing) and stable samples for using Prism with WPF, UWP and Xamarin Forms. An overview of the samples can be found [here](Samples/README.md).
+We have both a development sandbox (frequently changing) and stable samples for using Prism with WPF, UWP and Xamarin Forms. An overview of the samples can be found [here](Sandbox/README.md).
 
 #Roadmap/Milestones
 You can check out our milestones for coming releases [here](https://github.com/PrismLibrary/Prism/milestones).
@@ -78,7 +81,9 @@ As part of taking over the code base from Microsoft and moving towards Prism 6, 
 - Visual State management parts of VisualStateAwarePage were removed and it is now renamed to SessionStateAwarePage. 
 
 #Prism for Xamarin.Forms Preview
-Check out the new Prism for Xamarin.Forms Preview: http://brianlagunas.com/first-look-at-the-prism-for-xamarin-forms-preview/
+Check out the new Prism for Xamarin.Forms Preview:
+* Prism.Forms 5.7.0 Preview - http://brianlagunas.com/first-look-at-the-prism-for-xamarin-forms-preview/
+* Prism.Forms 6.2.0 Preview - http://brianlagunas.com/prism-for-xamarin-forms-6-2-0-preview/
 
 ### .NET Foundation
 

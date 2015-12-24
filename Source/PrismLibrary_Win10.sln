@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Windows.Tests", "Wind
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Autofac.Windows", "Windows10\Prism.Autofac.Windows\Prism.Autofac.Windows.csproj", "{CCE23E5B-335F-4B62-A964-77E42482F49A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.SimpleInjector.Windows", "Windows10\Prism.SimpleInjector.Windows\Prism.SimpleInjector.Windows.csproj", "{E6F934A2-3962-46F2-A4B8-416394C351B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -181,12 +183,36 @@ Global
 		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release|x86.Build.0 = Release|x86
 		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
 		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
-		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|ARM.ActiveCfg = Release|ARM
-		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|ARM.Build.0 = Release|ARM
-		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|x64.ActiveCfg = Release|x64
-		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|x64.Build.0 = Release|x64
-		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|x86.ActiveCfg = Release|x86
-		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|x86.Build.0 = Release|x86
+		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|ARM.ActiveCfg = Release-Signed|ARM
+		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|ARM.Build.0 = Release-Signed|ARM
+		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|x64.ActiveCfg = Release-Signed|x64
+		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|x64.Build.0 = Release-Signed|x64
+		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|x86.ActiveCfg = Release-Signed|x86
+		{CCE23E5B-335F-4B62-A964-77E42482F49A}.Release-Signed|x86.Build.0 = Release-Signed|x86
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Debug|ARM.ActiveCfg = Debug|ARM
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Debug|ARM.Build.0 = Debug|ARM
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Debug|x64.ActiveCfg = Debug|x64
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Debug|x64.Build.0 = Debug|x64
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Debug|x86.ActiveCfg = Debug|x86
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Debug|x86.Build.0 = Debug|x86
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release|ARM.ActiveCfg = Release|ARM
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release|ARM.Build.0 = Release|ARM
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release|x64.ActiveCfg = Release|x64
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release|x64.Build.0 = Release|x64
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release|x86.ActiveCfg = Release|x86
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release|x86.Build.0 = Release|x86
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release-Signed|ARM.ActiveCfg = Release-Signed|ARM
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release-Signed|ARM.Build.0 = Release-Signed|ARM
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release-Signed|x64.ActiveCfg = Release-Signed|x64
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release-Signed|x64.Build.0 = Release-Signed|x64
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release-Signed|x86.ActiveCfg = Release-Signed|x86
+		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release-Signed|x86.Build.0 = Release-Signed|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -198,5 +224,6 @@ Global
 		{B4060AD6-7A34-479C-B5EB-4C542A681F42} = {643425A5-9223-491A-84D9-DFCC6BDD7F9B}
 		{2E737FE0-857A-41AF-BA0A-42B0CDCCAA27} = {ACFF5AEC-62BC-421B-B37E-A5703806901A}
 		{CCE23E5B-335F-4B62-A964-77E42482F49A} = {643425A5-9223-491A-84D9-DFCC6BDD7F9B}
+		{E6F934A2-3962-46F2-A4B8-416394C351B8} = {643425A5-9223-491A-84D9-DFCC6BDD7F9B}
 	EndGlobalSection
 EndGlobal
