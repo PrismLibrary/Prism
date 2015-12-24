@@ -96,6 +96,11 @@ namespace Prism.Wpf.Tests.Mocks
             throw new System.NotImplementedException();
         }
 
+        public void RemoveAll()
+        {
+            throw new NotImplementedException();
+        }
+
         public IRegionNavigationService NavigationService
         {
             get { throw new System.NotImplementedException(); }
