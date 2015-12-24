@@ -5,7 +5,7 @@ namespace $safeprojectname$
 {
     public partial class App : PrismApplication
     {
-        public App()
+        protected override void OnInitialized()
         {
             InitializeComponent();
 
