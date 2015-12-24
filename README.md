@@ -50,7 +50,7 @@ A detailed overview of each assembly per package is available [here](Documentati
 Get the latest snippets, item templates, and projects templates for dveloping WPF, UWP, and Xamarin.Forms applications with Prism from the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/e7b6bde2-ba59-43dd-9d14-58409940ffa0).
 
 # Samples
-We have both development (frequently changing) and stable samples for using Prism with WPF, UWP and Xamarin Forms. An overview of the samples can be found [here](Samples/README.md).
+We have both a development sandbox (frequently changing) and stable samples for using Prism with WPF, UWP and Xamarin Forms. An overview of the samples can be found [here](Sandbox/README.md).
 
 #Roadmap/Milestones
 You can check out our milestones for coming releases [here](https://github.com/PrismLibrary/Prism/milestones).
