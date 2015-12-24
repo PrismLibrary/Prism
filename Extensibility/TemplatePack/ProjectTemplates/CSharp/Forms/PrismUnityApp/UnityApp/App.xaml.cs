@@ -8,10 +8,7 @@ namespace $safeprojectname$
         public App()
         {
             InitializeComponent();
-        }
 
-        protected override void OnInitialized()
-        {
             NavigationService.Navigate("MainNavigationPage/ViewA?message=Hello%20From%20Xamarin.Forms");
         }
 
