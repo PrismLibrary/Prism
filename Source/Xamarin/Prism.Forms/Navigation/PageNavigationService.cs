@@ -1,5 +1,6 @@
 ﻿using Prism.Common;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -33,7 +34,7 @@ namespace Prism.Navigation
                 return;
 
             bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
-            Page previousPage = GetPreviousPage(page, useModalForDoPop);
+            Page previousPage = GetOnNavigatedToTarget(page, useModalForDoPop);
 
             OnNavigatedFrom(page, segmentParameters);
 
@@ -325,33 +326,76 @@ namespace Prism.Navigation
             return useModalNavigation;
         }
 
-        static Page GetPreviousPage(Page page, bool useModalNavigation)
+        static Page GetOnNavigatedToTarget(Page page, bool useModalNavigation)
         {
-            Page previousPage = null;
+            Page target = null;
 
             if (useModalNavigation)
             {
-                int modalStackCount = page.Navigation.ModalStack.Count;
-                int previousPageIndex = modalStackCount - 2;
-                if (modalStackCount > 0 && previousPageIndex >= 0)
-                {
-                    previousPage = page.Navigation.ModalStack[previousPageIndex];
-                }
+                var previousPage = GetPreviousPage(page, page.Navigation.ModalStack);
+                if (previousPage != null)
+                    target = GetOnNavigatedToTargetFromChild(previousPage);
             }
             else
             {
-                int navStackCount = page.Navigation.NavigationStack.Count;
-                int previousPageIndex = navStackCount - 2;
-                if (navStackCount > 0 && previousPageIndex >= 0)
-                {
-                    previousPage = page.Navigation.NavigationStack[previousPageIndex];
-                }
-
-                if (previousPage == null)
-                    previousPage = GetPreviousPage(page, true);
+                target = GetPreviousPage(page, page.Navigation.NavigationStack);
+                if (target == null)
+                    target = GetOnNavigatedToTarget(page, true);
             }
 
+            return target;
+        }
+
+        static Page GetOnNavigatedToTargetFromChild(Page target)
+        {
+            Page child = null;
+
+            if (target is MasterDetailPage)
+            {
+                child = ((MasterDetailPage)target).Detail;
+            }
+            else if (target is TabbedPage)
+            {
+                child = ((TabbedPage)target).CurrentPage;
+            }
+            else if (target is CarouselPage)
+            {
+                child = ((CarouselPage)target).CurrentPage;
+            }
+            else if (target is NavigationPage)
+            {
+                child = target.Navigation.NavigationStack.Last();
+            }
+
+            if (child != null)
+                target = GetOnNavigatedToTargetFromChild(child);
+
+            return target;
+        }
+
+        static Page GetPreviousPage(Page currentPage, IReadOnlyList<Page> navStack)
+        {
+            Page previousPage = null;
+
+            int currentPageIndex = GetCurrentPageIndex(currentPage, navStack);
+            int previousPageIndex = currentPageIndex - 1;
+            if (navStack.Count >= 0 && previousPageIndex >= 0)
+                previousPage = navStack[previousPageIndex];
+
             return previousPage;
+        }
+
+        static int GetCurrentPageIndex(Page currentPage, IReadOnlyList<Page> navStack)
+        {
+            int modalStackCount = navStack.Count;
+            for (int x = 0; x < modalStackCount; x++)
+            {
+                var view = navStack[x];
+                if (view == currentPage)
+                    return x;
+            }
+
+            return modalStackCount - 1;
         }
 
         async static Task DoPush(Page currentPage, Page page, bool useModalNavigation, bool animated)

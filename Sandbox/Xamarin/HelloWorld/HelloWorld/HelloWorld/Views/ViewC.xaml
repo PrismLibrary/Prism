@@ -5,5 +5,8 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
               prism:ViewModelLocator.AutowireViewModel="True"
              Title="View C">
-  <Label Text="ViewC" VerticalOptions="Center" HorizontalOptions="Center" />
+  <StackLayout>
+    <Label Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" />
+    <Button Command="{Binding NavigateCommand}" Text="Navigate" />
+  </StackLayout>
 </ContentPage>
