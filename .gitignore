@@ -202,3 +202,4 @@ FakesAssemblies/
 
 # Allow demo temporary keys
 !*_TemporaryKey.pfx
+*.userprefs
