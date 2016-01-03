@@ -44,6 +44,13 @@ namespace Prism.Navigation
                 OnNavigatedTo(previousPage, segmentParameters);
         }
 
+		public async Task GoBackToRoot() 
+		{
+			var current = GetCurrentPage ();
+			var navigation = current.Navigation;
+			await navigation.PopToRootAsync ();
+		}
+
         /// <summary>
         /// Initiates navigation to the target specified by the <typeparamref name="T"/>.
         /// </summary>
