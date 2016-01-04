@@ -42,7 +42,7 @@ namespace Prism.Commands
         /// <see cref="IActiveAwareCommand.IsActiveChanged"/> event.
         /// </remarks>
         /// <param name="command">The command to register.</param>
-        public virtual void RegisterCommand(ICommand command)
+        public virtual CompositeCommand RegisterCommand(ICommand command)
         {
             if (command == null) throw new ArgumentNullException("command");
             if (command == this)
@@ -70,6 +70,7 @@ namespace Prism.Commands
                     activeAwareCommand.IsActiveChanged += this.Command_IsActiveChanged;
                 }
             }
+            return this;
         }
 
         /// <summary>
