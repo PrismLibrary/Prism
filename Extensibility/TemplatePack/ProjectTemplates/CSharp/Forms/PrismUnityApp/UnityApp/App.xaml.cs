@@ -5,13 +5,10 @@ namespace $safeprojectname$
 {
     public partial class App : PrismApplication
     {
-        public App()
-        {
-            InitializeComponent();
-        }
-
         protected override void OnInitialized()
         {
+            InitializeComponent();
+
             NavigationService.Navigate("MainNavigationPage/ViewA?message=Hello%20From%20Xamarin.Forms");
         }
 
