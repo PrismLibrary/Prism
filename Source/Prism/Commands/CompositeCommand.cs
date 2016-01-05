@@ -77,7 +77,7 @@ namespace Prism.Commands
         /// Removes a command from the collection and removes itself from the <see cref="ICommand.CanExecuteChanged"/> event of it.
         /// </summary>
         /// <param name="command">The command to unregister.</param>
-        public virtual void UnregisterCommand(ICommand command)
+        public CompositeCommand UnregisterCommand(ICommand command)
         {
             if (command == null) throw new ArgumentNullException("command");
             bool removed;
@@ -100,6 +100,7 @@ namespace Prism.Commands
                     }
                 }
             }
+            return this;
         }
 
         private void OnRegisteredCommandCanExecuteChanged(object sender, EventArgs e)
