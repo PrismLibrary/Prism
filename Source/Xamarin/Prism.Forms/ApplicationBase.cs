@@ -59,5 +59,10 @@ namespace Prism
         /// Used to register types with the container that will be used by your application.
         /// </summary>
         protected abstract void RegisterTypes();
+
+		public virtual void OnPlatformBackNavigation()
+		{
+			NavigationService.HandlePlatformBackNavigation ();
+		}
     }
 }

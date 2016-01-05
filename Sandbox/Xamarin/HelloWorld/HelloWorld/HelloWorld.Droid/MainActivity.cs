@@ -8,11 +8,12 @@ using Android.Widget;
 using Android.OS;
 using Prism.Events;
 using Microsoft.Practices.ServiceLocation;
+using Prism.Forms.Android;
 
 namespace HelloWorld.Droid
 {
     [Activity(Label = "HelloWorld", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+	public class MainActivity : PrismFormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
@@ -22,8 +23,17 @@ namespace HelloWorld.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App());
+			var app = new App ();
+			Prism.Forms.Android.Prism.Init(this, app);
+
+            LoadApplication(app);
         }
+
+		public override void OnBackPressed ()
+		{
+			base.OnBackPressed ();
+
+		}
     }
 }
 

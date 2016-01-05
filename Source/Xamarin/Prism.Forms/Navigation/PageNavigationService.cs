@@ -10,7 +10,7 @@ namespace Prism.Navigation
     /// <summary>
     /// Provides page based navigation for ViewModels.
     /// </summary>
-    public abstract class PageNavigationService : INavigationService, IPageAware
+	public abstract class PageNavigationService : INavigationService, IPageAware
     {
         private Page _page;
         Page IPageAware.Page
@@ -521,5 +521,27 @@ namespace Prism.Navigation
         {
             return _page != null ? _page : Application.Current.MainPage;
         }
+
+		public void HandlePlatformBackNavigation ()
+		{
+			var page = GetCurrentPage();
+			OnNavigatedFrom(page, null);
+			var navPage = page as NavigationPage;
+
+			if (navPage == null && HasNavigationPageParent (page)) {
+				navPage = page.Parent as NavigationPage;
+			}
+			if (navPage != null) {
+				if (navPage.Navigation.NavigationStack.Count > 1) {
+					var stack = navPage.Navigation.NavigationStack.ToArray ();
+					var index = Array.IndexOf (stack, page);
+					var prevIndex = index - 1;
+					if (prevIndex >= 0) {
+						var prevPage = stack[prevIndex];
+						OnNavigatedTo(prevPage, null);
+					}
+				}	
+			}
+		}
     }
 }
