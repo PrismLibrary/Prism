@@ -119,7 +119,7 @@ namespace Prism.Interactivity
                 object propertyValue = parameter;
                 foreach (var propertyPathPart in propertyPathParts)
                 {
-                    var propInfo = propertyValue.GetType().GetTypeInfo().GetDeclaredProperty(propertyPathPart);
+                    var propInfo = propertyValue.GetType().GetTypeInfo().GetProperty(propertyPathPart);
                     propertyValue = propInfo.GetValue(propertyValue);
                 }
                 parameter = propertyValue;
