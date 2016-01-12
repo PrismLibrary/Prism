@@ -199,7 +199,7 @@ namespace Prism.Tests.Mvvm
         }
 
         //TODO: BBL: This test fails intermittently.  The cause is unknown, but we think it may be a race condition issue.
-        //in orer to reduce the friction of our automated build processes, we are cmmenting oout this test.
+        //In order to reduce the friction of our automated build processes, we are commenting out this test.
         //[Fact]
         //public void NonGenericDelegateCommandShouldInvokeExplicitExecuteFunc()
         //{
