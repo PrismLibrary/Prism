@@ -263,7 +263,10 @@ namespace Prism.Navigation
             if (detail.GetType() == nextSegmentType)
             {
                 await ProcessNavigation(detail, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, detail, parameters);
+                await DoNavigateAction(null, nextSegment, detail, parameters, () =>
+                {
+                    currentPage.IsPresented = false;
+                });
                 return;
             }
             else
@@ -351,21 +354,13 @@ namespace Prism.Navigation
             Page child = null;
 
             if (target is MasterDetailPage)
-            {
                 child = ((MasterDetailPage)target).Detail;
-            }
             else if (target is TabbedPage)
-            {
                 child = ((TabbedPage)target).CurrentPage;
-            }
             else if (target is CarouselPage)
-            {
                 child = ((CarouselPage)target).CurrentPage;
-            }
             else if (target is NavigationPage)
-            {
                 child = target.Navigation.NavigationStack.Last();
-            }
 
             if (child != null)
                 target = GetOnNavigatedToTargetFromChild(child);
@@ -387,15 +382,15 @@ namespace Prism.Navigation
 
         static int GetCurrentPageIndex(Page currentPage, IReadOnlyList<Page> navStack)
         {
-            int modalStackCount = navStack.Count;
-            for (int x = 0; x < modalStackCount; x++)
+            int stackCount = navStack.Count;
+            for (int x = 0; x < stackCount; x++)
             {
                 var view = navStack[x];
                 if (view == currentPage)
                     return x;
             }
 
-            return modalStackCount - 1;
+            return stackCount - 1;
         }
 
         async static Task DoPush(Page currentPage, Page page, bool useModalNavigation, bool animated)
