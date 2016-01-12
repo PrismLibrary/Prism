@@ -263,7 +263,10 @@ namespace Prism.Navigation
             if (detail.GetType() == nextSegmentType)
             {
                 await ProcessNavigation(detail, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, detail, parameters);
+                await DoNavigateAction(null, nextSegment, detail, parameters, () =>
+                {
+                    currentPage.IsPresented = false;
+                });
                 return;
             }
             else
