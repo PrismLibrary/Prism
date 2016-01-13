@@ -173,6 +173,10 @@
       <Project>{79ebb8f1-5d80-4ea1-9100-ebdc1ec51cb7}</Project>
       <Name>Prism.Unity.Forms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ModuleA\ModuleA.csproj">
+      <Project>{c491dc4b-eb12-4882-ac69-e18382a50d75}</Project>
+      <Name>ModuleA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HelloWorld\HelloWorld.csproj">
       <Name>HelloWorld</Name>
     </ProjectReference>

@@ -1,4 +1,5 @@
 ﻿using Prism.Logging;
+using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
 
@@ -11,6 +12,12 @@ namespace Prism
         /// </summary>
         /// <value>A <see cref="ILoggerFacade"/> instance.</value>
         protected ILoggerFacade Logger { get; set; }
+
+        /// <summary>
+        /// Gets the default <see cref="IModuleCatalog"/> for the application.
+        /// </summary>
+        /// <value>The default <see cref="IModuleCatalog"/> instance.</value>
+        protected IModuleCatalog ModuleCatalog { get; set; }
 
         /// <summary>
         /// Gets the <see cref="INavigationService"/> for the application.
@@ -37,6 +44,16 @@ namespace Prism
         protected virtual ILoggerFacade CreateLogger()
         {
             return new DebugLogger();
+        }
+
+        protected virtual IModuleCatalog CreateModuleCatalog()
+        {
+            return new ModuleCatalog();
+        }
+
+        protected virtual void ConfigureModuleCatalog()
+        {
+            
         }
 
         /// <summary>
