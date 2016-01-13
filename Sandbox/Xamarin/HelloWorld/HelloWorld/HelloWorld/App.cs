@@ -1,4 +1,5 @@
 ﻿using HelloWorld.Views;
+using Prism.Modularity;
 using Prism.Unity;
 
 namespace HelloWorld
@@ -7,7 +8,7 @@ namespace HelloWorld
     {
         protected override void OnInitialized()
         {
-            NavigationService.Navigate("MyMasterDetail/MyNavigationPage/ViewA");
+            NavigationService.Navigate("MyMasterDetail/MyNavigationPage/MainPage");
         }
 
         protected override void RegisterTypes()
@@ -19,7 +20,9 @@ namespace HelloWorld
 
         protected override void ConfigureModuleCatalog()
         {
-            ModuleCatalog.AddModule(typeof(ModuleA.ModuleAModule));
+            //ModuleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule)));
+            //ModuleCatalog.AddModule(new ModuleInfo("ModuleA", typeof(ModuleA.ModuleAModule)));
+            ModuleCatalog.AddModule(new ModuleInfo("ModuleA", typeof(ModuleA.ModuleAModule), InitializationMode.OnDemand));
         }
     }
 }

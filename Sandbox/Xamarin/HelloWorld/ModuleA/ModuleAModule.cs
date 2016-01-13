@@ -2,6 +2,7 @@
 using ModuleA.Views;
 using Prism.Modularity;
 using Prism.Unity;
+using Xamarin.Forms;
 
 namespace ModuleA
 {
@@ -19,6 +20,10 @@ namespace ModuleA
             _container.RegisterTypeForNavigation<ViewA>();
             _container.RegisterTypeForNavigation<ViewB>();
             _container.RegisterTypeForNavigation<ViewC>();
+
+            var masterDetail = PrismApplication.Current.MainPage as MasterDetailPage;
+            if (masterDetail != null)
+                masterDetail.Master = new MasterNavigation();
         }
     }
 }
