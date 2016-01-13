@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Prism.Navigation;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
@@ -89,7 +85,7 @@ namespace Prism.Unity
             Container.RegisterType<IPageDialogService, PageDialogService>(new ContainerControlledLifetimeManager());
         }
 
-        protected void InitializeModules()
+        protected override void InitializeModules()
         {
             if (ModuleCatalog.Modules.Count() > 0)
             {

@@ -46,15 +46,26 @@ namespace Prism
             return new DebugLogger();
         }
 
+        /// <summary>
+        /// Creates the <see cref="IModuleCatalog"/> used by Prism.
+        /// </summary>
         protected virtual IModuleCatalog CreateModuleCatalog()
         {
             return new ModuleCatalog();
         }
 
+        /// <summary>
+        /// Configures the <see cref="IModuleCatalog"/> used by Prism.
+        /// </summary>
         protected virtual void ConfigureModuleCatalog()
         {
             
         }
+
+        /// <summary>
+        /// Initializes the modules.
+        /// </summary>
+        protected abstract void InitializeModules();
 
         /// <summary>
         /// Creates the <see cref="INavigationService"/> for the application.
