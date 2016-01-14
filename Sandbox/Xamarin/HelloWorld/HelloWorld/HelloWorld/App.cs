@@ -21,7 +21,6 @@ namespace HelloWorld
         protected override void ConfigureModuleCatalog()
         {
             //ModuleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule)));
-            //ModuleCatalog.AddModule(new ModuleInfo("ModuleA", typeof(ModuleA.ModuleAModule)));
             ModuleCatalog.AddModule(new ModuleInfo("ModuleA", typeof(ModuleA.ModuleAModule), InitializationMode.OnDemand));
         }
     }

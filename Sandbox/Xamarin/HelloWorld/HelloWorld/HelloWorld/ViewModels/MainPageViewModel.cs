@@ -30,5 +30,4 @@ namespace HelloWorld.ViewModels
             _moduleManager.LoadModule("ModuleA");
         }
     }
-
 }

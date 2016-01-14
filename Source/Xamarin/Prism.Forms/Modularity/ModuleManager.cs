@@ -54,7 +54,7 @@ namespace Prism.Modularity
         public void LoadModule(string moduleName)
         {
             var modules = ModuleCatalog.Modules.Where(m => m.ModuleName == moduleName);
-            if (modules == null)
+            if (modules == null || modules.Count() == 0)
                 throw new Exception(String.Format("Module {0} was not found in the catalog.", moduleName));
 
             if (modules.Count() != 1)
