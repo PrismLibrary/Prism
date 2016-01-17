@@ -21,11 +21,21 @@ namespace Prism.Ninject
         /// </summary>
         public IKernel Kernel { get; protected set; }
 
+        public PrismApplication(IKernel outerNinjectKernal) : base()
+        {
+            InitializePrismApplication(outerNinjectKernal);
+        }
+
+        public PrismApplication() : this(null) { }
+
         public override void Initialize()
         {
             Logger = CreateLogger();
+        }
 
-            Kernel = CreateKernel();
+        public void InitializePrismApplication(IKernel outerNinjectKernal)
+        {
+            Kernel = outerNinjectKernal ?? CreateKernel();
 
             ConfigureKernel();
 
