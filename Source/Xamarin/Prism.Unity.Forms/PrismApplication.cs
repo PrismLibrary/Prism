@@ -21,11 +21,21 @@ namespace Prism.Unity
     {
         public IUnityContainer Container { get; protected set; }
 
+        public PrismApplication(IUnityContainer outerUnityContainer) : base()
+        {
+            InitializePrismApplication(outerUnityContainer);
+        }
+
+        public PrismApplication() : this(null) { }
+
         public override void Initialize()
         {
             Logger = CreateLogger();
+        }
 
-            Container = CreateContainer();
+        public void InitializePrismApplication(IUnityContainer outerUnityContainer)
+        {
+            Container = outerUnityContainer ?? CreateContainer();
 
             ConfigureContainer();
 
