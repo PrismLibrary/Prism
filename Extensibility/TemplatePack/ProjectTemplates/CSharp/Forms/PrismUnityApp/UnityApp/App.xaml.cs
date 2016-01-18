@@ -9,7 +9,7 @@ namespace $safeprojectname$
         {
             InitializeComponent();
 
-            NavigationService.Navigate("MainPage?title=Hello%20From%20Xamarin.Forms");
+            NavigationService.Navigate("MainPage?title=Hello%20from%20Xamarin.Forms");
         }
 
         protected override void RegisterTypes()

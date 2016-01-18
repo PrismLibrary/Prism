@@ -5,7 +5,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="$safeprojectname$.Views.MainPage"
              Title="MainPage">
-  <StackLayout>
+  <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
     <Label Text="{Binding Title}" />
   </StackLayout>
 </ContentPage>
