@@ -9,14 +9,12 @@ namespace $safeprojectname$
         {
             InitializeComponent();
 
-            NavigationService.Navigate("MainNavigationPage/ViewA?message=Hello%20From%20Xamarin.Forms");
+            NavigationService.Navigate("MainPage?title=Hello%20From%20Xamarin.Forms");
         }
 
         protected override void RegisterTypes()
         {
-            Container.RegisterTypeForNavigation<MainNavigationPage>();
-            Container.RegisterTypeForNavigation<ViewA>();
-            Container.RegisterTypeForNavigation<ViewB>();
+            Container.RegisterTypeForNavigation<MainPage>();
         }
     }
 }
