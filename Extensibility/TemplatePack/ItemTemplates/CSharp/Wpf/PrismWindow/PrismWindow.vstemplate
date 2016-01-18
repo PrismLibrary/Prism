@@ -9,6 +9,7 @@
     <RequiredFrameworkVersion>4.5</RequiredFrameworkVersion>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
     <DefaultName>PrismWindow.xaml</DefaultName>
+    <SortOrder>30</SortOrder>
   </TemplateData>
   <TemplateContent>
     <ProjectItem SubType="Designer" TargetFileName="$fileinputname$.xaml" ReplaceParameters="true">PrismWindow.xaml</ProjectItem>

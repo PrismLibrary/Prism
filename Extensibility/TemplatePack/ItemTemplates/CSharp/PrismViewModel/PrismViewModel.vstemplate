@@ -9,6 +9,7 @@
     <AppliesTo>CSharp + MultiTarget</AppliesTo>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
     <DefaultName>PrismViewModel.cs</DefaultName>
+    <SortOrder>10</SortOrder>
   </TemplateData>
   <TemplateContent>
     <ProjectItem ReplaceParameters="true">PrismViewModel.cs</ProjectItem>

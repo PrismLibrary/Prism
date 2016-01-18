@@ -5,13 +5,13 @@
     <Description>A project to add a module to a WPF Prism application.</Description>
     <Icon>PrismModule.ico</Icon>
     <ProjectType>CSharp</ProjectType>
-    <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
-    <SortOrder>1000</SortOrder>
+    <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>    
     <TemplateID>1bd526eb-c68c-4f66-89c3-bc0fe158b193</TemplateID>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>PrismModule</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <SortOrder>20</SortOrder>
   </TemplateData>
   <TemplateContent>
     <Project File="ProjectTemplate.csproj" ReplaceParameters="true">
