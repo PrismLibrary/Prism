@@ -74,13 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="UnityApp\Views\ViewB.xaml.cs">
-      <DependentUpon>ViewB.xaml</DependentUpon>
+    <None Include="UnityApp\Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </None>
-    <None Include="UnityApp\Views\ViewA.xaml.cs">
-      <DependentUpon>ViewA.xaml</DependentUpon>
-    </None>
-    <None Include="UnityApp\ViewModels\ViewBViewModel.cs" />
     <None Include="UnityApp\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </None>
@@ -102,10 +98,7 @@
     <None Include="UnityApp.iOS\iTunesArtwork" />
     <None Include="UnityApp.iOS\iTunesArtwork%402x" />
     <None Include="UnityApp.iOS\Resources\LaunchScreen.storyboard" />
-    <None Include="UnityApp\ViewModels\ViewAViewModel.cs" />
-    <None Include="UnityApp\Views\MainNavigationPage.xaml.cs">
-      <DependentUpon>MainNavigationPage.xaml</DependentUpon>
-    </None>
+    <None Include="UnityApp\ViewModels\MainPageViewModel.cs" />
     <None Include="UnityApp\Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -188,11 +181,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="UnityApp\Views\MainNavigationPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="UnityApp.WinPhone\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -208,12 +196,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="UnityApp\Views\ViewA.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="UnityApp\Views\ViewB.xaml">
+    <None Include="UnityApp\Views\MainPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </None>
   </ItemGroup>

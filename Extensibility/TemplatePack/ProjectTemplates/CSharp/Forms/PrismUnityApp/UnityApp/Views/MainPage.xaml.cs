@@ -2,9 +2,9 @@
 
 namespace $safeprojectname$.Views
 {
-    public partial class ViewA : ContentPage
+    public partial class MainPage : ContentPage
     {
-        public ViewA()
+        public MainPage()
         {
             InitializeComponent();
         }
