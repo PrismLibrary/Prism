@@ -9,6 +9,7 @@
     <DefaultName>PrismUnityApp</DefaultName>
     <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <SortOrder>30</SortOrder>
   </TemplateData>
   <TemplateContent>
     <ProjectCollection>

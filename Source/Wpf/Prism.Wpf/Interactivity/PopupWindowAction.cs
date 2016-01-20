@@ -137,7 +137,7 @@ namespace Prism.Interactivity
                 {
                     wrapperWindow.Closed -= handler;
                     wrapperWindow.Content = null;
-                    if(callback != null) callback();
+                    if (callback != null) callback();
                 };
             wrapperWindow.Closed += handler;
 
@@ -152,7 +152,7 @@ namespace Prism.Interactivity
                         wrapperWindow.SizeChanged -= sizeHandler;
 
                         FrameworkElement view = this.AssociatedObject;
-                        
+
                         // Position is the top left position of the view from which the request was initiated.
                         // On multiple monitors, if the X or Y coordinate is negative it represent that the monitor from which
                         // the request was initiated is either on the left or above the PrimaryScreen
@@ -174,7 +174,7 @@ namespace Prism.Interactivity
 
                         wrapperWindow.Left = middleOfView.X - (wrapperWindow.ActualWidth / 2);
                         wrapperWindow.Top = middleOfView.Y - (wrapperWindow.ActualHeight / 2);
-                       
+
                     };
                 wrapperWindow.SizeChanged += sizeHandler;
             }
@@ -216,7 +216,8 @@ namespace Prism.Interactivity
                 wrapperWindow = this.CreateDefaultWindow(notification);
             }
 
-            wrapperWindow.Owner = Window.GetWindow(this);
+            if (AssociatedObject != null)
+                wrapperWindow.Owner = Window.GetWindow(AssociatedObject);
 
             // If the user provided a Style for a Window we set it as the window's style.
             if (WindowStyle != null)

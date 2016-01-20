@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="Prism.TemplatePack.138e3411-ac97-4c11-8016-c27a831cba2e" Version="1.1.1" Language="en-US" Publisher="Brian Lagunas" />
+    <Identity Id="Prism.TemplatePack.138e3411-ac97-4c11-8016-c27a831cba2e" Version="1.2" Language="en-US" Publisher="Brian Lagunas" />
     <DisplayName>Prism Template Pack</DisplayName>
     <Description xml:space="preserve">Snippets, Items Templates, and Project Templates for use in Prism application development.</Description>
     <MoreInfo>https://github.com/PrismLibrary</MoreInfo>
@@ -41,5 +41,7 @@
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.appcompat.23.0.1.3.nupkg" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.cardview.23.0.1.3.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.mediarouter.23.0.1.3.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismModule" d:TargetPath="|PrismModule;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp.Wpf" d:TargetPath="|PrismUnityApp.Wpf;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
   </Assets>
 </PackageManifest>
