@@ -1,7 +1,7 @@
 ﻿### This is just the initial script to get the nuget packages out.  We need to refactor this script to make it easier to maintain and update
 ### One idea is to force a Visual Studio build using the Release-Signed build configuration before packing the nuspecs
 
-$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes--Dec-3,-2015'
+$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes--Jan-10,-2016'
 
 $nugetFileName = 'nuget.exe'
 
