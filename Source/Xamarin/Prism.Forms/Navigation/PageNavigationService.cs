@@ -82,12 +82,11 @@ namespace Prism.Navigation
         public async Task Navigate(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             var navigationSegments = UriParsingHelper.GetUriSegments(uri);
-            var isDeepLink = navigationSegments.Count > 1;
 
             if (uri.IsAbsoluteUri)
-                await ProcessNavigationForAbsoulteUri(navigationSegments, parameters, useModalNavigation, isDeepLink ? false : animated);
+                await ProcessNavigationForAbsoulteUri(navigationSegments, parameters, useModalNavigation, animated);
             else
-                await ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, useModalNavigation, isDeepLink ? false : animated);
+                await ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, useModalNavigation, animated);
         }
 
         async Task ProcessNavigation(Page currentPage, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
