@@ -118,6 +118,23 @@ else
     Invoke-Expression ".\$($nugetFileName) pack $($unityNuspecPath) -Prop version=$($unityFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop uwpVersion=$($uwpFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
+###########################
+######  Prism.Unity.Forms  ######
+###########################
+$unityFormsNuspecPath = 'Prism.Unity.Forms.nuspec'
+$unityFormsAssemblyPath = '../Xamarin/Prism.Unity.Forms/bin/Release-Signed/Prism.Unity.Forms.dll'
+if (!(Test-Path $unityFormsAssemblyPath))
+{
+    Write-Host 'Prism.Unity.Forms.dll not found'
+}
+else
+{
+    $unityFormsFileInfo = Get-Item $unityFormsAssemblyPath
+    $unityFileVersion = $unityFormsFileInfo.VersionInfo.ProductVersion   
+
+    Invoke-Expression ".\$($nugetFileName) pack $($unityFormsNuspecPath) -Prop version=$($unityFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+}
+
 
 
 ###########################
