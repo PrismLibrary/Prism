@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
-    <Name>Prism Unity App (Forms)</Name>
+    <Name>New Prism Unity App (Forms)</Name>
     <Description>A multiproject template for building Xamarin.Forms app with Prism and Unity, sharing code using a portable class library.</Description>
     <Icon>PrismUnityApp.ico</Icon>
     <ProjectType>CSharp</ProjectType>
@@ -16,7 +16,8 @@
       <ProjectTemplateLink ProjectName="$safeprojectname$">UnityApp\UnityApp.vstemplate</ProjectTemplateLink>
       <ProjectTemplateLink ProjectName="$safeprojectname$.Droid">UnityApp.Droid\UnityApp.Droid.vstemplate</ProjectTemplateLink>
       <ProjectTemplateLink ProjectName="$safeprojectname$.iOS">UnityApp.iOS\UnityApp.iOS.vstemplate</ProjectTemplateLink>
-      <ProjectTemplateLink ProjectName="$safeprojectname$.WinPhone">UnityApp.WinPhone\UnityApp.WinPhone.vstemplate</ProjectTemplateLink>      
+      <ProjectTemplateLink ProjectName="$safeprojectname$.WinPhone">UnityApp.WinPhone\UnityApp.WinPhone.vstemplate</ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$safeprojectname$.UWP">UnityApp.UWP\UnityApp.UWP.vstemplate</ProjectTemplateLink>
     </ProjectCollection>
   </TemplateContent>
 
