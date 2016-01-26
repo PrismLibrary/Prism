@@ -9,7 +9,7 @@ At the current time we have no plans to create new versions of the library for S
 
 |          | Status |
 | -------- | ------ |
-| Prism.Core | <img src="https://ci.appveyor.com/api/projects/status/pn4fcaghmlwueu52/branch/master?svg=true"/> |
+| Prism | <img src="https://ci.appveyor.com/api/projects/status/pn4fcaghmlwueu52/branch/master?svg=true"/> |
 | Prism.Wpf | <img src="https://ci.appveyor.com/api/projects/status/4lt3n2wf5m2efms7/branch/master?svg=true" /> |
 | Prism.Windows | <img src="https://ci.appveyor.com/api/projects/status/j04r6a45fi2f9pv4/branch/master?svg=true" /> |
 | Prism.Forms | <img src="https://ci.appveyor.com/api/projects/status/6ly53jgvwx62bm9u/branch/master?svg=true" /> |
@@ -97,6 +97,7 @@ As part of taking over the code base from Microsoft and moving towards Prism 6, 
 Check out the new Prism for Xamarin.Forms Preview:
 * Prism.Forms 5.7.0 Preview - http://brianlagunas.com/first-look-at-the-prism-for-xamarin-forms-preview/
 * Prism.Forms 6.2.0 Preview - http://brianlagunas.com/prism-for-xamarin-forms-6-2-0-preview/
+* Prism.Forms 6.2.0 Preview 3 - http://brianlagunas.com/prism-for-xamarin-forms-6-2-0-preview-3/
 
 ### .NET Foundation
 

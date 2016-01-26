@@ -9,6 +9,7 @@
     <RequiredFrameworkVersion>4.5</RequiredFrameworkVersion>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
     <DefaultName>PrismUserControl.xaml</DefaultName>
+    <SortOrder>20</SortOrder>
   </TemplateData>
   <TemplateContent>
     

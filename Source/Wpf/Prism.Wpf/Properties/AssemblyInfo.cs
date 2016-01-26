@@ -52,4 +52,4 @@ using System.Windows.Markup;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("6.1")]
 [assembly: AssemblyFileVersion("6.1.1")]
-[assembly: AssemblyInformationalVersion("6.1.1-pre1")]
+[assembly: AssemblyInformationalVersion("6.1.1-pre2")]

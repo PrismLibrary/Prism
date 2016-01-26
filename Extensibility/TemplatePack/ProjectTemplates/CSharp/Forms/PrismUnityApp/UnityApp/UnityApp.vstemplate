@@ -23,16 +23,11 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
       </Folder>
       <Folder Name="ViewModels" TargetFolderName="ViewModels">
-        <ProjectItem ReplaceParameters="true" TargetFileName="ViewAViewModel.cs">ViewAViewModel.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="ViewBViewModel.cs">ViewBViewModel.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="MainPageViewModel.cs">MainPageViewModel.cs</ProjectItem>
       </Folder>
       <Folder Name="Views" TargetFolderName="Views">
-        <ProjectItem ItemType="EmbeddedResource" CustomTool="MSBuild:UpdateDesignTimeXaml" ReplaceParameters="true" TargetFileName="MainNavigationPage.xaml">MainNavigationPage.xaml</ProjectItem>
-        <ProjectItem SubType="Code" ReplaceParameters="true" TargetFileName="MainNavigationPage.xaml.cs">MainNavigationPage.xaml.cs</ProjectItem>
-        <ProjectItem ItemType="EmbeddedResource" CustomTool="MSBuild:UpdateDesignTimeXaml" ReplaceParameters="true" TargetFileName="ViewA.xaml">ViewA.xaml</ProjectItem>
-        <ProjectItem SubType="Code" ReplaceParameters="true" TargetFileName="ViewA.xaml.cs">ViewA.xaml.cs</ProjectItem>
-        <ProjectItem ItemType="EmbeddedResource" CustomTool="MSBuild:UpdateDesignTimeXaml" ReplaceParameters="true" TargetFileName="ViewB.xaml">ViewB.xaml</ProjectItem>
-        <ProjectItem SubType="Code" ReplaceParameters="true" TargetFileName="ViewB.xaml.cs">ViewB.xaml.cs</ProjectItem>
+        <ProjectItem ItemType="EmbeddedResource" CustomTool="MSBuild:UpdateDesignTimeXaml" ReplaceParameters="true" TargetFileName="MainPage.xaml">MainPage.xaml</ProjectItem>
+        <ProjectItem SubType="Code" ReplaceParameters="true" TargetFileName="MainPage.xaml.cs">MainPage.xaml.cs</ProjectItem>
       </Folder>
     </Project>
   </TemplateContent>
