@@ -1,0 +1,27 @@
+﻿<Window x:Class="Issue322.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Issue322"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+    
+    <Grid>
+        <StackPanel>
+
+            <TextBox x:Name="FirstName" Text="{Binding Path=FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="10" />
+
+            <TextBox x:Name="LastName" Text="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}" Margin="10" />
+
+            <Button Content="Register" Command="{Binding Path=RegisterCommand}" Margin="10" />
+
+            <TextBlock Text="{Binding Path=Result}" Margin="10" />
+
+        </StackPanel>
+    </Grid>
+</Window>
