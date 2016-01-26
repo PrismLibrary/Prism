@@ -51,7 +51,6 @@ namespace Prism.Mef.Wpf.Tests
 
             IServiceLocator containerAdapter = new MefServiceLocatorAdapter(compositionContainer);
             IList<object> returnedList = containerAdapter.GetAllInstances(typeof(object)).ToList();
-
             Assert.AreSame(returnedList[0], objectOne);
             Assert.AreSame(returnedList[1], objectTwo);
         }
