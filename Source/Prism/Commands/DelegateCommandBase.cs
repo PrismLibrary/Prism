@@ -1,12 +1,13 @@
+using Prism.Mvvm;
+using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Prism.Mvvm;
-using Prism.Properties;
 
 namespace Prism.Commands
 {
@@ -16,7 +17,7 @@ namespace Prism.Commands
     public abstract class DelegateCommandBase : ICommand, IActiveAware
     {
         private bool _isActive;
-
+        private SynchronizationContext _synchronizationContext;
         readonly HashSet<string> _propertiesToObserve = new HashSet<string>();
         private INotifyPropertyChanged _inpc;
 
@@ -37,6 +38,7 @@ namespace Prism.Commands
 
             _executeMethod = (arg) => { executeMethod(arg); return Task.Delay(0); };
             _canExecuteMethod = canExecuteMethod;
+            _synchronizationContext = SynchronizationContext.Current;
         }
 
         /// <summary>
@@ -51,6 +53,7 @@ namespace Prism.Commands
 
             _executeMethod = executeMethod;
             _canExecuteMethod = canExecuteMethod;
+            _synchronizationContext = SynchronizationContext.Current;
         }
 
         /// <summary>
@@ -64,11 +67,14 @@ namespace Prism.Commands
         /// </summary>
         protected virtual void OnCanExecuteChanged()
         {
-            var handler = CanExecuteChanged;
-            if (handler != null)
+            _synchronizationContext.Post(new SendOrPostCallback((o) =>
             {
-                handler(this, EventArgs.Empty);
-            }
+                var handler = CanExecuteChanged;
+                if (handler != null)
+                {
+                    handler(this, EventArgs.Empty);
+                }
+            }), null);
         }
 
         /// <summary>
