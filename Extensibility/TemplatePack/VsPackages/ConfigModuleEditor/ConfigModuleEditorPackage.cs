@@ -5,16 +5,11 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.Win32;
 
 namespace ConfigModuleEditor
 {
@@ -40,6 +35,8 @@ namespace ConfigModuleEditor
     [Guid(ConfigModuleEditorPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideEditorFactory(typeof(ConfigModuleEditorFactory), 101)]
+    [ProvideEditorLogicalView(typeof(ConfigModuleEditorFactory), LogicalViewID.Designer)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
     public sealed class ConfigModuleEditorPackage : Package
     {
@@ -68,7 +65,8 @@ namespace ConfigModuleEditor
         protected override void Initialize()
         {
             base.Initialize();
-            ConfigModuleEditor.Commands.OpenConfigModuleEditorCommand.Initialize(this);
+            RegisterEditorFactory(new ConfigModuleEditorFactory());
+            Commands.OpenConfigModuleEditorCommand.Initialize(this);
         }
 
         #endregion

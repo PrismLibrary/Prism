@@ -99,17 +99,30 @@ namespace ConfigModuleEditor.Commands
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
-            string title = "OpenConfigModuleEditorCommand";
+            Guid xmlGuid = GuidList.ConfigModuleEditorFactory;
 
-            // Show a message box to prove we were here
-            VsShellUtilities.ShowMessageBox(
-                this.ServiceProvider,
-                message,
-                title,
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            IVsUIShellOpenDocument shellOpenDocument = (IVsUIShellOpenDocument)ServiceProvider.GetService(typeof(IVsUIShellOpenDocument));
+
+            string physicalView = null;
+            Guid logicalViewGuid = VSConstants.LOGVIEWID_Primary;
+            Microsoft.VisualStudio.OLE.Interop.IServiceProvider ppSP;
+            IVsUIHierarchy ppHier;
+            IVsWindowFrame ppWindowFrame;
+            uint pitemid;
+
+
+            shellOpenDocument.OpenDocumentViaProjectWithSpecific(_fileName,
+                (uint)__VSSPECIFICEDITORFLAGS.VSSPECIFICEDITOR_DoOpen,
+                ref xmlGuid,
+                physicalView,
+                ref logicalViewGuid,
+                out ppSP,
+                out ppHier,
+                out pitemid,
+                out ppWindowFrame);
+
+            if (ppWindowFrame != null)
+                ppWindowFrame.Show();
         }
 
         private void MenuItem_BeforeQueryStatus(object sender, EventArgs e)
