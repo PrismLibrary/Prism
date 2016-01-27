@@ -151,7 +151,7 @@ namespace Prism.Mef
             Justification = "The default export provider is in the container and disposed by MEF.")]
         protected virtual CompositionContainer CreateContainer()
         {
-            CompositionContainer container = new CompositionContainer(this.AggregateCatalog);
+            var container = new CompositionContainer(this.AggregateCatalog);
             return container;
         }
 

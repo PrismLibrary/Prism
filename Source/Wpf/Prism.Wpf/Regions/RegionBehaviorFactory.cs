@@ -11,7 +11,7 @@ namespace Prism.Regions
 {
     /// <summary>
     /// Defines a factory that allows the registration of the default set of <see cref="IRegionBehavior"/>, that will
-    /// be added to the <see cref="IRegionBehaviorCollection"/> of all <see cref="IRegion"/>s, unless overridden on a 'per-region' basis. 
+    /// be added to the <see cref="IRegionBehaviorCollection"/> of all <see cref="IRegion"/>s, unless overridden on a 'per-region' basis.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "It is more of a factory than a collection")]
     public class RegionBehaviorFactory : IRegionBehaviorFactory
@@ -37,22 +37,22 @@ namespace Prism.Regions
         {
             if (behaviorKey == null)
             {
-                throw new ArgumentNullException("behaviorKey");
+                throw new ArgumentNullException(nameof(behaviorKey));
             }
 
             if (behaviorType == null)
             {
-                throw new ArgumentNullException("behaviorType");
+                throw new ArgumentNullException(nameof(behaviorType));
             }
 
             // Check if the type is a IRegionBehavior
             if (!typeof(IRegionBehavior).IsAssignableFrom(behaviorType))
             {
                 throw new ArgumentException(
-                    string.Format(Thread.CurrentThread.CurrentCulture, Resources.CanOnlyAddTypesThatInheritIFromRegionBehavior, behaviorType.Name), "behaviorType");
+                    string.Format(Thread.CurrentThread.CurrentCulture, Resources.CanOnlyAddTypesThatInheritIFromRegionBehavior, behaviorType.Name), nameof(behaviorType));
             }
 
-            // Only add the behaviorKey if it doesn't already exists. 
+            // Only add the behaviorKey if it doesn't already exists.
             if (this.registeredBehaviors.ContainsKey(behaviorKey))
             {
                 return;
@@ -71,9 +71,9 @@ namespace Prism.Regions
             if (!this.ContainsKey(key))
             {
                 throw new ArgumentException(
-                    string.Format(Thread.CurrentThread.CurrentCulture, Resources.TypeWithKeyNotRegistered, key), "key");
+                    string.Format(Thread.CurrentThread.CurrentCulture, Resources.TypeWithKeyNotRegistered, key), nameof(key));
             }
-                
+
             return (IRegionBehavior)this.serviceLocator.GetInstance(this.registeredBehaviors[key]);
         }
 

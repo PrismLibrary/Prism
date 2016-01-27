@@ -30,7 +30,7 @@ namespace Prism.Events
 
                 if (!events.TryGetValue(typeof(TEventType), out existingEvent))
                 {
-                    TEventType newEvent = new TEventType();
+                    var newEvent = new TEventType();
                     newEvent.SynchronizationContext = syncContext;
                     events[typeof(TEventType)] = newEvent;
 

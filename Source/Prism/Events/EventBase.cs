@@ -39,7 +39,7 @@ namespace Prism.Events
         /// </remarks>
         protected virtual SubscriptionToken InternalSubscribe(IEventSubscription eventSubscription)
         {
-            if (eventSubscription == null) throw new System.ArgumentNullException("eventSubscription");
+            if (eventSubscription == null) throw new System.ArgumentNullException(nameof(eventSubscription));
 
             eventSubscription.SubscriptionToken = new SubscriptionToken(Unsubscribe);
 
@@ -98,7 +98,7 @@ namespace Prism.Events
 
         private List<Action<object[]>> PruneAndReturnStrategies()
         {
-            List<Action<object[]>> returnList = new List<Action<object[]>>();
+            var returnList = new List<Action<object[]>>();
 
             lock (Subscriptions)
             {

@@ -10,7 +10,7 @@ using Prism.Modularity;
 
 namespace Prism.Mef.Modularity
 {
-    /// <summary>    
+    /// <summary>
     /// Component responsible for coordinating the modules' type loading and module initialization process. 
     /// </summary>
     /// <remarks>
@@ -26,7 +26,7 @@ namespace Prism.Mef.Modularity
         /// <param name="moduleInitializer">Service used for initialization of modules.</param>
         /// <param name="moduleCatalog">Catalog that enumerates the modules to be loaded and initialized.</param>
         /// <param name="loggerFacade">Logger used during the load and initialization of modules.</param>
-        [ImportingConstructor()]
+        [ImportingConstructor]
         public MefModuleManager(
             IModuleInitializer moduleInitializer,
             IModuleCatalog moduleCatalog,
@@ -64,7 +64,7 @@ namespace Prism.Mef.Modularity
                 if (!registeredModules.TryGetValue(lazyModule.Metadata.ModuleName, out registeredModule))
                 {
                     // If the module is not already in the catalog is it added.
-                    ModuleInfo moduleInfo = new ModuleInfo()
+                    var moduleInfo = new ModuleInfo()
                     {
                         ModuleName = lazyModule.Metadata.ModuleName,
                         ModuleType = moduleType.AssemblyQualifiedName,

@@ -10,7 +10,7 @@ namespace Prism.Regions.Behaviors
     /// Behavior that removes the RegionManager attached property of all the views in a region once the RegionManager property of a region becomes null.
     /// This is useful when removing views with nested regions, to ensure these nested regions get removed from the RegionManager as well.
     /// <remarks>
-    /// This behavior does not apply by default. 
+    /// This behavior does not apply by default.
     /// In order to activate it, the ClearChildViews attached property must be set to True in the view containing the affected child regions.
     /// </remarks>
     /// </summary>
@@ -36,7 +36,7 @@ namespace Prism.Regions.Behaviors
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             return (bool)target.GetValue(ClearChildViewsRegionBehavior.ClearChildViewsProperty);
@@ -51,7 +51,7 @@ namespace Prism.Regions.Behaviors
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             target.SetValue(ClearChildViewsRegionBehavior.ClearChildViewsProperty, value);
@@ -69,7 +69,7 @@ namespace Prism.Regions.Behaviors
         {
             foreach (var view in region.Views)
             {
-                DependencyObject dependencyObject = view as DependencyObject;
+                var dependencyObject = view as DependencyObject;
                 if (dependencyObject != null)
                 {
                     if (GetClearChildViews(dependencyObject))
@@ -82,12 +82,9 @@ namespace Prism.Regions.Behaviors
 
         private void Region_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "RegionManager")
+            if (e.PropertyName == "RegionManager" && this.Region.RegionManager == null)
             {
-                if (this.Region.RegionManager == null)
-                {
-                    ClearChildViews(this.Region);
-                }
+                ClearChildViews(this.Region);
             }
         }
     }

@@ -38,7 +38,7 @@ namespace Prism.Regions
         {
             if (regionName == null)
             {
-                throw new ArgumentNullException("regionName");
+                throw new ArgumentNullException(nameof(regionName));
             }
 
             IRegion region = this.CreateRegion();
@@ -74,13 +74,13 @@ namespace Prism.Regions
         /// <param name="regionTarget">The object to adapt.</param>
         protected virtual void AttachDefaultBehaviors(IRegion region, T regionTarget)
         {
-            if (region == null) throw new ArgumentNullException("region");
-            if (regionTarget == null) throw new ArgumentNullException("regionTarget");
+            if (region == null) throw new ArgumentNullException(nameof(region));
+            if (regionTarget == null) throw new ArgumentNullException(nameof(regionTarget));
 
             IRegionBehaviorFactory behaviorFactory = this.RegionBehaviorFactory;
             if (behaviorFactory != null)
             {
-                DependencyObject dependencyObjectRegionTarget = regionTarget as DependencyObject;
+                var dependencyObjectRegionTarget = regionTarget as DependencyObject;
 
                 foreach (string behaviorKey in behaviorFactory)
                 {
@@ -90,7 +90,7 @@ namespace Prism.Regions
 
                         if (dependencyObjectRegionTarget != null)
                         {
-                            IHostAwareRegionBehavior hostAwareRegionBehavior = behavior as IHostAwareRegionBehavior;
+                            var hostAwareRegionBehavior = behavior as IHostAwareRegionBehavior;
                             if (hostAwareRegionBehavior != null)
                             {
                                 hostAwareRegionBehavior.HostControl = dependencyObjectRegionTarget;
@@ -130,10 +130,10 @@ namespace Prism.Regions
         {
             if (regionTarget == null)
             {
-                throw new ArgumentNullException("regionTarget");
+                throw new ArgumentNullException(nameof(regionTarget));
             }
 
-            T castedObject = regionTarget as T;
+            var castedObject = regionTarget as T;
             if (castedObject == null)
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, Resources.AdapterInvalidTypeException, typeof(T).Name));
@@ -144,7 +144,7 @@ namespace Prism.Regions
 
         private static void SetObservableRegionOnHostingControl(IRegion region, T regionTarget)
         {
-            DependencyObject targetElement = regionTarget as DependencyObject;
+            var targetElement = regionTarget as DependencyObject;
 
             if (targetElement != null)
             {

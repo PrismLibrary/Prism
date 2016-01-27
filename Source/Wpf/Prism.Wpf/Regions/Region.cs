@@ -43,7 +43,7 @@ namespace Prism.Regions
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Gets the collection of <see cref="IRegionBehavior"/>s that can extend the behavior of regions. 
+        /// Gets the collection of <see cref="IRegionBehavior"/>s that can extend the behavior of regions.
         /// </summary>
         public IRegionBehaviorCollection Behaviors { get; private set; }
 
@@ -272,7 +272,7 @@ namespace Prism.Regions
 
             this.ItemMetadataCollection.Remove(itemMetadata);
 
-            DependencyObject dependencyObject = view as DependencyObject;
+            var dependencyObject = view as DependencyObject;
             if (dependencyObject != null && Regions.RegionManager.GetRegionManager(dependencyObject) == this.RegionManager)
             {
                 dependencyObject.ClearValue(Regions.RegionManager.RegionManagerProperty);
@@ -291,7 +291,7 @@ namespace Prism.Regions
         }
 
         /// <summary>
-        /// Marks the specified view as active. 
+        /// Marks the specified view as active.
         /// </summary>
         /// <param name="view">The view to activate.</param>
         public virtual void Activate(object view)
@@ -305,7 +305,7 @@ namespace Prism.Regions
         }
 
         /// <summary>
-        /// Marks the specified view as inactive. 
+        /// Marks the specified view as inactive.
         /// </summary>
         /// <param name="view">The view to deactivate.</param>
         public virtual void Deactivate(object view)
@@ -368,7 +368,7 @@ namespace Prism.Regions
                 throw new InvalidOperationException(Resources.RegionViewExistsException);
             }
 
-            ItemMetadata itemMetadata = new ItemMetadata(view);
+            var itemMetadata = new ItemMetadata(view);
             if (!string.IsNullOrEmpty(viewName))
             {
                 if (this.ItemMetadataCollection.FirstOrDefault(x => x.Name == viewName) != null)
@@ -378,7 +378,7 @@ namespace Prism.Regions
                 itemMetadata.Name = viewName;
             }
 
-            DependencyObject dependencyObject = view as DependencyObject;
+            var dependencyObject = view as DependencyObject;
 
             if (dependencyObject != null)
             {
@@ -392,13 +392,13 @@ namespace Prism.Regions
         {
             if (view == null)
             {
-                throw new ArgumentNullException("view");
+                throw new ArgumentNullException(nameof(view));
             }
 
             ItemMetadata itemMetadata = this.ItemMetadataCollection.FirstOrDefault(x => x.Item == view);
             if (itemMetadata == null)
             {
-                throw new ArgumentException(Resources.ViewNotInRegionException, "view");
+                throw new ArgumentException(Resources.ViewNotInRegionException, nameof(view));
             }
 
             return itemMetadata;
@@ -445,8 +445,8 @@ namespace Prism.Regions
                     Type xType = x.GetType();
                     Type yType = y.GetType();
 
-                    ViewSortHintAttribute xAttribute = xType.GetCustomAttributes(typeof(ViewSortHintAttribute), true).FirstOrDefault() as ViewSortHintAttribute;
-                    ViewSortHintAttribute yAttribute = yType.GetCustomAttributes(typeof(ViewSortHintAttribute), true).FirstOrDefault() as ViewSortHintAttribute;
+                    var xAttribute = xType.GetCustomAttributes(typeof(ViewSortHintAttribute), true).FirstOrDefault() as ViewSortHintAttribute;
+                    var yAttribute = yType.GetCustomAttributes(typeof(ViewSortHintAttribute), true).FirstOrDefault() as ViewSortHintAttribute;
 
                     return ViewSortHintAttributeComparison(xAttribute, yAttribute);
                 }

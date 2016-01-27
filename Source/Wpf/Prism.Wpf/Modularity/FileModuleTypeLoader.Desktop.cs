@@ -7,8 +7,8 @@ using System.Collections.Generic;
 namespace Prism.Modularity
 {
     /// <summary>
-    /// Loads modules from an arbitrary location on the filesystem. This typeloader is only called if 
-    /// <see cref="ModuleInfo"/> classes have a Ref parameter that starts with "file://". 
+    /// Loads modules from an arbitrary location on the filesystem. This typeloader is only called if
+    /// <see cref="ModuleInfo"/> classes have a Ref parameter that starts with "file://".
     /// This class is only used on the Desktop version of the Prism Library.
     /// </summary>
     public class FileModuleTypeLoader : IModuleTypeLoader, IDisposable
@@ -75,7 +75,7 @@ namespace Prism.Modularity
         /// <summary>
         /// Evaluates the <see cref="ModuleInfo.Ref"/> property to see if the current typeloader will be able to retrieve the <paramref name="moduleInfo"/>.
         /// Returns true if the <see cref="ModuleInfo.Ref"/> property starts with "file://", because this indicates that the file
-        /// is a local file. 
+        /// is a local file.
         /// </summary>
         /// <param name="moduleInfo">Module that should have it's type loaded.</param>
         /// <returns>
@@ -86,7 +86,7 @@ namespace Prism.Modularity
         {
             if (moduleInfo == null)
             {
-                throw new System.ArgumentNullException("moduleInfo");
+                throw new System.ArgumentNullException(nameof(moduleInfo));
             }
 
             return moduleInfo.Ref != null && moduleInfo.Ref.StartsWith(RefFilePrefix, StringComparison.Ordinal);
@@ -102,12 +102,12 @@ namespace Prism.Modularity
         {
             if (moduleInfo == null)
             {
-                throw new System.ArgumentNullException("moduleInfo");
+                throw new System.ArgumentNullException(nameof(moduleInfo));
             }
 
             try
             {
-                Uri uri = new Uri(moduleInfo.Ref, UriKind.RelativeOrAbsolute);
+                var uri = new Uri(moduleInfo.Ref, UriKind.RelativeOrAbsolute);
 
                 // If this module has already been downloaded, I fire the completed event.
                 if (this.IsSuccessfullyDownloaded(uri))
@@ -130,7 +130,7 @@ namespace Prism.Modularity
                     long fileSize = -1L;
                     if (File.Exists(path))
                     {
-                        FileInfo fileInfo = new FileInfo(path);
+                        var fileInfo = new FileInfo(path);
                         fileSize = fileInfo.Length;
                     }
 
@@ -189,7 +189,7 @@ namespace Prism.Modularity
         /// <param name="disposing">When <see langword="true"/>, it is being called from the Dispose method.</param>
         protected virtual void Dispose(bool disposing)
         {
-            IDisposable disposableResolver = this.assemblyResolver as IDisposable;
+            var disposableResolver = this.assemblyResolver as IDisposable;
             if (disposableResolver != null)
             {
                 disposableResolver.Dispose();

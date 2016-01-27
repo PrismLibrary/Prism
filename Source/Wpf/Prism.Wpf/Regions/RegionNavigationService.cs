@@ -31,17 +31,17 @@ namespace Prism.Regions
         {
             if (serviceLocator == null)
             {
-                throw new ArgumentNullException("serviceLocator");
+                throw new ArgumentNullException(nameof(serviceLocator));
             }
 
             if (regionNavigationContentLoader == null)
             {
-                throw new ArgumentNullException("regionNavigationContentLoader");
+                throw new ArgumentNullException(nameof(regionNavigationContentLoader));
             }
 
             if (journal == null)
             {
-                throw new ArgumentNullException("journal");
+                throw new ArgumentNullException(nameof(journal));
             }
 
             this.serviceLocator = serviceLocator;
@@ -126,7 +126,7 @@ namespace Prism.Regions
         /// <param name="navigationParameters">The navigation parameters specific to the navigation request.</param>
         public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
         {
-            if (navigationCallback == null) throw new ArgumentNullException("navigationCallback");
+            if (navigationCallback == null) throw new ArgumentNullException(nameof(navigationCallback));
 
             try
             {
@@ -142,7 +142,7 @@ namespace Prism.Regions
         {
             if (source == null)
             {
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             }
 
             if (this.Region == null)

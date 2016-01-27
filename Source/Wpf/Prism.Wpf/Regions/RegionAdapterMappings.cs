@@ -25,12 +25,12 @@ namespace Prism.Regions
         {
             if (controlType == null)
             {
-                throw new ArgumentNullException("controlType");
+                throw new ArgumentNullException(nameof(controlType));
             }
 
             if (adapter == null)
             {
-                throw new ArgumentNullException("adapter");
+                throw new ArgumentNullException(nameof(adapter));
             }
 
             if (mappings.ContainsKey(controlType))

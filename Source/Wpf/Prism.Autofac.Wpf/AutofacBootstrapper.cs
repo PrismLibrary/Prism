@@ -257,11 +257,11 @@ namespace Prism.Autofac
         {
             if (fromType == null)
             {
-                throw new ArgumentNullException("fromType");
+                throw new ArgumentNullException(nameof(fromType));
             }
             if (toType == null)
             {
-                throw new ArgumentNullException("toType");
+                throw new ArgumentNullException(nameof(toType));
             }
             if (Container.IsRegistered(fromType))
             {
@@ -291,17 +291,17 @@ namespace Prism.Autofac
         /// <param name="key">Optional key for registration.</param>
         /// <param name="registerAsSingleton">Registers the type as a singleton.</param>
         protected void RegisterInstance<T>(T instance, Type fromType, string key = "", bool registerAsSingleton = false)
-            where T : class 
+            where T : class
         {
             if (instance == null)
             {
-                throw new ArgumentNullException("instance");
+                throw new ArgumentNullException(nameof(instance));
             }
             if (fromType == null)
             {
-                throw new ArgumentNullException("fromType");
+                throw new ArgumentNullException(nameof(fromType));
             }
-            
+
             ContainerBuilder containerUpdater = CreateContainerBuilder();
 
             var registration = containerUpdater.RegisterInstance(instance);
@@ -319,7 +319,7 @@ namespace Prism.Autofac
             {
                 registration.SingleInstance();
             }
-            
+
             containerUpdater.Update(Container);
         }
     }

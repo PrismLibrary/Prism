@@ -60,7 +60,7 @@ namespace Prism.Modularity
         /// <exception cref="ArgumentNullException">An <see cref="ArgumentNullException"/> is thrown if <paramref name="moduleInfo"/> is <see langword="null"/>.</exception>
         protected void ForwardValues(ModuleInfo moduleInfo)
         {
-            if (moduleInfo == null) throw new System.ArgumentNullException("moduleInfo");
+            if (moduleInfo == null) throw new System.ArgumentNullException(nameof(moduleInfo));
             if (moduleInfo.Ref == null)
             {
                 moduleInfo.Ref = this.Ref;
@@ -200,11 +200,11 @@ namespace Prism.Modularity
         /// </returns>
         bool IList.Contains(object value)
         {
-            if (value == null) throw new ArgumentNullException("value");
-            ModuleInfo moduleInfo = value as ModuleInfo;
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            var moduleInfo = value as ModuleInfo;
 
             if (moduleInfo == null)
-                throw new ArgumentException(Resources.ValueMustBeOfTypeModuleInfo, "value");
+                throw new ArgumentException(Resources.ValueMustBeOfTypeModuleInfo, nameof(value));
 
             return this.Contains(moduleInfo);
         }
@@ -243,13 +243,13 @@ namespace Prism.Modularity
         /// </exception>
         public void Insert(int index, object value)
         {
-            if (value == null) 
-                throw new ArgumentNullException("value");
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
 
-            ModuleInfo moduleInfo = value as ModuleInfo;
+            var moduleInfo = value as ModuleInfo;
 
             if (moduleInfo == null)
-                throw new ArgumentException(Resources.ValueMustBeOfTypeModuleInfo, "value");
+                throw new ArgumentException(Resources.ValueMustBeOfTypeModuleInfo, nameof(value));
 
             this.modules.Insert(index, moduleInfo);
         }

@@ -37,14 +37,14 @@ namespace Prism.Commands
         /// Adds a command to the collection and signs up for the <see cref="ICommand.CanExecuteChanged"/> event of it.
         /// </summary>
         ///  <remarks>
-        /// If this command is set to monitor command activity, and <paramref name="command"/> 
+        /// If this command is set to monitor command activity, and <paramref name="command"/>
         /// implements the <see cref="IActiveAwareCommand"/> interface, this method will subscribe to its
         /// <see cref="IActiveAwareCommand.IsActiveChanged"/> event.
         /// </remarks>
         /// <param name="command">The command to register.</param>
         public virtual void RegisterCommand(ICommand command)
         {
-            if (command == null) throw new ArgumentNullException("command");
+            if (command == null) throw new ArgumentNullException(nameof(command));
             if (command == this)
             {
                 throw new ArgumentException(Resources.CannotRegisterCompositeCommandInItself);
@@ -78,7 +78,7 @@ namespace Prism.Commands
         /// <param name="command">The command to unregister.</param>
         public virtual void UnregisterCommand(ICommand command)
         {
-            if (command == null) throw new ArgumentNullException("command");
+            if (command == null) throw new ArgumentNullException(nameof(command));
             bool removed;
             lock (this._registeredCommands)
             {
