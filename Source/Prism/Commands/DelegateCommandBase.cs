@@ -33,7 +33,7 @@ namespace Prism.Commands
         protected DelegateCommandBase(Action<object> executeMethod, Func<object, bool> canExecuteMethod)
         {
             if (executeMethod == null || canExecuteMethod == null)
-                throw new ArgumentNullException("executeMethod", Resources.DelegateCommandDelegatesCannotBeNull);
+                throw new ArgumentNullException(nameof(executeMethod), Resources.DelegateCommandDelegatesCannotBeNull);
 
             _executeMethod = (arg) => { executeMethod(arg); return Task.Delay(0); };
             _canExecuteMethod = canExecuteMethod;
@@ -47,7 +47,7 @@ namespace Prism.Commands
         protected DelegateCommandBase(Func<object, Task> executeMethod, Func<object, bool> canExecuteMethod)
         {
             if (executeMethod == null || canExecuteMethod == null)
-                throw new ArgumentNullException("executeMethod", Resources.DelegateCommandDelegatesCannotBeNull);
+                throw new ArgumentNullException(nameof(executeMethod), Resources.DelegateCommandDelegatesCannotBeNull);
 
             _executeMethod = executeMethod;
             _canExecuteMethod = canExecuteMethod;

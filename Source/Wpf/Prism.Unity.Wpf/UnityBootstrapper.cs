@@ -201,11 +201,11 @@ namespace Prism.Unity
         {
             if (fromType == null)
             {
-                throw new ArgumentNullException("fromType");
+                throw new ArgumentNullException(nameof(fromType));
             }
             if (toType == null)
             {
-                throw new ArgumentNullException("toType");
+                throw new ArgumentNullException(nameof(toType));
             }
             if (Container.IsTypeRegistered(fromType))
             {

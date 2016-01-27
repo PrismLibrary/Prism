@@ -8,7 +8,7 @@ using System.Linq;
 namespace Prism.Mef
 {
     ///<summary>
-    /// A very simple custom <see href="ComposablePartCatalog" /> that takes an enumeration 
+    /// A very simple custom <see href="ComposablePartCatalog" /> that takes an enumeration
     /// of parts and returns them when requested.
     ///</summary>
     internal class PrismDefaultsCatalog : ComposablePartCatalog
@@ -22,7 +22,7 @@ namespace Prism.Mef
         ///<exception cref="ArgumentNullException">Thrown if the parts parameter is null.</exception>
         public PrismDefaultsCatalog(IEnumerable<ComposablePartDefinition> parts)
         {
-            if (parts == null) throw new ArgumentNullException("parts");
+            if (parts == null) throw new ArgumentNullException(nameof(parts));
             this.parts = parts;
         }
 

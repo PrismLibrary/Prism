@@ -24,7 +24,7 @@ namespace Prism.Mef.Modularity
         {
             if (moduleType == null)
             {
-                throw new ArgumentNullException("moduleType");
+                throw new ArgumentNullException(nameof(moduleType));
             }
 
             this.ModuleName = moduleType.Name;

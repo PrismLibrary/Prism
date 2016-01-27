@@ -44,7 +44,7 @@ namespace Prism.Commands
         /// <param name="command">The command to register.</param>
         public virtual void RegisterCommand(ICommand command)
         {
-            if (command == null) throw new ArgumentNullException("command");
+            if (command == null) throw new ArgumentNullException(nameof(command));
             if (command == this)
             {
                 throw new ArgumentException(Resources.CannotRegisterCompositeCommandInItself);
@@ -78,7 +78,7 @@ namespace Prism.Commands
         /// <param name="command">The command to unregister.</param>
         public virtual void UnregisterCommand(ICommand command)
         {
-            if (command == null) throw new ArgumentNullException("command");
+            if (command == null) throw new ArgumentNullException(nameof(command));
             bool removed;
             lock (this._registeredCommands)
             {

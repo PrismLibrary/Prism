@@ -1,8 +1,7 @@
 
 
-using System.Windows;
-using Prism.Regions;
 using System;
+using System.Windows;
 
 namespace Prism.Regions.Behaviors
 {
@@ -10,7 +9,7 @@ namespace Prism.Regions.Behaviors
     /// Behavior that removes the RegionManager attached property of all the views in a region once the RegionManager property of a region becomes null.
     /// This is useful when removing views with nested regions, to ensure these nested regions get removed from the RegionManager as well.
     /// <remarks>
-    /// This behavior does not apply by default. 
+    /// This behavior does not apply by default.
     /// In order to activate it, the ClearChildViews attached property must be set to True in the view containing the affected child regions.
     /// </remarks>
     /// </summary>
@@ -35,9 +34,7 @@ namespace Prism.Regions.Behaviors
         public static bool GetClearChildViews(DependencyObject target)
         {
             if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
+                throw new ArgumentNullException(nameof(target));
 
             return (bool)target.GetValue(ClearChildViewsRegionBehavior.ClearChildViewsProperty);
         }
@@ -50,9 +47,7 @@ namespace Prism.Regions.Behaviors
         public static void SetClearChildViews(DependencyObject target, bool value)
         {
             if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
+                throw new ArgumentNullException(nameof(target));
 
             target.SetValue(ClearChildViewsRegionBehavior.ClearChildViewsProperty, value);
         }
