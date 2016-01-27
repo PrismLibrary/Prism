@@ -1,0 +1,33 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ConfigModuleEditor"
+             xmlns:igWPF="http://schemas.infragistics.com/xaml/wpf" x:Class="ConfigModuleEditor.ConfigModuleEditorDesigner"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <igWPF:XamDataGrid x:Name="_dataGrid" DataSource="{Binding Modules}" GroupByAreaLocation="None"
+                           EditModeStarting="_dataGrid_EditModeStarting" EditModeEnding="_dataGrid_EditModeEnding" ExecutedCommand="_dataGrid_ExecutedCommand" >
+            <igWPF:XamDataGrid.FieldLayoutSettings>
+                <igWPF:FieldLayoutSettings AddNewRecordLocation="OnTop" AllowAddNew="True" AutoGenerateFields="False"  />
+            </igWPF:XamDataGrid.FieldLayoutSettings>
+            <igWPF:XamDataGrid.FieldSettings>
+                <igWPF:FieldSettings CellClickAction="SelectCell" />
+            </igWPF:XamDataGrid.FieldSettings>
+            <igWPF:XamDataGrid.FieldLayouts>
+                <igWPF:FieldLayout>
+                    <igWPF:ComboBoxField Name="AssemblyFile" ItemsSource="{igWPF:FieldBinding ProjectModules}" DisplayMemberPath="AssemblyFile" ValuePath="AssemblyFile" IsEditable="True" Width="Auto" />
+                    <igWPF:TextField Name="ModuleType" Width="*" />
+                    <igWPF:TextField Name="ModuleName" Width="Auto" />
+                    <igWPF:CheckBoxField Name="StartupLoaded" Width="Auto" />
+                    <igWPF:Field Name="Dependencies" />
+                </igWPF:FieldLayout>
+                <igWPF:FieldLayout Key="Dependencies">
+                    <igWPF:ComboBoxField Name="ModuleName" Label="Dependencies" ItemsSource="{igWPF:FieldBinding Modules}" DisplayMemberPath="ModuleName" ValuePath="ModuleName" IsEditable="True"/>
+                </igWPF:FieldLayout>
+            </igWPF:XamDataGrid.FieldLayouts>
+        </igWPF:XamDataGrid>
+    </Grid>
+</UserControl>
