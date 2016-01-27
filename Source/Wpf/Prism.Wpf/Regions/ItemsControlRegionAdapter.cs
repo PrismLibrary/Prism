@@ -29,8 +29,8 @@ namespace Prism.Regions
         /// <param name="regionTarget">The object to adapt.</param>
         protected override void Adapt(IRegion region, ItemsControl regionTarget)
         {
-            if (region == null) throw new ArgumentNullException("region");
-            if (regionTarget == null) throw new ArgumentNullException("regionTarget");
+            if (region == null) throw new ArgumentNullException(nameof(region));
+            if (regionTarget == null) throw new ArgumentNullException(nameof(regionTarget));
 
             bool itemsSourceIsSet = regionTarget.ItemsSource != null;
             itemsSourceIsSet = itemsSourceIsSet || (BindingOperations.GetBinding(regionTarget, ItemsControl.ItemsSourceProperty) != null);

@@ -93,7 +93,7 @@ namespace Prism.Events
         /// </remarks>
         public virtual SubscriptionToken Subscribe(Action<TPayload> action, ThreadOption threadOption, bool keepSubscriberReferenceAlive, Predicate<TPayload> filter)
         {
-            IDelegateReference actionReference = new DelegateReference(action, keepSubscriberReferenceAlive);
+            var actionReference = new DelegateReference(action, keepSubscriberReferenceAlive);
             IDelegateReference filterReference;
             if (filter != null)
             {

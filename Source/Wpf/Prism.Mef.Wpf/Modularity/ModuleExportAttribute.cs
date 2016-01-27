@@ -9,7 +9,7 @@ namespace Prism.Mef.Modularity
 {
     /// <summary>
     /// An attribute that is applied to describe the Managed Extensibility Framework export of an IModule.
-    /// </summary>    
+    /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Allowing users of the framework to extend the functionality")]
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
@@ -24,7 +24,7 @@ namespace Prism.Mef.Modularity
         {
             if (moduleType == null)
             {
-                throw new ArgumentNullException("moduleType");
+                throw new ArgumentNullException(nameof(moduleType));
             }
 
             this.ModuleName = moduleType.Name;

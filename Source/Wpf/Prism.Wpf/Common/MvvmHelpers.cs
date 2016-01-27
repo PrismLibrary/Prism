@@ -9,7 +9,7 @@ namespace Prism.Common
     {
         public static void ViewAndViewModelAction<T>(object view, Action<T> action) where T : class
         {
-            T viewAsT = view as T;
+            var viewAsT = view as T;
             if (viewAsT != null)
                 action(viewAsT);
             var element = view as FrameworkElement;
@@ -25,7 +25,7 @@ namespace Prism.Common
 
         public static T GetImplementerFromViewOrViewModel<T>(object view) where T : class
         {
-            T viewAsT = view as T;
+            var viewAsT = view as T;
             if (viewAsT != null)
             {
                 return viewAsT;

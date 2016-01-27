@@ -32,7 +32,7 @@ namespace Prism.Mef
         /// <returns>The requested service instance.</returns>
         protected override IEnumerable<object> DoGetAllInstances(Type serviceType)
         {
-            List<object> instances = new List<object>();
+            var instances = new List<object>();
 
             IEnumerable<Lazy<object, object>> exports = this.compositionContainer.GetExports(serviceType, null, null);
             if (exports != null)

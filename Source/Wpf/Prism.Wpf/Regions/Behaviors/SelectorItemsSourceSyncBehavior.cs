@@ -13,18 +13,18 @@ namespace Prism.Regions.Behaviors
 {
     /// <summary>
     /// Defines the attached behavior that keeps the items of the <see cref="Selector"/> host control in synchronization with the <see cref="IRegion"/>.
-    /// 
+    ///
     /// This behavior also makes sure that, if you activate a view in a region, the SelectedItem is set. If you set the SelectedItem or SelectedItems (ListBox)
-    /// then this behavior will also call Activate on the selected items. 
+    /// then this behavior will also call Activate on the selected items.
     /// <remarks>
     /// When calling Activate on a view, you can only select a single active view at a time. By setting the SelectedItems property of a listbox, you can set
-    /// multiple views to active. 
+    /// multiple views to active.
     /// </remarks>
     /// </summary>
     public class SelectorItemsSourceSyncBehavior : RegionBehavior, IHostAwareRegionBehavior
     {
         /// <summary>
-        /// Name that identifies the SelectorItemsSourceSyncBehavior behavior in a collection of RegionsBehaviors. 
+        /// Name that identifies the SelectorItemsSourceSyncBehavior behavior in a collection of RegionsBehaviors.
         /// </summary>
         public static readonly string BehaviorKey = "SelectorItemsSourceSyncBehavior";
         private bool updatingActiveViewsInHostControlSelectionChanged;
@@ -91,7 +91,7 @@ namespace Prism.Regions.Behaviors
 
         private void SynchronizeItems()
         {
-            List<object> existingItems = new List<object>();
+            var existingItems = new List<object>();
 
             // Control must be empty before "Binding" to a region
             foreach (object childItem in this.hostControl.Items)
@@ -115,7 +115,7 @@ namespace Prism.Regions.Behaviors
         {
             if (this.updatingActiveViewsInHostControlSelectionChanged)
             {
-                // If we are updating the ActiveViews collection in the HostControlSelectionChanged, that 
+                // If we are updating the ActiveViews collection in the HostControlSelectionChanged, that
                 // means the user has set the SelectedItem or SelectedItems himself and we don't need to do that here now
                 return;
             }
@@ -142,8 +142,8 @@ namespace Prism.Regions.Behaviors
         {
             try
             {
-                // Record the fact that we are now updating active views in the HostControlSelectionChanged method. 
-                // This is needed to prevent the ActiveViews_CollectionChanged() method from firing. 
+                // Record the fact that we are now updating active views in the HostControlSelectionChanged method.
+                // This is needed to prevent the ActiveViews_CollectionChanged() method from firing.
                 this.updatingActiveViewsInHostControlSelectionChanged = true;
 
                 object source;

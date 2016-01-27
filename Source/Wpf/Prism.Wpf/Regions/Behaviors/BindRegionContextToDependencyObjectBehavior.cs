@@ -39,7 +39,7 @@ namespace Prism.Regions.Behaviors
         {
             foreach (var view in views)
             {
-                DependencyObject dependencyObjectView = view as DependencyObject;
+                var dependencyObjectView = view as DependencyObject;
                 if (dependencyObjectView != null)
                 {
                     ObservableObject<object> contextWrapper = RegionContext.GetObservableContext(dependencyObjectView);

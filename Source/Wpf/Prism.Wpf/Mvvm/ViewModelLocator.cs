@@ -38,7 +38,7 @@ namespace Prism.Mvvm
         /// <param name="dataContext">The object to use as the DataContext for the View</param>
         static void Bind(object view, object viewModel)
         {
-            FrameworkElement element = view as FrameworkElement;
+            var element = view as FrameworkElement;
             if (element != null)
                 element.DataContext = viewModel;
         }

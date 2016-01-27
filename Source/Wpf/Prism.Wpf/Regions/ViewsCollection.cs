@@ -181,7 +181,7 @@ namespace Prism.Regions
         /// <param name="e"></param>
         private void OnItemMetadataChanged(object sender, EventArgs e)
         {
-            ItemMetadata itemMetadata = (ItemMetadata) sender;
+            var itemMetadata = (ItemMetadata) sender;
 
             // Our monitored item may have been removed during another event before
             // our OnItemMetadataChanged got called back, so it's not unexpected

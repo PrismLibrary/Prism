@@ -88,7 +88,7 @@ namespace Prism.Regions.Behaviors
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "This has to be public in order to work with weak references in partial trust or Silverlight environments.")]
         public virtual void OnViewRegistered(object sender, ViewRegisteredEventArgs e)
         {
-            if (e == null) throw new System.ArgumentNullException("e");
+            if (e == null) throw new System.ArgumentNullException(nameof(e));
 
             if (e.RegionName == this.Region.Name)
             {

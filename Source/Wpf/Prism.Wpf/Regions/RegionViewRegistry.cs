@@ -45,7 +45,7 @@ namespace Prism.Regions
         /// <returns>Collection of contents registered for the region.</returns>
         public IEnumerable<object> GetContents(string regionName)
         {
-            List<object> items = new List<object>();
+            var items = new List<object>();
             foreach (Func<object> getContentDelegate in this.registeredContent[regionName])
             {
                 items.Add(getContentDelegate());

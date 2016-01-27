@@ -1,5 +1,3 @@
-
-
 using System.Collections.Generic;
 
 namespace System.Collections.ObjectModel
@@ -19,8 +17,8 @@ namespace System.Collections.ObjectModel
         /// <exception cref="System.ArgumentNullException">An <see cref="System.ArgumentNullException"/> is thrown if <paramref name="collection"/> or <paramref name="items"/> is <see langword="null"/>.</exception>
         public static Collection<T> AddRange<T>(this Collection<T> collection, IEnumerable<T> items)
         {
-            if (collection == null) throw new System.ArgumentNullException("collection");
-            if (items == null) throw new System.ArgumentNullException("items");
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+            if (items == null) throw new ArgumentNullException(nameof(items));
 
             foreach (var each in items)
             {

@@ -74,7 +74,7 @@ namespace Prism.Regions
 
         private static void DependencyPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
-            ItemMetadata itemMetadata = dependencyObject as ItemMetadata;
+            var itemMetadata = dependencyObject as ItemMetadata;
             if (itemMetadata != null)
             {
                 itemMetadata.InvokeMetadataChanged();

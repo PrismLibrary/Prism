@@ -1,5 +1,3 @@
-
-
 using System;
 
 namespace Prism.Regions
@@ -27,8 +25,8 @@ namespace Prism.Regions
         /// <param name="navigationCallback">The callback executed when the navigation request is completed.</param>
         public static void RequestNavigate(this INavigateAsync navigation, string target, Action<NavigationResult> navigationCallback)
         {
-            if (navigation == null) throw new ArgumentNullException("navigation");
-            if (target == null) throw new ArgumentNullException("target");
+            if (navigation == null) throw new ArgumentNullException(nameof(navigation));
+            if (target == null) throw new ArgumentNullException(nameof(target));
 
             var targetUri = new Uri(target, UriKind.RelativeOrAbsolute);
 
@@ -42,7 +40,7 @@ namespace Prism.Regions
         /// <param name="target">The navigation target</param>
         public static void RequestNavigate(this INavigateAsync navigation, Uri target)
         {
-            if (navigation == null) throw new ArgumentNullException("navigation");
+            if (navigation == null) throw new ArgumentNullException(nameof(navigation));
 
             navigation.RequestNavigate(target, nr => { });
         }
@@ -56,8 +54,8 @@ namespace Prism.Regions
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
         public static void RequestNavigate(this INavigateAsync navigation, string target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
         {
-            if (navigation == null) throw new ArgumentNullException("navigation");
-            if (target == null) throw new ArgumentNullException("target");
+            if (navigation == null) throw new ArgumentNullException(nameof(navigation));
+            if (target == null) throw new ArgumentNullException(nameof(target));
 
             var targetUri = new Uri(target, UriKind.RelativeOrAbsolute);
 
@@ -72,7 +70,7 @@ namespace Prism.Regions
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
         public static void RequestNavigate(this INavigateAsync navigation, Uri target, NavigationParameters navigationParameters)
         {
-            if (navigation == null) throw new ArgumentNullException("navigation");
+            if (navigation == null) throw new ArgumentNullException(nameof(navigation));
 
             navigation.RequestNavigate(target, nr => { }, navigationParameters);
         }
@@ -85,8 +83,8 @@ namespace Prism.Regions
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
         public static void RequestNavigate(this INavigateAsync navigation, string target, NavigationParameters navigationParameters)
         {
-            if (navigation == null) throw new ArgumentNullException("navigation");
-            if (target == null) throw new ArgumentNullException("target");
+            if (navigation == null) throw new ArgumentNullException(nameof(navigation));
+            if (target == null) throw new ArgumentNullException(nameof(target));
 
             navigation.RequestNavigate(new Uri(target, UriKind.RelativeOrAbsolute), nr => { }, navigationParameters);
         }

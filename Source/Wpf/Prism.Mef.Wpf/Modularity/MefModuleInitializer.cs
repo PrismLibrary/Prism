@@ -44,18 +44,18 @@ namespace Prism.Mef.Modularity
         /// <param name="loggerFacade">The logger to use.</param>
         /// <param name="downloadedPartCatalogs">The downloaded part catalogs.</param>
         /// <param name="aggregateCatalog">The aggregate catalog.</param>
-        [ImportingConstructor()]
+        [ImportingConstructor]
         public MefModuleInitializer(IServiceLocator serviceLocator, ILoggerFacade loggerFacade, DownloadedPartCatalogCollection downloadedPartCatalogs, AggregateCatalog aggregateCatalog)
             : base(serviceLocator, loggerFacade)
         {
             if (downloadedPartCatalogs == null)
             {
-                throw new ArgumentNullException("downloadedPartCatalogs");
+                throw new ArgumentNullException(nameof(downloadedPartCatalogs));
             }
 
             if (aggregateCatalog == null)
             {
-                throw new ArgumentNullException("aggregateCatalog");
+                throw new ArgumentNullException(nameof(aggregateCatalog));
             }
 
             this.downloadedPartCatalogs = downloadedPartCatalogs;

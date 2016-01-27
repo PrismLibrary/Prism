@@ -42,7 +42,7 @@ namespace Prism.Regions
         /// </remarks>
         protected override void AttachBehaviors(IRegion region, Selector regionTarget)
         {
-            if (region == null) throw new System.ArgumentNullException("region");
+            if (region == null) throw new System.ArgumentNullException(nameof(region));
             // Add the behavior that syncs the items source items with the rest of the items
             region.Behaviors.Add(SelectorItemsSourceSyncBehavior.BehaviorKey, new SelectorItemsSourceSyncBehavior()
                                                                                   {

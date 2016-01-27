@@ -20,7 +20,7 @@ namespace Prism.Modularity
     /// <see cref="IModule"/> and add them to the catalog based on contents in their associated <see cref="ModuleAttribute"/>.
     /// Assemblies are loaded into a new application domain with ReflectionOnlyLoad.  The application domain is destroyed
     /// once the assemblies have been discovered.
-    /// 
+    ///
     /// The diretory catalog does not continue to monitor the directory after it has created the initialze catalog.
     /// </remarks>
     public class DirectoryModuleCatalog : ModuleCatalog
@@ -46,7 +46,7 @@ namespace Prism.Modularity
 
             try
             {
-                List<string> loadedAssemblies = new List<string>();
+                var loadedAssemblies = new List<string>();
 
                 var assemblies = (
                                      from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
@@ -84,18 +84,18 @@ namespace Prism.Modularity
         /// <remarks>
         /// Grabs the <paramref name="parentDomain"/> evidence and uses it to construct the new
         /// <see cref="AppDomain"/> because in a ClickOnce execution environment, creating an
-        /// <see cref="AppDomain"/> will by default pick up the partial trust environment of 
-        /// the AppLaunch.exe, which was the root executable. The AppLaunch.exe does a 
-        /// create domain and applies the evidence from the ClickOnce manifests to 
-        /// create the domain that the application is actually executing in. This will 
+        /// <see cref="AppDomain"/> will by default pick up the partial trust environment of
+        /// the AppLaunch.exe, which was the root executable. The AppLaunch.exe does a
+        /// create domain and applies the evidence from the ClickOnce manifests to
+        /// create the domain that the application is actually executing in. This will
         /// need to be Full Trust for Prism applications.
         /// </remarks>
         /// <exception cref="ArgumentNullException">An <see cref="ArgumentNullException"/> is thrown if <paramref name="parentDomain"/> is null.</exception>
         protected virtual AppDomain BuildChildDomain(AppDomain parentDomain)
         {
-            if (parentDomain == null) throw new System.ArgumentNullException("parentDomain");
+            if (parentDomain == null) throw new System.ArgumentNullException(nameof(parentDomain));
 
-            Evidence evidence = new Evidence(parentDomain.Evidence);
+            var evidence = new Evidence(parentDomain.Evidence);
             AppDomainSetup setup = parentDomain.SetupInformation;
             return AppDomain.CreateDomain("DiscoveryRegion", evidence, setup);
         }
@@ -105,7 +105,7 @@ namespace Prism.Modularity
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
             internal ModuleInfo[] GetModuleInfos(string path)
             {
-                DirectoryInfo directory = new DirectoryInfo(path);
+                var directory = new DirectoryInfo(path);
 
                 ResolveEventHandler resolveEventHandler =
                     delegate(object sender, ResolveEventArgs args) { return OnReflectionOnlyResolve(args, directory); };
@@ -126,7 +126,7 @@ namespace Prism.Modularity
 
             private static IEnumerable<ModuleInfo> GetNotAllreadyLoadedModuleInfos(DirectoryInfo directory, Type IModuleType)
             {
-                List<FileInfo> validAssemblies = new List<FileInfo>();
+                var validAssemblies = new List<FileInfo>();
                 Assembly[] alreadyLoadedAssemblies = AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies();
 
                 var fileInfos = directory.GetFiles("*.dll")
@@ -135,7 +135,7 @@ namespace Prism.Modularity
                                        assembly =>
                                        String.Compare(Path.GetFileName(assembly.Location), file.Name,
                                                       StringComparison.OrdinalIgnoreCase) == 0) == null);
-                
+
                 foreach (FileInfo fileInfo in fileInfos)
                 {
                     try
@@ -165,7 +165,7 @@ namespace Prism.Modularity
                 {
                     return loadedAssembly;
                 }
-                AssemblyName assemblyName = new AssemblyName(args.Name);
+                var assemblyName = new AssemblyName(args.Name);
                 string dependentAssemblyFilename = Path.Combine(directory.FullName, assemblyName.Name + ".dll");
                 if (File.Exists(dependentAssemblyFilename))
                 {
@@ -193,7 +193,7 @@ namespace Prism.Modularity
             private static ModuleInfo CreateModuleInfo(Type type)
             {
                 string moduleName = type.Name;
-                List<string> dependsOn = new List<string>();
+                var dependsOn = new List<string>();
                 bool onDemand = false;
                 var moduleAttribute =
                     CustomAttributeData.GetCustomAttributes(type).FirstOrDefault(
@@ -217,7 +217,7 @@ namespace Prism.Modularity
                             case "StartupLoaded":
                                 onDemand = !((bool) argument.TypedValue.Value);
                                 break;
-                        }                           
+                        }
                     }
                 }
 
@@ -230,7 +230,7 @@ namespace Prism.Modularity
                     dependsOn.Add((string) cad.ConstructorArguments[0].Value);
                 }
 
-                ModuleInfo moduleInfo = new ModuleInfo(moduleName, type.AssemblyQualifiedName)
+                var moduleInfo = new ModuleInfo(moduleName, type.AssemblyQualifiedName)
                                             {
                                                 InitializationMode =
                                                     onDemand

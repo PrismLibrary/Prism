@@ -23,7 +23,7 @@ namespace Prism.Common
         public void Add(TKey key)
         {
             if (key == null)
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
 
             CreateNewList(key);
         }
@@ -38,10 +38,10 @@ namespace Prism.Common
         {
             if (key == null)
 
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             if (value == null)
 
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
 
             if (innerValues.ContainsKey(key))
             {
@@ -56,7 +56,7 @@ namespace Prism.Common
 
         private List<TValue> CreateNewList(TKey key)
         {
-            List<TValue> values = new List<TValue>();
+            var values = new List<TValue>();
             innerValues.Add(key, values);
 
             return values;
@@ -96,7 +96,7 @@ namespace Prism.Common
         public bool ContainsKey(TKey key)
         {
             if (key == null)
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
 
             return innerValues.ContainsKey(key);
         }
@@ -148,7 +148,7 @@ namespace Prism.Common
         public bool Remove(TKey key)
         {
             if (key == null)
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
 
             return innerValues.Remove(key);
         }
@@ -161,14 +161,14 @@ namespace Prism.Common
         public void Remove(TKey key, TValue value)
         {
             if (key == null)
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
 
             if (value == null)
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
 
             if (innerValues.ContainsKey(key))
             {
-                List<TValue> innerList = (List<TValue>)innerValues[key];
+                var innerList = (List<TValue>)innerValues[key];
                 innerList.RemoveAll(delegate(TValue item)
                                                {
                                                    return value.Equals(item);
@@ -200,7 +200,7 @@ namespace Prism.Common
         {
             get
             {
-                List<TValue> values = new List<TValue>();
+                var values = new List<TValue>();
                 foreach (IEnumerable<TValue> list in innerValues.Values)
                 {
                     values.AddRange(list);
@@ -257,10 +257,10 @@ namespace Prism.Common
         void IDictionary<TKey, IList<TValue>>.Add(TKey key, IList<TValue> value)
         {
             if (key == null)
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
 
             if (value == null)
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
 
             innerValues.Add(key, value);
         }

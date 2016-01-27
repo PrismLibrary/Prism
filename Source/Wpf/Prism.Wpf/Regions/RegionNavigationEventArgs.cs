@@ -20,7 +20,7 @@ namespace Prism.Regions
         {
             if (navigationContext == null)
             {
-                throw new ArgumentNullException("navigationContext");
+                throw new ArgumentNullException(nameof(navigationContext));
             }
 
             this.NavigationContext = navigationContext;

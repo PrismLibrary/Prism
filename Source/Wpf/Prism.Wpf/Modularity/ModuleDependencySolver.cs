@@ -77,7 +77,7 @@ namespace Prism.Modularity
         /// when a cycle is found in the defined depedency graph.</exception>
         public string[] Solve()
         {
-            List<string> skip = new List<string>();
+            var skip = new List<string>();
             while (skip.Count < dependencyMatrix.Count)
             {
                 List<string> leaves = this.FindLeaves(skip);
@@ -127,7 +127,7 @@ namespace Prism.Modularity
 
         private List<string> FindLeaves(List<string> skip)
         {
-            List<string> result = new List<string>();
+            var result = new List<string>();
 
             foreach (string precedent in dependencyMatrix.Keys)
             {

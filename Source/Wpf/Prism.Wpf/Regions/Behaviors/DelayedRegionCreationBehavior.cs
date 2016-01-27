@@ -115,7 +115,7 @@ namespace Prism.Regions.Behaviors
         /// <returns>The created <see cref="IRegion"/></returns>
         protected virtual IRegion CreateRegion(DependencyObject targetElement, string regionName)
         {
-            if (targetElement == null) throw new ArgumentNullException("targetElement");
+            if (targetElement == null) throw new ArgumentNullException(nameof(targetElement));
             try
             {
                 // Build the region
@@ -138,7 +138,7 @@ namespace Prism.Regions.Behaviors
 
         private void WireUpTargetElement()
         {
-            FrameworkElement element = this.TargetElement as FrameworkElement;
+            var element = this.TargetElement as FrameworkElement;
             if (element != null)
             {
                 element.Loaded += this.ElementLoaded;
@@ -147,7 +147,7 @@ namespace Prism.Regions.Behaviors
 
         private void UnWireTargetElement()
         {
-            FrameworkElement element = this.TargetElement as FrameworkElement;
+            var element = this.TargetElement as FrameworkElement;
             if (element != null)
             {
                 element.Loaded -= this.ElementLoaded;

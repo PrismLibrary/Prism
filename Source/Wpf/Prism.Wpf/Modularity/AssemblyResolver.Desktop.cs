@@ -37,7 +37,7 @@ namespace Prism.Modularity
 
             if (assemblyUri == null)
             {
-                throw new ArgumentException(Resources.InvalidArgumentAssemblyUri, "assemblyFilePath");
+                throw new ArgumentException(Resources.InvalidArgumentAssemblyUri, nameof(assemblyFilePath));
             }
 
             if (!File.Exists(assemblyUri.LocalPath))
@@ -81,7 +81,7 @@ namespace Prism.Modularity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Reflection.Assembly.LoadFrom")]
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            AssemblyName assemblyName = new AssemblyName(args.Name);
+            var assemblyName = new AssemblyName(args.Name);
 
             AssemblyInfo assemblyInfo = this.registeredAssemblies.FirstOrDefault(a => AssemblyName.ReferenceMatchesDefinition(assemblyName, a.AssemblyName));
 
