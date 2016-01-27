@@ -43,6 +43,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismModule", "ProjectTempl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismUnityApp.Wpf", "ProjectTemplates\CSharp\Wpf\PrismUnityApp\PrismUnityApp.Wpf.csproj", "{9DAE43F7-77D4-4191-BEAC-40EACFD9C20C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VsPackages", "VsPackages", "{00A2824E-2F0B-4BFB-9AD9-B2FE4C8CD327}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigModuleEditor", "VsPackages\ConfigModuleEditor\ConfigModuleEditor.csproj", "{104E18E6-ACD0-476B-8732-8FC772ABAEA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +101,10 @@ Global
 		{9DAE43F7-77D4-4191-BEAC-40EACFD9C20C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DAE43F7-77D4-4191-BEAC-40EACFD9C20C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DAE43F7-77D4-4191-BEAC-40EACFD9C20C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{104E18E6-ACD0-476B-8732-8FC772ABAEA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{104E18E6-ACD0-476B-8732-8FC772ABAEA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{104E18E6-ACD0-476B-8732-8FC772ABAEA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{104E18E6-ACD0-476B-8732-8FC772ABAEA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -119,5 +127,6 @@ Global
 		{D9B82372-CF98-45DA-97E9-7C84F70EA440} = {93F353F6-DC7E-4ADC-A307-D812DC7594FA}
 		{0487B548-C845-4CC4-8F82-8932CFC92E1F} = {D9B82372-CF98-45DA-97E9-7C84F70EA440}
 		{9DAE43F7-77D4-4191-BEAC-40EACFD9C20C} = {D9B82372-CF98-45DA-97E9-7C84F70EA440}
+		{104E18E6-ACD0-476B-8732-8FC772ABAEA3} = {00A2824E-2F0B-4BFB-9AD9-B2FE4C8CD327}
 	EndGlobalSection
 EndGlobal
