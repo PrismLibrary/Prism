@@ -51,7 +51,6 @@ namespace Prism.Mef.Wpf.Tests
 
             IServiceLocator containerAdapter = new MefServiceLocatorAdapter(compositionContainer);
             IList<object> returnedList = containerAdapter.GetAllInstances(typeof(object)).ToList();
-            
             Assert.AreSame(returnedList[0], objectOne);
             Assert.AreSame(returnedList[1], objectTwo);
         }
@@ -59,6 +58,8 @@ namespace Prism.Mef.Wpf.Tests
         [TestMethod]
         public void ShouldThrowActivationExceptionWhenMoreThanOneInstanceAvailble()
         {
+            const int SEQUENCE_MORE_THAN_ONE_ELEMENT_HRESULT = -2146233079;
+
             object myInstance = new object();
             object myInstance2 = new object();
 
@@ -69,13 +70,13 @@ namespace Prism.Mef.Wpf.Tests
             IServiceLocator containerAdapter = new MefServiceLocatorAdapter(compositionContainer);
             try
             {
-                containerAdapter.GetInstance(typeof (object));
+                containerAdapter.GetInstance(typeof(object));
                 Assert.Fail("Expected exception not thrown.");
             }
-            catch(ActivationException ex)
+            catch (ActivationException ex)
             {
                 Assert.AreEqual(typeof(InvalidOperationException), ex.InnerException.GetType());
-                Assert.IsTrue(ex.InnerException.Message.Contains("Sequence contains more than one element"));
+                Assert.IsTrue(ex.InnerException.HResult == SEQUENCE_MORE_THAN_ONE_ELEMENT_HRESULT);
             }
         }
     }

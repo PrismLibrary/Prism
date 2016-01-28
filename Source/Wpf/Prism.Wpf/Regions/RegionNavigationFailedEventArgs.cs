@@ -16,9 +16,7 @@ namespace Prism.Regions
         public RegionNavigationFailedEventArgs(NavigationContext navigationContext)
         {
             if (navigationContext == null)
-            {
-                throw new ArgumentNullException("navigationContext");
-            }
+                throw new ArgumentNullException(nameof(navigationContext));
 
             this.NavigationContext = navigationContext;
         }
