@@ -71,7 +71,9 @@
       <package id="Xamarin.Forms" version="2.0.0.6490" />
       <package id="Prism.Core" version="6.1.0" />
       <package id="Prism.Forms" version="6.1.0-pre2" />
-      <package id="Prism.Unity" version="6.2.0-pre2" />
+      <package id="Prism.Unity" version="6.2.0-pre2" />^
+      <package id="Prism.Unity.Forms" version="6.2.0-pre3" />
+      <package id="Xamarin.Forms" version="2.0.0.6490" />
     </packages>
   </WizardData>
 </VSTemplate>

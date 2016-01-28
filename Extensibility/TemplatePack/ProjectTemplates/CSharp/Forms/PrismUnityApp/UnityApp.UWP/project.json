@@ -6,7 +6,8 @@
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "Prism.Core": "6.1.0",
     "Prism.Forms": "6.1.0-pre2",
-    "Prism.Unity": "6.2.0-pre2"
+    "Prism.Unity.Forms": "6.2.0-pre3",
+    "Xamarin.Forms": "2.0.0.6490"
   },
   "frameworks": {
     "uap10.0": {}
