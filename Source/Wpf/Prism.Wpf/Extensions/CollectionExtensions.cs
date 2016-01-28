@@ -16,11 +16,13 @@ namespace System.Collections.ObjectModel
         /// <param name="collection">The collection to add items to.</param>
         /// <param name="items">The items to add to the collection.</param>
         /// <returns>The collection.</returns>
-        /// <exception cref="System.ArgumentNullException">An <see cref="System.ArgumentNullException"/> is thrown if <paramref name="collection"/> or <paramref name="items"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">An <see cref="System.ArgumentNullException"/> is thrown if <paramref name="collection"/> or <paramref name="items"/> is <see langword="null"/>.</exception>
         public static Collection<T> AddRange<T>(this Collection<T> collection, IEnumerable<T> items)
         {
-            if (collection == null) throw new System.ArgumentNullException("collection");
-            if (items == null) throw new System.ArgumentNullException("items");
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
 
             foreach (var each in items)
             {

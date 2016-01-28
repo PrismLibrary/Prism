@@ -1,5 +1,4 @@
-
-
+using System;
 using System.Collections.Generic;
 
 namespace Prism.Regions.Behaviors
@@ -17,7 +16,7 @@ namespace Prism.Regions.Behaviors
         private readonly IRegionViewRegistry regionViewRegistry;
 
         /// <summary>
-        /// Creates a new instance of the AutoPopulateRegionBehavior 
+        /// Creates a new instance of the AutoPopulateRegionBehavior
         /// associated with the <see cref="IRegionViewRegistry"/> received.
         /// </summary>
         /// <param name="regionViewRegistry"><see cref="IRegionViewRegistry"/> that the behavior will monitor for views to populate the region.</param>
@@ -53,7 +52,7 @@ namespace Prism.Regions.Behaviors
 
         /// <summary>
         /// Returns a collection of views that will be added to the
-        /// View collection. 
+        /// View collection.
         /// </summary>
         /// <returns></returns>
         protected virtual IEnumerable<object> CreateViewsToAutoPopulate()
@@ -62,7 +61,7 @@ namespace Prism.Regions.Behaviors
         }
 
         /// <summary>
-        /// Adds a view into the views collection of this region. 
+        /// Adds a view into the views collection of this region.
         /// </summary>
         /// <param name="viewToAdd"></param>
         protected virtual void AddViewIntoRegion(object viewToAdd)
@@ -80,7 +79,7 @@ namespace Prism.Regions.Behaviors
         }
 
         /// <summary>
-        /// Handler of the event that fires when a new viewtype is registered to the registry. 
+        /// Handler of the event that fires when a new viewtype is registered to the registry.
         /// </summary>
         /// <remarks>Although this is a public method to support Weak Delegates in Silverlight, it should not be called by the user.</remarks>
         /// <param name="sender"></param>
@@ -88,7 +87,8 @@ namespace Prism.Regions.Behaviors
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "This has to be public in order to work with weak references in partial trust or Silverlight environments.")]
         public virtual void OnViewRegistered(object sender, ViewRegisteredEventArgs e)
         {
-            if (e == null) throw new System.ArgumentNullException("e");
+            if (e == null)
+                throw new ArgumentNullException(nameof(e));
 
             if (e.RegionName == this.Region.Name)
             {
