@@ -21,11 +21,9 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
       <group targetFramework=".NETFramework4.5">
         <dependency id="CommonServiceLocator" version="1.3" />
         <dependency id="Prism.Core" version="$coreVersion$" />
+        <dependency id="Expression.Blend.Sdk" version="1.0.2" />
       </group>
     </dependencies>
-    <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.Windows.Interactivity" targetFramework=".NETFramework4.5" />
-    </frameworkAssemblies>
   </metadata>
   <files>
     <file src="..\Wpf\Prism.Wpf\bin\Release-Signed\Prism.Wpf.*" target="lib\net45\" exclude="**\*.pdb" />
