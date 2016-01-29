@@ -123,9 +123,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Snippets\VisualBasic\Prism\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ItemTemplates\CSharp\Forms\PrismCarouselPage\PrismCarouselPage.csproj">
       <Project>{417AA570-FA00-46C7-833B-5CDCFD34DFF5}</Project>
