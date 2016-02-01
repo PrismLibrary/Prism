@@ -74,6 +74,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnityApp.UWP\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UnityApp.UWP\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UnityApp.UWP\Properties\AssemblyInfo.cs" />
+    <None Include="UnityApp.UWP\ApplicationInsights.config" />
+    <None Include="UnityApp.UWP\Application_TemporaryKey.pfx" />
+    <None Include="UnityApp.UWP\Package-managed.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnityApp.UWP\project.json" />
     <None Include="UnityApp\Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </None>
@@ -157,6 +170,16 @@
     <None Include="UnityApp.WinPhone\Properties\AppManifest.xml" />
     <None Include="UnityApp.WinPhone\Properties\WMAppManifest.xml" />
     <None Include="UnityApp.WinPhone\SplashScreenImage.jpg" />
+    <Content Include="UnityApp.UWP\Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="UnityApp.UWP\Assets\SplashScreen.scale-200.png" />
+    <Content Include="UnityApp.UWP\Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="UnityApp.UWP\Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="UnityApp.UWP\Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="UnityApp.UWP\Assets\StoreLogo.png" />
+    <Content Include="UnityApp.UWP\Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="UnityApp.UWP\Properties\Default.rd.xml" />
+    <Content Include="UnityApp.UWP\UnityApp.UWP.vstemplate" />
+    <Content Include="UnityApp.UWP\UnityAppTemplate.UWP.csproj" />
     <Content Include="UnityApp.WinPhone\UnityApp.WinPhone.vstemplate" />
     <None Include="UnityApp\UnityAppTemplate.csproj">
       <SubType>Designer</SubType>
@@ -199,6 +222,16 @@
     <None Include="UnityApp\Views\MainPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UnityApp.UWP\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UnityApp.UWP\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
