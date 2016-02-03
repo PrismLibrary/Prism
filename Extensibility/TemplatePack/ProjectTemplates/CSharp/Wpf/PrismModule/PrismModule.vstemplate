@@ -24,13 +24,17 @@
       </Folder>      
       <Folder Name="ViewModels" TargetFolderName="ViewModels" />
       <Folder Name="Views" TargetFolderName="Views" />
-      <ProjectItem ReplaceParameters="true" OpenInEditor="true" TargetFileName="$safeprojectname$Module.cs">Module.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" OpenInEditor="true" TargetFileName="Module.cs">Module.cs</ProjectItem>
     </Project>
   </TemplateContent>
 
   <WizardExtension>
     <Assembly>NuGet.VisualStudio.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
     <FullClassName>NuGet.VisualStudio.TemplateWizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <Assembly>Prism.VisualStudio.Wizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8</Assembly>
+    <FullClassName>Prism.VisualStudio.Wizards.ExtractModuleFileNameWizard</FullClassName>
   </WizardExtension>
   <WizardData>
     <packages repository="extension" repositoryId="Prism.TemplatePack.138e3411-ac97-4c11-8016-c27a831cba2e">
