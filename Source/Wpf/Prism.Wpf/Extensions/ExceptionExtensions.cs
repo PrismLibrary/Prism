@@ -20,7 +20,7 @@ namespace System
         /// <param name="frameworkExceptionType">The type of exception to register.</param>
         public static void RegisterFrameworkExceptionType(Type frameworkExceptionType)
         {
-            if (frameworkExceptionType == null) throw new ArgumentNullException("frameworkExceptionType");
+            if (frameworkExceptionType == null) throw new ArgumentNullException(nameof(frameworkExceptionType));
 
             if (!frameworkExceptionTypes.Contains(frameworkExceptionType))
                 frameworkExceptionTypes.Add(frameworkExceptionType);

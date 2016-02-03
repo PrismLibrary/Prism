@@ -19,7 +19,7 @@ namespace Prism.Mef
         ///<param name="aggregateCatalog">The <see cref="AggregateCatalog"/> to register the required types in, if they are not already registered.</param>
         public static AggregateCatalog RegisterRequiredPrismServicesIfMissing(AggregateCatalog aggregateCatalog)
         {
-            if (aggregateCatalog == null) throw new ArgumentNullException("aggregateCatalog");
+            if (aggregateCatalog == null) throw new ArgumentNullException(nameof(aggregateCatalog));
             IEnumerable<ComposablePartDefinition> partsToRegister =
                 GetRequiredPrismPartsToRegister(aggregateCatalog);
 

@@ -24,7 +24,7 @@ namespace Prism.Mef.Modularity
     public class MefModuleInitializer : ModuleInitializer
     {
         private DownloadedPartCatalogCollection downloadedPartCatalogs;
-        private AggregateCatalog aggregateCatalog { get; set; }        
+        private AggregateCatalog aggregateCatalog { get; set; }
 
         // disable the warning that the field is never assigned to, and will always have its default value null
         // as it is imported by MEF
@@ -50,12 +50,12 @@ namespace Prism.Mef.Modularity
         {
             if (downloadedPartCatalogs == null)
             {
-                throw new ArgumentNullException("downloadedPartCatalogs");
+                throw new ArgumentNullException(nameof(downloadedPartCatalogs));
             }
 
             if (aggregateCatalog == null)
             {
-                throw new ArgumentNullException("aggregateCatalog");
+                throw new ArgumentNullException(nameof(aggregateCatalog));
             }
 
             this.downloadedPartCatalogs = downloadedPartCatalogs;

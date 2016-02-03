@@ -1,17 +1,17 @@
 
 
+using Prism.Properties;
 using System;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Prism.Properties;
 
 namespace Prism.Regions
 {
     /// <summary>
     /// Adapter that creates a new <see cref="SingleActiveRegion"/> and monitors its
-    /// active view to set it on the adapted <see cref="ContentControl"/>. 
+    /// active view to set it on the adapted <see cref="ContentControl"/>.
     /// </summary>
     public class ContentControlRegionAdapter : RegionAdapterBase<ContentControl>
     {
@@ -31,14 +31,14 @@ namespace Prism.Regions
         /// <param name="regionTarget">The object to adapt.</param>
         protected override void Adapt(IRegion region, ContentControl regionTarget)
         {
-            if (regionTarget == null) throw new ArgumentNullException("regionTarget");
+            if (regionTarget == null)
+                throw new ArgumentNullException(nameof(regionTarget));
+
             bool contentIsSet = regionTarget.Content != null;
             contentIsSet = contentIsSet || (BindingOperations.GetBinding(regionTarget, ContentControl.ContentProperty) != null);
 
             if (contentIsSet)
-            {
                 throw new InvalidOperationException(Resources.ContentControlHasContentException);
-            }
 
             region.ActiveViews.CollectionChanged += delegate
             {
