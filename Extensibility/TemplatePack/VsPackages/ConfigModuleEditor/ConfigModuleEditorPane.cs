@@ -77,35 +77,52 @@ namespace ConfigModuleEditor
 
         void LoadProjectModules()
         {
-            var projects = GetProjects();
-
-            List<ProjectModuleInfo> projectModules = new List<ProjectModuleInfo>();
-
-            foreach (var project in projects)
+            try
             {
-                foreach (ProjectItem item in project.ProjectItems)
+                var projects = GetProjects();
+
+                List<ProjectModuleInfo> projectModules = new List<ProjectModuleInfo>();
+
+                foreach (var project in projects)
                 {
-                    FileCodeModel2 codeModel = (FileCodeModel2)item.FileCodeModel;
-                    if (codeModel != null)
+                    foreach (ProjectItem item in project.ProjectItems)
                     {
-                        CodeClass2 codeClass = GetCodeClass(codeModel.CodeElements);
-                        if (codeClass != null)
+                        FileCodeModel2 codeModel = (FileCodeModel2)item.FileCodeModel;
+                        if (codeModel != null)
                         {
-                            if (IsIModule(codeClass.ImplementedInterfaces))
+                            CodeClass2 codeClass = GetCodeClass(codeModel.CodeElements);
+                            if (codeClass != null)
                             {
-                                var moduleInfo = new ProjectModuleInfo();
-                                moduleInfo.ModuleName = codeClass.Name;
-                                moduleInfo.AssemblyFile = String.Format("{0}.dll", project.Properties.Item("AssemblyName").Value);
-                                moduleInfo.ModuleType = GetModuleType(project, codeClass);
-                                projectModules.Add(moduleInfo);
-                                break;
+                                if (IsIModule(codeClass.ImplementedInterfaces))
+                                {
+                                    var moduleInfo = new ProjectModuleInfo();
+                                    moduleInfo.ModuleName = codeClass.Name;
+                                    moduleInfo.AssemblyFile = String.Format("{0}.dll", project.Properties.Item("AssemblyName").Value);
+                                    moduleInfo.ModuleType = GetModuleType(project, codeClass);
+                                    projectModules.Add(moduleInfo);
+                                    break;
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            _designer.ProjectModules = new System.Collections.ObjectModel.ObservableCollection<ProjectModuleInfo>(projectModules);
+                _designer.ProjectModules = new System.Collections.ObjectModel.ObservableCollection<ProjectModuleInfo>(projectModules);
+            }
+            catch(Exception ex)
+            {
+                string message = "The was a problem reading the projects in this solution. Build the solution and try again.";
+                string title = "Error Loading Projects";
+
+                // Show a message box to prove we were here
+                VsShellUtilities.ShowMessageBox(
+                    this,
+                    message,
+                    title,
+                    OLEMSGICON.OLEMSGICON_INFO,
+                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            }
         }
 
         CodeClass2 GetCodeClass(CodeElements codeElements)
