@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism", "Prism\Prism.csproj", "{E6C50355-D01E-4CAA-884D-D7929861315C}"
 EndProject
@@ -52,6 +52,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Forms.Tests", "Xamarin\Prism.Forms.Tests\Prism.Forms.Tests.csproj", "{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Ninject.Forms", "Xamarin\Prism.Ninject.Forms\Prism.Ninject.Forms.csproj", "{F8424F1D-A7BF-4113-AF23-0F0A7BE6BBB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Issue322", "Issue322\Issue322.csproj", "{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -435,6 +437,30 @@ Global
 		{F8424F1D-A7BF-4113-AF23-0F0A7BE6BBB1}.Release-Signed|x64.Build.0 = Release-Signed|Any CPU
 		{F8424F1D-A7BF-4113-AF23-0F0A7BE6BBB1}.Release-Signed|x86.ActiveCfg = Release-Signed|Any CPU
 		{F8424F1D-A7BF-4113-AF23-0F0A7BE6BBB1}.Release-Signed|x86.Build.0 = Release-Signed|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Debug|ARM.Build.0 = Debug|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Debug|x64.Build.0 = Debug|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Debug|x86.Build.0 = Debug|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release|ARM.ActiveCfg = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release|ARM.Build.0 = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release|x64.ActiveCfg = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release|x64.Build.0 = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release|x86.ActiveCfg = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release|x86.Build.0 = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release-Signed|ARM.ActiveCfg = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release-Signed|ARM.Build.0 = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release-Signed|x64.ActiveCfg = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release-Signed|x64.Build.0 = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release-Signed|x86.ActiveCfg = Release|Any CPU
+		{EA133F5A-C2F1-40E4-8306-752EC4D3B6C1}.Release-Signed|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
