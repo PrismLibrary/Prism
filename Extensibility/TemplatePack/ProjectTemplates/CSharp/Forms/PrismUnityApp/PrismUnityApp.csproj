@@ -74,6 +74,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="UnityApp.UWP\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </None>
+    <None Include="UnityApp.UWP\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </None>
+    <None Include="UnityApp.UWP\Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnityApp.UWP\project.json" />
+    <None Include="UnityApp.UWP\Properties\AssemblyInfo.cs" />
+    <None Include="UnityApp.UWP\Windows_TemporaryKey.pfx" />
     <None Include="UnityApp.Windows\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </None>
@@ -123,6 +135,17 @@
     </VSTemplate>
   </ItemGroup>
   <ItemGroup>
+    <None Include="UnityApp.UWP\UnityAppTemplate.UWP.csproj" />
+    <None Include="UnityApp.UWP\UnityApp.UWP.vstemplate" />
+    <None Include="UnityApp.UWP\__TemplateIcon.ico" />
+    <None Include="UnityApp.UWP\Properties\Default.rd.xml" />
+    <None Include="UnityApp.UWP\Assets\LockScreenLogo.scale-200.png" />
+    <None Include="UnityApp.UWP\Assets\SplashScreen.scale-200.png" />
+    <None Include="UnityApp.UWP\Assets\Square150x150Logo.scale-200.png" />
+    <None Include="UnityApp.UWP\Assets\Square44x44Logo.scale-200.png" />
+    <None Include="UnityApp.UWP\Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <None Include="UnityApp.UWP\Assets\StoreLogo.png" />
+    <None Include="UnityApp.UWP\Assets\Wide310x150Logo.scale-200.png" />
     <None Include="UnityApp.Windows\UnityApp.Windows.vstemplate" />
     <None Include="UnityApp.Windows\UnityAppTemplate.Windows.csproj" />
     <None Include="UnityApp.Windows\__TemplateIcon.ico" />
@@ -203,7 +226,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UnityApp.UWP\" />
+    <None Include="UnityApp.UWP\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnityApp.UWP\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="UnityApp.WinPhone\App.xaml">
