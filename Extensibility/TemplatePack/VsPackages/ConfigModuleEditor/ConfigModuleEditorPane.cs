@@ -208,7 +208,7 @@ namespace ConfigModuleEditor
                             if (configSectionNode == null)
                             {
                                 configSectionNode = _document.CreateElement("configSections");
-                                configurationNode.AppendChild(configSectionNode);
+                                configurationNode.InsertAfter(configSectionNode, null); //make it the first element
                             }
 
                             XmlElement section = _document.CreateElement("section");
