@@ -1,4 +1,5 @@
 ﻿using HelloWorld.Views;
+using Prism.Modularity;
 using Prism.Unity;
 
 namespace HelloWorld
@@ -14,11 +15,13 @@ namespace HelloWorld
         {
             Container.RegisterTypeForNavigation<MainPage>();
             Container.RegisterTypeForNavigation<MyNavigationPage>();
-            Container.RegisterTypeForNavigation<MyTabbedPage>();
             Container.RegisterTypeForNavigation<MyMasterDetail>();
-            Container.RegisterTypeForNavigation<ViewA>();
-            Container.RegisterTypeForNavigation<ViewB>();
-            Container.RegisterTypeForNavigation<ViewC>();
+        }
+
+        protected override void ConfigureModuleCatalog()
+        {
+            //ModuleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule)));
+            ModuleCatalog.AddModule(new ModuleInfo("ModuleA", typeof(ModuleA.ModuleAModule), InitializationMode.OnDemand));
         }
     }
 }

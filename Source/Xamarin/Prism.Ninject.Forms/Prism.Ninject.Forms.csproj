@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Extensions\DependencyServiceBindingResolver.cs" />
     <Compile Include="Extensions\DependencyServiceProvider.cs" />
+    <Compile Include="Modularity\NinjectModuleInitializer.cs" />
     <Compile Include="Navigation\NinjectNavigationService.cs" />
     <Compile Include="PrismApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

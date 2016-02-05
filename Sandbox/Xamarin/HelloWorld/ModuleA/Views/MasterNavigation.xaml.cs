@@ -1,5 +1,4 @@
-﻿using Prism.Navigation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,11 +6,11 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
-namespace HelloWorld.Views
+namespace ModuleA.Views
 {
-    public partial class ViewC : ContentPage
+    public partial class MasterNavigation : ContentPage
     {
-        public ViewC()
+        public MasterNavigation()
         {
             InitializeComponent();
         }

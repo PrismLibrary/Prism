@@ -1,13 +1,14 @@
 ﻿using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Navigation;
 
-namespace HelloWorld.ViewModels
+namespace ModuleA.ViewModels
 {
-    public class ViewBViewModel : ViewModelBase
+    public class ViewAViewModel : BindableBase, INavigationAware
     {
         private readonly INavigationService _navigationService;
 
-        string _title = "View B";
+        string _title = "View A";
         public string Title
         {
             get { return _title; }
@@ -16,7 +17,7 @@ namespace HelloWorld.ViewModels
 
         public DelegateCommand NavigateCommand { get; set; }
 
-        public ViewBViewModel(INavigationService navigationService)
+        public ViewAViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
 
@@ -25,17 +26,17 @@ namespace HelloWorld.ViewModels
 
         void Navigate()
         {
-            _navigationService.GoBack();
+            _navigationService.Navigate("ViewB");
         }
 
-        public override void OnNavigatedFrom(NavigationParameters parameters)
+        public void OnNavigatedFrom(NavigationParameters parameters)
         {
-            base.OnNavigatedFrom(parameters);
+            
         }
 
-        public override void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(NavigationParameters parameters)
         {
-            base.OnNavigatedTo(parameters);
+            
         }
     }
 }
