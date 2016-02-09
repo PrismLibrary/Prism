@@ -47,7 +47,7 @@ Now that we have the Template Pack installed, lets create a new solution. Go to 
 
 Select `Prism Unity App (Forms) Visual C#` fill in the name of your project/solution and click `OK`
 
-A new solution was  created with a Portable Class Library (PCL) project labeled `(Portable)` and device dependent projects (Android, iOS, Windows Phone). NuGet packages will be added to these projects for Xamarin.Forms and Prism along with all their dependencies.
+A new solution was created with a Portable Class Library (PCL) project labeled `(Portable)` and device dependent projects (Android, iOS, Windows Phone). NuGet packages were added to these projects for Xamarin.Forms, Prism, and Prism.Unity along with all their dependencies.
 
 ![Solution structure](http://i.imgur.com/Dh6sXGE.png)
 
@@ -141,8 +141,37 @@ public void OnNavigatedTo(NavigationParameters parameters)
 These methods are called with the view model is navigated from or to. Here it expects a string via the NavigationParameters parameter and modifies the Title property with the strings value. See the [INavigationAware documentation](https://github.com/PrismLibrary/Prism/blob/master/Documentation/Xamarin.Forms/3-NavigationService.md#inavigationaware) for more information.
 
 ##Adding a new Page (View) and ViewModel
- Using the templates
+###View
+Let's add a new content page to the project. Again, the easiest way to do this is with the *Prism Template Pack*. We'll create the view first. Right click on the `Views` folder, click `Add > New Item...` under `Installed > Visual C# > Prism > Forms` select `Prism ContentPage (Forms)`. Name the page `PrismContentPage.xaml` and click `Add`. This creates a blank content page. Add an Entry and a Button within the `ContentPage` tags and take a look at what's going on here.
 
+```xaml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="HelloXFPrism.Views.PrismContentPage">
+  <StackLayout VerticalOptions="CenterAndExpand">
+    <Entry Text="{Binding TextToSay}" />
+    <Button Text="Speak" Command="{Binding SpeakCommand}"/>
+  </StackLayout>
+</ContentPage>
+```
+
+`xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"`
+The Prism library is referenced. 
+
+`prism:ViewModelLocator.AutowireViewModel="True"`
+This View (PrismContentPage.xaml) is wired to the View Model (PrismContentPageViewModel.cs) *automatically via naming conventions* allowing for databinding to the View Model. See [ViewModelLocator documentation](https://github.com/PrismLibrary/Prism/blob/master/Documentation/Xamarin.Forms/2-ViewModelLocator.md) for more information.
+
+`<Entry Text="{Binding TextToSay}" />`
+An [Entry](https://developer.xamarin.com/api/type/Xamarin.Forms.Entry/) is provided that allows the user to enter text. The text that is entered is data-bound to a property named TextToSay in the PrismContentPageViewModel, which we'll create soon.
+
+`<Button Text="Speak" Command="{Binding SpeakCommand}"/>`
+A [Button](https://developer.xamarin.com/api/type/Xamarin.Forms.Button/) is placed below the Entry. The button's command is executed when it is clicked and is bound to a command named SpeakCommand in the PrismContentPageViewModel, which we'll create soon.
+
+###View Model
+Now that we have a view named PrismContentPage, we'll add it's corresponding view model. As with all the other steps, the easiest way to create a view model is with the *Prism Template Pack*.
 
 
 ##Navigating to your new Page
