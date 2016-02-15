@@ -1,11 +1,11 @@
 
 
+using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Prism.Properties;
 
 namespace Prism.Modularity
 {
@@ -37,7 +37,7 @@ namespace Prism.Modularity
 
             if (assemblyUri == null)
             {
-                throw new ArgumentException(Resources.InvalidArgumentAssemblyUri, "assemblyFilePath");
+                throw new ArgumentException(Resources.InvalidArgumentAssemblyUri, nameof(assemblyFilePath));
             }
 
             if (!File.Exists(assemblyUri.LocalPath))

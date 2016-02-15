@@ -42,10 +42,6 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\MyMasterDetailViewModel.cs" />
     <Compile Include="ViewModels\MyNavigationPageViewModel.cs" />
-    <Compile Include="ViewModels\MyTabbedPageViewModel.cs" />
-    <Compile Include="ViewModels\ViewAViewModel.cs" />
-    <Compile Include="ViewModels\ViewBViewModel.cs" />
-    <Compile Include="ViewModels\ViewCViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -55,18 +51,6 @@
     </Compile>
     <Compile Include="Views\MyNavigationPage.xaml.cs">
       <DependentUpon>MyNavigationPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MyTabbedPage.xaml.cs">
-      <DependentUpon>MyTabbedPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ViewA.xaml.cs">
-      <DependentUpon>ViewA.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ViewB.xaml.cs">
-      <DependentUpon>ViewB.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ViewC.xaml.cs">
-      <DependentUpon>ViewC.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -107,12 +91,10 @@
       <Project>{79ebb8f1-5d80-4ea1-9100-ebdc1ec51cb7}</Project>
       <Name>Prism.Unity.Forms</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\ViewB.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <ProjectReference Include="..\..\ModuleA\ModuleA.csproj">
+      <Project>{c491dc4b-eb12-4882-ac69-e18382a50d75}</Project>
+      <Name>ModuleA</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\MainPage.xaml">
@@ -121,25 +103,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\ViewA.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\ViewC.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Views\MyNavigationPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\MyTabbedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

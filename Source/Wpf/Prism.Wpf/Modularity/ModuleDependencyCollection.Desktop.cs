@@ -26,7 +26,7 @@ namespace Prism.Modularity
         public ModuleDependencyCollection(ModuleDependencyConfigurationElement[] dependencies)
         {
             if (dependencies == null)
-                throw new ArgumentNullException("dependencies");
+                throw new ArgumentNullException(nameof(dependencies));
 
             foreach (ModuleDependencyConfigurationElement dependency in dependencies)
             {

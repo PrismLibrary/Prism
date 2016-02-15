@@ -63,7 +63,7 @@ namespace Prism.Autofac
             {
                 throw new InvalidOperationException(Resources.NullAutofacContainerBuilderException);
             }
-            
+
             Logger.Log(Resources.ConfiguringAutofacContainerBuilder, Category.Debug, Priority.Low);
             // Make sure any not specifically registered concrete type can resolve.
             builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
@@ -156,7 +156,7 @@ namespace Prism.Autofac
         }
 
         /// <summary>
-        /// Configures the <see cref="ContainerBuilder"/>. 
+        /// Configures the <see cref="ContainerBuilder"/>.
         /// May be overwritten in a derived class to add specific type mappings required by the application.
         /// </summary>
         protected virtual void ConfigureContainerBuilder(ContainerBuilder builder)
@@ -257,11 +257,11 @@ namespace Prism.Autofac
         {
             if (fromType == null)
             {
-                throw new ArgumentNullException("fromType");
+                throw new ArgumentNullException(nameof(fromType));
             }
             if (toType == null)
             {
-                throw new ArgumentNullException("toType");
+                throw new ArgumentNullException(nameof(toType));
             }
             if (Container.IsRegistered(fromType))
             {
@@ -291,17 +291,17 @@ namespace Prism.Autofac
         /// <param name="key">Optional key for registration.</param>
         /// <param name="registerAsSingleton">Registers the type as a singleton.</param>
         protected void RegisterInstance<T>(T instance, Type fromType, string key = "", bool registerAsSingleton = false)
-            where T : class 
+            where T : class
         {
             if (instance == null)
             {
-                throw new ArgumentNullException("instance");
+                throw new ArgumentNullException(nameof(instance));
             }
             if (fromType == null)
             {
-                throw new ArgumentNullException("fromType");
+                throw new ArgumentNullException(nameof(fromType));
             }
-            
+
             ContainerBuilder containerUpdater = CreateContainerBuilder();
 
             var registration = containerUpdater.RegisterInstance(instance);
@@ -319,7 +319,7 @@ namespace Prism.Autofac
             {
                 registration.SingleInstance();
             }
-            
+
             containerUpdater.Update(Container);
         }
     }

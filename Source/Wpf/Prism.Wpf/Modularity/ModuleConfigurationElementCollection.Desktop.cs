@@ -27,7 +27,9 @@ namespace Prism.Modularity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ModuleConfigurationElementCollection(ModuleConfigurationElement[] modules)
         {
-            if (modules == null) throw new System.ArgumentNullException("modules");
+            if (modules == null)
+                throw new ArgumentNullException(nameof(modules));
+
             foreach (ModuleConfigurationElement module in modules)
             {
                 BaseAdd(module);
@@ -103,7 +105,8 @@ namespace Prism.Modularity
         /// <exception cref="ArgumentNullException">An <see cref="ArgumentNullException"/> is thrown if <paramref name="match"/> is null.</exception>
         public IList<ModuleConfigurationElement> FindAll(Predicate<ModuleConfigurationElement> match)
         {
-            if (match == null) throw new System.ArgumentNullException("match");
+            if (match == null)
+                throw new ArgumentNullException(nameof(match));
 
             IList<ModuleConfigurationElement> found = new List<ModuleConfigurationElement>();
             foreach (ModuleConfigurationElement moduleElement in this)

@@ -1,15 +1,15 @@
 
 
+using Prism.Properties;
 using System;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Prism.Properties;
 
 namespace Prism.Regions
 {
     /// <summary>
     /// Adapter that creates a new <see cref="AllActiveRegion"/> and binds all
-    /// the views to the adapted <see cref="ItemsControl"/>. 
+    /// the views to the adapted <see cref="ItemsControl"/>.
     /// </summary>
     public class ItemsControlRegionAdapter : RegionAdapterBase<ItemsControl>
     {
@@ -29,8 +29,11 @@ namespace Prism.Regions
         /// <param name="regionTarget">The object to adapt.</param>
         protected override void Adapt(IRegion region, ItemsControl regionTarget)
         {
-            if (region == null) throw new ArgumentNullException("region");
-            if (regionTarget == null) throw new ArgumentNullException("regionTarget");
+            if (region == null)
+                throw new ArgumentNullException(nameof(region));
+
+            if (regionTarget == null)
+                throw new ArgumentNullException(nameof(regionTarget));
 
             bool itemsSourceIsSet = regionTarget.ItemsSource != null;
             itemsSourceIsSet = itemsSourceIsSet || (BindingOperations.GetBinding(regionTarget, ItemsControl.ItemsSourceProperty) != null);

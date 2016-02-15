@@ -53,7 +53,7 @@ namespace Prism.Commands
             : base((o) => executeMethod((T)o), (o) => canExecuteMethod((T)o))
         {
             if (executeMethod == null || canExecuteMethod == null)
-                throw new ArgumentNullException("executeMethod", Resources.DelegateCommandDelegatesCannotBeNull);
+                throw new ArgumentNullException(nameof(executeMethod), Resources.DelegateCommandDelegatesCannotBeNull);
 
             TypeInfo genericTypeInfo = typeof(T).GetTypeInfo();
 
@@ -135,16 +135,16 @@ namespace Prism.Commands
         }
 
 
-        private DelegateCommand(Func<T, Task> executeMethod)
+        protected DelegateCommand(Func<T, Task> executeMethod)
             : this(executeMethod, (o) => true)
         {
         }
 
-        private DelegateCommand(Func<T, Task> executeMethod, Func<T, bool> canExecuteMethod)
+        protected DelegateCommand(Func<T, Task> executeMethod, Func<T, bool> canExecuteMethod)
             : base((o) => executeMethod((T)o), (o) => canExecuteMethod((T)o))
         {
             if (executeMethod == null || canExecuteMethod == null)
-                throw new ArgumentNullException("executeMethod", Resources.DelegateCommandDelegatesCannotBeNull);
+                throw new ArgumentNullException(nameof(executeMethod), Resources.DelegateCommandDelegatesCannotBeNull);
         }
 
     }
@@ -175,7 +175,7 @@ namespace Prism.Commands
             : base((o) => executeMethod(), (o) => canExecuteMethod())
         {
             if (executeMethod == null || canExecuteMethod == null)
-                throw new ArgumentNullException("executeMethod", Resources.DelegateCommandDelegatesCannotBeNull);
+                throw new ArgumentNullException(nameof(executeMethod), Resources.DelegateCommandDelegatesCannotBeNull);
         }
 
         /// <summary>
@@ -239,16 +239,16 @@ namespace Prism.Commands
             return CanExecute(null);
         }
 
-        private DelegateCommand(Func<Task> executeMethod)
+        protected DelegateCommand(Func<Task> executeMethod)
             : this(executeMethod, () => true)
         {
         }
 
-        private DelegateCommand(Func<Task> executeMethod, Func<bool> canExecuteMethod)
+        protected DelegateCommand(Func<Task> executeMethod, Func<bool> canExecuteMethod)
             : base((o) => executeMethod(), (o) => canExecuteMethod())
         {
             if (executeMethod == null || canExecuteMethod == null)
-                throw new ArgumentNullException("executeMethod", Resources.DelegateCommandDelegatesCannotBeNull);
+                throw new ArgumentNullException(nameof(executeMethod), Resources.DelegateCommandDelegatesCannotBeNull);
         }
     }
 

@@ -39,7 +39,7 @@ namespace Prism.Events
         /// </remarks>
         protected virtual SubscriptionToken InternalSubscribe(IEventSubscription eventSubscription)
         {
-            if (eventSubscription == null) throw new System.ArgumentNullException("eventSubscription");
+            if (eventSubscription == null) throw new ArgumentNullException(nameof(eventSubscription));
 
             eventSubscription.SubscriptionToken = new SubscriptionToken(Unsubscribe);
 

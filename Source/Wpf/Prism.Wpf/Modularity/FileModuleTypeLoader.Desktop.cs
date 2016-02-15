@@ -1,14 +1,14 @@
 
 
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Prism.Modularity
 {
     /// <summary>
-    /// Loads modules from an arbitrary location on the filesystem. This typeloader is only called if 
-    /// <see cref="ModuleInfo"/> classes have a Ref parameter that starts with "file://". 
+    /// Loads modules from an arbitrary location on the filesystem. This typeloader is only called if
+    /// <see cref="ModuleInfo"/> classes have a Ref parameter that starts with "file://".
     /// This class is only used on the Desktop version of the Prism Library.
     /// </summary>
     public class FileModuleTypeLoader : IModuleTypeLoader, IDisposable
@@ -75,7 +75,7 @@ namespace Prism.Modularity
         /// <summary>
         /// Evaluates the <see cref="ModuleInfo.Ref"/> property to see if the current typeloader will be able to retrieve the <paramref name="moduleInfo"/>.
         /// Returns true if the <see cref="ModuleInfo.Ref"/> property starts with "file://", because this indicates that the file
-        /// is a local file. 
+        /// is a local file.
         /// </summary>
         /// <param name="moduleInfo">Module that should have it's type loaded.</param>
         /// <returns>
@@ -86,7 +86,7 @@ namespace Prism.Modularity
         {
             if (moduleInfo == null)
             {
-                throw new System.ArgumentNullException("moduleInfo");
+                throw new ArgumentNullException(nameof(moduleInfo));
             }
 
             return moduleInfo.Ref != null && moduleInfo.Ref.StartsWith(RefFilePrefix, StringComparison.Ordinal);
@@ -102,7 +102,7 @@ namespace Prism.Modularity
         {
             if (moduleInfo == null)
             {
-                throw new System.ArgumentNullException("moduleInfo");
+                throw new ArgumentNullException(nameof(moduleInfo));
             }
 
             try
