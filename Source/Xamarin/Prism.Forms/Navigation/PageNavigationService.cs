@@ -245,6 +245,18 @@ namespace Prism.Navigation
 
         async Task ProcessNavigationForMasterDetailPage(MasterDetailPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
+            if (useModalNavigation.HasValue && useModalNavigation.Value)
+            {
+                var nextPage = CreatePageFromSegment(nextSegment);
+                await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
+                await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
+                {
+                    currentPage.IsPresented = false;
+                    await DoPush(currentPage, nextPage, true, animated);                    
+                });
+                return;
+            }
+
             var detail = currentPage.Detail;
             if (detail == null)
             {
