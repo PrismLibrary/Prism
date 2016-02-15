@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using System.Diagnostics;
 
 namespace ModuleA.ViewModels
 {
@@ -36,7 +37,7 @@ namespace ModuleA.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-            
+            Debug.WriteLine("Navigated to ViewB");
         }
     }
 }

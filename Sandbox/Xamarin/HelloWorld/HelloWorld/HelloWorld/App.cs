@@ -8,7 +8,7 @@ namespace HelloWorld
     {
         protected override void OnInitialized()
         {
-            NavigationService.Navigate("MyMasterDetail/MyNavigationPage/ViewA/ViewB", animated: false);
+            NavigationService.Navigate("MyMasterDetail/MyNavigationPage/MainPage", animated: false);
         }
 
         protected override void RegisterTypes()
@@ -20,8 +20,8 @@ namespace HelloWorld
 
         protected override void ConfigureModuleCatalog()
         {
-            //ModuleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule)));
-            ModuleCatalog.AddModule(new ModuleInfo("ModuleA", typeof(ModuleA.ModuleAModule), InitializationMode.OnDemand));
+            ModuleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule)));
+            //ModuleCatalog.AddModule(new ModuleInfo("ModuleA", typeof(ModuleA.ModuleAModule), InitializationMode.OnDemand));
         }
     }
 }

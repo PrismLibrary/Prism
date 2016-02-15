@@ -1,6 +1,8 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace ModuleA.ViewModels
 {
@@ -21,22 +23,27 @@ namespace ModuleA.ViewModels
         {
             _navigationService = navigationService;
 
-            NavigateCommand = new DelegateCommand(Navigate);
+            //NavigateCommand = new DelegateCommand(Navigate);
+            NavigateCommand = new DelegateCommand(async () => await Navigate());
+
+            //NavigateCommand = DelegateCommand.FromAsyncHandler(Navigate);
         }
 
-        void Navigate()
+        async Task Navigate()
         {
-            _navigationService.Navigate("ViewB");
+            await _navigationService.Navigate("ViewB");
+
+            Debug.WriteLine("After _navigationService.Navigate(ViewB) ...");
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
-            
+            Debug.WriteLine("OnNavigatedFrom ViewC ...");
         }
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-            
+
         }
     }
 }
