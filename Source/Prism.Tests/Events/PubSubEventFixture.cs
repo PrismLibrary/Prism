@@ -23,7 +23,7 @@ namespace Prism.Tests.Events
         [Fact]
         public void CanSubscribeAndRaiseEventNonGeneric()
         {
-            TestablePubSubEvent pubSubEvent = new TestablePubSubEvent();
+            var pubSubEvent = new TestablePubSubEvent();
             bool published = false;
             pubSubEvent.Subscribe(delegate { published = true; }, ThreadOption.PublisherThread, true);
             pubSubEvent.Publish();
@@ -160,16 +160,16 @@ namespace Prism.Tests.Events
         [Fact]
         public void ShouldUnsubscribeFromPublisherThreadNonGeneric()
         {
-            var PubSubEvent = new TestablePubSubEvent();
+            var pubSubEvent = new TestablePubSubEvent();
 
             var actionEvent = new ActionHelper();
-            PubSubEvent.Subscribe(
+            pubSubEvent.Subscribe(
                 actionEvent.Action,
                 ThreadOption.PublisherThread);
 
-            Assert.True(PubSubEvent.Contains(actionEvent.Action));
-            PubSubEvent.Unsubscribe(actionEvent.Action);
-            Assert.False(PubSubEvent.Contains(actionEvent.Action));
+            Assert.True(pubSubEvent.Contains(actionEvent.Action));
+            pubSubEvent.Unsubscribe(actionEvent.Action);
+            Assert.False(pubSubEvent.Contains(actionEvent.Action));
         }
 
         [Fact]
@@ -208,16 +208,16 @@ namespace Prism.Tests.Events
         [Fact]
         public void ShouldUnsubscribeFromBackgroundThreadNonGeneric()
         {
-            var PubSubEvent = new TestablePubSubEvent();
+            var pubSubEvent = new TestablePubSubEvent();
 
             var actionEvent = new ActionHelper();
-            PubSubEvent.Subscribe(
+            pubSubEvent.Subscribe(
                 actionEvent.Action,
                 ThreadOption.BackgroundThread);
 
-            Assert.True(PubSubEvent.Contains(actionEvent.Action));
-            PubSubEvent.Unsubscribe(actionEvent.Action);
-            Assert.False(PubSubEvent.Contains(actionEvent.Action));
+            Assert.True(pubSubEvent.Contains(actionEvent.Action));
+            pubSubEvent.Unsubscribe(actionEvent.Action);
+            Assert.False(pubSubEvent.Contains(actionEvent.Action));
         }
 
         [Fact]
@@ -239,17 +239,17 @@ namespace Prism.Tests.Events
         [Fact]
         public void ShouldUnsubscribeFromUIThreadNonGeneric()
         {
-            var PubSubEvent = new TestablePubSubEvent();
-            PubSubEvent.SynchronizationContext = new SynchronizationContext();
+            var pubSubEvent = new TestablePubSubEvent();
+            pubSubEvent.SynchronizationContext = new SynchronizationContext();
 
             var actionEvent = new ActionHelper();
-            PubSubEvent.Subscribe(
+            pubSubEvent.Subscribe(
                 actionEvent.Action,
                 ThreadOption.UIThread);
 
-            Assert.True(PubSubEvent.Contains(actionEvent.Action));
-            PubSubEvent.Unsubscribe(actionEvent.Action);
-            Assert.False(PubSubEvent.Contains(actionEvent.Action));
+            Assert.True(pubSubEvent.Contains(actionEvent.Action));
+            pubSubEvent.Unsubscribe(actionEvent.Action);
+            Assert.False(pubSubEvent.Contains(actionEvent.Action));
         }
 
         [Fact]
@@ -275,20 +275,20 @@ namespace Prism.Tests.Events
         [Fact]
         public void ShouldUnsubscribeASingleDelegateNonGeneric()
         {
-            var PubSubEvent = new TestablePubSubEvent();
+            var pubSubEvent = new TestablePubSubEvent();
 
             int callCount = 0;
 
             var actionEvent = new ActionHelper() { ActionToExecute = () => callCount++ };
-            PubSubEvent.Subscribe(actionEvent.Action);
-            PubSubEvent.Subscribe(actionEvent.Action);
+            pubSubEvent.Subscribe(actionEvent.Action);
+            pubSubEvent.Subscribe(actionEvent.Action);
 
-            PubSubEvent.Publish();
+            pubSubEvent.Publish();
             Assert.Equal<int>(2, callCount);
 
             callCount = 0;
-            PubSubEvent.Unsubscribe(actionEvent.Action);
-            PubSubEvent.Publish();
+            pubSubEvent.Unsubscribe(actionEvent.Action);
+            pubSubEvent.Publish();
             Assert.Equal<int>(1, callCount);
         }
 
@@ -314,20 +314,20 @@ namespace Prism.Tests.Events
         [Fact]
         public void ShouldNotExecuteOnGarbageCollectedDelegateReferenceWhenNotKeepAliveNonGeneric()
         {
-            var PubSubEvent = new TestablePubSubEvent();
+            var pubSubEvent = new TestablePubSubEvent();
 
-            ExternalAction externalAction = new ExternalAction();
-            PubSubEvent.Subscribe(externalAction.ExecuteAction);
+            var externalAction = new ExternalAction();
+            pubSubEvent.Subscribe(externalAction.ExecuteAction);
 
-            PubSubEvent.Publish();
+            pubSubEvent.Publish();
             Assert.True(externalAction.Executed);
 
-            WeakReference actionEventReference = new WeakReference(externalAction);
+            var actionEventReference = new WeakReference(externalAction);
             externalAction = null;
             GC.Collect();
             Assert.False(actionEventReference.IsAlive);
 
-            PubSubEvent.Publish();
+            pubSubEvent.Publish();
         }
 
         [Fact]
@@ -379,23 +379,23 @@ namespace Prism.Tests.Events
         [Fact]
         public void CanAddSubscriptionWhileEventIsFiringNonGeneric()
         {
-            var PubSubEvent = new TestablePubSubEvent();
+            var pubSubEvent = new TestablePubSubEvent();
 
             var emptyAction = new ActionHelper();
             var subscriptionAction = new ActionHelper
             {
                 ActionToExecute = (() =>
-                                                  PubSubEvent.Subscribe(
-                                                      emptyAction.Action))
+                                          pubSubEvent.Subscribe(
+                                          emptyAction.Action))
             };
 
-            PubSubEvent.Subscribe(subscriptionAction.Action);
+            pubSubEvent.Subscribe(subscriptionAction.Action);
 
-            Assert.False(PubSubEvent.Contains(emptyAction.Action));
+            Assert.False(pubSubEvent.Contains(emptyAction.Action));
 
-            PubSubEvent.Publish();
+            pubSubEvent.Publish();
 
-            Assert.True((PubSubEvent.Contains(emptyAction.Action)));
+            Assert.True((pubSubEvent.Contains(emptyAction.Action)));
         }
 
         [Fact]
@@ -413,11 +413,11 @@ namespace Prism.Tests.Events
         [Fact]
         public void InlineDelegateDeclarationsDoesNotGetCollectedIncorrectlyWithWeakReferencesNonGeneric()
         {
-            var PubSubEvent = new TestablePubSubEvent();
+            var pubSubEvent = new TestablePubSubEvent();
             bool published = false;
-            PubSubEvent.Subscribe(delegate { published = true; }, ThreadOption.PublisherThread, false);
+            pubSubEvent.Subscribe(delegate { published = true; }, ThreadOption.PublisherThread, false);
             GC.Collect();
-            PubSubEvent.Publish();
+            pubSubEvent.Publish();
 
             Assert.True(published);
         }
@@ -444,10 +444,10 @@ namespace Prism.Tests.Events
         [Fact]
         public void ShouldNotGarbageCollectDelegateReferenceWhenUsingKeepAliveNonGeneric()
         {
-            var PubSubEvent = new TestablePubSubEvent();
+            var pubSubEvent = new TestablePubSubEvent();
 
             var externalAction = new ExternalAction();
-            PubSubEvent.Subscribe(externalAction.ExecuteAction, ThreadOption.PublisherThread, true);
+            pubSubEvent.Subscribe(externalAction.ExecuteAction, ThreadOption.PublisherThread, true);
 
             WeakReference actionEventReference = new WeakReference(externalAction);
             externalAction = null;
@@ -455,7 +455,7 @@ namespace Prism.Tests.Events
             GC.Collect();
             Assert.True(actionEventReference.IsAlive);
 
-            PubSubEvent.Publish();
+            pubSubEvent.Publish();
 
             Assert.True(((ExternalAction)actionEventReference.Target).Executed);
         }
@@ -475,13 +475,13 @@ namespace Prism.Tests.Events
         [Fact]
         public void RegisterReturnsTokenThatCanBeUsedToUnsubscribeNonGeneric()
         {
-            var PubSubEvent = new TestablePubSubEvent();
+            var pubSubEvent = new TestablePubSubEvent();
             var emptyAction = new ActionHelper();
 
-            var token = PubSubEvent.Subscribe(emptyAction.Action);
-            PubSubEvent.Unsubscribe(token);
+            var token = pubSubEvent.Subscribe(emptyAction.Action);
+            pubSubEvent.Unsubscribe(token);
 
-            Assert.False(PubSubEvent.Contains(emptyAction.Action));
+            Assert.False(pubSubEvent.Contains(emptyAction.Action));
         }
 
         [Fact]
@@ -500,14 +500,14 @@ namespace Prism.Tests.Events
         [Fact]
         public void ContainsShouldSearchByTokenNonGeneric()
         {
-            var PubSubEvent = new TestablePubSubEvent();
+            var pubSubEvent = new TestablePubSubEvent();
             var emptyAction = new ActionHelper();
-            var token = PubSubEvent.Subscribe(emptyAction.Action);
+            var token = pubSubEvent.Subscribe(emptyAction.Action);
 
-            Assert.True(PubSubEvent.Contains(token));
+            Assert.True(pubSubEvent.Contains(token));
 
-            PubSubEvent.Unsubscribe(emptyAction.Action);
-            Assert.False(PubSubEvent.Contains(token));
+            pubSubEvent.Unsubscribe(emptyAction.Action);
+            Assert.False(pubSubEvent.Contains(token));
         }
 
         [Fact]
@@ -524,12 +524,12 @@ namespace Prism.Tests.Events
         [Fact]
         public void SubscribeDefaultsToPublisherThreadNonGeneric()
         {
-            var PubSubEvent = new TestablePubSubEvent();
+            var pubSubEvent = new TestablePubSubEvent();
             Action action = delegate { };
-            var token = PubSubEvent.Subscribe(action, true);
+            var token = pubSubEvent.Subscribe(action, true);
 
-            Assert.Equal(1, PubSubEvent.BaseSubscriptions.Count);
-            Assert.Equal(typeof(EventSubscription), PubSubEvent.BaseSubscriptions.ElementAt(0).GetType());
+            Assert.Equal(1, pubSubEvent.BaseSubscriptions.Count);
+            Assert.Equal(typeof(EventSubscription), pubSubEvent.BaseSubscriptions.ElementAt(0).GetType());
         }
 
         public class ExternalFilter

@@ -39,7 +39,7 @@ namespace Prism.Tests.Events
         [Fact]
         public void ShouldReceiveDelegateOnDifferentThreadNonGeneric()
         {
-            ManualResetEvent completeEvent = new ManualResetEvent(false);
+            var completeEvent = new ManualResetEvent(false);
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
             SynchronizationContext calledSyncContext = null;
             Action action = delegate
@@ -51,7 +51,6 @@ namespace Prism.Tests.Events
             IDelegateReference actionDelegateReference = new MockDelegateReference() { Target = action };
 
             var eventSubscription = new BackgroundEventSubscription(actionDelegateReference);
-
 
             var publishAction = eventSubscription.GetExecutionStrategy();
 
