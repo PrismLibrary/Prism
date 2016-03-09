@@ -29,15 +29,15 @@ namespace HelloWorld.Views
             //Navigation.PushModalAsync(p1, false);
 
             //BUG:  TabbedPage tab header are not shown, only first page in TabbedPage children is shown.
-            var p1 = new MyNavigationPage();
-            var p2 = new ViewA();
-            var p3 = new ViewC();
-            var p4 = new MyTabbedPage();
+            //var p1 = new MyNavigationPage();
+            //var p2 = new ViewA();
+            //var p3 = new ViewC();
+            //var p4 = new MyTabbedPage();
 
-            p3.Navigation.PushAsync(p4, false);
-            p2.Navigation.PushAsync(p3, false);
-            p1.Navigation.PushAsync(p2, false);
-            Navigation.PushModalAsync(p1, false);
+            //p3.Navigation.PushAsync(p4, false);
+            //p2.Navigation.PushAsync(p3, false);
+            //p1.Navigation.PushAsync(p2, false);
+            //Navigation.PushModalAsync(p1, false);
 
 
             //BUG: Results in the MyTabbedPage tab headers showing on ViewC. Hit the back button, pops to ViewB, then ViewA, then to the TabbedPage page as expected.

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Prism.Navigation;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
@@ -14,6 +10,8 @@ using Prism.Logging;
 using Prism.Events;
 using Prism.Services;
 using DependencyService = Prism.Services.DependencyService;
+using Prism.Modularity;
+using Prism.Unity.Modularity;
 
 namespace Prism.Unity
 {
@@ -25,13 +23,18 @@ namespace Prism.Unity
         {
             Logger = CreateLogger();
 
+            ModuleCatalog = CreateModuleCatalog();
+            ConfigureModuleCatalog();
+
             Container = CreateContainer();
 
             ConfigureContainer();
 
             NavigationService = CreateNavigationService();
 
-            RegisterTypes();
+            RegisterTypes();            
+
+            InitializeModules();
 
             OnInitialized();
         }
@@ -73,10 +76,22 @@ namespace Prism.Unity
             Container.AddNewExtension<DependencyServiceExtension>();
 
             Container.RegisterInstance<ILoggerFacade>(Logger);
+            Container.RegisterInstance<IModuleCatalog>(ModuleCatalog);
 
+            Container.RegisterType<IModuleManager, ModuleManager>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IModuleInitializer, UnityModuleInitializer>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDependencyService, DependencyService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IPageDialogService, PageDialogService>(new ContainerControlledLifetimeManager());
+        }
+
+        protected override void InitializeModules()
+        {
+            if (ModuleCatalog.Modules.Count() > 0)
+            {
+                IModuleManager manager  = Container.Resolve<IModuleManager>();
+                manager.Run();
+            }
         }
     }
 }

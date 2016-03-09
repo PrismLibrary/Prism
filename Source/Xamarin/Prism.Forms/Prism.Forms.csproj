@@ -58,6 +58,15 @@
     <Compile Include="Common\PageNavigationInfo.cs" />
     <Compile Include="Common\PageNavigationRegistry.cs" />
     <Compile Include="Common\UriParsingHelper.cs" />
+    <Compile Include="Modularity\IModule.cs" />
+    <Compile Include="Modularity\IModuleCatalog.cs" />
+    <Compile Include="Modularity\IModuleInitializer.cs" />
+    <Compile Include="Modularity\IModuleManager.cs" />
+    <Compile Include="Modularity\InitializationMode.cs" />
+    <Compile Include="Modularity\ModuleCatalog.cs" />
+    <Compile Include="Modularity\ModuleInfo.cs" />
+    <Compile Include="Modularity\ModuleManager.cs" />
+    <Compile Include="Modularity\ModuleState.cs" />
     <Compile Include="Mvvm\ViewModelLocator.cs" />
     <Compile Include="Navigation\IConfirmNavigation.cs" />
     <Compile Include="Navigation\IConfirmNavigationAsync.cs" />

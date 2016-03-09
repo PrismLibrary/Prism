@@ -4,11 +4,11 @@ using System;
 
 namespace $safeprojectname$
 {
-    public class $safeprojectname$Module : IModule
+    public class Module : IModule
     {
         IRegionManager _regionManager;
 
-        public $safeprojectname$Module(RegionManager regionManager)
+        public Module(RegionManager regionManager)
         {
             _regionManager = regionManager;
         }

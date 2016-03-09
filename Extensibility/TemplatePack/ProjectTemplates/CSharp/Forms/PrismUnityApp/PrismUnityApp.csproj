@@ -74,6 +74,38 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="UnityApp.UWP\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </None>
+    <None Include="UnityApp.UWP\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </None>
+    <None Include="UnityApp.UWP\Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnityApp.UWP\project.json" />
+    <None Include="UnityApp.UWP\Properties\AssemblyInfo.cs" />
+    <None Include="UnityApp.UWP\Windows_TemporaryKey.pfx" />
+    <None Include="UnityApp.Windows\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </None>
+    <None Include="UnityApp.Windows\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </None>
+    <None Include="UnityApp.Windows\Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnityApp.Windows\Properties\AssemblyInfo.cs" />
+    <None Include="UnityApp.Windows\Windows_TemporaryKey.pfx" />
+    <None Include="UnityApp.WinPhone\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </None>
+    <None Include="UnityApp.WinPhone\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </None>
+    <None Include="UnityApp.WinPhone\Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="UnityApp\Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </None>
@@ -83,15 +115,7 @@
     <None Include="UnityApp.Droid\MainActivity.cs" />
     <None Include="UnityApp.Droid\Properties\AssemblyInfo.cs" />
     <None Include="UnityApp.Droid\Resources\Resource.Designer.cs" />
-    <None Include="UnityApp.WinPhone\App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </None>
-    <None Include="UnityApp.WinPhone\LocalizedStrings.cs" />
-    <None Include="UnityApp.WinPhone\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </None>
     <None Include="UnityApp.WinPhone\Properties\AssemblyInfo.cs" />
-    <None Include="UnityApp.WinPhone\Resources\AppResources.Designer.cs" />
     <None Include="UnityApp.iOS\AppDelegate.cs" />
     <None Include="UnityApp.iOS\Main.cs" />
     <None Include="UnityApp.iOS\Properties\AssemblyInfo.cs" />
@@ -111,6 +135,20 @@
     </VSTemplate>
   </ItemGroup>
   <ItemGroup>
+    <None Include="UnityApp.UWP\UnityAppTemplate.UWP.csproj" />
+    <None Include="UnityApp.UWP\UnityApp.UWP.vstemplate" />
+    <None Include="UnityApp.UWP\__TemplateIcon.ico" />
+    <None Include="UnityApp.UWP\Properties\Default.rd.xml" />
+    <None Include="UnityApp.UWP\Assets\LockScreenLogo.scale-200.png" />
+    <None Include="UnityApp.UWP\Assets\SplashScreen.scale-200.png" />
+    <None Include="UnityApp.UWP\Assets\Square150x150Logo.scale-200.png" />
+    <None Include="UnityApp.UWP\Assets\Square44x44Logo.scale-200.png" />
+    <None Include="UnityApp.UWP\Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <None Include="UnityApp.UWP\Assets\StoreLogo.png" />
+    <None Include="UnityApp.UWP\Assets\Wide310x150Logo.scale-200.png" />
+    <None Include="UnityApp.Windows\UnityApp.Windows.vstemplate" />
+    <None Include="UnityApp.Windows\UnityAppTemplate.Windows.csproj" />
+    <None Include="UnityApp.Windows\__TemplateIcon.ico" />
     <None Include="UnityApp.Droid\Assets\AboutAssets.txt" />
     <None Include="UnityApp.Droid\UnityAppTemplate.Droid.csproj" />
     <None Include="UnityApp.Droid\Properties\AndroidManifest.xml" />
@@ -124,7 +162,7 @@
     <None Include="UnityApp.Droid\Resources\values-v21\styles.xml" />
     <None Include="UnityApp.Droid\Resources\values\colors.xml" />
     <None Include="UnityApp.Droid\Resources\values\styles.xml" />
-    <Content Include="UnityApp.Droid\UnityApp.Droid.vstemplate" />
+    <None Include="UnityApp.Droid\UnityApp.Droid.vstemplate" />
     <None Include="UnityApp.iOS\Entitlements.plist" />
     <None Include="UnityApp.iOS\Info.plist" />
     <None Include="UnityApp.iOS\Resources\Default%402x.png" />
@@ -143,30 +181,27 @@
     <None Include="UnityApp.iOS\Resources\Icon-Small-40.png" />
     <None Include="UnityApp.iOS\Resources\Icon-Small.png" />
     <None Include="UnityApp.Droid\__TemplateIcon.ico" />
-    <Content Include="UnityApp.iOS\UnityApp.iOS.vstemplate" />
+    <None Include="UnityApp.iOS\UnityApp.iOS.vstemplate" />
     <None Include="UnityApp.iOS\UnityAppTemplate.iOS.csproj" />
     <Content Include="UnityApp.iOS\__TemplateIcon.ico" />
-    <None Include="UnityApp.WinPhone\Assets\AlignmentGrid.png" />
-    <None Include="UnityApp.WinPhone\Assets\ApplicationIcon.png" />
-    <None Include="UnityApp.WinPhone\Assets\Tiles\FlipCycleTileLarge.png" />
-    <None Include="UnityApp.WinPhone\Assets\Tiles\FlipCycleTileMedium.png" />
-    <None Include="UnityApp.WinPhone\Assets\Tiles\FlipCycleTileSmall.png" />
-    <None Include="UnityApp.WinPhone\Assets\Tiles\IconicTileMediumLarge.png" />
-    <None Include="UnityApp.WinPhone\Assets\Tiles\IconicTileSmall.png" />
     <None Include="UnityApp.WinPhone\UnityAppTemplate.WinPhone.csproj" />
-    <None Include="UnityApp.WinPhone\Properties\AppManifest.xml" />
-    <None Include="UnityApp.WinPhone\Properties\WMAppManifest.xml" />
-    <None Include="UnityApp.WinPhone\SplashScreenImage.jpg" />
-    <Content Include="UnityApp.WinPhone\UnityApp.WinPhone.vstemplate" />
+    <None Include="UnityApp.Windows\Assets\Logo.scale-100.png" />
+    <None Include="UnityApp.Windows\Assets\SmallLogo.scale-100.png" />
+    <None Include="UnityApp.Windows\Assets\SplashScreen.scale-100.png" />
+    <None Include="UnityApp.Windows\Assets\StoreLogo.scale-100.png" />
+    <None Include="UnityApp.WinPhone\Assets\Logo.scale-240.png" />
+    <None Include="UnityApp.WinPhone\Assets\SmallLogo.scale-240.png" />
+    <None Include="UnityApp.WinPhone\Assets\SplashScreen.scale-240.png" />
+    <None Include="UnityApp.WinPhone\Assets\Square71x71Logo.scale-240.png" />
+    <None Include="UnityApp.WinPhone\Assets\StoreLogo.scale-240.png" />
+    <None Include="UnityApp.WinPhone\Assets\WideLogo.scale-240.png" />
+    <None Include="UnityApp.WinPhone\UnityApp.WinPhone.vstemplate" />
     <None Include="UnityApp\UnityAppTemplate.csproj">
       <SubType>Designer</SubType>
     </None>
     <None Include="UnityApp.WinPhone\__TemplateIcon.ico" />
-    <Content Include="UnityApp\UnityApp.vstemplate" />
+    <None Include="UnityApp\UnityApp.vstemplate" />
     <None Include="UnityApp\__TemplateIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="UnityApp.WinPhone\Resources\AppResources.resx" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -181,6 +216,26 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="UnityApp\App.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UnityApp\Views\MainPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UnityApp.UWP\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnityApp.UWP\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="UnityApp.WinPhone\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -191,13 +246,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="UnityApp\App.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    <None Include="UnityApp.Windows\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="UnityApp\Views\MainPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    <None Include="UnityApp.Windows\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

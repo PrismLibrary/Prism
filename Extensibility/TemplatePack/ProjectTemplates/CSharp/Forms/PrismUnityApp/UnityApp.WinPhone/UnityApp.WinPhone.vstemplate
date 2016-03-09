@@ -14,39 +14,25 @@
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="$safeprojectname$.csproj" File="UnityAppTemplate.WinPhone.csproj" ReplaceParameters="true">
+    <Project TargetFileName="$safeprojectname$.WinPhone.csproj" File="UnityAppTemplate.WinPhone.csproj" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="true" TargetFileName="App.xaml">App.xaml</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="App.xaml.cs">App.xaml.cs</ProjectItem>
       <Folder Name="Assets" TargetFolderName="Assets">
-        <ProjectItem ReplaceParameters="false" TargetFileName="AlignmentGrid.png">AlignmentGrid.png</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="ApplicationIcon.png">ApplicationIcon.png</ProjectItem>
-        <Folder Name="Tiles" TargetFolderName="Tiles">
-          <ProjectItem ReplaceParameters="false" TargetFileName="FlipCycleTileLarge.png">FlipCycleTileLarge.png</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="FlipCycleTileMedium.png">FlipCycleTileMedium.png</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="FlipCycleTileSmall.png">FlipCycleTileSmall.png</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="IconicTileMediumLarge.png">IconicTileMediumLarge.png</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="IconicTileSmall.png">IconicTileSmall.png</ProjectItem>
-        </Folder>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Logo.scale-240.png">Logo.scale-240.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SmallLogo.scale-240.png">SmallLogo.scale-240.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SplashScreen.scale-240.png">SplashScreen.scale-240.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Square71x71Logo.scale-240.png">Square71x71Logo.scale-240.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="StoreLogo.scale-240.png">StoreLogo.scale-240.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="WideLogo.scale-240.png">WideLogo.scale-240.png</ProjectItem>
       </Folder>
-      <ProjectItem ReplaceParameters="true" TargetFileName="LocalizedStrings.cs">LocalizedStrings.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="MainPage.xaml">MainPage.xaml</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="MainPage.xaml.cs">MainPage.xaml.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Package.appxmanifest">Package.appxmanifest</ProjectItem>
       <Folder Name="Properties" TargetFolderName="Properties">
-        <ProjectItem ReplaceParameters="true" TargetFileName="AppManifest.xml">AppManifest.xml</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="WMAppManifest.xml">WMAppManifest.xml</ProjectItem>
       </Folder>
-      <Folder Name="Resources" TargetFolderName="Resources">
-        <ProjectItem ReplaceParameters="true" TargetFileName="AppResources.resx">AppResources.resx</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="AppResources.Designer.cs">AppResources.Designer.cs</ProjectItem>
-      </Folder>
-      <ProjectItem ReplaceParameters="true" TargetFileName="SplashScreenImage.jpg">SplashScreenImage.jpg</ProjectItem>
     </Project>
   </TemplateContent>
-  <WizardExtension>
-    <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
-    <FullClassName>Xamarin.VisualStudio.TemplateWizards.WindowsPhoneChildWizard</FullClassName>
-  </WizardExtension>
   <WizardExtension>
     <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
     <FullClassName>Xamarin.VisualStudio.TemplateWizards.ExtractRootProjectNameWizard</FullClassName>
@@ -59,11 +45,10 @@
     <packages repository="extension" repositoryId="Prism.TemplatePack.138e3411-ac97-4c11-8016-c27a831cba2e">
       <package id="Xamarin.Forms" version="2.0.0.6490" />
       <package id="Prism.Core" version="6.1.0" />
-      <package id="Prism.Forms" version="6.1.0-pre2" />
-      <package id="Prism.Unity" version="6.2.0-pre2" />
+      <package id="Prism.Forms" version="6.1.0-pre3" />
+      <package id="Prism.Unity.Forms" version="6.2.0-pre3" />
       <package id="Unity" version="4.0.1" />
       <package id="CommonServiceLocator" version="1.3.0" />
-      <package id="WPtoolkit" version="4.2013.8.16" />
     </packages>
   </WizardData>
 </VSTemplate>

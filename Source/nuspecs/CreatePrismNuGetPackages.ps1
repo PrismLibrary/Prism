@@ -222,7 +222,7 @@ else
 ##  Prism.StructureMap  ###
 ###########################
 $structureMapNuspecPath = 'Prism.StructureMap.nuspec'
-$structureMapAssemblyPath = '../Wpf/Prism.StructureMap.Wpf/bin/Release-Signed/Prism.StructureMap.Wpf.dll'
+$structureMapAssemblyPath = '../Wpf/Prism.StructureMap.Wpf/bin/Release/Prism.StructureMap.Wpf.dll'
 if ((Test-Path $structureMapAssemblyPath))
 {
     $fileInfo = Get-Item $structureMapAssemblyPath

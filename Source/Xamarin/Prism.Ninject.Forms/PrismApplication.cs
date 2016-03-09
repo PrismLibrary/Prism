@@ -4,11 +4,14 @@ using Ninject.Planning.Bindings.Resolvers;
 using Prism.Common;
 using Prism.Events;
 using Prism.Logging;
+using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Ninject.Extensions;
+using Prism.Ninject.Modularity;
 using Prism.Ninject.Navigation;
 using Prism.Services;
+using System.Linq;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
 
@@ -25,6 +28,9 @@ namespace Prism.Ninject
         {
             Logger = CreateLogger();
 
+            ModuleCatalog = CreateModuleCatalog();
+            ConfigureModuleCatalog();
+
             Kernel = CreateKernel();
 
             ConfigureKernel();
@@ -32,6 +38,8 @@ namespace Prism.Ninject
             NavigationService = CreateNavigationService();
 
             RegisterTypes();
+
+            InitializeModules();
 
             OnInitialized();
         }
@@ -78,7 +86,10 @@ namespace Prism.Ninject
             Kernel.Components.Add<IMissingBindingResolver, DependencyServiceBindingResolver>();
 
             Kernel.Bind<ILoggerFacade>().ToConstant(Logger).InSingletonScope();
+            Kernel.Bind<IModuleCatalog>().ToConstant(ModuleCatalog).InSingletonScope();
 
+            Kernel.Bind<IModuleManager>().To<ModuleManager>().InSingletonScope();
+            Kernel.Bind<IModuleInitializer>().To<NinjectModuleInitializer>().InSingletonScope();
             Kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
             Kernel.Bind<IDependencyService>().To<DependencyService>().InSingletonScope();
             Kernel.Bind<IPageDialogService>().To<PageDialogService>().InSingletonScope();
@@ -87,6 +98,15 @@ namespace Prism.Ninject
         protected override INavigationService CreateNavigationService()
         {
             return Kernel.Get<NinjectNavigationService>();
+        }
+
+        protected override void InitializeModules()
+        {
+            if (ModuleCatalog.Modules.Count() > 0)
+            {
+                IModuleManager manager = Kernel.Get<IModuleManager>();
+                manager.Run();
+            }
         }
     }
 }
