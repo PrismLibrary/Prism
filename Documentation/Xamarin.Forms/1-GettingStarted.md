@@ -1,7 +1,4 @@
 #Getting started with Prism for Xamarin.Forms
-##Overview
-This guide will walk you through creating a new Xamarin.Forms project that uses Prism, running the application, and modifying it to demonstrate the basic use of Prism for Xamarin.Forms.
-
 ##Content
  - Overview
  - Prerequisites
@@ -15,9 +12,9 @@ This guide will walk you through creating a new Xamarin.Forms project that uses 
 	 - View Models overview
  - Adding a new Page (View) and ViewModel
  - Navigating to your new Page
- - IoC and Dependency injection with Unity
- - Displaying a dialog
- - Using the dependency service
+
+##Overview
+This guide will walk you through creating a new Xamarin.Forms project that uses Prism, running the application, and modifying it to demonstrate basic use of Prism for Xamarin.Forms.
 
 ##Prerequisites
 This guide assumes that you have Xamarin, Xamarin Android Player, and Visual Studio 2015 already installed along with a basic understanding of those technologies. If you do not, please take a look at the excellent resources available at [xamarin.com](xamarin.com) and [visualstudio.com](visualstudio.com).
@@ -254,7 +251,7 @@ public SpeakViewModel()
 }
 ```
 
-Creates a [DelegateCommand](https://msdn.microsoft.com/en-us/library/microsoft.practices.prism.commands.delegatecommand%28v=pandp.50%29.aspx) called `SpeakCommand` that the Speak button is bound to. The `SpeakCommand` is created in the `SpeakViewModel` constructor and will invoke the `Speak` method, which hasn't been written yet.
+Creates a [DelegateCommand](https://msdn.microsoft.com/en-us/library/microsoft.practices.prism.commands.delegatecommand%28v=pandp.50%29.aspx) called `SpeakCommand` that the Speak button is bound to. The `SpeakCommand` is created in the `SpeakViewModel` constructor and will invoke the `Speak` method, which hasn't been written yet. To be able to perform the actual text to speech platform specific APIs need to be used. This is outside the scope of this documentation, but head over to the [Dependency Service documentation](/Documentation/Xamarin.Forms/5-DependencyService.md) to see how this is done.
 
 ##Navigating to your new Page
 
@@ -310,11 +307,3 @@ private void NavigateToSpeakPage()
 The main part of what we're trying to accomplish, tells navigation service to navigate to the SpeakPage. All wired up, when the Navigate to speak page button is pressed in the view, the NavigateToSpeakPageCommand will be called on the view model, the command will execute the NavigateToSpeakPage method, and finally the Navigation Service will perform the navigation the SpeakPage.
 
 For more information on the navigation service see the [navigation service documentation](https://github.com/PrismLibrary/Prism/blob/master/Documentation/Xamarin.Forms/3-NavigationService.md)
-
-##IoC and Dependency injection with Unity
-
-##Displaying a dialog
-
-##Using the Dependency Service
-[Dependency Service documentation](https://github.com/PrismLibrary/Prism/blob/master/Documentation/Xamarin.Forms/5-DependencyService.md)
-
