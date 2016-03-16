@@ -21,9 +21,9 @@ namespace ModuleA
             _container.RegisterTypeForNavigation<ViewB>();
             _container.RegisterTypeForNavigation<ViewC>();
 
-            var masterDetail = PrismApplication.Current.MainPage as MasterDetailPage;
-            if (masterDetail != null)
-                masterDetail.Master = new MasterNavigation();
+            //var masterDetail = PrismApplication.Current.MainPage as MasterDetailPage;
+            //if (masterDetail != null)
+            //    masterDetail.Master = new MasterNavigation();
         }
     }
 }

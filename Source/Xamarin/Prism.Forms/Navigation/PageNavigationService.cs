@@ -145,12 +145,11 @@ namespace Prism.Navigation
         {
             var nextPage = CreatePageFromSegment(nextSegment);
 
-            bool useModalForDoPush = UseModalNavigation(currentPage, useModalNavigation);
-
-            await ProcessNavigation(nextPage, segments, parameters, useModalForDoPush, animated);
+            await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);            
 
             await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
+                bool useModalForDoPush = UseModalNavigation(currentPage, useModalNavigation);
                 await DoPush(currentPage, nextPage, useModalForDoPush, animated);
             });
         }
@@ -176,7 +175,7 @@ namespace Prism.Navigation
                     await currentPage.Navigation.PopToRootAsync(false);
 
                 await ProcessNavigation(currentNavRoot, segments, parameters, false, animated);
-                await DoNavigateAction(currentPage, nextSegment, currentNavRoot, parameters);
+                await DoNavigateAction(currentNavRoot, nextSegment, currentNavRoot, parameters);
                 return;
             }
             else
@@ -185,7 +184,7 @@ namespace Prism.Navigation
                 var newRoot = CreatePageFromSegment(nextSegment);
                 await ProcessNavigation(newRoot, segments, parameters, false, animated);
 
-                await DoNavigateAction(currentPage, nextSegment, newRoot, parameters, async () =>
+                await DoNavigateAction(currentNavRoot, nextSegment, newRoot, parameters, async () =>
                 {
                     await DoPush(currentPage, newRoot, false, animated);
                     currentPage.Navigation.RemovePage(currentNavRoot);
@@ -245,6 +244,18 @@ namespace Prism.Navigation
 
         async Task ProcessNavigationForMasterDetailPage(MasterDetailPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
+            if (useModalNavigation.HasValue && useModalNavigation.Value)
+            {
+                var nextPage = CreatePageFromSegment(nextSegment);
+                await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
+                await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
+                {
+                    currentPage.IsPresented = false;
+                    await DoPush(currentPage, nextPage, true, animated);                    
+                });
+                return;
+            }
+
             var detail = currentPage.Detail;
             if (detail == null)
             {
