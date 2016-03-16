@@ -30,6 +30,19 @@ namespace Prism.Tests.Events
         }
 
         [Fact]
+        public void NullTargetInActionThrowsNonGeneric()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                var actionDelegateReference = new MockDelegateReference()
+                {
+                    Target = null
+                };
+                var eventSubscription = new EventSubscription(actionDelegateReference);
+            });
+        }
+
+        [Fact]
         public void DifferentTargetTypeInActionThrows()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -51,6 +64,20 @@ namespace Prism.Tests.Events
         }
 
         [Fact]
+        public void DifferentTargetTypeInActionThrowsNonGeneric()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                var actionDelegateReference = new MockDelegateReference()
+                {
+                    Target = (Action<int>)delegate { }
+                };
+
+                var eventSubscription = new EventSubscription(actionDelegateReference);
+            });
+        }
+
+        [Fact]
         public void NullActionThrows()
         {
             Assert.Throws<ArgumentNullException>(() =>
@@ -63,6 +90,15 @@ namespace Prism.Tests.Events
                     })
                 };
                 var eventSubscription = new EventSubscription<object>(null, filterDelegateReference);
+            });
+        }
+
+        [Fact]
+        public void NullActionThrowsNonGeneric()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var eventSubscription = new EventSubscription(null);
             });
         }
 
@@ -141,6 +177,20 @@ namespace Prism.Tests.Events
         }
 
         [Fact]
+        public void CanInitEventSubscriptionNonGeneric()
+        {
+            var actionDelegateReference = new MockDelegateReference((Action)delegate { });
+            var eventSubscription = new EventSubscription(actionDelegateReference);
+
+            var subscriptionToken = new SubscriptionToken(t => { });
+
+            eventSubscription.SubscriptionToken = subscriptionToken;
+
+            Assert.Same(actionDelegateReference.Target, eventSubscription.Action);
+            Assert.Same(subscriptionToken, eventSubscription.SubscriptionToken);
+        }
+
+        [Fact]
         public void GetPublishActionReturnsDelegateThatExecutesTheFilterAndThenTheAction()
         {
             var executedDelegates = new List<string>();
@@ -148,11 +198,11 @@ namespace Prism.Tests.Events
                 new MockDelegateReference((Action<object>)delegate { executedDelegates.Add("Action"); });
 
             var filterDelegateReference = new MockDelegateReference((Predicate<object>)delegate
-                                                {
-                                                    executedDelegates.Add(
-                                                        "Filter");
-                                                    return true;
-                                                });
+            {
+                executedDelegates.Add(
+                    "Filter");
+                return true;
+            });
 
             var eventSubscription = new EventSubscription<object>(actionDelegateReference, filterDelegateReference);
 
@@ -175,6 +225,24 @@ namespace Prism.Tests.Events
             var filterDelegateReference = new MockDelegateReference((Predicate<object>)delegate { return true; });
 
             var eventSubscription = new EventSubscription<object>(actionDelegateReference, filterDelegateReference);
+
+            var publishAction = eventSubscription.GetExecutionStrategy();
+
+            Assert.NotNull(publishAction);
+
+            actionDelegateReference.Target = null;
+
+            publishAction = eventSubscription.GetExecutionStrategy();
+
+            Assert.Null(publishAction);
+        }
+
+        [Fact]
+        public void GetPublishActionReturnsNullIfActionIsNullNonGeneric()
+        {
+            var actionDelegateReference = new MockDelegateReference((Action)delegate { });
+
+            var eventSubscription = new EventSubscription(actionDelegateReference);
 
             var publishAction = eventSubscription.GetExecutionStrategy();
 
