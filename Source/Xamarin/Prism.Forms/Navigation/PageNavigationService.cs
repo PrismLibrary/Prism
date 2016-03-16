@@ -145,12 +145,11 @@ namespace Prism.Navigation
         {
             var nextPage = CreatePageFromSegment(nextSegment);
 
-            bool useModalForDoPush = UseModalNavigation(currentPage, useModalNavigation);
-
-            await ProcessNavigation(nextPage, segments, parameters, useModalForDoPush, animated);
+            await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);            
 
             await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
+                bool useModalForDoPush = UseModalNavigation(currentPage, useModalNavigation);
                 await DoPush(currentPage, nextPage, useModalForDoPush, animated);
             });
         }
