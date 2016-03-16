@@ -175,7 +175,7 @@ namespace Prism.Navigation
                     await currentPage.Navigation.PopToRootAsync(false);
 
                 await ProcessNavigation(currentNavRoot, segments, parameters, false, animated);
-                await DoNavigateAction(currentPage, nextSegment, currentNavRoot, parameters);
+                await DoNavigateAction(currentNavRoot, nextSegment, currentNavRoot, parameters);
                 return;
             }
             else
@@ -184,7 +184,7 @@ namespace Prism.Navigation
                 var newRoot = CreatePageFromSegment(nextSegment);
                 await ProcessNavigation(newRoot, segments, parameters, false, animated);
 
-                await DoNavigateAction(currentPage, nextSegment, newRoot, parameters, async () =>
+                await DoNavigateAction(currentNavRoot, nextSegment, newRoot, parameters, async () =>
                 {
                     await DoPush(currentPage, newRoot, false, animated);
                     currentPage.Navigation.RemovePage(currentNavRoot);
