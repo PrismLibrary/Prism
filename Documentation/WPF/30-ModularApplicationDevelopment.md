@@ -293,7 +293,7 @@ The following code example shows a configuration file specifying a module catalo
 <xml version="1.0" encoding="utf-8" ?>
 <configuration>
     <configSections>
-        <section name="modules" type="Prism.Modularity.ModulesConfigurationSection, Prism">
+        <section name="modules" type="Prism.Modularity.ModulesConfigurationSection, Prism.Wpf"/>
     </configSections>
     
     <modules>
