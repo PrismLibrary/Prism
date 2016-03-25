@@ -24,10 +24,19 @@ namespace Prism
         /// </summary>
         protected INavigationService NavigationService { get; set; }
 
-        public PrismApplicationBase()
+        protected PrismApplicationBase()
+        {
+            InitializeInternal();
+        }
+
+        /// <summary>
+        /// Run the initialization process
+        /// </summary>
+        private void InitializeInternal()
         {
             ConfigureViewModelLocator();
             Initialize();
+            OnInitialized();
         }
 
         /// <summary>
@@ -59,7 +68,7 @@ namespace Prism
         /// </summary>
         protected virtual void ConfigureModuleCatalog()
         {
-            
+
         }
 
         /// <summary>
