@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Prism.Events;
+using Prism.Windows.Navigation;
+using System;
 using System.ComponentModel;
 using Windows.Devices.Input;
 using Windows.Foundation.Metadata;
@@ -13,13 +15,18 @@ namespace Prism.Windows.AppModel
     /// The DeviceGestureService class is used for handling mouse, 
     /// keyboard, hardware button and other gesture events.
     /// </summary>
-    public class DeviceGestureService : IDeviceGestureService
+    public class DeviceGestureService : IDeviceGestureService, IDisposable
     {
+        private SubscriptionToken _navigationStateChangedEventToken;
+        private IEventAggregator _eventAggregator;
+
         /// <summary>
         /// 
         /// </summary>
-        public DeviceGestureService()
+        public DeviceGestureService(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
+            SubscribeToNavigationStateChanges();
             IsHardwareBackButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed");
             IsHardwareCameraButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "CameraPressed");
 
@@ -54,8 +61,8 @@ namespace Prism.Windows.AppModel
         public bool IsKeyboardPresent { get; private set; }
         public bool IsMousePresent { get; private set; }
         public bool IsTouchPresent { get; private set; }
-
         public bool UseTitleBarBackButton { get; set; }
+
 
         /// <summary>
         /// The handlers attached to GoBackRequested are invoked in reverse order
@@ -72,6 +79,14 @@ namespace Prism.Windows.AppModel
         public event EventHandler<DeviceGestureEventArgs> CameraButtonPressed;
         public event EventHandler<DeviceGestureEventArgs> CameraButtonReleased;
         public event EventHandler<MouseEventArgs> MouseMoved;
+
+        /// <summary>
+        /// Dispose implementation - unsubscribes from nav state changes
+        /// </summary>
+        public void Dispose()
+        {
+            UnsubscribeFromNavigationStateChanges();
+        }
 
         /// <summary>
         /// Invokes the handlers attached to an eventhandler.
@@ -267,6 +282,26 @@ namespace Prism.Windows.AppModel
         protected virtual void OnHardwareButtonCameraReleased(object sender, CameraEventArgs e)
         {
             RaiseEvent<DeviceGestureEventArgs>(CameraButtonReleased, this, new DeviceGestureEventArgs(false, true));
+        }
+
+        private void SubscribeToNavigationStateChanges()
+        {
+            var navigationStateChangedEvent = _eventAggregator.GetEvent<NavigationStateChangedEvent>();
+            _navigationStateChangedEventToken = navigationStateChangedEvent.Subscribe(OnNavigationStateChanged);
+        }
+
+        private void UnsubscribeFromNavigationStateChanges()
+        {
+            _eventAggregator.GetEvent<NavigationStateChangedEvent>().Unsubscribe(_navigationStateChangedEventToken);
+        }
+
+        private void OnNavigationStateChanged(NavigationStateChangedEventArgs e)
+        {
+            if (UseTitleBarBackButton && e.Sender != null)
+            {
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    e.Sender.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+            }
         }
     }
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Prism.Core</id>
+    <version>$version$</version>
+    <title>Prism 6</title>
+    <authors>Brian Lagunas, Brian Noyes</authors>
+    <owners>Brian Lagunas, Brian Noyes</owners>
+    <licenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</licenseUrl>
+    <projectUrl>http://prismlibrary.com/</projectUrl>
+    <iconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Prism is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices.  Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms; WPF, Windows 10 UWP, and Xamarin Forms. Features that need to be platform specific are implemented in the respective libraries for the target platform.</description>
+    <summary>Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable applications.</summary>
+    <releaseNotes>$releaseNotes$</releaseNotes>
+    <language>en-US</language>
+    <tags>prism wpf xamarin mvvm uwp uap xaml</tags>
+  </metadata>
+  <files>
+    <file src="..\Prism\bin\Release-Signed\Prism.*" target="lib\net45\" exclude="**\*.pdb" />
+    <file src="..\Prism\bin\Release-Signed\Prism.*" target="lib\wp8\" exclude="**\*.pdb" />
+    <file src="..\Prism\bin\Release-Signed\Prism.*" target="lib\wp81\" exclude="**\*.pdb" />
+    <file src="..\Prism\bin\Release-Signed\Prism.*" target="lib\wpa81\" exclude="**\*.pdb" />
+    <file src="..\Prism\bin\Release-Signed\Prism.*" target="lib\MonoAndroid10\" exclude="**\*.pdb" />
+    <file src="..\Prism\bin\Release-Signed\Prism.*" target="lib\MonoTouch10\" exclude="**\*.pdb" />
+    <file src="..\Prism\bin\Release-Signed\Prism.*" target="lib\Xamarin.iOS10\" exclude="**\*.pdb" />
+    <file src="..\Prism\bin\Release-Signed\Prism.*" target="lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\" exclude="**\*.pdb" />
+  </files>
+</package>

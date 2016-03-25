@@ -3,6 +3,7 @@ using Prism.Interactivity;
 using Prism.Interactivity.DefaultPopupWindows;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Wpf.Tests.Mocks;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -122,8 +123,9 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.AreSame(window.Style, style);
         }
 
-        [TestMethod]
-        public void WhenStyleIsNotForWindowIsSet_WindowShouldNotHaveTheStyle()
+        [TestMethod]      
+        [ExpectedException(typeof(InvalidOperationException))]  
+        public void WhenStyleIsNotForWindowIsSet_InvalidOperationExceptionIsThrown()
         {
             TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
             Style style = new Style(typeof(StackPanel));
@@ -134,9 +136,23 @@ namespace Prism.Wpf.Tests.Interactivity
             notification.Content = "Content";
 
             Window window = popupWindowAction.GetWindow(notification);
-
-            Assert.AreNotSame(window.Style, style);
         }
+
+        [TestMethod]
+        public void WhenStartupLocationForWindowIsSet_ChildWindowHasProperty()
+        {
+            TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
+            popupWindowAction.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            INotification notification = new Notification();
+            notification.Title = "Title";
+            notification.Content = "Content";
+
+            Window window = popupWindowAction.GetWindow(notification);
+
+            Assert.AreEqual(window.WindowStartupLocation, WindowStartupLocation.CenterScreen);
+        }
+
     }
 
     public class TestablePopupWindowAction : PopupWindowAction

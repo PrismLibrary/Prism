@@ -19,10 +19,10 @@ namespace Prism.Windows.AppModel
     /// carry across sessions, but that should be discarded when an application crashes or is
     /// upgraded.
     /// </summary>
-        public class SessionStateService : ISessionStateService
+    public class SessionStateService : ISessionStateService
     {
         private Dictionary<string, object> _sessionState = new Dictionary<string, object>();
-        private List<Type> _knownTypes = new List<Type>();
+        private readonly List<Type> _knownTypes = new List<Type>();
 
         /// <summary>
         /// Provides access to global session state for the current session. This state is

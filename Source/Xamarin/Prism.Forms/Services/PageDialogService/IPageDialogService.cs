@@ -2,6 +2,9 @@
 
 namespace Prism.Services
 {
+    /// <summary>
+    /// A service which provides access to the DisplayAlert and DisplayActionSheet off of the Xamarin.Forms.Page class.
+    /// </summary>
     public interface IPageDialogService
     {
         /// <summary>

@@ -24,8 +24,11 @@ namespace Prism.Modularity
                     Type moduleType,
                     params string[] dependsOn)
         {
-            if (moduleType == null) throw new ArgumentNullException("moduleType");
-            if (moduleInfoGroup == null) throw new ArgumentNullException("moduleInfoGroup");
+            if (moduleType == null)
+                throw new ArgumentNullException(nameof(moduleType));
+
+            if (moduleInfoGroup == null)
+                throw new ArgumentNullException(nameof(moduleInfoGroup));
 
             ModuleInfo moduleInfo = new ModuleInfo(moduleName, moduleType.AssemblyQualifiedName);
             moduleInfo.DependsOn.AddRange(dependsOn);
@@ -46,7 +49,9 @@ namespace Prism.Modularity
                     Type moduleType,
                     params string[] dependsOn)
         {
-            if (moduleType == null) throw new ArgumentNullException("moduleType");
+            if (moduleType == null)
+                throw new ArgumentNullException(nameof(moduleType));
+
             return AddModule(moduleInfoGroup, moduleType.Name, moduleType, dependsOn);
         }
     }

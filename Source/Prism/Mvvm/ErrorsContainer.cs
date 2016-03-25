@@ -28,7 +28,7 @@ namespace Prism.Mvvm
         {
             if (raiseErrorsChanged == null)
             {
-                throw new ArgumentNullException("raiseErrorsChanged");
+                throw new ArgumentNullException(nameof(raiseErrorsChanged));
             }
 
             this.raiseErrorsChanged = raiseErrorsChanged;

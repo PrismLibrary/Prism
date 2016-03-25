@@ -24,7 +24,7 @@ namespace Prism.Mef.Modularity
         {
             if (moduleType == null)
             {
-                throw new ArgumentNullException("moduleType");
+                throw new ArgumentNullException(nameof(moduleType));
             }
 
             this.ModuleName = moduleType.Name;
@@ -63,6 +63,7 @@ namespace Prism.Mef.Modularity
         /// <summary>
         /// Gets or sets the contract names of modules this module depends upon.
         /// </summary>
+        [CLSCompliant(false)] // Arrays as attribute arguments is not CLS-compliant.
         [DefaultValue(new string[0])]
         public string[] DependsOnModuleNames { get; set; }
 

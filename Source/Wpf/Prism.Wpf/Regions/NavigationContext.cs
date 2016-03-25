@@ -64,8 +64,7 @@ namespace Prism.Regions
             {
                 foreach (KeyValuePair<string, object> navigationParameter in navigationParameters)
                 {
-                    if (!Parameters.ContainsKey(navigationParameter.Key))
-                        Parameters.Add(navigationParameter.Key, navigationParameter.Value);
+                    this.Parameters.Add(navigationParameter.Key, navigationParameter.Value);
                 }
             }
         }

@@ -1,7 +1,6 @@
-
-
-using System.Windows.Controls.Primitives;
 using Prism.Regions.Behaviors;
+using System;
+using System.Windows.Controls.Primitives;
 
 namespace Prism.Regions
 {
@@ -42,7 +41,9 @@ namespace Prism.Regions
         /// </remarks>
         protected override void AttachBehaviors(IRegion region, Selector regionTarget)
         {
-            if (region == null) throw new System.ArgumentNullException("region");
+            if (region == null)
+                throw new ArgumentNullException(nameof(region));
+
             // Add the behavior that syncs the items source items with the rest of the items
             region.Behaviors.Add(SelectorItemsSourceSyncBehavior.BehaviorKey, new SelectorItemsSourceSyncBehavior()
                                                                                   {

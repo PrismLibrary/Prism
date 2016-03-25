@@ -1,5 +1,7 @@
+using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -7,20 +9,27 @@ using Windows.UI.Xaml.Navigation;
 namespace Prism.Windows.Navigation
 {
     /// <summary>
-    /// Abstracts the Windows.UI.Xaml.Controls.Frame object for use by apps that derive from the PrismApplication class.
+    /// Abstracts the <see cref="Frame"/> object for use by apps that derive from the <see cref="PrismApplication"/> class.
     /// </summary>
     public class FrameFacadeAdapter : IFrameFacade
     {
         private readonly Frame _frame;
+        private readonly NavigationStateChangedEvent _navigationStateChangedEvent;
         private readonly List<EventHandler<NavigatedToEventArgs>> _navigatedToEventHandlers = new List<EventHandler<NavigatedToEventArgs>>();
         private readonly List<EventHandler<NavigatingFromEventArgs>> _navigatingFromEventHandlers = new List<EventHandler<NavigatingFromEventArgs>>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameFacadeAdapter"/> class.
         /// </summary>
-        /// <param name="frame">The Frame that will be wrapped.</param>
-        public FrameFacadeAdapter(Frame frame)
+        /// <param name="frame">The <see cref="Frame"/> that will be wrapped.</param>
+        /// <param name="eventAggregator">The event aggregator to be used for publishing a <see cref="NavigationStateChangedEvent"/>. Can be null if events aren't needed.</param>
+        public FrameFacadeAdapter(Frame frame, IEventAggregator eventAggregator = null)
         {
+            if (eventAggregator != null)
+            {
+                _navigationStateChangedEvent = eventAggregator.GetEvent<NavigationStateChangedEvent>();
+            }
+
             _frame = frame;
         }
 
@@ -43,6 +52,7 @@ namespace Prism.Windows.Navigation
         public void GoBack()
         {
             _frame.GoBack();
+            _navigationStateChangedEvent?.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Back));
         }
 
         /// <returns>
@@ -61,6 +71,7 @@ namespace Prism.Windows.Navigation
         public void SetNavigationState(string navigationState)
         {
             _frame.SetNavigationState(navigationState);
+            _navigationStateChangedEvent?.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Set));
         }
 
         /// <summary>
@@ -74,7 +85,14 @@ namespace Prism.Windows.Navigation
         {
             try
             {
-                return _frame.Navigate(sourcePageType, parameter);
+                var success = _frame.Navigate(sourcePageType, parameter);
+
+                if (success)
+                {
+                    _navigationStateChangedEvent?.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Forward));
+                }
+
+                return success;
             }
             catch
             {
@@ -94,7 +112,7 @@ namespace Prism.Windows.Navigation
             get { return _frame.BackStackDepth; }
         }
 
-        public IList<PageStackEntry> BackStack => _frame.BackStack;
+        public IReadOnlyList<PageStackEntry> BackStack => _frame.BackStack.ToList();
 
         /// <summary>
         /// Gets a value that indicates whether there is at least one entry in back navigation history.
@@ -114,6 +132,7 @@ namespace Prism.Windows.Navigation
         public void GoForward()
         {
             _frame.GoForward();
+            _navigationStateChangedEvent?.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Forward));
         }
 
         /// <summary>
@@ -125,6 +144,32 @@ namespace Prism.Windows.Navigation
         public bool CanGoForward()
         {
             return _frame.CanGoForward;
+        }
+
+        /// <summary>
+        /// Remove a <see cref="PageStackEntry"/> from the Frame's back stack.
+        /// </summary>
+        /// <param name="entry">The <see cref="PageStackEntry"/> to remove.</param>
+        /// <returns>True if item was successfully removed from the back stack; otherwise, false. This method also returns false if item is not found in the back stack.</returns>
+        public bool RemoveBackStackEntry(PageStackEntry entry)
+        {
+            var success = _frame.BackStack.Remove(entry);
+            if (success)
+            {
+                _navigationStateChangedEvent?.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Remove));
+            }
+            
+            return success;
+        }
+
+        /// <summary>
+        /// Clears the Frame's back stack.
+        /// </summary>
+        /// <returns></returns>
+        public void ClearBackStack()
+        {
+            _frame.BackStack.Clear();
+            _navigationStateChangedEvent?.Publish(new NavigationStateChangedEventArgs(this, StateChangeType.Clear));
         }
 
         /// <summary>
@@ -184,20 +229,20 @@ namespace Prism.Windows.Navigation
         }
 
         /// <summary>
-        /// Returns the current effective value of a dependency property from a DependencyObject.
+        /// Returns the current effective value of a dependency property from a <see cref="DependencyObject"/>.
         /// </summary>
         ///
         /// <returns>
         /// Returns the current effective value.
         /// </returns>
-        /// <param name="dependencyProperty">The DependencyProperty identifier of the property for which to retrieve the value.</param>
+        /// <param name="dependencyProperty">The <see cref="DependencyProperty"/> identifier of the property for which to retrieve the value.</param>
         public object GetValue(DependencyProperty dependencyProperty)
         {
             return _frame.GetValue(dependencyProperty);
         }
 
         /// <summary>
-        /// Sets the local value of a dependency property on a DependencyObject.
+        /// Sets the local value of a dependency property on a <see cref="DependencyObject"/>.
         /// </summary>
         /// <param name="dependencyProperty">The identifier of the dependency property to set.</param><param name="value">The new local value.</param>
         public void SetValue(DependencyProperty dependencyProperty, object value)
@@ -208,7 +253,7 @@ namespace Prism.Windows.Navigation
         /// <summary>
         /// Clears the local value of a dependency property.
         /// </summary>
-        /// <param name="dependencyProperty">The DependencyProperty identifier of the property for which to clear the value.</param>
+        /// <param name="dependencyProperty">The <see cref="DependencyProperty"/> identifier of the property for which to clear the value.</param>
         public void ClearValue(DependencyProperty dependencyProperty)
         {
             _frame.ClearValue(dependencyProperty);

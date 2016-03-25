@@ -1,16 +1,16 @@
 
 
+using Prism.Logging;
+using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Prism.Logging;
-using Prism.Properties;
 
 namespace Prism.Modularity
 {
     /// <summary>
-    /// Component responsible for coordinating the modules' type loading and module initialization process. 
+    /// Component responsible for coordinating the modules' type loading and module initialization process.
     /// </summary>
     public partial class ModuleManager : IModuleManager, IDisposable
     {
@@ -29,19 +29,13 @@ namespace Prism.Modularity
         public ModuleManager(IModuleInitializer moduleInitializer, IModuleCatalog moduleCatalog, ILoggerFacade loggerFacade)
         {
             if (moduleInitializer == null)
-            {
-                throw new ArgumentNullException("moduleInitializer");
-            }
+                throw new ArgumentNullException(nameof(moduleInitializer));
 
             if (moduleCatalog == null)
-            {
-                throw new ArgumentNullException("moduleCatalog");
-            }
+                throw new ArgumentNullException(nameof(moduleCatalog));
 
             if (loggerFacade == null)
-            {
-                throw new ArgumentNullException("loggerFacade");
-            }
+                throw new ArgumentNullException(nameof(loggerFacade));
 
             this.moduleInitializer = moduleInitializer;
             this.moduleCatalog = moduleCatalog;
@@ -123,12 +117,13 @@ namespace Prism.Modularity
         /// <returns></returns>
         protected virtual bool ModuleNeedsRetrieval(ModuleInfo moduleInfo)
         {
-            if (moduleInfo == null) throw new ArgumentNullException("moduleInfo");
+            if (moduleInfo == null)
+                throw new ArgumentNullException(nameof(moduleInfo));
 
             if (moduleInfo.State == ModuleState.NotStarted)
             {
-                // If we can instantiate the type, that means the module's assembly is already loaded into 
-                // the AppDomain and we don't need to retrieve it. 
+                // If we can instantiate the type, that means the module's assembly is already loaded into
+                // the AppDomain and we don't need to retrieve it.
                 bool isAvailable = Type.GetType(moduleInfo.ModuleType) != null;
                 if (isAvailable)
                 {
@@ -198,7 +193,7 @@ namespace Prism.Modularity
                     }
                 }
             }
-        }        
+        }
 
         private void BeginRetrievingModule(ModuleInfo moduleInfo)
         {
@@ -252,7 +247,7 @@ namespace Prism.Modularity
         /// <summary>
         /// Handles any exception occurred in the module typeloading process,
         /// logs the error using the <see cref="ILoggerFacade"/> and throws a <see cref="ModuleTypeLoadingException"/>.
-        /// This method can be overridden to provide a different behavior. 
+        /// This method can be overridden to provide a different behavior.
         /// </summary>
         /// <param name="moduleInfo">The module metadata where the error happenened.</param>
         /// <param name="exception">The exception thrown that is the cause of the current error.</param>
@@ -260,7 +255,8 @@ namespace Prism.Modularity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]
         protected virtual void HandleModuleTypeLoadingError(ModuleInfo moduleInfo, Exception exception)
         {
-            if (moduleInfo == null) throw new ArgumentNullException("moduleInfo");
+            if (moduleInfo == null)
+                throw new ArgumentNullException(nameof(moduleInfo));
 
             ModuleTypeLoadingException moduleTypeLoadingException = exception as ModuleTypeLoadingException;
 

@@ -138,7 +138,10 @@ publish/
 
 # NuGet
 .nuget/
-project.lock.json
+nuget.exe
+*.nuget.props
+*.nuget.targets
+*.lock.json
 
 # NuGet Packages
 *.nupkg
@@ -192,3 +195,10 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+# Security
+*.pfx
+*.snk
+
+# Allow demo temporary keys
+!*_TemporaryKey.pfx

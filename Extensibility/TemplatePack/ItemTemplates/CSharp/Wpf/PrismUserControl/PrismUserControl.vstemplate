@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Prism UserControl (WPF)</Name>
+    <Description>Creates a WPF UserControl with Prism ViewModelLocator</Description>
+    <Icon>PrismUserControl.ico</Icon>
+    <TemplateID>d1a42fff-3c41-4bb8-bbe0-1ba7a06ee55b</TemplateID>
+    <ProjectType>CSharp</ProjectType>
+    <RequiredFrameworkVersion>4.5</RequiredFrameworkVersion>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>PrismUserControl.xaml</DefaultName>
+    <SortOrder>20</SortOrder>
+  </TemplateData>
+  <TemplateContent>
+    
+    <ProjectItem SubType="Designer" TargetFileName="$fileinputname$.xaml" ReplaceParameters="true">PrismUserControl.xaml</ProjectItem>
+    <ProjectItem SubType="Code" TargetFileName="$fileinputname$.xaml.cs" ReplaceParameters="true">PrismUserControl.xaml.cs</ProjectItem>
+    
+  </TemplateContent>
+</VSTemplate>
