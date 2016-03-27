@@ -30,7 +30,7 @@ namespace Prism
         }
 
         /// <summary>
-        /// Runt the intialization process.
+        /// Run the intialization process.
         /// </summary>
         private void InitializeInternal()
         {
