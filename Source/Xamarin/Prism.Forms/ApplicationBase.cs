@@ -1,11 +1,17 @@
 ﻿using Prism.Logging;
 using Prism.Modularity;
 using Prism.Navigation;
+#if !TEST
 using Xamarin.Forms;
+#endif
 
 namespace Prism
 {
+#if !TEST
     public abstract class PrismApplicationBase : Application
+#else
+    public abstract class PrismApplicationBase
+#endif
     {
         /// <summary>
         /// Gets the <see cref="ILoggerFacade"/> for the application.
@@ -59,7 +65,7 @@ namespace Prism
         /// </summary>
         protected virtual void ConfigureModuleCatalog()
         {
-            
+
         }
 
         /// <summary>
