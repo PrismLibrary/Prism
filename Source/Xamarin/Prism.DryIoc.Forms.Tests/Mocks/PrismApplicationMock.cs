@@ -1,7 +1,9 @@
 using DryIoc;
+using Prism.DryIoc.Forms.Tests.Mocks.ViewModels;
+using Prism.DryIoc.Forms.Tests.Mocks.Views;
 using Prism.DryIoc.Forms.Tests.Services;
 
-namespace Prism.DryIoc.Forms.Tests
+namespace Prism.DryIoc.Forms.Tests.Mocks
 {
     public class PrismApplicationMock : PrismApplication
     {
@@ -15,6 +17,10 @@ namespace Prism.DryIoc.Forms.Tests
         protected override void RegisterTypes()
         {
             Container.Register<IDryIocServiceMock, DryIocServiceMock>();
+            Container.RegisterTypeForNavigation<ViewMock>("view");
+            Container.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
+            Container.Register<ViewModelAMock>();
+            Container.Register<ViewModelBMock>(serviceKey: ViewModelBMock.Key);
         }
     }
 }

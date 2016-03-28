@@ -29,8 +29,8 @@ namespace Prism.DryIoc
             ConfigureModuleCatalog();
 
             Container = CreateContainer();
-            ConfigureContainer();
             NavigationService = CreateNavigationService();
+            ConfigureContainer();
 
             RegisterTypes();
 
