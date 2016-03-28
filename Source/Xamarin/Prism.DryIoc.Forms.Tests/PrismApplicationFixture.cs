@@ -4,7 +4,6 @@ using DryIoc;
 using Prism.Common;
 using Prism.DryIoc.Forms.Tests.Mocks;
 using Prism.DryIoc.Forms.Tests.Mocks.ViewModels;
-using Prism.DryIoc.Forms.Tests.Mocks.Views;
 using Prism.DryIoc.Forms.Tests.Services;
 using Prism.DryIoc.Navigation;
 using Prism.Navigation;
@@ -46,7 +45,7 @@ namespace Prism.DryIoc.Forms.Tests
         }
 
         [Fact]
-        public void NavigationService()
+        public void Container_ResolveNavigationService()
         {
             var app = new PrismApplicationMock();
             var navigationService = app.Container.Resolve<INavigationService>();
@@ -60,7 +59,7 @@ namespace Prism.DryIoc.Forms.Tests
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
             await navigationService.Navigate<ViewModelAMock>();
-            var page = ((IPageAware)navigationService).Page;
+            var page = ((IPageAware) navigationService).Page;
             Assert.NotNull(page);
             Assert.IsType<ContentPage>(page);
         }
@@ -71,10 +70,9 @@ namespace Prism.DryIoc.Forms.Tests
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
             await navigationService.Navigate("view");
-            var page = ((IPageAware)navigationService).Page;
+            var page = ((IPageAware) navigationService).Page;
             Assert.NotNull(page);
             Assert.IsType<ContentPage>(page);
-
         }
 
         [Fact]
@@ -95,10 +93,10 @@ namespace Prism.DryIoc.Forms.Tests
             Assert.IsType<ViewModelBMock>(viewModel);
         }
 
-        public INavigationService ResolveAndSetRootPage(PrismApplicationMock app)
+        private INavigationService ResolveAndSetRootPage(PrismApplicationMock app)
         {
             var navigationService = app.Container.Resolve<INavigationService>();
-            ((IPageAware)navigationService).Page = new ContentPage();
+            ((IPageAware) navigationService).Page = new ContentPage();
             return navigationService;
         }
     }
