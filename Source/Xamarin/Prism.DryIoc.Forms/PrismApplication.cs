@@ -94,7 +94,7 @@ namespace Prism.DryIoc
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navigationService = Container.Resolve<DryIocPageNavigationService>();
+                    var navigationService = Container.Resolve<INavigationService>();
                     ((IPageAware)navigationService).Page = page;
                 }
                 return Container.Resolve(type);

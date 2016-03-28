@@ -21,6 +21,7 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
             Container.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
             Container.Register<ViewModelAMock>();
             Container.Register<ViewModelBMock>(serviceKey: ViewModelBMock.Key);
+            Container.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
         }
     }
 }
