@@ -59,9 +59,11 @@
   <ItemGroup>
     <Compile Include="Mocks\PrismApplicationMock.cs" />
     <Compile Include="Mocks\ViewModels\AutowireViewModel.cs" />
+    <Compile Include="Mocks\ViewModels\ConstructorArgumentViewModel.cs" />
     <Compile Include="Mocks\ViewModels\ViewModelAMock.cs" />
     <Compile Include="Mocks\ViewModels\ViewModelBMock.cs" />
     <Compile Include="Mocks\Views\AutowireView.cs" />
+    <Compile Include="Mocks\Views\ConstructorArgumentView.cs" />
     <Compile Include="Mocks\Views\ViewMock.cs" />
     <Compile Include="Mocks\Views\ViewAMock.cs" />
     <Compile Include="PrismApplicationFixture.cs" />

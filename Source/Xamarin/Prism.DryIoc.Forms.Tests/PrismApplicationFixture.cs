@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using DryIoc;
 using Prism.Common;
@@ -60,6 +61,29 @@ namespace Prism.DryIoc.Forms.Tests
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
             await navigationService.Navigate<ViewModelAMock>();
+        }
+
+        [Fact]
+        public async Task Navigate_View_ConstructorArguments()
+        {
+            var app = new PrismApplicationMock();
+            var navigationService = ResolveAndSetRootPage(app);
+            await navigationService.Navigate<ConstructorArgumentViewModel>();
+            var page = ((IPageAware)navigationService).Page;
+            Assert.NotNull(page);
+            var view = (ConstructorArgumentView)page;
+            Assert.NotNull(view.Service);
+            var vm = (ConstructorArgumentViewModel)view.BindingContext;
+            Assert.NotNull(vm.Service);
+        }
+
+        [Fact]
+        public async Task Navigate_UnregisteredView_ThrowInvalidOperationException()
+        {
+            var app = new PrismApplicationMock();
+            var navigationService = ResolveAndSetRootPage(app);
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () => await navigationService.Navigate("missing"));
+            Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
         [Fact]
