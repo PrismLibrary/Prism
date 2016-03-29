@@ -1,17 +1,17 @@
 #Getting started with Prism for Xamarin.Forms
 ##Content
- - Overview
- - Prerequisites
- - Background
+ - [Overview](#overview)
+ - [Prerequisites](#prerequisites)
+ - [Background](#background)
 	 - Xamarin.Forms
 	 - MVVM
- - Creating a new solution
+ - [Creating a new solution](#creating-a-new-solution)
 	 - Installing and using the Prism Template Pack
 	 - Running the app
 	 - Views overview
 	 - View Models overview
- - Adding a new Page (View) and ViewModel
- - Navigating to your new Page
+ - [Adding a new Page (View) and ViewModel](#adding-a-new-page-view-and-viewmodel)
+ - [Navigating to your new Page](#navigating-to-your-new-page)
 
 ##Overview
 This guide will walk you through creating a new Xamarin.Forms project that uses Prism, running the application, and modifying it to demonstrate basic use of Prism for Xamarin.Forms.
