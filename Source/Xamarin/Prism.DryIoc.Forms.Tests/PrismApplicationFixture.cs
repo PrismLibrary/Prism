@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using DryIoc;
 using Prism.Common;
 using Prism.DryIoc.Forms.Tests.Mocks;
+using Prism.DryIoc.Forms.Tests.Mocks.Modules;
+using Prism.DryIoc.Forms.Tests.Mocks.Services;
 using Prism.DryIoc.Forms.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Forms.Tests.Mocks.Views;
-using Prism.DryIoc.Forms.Tests.Services;
 using Prism.DryIoc.Navigation;
+using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
 using Xunit;
@@ -75,6 +77,15 @@ namespace Prism.DryIoc.Forms.Tests
             Assert.NotNull(view.Service);
             var vm = (ConstructorArgumentViewModel)view.BindingContext;
             Assert.NotNull(vm.Service);
+        }
+
+        [Fact]
+        public void Module_Initialize()
+        {
+            var app = new PrismApplicationMock();
+            var module = app.Container.Resolve<ModuleMock>();
+            Assert.NotNull(module);
+            Assert.True(module.Initialized);
         }
 
         [Fact]

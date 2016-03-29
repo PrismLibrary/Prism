@@ -1,7 +1,8 @@
-﻿using Prism.DryIoc.Forms.Tests.Services;
+﻿using Prism.DryIoc.Forms.Tests.Mocks.Services;
+
 [assembly: Xamarin.Forms.Dependency(typeof(IDependencyServiceMock))]
 
-namespace Prism.DryIoc.Forms.Tests.Services
+namespace Prism.DryIoc.Forms.Tests.Mocks.Services
 {
 
     public class DependencyServiceMock : IDependencyServiceMock

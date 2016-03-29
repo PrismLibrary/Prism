@@ -1,7 +1,9 @@
 using DryIoc;
+using Prism.DryIoc.Forms.Tests.Mocks.Modules;
+using Prism.DryIoc.Forms.Tests.Mocks.Services;
 using Prism.DryIoc.Forms.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Forms.Tests.Mocks.Views;
-using Prism.DryIoc.Forms.Tests.Services;
+using Prism.Modularity;
 
 namespace Prism.DryIoc.Forms.Tests.Mocks
 {
@@ -14,6 +16,16 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
             Initialized = true;
         }
 
+        protected override void ConfigureModuleCatalog()
+        {
+            ModuleCatalog.AddModule(new ModuleInfo()
+            {
+                InitializationMode = InitializationMode.WhenAvailable,
+                ModuleName = "ModuleMock",
+                ModuleType = typeof(ModuleMock)
+            });
+        }
+
         protected override void RegisterTypes()
         {
             Container.Register<IDryIocServiceMock, DryIocServiceMock>();
@@ -24,6 +36,7 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
             Container.Register<ConstructorArgumentViewModel>();
             Container.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
             Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
+            Container.Register<ModuleMock>(Reuse.Singleton);
         }
     }
 }

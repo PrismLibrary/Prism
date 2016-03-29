@@ -1,4 +1,4 @@
-﻿using Prism.DryIoc.Forms.Tests.Services;
+﻿using Prism.DryIoc.Forms.Tests.Mocks.Services;
 using Prism.Mvvm;
 using Xamarin.Forms;
 
