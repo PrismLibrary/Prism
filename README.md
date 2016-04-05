@@ -47,7 +47,7 @@ Following matrix shows the platform specific support currently available.
 
 | Package               | WPF | Win10 UWP | Xamarin.Forms |
 |-----------------------|:---:|:---:|:---:|
-| [Prism.Unity][5]      |  X  |  X  |  X  |
+| [Prism.Unity][5]      |  X  |  X  |  [X][10]  |
 | [Prism.Mef][6]        |  X  |     |     |
 | [Prism.Autofac][7]    |  X  |  X  |     |
 | [Prism.StructureMap][8]| X  |     |     |
@@ -113,3 +113,4 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [7]: https://www.nuget.org/packages/Prism.Autofac/
 [8]: https://www.nuget.org/packages/Prism.StructureMap/
 [9]: https://www.nuget.org/packages/Prism.Ninject/
+[10]: https://www.nuget.org/packages/Prism.Unity.Forms/
