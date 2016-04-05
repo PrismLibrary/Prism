@@ -47,7 +47,7 @@ Following matrix shows the platform specific support currently available.
 
 | Package               | WPF | Win10 UWP | Xamarin.Forms |
 |-----------------------|:---:|:---:|:---:|
-| [Prism.Unity][5]      |  X  |  X  |  X  |
+| [Prism.Unity][5]      |  X  |  X  |  [X][10]  |
 | [Prism.Mef][6]        |  X  |     |     |
 | [Prism.Autofac][7]    |  X  |  X  |     |
 | [Prism.StructureMap][8]| X  |     |     |
@@ -60,7 +60,7 @@ Note that adding the container-specific package to your project, will also pull 
 A detailed overview of each assembly per package is available [here](Documentation/DownloadandSetupPrism.md#overview-of-assemblies).
 
 # Prism Template Pack
-Get the latest snippets, item templates, and projects templates for dveloping WPF, UWP, and Xamarin.Forms applications with Prism from the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/e7b6bde2-ba59-43dd-9d14-58409940ffa0).
+Get the latest snippets, item templates, and projects templates for developing WPF, UWP, and Xamarin.Forms applications with Prism from the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/e7b6bde2-ba59-43dd-9d14-58409940ffa0).
 
 # Samples
 We have both a development sandbox (frequently changing) and stable samples for using Prism with WPF, UWP and Xamarin Forms. An overview of the samples can be found [here](Sandbox/README.md).
@@ -113,3 +113,4 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [7]: https://www.nuget.org/packages/Prism.Autofac/
 [8]: https://www.nuget.org/packages/Prism.StructureMap/
 [9]: https://www.nuget.org/packages/Prism.Ninject/
+[10]: https://www.nuget.org/packages/Prism.Unity.Forms/

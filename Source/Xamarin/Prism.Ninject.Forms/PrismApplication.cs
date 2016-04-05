@@ -40,8 +40,6 @@ namespace Prism.Ninject
             RegisterTypes();
 
             InitializeModules();
-
-            OnInitialized();
         }
 
         /// <inheritDoc />
