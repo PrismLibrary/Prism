@@ -32,11 +32,9 @@ namespace Prism.Unity
 
             NavigationService = CreateNavigationService();
 
-            RegisterTypes();            
+            RegisterTypes();
 
             InitializeModules();
-
-            OnInitialized();
         }
 
         protected override void ConfigureViewModelLocator()
@@ -89,7 +87,7 @@ namespace Prism.Unity
         {
             if (ModuleCatalog.Modules.Count() > 0)
             {
-                IModuleManager manager  = Container.Resolve<IModuleManager>();
+                IModuleManager manager = Container.Resolve<IModuleManager>();
                 manager.Run();
             }
         }
