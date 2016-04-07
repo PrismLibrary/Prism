@@ -1,14 +1,25 @@
+using System;
 using DryIoc;
 using Prism.DryIoc.Forms.Tests.Mocks.Modules;
 using Prism.DryIoc.Forms.Tests.Mocks.Services;
 using Prism.DryIoc.Forms.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Forms.Tests.Mocks.Views;
 using Prism.Modularity;
+using Xamarin.Forms;
 
 namespace Prism.DryIoc.Forms.Tests.Mocks
 {
     public class PrismApplicationMock : PrismApplication
     {
+        public PrismApplicationMock()
+        {
+        }
+
+        public PrismApplicationMock(Page startPage)
+        {
+            Current.MainPage = startPage;
+        }
+
         public bool Initialized { get; private set; }
 
         protected override void OnInitialized()
@@ -18,7 +29,7 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
 
         protected override void ConfigureModuleCatalog()
         {
-            ModuleCatalog.AddModule(new ModuleInfo()
+            ModuleCatalog.AddModule(new ModuleInfo
             {
                 InitializationMode = InitializationMode.WhenAvailable,
                 ModuleName = "ModuleMock",

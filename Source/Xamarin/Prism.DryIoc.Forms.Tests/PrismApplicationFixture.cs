@@ -9,10 +9,12 @@ using Prism.DryIoc.Forms.Tests.Mocks.Services;
 using Prism.DryIoc.Forms.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Forms.Tests.Mocks.Views;
 using Prism.DryIoc.Navigation;
-using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
 using Xunit;
+#if TEST
+using Application = Prism.FormsApplication;
+#endif
 
 namespace Prism.DryIoc.Forms.Tests
 {
@@ -23,6 +25,16 @@ namespace Prism.DryIoc.Forms.Tests
         {
             var app = new PrismApplicationMock();
             Assert.True(app.Initialized);
+        }
+
+        [Fact]
+        public void OnInitialized_SetPage()
+        {
+            var view = new ViewMock();
+            var app = new PrismApplicationMock(view);
+            Assert.True(app.Initialized);
+            Assert.NotNull(Application.Current.MainPage);
+            Assert.Same(view, Application.Current.MainPage);
         }
 
         [Fact]

@@ -4,6 +4,11 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+#if TEST
+using Application = Prism.FormsApplication;
+#else
+using Application = Xamarin.Forms.Application;
+#endif
 
 namespace Prism.Navigation
 {
@@ -145,7 +150,7 @@ namespace Prism.Navigation
         {
             var nextPage = CreatePageFromSegment(nextSegment);
 
-            await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);            
+            await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
 
             await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
@@ -251,7 +256,7 @@ namespace Prism.Navigation
                 await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
                 {
                     currentPage.IsPresented = false;
-                    await DoPush(currentPage, nextPage, true, animated);                    
+                    await DoPush(currentPage, nextPage, true, animated);
                 });
                 return;
             }
@@ -403,7 +408,7 @@ namespace Prism.Navigation
             return stackCount - 1;
         }
 
-        async static Task DoPush(Page currentPage, Page page, bool useModalNavigation, bool animated)
+        static async Task DoPush(Page currentPage, Page page, bool useModalNavigation, bool animated)
         {
             if (page == null)
                 return;
@@ -522,9 +527,9 @@ namespace Prism.Navigation
             return navParameters;
         }
 
-        Page GetCurrentPage()
+        private Page GetCurrentPage()
         {
-            return _page != null ? _page : Application.Current.MainPage;
+            return _page ?? Application.Current.MainPage;
         }
 
         public void Dispose()

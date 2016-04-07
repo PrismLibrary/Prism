@@ -67,6 +67,7 @@
     <Compile Include="Common\PageNavigationInfo.cs" />
     <Compile Include="Common\PageNavigationRegistry.cs" />
     <Compile Include="Common\UriParsingHelper.cs" />
+    <Compile Include="FormsApplication.cs" />
     <Compile Include="Modularity\IModule.cs" />
     <Compile Include="Modularity\IModuleCatalog.cs" />
     <Compile Include="Modularity\IModuleInitializer.cs" />

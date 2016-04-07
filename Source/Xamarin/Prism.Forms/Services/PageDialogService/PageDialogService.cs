@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Forms;
+#if TEST
+using Application = Prism.FormsApplication;
+#else
+using Application = Xamarin.Forms.Application;
+#endif
 
 namespace Prism.Services
 {
