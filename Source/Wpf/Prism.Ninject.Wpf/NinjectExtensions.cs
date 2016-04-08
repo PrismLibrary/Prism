@@ -1,5 +1,6 @@
 ﻿using System;
 using Ninject;
+using Ninject.Modules;
 using Ninject.Parameters;
 
 namespace Prism.Ninject
@@ -39,6 +40,15 @@ namespace Prism.Ninject
             {
                 binding.InTransientScope();
             }
+        }
+        public static void RegisterTypeForNavigation<T>(this NinjectModule ninjectModule)
+        {
+            ninjectModule.Bind<object>().To<T>().Named(typeof(T).Name);
+        }
+
+        public static void RegisterTypeForNavigation<T>(this IKernel kernel)
+        {
+            kernel.Bind<object>().To<T>().Named(typeof(T).Name);
         }
     }
 }
