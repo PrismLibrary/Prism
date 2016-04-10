@@ -1,5 +1,4 @@
-﻿using Microsoft.Practices.ServiceLocation;
-using Ninject;
+﻿using Ninject;
 using Ninject.Parameters;
 using Ninject.Planning.Bindings.Resolvers;
 using Prism.Common;
@@ -8,7 +7,9 @@ using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Ninject.Extensions;
+using Prism.Ninject.Navigation;
 using Prism.Services;
+using System;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
 
@@ -17,6 +18,7 @@ namespace Prism.Ninject
     /// <summary>
     /// A Ninject specific bootstrap class
     /// </summary>
+    [Obsolete("Please have your App.cs derive from PrismApplication instead.")]
     public abstract class NinjectBootstrapper : Bootstrapper
     {
         /// <summary>
@@ -33,11 +35,20 @@ namespace Prism.Ninject
             Kernel = CreateKernel();
 
             ConfigureKernel();
-            ConfigureServiceLocator();
+
+            NavigationService = CreateNavigationService();
+
             RegisterTypes();
 
-            App.MainPage = CreateMainPage();
+            //****** Obsolete ******//
+            var page = CreateMainPage();
+            if (page != null)
+                App.MainPage = page;
+
             InitializeMainPage();
+            //**********************//
+
+            OnInitialized();
         }
 
         /// <inheritDoc />
@@ -50,7 +61,7 @@ namespace Prism.Ninject
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navService = new PageNavigationService();
+                    var navService = Kernel.Get<NinjectNavigationService>();
                     ((IPageAware)navService).Page = page;
 
                     overrides = new IParameter[]
@@ -64,6 +75,7 @@ namespace Prism.Ninject
         }
 
         /// <inheritDoc />
+        [Obsolete]
         protected virtual void InitializeMainPage()
         {
         }
@@ -89,15 +101,13 @@ namespace Prism.Ninject
             Kernel.Bind<ILoggerFacade>().ToConstant(Logger).InSingletonScope();
 
             Kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
-            Kernel.Bind<IServiceLocator>().To<NinjectServiceLocatorAdapter>().InSingletonScope();
             Kernel.Bind<IDependencyService>().To<DependencyService>().InSingletonScope();
             Kernel.Bind<IPageDialogService>().To<PageDialogService>().InSingletonScope();
         }
 
-        /// <inheritDoc />
-        protected override void ConfigureServiceLocator()
+        protected override INavigationService CreateNavigationService()
         {
-            ServiceLocator.SetLocatorProvider(() => this.Kernel.Get<IServiceLocator>());
+            return Kernel.Get<NinjectNavigationService>();
         }
     }
 }

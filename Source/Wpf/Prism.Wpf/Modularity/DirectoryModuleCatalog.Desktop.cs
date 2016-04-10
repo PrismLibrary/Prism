@@ -1,5 +1,6 @@
 
 
+using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Policy;
-using Prism.Properties;
 
 namespace Prism.Modularity
 {
@@ -20,7 +20,7 @@ namespace Prism.Modularity
     /// <see cref="IModule"/> and add them to the catalog based on contents in their associated <see cref="ModuleAttribute"/>.
     /// Assemblies are loaded into a new application domain with ReflectionOnlyLoad.  The application domain is destroyed
     /// once the assemblies have been discovered.
-    /// 
+    ///
     /// The diretory catalog does not continue to monitor the directory after it has created the initialze catalog.
     /// </remarks>
     public class DirectoryModuleCatalog : ModuleCatalog
@@ -84,16 +84,17 @@ namespace Prism.Modularity
         /// <remarks>
         /// Grabs the <paramref name="parentDomain"/> evidence and uses it to construct the new
         /// <see cref="AppDomain"/> because in a ClickOnce execution environment, creating an
-        /// <see cref="AppDomain"/> will by default pick up the partial trust environment of 
-        /// the AppLaunch.exe, which was the root executable. The AppLaunch.exe does a 
-        /// create domain and applies the evidence from the ClickOnce manifests to 
-        /// create the domain that the application is actually executing in. This will 
+        /// <see cref="AppDomain"/> will by default pick up the partial trust environment of
+        /// the AppLaunch.exe, which was the root executable. The AppLaunch.exe does a
+        /// create domain and applies the evidence from the ClickOnce manifests to
+        /// create the domain that the application is actually executing in. This will
         /// need to be Full Trust for Prism applications.
         /// </remarks>
         /// <exception cref="ArgumentNullException">An <see cref="ArgumentNullException"/> is thrown if <paramref name="parentDomain"/> is null.</exception>
         protected virtual AppDomain BuildChildDomain(AppDomain parentDomain)
         {
-            if (parentDomain == null) throw new System.ArgumentNullException("parentDomain");
+            if (parentDomain == null)
+                throw new ArgumentNullException(nameof(parentDomain));
 
             Evidence evidence = new Evidence(parentDomain.Evidence);
             AppDomainSetup setup = parentDomain.SetupInformation;
@@ -135,7 +136,7 @@ namespace Prism.Modularity
                                        assembly =>
                                        String.Compare(Path.GetFileName(assembly.Location), file.Name,
                                                       StringComparison.OrdinalIgnoreCase) == 0) == null);
-                
+
                 foreach (FileInfo fileInfo in fileInfos)
                 {
                     try
@@ -217,7 +218,7 @@ namespace Prism.Modularity
                             case "StartupLoaded":
                                 onDemand = !((bool) argument.TypedValue.Value);
                                 break;
-                        }                           
+                        }
                     }
                 }
 

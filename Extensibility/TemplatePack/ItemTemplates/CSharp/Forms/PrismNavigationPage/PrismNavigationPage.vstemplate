@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Prism NavigationPage (Forms)</Name>
+    <Description>Creates a Xamarin.Forms NavigationPage with Prism ViewModelLocator</Description>
+    <Icon>PrismNavigationPage.ico</Icon>
+    <TemplateID>57383ffc-2f32-4b59-b6e3-209d869cdeee</TemplateID>
+    <ProjectType>CSharp</ProjectType>
+    <AppliesTo>CSharp + MultiTarget</AppliesTo>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>PrismNavigationPage.xaml</DefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ItemType="EmbeddedResource" CustomTool="MSBuild:UpdateDesignTimeXaml" TargetFileName="$fileinputname$.xaml" ReplaceParameters="true">PrismNavigationPage.xaml</ProjectItem>
+    <ProjectItem SubType="Code" TargetFileName="$fileinputname$.xaml.cs" ReplaceParameters="true">PrismNavigationPage.xaml.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

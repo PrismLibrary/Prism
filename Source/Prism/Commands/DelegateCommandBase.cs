@@ -33,7 +33,7 @@ namespace Prism.Commands
         protected DelegateCommandBase(Action<object> executeMethod, Func<object, bool> canExecuteMethod)
         {
             if (executeMethod == null || canExecuteMethod == null)
-                throw new ArgumentNullException("executeMethod", Resources.DelegateCommandDelegatesCannotBeNull);
+                throw new ArgumentNullException(nameof(executeMethod), Resources.DelegateCommandDelegatesCannotBeNull);
 
             _executeMethod = (arg) => { executeMethod(arg); return Task.Delay(0); };
             _canExecuteMethod = canExecuteMethod;
@@ -47,7 +47,7 @@ namespace Prism.Commands
         protected DelegateCommandBase(Func<object, Task> executeMethod, Func<object, bool> canExecuteMethod)
         {
             if (executeMethod == null || canExecuteMethod == null)
-                throw new ArgumentNullException("executeMethod", Resources.DelegateCommandDelegatesCannotBeNull);
+                throw new ArgumentNullException(nameof(executeMethod), Resources.DelegateCommandDelegatesCannotBeNull);
 
             _executeMethod = executeMethod;
             _canExecuteMethod = canExecuteMethod;
@@ -59,7 +59,7 @@ namespace Prism.Commands
         public virtual event EventHandler CanExecuteChanged;
 
         /// <summary>
-        /// Raises <see cref="ICommand.CanExecuteChanged"/> on the UI thread so every 
+        /// Raises <see cref="ICommand.CanExecuteChanged"/> so every 
         /// command invoker can requery <see cref="ICommand.CanExecute"/>.
         /// </summary>
         protected virtual void OnCanExecuteChanged()
@@ -72,7 +72,7 @@ namespace Prism.Commands
         }
 
         /// <summary>
-        /// Raises <see cref="DelegateCommandBase.CanExecuteChanged"/> on the UI thread so every command invoker
+        /// Raises <see cref="DelegateCommandBase.CanExecuteChanged"/> so every command invoker
         /// can requery to check if the command can execute.
         /// <remarks>Note that this will trigger the execution of <see cref="DelegateCommandBase.CanExecute"/> once for each invoker.</remarks>
         /// </summary>
@@ -96,7 +96,7 @@ namespace Prism.Commands
         /// Executes the command with the provided parameter by invoking the <see cref="Action{Object}"/> supplied during construction.
         /// </summary>
         /// <param name="parameter"></param>
-        protected async Task Execute(object parameter)
+		protected virtual async Task Execute(object parameter)
         {
             await _executeMethod(parameter);
         }
@@ -106,7 +106,7 @@ namespace Prism.Commands
         /// </summary>
         /// <param name="parameter">The parameter to use when determining if this command can execute.</param>
         /// <returns>Returns <see langword="true"/> if the command can execute.  <see langword="False"/> otherwise.</returns>
-        protected bool CanExecute(object parameter)
+        protected virtual bool CanExecute(object parameter)
         {
             return _canExecuteMethod(parameter);
         }

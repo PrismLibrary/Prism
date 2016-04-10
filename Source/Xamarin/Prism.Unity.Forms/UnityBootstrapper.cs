@@ -1,4 +1,4 @@
-﻿using Microsoft.Practices.ServiceLocation;
+﻿using System;
 using Microsoft.Practices.Unity;
 using Prism.Common;
 using Prism.Events;
@@ -7,11 +7,13 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using Prism.Unity.Extensions;
+using Prism.Unity.Navigation;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
 
 namespace Prism.Unity
 {
+    [Obsolete("Please have your App.cs derive from PrismApplication instead.")]
     public abstract class UnityBootstrapper : Bootstrapper
     {
         public IUnityContainer Container { get; protected set; }
@@ -23,11 +25,20 @@ namespace Prism.Unity
             Container = CreateContainer();
 
             ConfigureContainer();
-            ConfigureServiceLocator();
+
+            NavigationService = CreateNavigationService();
+
             RegisterTypes();
 
-            App.MainPage = CreateMainPage();
+            //****** Obsolete ******//
+            var page = CreateMainPage();
+            if (page != null)
+                App.MainPage = page;
+
             InitializeMainPage();
+            //**********************//
+
+            OnInitialized();
         }
 
         protected override void ConfigureViewModelLocator()
@@ -39,7 +50,7 @@ namespace Prism.Unity
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navService = new PageNavigationService();
+                    var navService = Container.Resolve<UnityPageNavigationService>();
                     ((IPageAware)navService).Page = page;
 
                     overrides = new ParameterOverrides
@@ -52,6 +63,7 @@ namespace Prism.Unity
             });
         }
 
+        [Obsolete]
         protected virtual void InitializeMainPage()
         {
         }
@@ -61,6 +73,11 @@ namespace Prism.Unity
             return new UnityContainer();
         }
 
+        protected override INavigationService CreateNavigationService()
+        {
+            return Container.Resolve<UnityPageNavigationService>();
+        }
+
         protected virtual void ConfigureContainer()
         {
             Container.AddNewExtension<DependencyServiceExtension>();
@@ -68,14 +85,8 @@ namespace Prism.Unity
             Container.RegisterInstance<ILoggerFacade>(Logger);
 
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IServiceLocator, UnityServiceLocatorAdapter>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDependencyService, DependencyService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IPageDialogService, PageDialogService>(new ContainerControlledLifetimeManager());
-        }
-
-        protected override void ConfigureServiceLocator()
-        {
-            ServiceLocator.SetLocatorProvider(() => this.Container.Resolve<IServiceLocator>());
         }
     }
 }

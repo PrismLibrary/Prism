@@ -27,7 +27,8 @@ namespace Prism.Modularity
         /// <exception cref="ArgumentNullException">An <see cref="ArgumentNullException"/> is thrown if <paramref name="dependsOn"/> is <see langword="null"/>.</exception>
         public ModuleInfo(string name, string type, params string[] dependsOn)
         {
-            if (dependsOn == null) throw new System.ArgumentNullException("dependsOn");
+            if (dependsOn == null)
+                throw new ArgumentNullException(nameof(dependsOn));
 
             this.ModuleName = name;
             this.ModuleType = type;

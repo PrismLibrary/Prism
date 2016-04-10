@@ -176,37 +176,3 @@ public class ContactPageViewModel : IConfirmNavigation
   }
 }
 ```
-## Wrapping the Target in a NavigationPage
-When navigating to a view, sometimes it is necessary to wrap the target view into a different page type such as a Xamarin.Forms.NavigationPage.  To support this scenario, Prism provides the **INavigationPageProvider** and **NavigationPageProviderAttribute**.
-
-Start by creating a new class that implements the **INavigationPageProvider** interface.  You will have access to both the source Xamarin.Forms.Page, as well as the target Xamarin.Forms.Page that are part of the navigation operation.
-
-```
-public class ViewANavigationPageProvider : INavigationPageProvider
-{
-    public Page CreatePageForNavigation(Page sourcePage, Page targetPage)
-    {
-        NavigationPage.SetHasNavigationBar(targetPage, true);
-        NavigationPage.SetBackButtonTitle(targetPage, "Go Back Sucka");
-        NavigationPage.SetHasBackButton(targetPage, true);
-
-        var newPage = new NavigationPage(targetPage);
-        newPage.BarBackgroundColor = Color.Green;
-        newPage.BarTextColor = Color.White;
-        return newPage;
-    }
-}
-```
-
-Next, attribute the target Xamarin.Forms.Page class with the **NavigationPageProviderAttribute** and provide the type of the class that implements the **INavigationPageProvider** interface.
-```
-[NavigationPageProvider(typeof(ViewANavigationPageProvider))]
-public partial class ViewA : ContentPage
-{
-    public ViewA()
-    {
-        InitializeComponent();
-    }
-}
-```
-To see this feature in action, check out the [NavigationPageProvider sample](https://github.com/PrismLibrary/Prism-Samples-Forms/tree/master/UsingNavPageProvider).

@@ -39,7 +39,7 @@ namespace Prism.Unity.Regions
         protected override IEnumerable<object> GetCandidatesFromRegion(IRegion region, string candidateNavigationContract)
         {
             if (candidateNavigationContract == null || candidateNavigationContract.Equals(string.Empty))
-                throw new ArgumentNullException("candidateNavigationContract");
+                throw new ArgumentNullException(nameof(candidateNavigationContract));
 
             IEnumerable<object> contractCandidates = base.GetCandidatesFromRegion(region, candidateNavigationContract);
 
