@@ -309,6 +309,13 @@ namespace Prism.Windows
         protected virtual ISessionStateService OnCreateSessionStateService() => null;
 
         /// <summary>
+        /// Override this method to provide custom logic that determines whether the app should restore state from a previous session.
+        /// By default, the app will only restore state when args.PreviousExecutionState is <see cref="ApplicationExecutionState"/>.Terminated.
+        /// </summary>
+        /// <returns>True if the app should restore state. False if the app should perform a fresh launch.</returns>
+        protected virtual bool ShouldRestoreState(IActivatedEventArgs args) => args.PreviousExecutionState == ApplicationExecutionState.Terminated;
+
+        /// <summary>
         /// Initializes the Frame and its content.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
@@ -350,14 +357,15 @@ namespace Prism.Windows
             ConfigureViewModelLocator();
 
             OnRegisterKnownTypesForSerialization();
-            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+            bool shouldRestore = ShouldRestoreState(args);
+            if (shouldRestore)
             {
                 await SessionStateService.RestoreSessionStateAsync();
             }
 
             await OnInitializeAsync(args);
 
-            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+            if (shouldRestore)
             {
                 // Restore the saved session state and navigate to the last page visited
                 try
@@ -375,7 +383,7 @@ namespace Prism.Windows
 
             return rootFrame;
         }
-
+        
         /// <summary>
         /// Handling the forward navigation request from the <see cref="IDeviceGestureService"/>
         /// </summary>
