@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="Prism.TemplatePack.138e3411-ac97-4c11-8016-c27a831cba2e" Version="1.4" Language="en-US" Publisher="Brian Lagunas" />
+    <DisplayName>Prism Template Pack</DisplayName>
+    <Description xml:space="preserve">Snippets, Items Templates, and Project Templates for use in Prism application development.</Description>
+    <MoreInfo>https://github.com/PrismLibrary</MoreInfo>
+    <License>license.txt</License>
+    <Icon>Images\prism-logo-32.jpg</Icon>
+    <PreviewImage>Images\prism-logo-200.jpg</PreviewImage>
+    <Tags>prism</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Community" />
+    <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Pro" />
+    <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Enterprise" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="File" Path="Snippets\snippets.pkgdef" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismUserControl" d:TargetPath="|PrismUserControl;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismViewModel" d:TargetPath="|PrismViewModel;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismWindow" d:TargetPath="|PrismWindow;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismContentPage" d:TargetPath="|PrismContentPage;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismTabbedPage" d:TargetPath="|PrismTabbedPage;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismNavigationPage" d:TargetPath="|PrismNavigationPage;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismMasterDetailPage" d:TargetPath="|PrismMasterDetailPage;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismCarouselPage" d:TargetPath="|PrismCarouselPage;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp" d:TargetPath="|PrismUnityApp;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\prism.unity.6.2.0-pre3.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="Nuget.Package" d:Source="File" Path="Packages\prism.core.6.1.0.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="Nuget.Package" d:Source="File" d:VsixSubPath="Packages" Path="Packages\Prism.Forms.6.1.0-pre4.nupkg" />
+    <Asset Type="Nuget.Package" d:Source="File" d:VsixSubPath="Packages" Path="Packages\Forms\xamarin.forms.2.2.0.4-pre1.nupkg" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\commonservicelocator.1.3.0.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\unity.4.0.1.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.design.23.1.1.1.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v4.23.1.1.1.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.appcompat.23.1.1.1.nupkg" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.cardview.23.1.1.1.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.mediarouter.23.1.1.1.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismModule" d:TargetPath="|PrismModule;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp.Wpf" d:TargetPath="|PrismUnityApp.Wpf;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="ConfigModuleEditor" Path="|ConfigModuleEditor;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Prism.VisualStudio.Wizards" Path="|Prism.VisualStudio.Wizards|" AssemblyName="|Prism.VisualStudio.Wizards;AssemblyName|" />
+    <Asset Type="Nuget.Package" d:Source="File" Path="Packages\Prism.Unity.Forms.6.2.0-pre4.nupkg" />
+    <Asset Type="Nuget.Package" d:Source="File" Path="Packages\prism.wpf.6.1.1-pre2.nupkg" />
+    <Asset Type="Nuget.Package" d:Source="File" Path="Packages\Android\xamarin.googleplayservices.appindexing.29.0.0.1.nupkg" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.recyclerview.23.1.1.1.nupkg" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.googleplayservices.base.29.0.0.1.nupkg" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.googleplayservices.basement.29.0.0.1.nupkg" />
+  </Assets>
+</PackageManifest>

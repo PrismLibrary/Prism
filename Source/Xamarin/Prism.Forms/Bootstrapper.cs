@@ -1,4 +1,6 @@
 ﻿using Prism.Logging;
+using Prism.Navigation;
+using System;
 using Xamarin.Forms;
 
 namespace Prism
@@ -9,6 +11,7 @@ namespace Prism
     /// <remarks>
     /// This class must be overridden to provide application specific configuration.
     /// </remarks>
+    [Obsolete("Please have your App.cs derive from PrismApplication instead.")]
     public abstract class Bootstrapper
     {
         /// <summary>
@@ -21,6 +24,11 @@ namespace Prism
         /// </summary>
         /// <value>A <see cref="ILoggerFacade"/> instance.</value>
         protected ILoggerFacade Logger { get; set; }
+
+        /// <summary>
+        /// Gets the <see cref="INavigationService"/> for the application.
+        /// </summary>
+        protected INavigationService NavigationService { get; set; }
 
         /// <summary>
         /// Runs the bootstrapper process.
@@ -53,7 +61,14 @@ namespace Prism
         /// Creates the root <see cref="Xamarin.Forms.Page"/> for the application.
         /// </summary>
         /// <returns>The <see cref="Xamarin.Forms.Page"/></returns>
-        protected abstract Page CreateMainPage();
+        [Obsolete]
+        protected virtual Page CreateMainPage() => null;
+
+        /// <summary>
+        /// Creates the <see cref="INavigationService"/> for the application.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract INavigationService CreateNavigationService();
 
         /// <summary>
         /// Configures the <see cref="Prism.Mvvm.ViewModelLocator"/> used by Prism.
@@ -61,9 +76,9 @@ namespace Prism
         protected abstract void ConfigureViewModelLocator();
 
         /// <summary>
-        /// Configures the LocatorProvider for the <see cref="Microsoft.Practices.ServiceLocation.ServiceLocator" />.
+        /// Called when the bootstrapper has completed it's initialization process.
         /// </summary>
-        protected abstract void ConfigureServiceLocator();
+        protected abstract void OnInitialized();
 
         /// <summary>
         /// Used to register types with the container that will be used by your application.

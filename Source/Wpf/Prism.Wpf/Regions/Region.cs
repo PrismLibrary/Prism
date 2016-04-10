@@ -1,5 +1,7 @@
 
 
+using Microsoft.Practices.ServiceLocation;
+using Prism.Properties;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,8 +9,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
-using Prism.Properties;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Prism.Regions
 {
@@ -43,7 +43,7 @@ namespace Prism.Regions
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Gets the collection of <see cref="IRegionBehavior"/>s that can extend the behavior of regions. 
+        /// Gets the collection of <see cref="IRegionBehavior"/>s that can extend the behavior of regions.
         /// </summary>
         public IRegionBehaviorCollection Behaviors { get; private set; }
 
@@ -280,7 +280,18 @@ namespace Prism.Regions
         }
 
         /// <summary>
-        /// Marks the specified view as active. 
+        /// Removes all views from the region.
+        /// </summary>
+        public void RemoveAll()
+        {
+            foreach (var view in Views)
+            {
+                Remove(view);
+            }
+        }
+
+        /// <summary>
+        /// Marks the specified view as active.
         /// </summary>
         /// <param name="view">The view to activate.</param>
         public virtual void Activate(object view)
@@ -294,7 +305,7 @@ namespace Prism.Regions
         }
 
         /// <summary>
-        /// Marks the specified view as inactive. 
+        /// Marks the specified view as inactive.
         /// </summary>
         /// <param name="view">The view to deactivate.</param>
         public virtual void Deactivate(object view)
@@ -380,15 +391,12 @@ namespace Prism.Regions
         private ItemMetadata GetItemMetadataOrThrow(object view)
         {
             if (view == null)
-            {
-                throw new ArgumentNullException("view");
-            }
+                throw new ArgumentNullException(nameof(view));
 
             ItemMetadata itemMetadata = this.ItemMetadataCollection.FirstOrDefault(x => x.Item == view);
+
             if (itemMetadata == null)
-            {
-                throw new ArgumentException(Resources.ViewNotInRegionException, "view");
-            }
+                throw new ArgumentException(Resources.ViewNotInRegionException, nameof(view));
 
             return itemMetadata;
         }

@@ -1,9 +1,6 @@
 ﻿using Prism.Navigation;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Prism.Common
 {
@@ -12,43 +9,57 @@ namespace Prism.Common
     /// </summary>
     public static class UriParsingHelper
     {
-        /// <summary>
-        /// Gets the query part of <paramref name="uri"/>.
-        /// </summary>
-        /// <param name="uri">The Uri.</param>
-        public static string GetQuery(Uri uri)
+        public static Queue<string> GetUriSegments(Uri uri)
         {
-            return EnsureAbsolute(uri).Query;
+            Queue<string> segmentStack = new Queue<string>();
+            string[] segments;
+
+            if (!uri.IsAbsoluteUri)
+                segments = EnsureAbsolute(uri).PathAndQuery.Split('/');
+            else
+                segments = uri.PathAndQuery.Split('/');
+
+            for (int i = 0; i < segments.Length; i++)
+            {
+                var s = segments[i];
+                if (string.IsNullOrEmpty(s))
+                    continue;
+
+                s = Uri.UnescapeDataString(s);
+                segmentStack.Enqueue(s);
+            }
+
+
+            return segmentStack;
         }
 
-        /// <summary>
-        /// Gets the AbsolutePath part of <paramref name="uri"/>.
-        /// </summary>
-        /// <param name="uri">The Uri.</param>
-        public static string GetAbsolutePath(Uri uri)
+        public static string GetSegmentName(string segment)
         {
-            return EnsureAbsolute(uri).AbsolutePath;
+            return segment.Split('?')[0];
         }
 
-        /// <summary>
-        /// Parses the query of <paramref name="uri"/> into a dictionary.
-        /// </summary>
-        /// <param name="uri">The URI.</param>
-        public static NavigationParameters ParseQuery(Uri uri)
+        public static NavigationParameters GetSegmentParameters(string segment)
         {
-            var query = GetQuery(uri);
+            string query = string.Empty;
+
+            if (!String.IsNullOrWhiteSpace(segment))
+            {
+                var indexOfQuery = segment.IndexOf('?');
+                if (indexOfQuery > 0)
+                    query = segment.Substring(indexOfQuery);
+            }
 
             return new NavigationParameters(query);
         }
 
-        private static Uri EnsureAbsolute(Uri uri)
+        public static Uri EnsureAbsolute(Uri uri)
         {
             if (uri.IsAbsoluteUri)
             {
                 return uri;
             }
 
-            if ((uri != null) && !uri.OriginalString.StartsWith("/", StringComparison.Ordinal))
+            if (!uri.OriginalString.StartsWith("/", StringComparison.Ordinal))
             {
                 return new Uri("http://localhost/" + uri, UriKind.Absolute);
             }

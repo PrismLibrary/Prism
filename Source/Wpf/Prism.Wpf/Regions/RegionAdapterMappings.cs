@@ -1,9 +1,9 @@
 
 
+using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Prism.Properties;
 
 namespace Prism.Regions
 {
@@ -24,20 +24,14 @@ namespace Prism.Regions
         public void RegisterMapping(Type controlType, IRegionAdapter adapter)
         {
             if (controlType == null)
-            {
-                throw new ArgumentNullException("controlType");
-            }
+                throw new ArgumentNullException(nameof(controlType));
 
             if (adapter == null)
-            {
-                throw new ArgumentNullException("adapter");
-            }
+                throw new ArgumentNullException(nameof(adapter));
 
             if (mappings.ContainsKey(controlType))
-            {
                 throw new InvalidOperationException(String.Format(CultureInfo.CurrentCulture,
                                                                   Resources.MappingExistsException, controlType.Name));
-            }
 
             mappings.Add(controlType, adapter);
         }

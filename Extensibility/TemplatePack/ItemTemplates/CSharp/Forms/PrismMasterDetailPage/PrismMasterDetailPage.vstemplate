@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Prism MasterDetailPage (Forms)</Name>
+    <Description>Creates a Xamarin.Forms MasterDetailPage with Prism ViewModelLocator</Description>
+    <Icon>PrismMasterDetailPage.ico</Icon>
+    <TemplateID>3ca4fa2d-810f-45ae-aa14-69e1cb7f855e</TemplateID>
+    <ProjectType>CSharp</ProjectType>
+    <AppliesTo>CSharp + MultiTarget</AppliesTo>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>PrismMasterDetailPage.xaml</DefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ItemType="EmbeddedResource" CustomTool="MSBuild:UpdateDesignTimeXaml" TargetFileName="$fileinputname$.xaml" ReplaceParameters="true">PrismMasterDetailPage.xaml</ProjectItem>
+    <ProjectItem SubType="Code" TargetFileName="$fileinputname$.xaml.cs" ReplaceParameters="true">PrismMasterDetailPage.xaml.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

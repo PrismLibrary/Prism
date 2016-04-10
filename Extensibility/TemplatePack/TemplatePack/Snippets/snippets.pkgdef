@@ -1,0 +1,7 @@
+﻿// C#
+[$RootKey$\Languages\CodeExpansions\CSharp\Paths]
+"Prism"="$PackageFolder$\CSharp\Prism\"
+
+// Visual Basic
+[$RootKey$\Languages\CodeExpansions\Basic\Paths]
+"Prism"="$PackageFolder$\VisualBasic\Prism\"

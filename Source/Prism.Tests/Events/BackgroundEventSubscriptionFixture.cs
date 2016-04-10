@@ -32,7 +32,34 @@ namespace Prism.Tests.Events
             publishAction.Invoke(null);
 
             completeEvent.WaitOne(5000);
-            
+
+            Assert.NotEqual(SynchronizationContext.Current, calledSyncContext);
+        }
+
+        [Fact]
+        public void ShouldReceiveDelegateOnDifferentThreadNonGeneric()
+        {
+            var completeEvent = new ManualResetEvent(false);
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+            SynchronizationContext calledSyncContext = null;
+            Action action = delegate
+            {
+                calledSyncContext = SynchronizationContext.Current;
+                completeEvent.Set();
+            };
+
+            IDelegateReference actionDelegateReference = new MockDelegateReference() { Target = action };
+
+            var eventSubscription = new BackgroundEventSubscription(actionDelegateReference);
+
+            var publishAction = eventSubscription.GetExecutionStrategy();
+
+            Assert.NotNull(publishAction);
+
+            publishAction.Invoke(null);
+
+            completeEvent.WaitOne(5000);
+
             Assert.NotEqual(SynchronizationContext.Current, calledSyncContext);
         }
     }
