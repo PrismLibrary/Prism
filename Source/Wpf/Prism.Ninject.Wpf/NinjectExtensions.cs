@@ -41,14 +41,29 @@ namespace Prism.Ninject
                 binding.InTransientScope();
             }
         }
-        public static void RegisterTypeForNavigation<T>(this NinjectModule ninjectModule)
+
+        /// <summary>
+        /// Registers an object for navigation.
+        /// </summary>
+        /// <typeparam name="T">The Type of the object to register</typeparam>
+        /// <param name="name">The unique name to register with the object.</param>
+        public static void RegisterTypeForNavigation<T>(this NinjectModule ninjectModule, string name = null)
         {
-            ninjectModule.Bind<object>().To<T>().Named(typeof(T).Name);
+            Type type = typeof(T);
+            string viewName = string.IsNullOrWhiteSpace(name) ? type.Name : name;
+            ninjectModule.Bind<object>().To<T>().Named(viewName);
         }
 
-        public static void RegisterTypeForNavigation<T>(this IKernel kernel)
+        /// <summary>
+        /// Registers an object for navigation.
+        /// </summary>
+        /// <typeparam name="T">The Type of the object to register</typeparam>
+        /// <param name="name">The unique name to register with the object.</param>
+        public static void RegisterTypeForNavigation<T>(this IKernel kernel, string name = null)
         {
-            kernel.Bind<object>().To<T>().Named(typeof(T).Name);
+            Type type = typeof(T);
+            string viewName = string.IsNullOrWhiteSpace(name) ? type.Name : name;
+            kernel.Bind<object>().To<T>().Named(viewName);
         }
     }
 }
