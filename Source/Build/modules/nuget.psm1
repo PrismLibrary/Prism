@@ -1,23 +1,21 @@
 $rootFolder = Split-Path -parent $Script:MyInvocation.MyCommand.Definition
-$nuget
 
 Import-Module $(Join-Path $rootFolder 'common.psm1')
 
 function Setup-Nuget
 {
 	$nugetPath = Join-Path "${env:APPDATA}" 'NuGet'
-    $env:nugetPath = $nugetPath
-	if(-not (Test-Path $nugetPath)) 
+    if(-not (Test-Path $nugetPath)) 
 	{
 		Create-Folder $nugetPath
 	}
 	$nugetExe = Join-Path $nugetPath 'nuget.exe'
 	if(-not (Test-Path $nugetExe)) 
 	{
-		Write-Host "Downloading nuget.exe to '$nugetPath' ..."
-		Invoke-WebRequest 'http://nuget.org/nuget.exe' -OutFile $nugetExe
+        $url = 'https://dist.nuget.org/win-x86-commandline/latest/nuget.exe'
+		Write-Host "Downloading nuget.exe from '$url' to '$nugetPath' ..."
+		Invoke-WebRequest $url -OutFile $nugetExe
 	}
-	$nuget = $nugetExe
     $nugetExe
 }
 
@@ -39,9 +37,23 @@ function Pack-Nuget([string]$nuspec, [string]$outDir,[string]$properties)
 	& $nuget $params
 }
 
+function Restore-Nuget([string]$solution)
+{
+    & $nuget restore $solution
+}
+
 function Publish-Nugets ([string]$nupkgPath)
 {
-   $key = Get-Content $(Join-Path $env:nugetPath 'key.txt')
+   $keyPath = Join-Path $env:nugetPath 'key.txt'
+   if(-not (Test-Path $keyPath))
+   {
+        Write-Host "No API key found at '$keyPath'"
+        $key = Read-Host "Enter API key: "    
+   }
+    else
+   {
+        $key = Get-Content $(Join-Path $env:nugetPath 'key.txt')
+    }
    pushd $nupkgPath
    dir "*.nupkg" | % {
         Upload-Nuget $_.Name $key
@@ -75,4 +87,4 @@ function Upload-Nuget ([string]$package, [string]$key)
 
 $nuget = Setup-Nuget
 
-Export-ModuleMember Pack-Nuget, Upload-Nuget, Publish-Nugets
+Export-ModuleMember Pack-Nuget, Upload-Nuget, Publish-Nugets, Restore-Nuget

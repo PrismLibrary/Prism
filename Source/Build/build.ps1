@@ -29,20 +29,22 @@ function Clean
     if(Test-Path $nupkgFolder)
     {
         Write-Info "Remove directory $nupkgFolder"
-        del -Force -Recurse $nupkgFolder
+        rm -r $nupkgFolder -Force
     }
     if(Test-Path $binFolder)
     {
         Write-Info "Remove directory $binFolder"
-        del -Force -Recurse $binFolder
+        rm -r $binFolder -Force
     }
 }
 
-function Get-ProductVersion
+function Get-ProductVersion ([string]$assemblyPath)
 {
-	param(
-		[string]$assemblyPath
-	)
+    if(-not (Test-Path $assemblyPath))
+    {
+        Write-Warning "Could not find file '$assemblyPath'"
+        return
+    }
 	(Get-Item $assemblyPath).VersionInfo.ProductVersion
 }
 
@@ -85,13 +87,25 @@ function Run-Tests
 }
 
 function Pack-Nugets {
-    $version = '6.1.0'
-    $formsVersion = '6.1.0'
+    # TODO(joacar) How to resolve properties for packing differente nuspec fils
+      
+    $wpfVersion = Get-ProductVersion $(Join-Path $binFolder 'Prism.Wpf.dll')
+    $formsVersion = Get-ProductVersion $(Join-Path $binFolder 'Prism.Forms.dll')
+    $coreVersion = Get-ProductVersion $(Join-Path $binFolder 'Prism.dll')
     pushd $nuspecs
     dir "*.nuspec" | % {
-        # TODO(joacar) How to resolve properties for packing differente nuspec fils
-        $coreVersion = Get-ProductVersion $(Join-Path $binFolder 'Prism.Forms.dll')
-        Pack-Nuget $_.FullName $nupkgFolder "version=$version;coreVersion=$coreVersion;formsVersion=$formsVersion;bin=$binFolder;releaseNotes=$releaseNotes"
+        $dll = $_.Name -ireplace '.nuspec', '.dll'
+        # Handle Prism.Core.nuspec since it does not match Prism.dll by "convention"
+        $dll = $dll -ireplace '.Core', ''
+        $version = Get-ProductVersion $(Join-Path $binFolder $dll)
+        if(-not $version)
+        {
+            Write-Error "Can not pack nuget '$_.Name' since file '$dll' could not be found"
+        }
+        else
+        {
+            Pack-Nuget $_.FullName $nupkgFolder "version=$version;coreVersion=$coreVersion;wpfVersion=$wpfVersion;formsVersion=$formsVersion;bin=$binFolder;releaseNotes=$releaseNotes"
+        }
     }
 
     popd
@@ -106,6 +120,7 @@ if($clean)
 pushd $sourceFolder
 # build all solutions
 dir "*.sln" | % {
+    Restore-Nuget $_.FullName
     Write-Info "Building project $_.Name"
     # TODO(joacar) Testing custom xamarin.forms applications require defining constant TEST
     Build-Project $_.FullName $binFolder $configuration

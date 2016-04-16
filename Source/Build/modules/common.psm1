@@ -6,9 +6,19 @@ function Create-Folder ([string]$folder)
 	}
 }
 
+function Write-Warning ([string]$message)
+{
+    Write-Host $message -ForegroundColor Yellow
+}
+
 function Write-Info ([string]$message)
 {
 	Write-Host $message -ForegroundColor Green
+}
+
+function Write-Error ([string]$message)
+{
+    Write-Host $message -ForegroundColor Red
 }
 
 function Run-Test ([string]$binary,	[string]$exe)
