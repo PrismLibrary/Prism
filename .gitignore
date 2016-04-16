@@ -13,7 +13,7 @@
 [Rr]eleases/
 x64/
 x86/
-build/
+#build/ # Allow build scripts
 bld/
 [Bb]in/
 [Oo]bj/
