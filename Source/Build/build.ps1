@@ -21,20 +21,19 @@ $xunit = Join-Path $packages 'xunit.runner.console.2.1.0\tools\xunit.console.exe
 $nupkgFolder = $(Join-Path $buildFolder '.nuget')
 $binFolder = $(Join-Path $buildFolder 'bin')
 
+$artifacts = $nupkgFolder, $binFolder
+
 Import-Module -Force $(Join-Path $modules 'nuget.psm1')
 Import-Module -Force $(Join-Path $modules 'common.psm1')
 
 function Clean
 {
-    if(Test-Path $nupkgFolder)
-    {
-        Write-Info "Remove directory $nupkgFolder"
-        rm -r $nupkgFolder -Force
-    }
-    if(Test-Path $binFolder)
-    {
-        Write-Info "Remove directory $binFolder"
-        rm -r $binFolder -Force
+    $artifacts | % {
+        if(Test-Path $_)
+        {
+            Write-Info "Remove directory '$_'"
+            rm -r $_ -Force
+        }
     }
 }
 
