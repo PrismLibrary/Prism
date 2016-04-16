@@ -2,6 +2,7 @@
 Param(
     [string]$configuration = 'Release-Signed',
     [string]$configurationTest = 'Test',
+    [string]$releaseNotes = 'None',
     [bool]$clean = $false
     )
 
@@ -85,7 +86,7 @@ function Run-Tests
 function Pack-Nugets {
     # TODO(joacar) How to resolve properties for packing differente nuspec fils
     $coreVersion = Get-ProductVersion $(Join-Path $binFolder 'Prism.Forms.dll')
-    Pack-Nuget $(Join-Path $buildFolder 'Prism.Unity.Forms.nuspec') $nupkgFolder "version=6.1.0;coreVersion=6.1.0;formsVersion=2.2.0.4;bin=$binFolder;releaseNotes=dummy"
+    Pack-Nuget $(Join-Path $buildFolder 'Prism.Unity.Forms.nuspec') $nupkgFolder "version=6.1.0;coreVersion=6.1.0;formsVersion=2.2.0.4;bin=$binFolder;releaseNotes=$releaseNotes"
 }
 
 Clean
