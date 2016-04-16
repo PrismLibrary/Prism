@@ -24,6 +24,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Wpf\Prism.StructureMap.Wpf\bin\Release\Prism.StructureMap.Wpf.*" target="lib\net45\" exclude="**\*.pdb" />
+    <file src="$bin$\Prism.StructureMap.Wpf.*" target="lib\net45\" exclude="**\*.pdb" />
   </files>
 </package>

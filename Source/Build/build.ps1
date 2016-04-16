@@ -12,6 +12,7 @@ $sourceFolder = (Get-Item $buildFolder).Parent.FullName;
 $modules = Join-Path $buildFolder 'modules'
 $packages = Join-Path $sourceFolder 'packages'
 $msbuild = Join-Path "${env:ProgramFiles(x86)}" "msbuild\14.0\bin\msbuild.exe"
+$nuspecs = Join-Path $sourceFolder 'nuspecs'
 
 # xUnit runner
 $xunit = Join-Path $packages 'xunit.runner.console.2.1.0\tools\xunit.console.exe'
@@ -84,9 +85,16 @@ function Run-Tests
 }
 
 function Pack-Nugets {
-    # TODO(joacar) How to resolve properties for packing differente nuspec fils
-    $coreVersion = Get-ProductVersion $(Join-Path $binFolder 'Prism.Forms.dll')
-    Pack-Nuget $(Join-Path $buildFolder 'Prism.Unity.Forms.nuspec') $nupkgFolder "version=6.1.0;coreVersion=6.1.0;formsVersion=2.2.0.4;bin=$binFolder;releaseNotes=$releaseNotes"
+    $version = '6.1.0'
+    $formsVersion = '6.1.0'
+    pushd $nuspecs
+    dir "*.nuspec" | % {
+        # TODO(joacar) How to resolve properties for packing differente nuspec fils
+        $coreVersion = Get-ProductVersion $(Join-Path $binFolder 'Prism.Forms.dll')
+        Pack-Nuget $_.FullName $nupkgFolder "version=$version;coreVersion=$coreVersion;formsVersion=$formsVersion;bin=$binFolder;releaseNotes=$releaseNotes"
+    }
+
+    popd
 }
 
 Clean
@@ -102,6 +110,8 @@ dir "*.sln" | % {
     # TODO(joacar) Testing custom xamarin.forms applications require defining constant TEST
     Build-Project $_.FullName $binFolder $configuration
 }
-Pack-Nugets
 Run-Tests $binFolder $xunit
+# TODO(joacar) Should just pack the projects whose tests passed
+Pack-Nugets
+
 Publish-Nugets $nupkgFolder
