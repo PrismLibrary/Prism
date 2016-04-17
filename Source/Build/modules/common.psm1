@@ -6,6 +6,11 @@ function Create-Folder ([string]$folder)
 	}
 }
 
+function Get-FileName ($pathToFile)
+{
+    Split-Path $pathToFile -Leaf
+}
+
 function Write-Warning ([string]$message)
 {
     Write-Host $message -ForegroundColor Yellow

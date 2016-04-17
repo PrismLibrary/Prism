@@ -17,13 +17,13 @@
     <tags>prism wpf xamarin mvvm uwp uap xaml</tags>
   </metadata>
   <files>
-    <file src="$bin$\Prism.*" target="lib\net45\" exclude="**\*.pdb" />
-    <file src="$bin$\Prism.*" target="lib\wp8\" exclude="**\*.pdb" />
-    <file src="$bin$\Prism.*" target="lib\wp81\" exclude="**\*.pdb" />
-    <file src="$bin$\Prism.*" target="lib\wpa81\" exclude="**\*.pdb" />
-    <file src="$bin$\Prism.*" target="lib\MonoAndroid10\" exclude="**\*.pdb" />
-    <file src="$bin$\Prism.*" target="lib\MonoTouch10\" exclude="**\*.pdb" />
-    <file src="$bin$\Prism.*" target="lib\Xamarin.iOS10\" exclude="**\*.pdb" />
-    <file src="$bin$\Prism.*" target="lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\" exclude="**\*.pdb" />
+    <file src="$bin$\Prism.dll" target="lib\net45\" exclude="**\*.pdb" />
+    <file src="$bin$\Prism.dll" target="lib\wp8\" exclude="**\*.pdb" />
+    <file src="$bin$\Prism.dll" target="lib\wp81\" exclude="**\*.pdb" />
+    <file src="$bin$\Prism.dll" target="lib\wpa81\" exclude="**\*.pdb" />
+    <file src="$bin$\Prism.dll" target="lib\MonoAndroid10\" exclude="**\*.pdb" />
+    <file src="$bin$\Prism.dll" target="lib\MonoTouch10\" exclude="**\*.pdb" />
+    <file src="$bin$\Prism.dll" target="lib\Xamarin.iOS10\" exclude="**\*.pdb" />
+    <file src="$bin$\Prism.dll" target="lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\" exclude="**\*.pdb" />
   </files>
 </package>

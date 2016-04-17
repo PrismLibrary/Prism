@@ -1,10 +1,13 @@
 [CmdletBinding()]
 Param(
-    [string]$configuration = 'Release-Signed',
-    [string]$configurationTest = 'Test',
     [string]$releaseNotes = 'None',
     [bool]$clean = $false
     )
+
+# Constants
+$ConfigurationRelease = 'Release'
+$ConfigurationSigned = 'Release-Signed'
+$ConfigurationFormsTest = 'Test'
 
 # Declare the folder that powershell is executing in
 $buildFolder = Split-Path -parent $Script:MyInvocation.MyCommand.Definition
@@ -64,7 +67,12 @@ function Build-Project
 		'/v:m',
 		'/t:Build'
 	)
-	& $msbuild $params
+	& $msbuild $params | Out-Null
+    if($LASTEXITCODE -gt 0)
+    {
+        $projectPath
+        return
+    }
 }
 
 function Run-Tests
@@ -74,9 +82,8 @@ function Run-Tests
 		[string]$exe
 	)
 
-	$tests = Get-ChildItem $binFolder "*Tests.dll" | % {
-        #Run-Test $_.FullName $exe
-        Write-Info "Running test for $_.Name"
+	$tests = Get-ChildItem $binFolder "*Tests*.dll" | % {
+        Write-Info "Running test for $_"
 	    & $exe $_.FullName
 	    if($LASTEXITCODE -gt 0)
 	    {
@@ -87,10 +94,10 @@ function Run-Tests
 
 function Pack-Nugets {
     # TODO(joacar) How to resolve properties for packing differente nuspec fils
-      
     $wpfVersion = Get-ProductVersion $(Join-Path $binFolder 'Prism.Wpf.dll')
     $formsVersion = Get-ProductVersion $(Join-Path $binFolder 'Prism.Forms.dll')
     $coreVersion = Get-ProductVersion $(Join-Path $binFolder 'Prism.dll')
+    $uwpVersion = Get-ProductVersion $(Join-Path $binFolder 'Prism.Windows.dll')
     pushd $nuspecs
     dir "*.nuspec" | % {
         $dll = $_.Name -ireplace '.nuspec', '.dll'
@@ -103,7 +110,7 @@ function Pack-Nugets {
         }
         else
         {
-            Pack-Nuget $_.FullName $nupkgFolder "version=$version;coreVersion=$coreVersion;wpfVersion=$wpfVersion;formsVersion=$formsVersion;bin=$binFolder;releaseNotes=$releaseNotes"
+            Pack-Nuget $_.FullName $nupkgFolder "version=$version;coreVersion=$coreVersion;wpfVersion=$wpfVersion;formsVersion=$formsVersion;uwpVersion=$uwpVersion;bin=$binFolder;releaseNotes=$releaseNotes"
         }
     }
 
@@ -117,14 +124,54 @@ if($clean)
     exit
 }
 pushd $sourceFolder
-# build all solutions
+# restore nuget packages for solutions
 dir "*.sln" | % {
+    Write-Info "Restore nugets for solution $($_.Name)"
     Restore-Nuget $_.FullName
-    Write-Info "Building project $_.Name"
+}
+
+$projects = dir "*.csproj" -Recurse
+
+# run all tests
+Write-Info "Building test projects"
+$errors = @()
+$projects | Where-Object -FilterScript { $_.Name -match "Tests?" } | % {
+    $configuration = $ConfigurationRelease
+    if($_.Name -match "Forms\.Tests?")
+    {
+        $configuration = $ConfigurationFormsTest
+    }
+    Write-Info "Building project $($_.Name) with configuration $configuration"
     # TODO(joacar) Testing custom xamarin.forms applications require defining constant TEST
-    Build-Project $_.FullName $binFolder $configuration
+    $errors += Build-Project $_.FullName $binFolder $configuration
+}
+if($errors)
+{
+    $errors | % { Write-Error "Failed to build project $(Get-FileName $_)" }
 }
 Run-Tests $binFolder $xunit
+
+Clean
+
+$errors = @() # clear errors
+# Rebuild projects that should be packed using release signed
+$projects | Where-Object -FilterScript { $_.Name -notmatch "Tests?" } | % {
+    Write-Info "Building project $($_.Name) with configuration $ConfigurationSigned"
+    # TODO(joacar) Testing custom xamarin.forms applications require defining constant TEST
+    $errors += Build-Project $_.FullName $binFolder $ConfigurationSigned
+}
+
+if($errors)
+{
+    Write-Info "Build projects that could not be built using $ConfigurationSigned"
+    $errors |% {
+        Write-Info "Build project $(Get-FileName $_) with configuration $ConfigurationRelease"
+        Build-Project $_ $binFolder $ConfigurationRelease
+    }
+}
+
+# TODO(joacar) Zip assemblies (?)
+
 # TODO(joacar) Should just pack the projects whose tests passed
 Pack-Nugets
 
