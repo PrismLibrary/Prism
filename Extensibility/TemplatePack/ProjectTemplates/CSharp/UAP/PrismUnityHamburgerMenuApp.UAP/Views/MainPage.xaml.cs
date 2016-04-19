@@ -18,9 +18,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
-// TODO: Sort usings and remove this Code Analysis suppression
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.Analyzers", "SA1210", Justification = "Template can't sort project's using")]
-
 namespace $safeprojectname$.Views
 {
     public sealed partial class MainPage : SessionStateAwarePage, INotifyPropertyChanged
