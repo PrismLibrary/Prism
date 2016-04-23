@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
-    <Name>Prism Unity Hamburger Menu App (Universal UAP)</Name>
-    <Description>A project template for building Universal (UAP) Hamburger Menu apps with Prism and Unity.</Description>
+    <Name>Prism Unity App (Universal UWP)</Name>
+    <Description>A project template for building Universal (UWP) apps with Prism and Unity.</Description>
     <ProjectType>CSharp</ProjectType>
-    <ProjectSubType>Windows</ProjectSubType>
-    <TemplateID>d264fd9c-1241-40ba-a264-5eb6160c31c7</TemplateID>
+    <TemplateID>0b7f8c63-9875-4443-8333-79bdf037bc60</TemplateID>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>PrismUnityHamburgerMenuApp</DefaultName>
+    <DefaultName>PrismUnityApp</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <SortOrder>10</SortOrder>
     <LocationField>Enabled</LocationField>
@@ -24,8 +23,6 @@
     <Project File="ProjectTemplate.csproj" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="true" TargetFileName="App.xaml">App.xaml</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="App.xaml.cs">App.xaml.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="AppShell.xaml">AppShell.xaml</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="AppShell.xaml.cs">AppShell.xaml.cs</ProjectItem>
       <Folder Name="Assets" TargetFolderName="Assets">
         <ProjectItem ReplaceParameters="false" TargetFileName="LockScreenLogo.scale-200.png">LockScreenLogo.scale-200.png</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="SplashScreen.scale-200.png">SplashScreen.scale-200.png</ProjectItem>
@@ -39,7 +36,6 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="PageTokens.cs">PageTokens.cs</ProjectItem>
       <Folder Name="PageViewModels" TargetFolderName="PageViewModels">
         <ProjectItem ReplaceParameters="true" TargetFileName="MainPageViewModel.cs">MainPageViewModel.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="MenuViewModel.cs">MenuViewModel.cs</ProjectItem>
       </Folder>
       <ProjectItem ReplaceParameters="false" TargetFileName="project.json">templateproject.json</ProjectItem>
       <Folder Name="TemplateProperties" TargetFolderName="Properties">
@@ -61,13 +57,10 @@
       </Folder>
       <Folder Name="ViewModels" TargetFolderName="ViewModels">
         <ProjectItem ReplaceParameters="true" TargetFileName="ItemViewModel.cs">ItemViewModel.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="MenuItemViewModel.cs">MenuItemViewModel.cs</ProjectItem>
       </Folder>
       <Folder Name="Views" TargetFolderName="Views">
         <ProjectItem ReplaceParameters="true" TargetFileName="MainPage.xaml">MainPage.xaml</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="MainPage.xaml.cs">MainPage.xaml.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="MenuView.xaml">MenuView.xaml</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="MenuView.xaml.cs">MenuView.xaml.cs</ProjectItem>
       </Folder>
     </Project>
   </TemplateContent>

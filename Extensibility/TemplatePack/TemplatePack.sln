@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplatePack", "TemplatePack\TemplatePack.csproj", "{A61D9435-6DDB-4985-BA14-C02481AF0B8A}"
 EndProject
@@ -51,17 +51,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VsWizards", "VsWizards", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.VisualStudio.Wizards", "VsWizards\Prism.VisualStudio.Wizards\Prism.VisualStudio.Wizards.csproj", "{CF820A3D-4BD3-4A92-B951-D35F3AFD6AA9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UAP", "UAP", "{F74B6069-CCC0-42F3-ABF3-15412D2C2D9E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UWP", "UWP", "{F74B6069-CCC0-42F3-ABF3-15412D2C2D9E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UAP", "UAP", "{475B68E4-7B2C-444E-A56D-7A0C2167E96E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UWP", "UWP", "{475B68E4-7B2C-444E-A56D-7A0C2167E96E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismUnityApp.UAP", "ProjectTemplates\CSharp\UAP\PrismUnityApp.UAP\PrismUnityApp.UAP.csproj", "{D5B23694-FD13-41CE-9718-201C7A924A68}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismUnityApp.UWP", "ProjectTemplates\CSharp\UWP\PrismUnityApp.UWP\PrismUnityApp.UWP.csproj", "{D5B23694-FD13-41CE-9718-201C7A924A68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismUnityHamburgerMenuApp.UAP", "ProjectTemplates\CSharp\UAP\PrismUnityHamburgerMenuApp.UAP\PrismUnityHamburgerMenuApp.UAP.csproj", "{2C56B1BD-D3B4-4F37-82A2-946F488AA0E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismUnityHamburgerMenuApp.UWP", "ProjectTemplates\CSharp\UWP\PrismUnityHamburgerMenuApp.UWP\PrismUnityHamburgerMenuApp.UWP.csproj", "{2C56B1BD-D3B4-4F37-82A2-946F488AA0E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismPage.UAP", "ItemTemplates\CSharp\UAP\PrismPage.UAP\PrismPage.UAP.csproj", "{9C6C1181-31E7-4C5F-A3EB-47E4C378EB69}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismPage.UWP", "ItemTemplates\CSharp\UWP\PrismPage.UWP\PrismPage.UWP.csproj", "{9C6C1181-31E7-4C5F-A3EB-47E4C378EB69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismPageViewModel.UAP", "ItemTemplates\CSharp\UAP\PrismPageViewModel.UAP\PrismPageViewModel.UAP.csproj", "{1FEEE77A-870C-4EBD-8E65-B27DD8E9397E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismPageViewModel.UWP", "ItemTemplates\CSharp\UWP\PrismPageViewModel.UWP\PrismPageViewModel.UWP.csproj", "{1FEEE77A-870C-4EBD-8E65-B27DD8E9397E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

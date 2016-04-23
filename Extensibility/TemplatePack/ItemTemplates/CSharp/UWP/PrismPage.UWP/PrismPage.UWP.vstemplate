@@ -2,8 +2,8 @@
 <VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
     <DefaultName>PrismPage.xaml</DefaultName>
-    <Name>Prism Page (UAP)</Name>
-    <Description>A blank Prism page for a Universal (UAP) app.</Description>
+    <Name>Prism Page (UWP)</Name>
+    <Description>A blank Prism page for a Universal (UWP) app.</Description>
     <TemplateID>af40fc93-5c90-4879-bfa5-068bb711273f</TemplateID>
     <ProjectType>CSharp</ProjectType>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>

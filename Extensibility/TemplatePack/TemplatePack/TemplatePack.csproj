@@ -57,6 +57,7 @@
     </Content>
     <Content Include="Snippets\CSharp\Prism\PrismProperty.snippet">
       <IncludeInVSIX>true</IncludeInVSIX>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Snippets\snippets.pkgdef">
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -78,6 +79,7 @@
     </Content>
     <Content Include="Snippets\CSharp\Prism\PrismPropertyCommandGeneric.snippet">
       <IncludeInVSIX>true</IncludeInVSIX>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Packages\prism.unity.6.2.0-pre3.nupkg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -183,16 +185,16 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\ItemTemplates\CSharp\UAP\PrismPage.UAP\PrismPage.UAP.csproj">
+    <ProjectReference Include="..\ItemTemplates\CSharp\UWP\PrismPage.UWP\PrismPage.UWP.csproj">
       <Project>{9C6C1181-31E7-4C5F-A3EB-47E4C378EB69}</Project>
-      <Name>PrismPage.UAP</Name>
+      <Name>PrismPage.UWP</Name>
       <VSIXSubPath>ItemTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\ItemTemplates\CSharp\UAP\PrismPageViewModel.UAP\PrismPageViewModel.UAP.csproj">
+    <ProjectReference Include="..\ItemTemplates\CSharp\UWP\PrismPageViewModel.UWP\PrismPageViewModel.UWP.csproj">
       <Project>{1FEEE77A-870C-4EBD-8E65-B27DD8E9397E}</Project>
-      <Name>PrismPageViewModel.UAP</Name>
+      <Name>PrismPageViewModel.UWP</Name>
       <VSIXSubPath>ItemTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
@@ -218,16 +220,16 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\ProjectTemplates\CSharp\UAP\PrismUnityApp.UAP\PrismUnityApp.UAP.csproj">
+    <ProjectReference Include="..\ProjectTemplates\CSharp\UWP\PrismUnityApp.UWP\PrismUnityApp.UWP.csproj">
       <Project>{D5B23694-FD13-41CE-9718-201C7A924A68}</Project>
-      <Name>PrismUnityApp.UAP</Name>
+      <Name>PrismUnityApp.UWP</Name>
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\ProjectTemplates\CSharp\UAP\PrismUnityHamburgerMenuApp.UAP\PrismUnityHamburgerMenuApp.UAP.csproj">
+    <ProjectReference Include="..\ProjectTemplates\CSharp\UWP\PrismUnityHamburgerMenuApp.UWP\PrismUnityHamburgerMenuApp.UWP.csproj">
       <Project>{2C56B1BD-D3B4-4F37-82A2-946F488AA0E6}</Project>
-      <Name>PrismUnityHamburgerMenuApp.UAP</Name>
+      <Name>PrismUnityHamburgerMenuApp.UWP</Name>
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
