@@ -2,7 +2,7 @@
 <VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
     <DefaultName>PrismPageViewModel.cs</DefaultName>
-    <Name>Prism Page ViewModel (UAP)</Name>
+    <Name>Prism Page ViewModel (UWP)</Name>
     <Description>A ViewModel for a Prism Page for a Universal (UWP) app.</Description>
     <TemplateID>56cf6da7-c3a3-4730-8b9d-e9b00bf89581</TemplateID>
     <ProjectType>CSharp</ProjectType>

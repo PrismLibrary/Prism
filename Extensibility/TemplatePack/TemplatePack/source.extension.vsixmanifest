@@ -42,10 +42,10 @@
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.mediarouter.23.1.1.1.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismModule" d:TargetPath="|PrismModule;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp.Wpf" d:TargetPath="|PrismUnityApp.Wpf;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
-    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp.UAP" d:TargetPath="|PrismUnityApp.UAP;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
-    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityHamburgerMenuApp.UAP" d:TargetPath="|PrismUnityHamburgerMenuApp.UAP;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
-    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismPage.UAP" d:TargetPath="|PrismPage.UAP;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
-    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismPageViewModel.UAP" d:TargetPath="|PrismPageViewModel.UAP;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp.UWP" d:TargetPath="|PrismUnityApp.UWP;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityHamburgerMenuApp.UWP" d:TargetPath="|PrismUnityHamburgerMenuApp.UWP;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismPage.UWP" d:TargetPath="|PrismPage.UWP;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismPageViewModel.UWP" d:TargetPath="|PrismPageViewModel.UWP;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="ConfigModuleEditor" Path="|ConfigModuleEditor;PkgdefProjectOutputGroup|" />
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Prism.VisualStudio.Wizards" Path="|Prism.VisualStudio.Wizards|" AssemblyName="|Prism.VisualStudio.Wizards;AssemblyName|" />
     <Asset Type="Nuget.Package" d:Source="File" Path="Packages\Prism.Unity.Forms.6.2.0-pre4.nupkg" />

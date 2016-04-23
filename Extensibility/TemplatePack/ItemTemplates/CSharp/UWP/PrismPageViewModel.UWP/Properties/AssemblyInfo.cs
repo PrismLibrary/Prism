@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PrismUnityApp")]
+[assembly: AssemblyTitle("PrismPageViewModel.UWP")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Ali Hosseini Khayat")]
-[assembly: AssemblyProduct("PrismUnityApp")]
+[assembly: AssemblyProduct("PrismPageViewModel.UWP")]
 [assembly: AssemblyCopyright("Copyright © Ali Hosseini Khayat 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d5b23694-fd13-41ce-9718-201c7a924a68")]
+[assembly: Guid("1feee77a-870c-4ebd-8e65-b27dd8e9397e")]
 
 // Version information for an assembly consists of the following four values:
 //
