@@ -145,7 +145,7 @@ namespace Prism.Navigation
         {
             var nextPage = CreatePageFromSegment(nextSegment);
 
-            await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);            
+            await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
 
             await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
@@ -251,7 +251,7 @@ namespace Prism.Navigation
                 await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
                 {
                     currentPage.IsPresented = false;
-                    await DoPush(currentPage, nextPage, true, animated);                    
+                    await DoPush(currentPage, nextPage, true, animated);
                 });
                 return;
             }
@@ -346,8 +346,10 @@ namespace Prism.Navigation
             if (useModalNavigation)
             {
                 var previousPage = GetPreviousPage(page, page.Navigation.ModalStack);
-                if (previousPage != null)
-                    target = GetOnNavigatedToTargetFromChild(previousPage);
+
+                //MainPage is not included in the navigation stack, so if we can't find the previous page above
+                //let's assume they are going back to the MainPage
+                target = GetOnNavigatedToTargetFromChild(previousPage ?? Application.Current.MainPage);
             }
             else
             {
