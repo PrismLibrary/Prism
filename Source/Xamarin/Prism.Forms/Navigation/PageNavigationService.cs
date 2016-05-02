@@ -186,8 +186,9 @@ namespace Prism.Navigation
 
                 await DoNavigateAction(currentNavRoot, nextSegment, newRoot, parameters, async () =>
                 {
-                    await DoPush(currentPage, newRoot, false, animated);
+                    var push = DoPush(currentPage, newRoot, false, animated);
                     currentPage.Navigation.RemovePage(currentNavRoot);
+                    await push;
                 });
                 return;
             }
