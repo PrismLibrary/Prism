@@ -47,7 +47,7 @@ Following matrix shows the platform specific support currently available.
 
 | Package               | WPF | Win10 UWP | Xamarin.Forms |
 |-----------------------|:---:|:---:|:---:|
-| [Prism.Unity][5]      |  X  |  X  |  [X][10]  |
+| [Prism.Unity][5]      |  X  |  X  |  [Prism.Unity.Forms][10]  |
 | [Prism.Mef][6]        |  X  |     |     |
 | [Prism.Autofac][7]    |  X  |  X  |     |
 | [Prism.StructureMap][8]| X  |     |     |
