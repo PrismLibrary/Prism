@@ -153,7 +153,7 @@ protected override void ConfigureContainer()
     base.ConfigureContainer();
 
     this.RegisterTypeIfMissing(typeof(IModuleTracker), typeof(ModuleTracker), true);
-    this.Container.RegisterInstance&lt;CallbackLogger&gt;(this.callbackLogger);
+    this.Container.RegisterInstance<CallbackLogger>(this.callbackLogger);
 }
 ```
 
@@ -171,10 +171,10 @@ protected virtual void ConfigureContainer()
 
 protected virtual void RegisterBootstrapperProvidedTypes()
 {
-    this.Container.ComposeExportedValue&lt;ILoggerFacade&gt;(this.Logger);
-    this.Container.ComposeExportedValue&lt;IModuleCatalog&gt;(this.ModuleCatalog);
-    this.Container.ComposeExportedValue&lt;IServiceLocator&gt;(new MefServiceLocatorAdapter(this.Container));
-    this.Container.ComposeExportedValue&lt;AggregateCatalog&gt;(this.AggregateCatalog);
+    this.Container.ComposeExportedValue<ILoggerFacade>(this.Logger);
+    this.Container.ComposeExportedValue<IModuleCatalog>(this.ModuleCatalog);
+    this.Container.ComposeExportedValue<IServiceLocator>(new MefServiceLocatorAdapter(this.Container));
+    this.Container.ComposeExportedValue<AggregateCatalog>(this.AggregateCatalog);
 }
 ```
 

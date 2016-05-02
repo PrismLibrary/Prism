@@ -24,7 +24,7 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public async Task GoBack(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public async Task GoBackAsync(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             var page = GetCurrentPage();
             var segmentParameters = GetSegmentParameters(null, parameters);
@@ -51,9 +51,9 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public async Task Navigate<T>(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public async Task NavigateAsync<T>(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            await Navigate(typeof(T).FullName, parameters, useModalNavigation, animated);
+            await NavigateAsync(typeof(T).FullName, parameters, useModalNavigation, animated);
         }
 
         /// <summary>
@@ -63,9 +63,9 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public async Task Navigate(string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public async Task NavigateAsync(string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            await Navigate(new Uri(name, UriKind.RelativeOrAbsolute), parameters, useModalNavigation, animated);
+            await NavigateAsync(new Uri(name, UriKind.RelativeOrAbsolute), parameters, useModalNavigation, animated);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Prism.Navigation
         /// <example>
         /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
         /// </example>
-        public async Task Navigate(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public async Task NavigateAsync(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             var navigationSegments = UriParsingHelper.GetUriSegments(uri);
 
@@ -186,8 +186,9 @@ namespace Prism.Navigation
 
                 await DoNavigateAction(currentNavRoot, nextSegment, newRoot, parameters, async () =>
                 {
-                    await DoPush(currentPage, newRoot, false, animated);
+                    var push = DoPush(currentPage, newRoot, false, animated);
                     currentPage.Navigation.RemovePage(currentNavRoot);
+                    await push;
                 });
                 return;
             }
