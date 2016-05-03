@@ -321,7 +321,7 @@ namespace Prism.Navigation
             var segmentName = UriParsingHelper.GetSegmentName(segment);
             var page = CreatePage(segmentName);
             if (page == null)
-                throw new InvalidOperationException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
+                throw new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
 
             return page;
         }
