@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Prism.Common;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace Prism.Services
 {
@@ -10,6 +10,13 @@ namespace Prism.Services
     /// </summary>
     public class PageDialogService : IPageDialogService
     {
+        IApplicationProvider _applicationProvider;
+
+        public PageDialogService(IApplicationProvider applicationProvider)
+        {
+            _applicationProvider = applicationProvider;
+        }
+
         /// <summary>
         /// Presents an alert dialog to the application user with an accept and a cancel button.
         /// </summary>
@@ -23,7 +30,7 @@ namespace Prism.Services
         /// <returns><c>true</c> if non-destructive button pressed; otherwise <c>false</c>/></returns>
         public virtual async Task<bool> DisplayAlert(string title, string message, string acceptButton, string cancelButton)
         {
-            return await Application.Current.MainPage.DisplayAlert(title, message, acceptButton, cancelButton);
+            return await _applicationProvider.MainPage.DisplayAlert(title, message, acceptButton, cancelButton);
         }
 
         /// <summary>
@@ -38,7 +45,7 @@ namespace Prism.Services
         /// <returns></returns>
         public virtual async Task DisplayAlert(string title, string message, string cancelButton)
         {
-            await Application.Current.MainPage.DisplayAlert(title, message, cancelButton);
+            await _applicationProvider.MainPage.DisplayAlert(title, message, cancelButton);
         }
 
         /// <summary>
@@ -51,7 +58,7 @@ namespace Prism.Services
         /// <returns>Text for the pressed button</returns>
         public virtual async Task<string> DisplayActionSheet(string title, string cancelButton, string destroyButton, params string[] otherButtons)
         {
-            return await Application.Current.MainPage.DisplayActionSheet(title, cancelButton, destroyButton, otherButtons);
+            return await _applicationProvider.MainPage.DisplayActionSheet(title, cancelButton, destroyButton, otherButtons);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using Prism.Common;
 using Prism.Forms.Tests.Mocks;
 using Prism.Services;
 using System;
@@ -9,10 +10,17 @@ namespace Prism.Forms.Tests.Services
 {
     public class PageDialogServiceFixture
     {
+        IApplicationProvider _applicationProvider;
+
+        public PageDialogServiceFixture()
+        {
+            _applicationProvider = new ApplicationProviderMock();
+        }
+
         [Fact]
         public async Task DisplayActionSheetNoButtons_ShouldThrowException()
         {
-            var service = new PageDialogServiceMock("cancel");
+            var service = new PageDialogServiceMock("cancel", _applicationProvider);
             var argumentException = await Assert.ThrowsAsync<ArgumentException>(() => service.DisplayActionSheet(null, null));
             Assert.Equal(typeof(ArgumentException), argumentException.GetType());
         }
@@ -20,7 +28,7 @@ namespace Prism.Forms.Tests.Services
         [Fact]
         public async Task DisplayActionSheet_CancelButtonPressed()
         {
-            var service = new PageDialogServiceMock("cancel");
+            var service = new PageDialogServiceMock("cancel", _applicationProvider);
             var cancelButtonPressed = false;
             var cancelCommand = new DelegateCommand(() => cancelButtonPressed = true);
             var button = ActionSheetButton.CreateCancelButton("cancel", cancelCommand);
@@ -31,7 +39,7 @@ namespace Prism.Forms.Tests.Services
         [Fact]
         public async Task DisplayActionSheet_DestroyButtonPressed()
         {
-            var service = new PageDialogServiceMock("destroy");
+            var service = new PageDialogServiceMock("destroy", _applicationProvider);
             var destroyButtonPressed = false;
             var cancelCommand = new DelegateCommand(() => destroyButtonPressed = false);
             var button = ActionSheetButton.CreateCancelButton("cancel", cancelCommand);
@@ -44,7 +52,7 @@ namespace Prism.Forms.Tests.Services
         [Fact]
         public async Task DisplayActionSheet_NoButtonPressed()
         {
-            var service = new PageDialogServiceMock(null);
+            var service = new PageDialogServiceMock(null, _applicationProvider);
             var buttonPressed = false;
             var cancelCommand = new DelegateCommand(() => buttonPressed = true);
             var button = ActionSheetButton.CreateCancelButton("cancel", cancelCommand);
@@ -57,7 +65,7 @@ namespace Prism.Forms.Tests.Services
         [Fact]
         public async Task DisplayActionSheet_OtherButtonPressed()
         {
-            var service = new PageDialogServiceMock("other");
+            var service = new PageDialogServiceMock("other", _applicationProvider);
             var buttonPressed = false;
             var command = new DelegateCommand(() => buttonPressed = true);
             var button = ActionSheetButton.CreateButton("other", command);
@@ -68,7 +76,7 @@ namespace Prism.Forms.Tests.Services
         [Fact]
         public async Task DisplayActionSheet_NullButtonAndOtherButtonPressed()
         {
-            var service = new PageDialogServiceMock("other");
+            var service = new PageDialogServiceMock("other", _applicationProvider);
             var buttonPressed = false;
             var command = new DelegateCommand(() => buttonPressed = true);
             var button = ActionSheetButton.CreateButton("other", command);

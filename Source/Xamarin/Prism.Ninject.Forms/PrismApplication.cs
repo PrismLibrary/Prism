@@ -86,6 +86,7 @@ namespace Prism.Ninject
             Kernel.Bind<ILoggerFacade>().ToConstant(Logger).InSingletonScope();
             Kernel.Bind<IModuleCatalog>().ToConstant(ModuleCatalog).InSingletonScope();
 
+            Kernel.Bind<IApplicationProvider>().To<ApplicationProvider>().InSingletonScope();
             Kernel.Bind<IModuleManager>().To<ModuleManager>().InSingletonScope();
             Kernel.Bind<IModuleInitializer>().To<NinjectModuleInitializer>().InSingletonScope();
             Kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();

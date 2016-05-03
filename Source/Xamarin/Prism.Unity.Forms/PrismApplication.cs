@@ -76,6 +76,7 @@ namespace Prism.Unity
             Container.RegisterInstance<ILoggerFacade>(Logger);
             Container.RegisterInstance<IModuleCatalog>(ModuleCatalog);
 
+            Container.RegisterType<IApplicationProvider, ApplicationProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IModuleManager, ModuleManager>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IModuleInitializer, UnityModuleInitializer>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
