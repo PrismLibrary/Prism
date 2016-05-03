@@ -137,7 +137,7 @@ namespace Prism.Navigation
 
             await DoNavigateAction(null, nextSegment, nextPage, parameters, async () =>
             {
-                await DoPush(null, nextPage, true, animated);
+                await DoPush(null, nextPage, useModalNavigation, animated);
             });
         }
 
@@ -149,8 +149,7 @@ namespace Prism.Navigation
 
             await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
-                bool useModalForDoPush = UseModalNavigation(currentPage, useModalNavigation);
-                await DoPush(currentPage, nextPage, useModalForDoPush, animated);
+                await DoPush(currentPage, nextPage, useModalNavigation, animated);
             });
         }
 
@@ -214,7 +213,7 @@ namespace Prism.Navigation
             await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
             await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
-                await DoPush(currentPage, nextPage, true, animated);
+                await DoPush(currentPage, nextPage, useModalNavigation, animated);
             });
         }
 
@@ -234,12 +233,11 @@ namespace Prism.Navigation
                 return;
             }
 
-
             var nextPage = CreatePageFromSegment(nextSegment);
             await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
             await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
-                await DoPush(currentPage, nextPage, true, animated);
+                await DoPush(currentPage, nextPage, useModalNavigation, animated);
             });
         }
 
@@ -335,8 +333,6 @@ namespace Prism.Navigation
             else
                 useModalNavigation = !HasNavigationPageParent(currentPage);
 
-            //TODO: think about using an interface instead to give the developer a hook to perform conditional logic to return the proper result
-
             return useModalNavigation;
         }
 
@@ -406,7 +402,7 @@ namespace Prism.Navigation
             return stackCount - 1;
         }
 
-        async static Task DoPush(Page currentPage, Page page, bool useModalNavigation, bool animated)
+        async static Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated)
         {
             if (page == null)
                 return;
@@ -417,7 +413,9 @@ namespace Prism.Navigation
             }
             else
             {
-                if (useModalNavigation)
+                bool useModalForPush = UseModalNavigation(currentPage, useModalNavigation);
+
+                if (useModalForPush)
                     await currentPage.Navigation.PushModalAsync(page, animated);
                 else
                     await currentPage.Navigation.PushAsync(page, animated);
