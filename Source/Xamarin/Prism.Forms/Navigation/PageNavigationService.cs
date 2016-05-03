@@ -12,11 +12,18 @@ namespace Prism.Navigation
     /// </summary>
     public abstract class PageNavigationService : INavigationService, IPageAware, IDisposable
     {
+        IApplicationProvider _applicationProvider;
+
         private Page _page;
         Page IPageAware.Page
         {
             get { return _page; }
             set { _page = value; }
+        }
+
+        public PageNavigationService(IApplicationProvider applicationProvider)
+        {
+            _applicationProvider = applicationProvider;
         }
 
         /// <summary>
@@ -314,7 +321,7 @@ namespace Prism.Navigation
             var segmentName = UriParsingHelper.GetSegmentName(segment);
             var page = CreatePage(segmentName);
             if (page == null)
-                throw new InvalidOperationException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
+                throw new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
 
             return page;
         }
@@ -336,7 +343,7 @@ namespace Prism.Navigation
             return useModalNavigation;
         }
 
-        static Page GetOnNavigatedToTarget(Page page, bool useModalNavigation)
+        Page GetOnNavigatedToTarget(Page page, bool useModalNavigation)
         {
             Page target = null;
 
@@ -346,7 +353,7 @@ namespace Prism.Navigation
 
                 //MainPage is not included in the navigation stack, so if we can't find the previous page above
                 //let's assume they are going back to the MainPage
-                target = GetOnNavigatedToTargetFromChild(previousPage ?? Application.Current.MainPage);
+                target = GetOnNavigatedToTargetFromChild(previousPage ?? _applicationProvider.MainPage);
             }
             else
             {
@@ -402,14 +409,14 @@ namespace Prism.Navigation
             return stackCount - 1;
         }
 
-        async static Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated)
+        async Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated)
         {
             if (page == null)
                 return;
 
             if (currentPage == null)
             {
-                Application.Current.MainPage = page;
+                _applicationProvider.MainPage = page;
             }
             else
             {
@@ -525,7 +532,7 @@ namespace Prism.Navigation
 
         Page GetCurrentPage()
         {
-            return _page != null ? _page : Application.Current.MainPage;
+            return _page != null ? _page : _applicationProvider.MainPage;
         }
 
         public void Dispose()
