@@ -1,0 +1,10 @@
+﻿<ResourceDictionary
+    x:Class="$safeprojectname$.Styles.XBindDataTemplates"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:$safeprojectname$.Styles"
+    xmlns:viewModels="using:$safeprojectname$.ViewModels">
+
+    <!--  Add common x:Bind DataTemplates here  -->
+
+</ResourceDictionary>
