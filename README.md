@@ -33,12 +33,12 @@ We appreciate your support.
 
 These are the base packages for each platform, together with the Prism's Core assembly as a cross-platform PCL.
 
-| Platform | Assembly | Package |
-| -------- | -------- | ------- |
-| PCL | Prism.dll | [Prism.Core][1] |
-| WPF | Prism.Wpf.dll | [Prism.Wpf][2] |
-| Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][3] |
-| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][4] |
+| Platform | Assembly | Package | Version |
+| -------- | -------- | ------- | ------- |
+| PCL | Prism.dll | [Prism.Core][1] | [![21]][1] |
+| WPF | Prism.Wpf.dll | [Prism.Wpf][2] | [![22]][2] |
+| Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][3] | [![23]][3] |
+| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][4] | [![24]][4] |
 
 ### Container-specific packages
 
@@ -115,3 +115,8 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [8]: https://www.nuget.org/packages/Prism.StructureMap/
 [9]: https://www.nuget.org/packages/Prism.Ninject/
 [10]: https://www.nuget.org/packages/Prism.Unity.Forms/
+
+[21]: https://img.shields.io/nuget/vpre/Prism.Core.svg
+[22]: https://img.shields.io/nuget/vpre/Prism.Wpf.svg
+[23]: https://img.shields.io/nuget/vpre/Prism.Forms.svg
+[24]: https://img.shields.io/nuget/vpre/Prism.Windows.svg
