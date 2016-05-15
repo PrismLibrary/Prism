@@ -46,13 +46,16 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 Following matrix shows the platform specific support currently available.
 
-| Package               | WPF | Win10 UWP | Xamarin.Forms |
-|-----------------------|:---:|:---:|:---:|
-| [Prism.Unity][5]      |  X  |  X  |  [Prism.Unity.Forms][10]  |
-| [Prism.Mef][6]        |  X  |     |     |
-| [Prism.Autofac][7]    |  X  |  X  |     |
-| [Prism.StructureMap][8]| X  |     |     |
-| [Prism.Ninject][9]    |  X  |     |  X  |
+| Package                | Version    | WPF | Win10 UWP | Xamarin.Forms |
+|------------------------|------------|:---:|:---:|:---:|
+| [Prism.Unity][5] (*)   | [![25]][5] |  X  |  X  |     |
+| [Prism.Unity.Forms][10]| [![30]][10]|     |     |  X  |
+| [Prism.Mef][6]         | [![26]][6] |  X  |     |     |
+| [Prism.Autofac][7]     | [![27]][7] |  X  |  X  |     |
+| [Prism.StructureMap][8]| [![28]][8] |  X  |     |     |
+| [Prism.Ninject][9]     | [![29]][9] |  X  |     |  X  |
+
+<sup>(*)</sup> As Xamarin Forms also supports UWP now, adding Prism.Unity puts in some incorrect dependencies. Therefore we created a new Prism.Unity.Forms package. 
 
 Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package and the rest will be pulled in as well.
 
@@ -120,3 +123,9 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [22]: https://img.shields.io/nuget/vpre/Prism.Wpf.svg
 [23]: https://img.shields.io/nuget/vpre/Prism.Forms.svg
 [24]: https://img.shields.io/nuget/vpre/Prism.Windows.svg
+[25]: https://img.shields.io/nuget/vpre/Prism.Unity.svg
+[26]: https://img.shields.io/nuget/vpre/Prism.Mef.svg
+[27]: https://img.shields.io/nuget/vpre/Prism.Autofac.svg
+[28]: https://img.shields.io/nuget/vpre/Prism.StructureMap.svg
+[29]: https://img.shields.io/nuget/vpre/Prism.Ninject.svg
+[30]: https://img.shields.io/nuget/vpre/Prism.Unity.Forms.svg
