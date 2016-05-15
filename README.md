@@ -75,7 +75,7 @@ You can check out our milestones for coming releases [here](https://github.com/P
 
 #Contributing
 We strongly encourage you to get involved and help us evolve the code base. 
-- You can see what our expectations are for pull requests [here](https://github.com/PrismLibrary/Prism/blob/master/CONTRIBUTE.md).
+- You can see what our expectations are for pull requests [here](https://github.com/PrismLibrary/Prism/blob/master/.github/CONTRIBUTING.md).
 
 #Moving to Prism 6 from Previous Releases
 As part of taking over the code base from Microsoft and moving towards Prism 6, there are a number of breaking changes users of Prism 5 or Prism for Windows Runtime will have to deal with. Those changes are summarized below.
