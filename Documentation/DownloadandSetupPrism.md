@@ -2,14 +2,7 @@
 
 Learn what’s included in Prism including the documentation, code samples, and libraries.  Additionally find out where to get the library and sample source code and the library NuGet packages.
 
-For a list of the new features, bug fixes, and API changes, see the [release notes](https://github.com/PrismLibrary/Prism/wiki/Release-Notes---6.0.0)
-
-# Documentation
-Prism includes the following documentation:
-
--  [WPF](https://github.com/PrismLibrary/Prism/tree/master/Documentation/WPF)
--  Universal Windows Platform
--  [Xamarin.Forms](https://github.com/PrismLibrary/Prism/tree/master/Documentation/Xamarin.Forms)
+For a list of the new features, bug fixes, and API changes, see the [release notes](https://github.com/PrismLibrary/Prism/wiki).
 
 # Download and Setup the Prism Source Code
 
@@ -60,12 +53,12 @@ menu, and then clear the **Build** check box for all Prism Library projects in b
 
 These are the base packages for each platform, together with the Prism's Core assembly as a cross-platform PCL.
 
-| Platform | Assembly | Package |
-| -------- | -------- | ------- |
-| PCL | Prism.dll | [Prism.Core][1] |
-| WPF | Prism.Wpf.dll | [Prism.Wpf][2] |
-| Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][3] |
-| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][4] |
+| Platform | Assembly | Package | Version |
+| -------- | -------- | ------- | ------- |
+| PCL | Prism.dll | [Prism.Core][1] | [![21]][1] |
+| WPF | Prism.Wpf.dll | [Prism.Wpf][2] | [![22]][2] |
+| Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][3] | [![23]][3] |
+| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][4] | [![24]][4] |
 
 ### Container-specific packages
 
@@ -73,13 +66,16 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 Following matrix shows the platform specific support currently available.
 
-| Package               | WPF | Win10 UWP | Xamarin.Forms |
-|-----------------------|:---:|:---:|:---:|
-| [Prism.Unity][5]      |  X  |  X  |  [Prism.Unity.Forms][10]  |
-| [Prism.Mef][6]        |  X  |     |     |
-| [Prism.Autofac][7]    |  X  |  X  |     |
-| [Prism.StructureMap][8]| X  |     |     |
-| [Prism.Ninject][9]    |  X  |     |  X  |
+| Package                | Version    | WPF | Win10 UWP | Xamarin.Forms |
+|------------------------|------------|:---:|:---:|:---:|
+| [Prism.Unity][5] (*)   | [![25]][5] |  X  |  X  |     |
+| [Prism.Unity.Forms][10]| [![30]][10]|     |     |  X  |
+| [Prism.Mef][6]         | [![26]][6] |  X  |     |     |
+| [Prism.Autofac][7]     | [![27]][7] |  X  |  X  |     |
+| [Prism.StructureMap][8]| [![28]][8] |  X  |     |     |
+| [Prism.Ninject][9]     | [![29]][9] |  X  |     |  X  |
+
+<sup>(*)</sup> As Xamarin Forms also supports UWP now, adding Prism.Unity puts in some incorrect dependencies. Therefore we created a new Prism.Unity.Forms package. 
 
 Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package and the rest will be pulled in as well.
 
@@ -128,3 +124,14 @@ To recapitulate the packages described above, this is the list of all assemblies
 [8]: https://www.nuget.org/packages/Prism.StructureMap/
 [9]: https://www.nuget.org/packages/Prism.Ninject/
 [10]: https://www.nuget.org/packages/Prism.Unity.Forms/
+
+[21]: https://img.shields.io/nuget/vpre/Prism.Core.svg
+[22]: https://img.shields.io/nuget/vpre/Prism.Wpf.svg
+[23]: https://img.shields.io/nuget/vpre/Prism.Forms.svg
+[24]: https://img.shields.io/nuget/vpre/Prism.Windows.svg
+[25]: https://img.shields.io/nuget/vpre/Prism.Unity.svg
+[26]: https://img.shields.io/nuget/vpre/Prism.Mef.svg
+[27]: https://img.shields.io/nuget/vpre/Prism.Autofac.svg
+[28]: https://img.shields.io/nuget/vpre/Prism.StructureMap.svg
+[29]: https://img.shields.io/nuget/vpre/Prism.Ninject.svg
+[30]: https://img.shields.io/nuget/vpre/Prism.Unity.Forms.svg
