@@ -57,6 +57,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Common\ApplicationProvider.cs" />
     <Compile Include="Common\IApplicationProvider.cs" />
+    <Compile Include="Navigation\IMasterDetailPageOptions.cs" />
     <Compile Include="Common\PageNavigationInfo.cs" />
     <Compile Include="Common\PageNavigationRegistry.cs" />
     <Compile Include="Common\UriParsingHelper.cs" />
