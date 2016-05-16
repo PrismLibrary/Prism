@@ -1,7 +1,7 @@
 ﻿using Prism.Common;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -250,13 +250,15 @@ namespace Prism.Navigation
 
         async Task ProcessNavigationForMasterDetailPage(MasterDetailPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
+            bool isPresented = GetMasterDetailPageIsPresented(currentPage);
+
             if (useModalNavigation.HasValue && useModalNavigation.Value)
             {
                 var nextPage = CreatePageFromSegment(nextSegment);
                 await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
                 await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
                 {
-                    currentPage.IsPresented = false;
+                    currentPage.IsPresented = isPresented;
                     await DoPush(currentPage, nextPage, true, animated);
                 });
                 return;
@@ -270,7 +272,7 @@ namespace Prism.Navigation
                 await DoNavigateAction(null, nextSegment, newDetail, parameters, () =>
                 {
                     currentPage.Detail = newDetail;
-                    currentPage.IsPresented = false;
+                    currentPage.IsPresented = isPresented;
                 });
                 return;
             }
@@ -281,7 +283,7 @@ namespace Prism.Navigation
                 await ProcessNavigation(detail, segments, parameters, useModalNavigation, animated);
                 await DoNavigateAction(null, nextSegment, detail, parameters, () =>
                 {
-                    currentPage.IsPresented = false;
+                    currentPage.IsPresented = isPresented;
                 });
                 return;
             }
@@ -292,10 +294,23 @@ namespace Prism.Navigation
                 await DoNavigateAction(detail, nextSegment, newDetail, parameters, () =>
                 {
                     currentPage.Detail = newDetail;
-                    currentPage.IsPresented = false;
+                    currentPage.IsPresented = isPresented;
                 });
                 return;
             }
+        }
+
+        bool GetMasterDetailPageIsPresented(MasterDetailPage page)
+        {
+            var iMasterDetailPage = page as IMasterDetailPageOptions;
+            if (iMasterDetailPage != null)
+                return iMasterDetailPage.IsPresentedAfterNavigation;
+
+            var iMasterDetailPageBindingContext = page.BindingContext as IMasterDetailPageOptions;
+            if (iMasterDetailPageBindingContext != null)
+                return iMasterDetailPageBindingContext.IsPresentedAfterNavigation;
+
+            return false;
         }
 
         static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Action navigationAction = null)

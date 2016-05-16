@@ -1,9 +1,11 @@
-﻿using Prism.Mvvm;
+﻿using System;
+using Prism.Mvvm;
+using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class MasterDetailPageMock : MasterDetailPage
+    public class MasterDetailPageMock : MasterDetailPage, IMasterDetailPageOptions
     {
         public MasterDetailPageMock()
         {
@@ -11,6 +13,8 @@ namespace Prism.Forms.Tests.Mocks.Views
 
             ViewModelLocator.SetAutowireViewModel(this, true);
         }
+
+        public bool IsPresentedAfterNavigation { get; set; }
     }
 
     public class MasterDetailPageEmptyMock : MasterDetailPage

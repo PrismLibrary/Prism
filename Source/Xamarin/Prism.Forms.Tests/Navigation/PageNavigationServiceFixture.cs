@@ -584,6 +584,40 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
+        public async void Navigate_FromMasterDetailPage_ToTabbedPage_IsPresented()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var rootPage = new MasterDetailPageMock();
+            ((IPageAware)navigationService).Page = rootPage;
+            rootPage.IsPresentedAfterNavigation = true;
+
+            Assert.IsType(typeof(ContentPageMock), rootPage.Detail);
+            Assert.False(rootPage.IsPresented);
+
+            await navigationService.NavigateAsync("TabbedPage");
+            Assert.IsType(typeof(TabbedPageMock), rootPage.Detail);
+
+            Assert.True(rootPage.IsPresented);
+        }
+
+        [Fact]
+        public async void Navigate_FromMasterDetailPage_ToTabbedPage_IsNotPresented()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var rootPage = new MasterDetailPageMock();
+            ((IPageAware)navigationService).Page = rootPage;
+            rootPage.IsPresentedAfterNavigation = false;
+
+            Assert.IsType(typeof(ContentPageMock), rootPage.Detail);
+            Assert.False(rootPage.IsPresented);
+
+            await navigationService.NavigateAsync("TabbedPage");
+            Assert.IsType(typeof(TabbedPageMock), rootPage.Detail);
+
+            Assert.False(rootPage.IsPresented);
+        }
+
+        [Fact]
         public async void DeepNavigate_ToTabbedPage_ToPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
