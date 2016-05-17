@@ -21,7 +21,7 @@ namespace Prism.Forms.Tests.Mocks.Views
     {
         public MasterDetailPageEmptyMock()
         {
-
+            ViewModelLocator.SetAutowireViewModel(this, true);
         }
     }
 }
