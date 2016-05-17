@@ -39,6 +39,7 @@
     <Compile Include="Converters\NonNullToBooleanConverter.cs" />
     <Compile Include="Interfaces\IMessageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\SomeOtherViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\MyMasterDetailViewModel.cs" />
     <Compile Include="ViewModels\MyNavigationPageViewModel.cs" />
