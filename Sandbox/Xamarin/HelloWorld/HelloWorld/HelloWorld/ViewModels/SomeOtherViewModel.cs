@@ -28,7 +28,7 @@ namespace HelloWorld.ViewModels
 
         void ShowDialog()
         {
-            _dialogService.DisplayAlert("Hello from SomeOtherViewModel", "This is a message from an exception to the ViewModelLocator rules.", "Cool");
+            _dialogService.DisplayAlertAsync("Hello from SomeOtherViewModel", "This is a message from an exception to the ViewModelLocator rules.", "Cool");
         }
     }
 }
