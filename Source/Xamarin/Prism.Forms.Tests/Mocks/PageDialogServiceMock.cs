@@ -18,7 +18,7 @@ namespace Prism.Forms.Tests.Mocks
             this.pressedButton = pressedButton;
         }
 
-        public override Task<string> DisplayActionSheet(string title, string cancelButton, string destroyButton, params string[] otherButtons)
+        public override Task<string> DisplayActionSheetAsync(string title, string cancelButton, string destroyButton, params string[] otherButtons)
         {
             return Task.FromResult(pressedButton);
         }
