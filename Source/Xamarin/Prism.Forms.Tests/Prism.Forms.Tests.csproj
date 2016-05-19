@@ -46,7 +46,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="BootstrapperFixture.cs" />
     <Compile Include="Common\PageNavigationInfoFixture.cs" />
     <Compile Include="Common\PageNavigationRegistryFixture.cs" />
     <Compile Include="Common\UriParsingHelperFixture.cs" />
