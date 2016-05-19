@@ -21,7 +21,7 @@ namespace Prism.Forms.Tests.Services
         public async Task DisplayActionSheetNoButtons_ShouldThrowException()
         {
             var service = new PageDialogServiceMock("cancel", _applicationProvider);
-            var argumentException = await Assert.ThrowsAsync<ArgumentException>(() => service.DisplayActionSheet(null, null));
+            var argumentException = await Assert.ThrowsAsync<ArgumentException>(() => service.DisplayActionSheetAsync(null, null));
             Assert.Equal(typeof(ArgumentException), argumentException.GetType());
         }
 
@@ -32,7 +32,7 @@ namespace Prism.Forms.Tests.Services
             var cancelButtonPressed = false;
             var cancelCommand = new DelegateCommand(() => cancelButtonPressed = true);
             var button = ActionSheetButton.CreateCancelButton("cancel", cancelCommand);
-            await service.DisplayActionSheet(null, button);
+            await service.DisplayActionSheetAsync(null, button);
             Assert.True(cancelButtonPressed);
         }
 
@@ -45,7 +45,7 @@ namespace Prism.Forms.Tests.Services
             var button = ActionSheetButton.CreateCancelButton("cancel", cancelCommand);
             var destroyCommand = new DelegateCommand(() => destroyButtonPressed = true);
             var destroyButton = ActionSheetButton.CreateDestroyButton("destroy", destroyCommand);
-            await service.DisplayActionSheet(null, button, destroyButton);
+            await service.DisplayActionSheetAsync(null, button, destroyButton);
             Assert.True(destroyButtonPressed);
         }
 
@@ -58,7 +58,7 @@ namespace Prism.Forms.Tests.Services
             var button = ActionSheetButton.CreateCancelButton("cancel", cancelCommand);
             var destroyCommand = new DelegateCommand(() => buttonPressed = true);
             var destroyButton = ActionSheetButton.CreateDestroyButton("destroy", destroyCommand);
-            await service.DisplayActionSheet(null, button, destroyButton);
+            await service.DisplayActionSheetAsync(null, button, destroyButton);
             Assert.False(buttonPressed);
         }
 
@@ -69,7 +69,7 @@ namespace Prism.Forms.Tests.Services
             var buttonPressed = false;
             var command = new DelegateCommand(() => buttonPressed = true);
             var button = ActionSheetButton.CreateButton("other", command);
-            await service.DisplayActionSheet(null, button);
+            await service.DisplayActionSheetAsync(null, button);
             Assert.True(buttonPressed);
         }
 
@@ -80,7 +80,7 @@ namespace Prism.Forms.Tests.Services
             var buttonPressed = false;
             var command = new DelegateCommand(() => buttonPressed = true);
             var button = ActionSheetButton.CreateButton("other", command);
-            await service.DisplayActionSheet(null, button, null);
+            await service.DisplayActionSheetAsync(null, button, null);
             Assert.True(buttonPressed);
         }
     }

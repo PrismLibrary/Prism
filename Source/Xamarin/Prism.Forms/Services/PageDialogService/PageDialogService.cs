@@ -28,7 +28,7 @@ namespace Prism.Services
         /// <param name="acceptButton">Text for the accept button.</param>
         /// <param name="cancelButton">Text for the cancel button.</param>
         /// <returns><c>true</c> if non-destructive button pressed; otherwise <c>false</c>/></returns>
-        public virtual async Task<bool> DisplayAlert(string title, string message, string acceptButton, string cancelButton)
+        public virtual async Task<bool> DisplayAlertAsync(string title, string message, string acceptButton, string cancelButton)
         {
             return await _applicationProvider.MainPage.DisplayAlert(title, message, acceptButton, cancelButton);
         }
@@ -43,7 +43,7 @@ namespace Prism.Services
         /// <param name="message">Message to display.</param>
         /// <param name="cancelButton">Text for the cancel button.</param>
         /// <returns></returns>
-        public virtual async Task DisplayAlert(string title, string message, string cancelButton)
+        public virtual async Task DisplayAlertAsync(string title, string message, string cancelButton)
         {
             await _applicationProvider.MainPage.DisplayAlert(title, message, cancelButton);
         }
@@ -56,7 +56,7 @@ namespace Prism.Services
         /// <param name="destroyButton">Text for the ok button.</param>
         /// <param name="otherButtons">Text for other buttons.</param>
         /// <returns>Text for the pressed button</returns>
-        public virtual async Task<string> DisplayActionSheet(string title, string cancelButton, string destroyButton, params string[] otherButtons)
+        public virtual async Task<string> DisplayActionSheetAsync(string title, string cancelButton, string destroyButton, params string[] otherButtons)
         {
             return await _applicationProvider.MainPage.DisplayActionSheet(title, cancelButton, destroyButton, otherButtons);
         }
@@ -71,7 +71,7 @@ namespace Prism.Services
         /// <param name="title">Text to display in action sheet</param>
         /// <param name="buttons">Buttons displayed in action sheet</param>
         /// <returns></returns>
-        public virtual async Task DisplayActionSheet(string title, params IActionSheetButton[] buttons)
+        public virtual async Task DisplayActionSheetAsync(string title, params IActionSheetButton[] buttons)
         {
             if (buttons == null || buttons.All(b => b == null))
                 throw new ArgumentException("At least one button needs to be supplied", nameof(buttons));
@@ -80,7 +80,7 @@ namespace Prism.Services
             var cancelButton = buttons.FirstOrDefault(button => button != null && button.IsCancel);
             var otherButtonsText = buttons.Where(button => button != null && !(button.IsDestroy || button.IsCancel)).Select(b => b.Text).ToArray();
 
-            var pressedButton = await DisplayActionSheet(title, cancelButton?.Text, destroyButton?.Text, otherButtonsText);
+            var pressedButton = await DisplayActionSheetAsync(title, cancelButton?.Text, destroyButton?.Text, otherButtonsText);
 
             foreach (var button in buttons.Where(button => button != null && button.Text.Equals(pressedButton)))
             {
