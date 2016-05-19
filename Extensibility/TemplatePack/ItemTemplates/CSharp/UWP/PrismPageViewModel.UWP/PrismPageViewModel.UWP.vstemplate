@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <DefaultName>PrismPageViewModel.cs</DefaultName>
+    <Name>Prism Page ViewModel (UWP)</Name>
+    <Description>A ViewModel for a Prism Page for a Universal (UWP) app.</Description>
+    <TemplateID>56cf6da7-c3a3-4730-8b9d-e9b00bf89581</TemplateID>
+    <ProjectType>CSharp</ProjectType>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <Icon Package="{FAE04EC1-301F-11d3-BF4B-00C04F79EFBC}" ID="4515" />
+    <SortOrder>30</SortOrder>
+    <TemplateGroupID>WinRT-Managed-UAP</TemplateGroupID>
+    <TargetPlatformName>Windows</TargetPlatformName>
+    <RequiredPlatformVersion>6.1.0</RequiredPlatformVersion>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem OpenInEditor="true" SubType="Code" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">PrismTemplatePageViewModel.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

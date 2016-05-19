@@ -103,6 +103,7 @@ namespace Prism.Windows
 
         /// <summary>
         /// Override this method with logic that will be performed after the application is initialized. For example, navigating to the application's home page.
+        /// Note: This is called whenever the app is launched normally (start menu, taskbar, etc.) but not when resuming.
         /// </summary>
         /// <param name="args">The <see cref="LaunchActivatedEventArgs"/> instance containing the event data.</param>
         protected abstract Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args);
@@ -184,6 +185,18 @@ namespace Prism.Windows
         }
 
         /// <summary>
+        /// Override this method with logic that will be performed when resuming after the application is initialized. 
+        /// For example, refreshing user credentials.
+        /// Note: This is called whenever the app is resuming from suspend & terminate, but not during a fresh launch and 
+        /// not when resuming the app if it hasn't been suspended.
+        /// </summary>
+        /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
+        protected virtual Task OnResumeAppAsync(IActivatedEventArgs args)
+        {
+            return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
         /// Resolves the specified type.
         /// </summary>
         /// <param name="type">The type.</param>
@@ -209,6 +222,10 @@ namespace Prism.Windows
             if (Window.Current.Content != null && (!_isRestoringFromTermination || args != null))
             {
                 await OnActivateApplicationAsync(args);
+            }
+            else if (Window.Current.Content != null & _isRestoringFromTermination)
+            {
+                await OnResumeAppAsync(args);
             }
 
             // Ensure the current window is active
@@ -245,6 +262,10 @@ namespace Prism.Windows
             if (Window.Current.Content != null && (!_isRestoringFromTermination || (args != null && args.TileId != tileId)))
             {
                 await OnLaunchApplicationAsync(args);
+            }
+            else if (Window.Current.Content != null & _isRestoringFromTermination)
+            {
+                await OnResumeAppAsync(args);
             }
 
             // Ensure the current window is active
@@ -288,6 +309,13 @@ namespace Prism.Windows
         protected virtual ISessionStateService OnCreateSessionStateService() => null;
 
         /// <summary>
+        /// Override this method to provide custom logic that determines whether the app should restore state from a previous session.
+        /// By default, the app will only restore state when args.PreviousExecutionState is <see cref="ApplicationExecutionState"/>.Terminated.
+        /// </summary>
+        /// <returns>True if the app should restore state. False if the app should perform a fresh launch.</returns>
+        protected virtual bool ShouldRestoreState(IActivatedEventArgs args) => args.PreviousExecutionState == ApplicationExecutionState.Terminated;
+
+        /// <summary>
         /// Initializes the Frame and its content.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
@@ -329,14 +357,15 @@ namespace Prism.Windows
             ConfigureViewModelLocator();
 
             OnRegisterKnownTypesForSerialization();
-            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+            bool shouldRestore = ShouldRestoreState(args);
+            if (shouldRestore)
             {
                 await SessionStateService.RestoreSessionStateAsync();
             }
 
             await OnInitializeAsync(args);
 
-            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+            if (shouldRestore)
             {
                 // Restore the saved session state and navigate to the last page visited
                 try
@@ -354,7 +383,7 @@ namespace Prism.Windows
 
             return rootFrame;
         }
-
+        
         /// <summary>
         /// Handling the forward navigation request from the <see cref="IDeviceGestureService"/>
         /// </summary>
