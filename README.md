@@ -24,6 +24,7 @@ As most of you know, it takes a lot of time and effort for our small team to man
 * [Prism Problems & Solutions: Showing Multiple Shells](https://app.pluralsight.com/library/courses/prism-showing-multiple-shells/table-of-contents)
 * [Prism Problems & Solutions: Mastering TabControl](https://app.pluralsight.com/library/courses/prism-mastering-tabcontrol/table-of-contents)
 * [Prism Problems & Solutions: Loading Modules Based on User Roles](https://app.pluralsight.com/library/courses/prism-loading-modules-user-roles/table-of-contents)
+* [Prism Problems & Solutions: Loading Dependent Views](https://app.pluralsight.com/library/courses/prism-problems-solutions/table-of-contents)
 
 We appreciate your support.
 
@@ -32,12 +33,12 @@ We appreciate your support.
 
 These are the base packages for each platform, together with the Prism's Core assembly as a cross-platform PCL.
 
-| Platform | Assembly | Package |
-| -------- | -------- | ------- |
-| PCL | Prism.dll | [Prism.Core][1] |
-| WPF | Prism.Wpf.dll | [Prism.Wpf][2] |
-| Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][3] |
-| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][4] |
+| Platform | Assembly | Package | Version |
+| -------- | -------- | ------- | ------- |
+| PCL | Prism.dll | [Prism.Core][1] | [![21]][1] |
+| WPF | Prism.Wpf.dll | [Prism.Wpf][2] | [![22]][2] |
+| Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][3] | [![23]][3] |
+| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][4] | [![24]][4] |
 
 ### Container-specific packages
 
@@ -45,13 +46,16 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 Following matrix shows the platform specific support currently available.
 
-| Package               | WPF | Win10 UWP | Xamarin.Forms |
-|-----------------------|:---:|:---:|:---:|
-| [Prism.Unity][5]      |  X  |  X  |  [X][10]  |
-| [Prism.Mef][6]        |  X  |     |     |
-| [Prism.Autofac][7]    |  X  |  X  |     |
-| [Prism.StructureMap][8]| X  |     |     |
-| [Prism.Ninject][9]    |  X  |     |  X  |
+| Package                | Version    | WPF | Win10 UWP | Xamarin.Forms |
+|------------------------|------------|:---:|:---:|:---:|
+| [Prism.Unity][5] (*)   | [![25]][5] |  X  |  X  |     |
+| [Prism.Unity.Forms][10]| [![30]][10]|     |     |  X  |
+| [Prism.Mef][6]         | [![26]][6] |  X  |     |     |
+| [Prism.Autofac][7]     | [![27]][7] |  X  |  X  |     |
+| [Prism.StructureMap][8]| [![28]][8] |  X  |     |     |
+| [Prism.Ninject][9]     | [![29]][9] |  X  |     |  X  |
+
+<sup>(*)</sup> As Xamarin Forms also supports UWP now, adding Prism.Unity puts in some incorrect dependencies. Therefore we created a new Prism.Unity.Forms package. 
 
 Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package and the rest will be pulled in as well.
 
@@ -74,7 +78,7 @@ You can check out our milestones for coming releases [here](https://github.com/P
 
 #Contributing
 We strongly encourage you to get involved and help us evolve the code base. 
-- You can see what our expectations are for pull requests [here](https://github.com/PrismLibrary/Prism/blob/master/CONTRIBUTE.md).
+- You can see what our expectations are for pull requests [here](https://github.com/PrismLibrary/Prism/blob/master/.github/CONTRIBUTING.md).
 
 #Moving to Prism 6 from Previous Releases
 As part of taking over the code base from Microsoft and moving towards Prism 6, there are a number of breaking changes users of Prism 5 or Prism for Windows Runtime will have to deal with. Those changes are summarized below.
@@ -114,3 +118,14 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [8]: https://www.nuget.org/packages/Prism.StructureMap/
 [9]: https://www.nuget.org/packages/Prism.Ninject/
 [10]: https://www.nuget.org/packages/Prism.Unity.Forms/
+
+[21]: https://img.shields.io/nuget/vpre/Prism.Core.svg
+[22]: https://img.shields.io/nuget/vpre/Prism.Wpf.svg
+[23]: https://img.shields.io/nuget/vpre/Prism.Forms.svg
+[24]: https://img.shields.io/nuget/vpre/Prism.Windows.svg
+[25]: https://img.shields.io/nuget/vpre/Prism.Unity.svg
+[26]: https://img.shields.io/nuget/vpre/Prism.Mef.svg
+[27]: https://img.shields.io/nuget/vpre/Prism.Autofac.svg
+[28]: https://img.shields.io/nuget/vpre/Prism.StructureMap.svg
+[29]: https://img.shields.io/nuget/vpre/Prism.Ninject.svg
+[30]: https://img.shields.io/nuget/vpre/Prism.Unity.Forms.svg

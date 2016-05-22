@@ -26,7 +26,7 @@ namespace ModuleA.ViewModels
 
         void Navigate()
         {
-            _navigationService.Navigate("ViewB");
+            _navigationService.NavigateAsync("ViewB");
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
