@@ -52,12 +52,23 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\prism.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>TRACE;TEST</DefineConstants>
+    <DocumentationFile>bin\Release\Prism.Forms.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="ApplicationBase.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Common\PageNavigationInfo.cs" />
     <Compile Include="Common\PageNavigationRegistry.cs" />
     <Compile Include="Common\UriParsingHelper.cs" />
+    <Compile Include="FormsApplication.cs" />
     <Compile Include="Modularity\IModule.cs" />
     <Compile Include="Modularity\IModuleCatalog.cs" />
     <Compile Include="Modularity\IModuleInitializer.cs" />
