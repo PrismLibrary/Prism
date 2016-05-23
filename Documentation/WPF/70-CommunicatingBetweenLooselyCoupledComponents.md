@@ -114,9 +114,7 @@ _**Note:** Another approach is to store the command as a resource inside the App
 
 There are a lot of scenarios where you might want to share contextual information between the view that is hosting a region and a view that is inside a region. For example, a master detail–like view shows a business entity and exposes a region to show additional detail information for that business entity. The Prism Library uses a concept named **RegionContext** to share an object between the host of the region and any views that are loaded inside the region, as shown in the following illustration.
 
-![](images/Ch9CommunicationsFig1.png)
-
-Using RegionContext
+![Using the RegionContext](images/Ch9CommunicationsFig1.png)
 
 Depending on the scenario, you can choose to share a single piece of information (such as an identifier) or a shared model. The view can retrieve the **RegionContext**, and then sign up for change notifications. The view can also change the **RegionContext**'s value. There are several ways of exposing and consuming the **RegionContext**:
 
@@ -162,9 +160,7 @@ One example of this, from the Stock Trader RI, is when the **Process Order** but
 
 Events created with the Prism Library are typed events. This means you can take advantage of compile-time type checking to detect errors before you run the application. In the Prism Library, the **EventAggregator** allows subscribers or publishers to locate a specific **EventBase**. The event aggregator also allows for multiple publishers and multiple subscribers, as shown in the following illustration.
 
-![](images/Ch9CommunicationsFig2.png)
-
-Event aggregator
+![Using the event aggregator](images/Ch9CommunicationsFig2.png)
 
 > **About .NET Framework Events**
 

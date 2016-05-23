@@ -11,7 +11,7 @@ The Prism Library is primarily designed to help architects and developers create
 
 When building your application with the Prism Library, you may use the Unity Extensions for the Prism Library and the Unity Application Block (Unity) or the Managed Extensibility Framework (MEF) Extensions for the Prism Library and MEF. These are built on the .NET Framework 4.5 for WPF, as shown in the following illustration.
 
-![](images/Ch13LibraryFig1.png)
+![Positioning of Unity and MEF on top of .NET Framework](images/Ch13LibraryFig1.png)
 
 The Prism Library addresses common requirements for building both composite and non-composite applications on the WPF platform. As a whole, the Prism Library accelerates development by providing the services and components to address these needs.
 
