@@ -6,9 +6,7 @@ For example, consider a personal banking application. The user can access a vari
 
 The following illustration shows a design of a modular application with multiple modules.
 
-![](images/Ch4ModularityFig1.png)
-
-Module composition
+![Module composition](images/Ch4ModularityFig1.png)
 
 # Benefits of Building Modular Applications
 
@@ -62,9 +60,7 @@ The module loading process in Prism includes the following:
 
 The following figure shows the module loading process.
 
-![](images/Ch4ModularityFig2.png)
-
-<!-- -->
+![Module loading process](images/Ch4ModularityFig2.png)
 
 ### Module Catalog
 
@@ -141,11 +137,11 @@ When you develop your application in a modularized fashion, you structure the ap
 
 A module should encapsulate a set of related concerns and have a distinct set of responsibilities. A module can represent a vertical slice of the application or a horizontal service layer. Large applications will likely have both types of modules.
 
-![](images/Ch4ModularityFig3.png)
+![A vertical sliced application](images/Ch4ModularityFig3.png)
 
 An application with modules organized around vertical slices
 
-![](images/Ch4ModularityFig4.png)
+![A horizontal layered application](images/Ch4ModularityFig4.png)
 
 An application with modules organized around horizontal layers
 
@@ -172,9 +168,7 @@ A module should use an independent mechanism to get instances of external interf
 
 The following diagram shows the typical sequence of operations when modules are loaded that need to acquire or register references to the components and services.
 
-![](images/Ch4ModularityFig5.png)
-
-Example of dependency injection
+![Example of dependency injection](images/Ch4ModularityFig5.png)
 
 In this example, the **OrdersModule** assembly defines an **OrdersRepository** class (along with other views and classes that implement order functionality). The **CustomerModule** assembly defines a **CustomersViewModel** class which depends on the **OrdersRepository**, typically based on an interface exposed by the service. The application startup and bootstrapping process contains the following steps:
 

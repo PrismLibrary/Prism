@@ -126,7 +126,7 @@ public class TextToSpeech_iOS : ITextToSpeech
 
 **Note:** To Enable the speech capabilities on Windows Phone, tick the **ID_CAP_SPEECH_RECOGNITION** capability in the WMAppManifest.xml, otherwise access to the speech APIs are blocked.
 
-![](images/dependencyservice_01.png)
+![WMAppManifest setting for speech](images/dependencyservice_01.png)
 
 ### Step 4: Attribute the DependencyService
 Now, add the DependencyService attribute to each of the services classes in the respective platforms.  This registers the platform specific implementation of the speech service with Xamarin.Forms' DependencyService.

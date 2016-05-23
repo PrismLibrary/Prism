@@ -2,7 +2,7 @@
 
 When you build applications, you typically encounter or employ patterns. In the Prism Library and example reference implementation, the guidance demonstrates the Adapter, Application Controller, Command, Composite and Composite View, Dependency Injection, Event Aggregator, Façade, Inversion of Control, Observer, Model-View-ViewModel (MVVM), Registry, Repository, Separated Interface, Plug-In, and Service Locator patterns that are briefly discussed in this appendix. The following illustration shows a typical composite application architecture using the Prism Library and some of the common patterns. A simpler application would likely encounter some of these patterns while using Prism, but not necessarily all of them.
 
-![](images/Ch12PatternsFig1.png)
+![Sample composite application architecture with common patterns](images/Ch12PatternsFig1.png)
 
 ##### Sample composite application architecture with common patterns
 
@@ -24,9 +24,7 @@ The Command pattern is a design pattern in which objects are used to represent a
 
 At the heart of a composite application is the ability to combine individual views into a composite view. Frequently, the composing view defines a layout for the child views. For example, the shell of the application may define a navigation area and content area to host child views at run time, as shown in the following illustration.
 
-![](images/Ch12PatternsFig2.png)
-
-##### Composition example
+![Composition example](images/Ch12PatternsFig2.png)
 
 In the Stock Trader RI, this can be seen with the use of regions in the shell. The shell defines regions that modules locate and add views to during the initialization process. For examples of defining regions, see the Shell.xaml file.
 
