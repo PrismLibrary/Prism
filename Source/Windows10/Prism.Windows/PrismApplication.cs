@@ -181,19 +181,19 @@ namespace Prism.Windows
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
         protected virtual Task OnInitializeAsync(IActivatedEventArgs args)
         {
-            return Task.FromResult<object>(null);
+            return Task.CompletedTask;
         }
 
         /// <summary>
         /// Override this method with logic that will be performed when resuming after the application is initialized. 
         /// For example, refreshing user credentials.
-        /// Note: This is called whenever the app is resuming from suspend & terminate, but not during a fresh launch and 
+        /// Note: This is called whenever the app is resuming from suspend and terminate, but not during a fresh launch and 
         /// not when resuming the app if it hasn't been suspended.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
         protected virtual Task OnResumeAppAsync(IActivatedEventArgs args)
         {
-            return Task.FromResult<object>(null);
+            return Task.CompletedTask;
         }
 
         /// <summary>
