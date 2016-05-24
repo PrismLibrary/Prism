@@ -17,6 +17,8 @@ namespace Prism.Unity
 {
     public abstract class PrismApplication : PrismApplicationBase
     {
+        const string _navigationServiceName = "UnityPageNavigationService";
+
         public IUnityContainer Container { get; protected set; }
 
         public override void Initialize()
@@ -46,7 +48,7 @@ namespace Prism.Unity
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navService = Container.Resolve<UnityPageNavigationService>();
+                    var navService = Container.Resolve<INavigationService>(_navigationServiceName);
                     ((IPageAware)navService).Page = page;
 
                     overrides = new ParameterOverrides
@@ -66,7 +68,7 @@ namespace Prism.Unity
 
         protected override INavigationService CreateNavigationService()
         {
-            return Container.Resolve<UnityPageNavigationService>();
+            return Container.Resolve<INavigationService>(_navigationServiceName);
         }
 
         protected virtual void ConfigureContainer()
@@ -77,6 +79,7 @@ namespace Prism.Unity
             Container.RegisterInstance<IModuleCatalog>(ModuleCatalog);
 
             Container.RegisterType<IApplicationProvider, ApplicationProvider>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<INavigationService, UnityPageNavigationService>(_navigationServiceName);
             Container.RegisterType<IModuleManager, ModuleManager>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IModuleInitializer, UnityModuleInitializer>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
