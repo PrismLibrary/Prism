@@ -3,7 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+#if TEST
+using Application = Prism.FormsApplication;
+#endif
 using Xamarin.Forms;
+
 
 namespace Prism.Navigation
 {
