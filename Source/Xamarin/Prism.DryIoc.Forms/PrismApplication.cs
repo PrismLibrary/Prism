@@ -84,7 +84,7 @@ namespace Prism.DryIoc
 
         protected override INavigationService CreateNavigationService()
         {
-            return new DryIocPageNavigationService(Container);
+            return new DryIocPageNavigationService(new ApplicationProvider(), Container);
         }
 
         protected override void ConfigureViewModelLocator()

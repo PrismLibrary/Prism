@@ -74,7 +74,7 @@ namespace Prism.DryIoc.Forms.Tests
         {
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
-            await navigationService.Navigate<ViewModelAMock>();
+            await navigationService.NavigateAsync<ViewModelAMock>();
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace Prism.DryIoc.Forms.Tests
         {
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
-            await navigationService.Navigate<ConstructorArgumentViewModel>();
+            await navigationService.NavigateAsync<ConstructorArgumentViewModel>();
             var page = ((IPageAware)navigationService).Page;
             Assert.NotNull(page);
             var view = (ConstructorArgumentView)page;
@@ -105,7 +105,7 @@ namespace Prism.DryIoc.Forms.Tests
         {
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () => await navigationService.Navigate("missing"));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () => await navigationService.NavigateAsync("missing"));
             Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
@@ -114,7 +114,7 @@ namespace Prism.DryIoc.Forms.Tests
         {
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
-            await navigationService.Navigate("view");
+            await navigationService.NavigateAsync("view");
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace Prism.DryIoc.Forms.Tests
         {
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
-            await navigationService.Navigate<AutowireViewModel>();
+            await navigationService.NavigateAsync<AutowireViewModel>();
             var page = ((IPageAware)navigationService).Page;
             Assert.NotNull(page);
             Assert.IsType<AutowireView>(page);

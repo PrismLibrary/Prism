@@ -9,13 +9,22 @@ namespace Prism
     /// </summary>
     public abstract class FormsApplication
     {
-        protected FormsApplication()
+        /// <summary>
+        /// Create a new instance of <see cref="FormsApplication" />
+        /// </summary>
+        protected internal FormsApplication()
         {
             Current = this;
         }
 
+        /// <summary>
+        /// Active page
+        /// </summary>
         public Page MainPage { get; set; }
 
+        /// <summary>
+        /// Singeleton instance property
+        /// </summary>
         public static FormsApplication Current { get; set; }
     }
 }

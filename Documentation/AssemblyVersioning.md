@@ -30,8 +30,6 @@ Prism has standardized on the following format for **AssemblyFileVersion**:
 
 This will allow Prism to release bug fixes and updates without having to increment the **AssemblyVersion**.  This enables you as a developer to patch your applications without having to re-reference Prism assemblies or recompile and re-release your application.
 
-_Note: This is the version that the Prism NuGet packages will match_
-
 ## AssemblyInformationVersion
 The **AssemblyInformationalVersion** is intended to allow coherent versioning of the entire product, which may consist of many assemblies that are independently versioned, and potentially developed by disparate teams. The **AssemblyInformationAttribute** is used to communicate to the community, or customers, what version of Prism is the current release.
 
@@ -41,6 +39,6 @@ The **AssemblyInformationAttribute** lets us market Prism as an overall product 
 
 Prism has standardize on the following format for **AssemblyInformationVersioning**:
 
-**[Major].[Minor]**
+**[Major].[Minor].[Revision]**
 
-
+_Note: This is the version that the Prism NuGet packages will match_

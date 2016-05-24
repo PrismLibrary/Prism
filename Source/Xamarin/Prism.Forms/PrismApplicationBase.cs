@@ -4,7 +4,7 @@ using Prism.Navigation;
 #if TEST
 using Application = Prism.FormsApplication;
 #else
-using Application = Xamarin.Forms.Application;
+using Xamarin.Forms;
 #endif
 
 namespace Prism
@@ -28,10 +28,19 @@ namespace Prism
         /// </summary>
         protected INavigationService NavigationService { get; set; }
 
-        public PrismApplicationBase()
+        protected PrismApplicationBase()
+        {
+            InitializeInternal();
+        }
+
+        /// <summary>
+        /// Run the intialization process.
+        /// </summary>
+        private void InitializeInternal()
         {
             ConfigureViewModelLocator();
             Initialize();
+            OnInitialized();
         }
 
         /// <summary>

@@ -19,6 +19,8 @@ namespace Prism.Ninject
 {
     public abstract class PrismApplication : PrismApplicationBase
     {
+        const string _navigationServiceName = "NinjectPageNavigationService";
+
         /// <summary>
         /// The Ninject Kernel
         /// </summary>
@@ -40,8 +42,6 @@ namespace Prism.Ninject
             RegisterTypes();
 
             InitializeModules();
-
-            OnInitialized();
         }
 
         /// <inheritDoc />
@@ -54,7 +54,7 @@ namespace Prism.Ninject
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navService = Kernel.Get<NinjectNavigationService>();
+                    var navService = Kernel.Get<INavigationService>(_navigationServiceName);
                     ((IPageAware)navService).Page = page;
 
                     overrides = new IParameter[]
@@ -88,6 +88,8 @@ namespace Prism.Ninject
             Kernel.Bind<ILoggerFacade>().ToConstant(Logger).InSingletonScope();
             Kernel.Bind<IModuleCatalog>().ToConstant(ModuleCatalog).InSingletonScope();
 
+            Kernel.Bind<IApplicationProvider>().To<ApplicationProvider>().InSingletonScope();
+            Kernel.Bind<INavigationService>().To<NinjectPageNavigationService>().Named(_navigationServiceName);
             Kernel.Bind<IModuleManager>().To<ModuleManager>().InSingletonScope();
             Kernel.Bind<IModuleInitializer>().To<NinjectModuleInitializer>().InSingletonScope();
             Kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
@@ -97,7 +99,7 @@ namespace Prism.Ninject
 
         protected override INavigationService CreateNavigationService()
         {
-            return Kernel.Get<NinjectNavigationService>();
+            return Kernel.Get<INavigationService>(_navigationServiceName);
         }
 
         protected override void InitializeModules()

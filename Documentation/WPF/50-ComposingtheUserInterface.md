@@ -12,9 +12,7 @@ An application UI can be built by using one of the following paradigms:
 
 The Stock Trader Reference Implementation (Stock Trader RI) is composed by loading multiple views that come from different modules into regions exposed by the shell, as shown in the following illustration.
 
-![](images/Ch7UIFig1.png)
-
-Stock Trader RI regions and views
+![Stock Trader RI regions and views](images/Ch7UIFig1.png)
 
 ## UI Layout Concepts
 
@@ -102,9 +100,7 @@ Regions are enabled in the Prism Library through a region manager, regions, and 
 
 The **RegionManager** class is responsible for creating and maintaining a collection of regions for the host controls. The **RegionManager** uses a control-specific adapter that associates a new region with the host control. The following illustration shows the relationship between the region, control, and adapter set up by the **RegionManager**.
 
-![](images/Ch7UIFig2.png)
-
-Region, control, and adapter relationship
+![Region, control, and adapter relationship](images/Ch7UIFig2.png)
 
 The **RegionManager** can create regions in code or in XAML. The **RegionManager.RegionName** attached property is used to create a region in XAML by applying the attached property to the host control.
 
@@ -123,9 +119,7 @@ A region can contain zero or more items. Depending on the type of host control t
 
 In the following illustration, the Stock Trader RI shell contains four regions: **MainRegion**, **MainToolbarRegion**, **ResearchRegion**, and **ActionRegion**. These regions are populated by the various modules in the application—the content can be changed at any time.
 
-![](images/Ch7UIFig3.png)
-
-Stock Trader RI regions
+![Stock Trader RI regions](images/Ch7UIFig3.png)
 
 ##### Module User Control to Region Mapping
 
@@ -135,9 +129,7 @@ The **MainRegion** contains the **WatchListView** user control, which is contain
 
 In applications created with the Prism Library, mappings like this will be a part of the design process because designers and developers use them to determine what content is proposed to be in a specific region. This allows designers to determine the overall space needed and any additional items that must be added to ensure that the content will be viewable in the allowable space.
 
-![](images/Ch7UIFig4.png)
-
-Module user control to region mapping
+![Module user control to region mapping](images/Ch7UIFig4.png)
 
 #### Default Region Functionality
 
@@ -259,9 +251,7 @@ You can also have more than one shell in your application. If your application i
 
 The WPF Stock Trader RI has a shell as its main window. In the following illustration, the shell and views are highlighted. The shell is the main window that appears when the Stock Trader RI starts and which contains all the views. It defines the regions into which modules add their views and a couple of top-level UI items, including the CFI Stock Trader title and the Watch List tear-off banner.
 
-![](images/Ch7UIFig1.png)
-
-Stock Trader RI shell window, regions, and views
+![Stock Trader RI shell window, regions, and views](images/Ch7UIFig1.png)
 
 The shell implementation in the Stock Trader RI is provided by Shell.xaml, its code-behind file Shell.xaml.cs, and its view model ShellViewModel.cs. Shell.xaml includes the layout and UI elements that are part of the shell, including definitions of regions to which modules add their views.
 
@@ -355,9 +345,7 @@ Regions are defined by assigning a region name to a WPF control, either in XAML 
 
 The shell of the application defines the application layout at the highest level; for example, by specifying the locations for the main content and the navigation content, as shown in the following illustration. Layout within these high-level views is similarly defined, allowing the overall UI to be recursively composed.
 
-A template shell
-
-![](images/Ch7UIFig6.png)
+![A template shell](images/Ch7UIFig6.png)
 
 Regions are sometimes used to define locations for multiple views that are logically related. In this scenario, the region control is typically an **ItemsControl**-derived control that will display the views according to the layout strategy that it implements, such as in a stacked or tabbed layout arrangement.
 
@@ -365,15 +353,11 @@ Regions can also be used to define a location for a single view; for example, by
 
 #### Stock Trader RI Shell Regions
 
-![](images/Ch7UIFig3.png)
-
-Stock Trader RI shell regions
+![Stock Trader RI shell regions](images/Ch7UIFig3.png)
 
 A multiple-view layout is also demonstrated in the Stock Trader RI when the application is buying or selling a stock. The Buy/Sell area is a list-style region that shows multiple buy/sell views (**OrderCompositeView**) as part of its list, as shown in the following illustration.
 
-![](images/Ch7UIFig8.png)
-
-ItemsControl region
+![ItemsControl region](images/Ch7UIFig8.png)
 
 The shell's **ActionRegion** contains the **OrdersView**. The **OrdersView** contains the **Submit All** and **Cancel All** buttons as well as the **OrdersRegion**. The **OrdersRegion** is attached to a **ListBox** control which displays multiple **OrderCompositeViews**.
 
@@ -433,9 +417,7 @@ After the application is loaded, the composite view is notified to handle the pl
 
 The following illustration shows the view discovery approach.
 
-![](images/Ch7UIFig9.png)
-
-View discovery
+![View discovery](images/Ch7UIFig9.png)
 
 The Prism Library defines a standard registry, **RegionViewRegistry**, to register views for these named locations.
 
@@ -459,9 +441,7 @@ The UI Composition QuickStart has a walkthrough in the EmployeeModule ModuleInit
 
 In the view injection approach, views are programmatically added or removed from a named location by the modules that manage them. To enable this, the application contains a registry of named locations in the UI. A module can use the registry to look up one of the locations and then programmatically inject views into it. To make sure that locations in the registry can be accessed similarly, each of the named locations adheres to a common interface used to inject the view. The following illustration shows the view injection approach.
 
-![](images/Ch7UIFig10.png)
-
-View injection
+![View injection](images/Ch7UIFig10.png)
 
 The Prism Library defines a standard registry, **RegionManager**, and a standard interface, **IRegion**, for access these locations.
 
@@ -585,9 +565,7 @@ Scoped regions are available only with view injection. You should use them if yo
 
 Instead, use scoped regions so that each view will have its own **RegionManager** and its regions will be registered with that **RegionManager** rather than the parent **RegionManager**, as shown in the following illustration.
 
-![](images/Ch7UIFig11.png)
-
-Parent and scoped RegionManagers
+![Parent and scoped RegionManagers](images/Ch7UIFig11.png)
 
 To create a local **RegionManager** for a view, specify that a new **RegionManager** should be created when you add your view to a region, as illustrated in the following code example.
 
@@ -604,9 +582,7 @@ The **Add** method will return the new **RegionManager** that the view can retai
 
 The visual representation of your application can take many forms, including user controls, custom controls, and data templates, to name a few. In the case of the Stock Trader RI, user controls are typically used to represent distinct sections on the main window, but this is not a standard. In your application, you should use an approach that you are most familiar with and that fits into how you work as a designer. Regardless of the predominating visual representation in your application, you will inevitably use a combination of user controls, custom controls, and data templates in your overall design. The following figure shows where the Stock Trader RI uses these various items. This illustration also serves as a reference for the following sections, which describe each of the items.
 
-![](images/Ch7UIFig12.png)
-
-Stock Trader RI usage of user controls, custom controls, and data templates
+![Stock Trader RI usage of user controls, custom controls, and data templates](images/Ch7UIFig12.png)
 
 #### User Controls
 
@@ -626,9 +602,7 @@ Blend for Visual Studio 2013 and Visual Studio 2013 have full visual design supp
 
 Resources such as styles, resource dictionaries, and control templates can be scattered throughout an application. This is especially true with a composite application. When you consider where to place resources, pay special attention to dependencies between UI elements and the resources they need. The Stock Trader RI solution, shown in the following figure, contains labels that indicate the various areas where resources can live.
 
-![](images/Ch7UIFig13.png)
-
-Resource distribution across a solution
+![Resource distribution across a solution](images/Ch7UIFig13.png)
 
 ##### Application Resources
 
@@ -666,11 +640,11 @@ The items cannot be seen during design time; therefore, determining how big they
 - Consider using an expander and **ScrollViewer** combination for situations in which a large amount of dynamic content needs to fit into a confined area.
 - Pay close attention to how content enlarges as the screen content grows to ensure that the appearance of your application is appealing in any resolution.
 
-![](images/StockTraderRIExpressionBlend.png)
+![Stock Trader RI main window in Blend for Visual Studio 2013](images/StockTraderRIExpressionBlend.png)
 
 Stock Trader RI main window in Blend for Visual Studio 2013
 
-![](images/StockTraderRI.png)
+![Stock Trader RI main window during run time](images/StockTraderRI.png)
 
 Stock Trader RI main window during run time
 
@@ -765,13 +739,13 @@ The following table lists the main causes of poor design-time experiences. By av
 
 | **Avoid This in User Code**                                                                                                                                                                                                                                                                                                                                                                            | **Visual Studio 2013** | **Blend for Visual Studio 2013** |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------|----------------------------------|
-| Spinning multiple threads at design time. For example, instantiating and starting a **Timer** in a constructor or **Loaded** event at design time.                                                                                                                                                                                                                                                     | ![](images/No.png)     | ![](images/No.png)               |
-| Using controls that cause stack overflows at design time.<br>Using controls that attempt to recursively load themselves.                                                                                                                                                                                                                                                                               | ![](images/No.png)     | ![](images/No.png)               |
-| Throwing null reference exceptions in converters or data template selectors.                                                                                                                                                                                                                                                                                                                           | ![](images/No.png)     | ![](images/No.png)               |
-| Throwing null reference or other exceptions in constructors. These are caused by: <ul><li>Using code that calls into the business or data layers to return data from a database or over the network at design time.</li><li>Attempting to resolve dependencies by using MEF, inversion of control (IoC), or a Service Locator before bootstrapping or container initialization code has run.</li></ul> | ![](images/No.png)     | ![](images/No.png)               |
-| Throwing null reference or other exceptions inside the **Loaded** events of controls or user controls. This happens when you make assumptions about the state of the control that might be true at run time but are not true at design time.                                                                                                                                                           | ![](images/No.png)     | ![](images/No.png)               |
-| Attempting to access the **Application** or **Application.Current** object at design time.                                                                                                                                                                                                                                                                                                             | ![](images/No.png)     | ![](images/No.png)               |
-| Creating very large projects.                                                                                                                                                                                                                                                                                                                                                                          | ![](images/Yes.png)    | ![](images/No.png)               |
+| Spinning multiple threads at design time. For example, instantiating and starting a **Timer** in a constructor or **Loaded** event at design time.                                                                                                                                                                                                                                                     | ![No](images/No.png)   | ![No](images/No.png)             |
+| Using controls that cause stack overflows at design time.<br>Using controls that attempt to recursively load themselves.                                                                                                                                                                                                                                                                               | ![No](images/No.png)   | ![No](images/No.png)             |
+| Throwing null reference exceptions in converters or data template selectors.                                                                                                                                                                                                                                                                                                                           | ![No](images/No.png)   | ![No](images/No.png)             |
+| Throwing null reference or other exceptions in constructors. These are caused by: <ul><li>Using code that calls into the business or data layers to return data from a database or over the network at design time.</li><li>Attempting to resolve dependencies by using MEF, inversion of control (IoC), or a Service Locator before bootstrapping or container initialization code has run.</li></ul> | ![No](images/No.png)   | ![No](images/No.png)             |
+| Throwing null reference or other exceptions inside the **Loaded** events of controls or user controls. This happens when you make assumptions about the state of the control that might be true at run time but are not true at design time.                                                                                                                                                           | ![No](images/No.png)   | ![No](images/No.png)             |
+| Attempting to access the **Application** or **Application.Current** object at design time.                                                                                                                                                                                                                                                                                                             | ![No](images/No.png)   | ![No](images/No.png)             |
+| Creating very large projects.                                                                                                                                                                                                                                                                                                                                                                          | ![Yes](images/Yes.png) | ![No](images/No.png)             |
 
 #### Mitigating Problems in Design-Time User Code
 
@@ -793,7 +767,7 @@ Both Blend and Visual Studio use mockups of the root object displayed in a desig
 
 In the following illustration, the root **Windows** constructor and **Loaded** event code will not be executed. The child user controls constructor and **Loaded** event code will be executed.
 
-![](images/Ch7UIFig16.png)
+![User Control code executed at Design-Time](images/Ch7UIFig16.png)
 
 These concepts are important, especially if you are building composite applications or applications that are built dynamically at run time.
 
@@ -979,21 +953,15 @@ _**Note:** In the next illustration, the **Custom Tool** property is empty. This
 
 _When you use Visual Studio 2013 to add a sample data file, you typically add a new resource dictionary item and edit from there. In this case, you must set the **Build Action** and clear the **Custom Tool** property._
 
-![](images/Ch7UIFig17.png)
-
-Sample data file properties
+![Sample data file properties](images/Ch7UIFig17.png)
 
 Expression Blend provides tooling for quickly creating and binding XAML sample data. The XAML sample data can be used and viewed in the Visual Studio 2013 designer, as shown in the following illustration.
 
-![](images/BlendCreateSampleData.png)
-
-Defining sample data in Blend for Visual Studio 2013
+![Sample data in Blend for Visual Studio 2013](images/BlendCreateSampleData.png)
 
 After it generates the sample data, the data will appear in the Data pane, as shown in the following illustration.
 
-![](images/Ch7UIFig19.png)
-
-Data pane
+![Data pane](images/Ch7UIFig19.png)
 
 You can then drag it onto the root element of the view, such as the **UserControl**, and have it set the **d:DataContext** property. You can also drop sample data collections onto items controls, and Blend will wire up the sample data to the control.
 

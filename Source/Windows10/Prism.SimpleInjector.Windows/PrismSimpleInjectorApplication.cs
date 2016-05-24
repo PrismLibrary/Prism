@@ -106,7 +106,7 @@ namespace Prism.SimpleInjector.Windows
             Container.RegisterSingleton(NavigationService);
             Container.RegisterSingleton(EventAggregator);
 
-            return Task.FromResult<object>(null);
+            return Task.CompletedTask;
         }
     }
 }

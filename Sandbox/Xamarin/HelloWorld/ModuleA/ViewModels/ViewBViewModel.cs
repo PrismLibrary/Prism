@@ -27,7 +27,7 @@ namespace ModuleA.ViewModels
 
         void Navigate()
         {
-            _navigationService.GoBack();
+            _navigationService.GoBackAsync();
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
