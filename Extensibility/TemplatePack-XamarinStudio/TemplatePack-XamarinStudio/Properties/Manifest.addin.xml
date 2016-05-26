@@ -25,4 +25,8 @@
 						 file="ProjectTemplates/PrismUnityApp/PrismUnityApp.xpt.xml" />
 	</Extension>
 
+	<Extension path="/MonoDevelop/Ide/CodeTemplates">
+		<CodeTemplate file="Snippets/PrismCodeTemplates.xml" />
+	</Extension>
+
 </ExtensionModel>

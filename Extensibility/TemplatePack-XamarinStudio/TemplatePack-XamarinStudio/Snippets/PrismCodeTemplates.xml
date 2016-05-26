@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<PrismCodeTemplates version="1.0">
+
+	<CodeTemplate version="1.0">
+		<Header>
+			<_Group>C#</_Group>
+			<MimeType>text/x-csharp</MimeType>
+			<Shortcut>propp</Shortcut>
+			<_Description>Prism Property - Define a property with backing field</_Description>
+		</Header>
+		<Variables>
+			<Variable name="type">
+				<Default>string</Default>
+			</Variable>
+			<Variable name="propertyName">
+				<Default>PropertyName</Default>
+			</Variable>
+			<Variable name="fieldName">
+				<Default>fieldName</Default>
+			</Variable>
+		</Variables>
+		<Code><![CDATA[private $type$ $fieldName$;
+		public $type$ $propertyName$
+		{
+			get { return $fieldName$; }
+			set { SetProperty(ref $fieldName$, value); }
+		}$end$]]></Code>
+	</CodeTemplate>
+
+	<CodeTemplate version="1.0">
+		<Header>
+			<_Group>C#</_Group>
+			<MimeType>text/x-csharp</MimeType>
+			<Shortcut>cmd</Shortcut>
+			<_Description>Prism DelegateCommand - Create a Command property.</_Description>
+		</Header>
+		<Variables>
+			<Variable name="commandName">
+				<Default>CommandName</Default>
+			</Variable>
+		</Variables>
+		<Code><![CDATA[public DelegateCommand $commandName$	{ get; private set; }$end$]]></Code>
+	</CodeTemplate>
+
+	<CodeTemplate version="1.0">
+		<Header>
+			<_Group>C#</_Group>
+			<MimeType>text/x-csharp</MimeType>
+			<Shortcut>cmdg</Shortcut>
+			<_Description>Prism DelegateCommand Generic - Creates a generic DelegateCommand property.</_Description>
+		</Header>
+		<Variables>
+			<Variable name="type">
+				<Default>string</Default>
+			</Variable>
+			<Variable name="commandName">
+				<Default>CommandName</Default>
+			</Variable>
+		</Variables>
+		<Code><![CDATA[public DelegateCommand<$type$> $commandName$	{ get; private set; }$end$]]></Code>
+	</CodeTemplate>
+
+</PrismCodeTemplates>

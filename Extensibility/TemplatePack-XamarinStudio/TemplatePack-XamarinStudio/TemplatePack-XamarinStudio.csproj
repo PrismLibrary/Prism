@@ -52,6 +52,7 @@
     <Folder Include="ProjectTemplates\PrismUnityApp\UnityApp.iOS\AppIcons\" />
     <Folder Include="ProjectTemplates\PrismUnityApp\UnityApp.UITests\" />
     <Folder Include="Images\" />
+    <Folder Include="Snippets\" />
   </ItemGroup>
   <ItemGroup>
     <AddinFile Include="ItemTemplates\PrismContentPage.xaml" />
@@ -109,5 +110,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </AddinFile>
     <AddinFile Include="ProjectTemplates\PrismUnityApp\PrismUnityApp.xpt.xml" />
+    <AddinFile Include="Snippets\PrismCodeTemplates.xml" />
   </ItemGroup>
 </Project>
