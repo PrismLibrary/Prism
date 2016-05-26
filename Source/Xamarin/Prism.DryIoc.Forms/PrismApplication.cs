@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DryIoc;
 using Prism.Common;
 using Prism.DryIoc.Extensions;
@@ -29,8 +30,8 @@ namespace Prism.DryIoc
             ConfigureModuleCatalog();
 
             Container = CreateContainer();
-            NavigationService = CreateNavigationService();
             ConfigureContainer();
+            NavigationService = CreateNavigationService();
 
             RegisterTypes();
 
@@ -65,7 +66,9 @@ namespace Prism.DryIoc
         {
             Container.RegisterInstance(Logger);
             Container.RegisterInstance(ModuleCatalog);
-            Container.RegisterInstance(NavigationService);
+            Container.RegisterInstance(Container);
+            Container.Register<IApplicationProvider, ApplicationProvider>();
+            Container.Register<INavigationService, DryIocPageNavigationService>(setup: Setup.With(allowDisposableTransient: true));
             Container.Register<IModuleManager, ModuleManager>(Reuse.Singleton);
             Container.Register<IModuleInitializer, DryIocModuleInitializer>(Reuse.Singleton);
             Container.Register<IEventAggregator, EventAggregator>(Reuse.Singleton);
@@ -84,7 +87,7 @@ namespace Prism.DryIoc
 
         protected override INavigationService CreateNavigationService()
         {
-            return new DryIocPageNavigationService(new ApplicationProvider(), Container);
+            return Container.Resolve<INavigationService>();
         }
 
         protected override void ConfigureViewModelLocator()
@@ -96,6 +99,9 @@ namespace Prism.DryIoc
                 {
                     var navigationService = Container.Resolve<INavigationService>();
                     ((IPageAware)navigationService).Page = page;
+                    // Resolve type using the instance navigationService
+                    var resolver = Container.Resolve<Func<INavigationService, object>>(type);
+                    return resolver(navigationService);
                 }
                 return Container.Resolve(type);
             });
