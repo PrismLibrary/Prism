@@ -116,6 +116,7 @@
     <None Include="NinjectApp.Droid\NinjectAppTemplate.Droid.csproj" />
     <VSTemplate Include="PrismNinjectApp.vstemplate">
       <SubType>Designer</SubType>
+      <OutputSubPath>Prism\Forms</OutputSubPath>
     </VSTemplate>
     <None Include="PrismNinjectApp.ico" />
   </ItemGroup>
