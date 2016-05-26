@@ -5,16 +5,16 @@ namespace $safeprojectname$
 {
     public partial class App : PrismApplication
     {
-        protected override void OnInitialized()
+        protected async override void OnInitialized()
         {
             InitializeComponent();
 
-            NavigationService.NavigateAsync("MainPage?title=Hello%20from%20Xamarin.Forms");
+            await NavigationService.NavigateAsync("MainPage?title=Hello%20from%20Xamarin.Forms");
         }
 
         protected override void RegisterTypes()
         {
-            Container.RegisterTypeForNavigation<MainPage>();
+            Kernel.RegisterTypeForNavigation<MainPage>();
         }
     }
 }
