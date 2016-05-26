@@ -69,12 +69,12 @@ Prism now integrates with Visual Studio and Xamarin Studio to enable a highly pr
 ### Visual Studio Gallery
 The Prism Template Pack is available on the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/e7b6bde2-ba59-43dd-9d14-58409940ffa0).  To install, just go to Visual Studio -> Tools -> Extensions and Updates... then search for **Prism** in the online gallery:
 
-![Visual Studio Gallery](Documentation/images/prism-visual-studio-gallery.png)
+![Visual Studio Gallery](Documentation/images/prism-visual-studio-gallery.jpg)
 
 ### Xamarin Studio Addin
 Installation is straightforward if you've installed Xamarin Add-ins before, just go to  Xamarin Studio -> Add-In Manager...  from the Menu and then search for  **Prism**  from the Gallery:
 
-![Xamarin Studio Addin Manager](Documentation/images/prism-xamarin-studio-addin-manager.png)
+![Xamarin Studio Addin Manager](Documentation/images/prism-xamarin-studio-addin-manager.jpg)
 
 # Samples
 We have both a development sandbox (frequently changing) and stable samples for using Prism with WPF, UWP and Xamarin Forms. An overview of the samples can be found [here](Sandbox/README.md).
