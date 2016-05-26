@@ -1,0 +1,12 @@
+﻿<Properties StartupItem="TemplatePack-XamarinStudio\TemplatePack-XamarinStudio.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="TemplatePack-XamarinStudio\ProjectTemplates\PrismUnityApp\PrismUnityApp.xpt.xml">
+    <Files>
+      <File FileName="TemplatePack-XamarinStudio\ProjectTemplates\PrismUnityApp\PrismUnityApp.xpt.xml" Line="27" Column="38" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
