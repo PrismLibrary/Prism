@@ -64,7 +64,7 @@ namespace Prism.DryIoc.Forms.Tests
         public void Container_ResolveNavigationService()
         {
             var app = new PrismApplicationMock();
-            var navigationService = app.Container.Resolve<INavigationService>();
+            var navigationService = app.NavigationService;
             Assert.NotNull(navigationService);
             Assert.IsType<DryIocPageNavigationService>(navigationService);
         }
@@ -148,7 +148,7 @@ namespace Prism.DryIoc.Forms.Tests
 
         private static INavigationService ResolveAndSetRootPage(PrismApplicationMock app)
         {
-            var navigationService = app.Container.Resolve<INavigationService>();
+            var navigationService = app.NavigationService;
             ((IPageAware)navigationService).Page = new ContentPage();
             return navigationService;
         }

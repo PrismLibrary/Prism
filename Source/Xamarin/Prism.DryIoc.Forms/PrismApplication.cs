@@ -22,6 +22,8 @@ namespace Prism.DryIoc
     {
         public IContainer Container { get; protected set; }
 
+        private const string _navigationServiceKey = "DryIocPageNavigationService";
+
         public override void Initialize()
         {
             Logger = CreateLogger();
@@ -30,6 +32,7 @@ namespace Prism.DryIoc
             ConfigureModuleCatalog();
 
             Container = CreateContainer();
+            ConfigureNavigationService(_navigationServiceKey);
             ConfigureContainer();
             NavigationService = CreateNavigationService();
 
@@ -41,9 +44,10 @@ namespace Prism.DryIoc
         }
 
         /// <summary>
-        /// Create a default instance of <see cref="IContainer"/> with <see cref="Rules"/> created in <see cref="CreateContainerRules"/>
+        /// Create a default instance of <see cref="IContainer" /> with <see cref="Rules" /> created in
+        /// <see cref="CreateContainerRules" />
         /// </summary>
-        /// <returns>An instance of <see cref="IContainer"/></returns>
+        /// <returns>An instance of <see cref="IContainer" /></returns>
         protected virtual IContainer CreateContainer()
         {
             var rules = CreateContainerRules();
@@ -51,12 +55,13 @@ namespace Prism.DryIoc
         }
 
         /// <summary>
-        /// Create <see cref="Rules"/> to alter behavior of <see cref="IContainer"/>
+        /// Create <see cref="Rules" /> to alter behavior of <see cref="IContainer" />
         /// </summary>
         /// <remarks>
-        /// Default rule is to consult <see cref="Xamarin.Forms.DependencyService"/> if the requested type cannot be inferred from <see cref="Container"/>
+        /// Default rule is to consult <see cref="Xamarin.Forms.DependencyService" /> if the requested type cannot be inferred from
+        /// <see cref="Container" />
         /// </remarks>
-        /// <returns>An instance of <see cref="Rules"/></returns>
+        /// <returns>An instance of <see cref="Rules" /></returns>
         protected virtual Rules CreateContainerRules()
         {
             return UnknownServiceResolverRule.DependencyServiceResolverRule;
@@ -68,12 +73,22 @@ namespace Prism.DryIoc
             Container.RegisterInstance(ModuleCatalog);
             Container.RegisterInstance(Container);
             Container.Register<IApplicationProvider, ApplicationProvider>();
-            Container.Register<INavigationService, DryIocPageNavigationService>(setup: Setup.With(allowDisposableTransient: true));
             Container.Register<IModuleManager, ModuleManager>(Reuse.Singleton);
             Container.Register<IModuleInitializer, DryIocModuleInitializer>(Reuse.Singleton);
             Container.Register<IEventAggregator, EventAggregator>(Reuse.Singleton);
             Container.Register<IDependencyService, DependencyService>(Reuse.Singleton);
             Container.Register<IPageDialogService, PageDialogService>(Reuse.Singleton);
+        }
+
+        /// <summary>
+        /// Register <see cref="INavigationService"/> using key <paramref name="serviceKey"/>
+        /// </summary>
+        /// <param name="serviceKey">Service key used to resolve <see cref="INavigationService"/></param>
+        protected virtual void ConfigureNavigationService(string serviceKey)
+        {
+            Container.Register<INavigationService, DryIocPageNavigationService>(
+                serviceKey: serviceKey,
+                setup: Setup.With(allowDisposableTransient: true));
         }
 
         protected override void InitializeModules()
@@ -85,9 +100,16 @@ namespace Prism.DryIoc
             }
         }
 
+        /// <summary>
+        /// Resolve <see cref="INavigationService"/>
+        /// </summary>
+        /// <remarks>
+        /// The <see cref="_navigationServiceKey"/> is used as service key when resolving
+        /// </remarks>
+        /// <returns>Instance of <see cref="INavigationService"/></returns>
         protected override INavigationService CreateNavigationService()
         {
-            return Container.Resolve<INavigationService>();
+            return Container.Resolve<INavigationService>(_navigationServiceKey);
         }
 
         protected override void ConfigureViewModelLocator()
@@ -97,7 +119,7 @@ namespace Prism.DryIoc
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navigationService = Container.Resolve<INavigationService>();
+                    var navigationService = CreateNavigationService();
                     ((IPageAware)navigationService).Page = page;
                     ResolveTypeForPage(page, type, navigationService);
                     // Resolve type using the instance navigationService
@@ -109,19 +131,18 @@ namespace Prism.DryIoc
         }
 
         /// <summary>
-        /// Called from <see cref="ViewModelLocationProvider.SetDefaultViewModelFactory(System.Func{System.Type,object})"/> when 
-        /// requested to resolve <paramref name="type"/> while navigatin to <see cref="view"/>
+        /// Called from <see cref="ViewModelLocationProvider.SetDefaultViewModelFactory(System.Func{System.Type,object})" /> when
+        /// requested to resolve <paramref name="type" /> while navigatin to <see cref="view" />
         /// </summary>
         /// <remarks>
-        /// This is used for testing to ensure that the resolved instance of <paramref name="navigationService"/> contains the 
-        /// correct instance of <paramref name="view"/>
+        /// This is used for testing to ensure that the resolved instance of <paramref name="navigationService" /> contains the
+        /// correct instance of <paramref name="view" />
         /// </remarks>
-        /// <param name="view"><see cref="Page"/> navigated to</param>
-        /// <param name="type"><see cref="Type"/> to resolve</param>
-        /// <param name="navigationService">Overriding instance of <see cref="INavigationService"/></param>
+        /// <param name="view"><see cref="Page" /> navigated to</param>
+        /// <param name="type"><see cref="Type" /> to resolve</param>
+        /// <param name="navigationService">Overriding instance of <see cref="INavigationService" /></param>
         protected virtual void ResolveTypeForPage(Page view, Type type, INavigationService navigationService)
         {
-
         }
     }
 }

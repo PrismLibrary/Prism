@@ -25,6 +25,8 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
 
         public IDictionary<Type, INavigationService> NavigationServices { get; }
 
+        public new INavigationService NavigationService => base.NavigationService;
+
         public bool Initialized { get; private set; }
 
         protected override void OnInitialized()
