@@ -105,7 +105,7 @@ namespace Prism.DryIoc.Forms.Tests
         {
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () => await navigationService.NavigateAsync("missing"));
+            var exception = await Assert.ThrowsAsync<NullReferenceException>(async () => await navigationService.NavigateAsync("missing"));
             Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
