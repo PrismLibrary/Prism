@@ -83,7 +83,7 @@ namespace Prism.DryIoc.Forms.Tests
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
             await navigationService.NavigateAsync<ConstructorArgumentViewModel>();
-            var page = ((IPageAware)navigationService).Page;
+            var page = ((IPageAware)app.NavigationServices[typeof(ConstructorArgumentViewModel)]).Page;
             Assert.NotNull(page);
             var view = (ConstructorArgumentView)page;
             Assert.NotNull(view.Service);
@@ -123,7 +123,7 @@ namespace Prism.DryIoc.Forms.Tests
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
             await navigationService.NavigateAsync<AutowireViewModel>();
-            var page = ((IPageAware)navigationService).Page;
+            var page = ((IPageAware)app.NavigationServices[typeof(AutowireViewModel)]).Page;
             Assert.NotNull(page);
             Assert.IsType<AutowireView>(page);
         }

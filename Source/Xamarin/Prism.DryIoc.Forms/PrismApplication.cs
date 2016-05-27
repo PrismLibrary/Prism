@@ -99,12 +99,29 @@ namespace Prism.DryIoc
                 {
                     var navigationService = Container.Resolve<INavigationService>();
                     ((IPageAware)navigationService).Page = page;
+                    ResolveTypeForPage(page, type, navigationService);
                     // Resolve type using the instance navigationService
                     var resolver = Container.Resolve<Func<INavigationService, object>>(type);
                     return resolver(navigationService);
                 }
                 return Container.Resolve(type);
             });
+        }
+
+        /// <summary>
+        /// Called from <see cref="ViewModelLocationProvider.SetDefaultViewModelFactory(System.Func{System.Type,object})"/> when 
+        /// requested to resolve <paramref name="type"/> while navigatin to <see cref="view"/>
+        /// </summary>
+        /// <remarks>
+        /// This is used for testing to ensure that the resolved instance of <paramref name="navigationService"/> contains the 
+        /// correct instance of <paramref name="view"/>
+        /// </remarks>
+        /// <param name="view"><see cref="Page"/> navigated to</param>
+        /// <param name="type"><see cref="Type"/> to resolve</param>
+        /// <param name="navigationService">Overriding instance of <see cref="INavigationService"/></param>
+        protected virtual void ResolveTypeForPage(Page view, Type type, INavigationService navigationService)
+        {
+
         }
     }
 }

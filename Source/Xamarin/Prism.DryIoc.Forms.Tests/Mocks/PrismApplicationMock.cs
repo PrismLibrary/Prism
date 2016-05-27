@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using DryIoc;
 using Prism.DryIoc.Forms.Tests.Mocks.Modules;
 using Prism.DryIoc.Forms.Tests.Mocks.Services;
 using Prism.DryIoc.Forms.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Forms.Tests.Mocks.Views;
 using Prism.Modularity;
+using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.DryIoc.Forms.Tests.Mocks
@@ -13,12 +15,15 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
     {
         public PrismApplicationMock()
         {
+            NavigationServices = new Dictionary<Type, INavigationService>();
         }
 
-        public PrismApplicationMock(Page startPage)
+        public PrismApplicationMock(Page startPage) : this()
         {
             Current.MainPage = startPage;
         }
+
+        public IDictionary<Type, INavigationService> NavigationServices { get; }
 
         public bool Initialized { get; private set; }
 
@@ -48,6 +53,11 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
             Container.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
             Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
             Container.Register<ModuleMock>(Reuse.Singleton);
+        }
+
+        protected override void ResolveTypeForPage(Page view, Type type, INavigationService navigationService)
+        {
+            NavigationServices[type] = navigationService;
         }
     }
 }
