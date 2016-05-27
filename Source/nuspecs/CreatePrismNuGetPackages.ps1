@@ -217,6 +217,24 @@ else
 }
 
 
+###################################
+######  Prism.Ninject.Forms  ######
+###################################
+$ninjectFormsNuspecPath = 'Prism.Ninject.Forms.nuspec'
+$ninjectFormsAssemblyPath = '../Xamarin/Prism.Ninject.Forms/bin/Release-Signed/Prism.Ninject.Forms.dll'
+if (!(Test-Path $ninjectFormsAssemblyPath))
+{
+    Write-Host 'Prism.Unity.Forms.dll not found'
+}
+else
+{
+    $ninjectFormsFileInfo = Get-Item $ninjectFormsAssemblyPath
+    $ninjectFormsFileVersion = $ninjectFormsFileInfo.VersionInfo.ProductVersion   
+
+    Invoke-Expression ".\$($nugetFileName) pack $($ninjectFormsNuspecPath) -Prop version=$($ninjectFormsFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+}
+
+
 
 ###########################
 ##  Prism.StructureMap  ###

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionModel>
+	<Runtime>
+	</Runtime>
+
+	<Extension path="/MonoDevelop/Ide/TemplateImages">
+		<Image id="prism-project-xamarin-forms" resource="images.prism-project-xamarin-forms.png" />
+	</Extension>
+
+	<Extension path="/MonoDevelop/Ide/FileTemplates">
+		<FileTemplate id="PrismViewModel"
+				  	  file="ItemTemplates/PrismViewModel.xft.xml" />
+		<FileTemplate id="PrismContentPage"
+					  file="ItemTemplates/PrismContentPage.xft.xml" />
+		<FileTemplate id="PrismMasterDetailPage"
+					  file="ItemTemplates/PrismMasterDetailPage.xft.xml" />
+		<FileTemplate id="PrismNavigationPage"
+					  file="ItemTemplates/PrismNavigationPage.xft.xml" />
+		<FileTemplate id="PrismTabbedPage"
+					  file="ItemTemplates/PrismTabbedPage.xft.xml" />
+	</Extension>
+
+	<Extension path="/MonoDevelop/Ide/ProjectTemplates">
+		<ProjectTemplate id="PrismUnityApp"
+						 file="ProjectTemplates/PrismUnityApp/PrismUnityApp.xpt.xml" />
+	</Extension>
+
+	<Extension path="/MonoDevelop/Ide/CodeTemplates">
+		<CodeTemplate file="Snippets/PrismCodeTemplates.xml" />
+	</Extension>
+
+</ExtensionModel>
