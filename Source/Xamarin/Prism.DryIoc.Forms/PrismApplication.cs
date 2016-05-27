@@ -32,7 +32,6 @@ namespace Prism.DryIoc
             ConfigureModuleCatalog();
 
             Container = CreateContainer();
-            ConfigureNavigationService(_navigationServiceKey);
             ConfigureContainer();
             NavigationService = CreateNavigationService();
 
@@ -72,23 +71,15 @@ namespace Prism.DryIoc
             Container.RegisterInstance(Logger);
             Container.RegisterInstance(ModuleCatalog);
             Container.RegisterInstance(Container);
+            Container.Register<INavigationService, DryIocPageNavigationService>(
+                serviceKey: _navigationServiceKey,
+                setup: Setup.With(allowDisposableTransient: true));
             Container.Register<IApplicationProvider, ApplicationProvider>();
             Container.Register<IModuleManager, ModuleManager>(Reuse.Singleton);
             Container.Register<IModuleInitializer, DryIocModuleInitializer>(Reuse.Singleton);
             Container.Register<IEventAggregator, EventAggregator>(Reuse.Singleton);
             Container.Register<IDependencyService, DependencyService>(Reuse.Singleton);
             Container.Register<IPageDialogService, PageDialogService>(Reuse.Singleton);
-        }
-
-        /// <summary>
-        /// Register <see cref="INavigationService"/> using key <paramref name="serviceKey"/>
-        /// </summary>
-        /// <param name="serviceKey">Service key used to resolve <see cref="INavigationService"/></param>
-        protected virtual void ConfigureNavigationService(string serviceKey)
-        {
-            Container.Register<INavigationService, DryIocPageNavigationService>(
-                serviceKey: serviceKey,
-                setup: Setup.With(allowDisposableTransient: true));
         }
 
         protected override void InitializeModules()
@@ -131,17 +122,13 @@ namespace Prism.DryIoc
         }
 
         /// <summary>
-        /// Called from <see cref="ViewModelLocationProvider.SetDefaultViewModelFactory(System.Func{System.Type,object})" /> when
-        /// requested to resolve <paramref name="type" /> while navigatin to <see cref="view" />
-        /// </summary>
-        /// <remarks>
         /// This is used for testing to ensure that the resolved instance of <paramref name="navigationService" /> contains the
         /// correct instance of <paramref name="view" />
-        /// </remarks>
+        /// </summary>
         /// <param name="view"><see cref="Page" /> navigated to</param>
         /// <param name="type"><see cref="Type" /> to resolve</param>
         /// <param name="navigationService">Overriding instance of <see cref="INavigationService" /></param>
-        protected virtual void ResolveTypeForPage(Page view, Type type, INavigationService navigationService)
+        protected internal virtual void ResolveTypeForPage(Page view, Type type, INavigationService navigationService)
         {
         }
     }

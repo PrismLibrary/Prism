@@ -1,6 +1,8 @@
-﻿namespace Prism.DryIoc.Forms.Tests.Mocks.ViewModels
+﻿using Prism.Mvvm;
+
+namespace Prism.DryIoc.Forms.Tests.Mocks.ViewModels
 {
-    public class ViewModelBMock
+    public class ViewModelBMock : BindableBase
     {
         internal const string Key = "viewModelB";
     }

@@ -1,6 +1,8 @@
-﻿namespace Prism.DryIoc.Forms.Tests.Mocks.ViewModels
+﻿using Prism.Mvvm;
+
+namespace Prism.DryIoc.Forms.Tests.Mocks.ViewModels
 {
-    public class AutowireViewModel
+    public class AutowireViewModel : BindableBase
     {
     }
 }
