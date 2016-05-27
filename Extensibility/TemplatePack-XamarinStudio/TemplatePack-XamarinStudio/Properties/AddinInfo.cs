@@ -2,11 +2,11 @@
 using Mono.Addins;
 using Mono.Addins.Description;
 
-[assembly:Addin ("PrismTemplatePack", Namespace = "Prism.Extensibility", Version = "1.0")]
+[assembly:Addin ("PrismTemplatePack", Namespace = "Prism.Extensibility", Version = "1.1")]
 
 [assembly:AddinName ("Prism Template Pack")]
 [assembly:AddinCategory ("IDE extensions")]
-[assembly:AddinDescription ("Snippets, Item Templates, and Project Templates for use in Prism application development.")]
+[assembly:AddinDescription ("Code Templates, Item Templates, and Project Templates for use in Prism application development.")]
 [assembly:AddinAuthor ("Brian Lagunas")]
 [assembly:AddinUrl("https://github.com/PrismLibrary/Prism")]
 

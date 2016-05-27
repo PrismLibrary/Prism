@@ -33,8 +33,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml" />
-    <EmbeddedResource Include="Images\prism-logo-32.png">
-      <LogicalName>images.prism-logo-32.png</LogicalName>
+    <EmbeddedResource Include="Images\prism-project-xamarin-forms.png">
+      <LogicalName>images.prism-project-xamarin-forms.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\prism-project-overlay.png">
+      <LogicalName>images.prism-project-overlay.png</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

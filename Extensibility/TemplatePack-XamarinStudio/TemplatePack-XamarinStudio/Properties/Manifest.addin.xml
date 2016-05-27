@@ -3,9 +3,9 @@
 	<Runtime>
 	</Runtime>
 
-<!--	<Extension path="/MonoDevelop/Ide/TemplateImages">
-		<Image id="md-project-template-icon" resource="images.prism-logo-32.png" />
-	</Extension>-->
+	<Extension path="/MonoDevelop/Ide/TemplateImages">
+		<Image id="prism-project-xamarin-forms" resource="images.prism-project-xamarin-forms.png" />
+	</Extension>
 
 	<Extension path="/MonoDevelop/Ide/FileTemplates">
 		<FileTemplate id="PrismViewModel"

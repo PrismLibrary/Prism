@@ -2,7 +2,8 @@
 <Template>
 	<TemplateConfiguration>
 		<_Name>Prism Unity App</_Name>
-		<Image id="md-xamarin-forms-project"/>
+		<Image id="prism-project-xamarin-forms"/>
+		<Icon>md-project|res:images.prism-project-overlay.png</Icon>
 		<_Category>crossplat/app/forms</_Category>
 		<LanguageName>C#</LanguageName>
 	    <SupportedParameters>CrossPlatIdentifiers, TargetPlatform, SharedCode</SupportedParameters>
