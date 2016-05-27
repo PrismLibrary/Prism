@@ -14,7 +14,7 @@ using System;
 using System.Globalization;
 using Prism.Autofac.Navigation;
 
-namespace Prism.Unity
+namespace Prism.Autofac
 {
     public abstract class PrismApplication : PrismApplicationBase
     {

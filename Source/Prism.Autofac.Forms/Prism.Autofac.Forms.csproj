@@ -11,7 +11,7 @@
     <RootNamespace>Prism.Autofac.Forms</RootNamespace>
     <AssemblyName>Prism.Autofac.Forms</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <NuGetPackageImportStamp>
@@ -33,24 +33,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <SignAssembly>false</SignAssembly>
-    <DocumentationFile>bin\Release\Prism.Unity.Forms.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU'">
-    <OutputPath>bin\Release-Signed\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <SignAssembly>false</SignAssembly>
-    <DocumentationFile>bin\Release-Signed\Prism.Autofac.Forms.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\prism.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AutofacExtensions.cs" />
     <Compile Include="Modularity\AutofacModuleInitializer.cs" />
     <Compile Include="Navigation\AutofacPageNavigationService.cs" />
     <Compile Include="PrismApplication.cs" />
