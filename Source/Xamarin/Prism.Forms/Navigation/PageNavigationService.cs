@@ -1,7 +1,7 @@
 ﻿using Prism.Common;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -12,11 +12,18 @@ namespace Prism.Navigation
     /// </summary>
     public abstract class PageNavigationService : INavigationService, IPageAware, IDisposable
     {
+        IApplicationProvider _applicationProvider;
+
         private Page _page;
         Page IPageAware.Page
         {
             get { return _page; }
             set { _page = value; }
+        }
+
+        public PageNavigationService(IApplicationProvider applicationProvider)
+        {
+            _applicationProvider = applicationProvider;
         }
 
         /// <summary>
@@ -137,7 +144,7 @@ namespace Prism.Navigation
 
             await DoNavigateAction(null, nextSegment, nextPage, parameters, async () =>
             {
-                await DoPush(null, nextPage, true, animated);
+                await DoPush(null, nextPage, useModalNavigation, animated);
             });
         }
 
@@ -149,8 +156,7 @@ namespace Prism.Navigation
 
             await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
-                bool useModalForDoPush = UseModalNavigation(currentPage, useModalNavigation);
-                await DoPush(currentPage, nextPage, useModalForDoPush, animated);
+                await DoPush(currentPage, nextPage, useModalNavigation, animated);
             });
         }
 
@@ -214,7 +220,7 @@ namespace Prism.Navigation
             await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
             await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
-                await DoPush(currentPage, nextPage, true, animated);
+                await DoPush(currentPage, nextPage, useModalNavigation, animated);
             });
         }
 
@@ -234,24 +240,25 @@ namespace Prism.Navigation
                 return;
             }
 
-
             var nextPage = CreatePageFromSegment(nextSegment);
             await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
             await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
-                await DoPush(currentPage, nextPage, true, animated);
+                await DoPush(currentPage, nextPage, useModalNavigation, animated);
             });
         }
 
         async Task ProcessNavigationForMasterDetailPage(MasterDetailPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
+            bool isPresented = GetMasterDetailPageIsPresented(currentPage);
+
             if (useModalNavigation.HasValue && useModalNavigation.Value)
             {
                 var nextPage = CreatePageFromSegment(nextSegment);
                 await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
                 await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
                 {
-                    currentPage.IsPresented = false;
+                    currentPage.IsPresented = isPresented;
                     await DoPush(currentPage, nextPage, true, animated);
                 });
                 return;
@@ -265,7 +272,7 @@ namespace Prism.Navigation
                 await DoNavigateAction(null, nextSegment, newDetail, parameters, () =>
                 {
                     currentPage.Detail = newDetail;
-                    currentPage.IsPresented = false;
+                    currentPage.IsPresented = isPresented;
                 });
                 return;
             }
@@ -276,7 +283,7 @@ namespace Prism.Navigation
                 await ProcessNavigation(detail, segments, parameters, useModalNavigation, animated);
                 await DoNavigateAction(null, nextSegment, detail, parameters, () =>
                 {
-                    currentPage.IsPresented = false;
+                    currentPage.IsPresented = isPresented;
                 });
                 return;
             }
@@ -287,10 +294,23 @@ namespace Prism.Navigation
                 await DoNavigateAction(detail, nextSegment, newDetail, parameters, () =>
                 {
                     currentPage.Detail = newDetail;
-                    currentPage.IsPresented = false;
+                    currentPage.IsPresented = isPresented;
                 });
                 return;
             }
+        }
+
+        bool GetMasterDetailPageIsPresented(MasterDetailPage page)
+        {
+            var iMasterDetailPage = page as IMasterDetailPageOptions;
+            if (iMasterDetailPage != null)
+                return iMasterDetailPage.IsPresentedAfterNavigation;
+
+            var iMasterDetailPageBindingContext = page.BindingContext as IMasterDetailPageOptions;
+            if (iMasterDetailPageBindingContext != null)
+                return iMasterDetailPageBindingContext.IsPresentedAfterNavigation;
+
+            return false;
         }
 
         static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Action navigationAction = null)
@@ -316,7 +336,7 @@ namespace Prism.Navigation
             var segmentName = UriParsingHelper.GetSegmentName(segment);
             var page = CreatePage(segmentName);
             if (page == null)
-                throw new InvalidOperationException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
+                throw new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
 
             return page;
         }
@@ -335,12 +355,10 @@ namespace Prism.Navigation
             else
                 useModalNavigation = !HasNavigationPageParent(currentPage);
 
-            //TODO: think about using an interface instead to give the developer a hook to perform conditional logic to return the proper result
-
             return useModalNavigation;
         }
 
-        static Page GetOnNavigatedToTarget(Page page, bool useModalNavigation)
+        Page GetOnNavigatedToTarget(Page page, bool useModalNavigation)
         {
             Page target = null;
 
@@ -350,7 +368,7 @@ namespace Prism.Navigation
 
                 //MainPage is not included in the navigation stack, so if we can't find the previous page above
                 //let's assume they are going back to the MainPage
-                target = GetOnNavigatedToTargetFromChild(previousPage ?? Application.Current.MainPage);
+                target = GetOnNavigatedToTargetFromChild(previousPage ?? _applicationProvider.MainPage);
             }
             else
             {
@@ -406,18 +424,20 @@ namespace Prism.Navigation
             return stackCount - 1;
         }
 
-        async static Task DoPush(Page currentPage, Page page, bool useModalNavigation, bool animated)
+        async Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated)
         {
             if (page == null)
                 return;
 
             if (currentPage == null)
             {
-                Application.Current.MainPage = page;
+                _applicationProvider.MainPage = page;
             }
             else
             {
-                if (useModalNavigation)
+                bool useModalForPush = UseModalNavigation(currentPage, useModalNavigation);
+
+                if (useModalForPush)
                     await currentPage.Navigation.PushModalAsync(page, animated);
                 else
                     await currentPage.Navigation.PushAsync(page, animated);
@@ -527,7 +547,7 @@ namespace Prism.Navigation
 
         Page GetCurrentPage()
         {
-            return _page != null ? _page : Application.Current.MainPage;
+            return _page != null ? _page : _applicationProvider.MainPage;
         }
 
         public void Dispose()

@@ -29,11 +29,11 @@ Create a new Xamarin.Forms Portable or Shared project.
 Use Nuget to add Prism to each of your projects in the solution.
 
 Add the Following Nuget packages to your projects.
-* [Prism.Unity](https://www.nuget.org/packages/Prism.Unity/)
+* [Prism.Unity.Forms](https://www.nuget.org/packages/Prism.Unity.Forms/)
 * [Prism.Forms](https://www.nuget.org/packages/Prism.Forms/)
 * [Prism.Core](https://www.nuget.org/packages/Prism.Core/)
         
-_Hint: If you add the **Prism.Unity** NuGet package first, it will bring in the other Prism packages automatically._
+_Hint: If you add the **Prism.Unity.Forms** NuGet package first, it will bring in the other Prism packages automatically._
 
 ### Step 3: Add a Service
 In this examples, we will leverage the speech API of each platform to provide text to speech capabilities to our application.  This means we need to create a service for each platform that will invoke that specific platform's speech API.

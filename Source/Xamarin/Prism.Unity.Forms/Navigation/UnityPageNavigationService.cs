@@ -9,7 +9,8 @@ namespace Prism.Unity.Navigation
     {
         IUnityContainer _container;
 
-        public UnityPageNavigationService(IUnityContainer container)
+        public UnityPageNavigationService(IUnityContainer container, IApplicationProvider applicationProvider)
+            : base(applicationProvider)
         {
             _container = container;
         }

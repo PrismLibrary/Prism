@@ -1,4 +1,5 @@
-﻿using Prism.Navigation;
+﻿using Prism.Common;
+using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks
@@ -7,7 +8,8 @@ namespace Prism.Forms.Tests.Mocks
     {
         PageNavigationContainerMock _containerMock;
 
-        public PageNavigationServiceMock(PageNavigationContainerMock containerMock)
+        public PageNavigationServiceMock(PageNavigationContainerMock containerMock, IApplicationProvider applicationProviderMock)
+            : base(applicationProviderMock)
         {
             _containerMock = containerMock;
         }
