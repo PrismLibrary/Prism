@@ -48,14 +48,16 @@ Following matrix shows the platform specific support currently available.
 
 | Package                | Version    | WPF | Win10 UWP | Xamarin.Forms |
 |------------------------|------------|:---:|:---:|:---:|
-| [Prism.Unity][5] (*)   | [![25]][5] |  X  |  X  |     |
+| [Prism.Unity][5] <sup>(*)</sup>  | [![25]][5] |  X  |  X  |     |
 | [Prism.Unity.Forms][10]| [![30]][10]|     |     |  X  |
-| [Prism.Mef][6]         | [![26]][6] |  X  |     |     |
+| [Prism.Mef][6]  <sup>(**)</sup> | [![26]][6] |  X  | - | - |
 | [Prism.Autofac][7]     | [![27]][7] |  X  |  X  |     |
 | [Prism.StructureMap][8]| [![28]][8] |  X  |     |     |
 | [Prism.Ninject][9]     | [![29]][9] |  X  |     |  X  |
 
 <sup>(*)</sup> As Xamarin Forms also supports UWP now, adding Prism.Unity puts in some incorrect dependencies. Therefore we created a new Prism.Unity.Forms package. 
+
+<sup>(**)</sup> MEF is supported with WPF for compatibility with previous versions. It will not be added to Windows 10 UWP or Xamarin Forms.
 
 Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package and the rest will be pulled in as well.
 
