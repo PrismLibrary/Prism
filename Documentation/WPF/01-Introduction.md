@@ -29,19 +29,15 @@ Composite applications provide many benefits, including the following:
 -  They promote reuse and a clean separation of concerns between the application's horizontal capabilities, such as logging and authentication, and the vertical capabilities, such as business functionality that is specific to your application. This also allows you to more easily manage the dependencies and interactions between application components.
 -  They help maintain a separation of roles by allowing different individuals or subteams to focus on a specific task or piece of functionality according to their focus or expertise. In particular, it provides a cleaner separation between the UI and the business logic of the application—this means the UI designer can focus on creating a richer user experience.
 
-Composite applications are highly suited to a range of client application scenarios. For example, a composite application is ideal for creating a rich end-user experience over disparate back-end systems. The following illustration shows an example of this type of a composite application.
+Composite applications are highly suited to a range of client application scenarios. For example, a composite application is ideal for creating a rich end-user experience over disparate back-end systems. The following illustration shows an example of this type of a composite application with multiple back-end systems.
 
-Composite application with multiple back-end systems
-
-![Chapter 1 Figure 1](images/Ch1IntroFig1.png)
+![Composite application with multiple back-end systems](images/Ch1IntroFig1.png)
 
 In this type of application, the user can be presented with a rich and flexible user experience that provides a task-oriented focus over functionality that spans multiple back-end systems, services, and data stores, where each is represented by one or more dedicated modules. The clean separation between the application logic and the UI allows the application to provide a consistent and differentiated appearance across all constituent modules.
 
 Additionally, a composite application can be useful when there are independently evolving components in the UI that heavily integrate with each other and that are often maintained by separate teams. The following illustration shows a screen shot of this type of application. Each of the areas highlighted represent independent components that are composed into the UI.
 
-Stock Trader Reference Implementation composite application
-
-![](images/Ch1IntroFig2.png)
+![Stock Trader Reference Implementation](images/Ch1IntroFig2.png)
 
 In this case, the composite application allows the UI to be dynamic composed. This delivers a flexible user experience. For example, it can allow new functionality to be dynamically added to the application at run time, which enables rich end-user customization and extensibility.
 
@@ -136,7 +132,7 @@ Prism provides capabilities and design patterns that may be unfamiliar to you, e
 
 Prism is designed so that you can use any of the preceding capabilities and design patterns individually, or all together, depending on your requirements and your application scenario. You can use the MVVM pattern, modularity, regions, commands, or events in any combination without having to adopt all of them. Of course, if you want to take full advantage of the benefits that separation of concerns and loose coupling offers, you will typically use many of Prism's capabilities and design patterns in conjunction with each other. The following illustration shows a typical Prism application architecture and shows how all the various capabilities of Prism can work together within a multi-module composite application.
 
-![](images/Ch1IntroFig3.png)
+![Typical Prism application architecture](images/Ch1IntroFig3.png)
 
 **Typical composite application architecture with the Prism Library**
 
@@ -152,7 +148,7 @@ Now that you've seen the major capabilities and design patterns that Prism suppo
 
 A Prism application typically consists of a shell project and multiple module projects. The following illustration shows common activities needed when developing a composite application using the Prism Library.
 
-![](images/Ch1IntroFig4.png)
+![Activities for creating a composite application](images/Ch1IntroFig4.png)
 
 **Activities for creating a composite application**
 
@@ -164,9 +160,7 @@ A typical Prism application leverages most or all of the Prism capabilities and 
 
 The application shell provides the basic layout for the application. This layout is defined using regions that modules can use to place views. Views, like shells, can use regions to define discoverable areas that content can be added to, as shown in the following illustration. Shells typically set the appearance for the entire application and contain the styles that are used throughout the application.
 
-![](images/Ch1IntroFig5.png)
-
-Shells, views, and regions
+![Shells, views, and regions](images/Ch1IntroFig5.png)
 
 ### Create the Bootstrapper
 
@@ -176,9 +170,9 @@ By default, the bootstrapper logs events using the .NET Framework **Trace** clas
 
 By default, the **UnityBootstrapper** and **MefBootstrapper** enable the Prism Library services. These can be disabled or replaced in your application-specific bootstrapper.
     
-![](images/Ch1IntroFig6.png)
+![Connecting to the Prism Library](images/Ch1IntroFig6.png)
 
-Diagram demonstrating connecting to the Prism Library
+Diagram demonstrating connecting to the Prism Library.
 
 ### Create the Module
 

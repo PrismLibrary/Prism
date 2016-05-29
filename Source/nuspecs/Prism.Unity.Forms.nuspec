@@ -14,7 +14,7 @@
     <summary>Unity extensions for Prism for Xamarin.Forms.</summary>
     <releaseNotes>$releaseNotes$</releaseNotes>
     <language>en-US</language>
-    <tags>prism mvvm wpf uwp unity dependency injection di, xamarin, xamarin.forms</tags>
+    <tags>prism mvvm uwp unity dependency injection di, xamarin, xamarin.forms</tags>
     <dependencies>   
       <group targetFramework="portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10">
         <dependency id="Prism.Forms" version="$formsVersion$" />

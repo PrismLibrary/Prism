@@ -52,11 +52,21 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\prism.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Prism.Ninject.Forms.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Extensions\DependencyServiceBindingResolver.cs" />
     <Compile Include="Extensions\DependencyServiceProvider.cs" />
     <Compile Include="Modularity\NinjectModuleInitializer.cs" />
-    <Compile Include="Navigation\NinjectNavigationService.cs" />
+    <Compile Include="Navigation\NinjectPageNavigationService.cs" />
     <Compile Include="PrismApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NinjectExtensions.cs" />

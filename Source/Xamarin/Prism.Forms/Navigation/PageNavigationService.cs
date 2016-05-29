@@ -3,7 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Mvvm;
+#if TEST
+using Application = Prism.FormsApplication;
+#endif
 using Xamarin.Forms;
+
 
 namespace Prism.Navigation
 {
@@ -31,7 +36,7 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public async Task GoBackAsync(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public virtual async Task GoBackAsync(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             var page = GetCurrentPage();
             var segmentParameters = GetSegmentParameters(null, parameters);
@@ -52,15 +57,16 @@ namespace Prism.Navigation
         }
 
         /// <summary>
-        /// Initiates navigation to the target specified by the <typeparamref name="T"/>.
+        /// Initiates navigation to the target specified by the <typeparamref name="TViewModel"/>.
         /// </summary>
-        /// <typeparam name="T">The type which will be used to identify the name of the navigation target.</typeparam>
+        /// <typeparam name="TViewModel">The type which will be used to identify the name of the navigation target.</typeparam>
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public async Task NavigateAsync<T>(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public virtual async Task NavigateAsync<TViewModel>(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+            where TViewModel : BindableBase
         {
-            await NavigateAsync(typeof(T).FullName, parameters, useModalNavigation, animated);
+            await NavigateAsync(typeof(TViewModel).FullName, parameters, useModalNavigation, animated);
         }
 
         /// <summary>
@@ -70,7 +76,7 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public async Task NavigateAsync(string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public virtual async Task NavigateAsync(string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             await NavigateAsync(new Uri(name, UriKind.RelativeOrAbsolute), parameters, useModalNavigation, animated);
         }
@@ -86,7 +92,7 @@ namespace Prism.Navigation
         /// <example>
         /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
         /// </example>
-        public async Task NavigateAsync(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public virtual async Task NavigateAsync(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             var navigationSegments = UriParsingHelper.GetUriSegments(uri);
 

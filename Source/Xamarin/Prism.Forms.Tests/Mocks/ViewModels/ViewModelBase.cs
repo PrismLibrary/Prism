@@ -1,8 +1,9 @@
-﻿using Prism.Navigation;
+﻿using Prism.Mvvm;
+using Prism.Navigation;
 
 namespace Prism.Forms.Tests.Mocks.ViewModels
 {
-    public class ViewModelBase : INavigationAware
+    public class ViewModelBase : BindableBase, INavigationAware
     {
         public NavigationParameters NavigatedToParameters { get; private set; }
         public NavigationParameters NavigatedFromParameters { get; private set; }

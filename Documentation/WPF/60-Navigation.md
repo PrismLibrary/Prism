@@ -34,7 +34,7 @@ The following sections describe the typical situations in which state-based navi
 
 Your application may often need to present the same data to the user, but in different formats or styles. In this case, you can use a state-based navigation within the view to switch between the different styles, potentially using an animated transition between them. For example, the State-Based Navigation QuickStart allows users to choose how their contacts are displayed—either as a simple text list or as avatars (icons). Users can switch between these visual representations by clicking the List button or the Avatars button. The view provides an animated transition between the two representations, as shown in the following illustration.
 
-![](images/Ch8NavigationFig1.png)
+![Animated transition between views](images/Ch8NavigationFig1.png)
 
 #####  Contact view navigation in the State-Based Navigation QuickStart
 
@@ -47,7 +47,7 @@ Blend behaviors provide a good way to implement this style of navigation within 
                TrueState="ShowAsList" 
                FalseState="ShowAsIcons"/>
 
-![](images/Ch8NavigationFig2.png)
+![State based navigation sample screenshot](images/Ch8NavigationFig2.png)
 
 As the user clicks the **Contacts** or **Avatar** radio buttons, the visual state is toggled between the **ShowAsList** visual state and the **ShowAsIcons** visual state. The flip transition animation between these states is also defined using the visual state manager.
 
@@ -61,7 +61,7 @@ Again, this can be easily implemented using the Blend **DataStateBehavior**; how
 
 Similarly, the view within an application may sometimes need to change its layout or style based on changes to an internal application state, which in turn is represented by a property on a view model. An example of this scenario is shown in the State-Based Navigation QuickStart where the user's connection status is represented on the Chat view model class using a **ConnectionStatus** property. As the user's connection status changes, the view is informed (via a property change notification event) allowing the view to visually represent the current connection state appropriately, as shown in the following illustration.
 
-![](images/Ch8NavigationFig3.png)
+![Connection state representation](images/Ch8NavigationFig3.png)
 
 #####  Connection state representation in the State-Based Navigation QuickStart
 
@@ -79,7 +79,7 @@ All the preceding examples involve defining visual states in the view and switch
 
 Frequently, an application will need to interact with the user in a limited way. In these situations, it is often more appropriate to interact with the user within the context of the current view, instead of navigating to a new view. For example, in the State-Based Navigation QuickStart, the user is able to send a message to a contact by clicking the **Send Message** button. The view then displays a pop-up window that allows the user to type the message, as shown in the following illustration. Because this interaction with the user is limited and logically takes place within the context of the parent view, it can be easily implemented as state-based navigation.
 
-![](images/Ch8NavigationFig4.png)
+![Interacting with the user using a pop-up window](images/Ch8NavigationFig4.png)
 
 #####  Interacting with the user using a pop-up window in the State-Based Navigation QuickStart
 
@@ -299,9 +299,7 @@ The **IConfirmNavigationRequest** interface derives from the **INavigationAware*
 
 The **ConfirmNavigationRequest** method provides two parameters, a reference to the current navigation context as described earlier, and a callback method that you can call when you want navigation to continue. For this reason, the callback is known as a continuation callback. You can store a reference to the continuation callback so the application can call it after it finishes interacting with the user. If your application interacts with the user through an **Interaction Request** object, you can chain the call to the continuation callback to the callback from the interaction request. The following diagram illustrates the overall process.
 
-![](images/Ch8NavigationFig5.png)
-
-##### Confirming Navigation Using an InteractionRequest Object
+![Confirming Navigation Using an InteractionRequest Object](images/Ch8NavigationFig5.png)
 
 The following steps summarize the process of confirming navigation using an **InteractionRequest** object:
 
@@ -454,9 +452,7 @@ The WPF navigation framework is difficult to use to support the MVVM pattern and
 
 The following illustration provides an overview of the sequence of operations during a navigation operation. It is provided for reference so that you can see how the various elements of the Prism region navigation work together during a navigation request.
 
-![](images/Ch8NavigationFig6.png)
-
-Prism region navigation sequence
+![Prism region navigation sequence](images/Ch8NavigationFig6.png)
 
 # More Information
 

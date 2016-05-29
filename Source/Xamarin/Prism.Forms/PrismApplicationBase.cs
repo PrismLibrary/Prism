@@ -2,6 +2,9 @@
 using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
+#if TEST
+using Application = Prism.FormsApplication;
+#endif
 
 namespace Prism
 {
