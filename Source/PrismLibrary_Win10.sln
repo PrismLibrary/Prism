@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism", "Prism\Prism.csproj", "{E6C50355-D01E-4CAA-884D-D7929861315C}"
 EndProject
@@ -20,6 +20,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Autofac.Windows", "Windows10\Prism.Autofac.Windows\Prism.Autofac.Windows.csproj", "{CCE23E5B-335F-4B62-A964-77E42482F49A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.SimpleInjector.Windows", "Windows10\Prism.SimpleInjector.Windows\Prism.SimpleInjector.Windows.csproj", "{E6F934A2-3962-46F2-A4B8-416394C351B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Composition.Windows", "Windows10\Prism.Composition.Windows\Prism.Composition.Windows.csproj", "{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Composition.Windows.Tests", "Windows10\Prism.Composition.Windows.Tests\Prism.Composition.Windows.Tests.csproj", "{209926C2-D738-469A-98D9-F4645031908D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -213,6 +217,62 @@ Global
 		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release-Signed|x64.Build.0 = Release-Signed|x64
 		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release-Signed|x86.ActiveCfg = Release-Signed|x86
 		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release-Signed|x86.Build.0 = Release-Signed|x86
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Debug|ARM.ActiveCfg = Debug|ARM
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Debug|ARM.Build.0 = Debug|ARM
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Debug|x64.ActiveCfg = Debug|x64
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Debug|x64.Build.0 = Debug|x64
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Debug|x86.ActiveCfg = Debug|x86
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Debug|x86.Build.0 = Debug|x86
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release|ARM.ActiveCfg = Release|ARM
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release|ARM.Build.0 = Release|ARM
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release|x64.ActiveCfg = Release|x64
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release|x64.Build.0 = Release|x64
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release|x86.ActiveCfg = Release|x86
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release|x86.Build.0 = Release|x86
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release-Signed|ARM.ActiveCfg = Release|ARM
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release-Signed|ARM.Build.0 = Release|ARM
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release-Signed|x64.ActiveCfg = Release|x64
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release-Signed|x64.Build.0 = Release|x64
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release-Signed|x86.ActiveCfg = Release|x86
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85}.Release-Signed|x86.Build.0 = Release|x86
+		{209926C2-D738-469A-98D9-F4645031908D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{209926C2-D738-469A-98D9-F4645031908D}.Debug|ARM.ActiveCfg = Debug|ARM
+		{209926C2-D738-469A-98D9-F4645031908D}.Debug|ARM.Build.0 = Debug|ARM
+		{209926C2-D738-469A-98D9-F4645031908D}.Debug|ARM.Deploy.0 = Debug|ARM
+		{209926C2-D738-469A-98D9-F4645031908D}.Debug|x64.ActiveCfg = Debug|x64
+		{209926C2-D738-469A-98D9-F4645031908D}.Debug|x64.Build.0 = Debug|x64
+		{209926C2-D738-469A-98D9-F4645031908D}.Debug|x64.Deploy.0 = Debug|x64
+		{209926C2-D738-469A-98D9-F4645031908D}.Debug|x86.ActiveCfg = Debug|x86
+		{209926C2-D738-469A-98D9-F4645031908D}.Debug|x86.Build.0 = Debug|x86
+		{209926C2-D738-469A-98D9-F4645031908D}.Debug|x86.Deploy.0 = Debug|x86
+		{209926C2-D738-469A-98D9-F4645031908D}.Release|Any CPU.ActiveCfg = Release|x86
+		{209926C2-D738-469A-98D9-F4645031908D}.Release|ARM.ActiveCfg = Release|ARM
+		{209926C2-D738-469A-98D9-F4645031908D}.Release|ARM.Build.0 = Release|ARM
+		{209926C2-D738-469A-98D9-F4645031908D}.Release|ARM.Deploy.0 = Release|ARM
+		{209926C2-D738-469A-98D9-F4645031908D}.Release|x64.ActiveCfg = Release|x64
+		{209926C2-D738-469A-98D9-F4645031908D}.Release|x64.Build.0 = Release|x64
+		{209926C2-D738-469A-98D9-F4645031908D}.Release|x64.Deploy.0 = Release|x64
+		{209926C2-D738-469A-98D9-F4645031908D}.Release|x86.ActiveCfg = Release|x86
+		{209926C2-D738-469A-98D9-F4645031908D}.Release|x86.Build.0 = Release|x86
+		{209926C2-D738-469A-98D9-F4645031908D}.Release|x86.Deploy.0 = Release|x86
+		{209926C2-D738-469A-98D9-F4645031908D}.Release-Signed|Any CPU.ActiveCfg = Release|x64
+		{209926C2-D738-469A-98D9-F4645031908D}.Release-Signed|Any CPU.Build.0 = Release|x64
+		{209926C2-D738-469A-98D9-F4645031908D}.Release-Signed|Any CPU.Deploy.0 = Release|x64
+		{209926C2-D738-469A-98D9-F4645031908D}.Release-Signed|ARM.ActiveCfg = Release|ARM
+		{209926C2-D738-469A-98D9-F4645031908D}.Release-Signed|ARM.Build.0 = Release|ARM
+		{209926C2-D738-469A-98D9-F4645031908D}.Release-Signed|ARM.Deploy.0 = Release|ARM
+		{209926C2-D738-469A-98D9-F4645031908D}.Release-Signed|x64.ActiveCfg = Release|x64
+		{209926C2-D738-469A-98D9-F4645031908D}.Release-Signed|x64.Build.0 = Release|x64
+		{209926C2-D738-469A-98D9-F4645031908D}.Release-Signed|x64.Deploy.0 = Release|x64
+		{209926C2-D738-469A-98D9-F4645031908D}.Release-Signed|x86.ActiveCfg = Release|x86
+		{209926C2-D738-469A-98D9-F4645031908D}.Release-Signed|x86.Build.0 = Release|x86
+		{209926C2-D738-469A-98D9-F4645031908D}.Release-Signed|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -225,5 +285,7 @@ Global
 		{2E737FE0-857A-41AF-BA0A-42B0CDCCAA27} = {ACFF5AEC-62BC-421B-B37E-A5703806901A}
 		{CCE23E5B-335F-4B62-A964-77E42482F49A} = {643425A5-9223-491A-84D9-DFCC6BDD7F9B}
 		{E6F934A2-3962-46F2-A4B8-416394C351B8} = {643425A5-9223-491A-84D9-DFCC6BDD7F9B}
+		{7395DEE7-2146-4683-8BF4-CD1B9D0B9E85} = {643425A5-9223-491A-84D9-DFCC6BDD7F9B}
+		{209926C2-D738-469A-98D9-F4645031908D} = {ACFF5AEC-62BC-421B-B37E-A5703806901A}
 	EndGlobalSection
 EndGlobal
