@@ -1,5 +1,6 @@
 ﻿using System.Resources;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 [assembly: AssemblyTitle("Prism.DryIoc.Forms")]
 [assembly: AssemblyDescription("Prism.Forms using DryIoc")]
@@ -14,3 +15,5 @@ using System.Reflection;
 [assembly: AssemblyVersion("6.2")]
 [assembly: AssemblyFileVersion("6.2.0")]
 [assembly: AssemblyInformationalVersion("6.2.0")]
+
+[assembly: InternalsVisibleTo("Prism.DryIoc.Forms.Tests")]

@@ -128,7 +128,7 @@ namespace Prism.DryIoc
         /// <param name="view"><see cref="Page" /> navigated to</param>
         /// <param name="type"><see cref="Type" /> to resolve</param>
         /// <param name="navigationService">Overriding instance of <see cref="INavigationService" /></param>
-        protected virtual void ResolveTypeForPage(Page view, Type type, INavigationService navigationService)
+        protected internal virtual void ResolveTypeForPage(Page view, Type type, INavigationService navigationService)
         {
         }
     }

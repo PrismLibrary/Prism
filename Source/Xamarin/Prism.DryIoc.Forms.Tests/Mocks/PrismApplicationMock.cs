@@ -57,7 +57,7 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
             Container.Register<ModuleMock>(Reuse.Singleton);
         }
 
-        protected override void ResolveTypeForPage(Page view, Type type, INavigationService navigationService)
+        protected internal override void ResolveTypeForPage(Page view, Type type, INavigationService navigationService)
         {
             NavigationServices[type] = navigationService;
         }
