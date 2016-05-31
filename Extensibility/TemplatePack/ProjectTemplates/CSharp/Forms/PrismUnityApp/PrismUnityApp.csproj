@@ -156,7 +156,7 @@
     <None Include="UnityApp.Droid\Resources\drawable-hdpi\icon.png" />
     <None Include="UnityApp.Droid\Resources\drawable-xhdpi\icon.png" />
     <None Include="UnityApp.Droid\Resources\drawable-xxhdpi\icon.png" />
-    <None Include="UnityApp.Droid\Resources\Drawable\Icon.png" />
+    <None Include="UnityApp.Droid\Resources\drawable\icon.png" />
     <None Include="UnityApp.Droid\Resources\layout\tabs.xml" />
     <None Include="UnityApp.Droid\Resources\layout\toolbar.xml" />
     <None Include="UnityApp.Droid\Resources\values-v21\styles.xml" />

@@ -102,7 +102,7 @@
     <None Include="NinjectApp.Droid\Assets\AboutAssets.txt" />
     <None Include="NinjectApp.Droid\Properties\AndroidManifest.xml" />
     <None Include="NinjectApp.Droid\Resources\AboutResources.txt" />
-    <None Include="NinjectApp.Droid\Resources\Drawable\Icon.png" />
+    <None Include="NinjectApp.Droid\Resources\drawable\icon.png" />
     <None Include="NinjectApp.Droid\Resources\drawable-hdpi\icon.png" />
     <None Include="NinjectApp.Droid\Resources\drawable-xhdpi\icon.png" />
     <None Include="NinjectApp.Droid\Resources\drawable-xxhdpi\icon.png" />
