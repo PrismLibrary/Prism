@@ -110,15 +110,30 @@ namespace Prism.DryIoc
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navigationService = CreateNavigationService();
-                    ((IPageAware)navigationService).Page = page;
-                    ResolveTypeForPage(page, type, navigationService);
-                    // Resolve type using the instance navigationService
-                    var resolver = Container.Resolve<Func<INavigationService, object>>(type);
-                    return resolver(navigationService);
+                    return PageViewModelFactory(page, type);
                 }
                 return Container.Resolve(type);
             });
+        }
+
+        /// <summary>
+        /// Resolve the view model of <paramref name="type"/> associated with <paramref name="page"/>
+        /// </summary>
+        /// <remarks>
+        /// The method will set the <see cref="IPageAware.Page" /> property on the <see cref="INavigationService"/>  
+        /// instance that will be injected into the view model.
+        /// </remarks>
+        /// <param name="page">The <see cref="Page"/> associated with the view model</param>
+        /// <param name="type">View model type to resolve</param>
+        /// <returns>View model instance of type <paramref name="type"/></returns>
+        protected virtual object PageViewModelFactory(Page page, Type type)
+        {
+            var navigationService = CreateNavigationService();
+            ((IPageAware)navigationService).Page = page;
+            ResolveTypeForPage(page, type, navigationService);
+            // Resolve type using the instance navigationService
+            var resolver = Container.Resolve<Func<INavigationService, object>>(type);
+            return resolver(navigationService);
         }
 
         /// <summary>
