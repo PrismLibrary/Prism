@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnityApp.Droid\SplashActivity.cs" />
     <None Include="UnityApp.UWP\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </None>
@@ -183,6 +184,8 @@
     <None Include="UnityApp.Droid\__TemplateIcon.ico" />
     <None Include="UnityApp.iOS\UnityApp.iOS.vstemplate" />
     <None Include="UnityApp.iOS\UnityAppTemplate.iOS.csproj" />
+    <Content Include="UnityApp.Droid\Resources\layout\splash.xml" />
+    <Content Include="UnityApp.Droid\Resources\values-v19\styles.xml" />
     <Content Include="UnityApp.iOS\__TemplateIcon.ico" />
     <None Include="UnityApp.WinPhone\UnityAppTemplate.WinPhone.csproj" />
     <None Include="UnityApp.Windows\Assets\Logo.scale-100.png" />
