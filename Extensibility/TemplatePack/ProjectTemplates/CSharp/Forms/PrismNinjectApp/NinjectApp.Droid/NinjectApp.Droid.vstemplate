@@ -16,6 +16,7 @@
     <TemplateContent>
         <Project TargetFileName="$safeprojectname$.Droid.csproj" File="NinjectAppTemplate.Droid.csproj" ReplaceParameters="true">
             <ProjectItem ReplaceParameters="true" TargetFileName="MainActivity.cs">MainActivity.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SplashActivity.cs">SplashActivity.cs</ProjectItem>
             <Folder Name="Assets" TargetFolderName="Assets">
                 <ProjectItem ReplaceParameters="false" TargetFileName="AboutAssets.txt">AboutAssets.txt</ProjectItem>
             </Folder>
@@ -37,11 +38,15 @@
                     <ProjectItem ReplaceParameters="false" TargetFileName="icon.png">icon.png</ProjectItem>
                 </Folder>
                 <Folder Name="layout" TargetFolderName="layout">
-                    <ProjectItem ReplaceParameters="false" TargetFileName="tabs.xml">tabs.xml</ProjectItem>
-                    <ProjectItem ReplaceParameters="false" TargetFileName="toolbar.xml">toolbar.xml</ProjectItem>
+                    <ProjectItem ReplaceParameters="false" TargetFileName="tabs.axml">tabs.xml</ProjectItem>
+                    <ProjectItem ReplaceParameters="false" TargetFileName="toolbar.axml">toolbar.xml</ProjectItem>
+                    <ProjectItem ReplaceParameters="false" TargetFileName="splash.axml">splash.xml</ProjectItem>
                 </Folder>
                 <Folder Name="values" TargetFolderName="values">
                     <ProjectItem ReplaceParameters="false" TargetFileName="colors.xml">colors.xml</ProjectItem>
+                    <ProjectItem ReplaceParameters="false" TargetFileName="styles.xml">styles.xml</ProjectItem>
+                </Folder>
+                <Folder Name="values-v19" TargetFolderName="values-v19">
                     <ProjectItem ReplaceParameters="false" TargetFileName="styles.xml">styles.xml</ProjectItem>
                 </Folder>
                 <Folder Name="values-v21" TargetFolderName="values-v21">

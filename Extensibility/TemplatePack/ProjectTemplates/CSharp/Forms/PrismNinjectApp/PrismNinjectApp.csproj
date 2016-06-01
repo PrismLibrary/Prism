@@ -91,6 +91,7 @@
     <None Include="NinjectApp.WinPhone\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </None>
+    <Compile Include="NinjectApp.Droid\SplashActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +210,8 @@
     <None Include="NinjectApp.iOS\NinjectApp.iOS.vstemplate" />
     <None Include="NinjectApp.iOS\Info.plist" />
     <None Include="NinjectApp.iOS\Entitlements.plist" />
+    <Content Include="NinjectApp.Droid\Resources\layout\splash.xml" />
+    <Content Include="NinjectApp.Droid\Resources\values-v19\styles.xml" />
     <Content Include="NinjectApp.iOS\__TemplateIcon.ico" />
   </ItemGroup>
   <ItemGroup>
