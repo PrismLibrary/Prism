@@ -47,24 +47,36 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public virtual async Task GoBackAsync(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
+        public virtual async Task<bool> GoBackAsync(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            var page = GetCurrentPage();
-            var segmentParameters = GetSegmentParameters(null, parameters);
+            try
+            {
+                var page = GetCurrentPage();
+                var segmentParameters = GetSegmentParameters(null, parameters);
 
-            var canNavigate = await CanNavigateAsync(page, segmentParameters);
-            if (!canNavigate)
-                return;
+                var canNavigate = await CanNavigateAsync(page, segmentParameters);
+                if (!canNavigate)
+                    return false;
 
-            bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
-            Page previousPage = GetOnNavigatedToTarget(page, useModalForDoPop);
+                bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
+                Page previousPage = GetOnNavigatedToTarget(page, useModalForDoPop);
 
-            OnNavigatedFrom(page, segmentParameters);
+                OnNavigatedFrom(page, segmentParameters);
 
-            var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
+                var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
+                if (poppedPage != null)
+                {
+                    OnNavigatedTo(previousPage, segmentParameters);
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
 
-            if (poppedPage != null)
-                OnNavigatedTo(previousPage, segmentParameters);
+            return false;
         }
 
         /// <summary>
@@ -74,10 +86,10 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public virtual async Task NavigateAsync<TViewModel>(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public virtual Task NavigateAsync<TViewModel>(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
             where TViewModel : BindableBase
         {
-            await NavigateAsync(typeof(TViewModel).FullName, parameters, useModalNavigation, animated);
+            return NavigateAsync(typeof(TViewModel).FullName, parameters, useModalNavigation, animated);
         }
 
         /// <summary>
@@ -87,9 +99,9 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public virtual async Task NavigateAsync(string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public virtual Task NavigateAsync(string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            await NavigateAsync(new Uri(name, UriKind.RelativeOrAbsolute), parameters, useModalNavigation, animated);
+            return NavigateAsync(new Uri(name, UriKind.RelativeOrAbsolute), parameters, useModalNavigation, animated);
         }
 
         /// <summary>
@@ -103,14 +115,14 @@ namespace Prism.Navigation
         /// <example>
         /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
         /// </example>
-        public virtual async Task NavigateAsync(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public virtual Task NavigateAsync(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             var navigationSegments = UriParsingHelper.GetUriSegments(uri);
 
             if (uri.IsAbsoluteUri)
-                await ProcessNavigationForAbsoulteUri(navigationSegments, parameters, useModalNavigation, animated);
+                return ProcessNavigationForAbsoulteUri(navigationSegments, parameters, useModalNavigation, animated);
             else
-                await ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, useModalNavigation, animated);
+                return ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, useModalNavigation, animated);
         }
 
         async Task ProcessNavigation(Page currentPage, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -226,7 +238,7 @@ namespace Prism.Navigation
                     continue;
 
                 await ProcessNavigation(child, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, child, parameters, () =>
+                await DoNavigateAction(null, nextSegment, child, parameters, onNavigationActionCompleted: () =>
                 {
                     currentPage.CurrentPage = child;
                 });
@@ -250,7 +262,7 @@ namespace Prism.Navigation
                     continue;
 
                 await ProcessNavigation(child, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, child, parameters, () =>
+                await DoNavigateAction(null, nextSegment, child, parameters, onNavigationActionCompleted: () =>
                 {
                     currentPage.CurrentPage = child;
                 });
@@ -286,10 +298,10 @@ namespace Prism.Navigation
             {
                 var newDetail = CreatePageFromSegment(nextSegment);
                 await ProcessNavigation(newDetail, segments, parameters, newDetail is NavigationPage ? false : true, animated);
-                await DoNavigateAction(null, nextSegment, newDetail, parameters, () =>
+                await DoNavigateAction(null, nextSegment, newDetail, parameters, onNavigationActionCompleted: () =>
                 {
-                    currentPage.Detail = newDetail;
                     currentPage.IsPresented = isPresented;
+                    currentPage.Detail = newDetail;                    
                 });
                 return;
             }
@@ -298,7 +310,7 @@ namespace Prism.Navigation
             if (detail.GetType() == nextSegmentType)
             {
                 await ProcessNavigation(detail, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, detail, parameters, () =>
+                await DoNavigateAction(null, nextSegment, detail, parameters, onNavigationActionCompleted:() =>
                 {
                     currentPage.IsPresented = isPresented;
                 });
@@ -308,10 +320,10 @@ namespace Prism.Navigation
             {
                 var newDetail = CreatePageFromSegment(nextSegment);
                 await ProcessNavigation(newDetail, segments, parameters, newDetail is NavigationPage ? false : true, animated);
-                await DoNavigateAction(detail, nextSegment, newDetail, parameters, () =>
+                await DoNavigateAction(detail, nextSegment, newDetail, parameters, onNavigationActionCompleted: () =>
                 {
-                    currentPage.Detail = newDetail;
                     currentPage.IsPresented = isPresented;
+                    currentPage.Detail = newDetail;                    
                 });
                 return;
             }
@@ -330,7 +342,7 @@ namespace Prism.Navigation
             return false;
         }
 
-        static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Action navigationAction = null)
+        static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Func<Task> navigationAction = null, Action onNavigationActionCompleted = null)
         {
             var segmentPrameters = GetSegmentParameters(toSegment, parameters);
 
@@ -340,7 +352,10 @@ namespace Prism.Navigation
 
             OnNavigatedFrom(fromPage, segmentPrameters);
 
-            navigationAction?.Invoke();
+            if (navigationAction != null)
+                await navigationAction();
+
+            onNavigationActionCompleted?.Invoke();
 
             OnNavigatedTo(toPage, segmentPrameters);
         }
@@ -465,7 +480,7 @@ namespace Prism.Navigation
             }
         }
 
-        static async Task<Page> DoPop(INavigation navigation, bool useModalNavigation, bool animated)
+        static Task<Page> DoPop(INavigation navigation, bool useModalNavigation, bool animated)
         {
             if (useModalNavigation)
             {
@@ -514,27 +529,10 @@ namespace Prism.Navigation
                 InvokeOnNavigationAwareElement(page, v => v.OnNavigatedFrom(parameters));
         }
 
-        static void OnNavigatedTo(object page, NavigationParameters parameters, bool includeChild = false)
+        static void OnNavigatedTo(object page, NavigationParameters parameters)
         {
             if (page != null)
                 InvokeOnNavigationAwareElement(page, v => v.OnNavigatedTo(parameters));
-
-            if (includeChild)
-            {
-                Page childPage = null;
-
-                if (page is NavigationPage)
-                    childPage = ((NavigationPage)page).CurrentPage;
-                else if (page is TabbedPage)
-                    childPage = ((TabbedPage)page).CurrentPage;
-                if (page is CarouselPage)
-                    childPage = ((CarouselPage)page).CurrentPage;
-                else if (page is MasterDetailPage)
-                    childPage = ((MasterDetailPage)page).Detail;
-
-                if (childPage != null)
-                    InvokeOnNavigationAwareElement(childPage, c => c.OnNavigatedTo(parameters));
-            }
         }
 
         static void InvokeOnNavigationAwareElement(object item, Action<INavigationAware> invocation)

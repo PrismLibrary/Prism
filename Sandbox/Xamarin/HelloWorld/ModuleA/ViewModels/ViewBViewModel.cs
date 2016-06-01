@@ -16,18 +16,26 @@ namespace ModuleA.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
+        private bool _canNavigate = true;
+        public bool CanNavigate
+        {
+            get { return _canNavigate; }
+            set { SetProperty(ref _canNavigate, value); }
+        }
+
         public DelegateCommand NavigateCommand { get; set; }
 
         public ViewBViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-
-            NavigateCommand = new DelegateCommand(Navigate);
+            NavigateCommand = new DelegateCommand(Navigate).ObservesCanExecute((vm) => CanNavigate);
         }
 
-        void Navigate()
+        async void Navigate()
         {
-            _navigationService.GoBackAsync();
+            CanNavigate = false;
+            await _navigationService.GoBackAsync();
+            CanNavigate = true;
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
