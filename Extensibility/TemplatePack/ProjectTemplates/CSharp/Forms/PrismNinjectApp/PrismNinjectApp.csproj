@@ -67,6 +67,7 @@
     <None Include="NinjectApp.Droid\Properties\AssemblyInfo.cs" />
     <None Include="NinjectApp.Droid\Resources\Resource.Designer.cs" />
     <None Include="NinjectApp.Droid\MainActivity.cs" />
+    <None Include="NinjectApp.Droid\SplashActivity.cs" />
     <None Include="NinjectApp.iOS\Properties\AssemblyInfo.cs" />
     <None Include="NinjectApp.iOS\AppDelegate.cs" />
     <None Include="NinjectApp.iOS\Main.cs" />
@@ -91,7 +92,6 @@
     <None Include="NinjectApp.WinPhone\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </None>
-    <Compile Include="NinjectApp.Droid\SplashActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
