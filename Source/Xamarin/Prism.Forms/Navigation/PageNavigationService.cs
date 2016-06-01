@@ -13,7 +13,7 @@ namespace Prism.Navigation
     /// <summary>
     /// Provides page based navigation for ViewModels.
     /// </summary>
-    public abstract class PageNavigationService : INavigationService, IPageAware, IDisposable
+    public abstract class PageNavigationService : INavigationService, IPageAware
     {
         protected IApplicationProvider _applicationProvider;
         protected ILoggerFacade _logger;
@@ -561,11 +561,6 @@ namespace Prism.Navigation
         Page GetCurrentPage()
         {
             return _page != null ? _page : _applicationProvider.MainPage;
-        }
-
-        public void Dispose()
-        {
-            _page = null;
         }
     }
 }
