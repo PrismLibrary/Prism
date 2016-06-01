@@ -53,7 +53,7 @@
   
   <WizardData>
     <packages repository="extension" repositoryId="Prism.TemplatePack.138e3411-ac97-4c11-8016-c27a831cba2e">
-      <package id="Xamarin.Forms" version="2.2.0.4-pre1" />
+      <package id="Xamarin.Forms" version="2.3.0.46-pre3" />
       <package id="Prism.Core" version="6.1.0" />
       <package id="Prism.Forms" version="6.1.0-pre4" />
       <package id="Prism.Unity.Forms" version="6.2.0-pre4" />

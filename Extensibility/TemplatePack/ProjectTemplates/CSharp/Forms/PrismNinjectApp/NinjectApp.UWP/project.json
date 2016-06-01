@@ -6,7 +6,7 @@
     "Prism.Forms": "6.1.0-pre5",
     "Prism.Ninject.Forms": "6.2.0-pre5",
     "Portable.Ninject": "3.3.1",
-    "Xamarin.Forms": "2.3.0.38-pre2"
+    "Xamarin.Forms": "2.3.0.46-pre3"
   },
   "frameworks": {
     "uap10.0": {}
