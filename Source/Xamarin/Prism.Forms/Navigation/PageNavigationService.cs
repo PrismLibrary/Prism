@@ -162,7 +162,7 @@ namespace Prism.Navigation
 
             await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
 
-            await DoNavigateAction(null, nextSegment, nextPage, parameters, async () =>
+            await DoNavigateAction(GetCurrentPage(), nextSegment, nextPage, parameters, async () =>
             {
                 await DoPush(null, nextPage, useModalNavigation, animated);
             });
