@@ -2,6 +2,7 @@
 using Prism.Forms.Tests.Mocks;
 using Prism.Forms.Tests.Mocks.ViewModels;
 using Prism.Forms.Tests.Mocks.Views;
+using Prism.Logging;
 using Prism.Navigation;
 using System;
 using Xamarin.Forms;
@@ -13,6 +14,7 @@ namespace Prism.Forms.Tests.Navigation
     {
         PageNavigationContainerMock _container;
         IApplicationProvider _applicationProvider;
+        ILoggerFacade _loggerFacade;
 
         public PageNavigationServiceFixture()
         {
@@ -36,12 +38,13 @@ namespace Prism.Forms.Tests.Navigation
             _container.Register("CarouselPage", typeof(CarouselPageMock));
 
             _applicationProvider = new ApplicationProviderMock();
+            _loggerFacade = new EmptyLogger();
         }
 
         [Fact]
         public void IPageAware_NullByDefault()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var page = ((IPageAware)navigationService).Page;
             Assert.Null(page);
         }
@@ -51,7 +54,7 @@ namespace Prism.Forms.Tests.Navigation
         {
             Assert.ThrowsAsync<NullReferenceException>(async () =>
             {
-                var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+                var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
                 var rootPage = new Xamarin.Forms.ContentPage();
                 ((IPageAware)navigationService).Page = rootPage;
 
@@ -64,7 +67,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToContentPage_ByName()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -77,7 +80,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void NavigateAsync_ToContentPage_ByName()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.NavigationPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -90,7 +93,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToContentPage_ByRelativeUri()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -103,7 +106,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToContentPage_ByObject()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -116,7 +119,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToContentPage_ByName_WithNavigationParameters()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -139,7 +142,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToContentPage_ThenGoBack()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -157,7 +160,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void NavigateAsync_ToContentPage_ThenGoBack()
         {
             var pageMock = new ContentPageMock();
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             ((IPageAware)navigationService).Page = pageMock;
 
             var rootPage = new NavigationPage(pageMock);
@@ -178,7 +181,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToContentPage_ViewModelHasINavigationAware()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -191,7 +194,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.NotNull(viewModel);
             Assert.True(viewModel.OnNavigatedToCalled);
 
-            var nextPageNavService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var nextPageNavService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             ((IPageAware)nextPageNavService).Page = rootPage.Navigation.ModalStack[0];
             await nextPageNavService.NavigateAsync("NavigationPage");
 
@@ -201,7 +204,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToContentPage_PageHasINavigationAware()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -213,7 +216,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.NotNull(contentPage);
             Assert.True(contentPage.OnNavigatedToCalled);
 
-            var nextPageNavService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var nextPageNavService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             ((IPageAware)nextPageNavService).Page = contentPage;
 
             await nextPageNavService.NavigateAsync("NavigationPage");
@@ -225,7 +228,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToContentPage_PageHasIConfirmNavigation_True()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new ContentPageMock();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -240,7 +243,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToContentPage_PageHasIConfirmNavigation_False()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new ContentPageMock();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -258,7 +261,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToContentPage_ViewModelHasIConfirmNavigation_True()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage() { BindingContext = new ContentPageMockViewModel() };
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -275,7 +278,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToContentPage_ViewModelHasIConfirmNavigation_False()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new ContentPage() { BindingContext = new ContentPageMockViewModel() };
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -294,7 +297,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToNavigatonPage_ViewModelHasINavigationAware()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -311,7 +314,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToMasterDetailPage_ViewModelHasINavigationAware()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -330,7 +333,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToTabbedPage_ByName_ViewModelHasINavigationAware()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -349,7 +352,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToCarouselPage_ByName_ViewModelHasINavigationAware()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -368,7 +371,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_From_ContentPage_To_ContentPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -381,7 +384,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_From_ContentPage_To_NavigationPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -394,7 +397,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_From_ContentPage_To_NavigationPage_ToContentPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -407,7 +410,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_From_ContentPage_To_EmptyNavigationPage_ToContentPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -420,7 +423,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_From_ContentPage_To_NavigationPageWithNavigationStack_ToContentPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -433,7 +436,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_From_ContentPage_To_NavigationPageWithDifferentNavigationStack_ToContentPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -446,7 +449,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_From_ContentPage_To_TabbedPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -459,7 +462,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_From_ContentPage_To_CarouselPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -472,7 +475,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_From_ContentPage_To_MasterDetailPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -485,7 +488,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_FromMasterDetailPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new MasterDetailPageMock();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -503,7 +506,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_FromMasterDetailPage_ToSamePage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new MasterDetailPageMock();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -523,7 +526,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_ToEmptyMasterDetailPage_ToContentPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -538,7 +541,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_ToEmptyMasterDetailPage_ToNavigationPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -553,7 +556,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_ToMasterDetailPage_ToDifferentPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -568,7 +571,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_ToMasterDetailPage_ToSamePage_ToTabbedPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -586,7 +589,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_FromMasterDetailPage_ToTabbedPage_IsPresented()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new MasterDetailPageMock();
             ((IPageAware)navigationService).Page = rootPage;
             rootPage.IsPresentedAfterNavigation = true;
@@ -603,7 +606,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_FromMasterDetailPage_ToTabbedPage_IsNotPresented()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new MasterDetailPageMock();
             ((IPageAware)navigationService).Page = rootPage;
             rootPage.IsPresentedAfterNavigation = false;
@@ -620,7 +623,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_FromMasterDetailPage_ToTabbedPage_IsPresented_FromViewModel()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new MasterDetailPageEmptyMock();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -638,7 +641,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_FromMasterDetailPage_ToTabbedPage_IsNotPresented_FromViewModel()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new MasterDetailPageEmptyMock();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -656,7 +659,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_ToTabbedPage_ToPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -671,7 +674,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void DeepNavigate_ToCarouselPage_ToContentPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 

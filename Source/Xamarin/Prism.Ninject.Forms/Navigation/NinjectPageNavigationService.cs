@@ -1,5 +1,6 @@
 ﻿using Ninject;
 using Prism.Common;
+using Prism.Logging;
 using Prism.Navigation;
 using Xamarin.Forms;
 
@@ -9,8 +10,8 @@ namespace Prism.Ninject.Navigation
     {
         IKernel _kernel;
 
-        public NinjectPageNavigationService(IKernel kernel, IApplicationProvider applicationProvider)
-            : base (applicationProvider)
+        public NinjectPageNavigationService(IKernel kernel, IApplicationProvider applicationProvider, ILoggerFacade logger)
+            : base (applicationProvider, logger)
         {
             _kernel = kernel;
         }
