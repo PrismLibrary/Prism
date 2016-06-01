@@ -37,6 +37,7 @@ namespace Prism.Navigation
         /// <summary>
         /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
         /// </summary>
+        /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
@@ -63,8 +64,9 @@ namespace Prism.Navigation
                     return true;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Log(e.ToString(), Category.Exception, Priority.High);
                 return false;
             }
 
@@ -293,7 +295,7 @@ namespace Prism.Navigation
                 await DoNavigateAction(null, nextSegment, newDetail, parameters, onNavigationActionCompleted: () =>
                 {
                     currentPage.IsPresented = isPresented;
-                    currentPage.Detail = newDetail;                    
+                    currentPage.Detail = newDetail;
                 });
                 return;
             }
@@ -302,10 +304,10 @@ namespace Prism.Navigation
             if (detail.GetType() == nextSegmentType)
             {
                 await ProcessNavigation(detail, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, detail, parameters, onNavigationActionCompleted:() =>
-                {
-                    currentPage.IsPresented = isPresented;
-                });
+                await DoNavigateAction(null, nextSegment, detail, parameters, onNavigationActionCompleted: () =>
+                 {
+                     currentPage.IsPresented = isPresented;
+                 });
                 return;
             }
             else
@@ -315,7 +317,7 @@ namespace Prism.Navigation
                 await DoNavigateAction(detail, nextSegment, newDetail, parameters, onNavigationActionCompleted: () =>
                 {
                     currentPage.IsPresented = isPresented;
-                    currentPage.Detail = newDetail;                    
+                    currentPage.Detail = newDetail;
                 });
                 return;
             }
@@ -365,9 +367,9 @@ namespace Prism.Navigation
 
                 return page;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _logger.Log( e.ToString(), Category.Exception, Priority.High );
+                _logger.Log(e.ToString(), Category.Exception, Priority.High);
                 throw;
             }
         }
