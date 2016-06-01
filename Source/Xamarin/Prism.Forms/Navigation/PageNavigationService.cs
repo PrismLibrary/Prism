@@ -36,24 +36,36 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public virtual async Task GoBackAsync(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
+        public virtual async Task<bool> GoBackAsync(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            var page = GetCurrentPage();
-            var segmentParameters = GetSegmentParameters(null, parameters);
+            try
+            {
+                var page = GetCurrentPage();
+                var segmentParameters = GetSegmentParameters(null, parameters);
 
-            var canNavigate = await CanNavigateAsync(page, segmentParameters);
-            if (!canNavigate)
-                return;
+                var canNavigate = await CanNavigateAsync(page, segmentParameters);
+                if (!canNavigate)
+                    return false;
 
-            bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
-            Page previousPage = GetOnNavigatedToTarget(page, useModalForDoPop);
+                bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
+                Page previousPage = GetOnNavigatedToTarget(page, useModalForDoPop);
 
-            OnNavigatedFrom(page, segmentParameters);
+                OnNavigatedFrom(page, segmentParameters);
 
-            var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
+                var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
+                if (poppedPage != null)
+                {
+                    OnNavigatedTo(previousPage, segmentParameters);
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
 
-            if (poppedPage != null)
-                OnNavigatedTo(previousPage, segmentParameters);
+            return false;
         }
 
         /// <summary>
