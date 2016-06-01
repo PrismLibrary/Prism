@@ -134,7 +134,7 @@
 			</References>
 			<Files>
 				<File name="MainActivity.cs" src="UnityApp.Droid/MainActivity.cs" />
-				<File name="MainActivity.cs" src="UnityApp.Droid/SplashActivity.cs" />
+				<File name="SplashActivity.cs" src="UnityApp.Droid/SplashActivity.cs" />
 				<Directory name="Resources">
 					<File name="Resource.designer.cs" src="UnityApp.Droid/Resource.cs" />
 					<RawFile name="AboutResources.txt" src="UnityApp.Droid/AboutResources.txt" />
