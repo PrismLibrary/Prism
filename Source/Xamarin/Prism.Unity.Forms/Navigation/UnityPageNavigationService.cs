@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using Prism.Common;
+using Prism.Logging;
 using Prism.Navigation;
 using Xamarin.Forms;
 
@@ -9,8 +10,8 @@ namespace Prism.Unity.Navigation
     {
         IUnityContainer _container;
 
-        public UnityPageNavigationService(IUnityContainer container, IApplicationProvider applicationProvider)
-            : base(applicationProvider)
+        public UnityPageNavigationService(IUnityContainer container, IApplicationProvider applicationProvider, ILoggerFacade logger)
+            : base(applicationProvider, logger)
         {
             _container = container;
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Prism.Mvvm;
+using Prism.Logging;
 #if TEST
 using Application = Prism.FormsApplication;
 #endif
@@ -17,7 +18,8 @@ namespace Prism.Navigation
     /// </summary>
     public abstract class PageNavigationService : INavigationService, IPageAware, IDisposable
     {
-        IApplicationProvider _applicationProvider;
+        protected IApplicationProvider _applicationProvider;
+        protected ILoggerFacade _logger;
 
         private Page _page;
         Page IPageAware.Page
@@ -26,9 +28,10 @@ namespace Prism.Navigation
             set { _page = value; }
         }
 
-        public PageNavigationService(IApplicationProvider applicationProvider)
+        public PageNavigationService(IApplicationProvider applicationProvider, ILoggerFacade logger)
         {
             _applicationProvider = applicationProvider;
+            _logger = logger;
         }
 
         /// <summary>
@@ -353,12 +356,20 @@ namespace Prism.Navigation
 
         Page CreatePageFromSegment(string segment)
         {
-            var segmentName = UriParsingHelper.GetSegmentName(segment);
-            var page = CreatePage(segmentName);
-            if (page == null)
-                throw new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
+            try
+            {
+                var segmentName = UriParsingHelper.GetSegmentName(segment);
+                var page = CreatePage(segmentName);
+                if (page == null)
+                    throw new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
 
-            return page;
+                return page;
+            }
+            catch(Exception e)
+            {
+                _logger.Log( e.ToString(), Category.Exception, Priority.High );
+                throw;
+            }
         }
 
         static bool HasNavigationPageParent(Page page)
