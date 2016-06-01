@@ -138,8 +138,19 @@
 					<File name="Resource.designer.cs" src="UnityApp.Droid/Resource.cs" />
 					<RawFile name="AboutResources.txt" src="UnityApp.Droid/AboutResources.txt" />
 					<Directory name="layout">
+						<RawFile name="splash.axml" src="UnityApp.Droid/splash-layout.axml" />
+						<RawFile name="tabs.axml" src="UnityApp.Droid/tabs-layout.axml" />
+						<RawFile name="toolbar.axml" src="UnityApp.Droid/toolbar-layout.axml" />
 					</Directory>
 					<Directory name="values">
+						<RawFile name="colors.xml" src="UnityApp.Droid/colors-values.xml" />
+						<RawFile name="styles.xml" src="UnityApp.Droid/styles-values.xml" />
+					</Directory>
+					<Directory name="values-v19">
+						<RawFile name="styles.xml" src="UnityApp.Droid/styles-values-v19.xml" />
+					</Directory>
+					<Directory name="values-v21">
+						<RawFile name="styles.xml" src="UnityApp.Droid/styles-values-v21.xml" />
 					</Directory>
 					<Directory name ="drawable">
 						<RawFile name="icon.png" src="UnityApp.Droid/icondrawable.png" />

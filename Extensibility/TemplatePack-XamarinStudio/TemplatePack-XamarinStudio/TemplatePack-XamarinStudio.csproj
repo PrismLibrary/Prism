@@ -30,6 +30,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AddinInfo.cs" />
+    <Compile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\MainActivity.cs" />
+    <Compile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml" />
@@ -94,12 +96,20 @@
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\AboutResources.txt" />
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\AndroidManifest.xml" />
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\AssemblyInfo.cs" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\colors-values.xml" />
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\icondrawable.png" />
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\icondrawablehdpi.png" />
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\icondrawablexhdpi.png" />
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\icondrawablexxhdpi.png" />
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\MainActivity.cs" />
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\Resource.cs" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\splash-layout.axml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\SplashActivity.cs" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\styles-values-v19.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\styles-values-v21.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\styles-values.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\tabs-layout.axml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\toolbar-layout.axml" />
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.UITests\AppInitializer.AppProject.cs" />
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.UITests\AppInitializer.UITestProject.cs" />
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.UITests\UITests.AppProject.cs" />
