@@ -484,9 +484,9 @@ namespace Prism.Navigation
         {
             if (useModalNavigation)
             {
-                return await navigation.PopModalAsync(animated);
+                return navigation.PopModalAsync(animated);
             }
-            return await navigation.PopAsync(animated);
+            return navigation.PopAsync(animated);
         }
 
         static Task<bool> CanNavigateAsync(object page, NavigationParameters parameters)
