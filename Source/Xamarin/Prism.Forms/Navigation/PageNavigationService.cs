@@ -462,12 +462,12 @@ namespace Prism.Navigation
             }
         }
 
-        static async Task<Page> DoPop(INavigation navigation, bool useModalNavigation, bool animated)
+        static Task<Page> DoPop(INavigation navigation, bool useModalNavigation, bool animated)
         {
             if (useModalNavigation)
-                return await navigation.PopModalAsync(animated);
+                return navigation.PopModalAsync(animated);
             else
-                return await navigation.PopAsync(animated);
+                return navigation.PopAsync(animated);
         }
 
         static Task<bool> CanNavigateAsync(object page, NavigationParameters parameters)
