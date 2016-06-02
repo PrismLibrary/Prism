@@ -21,6 +21,7 @@ namespace Prism.Ninject
         /// Registers a Page for navigation.
         /// </summary>
         /// <typeparam name="TView">The Type of Page to register</typeparam>
+        /// <param name="kernel"><see cref="IKernel"/> used to register type for Navigation.</param>
         /// <param name="name">The unique name to register with the Page</param>
         public static void RegisterTypeForNavigation<TView>(this IKernel kernel, string name) where TView : Page
         {
@@ -35,7 +36,7 @@ namespace Prism.Ninject
         /// </summary>
         /// <typeparam name="TView">The Type of Page to register</typeparam>
         /// <typeparam name="TViewModel">The BindableBase ViewModel to use as the unique name for the Page</typeparam>
-        /// <param name="kernel"></param>
+        /// <param name="kernel"><see cref="IKernel"/> used to register type for Navigation.</param>
         public static void RegisterTypeForNavigation<TView, TViewModel>(this IKernel kernel)
             where TView : Page
             where TViewModel : BindableBase

@@ -46,6 +46,7 @@ namespace Prism.Ninject
         /// Registers an object for navigation.
         /// </summary>
         /// <typeparam name="T">The Type of the object to register</typeparam>
+        /// <param name="ninjectModule"><see cref="NinjectModule"/> used to register type for Navigation.</param>
         /// <param name="name">The unique name to register with the object.</param>
         public static void RegisterTypeForNavigation<T>(this NinjectModule ninjectModule, string name = null)
         {
@@ -58,6 +59,7 @@ namespace Prism.Ninject
         /// Registers an object for navigation.
         /// </summary>
         /// <typeparam name="T">The Type of the object to register</typeparam>
+        /// <param name="kernel"><see cref="IKernel"/> used to register type for Navigation.</param>
         /// <param name="name">The unique name to register with the object.</param>
         public static void RegisterTypeForNavigation<T>(this IKernel kernel, string name = null)
         {
