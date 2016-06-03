@@ -71,9 +71,7 @@ namespace Prism.DryIoc
             Container.RegisterInstance(Logger);
             Container.RegisterInstance(ModuleCatalog);
             Container.RegisterInstance(Container);
-            Container.Register<INavigationService, DryIocPageNavigationService>(
-                serviceKey: _navigationServiceKey,
-                setup: Setup.With(allowDisposableTransient: true));
+            Container.Register<INavigationService, DryIocPageNavigationService>(serviceKey: _navigationServiceKey);
             Container.Register<IApplicationProvider, ApplicationProvider>();
             Container.Register<IModuleManager, ModuleManager>(Reuse.Singleton);
             Container.Register<IModuleInitializer, DryIocModuleInitializer>(Reuse.Singleton);

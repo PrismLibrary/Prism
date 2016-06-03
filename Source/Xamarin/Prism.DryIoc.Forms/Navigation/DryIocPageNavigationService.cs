@@ -1,5 +1,6 @@
 ﻿using DryIoc;
 using Prism.Common;
+using Prism.Logging;
 using Prism.Navigation;
 using Xamarin.Forms;
 
@@ -17,8 +18,9 @@ namespace Prism.DryIoc.Navigation
         /// </summary>
         /// <param name="applicationProvider">An instance of <see cref="IApplicationProvider"/></param>
         /// <param name="container">An instance of <see cref="IContainer"/></param>
-        public DryIocPageNavigationService(IApplicationProvider applicationProvider, IContainer container)
-            : base(applicationProvider)
+        /// <param name="logger">An instance of <see cref="ILoggerFacade"/></param>
+        public DryIocPageNavigationService(IApplicationProvider applicationProvider, IContainer container, ILoggerFacade logger)
+            : base(applicationProvider, logger)
         {
             _container = container;
         }
