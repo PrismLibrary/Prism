@@ -78,20 +78,6 @@ namespace Prism.DryIoc.Forms.Tests
         }
 
         [Fact]
-        public async Task Navigate_View_ConstructorArguments()
-        {
-            var app = new PrismApplicationMock();
-            var navigationService = ResolveAndSetRootPage(app);
-            await navigationService.NavigateAsync<ConstructorArgumentViewModel>();
-            var page = ((IPageAware)app.NavigationServices[typeof(ConstructorArgumentViewModel)]).Page;
-            Assert.NotNull(page);
-            var view = (ConstructorArgumentView)page;
-            Assert.NotNull(view.Service);
-            var vm = (ConstructorArgumentViewModel)view.BindingContext;
-            Assert.NotNull(vm.Service);
-        }
-
-        [Fact]
         public void Module_Initialize()
         {
             var app = new PrismApplicationMock();
@@ -118,14 +104,18 @@ namespace Prism.DryIoc.Forms.Tests
         }
 
         [Fact]
-        public async Task Navigate_ViewModelFactory_PageAware()
+        public void Navigate_ViewModelFactory_PageAware()
         {
             var app = new PrismApplicationMock();
-            var navigationService = ResolveAndSetRootPage(app);
-            await navigationService.NavigateAsync<AutowireViewModel>();
-            var page = ((IPageAware)app.NavigationServices[typeof(AutowireViewModel)]).Page;
-            Assert.NotNull(page);
-            Assert.IsType<AutowireView>(page);
+            var view = new AutowireView();
+            var viewModel = (AutowireViewModel)view.BindingContext;
+            var pageAware = (IPageAware)viewModel.NavigationService;
+            var navigationServicePage = app.CreateNavigationServiceForPage(view);
+            Assert.IsType<AutowireView>(pageAware.Page);
+            var navigatedPage = ((IPageAware)navigationServicePage).Page;
+            Assert.IsType<AutowireView>(navigatedPage);
+            Assert.Same(view, pageAware.Page);
+            Assert.Same(pageAware.Page, navigatedPage);
         }
 
         [Fact]

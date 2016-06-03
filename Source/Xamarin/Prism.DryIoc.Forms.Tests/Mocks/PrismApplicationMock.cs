@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using DryIoc;
 using Prism.DryIoc.Forms.Tests.Mocks.Modules;
 using Prism.DryIoc.Forms.Tests.Mocks.Services;
@@ -15,15 +13,12 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
     {
         public PrismApplicationMock()
         {
-            NavigationServices = new Dictionary<Type, INavigationService>();
         }
 
         public PrismApplicationMock(Page startPage) : this()
         {
             Current.MainPage = startPage;
         }
-
-        public IDictionary<Type, INavigationService> NavigationServices { get; }
 
         public new INavigationService NavigationService => base.NavigationService;
 
@@ -49,6 +44,7 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
             Container.Register<IDryIocServiceMock, DryIocServiceMock>();
             Container.RegisterTypeForNavigation<ViewMock>("view");
             Container.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
+            Container.Register<AutowireViewModel>();
             Container.Register<ViewModelAMock>();
             Container.Register<ViewModelBMock>(serviceKey: ViewModelBMock.Key);
             Container.Register<ConstructorArgumentViewModel>();
@@ -57,9 +53,9 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
             Container.Register<ModuleMock>(Reuse.Singleton);
         }
 
-        protected internal override void ResolveTypeForPage(Page view, Type type, INavigationService navigationService)
+        public INavigationService CreateNavigationServiceForPage(Page page)
         {
-            NavigationServices[type] = navigationService;
+            return CreateNavigationService(page);
         }
     }
 }

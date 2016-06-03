@@ -92,7 +92,7 @@ namespace Prism.DryIoc
         }
 
         /// <summary>
-        /// Resolve <see cref="INavigationService"/>
+        /// Create instance of <see cref="INavigationService"/>
         /// </summary>
         /// <remarks>
         /// The <see cref="_navigationServiceKey"/> is used as service key when resolving
@@ -101,6 +101,18 @@ namespace Prism.DryIoc
         protected override INavigationService CreateNavigationService()
         {
             return Container.Resolve<INavigationService>(_navigationServiceKey);
+        }
+
+        /// <summary>
+        /// Create instance of <see cref="INavigationService"/> and set the <see cref="IPageAware.Page"/> property to <paramref name="page"/>
+        /// </summary>
+        /// <param name="page">Active page</param>
+        /// <returns>Instance of <see cref="INavigationService"/> with <see cref="IPageAware.Page"/> set</returns>
+        protected INavigationService CreateNavigationService(Page page)
+        {
+            var navigationService = CreateNavigationService();
+            ((IPageAware)navigationService).Page = page;
+            return navigationService;
         }
 
         protected override void ConfigureViewModelLocator()
@@ -128,23 +140,10 @@ namespace Prism.DryIoc
         /// <returns>View model instance of type <paramref name="type"/></returns>
         protected virtual object PageViewModelFactory(Page page, Type type)
         {
-            var navigationService = CreateNavigationService();
-            ((IPageAware)navigationService).Page = page;
-            ResolveTypeForPage(page, type, navigationService);
+            var navigationService = CreateNavigationService(page);
             // Resolve type using the instance navigationService
             var resolver = Container.Resolve<Func<INavigationService, object>>(type);
             return resolver(navigationService);
-        }
-
-        /// <summary>
-        /// This is used for testing to ensure that the resolved instance of <paramref name="navigationService" /> contains the
-        /// correct instance of <paramref name="view" />
-        /// </summary>
-        /// <param name="view"><see cref="Page" /> navigated to</param>
-        /// <param name="type"><see cref="Type" /> to resolve</param>
-        /// <param name="navigationService">Overriding instance of <see cref="INavigationService" /></param>
-        protected internal virtual void ResolveTypeForPage(Page view, Type type, INavigationService navigationService)
-        {
         }
     }
 }
