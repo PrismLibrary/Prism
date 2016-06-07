@@ -102,7 +102,7 @@ namespace Prism.Windows
         public bool IsSuspending { get; private set; }
 
         /// <summary>
-        /// Override this method with logic that will be performed after the application is initialized. For example, navigating to the application's home page.
+        /// Override this method with logic that will be performed after the application is initialized when it is not resuming. For example, navigating to the application's home page.
         /// </summary>
         /// <param name="args">The <see cref="LaunchActivatedEventArgs"/> instance containing the event data.</param>
         protected abstract Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args);
