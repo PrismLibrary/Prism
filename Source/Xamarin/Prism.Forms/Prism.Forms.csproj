@@ -63,6 +63,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="IPlatformInitializer.cs" />
     <Compile Include="PrismApplicationBase.cs" />
     <Compile Include="Common\ApplicationProvider.cs" />
     <Compile Include="Common\IApplicationProvider.cs" />

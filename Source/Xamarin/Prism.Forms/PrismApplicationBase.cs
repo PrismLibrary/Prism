@@ -1,6 +1,7 @@
 ﻿using Prism.Logging;
 using Prism.Modularity;
 using Prism.Navigation;
+using System.Linq;
 using Xamarin.Forms;
 #if TEST
 using Application = Prism.FormsApplication;
@@ -8,8 +9,15 @@ using Application = Prism.FormsApplication;
 
 namespace Prism
 {
-    public abstract class PrismApplicationBase : Application
+    public abstract class PrismApplicationBase<T> : Application
     {
+        IPlatformInitializer<T> _platformInitializer;
+
+        /// <summary>
+        /// The dependency injection container used to resolve objects
+        /// </summary>
+        public T Container { get; protected set; }
+
         /// <summary>
         /// Gets the <see cref="ILoggerFacade"/> for the application.
         /// </summary>
@@ -27,15 +35,16 @@ namespace Prism
         /// </summary>
         protected INavigationService NavigationService { get; set; }
 
-        protected PrismApplicationBase()
+        protected PrismApplicationBase(IPlatformInitializer<T> initializer = null)
         {
+            _platformInitializer = initializer;
             InitializeInternal();
         }
 
         /// <summary>
         /// Run the intialization process.
         /// </summary>
-        private void InitializeInternal()
+        void InitializeInternal()
         {
             ConfigureViewModelLocator();
             Initialize();
@@ -45,7 +54,25 @@ namespace Prism
         /// <summary>
         /// Run the bootstrapper process.
         /// </summary>
-        public abstract void Initialize();
+        public virtual void Initialize()
+        {
+            Logger = CreateLogger();
+
+            ModuleCatalog = CreateModuleCatalog();
+            ConfigureModuleCatalog();
+
+            Container = CreateContainer();
+
+            ConfigureContainer();
+
+            NavigationService = CreateNavigationService();
+
+            RegisterTypes();
+
+            _platformInitializer?.RegisterTypes(Container);
+
+            InitializeModules();
+        }
 
         /// <summary>
         /// Create the <see cref="ILoggerFacade" /> used by the application.
@@ -67,23 +94,41 @@ namespace Prism
         }
 
         /// <summary>
+        /// Creates the <see cref="IModuleManager"/> used by Prism.
+        /// </summary>
+        /// <returns>The IModuleManager</returns>
+        protected abstract IModuleManager CreateModuleManager();
+
+        /// <summary>
         /// Configures the <see cref="IModuleCatalog"/> used by Prism.
         /// </summary>
-        protected virtual void ConfigureModuleCatalog()
-        {
-
-        }
+        protected virtual void ConfigureModuleCatalog() { }
 
         /// <summary>
         /// Initializes the modules.
         /// </summary>
-        protected abstract void InitializeModules();
+        protected virtual void InitializeModules()
+        {
+            if (ModuleCatalog.Modules.Count() > 0)
+            {
+                IModuleManager manager = CreateModuleManager();
+                manager.Run();
+            }
+        }
+
+        /// <summary>
+        /// Creates the container used by Prism.
+        /// </summary>
+        /// <returns>The container</returns>
+        protected abstract T CreateContainer();
 
         /// <summary>
         /// Creates the <see cref="INavigationService"/> for the application.
         /// </summary>
         /// <returns></returns>
         protected abstract INavigationService CreateNavigationService();
+
+        protected abstract void ConfigureContainer();
 
         /// <summary>
         /// Configures the <see cref="Prism.Mvvm.ViewModelLocator"/> used by Prism.
