@@ -21,10 +21,18 @@ namespace Prism.Ninject
     {
         const string _navigationServiceName = "NinjectPageNavigationService";
 
+        IPlatformInitializer _platformInitializer;
+
         /// <summary>
         /// The Ninject Kernel
         /// </summary>
-        public IKernel Kernel { get; protected set; }
+        public IKernel Container { get; protected set; }
+
+        public PrismApplication(IPlatformInitializer initializer = null)
+        {
+            _platformInitializer = initializer;
+            InitializeInternal();
+        }
 
         public override void Initialize()
         {
@@ -33,13 +41,15 @@ namespace Prism.Ninject
             ModuleCatalog = CreateModuleCatalog();
             ConfigureModuleCatalog();
 
-            Kernel = CreateKernel();
+            Container = CreateContainer();
 
-            ConfigureKernel();
+            ConfigureContainer();
 
             NavigationService = CreateNavigationService();
 
             RegisterTypes();
+
+            _platformInitializer?.RegisterTypes(Container);
 
             InitializeModules();
         }
@@ -54,7 +64,7 @@ namespace Prism.Ninject
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navService = Kernel.Get<INavigationService>(_navigationServiceName);
+                    var navService = Container.Get<INavigationService>(_navigationServiceName);
                     ((IPageAware)navService).Page = page;
 
                     overrides = new IParameter[]
@@ -63,7 +73,7 @@ namespace Prism.Ninject
                     };
                 }
 
-                return Kernel.Get(type, overrides);
+                return Container.Get(type, overrides);
             });
         }
 
@@ -73,7 +83,7 @@ namespace Prism.Ninject
         /// you should return a <see cref="Prism.Ninject.Extensions.DependencyServiceKernel"/>.
         /// </summary>
         /// <returns>A Ninject <see cref="IKernel"/></returns>
-        protected virtual IKernel CreateKernel()
+        protected virtual IKernel CreateContainer()
         {
             return new StandardKernel();
         }
@@ -81,32 +91,32 @@ namespace Prism.Ninject
         /// <summary>
         /// Override to add your own Ninject kernel bindings. Make sure you call to base.
         /// </summary>
-        protected virtual void ConfigureKernel()
+        protected virtual void ConfigureContainer()
         {
-            Kernel.Components.Add<IMissingBindingResolver, DependencyServiceBindingResolver>();
+            Container.Components.Add<IMissingBindingResolver, DependencyServiceBindingResolver>();
 
-            Kernel.Bind<ILoggerFacade>().ToConstant(Logger).InSingletonScope();
-            Kernel.Bind<IModuleCatalog>().ToConstant(ModuleCatalog).InSingletonScope();
+            Container.Bind<ILoggerFacade>().ToConstant(Logger).InSingletonScope();
+            Container.Bind<IModuleCatalog>().ToConstant(ModuleCatalog).InSingletonScope();
 
-            Kernel.Bind<IApplicationProvider>().To<ApplicationProvider>().InSingletonScope();
-            Kernel.Bind<INavigationService>().To<NinjectPageNavigationService>().Named(_navigationServiceName);
-            Kernel.Bind<IModuleManager>().To<ModuleManager>().InSingletonScope();
-            Kernel.Bind<IModuleInitializer>().To<NinjectModuleInitializer>().InSingletonScope();
-            Kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
-            Kernel.Bind<IDependencyService>().To<DependencyService>().InSingletonScope();
-            Kernel.Bind<IPageDialogService>().To<PageDialogService>().InSingletonScope();
+            Container.Bind<IApplicationProvider>().To<ApplicationProvider>().InSingletonScope();
+            Container.Bind<INavigationService>().To<NinjectPageNavigationService>().Named(_navigationServiceName);
+            Container.Bind<IModuleManager>().To<ModuleManager>().InSingletonScope();
+            Container.Bind<IModuleInitializer>().To<NinjectModuleInitializer>().InSingletonScope();
+            Container.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
+            Container.Bind<IDependencyService>().To<DependencyService>().InSingletonScope();
+            Container.Bind<IPageDialogService>().To<PageDialogService>().InSingletonScope();
         }
 
         protected override INavigationService CreateNavigationService()
         {
-            return Kernel.Get<INavigationService>(_navigationServiceName);
+            return Container.Get<INavigationService>(_navigationServiceName);
         }
 
         protected override void InitializeModules()
         {
             if (ModuleCatalog.Modules.Count() > 0)
             {
-                IModuleManager manager = Kernel.Get<IModuleManager>();
+                IModuleManager manager = Container.Get<IModuleManager>();
                 manager.Run();
             }
         }

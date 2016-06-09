@@ -19,7 +19,15 @@ namespace Prism.Unity
     {
         const string _navigationServiceName = "UnityPageNavigationService";
 
+        IPlatformInitializer _platformInitializer;
+
         public IUnityContainer Container { get; protected set; }
+
+        public PrismApplication(IPlatformInitializer initializer = null)
+        {
+            _platformInitializer = initializer;
+            InitializeInternal();
+        }
 
         public override void Initialize()
         {
@@ -35,6 +43,8 @@ namespace Prism.Unity
             NavigationService = CreateNavigationService();
 
             RegisterTypes();
+
+            _platformInitializer?.RegisterTypes(Container);
 
             InitializeModules();
         }

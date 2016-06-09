@@ -27,15 +27,10 @@ namespace Prism
         /// </summary>
         protected INavigationService NavigationService { get; set; }
 
-        protected PrismApplicationBase()
-        {
-            InitializeInternal();
-        }
-
         /// <summary>
         /// Run the intialization process.
         /// </summary>
-        private void InitializeInternal()
+        protected void InitializeInternal()
         {
             ConfigureViewModelLocator();
             Initialize();
