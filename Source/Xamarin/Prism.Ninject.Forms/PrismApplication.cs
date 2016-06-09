@@ -11,50 +11,15 @@ using Prism.Ninject.Extensions;
 using Prism.Ninject.Modularity;
 using Prism.Ninject.Navigation;
 using Prism.Services;
-using System.Linq;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
 
 namespace Prism.Ninject
 {
-    public abstract class PrismApplication : PrismApplicationBase
+    public abstract class PrismApplication : PrismApplicationBase<IKernel>
     {
         const string _navigationServiceName = "NinjectPageNavigationService";
 
-        IPlatformInitializer _platformInitializer;
-
-        /// <summary>
-        /// The Ninject Kernel
-        /// </summary>
-        public IKernel Container { get; protected set; }
-
-        public PrismApplication(IPlatformInitializer initializer = null)
-        {
-            _platformInitializer = initializer;
-            InitializeInternal();
-        }
-
-        public override void Initialize()
-        {
-            Logger = CreateLogger();
-
-            ModuleCatalog = CreateModuleCatalog();
-            ConfigureModuleCatalog();
-
-            Container = CreateContainer();
-
-            ConfigureContainer();
-
-            NavigationService = CreateNavigationService();
-
-            RegisterTypes();
-
-            _platformInitializer?.RegisterTypes(Container);
-
-            InitializeModules();
-        }
-
-        /// <inheritDoc />
         protected override void ConfigureViewModelLocator()
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
@@ -77,21 +42,22 @@ namespace Prism.Ninject
             });
         }
 
-        /// <summary>
-        /// Override to change the creation of the Ninject kernel.
-        /// If you are using <see cref="Xamarin.Forms.DependencyService"/>,
-        /// you should return a <see cref="Prism.Ninject.Extensions.DependencyServiceKernel"/>.
-        /// </summary>
-        /// <returns>A Ninject <see cref="IKernel"/></returns>
-        protected virtual IKernel CreateContainer()
+        protected override IKernel CreateContainer()
         {
             return new StandardKernel();
         }
 
-        /// <summary>
-        /// Override to add your own Ninject kernel bindings. Make sure you call to base.
-        /// </summary>
-        protected virtual void ConfigureContainer()
+        protected override IModuleManager CreateModuleManager()
+        {
+            return Container.Get<IModuleManager>();
+        }
+
+        protected override INavigationService CreateNavigationService()
+        {
+            return Container.Get<INavigationService>(_navigationServiceName);
+        }
+
+        protected override void ConfigureContainer()
         {
             Container.Components.Add<IMissingBindingResolver, DependencyServiceBindingResolver>();
 
@@ -105,20 +71,6 @@ namespace Prism.Ninject
             Container.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
             Container.Bind<IDependencyService>().To<DependencyService>().InSingletonScope();
             Container.Bind<IPageDialogService>().To<PageDialogService>().InSingletonScope();
-        }
-
-        protected override INavigationService CreateNavigationService()
-        {
-            return Container.Get<INavigationService>(_navigationServiceName);
-        }
-
-        protected override void InitializeModules()
-        {
-            if (ModuleCatalog.Modules.Count() > 0)
-            {
-                IModuleManager manager = Container.Get<IModuleManager>();
-                manager.Run();
-            }
         }
     }
 }

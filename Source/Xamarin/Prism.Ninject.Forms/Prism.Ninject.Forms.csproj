@@ -65,7 +65,6 @@
   <ItemGroup>
     <Compile Include="Extensions\DependencyServiceBindingResolver.cs" />
     <Compile Include="Extensions\DependencyServiceProvider.cs" />
-    <Compile Include="IPlatformInitializer.cs" />
     <Compile Include="Modularity\NinjectModuleInitializer.cs" />
     <Compile Include="Navigation\NinjectPageNavigationService.cs" />
     <Compile Include="PrismApplication.cs" />

@@ -1,15 +1,16 @@
 ﻿using HelloWorld.ViewModels;
 using HelloWorld.Views;
+using Microsoft.Practices.Unity;
+using Prism;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
-using Xamarin.Forms;
 
 namespace HelloWorld
 {
     public class App : PrismApplication
     {
-        public App(IPlatformInitializer initializer = null) : base(initializer) { }
+        public App(IPlatformInitializer<IUnityContainer> initializer = null) : base(initializer) { }
 
         protected override void OnInitialized()
         {

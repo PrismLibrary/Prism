@@ -29,7 +29,7 @@ namespace HelloWorld.Droid
         }
     }
 
-    public class AndroidConfiguration : IPlatformInitializer
+    public class AndroidConfiguration : IPlatformInitializer<IUnityContainer>
     { 
         public void RegisterTypes(IUnityContainer container)
         {
