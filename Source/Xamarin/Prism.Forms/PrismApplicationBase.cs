@@ -35,7 +35,7 @@ namespace Prism
         /// </summary>
         protected INavigationService NavigationService { get; set; }
 
-        public PrismApplicationBase(IPlatformInitializer<T> initializer = null)
+        protected PrismApplicationBase(IPlatformInitializer<T> initializer = null)
         {
             _platformInitializer = initializer;
             InitializeInternal();
@@ -117,7 +117,7 @@ namespace Prism
         }
 
         /// <summary>
-        /// Creates the continaer used by Prism.
+        /// Creates the container used by Prism.
         /// </summary>
         /// <returns>The container</returns>
         protected abstract T CreateContainer();
