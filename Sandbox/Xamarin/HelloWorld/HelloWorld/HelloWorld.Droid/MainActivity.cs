@@ -25,15 +25,15 @@ namespace HelloWorld.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App(new AndroidConfiguration()));
+            LoadApplication(new App(new Androidinitializer()));
         }
     }
 
-    public class AndroidConfiguration : IPlatformInitializer<IUnityContainer>
-    { 
+    public class Androidinitializer : IPlatformInitializer
+    {
         public void RegisterTypes(IUnityContainer container)
         {
-            
+
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Prism.Unity
     {
         const string _navigationServiceName = "UnityPageNavigationService";
 
-        public PrismApplication(IPlatformInitializer<IUnityContainer> initializer = null) : base (initializer) { }
+        public PrismApplication(IPlatformInitializer initializer = null) : base (initializer) { }
 
         protected override void ConfigureViewModelLocator()
         {

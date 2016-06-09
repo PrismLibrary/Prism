@@ -20,7 +20,7 @@ namespace Prism.Ninject
     {
         const string _navigationServiceName = "NinjectPageNavigationService";
 
-        public PrismApplication(IPlatformInitializer<IKernel> initializer = null) : base(initializer) { }
+        public PrismApplication(IPlatformInitializer initializer = null) : base(initializer) { }
 
         protected override void ConfigureViewModelLocator()
         {
