@@ -135,6 +135,23 @@ else
     Invoke-Expression ".\$($nugetFileName) pack $($unityFormsNuspecPath) -Prop version=$($unityFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
+###########################
+######  Prism.Autofac.Forms  ######
+###########################
+$autofacFormsNuspecPath = 'Prism.Autofac.Forms.nuspec'
+$autofacFormsAssemblyPath = '../Xamarin/Prism.Autofac.Forms/bin/Release-Signed/Prism.Autofac.Forms.dll'
+if (!(Test-Path $autofacFormsAssemblyPath))
+{
+    Write-Host 'Prism.Autofac.Forms.dll not found'
+}
+else
+{
+    $unityFormsFileInfo = Get-Item $autofacFormsAssemblyPath
+    $unityFileVersion = $unityFormsFileInfo.VersionInfo.ProductVersion   
+
+    Invoke-Expression ".\$($nugetFileName) pack $($autofacFormsNuspecPath) -Prop version=$($unityFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+}
+
 
 
 ###########################
