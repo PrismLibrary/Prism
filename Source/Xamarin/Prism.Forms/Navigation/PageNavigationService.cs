@@ -137,13 +137,13 @@ namespace Prism.Navigation
             {
                 await ProcessNavigationForNavigationPage((NavigationPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
-            else if (currentPage is TabbedPage)
+            else if (currentPage is MultiPage<Page>)
             {
-                await ProcessNavigationForTabbedPage((TabbedPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForTabbedPage((MultiPage<Page>)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
-            else if (currentPage is CarouselPage)
+            else if (currentPage is MultiPage<ContentPage>)
             {
-                await ProcessNavigationForCarouselPage((CarouselPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForCarouselPage((MultiPage<ContentPage>)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
             else if (currentPage is MasterDetailPage)
             {
@@ -218,7 +218,7 @@ namespace Prism.Navigation
             }
         }
 
-        async Task ProcessNavigationForTabbedPage(TabbedPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        async Task ProcessNavigationForTabbedPage(MultiPage<Page> currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             var nextSegmentType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
             foreach (var child in currentPage.Children)
@@ -239,7 +239,7 @@ namespace Prism.Navigation
             });
         }
 
-        async Task ProcessNavigationForCarouselPage(CarouselPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        async Task ProcessNavigationForCarouselPage(MultiPage<ContentPage> currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             var nextSegmentType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
             foreach (var child in currentPage.Children)
