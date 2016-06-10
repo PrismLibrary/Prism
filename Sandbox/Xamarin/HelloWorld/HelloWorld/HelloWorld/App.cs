@@ -8,6 +8,8 @@ namespace HelloWorld
 {
     public class App : PrismApplication
     {
+        public App(IPlatformInitializer initializer = null) : base(initializer) { }
+
         protected override void OnInitialized()
         {
             NavigationService.NavigateAsync("MyMasterDetail/MyNavigationPage/MainPage", animated: false);

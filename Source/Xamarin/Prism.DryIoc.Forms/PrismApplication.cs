@@ -18,39 +18,27 @@ namespace Prism.DryIoc
     /// <summary>
     /// Application base class using DryIoc
     /// </summary>
-    public abstract class PrismApplication : PrismApplicationBase
+    public abstract class PrismApplication : PrismApplicationBase<IContainer>
     {
-        public IContainer Container { get; protected set; }
-
+        /// <summary>
+        /// Service key used when registering the <see cref="DryIocPageNavigationService"/> with the container
+        /// </summary>
         private const string _navigationServiceKey = "DryIocPageNavigationService";
-
-        public override void Initialize()
-        {
-            Logger = CreateLogger();
-
-            ModuleCatalog = CreateModuleCatalog();
-            ConfigureModuleCatalog();
-
-            Container = CreateContainer();
-            ConfigureContainer();
-            NavigationService = CreateNavigationService();
-
-            RegisterTypes();
-
-            InitializeModules();
-
-            OnInitialized();
-        }
 
         /// <summary>
         /// Create a default instance of <see cref="IContainer" /> with <see cref="Rules" /> created in
         /// <see cref="CreateContainerRules" />
         /// </summary>
         /// <returns>An instance of <see cref="IContainer" /></returns>
-        protected virtual IContainer CreateContainer()
+        protected override IContainer CreateContainer()
         {
             var rules = CreateContainerRules();
             return new Container(rules);
+        }
+
+        protected override IModuleManager CreateModuleManager()
+        {
+            return Container.Resolve<IModuleManager>();
         }
 
         /// <summary>
@@ -66,13 +54,13 @@ namespace Prism.DryIoc
             return UnknownServiceResolverRule.DependencyServiceResolverRule;
         }
 
-        protected virtual void ConfigureContainer()
+        protected override void ConfigureContainer()
         {
             Container.RegisterInstance(Logger);
             Container.RegisterInstance(ModuleCatalog);
             Container.RegisterInstance(Container);
             Container.Register<INavigationService, DryIocPageNavigationService>(serviceKey: _navigationServiceKey);
-            Container.Register<IApplicationProvider, ApplicationProvider>();
+            Container.Register<IApplicationProvider, ApplicationProvider>(Reuse.Singleton);
             Container.Register<IModuleManager, ModuleManager>(Reuse.Singleton);
             Container.Register<IModuleInitializer, DryIocModuleInitializer>(Reuse.Singleton);
             Container.Register<IEventAggregator, EventAggregator>(Reuse.Singleton);
