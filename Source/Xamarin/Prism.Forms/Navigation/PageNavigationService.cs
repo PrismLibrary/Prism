@@ -15,16 +15,21 @@ namespace Prism.Navigation
     /// </summary>
     public abstract class PageNavigationService : INavigationService, IPageAware
     {
-        protected IApplicationProvider _applicationProvider;
-        protected ILoggerFacade _logger;
+        protected readonly IApplicationProvider _applicationProvider;
+        protected readonly ILoggerFacade _logger;
 
-        private Page _page;
+        Page _page;
         Page IPageAware.Page
         {
             get { return _page; }
             set { _page = value; }
         }
 
+        /// <summary>
+        /// Create a new instance of <see cref="PageNavigationService"/> with <paramref name="applicationProvider"/> and <paramref name="logger"/>
+        /// </summary>
+        /// <param name="applicationProvider">Instance of <see cref="IApplicationProvider"/></param>
+        /// <param name="logger">Instance of <paramref name="logger"/> for Prism logging</param>
         protected PageNavigationService(IApplicationProvider applicationProvider, ILoggerFacade logger)
         {
             _applicationProvider = applicationProvider;
@@ -104,7 +109,7 @@ namespace Prism.Navigation
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
         /// <example>
-        /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
+        /// Navigate(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource), parameters);
         /// </example>
         public virtual Task NavigateAsync(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
@@ -135,7 +140,7 @@ namespace Prism.Navigation
             }
             else if (currentPage is NavigationPage)
             {
-                await ProcessNavigationForNavigationPage((NavigationPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForNavigationPage((NavigationPage)currentPage, nextSegment, segments, parameters, animated);
             }
             else if (currentPage is MultiPage<Page>)
             {
@@ -180,7 +185,7 @@ namespace Prism.Navigation
             });
         }
 
-        async Task ProcessNavigationForNavigationPage(NavigationPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        async Task ProcessNavigationForNavigationPage(NavigationPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool animated)
         {
             if (currentPage.Navigation.NavigationStack.Count == 0)
             {
@@ -502,12 +507,9 @@ namespace Prism.Navigation
                 return confirmNavigationItem.CanNavigateAsync(parameters);
 
             var bindableObject = page as BindableObject;
-            if (bindableObject != null)
-            {
-                var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigationAsync;
-                if (confirmNavigationBindingContext != null)
-                    return confirmNavigationBindingContext.CanNavigateAsync(parameters);
-            }
+            var confirmNavigationBindingContext = bindableObject?.BindingContext as IConfirmNavigationAsync;
+            if (confirmNavigationBindingContext != null)
+                return confirmNavigationBindingContext.CanNavigateAsync(parameters);
 
             return Task.FromResult(CanNavigate(page, parameters));
         }
@@ -519,12 +521,9 @@ namespace Prism.Navigation
                 return confirmNavigationItem.CanNavigate(parameters);
 
             var bindableObject = page as BindableObject;
-            if (bindableObject != null)
-            {
-                var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigation;
-                if (confirmNavigationBindingContext != null)
-                    return confirmNavigationBindingContext.CanNavigate(parameters);
-            }
+            var confirmNavigationBindingContext = bindableObject?.BindingContext as IConfirmNavigation;
+            if (confirmNavigationBindingContext != null)
+                return confirmNavigationBindingContext.CanNavigate(parameters);
 
             return true;
         }
@@ -548,12 +547,9 @@ namespace Prism.Navigation
                 invocation(navigationAwareItem);
 
             var bindableObject = item as BindableObject;
-            if (bindableObject != null)
-            {
-                var navigationAwareDataContext = bindableObject.BindingContext as INavigationAware;
-                if (navigationAwareDataContext != null)
-                    invocation(navigationAwareDataContext);
-            }
+            var navigationAwareDataContext = bindableObject?.BindingContext as INavigationAware;
+            if (navigationAwareDataContext != null)
+                invocation(navigationAwareDataContext);
         }
 
         static NavigationParameters GetSegmentParameters(string uriSegment, NavigationParameters parameters)
