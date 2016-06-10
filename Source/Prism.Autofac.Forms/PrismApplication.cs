@@ -71,6 +71,7 @@ namespace Prism.Autofac
             builder.Register(ctx => new EventAggregator()).As<IEventAggregator>();
             builder.Register(ctx => new DependencyService()).As<IDependencyService>();
             builder.Register(ctx => new PageDialogService()).As<IPageDialogService>();
+            builder.Register(ctx => new AutofacPageNavigationService(ctx)).AsSelf();
 
             return builder.Build();
         }
