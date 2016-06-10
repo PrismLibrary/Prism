@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Forms.Tests", "Xamari
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Ninject.Forms", "Xamarin\Prism.Ninject.Forms\Prism.Ninject.Forms.csproj", "{F8424F1D-A7BF-4113-AF23-0F0A7BE6BBB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Autofac.Forms", "Prism.Autofac.Forms\Prism.Autofac.Forms.csproj", "{943664CF-3A0C-4EFF-8BDA-29241D49DD85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Autofac.Forms", "Xamarin\Prism.Autofac.Forms\Prism.Autofac.Forms.csproj", "{943664CF-3A0C-4EFF-8BDA-29241D49DD85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
