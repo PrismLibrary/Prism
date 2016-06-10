@@ -179,6 +179,22 @@ else
     Invoke-Expression ".\$($nugetFileName) pack $($simpleInjectorNuspecPath) -Prop version=$($simpleInjectorFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop uwpVersion=$($uwpFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
+###############################
+#####  Prism.LightInject  #####
+###############################
+$lightInjectNuspecPath = 'Prism.LightInject.nuspec'
+$lightInjectUwpAssemblyPath = '../Windows10/Prism.LightInject.Windows/bin/Release-Signed/Prism.LightInject.Windows.dll'
+if (!(Test-Path $lightInjectUwpAssemblyPath))
+{
+    Write-Host 'Prism.LightInject.Windows.dll not found'
+}
+else
+{
+    $lightInjectFileInfo = Get-Item $lightInjectUwpAssemblyPath
+    $lightInjectFileVersion = $lightInjectFileInfo.VersionInfo.ProductVersion
+
+    Invoke-Expression ".\$($nugetFileName) pack $($lightInjectNuspecPath) -Prop version=$($lightInjectFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+}
 
 ###########################
 #######  Prism.Mef  #######
