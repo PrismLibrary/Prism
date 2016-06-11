@@ -64,12 +64,14 @@
     <Compile Include="Mocks\PageDialogServiceMock.cs" />
     <Compile Include="Mocks\ViewModels\CarouselPageMockViewModel.cs" />
     <Compile Include="Mocks\ViewModels\ContentPageMockViewModel.cs" />
+    <Compile Include="Mocks\ViewModels\CustomTabbedPageMockViewModel.cs" />
     <Compile Include="Mocks\ViewModels\MasterDetailPageMockViewModel.cs" />
     <Compile Include="Mocks\ViewModels\NavigationPageMockViewModel.cs" />
     <Compile Include="Mocks\ViewModels\TabbedPageMockViewModel.cs" />
     <Compile Include="Mocks\ViewModels\ViewModelBase.cs" />
     <Compile Include="Mocks\Views\CarouselPageMock.cs" />
     <Compile Include="Mocks\Views\ContentPageMock.cs" />
+    <Compile Include="Mocks\Views\CustomTabbedPageMock.cs" />
     <Compile Include="Mocks\Views\MasterDetailPageMock.cs" />
     <Compile Include="Mocks\Views\NavigationPageMock.cs" />
     <Compile Include="Mocks\Views\PageMock.cs" />

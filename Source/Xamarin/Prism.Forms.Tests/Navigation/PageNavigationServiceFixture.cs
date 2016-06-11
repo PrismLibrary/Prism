@@ -37,6 +37,8 @@ namespace Prism.Forms.Tests.Navigation
             _container.Register("TabbedPage", typeof(TabbedPageMock));
             _container.Register("CarouselPage", typeof(CarouselPageMock));
 
+            _container.Register("CustomTabbedPageMock", typeof(CustomTabbedPageMock));
+
             _applicationProvider = new ApplicationProviderMock();
             _loggerFacade = new EmptyLogger();
         }
@@ -648,7 +650,7 @@ namespace Prism.Forms.Tests.Navigation
             ((MasterDetailPageEmptyMockViewModel)rootPage.BindingContext).IsPresentedAfterNavigation = false;
 
             Assert.Null(rootPage.Detail);
-            Assert.False(rootPage.IsPresented);            
+            Assert.False(rootPage.IsPresented);
 
             await navigationService.NavigateAsync("TabbedPage");
             Assert.IsType(typeof(TabbedPageMock), rootPage.Detail);
@@ -684,6 +686,18 @@ namespace Prism.Forms.Tests.Navigation
             Assert.NotNull(tabbedPage);
             Assert.NotNull(tabbedPage.CurrentPage);
             Assert.IsType(typeof(ContentPageMock), tabbedPage.CurrentPage);
+        }
+
+        [Fact]
+        public async void Navigate_ToCustomTabbedPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new CustomTabbedPageMock();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("ContentPage");
+
+            Assert.True(navigationService.HasProcessedCustomNavigation);
         }
 
         public void Dispose()
