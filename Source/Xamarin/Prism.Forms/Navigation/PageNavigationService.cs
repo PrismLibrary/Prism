@@ -185,7 +185,7 @@ namespace Prism.Navigation
         protected virtual Task ProcessNavigationForPage(Page currentPage, string nextSegment, Queue<string> segments,
             NavigationParameters navigationParameters, bool? useModalNavigation, bool animated)
         {
-            _logger.Log($"Processing vavigation for custom page '{currentPage.GetType()}'. Please implement an override to ProcessNavigationForPage to navigate to this page.", Category.Warn, Priority.Medium);
+            _logger.Log($"Processing navigation for custom page '{currentPage.GetType()}'. Please implement an override to ProcessNavigationForPage to navigate to this page.", Category.Warn, Priority.Medium);
             return Task.FromResult(0);
         }
 
