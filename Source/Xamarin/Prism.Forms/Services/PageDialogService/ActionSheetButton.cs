@@ -3,7 +3,7 @@
 namespace Prism.Services
 {
     /// <summary>
-    /// Represents a button displayed in <see cref="Prism.Services.IPageDialogService.DisplayActionSheet(string, IActionSheetButton[])"/>
+    /// Represents a button displayed in <see cref="Prism.Services.IPageDialogService.DisplayActionSheetAsync(string, IActionSheetButton[])"/>
     /// </summary>
     public class ActionSheetButton : IActionSheetButton
     {

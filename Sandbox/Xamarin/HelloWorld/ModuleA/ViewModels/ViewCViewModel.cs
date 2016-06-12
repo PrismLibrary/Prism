@@ -31,9 +31,9 @@ namespace ModuleA.ViewModels
 
         async Task Navigate()
         {
-            await _navigationService.Navigate("ViewB");
+            await _navigationService.NavigateAsync("ViewB");
 
-            Debug.WriteLine("After _navigationService.Navigate(ViewB) ...");
+            Debug.WriteLine("After _navigationService.NavigateAsync(ViewB) ...");
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)

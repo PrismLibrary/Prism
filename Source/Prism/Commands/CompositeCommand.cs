@@ -38,8 +38,8 @@ namespace Prism.Commands
         /// </summary>
         ///  <remarks>
         /// If this command is set to monitor command activity, and <paramref name="command"/> 
-        /// implements the <see cref="IActiveAwareCommand"/> interface, this method will subscribe to its
-        /// <see cref="IActiveAwareCommand.IsActiveChanged"/> event.
+        /// implements the <see cref="IActiveAware"/> interface, this method will subscribe to its
+        /// <see cref="IActiveAware.IsActiveChanged"/> event.
         /// </remarks>
         /// <param name="command">The command to register.</param>
         public virtual void RegisterCommand(ICommand command)
@@ -174,8 +174,8 @@ namespace Prism.Commands
         /// when evaluating <see cref="CompositeCommand.CanExecute"/> and <see cref="CompositeCommand.Execute"/>.</returns>
         /// <remarks>
         /// If this command is set to monitor command activity, and <paramref name="command"/>
-        /// implements the <see cref="IActiveAwareCommand"/> interface, 
-        /// this method will return <see langword="false" /> if the command's <see cref="IActiveAwareCommand.IsActive"/> 
+        /// implements the <see cref="IActiveAware"/> interface, 
+        /// this method will return <see langword="false" /> if the command's <see cref="IActiveAware.IsActive"/> 
         /// property is <see langword="false" />; otherwise it always returns <see langword="true" />.</remarks>
         protected virtual bool ShouldExecute(ICommand command)
         {
