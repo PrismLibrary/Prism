@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Forms.Tests", "Xamari
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Ninject.Forms", "Xamarin\Prism.Ninject.Forms\Prism.Ninject.Forms.csproj", "{F8424F1D-A7BF-4113-AF23-0F0A7BE6BBB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Autofac.Forms", "Xamarin\Prism.Autofac.Forms\Prism.Autofac.Forms.csproj", "{943664CF-3A0C-4EFF-8BDA-29241D49DD85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -207,6 +209,38 @@ Global
 		{F8424F1D-A7BF-4113-AF23-0F0A7BE6BBB1}.Test|x64.Build.0 = Test|Any CPU
 		{F8424F1D-A7BF-4113-AF23-0F0A7BE6BBB1}.Test|x86.ActiveCfg = Test|Any CPU
 		{F8424F1D-A7BF-4113-AF23-0F0A7BE6BBB1}.Test|x86.Build.0 = Test|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Debug|ARM.Build.0 = Debug|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Debug|x64.Build.0 = Debug|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Debug|x86.Build.0 = Debug|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release|ARM.ActiveCfg = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release|ARM.Build.0 = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release|x64.ActiveCfg = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release|x64.Build.0 = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release|x86.ActiveCfg = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release|x86.Build.0 = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|ARM.ActiveCfg = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|ARM.Build.0 = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|x64.ActiveCfg = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|x64.Build.0 = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|x86.ActiveCfg = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|x86.Build.0 = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Test|Any CPU.Build.0 = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Test|ARM.ActiveCfg = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Test|ARM.Build.0 = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Test|x64.ActiveCfg = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Test|x64.Build.0 = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Test|x86.ActiveCfg = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Test|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
