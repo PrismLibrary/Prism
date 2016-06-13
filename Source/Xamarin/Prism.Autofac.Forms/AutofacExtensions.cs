@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Core;
 using Prism.Common;
+using Prism.Mvvm;
 using Xamarin.Forms;
 
 namespace Prism.Autofac.Forms
@@ -43,7 +44,7 @@ namespace Prism.Autofac.Forms
         /// <param name="container"></param>
         public static void RegisterTypeForNavigation<TView, TViewModel>(this IContainer container)
             where TView : Page
-            where TViewModel : class
+            where TViewModel : BindableBase
         {
             Type type = typeof(TView);
             string name = typeof(TViewModel).FullName;
