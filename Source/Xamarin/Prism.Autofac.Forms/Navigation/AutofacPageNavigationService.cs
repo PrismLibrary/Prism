@@ -8,17 +8,17 @@ namespace Prism.Autofac.Navigation
 {
     public class AutofacPageNavigationService : PageNavigationService
     {
-        readonly IComponentContext _context;
+        readonly IContainer _container;
 
-        public AutofacPageNavigationService(IComponentContext container, IApplicationProvider applicationProvider, ILoggerFacade logger)
+        public AutofacPageNavigationService(IContainer container, IApplicationProvider applicationProvider, ILoggerFacade logger)
             : base(applicationProvider, logger)
         {
-            _context = container;
+            _container = container;
         }
 
         protected override Page CreatePage(string name)
         {
-            return _context.ResolveNamed<Page>(name);
+            return _container.ResolveNamed<Page>(name);
         }
     }
 }

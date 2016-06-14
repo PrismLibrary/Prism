@@ -31,7 +31,7 @@ namespace Prism.Autofac.Forms
         {
             Type type = typeof(TView);
 
-            container.RegisterTypeIfMissing(type, name);
+            RegisterTypeIfMissing(container, type, name);
 
             PageNavigationRegistry.Register(name, type);
         }
@@ -49,7 +49,7 @@ namespace Prism.Autofac.Forms
             Type type = typeof(TView);
             string name = typeof(TViewModel).FullName;
 
-            container.RegisterTypeIfMissing(type, name);
+            RegisterTypeIfMissing(container, type, name);
 
             PageNavigationRegistry.Register(name, type);
         }
@@ -62,34 +62,23 @@ namespace Prism.Autofac.Forms
         /// <param name="type">The type to register.</param>
         /// <param name="name">The name you will use to resolve the component in future.</param>
         /// <param name="registerAsSingleton">Registers the type as a singleton.</param>
-        public static void RegisterTypeIfMissing(this IContainer container, Type type, string name, bool registerAsSingleton = false)
+        private static void RegisterTypeIfMissing(IContainer container, Type type, string name, bool registerAsSingleton = false)
         {
             if (type == null)
-            {
                 throw new ArgumentNullException(nameof(type));
-            }
+
             if (name == null)
-            {
                 throw new ArgumentNullException(nameof(name));
-            }
-            if (container.IsRegistered(type))
+
+            if (!container.IsRegistered(type))
             {
-                //Logger.Log(String.Format(CultureInfo.CurrentCulture,
-                //                        "Type {0} already registered with container",
-                //                        fromType.Name), Category.Debug, Priority.Low);
-            }
-            else
-            {
-                ContainerBuilder containerUpdater = new ContainerBuilder();
-                if (registerAsSingleton)
-                {
-                    containerUpdater.RegisterType(type).Named<Page>(name).SingleInstance();
-                }
-                else
-                {
-                    containerUpdater.RegisterType(type).Named<Page>(name);
-                }
+                var containerUpdater = new ContainerBuilder();
                 containerUpdater.Update(container);
+
+                if (registerAsSingleton)
+                    containerUpdater.RegisterType(type).Named<Page>(name).SingleInstance();
+                else
+                    containerUpdater.RegisterType(type).Named<Page>(name);
             }
         }
     }

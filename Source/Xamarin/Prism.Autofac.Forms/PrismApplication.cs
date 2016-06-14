@@ -20,7 +20,7 @@ namespace Prism.Autofac
 {
     public abstract class PrismApplication : PrismApplicationBase<IContainer>
     {
-        //const string _navigationServiceName = "AutofacPageNavigationService";
+        const string _navigationServiceName = "AutofacPageNavigationService";
 
         public PrismApplication(IPlatformInitializer initializer = null) : base(initializer) { }
 
@@ -44,20 +44,7 @@ namespace Prism.Autofac
 
         protected override IContainer CreateContainer()
         {
-            var builder = new ContainerBuilder();
-
-            builder.RegisterInstance(Logger).As<ILoggerFacade>();
-            builder.RegisterInstance(ModuleCatalog).As<IModuleCatalog>();
-
-            builder.Register(ctx => new ApplicationProvider()).As<IApplicationProvider>().SingleInstance();
-            builder.Register(ctx => new AutofacPageNavigationService(ctx, ctx.Resolve<IApplicationProvider>(), ctx.Resolve<ILoggerFacade>())).As<INavigationService>();
-            builder.Register(ctx => new ModuleManager(ctx.Resolve<IModuleInitializer>(), ctx.Resolve<IModuleCatalog>())).As<IModuleManager>();
-            builder.Register(ctx => new AutofacModuleInitializer(ctx)).As<IModuleInitializer>();
-            builder.Register(ctx => new EventAggregator()).As<IEventAggregator>();
-            builder.Register(ctx => new DependencyService()).As<IDependencyService>();
-            builder.Register(ctx => new PageDialogService(ctx.Resolve<IApplicationProvider>())).As<IPageDialogService>();
-
-            return builder.Build();
+            return new ContainerBuilder().Build();
         }
 
         protected override IModuleManager CreateModuleManager()
@@ -67,15 +54,25 @@ namespace Prism.Autofac
 
         protected override INavigationService CreateNavigationService()
         {
-            return Container.Resolve<INavigationService>();
+            return Container.ResolveNamed<INavigationService>(_navigationServiceName);
         }
 
         protected override void ConfigureContainer()
         {
-            //The configuration was already performed on
-            //CreateContainer();
-            //But since Prism.Forms.PrismApplicationBaset<T>.Initialize() 
-            //call it I can't remove it.
+            var builder = new ContainerBuilder();
+
+            builder.RegisterInstance(Logger).As<ILoggerFacade>();
+            builder.RegisterInstance(ModuleCatalog).As<IModuleCatalog>();
+
+            builder.Register(ctx => new ApplicationProvider()).As<IApplicationProvider>().SingleInstance();
+            builder.Register(ctx => new AutofacPageNavigationService(Container, Container.Resolve<IApplicationProvider>(), Container.Resolve<ILoggerFacade>())).Named<INavigationService>(_navigationServiceName);
+            builder.Register(ctx => new ModuleManager(Container.Resolve<IModuleInitializer>(), Container.Resolve<IModuleCatalog>())).As<IModuleManager>();
+            builder.Register(ctx => new AutofacModuleInitializer(Container)).As<IModuleInitializer>();
+            builder.Register(ctx => new EventAggregator()).As<IEventAggregator>();
+            builder.Register(ctx => new DependencyService()).As<IDependencyService>();
+            builder.Register(ctx => new PageDialogService(ctx.Resolve<IApplicationProvider>())).As<IPageDialogService>();
+
+            builder.Update(Container);
         }
     }
 }

@@ -6,15 +6,15 @@ namespace Prism.Autofac.Forms.Modularity
 {
     public class AutofacModuleInitializer : IModuleInitializer
     {
-        readonly IComponentContext _context;
-        public AutofacModuleInitializer(IComponentContext context)
+        readonly IContainer _container;
+        public AutofacModuleInitializer(IContainer context)
         {
-            _context = context;
+            _container = context;
         }
 
         public void Initialize(ModuleInfo moduleInfo)
         {
-            var module = (IModule)_context.Resolve(moduleInfo.ModuleType);
+            var module = (IModule)_container.Resolve(moduleInfo.ModuleType);
             if (module != null)
                 module.Initialize();
         }
