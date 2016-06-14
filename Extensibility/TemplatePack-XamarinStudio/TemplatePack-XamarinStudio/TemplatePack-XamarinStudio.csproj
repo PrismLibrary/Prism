@@ -8,6 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>TemplatePackXamarinStudio</RootNamespace>
     <AssemblyName>TemplatePack-XamarinStudio</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -122,5 +123,7 @@
     </AddinFile>
     <AddinFile Include="ProjectTemplates\PrismUnityApp\PrismUnityApp.xpt.xml" />
     <AddinFile Include="Snippets\PrismCodeTemplates.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\AndroidInitializer.cs" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.iOS\iOSInitializer.cs" />
   </ItemGroup>
 </Project>
