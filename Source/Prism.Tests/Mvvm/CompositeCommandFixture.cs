@@ -2,11 +2,21 @@ using System;
 using System.Windows.Input;
 using Xunit;
 using Prism.Commands;
+using System.Threading;
+using Xunit.Sdk;
 
 namespace Prism.Tests.Mvvm
 {
     public class CompositeCommandFixture
     {
+        AsyncTestSyncContext _syncContext;
+
+        public CompositeCommandFixture()
+        {
+            _syncContext = new AsyncTestSyncContext(SynchronizationContext.Current);
+            SynchronizationContext.SetSynchronizationContext(_syncContext);
+        }
+
         [Fact]
         public void RegisterACommandShouldRaiseCanExecuteEvent()
         {
@@ -134,7 +144,7 @@ namespace Prism.Tests.Mvvm
         }
 
         [Fact]
-        public void ShouldReraiseDelegateCommandCanExecuteChangedEventAfterCollect()
+        public async void ShouldReraiseDelegateCommandCanExecuteChangedEventAfterCollect()
         {
             TestableCompositeCommand multiCommand = new TestableCompositeCommand();
             DelegateCommand<object> delegateCommand = new DelegateCommand<object>(delegate { });
@@ -146,6 +156,10 @@ namespace Prism.Tests.Mvvm
             GC.Collect();
 
             delegateCommand.RaiseCanExecuteChanged();
+
+            var ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
+
             Assert.True(multiCommand.CanExecuteChangedRaised);
         }
 
@@ -354,7 +368,7 @@ namespace Prism.Tests.Mvvm
         }
 
         [Fact]
-        public void ShouldRemoveCanExecuteChangedHandler()
+        public async void ShouldRemoveCanExecuteChangedHandler()
         {
             bool canExecuteChangedRaised = false;
 
@@ -367,11 +381,17 @@ namespace Prism.Tests.Mvvm
             compositeCommand.CanExecuteChanged += handler;
             commmand.RaiseCanExecuteChanged();
 
+            var ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
+
             Assert.True(canExecuteChangedRaised);
 
             canExecuteChangedRaised = false;
             compositeCommand.CanExecuteChanged -= handler;
             commmand.RaiseCanExecuteChanged();
+
+            ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
 
             Assert.False(canExecuteChangedRaised);
         }

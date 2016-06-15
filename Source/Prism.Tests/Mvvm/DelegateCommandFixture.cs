@@ -5,6 +5,8 @@ using Prism.Commands;
 using System.Threading.Tasks;
 using Prism.Tests.Mocks.Commands;
 using Prism.Mvvm;
+using System.Threading;
+using Xunit.Sdk;
 
 namespace Prism.Tests.Mvvm
 {
@@ -13,6 +15,14 @@ namespace Prism.Tests.Mvvm
     /// </summary>
     public class DelegateCommandFixture : BindableBase
     {
+        AsyncTestSyncContext _syncContext;
+
+        public DelegateCommandFixture()
+        {
+            _syncContext = new AsyncTestSyncContext(SynchronizationContext.Current);
+            SynchronizationContext.SetSynchronizationContext(_syncContext);
+        }
+
         [Fact]
         public void WhenConstructedWithGenericTypeOfObject_InitializesValues()
         {
@@ -83,9 +93,8 @@ namespace Prism.Tests.Mvvm
             Assert.Equal(true, retVal);
         }
 
-
         [Fact]
-        public void RaiseCanExecuteChangedRaisesCanExecuteChanged()
+        public async void RaiseCanExecuteChangedRaisesCanExecuteChanged()
         {
             var handlers = new DelegateHandlers();
             var command = new DelegateCommand<object>(handlers.Execute);
@@ -93,6 +102,9 @@ namespace Prism.Tests.Mvvm
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
             command.RaiseCanExecuteChanged();
+
+            var ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
 
             Assert.True(canExecuteChangedRaised);
         }
@@ -118,7 +130,7 @@ namespace Prism.Tests.Mvvm
         {
             bool executeCalled = false;
             MyClass testClass = new MyClass();
-            ICommand command = new DelegateCommand<MyClass>(delegate(MyClass parameter)
+            ICommand command = new DelegateCommand<MyClass>(delegate (MyClass parameter)
             {
                 Assert.Same(testClass, parameter);
                 executeCalled = true;
@@ -133,7 +145,7 @@ namespace Prism.Tests.Mvvm
         {
             bool canExecuteCalled = false;
             MyClass testClass = new MyClass();
-            ICommand command = new DelegateCommand<MyClass>((p) => { }, delegate(MyClass parameter)
+            ICommand command = new DelegateCommand<MyClass>((p) => { }, delegate (MyClass parameter)
             {
                 Assert.Same(testClass, parameter);
                 canExecuteCalled = true;
@@ -412,7 +424,7 @@ namespace Prism.Tests.Mvvm
         }
 
         [Fact]
-        public void NonGenericDelegateCommandShouldObserveCanExecute()
+        public async void NonGenericDelegateCommandShouldObserveCanExecute()
         {
             bool canExecuteChangedRaised = false;
 
@@ -425,12 +437,15 @@ namespace Prism.Tests.Mvvm
 
             BoolProperty = true;
 
+            var ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
+
             Assert.True(canExecuteChangedRaised);
             Assert.True(command.CanExecute(null));
         }
 
         [Fact]
-        public void NonGenericDelegateCommandShouldObserveCanExecuteAndObserveOtherProperties()
+        public async void NonGenericDelegateCommandShouldObserveCanExecuteAndObserveOtherProperties()
         {
             bool canExecuteChangedRaised = false;
 
@@ -442,6 +457,10 @@ namespace Prism.Tests.Mvvm
             Assert.False(command.CanExecute(null));
 
             IntProperty = 10;
+
+            var ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
+
             Assert.True(canExecuteChangedRaised);
             Assert.False(command.CanExecute(null));
 
@@ -449,6 +468,9 @@ namespace Prism.Tests.Mvvm
             Assert.False(canExecuteChangedRaised);
 
             BoolProperty = true;
+
+            ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
 
             Assert.True(canExecuteChangedRaised);
             Assert.True(command.CanExecute(null));
@@ -464,7 +486,7 @@ namespace Prism.Tests.Mvvm
         }
 
         [Fact]
-        public void NonGenericDelegateCommandShouldObserveOneProperty()
+        public async void NonGenericDelegateCommandShouldObserveOneProperty()
         {
             bool canExecuteChangedRaised = false;
 
@@ -474,11 +496,14 @@ namespace Prism.Tests.Mvvm
 
             IntProperty = 10;
 
+            var ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
+
             Assert.True(canExecuteChangedRaised);
         }
 
         [Fact]
-        public void NonGenericDelegateCommandShouldObserveMultipleProperties()
+        public async void NonGenericDelegateCommandShouldObserveMultipleProperties()
         {
             bool canExecuteChangedRaised = false;
 
@@ -488,11 +513,17 @@ namespace Prism.Tests.Mvvm
 
             IntProperty = 10;
 
+            var ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
+
             Assert.True(canExecuteChangedRaised);
 
             canExecuteChangedRaised = false;
 
             BoolProperty = true;
+
+            ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
 
             Assert.True(canExecuteChangedRaised);
         }
@@ -508,7 +539,7 @@ namespace Prism.Tests.Mvvm
 
 
         [Fact]
-        public void GenericDelegateCommandShouldObserveCanExecute()
+        public async void GenericDelegateCommandShouldObserveCanExecute()
         {
             bool canExecuteChangedRaised = false;
 
@@ -521,12 +552,15 @@ namespace Prism.Tests.Mvvm
 
             BoolProperty = true;
 
+            var ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
+
             Assert.True(canExecuteChangedRaised);
             Assert.True(command.CanExecute(null));
         }
 
         [Fact]
-        public void GenericDelegateCommandShouldObserveCanExecuteAndObserveOtherProperties()
+        public async void GenericDelegateCommandShouldObserveCanExecuteAndObserveOtherProperties()
         {
             bool canExecuteChangedRaised = false;
 
@@ -538,6 +572,10 @@ namespace Prism.Tests.Mvvm
             Assert.False(command.CanExecute(null));
 
             IntProperty = 10;
+
+            var ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
+
             Assert.True(canExecuteChangedRaised);
             Assert.False(command.CanExecute(null));
 
@@ -545,6 +583,9 @@ namespace Prism.Tests.Mvvm
             Assert.False(canExecuteChangedRaised);
 
             BoolProperty = true;
+
+            ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
 
             Assert.True(canExecuteChangedRaised);
             Assert.True(command.CanExecute(null));
@@ -562,7 +603,7 @@ namespace Prism.Tests.Mvvm
         }
 
         [Fact]
-        public void GenericDelegateCommandShouldObserveOneProperty()
+        public async void GenericDelegateCommandShouldObserveOneProperty()
         {
             bool canExecuteChangedRaised = false;
 
@@ -572,11 +613,14 @@ namespace Prism.Tests.Mvvm
 
             IntProperty = 10;
 
+            var ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
+
             Assert.True(canExecuteChangedRaised);
         }
 
         [Fact]
-        public void GenericDelegateCommandShouldObserveMultipleProperties()
+        public async void GenericDelegateCommandShouldObserveMultipleProperties()
         {
             bool canExecuteChangedRaised = false;
 
@@ -586,11 +630,17 @@ namespace Prism.Tests.Mvvm
 
             IntProperty = 10;
 
+            var ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
+
             Assert.True(canExecuteChangedRaised);
 
             canExecuteChangedRaised = false;
 
             BoolProperty = true;
+
+            ex = await _syncContext.WaitForCompletionAsync();
+            Assert.Null(ex);
 
             Assert.True(canExecuteChangedRaised);
         }
