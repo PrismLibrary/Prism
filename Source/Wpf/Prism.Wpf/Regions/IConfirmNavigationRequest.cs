@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Threading.Tasks;
 
 namespace Prism.Regions
 {
@@ -18,6 +19,6 @@ namespace Prism.Regions
         /// Implementors of this method do not need to invoke the callback before this method is completed,
         /// but they must ensure the callback is eventually invoked.
         /// </remarks>
-        void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback);
+        Task<bool> ConfirmNavigationRequestAsync(NavigationContext navigationContext);
     }
 }

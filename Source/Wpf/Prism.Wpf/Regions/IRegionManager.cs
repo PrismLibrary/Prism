@@ -1,6 +1,8 @@
 
 
 using System;
+using System.Threading.Tasks;
+
 namespace Prism.Regions
 {
     /// <summary>
@@ -53,7 +55,7 @@ namespace Prism.Regions
         /// <param name="regionName">The name of the region to call Navigate on.</param>
         /// <param name="source">The URI of the content to display.</param>
         /// <param name="navigationCallback">The navigation callback.</param>
-        void RequestNavigate(string regionName, Uri source, Action<NavigationResult> navigationCallback);
+        Task<NavigationResult> RequestNavigateAsync(string regionName, Uri source);
 
         /// <summary>
         /// Navigates the specified region manager.
@@ -68,7 +70,7 @@ namespace Prism.Regions
         /// <param name="regionName">The name of the region to call Navigate on.</param>
         /// <param name="source">The URI of the content to display.</param>
         /// <param name="navigationCallback">The navigation callback.</param>
-        void RequestNavigate(string regionName, string source, Action<NavigationResult> navigationCallback);
+        Task<NavigationResult> RequestNavigateAsync(string regionName, string source);
 
         /// <summary>
         /// Navigates the specified region manager.
@@ -84,7 +86,7 @@ namespace Prism.Regions
         /// <param name="target">A Uri that represents the target where the region will navigate.</param>
         /// <param name="navigationCallback">The navigation callback that will be executed after the navigation is completed.</param>
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
-        void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters);
+        Task<NavigationResult> RequestNavigateAsync(string regionName, Uri target, NavigationParameters navigationParameters);
 
         /// <summary>
         /// This method allows an IRegionManager to locate a specified region and navigate in it to the specified target string, passing a navigation callback and an instance of NavigationParameters, which holds a collection of object parameters.
@@ -93,7 +95,7 @@ namespace Prism.Regions
         /// <param name="target">A string that represents the target where the region will navigate.</param>
         /// <param name="navigationCallback">The navigation callback that will be executed after the navigation is completed.</param>
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
-        void RequestNavigate(string regionName, string target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters);
+        Task<NavigationResult> RequestNavigateAsync(string regionName, string target, NavigationParameters navigationParameters);
 
         /// <summary>
         /// This method allows an IRegionManager to locate a specified region and navigate in it to the specified target Uri, passing an instance of NavigationParameters, which holds a collection of object parameters.

@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Threading.Tasks;
 
 namespace Prism.Regions
 {
@@ -22,7 +23,7 @@ namespace Prism.Regions
         /// Convenience overloads for this method can be found as extension methods on the 
         /// <see cref="NavigationAsyncExtensions"/> class.
         /// </remarks>
-        void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback);
+        Task<NavigationResult> RequestNavigateAsync(Uri target);
 
         /// <summary>
         /// Initiates navigation to the target specified by the <see cref="Uri"/>.
@@ -34,6 +35,6 @@ namespace Prism.Regions
         /// Convenience overloads for this method can be found as extension methods on the 
         /// <see cref="NavigationAsyncExtensions"/> class.
         /// </remarks>
-        void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters);
+        Task<NavigationResult> RequestNavigateAsync(Uri target, NavigationParameters navigationParameters);
     }
 }

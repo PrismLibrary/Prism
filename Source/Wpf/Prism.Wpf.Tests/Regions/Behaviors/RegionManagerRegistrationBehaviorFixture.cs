@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Regions;
@@ -243,7 +244,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
                 throw new NotImplementedException();
             }
 
-            public void RequestNavigate(string regionName, Uri source, Action<NavigationResult> navigationCallback)
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri source)
             {
                 throw new NotImplementedException();
             }
@@ -253,7 +254,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
                 throw new NotImplementedException();
             }
 
-            public void RequestNavigate(string regionName, string source, Action<NavigationResult> navigationCallback)
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, string source)
             {
                 throw new NotImplementedException();
             }
@@ -263,12 +264,12 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
                 throw new NotImplementedException();
             }
 
-            public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri target, NavigationParameters navigationParameters)
             {
                 throw new NotImplementedException();
             }
 
-            public void RequestNavigate(string regionName, string target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, string target, NavigationParameters navigationParameters)
             {
                 throw new NotImplementedException();
             }

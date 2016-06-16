@@ -193,6 +193,7 @@
     <Compile Include="Regions\ItemMetadata.cs" />
     <Compile Include="Regions\ItemsControlRegionAdapter.cs" />
     <Compile Include="Regions\IViewsCollection.cs" />
+    <Compile Include="Regions\NavigateAsyncExtensions.cs" />
     <Compile Include="Regions\NavigationAsyncExtensions.cs" />
     <Compile Include="Regions\NavigationContext.cs" />
     <Compile Include="Regions\NavigationParameters.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Regions\RegionBehaviorFactory.cs" />
     <Compile Include="Regions\RegionContext.cs" />
     <Compile Include="Regions\RegionManager.cs" />
+    <Compile Include="Regions\RegionManagerExtensions.cs" />
     <Compile Include="Regions\RegionMemberLifetimeAttribute.cs" />
     <Compile Include="Regions\RegionNavigationContentLoader.cs" />
     <Compile Include="Regions\RegionNavigationEventArgs.cs" />
