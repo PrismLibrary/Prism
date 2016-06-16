@@ -15,17 +15,22 @@ namespace Prism.Navigation
     /// </summary>
     public abstract class PageNavigationService : INavigationService, IPageAware
     {
-        protected IApplicationProvider _applicationProvider;
-        protected ILoggerFacade _logger;
+        protected readonly IApplicationProvider _applicationProvider;
+        protected readonly ILoggerFacade _logger;
 
-        private Page _page;
+        Page _page;
         Page IPageAware.Page
         {
             get { return _page; }
             set { _page = value; }
         }
 
-        public PageNavigationService(IApplicationProvider applicationProvider, ILoggerFacade logger)
+        /// <summary>
+        /// Create a new instance of <see cref="PageNavigationService"/> with <paramref name="applicationProvider"/> and <paramref name="logger"/>
+        /// </summary>
+        /// <param name="applicationProvider">Instance of <see cref="IApplicationProvider"/></param>
+        /// <param name="logger">Instance of <paramref name="logger"/> for Prism logging</param>
+        protected PageNavigationService(IApplicationProvider applicationProvider, ILoggerFacade logger)
         {
             _applicationProvider = applicationProvider;
             _logger = logger;
@@ -104,16 +109,17 @@ namespace Prism.Navigation
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
         /// <example>
-        /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
+        /// Navigate(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource), parameters);
         /// </example>
         public virtual Task NavigateAsync(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             var navigationSegments = UriParsingHelper.GetUriSegments(uri);
 
             if (uri.IsAbsoluteUri)
+            {
                 return ProcessNavigationForAbsoulteUri(navigationSegments, parameters, useModalNavigation, animated);
-            else
-                return ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, useModalNavigation, animated);
+            }
+            return ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, useModalNavigation, animated);
         }
 
         async Task ProcessNavigation(Page currentPage, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -135,7 +141,7 @@ namespace Prism.Navigation
             }
             else if (currentPage is NavigationPage)
             {
-                await ProcessNavigationForNavigationPage((NavigationPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForNavigationPage((NavigationPage)currentPage, nextSegment, segments, parameters, animated);
             }
             else if (currentPage is TabbedPage)
             {
@@ -147,8 +153,40 @@ namespace Prism.Navigation
             }
             else if (currentPage is MasterDetailPage)
             {
-                await ProcessNavigationForMasterDetailPage((MasterDetailPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await
+                    ProcessNavigationForMasterDetailPage((MasterDetailPage)currentPage, nextSegment, segments,
+                        parameters, useModalNavigation, animated);
             }
+            else
+            {
+                // Could not determine type for currentPage
+                await
+                    ProcessNavigationForPage(currentPage, nextSegment, segments, parameters, useModalNavigation,
+                        animated);
+            }
+        }
+
+        /// <summary>
+        /// Process navigation for <paramref name="currentPage"/>.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Override this method to process navigation for any custom implementation of <see cref="Page"/> that does not inherit from 
+        /// <see cref="ContentPage"/>, <see cref="NavigationPage"/>, <see cref="TabbedPage"/>, <see cref="CarouselPage"/> or <see cref="MasterDetailPage"/>
+        /// </para>
+        /// </remarks>
+        /// <param name="currentPage">Page to navigate to</param>
+        /// <param name="nextSegment">Next navigation segment</param>
+        /// <param name="segments">Remaining navigation segments</param>
+        /// <param name="navigationParameters">The navigation parameters</param>
+        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
+        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition</param>
+        /// <returns></returns>
+        protected virtual Task ProcessNavigationForPage(Page currentPage, string nextSegment, Queue<string> segments,
+            NavigationParameters navigationParameters, bool? useModalNavigation, bool animated)
+        {
+            _logger.Log($"Processing navigation for custom page '{currentPage.GetType()}'. Please implement an override to ProcessNavigationForPage to navigate to this page.", Category.Warn, Priority.Medium);
+            return Task.FromResult(0);
         }
 
         async Task ProcessNavigationForAbsoulteUri(Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -180,7 +218,7 @@ namespace Prism.Navigation
             });
         }
 
-        async Task ProcessNavigationForNavigationPage(NavigationPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        async Task ProcessNavigationForNavigationPage(NavigationPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool animated)
         {
             if (currentPage.Navigation.NavigationStack.Count == 0)
             {
@@ -202,7 +240,6 @@ namespace Prism.Navigation
 
                 await ProcessNavigation(currentNavRoot, segments, parameters, false, animated);
                 await DoNavigateAction(currentNavRoot, nextSegment, currentNavRoot, parameters);
-                return;
             }
             else
             {
@@ -216,7 +253,6 @@ namespace Prism.Navigation
                     currentPage.Navigation.RemovePage(currentNavRoot);
                     await push;
                 });
-                return;
             }
         }
 
@@ -229,10 +265,7 @@ namespace Prism.Navigation
                     continue;
 
                 await ProcessNavigation(child, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, child, parameters, onNavigationActionCompleted: () =>
-                {
-                    currentPage.CurrentPage = child;
-                });
+                await DoNavigateMultiPageAction(currentPage, nextSegment, child, parameters);
                 return;
             }
 
@@ -253,10 +286,7 @@ namespace Prism.Navigation
                     continue;
 
                 await ProcessNavigation(child, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, child, parameters, onNavigationActionCompleted: () =>
-                {
-                    currentPage.CurrentPage = child;
-                });
+                await DoNavigateMultiContentPageAction(currentPage, nextSegment, child, parameters);
                 return;
             }
 
@@ -275,7 +305,7 @@ namespace Prism.Navigation
             if (useModalNavigation.HasValue && useModalNavigation.Value)
             {
                 var nextPage = CreatePageFromSegment(nextSegment);
-                await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigation(nextPage, segments, parameters, true, animated);
                 await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
                 {
                     currentPage.IsPresented = isPresented;
@@ -289,11 +319,7 @@ namespace Prism.Navigation
             {
                 var newDetail = CreatePageFromSegment(nextSegment);
                 await ProcessNavigation(newDetail, segments, parameters, newDetail is NavigationPage ? false : true, animated);
-                await DoNavigateAction(null, nextSegment, newDetail, parameters, onNavigationActionCompleted: () =>
-                {
-                    currentPage.IsPresented = isPresented;
-                    currentPage.Detail = newDetail;
-                });
+                await DoNavigateMasterDetailAction(currentPage, nextSegment, newDetail, parameters, isPresented, true);
                 return;
             }
 
@@ -301,26 +327,17 @@ namespace Prism.Navigation
             if (detail.GetType() == nextSegmentType)
             {
                 await ProcessNavigation(detail, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, detail, parameters, onNavigationActionCompleted: () =>
-                 {
-                     currentPage.IsPresented = isPresented;
-                 });
-                return;
+                await DoNavigateMasterDetailAction(currentPage, nextSegment, detail, parameters, isPresented, false);
             }
             else
             {
                 var newDetail = CreatePageFromSegment(nextSegment);
                 await ProcessNavigation(newDetail, segments, parameters, newDetail is NavigationPage ? false : true, animated);
-                await DoNavigateAction(detail, nextSegment, newDetail, parameters, onNavigationActionCompleted: () =>
-                {
-                    currentPage.IsPresented = isPresented;
-                    currentPage.Detail = newDetail;
-                });
-                return;
+                await DoNavigateMasterDetailAction(currentPage, nextSegment, newDetail, parameters, isPresented, true, detail);
             }
         }
 
-        bool GetMasterDetailPageIsPresented(MasterDetailPage page)
+        static bool GetMasterDetailPageIsPresented(MasterDetailPage page)
         {
             var iMasterDetailPage = page as IMasterDetailPageOptions;
             if (iMasterDetailPage != null)
@@ -333,24 +350,58 @@ namespace Prism.Navigation
             return false;
         }
 
+        static async Task DoNavigateMultiContentPageAction(MultiPage<ContentPage> fromPage, string toSegment, ContentPage toPage,
+            NavigationParameters navigationParameters, Func<Task> navigationAction = null)
+        {
+            Action onCompleted = () => fromPage.CurrentPage = toPage;
+            await DoNavigateAction(null, toSegment, toPage, navigationParameters, navigationAction, onCompleted);
+        }
+
+        static async Task DoNavigateMasterDetailAction(MasterDetailPage currentPage, string toSegment, Page newDetail, NavigationParameters navigationParameters, bool isPresented, bool setNewDetail, Page fromPage = null)
+        {
+            Action onNavigationCompletedAction = () =>
+            {
+                currentPage.IsPresented = isPresented;
+                if (setNewDetail)
+                {
+                    currentPage.Detail = newDetail;
+                }
+            };
+            await
+                DoNavigateAction(fromPage, toSegment, newDetail, navigationParameters,
+                    onNavigationActionCompleted: onNavigationCompletedAction);
+        }
+
+        static async Task DoNavigateMultiPageAction(MultiPage<Page> fromPage, string toSegment, Page toPage,
+            NavigationParameters navigationParameters, Func<Task> navigationAction = null)
+        {
+            Action onCompleted = () => fromPage.CurrentPage = toPage;
+            await DoNavigateAction(null, toSegment, toPage, navigationParameters, navigationAction, onCompleted);
+        }
+
         static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Func<Task> navigationAction = null, Action onNavigationActionCompleted = null)
         {
-            var segmentPrameters = GetSegmentParameters(toSegment, parameters);
+            var segmentParameters = GetSegmentParameters(toSegment, parameters);
 
-            var canNavigate = await CanNavigateAsync(fromPage, segmentPrameters);
+            var canNavigate = await CanNavigateAsync(fromPage, segmentParameters);
             if (!canNavigate)
                 return;
 
-            OnNavigatedFrom(fromPage, segmentPrameters);
+            OnNavigatedFrom(fromPage, segmentParameters);
 
             if (navigationAction != null)
                 await navigationAction();
 
             onNavigationActionCompleted?.Invoke();
 
-            OnNavigatedTo(toPage, segmentPrameters);
+            OnNavigatedTo(toPage, segmentParameters);
         }
 
+        /// <summary>
+        /// Create instance of <see cref="Page"/> identified by <paramref name="segmentName"/>
+        /// </summary>
+        /// <param name="segmentName">Page identifier</param>
+        /// <returns>Instance of <see cref="Page"/></returns>
         protected abstract Page CreatePage(string segmentName);
 
         Page CreatePageFromSegment(string segment)
@@ -373,12 +424,12 @@ namespace Prism.Navigation
 
         static bool HasNavigationPageParent(Page page)
         {
-            return page?.Parent != null && page?.Parent is NavigationPage;
+            return page?.Parent is NavigationPage;
         }
 
         static bool UseModalNavigation(Page currentPage, bool? useModalNavigationDefault)
         {
-            bool useModalNavigation = true;
+            bool useModalNavigation;
 
             if (useModalNavigationDefault.HasValue)
                 useModalNavigation = useModalNavigationDefault.Value;
@@ -390,7 +441,7 @@ namespace Prism.Navigation
 
         Page GetOnNavigatedToTarget(Page page, bool useModalNavigation)
         {
-            Page target = null;
+            Page target;
 
             if (useModalNavigation)
             {
@@ -489,12 +540,9 @@ namespace Prism.Navigation
                 return confirmNavigationItem.CanNavigateAsync(parameters);
 
             var bindableObject = page as BindableObject;
-            if (bindableObject != null)
-            {
-                var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigationAsync;
-                if (confirmNavigationBindingContext != null)
-                    return confirmNavigationBindingContext.CanNavigateAsync(parameters);
-            }
+            var confirmNavigationBindingContext = bindableObject?.BindingContext as IConfirmNavigationAsync;
+            if (confirmNavigationBindingContext != null)
+                return confirmNavigationBindingContext.CanNavigateAsync(parameters);
 
             return Task.FromResult(CanNavigate(page, parameters));
         }
@@ -506,12 +554,9 @@ namespace Prism.Navigation
                 return confirmNavigationItem.CanNavigate(parameters);
 
             var bindableObject = page as BindableObject;
-            if (bindableObject != null)
-            {
-                var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigation;
-                if (confirmNavigationBindingContext != null)
-                    return confirmNavigationBindingContext.CanNavigate(parameters);
-            }
+            var confirmNavigationBindingContext = bindableObject?.BindingContext as IConfirmNavigation;
+            if (confirmNavigationBindingContext != null)
+                return confirmNavigationBindingContext.CanNavigate(parameters);
 
             return true;
         }
@@ -535,12 +580,9 @@ namespace Prism.Navigation
                 invocation(navigationAwareItem);
 
             var bindableObject = item as BindableObject;
-            if (bindableObject != null)
-            {
-                var navigationAwareDataContext = bindableObject.BindingContext as INavigationAware;
-                if (navigationAwareDataContext != null)
-                    invocation(navigationAwareDataContext);
-            }
+            var navigationAwareDataContext = bindableObject?.BindingContext as INavigationAware;
+            if (navigationAwareDataContext != null)
+                invocation(navigationAwareDataContext);
         }
 
         static NavigationParameters GetSegmentParameters(string uriSegment, NavigationParameters parameters)
@@ -560,7 +602,7 @@ namespace Prism.Navigation
 
         Page GetCurrentPage()
         {
-            return _page != null ? _page : _applicationProvider.MainPage;
+            return _page ?? _applicationProvider.MainPage;
         }
     }
 }
