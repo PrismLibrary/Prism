@@ -12,9 +12,10 @@ namespace Prism.Unity
         /// Registers a Page for navigation using a convention based approach, which uses the name of the Type being passed in as the unique name.
         /// </summary>
         /// <typeparam name="TView">The Type of Page to register</typeparam>
-        public static void RegisterTypeForNavigation<TView>(this IUnityContainer container) where TView : Page
+        public static IUnityContainer RegisterTypeForNavigation<TView>(this IUnityContainer container) where TView : Page
         {
             container.RegisterTypeForNavigation<TView>(typeof(TView).Name);
+            return container;
         }
 
         /// <summary>
