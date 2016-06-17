@@ -131,7 +131,7 @@ namespace Prism.Regions
             }
         }
 
-        private Task<NavigationResult> DoNavigateAsync(Uri source, NavigationParameters navigationParameters)
+        private async Task<NavigationResult> DoNavigateAsync(Uri source, NavigationParameters navigationParameters)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -141,88 +141,47 @@ namespace Prism.Regions
 
             this.currentNavigationContext = new NavigationContext(this, source, navigationParameters);
 
-            // starts querying the active views
-            return RequestCanNavigateFromOnCurrentlyActiveViewAsync(
-                this.currentNavigationContext,
-                this.Region.ActiveViews.ToArray(),
-                0);
-        }
+            NavigationContext navigationContext = this.currentNavigationContext;
 
-        private async Task<NavigationResult> RequestCanNavigateFromOnCurrentlyActiveViewAsync(
-            NavigationContext navigationContext,
-            object[] activeViews,
-            int currentViewIndex)
-        {
-            if (currentViewIndex < activeViews.Length)
+            object[] activeViews = this.Region.ActiveViews.ToArray();
+
+            foreach (object view in activeViews)
             {
-                var vetoingView = activeViews[currentViewIndex] as IConfirmNavigationRequest;
+                var vetoingView = view as IConfirmNavigationRequest;
+
                 if (vetoingView != null)
                 {
                     // the current active view implements IConfirmNavigationRequest, request confirmation
                     // providing a callback to resume the navigation request
                     bool canNavigate = await vetoingView.ConfirmNavigationRequestAsync(navigationContext);
 
-                    if (this.currentNavigationContext == navigationContext && canNavigate)
-                    {
-                        return await RequestCanNavigateFromOnCurrentlyActiveViewModelAsync(
-                            navigationContext,
-                            activeViews,
-                            currentViewIndex);
-                    }
-                    else
+                    if (!(this.currentNavigationContext != navigationContext && canNavigate))
                     {
                         return this.NotifyNavigationFailed(navigationContext, null);
                     }
                 }
-                else
+
+                var frameworkElement = view as FrameworkElement;
+
+                if (frameworkElement != null)
                 {
-                    return await RequestCanNavigateFromOnCurrentlyActiveViewModelAsync(
-                        navigationContext,
-                        activeViews,
-                        currentViewIndex);
-                }
-            }
-            else
-            {
-                return ExecuteNavigation(navigationContext, activeViews);
-            }
-        }
+                    var vetoingViewModel = frameworkElement.DataContext as IConfirmNavigationRequest;
 
-        private async Task<NavigationResult> RequestCanNavigateFromOnCurrentlyActiveViewModelAsync(
-            NavigationContext navigationContext,
-            object[] activeViews,
-            int currentViewIndex)
-        {
-            var frameworkElement = activeViews[currentViewIndex] as FrameworkElement;
-
-            if (frameworkElement != null)
-            {
-                var vetoingViewModel = frameworkElement.DataContext as IConfirmNavigationRequest;
-
-                if (vetoingViewModel != null)
-                {
-                    // the data model for the current active view implements IConfirmNavigationRequest, request confirmation
-                    // providing a callback to resume the navigation request
-                    bool canNavigate = await vetoingViewModel.ConfirmNavigationRequestAsync(navigationContext);
-
-                    if (this.currentNavigationContext == navigationContext && canNavigate)
+                    if (vetoingViewModel != null)
                     {
-                        return await RequestCanNavigateFromOnCurrentlyActiveViewAsync(
-                            navigationContext,
-                            activeViews,
-                            currentViewIndex + 1);
-                    }
-                    else
-                    {
-                        return this.NotifyNavigationFailed(navigationContext, null);
+                        // the data model for the current active view implements IConfirmNavigationRequest, request confirmation
+                        // providing a callback to resume the navigation request
+                        bool canNavigate = await vetoingViewModel.ConfirmNavigationRequestAsync(navigationContext);
+
+                        if (!(this.currentNavigationContext == navigationContext && canNavigate))
+                        { 
+                            return this.NotifyNavigationFailed(navigationContext, null);
+                        }
                     }
                 }
             }
 
-            return await RequestCanNavigateFromOnCurrentlyActiveViewAsync(
-                navigationContext,
-                activeViews,
-                currentViewIndex + 1);
+            return ExecuteNavigation(navigationContext, activeViews);
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exception is marshalled to callback")]
