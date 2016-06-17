@@ -69,10 +69,14 @@ namespace Prism.Commands
         /// </summary>
         protected virtual void OnCanExecuteChanged()
         {
-            if (_synchronizationContext != null)
-                _synchronizationContext.Post((o) => CanExecuteChanged?.Invoke(this, EventArgs.Empty), null);
-            else
-                CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            var handler = CanExecuteChanged;
+            if (handler != null)
+            {
+                if (_synchronizationContext != null && _synchronizationContext != SynchronizationContext.Current)
+                    _synchronizationContext.Post((o) => handler.Invoke(this, EventArgs.Empty), null);
+                else
+                    handler.Invoke(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>
