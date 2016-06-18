@@ -14,8 +14,7 @@ namespace Prism.Unity
         /// <typeparam name="TView">The Type of Page to register</typeparam>
         public static IUnityContainer RegisterTypeForNavigation<TView>(this IUnityContainer container) where TView : Page
         {
-            container.RegisterTypeForNavigation<TView>(typeof(TView).Name);
-            return container;
+            return container.RegisterTypeForNavigation<TView>(typeof(TView).Name);
         }
 
         /// <summary>

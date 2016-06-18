@@ -25,7 +25,7 @@ namespace Prism.Navigation
             set { _page = value; }
         }
 
-        public PageNavigationService(IApplicationProvider applicationProvider, ILoggerFacade logger)
+        protected PageNavigationService(IApplicationProvider applicationProvider, ILoggerFacade logger)
         {
             _applicationProvider = applicationProvider;
             _logger = logger;
@@ -151,9 +151,9 @@ namespace Prism.Navigation
             }
         }
 
-        async Task ProcessNavigationForAbsoulteUri(Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        Task ProcessNavigationForAbsoulteUri(Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            await ProcessNavigation(null, segments, parameters, useModalNavigation, animated);
+            return ProcessNavigation(null, segments, parameters, useModalNavigation, animated);
         }
 
         async Task ProcessNavigationForRootPage(string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
