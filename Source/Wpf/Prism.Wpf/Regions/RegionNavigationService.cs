@@ -119,15 +119,15 @@ namespace Prism.Regions
         /// <param name="target">The target.</param>
         /// <param name="navigationCallback">A callback to execute when the navigation request is completed.</param>
         /// <param name="navigationParameters">The navigation parameters specific to the navigation request.</param>
-        public Task<NavigationResult> RequestNavigateAsync(Uri target, NavigationParameters navigationParameters)
+        public async Task<NavigationResult> RequestNavigateAsync(Uri target, NavigationParameters navigationParameters)
         {
             try
             {
-                return this.DoNavigateAsync(target, navigationParameters);
+                return await this.DoNavigateAsync(target, navigationParameters);
             }
             catch (Exception e)
             {
-                return Task.FromResult(this.NotifyNavigationFailed(new NavigationContext(this, target), e));
+                return this.NotifyNavigationFailed(new NavigationContext(this, target), e);
             }
         }
 

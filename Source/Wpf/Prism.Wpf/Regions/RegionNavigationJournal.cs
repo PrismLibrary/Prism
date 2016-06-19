@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Prism.Regions
 {
@@ -59,52 +60,48 @@ namespace Prism.Regions
         /// <summary>
         /// Navigates to the most recent entry in the back navigation history, or does nothing if no entry exists in back navigation.
         /// </summary>
-        public void GoBack()
+        public async void GoBack()
         {
             if (this.CanGoBack)
             {
                 IRegionNavigationJournalEntry entry = this.backStack.Peek();
-                this.InternalNavigate(
-                    entry,
-                    result =>
-                    {
-                        if (result)
-                        {
-                            if (this.CurrentEntry != null)
-                            {
-                                this.forwardStack.Push(this.CurrentEntry);
-                            }
 
-                            this.backStack.Pop();
-                            this.CurrentEntry = entry;
-                        }
-                    });
+                bool result = await this.InternalNavigate(entry);
+
+                if (result)
+                {
+                    if (this.CurrentEntry != null)
+                    {
+                        this.forwardStack.Push(this.CurrentEntry);
+                    }
+
+                    this.backStack.Pop();
+                    this.CurrentEntry = entry;
+                }
             }
         }
 
         /// <summary>
         /// Navigates to the most recent entry in the forward navigation history, or does nothing if no entry exists in forward navigation.
         /// </summary>
-        public void GoForward()
+        public async void GoForward()
         {
             if (this.CanGoForward)
             {
                 IRegionNavigationJournalEntry entry = this.forwardStack.Peek();
-                this.InternalNavigate(
-                    entry,
-                    result =>
-                    {
-                        if (result)
-                        {
-                            if (this.CurrentEntry != null)
-                            {
-                                this.backStack.Push(this.CurrentEntry);
-                            }
 
-                            this.forwardStack.Pop();
-                            this.CurrentEntry = entry;
-                        }
-                    });
+                bool result = await this.InternalNavigate(entry);
+
+                if (result)
+                {
+                    if (this.CurrentEntry != null)
+                    {
+                        this.backStack.Push(this.CurrentEntry);
+                    }
+
+                    this.forwardStack.Pop();
+                    this.CurrentEntry = entry;
+                }
             }
         }
 
@@ -136,21 +133,13 @@ namespace Prism.Regions
             this.forwardStack.Clear();
         }
 
-        private void InternalNavigate(IRegionNavigationJournalEntry entry, Action<bool> callback)
+        private async Task<bool> InternalNavigate(IRegionNavigationJournalEntry entry)
         {
             this.isNavigatingInternal = true;
-            this.NavigationTarget.RequestNavigate(
-                entry.Uri,
-                nr =>
-                {
-                    this.isNavigatingInternal = false;
+            NavigationResult result = await this.NavigationTarget.RequestNavigate(entry.Uri, entry.Parameters);
+            this.isNavigatingInternal = false;
 
-                    if (nr.Result.HasValue)
-                    {
-                        callback(nr.Result.Value);
-                    }
-                },
-                entry.Parameters);
+            return result.Result == true;
         }
     }
 }
