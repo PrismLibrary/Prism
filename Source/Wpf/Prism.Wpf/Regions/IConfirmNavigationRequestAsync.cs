@@ -14,11 +14,7 @@ namespace Prism.Regions
         /// Determines whether this instance accepts being navigated away from.
         /// </summary>
         /// <param name="navigationContext">The navigation context.</param>
-        /// <param name="continuationCallback">The callback to indicate when navigation can proceed.</param>
-        /// <remarks>
-        /// Implementors of this method do not need to invoke the callback before this method is completed,
-        /// but they must ensure the callback is eventually invoked.
-        /// </remarks>
+        /// <returns>True if navigation was allowed</returns>
         Task<bool> ConfirmNavigationRequestAsync(NavigationContext navigationContext);
     }
 }
