@@ -32,9 +32,9 @@ namespace Prism.Services
         /// <param name="acceptButton">Text for the accept button.</param>
         /// <param name="cancelButton">Text for the cancel button.</param>
         /// <returns><c>true</c> if non-destructive button pressed; otherwise <c>false</c>/></returns>
-        public virtual async Task<bool> DisplayAlertAsync(string title, string message, string acceptButton, string cancelButton)
+        public virtual Task<bool> DisplayAlertAsync(string title, string message, string acceptButton, string cancelButton)
         {
-            return await _applicationProvider.MainPage.DisplayAlert(title, message, acceptButton, cancelButton);
+            return _applicationProvider.MainPage.DisplayAlert(title, message, acceptButton, cancelButton);
         }
 
         /// <summary>
@@ -47,9 +47,9 @@ namespace Prism.Services
         /// <param name="message">Message to display.</param>
         /// <param name="cancelButton">Text for the cancel button.</param>
         /// <returns></returns>
-        public virtual async Task DisplayAlertAsync(string title, string message, string cancelButton)
+        public virtual Task DisplayAlertAsync(string title, string message, string cancelButton)
         {
-            await _applicationProvider.MainPage.DisplayAlert(title, message, cancelButton);
+            return _applicationProvider.MainPage.DisplayAlert(title, message, cancelButton);
         }
 
         /// <summary>
@@ -60,9 +60,9 @@ namespace Prism.Services
         /// <param name="destroyButton">Text for the ok button.</param>
         /// <param name="otherButtons">Text for other buttons.</param>
         /// <returns>Text for the pressed button</returns>
-        public virtual async Task<string> DisplayActionSheetAsync(string title, string cancelButton, string destroyButton, params string[] otherButtons)
+        public virtual Task<string> DisplayActionSheetAsync(string title, string cancelButton, string destroyButton, params string[] otherButtons)
         {
-            return await _applicationProvider.MainPage.DisplayActionSheet(title, cancelButton, destroyButton, otherButtons);
+            return _applicationProvider.MainPage.DisplayActionSheet(title, cancelButton, destroyButton, otherButtons);
         }
 
         /// <summary>
