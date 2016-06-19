@@ -525,7 +525,7 @@ namespace Prism.Wpf.Tests.Regions
                 NavigationParameters navigationParameters = new NavigationParameters();
 
                 Mock<IRegionNavigationService> mockRegionNavigationService = new Mock<IRegionNavigationService>();
-                mockRegionNavigationService.Setup(x => x.RequestNavigate(uri, navigationCallback, navigationParameters)).Verifiable();
+                mockRegionNavigationService.Setup(x => x.RequestNavigateAsync(uri, navigationParameters)).Verifiable();
 
                 Mock<IServiceLocator> mockServiceLocator = new Mock<IServiceLocator>();
                 mockServiceLocator.Setup(x => x.GetInstance<IRegionNavigationService>()).Returns(mockRegionNavigationService.Object);

@@ -42,9 +42,8 @@ namespace Prism.Wpf.Tests.Regions
             var navigateMock = new Mock<INavigateAsync>();
             navigateMock
                 .Setup(nv =>
-                    nv.RequestNavigate(
-                        It.Is<Uri>(u => !u.IsAbsoluteUri && u.OriginalString == "relative"),
-                        It.Is<Action<NavigationResult>>(c => c != null)))
+                    nv.RequestNavigateAsync(
+                        It.Is<Uri>(u => !u.IsAbsoluteUri && u.OriginalString == "relative")))
                 .Verifiable();
 
             string target = "relative";
@@ -60,9 +59,8 @@ namespace Prism.Wpf.Tests.Regions
             var navigateMock = new Mock<INavigateAsync>();
             navigateMock
                 .Setup(nv =>
-                    nv.RequestNavigate(
-                        It.Is<Uri>(u => u.IsAbsoluteUri && u.Host == "test" && u.AbsolutePath == "/path"),
-                        It.Is<Action<NavigationResult>>(c => c != null)))
+                    nv.RequestNavigateAsync(
+                        It.Is<Uri>(u => u.IsAbsoluteUri && u.Host == "test" && u.AbsolutePath == "/path")))
                 .Verifiable();
 
             string target = "http://test/path";
@@ -93,9 +91,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigateMock = new Mock<INavigateAsync>();
             navigateMock
                 .Setup(nv =>
-                    nv.RequestNavigate(
-                        target,
-                        It.Is<Action<NavigationResult>>(c => c != null)))
+                    nv.RequestNavigateAsync(target))
                 .Verifiable();
 
 

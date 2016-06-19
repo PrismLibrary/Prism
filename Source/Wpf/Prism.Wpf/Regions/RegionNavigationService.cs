@@ -154,7 +154,7 @@ namespace Prism.Regions
                     // the current active view implements IConfirmNavigationRequestAsync, request confirmation
                     bool canNavigate = await vetoingView.ConfirmNavigationRequestAsync(navigationContext);
 
-                    if (!(this.currentNavigationContext != navigationContext && canNavigate))
+                    if (!(this.currentNavigationContext == navigationContext && canNavigate))
                     {
                         return this.NotifyNavigationFailed(navigationContext, null);
                     }
@@ -168,7 +168,7 @@ namespace Prism.Regions
                     // providing a callback to resume the navigation request
                     bool canNavigate = await CallbackHelper.AwaitCallbackResult<bool>(callback => vetoingViewOld.ConfirmNavigationRequest(navigationContext, callback));
 
-                    if (!(this.currentNavigationContext != navigationContext && canNavigate))
+                    if (!(this.currentNavigationContext == navigationContext && canNavigate))
                     {
                         return this.NotifyNavigationFailed(navigationContext, null);
                     }
@@ -193,13 +193,13 @@ namespace Prism.Regions
 
                     var vetoingViewModelOld = frameworkElement.DataContext as IConfirmNavigationRequest;
 
-                    if (vetoingViewOld != null)
+                    if (vetoingViewModelOld != null)
                     {
                         // the data model for the current active view implements IConfirmNavigationRequest, request confirmation
                         // providing a callback to resume the navigation request
-                        bool canNavigate = await CallbackHelper.AwaitCallbackResult<bool>(callback => vetoingViewOld.ConfirmNavigationRequest(navigationContext, callback));
+                        bool canNavigate = await CallbackHelper.AwaitCallbackResult<bool>(callback => vetoingViewModelOld.ConfirmNavigationRequest(navigationContext, callback));
 
-                        if (!(this.currentNavigationContext != navigationContext && canNavigate))
+                        if (!(this.currentNavigationContext == navigationContext && canNavigate))
                         {
                             return this.NotifyNavigationFailed(navigationContext, null);
                         }
