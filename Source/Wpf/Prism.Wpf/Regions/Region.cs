@@ -345,7 +345,7 @@ namespace Prism.Regions
         /// Initiates navigation to the specified target.
         /// </summary>
         /// <param name="target">The target.</param>
-        /// <param name="navigationCallback">A callback to execute when the navigation request is completed.</param>
+        /// <returns>The navigation result.</returns>
         public Task<NavigationResult> RequestNavigateAsync(Uri target)
         {
             return this.RequestNavigateAsync(target, null);
@@ -355,8 +355,8 @@ namespace Prism.Regions
         /// Initiates navigation to the specified target.
         /// </summary>
         /// <param name="target">The target.</param>
-        /// <param name="navigationCallback">A callback to execute when the navigation request is completed.</param>
         /// <param name="navigationParameters">The navigation parameters specific to the navigation request.</param>
+        /// <returns>The navigation result.</returns>
         public Task<NavigationResult> RequestNavigateAsync(Uri target, NavigationParameters navigationParameters)
         {
             return this.NavigationService.RequestNavigateAsync(target, navigationParameters);

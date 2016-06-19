@@ -15,13 +15,13 @@ namespace Prism.Regions
     public interface INavigateAsync
     {
         /// <summary>
-        /// Initiates navigation to the target specified by the <see cref="Uri"/>.
+        /// Initiates navigation to the target specified by the <see cref="Uri" />.
         /// </summary>
         /// <param name="target">The navigation target</param>
-        /// <param name="navigationCallback">The callback executed when the navigation request is completed.</param>
+        /// <returns>The navigation result.</returns>
         /// <remarks>
-        /// Convenience overloads for this method can be found as extension methods on the 
-        /// <see cref="NavigationAsyncExtensions"/> class.
+        /// Convenience overloads for this method can be found as extension methods on the
+        /// <see cref="NavigationAsyncExtensions" /> class.
         /// </remarks>
         Task<NavigationResult> RequestNavigateAsync(Uri target);
 
@@ -29,8 +29,8 @@ namespace Prism.Regions
         /// Initiates navigation to the target specified by the <see cref="Uri"/>.
         /// </summary>
         /// <param name="target">The navigation target</param>
-        /// <param name="navigationCallback">The callback executed when the navigation request is completed.</param>
         /// <param name="navigationParameters">The navigation parameters specific to the navigation request.</param>
+        /// <returns>The navigation result.</returns>
         /// <remarks>
         /// Convenience overloads for this method can be found as extension methods on the 
         /// <see cref="NavigationAsyncExtensions"/> class.
