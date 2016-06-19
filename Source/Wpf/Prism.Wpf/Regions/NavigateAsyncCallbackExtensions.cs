@@ -8,6 +8,12 @@ namespace Prism.Regions
 {
     public static class NavigateAsyncCallbackExtensions
     {
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="target"/>.
+        /// </summary>
+        /// <param name="navigation">The navigation object.</param>
+        /// <param name="target">The navigation target</param>
+        /// <param name="navigationCallback">The callback executed when the navigation request is completed.</param>
         public static Task RequestNavigate(this INavigateAsync navigation, Uri target, Action<NavigationResult> navigationCallback)
         {
             if (navigation == null)
@@ -25,6 +31,13 @@ namespace Prism.Regions
             navigationCallback(result);
         }
 
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="target" />.
+        /// </summary>
+        /// <param name="navigation">The navigation object.</param>
+        /// <param name="target">The navigation target</param>
+        /// <param name="navigationCallback">The callback executed when the navigation request is completed.</param>
+        /// <param name="navigationParameters">The navigation parameters.</param>
         public static Task RequestNavigate(this INavigateAsync navigation,  Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
         {
             if (navigation == null)

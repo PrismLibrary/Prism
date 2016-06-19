@@ -15,6 +15,7 @@ namespace Prism.Regions
         /// </summary>
         /// <param name="navigation">The navigation object.</param>
         /// <param name="target">The navigation target</param>
+        /// <returns>The navigation result.</returns>
         public static Task<NavigationResult> RequestNavigateAsync(this INavigateAsync navigation, string target)
         {
             if (navigation == null)
@@ -26,6 +27,12 @@ namespace Prism.Regions
             return navigation.RequestNavigateAsync(new Uri(target, UriKind.RelativeOrAbsolute));
         }
 
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="target"/>.
+        /// </summary>
+        /// <param name="navigation">The navigation object.</param>
+        /// <param name="target">The navigation target</param>
+        /// <returns>The navigation result.</returns>
         public static Task<NavigationResult> RequestNavigate(this INavigateAsync navigation, string target)
         {
             if (navigation == null)
