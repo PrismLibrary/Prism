@@ -181,14 +181,14 @@ namespace Prism.Wpf.Tests.Regions
 
 
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
-                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
+                .Setup(x => x.RequestNavigateAsync(uri1, null))
+                .Returns(Task.FromResult(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null))
-                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, false)));
+                .Setup(x => x.RequestNavigateAsync(uri2, null))
+                .Returns(Task.FromResult(new NavigationResult(null, false)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null))
-                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
+                .Setup(x => x.RequestNavigateAsync(uri3, null))
+                .Returns(Task.FromResult(new NavigationResult(null, true)));
 
             // Act
             target.GoBack();
@@ -198,9 +198,9 @@ namespace Prism.Wpf.Tests.Regions
             Assert.IsFalse(target.CanGoForward);
             Assert.AreSame(entry3, target.CurrentEntry);
 
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigateAsync(uri1, null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigateAsync(uri2, null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigateAsync(uri3, null), Times.Never());
         }
 
         [TestMethod]
@@ -227,14 +227,14 @@ namespace Prism.Wpf.Tests.Regions
 
 
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
-                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
+                .Setup(x => x.RequestNavigateAsync(uri1, null))
+                .Returns(Task.FromResult(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null))
-                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
+                .Setup(x => x.RequestNavigateAsync(uri2, null))
+                .Returns(Task.FromResult(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null))
-                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
+                .Setup(x => x.RequestNavigateAsync(uri3, null))
+                .Returns(Task.FromResult(new NavigationResult(null, true)));
 
             // Act
             target.GoBack();
@@ -245,9 +245,9 @@ namespace Prism.Wpf.Tests.Regions
             Assert.IsTrue(target.CanGoForward);
             Assert.AreSame(entry1, target.CurrentEntry);
 
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigateAsync(uri1, null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigateAsync(uri2, null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigateAsync(uri3, null), Times.Never());
         }
 
         [TestMethod]
@@ -321,14 +321,14 @@ namespace Prism.Wpf.Tests.Regions
             target.RecordNavigation(entry3);
 
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
-                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
+                .Setup(x => x.RequestNavigateAsync(uri1, null))
+                .Returns(Task.FromResult(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null))
-                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
+                .Setup(x => x.RequestNavigateAsync(uri2, null))
+                .Returns(Task.FromResult(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null))
-                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, false)));
+                .Setup(x => x.RequestNavigateAsync(uri3, null))
+                .Returns(Task.FromResult(new NavigationResult(null, false)));
 
             target.GoBack();
 
@@ -340,9 +340,9 @@ namespace Prism.Wpf.Tests.Regions
             Assert.IsTrue(target.CanGoForward);
             Assert.AreSame(entry2, target.CurrentEntry);
 
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigateAsync(uri1, null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigateAsync(uri2, null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigateAsync(uri3, null), Times.Once());
         }
 
         [TestMethod]
@@ -368,14 +368,14 @@ namespace Prism.Wpf.Tests.Regions
             target.RecordNavigation(entry3);
 
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
-                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
+                .Setup(x => x.RequestNavigateAsync(uri1, null))
+                .Returns(Task.FromResult(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null))
-                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
+                .Setup(x => x.RequestNavigateAsync(uri2, null))
+                .Returns(Task.FromResult(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null))
-                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
+                .Setup(x => x.RequestNavigateAsync(uri3, null))
+                .Returns(Task.FromResult(new NavigationResult(null, true)));
 
             target.GoBack();
             target.GoBack();
@@ -389,9 +389,9 @@ namespace Prism.Wpf.Tests.Regions
             Assert.IsFalse(target.CanGoForward);
             Assert.AreSame(entry3, target.CurrentEntry);
 
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null), Times.Exactly(2));
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigateAsync(uri1, null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigateAsync(uri2, null), Times.Exactly(2));
+            mockNavigationTarget.Verify(x => x.RequestNavigateAsync(uri3, null), Times.Once());
         }
 
         [TestMethod]
