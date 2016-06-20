@@ -214,6 +214,7 @@
     <Compile Include="Regions\RegionNavigationFailedEventArgs.cs" />
     <Compile Include="Regions\RegionNavigationJournal.cs" />
     <Compile Include="Regions\RegionNavigationJournalEntry.cs" />
+    <Compile Include="Regions\RegionNavigationJournalExtensions.cs" />
     <Compile Include="Regions\RegionNavigationService.cs" />
     <Compile Include="Regions\RegionViewRegistry.cs" />
     <Compile Include="Regions\SelectorRegionAdapter.cs" />
