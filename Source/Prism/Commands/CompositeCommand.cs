@@ -2,6 +2,7 @@ using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows.Input;
 
 namespace Prism.Commands
@@ -14,6 +15,7 @@ namespace Prism.Commands
         private readonly List<ICommand> _registeredCommands = new List<ICommand>();
         private readonly bool _monitorCommandActivity;
         private readonly EventHandler _onRegisteredCommandCanExecuteChangedHandler;
+        private SynchronizationContext _synchronizationContext;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CompositeCommand"/>.
@@ -21,6 +23,7 @@ namespace Prism.Commands
         public CompositeCommand()
         {
             this._onRegisteredCommandCanExecuteChangedHandler = new EventHandler(this.OnRegisteredCommandCanExecuteChanged);
+            _synchronizationContext = SynchronizationContext.Current;
         }
 
         /// <summary>
@@ -218,7 +221,10 @@ namespace Prism.Commands
             var handler = CanExecuteChanged;
             if (handler != null)
             {
-                handler(this, EventArgs.Empty);
+                if (_synchronizationContext != null && _synchronizationContext != SynchronizationContext.Current)
+                    _synchronizationContext.Post((o) => handler.Invoke(this, EventArgs.Empty), null);
+                else
+                    handler.Invoke(this, EventArgs.Empty);
             }
         }
 
