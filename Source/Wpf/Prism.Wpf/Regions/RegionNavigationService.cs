@@ -143,19 +143,31 @@ namespace Prism.Regions
 
             this.currentNavigationContext = new NavigationContext(this, source, navigationParameters);
 
+            bool savePrevious = true;
+
+            object[] activeViews = this.Region.ActiveViews.ToArray();
+
+            if (activeViews.Length > 0)
+            {
+
+                MvvmHelpers.ViewAndViewModelAction<IJournalAware>(activeViews[0], ija => { savePrevious &= ija.PersistInHistory(); });
+            }
+
             // starts querying the active views
             RequestCanNavigateFromOnCurrentlyActiveView(
                 this.currentNavigationContext,
                 navigationCallback,
-                this.Region.ActiveViews.ToArray(),
-                0);
+                activeViews,
+                0,
+                savePrevious);
         }
 
         private void RequestCanNavigateFromOnCurrentlyActiveView(
             NavigationContext navigationContext,
             Action<NavigationResult> navigationCallback,
             object[] activeViews,
-            int currentViewIndex)
+            int currentViewIndex,
+            bool savePrevious)
         {
             if (currentViewIndex < activeViews.Length)
             {
@@ -174,7 +186,8 @@ namespace Prism.Regions
                                     navigationContext,
                                     navigationCallback,
                                     activeViews,
-                                    currentViewIndex);
+                                    currentViewIndex,
+                                    savePrevious);
                             }
                             else
                             {
@@ -188,12 +201,13 @@ namespace Prism.Regions
                         navigationContext,
                         navigationCallback,
                         activeViews,
-                        currentViewIndex);
+                        currentViewIndex,
+                        savePrevious);
                 }
             }
             else
             {
-                ExecuteNavigation(navigationContext, activeViews, navigationCallback);
+                ExecuteNavigation(navigationContext, activeViews, navigationCallback, savePrevious);
             }
         }
 
@@ -201,7 +215,8 @@ namespace Prism.Regions
             NavigationContext navigationContext,
             Action<NavigationResult> navigationCallback,
             object[] activeViews,
-            int currentViewIndex)
+            int currentViewIndex,
+            bool savePrevious)
         {
             var frameworkElement = activeViews[currentViewIndex] as FrameworkElement;
 
@@ -223,7 +238,8 @@ namespace Prism.Regions
                                     navigationContext,
                                     navigationCallback,
                                     activeViews,
-                                    currentViewIndex + 1);
+                                    currentViewIndex + 1,
+                                    savePrevious);
                             }
                             else
                             {
@@ -239,11 +255,12 @@ namespace Prism.Regions
                 navigationContext,
                 navigationCallback,
                 activeViews,
-                currentViewIndex + 1);
+                currentViewIndex + 1,
+                savePrevious);
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exception is marshalled to callback")]
-        private void ExecuteNavigation(NavigationContext navigationContext, object[] activeViews, Action<NavigationResult> navigationCallback)
+        private void ExecuteNavigation(NavigationContext navigationContext, object[] activeViews, Action<NavigationResult> navigationCallback, bool savePrevious)
         {
             try
             {
@@ -260,7 +277,7 @@ namespace Prism.Regions
                 IRegionNavigationJournalEntry journalEntry = this.serviceLocator.GetInstance<IRegionNavigationJournalEntry>();
                 journalEntry.Uri = navigationContext.Uri;
                 journalEntry.Parameters = navigationContext.Parameters;
-                this.journal.RecordNavigation(journalEntry);
+                this.journal.RecordNavigation(journalEntry, savePrevious);
 
                 // The view can be informed of navigation
                 Action<INavigationAware> action = (n) => n.OnNavigatedTo(navigationContext);
