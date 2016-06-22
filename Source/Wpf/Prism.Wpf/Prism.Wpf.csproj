@@ -171,6 +171,13 @@
     <Compile Include="Regions\Behaviors\RegionMemberLifetimeBehavior.cs" />
     <Compile Include="Regions\Behaviors\SelectorItemsSourceSyncBehavior.cs" />
     <Compile Include="Regions\Behaviors\SyncRegionContextWithHostBehavior.cs" />
+    <Compile Include="Regions\CallbackWrappers\INavigateAsyncWithCallbacks.cs" />
+    <Compile Include="Regions\CallbackWrappers\IRegionManagerWithCallbacks.cs" />
+    <Compile Include="Regions\CallbackWrappers\IRegionNavigationJournalWithCallbacks.cs" />
+    <Compile Include="Regions\CallbackWrappers\IRegionNavigationServiceWithCallbacks.cs" />
+    <Compile Include="Regions\CallbackWrappers\RegionManagerWithCallbacksWrapper.cs" />
+    <Compile Include="Regions\CallbackWrappers\RegionNavigationJournalWithCallbacksWrapper.cs" />
+    <Compile Include="Regions\CallbackWrappers\RegionNavigationServiceWithCallbacksWrapper.cs" />
     <Compile Include="Regions\ContentControlRegionAdapter.cs" />
     <Compile Include="Regions\DefaultRegionManagerAccessor.cs" />
     <Compile Include="Regions\IConfirmNavigationRequest.cs" />
