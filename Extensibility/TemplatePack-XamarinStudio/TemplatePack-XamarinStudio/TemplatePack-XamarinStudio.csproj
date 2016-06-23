@@ -114,5 +114,12 @@
     <AddinFile Include="Snippets\PrismCodeTemplates.xml" />
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\PlatformInitializer.cs" />
     <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.iOS\PlatformInitializer.cs" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\SplashScreenActivity.cs" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\colorsvalues.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\stylesvalues.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\stylesvalues-v21.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\toolbarlayout.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\tabslayout.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\SplashScreenlayout.xml" />
   </ItemGroup>
 </Project>

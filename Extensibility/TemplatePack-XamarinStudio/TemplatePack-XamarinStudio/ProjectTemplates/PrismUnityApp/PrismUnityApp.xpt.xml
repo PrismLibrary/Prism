@@ -136,12 +136,21 @@
 			<Files>
 				<File name="MainActivity.cs" src="UnityApp.Droid/MainActivity.cs" />
 				<File name="PlatformInitializer.cs" src="UnityApp.Droid/PlatformInitializer.cs" />
+				<File name="SplashScreenActivity.cs" src="UnityApp.Droid/SplashScreenActivity.cs" />
 				<Directory name="Resources">
 					<File name="Resource.designer.cs" src="UnityApp.Droid/Resource.cs" />
 					<RawFile name="AboutResources.txt" src="UnityApp.Droid/AboutResources.txt" />
 					<Directory name="layout">
+						<RawFile name="SplashScreen.axml" src="UnityApp.Droid/SplashScreenlayout.xml" />
+						<RawFile name="tabs.axml" src="UnityApp.Droid/tabslayout.xml" />
+						<RawFile name="toolbar.axml" src="UnityApp.Droid/toolbarlayout.xml" />
 					</Directory>
 					<Directory name="values">
+						<RawFile name="colors.axml" src="UnityApp.Droid/colorsvalues.xml" />
+						<RawFile name="styles.axml" src="UnityApp.Droid/stylesvalues.xml" />
+					</Directory>
+					<Directory name="values-v21">
+						<RawFile name="styles.axml" src="UnityApp.Droid/stylesvalues-v21.xml" />
 					</Directory>
 					<Directory name ="drawable">
 						<RawFile name="icon.png" src="UnityApp.Droid/icondrawable.png" />
