@@ -29,7 +29,7 @@ $if$ ($CreateUITestProject$ == true)
 			Xamarin.Calabash.Start();
 			#endif
 $endif$
-			LoadApplication (new App ());
+			LoadApplication (new App (new PlatformInitializer());
 
 			return base.FinishedLaunching (app, options);
 		}

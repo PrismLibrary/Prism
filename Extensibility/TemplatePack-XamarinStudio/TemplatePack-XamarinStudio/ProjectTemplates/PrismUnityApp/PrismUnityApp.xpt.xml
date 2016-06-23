@@ -108,6 +108,7 @@
 				<File name="Entitlements.plist" AddStandardHeader="False" src="UnityApp.iOS/Entitlements.plist.xml" />
 				<File name="Main.cs" AddStandardHeader="True" src="UnityApp.iOS/Main.cs" />
 				<File name="AppDelegate.cs" AddStandardHeader="True" src="UnityApp.iOS/AppDelegate.cs" />
+				<File name="PlatformInitializer.cs" AddStandardHeader="True" src="UnityApp.iOS/PlatformInitializer.cs" />
 			
 			</Files>
 			<Packages>
@@ -134,6 +135,7 @@
 			</References>
 			<Files>
 				<File name="MainActivity.cs" src="UnityApp.Droid/MainActivity.cs" />
+				<File name="PlatformInitializer.cs" src="UnityApp.Droid/PlatformInitializer.cs" />
 				<Directory name="Resources">
 					<File name="Resource.designer.cs" src="UnityApp.Droid/Resource.cs" />
 					<RawFile name="AboutResources.txt" src="UnityApp.Droid/AboutResources.txt" />

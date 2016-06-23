@@ -112,5 +112,7 @@
     </AddinFile>
     <AddinFile Include="ProjectTemplates\PrismUnityApp\PrismUnityApp.xpt.xml" />
     <AddinFile Include="Snippets\PrismCodeTemplates.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\PlatformInitializer.cs" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.iOS\PlatformInitializer.cs" />
   </ItemGroup>
 </Project>
