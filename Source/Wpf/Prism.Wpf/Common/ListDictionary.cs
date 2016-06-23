@@ -23,13 +23,13 @@ namespace Prism.Common
         public void Add(TKey key)
         {
             if (key == null)
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
 
             CreateNewList(key);
         }
 
         /// <summary>
-        /// Adds a value to a list with the given key. If a list does not already exist, 
+        /// Adds a value to a list with the given key. If a list does not already exist,
         /// it will be created automatically.
         /// </summary>
         /// <param name="key">The key of the list that will hold the value.</param>
@@ -37,11 +37,10 @@ namespace Prism.Common
         public void Add(TKey key, TValue value)
         {
             if (key == null)
+                throw new ArgumentNullException(nameof(key));
 
-                throw new ArgumentNullException("key");
             if (value == null)
-
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
 
             if (innerValues.ContainsKey(key))
             {
@@ -96,13 +95,13 @@ namespace Prism.Common
         public bool ContainsKey(TKey key)
         {
             if (key == null)
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
 
             return innerValues.ContainsKey(key);
         }
 
         /// <summary>
-        /// Retrieves the all the elements from the list which have a key that matches the condition 
+        /// Retrieves the all the elements from the list which have a key that matches the condition
         /// defined by the specified predicate.
         /// </summary>
         /// <param name="keyFilter">The filter with the condition to use to filter lists by their key.</param>
@@ -148,7 +147,7 @@ namespace Prism.Common
         public bool Remove(TKey key)
         {
             if (key == null)
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
 
             return innerValues.Remove(key);
         }
@@ -161,10 +160,10 @@ namespace Prism.Common
         public void Remove(TKey key, TValue value)
         {
             if (key == null)
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
 
             if (value == null)
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
 
             if (innerValues.ContainsKey(key))
             {
@@ -220,7 +219,7 @@ namespace Prism.Common
         }
 
         /// <summary>
-        /// Gets or sets the list associated with the given key. The 
+        /// Gets or sets the list associated with the given key. The
         /// access always succeeds, eventually returning an empty list.
         /// </summary>
         /// <param name="key">The key of the list to access.</param>
@@ -257,10 +256,10 @@ namespace Prism.Common
         void IDictionary<TKey, IList<TValue>>.Add(TKey key, IList<TValue> value)
         {
             if (key == null)
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
 
             if (value == null)
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
 
             innerValues.Add(key, value);
         }

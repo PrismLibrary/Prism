@@ -6,9 +6,7 @@ For example, consider a personal banking application. The user can access a vari
 
 The following illustration shows a design of a modular application with multiple modules.
 
-![](images/Ch4ModularityFig1.png)
-
-Module composition
+![Module composition](images/Ch4ModularityFig1.png)
 
 # Benefits of Building Modular Applications
 
@@ -62,9 +60,7 @@ The module loading process in Prism includes the following:
 
 The following figure shows the module loading process.
 
-![](images/Ch4ModularityFig2.png)
-
-<!-- -->
+![Module loading process](images/Ch4ModularityFig2.png)
 
 ### Module Catalog
 
@@ -141,11 +137,11 @@ When you develop your application in a modularized fashion, you structure the ap
 
 A module should encapsulate a set of related concerns and have a distinct set of responsibilities. A module can represent a vertical slice of the application or a horizontal service layer. Large applications will likely have both types of modules.
 
-![](images/Ch4ModularityFig3.png)
+![A vertical sliced application](images/Ch4ModularityFig3.png)
 
 An application with modules organized around vertical slices
 
-![](images/Ch4ModularityFig4.png)
+![A horizontal layered application](images/Ch4ModularityFig4.png)
 
 An application with modules organized around horizontal layers
 
@@ -172,9 +168,7 @@ A module should use an independent mechanism to get instances of external interf
 
 The following diagram shows the typical sequence of operations when modules are loaded that need to acquire or register references to the components and services.
 
-![](images/Ch4ModularityFig5.png)
-
-Example of dependency injection
+![Example of dependency injection](images/Ch4ModularityFig5.png)
 
 In this example, the **OrdersModule** assembly defines an **OrdersRepository** class (along with other views and classes that implement order functionality). The **CustomerModule** assembly defines a **CustomersViewModel** class which depends on the **OrdersRepository**, typically based on an interface exposed by the service. The application startup and bootstrapping process contains the following steps:
 
@@ -251,7 +245,7 @@ The following code example shows a XAML file specifying a module catalog.
 <Modularity:ModuleCatalog xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    xmlns:Modularity="clr-namespace:Microsoft.Practices.Prism.Modularity;assembly=Microsoft.Practices.Prism"&gt;
+    xmlns:Modularity="clr-namespace:Microsoft.Practices.Prism.Modularity;assembly=Microsoft.Practices.Prism">
     
     <Modularity:ModuleInfoGroup Ref="file://DirectoryModules/ModularityWithMef.Desktop.ModuleB.dll" InitializationMode="WhenAvailable">
         <Modularity:ModuleInfo ModuleName="ModuleB" ModuleType="ModularityWithMef.Desktop.ModuleB, ModularityWithMef.Desktop.ModuleB, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
@@ -261,7 +255,7 @@ The following code example shows a XAML file specifying a module catalog.
         <Modularity:ModuleInfo Ref="file://ModularityWithMef.Desktop.ModuleE.dll" ModuleName="ModuleE" ModuleType="ModularityWithMef.Desktop.ModuleE, ModularityWithMef.Desktop.ModuleE, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
         <Modularity:ModuleInfo Ref="file://ModularityWithMef.Desktop.ModuleF.dll" ModuleName="ModuleF" ModuleType="ModularityWithMef.Desktop.ModuleF, ModularityWithMef.Desktop.ModuleF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
             <Modularity:ModuleInfo.DependsOn>
-                <sys:String&gt;ModuleE&lt;/sys:String>
+                <sys:String>ModuleE</sys:String>
             </Modularity:ModuleInfo.DependsOn>
         </Modularity:ModuleInfo>
     </Modularity:ModuleInfoGroup>
@@ -293,7 +287,7 @@ The following code example shows a configuration file specifying a module catalo
 <xml version="1.0" encoding="utf-8" ?>
 <configuration>
     <configSections>
-        <section name="modules" type="Prism.Modularity.ModulesConfigurationSection, Prism">
+        <section name="modules" type="Prism.Modularity.ModulesConfigurationSection, Prism.Wpf"/>
     </configSections>
     
     <modules>

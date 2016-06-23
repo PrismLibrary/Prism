@@ -48,9 +48,9 @@ namespace Prism.Interactivity.InteractionRequest
         /// </summary>
         /// <param name="context">The context for the interaction request.</param>
         /// <returns>The context after the request has been handled by the UI.</returns>
-        public async Task<T> RaiseAsync(T context)
+        public Task<T> RaiseAsync(T context)
         {
-            return await CallbackHelper.AwaitCallbackResult<T>(callback => this.Raise(context, callback));
+            return CallbackHelper.AwaitCallbackResult<T>(callback => this.Raise(context, callback));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿namespace Prism.Navigation
+﻿
+namespace Prism.Navigation
 {
     /// <summary>
     /// Provides a way for ViewModels involved in navigation to determine if a navigation request should continue.

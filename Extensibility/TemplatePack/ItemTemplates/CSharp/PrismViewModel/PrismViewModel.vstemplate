@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Prism ViewModel</Name>
+    <Description>Creates a ViewModel that derives from BindableBase for use in a Prism application</Description>
+    <Icon>PrismViewModel.ico</Icon>
+    <TemplateID>bfeb7adb-f776-4dfa-8cd3-dc796dbd8533</TemplateID>
+    <ProjectType>CSharp</ProjectType>
+    <AppliesTo>CSharp + MultiTarget</AppliesTo>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>PrismViewModel.cs</DefaultName>
+    <SortOrder>10</SortOrder>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ReplaceParameters="true">PrismViewModel.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

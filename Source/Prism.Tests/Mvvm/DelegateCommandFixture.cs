@@ -5,6 +5,8 @@ using Prism.Commands;
 using System.Threading.Tasks;
 using Prism.Tests.Mocks.Commands;
 using Prism.Mvvm;
+using System.Threading;
+using Xunit.Sdk;
 
 namespace Prism.Tests.Mvvm
 {
@@ -83,7 +85,6 @@ namespace Prism.Tests.Mvvm
             Assert.Equal(true, retVal);
         }
 
-
         [Fact]
         public void RaiseCanExecuteChangedRaisesCanExecuteChanged()
         {
@@ -118,7 +119,7 @@ namespace Prism.Tests.Mvvm
         {
             bool executeCalled = false;
             MyClass testClass = new MyClass();
-            ICommand command = new DelegateCommand<MyClass>(delegate(MyClass parameter)
+            ICommand command = new DelegateCommand<MyClass>(delegate (MyClass parameter)
             {
                 Assert.Same(testClass, parameter);
                 executeCalled = true;
@@ -133,7 +134,7 @@ namespace Prism.Tests.Mvvm
         {
             bool canExecuteCalled = false;
             MyClass testClass = new MyClass();
-            ICommand command = new DelegateCommand<MyClass>((p) => { }, delegate(MyClass parameter)
+            ICommand command = new DelegateCommand<MyClass>((p) => { }, delegate (MyClass parameter)
             {
                 Assert.Same(testClass, parameter);
                 canExecuteCalled = true;
@@ -199,7 +200,7 @@ namespace Prism.Tests.Mvvm
         }
 
         //TODO: BBL: This test fails intermittently.  The cause is unknown, but we think it may be a race condition issue.
-        //in orer to reduce the friction of our automated build processes, we are cmmenting oout this test.
+        //In order to reduce the friction of our automated build processes, we are commenting out this test.
         //[Fact]
         //public void NonGenericDelegateCommandShouldInvokeExplicitExecuteFunc()
         //{
@@ -442,6 +443,7 @@ namespace Prism.Tests.Mvvm
             Assert.False(command.CanExecute(null));
 
             IntProperty = 10;
+
             Assert.True(canExecuteChangedRaised);
             Assert.False(command.CanExecute(null));
 
@@ -538,6 +540,7 @@ namespace Prism.Tests.Mvvm
             Assert.False(command.CanExecute(null));
 
             IntProperty = 10;
+
             Assert.True(canExecuteChangedRaised);
             Assert.False(command.CanExecute(null));
 

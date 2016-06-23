@@ -18,7 +18,7 @@ namespace Prism.Modularity
         {
             if (moduleInfo == null)
             {
-                throw new ArgumentNullException("moduleInfo");
+                throw new ArgumentNullException(nameof(moduleInfo));
             }
 
             this.ModuleInfo = moduleInfo;

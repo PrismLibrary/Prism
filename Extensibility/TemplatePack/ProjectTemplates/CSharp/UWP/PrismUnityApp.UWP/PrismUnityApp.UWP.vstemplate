@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Prism Unity App (Universal UWP)</Name>
+    <Description>A project template for building Universal (UWP) apps with Prism and Unity.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <TemplateID>0b7f8c63-9875-4443-8333-79bdf037bc60</TemplateID>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>PrismUnityApp</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <SortOrder>10</SortOrder>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Icon Package="{2581426E-BF4F-4A49-A42A-20EF9D51EF49}" ID="4001" />
+    <PreviewImage>PrismUnityApp.png</PreviewImage>
+    <TemplateGroupID>WinRT-Managed</TemplateGroupID>
+    <TargetPlatformName>Windows</TargetPlatformName>
+    <RequiredPlatformVersion>6.1.0</RequiredPlatformVersion>
+    <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
+    <NumberOfParentCategoriesToRollUp>2</NumberOfParentCategoriesToRollUp>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="ProjectTemplate.csproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" TargetFileName="App.xaml">App.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="App.xaml.cs">App.xaml.cs</ProjectItem>
+      <Folder Name="Assets" TargetFolderName="Assets">
+        <ProjectItem ReplaceParameters="false" TargetFileName="LockScreenLogo.scale-200.png">LockScreenLogo.scale-200.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SplashScreen.scale-200.png">SplashScreen.scale-200.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Square150x150Logo.scale-200.png">Square150x150Logo.scale-200.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Square44x44Logo.scale-200.png">Square44x44Logo.scale-200.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Square44x44Logo.targetsize-24_altform-unplated.png">Square44x44Logo.targetsize-24_altform-unplated.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="StoreLogo.png">StoreLogo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Wide310x150Logo.scale-200.png">Wide310x150Logo.scale-200.png</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Package.appxmanifest">Package.appxmanifest</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="PageTokens.cs">PageTokens.cs</ProjectItem>
+      <Folder Name="PageViewModels" TargetFolderName="PageViewModels">
+        <ProjectItem ReplaceParameters="true" TargetFileName="MainPageViewModel.cs">MainPageViewModel.cs</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="false" TargetFileName="project.json">templateproject.json</ProjectItem>
+      <Folder Name="TemplateProperties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Default.rd.xml">Default.rd.xml</ProjectItem>
+      </Folder>
+      <Folder Name="Repositories" TargetFolderName="Repositories" />
+      <Folder Name="Services" TargetFolderName="Services" />
+      <Folder Name="Strings" TargetFolderName="Strings">
+        <Folder Name="en-US" TargetFolderName="en-US">
+          <ProjectItem ReplaceParameters="false" TargetFileName="Resources.resw">Resources.resw</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="Styles" TargetFolderName="Styles">
+        <ProjectItem ReplaceParameters="true" TargetFileName="DataTemplates.xaml">DataTemplates.xaml</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="StandardStyles.xaml">StandardStyles.xaml</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="XBindDataTemplates.xaml">XBindDataTemplates.xaml</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="XBindDataTemplates.xaml.cs">XBindDataTemplates.xaml.cs</ProjectItem>
+      </Folder>
+      <Folder Name="ViewModels" TargetFolderName="ViewModels">
+        <ProjectItem ReplaceParameters="true" TargetFileName="ItemViewModel.cs">ItemViewModel.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Views" TargetFolderName="Views">
+        <ProjectItem ReplaceParameters="true" TargetFileName="MainPage.xaml">MainPage.xaml</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="MainPage.xaml.cs">MainPage.xaml.cs</ProjectItem>
+      </Folder>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

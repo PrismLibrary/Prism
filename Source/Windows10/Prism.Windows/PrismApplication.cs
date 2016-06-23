@@ -102,7 +102,8 @@ namespace Prism.Windows
         public bool IsSuspending { get; private set; }
 
         /// <summary>
-        /// Override this method with logic that will be performed after the application is initialized when it is not resuming. For example, navigating to the application's home page.
+        /// Override this method with logic that will be performed after the application is initialized. For example, navigating to the application's home page.
+        /// Note: This is called whenever the app is launched normally (start menu, taskbar, etc.) but not when resuming.
         /// </summary>
         /// <param name="args">The <see cref="LaunchActivatedEventArgs"/> instance containing the event data.</param>
         protected abstract Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args);
@@ -113,7 +114,7 @@ namespace Prism.Windows
         ///  For example, navigating to the application's home page.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
-        protected virtual Task OnActivateApplicationAsync(IActivatedEventArgs args) { return Task.FromResult<object>(null); }
+        protected virtual Task OnActivateApplicationAsync(IActivatedEventArgs args) { return Task.CompletedTask; }
 
         /// <summary>
         /// Creates and Configures the container if using a container
@@ -180,6 +181,30 @@ namespace Prism.Windows
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
         protected virtual Task OnInitializeAsync(IActivatedEventArgs args)
         {
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Override this method with logic that will be performed when resuming after the application is initialized. 
+        /// For example, refreshing user credentials.
+        /// Note: This is called whenever the app is resuming from suspend and terminate, but not during a fresh launch and 
+        /// not when resuming the app if it hasn't been suspended.
+        /// </summary>
+        /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
+        protected virtual Task OnResumeApplicationAsync(IActivatedEventArgs args)
+        {
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Override this method with logic that will be performed when resuming after the application is initialized. 
+        /// For example, refreshing user credentials.
+        /// Note: This is called whenever the app is resuming from suspend & terminate, but not during a fresh launch and 
+        /// not when resuming the app if it hasn't been suspended.
+        /// </summary>
+        /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
+        protected virtual Task OnResumeAppAsync(IActivatedEventArgs args)
+        {
             return Task.FromResult<object>(null);
         }
 
@@ -209,6 +234,10 @@ namespace Prism.Windows
             if (Window.Current.Content != null && (!_isRestoringFromTermination || args != null))
             {
                 await OnActivateApplicationAsync(args);
+            }
+            else if (Window.Current.Content != null & _isRestoringFromTermination)
+            {
+                await OnResumeApplicationAsync(args);
             }
 
             // Ensure the current window is active
@@ -245,6 +274,10 @@ namespace Prism.Windows
             if (Window.Current.Content != null && (!_isRestoringFromTermination || (args != null && args.TileId != tileId)))
             {
                 await OnLaunchApplicationAsync(args);
+            }
+            else if (Window.Current.Content != null & _isRestoringFromTermination)
+            {
+                await OnResumeApplicationAsync(args);
             }
 
             // Ensure the current window is active
@@ -483,6 +516,6 @@ namespace Prism.Windows
         /// Invoked when the application is suspending, but before the general suspension calls.
         /// </summary>
         /// <returns>Task to complete.</returns>
-        protected virtual Task OnSuspendingApplicationAsync() => Task.FromResult<object>(null);
+        protected virtual Task OnSuspendingApplicationAsync() => Task.CompletedTask;
     }
 }

@@ -15,31 +15,31 @@ public MainPageViewModel(INavigationService navigationService) // has to be name
 ```
 
 ## Navigating
-Once you have the **INavigationService** in your ViewModel, you can navigate to your target views by calling the `INavigationService.Navigate` method and provide the unique identifier/key that represents the target Page.
+Once you have the **INavigationService** in your ViewModel, you can navigate to your target views by calling the `INavigationService.NavigateAsync` method and provide the unique identifier/key that represents the target Page.
 
 ```
-_navigationService.Navigate("MainPage");
+_navigationService.NavigateAsync("MainPage");
 ```
 
 If using strings to navigate is not your style, and you would rather navigate to a strongly typed object (such as a ViewModel), you can use the following syntax.
 ```
-_navigationService.Navigate<MainPageviewModel>();
+_navigationService.NavigateAsync<MainPageviewModel>();
 ```
 _Note: you must register your object properly using the RegisterTypeFornavigation<T, C> method.  See the Registering topic for more information._
 
 For more dynamic scenarios, or scenarios which involve navigating with Uris, you can use either a relative or an absolute Uri to navigate.
 ```
 //relative
-_navigationService.Navigate(new Uri("MainPage", UriKind.Relative));
+_navigationService.NavigateAsync(new Uri("MainPage", UriKind.Relative));
 
 //absolute
-_navigationService.Navigate(new Uri("http://www.brianlagunas.com/MainPage", UriKind.Absolute);
+_navigationService.NavigateAsync(new Uri("http://www.brianlagunas.com/MainPage", UriKind.Absolute);
 ```
 
-Depending on whether or not you're using a NavigationPage in your application, you might need to add the parameter **useModalNavigation** in the Navigate method, which defaults to _true_. When navigating within a NavigationPage you have must set **useModalNavigation** to _false_:
+Depending on whether or not you're using a NavigationPage in your application, you might need to add the parameter **useModalNavigation** in the NavigateAsync method, which defaults to _true_. When navigating within a NavigationPage you have must set **useModalNavigation** to _false_:
 
 ```
-_navigationService.Navigate("MainPage", useModalNavigation: false);
+_navigationService.NavigateAsync("MainPage", useModalNavigation: false);
 ```
 
 **Important:** If you do not register your Pages with Prism, navigation will not work.
@@ -68,7 +68,7 @@ protected override void RegisterTypes()
 
 To navigate to the MainPage using this registration method:
 ```
-_navigationService.Navigate("MainPage");
+_navigationService.NavigateAsync("MainPage");
 ```
 
 #### Custom Registration
@@ -81,7 +81,7 @@ protected override void RegisterTypes()
 ```
 To navigate to the MainPage using this registration method:
 ```
-_navigationService.Navigate("CustomKey");
+_navigationService.NavigateAsync("CustomKey");
 ```
 #### Strongly Typed Registration
 While navigating to strings provides a loosely coupled navigation mechanism, it does introduce some issues with code maintenance.  There are many developers that would rather not rely on "magic strings" sprinkled throughout their code base.  For this reason, Prism provides the ability to register your Page types to a strongly typed class.  While you can provide any class you wish, most people think in terms of navigating to ViewModels.
@@ -94,50 +94,50 @@ protected override void RegisterTypes()
 
 To navigate to the MainPage using this registration method:
 ```
-_navigationService.Navigate<MainPageViewModel>();
+_navigationService.NavigateAsync<MainPageViewModel>();
 ```
 
-_Note: If your registered your Page using the default method of `RegisterTypeForNavigation<MainPage>()`, you cannot use `INavigationService.Navigate<MainPage>()`.  For one, shame on you for trying to reference a View type in your ViewModel.  Also, the naming convention for the strongly typed registration uses the fully qualified name of the provided object type. Whereas the default registration method uses only the short name of the view type, which results in a registration mapping mismatch._
+_Note: If your registered your Page using the default method of `RegisterTypeForNavigation<MainPage>()`, you cannot use `INavigationService.NavigateAsync<MainPage>()`.  For one, shame on you for trying to reference a View type in your ViewModel.  Also, the naming convention for the strongly typed registration uses the fully qualified name of the provided object type. Whereas the default registration method uses only the short name of the view type, which results in a registration mapping mismatch._
 
-## GoBack
-Going back to the previous View is as simple calling the `INavigationService.GoBack` method. 
+## GoBackAsync
+Going back to the previous View is as simple calling the `INavigationService.GoBackAsync` method. 
 
 ```
-_navigationService.GoBack();
+_navigationService.GoBackAsync();
 ```
 
 The same applies for navigating within a NavigationPage regarding the use of the useModalNavigation parameter.
 ```
-_navigationService.GoBack(useModalNavigation: false);
+_navigationService.GoBackAsync(useModalNavigation: false);
 ```
 
 ## Passing parameters
-The Prism navigation service also allows you to pass parameters to the target view during the navigation process.  Passing parameters to the next View can be done using an overload of the **INavigationService.Navigate** method. This overload accepts a **NavigationParameters** object that can be used to supply data to the next View. The **NavigationParameters** object is in fact just a dictionary. It can accept any arbitrary object as a value.
+The Prism navigation service also allows you to pass parameters to the target view during the navigation process.  Passing parameters to the next View can be done using an overload of the **INavigationService.NavigateAsync** method. This overload accepts a **NavigationParameters** object that can be used to supply data to the next View. The **NavigationParameters** object is in fact just a dictionary. It can accept any arbitrary object as a value.
 
 ```
 var navigationParams = new NavigationParameters ();
 navigationParams.Add("model", new Contact ());
-_navigationService.Navigate("MainPage", navigationParams);
+_navigationService.NavigateAsync("MainPage", navigationParams);
 ```
 
 You can also create an HTML query string to generate your parameter collection.
 ```
 var queryString = "code=CR&desc=Red";
 var navigationParams = new NavigationParameters(queryString);
-_navigationService.Navigate("MainPage", navigationParameters);
+_navigationService.NavigateAsync("MainPage", navigationParameters);
 ```
 When using a Uri to navigate, you may append the Uri with parameters, which will be used as the navigation parameters.
 ```
 //query string
-_navigationService.Navigate(new Uri("MainPage?id=3&name=brian", UriKind.Relative));
+_navigationService.NavigateAsync(new Uri("MainPage?id=3&name=brian", UriKind.Relative));
 
 //using NavigationParameters in Uri
-_navigationService.Navigate(new Uri("MainPage" + navParameters.ToString(), UriKind.Relative));
+_navigationService.NavigateAsync(new Uri("MainPage" + navParameters.ToString(), UriKind.Relative));
 
 //using both Uri parameters and NavigationParameters
 var navParameters = new NavigationParameters ();
 navParameters.Add("name", "brian");
-_navigationService.Navigate(new Uri("MainPage?id=3", UriKind.Relative), navParameters);
+_navigationService.NavigateAsync(new Uri("MainPage?id=3", UriKind.Relative), navParameters);
 ```
 
 
@@ -165,7 +165,7 @@ public class ContactPageViewModel : INavigationAware
 ```
 
 ## IConfirmNavigation
-A ViewModel can determine whether or not it can perform a navigation operation. When a ViewModel implements the **IConfirmNavigation** interface, the navigation process looks to see what the result of this method is.  If _true_, a navigation process can be invoked, meaning a call to `NavigationService.Navigate("target")` can be made.  If _false_, the ViewModel cannot invoke the navigation process. 
+A ViewModel can determine whether or not it can perform a navigation operation. When a ViewModel implements the **IConfirmNavigation** interface, the navigation process looks to see what the result of this method is.  If _true_, a navigation process can be invoked, meaning a call to `NavigationService.NavigateAsync("target")` can be made.  If _false_, the ViewModel cannot invoke the navigation process. 
 
 ```
 public class ContactPageViewModel : IConfirmNavigation 
@@ -176,37 +176,3 @@ public class ContactPageViewModel : IConfirmNavigation
   }
 }
 ```
-## Wrapping the Target in a NavigationPage
-When navigating to a view, sometimes it is necessary to wrap the target view into a different page type such as a Xamarin.Forms.NavigationPage.  To support this scenario, Prism provides the **INavigationPageProvider** and **NavigationPageProviderAttribute**.
-
-Start by creating a new class that implements the **INavigationPageProvider** interface.  You will have access to both the source Xamarin.Forms.Page, as well as the target Xamarin.Forms.Page that are part of the navigation operation.
-
-```
-public class ViewANavigationPageProvider : INavigationPageProvider
-{
-    public Page CreatePageForNavigation(Page sourcePage, Page targetPage)
-    {
-        NavigationPage.SetHasNavigationBar(targetPage, true);
-        NavigationPage.SetBackButtonTitle(targetPage, "Go Back Sucka");
-        NavigationPage.SetHasBackButton(targetPage, true);
-
-        var newPage = new NavigationPage(targetPage);
-        newPage.BarBackgroundColor = Color.Green;
-        newPage.BarTextColor = Color.White;
-        return newPage;
-    }
-}
-```
-
-Next, attribute the target Xamarin.Forms.Page class with the **NavigationPageProviderAttribute** and provide the type of the class that implements the **INavigationPageProvider** interface.
-```
-[NavigationPageProvider(typeof(ViewANavigationPageProvider))]
-public partial class ViewA : ContentPage
-{
-    public ViewA()
-    {
-        InitializeComponent();
-    }
-}
-```
-To see this feature in action, check out the [NavigationPageProvider sample](https://github.com/PrismLibrary/Prism-Samples-Forms/tree/master/UsingNavPageProvider).
