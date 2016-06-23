@@ -147,7 +147,7 @@ namespace Prism.Regions
 
             foreach (object view in activeViews)
             {
-                var vetoingView = view as IConfirmNavigationRequestAsync;
+                var vetoingView = MvvmHelpers.GetImplementerFromViewOrViewModel<IConfirmNavigationRequestAsync>(view);
 
                 if (vetoingView != null)
                 {
@@ -160,8 +160,8 @@ namespace Prism.Regions
                     }
                 }
 
-                var vetoingViewOld = view as IConfirmNavigationRequest;
-
+                var vetoingViewOld = MvvmHelpers.GetImplementerFromViewOrViewModel<IConfirmNavigationRequest>(view);
+                
                 if (vetoingViewOld != null)
                 {
                     // the current active view implements IConfirmNavigationRequest, request confirmation
@@ -171,38 +171,6 @@ namespace Prism.Regions
                     if (!(this.currentNavigationContext == navigationContext && canNavigate))
                     {
                         return this.NotifyNavigationFailed(navigationContext, null);
-                    }
-                }
-
-                var frameworkElement = view as FrameworkElement;
-
-                if (frameworkElement != null)
-                {
-                    var vetoingViewModel = frameworkElement.DataContext as IConfirmNavigationRequestAsync;
-
-                    if (vetoingViewModel != null)
-                    {
-                        // the data model for the current active view implements IConfirmNavigationRequestAsync, request confirmation
-                        bool canNavigate = await vetoingViewModel.ConfirmNavigationRequestAsync(navigationContext);
-
-                        if (!(this.currentNavigationContext == navigationContext && canNavigate))
-                        { 
-                            return this.NotifyNavigationFailed(navigationContext, null);
-                        }
-                    }
-
-                    var vetoingViewModelOld = frameworkElement.DataContext as IConfirmNavigationRequest;
-
-                    if (vetoingViewModelOld != null)
-                    {
-                        // the data model for the current active view implements IConfirmNavigationRequest, request confirmation
-                        // providing a callback to resume the navigation request
-                        bool canNavigate = await CallbackHelper.AwaitCallbackResult<bool>(callback => vetoingViewModelOld.ConfirmNavigationRequest(navigationContext, callback));
-
-                        if (!(this.currentNavigationContext == navigationContext && canNavigate))
-                        {
-                            return this.NotifyNavigationFailed(navigationContext, null);
-                        }
                     }
                 }
             }
