@@ -74,6 +74,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="UnityApp.Droid\PlatformInitializer.cs" />
+    <None Include="UnityApp.iOS\PlatformInitializer.cs" />
+    <None Include="UnityApp.UWP\PlatformInitializer.cs" />
+    <None Include="UnityApp.Windows\PlatformInitializer.cs" />
+    <None Include="UnityApp.WinPhone\PlatformInitializer.cs" />
     <None Include="UnityApp.UWP\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </None>

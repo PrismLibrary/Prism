@@ -6,10 +6,9 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using Prism.Unity;
-using Microsoft.Practices.Unity;
+using $saferootprojectname$;
 
-namespace $saferootprojectname$.Droid
+namespace $safeprojectname$
 {
 	[Activity (Label = "$saferootprojectname$", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
@@ -22,16 +21,8 @@ namespace $saferootprojectname$.Droid
             base.OnCreate (bundle);
 
 			global::Xamarin.Forms.Forms.Init (this, bundle);
-			LoadApplication (new App(new AndroidInitializer()));
+			LoadApplication (new App (new PlatformInitializer()));
 		}
 	}
-
-    public class AndroidInitializer : IPlatformInitializer
-    {
-        public void RegisterTypes(IUnityContainer container)
-        {
-
-        }
-    }
 }
 
