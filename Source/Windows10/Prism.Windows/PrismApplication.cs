@@ -235,7 +235,7 @@ namespace Prism.Windows
             {
                 await OnActivateApplicationAsync(args);
             }
-            else if (Window.Current.Content != null & _isRestoringFromTermination)
+            else if (Window.Current.Content != null && _isRestoringFromTermination)
             {
                 await OnResumeApplicationAsync(args);
             }
@@ -275,7 +275,7 @@ namespace Prism.Windows
             {
                 await OnLaunchApplicationAsync(args);
             }
-            else if (Window.Current.Content != null & _isRestoringFromTermination)
+            else if (Window.Current.Content != null && _isRestoringFromTermination)
             {
                 await OnResumeApplicationAsync(args);
             }
