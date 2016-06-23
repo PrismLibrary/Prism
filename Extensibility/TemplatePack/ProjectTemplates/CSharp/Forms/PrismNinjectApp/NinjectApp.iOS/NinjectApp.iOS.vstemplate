@@ -18,6 +18,7 @@
     <TemplateContent>
         <Project TargetFileName="$safeprojectname$.iOS.csproj" File="NinjectAppTemplate.iOS.csproj" ReplaceParameters="true">
             <ProjectItem ReplaceParameters="true" TargetFileName="AppDelegate.cs">AppDelegate.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="PlatformInitializer.cs">PlatformInitializer.cs</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="Entitlements.plist">Entitlements.plist</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="Info.plist">Info.plist</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="Main.cs">Main.cs</ProjectItem>
