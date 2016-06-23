@@ -129,6 +129,7 @@
     <None Include="NinjectApp.UWP\PlatformInitializer.cs" />
     <None Include="NinjectApp.Windows\PlatformInitializer.cs" />
     <None Include="NinjectApp.WinPhone\PlatformInitializer.cs" />
+    <None Include="NinjectApp.Droid\SplashScreenActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +247,7 @@
     <None Include="NinjectApp.iOS\NinjectApp.iOS.vstemplate" />
     <None Include="NinjectApp.iOS\Info.plist" />
     <None Include="NinjectApp.iOS\Entitlements.plist" />
+    <None Include="NinjectApp.Droid\Resources\layout\SplashScreen.xml" />
     <Content Include="NinjectApp.iOS\__TemplateIcon.ico" />
   </ItemGroup>
   <ItemGroup>

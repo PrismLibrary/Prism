@@ -16,6 +16,7 @@
     <TemplateContent>
         <Project TargetFileName="$safeprojectname$.Droid.csproj" File="NinjectAppTemplate.Droid.csproj" ReplaceParameters="true">
             <ProjectItem ReplaceParameters="true" TargetFileName="MainActivity.cs">MainActivity.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="SplashScreenActivity.cs">SplashScreenActivity.cs</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="PlatformInitializer.cs">PlatformInitializer.cs</ProjectItem>
             <Folder Name="Assets" TargetFolderName="Assets">
                 <ProjectItem ReplaceParameters="false" TargetFileName="AboutAssets.txt">AboutAssets.txt</ProjectItem>
@@ -38,6 +39,7 @@
                     <ProjectItem ReplaceParameters="false" TargetFileName="icon.png">icon.png</ProjectItem>
                 </Folder>
                 <Folder Name="layout" TargetFolderName="layout">
+                    <ProjectItem ReplaceParameters="false" TargetFileName="SplashScreen.xml">SplashScreen.xml</ProjectItem>
                     <ProjectItem ReplaceParameters="false" TargetFileName="tabs.xml">tabs.xml</ProjectItem>
                     <ProjectItem ReplaceParameters="false" TargetFileName="toolbar.xml">toolbar.xml</ProjectItem>
                 </Folder>
