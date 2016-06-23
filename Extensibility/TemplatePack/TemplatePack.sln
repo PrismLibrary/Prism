@@ -63,6 +63,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismPage.UWP", "ItemTempla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismPageViewModel.UWP", "ItemTemplates\CSharp\UWP\PrismPageViewModel.UWP\PrismPageViewModel.UWP.csproj", "{1FEEE77A-870C-4EBD-8E65-B27DD8E9397E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismNinjectApp", "ProjectTemplates\CSharp\Forms\PrismNinjectApp\PrismNinjectApp.csproj", "{10034D23-BEA9-4443-BA71-C579FC98BB44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,10 @@ Global
 		{1FEEE77A-870C-4EBD-8E65-B27DD8E9397E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FEEE77A-870C-4EBD-8E65-B27DD8E9397E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FEEE77A-870C-4EBD-8E65-B27DD8E9397E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10034D23-BEA9-4443-BA71-C579FC98BB44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10034D23-BEA9-4443-BA71-C579FC98BB44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10034D23-BEA9-4443-BA71-C579FC98BB44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10034D23-BEA9-4443-BA71-C579FC98BB44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -171,5 +177,6 @@ Global
 		{2C56B1BD-D3B4-4F37-82A2-946F488AA0E6} = {475B68E4-7B2C-444E-A56D-7A0C2167E96E}
 		{9C6C1181-31E7-4C5F-A3EB-47E4C378EB69} = {F74B6069-CCC0-42F3-ABF3-15412D2C2D9E}
 		{1FEEE77A-870C-4EBD-8E65-B27DD8E9397E} = {F74B6069-CCC0-42F3-ABF3-15412D2C2D9E}
+		{10034D23-BEA9-4443-BA71-C579FC98BB44} = {4A89CB30-0D10-4549-A85D-30180E8116DB}
 	EndGlobalSection
 EndGlobal

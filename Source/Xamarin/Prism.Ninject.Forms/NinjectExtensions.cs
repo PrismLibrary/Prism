@@ -2,6 +2,7 @@
 using Ninject;
 using Xamarin.Forms;
 using Prism.Common;
+using Prism.Mvvm;
 
 namespace Prism.Ninject
 {
@@ -10,20 +11,21 @@ namespace Prism.Ninject
         /// <summary>
         /// Registers a Page for navigation using a convention based approach, which uses the name of the Type being passed in as the unique name.
         /// </summary>
-        /// <typeparam name="T">The Type of Page to register</typeparam>
-        public static void RegisterTypeForNavigation<T>(this IKernel kernel) where T : Page
+        /// <typeparam name="TView">The Type of Page to register</typeparam>
+        public static void RegisterTypeForNavigation<TView>(this IKernel kernel) where TView : Page
         {
-            kernel.RegisterTypeForNavigation<T>(typeof(T).Name);
+            kernel.RegisterTypeForNavigation<TView>(typeof(TView).Name);
         }
 
         /// <summary>
         /// Registers a Page for navigation.
         /// </summary>
-        /// <typeparam name="T">The Type of Page to register</typeparam>
+        /// <typeparam name="TView">The Type of Page to register</typeparam>
+        /// <param name="kernel"><see cref="IKernel"/> used to register type for Navigation.</param>
         /// <param name="name">The unique name to register with the Page</param>
-        public static void RegisterTypeForNavigation<T>(this IKernel kernel, string name) where T : Page
+        public static void RegisterTypeForNavigation<TView>(this IKernel kernel, string name) where TView : Page
         {
-            Type type = typeof(T);
+            Type type = typeof(TView);
             kernel.Bind<object>().To(type).Named(name);
 
             PageNavigationRegistry.Register(name, type);
@@ -32,15 +34,15 @@ namespace Prism.Ninject
         /// <summary>
         /// Registers a Page for navigation.
         /// </summary>
-        /// <typeparam name="T">The Type of Page to register</typeparam>
-        /// <typeparam name="C">The Class to use as the unique name for the Page</typeparam>
-        /// <param name="kernel"></param>
-        public static void RegisterTypeForNavigation<T, C>(this IKernel kernel)
-            where T : Page
-            where C : class
+        /// <typeparam name="TView">The Type of Page to register</typeparam>
+        /// <typeparam name="TViewModel">The BindableBase ViewModel to use as the unique name for the Page</typeparam>
+        /// <param name="kernel"><see cref="IKernel"/> used to register type for Navigation.</param>
+        public static void RegisterTypeForNavigation<TView, TViewModel>(this IKernel kernel)
+            where TView : Page
+            where TViewModel : BindableBase
         {
-            Type type = typeof(T);
-            string name = typeof(C).FullName;
+            Type type = typeof(TView);
+            string name = typeof(TViewModel).FullName;
 
             kernel.Bind<object>().To(type).Named(name);
 

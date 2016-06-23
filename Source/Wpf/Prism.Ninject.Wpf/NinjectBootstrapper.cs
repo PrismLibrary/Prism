@@ -136,7 +136,7 @@ namespace Prism.Ninject
         /// <summary>
         /// Creates the <see cref="IKernel"/> that will be used as the default container.
         /// </summary>
-        /// <returns>A new instance of <see cref="IUnityContainer"/>.</returns>
+        /// <returns>A new instance of <see cref="IKernel"/>.</returns>
         protected virtual IKernel CreateKernel()
         {
             return new StandardKernel();

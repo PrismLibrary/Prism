@@ -7,7 +7,7 @@
              Title="MainPage">
   <StackLayout>
     <Label Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" />
-    <!--<Button Command="{Binding LoadModuleACommand}" Text="Load Module A" />-->
+    <Button Command="{Binding LoadModuleACommand}" Text="Load Module A" />
   </StackLayout>
 
 </ContentPage>

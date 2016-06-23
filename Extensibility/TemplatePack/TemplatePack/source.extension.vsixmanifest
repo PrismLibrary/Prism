@@ -54,5 +54,6 @@
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.recyclerview.23.1.1.1.nupkg" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.googleplayservices.base.29.0.0.1.nupkg" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.googleplayservices.basement.29.0.0.1.nupkg" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\portable.ninject.3.3.1.nupkg" />
   </Assets>
 </PackageManifest>

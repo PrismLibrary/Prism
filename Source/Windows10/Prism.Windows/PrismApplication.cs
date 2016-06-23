@@ -114,7 +114,7 @@ namespace Prism.Windows
         ///  For example, navigating to the application's home page.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
-        protected virtual Task OnActivateApplicationAsync(IActivatedEventArgs args) { return Task.FromResult<object>(null); }
+        protected virtual Task OnActivateApplicationAsync(IActivatedEventArgs args) { return Task.CompletedTask; }
 
         /// <summary>
         /// Creates and Configures the container if using a container
@@ -181,7 +181,19 @@ namespace Prism.Windows
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
         protected virtual Task OnInitializeAsync(IActivatedEventArgs args)
         {
-            return Task.FromResult<object>(null);
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Override this method with logic that will be performed when resuming after the application is initialized. 
+        /// For example, refreshing user credentials.
+        /// Note: This is called whenever the app is resuming from suspend and terminate, but not during a fresh launch and 
+        /// not when resuming the app if it hasn't been suspended.
+        /// </summary>
+        /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
+        protected virtual Task OnResumeApplicationAsync(IActivatedEventArgs args)
+        {
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -225,7 +237,7 @@ namespace Prism.Windows
             }
             else if (Window.Current.Content != null & _isRestoringFromTermination)
             {
-                await OnResumeAppAsync(args);
+                await OnResumeApplicationAsync(args);
             }
 
             // Ensure the current window is active
@@ -265,7 +277,7 @@ namespace Prism.Windows
             }
             else if (Window.Current.Content != null & _isRestoringFromTermination)
             {
-                await OnResumeAppAsync(args);
+                await OnResumeApplicationAsync(args);
             }
 
             // Ensure the current window is active
@@ -502,6 +514,6 @@ namespace Prism.Windows
         /// Invoked when the application is suspending, but before the general suspension calls.
         /// </summary>
         /// <returns>Task to complete.</returns>
-        protected virtual Task OnSuspendingApplicationAsync() => Task.FromResult<object>(null);
+        protected virtual Task OnSuspendingApplicationAsync() => Task.CompletedTask;
     }
 }

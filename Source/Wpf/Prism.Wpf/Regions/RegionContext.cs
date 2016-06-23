@@ -20,8 +20,8 @@ namespace Prism.Regions
         /// <summary>
         /// Returns an <see cref="ObservableObject{T}"/> wrapper around the RegionContext value. The RegionContext
         /// will be set on any views (dependency objects) that are inside the <see cref="IRegion.Views"/> collection by
-        /// the <see cref="BindRegionContextToDependencyObjectBehavior"/> Behavior.
-        /// The RegionContext will also be set to the control that hosts the Region, by the <see cref="SyncRegionContextWithHostBehavior"/> Behavior.
+        /// the <see cref="Behaviors.BindRegionContextToDependencyObjectBehavior"/> Behavior.
+        /// The RegionContext will also be set to the control that hosts the Region, by the <see cref="Behaviors.SyncRegionContextWithHostBehavior"/> Behavior.
         ///
         /// If the <see cref="ObservableObject{T}"/> wrapper does not already exist, an empty one will be created. This way, an observer can
         /// notify when the value is set for the first time.

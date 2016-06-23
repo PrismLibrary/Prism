@@ -8,6 +8,9 @@ using Android.Widget;
 using Android.OS;
 using Prism.Events;
 using Microsoft.Practices.ServiceLocation;
+using Prism;
+using Prism.Unity;
+using Microsoft.Practices.Unity;
 
 namespace HelloWorld.Droid
 {
@@ -22,7 +25,15 @@ namespace HelloWorld.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App());
+            LoadApplication(new App(new Androidinitializer()));
+        }
+    }
+
+    public class Androidinitializer : IPlatformInitializer
+    {
+        public void RegisterTypes(IUnityContainer container)
+        {
+
         }
     }
 }

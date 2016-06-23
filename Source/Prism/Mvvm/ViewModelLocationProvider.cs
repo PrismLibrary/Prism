@@ -25,7 +25,12 @@ namespace Prism.Mvvm
         static Dictionary<string, Func<object>> _factories = new Dictionary<string, Func<object>>();
 
         /// <summary>
-        /// The default view model factory whic provides the ViewModel type as a parameter.
+        /// A dictionary that contains all the registered ViewModel types for the views.
+        /// </summary>
+        static Dictionary<string, Type> _typeFactories = new Dictionary<string, Type>();
+
+        /// <summary>
+        /// The default view model factory which provides the ViewModel type as a parameter.
         /// </summary>
         static Func<Type, object> _defaultViewModelFactory = type => Activator.CreateInstance(type);
 
@@ -86,15 +91,22 @@ namespace Prism.Mvvm
             // Try mappings first
             object viewModel = GetViewModelForView(view);
 
-            // Fallback to convention based
+            // try to use ViewModel type
             if (viewModel == null)
             {
-                var viewModelType = _defaultViewTypeToViewModelTypeResolver(view.GetType());
-                if (viewModelType == null) 
+                //check type mappings
+                var viewModelType = GetViewModelTypeForView(view.GetType());
+
+                // fallback to convention based
+                if (viewModelType == null)
+                    viewModelType = _defaultViewTypeToViewModelTypeResolver(view.GetType());
+
+                if (viewModelType == null)
                     return;
 
                 viewModel = _defaultViewModelFactoryWithViewParameter != null ? _defaultViewModelFactoryWithViewParameter(view, viewModelType) : _defaultViewModelFactory(viewModelType);
             }
+
 
             setDataContextCallback(view, viewModel);
         }
@@ -103,7 +115,7 @@ namespace Prism.Mvvm
         /// Gets the view model for the specified view.
         /// </summary>
         /// <param name="view">The view that the view model wants.</param>
-        /// <returns>The vie wmodel that corresponds to the view passed as a parameter.</returns>
+        /// <returns>The ViewModel that corresponds to the view passed as a parameter.</returns>
         private static object GetViewModelForView(object view)
         {
             var viewKey = view.GetType().ToString();
@@ -116,13 +128,61 @@ namespace Prism.Mvvm
         }
 
         /// <summary>
-        /// Registers the view model factory for the specified view type name.
+        /// Gets the ViewModel type for the specified view.
+        /// </summary>
+        /// <param name="view">The View that the ViewModel wants.</param>
+        /// <returns>The ViewModel type that corresponds to the View.</returns>
+        private static Type GetViewModelTypeForView(Type view)
+        {
+            var viewKey = view.ToString();
+
+            if (_typeFactories.ContainsKey(viewKey))
+                return _typeFactories[viewKey];
+
+            return null;
+        }
+
+        /// <summary>
+        /// Registers the ViewModel factory for the specified view type.
+        /// </summary>
+        /// <typeparam name="T">The View</typeparam>
+        /// <param name="factory">The ViewModel factory.</param>
+        public static void Register<T>(Func<object> factory)
+        {
+            Register(typeof(T).ToString(), factory);
+        }
+
+        /// <summary>
+        /// Registers the ViewModel factory for the specified view type name.
         /// </summary>
         /// <param name="viewTypeName">The name of the view type.</param>
-        /// <param name="factory">The viewmodel factory.</param>
+        /// <param name="factory">The ViewModel factory.</param>
         public static void Register(string viewTypeName, Func<object> factory)
         {
             _factories[viewTypeName] = factory;
+        }
+
+        /// <summary>
+        /// Registers a ViewModel type for the specified view type.
+        /// </summary>
+        /// <typeparam name="T">The View</typeparam>
+        /// <typeparam name="VM">The ViewModel</typeparam>
+        public static void Register<T, VM>()
+        {
+            var viewType = typeof(T);
+            var viewModelType = typeof(VM);
+
+            Register(viewType.ToString(), viewModelType);
+        }
+
+        /// <summary>
+        /// Registers a ViewModel type for the specified view.
+        /// </summary>
+        /// <param name="viewTypeName">The View type name</param>
+        /// <param name="viewModelType">The ViewModel type</param>
+        public static void Register(string viewTypeName, Type viewModelType)
+        {
+            _typeFactories[viewTypeName] = viewModelType;
         }
     }
 }

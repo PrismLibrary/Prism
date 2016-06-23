@@ -8,9 +8,9 @@ A bootstrapper is a class that is responsible for the initialization of an appli
 
 The Prism Library includes a default abstract **Bootstrapper** base class that can be specialized for use with any container. Many of the methods on the bootstrapper classes are virtual methods. You can override these methods as appropriate in your own custom bootstrapper implementation. 
 
-![](images/Ch2BootstrapperFig1.png)
+![Basic stages of the bootstrapping process](images/Ch2BootstrapperFig1.png)
 
-Basic stages of the bootstrapping process
+Basic stages of the bootstrapping process.
 
 The Prism Library provides some additional base classes, derived from **Bootstrapper**, that have default implementations that are appropriate for most applications. The only stages left for your application bootstrapper to implement are creating and initializing the shell.
 
@@ -153,7 +153,7 @@ protected override void ConfigureContainer()
     base.ConfigureContainer();
 
     this.RegisterTypeIfMissing(typeof(IModuleTracker), typeof(ModuleTracker), true);
-    this.Container.RegisterInstance&lt;CallbackLogger&gt;(this.callbackLogger);
+    this.Container.RegisterInstance<CallbackLogger>(this.callbackLogger);
 }
 ```
 
@@ -171,10 +171,10 @@ protected virtual void ConfigureContainer()
 
 protected virtual void RegisterBootstrapperProvidedTypes()
 {
-    this.Container.ComposeExportedValue&lt;ILoggerFacade&gt;(this.Logger);
-    this.Container.ComposeExportedValue&lt;IModuleCatalog&gt;(this.ModuleCatalog);
-    this.Container.ComposeExportedValue&lt;IServiceLocator&gt;(new MefServiceLocatorAdapter(this.Container));
-    this.Container.ComposeExportedValue&lt;AggregateCatalog&gt;(this.AggregateCatalog);
+    this.Container.ComposeExportedValue<ILoggerFacade>(this.Logger);
+    this.Container.ComposeExportedValue<IModuleCatalog>(this.ModuleCatalog);
+    this.Container.ComposeExportedValue<IServiceLocator>(new MefServiceLocatorAdapter(this.Container));
+    this.Container.ComposeExportedValue<AggregateCatalog>(this.AggregateCatalog);
 }
 ```
 
