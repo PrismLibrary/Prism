@@ -5,10 +5,13 @@ namespace ${Namespace}
 {
 	public partial class App : PrismApplication
 	{
-		protected override void OnInitialized()
+		public App(IPlatformInitializer platformInitializer) : base(platformInitializer)
 		{
 			InitializeComponent();
+		}
 
+		protected override void OnInitialized()
+		{
 			NavigationService.NavigateAsync("MainPage?title=Hello%20from%20Xamarin.Forms");
 		}
 

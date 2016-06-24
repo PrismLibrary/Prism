@@ -20,18 +20,18 @@ namespace ${Namespace}
 		//
 		// You have 17 seconds to return from this method, or iOS will terminate your application.
 		//
-		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
+		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
-			global::Xamarin.Forms.Forms.Init ();
+			global::Xamarin.Forms.Forms.Init();
 $if$ ($CreateUITestProject$ == true)
 			// Code for starting up the Xamarin Test Cloud Agent
 			#if ENABLE_TEST_CLOUD
 			Xamarin.Calabash.Start();
 			#endif
 $endif$
-			LoadApplication (new App ());
+				LoadApplication(new App(new iOSInitializer()));
 
-			return base.FinishedLaunching (app, options);
+			return base.FinishedLaunching(app, options);
 		}
 	}
 }

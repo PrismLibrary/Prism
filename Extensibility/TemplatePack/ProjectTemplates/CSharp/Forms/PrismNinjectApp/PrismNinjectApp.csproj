@@ -67,6 +67,7 @@
     <None Include="NinjectApp.Droid\Properties\AssemblyInfo.cs" />
     <None Include="NinjectApp.Droid\Resources\Resource.Designer.cs" />
     <None Include="NinjectApp.Droid\MainActivity.cs" />
+    <None Include="NinjectApp.Droid\SplashActivity.cs" />
     <None Include="NinjectApp.iOS\Properties\AssemblyInfo.cs" />
     <None Include="NinjectApp.iOS\AppDelegate.cs" />
     <None Include="NinjectApp.iOS\Main.cs" />
@@ -102,7 +103,7 @@
     <None Include="NinjectApp.Droid\Assets\AboutAssets.txt" />
     <None Include="NinjectApp.Droid\Properties\AndroidManifest.xml" />
     <None Include="NinjectApp.Droid\Resources\AboutResources.txt" />
-    <None Include="NinjectApp.Droid\Resources\Drawable\Icon.png" />
+    <None Include="NinjectApp.Droid\Resources\drawable\icon.png" />
     <None Include="NinjectApp.Droid\Resources\drawable-hdpi\icon.png" />
     <None Include="NinjectApp.Droid\Resources\drawable-xhdpi\icon.png" />
     <None Include="NinjectApp.Droid\Resources\drawable-xxhdpi\icon.png" />
@@ -209,6 +210,8 @@
     <None Include="NinjectApp.iOS\NinjectApp.iOS.vstemplate" />
     <None Include="NinjectApp.iOS\Info.plist" />
     <None Include="NinjectApp.iOS\Entitlements.plist" />
+    <Content Include="NinjectApp.Droid\Resources\layout\splash.xml" />
+    <Content Include="NinjectApp.Droid\Resources\values-v19\styles.xml" />
     <Content Include="NinjectApp.iOS\__TemplateIcon.ico" />
   </ItemGroup>
   <ItemGroup>

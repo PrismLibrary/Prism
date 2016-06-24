@@ -113,6 +113,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </None>
     <None Include="UnityApp.Droid\MainActivity.cs" />
+    <None Include="UnityApp.Droid\SplashActivity.cs" />
     <None Include="UnityApp.Droid\Properties\AssemblyInfo.cs" />
     <None Include="UnityApp.Droid\Resources\Resource.Designer.cs" />
     <None Include="UnityApp.WinPhone\Properties\AssemblyInfo.cs" />
@@ -156,13 +157,15 @@
     <None Include="UnityApp.Droid\Resources\drawable-hdpi\icon.png" />
     <None Include="UnityApp.Droid\Resources\drawable-xhdpi\icon.png" />
     <None Include="UnityApp.Droid\Resources\drawable-xxhdpi\icon.png" />
-    <None Include="UnityApp.Droid\Resources\Drawable\Icon.png" />
+    <None Include="UnityApp.Droid\Resources\drawable\icon.png" />
     <None Include="UnityApp.Droid\Resources\layout\tabs.xml" />
     <None Include="UnityApp.Droid\Resources\layout\toolbar.xml" />
     <None Include="UnityApp.Droid\Resources\values-v21\styles.xml" />
     <None Include="UnityApp.Droid\Resources\values\colors.xml" />
     <None Include="UnityApp.Droid\Resources\values\styles.xml" />
-    <None Include="UnityApp.Droid\UnityApp.Droid.vstemplate" />
+    <None Include="UnityApp.Droid\UnityApp.Droid.vstemplate">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="UnityApp.iOS\Entitlements.plist" />
     <None Include="UnityApp.iOS\Info.plist" />
     <None Include="UnityApp.iOS\Resources\Default%402x.png" />
@@ -183,6 +186,8 @@
     <None Include="UnityApp.Droid\__TemplateIcon.ico" />
     <None Include="UnityApp.iOS\UnityApp.iOS.vstemplate" />
     <None Include="UnityApp.iOS\UnityAppTemplate.iOS.csproj" />
+    <Content Include="UnityApp.Droid\Resources\layout\splash.xml" />
+    <Content Include="UnityApp.Droid\Resources\values-v19\styles.xml" />
     <Content Include="UnityApp.iOS\__TemplateIcon.ico" />
     <None Include="UnityApp.WinPhone\UnityAppTemplate.WinPhone.csproj" />
     <None Include="UnityApp.Windows\Assets\Logo.scale-100.png" />
