@@ -321,7 +321,8 @@ namespace Prism.Regions
         /// <param name="navigationCallback">The navigation callback.</param>
         public void RequestNavigate(string regionName, Uri source, Action<NavigationResult> navigationCallback)
         {
-            if (navigationCallback == null) throw new ArgumentNullException(nameof(navigationCallback));
+            if (navigationCallback == null)
+                throw new ArgumentNullException(nameof(navigationCallback));
 
             if (Regions.ContainsRegionWithName(regionName))
             {
@@ -376,9 +377,16 @@ namespace Prism.Regions
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
         public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
         {
+            if (navigationCallback == null)
+                throw new ArgumentNullException(nameof(navigationCallback));
+
             if (Regions.ContainsRegionWithName(regionName))
             {
                 Regions[regionName].RequestNavigate(target, navigationCallback, navigationParameters);
+            }
+            else
+            {
+                navigationCallback(new NavigationResult(new NavigationContext(null, target, navigationParameters), false));
             }
         }
 
