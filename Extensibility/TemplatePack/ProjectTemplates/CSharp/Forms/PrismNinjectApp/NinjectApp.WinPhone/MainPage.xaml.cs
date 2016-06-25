@@ -28,7 +28,7 @@ namespace $safeprojectname$
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
 
-            LoadApplication(new $saferootprojectname$.App());
+            LoadApplication(new $saferootprojectname$.App(new PlatformInitializer()));
         }
 
         /// <summary>

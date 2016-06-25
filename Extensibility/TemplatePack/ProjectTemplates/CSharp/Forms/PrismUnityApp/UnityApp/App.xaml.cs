@@ -5,13 +5,15 @@ namespace $safeprojectname$
 {
     public partial class App : PrismApplication
     {
-        public App(IPlatformInitializer initializer = null) : base(initializer) { }
-
-        protected override void OnInitialized()
+        public App( IPlatformInitializer initializer = null ) :
+            base( initializer )
         {
             InitializeComponent();
+        }
 
-            NavigationService.NavigateAsync("MainPage?title=Hello%20from%20Xamarin.Forms");
+        protected async override void OnInitialized()
+        {
+            await NavigationService.NavigateAsync("MainPage?title=Hello%20from%20Xamarin.Forms");
         }
 
         protected override void RegisterTypes()
