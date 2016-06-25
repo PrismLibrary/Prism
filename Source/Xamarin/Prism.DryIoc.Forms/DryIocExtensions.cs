@@ -15,7 +15,7 @@ namespace Prism.DryIoc
         /// <typeparam name="TPage">The Type of Page to register</typeparam>
         public static void RegisterTypeForNavigation<TPage>(this IContainer container) where TPage : Page
         {
-            container.RegisterTypeForNavigation<TPage>(typeof(TPage).FullName);
+            container.RegisterTypeForNavigation<TPage>(typeof(TPage).Name);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Prism.DryIoc
         public static void RegisterTypeForNavigation<TPage, TClass>(this IContainer container) where TPage : Page
             where TClass : class
         {
-            container.RegisterTypeForNavigation<TPage>(typeof(TClass).FullName);
+            container.RegisterTypeForNavigation<TPage>(typeof(TClass).Name);
         }
     }
 }
