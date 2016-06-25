@@ -3,7 +3,7 @@
 	<TemplateConfiguration>
 		<_Name>Prism Unity App</_Name>
 		<Image id="prism-project-xamarin-forms"/>
-		<Icon>md-project|res:images.prism-project-overlay.png</Icon>
+		<Icon>md-project</Icon>
 		<_Category>crossplat/app/forms</_Category>
 		<LanguageName>C#</LanguageName>
 	    <SupportedParameters>CrossPlatIdentifiers, TargetPlatform, SharedCode</SupportedParameters>
@@ -48,7 +48,7 @@
 			</Files>
 		</Project>
 
-		<Project name = "${ProjectName}" directory = "." type = "PortableDotNet" if = "CreatePortableDotNetProject" >
+		<Project name = "${ProjectName}" directory = "." type = "C#PortableLibrary" if = "CreatePortableDotNetProject" >
 			<Options Target = "Library" TargetFrameworkVersion = ".NETPortable,Version=v4.5,Profile=Profile78"/>
 			<Files>
 

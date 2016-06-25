@@ -8,6 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>TemplatePackXamarinStudio</RootNamespace>
     <AssemblyName>TemplatePack-XamarinStudio</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,9 +36,6 @@
     <EmbeddedResource Include="Properties\Manifest.addin.xml" />
     <EmbeddedResource Include="Images\prism-project-xamarin-forms.png">
       <LogicalName>images.prism-project-xamarin-forms.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\prism-project-overlay.png">
-      <LogicalName>images.prism-project-overlay.png</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
