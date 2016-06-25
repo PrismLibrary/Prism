@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="DryIocExtensions.cs" />
     <Compile Include="Extensions\UnknownServiceResolverRule.cs" />
+    <Compile Include="IPlatformInitializer.cs" />
     <Compile Include="Modularity\DryIocModuleInitializer.cs" />
     <Compile Include="Navigation\DryIocPageNavigationService.cs" />
     <Compile Include="PrismApplication.cs" />

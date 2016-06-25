@@ -26,6 +26,20 @@ namespace Prism.DryIoc
         private const string _navigationServiceKey = "DryIocPageNavigationService";
 
         /// <summary>
+        /// Create a new instance of <see cref="PrismApplication"/>
+        /// </summary>
+        /// <param name="platformInitializer">Class to initialize platform instances</param>
+        /// <remarks>
+        /// The method <see cref="IPlatformInitializer.RegisterTypes(IContainer)"/> will be called after <see cref="PrismApplication.RegisterTypes()"/> 
+        /// to allow for registering platform specific instances.
+        /// </remarks>
+        protected PrismApplication(IPlatformInitializer platformInitializer = null)
+            : base(platformInitializer)
+        {
+
+        }
+
+        /// <summary>
         /// Create a default instance of <see cref="IContainer" /> with <see cref="Rules" /> created in
         /// <see cref="CreateContainerRules" />
         /// </summary>
