@@ -1,5 +1,6 @@
 using DryIoc;
 using Prism.Common;
+using Prism.Mvvm;
 using Xamarin.Forms;
 
 namespace Prism.DryIoc
@@ -12,32 +13,32 @@ namespace Prism.DryIoc
         /// <summary>
         /// Registers a Page for navigation using a convention based approach, which uses the name of the Type being passed in as the unique name.
         /// </summary>
-        /// <typeparam name="TPage">The Type of Page to register</typeparam>
-        public static void RegisterTypeForNavigation<TPage>(this IContainer container) where TPage : Page
+        /// <typeparam name="TView">The Type of Page to register</typeparam>
+        public static void RegisterTypeForNavigation<TView>(this IContainer container) where TView : Page
         {
-            container.RegisterTypeForNavigation<TPage>(typeof(TPage).Name);
+            container.RegisterTypeForNavigation<TView>(typeof(TView).Name);
         }
 
         /// <summary>
         /// Registers a Page for navigation.
         /// </summary>
-        /// <typeparam name="TPage">The Type of Page to register</typeparam>
+        /// <typeparam name="TView">The Type of Page to register</typeparam>
         /// <param name="name">The unique name to register with the Page</param>
-        public static void RegisterTypeForNavigation<TPage>(this IContainer container, string name) where TPage : Page
+        public static void RegisterTypeForNavigation<TView>(this IContainer container, string name) where TView : Page
         {
-            container.RegisterMany<TPage>(serviceKey: name);
-            PageNavigationRegistry.Register(name, typeof(TPage));
+            container.RegisterMany<TView>(serviceKey: name);
+            PageNavigationRegistry.Register(name, typeof(TView));
         }
 
         /// <summary>
         /// Registers a Page for navigation.
         /// </summary>
-        /// <typeparam name="TPage">The Type of Page to register</typeparam>
-        /// <typeparam name="TClass">The Class to use as the unique name for the Page</typeparam>
-        public static void RegisterTypeForNavigation<TPage, TClass>(this IContainer container) where TPage : Page
-            where TClass : class
+        /// <typeparam name="TView">The Type of Page to register</typeparam>
+        /// <typeparam name="TViewModel">The ViewModel to use as the unique name for the Page</typeparam>
+        public static void RegisterTypeForNavigation<TView, TViewModel>(this IContainer container) where TView : Page
+            where TViewModel : BindableBase
         {
-            container.RegisterTypeForNavigation<TPage>(typeof(TClass).Name);
+            container.RegisterTypeForNavigation<TView>(typeof(TViewModel).FullName);
         }
     }
 }
