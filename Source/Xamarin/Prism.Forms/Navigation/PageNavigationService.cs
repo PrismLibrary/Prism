@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Mvvm;
 using Xamarin.Forms;
-
 
 namespace Prism.Navigation
 {
@@ -558,7 +558,7 @@ namespace Prism.Navigation
             return navParameters;
         }
 
-        Page GetCurrentPage()
+        private Page GetCurrentPage()
         {
             return _page != null ? _page : _applicationProvider.MainPage;
         }

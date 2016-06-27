@@ -53,9 +53,10 @@ Following matrix shows the platform specific support currently available.
 | [Prism.Mef][6]  <sup>(**)</sup> | [![26]][6] |  X  | - | - |
 | [Prism.Autofac][7]     | [![27]][7] |  X  |  X  |     |
 | [Prism.StructureMap][8]| [![28]][8] |  X  |     |     |
-| [Prism.Ninject][9]     | [![29]][9] |  X  |     |  X  |
+| [Prism.Ninject][9] <sup>(*)</sup>     | [![29]][9] |  X  |     |    |
+| [Prism.Ninject.Forms][11]| [![31]][11]|     |     |  X  |
 
-<sup>(*)</sup> As Xamarin Forms also supports UWP now, adding Prism.Unity puts in some incorrect dependencies. Therefore we created a new Prism.Unity.Forms package. 
+<sup>(*)</sup> As Xamarin Forms also supports UWP now, adding Prism.Unity or Prism.Ninject puts in some incorrect dependencies. Therefore we created a new package for Xamarin Forms projects. 
 
 <sup>(**)</sup> MEF is supported with WPF for compatibility with previous versions. It will not be added to Windows 10 UWP or Xamarin Forms.
 
@@ -130,6 +131,7 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [8]: https://www.nuget.org/packages/Prism.StructureMap/
 [9]: https://www.nuget.org/packages/Prism.Ninject/
 [10]: https://www.nuget.org/packages/Prism.Unity.Forms/
+[11]: https://www.nuget.org/packages/Prism.Ninject.Forms/
 
 [21]: https://img.shields.io/nuget/vpre/Prism.Core.svg
 [22]: https://img.shields.io/nuget/vpre/Prism.Wpf.svg
@@ -141,3 +143,4 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [28]: https://img.shields.io/nuget/vpre/Prism.StructureMap.svg
 [29]: https://img.shields.io/nuget/vpre/Prism.Ninject.svg
 [30]: https://img.shields.io/nuget/vpre/Prism.Unity.Forms.svg
+[31]: https://img.shields.io/nuget/vpre/Prism.Ninject.Forms.svg
