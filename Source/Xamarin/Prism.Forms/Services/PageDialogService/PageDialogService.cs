@@ -3,9 +3,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-#if TEST
-using Application = Prism.FormsApplication;
-#endif
 
 namespace Prism.Services
 {
