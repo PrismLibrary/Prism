@@ -58,35 +58,35 @@ namespace Prism.Unity
         /// <typeparam name="TViewModel">Shared ViewModel Type</typeparam>
         /// <param name="container"><see cref="IUnityContainer"/> used to register type for Navigation.</param>
         /// <param name="name">The unique name to register with the Page. If left empty or null will default to the ViewModel root name. i.e. MyPageViewModel => MyPage</param>
-        /// <param name="AndroidView">Android Specific View Type</param>
+        /// <param name="androidView">Android Specific View Type</param>
         /// <param name="iOSView">iOS Specific View Type</param>
-        /// <param name="OtherView">Other Platform Specific View Type</param>
-        /// <param name="WindowsView">Windows Specific View Type</param>
-        /// <param name="WinPhoneView">Windows Phone Specific View Type</param>
+        /// <param name="otherView">Other Platform Specific View Type</param>
+        /// <param name="windowsView">Windows Specific View Type</param>
+        /// <param name="winPhoneView">Windows Phone Specific View Type</param>
         /// <returns><see cref="IUnityContainer"/></returns>
-        public static IUnityContainer RegisterTypeForNavigationOnPlatform<TView, TViewModel>(this IUnityContainer container, string name = null, Type AndroidView = null, Type iOSView = null, Type OtherView = null, Type WindowsView = null, Type WinPhoneView = null)
+        public static IUnityContainer RegisterTypeForNavigationOnPlatform<TView, TViewModel>(this IUnityContainer container, string name = null, Type androidView = null, Type iOSView = null, Type otherView = null, Type windowsView = null, Type winPhoneView = null)
             where TView : Page
             where TViewModel : class
         {
-            if (Device.OS == TargetPlatform.Android && AndroidView != null)
+            if (Device.OS == TargetPlatform.Android && androidView != null)
             {
-                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(AndroidView, name);
+                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(androidView, name);
             }
             else if (Device.OS == TargetPlatform.iOS && iOSView != null)
             {
                 return container.RegisterTypeForNavigationWithViewModel<TViewModel>(iOSView, name);
             }
-            else if (Device.OS == TargetPlatform.Other && OtherView != null)
+            else if (Device.OS == TargetPlatform.Other && otherView != null)
             {
-                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(OtherView, name);
+                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(otherView, name);
             }
-            else if (Device.OS == TargetPlatform.Windows && WindowsView != null)
+            else if (Device.OS == TargetPlatform.Windows && windowsView != null)
             {
-                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(WindowsView, name);
+                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(windowsView, name);
             }
-            else if (Device.OS == TargetPlatform.WinPhone && WinPhoneView != null)
+            else if (Device.OS == TargetPlatform.WinPhone && winPhoneView != null)
             {
-                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(WinPhoneView, name);
+                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(winPhoneView, name);
             }
             else
             {
@@ -101,25 +101,25 @@ namespace Prism.Unity
         /// <typeparam name="TViewModel">The shared ViewModel</typeparam>
         /// <param name="container"><see cref="IUnityContainer"/> used to register type for Navigation.</param>
         /// <param name="name">The common name used for Navigation. If left empty or null will default to the ViewModel root name. i.e. MyPageViewModel => MyPage</param>
-        /// <param name="DesktopView">Desktop Specific View Type</param>
-        /// <param name="TabletView">Tablet Specific View Type</param>
-        /// <param name="PhoneView">Phone Specific View Type</param>
+        /// <param name="desktopView">Desktop Specific View Type</param>
+        /// <param name="tabletView">Tablet Specific View Type</param>
+        /// <param name="phoneView">Phone Specific View Type</param>
         /// <returns><see cref="IUnityContainer"/></returns>
-        public static IUnityContainer RegisterTypeForNavigationOnIdiom<TView, TViewModel>(this IUnityContainer container, string name = null, Type DesktopView = null, Type TabletView = null, Type PhoneView = null)
+        public static IUnityContainer RegisterTypeForNavigationOnIdiom<TView, TViewModel>(this IUnityContainer container, string name = null, Type desktopView = null, Type tabletView = null, Type phoneView = null)
             where TView : Page
             where TViewModel : class
         {
-            if (Device.Idiom == TargetIdiom.Desktop && DesktopView != null)
+            if (Device.Idiom == TargetIdiom.Desktop && desktopView != null)
             {
-                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(DesktopView, name);
+                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(desktopView, name);
             }
-            else if (Device.Idiom == TargetIdiom.Phone && PhoneView != null)
+            else if (Device.Idiom == TargetIdiom.Phone && phoneView != null)
             {
-                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(PhoneView, name);
+                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(phoneView, name);
             }
-            else if (Device.Idiom == TargetIdiom.Tablet && TabletView != null)
+            else if (Device.Idiom == TargetIdiom.Tablet && tabletView != null)
             {
-                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(TabletView, name);
+                return container.RegisterTypeForNavigationWithViewModel<TViewModel>(tabletView, name);
             }
             else
             {
