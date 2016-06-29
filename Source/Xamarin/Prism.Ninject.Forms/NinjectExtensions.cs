@@ -66,6 +66,9 @@ namespace Prism.Ninject
             where TView : Page
             where TViewModel : class
         {
+            if (string.IsNullOrWhiteSpace(name))
+                name = typeof(TView).Name;
+
             if (Device.OS == TargetPlatform.Android && androidView != null)
             {
                 container.RegisterTypeForNavigationWithViewModel<TViewModel>(androidView, name);
@@ -106,6 +109,9 @@ namespace Prism.Ninject
             where TView : Page
             where TViewModel : class
         {
+            if (string.IsNullOrWhiteSpace(name))
+                name = typeof(TView).Name;
+
             if (Device.Idiom == TargetIdiom.Desktop && desktopView != null)
             {
                 container.RegisterTypeForNavigationWithViewModel<TViewModel>(desktopView, name);

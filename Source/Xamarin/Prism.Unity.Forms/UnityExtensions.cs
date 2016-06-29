@@ -68,6 +68,9 @@ namespace Prism.Unity
             where TView : Page
             where TViewModel : class
         {
+            if (string.IsNullOrWhiteSpace(name))
+                name = typeof(TView).Name;
+
             if (Device.OS == TargetPlatform.Android && androidView != null)
             {
                 return container.RegisterTypeForNavigationWithViewModel<TViewModel>(androidView, name);
@@ -109,6 +112,9 @@ namespace Prism.Unity
             where TView : Page
             where TViewModel : class
         {
+            if (string.IsNullOrWhiteSpace(name))
+                name = typeof(TView).Name;
+
             if (Device.Idiom == TargetIdiom.Desktop && desktopView != null)
             {
                 return container.RegisterTypeForNavigationWithViewModel<TViewModel>(desktopView, name);
@@ -150,7 +156,7 @@ namespace Prism.Unity
         //    return container.RegisterTypeForNavigationOnIdiom<TView, TViewModel>(typeof(TViewModel).FullName, DesktopView, TabletView, PhoneView);
         //}
 
-        private static IUnityContainer RegisterTypeForNavigationWithViewModel<TViewModel>(this IUnityContainer container, Type viewType, string name = null)
+        private static IUnityContainer RegisterTypeForNavigationWithViewModel<TViewModel>(this IUnityContainer container, Type viewType, string name)
             where TViewModel : class
         {
             if (string.IsNullOrWhiteSpace(name))
