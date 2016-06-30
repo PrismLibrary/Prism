@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Prism.Common;
 using Prism.Logging;
 using Prism.Navigation;
@@ -18,6 +19,9 @@ namespace Prism.Autofac.Navigation
 
         protected override Page CreatePage(string name)
         {
+            if (!_container.IsRegisteredWithName<Page>(name))
+                throw new NullReferenceException($"The requested page 'missing' has not been registered.");
+
             return _container.ResolveNamed<Page>(name);
         }
     }
