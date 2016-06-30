@@ -1,13 +1,13 @@
-﻿using Prism.DryIoc.Forms.Tests.Mocks.Services;
+﻿using Prism.Autofac.Forms.Tests.Mocks.Services;
 using Prism.Mvvm;
 
-namespace Prism.DryIoc.Forms.Tests.Mocks.ViewModels
+namespace Prism.Autofac.Forms.Tests.Mocks.ViewModels
 {
     public class ConstructorArgumentViewModel : BindableBase
     {
-        public IDryIocServiceMock Service { get; }
+        public IAutofacServiceMock Service { get; }
 
-        public ConstructorArgumentViewModel(IDryIocServiceMock service)
+        public ConstructorArgumentViewModel(IAutofacServiceMock service)
         {
             Service = service;
         }

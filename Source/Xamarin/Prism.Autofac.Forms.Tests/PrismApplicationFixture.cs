@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using DryIoc;
 using Prism.Common;
-using Prism.DryIoc.Forms.Tests.Mocks;
-using Prism.DryIoc.Forms.Tests.Mocks.Modules;
-using Prism.DryIoc.Forms.Tests.Mocks.Services;
-using Prism.DryIoc.Forms.Tests.Mocks.ViewModels;
-using Prism.DryIoc.Forms.Tests.Mocks.Views;
-using Prism.DryIoc.Navigation;
+using Prism.Autofac.Forms.Tests.Mocks;
+using Prism.Autofac.Forms.Tests.Mocks.Modules;
+using Prism.Autofac.Forms.Tests.Mocks.Services;
+using Prism.Autofac.Forms.Tests.Mocks.ViewModels;
+using Prism.Autofac.Forms.Tests.Mocks.Views;
+using Prism.Autofac.Navigation;
 using Prism.Navigation;
 using Xamarin.Forms;
 using Xunit;
+using Autofac;
 #if TEST
 using Application = Prism.FormsApplication;
 #endif
 
-namespace Prism.DryIoc.Forms.Tests
+namespace Prism.Autofac.Forms.Tests
 {
     public class PrismApplicationFixture
     {
@@ -41,23 +41,23 @@ namespace Prism.DryIoc.Forms.Tests
         public void ResolveTypeRegisteredWithContainer()
         {
             var app = new PrismApplicationMock();
-            var service = app.Container.Resolve<IDryIocServiceMock>();
+            var service = app.Container.Resolve<IAutofacServiceMock>();
             Assert.NotNull(service);
-            Assert.IsType<DryIocServiceMock>(service);
+            Assert.IsType<AutofacServiceMock>(service);
         }
 
         [Fact]
         public void ResolveTypeRegisteredWithDependencyService()
         {
             var app = new PrismApplicationMock();
-            // TODO(joacar)
+            // TODO
             // Since we must call Xamarin.Forms.Init() (and cannot do so from PCL)
             // to call Xamarin.Forms.DependencyService
             // we check that this throws an InvalidOperationException (for reason stated above).
             // This shows that a call to Xamarin.Forms.DependencyService was made and thus should return
             // service instance (if registered)
             Assert.Throws<TargetInvocationException>(
-                () => app.Container.Resolve<IDependencyServiceMock>(IfUnresolved.ReturnDefault));
+                () => app.Container.Resolve<IDependencyServiceMock>());
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace Prism.DryIoc.Forms.Tests
             var app = new PrismApplicationMock();
             var navigationService = app.NavigationService;
             Assert.NotNull(navigationService);
-            Assert.IsType<DryIocPageNavigationService>(navigationService);
+            Assert.IsType<AutofacPageNavigationService>(navigationService);
         }
 
         [Fact]
@@ -137,7 +137,7 @@ namespace Prism.DryIoc.Forms.Tests
         public void Container_ResolveByKey()
         {
             var app = new PrismApplicationMock();
-            var viewModel = app.Container.Resolve<ViewModelBMock>(ViewModelBMock.Key);
+            var viewModel = app.Container.ResolveNamed<ViewModelBMock>(ViewModelBMock.Key);
             Assert.NotNull(viewModel);
             Assert.IsType<ViewModelBMock>(viewModel);
         }

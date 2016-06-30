@@ -57,6 +57,13 @@ namespace Prism.Autofac
             return Container.ResolveNamed<INavigationService>(_navigationServiceName);
         }
 
+        protected INavigationService CreateNavigationService(Page page)
+        {
+            var navigationService = CreateNavigationService();
+            ((IPageAware)navigationService).Page = page;
+            return navigationService;
+        }
+
         protected override void ConfigureContainer()
         {
             var builder = new ContainerBuilder();

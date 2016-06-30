@@ -1,17 +1,17 @@
-﻿using Prism.DryIoc.Forms.Tests.Mocks.Services;
+﻿using Prism.Autofac.Forms.Tests.Mocks.Services;
 using Prism.Mvvm;
 using Xamarin.Forms;
 
-namespace Prism.DryIoc.Forms.Tests.Mocks.Views
+namespace Prism.Autofac.Forms.Tests.Mocks.Views
 {
     public class ConstructorArgumentView : Page
     {
-        public ConstructorArgumentView(IDryIocServiceMock service)
+        public ConstructorArgumentView(IAutofacServiceMock service)
         {
             Service = service;
             ViewModelLocator.SetAutowireViewModel(this, true);
         }
 
-        public IDryIocServiceMock Service { get; }
+        public IAutofacServiceMock Service { get; }
     }
 }

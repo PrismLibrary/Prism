@@ -1,6 +1,6 @@
 ﻿using Prism.Mvvm;
 
-namespace Prism.DryIoc.Forms.Tests.Mocks.ViewModels
+namespace Prism.Autofac.Forms.Tests.Mocks.ViewModels
 {
     public class ViewModelBMock : BindableBase
     {

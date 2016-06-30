@@ -1,13 +1,13 @@
-using DryIoc;
-using Prism.DryIoc.Forms.Tests.Mocks.Modules;
-using Prism.DryIoc.Forms.Tests.Mocks.Services;
-using Prism.DryIoc.Forms.Tests.Mocks.ViewModels;
-using Prism.DryIoc.Forms.Tests.Mocks.Views;
+using Prism.Autofac.Forms.Tests.Mocks.Modules;
+using Prism.Autofac.Forms.Tests.Mocks.Services;
+using Prism.Autofac.Forms.Tests.Mocks.ViewModels;
+using Prism.Autofac.Forms.Tests.Mocks.Views;
 using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
+using Autofac;
 
-namespace Prism.DryIoc.Forms.Tests.Mocks
+namespace Prism.Autofac.Forms.Tests.Mocks
 {
     public class PrismApplicationMock : PrismApplication
     {
@@ -41,16 +41,22 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
 
         protected override void RegisterTypes()
         {
-            Container.Register<IDryIocServiceMock, DryIocServiceMock>();
+            var builder = new ContainerBuilder();
+
+            builder.RegisterType<AutofacServiceMock>().As<IAutofacServiceMock>();
+            builder.RegisterType<AutowireViewModel>();
+            builder.RegisterType<ViewModelAMock>();
+            builder.Register(ctx => new ViewModelBMock()).Named<ViewModelBMock>(ViewModelBMock.Key);
+            builder.RegisterType<ConstructorArgumentViewModel>();
+            builder.RegisterType<ModuleMock>().SingleInstance();
+
+            builder.Update(Container);
+
             Container.RegisterTypeForNavigation<ViewMock>("view");
             Container.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
-            Container.Register<AutowireViewModel>();
-            Container.Register<ViewModelAMock>();
-            Container.Register<ViewModelBMock>(serviceKey: ViewModelBMock.Key);
-            Container.Register<ConstructorArgumentViewModel>();
             Container.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
             Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
-            Container.Register<ModuleMock>(Reuse.Singleton);
+
         }
 
         public INavigationService CreateNavigationServiceForPage(Page page)

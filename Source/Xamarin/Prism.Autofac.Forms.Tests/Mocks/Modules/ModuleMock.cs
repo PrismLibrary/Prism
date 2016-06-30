@@ -1,6 +1,6 @@
 ﻿using Prism.Modularity;
 
-namespace Prism.DryIoc.Forms.Tests.Mocks.Modules
+namespace Prism.Autofac.Forms.Tests.Mocks.Modules
 {
     public class ModuleMock : IModule
     {
