@@ -64,6 +64,15 @@ namespace Prism.Autofac
             return navigationService;
         }
 
+        protected override void InitializeModules()
+        {
+            if (ModuleCatalog.Modules.Any())
+            {
+                var manager = Container.Resolve<IModuleManager>();
+                manager.Run();
+            }
+        }
+
         protected override void ConfigureContainer()
         {
             var builder = new ContainerBuilder();
