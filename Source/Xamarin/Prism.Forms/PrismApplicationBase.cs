@@ -5,6 +5,8 @@ using System.Linq;
 using Xamarin.Forms;
 #if TEST
 using Application = Prism.FormsApplication;
+#else
+using Xamarin.Forms;
 #endif
 
 namespace Prism

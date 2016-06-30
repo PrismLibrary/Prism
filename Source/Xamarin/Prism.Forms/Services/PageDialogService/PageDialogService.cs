@@ -3,9 +3,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-#if TEST
-using Application = Prism.FormsApplication;
-#endif
 
 namespace Prism.Services
 {
@@ -62,7 +59,7 @@ namespace Prism.Services
         /// <returns>Text for the pressed button</returns>
         public virtual Task<string> DisplayActionSheetAsync(string title, string cancelButton, string destroyButton, params string[] otherButtons)
         {
-            return _applicationProvider.MainPage.DisplayActionSheet(title, cancelButton, destroyButton, otherButtons);
+            return GetCurrentPage().DisplayActionSheet(title, cancelButton, destroyButton, otherButtons);
         }
 
         /// <summary>
@@ -93,6 +90,20 @@ namespace Prism.Services
 
                 return;
             }
+        }
+
+        private Page GetCurrentPage()
+        {
+            Page page = null;
+            if (_applicationProvider.MainPage.Navigation.ModalStack.Count > 0)
+                page = _applicationProvider.MainPage.Navigation.ModalStack.LastOrDefault();
+            else
+                page = _applicationProvider.MainPage.Navigation.NavigationStack.LastOrDefault();
+
+            if (page == null)
+                page = _applicationProvider.MainPage;
+
+            return page;
         }
     }
 }
