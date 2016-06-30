@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.DryIoc.Forms.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Autofac.Forms", "Xamarin\Prism.Autofac.Forms\Prism.Autofac.Forms.csproj", "{943664CF-3A0C-4EFF-8BDA-29241D49DD85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Autofac.Forms.Tests", "Xamarin\Prism.Autofac.Forms.Tests\Prism.Autofac.Forms.Tests\Prism.Autofac.Forms.Tests.csproj", "{0CB2C41D-2620-4FAF-9F73-FEAE52D93F29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Autofac.Forms.Tests", "Xamarin\Prism.Autofac.Forms.Tests\Prism.Autofac.Forms.Tests.csproj", "{0CB2C41D-2620-4FAF-9F73-FEAE52D93F29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
