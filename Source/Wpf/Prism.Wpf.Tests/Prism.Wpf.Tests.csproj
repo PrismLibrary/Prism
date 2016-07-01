@@ -152,6 +152,7 @@
     <Compile Include="Regions\NavigationAsyncExtensionsFixture.cs" />
     <Compile Include="Regions\NavigationContextFixture.cs" />
     <Compile Include="Regions\RegionManagerRequestNavigateFixture.cs" />
+    <Compile Include="Regions\RegionNavigationJournalExtensionsFixture.cs" />
     <Compile Include="Regions\RegionNavigationServiceFixture.cs" />
     <Compile Include="Regions\RegionNavigationJournalFixture.cs" />
     <EmbeddedResource Include="Mocks\Modules\MockAttributedModule.cs" />

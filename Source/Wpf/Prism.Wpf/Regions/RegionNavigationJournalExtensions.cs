@@ -13,6 +13,9 @@ namespace Prism.Regions
         /// </summary>
         public static void GoBack(this IRegionNavigationJournal journal)
         {
+            if (journal == null)
+                throw new ArgumentNullException(nameof(journal));
+
             var task = journal.GoBackAsync();
         }
 
@@ -21,6 +24,9 @@ namespace Prism.Regions
         /// </summary>
         public static void GoForward(this IRegionNavigationJournal journal)
         {
+            if (journal == null)
+                throw new ArgumentNullException(nameof(journal));
+
             var task = journal.GoForwardAsync();
         }
     }
