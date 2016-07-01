@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Prism.Regions;
@@ -54,7 +53,7 @@ namespace Prism.Wpf.Tests.Regions
         }
 
         [TestMethod]
-        public void WhenNonExistentRegion_ReturnNavigationResultFalse()
+        public async Task WhenNonExistentRegion_ReturnNavigationResultFalse()
         {
             NavigationResult result;
 
@@ -72,6 +71,18 @@ namespace Prism.Wpf.Tests.Regions
 
             result = null;
             regionManager.RequestNavigate(nonExistentRegion, sourceUri, (r) => result = r);
+            Assert.AreEqual(result.Result, false);
+
+            result = await regionManager.RequestNavigateAsync(nonExistentRegion, source);
+            Assert.AreEqual(result.Result, false);
+
+            result = await regionManager.RequestNavigateAsync(nonExistentRegion, sourceUri);
+            Assert.AreEqual(result.Result, false);
+
+            result = await regionManager.RequestNavigateAsync(nonExistentRegion, source, parameters);
+            Assert.AreEqual(result.Result, false);
+
+            result = await regionManager.RequestNavigateAsync(nonExistentRegion, sourceUri, parameters);
             Assert.AreEqual(result.Result, false);
         }
 
@@ -129,6 +140,34 @@ namespace Prism.Wpf.Tests.Regions
         {
             regionManager.RequestNavigate(region, sourceUri, callback, parameters);
             mockRegion.Verify((r) => r.RequestNavigateAsync(sourceUri, parameters));
+        }
+
+        [TestMethod]
+        public async Task DelegatesCallToRegion_AsyncRegionSourceUriParameters()
+        {
+            await regionManager.RequestNavigateAsync(region, sourceUri, parameters);
+            mockRegion.Verify((r) => r.RequestNavigateAsync(sourceUri, parameters));
+        }
+
+        [TestMethod]
+        public async Task DelegatesCallToRegion_AsyncRegionSourceParameters()
+        {
+            await regionManager.RequestNavigateAsync(region, source, parameters);
+            mockRegion.Verify((r) => r.RequestNavigateAsync(sourceUri, parameters));
+        }
+
+        [TestMethod]
+        public async Task DelegatesCallToRegion_AsyncRegionSourceUri()
+        {
+            await regionManager.RequestNavigateAsync(region, sourceUri);
+            mockRegion.Verify((r) => r.RequestNavigateAsync(sourceUri, null));
+        }
+
+        [TestMethod]
+        public async Task DelegatesCallToRegion_AsyncRegionSource()
+        {
+            await regionManager.RequestNavigateAsync(region, source);
+            mockRegion.Verify((r) => r.RequestNavigateAsync(sourceUri, null));
         }
     }
 }
