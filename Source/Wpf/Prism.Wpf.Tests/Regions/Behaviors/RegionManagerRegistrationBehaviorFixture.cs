@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Regions;
@@ -286,6 +287,26 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             #endregion
 
             public bool Navigate(Uri source)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri source)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, string source)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri target, NavigationParameters navigationParameters)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, string target, NavigationParameters navigationParameters)
             {
                 throw new NotImplementedException();
             }

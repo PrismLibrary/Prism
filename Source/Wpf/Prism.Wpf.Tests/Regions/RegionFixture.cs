@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -506,6 +507,26 @@ namespace Prism.Wpf.Tests.Regions
             {
                 throw new NotImplementedException();
             }
+
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri source)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, string source)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri target, NavigationParameters navigationParameters)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<NavigationResult> RequestNavigateAsync(string regionName, string target, NavigationParameters navigationParameters)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [TestMethod]
@@ -524,7 +545,7 @@ namespace Prism.Wpf.Tests.Regions
                 NavigationParameters navigationParameters = new NavigationParameters();
 
                 Mock<IRegionNavigationService> mockRegionNavigationService = new Mock<IRegionNavigationService>();
-                mockRegionNavigationService.Setup(x => x.RequestNavigate(uri, navigationCallback, navigationParameters)).Verifiable();
+                mockRegionNavigationService.Setup(x => x.RequestNavigateAsync(uri, navigationParameters)).Verifiable();
 
                 Mock<IServiceLocator> mockServiceLocator = new Mock<IServiceLocator>();
                 mockServiceLocator.Setup(x => x.GetInstance<IRegionNavigationService>()).Returns(mockRegionNavigationService.Object);

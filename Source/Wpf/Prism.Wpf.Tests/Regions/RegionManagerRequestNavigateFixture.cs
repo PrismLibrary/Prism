@@ -79,56 +79,56 @@ namespace Prism.Wpf.Tests.Regions
         public void DelegatesCallToRegion_RegionSource()
         {
             regionManager.RequestNavigate(region, source);
-            mockRegion.Verify((r) => r.RequestNavigate(sourceUri, It.IsAny<Action<NavigationResult>>()));
+            mockRegion.Verify((r) => r.RequestNavigateAsync(sourceUri, null));
         }
 
         [TestMethod]
         public void DelegatesCallToRegion_RegionTarget()
         {
             regionManager.RequestNavigate(region, sourceUri);
-            mockRegion.Verify((r) => r.RequestNavigate(sourceUri, It.IsAny<Action<NavigationResult>>()));
+            mockRegion.Verify((r) => r.RequestNavigateAsync(sourceUri, null));
         }
 
         [TestMethod]
         public void DelegatesCallToRegion_RegionSourceParameters()
         {
             regionManager.RequestNavigate(region, source, parameters);
-            mockRegion.Verify((r) => r.RequestNavigate(sourceUri, It.IsAny<Action<NavigationResult>>(), parameters));
+            mockRegion.Verify((r) => r.RequestNavigateAsync(sourceUri, parameters));
         }
 
         [TestMethod]
         public void DelegatesCallToRegion_RegionSourceUriParameters()
         {
             regionManager.RequestNavigate(region, sourceUri, parameters);
-            mockRegion.Verify((r) => r.RequestNavigate(sourceUri, It.IsAny<Action<NavigationResult>>(), parameters));
+            mockRegion.Verify((r) => r.RequestNavigateAsync(sourceUri, parameters));
         }
 
         [TestMethod]
         public void DelegatesCallToRegion_RegionSourceCallback()
         {
             regionManager.RequestNavigate(region, source, callback);
-            mockRegion.Verify((r) => r.RequestNavigate(sourceUri, callback));
+            mockRegion.Verify((r) => r.RequestNavigateAsync(sourceUri, null));
         }
 
         [TestMethod]
         public void DelegatesCallToRegion_RegionTargetCallback()
         {
             regionManager.RequestNavigate(region, sourceUri, callback);
-            mockRegion.Verify((r) => r.RequestNavigate(sourceUri, callback));
+            mockRegion.Verify((r) => r.RequestNavigateAsync(sourceUri, null));
         }
 
         [TestMethod]
         public void DelegatesCallToRegion_RegionSourceCallbackParameters()
         {
             regionManager.RequestNavigate(region, source, callback, parameters);
-            mockRegion.Verify((r) => r.RequestNavigate(sourceUri, callback, parameters));
+            mockRegion.Verify((r) => r.RequestNavigateAsync(sourceUri, parameters));
         }
 
         [TestMethod]
         public void DelegatesCallToRegion_RegionSourceUriCallbackParameters()
         {
             regionManager.RequestNavigate(region, sourceUri, callback, parameters);
-            mockRegion.Verify((r) => r.RequestNavigate(sourceUri, callback, parameters));
+            mockRegion.Verify((r) => r.RequestNavigateAsync(sourceUri, parameters));
         }
     }
 }
