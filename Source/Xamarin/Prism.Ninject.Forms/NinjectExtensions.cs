@@ -130,29 +130,6 @@ namespace Prism.Ninject
             }
         }
 
-        //TODO: decide if Prism will contniue to support navigating via ViewModels, or should we stick to just a single approach to navigation
-        //public static void RegisterTypeForViewModelNavigation<TView, TViewModel>(this IKernel container)
-        //    where TView : Page
-        //    where TViewModel : class
-        //{
-        //    container.RegisterTypeForNavigationWithViewModel<TViewModel>(typeof(TView), typeof(TViewModel).FullName);
-        //}
-
-        //public static void RegisterTypeForViewModelNavigationOnPlatform<TView, TViewModel>(this IKernel container, Type AndroidView = null, Type iOSView = null, Type OtherView = null, Type WindowsView = null, Type WinPhoneView = null)
-        //    where TView : Page
-        //    where TViewModel : class
-        //{
-        //    container.RegisterTypeForNavigationOnPlatform<TView, TViewModel>(typeof(TViewModel).FullName, AndroidView, iOSView, OtherView, WindowsView, WinPhoneView);
-        //}
-
-        //public static void RegisterTypeForViewModelNavigationOnIdiom<TView, TViewModel>(this IKernel container, Type DesktopView = null, Type TabletView = null, Type PhoneView = null)
-        //    where TView : Page
-        //    where TViewModel : class
-        //{
-        //    container.RegisterTypeForNavigationOnIdiom<TView, TViewModel>(typeof(TViewModel).FullName, DesktopView, TabletView, PhoneView);
-        //}
-
-
         private static void RegisterTypeForNavigationWithViewModel<TViewModel>(this IKernel container, Type viewType, string name = null)
             where TViewModel : class
         {

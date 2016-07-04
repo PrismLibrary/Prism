@@ -133,29 +133,6 @@ namespace Prism.Unity
             }
         }
 
-
-        //TODO: decide if Prism will contniue to support navigating via ViewModels, or should we stick to just a single approach to navigation
-        //public static IUnityContainer RegisterTypeForViewModelNavigation<TView, TViewModel>(this IUnityContainer container)
-        //    where TView : Page
-        //    where TViewModel : class
-        //{
-        //    return container.RegisterTypeForNavigationWithViewModel<TViewModel>(typeof(TView), typeof(TViewModel).FullName);
-        //}
-
-        //public static IUnityContainer RegisterTypeForViewModelNavigationOnPlatform<TView, TViewModel>(this IUnityContainer container, Type AndroidView = null, Type iOSView = null, Type OtherView = null, Type WindowsView = null, Type WinPhoneView = null)
-        //    where TView : Page
-        //    where TViewModel : class
-        //{
-        //    return container.RegisterTypeForNavigationOnPlatform<TView, TViewModel>(typeof(TViewModel).FullName, AndroidView, iOSView, OtherView, WindowsView, WinPhoneView);
-        //}
-
-        //public static IUnityContainer RegisterTypeForViewModelNavigationOnIdiom<TView, TViewModel>(this IUnityContainer container, Type DesktopView = null, Type TabletView = null, Type PhoneView = null)
-        //    where TView : Page
-        //    where TViewModel : class
-        //{
-        //    return container.RegisterTypeForNavigationOnIdiom<TView, TViewModel>(typeof(TViewModel).FullName, DesktopView, TabletView, PhoneView);
-        //}
-
         private static IUnityContainer RegisterTypeForNavigationWithViewModel<TViewModel>(this IUnityContainer container, Type viewType, string name)
             where TViewModel : class
         {
