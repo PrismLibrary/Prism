@@ -103,19 +103,6 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
         }
 
-        //[Fact]
-        //public async void Navigate_ToContentPage_ByObject()
-        //{
-        //    var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-        //    var rootPage = new Xamarin.Forms.ContentPage();
-        //    ((IPageAware)navigationService).Page = rootPage;
-
-        //    await navigationService.NavigateAsync<ContentPageMockViewModel>();
-
-        //    Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-        //    Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
-        //}
-
         [Fact]
         public async void Navigate_ToContentPage_ByName_WithNavigationParameters()
         {
