@@ -32,7 +32,7 @@ namespace Prism.DryIoc.Navigation
         /// <returns>A <see cref="Page"/></returns>
         protected override Page CreatePage(string segmentName)
         {
-            return _container.Resolve<Page>(segmentName, IfUnresolved.ReturnDefault);
+            return _container.Resolve<object>(segmentName, IfUnresolved.ReturnDefault) as Page;
         }
     }
 }

@@ -70,17 +70,6 @@ namespace Prism.DryIoc.Forms.Tests
         }
 
         [Fact]
-        public async Task Navigate_ViewModel()
-        {
-            var app = new PrismApplicationMock();
-            var navigationService = ResolveAndSetRootPage(app);
-            await navigationService.NavigateAsync<ViewModelAMock>();
-            var rootPage = ((IPageAware)navigationService).Page;
-            Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ViewAMock), rootPage.Navigation.ModalStack[0]);
-        }
-
-        [Fact]
         public void Module_Initialize()
         {
             var app = new PrismApplicationMock();
