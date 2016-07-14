@@ -1,19 +1,19 @@
 ﻿using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
 namespace HelloWorld.Views
 {
-    public partial class MyNavigationPage : NavigationPage
+    public partial class MyNavigationPage : NavigationPage, INavigationPageOptions
     {
-        public MyNavigationPage() //: base(new ViewA())
+        public MyNavigationPage()
         {
             InitializeComponent();
+        }
+
+        public bool ClearNavigationStackOnNavigation
+        {
+            get { return true; }
         }
     }
 }
