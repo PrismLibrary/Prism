@@ -17,12 +17,9 @@ namespace HelloWorld
 
         protected override void RegisterTypes()
         {
-            Container.RegisterTypeForNavigation<MainPage>();
+            Container.RegisterTypeForNavigation<MainPage, SomeOtherViewModel>(); //override viewmodel convention
             Container.RegisterTypeForNavigation<MyNavigationPage>();
             Container.RegisterTypeForNavigation<MyMasterDetail>();
-
-            //override ViewModelLocator conventions and use a ViewModel based on its type
-            ViewModelLocationProvider.Register<MainPage, SomeOtherViewModel>();
         }
 
         protected override void ConfigureModuleCatalog()
