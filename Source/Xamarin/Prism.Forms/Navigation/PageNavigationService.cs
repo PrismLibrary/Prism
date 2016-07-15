@@ -1,11 +1,9 @@
 ﻿using Prism.Common;
 using Prism.Logging;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Prism.Mvvm;
 using Xamarin.Forms;
 
 namespace Prism.Navigation
@@ -180,27 +178,31 @@ namespace Prism.Navigation
                 return;
             }
 
-            var currentNavRoot = currentPage.Navigation.NavigationStack[0];
+            var currentNavRoot = currentPage.Navigation.NavigationStack.Last();
             var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
             if (currentNavRoot.GetType() == nextPageType)
             {
-                if (currentPage.Navigation.NavigationStack.Count > 1)
-                    await currentPage.Navigation.PopToRootAsync(false);
-
                 await ProcessNavigation(currentNavRoot, segments, parameters, false, animated);
                 await DoNavigateAction(currentNavRoot, nextSegment, currentNavRoot, parameters);
                 return;
             }
             else
             {
-                await currentPage.Navigation.PopToRootAsync(false);
+                bool clearNavStack = GetClearNavigationPageNavigationStack(currentPage);
+
+                if (clearNavStack)
+                    await currentPage.Navigation.PopToRootAsync(false);
+
                 var newRoot = CreatePageFromSegment(nextSegment);
                 await ProcessNavigation(newRoot, segments, parameters, false, animated);
 
                 await DoNavigateAction(currentNavRoot, nextSegment, newRoot, parameters, async () =>
                 {
                     var push = DoPush(currentPage, newRoot, false, animated);
-                    currentPage.Navigation.RemovePage(currentNavRoot);
+
+                    if (clearNavStack)
+                        currentPage.Navigation.RemovePage(currentPage.Navigation.NavigationStack[0]);
+
                     await push;
                 });
                 return;
@@ -307,7 +309,7 @@ namespace Prism.Navigation
             }
         }
 
-        bool GetMasterDetailPageIsPresented(MasterDetailPage page)
+        static bool GetMasterDetailPageIsPresented(MasterDetailPage page)
         {
             var iMasterDetailPage = page as IMasterDetailPageOptions;
             if (iMasterDetailPage != null)
@@ -318,6 +320,19 @@ namespace Prism.Navigation
                 return iMasterDetailPageBindingContext.IsPresentedAfterNavigation;
 
             return false;
+        }
+
+        static bool GetClearNavigationPageNavigationStack(NavigationPage page)
+        {
+            var iNavigationPage = page as INavigationPageOptions;
+            if (iNavigationPage != null)
+                return iNavigationPage.ClearNavigationStackOnNavigation;
+
+            var iNavigationPageBindingContext = page.BindingContext as INavigationPageOptions;
+            if (iNavigationPageBindingContext != null)
+                return iNavigationPageBindingContext.ClearNavigationStackOnNavigation;
+
+            return true;
         }
 
         static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Func<Task> navigationAction = null, Action onNavigationActionCompleted = null)
