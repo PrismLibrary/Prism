@@ -18,11 +18,26 @@ using Prism.Autofac.Forms;
 
 namespace Prism.Autofac
 {
+    /// <summary>
+    /// Application base class using Autofac
+    /// </summary>
     public abstract class PrismApplication : PrismApplicationBase<IContainer>
     {
+        /// <summary>
+        /// Service key used when registering the <see cref="AutofacPageNavigationService"/> with the container
+        /// </summary>
         const string _navigationServiceName = "AutofacPageNavigationService";
 
+        /// <summary>
+        /// Create a new instance of <see cref="PrismApplication"/>
+        /// </summary>
+        /// <param name="platformInitializer">Class to initialize platform instances</param>
+        /// <remarks>
+        /// The method <see cref="IPlatformInitializer.RegisterTypes(IContainer)"/> will be called after <see cref="PrismApplication.RegisterTypes()"/> 
+        /// to allow for registering platform specific instances.
+        /// </remarks>
         public PrismApplication(IPlatformInitializer initializer = null) : base(initializer) { }
+
 
         protected override void ConfigureViewModelLocator()
         {
@@ -42,6 +57,10 @@ namespace Prism.Autofac
             });
         }
 
+        /// <summary>
+        /// Create a default instance of <see cref="IContainer" />
+        /// </summary>
+        /// <returns>An instance of <see cref="IContainer" /></returns>
         protected override IContainer CreateContainer()
         {
             return new ContainerBuilder().Build();
@@ -52,11 +71,23 @@ namespace Prism.Autofac
             return Container.Resolve<IModuleManager>();
         }
 
+        /// <summary>
+        /// Create instance of <see cref="INavigationService"/>
+        /// </summary>
+        /// <remarks>
+        /// The <see cref="_navigationServiceKey"/> is used as service key when resolving
+        /// </remarks>
+        /// <returns>Instance of <see cref="INavigationService"/></returns>
         protected override INavigationService CreateNavigationService()
         {
             return Container.ResolveNamed<INavigationService>(_navigationServiceName);
         }
 
+        /// <summary>
+        /// Create instance of <see cref="INavigationService"/> and set the <see cref="IPageAware.Page"/> property to <paramref name="page"/>
+        /// </summary>
+        /// <param name="page">Active page</param>
+        /// <returns>Instance of <see cref="INavigationService"/> with <see cref="IPageAware.Page"/> set</returns>
         protected INavigationService CreateNavigationService(Page page)
         {
             var navigationService = CreateNavigationService();
