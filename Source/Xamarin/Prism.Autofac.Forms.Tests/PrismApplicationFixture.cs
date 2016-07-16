@@ -57,7 +57,7 @@ namespace Prism.Autofac.Forms.Tests
             // we check that this throws an InvalidOperationException (for reason stated above).
             // This shows that a call to Xamarin.Forms.DependencyService was made and thus should return
             // service instance (if registered)
-            Assert.Throws<TargetInvocationException>(
+            Assert.Throws<ComponentNotRegisteredException>(
                 () => app.Container.Resolve<IDependencyServiceMock>());
         }
 
@@ -68,17 +68,6 @@ namespace Prism.Autofac.Forms.Tests
             var navigationService = app.NavigationService;
             Assert.NotNull(navigationService);
             Assert.IsType<AutofacPageNavigationService>(navigationService);
-        }
-
-        [Fact]
-        public async Task Navigate_ViewModel()
-        {
-            var app = new PrismApplicationMock();
-            var navigationService = ResolveAndSetRootPage(app);
-            await navigationService.NavigateAsync<ViewModelAMock>();
-            var rootPage = ((IPageAware)navigationService).Page;
-            Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ViewAMock), rootPage.Navigation.ModalStack[0]);
         }
 
         [Fact]

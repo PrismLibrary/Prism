@@ -20,7 +20,7 @@ namespace Prism.Autofac.Navigation
         protected override Page CreatePage(string name)
         {
             if (!_container.IsRegisteredWithName<Page>(name))
-                throw new NullReferenceException($"The requested page 'missing' has not been registered.");
+                throw new NullReferenceException($"The requested page '{name}' has not been registered.");
 
             return _container.ResolveNamed<Page>(name);
         }
