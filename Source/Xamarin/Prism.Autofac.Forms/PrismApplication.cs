@@ -100,7 +100,7 @@ namespace Prism.Autofac
             builder.RegisterInstance(ModuleCatalog).As<IModuleCatalog>().SingleInstance();
 
             builder.Register(ctx => new ApplicationProvider()).As<IApplicationProvider>().SingleInstance();
-            builder.Register(ctx => new AutofacPageNavigationService(Container, Container.Resolve<IApplicationProvider>(), Container.Resolve<ILoggerFacade>())).Named<INavigationService>(_navigationServiceName).SingleInstance();
+            builder.Register(ctx => new AutofacPageNavigationService(Container, Container.Resolve<IApplicationProvider>(), Container.Resolve<ILoggerFacade>())).Named<INavigationService>(_navigationServiceName);
             builder.Register(ctx => new ModuleManager(Container.Resolve<IModuleInitializer>(), Container.Resolve<IModuleCatalog>())).As<IModuleManager>().SingleInstance();
             builder.Register(ctx => new AutofacModuleInitializer(Container)).As<IModuleInitializer>().SingleInstance();
             builder.Register(ctx => new EventAggregator()).As<IEventAggregator>().SingleInstance();
