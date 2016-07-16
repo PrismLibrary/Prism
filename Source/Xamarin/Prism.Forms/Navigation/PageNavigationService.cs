@@ -1,11 +1,9 @@
 ﻿using Prism.Common;
 using Prism.Logging;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Prism.Mvvm;
 using Xamarin.Forms;
 
 namespace Prism.Navigation
@@ -68,19 +66,6 @@ namespace Prism.Navigation
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Initiates navigation to the target specified by the <typeparamref name="TViewModel"/>.
-        /// </summary>
-        /// <typeparam name="TViewModel">The type which will be used to identify the name of the navigation target.</typeparam>
-        /// <param name="parameters">The navigation parameters</param>
-        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
-        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public virtual Task NavigateAsync<TViewModel>(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
-            where TViewModel : BindableBase
-        {
-            return NavigateAsync(typeof(TViewModel).FullName, parameters, useModalNavigation, animated);
         }
 
         /// <summary>
@@ -193,27 +178,31 @@ namespace Prism.Navigation
                 return;
             }
 
-            var currentNavRoot = currentPage.Navigation.NavigationStack[0];
+            var currentNavRoot = currentPage.Navigation.NavigationStack.Last();
             var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
             if (currentNavRoot.GetType() == nextPageType)
             {
-                if (currentPage.Navigation.NavigationStack.Count > 1)
-                    await currentPage.Navigation.PopToRootAsync(false);
-
                 await ProcessNavigation(currentNavRoot, segments, parameters, false, animated);
                 await DoNavigateAction(currentNavRoot, nextSegment, currentNavRoot, parameters);
                 return;
             }
             else
             {
-                await currentPage.Navigation.PopToRootAsync(false);
+                bool clearNavStack = GetClearNavigationPageNavigationStack(currentPage);
+
+                if (clearNavStack)
+                    await currentPage.Navigation.PopToRootAsync(false);
+
                 var newRoot = CreatePageFromSegment(nextSegment);
                 await ProcessNavigation(newRoot, segments, parameters, false, animated);
 
                 await DoNavigateAction(currentNavRoot, nextSegment, newRoot, parameters, async () =>
                 {
                     var push = DoPush(currentPage, newRoot, false, animated);
-                    currentPage.Navigation.RemovePage(currentNavRoot);
+
+                    if (clearNavStack)
+                        currentPage.Navigation.RemovePage(currentPage.Navigation.NavigationStack[0]);
+
                     await push;
                 });
                 return;
@@ -320,7 +309,7 @@ namespace Prism.Navigation
             }
         }
 
-        bool GetMasterDetailPageIsPresented(MasterDetailPage page)
+        static bool GetMasterDetailPageIsPresented(MasterDetailPage page)
         {
             var iMasterDetailPage = page as IMasterDetailPageOptions;
             if (iMasterDetailPage != null)
@@ -331,6 +320,19 @@ namespace Prism.Navigation
                 return iMasterDetailPageBindingContext.IsPresentedAfterNavigation;
 
             return false;
+        }
+
+        static bool GetClearNavigationPageNavigationStack(NavigationPage page)
+        {
+            var iNavigationPage = page as INavigationPageOptions;
+            if (iNavigationPage != null)
+                return iNavigationPage.ClearNavigationStackOnNavigation;
+
+            var iNavigationPageBindingContext = page.BindingContext as INavigationPageOptions;
+            if (iNavigationPageBindingContext != null)
+                return iNavigationPageBindingContext.ClearNavigationStackOnNavigation;
+
+            return true;
         }
 
         static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Func<Task> navigationAction = null, Action onNavigationActionCompleted = null)

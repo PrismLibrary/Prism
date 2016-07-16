@@ -9,26 +9,22 @@ namespace Prism.Common
     /// </summary>
     public static class UriParsingHelper
     {
+        private static readonly char[] _pathDelimiter = { '/' };
+
         public static Queue<string> GetUriSegments(Uri uri)
         {
-            Queue<string> segmentStack = new Queue<string>();
-            string[] segments;
+            var segmentStack = new Queue<string>();
 
             if (!uri.IsAbsoluteUri)
-                segments = EnsureAbsolute(uri).PathAndQuery.Split('/');
-            else
-                segments = uri.PathAndQuery.Split('/');
-
-            for (int i = 0; i < segments.Length; i++)
             {
-                var s = segments[i];
-                if (string.IsNullOrEmpty(s))
-                    continue;
-
-                s = Uri.UnescapeDataString(s);
-                segmentStack.Enqueue(s);
+                uri = EnsureAbsolute(uri);
             }
 
+            string[] segments = uri.PathAndQuery.Split(_pathDelimiter, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var segment in segments)
+            {
+                segmentStack.Enqueue(Uri.UnescapeDataString(segment));
+            }
 
             return segmentStack;
         }
@@ -42,12 +38,14 @@ namespace Prism.Common
         {
             string query = string.Empty;
 
-            if (!String.IsNullOrWhiteSpace(segment))
+            if (string.IsNullOrWhiteSpace(segment))
             {
-                var indexOfQuery = segment.IndexOf('?');
-                if (indexOfQuery > 0)
-                    query = segment.Substring(indexOfQuery);
+                return new NavigationParameters(query);
             }
+
+            var indexOfQuery = segment.IndexOf('?');
+            if (indexOfQuery > 0)
+                query = segment.Substring(indexOfQuery);
 
             return new NavigationParameters(query);
         }
