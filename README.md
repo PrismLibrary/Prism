@@ -51,7 +51,7 @@ Following matrix shows the platform specific support currently available.
 | [Prism.Unity][5] <sup>(*)</sup>  | [![25]][5] |  X  |  X  |     |
 | [Prism.Unity.Forms][10]| [![30]][10]|     |     |  X  |
 | [Prism.Mef][6]  <sup>(**)</sup> | [![26]][6] |  X  | - | - |
-| [Prism.Autofac][7]     | [![27]][7] |  X  |  X  |     |
+| [Prism.Autofac][7]     | [![27]][7] |  X  |  X  |  X  |
 | [Prism.StructureMap][8]| [![28]][8] |  X  |     |     |
 | [Prism.Ninject][9] <sup>(*)</sup>     | [![29]][9] |  X  |     |    |
 | [Prism.Ninject.Forms][11]| [![31]][11]|     |     |  X  |
