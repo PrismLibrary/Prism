@@ -59,9 +59,9 @@ namespace Prism.Autofac.Forms.Tests.Mocks
 
         }
 
-        public INavigationService CreateNavigationServiceForPage(Page page)
+        public INavigationService CreateNavigationServiceForPage()
         {
-            return CreateNavigationService(page);
+            return CreateNavigationService();
         }
     }
 }

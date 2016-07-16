@@ -106,7 +106,7 @@ namespace Prism.Autofac.Forms.Tests
             var view = new AutowireView();
             var viewModel = (AutowireViewModel)view.BindingContext;
             var pageAware = (IPageAware)viewModel.NavigationService;
-            var navigationServicePage = app.CreateNavigationServiceForPage(view);
+            var navigationServicePage = app.CreateNavigationServiceForPage();
             Assert.IsType<AutowireView>(pageAware.Page);
             var navigatedPage = ((IPageAware)navigationServicePage).Page;
             Assert.IsType<AutowireView>(navigatedPage);

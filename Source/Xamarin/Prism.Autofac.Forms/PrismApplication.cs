@@ -83,18 +83,6 @@ namespace Prism.Autofac
             return Container.ResolveNamed<INavigationService>(_navigationServiceName);
         }
 
-        /// <summary>
-        /// Create instance of <see cref="INavigationService"/> and set the <see cref="IPageAware.Page"/> property to <paramref name="page"/>
-        /// </summary>
-        /// <param name="page">Active page</param>
-        /// <returns>Instance of <see cref="INavigationService"/> with <see cref="IPageAware.Page"/> set</returns>
-        protected INavigationService CreateNavigationService(Page page)
-        {
-            var navigationService = CreateNavigationService();
-            ((IPageAware)navigationService).Page = page;
-            return navigationService;
-        }
-
         protected override void InitializeModules()
         {
             if (ModuleCatalog.Modules.Any())
@@ -108,16 +96,16 @@ namespace Prism.Autofac
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterInstance(Logger).As<ILoggerFacade>();
-            builder.RegisterInstance(ModuleCatalog).As<IModuleCatalog>();
+            builder.RegisterInstance(Logger).As<ILoggerFacade>().SingleInstance();
+            builder.RegisterInstance(ModuleCatalog).As<IModuleCatalog>().SingleInstance();
 
             builder.Register(ctx => new ApplicationProvider()).As<IApplicationProvider>().SingleInstance();
-            builder.Register(ctx => new AutofacPageNavigationService(Container, Container.Resolve<IApplicationProvider>(), Container.Resolve<ILoggerFacade>())).Named<INavigationService>(_navigationServiceName);
-            builder.Register(ctx => new ModuleManager(Container.Resolve<IModuleInitializer>(), Container.Resolve<IModuleCatalog>())).As<IModuleManager>();
-            builder.Register(ctx => new AutofacModuleInitializer(Container)).As<IModuleInitializer>();
-            builder.Register(ctx => new EventAggregator()).As<IEventAggregator>();
-            builder.Register(ctx => new DependencyService()).As<IDependencyService>();
-            builder.Register(ctx => new PageDialogService(ctx.Resolve<IApplicationProvider>())).As<IPageDialogService>();
+            builder.Register(ctx => new AutofacPageNavigationService(Container, Container.Resolve<IApplicationProvider>(), Container.Resolve<ILoggerFacade>())).Named<INavigationService>(_navigationServiceName).SingleInstance();
+            builder.Register(ctx => new ModuleManager(Container.Resolve<IModuleInitializer>(), Container.Resolve<IModuleCatalog>())).As<IModuleManager>().SingleInstance();
+            builder.Register(ctx => new AutofacModuleInitializer(Container)).As<IModuleInitializer>().SingleInstance();
+            builder.Register(ctx => new EventAggregator()).As<IEventAggregator>().SingleInstance();
+            builder.Register(ctx => new DependencyService()).As<IDependencyService>().SingleInstance();
+            builder.Register(ctx => new PageDialogService(ctx.Resolve<IApplicationProvider>())).As<IPageDialogService>().SingleInstance();
 
             builder.Update(Container);
         }
