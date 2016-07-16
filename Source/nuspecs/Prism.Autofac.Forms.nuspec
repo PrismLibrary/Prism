@@ -18,42 +18,42 @@
     <dependencies>   
       <group targetFramework="portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10">
         <dependency id="Prism.Forms" version="$formsVersion$" />
-        <dependency id="Xamarin.Forms" version="2.3.0.38-pre2" />
+        <dependency id="Xamarin.Forms" version="2.3.1.111-pre2" />
         <dependency id="Autofac" version="3.5.2" />
       </group>
       <group targetFramework="Xamarin.iOS1.0">
         <dependency id="Prism.Forms" version="$formsVersion$" />
-        <dependency id="Xamarin.Forms" version="2.3.0.38-pre2" />
+        <dependency id="Xamarin.Forms" version="2.3.1.111-pre2" />
         <dependency id="Autofac" version="3.5.2" />
       </group>
       <group targetFramework="MonoTouch1.0">
         <dependency id="Prism.Forms" version="$formsVersion$" />
-        <dependency id="Xamarin.Forms" version="2.3.0.38-pre2" />
+        <dependency id="Xamarin.Forms" version="2.3.1.111-pre2" />
         <dependency id="Autofac" version="3.5.2" />
       </group>
       <group targetFramework="MonoAndroid1.0">
         <dependency id="Prism.Forms" version="$formsVersion$" />
-        <dependency id="Xamarin.Forms" version="2.3.0.38-pre2" />
+        <dependency id="Xamarin.Forms" version="2.3.1.111-pre2" />
         <dependency id="Autofac" version="3.5.2" />
       </group>
       <group targetFramework="Windows8.1">
         <dependency id="Prism.Forms" version="$formsVersion$" />
-        <dependency id="Xamarin.Forms" version="2.3.0.38-pre2" />
+        <dependency id="Xamarin.Forms" version="2.3.1.111-pre2" />
         <dependency id="Autofac" version="3.5.2" />
       </group>
       <group targetFramework="WindowsPhoneApp8.1">
         <dependency id="Prism.Forms" version="$formsVersion$" />
-        <dependency id="Xamarin.Forms" version="2.3.0.38-pre2" />
+        <dependency id="Xamarin.Forms" version="2.3.1.111-pre2" />
         <dependency id="Autofac" version="3.5.2" />
       </group>
       <group targetFramework="UAP10.0">
         <dependency id="Prism.Forms" version="$formsVersion$" />
-        <dependency id="Xamarin.Forms" version="2.3.0.38-pre2" />
+        <dependency id="Xamarin.Forms" version="2.3.1.111-pre2" />
         <dependency id="Autofac" version="3.5.2" />
       </group>
       <group targetFramework="WindowsPhone8.0">
         <dependency id="Prism.Forms" version="$formsVersion$" />
-        <dependency id="Xamarin.Forms" version="2.3.0.38-pre2" />
+        <dependency id="Xamarin.Forms" version="2.3.1.111-pre2" />
         <dependency id="Autofac" version="3.5.2" />
       </group>
     </dependencies>
