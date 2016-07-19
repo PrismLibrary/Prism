@@ -100,21 +100,6 @@ namespace Prism.Autofac.Forms.Tests
         }
 
         [Fact]
-        public void Navigate_ViewModelFactory_PageAware()
-        {
-            var app = new PrismApplicationMock();
-            var view = new AutowireView();
-            var viewModel = (AutowireViewModel)view.BindingContext;
-            var pageAware = (IPageAware)viewModel.NavigationService;
-            var navigationServicePage = app.CreateNavigationServiceForPage();
-            Assert.IsType<AutowireView>(pageAware.Page);
-            var navigatedPage = ((IPageAware)navigationServicePage).Page;
-            Assert.IsType<AutowireView>(navigatedPage);
-            Assert.Same(view, pageAware.Page);
-            Assert.Same(pageAware.Page, navigatedPage);
-        }
-
-        [Fact]
         public void Container_ResolveByType()
         {
             var app = new PrismApplicationMock();
