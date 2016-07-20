@@ -48,13 +48,16 @@ Following matrix shows the platform specific support currently available.
 
 | Package                | Version    | WPF | Win10 UWP | Xamarin.Forms |
 |------------------------|------------|:---:|:---:|:---:|
-| [Prism.Unity][5] <sup>(*)</sup>  | [![25]][5] |  X  |  X  |     |
-| [Prism.Unity.Forms][10]| [![30]][10]|     |     |  X  |
+| [Prism.Autofac][7]     | [![27]][7] |  X  |  X  |    |
+| [Prism.Autofac.Forms][7]     | [![27]][7] |    |    |  X  |
+| [Prism.DryIoc.Forms]     |  |    |    |  X  |
 | [Prism.Mef][6]  <sup>(**)</sup> | [![26]][6] |  X  | - | - |
-| [Prism.Autofac][7]     | [![27]][7] |  X  |  X  |     |
-| [Prism.StructureMap][8]| [![28]][8] |  X  |     |     |
 | [Prism.Ninject][9] <sup>(*)</sup>     | [![29]][9] |  X  |     |    |
 | [Prism.Ninject.Forms][11]| [![31]][11]|     |     |  X  |
+| [Prism.StructureMap][8]| [![28]][8] |  X  |     |     |
+| [Prism.Unity][5] <sup>(*)</sup>  | [![25]][5] |  X  |  X  |     |
+| [Prism.Unity.Forms][10]| [![30]][10]|     |     |  X  |
+
 
 <sup>(*)</sup> As Xamarin Forms also supports UWP now, adding Prism.Unity or Prism.Ninject puts in some incorrect dependencies. Therefore we created a new package for Xamarin Forms projects. 
 
