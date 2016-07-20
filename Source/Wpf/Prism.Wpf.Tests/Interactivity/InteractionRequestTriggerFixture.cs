@@ -5,7 +5,6 @@ using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Wpf.Tests.Mocks;
-using System.Threading.Tasks;
 
 namespace Prism.Wpf.Tests.Interactivity
 {
@@ -46,26 +45,6 @@ namespace Prism.Wpf.Tests.Interactivity
 
             request.Raise(new Notification());
             Assert.IsTrue(action.ExecutionCount == 1);
-        }
-
-        [TestMethod]
-        public async Task WhenEventIsRaisedAsync_NotificationIsPassedBackAsync()
-        {
-            var request = new InteractionRequest<INotification>();
-            var trigger = new TestableInteractionRequestTrigger();
-            var associatedObject = new DependencyObject();
-            var action = new TestableTriggerAction();
-            var notification = new Notification();
-
-            trigger.Actions.Add(action);
-            trigger.Attach(associatedObject);
-            trigger.SourceObject = request;
-
-            Assert.IsTrue(action.ExecutionCount == 0);
-
-            var result = await request.RaiseAsync(notification);
-            Assert.IsTrue(action.ExecutionCount == 1);
-            Assert.ReferenceEquals(notification, result);
         }
     }
 

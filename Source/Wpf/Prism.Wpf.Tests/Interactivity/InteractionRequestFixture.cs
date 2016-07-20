@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Interactivity.InteractionRequest;
 
@@ -38,6 +39,137 @@ namespace Prism.Wpf.Tests.Interactivity
             eventCallback();
 
             Assert.AreSame(context, suppliedContext);
+        }
+
+        [TestMethod]
+        public async Task WhenEventIsRaisedAsyncDialog_NotificationIsPassedBackAsync()
+        {
+            var request = new InteractionRequest<INotification>();
+
+            MockPopupDialogWindow popup = new MockPopupDialogWindow();
+            popup.Attach(request);
+
+            var notification = new Notification();
+
+            Assert.IsTrue(popup.ExecutionCount == 0);
+
+            var result = await request.RaiseAsync(notification);
+            Assert.IsTrue(popup.ExecutionCount == 1);
+            Assert.ReferenceEquals(notification, result);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public async Task WhenEventIsRaisedAsyncDialog_ThrowsBeforeCallback()
+        {
+            var request = new InteractionRequest<INotification>();
+
+            MockPopupDialogWindow popup = new MockPopupDialogWindow { ThrowsBeforeCallback = true };
+            popup.Attach(request);
+
+            var notification = new Notification();
+
+            await request.RaiseAsync(notification);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public async Task WhenEventIsRaisedAsyncDialog_ThrowsAfterCallback()
+        {
+            var request = new InteractionRequest<INotification>();
+
+            MockPopupDialogWindow popup = new MockPopupDialogWindow { ThrowsAfterCallback = true };
+            popup.Attach(request);
+
+            var notification = new Notification();
+
+            await request.RaiseAsync(notification);
+        }
+
+        [TestMethod]
+        public async Task WhenEventIsRaisedAsync_NotificationIsPassedBackAsync()
+        {
+            var request = new InteractionRequest<INotification>();
+
+            MockPopupWindow popup = new MockPopupWindow();
+            popup.Attach(request);
+
+            var notification = new Notification();
+
+            var task = request.RaiseAsync(notification);
+
+            await Task.Delay(200);
+            bool completed = task.Wait(0);
+            Assert.IsFalse(completed);
+
+            popup.Confirm();
+
+            var result = await task;
+            Assert.ReferenceEquals(notification, result);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public async Task WhenEventIsRaisedAsync_Throws()
+        {
+            var request = new InteractionRequest<INotification>();
+
+            MockPopupWindow popup = new MockPopupWindow { Throws = true };
+            popup.Attach(request);
+
+            var notification = new Notification();
+
+            await request.RaiseAsync(notification);
+        }
+    }
+
+    public class MockPopupDialogWindow
+    {
+        public int ExecutionCount { get; private set; }
+
+        public bool ThrowsBeforeCallback { get; set; }
+        public bool ThrowsAfterCallback { get; set; }
+
+        public void Attach(IInteractionRequest request)
+        {
+            request.Raised += (s, args) =>
+            {
+                this.ExecutionCount++;
+                if (this.ThrowsBeforeCallback)
+                {
+                    throw new InvalidOperationException();
+                }
+                args.Callback();
+                if (this.ThrowsAfterCallback)
+                {
+                    throw new InvalidOperationException();
+                }
+            };
+        }
+    }
+
+    public class MockPopupWindow
+    {
+        private Action callback;
+
+        public bool Throws { get; set; }
+
+        public void Attach(IInteractionRequest request)
+        {
+            request.Raised += (s, args) =>
+            {
+                if (this.Throws)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                this.callback = args.Callback;
+            };
+        }
+
+        public void Confirm()
+        {
+            this.callback();
         }
     }
 }
