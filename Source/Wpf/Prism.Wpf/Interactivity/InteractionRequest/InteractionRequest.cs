@@ -60,7 +60,7 @@ namespace Prism.Interactivity.InteractionRequest
 
             TaskCompletionSource<T> tcs = new TaskCompletionSource<T>();
 
-            var task = Task.Factory.StartNew(() =>
+            await Task.Factory.StartNew(() =>
             {
                 this.Raise(context, (c) => tcs.TrySetResult(c));
             },
@@ -68,31 +68,7 @@ namespace Prism.Interactivity.InteractionRequest
             TaskCreationOptions.None,
             TaskScheduler.FromCurrentSynchronizationContext());
 
-            // If the popup window is modal, the callback is called before the window is closed and Raise returns.
-            // For non-modal popup windows, Raise returns and the callback is called much later.
-            // Thus, the tasks may be completed in any order.
-
-            Task t = await Task.WhenAny(task, tcs.Task);
-            if (t == task)
-            {
-                if (task.IsFaulted)
-                {
-                    // Raise crashed
-                    throw task.Exception.InnerException;
-                }
-                else
-                {
-                    // Raise was successfull, now wait for callback to be called.
-                    return await tcs.Task;
-                }
-            }
-            else
-            {
-                // Although callback has been already called and tcs.Task completed, Raise may still crash and then "awit task" will throw.
-                // This may happen e.g. if window content hooks up into Window.Closed event for modal popup.
-                await task;
-                return tcs.Task.Result;
-            }
+            return await tcs.Task;
         }
     }
 }
