@@ -48,6 +48,19 @@ namespace Prism.Interactivity.InteractionRequest
         /// if the InteractionRequest is unhandled.
         /// </summary>
         /// <param name="context">The context for the interaction request.</param>
+        /// <returns>
+        /// The context after the request has been handled by the UI.
+        /// </returns>
+        public Task<T> RaiseAsync(T context)
+        {
+            return this.RaiseAsync(context, false);
+        }
+
+        /// <summary>
+        /// Fires the Raised event asynchronously. Please note that this request may never return
+        /// if the InteractionRequest is unhandled.
+        /// </summary>
+        /// <param name="context">The context for the interaction request.</param>
         /// <param name="executeSynchronously">
         /// Has no effect if the popup window is not modal.
         /// If the popup window is modal and executeSynchronously is true, retruns already completed task.
@@ -56,7 +69,7 @@ namespace Prism.Interactivity.InteractionRequest
         /// <returns>
         /// The context after the request has been handled by the UI.
         /// </returns>
-        public Task<T> RaiseAsync(T context, bool executeSynchronously = false)
+        public Task<T> RaiseAsync(T context, bool executeSynchronously)
         {
             if (executeSynchronously)
             {
