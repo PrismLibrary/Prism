@@ -48,8 +48,27 @@ namespace Prism.Interactivity.InteractionRequest
         /// if the InteractionRequest is unhandled.
         /// </summary>
         /// <param name="context">The context for the interaction request.</param>
-        /// <returns>The context after the request has been handled by the UI.</returns>
-        public async Task<T> RaiseAsync(T context)
+        /// <param name="executeSynchronously">
+        /// Has no effect if the popup window is not modal.
+        /// If the popup window is modal and executeSynchronously is true, retruns already completed task.
+        /// That is, when the method returns, the popup window has already been closed.
+        /// </param>
+        /// <returns>
+        /// The context after the request has been handled by the UI.
+        /// </returns>
+        public Task<T> RaiseAsync(T context, bool executeSynchronously = false)
+        {
+            if (executeSynchronously)
+            {
+                return CallbackHelper.AwaitCallbackResult<T>(callback => this.Raise(context, callback));
+            }
+            else
+            {
+                return this.RaiseImplAsync(context);
+            }
+        }
+
+        private async Task<T> RaiseImplAsync(T context)
         {
             // SynchronizationContext exists in actual program running on GUI Dispatcher thread.  Make sure
             // it exists in tests.

@@ -59,6 +59,25 @@ namespace Prism.Wpf.Tests.Interactivity
         }
 
         [TestMethod]
+        public void WhenEventIsRaisedSyncDialog_NotificationIsPassedBackSync()
+        {
+            var request = new InteractionRequest<INotification>();
+
+            MockPopupDialogWindow popup = new MockPopupDialogWindow();
+            popup.Attach(request);
+
+            var notification = new Notification();
+
+            Assert.IsTrue(popup.ExecutionCount == 0);
+
+            var task = request.RaiseAsync(notification, executeSynchronously: true);
+            Assert.IsTrue(task.IsCompleted);
+
+            Assert.IsTrue(popup.ExecutionCount == 1);
+            Assert.ReferenceEquals(notification, task.Result);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public async Task WhenEventIsRaisedAsyncDialog_ThrowsBeforeCallback()
         {
