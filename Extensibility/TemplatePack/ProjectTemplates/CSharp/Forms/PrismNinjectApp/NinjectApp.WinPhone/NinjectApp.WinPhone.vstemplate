@@ -55,10 +55,10 @@
 
     <WizardData>
         <packages repository="extension" repositoryId="Prism.TemplatePack.138e3411-ac97-4c11-8016-c27a831cba2e">
-            <package id="Xamarin.Forms" version="2.3.0.49" />
+            <package id="Xamarin.Forms" version="2.3.1.113-pre3" />
             <package id="Prism.Core" version="6.2.0-pre1" />
-            <package id="Prism.Ninject.Forms" version="6.2.0-pre6" />
-            <package id="Prism.Ninject" version="6.2.0-pre6" />
+            <package id="Prism.Forms" version="6.1.0-pre7" />
+            <package id="Prism.Ninject.Forms" version="6.2.0-pre7" />
             <package id="Portable.Ninject" version="3.3.1" />
         </packages>
         <EnsureRegistryWizard>
