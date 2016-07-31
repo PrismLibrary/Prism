@@ -2,6 +2,9 @@
 
 namespace Prism.Services
 {
+    /// <summary>
+    /// Represents a button displayed in <see cref="Prism.Services.IPageDialogService.DisplayActionSheetAsync(string, IActionSheetButton[])"/>
+    /// </summary>
     public class ActionSheetButton : IActionSheetButton
     {
         /// <summary>
@@ -25,10 +28,10 @@ namespace Prism.Services
         public virtual ICommand Command { get; protected set; }
 
         /// <summary>
-        /// Create a new instance of <see cref="ActionSheetButton"/> that display as "other button"
+        /// Create a new instance of <see cref="ActionSheetButton"/> that display as "cancel button"
         /// </summary>
         /// <param name="text">Button text</param>
-        /// <param name="callback">Callback when button pressed</param>
+        /// <param name="command">Command to execute when button pressed</param>
         /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
         public static ActionSheetButton CreateCancelButton(string text, ICommand command)
         {
@@ -39,7 +42,7 @@ namespace Prism.Services
         /// Create a new instance of <see cref="ActionSheetButton"/> that display as "destroy button"
         /// </summary>
         /// <param name="text">Button text</param>
-        /// <param name="callback">Callback when button pressed</param>
+        /// <param name="command">Command to execute when button pressed</param>
         /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
         public static ActionSheetButton CreateDestroyButton(string text, ICommand command)
         {
@@ -47,10 +50,10 @@ namespace Prism.Services
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="ActionSheetButton"/> that display as "cancel button"
+        /// Create a new instance of <see cref="ActionSheetButton"/> that display as "other button"
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="callback"></param>
+        /// <param name="text">Button text</param>
+        /// <param name="command">Command to execute when button pressed</param>
         /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
         public static ActionSheetButton CreateButton(string text, ICommand command)
         {

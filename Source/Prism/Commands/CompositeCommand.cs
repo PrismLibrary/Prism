@@ -2,6 +2,7 @@ using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows.Input;
 
 namespace Prism.Commands
@@ -14,6 +15,7 @@ namespace Prism.Commands
         private readonly List<ICommand> _registeredCommands = new List<ICommand>();
         private readonly bool _monitorCommandActivity;
         private readonly EventHandler _onRegisteredCommandCanExecuteChangedHandler;
+        private SynchronizationContext _synchronizationContext;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CompositeCommand"/>.
@@ -21,6 +23,7 @@ namespace Prism.Commands
         public CompositeCommand()
         {
             this._onRegisteredCommandCanExecuteChangedHandler = new EventHandler(this.OnRegisteredCommandCanExecuteChanged);
+            _synchronizationContext = SynchronizationContext.Current;
         }
 
         /// <summary>
@@ -38,13 +41,13 @@ namespace Prism.Commands
         /// </summary>
         ///  <remarks>
         /// If this command is set to monitor command activity, and <paramref name="command"/> 
-        /// implements the <see cref="IActiveAwareCommand"/> interface, this method will subscribe to its
-        /// <see cref="IActiveAwareCommand.IsActiveChanged"/> event.
+        /// implements the <see cref="IActiveAware"/> interface, this method will subscribe to its
+        /// <see cref="IActiveAware.IsActiveChanged"/> event.
         /// </remarks>
         /// <param name="command">The command to register.</param>
         public virtual void RegisterCommand(ICommand command)
         {
-            if (command == null) throw new ArgumentNullException("command");
+            if (command == null) throw new ArgumentNullException(nameof(command));
             if (command == this)
             {
                 throw new ArgumentException(Resources.CannotRegisterCompositeCommandInItself);
@@ -78,7 +81,7 @@ namespace Prism.Commands
         /// <param name="command">The command to unregister.</param>
         public virtual void UnregisterCommand(ICommand command)
         {
-            if (command == null) throw new ArgumentNullException("command");
+            if (command == null) throw new ArgumentNullException(nameof(command));
             bool removed;
             lock (this._registeredCommands)
             {
@@ -174,8 +177,8 @@ namespace Prism.Commands
         /// when evaluating <see cref="CompositeCommand.CanExecute"/> and <see cref="CompositeCommand.Execute"/>.</returns>
         /// <remarks>
         /// If this command is set to monitor command activity, and <paramref name="command"/>
-        /// implements the <see cref="IActiveAwareCommand"/> interface, 
-        /// this method will return <see langword="false" /> if the command's <see cref="IActiveAwareCommand.IsActive"/> 
+        /// implements the <see cref="IActiveAware"/> interface, 
+        /// this method will return <see langword="false" /> if the command's <see cref="IActiveAware.IsActive"/> 
         /// property is <see langword="false" />; otherwise it always returns <see langword="true" />.</remarks>
         protected virtual bool ShouldExecute(ICommand command)
         {
@@ -218,7 +221,10 @@ namespace Prism.Commands
             var handler = CanExecuteChanged;
             if (handler != null)
             {
-                handler(this, EventArgs.Empty);
+                if (_synchronizationContext != null && _synchronizationContext != SynchronizationContext.Current)
+                    _synchronizationContext.Post((o) => handler.Invoke(this, EventArgs.Empty), null);
+                else
+                    handler.Invoke(this, EventArgs.Empty);
             }
         }
 

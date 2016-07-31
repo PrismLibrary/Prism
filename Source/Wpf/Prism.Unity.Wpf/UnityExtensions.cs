@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
+using System;
 
 namespace Prism.Unity
 {
@@ -8,10 +9,13 @@ namespace Prism.Unity
         /// Registers an object for navigation.
         /// </summary>
         /// <typeparam name="T">The Type of the object to register</typeparam>
-        /// <param name="name">The unique name to register with the object</param>
-        public static void RegisterTypeForNavigation<T>(this IUnityContainer container, string name)
+        /// <param name="container"><see cref="IUnityContainer"/> used to register type for Navigation.</param>
+        /// <param name="name">The unique name to register with the object.</param>
+        public static IUnityContainer RegisterTypeForNavigation<T>(this IUnityContainer container, string name = null)
         {
-            container.RegisterType(typeof(object), typeof(T), name);
+            Type type = typeof(T);
+            string viewName = string.IsNullOrWhiteSpace(name) ? type.Name : name;
+            return container.RegisterType(typeof(object), type, viewName);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Practices.ServiceLocation;
 using Ninject;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Prism.Ninject
 {

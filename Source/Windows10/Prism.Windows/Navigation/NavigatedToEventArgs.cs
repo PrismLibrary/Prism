@@ -25,14 +25,14 @@ namespace Prism.Windows.Navigation
         public Type SourcePageType { get; }
 
         /// <summary>
-        /// 
+        /// Creates a new <see cref="NavigatedToEventArgs"/> instance.
         /// </summary>
         public NavigatedToEventArgs() { }
 
         /// <summary>
-        /// 
+        /// Creates a new <see cref="NavigatedToEventArgs"/> object based on <see cref="NavigationEventArgs"/>
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="args">The Frame's <see cref="NavigationEventArgs"/>.</param>
         public NavigatedToEventArgs(NavigationEventArgs args)
         {
             NavigationMode = args.NavigationMode;

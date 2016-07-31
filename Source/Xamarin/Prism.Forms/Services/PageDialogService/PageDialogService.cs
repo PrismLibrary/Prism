@@ -6,13 +6,16 @@ using Xamarin.Forms;
 
 namespace Prism.Services
 {
-    public class PageDialogService : IPageDialogService, IPageAware
+    /// <summary>
+    /// 
+    /// </summary>
+    public class PageDialogService : IPageDialogService
     {
-        Page _page;
-        Page IPageAware.Page
+        IApplicationProvider _applicationProvider;
+
+        public PageDialogService(IApplicationProvider applicationProvider)
         {
-            get { return _page ?? (_page = Application.Current.MainPage); }
-            set { _page = value; }
+            _applicationProvider = applicationProvider;
         }
 
         /// <summary>
@@ -26,9 +29,9 @@ namespace Prism.Services
         /// <param name="acceptButton">Text for the accept button.</param>
         /// <param name="cancelButton">Text for the cancel button.</param>
         /// <returns><c>true</c> if non-destructive button pressed; otherwise <c>false</c>/></returns>
-        public virtual async Task<bool> DisplayAlert(string title, string message, string acceptButton, string cancelButton)
+        public virtual Task<bool> DisplayAlertAsync(string title, string message, string acceptButton, string cancelButton)
         {
-            return await _page.DisplayAlert(title, message, acceptButton, cancelButton);
+            return _applicationProvider.MainPage.DisplayAlert(title, message, acceptButton, cancelButton);
         }
 
         /// <summary>
@@ -41,9 +44,9 @@ namespace Prism.Services
         /// <param name="message">Message to display.</param>
         /// <param name="cancelButton">Text for the cancel button.</param>
         /// <returns></returns>
-        public virtual async Task DisplayAlert(string title, string message, string cancelButton)
+        public virtual Task DisplayAlertAsync(string title, string message, string cancelButton)
         {
-            await _page.DisplayAlert(title, message, cancelButton);
+            return _applicationProvider.MainPage.DisplayAlert(title, message, cancelButton);
         }
 
         /// <summary>
@@ -54,9 +57,9 @@ namespace Prism.Services
         /// <param name="destroyButton">Text for the ok button.</param>
         /// <param name="otherButtons">Text for other buttons.</param>
         /// <returns>Text for the pressed button</returns>
-        public virtual async Task<string> DisplayActionSheet(string title, string cancelButton, string destroyButton, params string[] otherButtons)
+        public virtual Task<string> DisplayActionSheetAsync(string title, string cancelButton, string destroyButton, params string[] otherButtons)
         {
-            return await _page.DisplayActionSheet(title, cancelButton, destroyButton, otherButtons);
+            return GetCurrentPage().DisplayActionSheet(title, cancelButton, destroyButton, otherButtons);
         }
 
         /// <summary>
@@ -64,25 +67,21 @@ namespace Prism.Services
         /// </summary>
         /// <para>
         /// The text displayed in the action sheet will be the value for <see cref="IActionSheetButton.Text"/> and when pressed
-        /// the <see cref="IActionSheetButton.Callback"/> will be executed.
+        /// the <see cref="IActionSheetButton.Command"/> will be executed.
         /// </para>
-        /// <param name="service">Instance of <see cref="IPageDialogService"/></param>
         /// <param name="title">Text to display in action sheet</param>
         /// <param name="buttons">Buttons displayed in action sheet</param>
         /// <returns></returns>
-        public virtual async Task DisplayActionSheet(string title, params IActionSheetButton[] buttons)
+        public virtual async Task DisplayActionSheetAsync(string title, params IActionSheetButton[] buttons)
         {
             if (buttons == null || buttons.All(b => b == null))
-                throw new ArgumentException("At least one button needs to be supplied", "buttons");
+                throw new ArgumentException("At least one button needs to be supplied", nameof(buttons));
 
             var destroyButton = buttons.FirstOrDefault(button => button != null && button.IsDestroy);
             var cancelButton = buttons.FirstOrDefault(button => button != null && button.IsCancel);
             var otherButtonsText = buttons.Where(button => button != null && !(button.IsDestroy || button.IsCancel)).Select(b => b.Text).ToArray();
 
-            //Appveyor doesn't like this, so until they support it, we need to do it the hard way.
-            //var pressedButton = await DisplayActionSheet(title, cancelButton?.Text, destroyButton?.Text, otherButtonsText);
-            //TODO: delete when Appveyor suppports new C# 6 features
-            var pressedButton = await DisplayActionSheet(title, cancelButton != null ? cancelButton.Text : null, destroyButton != null ? destroyButton.Text : null, otherButtonsText);
+            var pressedButton = await DisplayActionSheetAsync(title, cancelButton?.Text, destroyButton?.Text, otherButtonsText);
 
             foreach (var button in buttons.Where(button => button != null && button.Text.Equals(pressedButton)))
             {
@@ -91,6 +90,20 @@ namespace Prism.Services
 
                 return;
             }
+        }
+
+        private Page GetCurrentPage()
+        {
+            Page page = null;
+            if (_applicationProvider.MainPage.Navigation.ModalStack.Count > 0)
+                page = _applicationProvider.MainPage.Navigation.ModalStack.LastOrDefault();
+            else
+                page = _applicationProvider.MainPage.Navigation.NavigationStack.LastOrDefault();
+
+            if (page == null)
+                page = _applicationProvider.MainPage;
+
+            return page;
         }
     }
 }

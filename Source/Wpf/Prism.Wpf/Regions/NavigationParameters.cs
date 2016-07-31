@@ -1,6 +1,5 @@
-
-
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,8 +12,10 @@ namespace Prism.Regions
     /// <remarks>
     /// This class can be used to to pass object parameters during Navigation. 
     /// </remarks>
-    public class NavigationParameters : Dictionary<string, object>
+    public class NavigationParameters : IEnumerable<KeyValuePair<string, object>>
     {
+        private readonly List<KeyValuePair<string, object>> entries = new List<KeyValuePair<string, object>>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NavigationParameters"/> class.
         /// </summary>
@@ -73,6 +74,50 @@ namespace Prism.Regions
         }
 
         /// <summary>
+        /// Gets the <see cref="System.String"/> with the specified key.
+        /// </summary>
+        /// <returns>The value for the specified key, or <see langword="null"/> if the query does not contain such a key.</returns>
+        public object this[string key]
+        {
+            get
+            {
+                foreach (var kvp in this.entries)
+                {
+                    if (string.Compare(kvp.Key, key, StringComparison.Ordinal) == 0)
+                    {
+                        return kvp.Value;
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the enumerator.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        {
+            return this.entries.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Adds the specified key and value.
+        /// </summary>
+        /// <param name="key">The name.</param>
+        /// <param name="value">The value.</param>
+        public void Add(string key, object value)
+        {
+            this.entries.Add(new KeyValuePair<string, object>(key, value));
+        }
+
+        /// <summary>
         /// Converts the list of key value pairs to a query string.
         /// </summary>
         /// <returns></returns>
@@ -80,12 +125,12 @@ namespace Prism.Regions
         {
             var queryBuilder = new StringBuilder();
 
-            if (this.Count > 0)
+            if (this.entries.Count > 0)
             {
                 queryBuilder.Append('?');
                 var first = true;
 
-                foreach (var kvp in this)
+                foreach (var kvp in this.entries)
                 {
                     if (!first)
                     {
@@ -103,6 +148,7 @@ namespace Prism.Regions
             }
 
             return queryBuilder.ToString();
+
         }
     }
 }

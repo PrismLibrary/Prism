@@ -1,5 +1,3 @@
-
-
 using System;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity;
@@ -18,7 +16,7 @@ namespace Prism.Unity.Windows
         /// <param name="type">The type to check if it was registered.</param>
         /// <returns><see langword="true" /> if the <paramref name="type"/> was registered with the container.</returns>
         /// <remarks>
-        /// In order to use this extension, you must first call <see cref="UnityExtensions.AddNewExtension{TExtension}"/> 
+        /// In order to use this extension, you must first call <see cref="UnityContainerExtensions.AddNewExtension{TExtension}"/> 
         /// and specify <see cref="UnityContainerExtension"/> as the extension type.
         /// </remarks>
         public static bool IsTypeRegistered(IUnityContainer container, Type type)
@@ -33,9 +31,9 @@ namespace Prism.Unity.Windows
             return policy != null;
         }
 
-        ///<summary>
-        ///Initializes the container with this extension's functionality.
-        ///</summary>
+        /// <summary>
+        /// Initializes the container with this extension's functionality.
+        /// </summary>
         protected override void Initialize()
         {
         }

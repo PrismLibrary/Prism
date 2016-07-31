@@ -38,20 +38,20 @@ namespace Prism.Regions
         /// <param name="key">The key that specifies the type of <see cref="IRegionBehavior"/> that's added.</param>
         /// <param name="regionBehavior">The <see cref="IRegionBehavior"/> to add.</param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown is the <paramref name="key"/> parameter is Null, 
+        /// Thrown is the <paramref name="key"/> parameter is Null,
         /// or if the <paramref name="regionBehavior"/> parameter is Null.
         /// </exception>
         /// <exception cref="ArgumentException">Thrown if a behavior with the specified Key parameter already exists.</exception>
         public void Add(string key, IRegionBehavior regionBehavior)
         {
-            if (key == null) 
-                throw new ArgumentNullException("key");
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
 
-            if (regionBehavior == null) 
-                throw new ArgumentNullException("regionBehavior");
+            if (regionBehavior == null)
+                throw new ArgumentNullException(nameof(regionBehavior));
 
             if (this.behaviors.ContainsKey(key))
-                throw new  ArgumentException("Could not add duplicate behavior with same key.", "key");
+                throw new  ArgumentException("Could not add duplicate behavior with same key.", nameof(key));
 
             this.behaviors.Add(key, regionBehavior);
             regionBehavior.Region = this.region;

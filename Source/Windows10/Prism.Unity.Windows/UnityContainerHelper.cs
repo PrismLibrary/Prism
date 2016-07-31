@@ -15,7 +15,7 @@ namespace Prism.Unity.Windows
         /// <param name="type">The type to check if there is a type mapping for.</param>
         /// <returns><see langword="true"/> if there is a type mapping registered for <paramref name="type"/>.</returns>
         /// <remarks>In order to use this extension method, you first need to add the
-        /// <see cref="IUnityContainer"/> extension to the <see cref="UnityBootstrapperExtension"/>.
+        /// <see cref="IUnityContainer"/> extension to the <see cref="PrismUnityExtension"/>.
         /// </remarks>        
         public static bool IsTypeRegistered(this IUnityContainer container, Type type)
         {

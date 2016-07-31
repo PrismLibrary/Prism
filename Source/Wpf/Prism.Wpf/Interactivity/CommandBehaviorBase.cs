@@ -5,7 +5,7 @@ using System.Windows.Input;
 namespace Prism.Interactivity
 {
     /// <summary>
-    /// Base behavior to handle connecting a <see cref="Control"/> to a Command.
+    /// Base behavior to handle connecting a <see cref="System.Windows.Controls.Control"/> to a Command.
     /// </summary>
     /// <typeparam name="T">The target object must derive from Control</typeparam>
     /// <remarks>

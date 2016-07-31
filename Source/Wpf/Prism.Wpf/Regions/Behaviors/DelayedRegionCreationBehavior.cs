@@ -1,20 +1,20 @@
 
 
+using Prism.Properties;
 using System;
 using System.Globalization;
 using System.Windows;
-using Prism.Properties;
 
 namespace Prism.Regions.Behaviors
 {
     /// <summary>
     /// Behavior that creates a new <see cref="IRegion"/>, when the control that will host the <see cref="IRegion"/> (see <see cref="TargetElement"/>)
     /// is added to the VisualTree. This behavior will use the <see cref="RegionAdapterMappings"/> class to find the right type of adapter to create
-    /// the region. After the region is created, this behavior will detach. 
+    /// the region. After the region is created, this behavior will detach.
     /// </summary>
     /// <remarks>
     /// Attached property value inheritance is not available in Silverlight, so the current approach walks up the visual tree when requesting a region from a region manager.
-    /// The <see cref="RegionManagerRegistrationBehavior"/> is now responsible for walking up the Tree. 
+    /// The <see cref="RegionManagerRegistrationBehavior"/> is now responsible for walking up the Tree.
     /// </remarks>
     public class DelayedRegionCreationBehavior
     {
@@ -26,8 +26,8 @@ namespace Prism.Regions.Behaviors
         /// Initializes a new instance of the <see cref="DelayedRegionCreationBehavior"/> class.
         /// </summary>
         /// <param name="regionAdapterMappings">
-        /// The region adapter mappings, that are used to find the correct adapter for 
-        /// a given controltype. The controltype is determined by the <see name="TargetElement"/> value. 
+        /// The region adapter mappings, that are used to find the correct adapter for
+        /// a given controltype. The controltype is determined by the <see name="TargetElement"/> value.
         /// </param>
         public DelayedRegionCreationBehavior(RegionAdapterMappings regionAdapterMappings)
         {
@@ -37,13 +37,13 @@ namespace Prism.Regions.Behaviors
 
         /// <summary>
         /// Sets a class that interfaces between the <see cref="RegionManager"/> 's static properties/events and this behavior,
-        /// so this behavior can be tested in isolation. 
+        /// so this behavior can be tested in isolation.
         /// </summary>
         /// <value>The region manager accessor.</value>
         public IRegionManagerAccessor RegionManagerAccessor { get; set; }
 
         /// <summary>
-        /// The element that will host the Region. 
+        /// The element that will host the Region.
         /// </summary>
         /// <value>The target element.</value>
         public DependencyObject TargetElement
@@ -63,7 +63,7 @@ namespace Prism.Regions.Behaviors
         }
 
         /// <summary>
-        /// Stop monitoring the <see cref="RegionManager"/> and the  <see cref="TargetElement"/>, so that this behavior can be garbage collected. 
+        /// Stop monitoring the <see cref="RegionManager"/> and the  <see cref="TargetElement"/>, so that this behavior can be garbage collected.
         /// </summary>
         public void Detach()
         {
@@ -72,7 +72,7 @@ namespace Prism.Regions.Behaviors
         }
 
         /// <summary>
-        /// Called when the <see cref="RegionManager"/> is updating it's <see cref="RegionManager.Regions"/> collection. 
+        /// Called when the <see cref="RegionManager"/> is updating it's <see cref="RegionManager.Regions"/> collection.
         /// </summary>
         /// <remarks>
         /// This method has to be public, because it has to be callable using weak references in silverlight and other partial trust environments.
@@ -108,14 +108,16 @@ namespace Prism.Regions.Behaviors
         }
 
         /// <summary>
-        /// Method that will create the region, by calling the right <see cref="IRegionAdapter"/>. 
+        /// Method that will create the region, by calling the right <see cref="IRegionAdapter"/>.
         /// </summary>
         /// <param name="targetElement">The target element that will host the <see cref="IRegion"/>.</param>
         /// <param name="regionName">Name of the region.</param>
         /// <returns>The created <see cref="IRegion"/></returns>
         protected virtual IRegion CreateRegion(DependencyObject targetElement, string regionName)
         {
-            if (targetElement == null) throw new ArgumentNullException("targetElement");
+            if (targetElement == null)
+                throw new ArgumentNullException(nameof(targetElement));
+
             try
             {
                 // Build the region

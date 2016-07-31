@@ -34,6 +34,26 @@ namespace Prism.Tests.Events
         }
 
         [Fact]
+        public void ShouldCallInvokeOnDispatcherNonGeneric()
+        {
+            DispatcherEventSubscription eventSubscription = null;
+
+            IDelegateReference actionDelegateReference = new MockDelegateReference()
+            {
+                Target = (Action)(() =>
+                { })
+            };
+
+            var mockSyncContext = new MockSynchronizationContext();
+
+            eventSubscription = new DispatcherEventSubscription(actionDelegateReference, mockSyncContext);
+
+            eventSubscription.GetExecutionStrategy().Invoke(new object[0]);
+
+            Assert.True(mockSyncContext.InvokeCalled);
+        }
+
+        [Fact]
         public void ShouldPassParametersCorrectly()
         {
             IDelegateReference actionDelegateReference = new MockDelegateReference()

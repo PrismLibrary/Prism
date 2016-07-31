@@ -9,7 +9,7 @@ namespace Prism.Windows.Navigation
     /// </summary>
     public sealed class NavigatingFromEventArgs : EventArgs
     {
-        private NavigatingCancelEventArgs _eventArgs;
+        private readonly NavigatingCancelEventArgs _eventArgs;
 
         /// <summary>
         /// Specifies whether a pending navigation should be canceled.
@@ -40,12 +40,12 @@ namespace Prism.Windows.Navigation
         public Type SourcePageType { get; }
 
         /// <summary>
-        /// 
+        /// Creates a new <see cref="NavigatingFromEventArgs"/> instance.
         /// </summary>
         public NavigatingFromEventArgs() { }
 
         /// <summary>
-        /// 
+        /// Creates a new <see cref="NavigatingFromEventArgs"/> instance based on <see cref="NavigatingCancelEventArgs"/>.
         /// </summary>
         /// <param name="args"></param>
         public NavigatingFromEventArgs(NavigatingCancelEventArgs args)

@@ -4,6 +4,12 @@ using System.Text;
 
 namespace Prism.Navigation
 {
+    /// <summary>
+    /// Represents Navigation parameters.
+    /// </summary>
+    /// <remarks>
+    /// This class can be used to to pass object parameters during Navigation. 
+    /// </remarks>
     public class NavigationParameters : Dictionary<string, object>
     {
         /// <summary>
@@ -19,7 +25,7 @@ namespace Prism.Navigation
         /// <param name="query">The query string.</param>
         public NavigationParameters(string query)
         {
-            if (query != null)
+            if (!String.IsNullOrWhiteSpace(query))
             {
                 int num = query.Length;
                 for (int i = ((query.Length > 0) && (query[0] == '?')) ? 1 : 0; i < num; i++)
@@ -42,23 +48,16 @@ namespace Prism.Navigation
                         }
                         i++;
                     }
-                    string str = null;
-                    string str2 = null;
+                    string str = null; //key
+                    string str2 = null; //value
                     if (num4 >= 0)
                     {
                         str = query.Substring(startIndex, num4 - startIndex);
                         str2 = query.Substring(num4 + 1, (i - num4) - 1);
                     }
-                    else
-                    {
-                        str2 = query.Substring(startIndex, i - startIndex);
-                    }
 
-                    this.Add(str != null ? Uri.UnescapeDataString(str) : null, Uri.UnescapeDataString(str2));
-                    if ((i == (num - 1)) && (query[i] == '&'))
-                    {
-                        this.Add(null, "");
-                    }
+                    if (str != null)
+                        this.Add(Uri.UnescapeDataString(str), Uri.UnescapeDataString(str2));
                 }
             }
         }

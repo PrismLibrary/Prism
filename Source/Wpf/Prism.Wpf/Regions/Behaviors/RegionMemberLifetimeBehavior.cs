@@ -59,7 +59,8 @@ namespace Prism.Regions.Behaviors
             {
                 if (!ShouldKeepAlive(inactiveView))
                 {
-                    this.Region.Remove(inactiveView);
+                    if (Region.Views.Contains(inactiveView))
+                        Region.Remove(inactiveView);
                 }
             }
         }

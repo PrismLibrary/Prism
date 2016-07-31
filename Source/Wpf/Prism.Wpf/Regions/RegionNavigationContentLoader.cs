@@ -1,13 +1,13 @@
 
 
+using Microsoft.Practices.ServiceLocation;
+using Prism.Common;
+using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
-using Prism.Properties;
-using Microsoft.Practices.ServiceLocation;
-using Prism.Common;
 
 namespace Prism.Regions
 {
@@ -43,8 +43,11 @@ namespace Prism.Regions
         /// <exception cref="ArgumentException">when a new view cannot be created for the navigation request.</exception>
         public object LoadContent(IRegion region, NavigationContext navigationContext)
         {
-            if (region == null) throw new ArgumentNullException("region");
-            if (navigationContext == null) throw new ArgumentNullException("navigationContext");
+            if (region == null)
+                throw new ArgumentNullException(nameof(region));
+
+            if (navigationContext == null)
+                throw new ArgumentNullException(nameof(navigationContext));
 
             string candidateTargetContract = this.GetContractFromNavigationContext(navigationContext);
 
@@ -94,7 +97,7 @@ namespace Prism.Regions
         {
             object newRegionItem;
             try
-            {           
+            {
                 newRegionItem = this.serviceLocator.GetInstance<object>(candidateTargetContract);
             }
             catch (ActivationException e)
@@ -113,7 +116,7 @@ namespace Prism.Regions
         /// <returns>The candidate contract to seek within the <see cref="IRegion"/> and to use, if not found, when resolving from the container.</returns>
         protected virtual string GetContractFromNavigationContext(NavigationContext navigationContext)
         {
-            if (navigationContext == null) throw new ArgumentNullException("navigationContext");
+            if (navigationContext == null) throw new ArgumentNullException(nameof(navigationContext));
 
             var candidateTargetContract = UriParsingHelper.GetAbsolutePath(navigationContext.Uri);
             candidateTargetContract = candidateTargetContract.TrimStart('/');
@@ -128,7 +131,9 @@ namespace Prism.Regions
         /// <returns>An enumerable of candidate objects from the <see cref="IRegion"/></returns>
         protected virtual IEnumerable<object> GetCandidatesFromRegion(IRegion region, string candidateNavigationContract)
         {
-            if (region == null) throw new ArgumentNullException("region");
+            if (region == null)
+                throw new ArgumentNullException(nameof(region));
+
             return region.Views.Where(v =>
                 string.Equals(v.GetType().Name, candidateNavigationContract, StringComparison.Ordinal) ||
                 string.Equals(v.GetType().FullName, candidateNavigationContract, StringComparison.Ordinal));

@@ -73,6 +73,11 @@ namespace Prism.Regions
         void Remove(object view);
 
         /// <summary>
+        /// Removes all views from the region.
+        /// </summary>
+        void RemoveAll();
+
+        /// <summary>
         /// Marks the specified view as active. 
         /// </summary>
         /// <param name="view">The view to activate.</param>

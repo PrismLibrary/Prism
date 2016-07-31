@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+	<TemplateConfiguration>
+		<_Name>Prism MasterDetailPage</_Name>
+		<Icon>md-xml-file-icon</Icon>
+		<_Category>Prism</_Category>
+		<LanguageName>C#</LanguageName>
+		<_Description>Creates a Xamarin.Forms MasterDetailPage with Prism ViewModelLocator</_Description>
+	</TemplateConfiguration>
+	
+	<TemplateFiles>
+		<File name="${Name}.xaml" 
+			  DefaultExtension=".xaml" 
+			  AddStandardHeader="False" 
+			  BuildAction="EmbeddedResource"
+			  CustomTool="MSBuild:UpdateDesignTimeXaml"
+			  src="PrismMasterDetailPage.xaml"/>
+        <File name="${Name}.xaml.cs" 
+        	  DependsOn="${Name}.xaml" 
+        	  AddStandardHeader="True"
+        	  src="PrismMasterDetailPage.xaml.cs"/>
+	</TemplateFiles>
+
+</Template>

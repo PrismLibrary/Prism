@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Events;
+using System;
 using Windows.Devices.Input;
 
 namespace Prism.Windows.AppModel
@@ -33,7 +34,6 @@ namespace Prism.Windows.AppModel
         /// </summary>
         bool IsTouchPresent { get; }
 
-        /// <summary>
         /// Determines if title bar back button is shown
         /// </summary>
         bool UseTitleBarBackButton { get; set; }

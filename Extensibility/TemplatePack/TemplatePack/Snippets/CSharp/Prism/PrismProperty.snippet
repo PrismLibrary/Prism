@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Prism Property</Title>
+      <Shortcut>propp</Shortcut>
+      <Author>Brian Lagunas</Author>
+      <Description>Define a property with backing field</Description>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>type</ID>
+          <ToolTip>Replace with the property type</ToolTip>
+          <Default>string</Default>
+        </Literal>
+        <Literal>
+          <ID>PropertyName</ID>
+          <ToolTip>Replace with the property name</ToolTip>
+          <Default>PropertyName</Default>
+        </Literal>
+        <Literal>
+          <ID>fieldName</ID>
+          <ToolTip>Replace with the field name</ToolTip>
+          <Default>fieldName</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[private $type$ $fieldName$;
+        public $type$ $PropertyName$
+        {
+            get { return $fieldName$; }
+            set { SetProperty(ref $fieldName$, value); }
+        }$end$]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

@@ -9,12 +9,16 @@ namespace Prism.StructureMap
         /// Registers an object for navigation.
         /// </summary>
         /// <typeparam name="T">The Type of the object to register</typeparam>
+        /// <param name="container"><see cref="IContainer"/> used to register type for Navigation</param>
         /// <param name="name">The unique name to register with the object</param>
-        public static void RegisterTypeForNavigation<T>(this IContainer container, string name)
+        public static void RegisterTypeForNavigation<T>(this IContainer container, string name = null)
         {
+            Type type = typeof(T);
+            string viewName = string.IsNullOrWhiteSpace(name) ? type.Name : name;
+
             container.Configure(config =>
             {
-                config.For<object>().Use<T>().Name = name;
+                config.For<object>().Use<T>().Name = viewName;
             });
         }
 

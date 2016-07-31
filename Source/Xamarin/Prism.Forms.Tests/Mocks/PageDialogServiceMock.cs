@@ -1,4 +1,5 @@
-﻿using Prism.Services;
+﻿using Prism.Common;
+using Prism.Services;
 using System.Threading.Tasks;
 
 namespace Prism.Forms.Tests.Mocks
@@ -11,22 +12,13 @@ namespace Prism.Forms.Tests.Mocks
         /// Create an instance of <see cref="PageDialogServiceMock"/> with the pressed button on any alert/sheet is <paramref name="pressedButton"/>
         /// </summary>
         /// <param name="pressedButton"></param>
-        public PageDialogServiceMock(string pressedButton)
+        public PageDialogServiceMock(string pressedButton, IApplicationProvider applicationProvider)
+            : base(applicationProvider)
         {
             this.pressedButton = pressedButton;
         }
 
-        public override Task<bool> DisplayAlert(string title, string message, string acceptButton, string cancelButton)
-        {
-            return Task.FromResult(pressedButton.Equals(acceptButton));
-        }
-
-        public override async Task DisplayAlert(string title, string message, string cancelButton)
-        {
-
-        }
-
-        public override Task<string> DisplayActionSheet(string title, string cancelButton, string destroyButton, params string[] otherButtons)
+        public override Task<string> DisplayActionSheetAsync(string title, string cancelButton, string destroyButton, params string[] otherButtons)
         {
             return Task.FromResult(pressedButton);
         }
