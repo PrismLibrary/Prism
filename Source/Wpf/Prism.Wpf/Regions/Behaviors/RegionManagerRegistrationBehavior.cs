@@ -129,17 +129,27 @@ namespace Prism.Regions.Behaviors
 
         private IRegionManager FindRegionManager(DependencyObject dependencyObject)
         {
-            DependencyObject parent = dependencyObject;
+            DependencyObject current = dependencyObject;
 
-            while (parent != null)
+            while (current != null)
             {
-                var regionmanager = this.RegionManagerAccessor.GetRegionManager(parent);
+                var regionmanager = this.RegionManagerAccessor.GetRegionManager(current);
                 if (regionmanager != null)
                 {
                     return regionmanager;
                 }
 
-                parent = LogicalTreeHelper.GetParent(dependencyObject);
+                DependencyObject parent = LogicalTreeHelper.GetParent(dependencyObject);
+                if (parent == null)
+                {
+                    FrameworkElement frameworkElement = current as FrameworkElement;
+                    if (frameworkElement != null)
+                    {
+                        parent = frameworkElement.TemplatedParent;
+                    }
+                }
+
+                current = parent;
             }
 
             return null;
