@@ -63,7 +63,7 @@ namespace Prism.Interactivity.InteractionRequest
         /// <param name="context">The context for the interaction request.</param>
         /// <param name="executeSynchronously">
         /// Has no effect if the popup window is not modal.
-        /// If the popup window is modal and executeSynchronously is true, retruns already completed task.
+        /// If the popup window is modal and executeSynchronously is true, returns already completed task.
         /// That is, when the method returns, the popup window has already been closed.
         /// </param>
         /// <returns>
