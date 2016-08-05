@@ -1,7 +1,9 @@
 ﻿### This is just the initial script to get the nuget packages out.  We need to refactor this script to make it easier to maintain and update
 ### One idea is to force a Visual Studio build using the Release-Signed build configuration before packing the nuspecs
 
-$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes--Jan-10,-2016'
+$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.2.0'
+
+$xamarinFormsVersion = '2.3.1.114'
 
 $nugetFileName = 'nuget.exe'
 
@@ -81,7 +83,7 @@ if ((Test-Path $formsAssemblyPath))
     $fileInfo = Get-Item $formsAssemblyPath
     $formsFileVersion = $fileInfo.VersionInfo.ProductVersion
 
-    Invoke-Expression ".\$($nugetFileName) pack $($formsNuspecPath) -Prop version=$($formsFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($formsNuspecPath) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($formsFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 else
 {
@@ -132,7 +134,7 @@ else
     $unityFormsFileInfo = Get-Item $unityFormsAssemblyPath
     $unityFileVersion = $unityFormsFileInfo.VersionInfo.ProductVersion   
 
-    Invoke-Expression ".\$($nugetFileName) pack $($unityFormsNuspecPath) -Prop version=$($unityFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($unityFormsNuspecPath) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($unityFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 ###########################
@@ -149,7 +151,7 @@ else
     $unityFormsFileInfo = Get-Item $autofacFormsAssemblyPath
     $unityFileVersion = $unityFormsFileInfo.VersionInfo.ProductVersion   
 
-    Invoke-Expression ".\$($nugetFileName) pack $($autofacFormsNuspecPath) -Prop version=$($unityFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($autofacFormsNuspecPath) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($unityFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 
@@ -248,7 +250,7 @@ else
     $ninjectFormsFileInfo = Get-Item $ninjectFormsAssemblyPath
     $ninjectFormsFileVersion = $ninjectFormsFileInfo.VersionInfo.ProductVersion   
 
-    Invoke-Expression ".\$($nugetFileName) pack $($ninjectFormsNuspecPath) -Prop version=$($ninjectFormsFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($ninjectFormsNuspecPath) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($ninjectFormsFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 
