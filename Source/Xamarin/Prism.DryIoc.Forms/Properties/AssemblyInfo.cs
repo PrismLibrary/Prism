@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle("Prism.DryIoc.Forms")]
 [assembly: AssemblyDescription("Prism.Forms using DryIoc")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Joakim Carselind")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Prism.DryIoc.Forms")]
 [assembly: AssemblyCopyright("Copyright © 2016")]
 [assembly: AssemblyTrademark("")]

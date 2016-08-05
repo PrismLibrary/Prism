@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Prism.Unity.Forms")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Prism.Forms using Unity")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Prism.Unity.Forms")]
@@ -18,4 +18,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("6.2")]
 [assembly: AssemblyFileVersion("6.2.0")]
-[assembly: AssemblyInformationalVersion("6.2.0-pre7")]
+[assembly: AssemblyInformationalVersion("6.2.0")]
