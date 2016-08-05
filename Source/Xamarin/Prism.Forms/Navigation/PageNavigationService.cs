@@ -364,6 +364,8 @@ namespace Prism.Navigation
                 if (page == null)
                     throw new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
 
+                SetAutowireViewModelOnPage(page);
+
                 return page;
             }
             catch (Exception e)
@@ -371,6 +373,13 @@ namespace Prism.Navigation
                 _logger.Log(e.ToString(), Category.Exception, Priority.High);
                 throw;
             }
+        }
+
+        void SetAutowireViewModelOnPage(Page page)
+        {
+            var vmlResult = Mvvm.ViewModelLocator.GetAutowireViewModel(page);
+            if (vmlResult == null)
+                Mvvm.ViewModelLocator.SetAutowireViewModel(page, true);
         }
 
         static bool HasNavigationPageParent(Page page)

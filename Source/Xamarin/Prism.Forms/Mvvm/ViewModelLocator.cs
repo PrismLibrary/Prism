@@ -11,16 +11,16 @@ namespace Prism.Mvvm
         /// Instructs Prism whether or not to automatically create an instance of a ViewModel using a convention, and assign the associated View's <see cref="Xamarin.Forms.BindableObject.BindingContext"/> to that instance.
         /// </summary>
         public static readonly BindableProperty AutowireViewModelProperty =
-            BindableProperty.CreateAttached("AutowireViewModel", typeof(bool), typeof(ViewModelLocator), default(bool), propertyChanged: OnAutowireViewModelChanged);
+            BindableProperty.CreateAttached("AutowireViewModel", typeof(bool?), typeof(ViewModelLocator), null, propertyChanged: OnAutowireViewModelChanged);
 
         /// <summary>
         /// Gets the AutowireViewModel property value.
         /// </summary>
         /// <param name="bindable"></param>
         /// <returns></returns>
-        public static bool GetAutowireViewModel(BindableObject bindable)
+        public static bool? GetAutowireViewModel(BindableObject bindable)
         {
-            return (bool)bindable.GetValue(ViewModelLocator.AutowireViewModelProperty);
+            return (bool?)bindable.GetValue(ViewModelLocator.AutowireViewModelProperty);
         }
 
         /// <summary>
@@ -28,14 +28,15 @@ namespace Prism.Mvvm
         /// </summary>
         /// <param name="bindable"></param>
         /// <param name="value"></param>
-        public static void SetAutowireViewModel(BindableObject bindable, bool value)
+        public static void SetAutowireViewModel(BindableObject bindable, bool? value)
         {
             bindable.SetValue(ViewModelLocator.AutowireViewModelProperty, value);
         }
 
         private static void OnAutowireViewModelChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if ((bool)newValue)
+            bool? bNewValue = (bool?)newValue;
+            if (bNewValue.HasValue && bNewValue.Value)
                 ViewModelLocationProvider.AutoWireViewModelChanged(bindable, Bind);
         }
 
