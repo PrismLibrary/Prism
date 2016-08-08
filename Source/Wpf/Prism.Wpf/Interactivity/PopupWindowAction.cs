@@ -239,8 +239,7 @@ namespace Prism.Interactivity
 
         /// <summary>
         /// Checks if the WindowContent or its DataContext implements <see cref="IInteractionRequestAware"/>.
-        /// If so, it sets the corresponding value.
-        /// Also, if WindowContent does not have a RegionManager attached, it creates a new scoped RegionManager for it.
+        /// If so, it sets the corresponding values.
         /// </summary>
         /// <param name="notification">The notification to be set as a DataContext in the HostWindow.</param>
         /// <param name="wrapperWindow">The HostWindow</param>
