@@ -83,13 +83,6 @@ namespace Prism.Interactivity.InteractionRequest
 
         private async Task<T> RaiseImplAsync(T context)
         {
-            // SynchronizationContext exists in actual program running on GUI Dispatcher thread.  Make sure
-            // it exists in tests.
-            if (SynchronizationContext.Current == null)
-            {
-                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-            }
-
             TaskCompletionSource<T> tcs = new TaskCompletionSource<T>();
 
             await Task.Factory.StartNew(() =>
