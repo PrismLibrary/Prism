@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Interactivity.InteractionRequest;
@@ -44,6 +45,8 @@ namespace Prism.Wpf.Tests.Interactivity
         [TestMethod]
         public async Task WhenEventIsRaisedAsyncDialog_NotificationIsPassedBackAsync()
         {
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+
             var request = new InteractionRequest<INotification>();
 
             MockPopupDialogWindow popup = new MockPopupDialogWindow();
@@ -61,6 +64,8 @@ namespace Prism.Wpf.Tests.Interactivity
         [TestMethod]
         public void WhenEventIsRaisedSyncDialog_NotificationIsPassedBackSync()
         {
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+
             var request = new InteractionRequest<INotification>();
 
             MockPopupDialogWindow popup = new MockPopupDialogWindow();
@@ -81,6 +86,8 @@ namespace Prism.Wpf.Tests.Interactivity
         [ExpectedException(typeof(InvalidOperationException))]
         public async Task WhenEventIsRaisedAsyncDialog_ThrowsBeforeCallback()
         {
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+
             var request = new InteractionRequest<INotification>();
 
             MockPopupDialogWindow popup = new MockPopupDialogWindow { ThrowsBeforeCallback = true };
@@ -95,6 +102,8 @@ namespace Prism.Wpf.Tests.Interactivity
         [ExpectedException(typeof(InvalidOperationException))]
         public async Task WhenEventIsRaisedAsyncDialog_ThrowsAfterCallback()
         {
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+
             var request = new InteractionRequest<INotification>();
 
             MockPopupDialogWindow popup = new MockPopupDialogWindow { ThrowsAfterCallback = true };
@@ -108,6 +117,8 @@ namespace Prism.Wpf.Tests.Interactivity
         [TestMethod]
         public async Task WhenEventIsRaisedAsync_NotificationIsPassedBackAsync()
         {
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+
             var request = new InteractionRequest<INotification>();
 
             MockPopupWindow popup = new MockPopupWindow();
@@ -131,6 +142,8 @@ namespace Prism.Wpf.Tests.Interactivity
         [ExpectedException(typeof(InvalidOperationException))]
         public async Task WhenEventIsRaisedAsync_Throws()
         {
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+
             var request = new InteractionRequest<INotification>();
 
             MockPopupWindow popup = new MockPopupWindow { Throws = true };
