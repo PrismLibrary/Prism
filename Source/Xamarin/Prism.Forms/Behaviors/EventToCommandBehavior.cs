@@ -175,7 +175,7 @@ namespace Prism.Behaviors
 
             var parameter = CommandParameter;
 
-            if (!string.IsNullOrEmpty(EventArgsParameterPath))
+            if (parameter == null && !string.IsNullOrEmpty(EventArgsParameterPath))
             {
                 //Walk the ParameterPath for nested properties.
                 var propertyPathParts = EventArgsParameterPath.Split('.');
@@ -188,7 +188,7 @@ namespace Prism.Behaviors
                 parameter = propertyValue;
             }
 
-            if (eventArgs != null && eventArgs != EventArgs.Empty && EventArgsConverter != null)
+            if (parameter == null && eventArgs != null && eventArgs != EventArgs.Empty && EventArgsConverter != null)
             {
                 parameter = EventArgsConverter.Convert(eventArgs, typeof(object), EventArgsConverterParameter,
                     CultureInfo.CurrentUICulture);
