@@ -15,7 +15,7 @@ namespace Prism.Behaviors
     /// <example>
     /// &lt;ListView&gt;
     ///     &lt;ListView.Behaviors&gt;
-    ///         &lt;behaviors:EventToCommandBehavior EventName="Tapped" Command={Binding ItemTappedCommand} /&gt;
+    ///         &lt;behaviors:EventToCommandBehavior EventName="ItemTapped" Command={Binding ItemTappedCommand} /&gt;
     ///     &lt;/ListView.Behaviors&gt;
     /// &lt;/ListView&gt;
     /// </example>
@@ -38,8 +38,8 @@ namespace Prism.Behaviors
             BindableProperty.Create(nameof(EventArgsConverterParameter), typeof(object), typeof(EventToCommandBehavior));
 
 
-        private EventInfo _eventInfo;
-        private Delegate _handler;
+        protected EventInfo _eventInfo;
+        protected Delegate _handler;
 
         /// <summary>
         /// Name of the event that will be forwared to <see cref="Command"/>
