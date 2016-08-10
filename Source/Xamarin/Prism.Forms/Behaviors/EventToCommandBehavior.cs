@@ -9,14 +9,14 @@ using Xamarin.Forms;
 namespace Prism.Behaviors
 {
     /// <summary>
-    /// Behavior class that enable using <see cref="ICommand"/> and <see cref="IValueConverter"/> to react
-    /// on events raised by <see cref="View"/> element.
+    /// Behavior class that enable using <see cref="ICommand" /> and <see cref="IValueConverter" /> to react
+    /// on events raised by <see cref="View" /> element.
     /// </summary>
     /// <example>
     /// &lt;ListView&gt;
-    ///     &lt;ListView.Behaviors&gt;
-    ///         &lt;behaviors:EventToCommandBehavior EventName="ItemTapped" Command={Binding ItemTappedCommand} /&gt;
-    ///     &lt;/ListView.Behaviors&gt;
+    /// &lt;ListView.Behaviors&gt;
+    /// &lt;behaviors:EventToCommandBehavior EventName="ItemTapped" Command={Binding ItemTappedCommand} /&gt;
+    /// &lt;/ListView.Behaviors&gt;
     /// &lt;/ListView&gt;
     /// </example>
     // This is a modified version of https://anthonysimmon.com/eventtocommand-in-xamarin-forms-apps/
@@ -37,15 +37,29 @@ namespace Prism.Behaviors
         public static readonly BindableProperty EventArgsConverterParameterProperty =
             BindableProperty.Create(nameof(EventArgsConverterParameter), typeof(object), typeof(EventToCommandBehavior));
 
+        public static readonly BindableProperty EventArgsParameterPathProperty =
+            BindableProperty.Create(
+                nameof(EventArgsParameterPath),
+                typeof(string),
+                typeof(EventToCommandBehavior));
 
         protected EventInfo _eventInfo;
         protected Delegate _handler;
 
         /// <summary>
-        /// Name of the event that will be forwared to <see cref="Command"/>
+        /// Parameter path to extract property from <see cref="EventArgs"/> instance to pass to <see cref="ICommand.Execute"/>
+        /// </summary>
+        public string EventArgsParameterPath
+        {
+            get { return (string)GetValue(EventArgsParameterPathProperty); }
+            set { SetValue(EventArgsParameterPathProperty, value); }
+        }
+
+        /// <summary>
+        /// Name of the event that will be forwared to <see cref="Command" />
         /// </summary>
         /// <remarks>
-        /// An event that is invalid for the attached <see cref="View"/> will result in <see cref="ArgumentException"/> thrown.
+        /// An event that is invalid for the attached <see cref="View" /> will result in <see cref="ArgumentException" /> thrown.
         /// </remarks>
         public string EventName
         {
@@ -63,10 +77,11 @@ namespace Prism.Behaviors
         }
 
         /// <summary>
-        /// Argument sent to <see cref="ICommand.Execute"/>
+        /// Argument sent to <see cref="ICommand.Execute" />
         /// </summary>
         /// <para>
-        /// If <see cref="EventArgsConverter"/> and <see cref="EventArgsConverterParameter"/> is set then the result of the conversion
+        /// If <see cref="EventArgsConverter" /> and <see cref="EventArgsConverterParameter" /> is set then the result of the
+        /// conversion
         /// will be sent.
         /// </para>
         public object CommandParameter
@@ -76,7 +91,7 @@ namespace Prism.Behaviors
         }
 
         /// <summary>
-        /// Instance of <see cref="IValueConverter"/> to convert the <see cref="EventArgs"/> for <see cref="EventName"/>
+        /// Instance of <see cref="IValueConverter" /> to convert the <see cref="EventArgs" /> for <see cref="EventName" />
         /// </summary>
         public IValueConverter EventArgsConverter
         {
@@ -85,7 +100,7 @@ namespace Prism.Behaviors
         }
 
         /// <summary>
-        /// Argument passed as parameter to <see cref="IValueConverter.Convert"/>
+        /// Argument passed as parameter to <see cref="IValueConverter.Convert" />
         /// </summary>
         public object EventArgsConverterParameter
         {
@@ -120,7 +135,7 @@ namespace Prism.Behaviors
             base.OnDetachingFrom(view);
         }
 
-        void AddEventHandler(EventInfo eventInfo, object item, Action<object, EventArgs> action)
+        private void AddEventHandler(EventInfo eventInfo, object item, Action<object, EventArgs> action)
         {
             var eventParameters = eventInfo.EventHandlerType
                 .GetRuntimeMethods().First(m => m.Name == "Invoke")
@@ -149,10 +164,23 @@ namespace Prism.Behaviors
 
             var parameter = CommandParameter;
 
+            if (!string.IsNullOrEmpty(EventArgsParameterPath))
+            {
+                //Walk the ParameterPath for nested properties.
+                var propertyPathParts = EventArgsParameterPath.Split('.');
+                object propertyValue = eventArgs;
+                foreach (var propertyPathPart in propertyPathParts)
+                {
+                    var propInfo = propertyValue.GetType().GetTypeInfo().GetDeclaredProperty(propertyPathPart);
+                    propertyValue = propInfo.GetValue(propertyValue);
+                }
+                parameter = propertyValue;
+            }
+
             if (eventArgs != null && eventArgs != EventArgs.Empty && EventArgsConverter != null)
             {
                 parameter = EventArgsConverter.Convert(eventArgs, typeof(object), EventArgsConverterParameter,
-                        CultureInfo.CurrentUICulture);
+                    CultureInfo.CurrentUICulture);
             }
 
             if (Command.CanExecute(parameter))
