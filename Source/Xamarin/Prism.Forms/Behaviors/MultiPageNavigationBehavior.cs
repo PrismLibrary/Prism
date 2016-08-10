@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace Prism.Behaviors
 {
-    public class MultiPageNavigationBehavior : BehaviorsBase<MultiPage<Page>>
+    public class MultiPageNavigationBehavior : BehaviorBase<MultiPage<Page>>
     {
         private Page _lastSelectedPage;
 
