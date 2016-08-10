@@ -22,6 +22,7 @@ namespace Prism.Behaviors
     /// 1. <see cref="CommandParameter"/>
     /// 2. <see cref="EventArgsParameterPath"/>
     /// 3. <see cref="EventArgsConverter"/>
+    /// and as soon as a non-<c>null</c> value is found, the evaluation is stopped.
     /// </para>
     /// <example>
     /// &lt;ListView&gt;
@@ -132,7 +133,7 @@ namespace Prism.Behaviors
                     $"No matching event '{EventName}' on attached type '{view.GetType().Name}'");
             }
 
-            AddEventHandler(_eventInfo, AssociatedObject, OnFired);
+            AddEventHandler(_eventInfo, AssociatedObject, OnEventRaised);
         }
 
         protected override void OnDetachingFrom(View view)
@@ -166,7 +167,7 @@ namespace Prism.Behaviors
             eventInfo.AddEventHandler(item, _handler);
         }
 
-        protected virtual void OnFired(object sender, EventArgs eventArgs)
+        protected virtual void OnEventRaised(object sender, EventArgs eventArgs)
         {
             if (Command == null)
             {
