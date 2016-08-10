@@ -3,7 +3,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
@@ -69,6 +71,50 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
                 RegionManagerAccessor = accessor,
                 Region = new MockPresentationRegion() { Name = "myRegionName" },
                 HostControl = control
+            };
+            behavior.Attach();
+
+            Assert.IsFalse(regionManager.MockRegionCollection.AddCalled);
+
+            regionScopeControl.Content = control;
+            accessor.UpdateRegions();
+
+            Assert.IsTrue(regionManager.MockRegionCollection.AddCalled);
+        }
+
+        [TestMethod]
+        public void RegionGetsAddedInRegionManagerWhenAddedIntoAScopeAndAccessingRegions_Templated()
+        {
+            var regionManager = new MockRegionManager();
+
+            var control = new Control();
+            ControlTemplate template = new ControlTemplate();
+            var con = new FrameworkElementFactory(typeof(ContentControl));
+            template.VisualTree = con;
+            control.Template = template;
+            bool applied = control.ApplyTemplate();
+
+            ContentControl regionHostControl = null;
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(control); i++)
+            {
+                regionHostControl = VisualTreeHelper.GetChild(control, i) as ContentControl;
+                if (regionHostControl != null)
+                {
+                    break;
+                }
+            }
+
+            var regionScopeControl = new ContentControl();
+            var accessor = new MockRegionManagerAccessor
+            {
+                GetRegionManager = d => d == regionScopeControl ? regionManager : null
+            };
+
+            var behavior = new RegionManagerRegistrationBehavior()
+            {
+                RegionManagerAccessor = accessor,
+                Region = new MockPresentationRegion() { Name = "myRegionName" },
+                HostControl = regionHostControl
             };
             behavior.Attach();
 

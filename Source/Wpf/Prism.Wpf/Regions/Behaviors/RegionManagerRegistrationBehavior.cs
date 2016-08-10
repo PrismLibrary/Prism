@@ -139,7 +139,7 @@ namespace Prism.Regions.Behaviors
                     return regionmanager;
                 }
 
-                DependencyObject parent = LogicalTreeHelper.GetParent(dependencyObject);
+                DependencyObject parent = LogicalTreeHelper.GetParent(current);
                 if (parent == null)
                 {
                     FrameworkElement frameworkElement = current as FrameworkElement;
