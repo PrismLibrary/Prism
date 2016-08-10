@@ -1,9 +1,9 @@
-﻿using Prism.Common;
-using Prism.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Common;
+using Prism.Logging;
 using Xamarin.Forms;
 
 namespace Prism.Navigation
@@ -124,10 +124,18 @@ namespace Prism.Navigation
             }
             else if (currentPage is TabbedPage)
             {
+                var options = currentPage as IMultiPageNavigationOptions;
+                if( options == null || options.InjectNavigationBehavior )
+                    currentPage.Behaviors.Add( new Behaviors.MultiPageNavigationBehavior() );
+
                 await ProcessNavigationForTabbedPage((TabbedPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
             else if (currentPage is CarouselPage)
             {
+                var options = currentPage as IMultiPageNavigationOptions;
+                if( options == null || options.InjectNavigationBehavior )
+                    currentPage.Behaviors.Add( new Behaviors.CarouselPageNavigationBehavior() );
+
                 await ProcessNavigationForCarouselPage((CarouselPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
             else if (currentPage is MasterDetailPage)
