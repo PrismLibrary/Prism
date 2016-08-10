@@ -99,8 +99,7 @@ namespace Prism.Behaviors
 
             _eventInfo = AssociatedObject
                 .GetType()
-                .GetRuntimeEvents()
-                .FirstOrDefault(e => e.Name == EventName);
+                .GetRuntimeEvent(EventName);
             if (_eventInfo == null)
             {
                 throw new ArgumentException(
