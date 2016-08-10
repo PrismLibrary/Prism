@@ -48,8 +48,10 @@
   <ItemGroup>
     <Compile Include="Navigation\PageNavigationInfoFixture.cs" />
     <Compile Include="Navigation\PageNavigationRegistryFixture.cs" />
+    <Compile Include="Behaviors\EventToCommandBehaviorFixture.cs" />
     <Compile Include="Common\UriParsingHelperFixture.cs" />
     <Compile Include="Mocks\ApplicationProviderMock.cs" />
+    <Compile Include="Mocks\Behaviors\EventToCommandBehaviorMock.cs" />
     <Compile Include="Mocks\PageNavigationContainerMock.cs" />
     <Compile Include="Mocks\PageNavigationServiceMock.cs" />
     <Compile Include="Mocks\PageDialogServiceMock.cs" />
