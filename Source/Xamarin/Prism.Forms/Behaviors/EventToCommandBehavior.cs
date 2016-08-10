@@ -63,7 +63,7 @@ namespace Prism.Behaviors
         }
 
         /// <summary>
-        /// Argument sent to <see cref="ICommand.Execute"/>. Default is <see cref="BehaviorsBase{T}.AssociatedObject"/>
+        /// Argument sent to <see cref="ICommand.Execute"/>
         /// </summary>
         /// <para>
         /// If <see cref="EventArgsConverter"/> and <see cref="EventArgsConverterParameter"/> is set then the result of the conversion
@@ -148,7 +148,7 @@ namespace Prism.Behaviors
                 return;
             }
 
-            var parameter = CommandParameter ?? AssociatedObject.BindingContext;
+            var parameter = CommandParameter;
 
             if (eventArgs != null && eventArgs != EventArgs.Empty)
             {
