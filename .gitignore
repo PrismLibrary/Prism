@@ -195,10 +195,3 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
-
-# Security
-*.pfx
-*.snk
-
-# Allow demo temporary keys
-!*_TemporaryKey.pfx

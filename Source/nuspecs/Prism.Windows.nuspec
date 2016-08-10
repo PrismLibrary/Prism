@@ -40,6 +40,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Windows10\Prism.Windows\bin\Release-Signed\Prism.Windows.*" target="lib\uap10.0\" exclude="**\*.pdb" />
+    <file src="..\Windows10\Prism.Windows\bin\Release\Prism.Windows.*" target="lib\uap10.0\" exclude="**\*.pdb" />
   </files>
 </package>
