@@ -61,11 +61,11 @@ The XAML need a reference to the converter and the converter resource need to be
 	x:Class="MyNamespace.ContentPage"
 	x:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
 	x:c="clr-namespace:Prism.Converters;assembly=Prism.Forms">
-	<ResourceDictionary>
-		<Resources>
+	<Resources>
+		<ResourceDictionary>
 			<c:ItemTappedEventArgsConverter x:Name="itemTappedEventArgsConverter" />
-		</Resources>
-	</ResourceDictionary>
+		</ResourceDictionary>
+	</Resources>
     <ListView>
 		<ListView.Behaviors>
 			<b:EventToCommandBehavior EventName="Tapped" Command={Binding ItemTappedCommand}
