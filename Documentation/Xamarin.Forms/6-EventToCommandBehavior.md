@@ -16,7 +16,7 @@ The `EventToCommandBehavior` expose the following properties
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	x:Class="MyNamespace.ContentPage"
-	x:behaviors="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
+	x:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
     <ListView>
 		<ListView.Behaviors>
 			<b:EventToCommandBehavior EventName="Tapped" Command={Binding ItemTappedCommand} />
