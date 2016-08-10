@@ -148,10 +148,10 @@ if (!(Test-Path $autofacFormsAssemblyPath))
 }
 else
 {
-    $unityFormsFileInfo = Get-Item $autofacFormsAssemblyPath
-    $unityFileVersion = $unityFormsFileInfo.VersionInfo.ProductVersion   
+    $autofacFormsFileInfo = Get-Item $autofacFormsAssemblyPath
+    $autofacFileVersion = $autofacFormsFileInfo.VersionInfo.ProductVersion   
 
-    Invoke-Expression ".\$($nugetFileName) pack $($autofacFormsNuspecPath) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($unityFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($autofacFormsNuspecPath) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($autofacFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 
@@ -178,6 +178,23 @@ else
     
 
     Invoke-Expression ".\$($nugetFileName) pack $($autofacNuspecPath) -Prop version=$($autofacFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop uwpVersion=$($uwpFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+}
+
+###########################
+######  Prism.DryIoc.Forms  ######
+###########################
+$dryIocFormsNuspecPath = 'Prism.DryIoc.Forms.nuspec'
+$dryIocFormsAssemblyPath = '../Xamarin/Prism.DryIoc.Forms/bin/Release-Signed/Prism.DryIoc.Forms.dll'
+if (!(Test-Path $dryIocFormsAssemblyPath))
+{
+    Write-Host 'Prism.DryIoc.Forms.dll not found'
+}
+else
+{
+    $dryIocFormsFileInfo = Get-Item $dryIocFormsAssemblyPath
+    $dryIocFileVersion = $dryIocFormsFileInfo.VersionInfo.ProductVersion   
+
+    Invoke-Expression ".\$($nugetFileName) pack $($dryIocFormsNuspecPath) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($dryIocFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism", "Prism\Prism.csproj", "{E6C50355-D01E-4CAA-884D-D7929861315C}"
 EndProject
@@ -231,8 +231,8 @@ Global
 		{174F4ADD-B9C7-4F5E-A96D-F53FF3ECBE9B}.Release|x64.Build.0 = Release|Any CPU
 		{174F4ADD-B9C7-4F5E-A96D-F53FF3ECBE9B}.Release|x86.ActiveCfg = Release|Any CPU
 		{174F4ADD-B9C7-4F5E-A96D-F53FF3ECBE9B}.Release|x86.Build.0 = Release|Any CPU
-		{174F4ADD-B9C7-4F5E-A96D-F53FF3ECBE9B}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
-		{174F4ADD-B9C7-4F5E-A96D-F53FF3ECBE9B}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
+		{174F4ADD-B9C7-4F5E-A96D-F53FF3ECBE9B}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
+		{174F4ADD-B9C7-4F5E-A96D-F53FF3ECBE9B}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
 		{174F4ADD-B9C7-4F5E-A96D-F53FF3ECBE9B}.Release-Signed|ARM.ActiveCfg = Release|Any CPU
 		{174F4ADD-B9C7-4F5E-A96D-F53FF3ECBE9B}.Release-Signed|ARM.Build.0 = Release|Any CPU
 		{174F4ADD-B9C7-4F5E-A96D-F53FF3ECBE9B}.Release-Signed|x64.ActiveCfg = Release|Any CPU
@@ -295,8 +295,8 @@ Global
 		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release|x64.Build.0 = Release|Any CPU
 		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release|x86.ActiveCfg = Release|Any CPU
 		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release|x86.Build.0 = Release|Any CPU
-		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
-		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
+		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
 		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|ARM.ActiveCfg = Release|Any CPU
 		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|ARM.Build.0 = Release|Any CPU
 		{943664CF-3A0C-4EFF-8BDA-29241D49DD85}.Release-Signed|x64.ActiveCfg = Release|Any CPU
