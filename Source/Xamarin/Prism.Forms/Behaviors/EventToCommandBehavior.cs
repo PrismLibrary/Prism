@@ -9,9 +9,20 @@ using Xamarin.Forms;
 namespace Prism.Behaviors
 {
     /// <summary>
-    /// Behavior class that enable using <see cref="ICommand" /> and <see cref="IValueConverter" /> to react
-    /// on events raised by <see cref="View" /> element.
+    /// Behavior class that enable using <see cref="ICommand" /> to react on events raised by <see cref="View" /> element.
     /// </summary>
+    /// <para>
+    /// There are multiple ways to pass a parameter to the <see cref="ICommand.Execute"/> method. 
+    /// Setting the <see cref="CommandParameter"/> will always result in that value will be sent.
+    /// The <see cref="EventArgsParameterPath"/> will walk the property path on the instance of <see cref="EventArgs"/> for the event and, if any property found, pass that parameter.
+    /// The <see cref="EventArgsConverter"/> will call the <see cref="IValueConverter.Convert"/> method with the <see cref="EventArgsConverterParameter"/> and pass the result as parameter.
+    /// </para>
+    /// <para>
+    /// The order of evaluation for the parameter to be sent to the <see cref="ICommand.Execute"/> method is
+    /// 1. <see cref="CommandParameter"/>
+    /// 2. <see cref="EventArgsParameterPath"/>
+    /// 3. <see cref="EventArgsConverter"/>
+    /// </para>
     /// <example>
     /// &lt;ListView&gt;
     /// &lt;ListView.Behaviors&gt;
