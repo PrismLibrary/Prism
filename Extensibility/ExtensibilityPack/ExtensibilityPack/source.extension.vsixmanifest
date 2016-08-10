@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="Prism.ExtensibilityPack.29e6d5dc-548f-4801-b0e2-9a8960d1b5af" Version="1.0" Language="en-US" Publisher="Brian Lagunas" />
+    <DisplayName>Prism Extensibility Pack</DisplayName>
+    <Description xml:space="preserve">Visual Studio Extensions for use in Prism application development.</Description>
+    <MoreInfo>https://github.com/PrismLibrary</MoreInfo>
+    <License>license.txt</License>
+    <Icon>Images\prism-logo-32.jpg</Icon>
+    <PreviewImage>Images\prism-logo-200.jpg</PreviewImage>
+    <Tags>prism</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Pro" />
+    <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Enterprise" />
+    <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Community" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="ConfigModuleEditor" Path="|ConfigModuleEditor;PkgdefProjectOutputGroup|" />
+  </Assets>
+</PackageManifest>

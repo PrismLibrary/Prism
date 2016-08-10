@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="ConfigModuleEditor.Brian Lagunas.176e48cd-89d2-4b7b-a214-8547fa5002b0" Version="1.0" Language="en-US" Publisher="Brian Lagunas" />
+    <Identity Id="Prism.ConfigModuleEditor.176e48cd-89d2-4b7b-a214-8547fa5002b0" Version="1.0" Language="en-US" Publisher="Brian Lagunas" />
     <DisplayName>ConfigModuleEditor</DisplayName>
     <Description>Empty VSIX Project.</Description>
   </Metadata>
