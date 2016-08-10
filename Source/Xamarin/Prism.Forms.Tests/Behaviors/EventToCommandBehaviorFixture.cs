@@ -132,6 +132,28 @@ namespace Prism.Forms.Tests.Behaviors
         }
 
         [Fact]
+        public void Command_EventArgsParameterPath_Nested()
+        {
+            dynamic item = new
+            {
+                AProperty = "Value"
+            };
+            var behavior = new EventToCommandBehaviorMock
+            {
+                EventName = "ItemTapped",
+                EventArgsParameterPath = "Item.AProperty",
+                Command = new Command(o =>
+                {
+                    Assert.NotNull(o);
+                    Assert.Equal("Value", o);
+                })
+            };
+            var listView = new ListView();
+            listView.Behaviors.Add(behavior);
+            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, item));
+        }
+
+        [Fact]
         public void Command_CanExecute()
         {
             var behavior = new EventToCommandBehaviorMock
