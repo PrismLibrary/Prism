@@ -19,7 +19,7 @@ The `EventToCommandBehavior` expose the following properties
 	x:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
     <ListView>
 		<ListView.Behaviors>
-			<b:EventToCommandBehavior EventName="Tapped" Command={Binding ItemTappedCommand} />
+			<b:EventToCommandBehavior EventName="ItemTapped" Command={Binding ItemTappedCommand} />
 		</ListView.Behaviors>
 	</ListView>
 </ContentPage>
@@ -68,7 +68,7 @@ The XAML need a reference to the converter and the converter resource need to be
 	</Resources>
     <ListView>
 		<ListView.Behaviors>
-			<b:EventToCommandBehavior EventName="Tapped" Command={Binding ItemTappedCommand}
+			<b:EventToCommandBehavior EventName="ItemTapped" Command={Binding ItemTappedCommand}
 									  EventArgsConverter="{StaticResource itemTappedEventArgsConverter}" />
 		</ListView.Behaviors>
 	</ListView>
