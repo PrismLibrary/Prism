@@ -222,12 +222,6 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\VsPackages\ConfigModuleEditor\ConfigModuleEditor.csproj">
-      <Project>{104e18e6-acd0-476b-8732-8fc772abaea3}</Project>
-      <Name>ConfigModuleEditor</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3bPkgdefProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
-    </ProjectReference>
     <ProjectReference Include="..\VsWizards\Prism.VisualStudio.Wizards\Prism.VisualStudio.Wizards.csproj">
       <Project>{CF820A3D-4BD3-4A92-B951-D35F3AFD6AA9}</Project>
       <Name>Prism.VisualStudio.Wizards</Name>
