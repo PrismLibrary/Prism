@@ -25,7 +25,7 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Wpf\Prism.Wpf\bin\Release-Signed\Prism.Wpf.*" target="lib\net45\" exclude="**\*.pdb" />
-    <file src="..\Wpf\Prism.Wpf\bin\Release-Signed\System.Windows.Interactivity.dll" target="lib\net45\" />
+    <file src="..\Wpf\Prism.Wpf\bin\Release\Prism.Wpf.*" target="lib\net45\" exclude="**\*.pdb" />
+    <file src="..\Wpf\Prism.Wpf\bin\Release\System.Windows.Interactivity.dll" target="lib\net45\" />
   </files>
 </package>

@@ -33,16 +33,6 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU'">
-    <OutputPath>bin\Release-Signed\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-	<SignAssembly>true</SignAssembly>
-  </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\prism.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>

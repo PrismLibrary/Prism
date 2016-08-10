@@ -1,5 +1,5 @@
 ﻿### This is just the initial script to get the nuget packages out.  We need to refactor this script to make it easier to maintain and update
-### One idea is to force a Visual Studio build using the Release-Signed build configuration before packing the nuspecs
+### One idea is to force a Visual Studio build using the Release build configuration before packing the nuspecs
 
 $releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.2.0'
 
@@ -20,7 +20,7 @@ if (!(Test-Path $nugetFileName))
 ######  Prism.Core  ######
 ##########################
 $coreNuspecPath = 'Prism.Core.nuspec'
-$coreAssemblyPath = '../Prism/bin/Release-Signed/Prism.dll'
+$coreAssemblyPath = '../Prism/bin/Release/Prism.dll'
 if ((Test-Path $coreAssemblyPath))
 {
     $fileInfo = Get-Item $coreAssemblyPath
@@ -39,7 +39,7 @@ else
 ######   Prism.Wpf   ######
 ###########################
 $wpfNuspecPath = 'Prism.Wpf.nuspec'
-$wpfAssemblyPath = '../Wpf/Prism.Wpf/bin/Release-Signed/Prism.Wpf.dll'
+$wpfAssemblyPath = '../Wpf/Prism.Wpf/bin/Release/Prism.Wpf.dll'
 if ((Test-Path $wpfAssemblyPath))
 {
     $fileInfo = Get-Item $wpfAssemblyPath
@@ -58,7 +58,7 @@ else
 #####  Prism.Windows  #####
 ###########################
 $uwpNuspecPath = 'Prism.Windows.nuspec'
-$uwpAssemblyPath = '../Windows10/Prism.Windows/bin/Release-Signed/Prism.Windows.dll'
+$uwpAssemblyPath = '../Windows10/Prism.Windows/bin/Release/Prism.Windows.dll'
 if ((Test-Path $uwpAssemblyPath))
 {
     $fileInfo = Get-Item $uwpAssemblyPath
@@ -77,7 +77,7 @@ else
 ######  Prism.Forms  ######
 ###########################
 $formsNuspecPath = 'Prism.Forms.nuspec'
-$formsAssemblyPath = '../Xamarin/Prism.Forms/bin/Release-Signed/Prism.Forms.dll'
+$formsAssemblyPath = '../Xamarin/Prism.Forms/bin/Release/Prism.Forms.dll'
 if ((Test-Path $formsAssemblyPath))
 {
     $fileInfo = Get-Item $formsAssemblyPath
@@ -96,9 +96,9 @@ else
 ######  Prism.Unity  ######
 ###########################
 $unityNuspecPath = 'Prism.Unity.nuspec'
-$unityWpfAssemblyPath = '../Wpf/Prism.Unity.Wpf/bin/Release-Signed/Prism.Unity.Wpf.dll'
-$unityUwpAssemblyPath = '../Windows10/Prism.Unity.Windows/bin/Release-Signed/Prism.Unity.Windows.dll'
-$unityFormsAssemblyPath = '../Xamarin/Prism.Unity.Forms/bin/Release-Signed/Prism.Unity.Forms.dll'
+$unityWpfAssemblyPath = '../Wpf/Prism.Unity.Wpf/bin/Release/Prism.Unity.Wpf.dll'
+$unityUwpAssemblyPath = '../Windows10/Prism.Unity.Windows/bin/Release/Prism.Unity.Windows.dll'
+$unityFormsAssemblyPath = '../Xamarin/Prism.Unity.Forms/bin/Release/Prism.Unity.Forms.dll'
 if (!(Test-Path $unityWpfAssemblyPath))
 {
     Write-Host 'Prism.Unity.Wpf.dll not found'
@@ -124,7 +124,7 @@ else
 ######  Prism.Unity.Forms  ######
 ###########################
 $unityFormsNuspecPath = 'Prism.Unity.Forms.nuspec'
-$unityFormsAssemblyPath = '../Xamarin/Prism.Unity.Forms/bin/Release-Signed/Prism.Unity.Forms.dll'
+$unityFormsAssemblyPath = '../Xamarin/Prism.Unity.Forms/bin/Release/Prism.Unity.Forms.dll'
 if (!(Test-Path $unityFormsAssemblyPath))
 {
     Write-Host 'Prism.Unity.Forms.dll not found'
@@ -141,7 +141,7 @@ else
 ######  Prism.Autofac.Forms  ######
 ###########################
 $autofacFormsNuspecPath = 'Prism.Autofac.Forms.nuspec'
-$autofacFormsAssemblyPath = '../Xamarin/Prism.Autofac.Forms/bin/Release-Signed/Prism.Autofac.Forms.dll'
+$autofacFormsAssemblyPath = '../Xamarin/Prism.Autofac.Forms/bin/Release/Prism.Autofac.Forms.dll'
 if (!(Test-Path $autofacFormsAssemblyPath))
 {
     Write-Host 'Prism.Autofac.Forms.dll not found'
@@ -160,8 +160,8 @@ else
 #####  Prism.Autofac  #####
 ###########################
 $autofacNuspecPath = 'Prism.Autofac.nuspec'
-$autofacWpfAssemblyPath = '../Wpf/Prism.Autofac.Wpf/bin/Release-Signed/Prism.Autofac.Wpf.dll'
-$autofacUwpAssemblyPath = '../Windows10/Prism.Autofac.Windows/bin/Release-Signed/Prism.Autofac.Windows.dll'
+$autofacWpfAssemblyPath = '../Wpf/Prism.Autofac.Wpf/bin/Release/Prism.Autofac.Wpf.dll'
+$autofacUwpAssemblyPath = '../Windows10/Prism.Autofac.Windows/bin/Release/Prism.Autofac.Windows.dll'
 if (!(Test-Path $autofacWpfAssemblyPath))
 {
     Write-Host 'Prism.Autofac.Wpf.dll not found'
@@ -184,7 +184,7 @@ else
 ######  Prism.DryIoc.Forms  ######
 ###########################
 $dryIocFormsNuspecPath = 'Prism.DryIoc.Forms.nuspec'
-$dryIocFormsAssemblyPath = '../Xamarin/Prism.DryIoc.Forms/bin/Release-Signed/Prism.DryIoc.Forms.dll'
+$dryIocFormsAssemblyPath = '../Xamarin/Prism.DryIoc.Forms/bin/Release/Prism.DryIoc.Forms.dll'
 if (!(Test-Path $dryIocFormsAssemblyPath))
 {
     Write-Host 'Prism.DryIoc.Forms.dll not found'
@@ -202,7 +202,7 @@ else
 #####  Prism.SimpleInjector  #####
 ##################################
 $simpleInjectorNuspecPath = 'Prism.SimpleInjector.nuspec'
-$simpleInjectorUwpAssemblyPath = '../Windows10/Prism.SimpleInjector.Windows/bin/Release-Signed/Prism.SimpleInjector.Windows.dll'
+$simpleInjectorUwpAssemblyPath = '../Windows10/Prism.SimpleInjector.Windows/bin/Release/Prism.SimpleInjector.Windows.dll'
 if (!(Test-Path $simpleInjectorUwpAssemblyPath))
 {
     Write-Host 'Prism.SimpleInjector.Windows.dll not found'
@@ -220,7 +220,7 @@ else
 #######  Prism.Mef  #######
 ###########################
 $mefNuspecPath = 'Prism.Mef.nuspec'
-$mefAssemblyPath = '../Wpf/Prism.Mef.Wpf/bin/Release-Signed/Prism.Mef.Wpf.dll'
+$mefAssemblyPath = '../Wpf/Prism.Mef.Wpf/bin/Release/Prism.Mef.Wpf.dll'
 if ((Test-Path $mefAssemblyPath))
 {
     $fileInfo = Get-Item $mefAssemblyPath
@@ -239,7 +239,7 @@ else
 #####  Prism.Ninject  #####
 ###########################
 $ninjectNuspecPath = 'Prism.Ninject.nuspec'
-$ninjectAssemblyPath = '../Wpf/Prism.Ninject.Wpf/bin/Release-Signed/Prism.Ninject.Wpf.dll'
+$ninjectAssemblyPath = '../Wpf/Prism.Ninject.Wpf/bin/Release/Prism.Ninject.Wpf.dll'
 if ((Test-Path $ninjectAssemblyPath))
 {
     $fileInfo = Get-Item $ninjectAssemblyPath
@@ -257,7 +257,7 @@ else
 ######  Prism.Ninject.Forms  ######
 ###################################
 $ninjectFormsNuspecPath = 'Prism.Ninject.Forms.nuspec'
-$ninjectFormsAssemblyPath = '../Xamarin/Prism.Ninject.Forms/bin/Release-Signed/Prism.Ninject.Forms.dll'
+$ninjectFormsAssemblyPath = '../Xamarin/Prism.Ninject.Forms/bin/Release/Prism.Ninject.Forms.dll'
 if (!(Test-Path $ninjectFormsAssemblyPath))
 {
     Write-Host 'Prism.Unity.Forms.dll not found'

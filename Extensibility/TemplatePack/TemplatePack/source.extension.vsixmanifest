@@ -42,7 +42,6 @@
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.mediarouter.23.1.1.1.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismModule" d:TargetPath="|PrismModule;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp.Wpf" d:TargetPath="|PrismUnityApp.Wpf;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
-    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="ConfigModuleEditor" Path="|ConfigModuleEditor;PkgdefProjectOutputGroup|" />
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Prism.VisualStudio.Wizards" Path="|Prism.VisualStudio.Wizards|" AssemblyName="|Prism.VisualStudio.Wizards;AssemblyName|" />
     <Asset Type="Nuget.Package" d:Source="File" Path="Packages\Prism.Unity.Forms.6.2.0-pre4.nupkg" />
     <Asset Type="Nuget.Package" d:Source="File" Path="Packages\prism.wpf.6.1.1-pre2.nupkg" />
