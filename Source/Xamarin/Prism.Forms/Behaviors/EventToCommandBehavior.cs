@@ -150,13 +150,10 @@ namespace Prism.Behaviors
 
             var parameter = CommandParameter;
 
-            if (eventArgs != null && eventArgs != EventArgs.Empty)
+            if (eventArgs != null && eventArgs != EventArgs.Empty && EventArgsConverter != null)
             {
-                if (EventArgsConverter != null)
-                {
-                    parameter = EventArgsConverter.Convert(eventArgs, typeof(object), EventArgsConverterParameter,
+                parameter = EventArgsConverter.Convert(eventArgs, typeof(object), EventArgsConverterParameter,
                         CultureInfo.CurrentUICulture);
-                }
             }
 
             if (Command.CanExecute(parameter))
