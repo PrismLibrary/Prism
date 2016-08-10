@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <DefaultName>PrismPage.xaml</DefaultName>
+    <Name>Prism Page (UWP)</Name>
+    <Description>A blank Prism page for a Universal (UWP) app.</Description>
+    <TemplateID>af40fc93-5c90-4879-bfa5-068bb711273f</TemplateID>
+    <ProjectType>CSharp</ProjectType>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <Icon Package="{2581426E-BF4F-4A49-A42A-20EF9D51EF49}" ID="4007" />
+    <SortOrder>30</SortOrder>
+    <TemplateGroupID>WinRT-Managed-UAP</TemplateGroupID>
+    <TargetPlatformName>Windows</TargetPlatformName>
+    <RequiredPlatformVersion>6.1.0</RequiredPlatformVersion>
+    <PreviewImage>PrismPage.png</PreviewImage>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem OpenInEditor="true" SubType="Designer" TargetFileName="$fileinputname$.xaml" ReplaceParameters="true">PrismTemplatePage.xaml</ProjectItem>
+    <ProjectItem SubType="Code" TargetFileName="$fileinputname$.xaml.cs" ReplaceParameters="true">PrismTemplatePage.xaml.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>
