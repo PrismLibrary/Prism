@@ -9,6 +9,25 @@ namespace Prism.Forms.Tests.Behaviors
     public class EventToCommandBehaviorFixture
     {
         [Fact]
+        public void Command_EventArgsParameterPath()
+        {
+            const string item = "ItemProperty";
+            var behavior = new EventToCommandBehaviorMock
+            {
+                EventName = "ItemTapped",
+                EventArgsParameterPath = "Item",
+                Command = new Command(o =>
+                {
+                    Assert.NotNull(o);
+                    Assert.Equal("ItemProperty", o);
+                })
+            };
+            var listView = new ListView();
+            listView.Behaviors.Add(behavior);
+            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, item));
+        }
+
+        [Fact]
         public void Command_CanExecute()
         {
             var behavior = new EventToCommandBehaviorMock
@@ -16,13 +35,13 @@ namespace Prism.Forms.Tests.Behaviors
                 EventName = "ItemTapped",
                 Command = new Command(_ => Assert.True(false), o =>
                 {
-                    Assert.True(true);
+                    Assert.Null(o);
                     return false;
                 })
             };
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
-            behavior.RaiseEvent(null, null);
+            behavior.RaiseEvent(listView, null);
         }
 
         [Fact]
@@ -31,11 +50,11 @@ namespace Prism.Forms.Tests.Behaviors
             var behavior = new EventToCommandBehaviorMock
             {
                 EventName = "ItemTapped",
-                Command = new Command(_ => Assert.True(true))
+                Command = new Command(Assert.Null)
             };
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
-            behavior.RaiseEvent(null, null);
+            behavior.RaiseEvent(listView, null);
         }
 
         [Fact]
