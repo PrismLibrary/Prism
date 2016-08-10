@@ -52,6 +52,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\CarouselPageNavigationBehavior.cs" />
+    <Compile Include="Behaviors\MultiPageNavigationBehavior.cs" />
     <Compile Include="IPlatformInitializer.cs" />
     <Compile Include="Navigation\INavigationPageOptions.cs" />
     <Compile Include="PrismApplicationBase.cs" />
@@ -88,7 +90,7 @@
     <Compile Include="Services\PageDialogService\PageDialogService.cs" />
     <Compile Include="Behaviors\BehaviorBase{T}.cs" />
     <Compile Include="Navigation\IMultiPageNavigationAware.cs" />
-    <Compile Include="Behaviors\MultiPageNavigationBehavior.cs" />
+    <Compile Include="Behaviors\MultiPageNavigationBehavior{T}.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Prism\Prism.csproj">
