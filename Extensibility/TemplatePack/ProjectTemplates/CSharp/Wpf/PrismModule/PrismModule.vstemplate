@@ -38,8 +38,8 @@
   </WizardExtension>
   <WizardData>
     <packages repository="extension" repositoryId="Prism.TemplatePack.138e3411-ac97-4c11-8016-c27a831cba2e">
-      <package id="Prism.Core" version="6.1.0" />
-      <package id="Prism.Wpf" version="6.1.1-pre2" />
+      <package id="Prism.Core" version="6.2.0" />
+      <package id="Prism.Wpf" version="6.2.0" />
     </packages>
   </WizardData>
   

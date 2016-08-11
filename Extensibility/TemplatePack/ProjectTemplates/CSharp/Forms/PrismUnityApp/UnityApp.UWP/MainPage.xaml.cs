@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Prism.Unity;
+using Microsoft.Practices.Unity;
 
 namespace $safeprojectname$
 {
@@ -21,7 +23,16 @@ namespace $safeprojectname$
         {
             this.InitializeComponent();
 
-            LoadApplication(new $saferootprojectname$.App());
+            LoadApplication(new $saferootprojectname$.App(new UwpInitializer()));
         }
     }
+
+    public class UwpInitializer : IPlatformInitializer
+    {
+        public void RegisterTypes(IUnityContainer container)
+        {
+
+        }
+    }
+
 }
