@@ -5,7 +5,7 @@
     <Description>A multiproject template for building Xamarin.Forms app with Prism and Ninject, sharing code using a portable class library.</Description>
     <Icon>PrismNinjectApp.ico</Icon>
     <ProjectType>CSharp</ProjectType>
-    <TemplateID>6d0a03fa-d3ec-437d-8265-6965a179b07d</TemplateID>
+    <TemplateID>EC1ADD71-43E4-4CDA-B029-5B6730D36CA5</TemplateID>
     <DefaultName>PrismNinjectApp</DefaultName>
     <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>

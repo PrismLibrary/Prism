@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Prism.Unity;
+using Microsoft.Practices.Unity;
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,7 +30,15 @@ namespace HelloWorld.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new HelloWorld.App());
+            LoadApplication(new HelloWorld.App(new UwpInitializer()));
+        }
+    }
+
+    public class UwpInitializer : IPlatformInitializer
+    {
+        public void RegisterTypes(IUnityContainer container)
+        {
+
         }
     }
 }
