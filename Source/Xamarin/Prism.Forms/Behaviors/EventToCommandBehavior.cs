@@ -32,7 +32,7 @@ namespace Prism.Behaviors
     /// &lt;/ListView&gt;
     /// </example>
     // This is a modified version of https://anthonysimmon.com/eventtocommand-in-xamarin-forms-apps/
-    public class EventToCommandBehavior : BehaviorsBase<View>
+    public class EventToCommandBehavior : BehaviorBase<View>
     {
         public static readonly BindableProperty EventNameProperty =
             BindableProperty.Create(nameof(EventName), typeof(string), typeof(EventToCommandBehavior));
