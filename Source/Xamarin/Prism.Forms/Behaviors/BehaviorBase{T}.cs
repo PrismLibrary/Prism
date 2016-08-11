@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace Prism.Behaviors
 {
-    public class BehaviorsBase<T> : Behavior<T> where T : BindableObject
+    public class BehaviorBase<T> : Behavior<T> where T : BindableObject
     {
         public T AssociatedObject { get; private set; }
 
