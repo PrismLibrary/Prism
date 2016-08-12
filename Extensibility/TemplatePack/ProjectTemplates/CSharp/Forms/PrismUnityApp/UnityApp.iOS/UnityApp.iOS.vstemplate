@@ -7,13 +7,14 @@
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType></ProjectSubType>
     <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
-    <TemplateID>6d0a03fa-d3ec-437d-8265-6965a179b07d</TemplateID>
+    <TemplateID>A44C1DD5-87DD-4E43-BA7C-41C531DDF5D1</TemplateID>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>PrismUnityApp.iOS</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
     <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
+    <Hidden>true</Hidden>
   </TemplateData>
   <TemplateContent>
     <Project TargetFileName="$safeprojectname$.iOS.csproj" File="UnityAppTemplate.iOS.csproj" ReplaceParameters="true">

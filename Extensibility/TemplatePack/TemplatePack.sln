@@ -47,7 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VsWizards", "VsWizards", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.VisualStudio.Wizards", "VsWizards\Prism.VisualStudio.Wizards\Prism.VisualStudio.Wizards.csproj", "{CF820A3D-4BD3-4A92-B951-D35F3AFD6AA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismNinjectApp", "ProjectTemplates\CSharp\Forms\PrismNinjectApp\PrismNinjectApp.csproj", "{10034D23-BEA9-4443-BA71-C579FC98BB44}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.VisualStudio.Wizards.Design", "VsWizards\Prism.VisualStudio.Wizards.Design\Prism.VisualStudio.Wizards.Design.csproj", "{B237635B-1151-479F-A422-231D93037745}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,10 +107,10 @@ Global
 		{CF820A3D-4BD3-4A92-B951-D35F3AFD6AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF820A3D-4BD3-4A92-B951-D35F3AFD6AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF820A3D-4BD3-4A92-B951-D35F3AFD6AA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{10034D23-BEA9-4443-BA71-C579FC98BB44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10034D23-BEA9-4443-BA71-C579FC98BB44}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10034D23-BEA9-4443-BA71-C579FC98BB44}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10034D23-BEA9-4443-BA71-C579FC98BB44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B237635B-1151-479F-A422-231D93037745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B237635B-1151-479F-A422-231D93037745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B237635B-1151-479F-A422-231D93037745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B237635B-1151-479F-A422-231D93037745}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,6 +134,6 @@ Global
 		{0487B548-C845-4CC4-8F82-8932CFC92E1F} = {D9B82372-CF98-45DA-97E9-7C84F70EA440}
 		{9DAE43F7-77D4-4191-BEAC-40EACFD9C20C} = {D9B82372-CF98-45DA-97E9-7C84F70EA440}
 		{CF820A3D-4BD3-4A92-B951-D35F3AFD6AA9} = {17975747-054F-451F-8A3B-2ECB07EC3EEB}
-		{10034D23-BEA9-4443-BA71-C579FC98BB44} = {4A89CB30-0D10-4549-A85D-30180E8116DB}
+		{B237635B-1151-479F-A422-231D93037745} = {17975747-054F-451F-8A3B-2ECB07EC3EEB}
 	EndGlobalSection
 EndGlobal
