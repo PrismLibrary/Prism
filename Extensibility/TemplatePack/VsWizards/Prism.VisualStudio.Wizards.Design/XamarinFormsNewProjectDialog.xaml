@@ -49,7 +49,7 @@
             <CheckBox x:Name="_chkiOS" Content="iOS" IsChecked="True" Grid.Row="1"/>
             <CheckBox x:Name="_chkUwp" Content="UWP" Grid.Row="2"/>
             <CheckBox x:Name="_chkWinStore" Content="Windows Store 8.1" Grid.Row="4"/>
-            <CheckBox x:Name="_chkWinPhone" Content="Windows Phone 8.0" Grid.Row="3"/>
+            <CheckBox x:Name="_chkWinPhone" Content="Windows Phone 8.1" Grid.Row="3"/>
             
             <Button x:Name="_btnCreate" Content="Create" Click="_btnCreate_Click" Grid.Row="5" Margin="15" Height="30" Width="85" Background="LightBlue" />
         </Grid>
