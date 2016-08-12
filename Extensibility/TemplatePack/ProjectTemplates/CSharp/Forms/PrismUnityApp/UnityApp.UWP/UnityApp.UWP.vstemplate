@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
     <Name>UnityApp.UWP</Name>
@@ -28,6 +29,7 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="MainPage.xaml">MainPage.xaml</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="MainPage.xaml.cs">MainPage.xaml.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Package.appxmanifest">Package.appxmanifest</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="PlatformInitializer.cs">PlatformInitializer.cs</ProjectItem>
       <ProjectItem ReplaceParameters="false" TargetFileName="project.json">project.json</ProjectItem>
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
@@ -64,15 +66,11 @@
   
   <WizardData>
     <packages repository="extension" repositoryId="Prism.TemplatePack.138e3411-ac97-4c11-8016-c27a831cba2e">
-      <package id="Xamarin.Forms" version="2.3.1.114" />
-      <package id="Prism.Core" version="6.2.0" />
-      <package id="Prism.Forms" version="6.2.0" />
-      <package id="Prism.Unity.Forms" version="6.2.0" />
+      <package id="Xamarin.Forms" version="2.3.1.113-pre3" />
+      <package id="Prism.Core" version="6.2.0-pre1" />
+      <package id="Prism.Forms" version="6.1.0-pre7" />
+      <package id="Prism.Unity.Forms" version="6.2.0-pre7" />
       <package id="Unity" version="4.0.1" />
-      <package id="CommonServiceLocator" version="1.3.0" />
-    </packages>
-    <packages repository="registry" keyName="NETCoreSDK" isPreunzipped="true">
-      <package id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.0.0" />
     </packages>
     <EnsureRegistryWizard>
       <Key>_Config\Projects\{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A}</Key>

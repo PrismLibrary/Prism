@@ -21,6 +21,7 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="Entitlements.plist">Entitlements.plist</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Info.plist">Info.plist</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Main.cs">Main.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="PlatformInitializer.cs">PlatformInitializer.cs</ProjectItem>
       <ProjectItem ReplaceParameters="false" TargetFileName="iTunesArtwork">iTunesArtwork</ProjectItem>
       <ProjectItem ReplaceParameters="false" TargetFileName="iTunesArtwork@2x">iTunesArtwork@2x</ProjectItem>
       <Folder Name="Properties" TargetFolderName="Properties">
@@ -62,12 +63,11 @@
   </WizardExtension>
   <WizardData>
     <packages repository="extension" repositoryId="Prism.TemplatePack.138e3411-ac97-4c11-8016-c27a831cba2e">
-      <package id="Xamarin.Forms" version="2.3.1.114" />
-      <package id="Prism.Core" version="6.2.0" />
-      <package id="Prism.Forms" version="6.2.0" />
-      <package id="Prism.Unity.Forms" version="6.2.0" />
+      <package id="Xamarin.Forms" version="2.3.1.113-pre3" />
+      <package id="Prism.Core" version="6.2.0-pre1" />
+      <package id="Prism.Forms" version="6.1.0-pre7" />
+      <package id="Prism.Unity.Forms" version="6.2.0-pre7" />
       <package id="Unity" version="4.0.1" />
-      <package id="CommonServiceLocator" version="1.3.0" />
     </packages>
   </WizardData>
   

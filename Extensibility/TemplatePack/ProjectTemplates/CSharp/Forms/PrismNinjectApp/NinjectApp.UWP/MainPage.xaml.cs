@@ -21,7 +21,7 @@ namespace $safeprojectname$
         {
             this.InitializeComponent();
 
-            LoadApplication(new $saferootprojectname$.App());
+            LoadApplication(new $saferootprojectname$.App( new PlatformInitializer()));
         }
     }
 }

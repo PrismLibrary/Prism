@@ -23,6 +23,8 @@
 	<Extension path="/MonoDevelop/Ide/ProjectTemplates">
 		<ProjectTemplate id="PrismUnityApp"
 						 file="ProjectTemplates/PrismUnityApp/PrismUnityApp.xpt.xml" />
+		<ProjectTemplate id="PrismNinjectApp"
+						 file="ProjectTemplates/PrismNinjectApp/PrismNinjectApp.xpt.xml" />
 	</Extension>
 
 	<Extension path="/MonoDevelop/Ide/CodeTemplates">

@@ -12,8 +12,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Prism.Unity;
-using Microsoft.Practices.Unity;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -30,7 +28,7 @@ namespace $safeprojectname$
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
 
-            LoadApplication(new $saferootprojectname$.App(new WinPhoneInitializer()));
+            LoadApplication(new $saferootprojectname$.App(new PlatformInitializer()));
         }
 
         /// <summary>
@@ -49,13 +47,4 @@ namespace $safeprojectname$
             // this event is handled for you.
         }
     }
-
-    public class WinPhoneInitializer : IPlatformInitializer
-    {
-        public void RegisterTypes(IUnityContainer container)
-        {
-
-        }
-    }
-
 }

@@ -54,6 +54,11 @@
     <Folder Include="ProjectTemplates\PrismUnityApp\UnityApp.UITests\" />
     <Folder Include="Images\" />
     <Folder Include="Snippets\" />
+    <Folder Include="ProjectTemplates\PrismNinjectApp\" />
+    <Folder Include="ProjectTemplates\PrismNinjectApp\NinjectApp\" />
+    <Folder Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\" />
+    <Folder Include="ProjectTemplates\PrismNinjectApp\NinjectApp.iOS\" />
+    <Folder Include="ProjectTemplates\PrismNinjectApp\NinjectApp.UITests\" />
   </ItemGroup>
   <ItemGroup>
     <AddinFile Include="ItemTemplates\PrismContentPage.xaml" />
@@ -112,5 +117,56 @@
     </AddinFile>
     <AddinFile Include="ProjectTemplates\PrismUnityApp\PrismUnityApp.xpt.xml" />
     <AddinFile Include="Snippets\PrismCodeTemplates.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\PlatformInitializer.cs" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.iOS\PlatformInitializer.cs" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\SplashScreenActivity.cs" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\colorsvalues.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\stylesvalues.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\stylesvalues-v21.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\toolbarlayout.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\tabslayout.xml" />
+    <AddinFile Include="ProjectTemplates\PrismUnityApp\UnityApp.Droid\SplashScreenlayout.xml" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\PrismNinjectApp.xpt.xml" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp\App.xaml" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </AddinFile>
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp\MainPage.xaml" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </AddinFile>
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp\MainPageViewModel.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\AboutAssets.txt" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\AboutResources.txt" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\AndroidManifest.xml" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\AssemblyInfo.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\colorsvalues.xml" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\icondrawable.png" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\icondrawablehdpi.png" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\icondrawablexhdpi.png" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\icondrawablexxhdpi.png" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\MainActivity.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\PlatformInitializer.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\Resource.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\SplashScreenActivity.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\SplashScreenlayout.xml" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\stylesvalues.xml" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\stylesvalues-v21.xml" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\tabslayout.xml" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.Droid\toolbarlayout.xml" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.iOS\AppDelegate.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.iOS\AppIcons\AppIcons.json" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.iOS\Entitlements.plist.xml" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.iOS\Info_Universal.plist.xml" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.iOS\LaunchScreen.xib" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.iOS\Main.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.iOS\PlatformInitializer.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.UITests\AppInitializer.AppProject.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.UITests\AppInitializer.UITestProject.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.UITests\UITests.AppProject.Android.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.UITests\UITests.AppProject.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.UITests\UITests.AppProject.iOS.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.UITests\UITests.UITestProject.Android.cs" />
+    <AddinFile Include="ProjectTemplates\PrismNinjectApp\NinjectApp.UITests\UITests.UITestProject.cs" />
   </ItemGroup>
 </Project>

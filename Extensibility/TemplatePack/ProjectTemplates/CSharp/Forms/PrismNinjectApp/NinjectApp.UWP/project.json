@@ -1,11 +1,12 @@
 ﻿{
   "dependencies": {
+    "CommonServiceLocator": "1.3.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
-    "Prism.Core": "6.2.0",
-    "Prism.Forms": "6.2.0",
-    "Prism.Ninject.Forms": "6.2.0",
+    "Prism.Core": "6.2.0-pre1",
+    "Prism.Forms": "6.1.0-pre6",
+    "Prism.Ninject.Forms": "6.2.0-pre6",
     "Portable.Ninject": "3.3.1",
-    "Xamarin.Forms": "2.3.1.114"
+    "Xamarin.Forms": "2.3.0.49"
   },
   "frameworks": {
     "uap10.0": {}
