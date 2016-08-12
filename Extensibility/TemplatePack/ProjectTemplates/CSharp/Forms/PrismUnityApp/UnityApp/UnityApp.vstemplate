@@ -6,7 +6,7 @@
     <Icon>__TemplateIcon.ico</Icon>
     <ProjectType>CSharp</ProjectType>
     <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
-    <TemplateID>6d0a03fa-d3ec-437d-8265-6965a179b07d</TemplateID>
+    <TemplateID>904C2970-2D83-41E2-9EE7-44C12D22086A</TemplateID>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>PrismUnityApp</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
@@ -29,7 +29,7 @@
         <ProjectItem ItemType="EmbeddedResource" CustomTool="MSBuild:UpdateDesignTimeXaml" ReplaceParameters="true" TargetFileName="MainPage.xaml">MainPage.xaml</ProjectItem>
         <ProjectItem SubType="Code" ReplaceParameters="true" TargetFileName="MainPage.xaml.cs">MainPage.xaml.cs</ProjectItem>
       </Folder>
-    </Project>
+    </Project>    
   </TemplateContent>
 
   <WizardExtension>

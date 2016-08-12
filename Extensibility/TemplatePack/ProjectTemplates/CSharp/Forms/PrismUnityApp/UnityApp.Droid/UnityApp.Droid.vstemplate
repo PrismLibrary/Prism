@@ -6,12 +6,13 @@
     <Icon>__TemplateIcon.ico</Icon>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType></ProjectSubType>
-    <TemplateID>6d0a03fa-d3ec-437d-8265-6965a179b07d</TemplateID>
+    <TemplateID>49F9E668-58CF-4470-A144-46477DDDF095</TemplateID>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>PrismUnityApp.Droid</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Hidden>true</Hidden>
   </TemplateData>
   <TemplateContent>
     <Project TargetFileName="$safeprojectname$.Droid.csproj" File="UnityAppTemplate.Droid.csproj" ReplaceParameters="true">
