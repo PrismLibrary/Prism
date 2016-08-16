@@ -1,9 +1,5 @@
 ﻿using Prism.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Prism.Forms.Tests.Navigation
@@ -67,6 +63,45 @@ namespace Prism.Forms.Tests.Navigation
                 var parameters = new NavigationParameters(_uri);
                 parameters.Add("id", 3);
             });            
+        }
+
+        [Fact]
+        public void GetValueSuccessfull()
+        {
+            const string validKey = "ValidKey";
+            const int expectedValue = 100;
+
+            var parameters = new NavigationParameters { { validKey, expectedValue } };
+            var resultValue = parameters.GetValue<int>(validKey);
+
+            Assert.Equal(expectedValue, resultValue);
+        }
+
+        [Fact]
+        public void GetValueThrowsExceptionWhenCastIsInvalid()
+        {
+            const string invalidCastKey = "InvalidCastKey";
+            const string invalidCastValue = "Invalid Cast Value";
+            var expectedType = typeof(int);
+
+            var parameters = new NavigationParameters { { invalidCastKey, "Blah" } };
+
+
+            var ex = Assert.Throws<NavigationParameterInvalidCastException>(() => parameters.GetValue<int>(invalidCastKey));
+
+            Assert.Equal(invalidCastKey, ex.InvalidCaskKey);
+            Assert.Equal(expectedType, ex.ExpectedType);
+            Assert.Equal(invalidCastValue.GetType(), ex.ActualType);
+        }
+
+        [Fact]
+        public void GetValueThrowsExceptionWhenKeyIsMissing()
+        {
+            const string missingKey = "MissingKey";
+            var parameters = new NavigationParameters();
+
+            var ex = Assert.Throws<NavigationParameterNotFoundException>(() => parameters.GetValue<int>(missingKey));
+            Assert.Equal(missingKey, ex.MissingKey);
         }
     }
 }

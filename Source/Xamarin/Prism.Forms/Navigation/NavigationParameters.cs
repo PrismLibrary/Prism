@@ -94,5 +94,33 @@ namespace Prism.Navigation
 
             return queryBuilder.ToString();
         }
+
+        /// <summary>
+        /// Gets and types the values from the <see cref="NavigationParameters"/>.  Throws an exception if the
+        /// parameter is missing or can't be cast.
+        /// </summary>
+        /// <typeparam name="TValueType">What type the parameter value is expected to be.</typeparam>
+        /// <param name="key">The key of the parameter to parse.</param>
+        /// <exception cref="NavigationParameterNotFoundException">Thrown if the key is not found.</exception>
+        /// <exception cref="NavigationParameterInvalidCastException">Thrown if the key can't be cast.</exception>
+        /// <returns>The value of the key from the navigation parameter.</returns>
+        public TValueType GetValue<TValueType>(string key)
+        {
+            // Does the parameter exist.
+            if (!ContainsKey(key))
+            {
+                throw new NavigationParameterNotFoundException(key);
+            }
+
+            // Try to cast it.
+            try
+            {
+                return (TValueType)this[key];
+            }
+            catch (InvalidCastException)
+            {
+                throw new NavigationParameterInvalidCastException(key, typeof(TValueType), this[key].GetType());
+            }
+        }
     }
 }
