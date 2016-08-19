@@ -134,6 +134,11 @@ namespace Prism.Commands
             return base.Execute(parameter);
         }
 
+        protected override Task Execute(object parameter)
+        {
+            return this.Execute((T)parameter);
+        }
+
 
         protected DelegateCommand(Func<T, Task> executeMethod)
             : this(executeMethod, (o) => true)
