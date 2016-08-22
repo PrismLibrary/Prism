@@ -82,6 +82,18 @@ namespace Prism.Commands
         }
 
         /// <summary>
+        /// Observes a collection that implements INotifyCollectionChanged, and automatically calls DelegateCommandBase.RaiseCanExecuteChanged on collection changed notifications.
+        /// </summary>
+        /// <typeparam name="TP">The object type containing the collection property specified in the expression.</typeparam>
+        /// <param name="collectionExpression">The collection expression. Example: ObservesProperty(() => CollectionPropertyName).</param>
+        /// <returns>The current instance of DelegateCommand</returns>
+        public DelegateCommand<T> ObservesCollection<TP>(Expression<Func<TP>> collectionExpression)
+        {
+            ObservesCollectionInternal(collectionExpression);
+            return this;
+        }
+
+        /// <summary>
         /// Observes a property that is used to determine if this command can execute, and if it implements INotifyPropertyChanged it will automatically call DelegateCommandBase.RaiseCanExecuteChanged on property changed notifications.
         /// </summary>
         /// <param name="canExecuteExpression">The property expression. Example: ObservesCanExecute((o) => PropertyName).</param>
@@ -187,6 +199,18 @@ namespace Prism.Commands
         public DelegateCommand ObservesProperty<T>(Expression<Func<T>> propertyExpression)
         {
             ObservesPropertyInternal(propertyExpression);
+            return this;
+        }
+
+        /// <summary>
+        /// Observes a collection that implements INotifyCollectionChanged, and automatically calls DelegateCommandBase.RaiseCanExecuteChanged on collection changed notifications.
+        /// </summary>
+        /// <typeparam name="T">The object type containing the collection property specified in the expression.</typeparam>
+        /// <param name="collectionExpression">The collection expression. Example: ObservesProperty(() => CollectionPropertyName).</param>
+        /// <returns>The current instance of DelegateCommand</returns>
+        public DelegateCommand ObservesCollection<T>(Expression<Func<T>> collectionExpression)
+        {
+            ObservesCollectionInternal(collectionExpression);
             return this;
         }
 

@@ -58,6 +58,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CollectionInfo.cs" />
     <Compile Include="Commands\CompositeCommand.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Commands\DelegateCommandBase.cs" />
