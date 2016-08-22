@@ -8,6 +8,8 @@ using System.Windows.Input;
 using Prism.Mvvm;
 using Prism.Properties;
 using System.Threading;
+using System.Reflection;
+using System.Collections.Specialized;
 
 namespace Prism.Commands
 {
@@ -22,6 +24,8 @@ namespace Prism.Commands
 
         readonly HashSet<string> _propertiesToObserve = new HashSet<string>();
         private INotifyPropertyChanged _inpc;
+
+        readonly Dictionary<string, CollectionInfo> _collectionsToObserve = new Dictionary<string, CollectionInfo>();
 
         [CLSCompliant(false)] // Non-private identifier beginning with underscore breaks compliance.
         protected readonly Func<object, Task> _executeMethod;
@@ -132,6 +136,22 @@ namespace Prism.Commands
         }
 
         /// <summary>
+        /// Observes a collection that implements INotifyCollectionChanged, and automatically calls DelegateCommandBase.RaiseCanExecuteChanged on collection changed notifications.
+        /// </summary>
+        /// <typeparam name="TP">The object type containing the collection property specified in the expression.</typeparam>
+        /// <param name="collectionExpression">The collection expression. Example: ObservesProperty(() => CollectionPropertyName).</param>
+        /// <returns>The current instance of DelegateCommand</returns>
+        protected internal void ObservesCollectionInternal<TP>(Expression<Func<TP>> collectionExpression)
+        {
+            string propertyName = PropertySupport.ExtractPropertyName(collectionExpression);
+            MemberExpression memberExpression = collectionExpression.Body as MemberExpression;
+            AddPropertyToObserve(propertyName);
+            
+            HookInpc(memberExpression);
+            HookIncc(memberExpression, propertyName);
+        }
+
+        /// <summary>
         /// Observes a property that is used to determine if this command can execute, and if it implements INotifyPropertyChanged it will automatically call DelegateCommandBase.RaiseCanExecuteChanged on property changed notifications.
         /// </summary>
         /// <param name="canExecuteExpression">The property expression. Example: ObservesCanExecute((o) => PropertyName).</param>
@@ -160,6 +180,25 @@ namespace Prism.Commands
             }
         }
 
+        protected void HookIncc(MemberExpression expression, string propertyName)
+        {
+            if (expression == null)
+                return;
+
+            if (_inpc != null)
+            {
+                PropertyInfo property = expression.Member as PropertyInfo;
+                if (property != null)
+                {
+                    var incc = property.GetValue(_inpc) as INotifyCollectionChanged;
+                    if (incc != null)
+                        incc.CollectionChanged += Incc_CollectionChanged;
+
+                    _collectionsToObserve.Add(propertyName, new CollectionInfo(property, incc));
+                }
+            }
+        }
+
         protected void AddPropertyToObserve(string property)
         {
             if (_propertiesToObserve.Contains(property))
@@ -170,8 +209,30 @@ namespace Prism.Commands
 
         void Inpc_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            // If the observed collection changes then we have to remove the notify collection 
+            // changed listener and start listening on the new collection instead.
+            if (_collectionsToObserve.ContainsKey(e.PropertyName))
+            {
+                CollectionInfo collectionInfo = _collectionsToObserve[e.PropertyName];
+
+                if (collectionInfo.Collection != null)
+                    collectionInfo.Collection.CollectionChanged -= Incc_CollectionChanged;
+
+                var incc = collectionInfo.Property.GetValue(_inpc) as INotifyCollectionChanged;
+                if (incc != null)
+                    incc.CollectionChanged += Incc_CollectionChanged;
+
+                _collectionsToObserve[e.PropertyName] = new CollectionInfo(collectionInfo.Property, incc);
+            }
+
+
             if (_propertiesToObserve.Contains(e.PropertyName))
                 RaiseCanExecuteChanged();
+        }
+
+        private void Incc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            RaiseCanExecuteChanged();
         }
 
         #region IsActive
@@ -203,7 +264,8 @@ namespace Prism.Commands
         protected virtual void OnIsActiveChanged()
         {
             EventHandler isActiveChangedHandler = IsActiveChanged;
-            if (isActiveChangedHandler != null) isActiveChangedHandler(this, EventArgs.Empty);
+            if (isActiveChangedHandler != null)
+                isActiveChangedHandler(this, EventArgs.Empty);
         }
         #endregion
     }

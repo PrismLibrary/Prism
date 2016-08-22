@@ -7,6 +7,7 @@ using Prism.Tests.Mocks.Commands;
 using Prism.Mvvm;
 using System.Threading;
 using Xunit.Sdk;
+using System.Collections.ObjectModel;
 
 namespace Prism.Tests.Mvvm
 {
@@ -435,7 +436,10 @@ namespace Prism.Tests.Mvvm
         {
             bool canExecuteChangedRaised = false;
 
-            ICommand command = new DelegateCommand(() => { }).ObservesCanExecute((o) => BoolProperty).ObservesProperty(() => IntProperty);
+            ICommand command = new DelegateCommand(() => { })
+                .ObservesCanExecute((o) => BoolProperty)
+                .ObservesProperty(() => IntProperty)
+                .ObservesCollection(() => IntCollectionProperty);
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
@@ -454,6 +458,22 @@ namespace Prism.Tests.Mvvm
 
             Assert.True(canExecuteChangedRaised);
             Assert.True(command.CanExecute(null));
+
+            canExecuteChangedRaised = false;
+            Assert.False(canExecuteChangedRaised);
+
+            IntCollectionProperty = new ObservableCollection<int>();
+
+            Assert.True(canExecuteChangedRaised);
+            Assert.True(command.CanExecute(null));
+
+            canExecuteChangedRaised = false;
+            Assert.False(canExecuteChangedRaised);
+
+            IntCollectionProperty.Add(10);
+
+            Assert.True(canExecuteChangedRaised);
+            Assert.True(command.CanExecute(null));
         }
 
         [Fact]
@@ -466,6 +486,27 @@ namespace Prism.Tests.Mvvm
         }
 
         [Fact]
+        public void NonGenericDelegateCommandShouldObserveOneCollection()
+        {
+            bool canExecuteChangedRaised = false;
+
+            var command = new DelegateCommand(() => { }).ObservesCollection(() => IntCollectionProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            IntCollectionProperty = new ObservableCollection<int>();
+
+            Assert.True(canExecuteChangedRaised);
+
+            canExecuteChangedRaised = false;
+            Assert.False(canExecuteChangedRaised);
+
+            IntCollectionProperty.Add(10);
+
+            Assert.True(canExecuteChangedRaised);
+        }
+
+        [Fact]
         public void NonGenericDelegateCommandShouldObserveOneProperty()
         {
             bool canExecuteChangedRaised = false;
@@ -475,6 +516,31 @@ namespace Prism.Tests.Mvvm
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
             IntProperty = 10;
+
+            Assert.True(canExecuteChangedRaised);
+        }
+
+        [Fact]
+        public void NonGenericDelegateCommandShouldObserveMultipleCollections()
+        {
+            bool canExecuteChangedRaised = false;
+
+            IntCollectionProperty = new ObservableCollection<int>();
+            BoolCollectionProperty = new ObservableCollection<bool>();
+
+            var command = new DelegateCommand(() => { })
+                .ObservesCollection(() => IntCollectionProperty)
+                .ObservesCollection(() => BoolCollectionProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            IntCollectionProperty.Add(10);
+
+            Assert.True(canExecuteChangedRaised);
+
+            canExecuteChangedRaised = false;
+
+            BoolCollectionProperty.Add(true);
 
             Assert.True(canExecuteChangedRaised);
         }
@@ -505,6 +571,17 @@ namespace Prism.Tests.Mvvm
             Assert.Throws<ArgumentException>(() =>
             {
                 DelegateCommand command = new DelegateCommand(() => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => IntProperty);
+            });
+        }
+
+        [Fact]
+        public void NonGenericDelegateCommandShouldNotObserveDuplicateCollections()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                DelegateCommand command = new DelegateCommand(() => { })
+                    .ObservesCollection(() => IntCollectionProperty)
+                    .ObservesCollection(() => IntCollectionProperty);
             });
         }
 
@@ -619,6 +696,21 @@ namespace Prism.Tests.Mvvm
         {
             get { return _intProperty; }
             set { SetProperty(ref _intProperty, value); }
+        }
+
+
+        private ObservableCollection<int> _intCollectionProperty;
+        public ObservableCollection<int> IntCollectionProperty
+        {
+            get { return _intCollectionProperty; }
+            set { SetProperty(ref _intCollectionProperty, value); }
+        }
+
+        private ObservableCollection<bool> _boolCollectionProperty;
+        public ObservableCollection<bool> BoolCollectionProperty
+        {
+            get { return _boolCollectionProperty; }
+            set { SetProperty(ref _boolCollectionProperty, value); }
         }
 
         class CanExecutChangeHandler
