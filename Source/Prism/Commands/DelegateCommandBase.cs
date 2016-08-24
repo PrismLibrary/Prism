@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Mvvm;
 using Prism.Properties;
@@ -23,10 +22,8 @@ namespace Prism.Commands
         readonly HashSet<string> _propertiesToObserve = new HashSet<string>();
         private INotifyPropertyChanged _inpc;
 
-        [CLSCompliant(false)] // Non-private identifier beginning with underscore breaks compliance.
-        protected readonly Func<object, Task> _executeMethod;
-        [CLSCompliant(false)] // Non-private identifier beginning with underscore breaks compliance.
-        protected Func<object, bool> _canExecuteMethod;
+        readonly Action<object> _executeMethod;
+        Func<object, bool> _canExecuteMethod;
 
         /// <summary>
         /// Creates a new instance of a <see cref="DelegateCommandBase"/>, specifying both the execute action and the can execute function.
@@ -35,27 +32,31 @@ namespace Prism.Commands
         /// <param name="canExecuteMethod">The <see cref="Func{Object,Bool}"/> to invoked when <see cref="ICommand.CanExecute"/> is invoked.</param>
         protected DelegateCommandBase(Action<object> executeMethod, Func<object, bool> canExecuteMethod)
         {
-            if (executeMethod == null || canExecuteMethod == null)
-                throw new ArgumentNullException(nameof(executeMethod), Resources.DelegateCommandDelegatesCannotBeNull);
+            if (canExecuteMethod == null)
+                throw new ArgumentNullException(nameof(canExecuteMethod), Resources.DelegateCommandDelegatesCannotBeNull);
 
-            _executeMethod = (arg) => { executeMethod(arg); return Task.Delay(0); };
+            _executeMethod = executeMethod;
             _canExecuteMethod = canExecuteMethod;
             _synchronizationContext = SynchronizationContext.Current;
         }
 
         /// <summary>
-        /// Creates a new instance of a <see cref="DelegateCommandBase"/>, specifying both the Execute action as an awaitable Task and the CanExecute function.
+        /// Executes the command with the provided parameter by invoking the <see cref="Action{Object}"/> supplied during construction.
         /// </summary>
-        /// <param name="executeMethod">The <see cref="Func{Object,Task}"/> to execute when <see cref="ICommand.Execute"/> is invoked.</param>
-        /// <param name="canExecuteMethod">The <see cref="Func{Object,Bool}"/> to invoked when <see cref="ICommand.CanExecute"/> is invoked.</param>
-        protected DelegateCommandBase(Func<object, Task> executeMethod, Func<object, bool> canExecuteMethod)
+        /// <param name="parameter"></param>
+        public virtual void Execute(object parameter = null)
         {
-            if (executeMethod == null || canExecuteMethod == null)
-                throw new ArgumentNullException(nameof(executeMethod), Resources.DelegateCommandDelegatesCannotBeNull);
+            _executeMethod(parameter);
+        }
 
-            _executeMethod = executeMethod;
-            _canExecuteMethod = canExecuteMethod;
-            _synchronizationContext = SynchronizationContext.Current;
+        /// <summary>
+        /// Determines if the command can execute with the provided parameter by invoking the <see cref="Func{Object,Bool}"/> supplied during construction.
+        /// </summary>
+        /// <param name="parameter">The parameter to use when determining if this command can execute.</param>
+        /// <returns>Returns <see langword="true"/> if the command can execute.  <see langword="False"/> otherwise.</returns>
+        public virtual bool CanExecute(object parameter = null)
+        {
+            return _canExecuteMethod(parameter);
         }
 
         /// <summary>
@@ -88,35 +89,6 @@ namespace Prism.Commands
         public void RaiseCanExecuteChanged()
         {
             OnCanExecuteChanged();
-        }
-
-        async void ICommand.Execute(object parameter)
-        {
-            await Execute(parameter);
-        }
-
-        bool ICommand.CanExecute(object parameter)
-        {
-            return CanExecute(parameter);
-        }
-
-        /// <summary>
-        /// Executes the command with the provided parameter by invoking the <see cref="Action{Object}"/> supplied during construction.
-        /// </summary>
-        /// <param name="parameter"></param>
-		protected virtual async Task Execute(object parameter)
-        {
-            await _executeMethod(parameter);
-        }
-
-        /// <summary>
-        /// Determines if the command can execute with the provided parameter by invoking the <see cref="Func{Object,Bool}"/> supplied during construction.
-        /// </summary>
-        /// <param name="parameter">The parameter to use when determining if this command can execute.</param>
-        /// <returns>Returns <see langword="true"/> if the command can execute.  <see langword="False"/> otherwise.</returns>
-        protected virtual bool CanExecute(object parameter)
-        {
-            return _canExecuteMethod(parameter);
         }
 
         /// <summary>
