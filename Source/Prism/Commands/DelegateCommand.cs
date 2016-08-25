@@ -38,7 +38,7 @@ namespace Prism.Commands
 
         void ICommand.Execute(object parameter)
         {
-            Execute(parameter).Wait();
+            _executeMethod(parameter);
         }
 
         /// <summary>
@@ -90,9 +90,7 @@ namespace Prism.Commands
         ///</summary>
         public virtual Task Execute()
         {
-            Execute(null).Wait();
-
-            return Task.Delay(0);
+            return _executeMethod(null);
         }
 
         /// <summary>

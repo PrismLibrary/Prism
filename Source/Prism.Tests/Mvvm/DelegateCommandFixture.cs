@@ -610,7 +610,7 @@ namespace Prism.Tests.Mvvm
         [Fact]
         public void Test_should_fail_because_of_thrown_exception()
         {
-            Assert.Throws<AggregateException>(() =>
+            Assert.Throws<Exception>(() =>
             {
                 new DelegateCommand(() => { throw new Exception(); }).Execute();
             });
@@ -619,7 +619,7 @@ namespace Prism.Tests.Mvvm
         [Fact]
         public void Test_should_fail_because_of_thrown_exception_generic()
         {
-            Assert.Throws<AggregateException>(() =>
+            Assert.Throws<Exception>(() =>
             {
                 new DelegateCommand<object>((o) => { throw new Exception(); }).Execute(null);
             });
@@ -628,7 +628,7 @@ namespace Prism.Tests.Mvvm
         [Fact]
         public void Test_should_fail_because_of_thrown_exception_ICommand()
         {
-            Assert.Throws<AggregateException>(() =>
+            Assert.Throws<Exception>(() =>
             {
                 ICommand command = new DelegateCommand(() => { throw new Exception(); });
                 command.Execute(null);
@@ -638,7 +638,7 @@ namespace Prism.Tests.Mvvm
         [Fact]
         public void Test_should_fail_because_of_thrown_exception_generic_ICommand()
         {
-            Assert.Throws<AggregateException>(() =>
+            Assert.Throws<Exception>(() =>
             {
                 ICommand command = new DelegateCommand<object>((o) => { throw new Exception(); });
                 command.Execute(null);

@@ -70,7 +70,7 @@ namespace Prism.Commands
 
         void ICommand.Execute(object parameter)
         {
-            Execute(parameter).Wait();
+            _executeMethod(parameter);
         }
 
         /// <summary>
@@ -135,9 +135,7 @@ namespace Prism.Commands
         ///<param name="parameter">Data used by the command.</param>
         public virtual Task Execute(T parameter)
         {
-            base.Execute(parameter).Wait();
-
-            return Task.Delay(0);
+            return _executeMethod(parameter);
         }
 
         protected DelegateCommand(Func<T, Task> executeMethod, Func<T, bool> canExecuteMethod)
