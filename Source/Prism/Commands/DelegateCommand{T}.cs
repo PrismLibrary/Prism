@@ -97,21 +97,23 @@ namespace Prism.Commands
         }
 
         /// <summary>
-        /// Factory method to create a new instance of <see cref="DelegateCommand{T}"/> from an awaitable handler method.
+        /// Factory method to create a new instance of <see cref="AsyncDelegateCommand{T}"/> from an awaitable handler method.
         /// </summary>
         /// <param name="executeMethod">Delegate to execute when Execute is called on the command.</param>
         /// <returns>Constructed instance of <see cref="DelegateCommand{T}"/></returns>
+        [Obsolete("Please use AsyncDelegateCommand")]
         public static AsyncDelegateCommand<T> FromAsyncHandler(Func<T, Task> executeMethod)
         {
             return new AsyncDelegateCommand<T>(executeMethod);
         }
 
         /// <summary>
-        /// Factory method to create a new instance of <see cref="DelegateCommand{T}"/> from an awaitable handler method.
+        /// Factory method to create a new instance of <see cref="AsyncDelegateCommand{T}"/> from an awaitable handler method.
         /// </summary>
         /// <param name="executeMethod">Delegate to execute when Execute is called on the command. This can be null to just hook up a CanExecute delegate.</param>
         /// <param name="canExecuteMethod">Delegate to execute when CanExecute is called on the command. This can be null.</param>
         /// <returns>Constructed instance of <see cref="DelegateCommand{T}"/></returns>
+        [Obsolete("Please use AsyncDelegateCommand")]
         public static AsyncDelegateCommand<T> FromAsyncHandler(Func<T, Task> executeMethod, Func<T, bool> canExecuteMethod)
         {
             return new AsyncDelegateCommand<T>(executeMethod, canExecuteMethod);
