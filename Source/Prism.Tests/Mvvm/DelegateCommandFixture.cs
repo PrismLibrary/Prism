@@ -607,6 +607,44 @@ namespace Prism.Tests.Mvvm
             });
         }
 
+        [Fact]
+        public void Test_should_fail_because_of_thrown_exception()
+        {
+            Assert.Throws<AggregateException>(() =>
+            {
+                new DelegateCommand(() => { throw new Exception(); }).Execute();
+            });
+        }
+
+        [Fact]
+        public void Test_should_fail_because_of_thrown_exception_generic()
+        {
+            Assert.Throws<AggregateException>(() =>
+            {
+                new DelegateCommand<object>((o) => { throw new Exception(); }).Execute(null);
+            });
+        }
+
+        [Fact]
+        public void Test_should_fail_because_of_thrown_exception_ICommand()
+        {
+            Assert.Throws<AggregateException>(() =>
+            {
+                ICommand command = new DelegateCommand(() => { throw new Exception(); });
+                command.Execute(null);
+            });
+        }
+
+        [Fact]
+        public void Test_should_fail_because_of_thrown_exception_generic_ICommand()
+        {
+            Assert.Throws<AggregateException>(() =>
+            {
+                ICommand command = new DelegateCommand<object>((o) => { throw new Exception(); });
+                command.Execute(null);
+            });
+        }
+
         private bool _boolProperty;
         public bool BoolProperty
         {
