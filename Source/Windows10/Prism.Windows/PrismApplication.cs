@@ -235,7 +235,7 @@ namespace Prism.Windows
             {
                 await OnActivateApplicationAsync(args);
             }
-            else if (Window.Current.Content != null & _isRestoringFromTermination)
+            else if (Window.Current.Content != null && _isRestoringFromTermination)
             {
                 await OnResumeApplicationAsync(args);
             }
@@ -257,8 +257,8 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        /// Invoked when the application is launched normally by the end user. Other entry points
-        /// will be used when the application is launched to open a specific file, to display
+        /// Invoked when the application is launched normally by the end user and the application is not resuming.
+        /// Other entry points will be used when the application is launched to open a specific file, to display
         /// search results, and so forth.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
@@ -275,7 +275,7 @@ namespace Prism.Windows
             {
                 await OnLaunchApplicationAsync(args);
             }
-            else if (Window.Current.Content != null & _isRestoringFromTermination)
+            else if (Window.Current.Content != null && _isRestoringFromTermination)
             {
                 await OnResumeApplicationAsync(args);
             }
@@ -323,6 +323,7 @@ namespace Prism.Windows
         /// <summary>
         /// Override this method to provide custom logic that determines whether the app should restore state from a previous session.
         /// By default, the app will only restore state when args.PreviousExecutionState is <see cref="ApplicationExecutionState"/>.Terminated.
+        /// Note: restoring from state will prevent OnLaunchApplicationAsync() from getting called, as that is only called during a fresh launch.
         /// </summary>
         /// <returns>True if the app should restore state. False if the app should perform a fresh launch.</returns>
         protected virtual bool ShouldRestoreState(IActivatedEventArgs args) => args.PreviousExecutionState == ApplicationExecutionState.Terminated;
@@ -369,7 +370,8 @@ namespace Prism.Windows
             ConfigureViewModelLocator();
 
             OnRegisterKnownTypesForSerialization();
-            bool shouldRestore = ShouldRestoreState(args);
+            bool canRestore = await SessionStateService.CanRestoreSessionStateAsync();
+            bool shouldRestore = canRestore && ShouldRestoreState(args);
             if (shouldRestore)
             {
                 await SessionStateService.RestoreSessionStateAsync();

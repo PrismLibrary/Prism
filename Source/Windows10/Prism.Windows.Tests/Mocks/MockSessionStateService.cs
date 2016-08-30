@@ -51,5 +51,10 @@ namespace Prism.Windows.Tests.Mocks
         {
             return GetSessionStateForFrameDelegate(frame);
         }
+
+        public Task<bool> CanRestoreSessionStateAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
