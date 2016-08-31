@@ -48,18 +48,18 @@ Following matrix shows the platform specific support currently available.
 
 | Package                | Version    | WPF | Win10 UWP | Xamarin.Forms |
 |------------------------|------------|:---:|:---:|:---:|
-| [Prism.Autofac][7]     | [![27]][7] |  X  |  X  |    |
-| [Prism.Autofac.Forms][7]     | [![27]][7] |    |    |  X  |
-| [Prism.DryIoc.Forms]     |  |    |    |  X  |
+| [Prism.Autofac][7] <sup>(*)</sup>  | [![27]][7] |  X  |  X  |  &darr;  |
+| [Prism.Autofac.Forms][12]   | [![32]][12] |  -  |  -  |  X  |
+| [Prism.DryIoc.Forms][13]   | [![33]][13] |  -  |  -  |  X  |
 | [Prism.Mef][6]  <sup>(**)</sup> | [![26]][6] |  X  | - | - |
-| [Prism.Ninject][9] <sup>(*)</sup>     | [![29]][9] |  X  |     |    |
-| [Prism.Ninject.Forms][11]| [![31]][11]|     |     |  X  |
+| [Prism.Ninject][9] <sup>(*)</sup>   | [![29]][9] |  X  |     |  &darr;  |
+| [Prism.Ninject.Forms][11]| [![31]][11]|  -  |  -  |  X  |
 | [Prism.StructureMap][8]| [![28]][8] |  X  |     |     |
-| [Prism.Unity][5] <sup>(*)</sup>  | [![25]][5] |  X  |  X  |     |
-| [Prism.Unity.Forms][10]| [![30]][10]|     |     |  X  |
+| [Prism.Unity][5] <sup>(*)</sup>  | [![25]][5] |  X  |  X  |  &darr;  |
+| [Prism.Unity.Forms][10]| [![30]][10]|  -  |  -  |  X  |
 
 
-<sup>(*)</sup> As Xamarin Forms also supports UWP now, adding Prism.Unity or Prism.Ninject puts in some incorrect dependencies. Therefore we created a new package for Xamarin Forms projects. 
+<sup>(*)</sup> As Xamarin Forms also supports UWP now, adding Prism.Unity, Prism.Ninject, or Prism.Autofac puts in some incorrect dependencies. Therefore we created a new package for Xamarin Forms projects. 
 
 <sup>(**)</sup> MEF is supported with WPF for compatibility with previous versions. It will not be added to Windows 10 UWP or Xamarin Forms.
 
@@ -135,6 +135,8 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [9]: https://www.nuget.org/packages/Prism.Ninject/
 [10]: https://www.nuget.org/packages/Prism.Unity.Forms/
 [11]: https://www.nuget.org/packages/Prism.Ninject.Forms/
+[12]: https://www.nuget.org/packages/Prism.Autofac.Forms/
+[13]: https://www.nuget.org/packages/Prism.DryIoc.Forms/
 
 [21]: https://img.shields.io/nuget/vpre/Prism.Core.svg
 [22]: https://img.shields.io/nuget/vpre/Prism.Wpf.svg
@@ -147,3 +149,5 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [29]: https://img.shields.io/nuget/vpre/Prism.Ninject.svg
 [30]: https://img.shields.io/nuget/vpre/Prism.Unity.Forms.svg
 [31]: https://img.shields.io/nuget/vpre/Prism.Ninject.Forms.svg
+[32]: https://img.shields.io/nuget/vpre/Prism.Autofac.Forms.svg
+[33]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Forms.svg
