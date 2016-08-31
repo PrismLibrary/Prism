@@ -68,7 +68,7 @@ namespace Prism.Events
         /// <para/>
         /// The PubSubEvent collection is thread-safe.
         /// </remarks>
-        public SubscriptionToken Subscribe(Action action, ThreadOption threadOption, bool keepSubscriberReferenceAlive)
+        public virtual SubscriptionToken Subscribe(Action action, ThreadOption threadOption, bool keepSubscriberReferenceAlive)
         {
             IDelegateReference actionReference = new DelegateReference(action, keepSubscriberReferenceAlive);
 
@@ -89,9 +89,8 @@ namespace Prism.Events
                     subscription = new EventSubscription(actionReference);
                     break;
             }
-
-
-            return base.InternalSubscribe(subscription);
+            
+            return InternalSubscribe(subscription);
         }
 
         /// <summary>
@@ -99,7 +98,7 @@ namespace Prism.Events
         /// </summary>
         public virtual void Publish()
         {
-            base.InternalPublish();
+            InternalPublish();
         }
 
         /// <summary>
@@ -248,11 +247,8 @@ namespace Prism.Events
                     break;
             }
 
-
-            return base.InternalSubscribe(subscription);
+            return InternalSubscribe(subscription);
         }
-
-
 
         /// <summary>
         /// Publishes the <see cref="PubSubEvent{TPayload}"/>.
@@ -260,7 +256,7 @@ namespace Prism.Events
         /// <param name="payload">Message to pass to the subscribers.</param>
         public virtual void Publish(TPayload payload)
         {
-            base.InternalPublish(payload);
+            InternalPublish(payload);
         }
 
         /// <summary>
@@ -293,6 +289,5 @@ namespace Prism.Events
             }
             return eventSubscription != null;
         }
-
     }
 }
