@@ -38,12 +38,12 @@ namespace Prism.Regions
         IRegionManager RegisterViewWithRegion(string regionName, Type viewType);
 
         /// <summary>
-        /// Associate a view with a region, using a delegate to resolve a concreate instance of the view. 
-        /// When the region get's displayed, this delelgate will be called and the result will be added to the
+        /// Associate a view with a region, using a delegate to resolve a concrete instance of the view. 
+        /// When the region get's displayed, this delegate will be called and the result will be added to the
         /// views collection of the region. 
         /// </summary>
         /// <param name="regionName">The name of the region to associate the view with.</param>
-        /// <param name="getContentDelegate">The delegate used to resolve a concreate instance of the view.</param>
+        /// <param name="getContentDelegate">The delegate used to resolve a concrete instance of the view.</param>
         /// <returns>The regionmanager, for adding several views easily</returns>
         IRegionManager RegisterViewWithRegion(string regionName, Func<object> getContentDelegate);
 
