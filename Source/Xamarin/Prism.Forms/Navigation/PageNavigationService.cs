@@ -126,7 +126,7 @@ namespace Prism.Navigation
             {
                 var options = currentPage as IMultiPageNavigationOptions;
                 if( options == null || options.InjectNavigationBehavior )
-                    currentPage.Behaviors.Add( new Behaviors.MultiPageNavigationBehavior() );
+                    currentPage.Behaviors.Add( new Behaviors.MultiPageNavigationBehavior( _logger ) );
 
                 await ProcessNavigationForTabbedPage((TabbedPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
@@ -134,7 +134,7 @@ namespace Prism.Navigation
             {
                 var options = currentPage as IMultiPageNavigationOptions;
                 if( options == null || options.InjectNavigationBehavior )
-                    currentPage.Behaviors.Add( new Behaviors.CarouselPageNavigationBehavior() );
+                    currentPage.Behaviors.Add( new Behaviors.CarouselPageNavigationBehavior( _logger ) );
 
                 await ProcessNavigationForCarouselPage((CarouselPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }

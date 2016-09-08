@@ -55,6 +55,8 @@
     <Compile Include="Behaviors\CarouselPageNavigationBehavior.cs" />
     <Compile Include="Behaviors\MultiPageNavigationBehavior.cs" />
     <Compile Include="IPlatformInitializer.cs" />
+    <Compile Include="Navigation\IInternalNavigationParent.cs" />
+    <Compile Include="Navigation\IMultiPageNavigationAwareAsync.cs" />
     <Compile Include="Navigation\IMultiPageNavigationOptions.cs" />
     <Compile Include="Navigation\INavigationPageOptions.cs" />
     <Compile Include="PrismApplicationBase.cs" />
