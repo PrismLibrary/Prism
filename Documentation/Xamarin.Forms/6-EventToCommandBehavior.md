@@ -97,7 +97,7 @@ public class ItemTappedEventArgs : EventArgs
 }
 ````
 
-Setting `EventArgsParameterPath` to **Item** will extract the property value and pass it to the `ICommand.Execute(object)(object)` method
+Setting `EventArgsParameterPath` to **Item** will extract the property value and pass it to the `ICommand.Execute(object)` method
 
 ````c#
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
