@@ -6,55 +6,103 @@ using Xamarin.Forms;
 
 namespace Prism.Behaviors
 {
+    /// <summary>
+    /// Provides base generic implementation for MultiPageNavigationBehavior
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class MultiPageNavigationBehavior<T> : BehaviorBase<MultiPage<T>> where T : Page
     {
-        private ILoggerFacade _logger { get; }
+        /// <summary>
+        /// Prism Logger
+        /// </summary>
+        protected ILoggerFacade _logger { get; }
 
-        private Page _lastSelectedPage;
+        /// <summary>
+        /// The last selected Page
+        /// </summary>
+        protected T _lastSelectedPage;
 
-        public MultiPageNavigationBehavior() : base() { }
+        /// <summary>
+        /// Provides base MultiPageNavigationBehavior without logging
+        /// </summary>
+        public MultiPageNavigationBehavior() { }
 
-        public MultiPageNavigationBehavior( ILoggerFacade logger ) : base()
+        /// <summary>
+        /// Provides base MultiPageNavigationBehavior with logging
+        /// </summary>
+        /// <param name="logger"></param>
+        public MultiPageNavigationBehavior( ILoggerFacade logger )
         {
             _logger = logger;
         }
 
+        /// <inheritDoc/>
         protected override void OnAttachedTo(MultiPage<T> bindable)
         {
-            base.OnAttachedTo(bindable);
             bindable.CurrentPageChanged += CurrentPageChangedHandler;
+            bindable.Appearing += RootPageAppearingHandler;
+            bindable.Disappearing += RootPageDisappearingHandler;
+            base.OnAttachedTo(bindable);
         }
 
+        /// <inheritDoc/>
         protected override void OnDetachingFrom(MultiPage<T> bindable)
         {
-            base.OnDetachingFrom(bindable);
             bindable.CurrentPageChanged -= CurrentPageChangedHandler;
+            bindable.Appearing -= RootPageAppearingHandler;
+            bindable.Disappearing -= RootPageDisappearingHandler;
+            base.OnDetachingFrom(bindable);
         }
 
-        private async void CurrentPageChangedHandler(object sender, EventArgs args)
+        /// <summary>
+        /// Event Handler for the MultiPage CurrentPageChanged event
+        /// </summary>
+        /// <param name="sender">The MultiPage</param>
+        /// <param name="e">Event Args</param>
+        protected void CurrentPageChangedHandler(object sender, EventArgs e)
         {
             NavigationParameters parameters = GetNavigationParameters();
 
             if( _lastSelectedPage == null )
                 _lastSelectedPage = AssociatedObject.CurrentPage;
 
-            // Step 1: Call Navigated From on the last Page
-            await NavigationAwareHandler( _lastSelectedPage, parameters, navigatedTo: false );
+            HandleLastPageNavigation( navigatedTo: false, parameters: parameters ).ContinueWith( _ => { return; } );
 
-            // Step 2: Call Navigated From on the last Page's View Model
-            await NavigationAwareHandler( _lastSelectedPage.BindingContext, parameters, navigatedTo: false );
+            HandleNavigationToPage( AssociatedObject.CurrentPage, navigatedTo: true, parameters: parameters ).ContinueWith( _ => { return; } );
 
-            // Step 3: Call Navigated To on the new Page
-            await NavigationAwareHandler( AssociatedObject.CurrentPage, parameters, navigatedTo: true );
-
-            // Step 4: Call Navigated To on the new Page's View Model
-            await NavigationAwareHandler( AssociatedObject.CurrentPage.BindingContext, parameters, navigatedTo: true );
-
-            // Step 5: Update the last selected page to the current page
             _lastSelectedPage = AssociatedObject.CurrentPage;
         }
 
-        private NavigationParameters GetNavigationParameters()
+        /// <summary>
+        /// Event Handler for the MultiPage Appearing event
+        /// </summary>
+        /// <param name="sender">The MultiPage Appearing</param>
+        /// <param name="e">Event Args</param>
+        protected void RootPageAppearingHandler( object sender, EventArgs e )
+        {
+            if( _lastSelectedPage == null )
+            {
+                _lastSelectedPage = AssociatedObject.CurrentPage;
+
+                HandleLastPageNavigation( navigatedTo: true ).ContinueWith( _ => { return; } );
+            }
+        }
+
+        /// <summary>
+        /// Event Handler for the MultiPage Disappearing event
+        /// </summary>
+        /// <param name="sender">The MultiPage Disappearing</param>
+        /// <param name="e">Event Args</param>
+        protected void RootPageDisappearingHandler( object sender, EventArgs e )
+        {
+            HandleLastPageNavigation( navigatedTo: false ).ContinueWith( _ => { return; } );
+        }
+        
+        /// <summary>
+        /// Gets the NavigationParameters
+        /// </summary>
+        /// <returns></returns>
+        protected NavigationParameters GetNavigationParameters()
         {
             var parameters = new NavigationParameters();
             var view = AssociatedObject as IInternalNavigationParent;
@@ -66,6 +114,7 @@ namespace Prism.Behaviors
             return parameters;
         }
 
+        // This should be replaced with a function in NavigationParameters
         private NavigationParameters MergeParameters( NavigationParameters starting, NavigationParameters newParameters )
         {
             if( starting == null ) starting = new NavigationParameters();
@@ -79,7 +128,40 @@ namespace Prism.Behaviors
             return starting;
         }
 
-        private async Task NavigationAwareHandler( object obj, NavigationParameters parameters, bool navigatedTo )
+        /// <summary>
+        /// Handles the Navigation for the Last Page
+        /// </summary>
+        /// <param name="navigatedTo"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        protected async Task HandleLastPageNavigation( bool navigatedTo, NavigationParameters parameters = null )
+        {
+            if( parameters == null )
+                parameters = GetNavigationParameters();
+
+            await HandleNavigationToPage( _lastSelectedPage, navigatedTo, parameters );
+        }
+
+        /// <summary>
+        /// Handles the specified type of Navigation (From/To) for the Page object provided.
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="navigatedTo">Is the object being Navigated To or From</param>
+        /// <param name="parameters">Navigation Parameters to pass the object</param>
+        /// <returns></returns>
+        protected async Task HandleNavigationToPage( Page page, bool navigatedTo, NavigationParameters parameters )
+        {
+            await NavigationAwareHandler( page, parameters, navigatedTo );
+            await NavigationAwareHandler( page?.BindingContext, parameters, navigatedTo );
+        }
+
+        /// <summary>
+        /// Handles the actual NavigationAware calls to the specified object
+        /// </summary>
+        /// <param name="obj">Potentially NavigationAware object</param>
+        /// <param name="parameters">Navigation Parameters to pass the object</param>
+        /// <param name="navigatedTo">Is the object being Navigated To or From</param>
+        protected async Task NavigationAwareHandler( object obj, NavigationParameters parameters, bool navigatedTo )
         {
             try
             {
@@ -93,13 +175,13 @@ namespace Prism.Behaviors
                 {
                     awareObj?.OnInternalNavigatedTo( parameters );
                     if( awareAsyncObj != null )
-                        await awareAsyncObj.OnInternalNavigatedTo( parameters );
+                        await awareAsyncObj.OnInternalNavigatedToAsync( parameters );
                 }
                 else
                 {
                     awareObj?.OnInternalNavigatedFrom( parameters );
                     if( awareAsyncObj != null )
-                        await awareAsyncObj.OnInternalNavigatedFrom( parameters );
+                        await awareAsyncObj.OnInternalNavigatedFromAsync( parameters );
                 }
             }
             catch( Exception e )
