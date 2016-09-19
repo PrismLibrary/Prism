@@ -31,6 +31,7 @@ TBD, meanwhile you can use the [Windows 8 documentation](https://msdn.microsoft.
 - [Using the Navigation Service](Xamarin.Forms/3-NavigationService.md)
 - [Using the Page Dialog Service](Xamarin.Forms/4-PageDialogService.md)
 - [Using the DependencyService with Prism](Xamarin.Forms/5-DependencyService.md)
+- [Prism Behaviors for Xamarin Forms](Xamarin.Forms/6-Behaviors.md)
 
 ### Other
 
