@@ -114,10 +114,9 @@ namespace Prism.Windows.Navigation
         /// </summary>
         public void ClearHistory()
         {
-            _frame.SetNavigationState("1,0");
+            _frame.ClearBackStack();
         }
-
-
+        
         /// <summary>
         /// Remove the first page of the backstack with optional pageToken and parameter
         /// </summary>
