@@ -47,6 +47,14 @@ namespace Prism.Unity
             return new UnityContainer();
         }
 
+        protected override ILoggerFacade CreateLogger()
+        {
+            if( Container != null && Container.IsRegistered<ILoggerFacade>() )
+                return Container.Resolve<ILoggerFacade>();
+
+            return base.CreateLogger();
+        }
+
         protected override IModuleManager CreateModuleManager()
         {
             return Container.Resolve<IModuleManager>();

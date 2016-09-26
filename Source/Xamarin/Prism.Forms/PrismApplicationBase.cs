@@ -74,6 +74,8 @@ namespace Prism
             _platformInitializer?.RegisterTypes(Container);
 
             InitializeModules();
+
+            Logger = CreateLogger();
         }
 
         /// <summary>

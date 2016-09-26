@@ -49,6 +49,14 @@ namespace Prism.Ninject
             return new StandardKernel();
         }
 
+        protected override ILoggerFacade CreateLogger()
+        {
+            if( Container != null && Container.CanResolve<ILoggerFacade>() )
+                return Container.Get<ILoggerFacade>();
+
+            return base.CreateLogger();
+        }
+
         protected override IModuleManager CreateModuleManager()
         {
             return Container.Get<IModuleManager>();
