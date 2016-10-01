@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
+  <CommandSet xml:lang="en-us" Name="PrismSampleCommandSet_en-us">
+    <AppName> Prism </AppName>
+    <Example> Show the demo </Example>
+
+    <Command Name="showTheDemo">
+      <Example> Show the demo </Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase"> show {*} </ListenFor>
+      <Feedback> Showing the demo </Feedback>
+      <Navigate />
+    </Command>
+  </CommandSet>
+</VoiceCommands>
