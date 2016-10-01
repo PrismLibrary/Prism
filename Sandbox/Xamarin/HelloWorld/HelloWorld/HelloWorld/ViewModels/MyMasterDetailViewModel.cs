@@ -22,7 +22,7 @@ namespace HelloWorld.ViewModels
 
         private void Navigate(string name)
         {
-            _navigationService.Navigate(name);
+            _navigationService.NavigateAsync(name);
         }
 
         public override void OnNavigatedFrom(NavigationParameters parameters)

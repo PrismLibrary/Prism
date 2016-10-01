@@ -1,0 +1,7 @@
+<AddinProject appVersion="6.0">
+  <Project platforms="Mac Linux Win32">
+    <AddinFile>TemplatePack-XamarinStudio/bin/Debug/TemplatePack-XamarinStudio.dll</AddinFile>
+    <BuildFile>TemplatePack-XamarinStudio.sln</BuildFile>
+    <BuildConfiguration>Debug</BuildConfiguration>
+  </Project>
+</AddinProject>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>Prism Ninject App (Forms)</Name>
+    <Description>A multiproject template for building Xamarin.Forms app with Prism and Ninject, sharing code using a portable class library.</Description>
+    <Icon>PrismNinjectApp.ico</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <TemplateID>EC1ADD71-43E4-4CDA-B029-5B6730D36CA5</TemplateID>
+    <DefaultName>PrismNinjectApp</DefaultName>
+    <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <SortOrder>30</SortOrder>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectCollection>
+      <ProjectTemplateLink ProjectName="$safeprojectname$">NinjectApp\NinjectApp.vstemplate</ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$safeprojectname$.Droid">NinjectApp.Droid\NinjectApp.Droid.vstemplate</ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$safeprojectname$.iOS">NinjectApp.iOS\NinjectApp.iOS.vstemplate</ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$safeprojectname$.UWP">NinjectApp.UWP\NinjectApp.UWP.vstemplate</ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$safeprojectname$.Windows">NinjectApp.Windows\NinjectApp.Windows.vstemplate</ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$safeprojectname$.WinPhone">NinjectApp.WinPhone\NinjectApp.WinPhone.vstemplate</ProjectTemplateLink>      
+    </ProjectCollection>
+  </TemplateContent>
+
+  <WizardExtension>
+    <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
+    <FullClassName>Xamarin.VisualStudio.TemplateWizards.EnsureRegistryWizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
+    <FullClassName>Xamarin.VisualStudio.TemplateWizards.FixBuildConfigurationWizard</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <EnsureRegistryWizard>
+      <Key>_Config\Projects\{786C830F-07A1-408B-BD7F-6EE04809D6DB}</Key>
+      <ErrorMessageTitle>Portable Library Tools 2 required</ErrorMessageTitle>
+      <ErrorMessage>To create Xamarin Forms projects please install Portable Library Tools 2.</ErrorMessage>
+    </EnsureRegistryWizard>
+  </WizardData>
+  
+</VSTemplate>

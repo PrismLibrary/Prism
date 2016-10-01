@@ -143,6 +143,14 @@ namespace Prism.Forms.Tests.Common
         }
 
         [Fact]
+        public void ParametersParsedFromUriWithEmptyPathSegments()
+        {
+            var uri = new Uri("app://forms/MainPage//DetailPage");
+            var target = UriParsingHelper.GetUriSegments(uri);
+            Assert.Equal(2, target.Count);
+        }
+
+        [Fact]
         public void EnsureAbsoluteUriForRelativeUri()
         {
             var uri = UriParsingHelper.EnsureAbsolute(new Uri(_relativeUri, UriKind.Relative));

@@ -1,43 +1,24 @@
-﻿using System.Linq;
-using Prism.Navigation;
-using Microsoft.Practices.Unity;
-using Prism.Mvvm;
-using Prism.Unity.Navigation;
+﻿using Microsoft.Practices.Unity;
 using Prism.Common;
-using Xamarin.Forms;
-using Prism.Unity.Extensions;
-using Prism.Logging;
 using Prism.Events;
-using Prism.Services;
-using DependencyService = Prism.Services.DependencyService;
+using Prism.Logging;
 using Prism.Modularity;
+using Prism.Mvvm;
+using Prism.Navigation;
+using Prism.Services;
+using Prism.Unity.Extensions;
 using Prism.Unity.Modularity;
+using Prism.Unity.Navigation;
+using Xamarin.Forms;
+using DependencyService = Prism.Services.DependencyService;
 
 namespace Prism.Unity
 {
-    public abstract class PrismApplication : PrismApplicationBase
+    public abstract class PrismApplication : PrismApplicationBase<IUnityContainer>
     {
-        public IUnityContainer Container { get; protected set; }
+        const string _navigationServiceName = "UnityPageNavigationService";
 
-        public override void Initialize()
-        {
-            Logger = CreateLogger();
-
-            ModuleCatalog = CreateModuleCatalog();
-            ConfigureModuleCatalog();
-
-            Container = CreateContainer();
-
-            ConfigureContainer();
-
-            NavigationService = CreateNavigationService();
-
-            RegisterTypes();            
-
-            InitializeModules();
-
-            OnInitialized();
-        }
+        public PrismApplication(IPlatformInitializer initializer = null) : base (initializer) { }
 
         protected override void ConfigureViewModelLocator()
         {
@@ -48,7 +29,7 @@ namespace Prism.Unity
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navService = Container.Resolve<UnityPageNavigationService>();
+                    var navService = CreateNavigationService();
                     ((IPageAware)navService).Page = page;
 
                     overrides = new ParameterOverrides
@@ -61,37 +42,35 @@ namespace Prism.Unity
             });
         }
 
-        protected virtual IUnityContainer CreateContainer()
+        protected override IUnityContainer CreateContainer()
         {
             return new UnityContainer();
         }
 
-        protected override INavigationService CreateNavigationService()
+        protected override IModuleManager CreateModuleManager()
         {
-            return Container.Resolve<UnityPageNavigationService>();
+            return Container.Resolve<IModuleManager>();
         }
 
-        protected virtual void ConfigureContainer()
+        protected override INavigationService CreateNavigationService()
+        {
+            return Container.Resolve<INavigationService>(_navigationServiceName);
+        }
+
+        protected override void ConfigureContainer()
         {
             Container.AddNewExtension<DependencyServiceExtension>();
 
             Container.RegisterInstance<ILoggerFacade>(Logger);
             Container.RegisterInstance<IModuleCatalog>(ModuleCatalog);
 
+            Container.RegisterType<IApplicationProvider, ApplicationProvider>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<INavigationService, UnityPageNavigationService>(_navigationServiceName);
             Container.RegisterType<IModuleManager, ModuleManager>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IModuleInitializer, UnityModuleInitializer>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDependencyService, DependencyService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IPageDialogService, PageDialogService>(new ContainerControlledLifetimeManager());
-        }
-
-        protected override void InitializeModules()
-        {
-            if (ModuleCatalog.Modules.Count() > 0)
-            {
-                IModuleManager manager  = Container.Resolve<IModuleManager>();
-                manager.Run();
-            }
         }
     }
 }

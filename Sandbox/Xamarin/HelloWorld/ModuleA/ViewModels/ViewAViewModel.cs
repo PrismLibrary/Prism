@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using System;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 
@@ -15,18 +16,27 @@ namespace ModuleA.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
+        private bool _canNavigate = true;
+        public bool CanNavigate
+        {
+            get { return _canNavigate; }
+            set { SetProperty(ref _canNavigate, value); }
+        }
+
         public DelegateCommand NavigateCommand { get; set; }
 
         public ViewAViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
 
-            NavigateCommand = new DelegateCommand(Navigate);
+            NavigateCommand = new DelegateCommand(Navigate).ObservesCanExecute((vm) => CanNavigate);
         }
 
-        void Navigate()
+        async void Navigate()
         {
-            _navigationService.Navigate("ViewB");
+            CanNavigate = false;
+            await _navigationService.NavigateAsync("ViewB");
+            CanNavigate = true;
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)

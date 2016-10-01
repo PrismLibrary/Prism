@@ -11,40 +11,17 @@ using Prism.Ninject.Extensions;
 using Prism.Ninject.Modularity;
 using Prism.Ninject.Navigation;
 using Prism.Services;
-using System.Linq;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
 
 namespace Prism.Ninject
 {
-    public abstract class PrismApplication : PrismApplicationBase
+    public abstract class PrismApplication : PrismApplicationBase<IKernel>
     {
-        /// <summary>
-        /// The Ninject Kernel
-        /// </summary>
-        public IKernel Kernel { get; protected set; }
+        const string _navigationServiceName = "NinjectPageNavigationService";
 
-        public override void Initialize()
-        {
-            Logger = CreateLogger();
+        public PrismApplication(IPlatformInitializer initializer = null) : base(initializer) { }
 
-            ModuleCatalog = CreateModuleCatalog();
-            ConfigureModuleCatalog();
-
-            Kernel = CreateKernel();
-
-            ConfigureKernel();
-
-            NavigationService = CreateNavigationService();
-
-            RegisterTypes();
-
-            InitializeModules();
-
-            OnInitialized();
-        }
-
-        /// <inheritDoc />
         protected override void ConfigureViewModelLocator()
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
@@ -54,7 +31,7 @@ namespace Prism.Ninject
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navService = Kernel.Get<NinjectNavigationService>();
+                    var navService = CreateNavigationService();
                     ((IPageAware)navService).Page = page;
 
                     overrides = new IParameter[]
@@ -63,50 +40,39 @@ namespace Prism.Ninject
                     };
                 }
 
-                return Kernel.Get(type, overrides);
+                return Container.Get(type, overrides);
             });
         }
 
-        /// <summary>
-        /// Override to change the creation of the Ninject kernel.
-        /// If you are using <see cref="Xamarin.Forms.DependencyService"/>,
-        /// you should return a <see cref="Prism.Ninject.Extensions.DependencyServiceKernel"/>.
-        /// </summary>
-        /// <returns>A Ninject <see cref="IKernel"/></returns>
-        protected virtual IKernel CreateKernel()
+        protected override IKernel CreateContainer()
         {
             return new StandardKernel();
         }
 
-        /// <summary>
-        /// Override to add your own Ninject kernel bindings. Make sure you call to base.
-        /// </summary>
-        protected virtual void ConfigureKernel()
+        protected override IModuleManager CreateModuleManager()
         {
-            Kernel.Components.Add<IMissingBindingResolver, DependencyServiceBindingResolver>();
-
-            Kernel.Bind<ILoggerFacade>().ToConstant(Logger).InSingletonScope();
-            Kernel.Bind<IModuleCatalog>().ToConstant(ModuleCatalog).InSingletonScope();
-
-            Kernel.Bind<IModuleManager>().To<ModuleManager>().InSingletonScope();
-            Kernel.Bind<IModuleInitializer>().To<NinjectModuleInitializer>().InSingletonScope();
-            Kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
-            Kernel.Bind<IDependencyService>().To<DependencyService>().InSingletonScope();
-            Kernel.Bind<IPageDialogService>().To<PageDialogService>().InSingletonScope();
+            return Container.Get<IModuleManager>();
         }
 
         protected override INavigationService CreateNavigationService()
         {
-            return Kernel.Get<NinjectNavigationService>();
+            return Container.Get<INavigationService>(_navigationServiceName);
         }
 
-        protected override void InitializeModules()
+        protected override void ConfigureContainer()
         {
-            if (ModuleCatalog.Modules.Count() > 0)
-            {
-                IModuleManager manager = Kernel.Get<IModuleManager>();
-                manager.Run();
-            }
+            Container.Components.Add<IMissingBindingResolver, DependencyServiceBindingResolver>();
+
+            Container.Bind<ILoggerFacade>().ToConstant(Logger).InSingletonScope();
+            Container.Bind<IModuleCatalog>().ToConstant(ModuleCatalog).InSingletonScope();
+
+            Container.Bind<IApplicationProvider>().To<ApplicationProvider>().InSingletonScope();
+            Container.Bind<INavigationService>().To<NinjectPageNavigationService>().Named(_navigationServiceName);
+            Container.Bind<IModuleManager>().To<ModuleManager>().InSingletonScope();
+            Container.Bind<IModuleInitializer>().To<NinjectModuleInitializer>().InSingletonScope();
+            Container.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
+            Container.Bind<IDependencyService>().To<DependencyService>().InSingletonScope();
+            Container.Bind<IPageDialogService>().To<PageDialogService>().InSingletonScope();
         }
     }
 }

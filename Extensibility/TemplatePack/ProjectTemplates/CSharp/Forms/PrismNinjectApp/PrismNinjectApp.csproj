@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{10034D23-BEA9-4443-BA71-C579FC98BB44}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PrismNinjectApp</RootNamespace>
+    <AssemblyName>PrismNinjectApp</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <GeneratePkgDefFile>false</GeneratePkgDefFile>
+    <IncludeAssemblyInVSIXContainer>false</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
+    <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
+    <CopyBuildOutputToOutputDirectory>false</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>false</CopyOutputSymbolsToOutputDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CreateVsixContainer>False</CreateVsixContainer>
+    <DeployExtension>False</DeployExtension>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\iTunesArtwork" />
+    <None Include="NinjectApp.iOS\iTunesArtwork%402x" />
+    <None Include="NinjectApp.iOS\Resources\LaunchScreen.storyboard" />
+    <None Include="NinjectApp.UWP\Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NinjectApp.UWP\project.json" />
+    <None Include="NinjectApp.UWP\Windows_TemporaryKey.pfx" />
+    <None Include="NinjectApp.Windows\Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NinjectApp.Windows\Windows_TemporaryKey.pfx" />
+    <None Include="NinjectApp.WinPhone\Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NinjectApp\Properties\AssemblyInfo.cs" />
+    <None Include="NinjectApp\ViewModels\MainPageViewModel.cs" />
+    <None Include="NinjectApp\Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </None>
+    <None Include="NinjectApp\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </None>
+    <None Include="NinjectApp.Droid\Properties\AssemblyInfo.cs" />
+    <None Include="NinjectApp.Droid\Resources\Resource.Designer.cs" />
+    <None Include="NinjectApp.Droid\MainActivity.cs" />
+    <None Include="NinjectApp.iOS\Properties\AssemblyInfo.cs" />
+    <None Include="NinjectApp.iOS\AppDelegate.cs" />
+    <None Include="NinjectApp.iOS\Main.cs" />
+    <None Include="NinjectApp.UWP\Properties\AssemblyInfo.cs" />
+    <None Include="NinjectApp.UWP\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </None>
+    <None Include="NinjectApp.UWP\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </None>
+    <None Include="NinjectApp.Windows\Properties\AssemblyInfo.cs" />
+    <None Include="NinjectApp.Windows\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </None>
+    <None Include="NinjectApp.Windows\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </None>
+    <None Include="NinjectApp.WinPhone\Properties\AssemblyInfo.cs" />
+    <None Include="NinjectApp.WinPhone\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </None>
+    <None Include="NinjectApp.WinPhone\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </None>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp\__TemplateIcon.ico" />
+    <None Include="NinjectApp\NinjectApp.vstemplate" />
+    <None Include="NinjectApp\NinjectAppTemplate.csproj">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NinjectApp.Droid\Assets\AboutAssets.txt" />
+    <None Include="NinjectApp.Droid\Properties\AndroidManifest.xml" />
+    <None Include="NinjectApp.Droid\Resources\AboutResources.txt" />
+    <None Include="NinjectApp.Droid\Resources\Drawable\Icon.png" />
+    <None Include="NinjectApp.Droid\Resources\drawable-hdpi\icon.png" />
+    <None Include="NinjectApp.Droid\Resources\drawable-xhdpi\icon.png" />
+    <None Include="NinjectApp.Droid\Resources\drawable-xxhdpi\icon.png" />
+    <None Include="NinjectApp.Droid\Resources\layout\tabs.xml" />
+    <None Include="NinjectApp.Droid\Resources\layout\toolbar.xml" />
+    <None Include="NinjectApp.Droid\Resources\values\colors.xml" />
+    <None Include="NinjectApp.Droid\Resources\values\styles.xml" />
+    <None Include="NinjectApp.Droid\Resources\values-v21\styles.xml" />
+    <None Include="NinjectApp.Droid\__TemplateIcon.ico" />
+    <None Include="NinjectApp.Droid\NinjectApp.Droid.vstemplate" />
+    <None Include="NinjectApp.Droid\NinjectAppTemplate.Droid.csproj" />
+    <VSTemplate Include="PrismNinjectApp.vstemplate">
+      <SubType>Designer</SubType>
+      <OutputSubPath>Prism\Forms</OutputSubPath>
+    </VSTemplate>
+    <None Include="PrismNinjectApp.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp\Views\MainPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp\App.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Default-568h%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Default-Portrait.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Default-Portrait%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Default.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Default%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Icon-60%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Icon-60%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Icon-76.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Icon-76%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Icon-Small-40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Icon-Small-40%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Icon-Small-40%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Icon-Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Icon-Small%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.iOS\Resources\Icon-Small%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.WinPhone\NinjectAppTemplate.WinPhone.csproj" />
+    <None Include="NinjectApp.WinPhone\NinjectApp.WinPhone.vstemplate" />
+    <None Include="NinjectApp.WinPhone\__TemplateIcon.ico" />
+    <None Include="NinjectApp.WinPhone\Assets\WideLogo.scale-240.png" />
+    <None Include="NinjectApp.WinPhone\Assets\StoreLogo.scale-240.png" />
+    <None Include="NinjectApp.WinPhone\Assets\Square71x71Logo.scale-240.png" />
+    <None Include="NinjectApp.WinPhone\Assets\SplashScreen.scale-240.png" />
+    <None Include="NinjectApp.WinPhone\Assets\SmallLogo.scale-240.png" />
+    <None Include="NinjectApp.WinPhone\Assets\Logo.scale-240.png" />
+    <None Include="NinjectApp.Windows\NinjectAppTemplate.Windows.csproj" />
+    <None Include="NinjectApp.Windows\NinjectApp.Windows.vstemplate" />
+    <None Include="NinjectApp.Windows\__TemplateIcon.ico" />
+    <None Include="NinjectApp.Windows\Assets\StoreLogo.scale-100.png" />
+    <None Include="NinjectApp.Windows\Assets\SplashScreen.scale-100.png" />
+    <None Include="NinjectApp.Windows\Assets\SmallLogo.scale-100.png" />
+    <None Include="NinjectApp.Windows\Assets\Logo.scale-100.png" />
+    <None Include="NinjectApp.UWP\NinjectAppTemplate.UWP.csproj" />
+    <None Include="NinjectApp.UWP\NinjectApp.UWP.vstemplate" />
+    <None Include="NinjectApp.UWP\__TemplateIcon.ico" />
+    <None Include="NinjectApp.UWP\Properties\Default.rd.xml" />
+    <None Include="NinjectApp.UWP\Assets\Wide310x150Logo.scale-200.png" />
+    <None Include="NinjectApp.UWP\Assets\StoreLogo.png" />
+    <None Include="NinjectApp.UWP\Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <None Include="NinjectApp.UWP\Assets\Square44x44Logo.scale-200.png" />
+    <None Include="NinjectApp.UWP\Assets\Square150x150Logo.scale-200.png" />
+    <None Include="NinjectApp.UWP\Assets\SplashScreen.scale-200.png" />
+    <None Include="NinjectApp.UWP\Assets\LockScreenLogo.scale-200.png" />
+    <None Include="NinjectApp.iOS\NinjectAppTemplate.iOS.csproj" />
+    <None Include="NinjectApp.iOS\NinjectApp.iOS.vstemplate" />
+    <None Include="NinjectApp.iOS\Info.plist" />
+    <None Include="NinjectApp.iOS\Entitlements.plist" />
+    <Content Include="NinjectApp.iOS\__TemplateIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.UWP\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.UWP\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.Windows\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.Windows\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.WinPhone\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NinjectApp.WinPhone\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

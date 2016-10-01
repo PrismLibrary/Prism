@@ -29,19 +29,15 @@ Composite applications provide many benefits, including the following:
 -  They promote reuse and a clean separation of concerns between the application's horizontal capabilities, such as logging and authentication, and the vertical capabilities, such as business functionality that is specific to your application. This also allows you to more easily manage the dependencies and interactions between application components.
 -  They help maintain a separation of roles by allowing different individuals or subteams to focus on a specific task or piece of functionality according to their focus or expertise. In particular, it provides a cleaner separation between the UI and the business logic of the application—this means the UI designer can focus on creating a richer user experience.
 
-Composite applications are highly suited to a range of client application scenarios. For example, a composite application is ideal for creating a rich end-user experience over disparate back-end systems. The following illustration shows an example of this type of a composite application.
+Composite applications are highly suited to a range of client application scenarios. For example, a composite application is ideal for creating a rich end-user experience over disparate back-end systems. The following illustration shows an example of this type of a composite application with multiple back-end systems.
 
-Composite application with multiple back-end systems
-
-![Chapter 1 Figure 1](images/Ch1IntroFig1.png)
+![Composite application with multiple back-end systems](images/Ch1IntroFig1.png)
 
 In this type of application, the user can be presented with a rich and flexible user experience that provides a task-oriented focus over functionality that spans multiple back-end systems, services, and data stores, where each is represented by one or more dedicated modules. The clean separation between the application logic and the UI allows the application to provide a consistent and differentiated appearance across all constituent modules.
 
 Additionally, a composite application can be useful when there are independently evolving components in the UI that heavily integrate with each other and that are often maintained by separate teams. The following illustration shows a screen shot of this type of application. Each of the areas highlighted represent independent components that are composed into the UI.
 
-Stock Trader Reference Implementation composite application
-
-![](images/Ch1IntroFig2.png)
+![Stock Trader Reference Implementation](images/Ch1IntroFig2.png)
 
 In this case, the composite application allows the UI to be dynamic composed. This delivers a flexible user experience. For example, it can allow new functionality to be dynamically added to the application at run time, which enables rich end-user customization and extensibility.
 
@@ -127,7 +123,7 @@ Prism provides capabilities and design patterns that may be unfamiliar to you, e
 -  **Models**. Model classes encapsulate the application data and business logic. They are used as part of the MVVM pattern. Models encapsulate data and any associated validation and business rules to ensure data consistency and integrity.
 -  **Commands**. Commands are used to encapsulate application functionality in a way that allows them to be defined and tested independently of the application's UI. They can be defined as command objects or as command methods in the view model. Prism provides the -  - -  **DelegateCommand** class and the **CompositeCommand** class. The latter is used to represent a collection of commands which are all invoked together.
 -  **Regions**. Regions are logical placeholders defined within the application's UI (in the shell or within views) into which views are displayed. Regions allow the layout of the application's UI to be updated without requiring changes to the application logic. Many common controls can be used as a region, allowing views to be automatically displayed within controls, such as a **ContentControl**, **ItemsControl**, **ListBox**, or **TabControl**. Views can be displayed within a region programmatically or automatically. Prism also provides support for implementing navigation with regions. Regions can be located by other components through the **RegionManager** component, which uses **RegionAdapter** and **RegionBehavior** components to coordinate the display of views within specific regions.
-**Navigation**. Navigation is defined as the process by which the application coordinates changes to its UI as a result of the user's interaction with the application or internal application state changes. Prism supports two styles of navigation: state-based navigation, where the state of an existing view is updated to implement simple navigation scenarios, and view-switching navigation, where new views are created and old views replaced within the application's UI. View-switching navigation uses a Uniform Resource Identifier (URI)–based navigation mechanism in conjunction with Prism regions to allow flexible navigation schemes to be implemented.
+-  **Navigation**. Navigation is defined as the process by which the application coordinates changes to its UI as a result of the user's interaction with the application or internal application state changes. Prism supports two styles of navigation: state-based navigation, where the state of an existing view is updated to implement simple navigation scenarios, and view-switching navigation, where new views are created and old views replaced within the application's UI. View-switching navigation uses a Uniform Resource Identifier (URI)–based navigation mechanism in conjunction with Prism regions to allow flexible navigation schemes to be implemented.
 -  **EventAggregator**. Components in a composite application often need to communicate with other components and services in the application in a loosely coupled way. To support this, Prism provides the **EventAggregator** component, which implements a pub-sub event mechanism, thereby allowing components to publish events and other components to subscribe to those events without either of them requiring a reference to the other. The **EventAggregator** is often used to allow components defined in different modules to communicate with each other.
 -  **Dependency injection container**. The Dependency Injection (DI) pattern is used throughout Prism to allow the dependencies between components to be managed. Dependency injection allows component dependencies to be fulfilled at run time, and it supports extensibility and testability. Prism is designed to work with Unity or MEF, or with any other dependency injection containers via the **ServiceLocator**.
 -  **Services**. Services are components that encapsulate non-UI related functionality, such as logging, exception management, and data access. Services can be defined by the application or within a module. Services are often registered with the dependency injection container so that they can be located or constructed as required and used by other components that depend on them.
@@ -136,7 +132,7 @@ Prism provides capabilities and design patterns that may be unfamiliar to you, e
 
 Prism is designed so that you can use any of the preceding capabilities and design patterns individually, or all together, depending on your requirements and your application scenario. You can use the MVVM pattern, modularity, regions, commands, or events in any combination without having to adopt all of them. Of course, if you want to take full advantage of the benefits that separation of concerns and loose coupling offers, you will typically use many of Prism's capabilities and design patterns in conjunction with each other. The following illustration shows a typical Prism application architecture and shows how all the various capabilities of Prism can work together within a multi-module composite application.
 
-![](images/Ch1IntroFig3.png)
+![Typical Prism application architecture](images/Ch1IntroFig3.png)
 
 **Typical composite application architecture with the Prism Library**
 
@@ -152,7 +148,7 @@ Now that you've seen the major capabilities and design patterns that Prism suppo
 
 A Prism application typically consists of a shell project and multiple module projects. The following illustration shows common activities needed when developing a composite application using the Prism Library.
 
-![](images/Ch1IntroFig4.png)
+![Activities for creating a composite application](images/Ch1IntroFig4.png)
 
 **Activities for creating a composite application**
 
@@ -164,9 +160,7 @@ A typical Prism application leverages most or all of the Prism capabilities and 
 
 The application shell provides the basic layout for the application. This layout is defined using regions that modules can use to place views. Views, like shells, can use regions to define discoverable areas that content can be added to, as shown in the following illustration. Shells typically set the appearance for the entire application and contain the styles that are used throughout the application.
 
-![](images/Ch1IntroFig5.png)
-
-Shells, views, and regions
+![Shells, views, and regions](images/Ch1IntroFig5.png)
 
 ### Create the Bootstrapper
 
@@ -176,9 +170,9 @@ By default, the bootstrapper logs events using the .NET Framework **Trace** clas
 
 By default, the **UnityBootstrapper** and **MefBootstrapper** enable the Prism Library services. These can be disabled or replaced in your application-specific bootstrapper.
     
-![](images/Ch1IntroFig6.png)
+![Connecting to the Prism Library](images/Ch1IntroFig6.png)
 
-Diagram demonstrating connecting to the Prism Library
+Diagram demonstrating connecting to the Prism Library.
 
 ### Create the Module
 

@@ -25,7 +25,6 @@ namespace Prism.Modularity
         /// </summary>
         /// <param name="moduleInitializer">Service used for initialization of modules.</param>
         /// <param name="moduleCatalog">Catalog that enumerates the modules to be loaded and initialized.</param>
-        /// <param name="loggerFacade">Logger used during the load and initialization of modules.</param>
         public ModuleManager(IModuleInitializer moduleInitializer, IModuleCatalog moduleCatalog)
         {
             if (moduleInitializer == null)

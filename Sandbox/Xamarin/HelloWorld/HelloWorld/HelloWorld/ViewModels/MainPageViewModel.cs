@@ -27,7 +27,7 @@ namespace HelloWorld.ViewModels
 
         void LoadModuleA()
         {
-            _moduleManager.LoadModule("ModuleA");
+            //_moduleManager.LoadModule("ModuleA");
         }
     }
 }

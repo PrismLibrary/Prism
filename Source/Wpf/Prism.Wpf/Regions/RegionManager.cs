@@ -297,12 +297,12 @@ namespace Prism.Regions
         }
 
         /// <summary>
-        /// Associate a view with a region, using a delegate to resolve a concreate instance of the view.
-        /// When the region get's displayed, this delelgate will be called and the result will be added to the
+        /// Associate a view with a region, using a delegate to resolve a concrete instance of the view.
+        /// When the region get's displayed, this delegate will be called and the result will be added to the
         /// views collection of the region.
         /// </summary>
         /// <param name="regionName">The name of the region to associate the view with.</param>
-        /// <param name="getContentDelegate">The delegate used to resolve a concreate instance of the view.</param>
+        /// <param name="getContentDelegate">The delegate used to resolve a concrete instance of the view.</param>
         /// <returns>The regionmanager, for adding several views easily</returns>
         public IRegionManager RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
         {
@@ -321,7 +321,8 @@ namespace Prism.Regions
         /// <param name="navigationCallback">The navigation callback.</param>
         public void RequestNavigate(string regionName, Uri source, Action<NavigationResult> navigationCallback)
         {
-            if (navigationCallback == null) throw new ArgumentNullException(nameof(navigationCallback));
+            if (navigationCallback == null)
+                throw new ArgumentNullException(nameof(navigationCallback));
 
             if (Regions.ContainsRegionWithName(regionName))
             {
@@ -376,9 +377,16 @@ namespace Prism.Regions
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
         public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
         {
+            if (navigationCallback == null)
+                throw new ArgumentNullException(nameof(navigationCallback));
+
             if (Regions.ContainsRegionWithName(regionName))
             {
                 Regions[regionName].RequestNavigate(target, navigationCallback, navigationParameters);
+            }
+            else
+            {
+                navigationCallback(new NavigationResult(new NavigationContext(null, target, navigationParameters), false));
             }
         }
 

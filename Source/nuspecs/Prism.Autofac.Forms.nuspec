@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Prism.Autofac.Forms</id>
+    <version>$version$</version>
+    <title>Autofac for Prism for Xamarin.Forms</title>
+    <authors>Brian Lagunas, Brian Noyes</authors>
+    <owners>Brian Lagunas, Brian Noyes</owners>
+    <licenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</licenseUrl>
+    <projectUrl>http://prismlibrary.com/</projectUrl>
+    <iconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Use these extensions to build Xamarin.Forms applications with Prism and Autofac.</description>
+    <summary>Autofac extensions for Prism for Xamarin.Forms.</summary>
+    <releaseNotes>$releaseNotes$</releaseNotes>
+    <language>en-US</language>
+    <tags>prism mvvm wpf uwp autofac dependency injection di, xamarin, xamarin.forms</tags>
+    <dependencies>   
+      <group targetFramework="portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10">
+        <dependency id="Prism.Forms" version="$formsVersion$" />
+        <dependency id="Xamarin.Forms" version="$xamarinFormsVersion$" />
+        <dependency id="Autofac" version="3.5.2" />
+      </group>
+      <group targetFramework="Xamarin.iOS1.0">
+        <dependency id="Prism.Forms" version="$formsVersion$" />
+        <dependency id="Xamarin.Forms" version="$xamarinFormsVersion$" />
+        <dependency id="Autofac" version="3.5.2" />
+      </group>
+      <group targetFramework="MonoTouch1.0">
+        <dependency id="Prism.Forms" version="$formsVersion$" />
+        <dependency id="Xamarin.Forms" version="$xamarinFormsVersion$" />
+        <dependency id="Autofac" version="3.5.2" />
+      </group>
+      <group targetFramework="MonoAndroid1.0">
+        <dependency id="Prism.Forms" version="$formsVersion$" />
+        <dependency id="Xamarin.Forms" version="$xamarinFormsVersion$" />
+        <dependency id="Autofac" version="3.5.2" />
+      </group>
+      <group targetFramework="Windows8.1">
+        <dependency id="Prism.Forms" version="$formsVersion$" />
+        <dependency id="Xamarin.Forms" version="$xamarinFormsVersion$" />
+        <dependency id="Autofac" version="3.5.2" />
+      </group>
+      <group targetFramework="WindowsPhoneApp8.1">
+        <dependency id="Prism.Forms" version="$formsVersion$" />
+        <dependency id="Xamarin.Forms" version="$xamarinFormsVersion$" />
+        <dependency id="Autofac" version="3.5.2" />
+      </group>
+      <group targetFramework="UAP10.0">
+        <dependency id="Prism.Forms" version="$formsVersion$" />
+        <dependency id="Xamarin.Forms" version="$xamarinFormsVersion$" />
+        <dependency id="Autofac" version="3.5.2" />
+      </group>
+      <group targetFramework="WindowsPhone8.0">
+        <dependency id="Prism.Forms" version="$formsVersion$" />
+        <dependency id="Xamarin.Forms" version="$xamarinFormsVersion$" />
+        <dependency id="Autofac" version="3.5.2" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\Xamarin\Prism.Autofac.Forms\bin\Release\Prism.Autofac.Forms.*" target="lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\" exclude="**\*.pdb" />
+    <file src="..\Xamarin\Prism.Autofac.Forms\bin\Release\Prism.Autofac.Forms.*" target="lib\Xamarin.iOS1.0\" exclude="**\*.pdb" />
+    <file src="..\Xamarin\Prism.Autofac.Forms\bin\Release\Prism.Autofac.Forms.*" target="lib\MonoTouch1.0\" exclude="**\*.pdb" />
+    <file src="..\Xamarin\Prism.Autofac.Forms\bin\Release\Prism.Autofac.Forms.*" target="lib\MonoAndroid1.0\" exclude="**\*.pdb" />
+    <file src="..\Xamarin\Prism.Autofac.Forms\bin\Release\Prism.Autofac.Forms.*" target="lib\Windows8.1\" exclude="**\*.pdb" />
+    <file src="..\Xamarin\Prism.Autofac.Forms\bin\Release\Prism.Autofac.Forms.*" target="lib\WindowsPhoneApp8.1\" exclude="**\*.pdb" />
+    <file src="..\Xamarin\Prism.Autofac.Forms\bin\Release\Prism.Autofac.Forms.*" target="lib\UAP10.0\" exclude="**\*.pdb" />
+    <file src="..\Xamarin\Prism.Autofac.Forms\bin\Release\Prism.Autofac.Forms.*" target="lib\WindowsPhone8.0\" exclude="**\*.pdb" />
+  </files>
+</package>

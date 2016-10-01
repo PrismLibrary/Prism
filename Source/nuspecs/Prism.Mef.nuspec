@@ -23,6 +23,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Wpf\Prism.Mef.Wpf\bin\Release-Signed\Prism.Mef.Wpf.*" target="lib\net45\" exclude="**\*.pdb" />
+    <file src="..\Wpf\Prism.Mef.Wpf\bin\Release\Prism.Mef.Wpf.*" target="lib\net45\" exclude="**\*.pdb" />
   </files>
 </package>
