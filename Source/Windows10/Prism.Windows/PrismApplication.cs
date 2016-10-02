@@ -431,7 +431,8 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        /// Creates the navigation service. Use this to inject your own INavigationService implementation.
+        /// Creates the navigation service.
+        /// Use this to inject your own INavigationService implementation.
         /// </summary>
         /// <param name="rootFrame">The root frame.</param>
         /// <returns>The initialized navigation service.</returns>
@@ -439,6 +440,11 @@ namespace Prism.Windows
 
         /// <summary>
         /// Creates the navigation service.
+        /// 
+        /// Use this to implement your own PrismApplication, e.g. to provide support for another IoC container.
+        /// Note that this method is overridden in the bases classes for Unity, Autofac, etc. to register the navigation service in the IoC container.
+        /// 
+        /// Use OnCreateNavigationService instead if you want to inject your own INavigationService implementation.
         /// </summary>
         /// <param name="rootFrame">The root frame.</param>
         /// <param name="sessionStateService">The session state service.</param>
