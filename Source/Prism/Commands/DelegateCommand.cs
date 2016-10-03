@@ -97,6 +97,7 @@ namespace Prism.Commands
         /// </summary>
         /// <param name="executeMethod">Delegate to execute when Execute is called on the command.</param>
         /// <returns>Constructed instance of <see cref="DelegateCommand{T}"/></returns>
+        [Obsolete("This async command break synchronous scenarios. We will be removing this from the next update in Prism 6.3.")]
         public static DelegateCommand<T> FromAsyncHandler(Func<T, Task> executeMethod)
         {
             return new DelegateCommand<T>(executeMethod);
@@ -108,6 +109,7 @@ namespace Prism.Commands
         /// <param name="executeMethod">Delegate to execute when Execute is called on the command. This can be null to just hook up a CanExecute delegate.</param>
         /// <param name="canExecuteMethod">Delegate to execute when CanExecute is called on the command. This can be null.</param>
         /// <returns>Constructed instance of <see cref="DelegateCommand{T}"/></returns>
+        [Obsolete("This async command break synchronous scenarios. We will be removing this from the next update in Prism 6.3.")]
         public static DelegateCommand<T> FromAsyncHandler(Func<T, Task> executeMethod, Func<T, bool> canExecuteMethod)
         {
             return new DelegateCommand<T>(executeMethod, canExecuteMethod);
@@ -206,6 +208,7 @@ namespace Prism.Commands
         /// </summary>
         /// <param name="executeMethod">Delegate to execute when Execute is called on the command.</param>
         /// <returns>Constructed instance of <see cref="DelegateCommand"/></returns>
+        [Obsolete("This async command break synchronous scenarios. We will be removing this from the next update in Prism 6.3.")]
         public static DelegateCommand FromAsyncHandler(Func<Task> executeMethod)
         {
             return new DelegateCommand(executeMethod);
@@ -217,6 +220,7 @@ namespace Prism.Commands
         /// <param name="executeMethod">Delegate to execute when Execute is called on the command. This can be null to just hook up a CanExecute delegate.</param>
         /// <param name="canExecuteMethod">Delegate to execute when CanExecute is called on the command. This can be null.</param>
         /// <returns>Constructed instance of <see cref="DelegateCommand"/></returns>
+        [Obsolete("This async command break synchronous scenarios. We will be removing this from the next update in Prism 6.3.")]
         public static DelegateCommand FromAsyncHandler(Func<Task> executeMethod, Func<bool> canExecuteMethod)
         {
             return new DelegateCommand(executeMethod, canExecuteMethod);
