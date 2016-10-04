@@ -365,6 +365,7 @@ namespace Prism.Navigation
                     throw new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
 
                 SetAutowireViewModelOnPage(page);
+                ApplyPageBehaviors(page);                
 
                 return page;
             }
@@ -372,6 +373,18 @@ namespace Prism.Navigation
             {
                 _logger.Log(e.ToString(), Category.Exception, Priority.High);
                 throw;
+            }
+        }
+
+        protected virtual void ApplyPageBehaviors(Page page)
+        {
+            if (page is TabbedPage)
+            {
+                page.Behaviors.Add(new Behaviors.TabbedPageActiveAwareBehavior());
+            }
+            else if (page is CarouselPage)
+            {
+                page.Behaviors.Add(new Behaviors.CarouselPageActiveAwareBehavior());
             }
         }
 

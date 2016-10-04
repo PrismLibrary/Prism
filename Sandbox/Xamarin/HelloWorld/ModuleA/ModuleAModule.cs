@@ -17,9 +17,12 @@ namespace ModuleA
 
         public void Initialize()
         {
+            _container.RegisterTypeForNavigation<MyTabbedPage>();
             _container.RegisterTypeForNavigation<ViewA>();
             _container.RegisterTypeForNavigation<ViewB>();
             _container.RegisterTypeForNavigation<ViewC>();
+
+            _container.RegisterType<IApplicationCommands, ApplicationCommands>(new ContainerControlledLifetimeManager());
 
             //var masterDetail = PrismApplication.Current.MainPage as MasterDetailPage;
             //if (masterDetail != null)
