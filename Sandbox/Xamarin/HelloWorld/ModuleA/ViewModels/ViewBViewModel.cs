@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using Prism.Navigation;
 using System.Diagnostics;
+using System;
 
 namespace ModuleA.ViewModels
 {
@@ -25,10 +26,24 @@ namespace ModuleA.ViewModels
 
         public DelegateCommand NavigateCommand { get; set; }
 
-        public ViewBViewModel(INavigationService navigationService)
+        public DelegateCommand SaveCommand { get; private set; }
+
+        public DelegateCommand ResetCommand { get; private set; }
+
+        public ViewBViewModel(INavigationService navigationService, IApplicationCommands applicationCommands)
         {
             _navigationService = navigationService;
             NavigateCommand = new DelegateCommand(Navigate).ObservesCanExecute((vm) => CanNavigate);
+            SaveCommand = new DelegateCommand(Save);
+            ResetCommand = new DelegateCommand(Reset);
+
+            applicationCommands.SaveCommand.RegisterCommand(SaveCommand);
+            applicationCommands.ResetCommand.RegisterCommand(ResetCommand);
+        }
+
+        private void Reset()
+        {
+            Title = "View B";
         }
 
         async void Navigate()
@@ -36,6 +51,11 @@ namespace ModuleA.ViewModels
             CanNavigate = false;
             await _navigationService.GoBackAsync();
             CanNavigate = true;
+        }
+
+        private void Save()
+        {
+            Title = "Saved";
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
