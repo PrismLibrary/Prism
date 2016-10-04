@@ -31,6 +31,7 @@ namespace Prism.Windows
         protected PrismApplication()
         {
             Suspending += OnSuspending;
+            Resuming += OnResuming;
             Logger = CreateLogger();
             if (Logger == null)
             {
@@ -109,7 +110,7 @@ namespace Prism.Windows
         protected abstract Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args);
 
         /// <summary>
-        /// Override this method with logic that will be performed after the application is activated through other means 
+        /// Override this method with logic that will be performed after the application is activated through other means
         /// than a normal launch (i.e. Voice Commands, URI activation, being used as a share target from another app).
         ///  For example, navigating to the application's home page.
         /// </summary>
@@ -185,9 +186,9 @@ namespace Prism.Windows
         }
 
         /// <summary>
-        /// Override this method with logic that will be performed when resuming after the application is initialized. 
+        /// Override this method with logic that will be performed when resuming after the application is initialized.
         /// For example, refreshing user credentials.
-        /// Note: This is called whenever the app is resuming from suspend and terminate, but not during a fresh launch and 
+        /// Note: This is called whenever the app is resuming from suspend and terminate, but not during a fresh launch and
         /// not when resuming the app if it hasn't been suspended.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
@@ -440,10 +441,10 @@ namespace Prism.Windows
 
         /// <summary>
         /// Creates the navigation service.
-        /// 
+        ///
         /// Use this to implement your own PrismApplication, e.g. to provide support for another IoC container.
         /// Note that this method is overridden in the bases classes for Unity, Autofac, etc. to register the navigation service in the IoC container.
-        /// 
+        ///
         /// Use OnCreateNavigationService instead if you want to inject your own INavigationService implementation.
         /// </summary>
         /// <param name="rootFrame">The root frame.</param>
@@ -494,6 +495,16 @@ namespace Prism.Windows
             {
                 IsSuspending = false;
             }
+        }
+
+        /// <summary>
+        /// Invoked when the application resumes from a suspended state.
+        /// </summary>
+        /// <param name="sender">The source of the suspend request.</param>
+        /// <param name="e">Details about the suspend request.</param>
+        private void OnResuming(object sender, object e)
+        {
+            NavigationService.RestoreSavedNavigation();
         }
 
         /// <summary>
