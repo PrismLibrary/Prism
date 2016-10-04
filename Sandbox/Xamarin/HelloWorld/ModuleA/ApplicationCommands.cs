@@ -10,7 +10,7 @@ namespace ModuleA
 
     public class ApplicationCommands : IApplicationCommands
     {
-        CompositeCommand _saveCommand = new CompositeCommand();
+        CompositeCommand _saveCommand = new CompositeCommand(true); //invoke only on the active command - IActiveAware
         public CompositeCommand SaveCommand
         {
             get { return _saveCommand; }

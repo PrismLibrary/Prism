@@ -52,6 +52,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\BehaviorBase{T}.cs" />
+    <Compile Include="Behaviors\CarouselPageActiveAwareBehavior.cs" />
+    <Compile Include="Behaviors\TabbedPageActiveAwareBehavior.cs" />
+    <Compile Include="Behaviors\MultiPageActiveAwareBehavior{T}.cs" />
     <Compile Include="IPlatformInitializer.cs" />
     <Compile Include="Navigation\INavigationPageOptions.cs" />
     <Compile Include="PrismApplicationBase.cs" />

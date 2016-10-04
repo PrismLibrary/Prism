@@ -3,10 +3,11 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using System.Diagnostics;
 using System;
+using Prism;
 
 namespace ModuleA.ViewModels
 {
-    public class ViewBViewModel : BindableBase, INavigationAware
+    public class ViewBViewModel : BindableBase, INavigationAware, IActiveAware
     {
         private readonly INavigationService _navigationService;
 
@@ -22,6 +23,19 @@ namespace ModuleA.ViewModels
         {
             get { return _canNavigate; }
             set { SetProperty(ref _canNavigate, value); }
+        }
+
+        public event EventHandler IsActiveChanged;
+
+        bool _isActive;
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set
+            {
+                SetProperty(ref _isActive, value);
+                OnActiveChanged();
+            }
         }
 
         public DelegateCommand NavigateCommand { get; set; }
@@ -56,6 +70,11 @@ namespace ModuleA.ViewModels
         private void Save()
         {
             Title = "Saved";
+        }
+
+        void OnActiveChanged()
+        {
+            SaveCommand.IsActive = IsActive;
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
