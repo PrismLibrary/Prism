@@ -3,7 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectTypeGuids>{86F6BF2A-E449-4B3E-813B-9ACC37E5545F};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{6E9BBEF3-CAD1-4B8E-9BFB-C2B77F4FF2D3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TemplatePackXamarinStudio</RootNamespace>
