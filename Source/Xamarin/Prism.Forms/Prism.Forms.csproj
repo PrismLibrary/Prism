@@ -56,6 +56,7 @@
     <Compile Include="Behaviors\CarouselPageActiveAwareBehavior.cs" />
     <Compile Include="Behaviors\TabbedPageActiveAwareBehavior.cs" />
     <Compile Include="Behaviors\MultiPageActiveAwareBehavior{T}.cs" />
+    <Compile Include="Common\PageUtilities.cs" />
     <Compile Include="IPlatformInitializer.cs" />
     <Compile Include="Navigation\INavigationPageOptions.cs" />
     <Compile Include="PrismApplicationBase.cs" />

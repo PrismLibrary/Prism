@@ -376,7 +376,7 @@ namespace Prism.Navigation
             }
         }
 
-        protected void ApplyPageBehaviors(Page page)
+        protected virtual void ApplyPageBehaviors(Page page)
         {
             if (page is TabbedPage)
             {

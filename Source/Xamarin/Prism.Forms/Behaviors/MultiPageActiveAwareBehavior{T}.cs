@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Common;
+using System;
 using Xamarin.Forms;
 
 namespace Prism.Behaviors
@@ -23,7 +24,6 @@ namespace Prism.Behaviors
             bindable.Appearing -= RootPageAppearingHandler;
             bindable.Disappearing -= RootPageDisappearingHandler;
             base.OnDetachingFrom(bindable);
-
         }
 
         /// <summary>
@@ -58,7 +58,6 @@ namespace Prism.Behaviors
             SetIsActive(_lastSelectedPage, true);
         }
 
-
         /// <summary>
         /// Event Handler for the MultiPage Disappearing event
         /// </summary>
@@ -71,25 +70,7 @@ namespace Prism.Behaviors
 
         void SetIsActive(object view, bool isActive)
         {
-            Action<IActiveAware> invocation = activeAware => activeAware.IsActive = isActive;
-            ViewAndViewModelAction<IActiveAware>(_lastSelectedPage, invocation);
-        }
-
-        public static void ViewAndViewModelAction<T>(object view, Action<T> action) where T : class
-        {
-            T viewAsT = view as T;
-            if (viewAsT != null)
-                action(viewAsT);
-
-            var element = view as BindableObject;
-            if (element != null)
-            {
-                var viewModelAsT = element.BindingContext as T;
-                if (viewModelAsT != null)
-                {
-                    action(viewModelAsT);
-                }
-            }
+            PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(_lastSelectedPage, activeAware => activeAware.IsActive = isActive);
         }
     }
 }
