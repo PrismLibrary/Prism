@@ -1,5 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Storage;
 using HelloWorld.Services;
 using Prism.Unity.Windows;
 
@@ -19,10 +23,29 @@ namespace HelloWorld
             this.InitializeComponent();
         }
 
-        protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
+        protected override Task OnActivateApplicationAsync(IActivatedEventArgs args)
         {
             NavigationService.Navigate("Main", null);
-            return Task.FromResult<object>(null);
+            return Task.CompletedTask;
+        }
+
+        protected override async Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
+        {
+            try
+            {
+                // Install the main VCD.
+                // Since there's no simple way to test that the VCD has been imported, or that it's your most recent
+                // version, it's not unreasonable to do this upon app load.
+                StorageFile vcdStorageFile = await Package.Current.InstalledLocation.GetFileAsync(@"VoiceCommands.xml");
+
+                await Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(vcdStorageFile);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Installing Voice Commands Failed: " + ex);
+            }
+
+            NavigationService.Navigate("Main", null);
         }
 
         protected override void ConfigureContainer()
