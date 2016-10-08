@@ -31,6 +31,7 @@ namespace Prism.Windows
         protected PrismApplication()
         {
             Suspending += OnSuspending;
+            Resuming += OnResuming;
             Logger = CreateLogger();
             if (Logger == null)
             {
@@ -494,6 +495,16 @@ namespace Prism.Windows
             {
                 IsSuspending = false;
             }
+        }
+
+        /// <summary>
+        /// Invoked when the application resumes from a suspended state.
+        /// </summary>
+        /// <param name="sender">The source of the suspend request.</param>
+        /// <param name="e">Details about the suspend request.</param>
+        private void OnResuming(object sender, object e)
+        {
+            NavigationService.RestoreSavedNavigation();
         }
 
         /// <summary>
