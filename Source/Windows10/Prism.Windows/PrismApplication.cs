@@ -21,7 +21,7 @@ namespace Prism.Windows
     /// </summary>
     public abstract class PrismApplication : Application
     {
-
+        private bool _handledOnResume;
         private bool _isRestoringFromTermination;
 
         /// <summary>
@@ -31,6 +31,8 @@ namespace Prism.Windows
         protected PrismApplication()
         {
             Suspending += OnSuspending;
+            Resuming += OnResuming;
+
             Logger = CreateLogger();
             if (Logger == null)
             {
@@ -39,6 +41,12 @@ namespace Prism.Windows
 
             Logger.Log("Created Logger", Category.Debug, Priority.Low);
         }
+
+        /// <summary>
+        /// Gets or sets whether the application triggers navigation restore on app resume.
+        /// Default = true
+        /// </summary>
+        protected bool RestoreNavigationStateOnResume { get; set; } = true;
 
         /// <summary>
         /// Gets the <see cref="ILoggerFacade"/> for the application.
@@ -142,7 +150,7 @@ namespace Prism.Windows
         /// </summary>
         protected virtual void ConfigureViewModelLocator()
         {
-            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => Resolve(type));
+            ViewModelLocationProvider.SetDefaultViewModelFactory(Resolve);
         }
 
         /// <summary>
@@ -152,9 +160,9 @@ namespace Prism.Windows
         /// <returns>The type of the page which corresponds to the specified token.</returns>
         protected virtual Type GetPageType(string pageToken)
         {
-            var assemblyQualifiedAppType = this.GetType().AssemblyQualifiedName;
+            var assemblyQualifiedAppType = GetType().AssemblyQualifiedName;
 
-            var pageNameWithParameter = assemblyQualifiedAppType.Replace(this.GetType().FullName, this.GetType().Namespace + ".Views.{0}Page");
+            var pageNameWithParameter = assemblyQualifiedAppType.Replace(GetType().FullName, GetType().Namespace + ".Views.{0}Page");
 
             var viewFullName = string.Format(CultureInfo.InvariantCulture, pageNameWithParameter, pageToken);
             var viewType = Type.GetType(viewFullName);
@@ -163,7 +171,7 @@ namespace Prism.Windows
             {
                 var resourceLoader = ResourceLoader.GetForCurrentView(Constants.InfrastructureResourceMapId);
                 throw new ArgumentException(
-                    string.Format(CultureInfo.InvariantCulture, resourceLoader.GetString("DefaultPageTypeLookupErrorMessage"), pageToken, this.GetType().Namespace + ".Views"),
+                    string.Format(CultureInfo.InvariantCulture, resourceLoader.GetString("DefaultPageTypeLookupErrorMessage"), pageToken, GetType().Namespace + ".Views"),
                     nameof(pageToken));
             }
 
@@ -187,10 +195,16 @@ namespace Prism.Windows
         /// <summary>
         /// Override this method with logic that will be performed when resuming after the application is initialized. 
         /// For example, refreshing user credentials.
+        /// 
+        /// This method is called after the navigation state is restored, triggering the OnNavigatedTo event on the active view model.
+        /// 
         /// Note: This is called whenever the app is resuming from suspend and terminate, but not during a fresh launch and 
-        /// not when resuming the app if it hasn't been suspended.
+        /// not when reactivating the app if it hasn't been suspended.
         /// </summary>
-        /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">
+        /// - The <see cref="IActivatedEventArgs"/> instance containing the event data if the app is activated.
+        /// - Null if the app is only suspended and resumed without reactivation 
+        /// </param>
         protected virtual Task OnResumeApplicationAsync(IActivatedEventArgs args)
         {
             return Task.CompletedTask;
@@ -223,7 +237,7 @@ namespace Prism.Windows
             {
                 await OnActivateApplicationAsync(args);
             }
-            else if (Window.Current.Content != null & _isRestoringFromTermination)
+            else if (Window.Current.Content != null && _isRestoringFromTermination && !_handledOnResume)
             {
                 await OnResumeApplicationAsync(args);
             }
@@ -323,7 +337,7 @@ namespace Prism.Windows
 
             if (ExtendedSplashScreenFactory != null)
             {
-                Page extendedSplashScreen = this.ExtendedSplashScreenFactory.Invoke(args.SplashScreen);
+                Page extendedSplashScreen = ExtendedSplashScreenFactory.Invoke(args.SplashScreen);
                 rootFrame.Content = extendedSplashScreen;
             }
 
@@ -494,6 +508,24 @@ namespace Prism.Windows
             {
                 IsSuspending = false;
             }
+        }
+
+        /// <summary>
+        /// Invoked when the application resumes from a suspended state.
+        /// If the app gets terminated after suspension, it will go through the OnLaunced or OnActivated events instead.
+        /// 
+        /// Restores the navigation state if <see cref="RestoreNavigationStateOnResume"/> is set (default true).
+        /// Then calls the <see cref="OnResumeApplicationAsync"/> as fire and forget.
+        /// </summary>
+        /// <param name="sender">The source of the suspend request.</param>
+        /// <param name="e">Details about the suspend request.</param>
+        private void OnResuming(object sender, object e)
+        {
+            if(RestoreNavigationStateOnResume)
+                NavigationService.RestoreSavedNavigation();
+
+            _handledOnResume = true;
+            OnResumeApplicationAsync(null); // explicit fire and forget, would lock the app if we await
         }
 
         /// <summary>
