@@ -110,7 +110,7 @@ namespace Prism.Windows
         public bool IsSuspending { get; private set; }
 
         /// <summary>
-        /// Override this method with logic that will be performed after the application is initialized when it is not resuming. For example, navigating to the application's home page.
+        /// Override this method with logic that will be performed after the application is initialized. For example, navigating to the application's home page.
         /// Note: This is called whenever the app is launched normally (start menu, taskbar, etc.) but not when resuming.
         /// </summary>
         /// <param name="args">The <see cref="LaunchActivatedEventArgs"/> instance containing the event data.</param>
@@ -325,7 +325,9 @@ namespace Prism.Windows
         /// <summary>
         /// Override this method to provide custom logic that determines whether the app should restore state from a previous session.
         /// By default, the app will only restore state when args.PreviousExecutionState is <see cref="ApplicationExecutionState"/>.Terminated.
-        /// Note: restoring from state will prevent OnLaunchApplicationAsync() from getting called, as that is only called during a fresh launch.
+        /// 
+        /// Note: restoring from state will prevent OnLaunchApplicationAsync() from getting called, 
+        /// as that is only called during a fresh launch. Restoring will trigger OnResumeApplicationAsync() instead.
         /// </summary>
         /// <returns>True if the app should restore state. False if the app should perform a fresh launch.</returns>
         protected virtual bool ShouldRestoreState(IActivatedEventArgs args) => args.PreviousExecutionState == ApplicationExecutionState.Terminated;

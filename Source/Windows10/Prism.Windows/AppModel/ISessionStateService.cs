@@ -97,6 +97,6 @@ namespace Prism.Windows.AppModel
         /// <param name="frame">The instance for which session state is desired.</param>
         /// <returns>A collection of state subject to the same serialization mechanism as
         /// <see cref="SessionState"/>.</returns>
-        Dictionary<String, Object> GetSessionStateForFrame(IFrameFacade frame);
+        Dictionary<string, object> GetSessionStateForFrame(IFrameFacade frame);
     }
 }
