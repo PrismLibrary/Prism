@@ -19,23 +19,23 @@
       <group targetFramework="uap10.0">
         <dependency id="Prism.Core" version="$coreVersion$" />
         <dependency id="CommonServiceLocator" version="1.3.0" />
-        <dependency id="System.Collections" version="4.0.10" />
-        <dependency id="System.ComponentModel" version="4.0.0" />
-        <dependency id="System.ComponentModel.Annotations" version="4.0.10" />
-        <dependency id="System.Diagnostics.Debug" version="4.0.10" />
-        <dependency id="System.Globalization" version="4.0.10" />
-        <dependency id="System.IO" version="4.0.10" />
-        <dependency id="System.Linq" version="4.0.0" />
-        <dependency id="System.ObjectModel" version="4.0.10" />
-        <dependency id="System.Reflection" version="4.0.10" />
-        <dependency id="System.Reflection.Extensions" version="4.0.0" />
-        <dependency id="System.Runtime" version="4.0.20" />
-        <dependency id="System.Runtime.InteropServices.WindowsRuntime" version="4.0.0" />
-        <dependency id="System.Runtime.Serialization.Xml" version="4.0.10" />
-        <dependency id="System.Runtime.WindowsRuntime" version="4.0.10" />
-        <dependency id="System.Threading" version="4.0.10" />
-        <dependency id="System.Threading.Tasks" version="4.0.10" />
-        <dependency id="System.Xml.XDocument" version="4.0.10" />
+        <dependency id="System.Collections" version="4.0.11" />
+        <dependency id="System.ComponentModel" version="4.0.1" />
+        <dependency id="System.ComponentModel.Annotations" version="4.1.0" />
+        <dependency id="System.Diagnostics.Debug" version="4.0.11" />
+        <dependency id="System.Globalization" version="4.0.11" />
+        <dependency id="System.IO" version="4.1.0" />
+        <dependency id="System.Linq" version="4.1.0" />
+        <dependency id="System.ObjectModel" version="4.0.12" />
+        <dependency id="System.Reflection" version="4.1.0" />
+        <dependency id="System.Reflection.Extensions" version="4.0.1" />
+        <dependency id="System.Runtime" version="4.1.0" />
+        <dependency id="System.Runtime.InteropServices.WindowsRuntime" version="4.0.1" />
+        <dependency id="System.Runtime.Serialization.Xml" version="4.1.1" />
+        <dependency id="System.Runtime.WindowsRuntime" version="4.0.11" />
+        <dependency id="System.Threading" version="4.0.11" />
+        <dependency id="System.Threading.Tasks" version="4.0.11" />
+        <dependency id="System.Xml.XDocument" version="4.0.11" />
       </group>
     </dependencies>
   </metadata>
