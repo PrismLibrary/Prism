@@ -58,7 +58,7 @@ namespace Prism.Windows.AppModel
             try
             {
                 // Save the navigation state for all registered frames
-                foreach (var weakFrameReference in _registeredFrames)
+                foreach (var weakFrameReference in RegisteredFrames)
                 {
                     IFrameFacade frame;
                     if (weakFrameReference.TryGetTarget(out frame))
@@ -78,7 +78,7 @@ namespace Prism.Windows.AppModel
                 using (var fileStream = await file.OpenAsync(FileAccessMode.ReadWrite))
                 {
                     sessionData.Seek(0, SeekOrigin.Begin);
-                    var provider = new DataProtectionProvider("LOCAL=user");
+                    var provider = new DataProtectionProvider(Constants.SessionDataProtectionProvider);
 
                     // Encrypt the session data and write it to disk.
                     await provider.ProtectStreamAsync(sessionData.AsInputStream(), fileStream);
@@ -92,6 +92,23 @@ namespace Prism.Windows.AppModel
         }
 
         /// <summary>
+        /// Determines whether previously saved <see cref="SessionState"/> exists.
+        /// </summary>
+        /// <returns>An asynchronous task that reflects whether or not previously saved <see cref="SessionState"/> exists.</returns>
+        public async Task<bool> CanRestoreSessionStateAsync()
+        {
+            try
+            {
+                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync(Constants.SessionStateFileName);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Restores previously saved <see cref="SessionState"/>.
         /// </summary>
         /// <returns>An asynchronous task that reflects when session state has been read. The
@@ -99,7 +116,7 @@ namespace Prism.Windows.AppModel
         /// completes.</returns>
         public async Task RestoreSessionStateAsync()
         {
-            _sessionState = new Dictionary<String, Object>();
+            _sessionState = new Dictionary<string, object>();
 
             try
             {
@@ -108,7 +125,7 @@ namespace Prism.Windows.AppModel
                 using (IInputStream inStream = await file.OpenSequentialReadAsync())
                 {
                     var memoryStream = new MemoryStream();
-                    var provider = new DataProtectionProvider("LOCAL=user");
+                    var provider = new DataProtectionProvider(Constants.SessionDataProtectionProvider);
 
                     // Decrypt the prevously saved session data.
                     await provider.UnprotectStreamAsync(inStream, memoryStream.AsOutputStream());
@@ -138,7 +155,7 @@ namespace Prism.Windows.AppModel
             try
             {
                 // Restore any registered frames to their saved state
-                foreach (var weakFrameReference in _registeredFrames)
+                foreach (var weakFrameReference in RegisteredFrames)
                 {
                     IFrameFacade frame;
                     if (weakFrameReference.TryGetTarget(out frame))
@@ -154,11 +171,11 @@ namespace Prism.Windows.AppModel
             }
         }
 
-        private static DependencyProperty FrameSessionStateKeyProperty =
-            DependencyProperty.RegisterAttached("_FrameSessionStateKey", typeof(String), typeof(SessionStateService), null);
-        private static DependencyProperty FrameSessionStateProperty =
-            DependencyProperty.RegisterAttached("_FrameSessionState", typeof(Dictionary<String, Object>), typeof(SessionStateService), null);
-        private static List<WeakReference<IFrameFacade>> _registeredFrames = new List<WeakReference<IFrameFacade>>();
+        private static readonly DependencyProperty FrameSessionStateKeyProperty =
+            DependencyProperty.RegisterAttached("_FrameSessionStateKey", typeof(string), typeof(SessionStateService), null);
+        private static readonly DependencyProperty FrameSessionStateProperty =
+            DependencyProperty.RegisterAttached("_FrameSessionState", typeof(Dictionary<string, object>), typeof(SessionStateService), null);
+        private static readonly List<WeakReference<IFrameFacade>> RegisteredFrames = new List<WeakReference<IFrameFacade>>();
 
         /// <summary>
         /// Registers a <see cref="Frame"/> instance to allow its navigation history to be saved to
@@ -172,9 +189,10 @@ namespace Prism.Windows.AppModel
         /// <see cref="SessionStateServiceException"/></param>
         /// <param name="sessionStateKey">A unique key into <see cref="SessionState"/> used to
         /// store navigation-related information.</param>
-        public void RegisterFrame(IFrameFacade frame, String sessionStateKey)
+        public void RegisterFrame(IFrameFacade frame, string sessionStateKey)
         {
-            if (frame == null) throw new ArgumentNullException("frame");
+            if (frame == null)
+                throw new ArgumentNullException(nameof(frame));
 
             var resourceLoader = ResourceLoader.GetForCurrentView(Constants.InfrastructureResourceMapId);
 
@@ -193,7 +211,7 @@ namespace Prism.Windows.AppModel
             // Use a dependency property to associate the session key with a frame, and keep a list of frames whose
             // navigation state should be managed
             frame.SetValue(FrameSessionStateKeyProperty, sessionStateKey);
-            _registeredFrames.Add(new WeakReference<IFrameFacade>(frame));
+            RegisteredFrames.Add(new WeakReference<IFrameFacade>(frame));
 
             // Check to see if navigation state can be restored
             RestoreFrameNavigationState(frame);
@@ -210,8 +228,8 @@ namespace Prism.Windows.AppModel
         {
             // Remove session state and remove the frame from the list of frames whose navigation
             // state will be saved (along with any weak references that are no longer reachable)
-            SessionState.Remove((String)frame.GetValue(FrameSessionStateKeyProperty));
-            _registeredFrames.RemoveAll((weakFrameReference) =>
+            SessionState.Remove((string)frame.GetValue(FrameSessionStateKeyProperty));
+            RegisteredFrames.RemoveAll(weakFrameReference =>
             {
                 IFrameFacade testFrame;
                 return !weakFrameReference.TryGetTarget(out testFrame) || testFrame == frame;
@@ -231,28 +249,28 @@ namespace Prism.Windows.AppModel
         /// <param name="frame">The instance for which session state is desired.</param>
         /// <returns>A collection of state, subject to the same serialization mechanism as
         /// <see cref="SessionState"/>.</returns>
-        public Dictionary<String, Object> GetSessionStateForFrame(IFrameFacade frame)
+        public Dictionary<string, object> GetSessionStateForFrame(IFrameFacade frame)
         {
             if (frame == null) throw new ArgumentNullException("frame");
 
-            var frameState = (Dictionary<String, Object>)frame.GetValue(FrameSessionStateProperty);
+            var frameState = (Dictionary<string, object>)frame.GetValue(FrameSessionStateProperty);
 
             if (frameState == null)
             {
-                var frameSessionKey = (String)frame.GetValue(FrameSessionStateKeyProperty);
+                var frameSessionKey = (string)frame.GetValue(FrameSessionStateKeyProperty);
                 if (frameSessionKey != null)
                 {
                     // Registered frames reflect the corresponding session state
                     if (!_sessionState.ContainsKey(frameSessionKey))
                     {
-                        _sessionState[frameSessionKey] = new Dictionary<String, Object>();
+                        _sessionState[frameSessionKey] = new Dictionary<string, object>();
                     }
-                    frameState = (Dictionary<String, Object>)_sessionState[frameSessionKey];
+                    frameState = (Dictionary<string, object>)_sessionState[frameSessionKey];
                 }
                 else
                 {
                     // Frames that aren't registered have transient state
-                    frameState = new Dictionary<String, Object>();
+                    frameState = new Dictionary<string, object>();
                 }
                 frame.SetValue(FrameSessionStateProperty, frameState);
             }
@@ -262,18 +280,19 @@ namespace Prism.Windows.AppModel
         private void RestoreFrameNavigationState(IFrameFacade frame)
         {
             var frameState = GetSessionStateForFrame(frame);
-            if (frameState.ContainsKey("Navigation"))
+            if (frameState.ContainsKey(Constants.SessionStateKeyNavigation))
             {
-                frame.SetNavigationState((String)frameState["Navigation"]);
+                frame.SetNavigationState((string)frameState[Constants.SessionStateKeyNavigation]);
             }
         }
 
         private void SaveFrameNavigationState(IFrameFacade frame)
         {
             var frameState = GetSessionStateForFrame(frame);
-            frameState["Navigation"] = frame.GetNavigationState();
+            frameState[Constants.SessionStateKeyNavigation] = frame.GetNavigationState();
         }
     }
+
     /// <summary>
     /// The exception that is thrown when a session state service error is detected.
     /// </summary>
