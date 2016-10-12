@@ -92,6 +92,23 @@ namespace Prism.Windows.AppModel
         }
 
         /// <summary>
+        /// Determines whether previously saved <see cref="SessionState"/> exists.
+        /// </summary>
+        /// <returns>An asynchronous task that reflects whether or not previously saved <see cref="SessionState"/> exists.</returns>
+        public async Task<bool> CanRestoreSessionStateAsync()
+        {
+            try
+            {
+                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync(Constants.SessionStateFileName);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Restores previously saved <see cref="SessionState"/>.
         /// </summary>
         /// <returns>An asynchronous task that reflects when session state has been read. The
