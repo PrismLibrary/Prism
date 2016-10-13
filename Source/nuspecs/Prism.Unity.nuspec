@@ -25,11 +25,7 @@
 
       <group targetFramework="uap10.0">
         <dependency id="Prism.Windows" version="$uwpVersion$" />
-        <dependency id="System.Diagnostics.Debug" version="4.0.11" />
         <dependency id="CommonServiceLocator" version="1.3.0" />
-        <dependency id="System.Globalization" version="4.0.11" />
-        <dependency id="System.Runtime" version="4.1.0" />
-        <dependency id="System.Threading.Tasks" version="4.0.11" />
         <dependency id="Unity" version="4.0.1" />
       </group>
 
