@@ -21,5 +21,19 @@ namespace Prism.Common
                 }
             }
         }
+
+        public static void DisposePage(Page page)
+        {
+            var viewModel = page.BindingContext as IDisposable;
+            if (viewModel != null)
+                viewModel.Dispose();
+
+            page.Behaviors.Clear();
+            page.BindingContext = null;
+
+            var disposablePage = page as IDisposable;
+            if (disposablePage != null)
+                disposablePage.Dispose();
+        }
     }
 }
