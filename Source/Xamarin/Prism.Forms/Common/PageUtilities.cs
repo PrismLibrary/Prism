@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Prism.Navigation;
+using System;
+using System.Linq;
 using Xamarin.Forms;
 
-namespace Prism.Navigation
+namespace Prism.Common
 {
     public static class PageUtilities
     {
@@ -26,7 +28,7 @@ namespace Prism.Navigation
         {
             try
             {
-                DisposeChildren(page);
+                DestroyChildren(page);
 
                 var viewModel = page.BindingContext as IDestroy;
                 viewModel?.Destroy();
@@ -43,7 +45,7 @@ namespace Prism.Navigation
             }
         }
 
-        private static void DisposeChildren(Page page)
+        private static void DestroyChildren(Page page)
         {
             if (page is MasterDetailPage)
             {
@@ -85,6 +87,72 @@ namespace Prism.Navigation
         {
             if (page != null)
                 InvokeViewAndViewModelAction<INavigationAware>(page, v => v.OnNavigatedTo(parameters));
+        }
+
+        public static Page GetOnNavigatedToTarget(Page page, Page mainPage, bool useModalNavigation)
+        {
+            Page target = null;
+
+            if (useModalNavigation)
+            {
+                var previousPage = GetPreviousPage(page, page.Navigation.ModalStack);
+
+                //MainPage is not included in the navigation stack, so if we can't find the previous page above
+                //let's assume they are going back to the MainPage
+                target = GetOnNavigatedToTargetFromChild(previousPage ?? mainPage);
+            }
+            else
+            {
+                target = GetPreviousPage(page, page.Navigation.NavigationStack);
+                if (target == null)
+                    target = GetOnNavigatedToTarget(page, mainPage, true);
+            }
+
+            return target;
+        }
+
+        public static Page GetOnNavigatedToTargetFromChild(Page target)
+        {
+            Page child = null;
+
+            if (target is MasterDetailPage)
+                child = ((MasterDetailPage)target).Detail;
+            else if (target is TabbedPage)
+                child = ((TabbedPage)target).CurrentPage;
+            else if (target is CarouselPage)
+                child = ((CarouselPage)target).CurrentPage;
+            else if (target is NavigationPage)
+                child = target.Navigation.NavigationStack.Last();
+
+            if (child != null)
+                target = GetOnNavigatedToTargetFromChild(child);
+
+            return target;
+        }
+
+        public static Page GetPreviousPage(Page currentPage, System.Collections.Generic.IReadOnlyList<Page> navStack)
+        {
+            Page previousPage = null;
+
+            int currentPageIndex = GetCurrentPageIndex(currentPage, navStack);
+            int previousPageIndex = currentPageIndex - 1;
+            if (navStack.Count >= 0 && previousPageIndex >= 0)
+                previousPage = navStack[previousPageIndex];
+
+            return previousPage;
+        }
+
+        public static int GetCurrentPageIndex(Page currentPage, System.Collections.Generic.IReadOnlyList<Page> navStack)
+        {
+            int stackCount = navStack.Count;
+            for (int x = 0; x < stackCount; x++)
+            {
+                var view = navStack[x];
+                if (view == currentPage)
+                    return x;
+            }
+
+            return stackCount - 1;
         }
     }
 }

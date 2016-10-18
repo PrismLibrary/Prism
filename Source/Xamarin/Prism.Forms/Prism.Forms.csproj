@@ -59,7 +59,7 @@
     <Compile Include="Behaviors\MultiPageActiveAwareBehavior{T}.cs" />
     <Compile Include="Navigation\IDestroy.cs" />
     <Compile Include="Navigation\PageNavigationSource.cs" />
-    <Compile Include="Navigation\PageUtilities.cs" />
+    <Compile Include="Common\PageUtilities.cs" />
     <Compile Include="IPlatformInitializer.cs" />
     <Compile Include="Navigation\INavigationPageOptions.cs" />
     <Compile Include="PrismApplicationBase.cs" />

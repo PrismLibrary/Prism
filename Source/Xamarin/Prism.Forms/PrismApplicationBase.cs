@@ -12,7 +12,8 @@ namespace Prism
 {
     public abstract class PrismApplicationBase<T> : Application
     {
-        IPlatformInitializer<T> _platformInitializer;
+        IPlatformInitializer<T> _platformInitializer = null;
+        Page _previousPage = null;
 
         /// <summary>
         /// The dependency injection container used to resolve objects
@@ -38,6 +39,7 @@ namespace Prism
 
         protected PrismApplicationBase(IPlatformInitializer<T> initializer = null)
         {
+            base.ModalPopping += PrismApplicationBase_ModalPopping;
             base.ModalPopped += PrismApplicationBase_ModalPopped;
 
             _platformInitializer = initializer;
@@ -148,6 +150,14 @@ namespace Prism
         /// </summary>
         protected abstract void RegisterTypes();
 
+        private void PrismApplicationBase_ModalPopping(object sender, ModalPoppingEventArgs e)
+        {
+            if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
+            {
+                _previousPage = PageUtilities.GetOnNavigatedToTarget(e.Modal, MainPage, true);
+            }
+        }
+
         private void PrismApplicationBase_ModalPopped(object sender, ModalPoppedEventArgs e)
         {
             if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
@@ -155,8 +165,9 @@ namespace Prism
                 var parameters = new NavigationParameters();
 
                 PageUtilities.OnNavigatedFrom(e.Modal, parameters);
-                //TODO: get new current page and call OnNavigatedTo
+                PageUtilities.OnNavigatedTo(_previousPage, parameters);
                 PageUtilities.DestroyPage(e.Modal);
+                _previousPage = null;
             }
         }
     }

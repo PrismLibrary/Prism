@@ -53,7 +53,7 @@ namespace Prism.Navigation
                     return false;
 
                 bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
-                Page previousPage = GetOnNavigatedToTarget(page, useModalForDoPop);                
+                Page previousPage = PageUtilities.GetOnNavigatedToTarget(page, _applicationProvider.MainPage, useModalForDoPop);                
 
                 var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
                 if (poppedPage != null)
@@ -442,72 +442,6 @@ namespace Prism.Navigation
                 useModalNavigation = !HasNavigationPageParent(currentPage);
 
             return useModalNavigation;
-        }
-
-        protected Page GetOnNavigatedToTarget(Page page, bool useModalNavigation)
-        {
-            Page target = null;
-
-            if (useModalNavigation)
-            {
-                var previousPage = GetPreviousPage(page, page.Navigation.ModalStack);
-
-                //MainPage is not included in the navigation stack, so if we can't find the previous page above
-                //let's assume they are going back to the MainPage
-                target = GetOnNavigatedToTargetFromChild(previousPage ?? _applicationProvider.MainPage);
-            }
-            else
-            {
-                target = GetPreviousPage(page, page.Navigation.NavigationStack);
-                if (target == null)
-                    target = GetOnNavigatedToTarget(page, true);
-            }
-
-            return target;
-        }
-
-        protected static Page GetOnNavigatedToTargetFromChild(Page target)
-        {
-            Page child = null;
-
-            if (target is MasterDetailPage)
-                child = ((MasterDetailPage)target).Detail;
-            else if (target is TabbedPage)
-                child = ((TabbedPage)target).CurrentPage;
-            else if (target is CarouselPage)
-                child = ((CarouselPage)target).CurrentPage;
-            else if (target is NavigationPage)
-                child = target.Navigation.NavigationStack.Last();
-
-            if (child != null)
-                target = GetOnNavigatedToTargetFromChild(child);
-
-            return target;
-        }
-
-        protected static Page GetPreviousPage(Page currentPage, IReadOnlyList<Page> navStack)
-        {
-            Page previousPage = null;
-
-            int currentPageIndex = GetCurrentPageIndex(currentPage, navStack);
-            int previousPageIndex = currentPageIndex - 1;
-            if (navStack.Count >= 0 && previousPageIndex >= 0)
-                previousPage = navStack[previousPageIndex];
-
-            return previousPage;
-        }
-
-        protected static int GetCurrentPageIndex(Page currentPage, IReadOnlyList<Page> navStack)
-        {
-            int stackCount = navStack.Count;
-            for (int x = 0; x < stackCount; x++)
-            {
-                var view = navStack[x];
-                if (view == currentPage)
-                    return x;
-            }
-
-            return stackCount - 1;
         }
 
         protected async Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated)

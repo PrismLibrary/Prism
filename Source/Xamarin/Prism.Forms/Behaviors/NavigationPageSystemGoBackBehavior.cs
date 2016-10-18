@@ -1,4 +1,5 @@
-﻿using Prism.Navigation;
+﻿using Prism.Common;
+using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.Behaviors
