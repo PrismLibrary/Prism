@@ -24,16 +24,58 @@ namespace Prism.Common
 
         public static void DisposePage(Page page)
         {
-            var viewModel = page.BindingContext as IDisposable;
-            if (viewModel != null)
-                viewModel.Dispose();
+            try
+            {
+                DisposeChildren(page);
 
-            page.Behaviors.Clear();
-            page.BindingContext = null;
+                var viewModel = page.BindingContext as IDisposable;
+                if (viewModel != null)
+                    viewModel.Dispose();
 
-            var disposablePage = page as IDisposable;
-            if (disposablePage != null)
-                disposablePage.Dispose();
+                page.ToolbarItems?.Clear();
+                page.Behaviors?.Clear();
+                page.BindingContext = null;
+
+                var disposablePage = page as IDisposable;
+                if (disposablePage != null)
+                    disposablePage.Dispose();
+            }
+            catch (ObjectDisposedException ex)
+            {
+                throw new ObjectDisposedException($"Cannot dipose {page}: {ex.Message}");
+            }
+        }
+
+        private static void DisposeChildren(Page page)
+        {
+            if (page is MasterDetailPage)
+            {
+                DisposePage(((MasterDetailPage)page).Detail);
+            }
+            else if (page is TabbedPage)
+            {
+                var tabbedPage = (TabbedPage)page;
+                foreach (var item in tabbedPage.Children)
+                {
+                    DisposePage(item);
+                }
+            }
+            else if (page is CarouselPage)
+            {
+                var carouselPage = (CarouselPage)page;
+                foreach (var item in carouselPage.Children)
+                {
+                    DisposePage(item);
+                }
+            }
+            else if (page is NavigationPage)
+            {
+                var navigationPage = (NavigationPage)page;
+                foreach (var item in navigationPage.Navigation.NavigationStack)
+                {
+                    DisposePage(item);
+                }
+            }
         }
     }
 }

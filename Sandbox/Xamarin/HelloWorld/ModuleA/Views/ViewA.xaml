@@ -5,8 +5,10 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ModuleA.Views.ViewA"
              Title="View A">
+  
   <StackLayout>
     <Label Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" />
     <Button Command="{Binding NavigateCommand}" Text="Navigate" />
   </StackLayout>
+
 </ContentPage>

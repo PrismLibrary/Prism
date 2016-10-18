@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Behaviors\BehaviorBase{T}.cs" />
     <Compile Include="Behaviors\CarouselPageActiveAwareBehavior.cs" />
+    <Compile Include="Behaviors\NavigationPageDisposeBehavior.cs" />
     <Compile Include="Behaviors\TabbedPageActiveAwareBehavior.cs" />
     <Compile Include="Behaviors\MultiPageActiveAwareBehavior{T}.cs" />
     <Compile Include="Common\PageUtilities.cs" />

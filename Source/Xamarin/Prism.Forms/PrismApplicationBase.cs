@@ -1,12 +1,11 @@
-﻿using Prism.Logging;
+﻿using Prism.Common;
+using Prism.Logging;
 using Prism.Modularity;
 using Prism.Navigation;
 using System.Linq;
 using Xamarin.Forms;
 #if TEST
 using Application = Prism.FormsApplication;
-#else
-using Xamarin.Forms;
 #endif
 
 namespace Prism
@@ -39,6 +38,8 @@ namespace Prism
 
         protected PrismApplicationBase(IPlatformInitializer<T> initializer = null)
         {
+            base.ModalPopped += PrismApplicationBase_ModalPopped;
+
             _platformInitializer = initializer;
             InitializeInternal();
         }
@@ -146,5 +147,10 @@ namespace Prism
         /// Used to register types with the container that will be used by your application.
         /// </summary>
         protected abstract void RegisterTypes();
+
+        private void PrismApplicationBase_ModalPopped(object sender, ModalPoppedEventArgs e)
+        {
+            PageUtilities.DisposePage(e.Modal);
+        }
     }
 }

@@ -201,7 +201,11 @@ namespace Prism.Navigation
                     var push = DoPush(currentPage, newRoot, false, animated);
 
                     if (clearNavStack)
-                        currentPage.Navigation.RemovePage(currentPage.Navigation.NavigationStack[0]);
+                    {
+                        var pageToRemove = currentPage.Navigation.NavigationStack[0];
+                        currentPage.Navigation.RemovePage(pageToRemove);
+                        PageUtilities.DisposePage(pageToRemove);
+                    }
 
                     await push;
                 });
@@ -304,6 +308,7 @@ namespace Prism.Navigation
                 {
                     currentPage.IsPresented = isPresented;
                     currentPage.Detail = newDetail;
+                    PageUtilities.DisposePage(detail);
                 });
                 return;
             }
@@ -378,7 +383,11 @@ namespace Prism.Navigation
 
         protected virtual void ApplyPageBehaviors(Page page)
         {
-            if (page is TabbedPage)
+            if (page is NavigationPage)
+            {
+                page.Behaviors.Add(new Behaviors.NavigationPageDisposeBehavior());
+            }
+            else if (page is TabbedPage)
             {
                 page.Behaviors.Add(new Behaviors.TabbedPageActiveAwareBehavior());
             }
