@@ -77,5 +77,17 @@ namespace Prism.Navigation
                 }
             }
         }
+
+        public static void OnNavigatedFrom(object page, NavigationParameters parameters)
+        {
+            if (page != null)
+                InvokeViewAndViewModelAction<INavigationAware>(page, v => v.OnNavigatedFrom(parameters));
+        }
+
+        public static void OnNavigatedTo(object page, NavigationParameters parameters)
+        {
+            if (page != null)
+                InvokeViewAndViewModelAction<INavigationAware>(page, v => v.OnNavigatedTo(parameters));
+        }
     }
 }

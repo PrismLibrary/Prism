@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace Prism.Behaviors
 {
-    public class NavigationPageDisposeBehavior : BehaviorBase<NavigationPage>
+    public class NavigationPageSystemGoBackBehavior : BehaviorBase<NavigationPage>
     {
         protected override void OnAttachedTo(NavigationPage bindable)
         {

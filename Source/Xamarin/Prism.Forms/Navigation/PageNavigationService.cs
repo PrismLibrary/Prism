@@ -41,21 +41,20 @@ namespace Prism.Navigation
             try
             {
                 var page = GetCurrentPage();
-                var segmentParameters = GetSegmentParameters(null, parameters);
+                var segmentParameters = UriParsingHelper.GetSegmentParameters(null, parameters);
 
                 var canNavigate = await CanNavigateAsync(page, segmentParameters);
                 if (!canNavigate)
                     return false;
 
                 bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
-                Page previousPage = GetOnNavigatedToTarget(page, useModalForDoPop);
-
-                OnNavigatedFrom(page, segmentParameters);
+                Page previousPage = GetOnNavigatedToTarget(page, useModalForDoPop);                
 
                 var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
                 if (poppedPage != null)
                 {
-                    OnNavigatedTo(previousPage, segmentParameters);
+                    PageUtilities.OnNavigatedFrom(page, segmentParameters);
+                    PageUtilities.OnNavigatedTo(previousPage, segmentParameters);
                     return true;
                 }
             }
@@ -342,20 +341,20 @@ namespace Prism.Navigation
 
         protected static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Func<Task> navigationAction = null, Action onNavigationActionCompleted = null)
         {
-            var segmentPrameters = GetSegmentParameters(toSegment, parameters);
+            var segmentPrameters = UriParsingHelper.GetSegmentParameters(toSegment, parameters);
 
             var canNavigate = await CanNavigateAsync(fromPage, segmentPrameters);
             if (!canNavigate)
                 return;
 
-            OnNavigatedFrom(fromPage, segmentPrameters);
-
             if (navigationAction != null)
                 await navigationAction();
 
+            PageUtilities.OnNavigatedFrom(fromPage, segmentPrameters);
+
             onNavigationActionCompleted?.Invoke();
 
-            OnNavigatedTo(toPage, segmentPrameters);
+            PageUtilities.OnNavigatedTo(toPage, segmentPrameters);
         }
 
         protected abstract Page CreatePage(string segmentName);
@@ -385,7 +384,7 @@ namespace Prism.Navigation
         {
             if (page is NavigationPage)
             {
-                page.Behaviors.Add(new Behaviors.NavigationPageDisposeBehavior());
+                page.Behaviors.Add(new Behaviors.NavigationPageSystemGoBackBehavior());
             }
             else if (page is TabbedPage)
             {
@@ -547,48 +546,6 @@ namespace Prism.Navigation
             }
 
             return true;
-        }
-
-        protected static void OnNavigatedFrom(object page, NavigationParameters parameters)
-        {
-            if (page != null)
-                InvokeOnNavigationAwareElement(page, v => v.OnNavigatedFrom(parameters));
-        }
-
-        protected static void OnNavigatedTo(object page, NavigationParameters parameters)
-        {
-            if (page != null)
-                InvokeOnNavigationAwareElement(page, v => v.OnNavigatedTo(parameters));
-        }
-
-        protected static void InvokeOnNavigationAwareElement(object item, Action<INavigationAware> invocation)
-        {
-            var navigationAwareItem = item as INavigationAware;
-            if (navigationAwareItem != null)
-                invocation(navigationAwareItem);
-
-            var bindableObject = item as BindableObject;
-            if (bindableObject != null)
-            {
-                var navigationAwareDataContext = bindableObject.BindingContext as INavigationAware;
-                if (navigationAwareDataContext != null)
-                    invocation(navigationAwareDataContext);
-            }
-        }
-
-        protected static NavigationParameters GetSegmentParameters(string uriSegment, NavigationParameters parameters)
-        {
-            var navParameters = UriParsingHelper.GetSegmentParameters(uriSegment);
-
-            if (parameters != null)
-            {
-                foreach (KeyValuePair<string, object> navigationParameter in parameters)
-                {
-                    navParameters.Add(navigationParameter.Key, navigationParameter.Value);
-                }
-            }
-
-            return navParameters;
         }
 
         protected virtual Page GetCurrentPage()
