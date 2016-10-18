@@ -106,6 +106,7 @@ namespace Prism.Autofac
             builder.Register(ctx => new EventAggregator()).As<IEventAggregator>().SingleInstance();
             builder.Register(ctx => new DependencyService()).As<IDependencyService>().SingleInstance();
             builder.Register(ctx => new PageDialogService(ctx.Resolve<IApplicationProvider>())).As<IPageDialogService>().SingleInstance();
+            builder.Register(ctx => new DeviceService()).As<IDeviceService>().SingleInstance();
 
             builder.Update(Container);
         }

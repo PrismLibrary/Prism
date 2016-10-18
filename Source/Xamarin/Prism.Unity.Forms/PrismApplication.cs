@@ -71,6 +71,7 @@ namespace Prism.Unity
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDependencyService, DependencyService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IPageDialogService, PageDialogService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IDeviceService, DeviceService>(new ContainerControlledLifetimeManager());
         }
     }
 }
