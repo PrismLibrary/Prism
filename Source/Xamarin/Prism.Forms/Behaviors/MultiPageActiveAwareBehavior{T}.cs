@@ -1,4 +1,4 @@
-﻿using Prism.Common;
+﻿using Prism.Navigation;
 using System;
 using Xamarin.Forms;
 

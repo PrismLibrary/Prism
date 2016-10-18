@@ -46,8 +46,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Common\PageNavigationInfoFixture.cs" />
-    <Compile Include="Common\PageNavigationRegistryFixture.cs" />
+    <Compile Include="Navigation\PageNavigationInfoFixture.cs" />
+    <Compile Include="Navigation\PageNavigationRegistryFixture.cs" />
     <Compile Include="Common\UriParsingHelperFixture.cs" />
     <Compile Include="Mocks\ApplicationProviderMock.cs" />
     <Compile Include="Mocks\PageNavigationContainerMock.cs" />

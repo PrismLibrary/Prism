@@ -1,9 +1,9 @@
-﻿using Prism.Common;
-using Prism.Forms.Tests.Mocks.Views;
+﻿using Prism.Forms.Tests.Mocks.Views;
+using Prism.Navigation;
 using System.Reflection;
 using Xunit;
 
-namespace Prism.Forms.Tests.Common
+namespace Prism.Forms.Tests.Navigation
 {
     public class PageNavigationRegistryFixture
     {

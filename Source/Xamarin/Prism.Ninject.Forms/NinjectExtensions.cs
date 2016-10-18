@@ -1,8 +1,8 @@
 ﻿using System;
 using Ninject;
 using Xamarin.Forms;
-using Prism.Common;
 using Prism.Mvvm;
+using Prism.Navigation;
 
 namespace Prism.Ninject
 {

@@ -1,7 +1,7 @@
 ﻿using Prism.Navigation;
 using System;
 
-namespace Prism.Common
+namespace Prism.Navigation
 {
     public class PageNavigationInfo
     {

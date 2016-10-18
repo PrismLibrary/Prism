@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace Prism.Common
+namespace Prism.Navigation
 {
     public static class PageUtilities
     {

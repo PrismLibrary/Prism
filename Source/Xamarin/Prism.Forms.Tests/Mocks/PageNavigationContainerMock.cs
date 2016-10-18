@@ -1,5 +1,5 @@
-﻿using Prism.Common;
-using Prism.Forms.Tests.Common;
+﻿using Prism.Forms.Tests.Navigation;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 
