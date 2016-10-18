@@ -80,6 +80,7 @@ namespace Prism.DryIoc
             Container.Register<IEventAggregator, EventAggregator>(Reuse.Singleton);
             Container.Register<IDependencyService, DependencyService>(Reuse.Singleton);
             Container.Register<IPageDialogService, PageDialogService>(Reuse.Singleton);
+            Container.Register<IDeviceService, DeviceService>(Reuse.Singleton);
         }
 
         protected override void InitializeModules()

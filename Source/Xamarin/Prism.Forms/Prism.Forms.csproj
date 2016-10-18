@@ -85,6 +85,8 @@
     <Compile Include="Navigation\NavigationParameters.cs" />
     <Compile Include="Navigation\PageNavigationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DeviceService.cs" />
+    <Compile Include="Services\IDeviceService.cs" />
     <Compile Include="Services\PageDialogService\ActionSheetButton.cs" />
     <Compile Include="Services\DependencyService.cs" />
     <Compile Include="Services\PageDialogService\IActionSheetButton.cs" />
