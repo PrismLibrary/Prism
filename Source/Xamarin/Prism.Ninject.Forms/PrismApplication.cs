@@ -73,6 +73,7 @@ namespace Prism.Ninject
             Container.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
             Container.Bind<IDependencyService>().To<DependencyService>().InSingletonScope();
             Container.Bind<IPageDialogService>().To<PageDialogService>().InSingletonScope();
+            Container.Bind<IDeviceService>().To<DeviceService>().InSingletonScope();
         }
     }
 }
