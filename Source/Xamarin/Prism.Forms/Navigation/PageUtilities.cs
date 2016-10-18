@@ -22,27 +22,24 @@ namespace Prism.Navigation
             }
         }
 
-        public static void DisposePage(Page page)
+        public static void DestroyPage(Page page)
         {
             try
             {
                 DisposeChildren(page);
 
-                var viewModel = page.BindingContext as IDisposable;
-                if (viewModel != null)
-                    viewModel.Dispose();
+                var viewModel = page.BindingContext as IDestroy;
+                viewModel?.Destroy();
 
-                page.ToolbarItems?.Clear();
                 page.Behaviors?.Clear();
                 page.BindingContext = null;
 
-                var disposablePage = page as IDisposable;
-                if (disposablePage != null)
-                    disposablePage.Dispose();
+                var destroyPage = page as IDestroy;
+                destroyPage?.Destroy();
             }
-            catch (ObjectDisposedException ex)
+            catch (Exception ex)
             {
-                throw new ObjectDisposedException($"Cannot dipose {page}: {ex.Message}");
+                throw new Exception($"Cannot destroy {page}: {ex.Message}");
             }
         }
 
@@ -50,14 +47,14 @@ namespace Prism.Navigation
         {
             if (page is MasterDetailPage)
             {
-                DisposePage(((MasterDetailPage)page).Detail);
+                DestroyPage(((MasterDetailPage)page).Detail);
             }
             else if (page is TabbedPage)
             {
                 var tabbedPage = (TabbedPage)page;
                 foreach (var item in tabbedPage.Children)
                 {
-                    DisposePage(item);
+                    DestroyPage(item);
                 }
             }
             else if (page is CarouselPage)
@@ -65,7 +62,7 @@ namespace Prism.Navigation
                 var carouselPage = (CarouselPage)page;
                 foreach (var item in carouselPage.Children)
                 {
-                    DisposePage(item);
+                    DestroyPage(item);
                 }
             }
             else if (page is NavigationPage)
@@ -73,7 +70,7 @@ namespace Prism.Navigation
                 var navigationPage = (NavigationPage)page;
                 foreach (var item in navigationPage.Navigation.NavigationStack)
                 {
-                    DisposePage(item);
+                    DestroyPage(item);
                 }
             }
         }

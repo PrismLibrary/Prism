@@ -150,7 +150,14 @@ namespace Prism
 
         private void PrismApplicationBase_ModalPopped(object sender, ModalPoppedEventArgs e)
         {
-            PageUtilities.DisposePage(e.Modal);
+            if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
+            {
+                var parameters = new NavigationParameters();
+
+                PageUtilities.OnNavigatedFrom(e.Modal, parameters);
+                //TODO: get new current page and call OnNavigatedTo
+                PageUtilities.DestroyPage(e.Modal);
+            }
         }
     }
 }

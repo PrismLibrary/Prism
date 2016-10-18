@@ -19,7 +19,13 @@ namespace Prism.Behaviors
 
         private void NavigationPage_Popped(object sender, NavigationEventArgs e)
         {
-            PageUtilities.DisposePage(e.Page);
+            if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
+            {
+                var parameters = new NavigationParameters();
+                PageUtilities.OnNavigatedFrom(e.Page, parameters);
+                PageUtilities.OnNavigatedTo(AssociatedObject.CurrentPage, parameters);
+                PageUtilities.DestroyPage(e.Page);
+            }            
         }
     }
 }

@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Prism.Navigation;
+using System;
 using Xamarin.Forms;
 
 namespace ModuleA.Views
 {
-    public partial class ViewB : ContentPage, IDisposable
+    public partial class ViewB : ContentPage, IDestroy
     {
         public ViewB()
         {
             InitializeComponent();
         }
 
-        public void Dispose()
+        public void Destroy()
         {
             
         }

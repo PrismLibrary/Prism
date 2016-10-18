@@ -13,6 +13,9 @@ namespace Prism.Navigation
     /// </summary>
     public abstract class PageNavigationService : INavigationService, IPageAware
     {
+        //not sure I like this static property, think about this a little more
+        protected internal static PageNavigationSource NavigationSource { get; protected set; } = PageNavigationSource.Device;
+
         protected IApplicationProvider _applicationProvider;
         protected ILoggerFacade _logger;
 
@@ -40,6 +43,8 @@ namespace Prism.Navigation
         {
             try
             {
+                NavigationSource = PageNavigationSource.NavigationService;
+
                 var page = GetCurrentPage();
                 var segmentParameters = UriParsingHelper.GetSegmentParameters(null, parameters);
 
@@ -55,6 +60,7 @@ namespace Prism.Navigation
                 {
                     PageUtilities.OnNavigatedFrom(page, segmentParameters);
                     PageUtilities.OnNavigatedTo(previousPage, segmentParameters);
+                    PageUtilities.DestroyPage(poppedPage);
                     return true;
                 }
             }
@@ -62,6 +68,10 @@ namespace Prism.Navigation
             {
                 _logger.Log(e.ToString(), Category.Exception, Priority.High);
                 return false;
+            }
+            finally
+            {
+                NavigationSource = PageNavigationSource.Device;
             }
 
             return false;
@@ -92,12 +102,26 @@ namespace Prism.Navigation
         /// </example>
         public virtual Task NavigateAsync(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            var navigationSegments = UriParsingHelper.GetUriSegments(uri);
+            try
+            {
+                NavigationSource = PageNavigationSource.NavigationService;
 
-            if (uri.IsAbsoluteUri)
-                return ProcessNavigationForAbsoulteUri(navigationSegments, parameters, useModalNavigation, animated);
-            else
-                return ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, useModalNavigation, animated);
+                var navigationSegments = UriParsingHelper.GetUriSegments(uri);
+
+                if (uri.IsAbsoluteUri)
+                    return ProcessNavigationForAbsoulteUri(navigationSegments, parameters, useModalNavigation, animated);
+                else
+                    return ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, useModalNavigation, animated);
+            }
+            catch (Exception e)
+            {
+                _logger.Log(e.ToString(), Category.Exception, Priority.High);
+                return Task.FromResult<object>(null);
+            }
+            finally
+            {
+                NavigationSource = PageNavigationSource.Device;
+            }
         }
 
         protected virtual async Task ProcessNavigation(Page currentPage, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -203,7 +227,7 @@ namespace Prism.Navigation
                     {
                         var pageToRemove = currentPage.Navigation.NavigationStack[0];
                         currentPage.Navigation.RemovePage(pageToRemove);
-                        PageUtilities.DisposePage(pageToRemove);
+                        PageUtilities.DestroyPage(pageToRemove);
                     }
 
                     await push;
@@ -307,7 +331,7 @@ namespace Prism.Navigation
                 {
                     currentPage.IsPresented = isPresented;
                     currentPage.Detail = newDetail;
-                    PageUtilities.DisposePage(detail);
+                    PageUtilities.DestroyPage(detail);
                 });
                 return;
             }
