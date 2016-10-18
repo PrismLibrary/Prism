@@ -34,6 +34,16 @@ namespace Prism.Services
         void OnPlatform(Action iOS = null, Action android = null, Action winPhone = null, Action defaultAction = null);
 
         /// <summary>
+        /// Returns different values depending on the Platform (OS) that Xamarin.Forms is working.
+        /// </summary>
+        /// <typeparam name="T">Type of value to be returned</typeparam>
+        /// <param name="iOS">The value for iOS</param>
+        /// <param name="android">The value for Android</param>
+        /// <param name="winPhone">The value for WinPhone</param>
+        /// <returns>The value for the current Platform (OS)</returns>
+        T OnPlatform<T>(T iOS, T android, T winPhone);
+
+        /// <summary>
         /// Starts a recurring timer using the Device clock capabilities.
         /// </summary>
         /// <param name="interval">The interval between invocations of the callback </param>

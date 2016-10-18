@@ -46,6 +46,19 @@ namespace Prism.Services
         }
 
         /// <summary>
+        /// Returns different values depending on the Platform (OS) that Xamarin.Forms is working.
+        /// </summary>
+        /// <typeparam name="T">Type of value to be returned</typeparam>
+        /// <param name="iOS">The value for iOS</param>
+        /// <param name="android">The value for Android</param>
+        /// <param name="winPhone">The value for WinPhone</param>
+        /// <returns>The value for the current Platform (OS)</returns>
+        public T OnPlatform<T>(T iOS, T android, T winPhone)
+        {
+            return Device.OnPlatform<T>(iOS, android, winPhone);
+        }
+
+        /// <summary>
         /// Starts a recurring timer using the Device clock capabilities.
         /// </summary>
         /// <param name="interval">The interval between invocations of the callback </param>
