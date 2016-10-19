@@ -131,13 +131,13 @@
   </ItemGroup>
   <ItemGroup>
     <VSTemplate Include="PrismUnityApp.vstemplate">
-      <OutputSubPath>Prism\Forms</OutputSubPath>
+      <OutputSubPath>Prism\Xamarin.Forms</OutputSubPath>
     </VSTemplate>
   </ItemGroup>
   <ItemGroup>
     <None Include="UnityApp.UWP\UnityAppTemplate.UWP.csproj" />
     <VSTemplate Include="UnityApp.UWP\UnityApp.UWP.vstemplate">
-      <OutputSubPath>Prism/Forms</OutputSubPath>
+      <OutputSubPath>Prism/Xamarin.Forms</OutputSubPath>
     </VSTemplate>
     <None Include="UnityApp.UWP\__TemplateIcon.ico" />
     <None Include="UnityApp.UWP\Properties\Default.rd.xml" />
@@ -149,7 +149,7 @@
     <None Include="UnityApp.UWP\Assets\StoreLogo.png" />
     <None Include="UnityApp.UWP\Assets\Wide310x150Logo.scale-200.png" />
     <VSTemplate Include="UnityApp.Windows\UnityApp.Windows.vstemplate">
-      <OutputSubPath>Prism/Forms</OutputSubPath>
+      <OutputSubPath>Prism/Xamarin.Forms</OutputSubPath>
     </VSTemplate>
     <None Include="UnityApp.Windows\UnityAppTemplate.Windows.csproj" />
     <None Include="UnityApp.Windows\__TemplateIcon.ico" />
@@ -167,7 +167,7 @@
     <None Include="UnityApp.Droid\Resources\values\colors.xml" />
     <None Include="UnityApp.Droid\Resources\values\styles.xml" />
     <VSTemplate Include="UnityApp.Droid\UnityApp.Droid.vstemplate">
-      <OutputSubPath>Prism/Forms</OutputSubPath>
+      <OutputSubPath>Prism/Xamarin.Forms</OutputSubPath>
     </VSTemplate>
     <None Include="UnityApp.iOS\Entitlements.plist" />
     <None Include="UnityApp.iOS\Info.plist" />
@@ -188,7 +188,7 @@
     <None Include="UnityApp.iOS\Resources\Icon-Small.png" />
     <None Include="UnityApp.Droid\__TemplateIcon.ico" />
     <VSTemplate Include="UnityApp.iOS\UnityApp.iOS.vstemplate">
-      <OutputSubPath>Prism/Forms</OutputSubPath>
+      <OutputSubPath>Prism/Xamarin.Forms</OutputSubPath>
     </VSTemplate>
     <None Include="UnityApp.iOS\UnityAppTemplate.iOS.csproj" />
     <Content Include="UnityApp.iOS\__TemplateIcon.ico" />
@@ -204,7 +204,7 @@
     <None Include="UnityApp.WinPhone\Assets\StoreLogo.scale-240.png" />
     <None Include="UnityApp.WinPhone\Assets\WideLogo.scale-240.png" />
     <VSTemplate Include="UnityApp.WinPhone\UnityApp.WinPhone.vstemplate">
-      <OutputSubPath>Prism/Forms</OutputSubPath>
+      <OutputSubPath>Prism/Xamarin.Forms</OutputSubPath>
     </VSTemplate>
     <None Include="UnityApp\UnityAppTemplate.csproj">
       <SubType>Designer</SubType>
