@@ -22,7 +22,7 @@
         </Literal>
       </Declarations>
       <Code Language="csharp">
-        <![CDATA[public DelegateCommand<$parameterType$> $CommandName$ { get; private set; } $end$]]>
+        <![CDATA[public DelegateCommand<$parameterType$> $CommandName$Command => new DelegateCommand<$parameterType$>($CommandName$, Can$CommandName$);]]>
       </Code>
     </Snippet>
   </CodeSnippet>
