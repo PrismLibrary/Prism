@@ -97,27 +97,9 @@ We strongly encourage you to get involved and help us evolve the code base.
 - You can see what our expectations are for pull requests [here](https://github.com/PrismLibrary/Prism/blob/master/.github/CONTRIBUTING.md).
 
 #Moving to Prism 6 from Previous Releases
-As part of taking over the code base from Microsoft and moving towards Prism 6, there are a number of breaking changes users of Prism 5 or Prism for Windows Runtime will have to deal with. Those changes are summarized below.
+As part of taking over the code base from Microsoft and moving towards Prism 6, there are a number of breaking changes users of Prism 5 or Prism for Windows Runtime will have to deal with. Those changes can be found in the release notes history.
 
-[Current Release Notes](https://github.com/PrismLibrary/Prism/wiki/Release-Notes---6.1.0)
-
-##Breaking Changes
-- Removed all types that were marked as "Obsolete" in Prism 5
-- Removed IView interface
-- Changed namespaces to remove Microsoft namespaces
-- Moved a number of types around to better organize and to get as much into a single Portable Class Library as possible
-- ViewModelLocator naming convention changes: [Name]View now requires [Name]ViewModel.  No longer [Name]ViewViewModel
-
-###Prism for UWP Preview
-- Prism for UWP is a port of the Prism for Windows Runtime 2.0 release
-- Removed SettingsPane functionality from PrismApplication because it is deprecated in UWP
-- Visual State management parts of VisualStateAwarePage were removed and it is now renamed to SessionStateAwarePage. 
-
-#Prism for Xamarin.Forms Preview
-Check out the new Prism for Xamarin.Forms Preview:
-* Prism.Forms 5.7.0 Preview - http://brianlagunas.com/first-look-at-the-prism-for-xamarin-forms-preview/
-* Prism.Forms 6.2.0 Preview - http://brianlagunas.com/prism-for-xamarin-forms-6-2-0-preview/
-* Prism.Forms 6.2.0 Preview 3 - http://brianlagunas.com/prism-for-xamarin-forms-6-2-0-preview-3/
+[Current Release Notes](https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.2.0)
 
 ### .NET Foundation
 
