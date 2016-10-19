@@ -2,7 +2,7 @@
 using Mono.Addins;
 using Mono.Addins.Description;
 
-[assembly:Addin ("PrismTemplatePack", Namespace = "Prism.Extensibility", Version = "1.3")]
+[assembly:Addin ("PrismTemplatePack", Namespace = "Prism.Extensibility", Version = "1.4")]
 
 [assembly:AddinName ("Prism Template Pack")]
 [assembly:AddinCategory ("IDE extensions")]

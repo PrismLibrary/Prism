@@ -1,5 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="TemplatePack-XamarinStudio/Properties/Manifest.addin.xml">
+    <Files>
+      <File FileName="TemplatePack-XamarinStudio/Properties/AssemblyInfo.cs" Line="1" Column="1" />
+      <File FileName="TemplatePack-XamarinStudio/Properties/AddinInfo.cs" Line="14" Column="80" />
+      <File FileName="TemplatePack-XamarinStudio/packages.config" Line="1" Column="1" />
+      <File FileName="TemplatePack-XamarinStudio/Snippets/PrismCodeTemplates.xml" Line="1" Column="1" />
+      <File FileName="TemplatePack-XamarinStudio/Properties/Manifest.addin.xml" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.TemplatePack-XamarinStudio PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

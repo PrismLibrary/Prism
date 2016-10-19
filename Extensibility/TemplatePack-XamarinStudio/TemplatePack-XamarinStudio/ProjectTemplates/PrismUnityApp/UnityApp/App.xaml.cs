@@ -5,6 +5,8 @@ namespace ${Namespace}
 {
 	public partial class App : PrismApplication
 	{
+		public App(IPlatformInitializer initializer = null) : base(initializer) { }
+
 		protected override void OnInitialized()
 		{
 			InitializeComponent();
