@@ -46,13 +46,11 @@ namespace Prism.VisualStudio.Wizards
                 {
                     ProjectItem appXamlCS = item.ProjectItems.Item(1);
                     EditAppRegisterTypesForNavigation(appXamlCS.FileCodeModel.CodeElements);
-                    item.Save();
                 }
 
                 if (item.Name =="App.cs")
                 {
                     EditAppRegisterTypesForNavigation(item.FileCodeModel.CodeElements);
-                    item.Save();
                 }
             }
         }
