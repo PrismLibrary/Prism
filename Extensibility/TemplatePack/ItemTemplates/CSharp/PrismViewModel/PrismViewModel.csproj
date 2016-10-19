@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <VSTemplate Include="PrismViewModel.vstemplate">
-      <OutputSubPath>Prism</OutputSubPath>
+      <OutputSubPath>Prism\Code</OutputSubPath>
     </VSTemplate>
   </ItemGroup>
   <ItemGroup>

@@ -14,4 +14,8 @@
     <ProjectItem ItemType="EmbeddedResource" CustomTool="MSBuild:UpdateDesignTimeXaml" TargetFileName="$fileinputname$.xaml" ReplaceParameters="true">PrismNavigationPage.xaml</ProjectItem>
     <ProjectItem SubType="Code" TargetFileName="$fileinputname$.xaml.cs" ReplaceParameters="true">PrismNavigationPage.xaml.cs</ProjectItem>
   </TemplateContent>
+  <WizardExtension>
+    <Assembly>Prism.VisualStudio.Wizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a733e2c14bc2eb81</Assembly>
+    <FullClassName>Prism.VisualStudio.Wizards.CreateViewModelForViewWizard</FullClassName>
+  </WizardExtension>
 </VSTemplate>
