@@ -35,25 +35,39 @@ namespace Prism.VisualStudio.Wizards
             Array activeProjects = (Array)_dte.ActiveSolutionProjects;
             Project activeProject = (Project)activeProjects.GetValue(0);
 
-            ProjectItem viewModelsFolder = activeProject.ProjectItems.Item("ViewModels");
-            if (viewModelsFolder != null)
+            foreach(ProjectItem item in activeProject.ProjectItems)
             {
-                viewModelsFolder.ProjectItems.AddFromTemplate(templatePath, $"{_viewModelName}.cs");
-            }
+                if (item.Name == "ViewModels" && item.Kind == Constants.vsProjectItemKindPhysicalFolder)
+                {
+                    item.ProjectItems.AddFromTemplate(templatePath, $"{_viewModelName}.cs");
+                }
 
-            ProjectItem appXaml = activeProject.ProjectItems.Item("App.xaml");
-            if (appXaml != null)
-            {
-                ProjectItem appXamlCS = appXaml.ProjectItems.Item(1);
-                EditAppRegisterTypesForNavigation(appXamlCS.FileCodeModel.CodeElements);
-                return;
+                if (item.Name == "App.xaml")
+                {
+                    ProjectItem appXamlCS = item.ProjectItems.Item(1);
+                    EditAppRegisterTypesForNavigation(appXamlCS.FileCodeModel.CodeElements);
+                    item.Save();
+                }
+
+                if (item.Name =="App.cs")
+                {
+                    EditAppRegisterTypesForNavigation(item.FileCodeModel.CodeElements);
+                    item.Save();
+                }
             }
-            
-            ProjectItem app = activeProject.ProjectItems.Item("App.cs");
-            if (app != null)
-            {
-                EditAppRegisterTypesForNavigation(app.FileCodeModel.CodeElements);
-            }
+        }
+
+        public void RunStarted(object automationObject, Dictionary<string, string> replacementsDictionary, WizardRunKind runKind, object[] customParams)
+        {
+            _dte = automationObject as EnvDTE.DTE;
+            _viewName = replacementsDictionary["$safeitemname$"];
+            _viewModelName = $"{_viewName}ViewModel";
+            _templatesDirectory = Path.GetDirectoryName(customParams[0] as string);
+        }
+
+        public bool ShouldAddProjectItem(string filePath)
+        {
+            return true;
         }
 
         void EditAppRegisterTypesForNavigation(CodeElements codeElements)
@@ -81,19 +95,6 @@ namespace Prism.VisualStudio.Wizards
             }
 
             return null;
-        }
-
-        public void RunStarted(object automationObject, Dictionary<string, string> replacementsDictionary, WizardRunKind runKind, object[] customParams)
-        {
-            _dte = automationObject as EnvDTE.DTE;
-            _viewName = replacementsDictionary["$safeitemname$"];
-            _viewModelName = $"{_viewName}ViewModel";
-            _templatesDirectory = Path.GetDirectoryName(customParams[0] as string);
-        }
-
-        public bool ShouldAddProjectItem(string filePath)
-        {
-            return true;
         }
     }
 }

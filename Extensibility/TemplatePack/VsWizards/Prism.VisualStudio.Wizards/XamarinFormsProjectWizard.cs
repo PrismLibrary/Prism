@@ -1,7 +1,9 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.TemplateWizard;
 using Prism.VisualStudio.Wizards.Design;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Prism.VisualStudio.Wizards
 {
@@ -49,15 +51,28 @@ namespace Prism.VisualStudio.Wizards
 
         public void RunStarted(object automationObject, Dictionary<string, string> replacementsDictionary, WizardRunKind runKind, object[] customParams)
         {
-            _dte = automationObject as EnvDTE.DTE;
-            _projectName = replacementsDictionary["$safeprojectname$"];
-            _container = replacementsDictionary["$container$"];
-            _solutionDir = System.IO.Path.GetDirectoryName(replacementsDictionary["$destinationdirectory$"]);
-            _templateDir = System.IO.Path.GetDirectoryName(customParams[0] as string);
+            try
+            {
+                _dte = automationObject as EnvDTE.DTE;
+                _projectName = replacementsDictionary["$safeprojectname$"];
+                _container = replacementsDictionary["$container$"];
+                _solutionDir = System.IO.Path.GetDirectoryName(replacementsDictionary["$destinationdirectory$"]);
+                _templateDir = System.IO.Path.GetDirectoryName(customParams[0] as string);
 
-            XamarinFormsNewProjectDialog dialog = new XamarinFormsNewProjectDialog();
-            dialog.ShowDialog();
-            _dialogResult = dialog.Result;
+                XamarinFormsNewProjectDialog dialog = new XamarinFormsNewProjectDialog();
+                dialog.ShowDialog();
+                _dialogResult = dialog.Result;
+
+                if (_dialogResult.Cancelled)
+                    throw new WizardBackoutException();
+            }
+            catch (Exception ex)
+            {
+                if (Directory.Exists(_solutionDir))
+                    Directory.Delete(_solutionDir, true);
+
+                throw;
+            }
         }
 
         public bool ShouldAddProjectItem(string filePath)

@@ -13,12 +13,12 @@ namespace Prism.VisualStudio.Wizards.Design
         public XamarinFormsNewProjectDialog()
         {
             InitializeComponent();
+            Result = new XamarinFormsNewProjectDialogResult();
             Closed += XamarinFormsNewProjectDialog_Closed;
         }
 
         private void XamarinFormsNewProjectDialog_Closed(object sender, System.EventArgs e)
         {
-            Result = new XamarinFormsNewProjectDialogResult();
             Result.CreateAndroid = _chkAndroid.IsChecked.HasValue ? _chkAndroid.IsChecked.Value : false;
             Result.CreateiOS = _chkiOS.IsChecked.HasValue ? _chkiOS.IsChecked.Value : false;
             Result.CreateUwp = _chkUwp.IsChecked.HasValue ? _chkUwp.IsChecked.Value : false;
@@ -28,6 +28,12 @@ namespace Prism.VisualStudio.Wizards.Design
 
         private void _btnCreate_Click(object sender, RoutedEventArgs e)
         {
+            Close();
+        }
+
+        private void _btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Result.Cancelled = true;
             Close();
         }
     }
@@ -43,5 +49,7 @@ namespace Prism.VisualStudio.Wizards.Design
         public bool CreateWinStore { get; set; }
 
         public bool CreateWinPhone { get; set; }
+
+        public bool Cancelled { get; set; }
     }
 }
