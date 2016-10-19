@@ -84,7 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <VSTemplate Include="PrismCarouselPage.vstemplate">
-      <OutputSubPath>Prism\Forms</OutputSubPath>
+      <OutputSubPath>Prism\Xamarin.Forms</OutputSubPath>
     </VSTemplate>
   </ItemGroup>
   <ItemGroup>
