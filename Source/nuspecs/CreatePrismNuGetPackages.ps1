@@ -184,7 +184,7 @@ else
 #####  Prism.DryIoc  #####
 ###########################
 $dryIocNuspecPath = 'Prism.DryIoc.nuspec'
-$dryIocWpfAssemblyPath = '../Wpf/Prism.DryIoc.Wpf/bin/Release/Prism.Autofac.Wpf.dll'
+$dryIocWpfAssemblyPath = '../Wpf/Prism.DryIoc.Wpf/bin/Release/Prism.DryIoc.Wpf.dll'
 if (!(Test-Path $dryIocWpfAssemblyPath))
 {
     Write-Host 'Prism.DryIoc.Wpf.dll not found'
