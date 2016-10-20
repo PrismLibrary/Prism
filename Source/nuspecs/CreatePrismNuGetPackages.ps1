@@ -181,6 +181,25 @@ else
 }
 
 ###########################
+#####  Prism.DryIoc  #####
+###########################
+$dryIocNuspecPath = 'Prism.DryIoc.nuspec'
+$dryIocWpfAssemblyPath = '../Wpf/Prism.DryIoc.Wpf/bin/Release/Prism.Autofac.Wpf.dll'
+if (!(Test-Path $dryIocWpfAssemblyPath))
+{
+    Write-Host 'Prism.DryIoc.Wpf.dll not found'
+}
+else
+{
+    ### all assemblies should be versioned the same, so we can just use the first one ###
+    $dryIocWpfFileInfo = Get-Item $dryIocWpfAssemblyPath
+    $dryIocFileVersion = $dryIocWpfFileInfo.VersionInfo.ProductVersion
+    
+
+    Invoke-Expression ".\$($nugetFileName) pack $($dryIocNuspecPath) -Prop version=$($dryIocFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+}
+
+###########################
 ######  Prism.DryIoc.Forms  ######
 ###########################
 $dryIocFormsNuspecPath = 'Prism.DryIoc.Forms.nuspec'
