@@ -3,6 +3,8 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Modularity;
 using System;
+using Prism.Navigation;
+using System.Threading.Tasks;
 
 namespace HelloWorld.ViewModels
 {
@@ -28,6 +30,21 @@ namespace HelloWorld.ViewModels
         void LoadModuleA()
         {
             //_moduleManager.LoadModule("ModuleA");
+        }
+
+        public override void OnNavigatedFrom(NavigationParameters parameters)
+        {
+            
+        }
+
+        public override void OnNavigatingTo(NavigationParameters parameters)
+        {
+            Title = "OnNavigating To";
+        }
+
+        public override void OnNavigatedTo(NavigationParameters parameters)
+        {
+            Title = "OnNavigated To";
         }
     }
 }

@@ -52,6 +52,8 @@ namespace Prism.Navigation
 
                 OnNavigatedFrom(page, segmentParameters);
 
+                OnNavigatingTo(previousPage, parameters);
+
                 var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
                 if (poppedPage != null)
                 {
@@ -345,6 +347,8 @@ namespace Prism.Navigation
 
             OnNavigatedFrom(fromPage, segmentPrameters);
 
+            OnNavigatingTo(toPage, parameters);
+
             if (navigationAction != null)
                 await navigationAction();
 
@@ -543,28 +547,19 @@ namespace Prism.Navigation
         protected static void OnNavigatedFrom(object page, NavigationParameters parameters)
         {
             if (page != null)
-                InvokeOnNavigationAwareElement(page, v => v.OnNavigatedFrom(parameters));
+                PageUtilities.InvokeViewAndViewModelAction<INavigatedAware>(page, v => v.OnNavigatedFrom(parameters));
+        }
+
+        protected static void OnNavigatingTo(object page, NavigationParameters parameters)
+        {
+            if (page != null)
+                PageUtilities.InvokeViewAndViewModelAction<INavigatingAware>(page, p => p.OnNavigatingTo(parameters));
         }
 
         protected static void OnNavigatedTo(object page, NavigationParameters parameters)
         {
             if (page != null)
-                InvokeOnNavigationAwareElement(page, v => v.OnNavigatedTo(parameters));
-        }
-
-        protected static void InvokeOnNavigationAwareElement(object item, Action<INavigationAware> invocation)
-        {
-            var navigationAwareItem = item as INavigationAware;
-            if (navigationAwareItem != null)
-                invocation(navigationAwareItem);
-
-            var bindableObject = item as BindableObject;
-            if (bindableObject != null)
-            {
-                var navigationAwareDataContext = bindableObject.BindingContext as INavigationAware;
-                if (navigationAwareDataContext != null)
-                    invocation(navigationAwareDataContext);
-            }
+                PageUtilities.InvokeViewAndViewModelAction<INavigatedAware>(page, v => v.OnNavigatedTo(parameters));
         }
 
         protected static NavigationParameters GetSegmentParameters(string uriSegment, NavigationParameters parameters)

@@ -10,7 +10,7 @@ namespace Prism.Forms.Tests.Mocks.Views
     {
         public bool OnNavigatedToCalled { get; private set; } = false;
         public bool OnNavigatedFromCalled { get; private set; } = false;
-
+        public bool OnNavigatingToCalled { get; private set; } = false;
         public bool OnConfirmNavigationCalled { get; private set; } = false;
 
         public ContentPageMock()
@@ -39,6 +39,11 @@ namespace Prism.Forms.Tests.Mocks.Views
 
                 return true;
             });
+        }
+
+        public void OnNavigatingTo(NavigationParameters parameters)
+        {
+            OnNavigatingToCalled = true;
         }
     }
 }

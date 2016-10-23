@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using System;
+using Prism.Mvvm;
 using Prism.Navigation;
 
 namespace Prism.Forms.Tests.Mocks.ViewModels
@@ -9,7 +10,7 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
         public NavigationParameters NavigatedFromParameters { get; private set; }
 
         public bool OnNavigatedToCalled { get; private set; } = false;
-
+        public bool OnNavigatingToCalled { get; private set; } = false;
         public bool OnNavigatedFromCalled { get; private set; } = false;
 
         public void OnNavigatedFrom(NavigationParameters parameters)
@@ -21,6 +22,12 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
         public void OnNavigatedTo(NavigationParameters parameters)
         {
             OnNavigatedToCalled = true;
+            NavigatedToParameters = parameters;
+        }
+
+        public void OnNavigatingTo(NavigationParameters parameters)
+        {
+            OnNavigatingToCalled = true;
             NavigatedToParameters = parameters;
         }
     }
