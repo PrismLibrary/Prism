@@ -30,7 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\prism.snk</AssemblyOriginatorKeyFile>
@@ -71,7 +71,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SigningScripts\SignDryIoc.ps1" />
+    <None Include="SigningScripts\Prism.DryIoc.targets" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Prism\Prism.csproj">
@@ -90,6 +94,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>powershell  -ExecutionPolicy unrestricted -File "$(ProjectDir)SigningScripts\SignDryIoc.ps1" "$(ProjectPath)" "$(ProjectDir)"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <Target Name="SignDryioc" BeforeTargets="Build">
+      <Exec Command='powershell  -ExecutionPolicy unrestricted -File "$(MSBuildThisFileDirectory)..\tools\SignDryIoc.ps1" "$(MSBuildProjectFullPath)" "$(MSBuildProjectDirectory)"' />
+   </Target>
+</Project>
