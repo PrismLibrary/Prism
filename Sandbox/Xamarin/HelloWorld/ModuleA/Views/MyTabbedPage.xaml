@@ -10,8 +10,14 @@
     <ToolbarItem Text="Save" Command="{Binding ApplicationCommands.SaveCommand}"/>
     <ToolbarItem Text="Reset" Command="{Binding ApplicationCommands.ResetCommand}"/>
   </TabbedPage.ToolbarItems>
-  
-  <local:ViewA />
-  <local:ViewB />
+
+  <!--<NavigationPage>
+    <x:Arguments>
+      <local:ViewA Title="View A" />
+    </x:Arguments>
+  </NavigationPage>-->
+
+  <local:ViewA Title="View A" />
+  <local:ViewB Title="View B"/>
   
 </TabbedPage>

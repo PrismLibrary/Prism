@@ -1,8 +1,8 @@
-﻿using Prism.Common;
-using Xunit;
+﻿using Xunit;
 using Prism.Forms.Tests.Mocks.Views;
+using Prism.Navigation;
 
-namespace Prism.Forms.Tests.Common
+namespace Prism.Forms.Tests.Navigation
 {
     public class PageNavigationInfoFixture
     {

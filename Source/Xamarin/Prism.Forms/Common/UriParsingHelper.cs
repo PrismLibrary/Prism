@@ -50,6 +50,21 @@ namespace Prism.Common
             return new NavigationParameters(query);
         }
 
+        public static NavigationParameters GetSegmentParameters(string uriSegment, NavigationParameters parameters)
+        {
+            var navParameters = UriParsingHelper.GetSegmentParameters(uriSegment);
+
+            if (parameters != null)
+            {
+                foreach (KeyValuePair<string, object> navigationParameter in parameters)
+                {
+                    navParameters.Add(navigationParameter.Key, navigationParameter.Value);
+                }
+            }
+
+            return navParameters;
+        }
+
         public static Uri EnsureAbsolute(Uri uri)
         {
             if (uri.IsAbsoluteUri)

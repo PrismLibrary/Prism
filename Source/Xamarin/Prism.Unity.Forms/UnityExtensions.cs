@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.Practices.Unity;
 using Xamarin.Forms;
-using Prism.Common;
 using Prism.Mvvm;
+using Prism.Navigation;
 
 namespace Prism.Unity
 {

@@ -1,19 +1,19 @@
-﻿using Prism.Logging;
+﻿using Prism.Common;
+using Prism.Logging;
 using Prism.Modularity;
 using Prism.Navigation;
 using System.Linq;
 using Xamarin.Forms;
 #if TEST
 using Application = Prism.FormsApplication;
-#else
-using Xamarin.Forms;
 #endif
 
 namespace Prism
 {
     public abstract class PrismApplicationBase<T> : Application
     {
-        IPlatformInitializer<T> _platformInitializer;
+        IPlatformInitializer<T> _platformInitializer = null;
+        Page _previousPage = null;
 
         /// <summary>
         /// The dependency injection container used to resolve objects
@@ -39,6 +39,9 @@ namespace Prism
 
         protected PrismApplicationBase(IPlatformInitializer<T> initializer = null)
         {
+            base.ModalPopping += PrismApplicationBase_ModalPopping;
+            base.ModalPopped += PrismApplicationBase_ModalPopped;
+
             _platformInitializer = initializer;
             InitializeInternal();
         }
@@ -146,5 +149,26 @@ namespace Prism
         /// Used to register types with the container that will be used by your application.
         /// </summary>
         protected abstract void RegisterTypes();
+
+        private void PrismApplicationBase_ModalPopping(object sender, ModalPoppingEventArgs e)
+        {
+            if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
+            {
+                _previousPage = PageUtilities.GetOnNavigatedToTarget(e.Modal, MainPage, true);
+            }
+        }
+
+        private void PrismApplicationBase_ModalPopped(object sender, ModalPoppedEventArgs e)
+        {
+            if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
+            {
+                var parameters = new NavigationParameters();
+
+                PageUtilities.OnNavigatedFrom(e.Modal, parameters);
+                PageUtilities.OnNavigatedTo(_previousPage, parameters);
+                PageUtilities.DestroyPage(e.Modal);
+                _previousPage = null;
+            }
+        }
     }
 }

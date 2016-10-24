@@ -1,6 +1,6 @@
 using DryIoc;
-using Prism.Common;
 using Prism.Mvvm;
+using Prism.Navigation;
 using System;
 using Xamarin.Forms;
 

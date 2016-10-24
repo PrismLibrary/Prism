@@ -1,5 +1,6 @@
 ﻿#if TEST
 
+using System;
 using Xamarin.Forms;
 
 namespace Prism
@@ -26,6 +27,16 @@ namespace Prism
         /// Singeleton instance property
         /// </summary>
         public static FormsApplication Current { get; set; }
+
+        /// <summary>
+        /// Event that is raised when a view is being popped modally
+        /// </summary>
+        public event EventHandler<ModalPoppingEventArgs> ModalPopping;
+
+        /// <summary>
+        /// Event that is raised when a view is popped modally
+        /// </summary>
+        public event EventHandler<ModalPoppedEventArgs> ModalPopped;
     }
 }
 

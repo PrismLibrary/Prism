@@ -54,8 +54,11 @@
   <ItemGroup>
     <Compile Include="Behaviors\BehaviorBase{T}.cs" />
     <Compile Include="Behaviors\CarouselPageActiveAwareBehavior.cs" />
+    <Compile Include="Behaviors\NavigationPageSystemGoBackBehavior.cs" />
     <Compile Include="Behaviors\TabbedPageActiveAwareBehavior.cs" />
     <Compile Include="Behaviors\MultiPageActiveAwareBehavior{T}.cs" />
+    <Compile Include="Navigation\IDestroy.cs" />
+    <Compile Include="Navigation\PageNavigationSource.cs" />
     <Compile Include="Common\PageUtilities.cs" />
     <Compile Include="IPlatformInitializer.cs" />
     <Compile Include="Navigation\INavigationPageOptions.cs" />
@@ -63,8 +66,8 @@
     <Compile Include="Common\ApplicationProvider.cs" />
     <Compile Include="Common\IApplicationProvider.cs" />
     <Compile Include="Navigation\IMasterDetailPageOptions.cs" />
-    <Compile Include="Common\PageNavigationInfo.cs" />
-    <Compile Include="Common\PageNavigationRegistry.cs" />
+    <Compile Include="Navigation\PageNavigationInfo.cs" />
+    <Compile Include="Navigation\PageNavigationRegistry.cs" />
     <Compile Include="Common\UriParsingHelper.cs" />
     <Compile Include="FormsApplication.cs" />
     <Compile Include="Modularity\IModule.cs" />

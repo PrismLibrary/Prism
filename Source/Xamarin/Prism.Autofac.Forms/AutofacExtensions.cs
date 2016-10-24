@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autofac;
-using Autofac.Core;
-using Prism.Common;
 using Prism.Mvvm;
 using Xamarin.Forms;
+using Prism.Navigation;
 
 namespace Prism.Autofac.Forms
 {
