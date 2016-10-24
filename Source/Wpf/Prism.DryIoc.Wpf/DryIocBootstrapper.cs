@@ -200,7 +200,6 @@ namespace Prism.DryIoc
         /// </summary>
         /// <typeparam name="TFrom">The interface type to register.</typeparam>
         /// <typeparam name="TTarget">The type implementing the interface.</typeparam>
-        /// <param name="builder">The <see cref="ContainerBuilder"/> instance.</param>
         /// <param name="registerAsSingleton">Registers the type as a singleton.</param>
         protected void RegisterTypeIfMissing<TFrom, TTarget>(bool registerAsSingleton = false) where TTarget : TFrom
         {

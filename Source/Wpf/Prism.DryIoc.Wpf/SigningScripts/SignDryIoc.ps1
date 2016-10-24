@@ -1,5 +1,5 @@
 ﻿<#
-Script that signs the DryIoc package assemblies during build if they are not already signed. This is needed becuse a signed assembly can only reference signed assemblies.
+Script that signs the DryIoc package assemblies during build if they are not already signed. This is needed becuse a signed assembly can only reference other signed assemblies.
 #>
 Param
 (
