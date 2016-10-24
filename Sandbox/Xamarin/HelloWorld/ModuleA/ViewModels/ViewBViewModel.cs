@@ -86,5 +86,10 @@ namespace ModuleA.ViewModels
         {
             Debug.WriteLine("Navigated to ViewB");
         }
+
+        public void OnNavigatingTo(NavigationParameters parameters)
+        {
+            
+        }
     }
 }

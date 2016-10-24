@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using System;
+using Prism.Mvvm;
 using Prism.Navigation;
 
 namespace HelloWorld.ViewModels
@@ -11,6 +12,11 @@ namespace HelloWorld.ViewModels
         }
 
         public virtual void OnNavigatedTo(NavigationParameters parameters)
+        {
+            
+        }
+
+        public virtual void OnNavigatingTo(NavigationParameters parameters)
         {
             
         }

@@ -5,7 +5,7 @@ namespace Prism.Navigation
     /// <summary>
     /// Provides a way for ViewModels involved in navigation to asynchronously determine if a navigation request should continue.
     /// </summary>
-    public interface IConfirmNavigationAsync : INavigationAware
+    public interface IConfirmNavigationAsync
     {
         /// <summary>
         /// Determines whether this instance accepts being navigated away from.

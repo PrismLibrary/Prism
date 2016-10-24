@@ -50,10 +50,12 @@ namespace Prism.Navigation
 
                 var canNavigate = await CanNavigateAsync(page, segmentParameters);
                 if (!canNavigate)
-                    return false;
+                    return false;                
 
                 bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
-                Page previousPage = PageUtilities.GetOnNavigatedToTarget(page, _applicationProvider.MainPage, useModalForDoPop);                
+                Page previousPage = PageUtilities.GetOnNavigatedToTarget(page, _applicationProvider.MainPage, useModalForDoPop);
+
+                PageUtilities.OnNavigatingTo(previousPage, segmentParameters);
 
                 var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
                 if (poppedPage != null)
@@ -365,20 +367,22 @@ namespace Prism.Navigation
 
         protected static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Func<Task> navigationAction = null, Action onNavigationActionCompleted = null)
         {
-            var segmentPrameters = UriParsingHelper.GetSegmentParameters(toSegment, parameters);
+            var segmentParameters = UriParsingHelper.GetSegmentParameters(toSegment, parameters);
 
-            var canNavigate = await CanNavigateAsync(fromPage, segmentPrameters);
+            var canNavigate = await CanNavigateAsync(fromPage, segmentParameters);
             if (!canNavigate)
                 return;
+
+            PageUtilities.OnNavigatingTo(toPage, segmentParameters);
 
             if (navigationAction != null)
                 await navigationAction();
 
-            PageUtilities.OnNavigatedFrom(fromPage, segmentPrameters);
+            PageUtilities.OnNavigatedFrom(fromPage, segmentParameters);
 
             onNavigationActionCompleted?.Invoke();
 
-            PageUtilities.OnNavigatedTo(toPage, segmentPrameters);
+            PageUtilities.OnNavigatedTo(toPage, segmentParameters);
         }
 
         protected abstract Page CreatePage(string segmentName);
