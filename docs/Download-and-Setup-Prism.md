@@ -1,4 +1,4 @@
-﻿# Download and Setup Prism
+#Download and Setup Prism
 
 Learn what’s included in Prism including the documentation, code samples, and libraries.  Additionally find out where to get the library and sample source code and the library NuGet packages.
 
