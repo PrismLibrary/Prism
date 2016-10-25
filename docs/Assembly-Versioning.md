@@ -1,4 +1,4 @@
-﻿# Prism Assembly Versioning
+# Prism Assembly Versioning
 Assembly versioning is an important, and often ignored, aspect of a project.  There are three assembly attributes defined in the AssemblyInfo.cs file of each project of Prism.  These attribute are the **AssemblyAttribute**, the **AssemblyFileAttribute**, and the **AssemblyInformationAttribute**.
 
 ```
