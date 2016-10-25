@@ -18,7 +18,6 @@
     <dependencies>
       
       <group targetFramework=".NETFramework4.5">
-        <dependency id="Nivot.StrongNaming" version="1.0.4.2" />
         <dependency id="DryIoc.dll" version="2.8.3" />
         <dependency id="DryIoc.CommonServiceLocator.dll" version="2.2.1" />
         <dependency id="Prism.Wpf" version="$wpfVersion$" />
@@ -27,8 +26,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Wpf\Prism.DryIoc.Wpf\SigningScripts\Prism.DryIoc.targets" target="build" />
-    <file src="..\Wpf\Prism.DryIoc.Wpf\SigningScripts\SignDryIoc.ps1" target="tools" />
     <file src="..\Wpf\Prism.DryIoc.Wpf\bin\Release\Prism.DryIoc.Wpf.*" target="lib\net45\" exclude="**\*.pdb" />
   </files>
 </package>
