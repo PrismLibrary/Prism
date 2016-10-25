@@ -1,4 +1,4 @@
-﻿# Communicating Between Loosely Coupled Components Using the Prism Library for WPF
+﻿#Communicating Between Loosely Coupled Components Using the Prism Library for WPF
 
 When building large complex WPF applications, a common approach is to divide the functionality into discrete module assemblies. It is also desirable to minimize the use of static references between these modules, which can be accomplished through the use of delegate commands, region context, shared services, and event aggregator. This allows the modules to be independently developed, tested, deployed, and updated, and it forces loosely coupled communication. This topic provides guidance when to use delegate commands and routed commands and when to use event aggregator and .NET framework events.
 

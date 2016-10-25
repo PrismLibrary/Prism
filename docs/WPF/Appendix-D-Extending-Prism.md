@@ -1,4 +1,4 @@
-# Extending the Prism Library 5.0 for WPF
+#Extending the Prism Library 5.0 for WPF
 
 Prism contains assets that represent recommended practices for Windows Presentation Foundation (WPF) client development. Developers can use an unmodified version of the guidance to create composite applications using the Model-View-ViewModel (MVVM) pattern. However, because each application is unique, you should analyze whether Prism is suitable for your particular needs. In some cases, you will want to customize the guidance to incorporate your enterprise's best practices and frequently repeated developer tasks.
 

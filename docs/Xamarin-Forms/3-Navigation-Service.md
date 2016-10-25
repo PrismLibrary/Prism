@@ -1,4 +1,4 @@
-﻿# Using the Navigation Service
+﻿#Using the Navigation Service
 
 Navigating in a Prism application is conceptually different than standard navigation in Xamarin.Forms.  While Xamarin.Forms navigation relies on a Page class instance to navigate, Prism removes all dependencies on Page types to achieve loosely coupled navigation from within a ViewModel.  In Prism, the concept of navigating to a View or navigating to a ViewModel does not exist.  Instead, you simply navigate to an experience, or a unique identifier, which represents the target view you wish to navigate to in your application.
 

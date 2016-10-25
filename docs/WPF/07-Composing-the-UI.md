@@ -1,4 +1,4 @@
-﻿# Composing the User Interface Using the Prism Library for WPF
+﻿#Composing the User Interface Using the Prism Library for WPF
 
 A composite application user interface (UI) is composed from loosely coupled visual components known as *views* that are typically contained in the application modules, but they do not need to be. If you divide your application into modules, you need some way to loosely compose the UI, but you might choose to use this approach even if the views are not in modules. To the user, the application presents a seamless user experience and delivers a fully integrated application.
 

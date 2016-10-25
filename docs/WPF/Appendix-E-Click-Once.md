@@ -1,4 +1,4 @@
-# Publishing and Updating Applications Using the Prism Library for WPF Hands-on Lab
+#Publishing and Updating Applications Using the Prism Library for WPF Hands-on Lab
 
 In this lab, you will learn how to publish, deploy, and update a composite Prism Windows Presentation Foundation (WPF) application that uses dynamic module loading with ClickOnce. After completing this lab, you will be able to do the following:
 

@@ -1,4 +1,4 @@
-# Deploying Applications Using the Prism Library for WPF
+#Deploying Applications Using the Prism Library for WPF
 
 To successfully move a Prism application into production, you need to plan for deployment as part of the design process of your application. This topic covers the considerations and actions you need to perform to prepare your composite or modular application for deployment and the actions you need to take to get the application in the user's hands.
 

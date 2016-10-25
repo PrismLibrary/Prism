@@ -1,4 +1,4 @@
-﻿# Using the DependencyService with Prism
+﻿#Using the DependencyService with Prism
 
 Xamarin.Forms includes a DependencyService to let shared code to easily resolve Interfaces to platform-specific implementations, allowing you to access features of the iOS, Android and Windows Phone SDKs from your PCL or Shared Project.
 

@@ -1,4 +1,4 @@
-# Implementing the MVVM Pattern Using the Prism Library for WPF
+#Implementing the MVVM Pattern Using the Prism Library for WPF
 
 The Model-View-ViewModel (MVVM) pattern helps you to cleanly separate the business and presentation logic of your application from its user interface (UI). Maintaining a clean separation between application logic and UI helps to address numerous development and design issues and can make your application much easier to test, maintain, and evolve. It can also greatly improve code re-use opportunities and allows developers and UI designers to more easily collaborate when developing their respective parts of the application.
 
