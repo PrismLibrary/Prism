@@ -17,5 +17,5 @@ using System.Reflection;
 [assembly: CLSCompliant(true)]
 
 [assembly: AssemblyVersion("6.2")]
-[assembly: AssemblyFileVersion("6.2.0")]
-[assembly: AssemblyInformationalVersion("6.2.0")]
+[assembly: AssemblyFileVersion("6.2.1")]
+[assembly: AssemblyInformationalVersion("6.2.1")]
