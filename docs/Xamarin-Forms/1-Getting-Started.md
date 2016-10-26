@@ -161,7 +161,7 @@ Now that we have a basic understanding of how project is setup with Prism for Xa
 ###View
 Let's create the new content page in the project, also known as the view. Again, the easiest way to do this is with the *Prism Template Pack*. We'll create the view first. Right click on the `Views` folder, click `Add > New Item...` under `Installed > Visual C# > Prism > Forms` select `Prism ContentPage (Forms)`. Name the page `SpeakPage.xaml` and click `Add`. This creates a blank content page. 
 
-There are many different types of [pages available in Xamarin Forms](https://developer.xamarin.com/guides/xamarin-forms/controls/pages/), but the ContentPage is one of the most basic. It displays a single visual object, typically a [layout](https://developer.xamarin.com/guides/xamarin-forms/controls/layouts/). Update`PrismContentPage.xaml` to have the contents shown below.
+There are many different types of [pages available in Xamarin Forms](https://developer.xamarin.com/guides/xamarin-forms/controls/pages/), but the ContentPage is one of the most basic. It displays a single visual object, typically a [layout](https://developer.xamarin.com/guides/xamarin-forms/controls/layouts/). Update`SpeakPage.xaml` to have the contents shown below.
 
 ```xaml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -169,7 +169,7 @@ There are many different types of [pages available in Xamarin Forms](https://dev
              xmlns:x="http://schemas.microsoft.com/winfx/2009/
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="HelloXFPrism.Views.PrismContentPage">
+             x:Class="HelloXFPrism.Views.SpeakPage">
   <StackLayout VerticalOptions="CenterAndExpand">
     <Entry Text="{Binding TextToSay}" />
     <Button Text="Speak" Command="{Binding SpeakCommand}"/>
@@ -183,7 +183,7 @@ Let's break down what is going on here.
 The Prism library is referenced. 
 
 `prism:ViewModelLocator.AutowireViewModel="True"`
-This view (PrismContentPage.xaml) is wired to the view model (PrismContentPageViewModel.cs) *automatically via naming conventions* allowing for databinding to the view model. See [ViewModelLocator documentation](https://github.com/PrismLibrary/Prism/blob/master/Documentation/Xamarin.Forms/2-ViewModelLocator.md) for more information.
+This view (SpeakPage.xaml) is wired to the view model (SpeakPageViewModel.cs) *automatically via naming conventions* allowing for databinding to the view model. See [ViewModelLocator documentation](https://github.com/PrismLibrary/Prism/blob/master/Documentation/Xamarin.Forms/2-ViewModelLocator.md) for more information.
 
 ``` <StackLayout VerticalOptions="CenterAndExpand">
 ...
@@ -191,13 +191,13 @@ This view (PrismContentPage.xaml) is wired to the view model (PrismContentPageVi
 This sets the ContentPage's view to a [StackLayout](https://developer.xamarin.com/api/type/Xamarin.Forms.StackLayout/). A StackLayout positions it's child elements each on a single line, stacking them either horizontally or vertically. This is a very common layout used within Xamarin Forms. We're using it along with it's VerticalOptions set to CenterAndExpand so the child elements show up as stacked vertically and centered as shown in the wireframe above.
 
 `<Entry Text="{Binding TextToSay}" />`
-An [Entry](https://developer.xamarin.com/api/type/Xamarin.Forms.Entry/) is provided that allows the user to enter text. The text that is entered is data-bound to a property named TextToSay in the PrismContentPageViewModel, which we'll create soon.
+An [Entry](https://developer.xamarin.com/api/type/Xamarin.Forms.Entry/) is provided that allows the user to enter text. The text that is entered is data-bound to a property named TextToSay in the SpeakPageViewModel, which we'll create soon.
 
 `<Button Text="Speak" Command="{Binding SpeakCommand}"/>`
-A [Button](https://developer.xamarin.com/api/type/Xamarin.Forms.Button/) is placed below the Entry. The button's command is executed when it is clicked and is bound to a command named SpeakCommand in the PrismContentPageViewModel, which we'll create soon.
+A [Button](https://developer.xamarin.com/api/type/Xamarin.Forms.Button/) is placed below the Entry. The button's command is executed when it is clicked and is bound to a command named SpeakCommand in the SpeakPageViewModel, which we'll create soon.
 
 ###View Model
-Now that we have a view named PrismContentPage, we'll add it's corresponding view model. As with all the other steps, the easiest way to create a view model is with the *Prism Template Pack*. Right click on the `ViewModels` folder, click `Add > New Item...` under `Installed > Visual C# > Prism > Forms` select `Prism ViewModel`. Name the page `SpeakPageViewModel.cs` and click `Add`. This creates a view model for the SpeakPage. Update `SpeakPageViewModel.cs` to have the following contents within the namespace.
+Now that we have a view named SpeakPage, we'll add it's corresponding view model. As with all the other steps, the easiest way to create a view model is with the *Prism Template Pack*. Right click on the `ViewModels` folder, click `Add > New Item...` under `Installed > Visual C# > Prism > Forms` select `Prism ViewModel`. Name the page `SpeakPageViewModel.cs` and click `Add`. This creates a view model for the SpeakPage. Update `SpeakPageViewModel.cs` to have the following contents within the namespace.
 
 ```cs
 namespace HelloXFPrism.ViewModels
@@ -205,7 +205,7 @@ namespace HelloXFPrism.ViewModels
     using Prism.Commands;
     using Prism.Mvvm;
 
-    public class SpeakViewModel : BindableBase
+    public class SpeakPageViewModel : BindableBase
     {
         private string _textToSay = "Hello Prism";
         public string TextToSay
@@ -216,7 +216,7 @@ namespace HelloXFPrism.ViewModels
 
         public DelegateCommand SpeakCommand { get; set; }
 
-        public SpeakViewModel()
+        public SpeakPageViewModel()
         {
             SpeakCommand = new DelegateCommand(Speak);
         }
@@ -245,13 +245,13 @@ Creates a string property that the text entry field is bound to. The initial tex
 ```cs
 public DelegateCommand SpeakCommand { get; set; }
 
-public SpeakViewModel()
+public SpeakPageViewModel()
 {
     SpeakCommand = new DelegateCommand(Speak);
 }
 ```
 
-Creates a [DelegateCommand](https://msdn.microsoft.com/en-us/library/microsoft.practices.prism.commands.delegatecommand%28v=pandp.50%29.aspx) called `SpeakCommand` that the Speak button is bound to. The `SpeakCommand` is created in the `SpeakViewModel` constructor and will invoke the `Speak` method, which hasn't been written yet. To be able to perform the actual text-to-speech platform specific APIs need to be used. This is outside the scope of this documentation, but head over to the [Dependency Service documentation](/Documentation/Xamarin.Forms/5-DependencyService.md) to see how this is done.
+Creates a [DelegateCommand](https://msdn.microsoft.com/en-us/library/microsoft.practices.prism.commands.delegatecommand%28v=pandp.50%29.aspx) called `SpeakCommand` that the Speak button is bound to. The `SpeakCommand` is created in the `SpeakPageViewModel` constructor and will invoke the `Speak` method, which hasn't been written yet. To be able to perform the actual text-to-speech platform specific APIs need to be used. This is outside the scope of this documentation, but head over to the [Dependency Service documentation](/Documentation/Xamarin.Forms/5-DependencyService.md) to see how this is done.
 
 ##Navigating to your new page
 We now have two pages in our app, a main page and a speak page. To navigate to the new page, we'll need to register the page for navigation. In the Portable Class Library, `HelloXFPrism (Portable)`, open App.xaml.cs (you may have to click the carrot next to App.xaml to see it). Register the new page for navigation by updating `RegisterTypes()` to include the following.
