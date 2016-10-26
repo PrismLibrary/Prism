@@ -205,7 +205,7 @@ namespace HelloXFPrism.ViewModels
     using Prism.Commands;
     using Prism.Mvvm;
 
-    public class SpeakViewModel : BindableBase
+    public class SpeakPageViewModel : BindableBase
     {
         private string _textToSay = "Hello Prism";
         public string TextToSay
@@ -216,7 +216,7 @@ namespace HelloXFPrism.ViewModels
 
         public DelegateCommand SpeakCommand { get; set; }
 
-        public SpeakViewModel()
+        public SpeakPageViewModel()
         {
             SpeakCommand = new DelegateCommand(Speak);
         }
@@ -245,13 +245,13 @@ Creates a string property that the text entry field is bound to. The initial tex
 ```cs
 public DelegateCommand SpeakCommand { get; set; }
 
-public SpeakViewModel()
+public SpeakPageViewModel()
 {
     SpeakCommand = new DelegateCommand(Speak);
 }
 ```
 
-Creates a [DelegateCommand](https://msdn.microsoft.com/en-us/library/microsoft.practices.prism.commands.delegatecommand%28v=pandp.50%29.aspx) called `SpeakCommand` that the Speak button is bound to. The `SpeakCommand` is created in the `SpeakViewModel` constructor and will invoke the `Speak` method, which hasn't been written yet. To be able to perform the actual text-to-speech platform specific APIs need to be used. This is outside the scope of this documentation, but head over to the [Dependency Service documentation](/Documentation/Xamarin.Forms/5-DependencyService.md) to see how this is done.
+Creates a [DelegateCommand](https://msdn.microsoft.com/en-us/library/microsoft.practices.prism.commands.delegatecommand%28v=pandp.50%29.aspx) called `SpeakCommand` that the Speak button is bound to. The `SpeakCommand` is created in the `SpeakPageViewModel` constructor and will invoke the `Speak` method, which hasn't been written yet. To be able to perform the actual text-to-speech platform specific APIs need to be used. This is outside the scope of this documentation, but head over to the [Dependency Service documentation](/Documentation/Xamarin.Forms/5-DependencyService.md) to see how this is done.
 
 ##Navigating to your new page
 We now have two pages in our app, a main page and a speak page. To navigate to the new page, we'll need to register the page for navigation. In the Portable Class Library, `HelloXFPrism (Portable)`, open App.xaml.cs (you may have to click the carrot next to App.xaml to see it). Register the new page for navigation by updating `RegisterTypes()` to include the following.
