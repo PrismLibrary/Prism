@@ -297,7 +297,7 @@ Using dependency injection, gets the navigation service and also creates the Nav
 ```cs
 private void NavigateToSpeakPage()
 {
-    _navigationService.Navigate("SpeakPage");
+    _navigationService.NavigateAsync("SpeakPage");
 }
 ```
 
