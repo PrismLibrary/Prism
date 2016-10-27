@@ -207,7 +207,7 @@ namespace Prism.Navigation
             var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
             if (currentNavRoot.GetType() == nextPageType)
             {
-                if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 0)
+                if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
                     await currentPage.Navigation.PopToRootAsync(false);
 
                 await ProcessNavigation(currentNavRoot, segments, parameters, false, animated);
@@ -216,7 +216,7 @@ namespace Prism.Navigation
             }
             else
             {
-                if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 0)
+                if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
                     await currentPage.Navigation.PopToRootAsync(false);
 
                 var newRoot = CreatePageFromSegment(nextSegment);
@@ -226,7 +226,7 @@ namespace Prism.Navigation
                 {
                     var push = DoPush(currentPage, newRoot, false, animated);
 
-                    if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 0)
+                    if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
                     {
                         currentPage.Navigation.RemovePage(currentNavRoot);
                         PageUtilities.DestroyPage(currentNavRoot);
