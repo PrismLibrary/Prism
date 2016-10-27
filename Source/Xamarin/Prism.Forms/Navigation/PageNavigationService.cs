@@ -54,11 +54,8 @@ namespace Prism.Navigation
 
                 bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
                 Page previousPage = PageUtilities.GetOnNavigatedToTarget(page, _applicationProvider.MainPage, useModalForDoPop);
-<<<<<<< HEAD
 
                 PageUtilities.OnNavigatingTo(previousPage, segmentParameters);
-=======
->>>>>>> refs/remotes/origin/master
 
                 var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
                 if (poppedPage != null)
