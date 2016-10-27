@@ -54,8 +54,11 @@ namespace Prism.Navigation
 
                 bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
                 Page previousPage = PageUtilities.GetOnNavigatedToTarget(page, _applicationProvider.MainPage, useModalForDoPop);
+<<<<<<< HEAD
 
                 PageUtilities.OnNavigatingTo(previousPage, segmentParameters);
+=======
+>>>>>>> refs/remotes/origin/master
 
                 var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
                 if (poppedPage != null)
@@ -203,19 +206,22 @@ namespace Prism.Navigation
                 return;
             }
 
-            var currentNavRoot = currentPage.Navigation.NavigationStack.Last();
+            bool clearNavStack = GetClearNavigationPageNavigationStack(currentPage);
+
+            var currentNavRoot = currentPage.Navigation.NavigationStack[0];
             var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
             if (currentNavRoot.GetType() == nextPageType)
             {
+                if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
+                    await currentPage.Navigation.PopToRootAsync(false);
+
                 await ProcessNavigation(currentNavRoot, segments, parameters, false, animated);
                 await DoNavigateAction(currentNavRoot, nextSegment, currentNavRoot, parameters);
                 return;
             }
             else
             {
-                bool clearNavStack = GetClearNavigationPageNavigationStack(currentPage);
-
-                if (clearNavStack)
+                if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
                     await currentPage.Navigation.PopToRootAsync(false);
 
                 var newRoot = CreatePageFromSegment(nextSegment);
@@ -225,11 +231,10 @@ namespace Prism.Navigation
                 {
                     var push = DoPush(currentPage, newRoot, false, animated);
 
-                    if (clearNavStack)
+                    if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
                     {
-                        var pageToRemove = currentPage.Navigation.NavigationStack[0];
-                        currentPage.Navigation.RemovePage(pageToRemove);
-                        PageUtilities.DestroyPage(pageToRemove);
+                        currentPage.Navigation.RemovePage(currentNavRoot);
+                        PageUtilities.DestroyPage(currentNavRoot);
                     }
 
                     await push;
@@ -397,7 +402,7 @@ namespace Prism.Navigation
                     throw new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
 
                 SetAutowireViewModelOnPage(page);
-                ApplyPageBehaviors(page);                
+                ApplyPageBehaviors(page);
 
                 return page;
             }
