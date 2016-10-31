@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace ModuleA.Views
 {
-    public partial class MyTabbedPage : TabbedPage, IDestroy
+    public partial class MyTabbedPage : TabbedPage, IDestructible
     {
         public MyTabbedPage()
         {

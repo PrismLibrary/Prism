@@ -30,14 +30,10 @@ namespace Prism.Common
             {
                 DestroyChildren(page);
 
-                var viewModel = page.BindingContext as IDestroy;
-                viewModel?.Destroy();
+                InvokeViewAndViewModelAction<IDestructible>(page, v => v.Destroy());
 
                 page.Behaviors?.Clear();
                 page.BindingContext = null;
-
-                var destroyPage = page as IDestroy;
-                destroyPage?.Destroy();
             }
             catch (Exception ex)
             {
