@@ -57,7 +57,7 @@
     <Compile Include="Behaviors\NavigationPageSystemGoBackBehavior.cs" />
     <Compile Include="Behaviors\TabbedPageActiveAwareBehavior.cs" />
     <Compile Include="Behaviors\MultiPageActiveAwareBehavior{T}.cs" />
-    <Compile Include="Navigation\IDestroy.cs" />
+    <Compile Include="Navigation\IDestructible.cs" />
     <Compile Include="Navigation\PageNavigationSource.cs" />
     <Compile Include="Common\PageUtilities.cs" />
     <Compile Include="IPlatformInitializer.cs" />

@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace ModuleA.Views
 {
-    public partial class ViewA : ContentPage, IDestroy
+    public partial class ViewA : ContentPage, IDestructible
     {
         public ViewA()
         {

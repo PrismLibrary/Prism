@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace HelloWorld.Views
 {
-    public partial class MainPage : ContentPage, IDestroy
+    public partial class MainPage : ContentPage, IDestructible
     {
         public MainPage()
         {

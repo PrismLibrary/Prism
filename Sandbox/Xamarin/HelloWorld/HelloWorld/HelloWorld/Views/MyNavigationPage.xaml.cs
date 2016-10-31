@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace HelloWorld.Views
 {
-    public partial class MyNavigationPage : NavigationPage, INavigationPageOptions, IDestroy
+    public partial class MyNavigationPage : NavigationPage, INavigationPageOptions, IDestructible
     {
         public MyNavigationPage()
         {

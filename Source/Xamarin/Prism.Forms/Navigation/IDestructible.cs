@@ -1,6 +1,6 @@
 ﻿namespace Prism.Navigation
 {
-    public interface IDestroy
+    public interface IDestructible
     {
         void Destroy();
     }
