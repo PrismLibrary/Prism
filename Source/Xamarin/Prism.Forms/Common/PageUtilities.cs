@@ -83,6 +83,12 @@ namespace Prism.Common
                 InvokeViewAndViewModelAction<INavigationAware>(page, v => v.OnNavigatedFrom(parameters));
         }
 
+        public static void OnNavigatingTo(object page, NavigationParameters parameters)
+        {
+            if (page != null)
+                InvokeViewAndViewModelAction<INavigationAware>(page, v => v.OnNavigatingTo(parameters));
+        }
+
         public static void OnNavigatedTo(object page, NavigationParameters parameters)
         {
             if (page != null)

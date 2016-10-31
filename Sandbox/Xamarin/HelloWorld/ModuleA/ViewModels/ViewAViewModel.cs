@@ -89,5 +89,10 @@ namespace ModuleA.ViewModels
         {
 
         }
+
+        public void OnNavigatingTo(NavigationParameters parameters)
+        {
+            
+        }
     }
 }

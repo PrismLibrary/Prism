@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System;
 
 namespace ModuleA.ViewModels
 {
@@ -44,6 +45,11 @@ namespace ModuleA.ViewModels
         public void OnNavigatedTo(NavigationParameters parameters)
         {
 
+        }
+
+        public void OnNavigatingTo(NavigationParameters parameters)
+        {
+            
         }
     }
 }

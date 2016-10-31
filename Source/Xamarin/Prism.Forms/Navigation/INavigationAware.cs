@@ -6,7 +6,7 @@
     public interface INavigationAware
     {
         /// <summary>
-        /// Called when the implementer is being navigated away from.
+        /// Called when the implementer has been navigated away from.
         /// </summary>
         /// <param name="parameters">The navigation parameters.</param>
         void OnNavigatedFrom(NavigationParameters parameters);
@@ -16,5 +16,12 @@
         /// </summary>
         /// <param name="parameters">The navigation parameters.</param>
         void OnNavigatedTo(NavigationParameters parameters);
+
+        /// <summary>
+        /// Called before the implementor has been navigated to.
+        /// </summary>
+        /// <param name="parameters">The navigation parameters.</param>
+        /// <remarks>Not called when using device hardware or software back buttons</remarks>
+        void OnNavigatingTo(NavigationParameters parameters);
     }
 }
