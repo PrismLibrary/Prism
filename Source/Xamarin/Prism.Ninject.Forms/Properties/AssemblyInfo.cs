@@ -16,6 +16,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
 
-[assembly: AssemblyVersion("6.2")]
-[assembly: AssemblyFileVersion("6.2.0")]
-[assembly: AssemblyInformationalVersion("6.2.0")]
+[assembly: AssemblyVersion("6.3")]
+[assembly: AssemblyFileVersion("6.3.0")]
+[assembly: AssemblyInformationalVersion("6.3.0-pre1")]
