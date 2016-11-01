@@ -1,9 +1,9 @@
 ﻿### This is just the initial script to get the nuget packages out.  We need to refactor this script to make it easier to maintain and update
 ### One idea is to force a Visual Studio build using the Release build configuration before packing the nuspecs
 
-$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.2.0'
+$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.3.0-Pre1'
 
-$xamarinFormsVersion = '2.3.1.114'
+$xamarinFormsVersion = '2.3.2.127'
 
 $nugetFileName = 'nuget.exe'
 
