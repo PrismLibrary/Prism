@@ -1,9 +1,11 @@
 ﻿### This is just the initial script to get the nuget packages out.  We need to refactor this script to make it easier to maintain and update
 ### One idea is to force a Visual Studio build using the Release build configuration before packing the nuspecs
 
-$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.2.0'
+$nugetOutputDirectory = 'Packages'
 
-$xamarinFormsVersion = '2.3.1.114'
+$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.3.0-Pre1'
+
+$xamarinFormsVersion = '2.3.2.127'
 
 $nugetFileName = 'nuget.exe'
 
@@ -26,7 +28,7 @@ if ((Test-Path $coreAssemblyPath))
     $fileInfo = Get-Item $coreAssemblyPath
     $coreFileVersion = $fileInfo.VersionInfo.ProductVersion
 
-    Invoke-Expression ".\$($nugetFileName) pack $($coreNuspecPath) -Prop version=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)" 
+    Invoke-Expression ".\$($nugetFileName) pack $($coreNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)" 
 }
 else
 {
@@ -45,7 +47,7 @@ if ((Test-Path $wpfAssemblyPath))
     $fileInfo = Get-Item $wpfAssemblyPath
     $wpfFileVersion = $fileInfo.VersionInfo.ProductVersion
 
-    Invoke-Expression ".\$($nugetFileName) pack $($wpfNuspecPath) -Prop version=$($wpfFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($wpfNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($wpfFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 else
 {
@@ -64,7 +66,7 @@ if ((Test-Path $uwpAssemblyPath))
     $fileInfo = Get-Item $uwpAssemblyPath
     $uwpFileVersion = $fileInfo.VersionInfo.ProductVersion
 
-    Invoke-Expression ".\$($nugetFileName) pack $($uwpNuspecPath) -Prop version=$($uwpFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($uwpNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($uwpFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 else
 {
@@ -83,7 +85,7 @@ if ((Test-Path $formsAssemblyPath))
     $fileInfo = Get-Item $formsAssemblyPath
     $formsFileVersion = $fileInfo.VersionInfo.ProductVersion
 
-    Invoke-Expression ".\$($nugetFileName) pack $($formsNuspecPath) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($formsFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($formsNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($formsFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 else
 {
@@ -117,7 +119,7 @@ else
     $unityWpfFileInfo = Get-Item $unityWpfAssemblyPath
     $unityFileVersion = $unityWpfFileInfo.VersionInfo.ProductVersion   
 
-    Invoke-Expression ".\$($nugetFileName) pack $($unityNuspecPath) -Prop version=$($unityFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop uwpVersion=$($uwpFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($unityNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($unityFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop uwpVersion=$($uwpFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 ###########################
@@ -134,7 +136,7 @@ else
     $unityFormsFileInfo = Get-Item $unityFormsAssemblyPath
     $unityFileVersion = $unityFormsFileInfo.VersionInfo.ProductVersion   
 
-    Invoke-Expression ".\$($nugetFileName) pack $($unityFormsNuspecPath) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($unityFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($unityFormsNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($unityFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 ###########################
@@ -151,7 +153,7 @@ else
     $autofacFormsFileInfo = Get-Item $autofacFormsAssemblyPath
     $autofacFileVersion = $autofacFormsFileInfo.VersionInfo.ProductVersion   
 
-    Invoke-Expression ".\$($nugetFileName) pack $($autofacFormsNuspecPath) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($autofacFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($autofacFormsNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($autofacFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 
@@ -177,7 +179,7 @@ else
     $autofacFileVersion = $autofacWpfFileInfo.VersionInfo.ProductVersion
     
 
-    Invoke-Expression ".\$($nugetFileName) pack $($autofacNuspecPath) -Prop version=$($autofacFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop uwpVersion=$($uwpFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($autofacNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($autofacFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop uwpVersion=$($uwpFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 ###########################
@@ -194,7 +196,7 @@ else
     $dryIocFormsFileInfo = Get-Item $dryIocFormsAssemblyPath
     $dryIocFileVersion = $dryIocFormsFileInfo.VersionInfo.ProductVersion   
 
-    Invoke-Expression ".\$($nugetFileName) pack $($dryIocFormsNuspecPath) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($dryIocFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($dryIocFormsNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($dryIocFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 
@@ -212,7 +214,7 @@ else
     $simpleInjectorFileInfo = Get-Item $simpleInjectorUwpAssemblyPath
     $simpleInjectorFileVersion = $simpleInjectorFileInfo.VersionInfo.ProductVersion
 
-    Invoke-Expression ".\$($nugetFileName) pack $($simpleInjectorNuspecPath) -Prop version=$($simpleInjectorFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop uwpVersion=$($uwpFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($simpleInjectorNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($simpleInjectorFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop uwpVersion=$($uwpFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 
@@ -226,7 +228,7 @@ if ((Test-Path $mefAssemblyPath))
     $fileInfo = Get-Item $mefAssemblyPath
     $mefFileVersion = $fileInfo.VersionInfo.ProductVersion
 
-    Invoke-Expression ".\$($nugetFileName) pack $($mefNuspecPath) -Prop version=$($mefFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($mefNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($mefFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 else
 {
@@ -245,7 +247,7 @@ if ((Test-Path $ninjectAssemblyPath))
     $fileInfo = Get-Item $ninjectAssemblyPath
     $ninjectFileVersion = $fileInfo.VersionInfo.ProductVersion
 
-    Invoke-Expression ".\$($nugetFileName) pack $($ninjectNuspecPath) -Prop version=$($ninjectFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($ninjectNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($ninjectFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 else
 {
@@ -267,7 +269,7 @@ else
     $ninjectFormsFileInfo = Get-Item $ninjectFormsAssemblyPath
     $ninjectFormsFileVersion = $ninjectFormsFileInfo.VersionInfo.ProductVersion   
 
-    Invoke-Expression ".\$($nugetFileName) pack $($ninjectFormsNuspecPath) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($ninjectFormsFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($ninjectFormsNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop xamarinFormsVersion=$($xamarinFormsVersion) -Prop version=$($ninjectFormsFileVersion) -Prop formsVersion=$($formsFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 
@@ -282,7 +284,7 @@ if ((Test-Path $structureMapAssemblyPath))
     $fileInfo = Get-Item $structureMapAssemblyPath
     $structureMapFileVersion = $fileInfo.VersionInfo.ProductVersion
 
-    Invoke-Expression ".\$($nugetFileName) pack $($structureMapNuspecPath) -Prop version=$($structureMapFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($structureMapNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($structureMapFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 else
 {
