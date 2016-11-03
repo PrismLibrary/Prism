@@ -26,5 +26,15 @@ namespace Prism.Services
         /// Command to execute when button is pressed
         /// </summary>
         ICommand Command { get; }
+
+        /// <summary>
+        /// Command Parameter to pass to the Command when button is pressed
+        /// </summary>
+        object CommandParameter { get; }
+
+        /// <summary>
+        /// Executes logic for pressing the button
+        /// </summary>
+        void PressButton();
     }
 }
