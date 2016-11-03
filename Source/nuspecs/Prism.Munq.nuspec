@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Prism.Munq</id>
+    <version>$version$</version>
+    <title>Munq for Prism 6</title>
+    <authors>Martin Gondermann</authors>
+    <owners>Martin Gondermann</owners>
+    <licenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</licenseUrl>
+    <projectUrl>http://prismlibrary.com/</projectUrl>
+    <iconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Use these extensions to build Prism applications based on Munq.</description>
+    <summary>Munq extensions for Prism.</summary>
+    <releaseNotes>$releaseNotes$</releaseNotes>
+    <language>en-US</language>
+    <tags>prism mvvm wpf munq dependency injection di</tags>
+    <dependencies>
+      
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Munq.IocContainer" version="3.1.6" />
+        <dependency id="CommonServiceLocator" version="1.3.0" />
+        <dependency id="Prism.Wpf" version="$wpfVersion$" />
+      </group>
+
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\Wpf\Prism.Munq.Wpf\bin\Release\Prism.Munq.Wpf.*" target="lib\net45\" exclude="**\*.pdb;**\*.config" />    
+  </files>
+</package>

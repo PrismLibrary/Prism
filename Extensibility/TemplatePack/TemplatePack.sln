@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.VisualStudio.Wizards"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.VisualStudio.Wizards.Design", "VsWizards\Prism.VisualStudio.Wizards.Design\Prism.VisualStudio.Wizards.Design.csproj", "{B237635B-1151-479F-A422-231D93037745}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismMunqApp.Wpf", "ProjectTemplates\CSharp\Wpf\PrismMunqApp\PrismMunqApp.Wpf.csproj", "{0B884657-3C06-4091-99BF-C3E7954041F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{B237635B-1151-479F-A422-231D93037745}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B237635B-1151-479F-A422-231D93037745}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B237635B-1151-479F-A422-231D93037745}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B884657-3C06-4091-99BF-C3E7954041F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B884657-3C06-4091-99BF-C3E7954041F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B884657-3C06-4091-99BF-C3E7954041F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B884657-3C06-4091-99BF-C3E7954041F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,5 +141,6 @@ Global
 		{9DAE43F7-77D4-4191-BEAC-40EACFD9C20C} = {D9B82372-CF98-45DA-97E9-7C84F70EA440}
 		{CF820A3D-4BD3-4A92-B951-D35F3AFD6AA9} = {17975747-054F-451F-8A3B-2ECB07EC3EEB}
 		{B237635B-1151-479F-A422-231D93037745} = {17975747-054F-451F-8A3B-2ECB07EC3EEB}
+		{0B884657-3C06-4091-99BF-C3E7954041F8} = {D9B82372-CF98-45DA-97E9-7C84F70EA440}
 	EndGlobalSection
 EndGlobal
