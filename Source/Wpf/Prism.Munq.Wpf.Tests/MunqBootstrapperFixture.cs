@@ -1,18 +1,16 @@
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Prism.Regions;
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Prism.IocContainer.Wpf.Tests.Support;
+using Prism.IocContainer.Wpf.Tests.Support.Mocks;
+using Prism.Logging;
+using Prism.Modularity;
+using Prism.Regions;
 
 namespace Prism.Munq.Wpf.Tests
 {
-    using global::Munq;
-    using IocContainer.Wpf.Tests.Support;
-    using IocContainer.Wpf.Tests.Support.Mocks;
-    using Logging;
-    using Modularity;
-    using Prism.Munq;
 
     [TestClass]
     public class MunqBootstrapperFixture : BootstrapperFixtureBase
@@ -155,89 +153,89 @@ namespace Prism.Munq.Wpf.Tests
 
         public IMunqContainer CallCreateContainer()
         {
-            return this.CreateContainer();
+            return CreateContainer();
         }
 
         protected override IMunqContainer CreateContainer()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.CreateContainerCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            CreateContainerCalled = true;
             return base.CreateContainer();
         }
 
         protected override void ConfigureContainer()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.ConfigureContainerCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            ConfigureContainerCalled = true;
             base.ConfigureContainer();
         }
 
         protected override ILoggerFacade CreateLogger()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.CreateLoggerCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            CreateLoggerCalled = true;
             return new MockLoggerAdapter();
         }
 
         protected override DependencyObject CreateShell()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.CreateShellCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            CreateShellCalled = true;
             return ShellObject;
         }
 
         protected override void ConfigureServiceLocator()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.ConfigureServiceLocatorCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            ConfigureServiceLocatorCalled = true;
             base.ConfigureServiceLocator();
         }
 
         protected override void ConfigureViewModelLocator()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.ConfigureViewModelLocatorCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            ConfigureViewModelLocatorCalled = true;
             base.ConfigureViewModelLocator();
         }
 
         protected override IModuleCatalog CreateModuleCatalog()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.CreateModuleCatalogCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            CreateModuleCatalogCalled = true;
             return base.CreateModuleCatalog();
         }
 
         protected override void ConfigureModuleCatalog()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.ConfigureModuleCatalogCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            ConfigureModuleCatalogCalled = true;
             base.ConfigureModuleCatalog();
         }
 
         protected override void InitializeShell()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.InitializeShellCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            InitializeShellCalled = true;
             // no op
         }
 
         protected override void InitializeModules()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.InitializeModulesCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            InitializeModulesCalled = true;
             base.InitializeModules();
         }
 
         protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.ConfigureDefaultRegionBehaviorsCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            ConfigureDefaultRegionBehaviorsCalled = true;
             return base.ConfigureDefaultRegionBehaviors();
         }
 
         protected override RegionAdapterMappings ConfigureRegionAdapterMappings()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
             ConfigureRegionAdapterMappingsCalled = true;
             var regionAdapterMappings = base.ConfigureRegionAdapterMappings();
 
@@ -248,7 +246,7 @@ namespace Prism.Munq.Wpf.Tests
 
         protected override void RegisterFrameworkExceptionTypes()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
             base.RegisterFrameworkExceptionTypes();
         }
 

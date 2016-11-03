@@ -630,7 +630,7 @@ namespace Prism.Munq.Wpf.Tests
 
             protected override IMunqContainer CreateContainer()
             {
-                return this.container;
+                return container;
             }
 
             protected override DependencyObject CreateShell()

@@ -24,8 +24,8 @@ namespace Prism.Munq.Wpf.Tests
 
             protected override void ConfigureContainer()
             {
-                this.Container.RegisterInstance(this.Logger);
-                this.Container.RegisterInstance(this.ModuleCatalog);
+                Container.RegisterInstance(Logger);
+                Container.RegisterInstance(ModuleCatalog);
 
                 RegisterTypeIfMissing<IServiceLocator>(_ => new MunqServiceLocatorAdapter(Container), true);
             }
@@ -47,7 +47,7 @@ namespace Prism.Munq.Wpf.Tests
 
             protected override void InitializeModules()
             {
-                this.InitializeModulesCalled = true;
+                InitializeModulesCalled = true;
             }
         }
     }

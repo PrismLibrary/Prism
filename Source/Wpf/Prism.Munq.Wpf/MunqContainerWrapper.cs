@@ -1,190 +1,187 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Munq;
 
 namespace Prism.Munq
 {
     public class MunqContainerWrapper : IMunqContainer
     {
-        private IocContainer wrappedContainer;
+        private IocContainer _wrappedContainer;
 
         public MunqContainerWrapper()
         {
-            wrappedContainer = new IocContainer();
+            _wrappedContainer = new IocContainer();
         }
 
         public ILifetimeManager DefaultLifetimeManager
         {
-            get { return wrappedContainer.DefaultLifetimeManager; }
-            set { wrappedContainer.DefaultLifetimeManager = value; }
+            get { return _wrappedContainer.DefaultLifetimeManager; }
+            set { _wrappedContainer.DefaultLifetimeManager = value; }
         }
 
         public bool CanResolve(Type type)
         {
-            return wrappedContainer.CanResolve(type);
+            return _wrappedContainer.CanResolve(type);
         }
 
         public bool CanResolve(string name, Type type)
         {
-            return wrappedContainer.CanResolve(name, type);
+            return _wrappedContainer.CanResolve(name, type);
         }
 
         public bool CanResolve<TType>() where TType : class
         {
-            return wrappedContainer.CanResolve<TType>();
+            return _wrappedContainer.CanResolve<TType>();
         }
 
         public bool CanResolve<TType>(string name) where TType : class
         {
-            return wrappedContainer.CanResolve<TType>(name);
+            return _wrappedContainer.CanResolve<TType>(name);
         }
 
         public IRegistration GetRegistration(Type type)
         {
-            return wrappedContainer.GetRegistration(type);
+            return _wrappedContainer.GetRegistration(type);
         }
 
         public IRegistration GetRegistration(string name, Type type)
         {
-            return wrappedContainer.GetRegistration(name, type);
+            return _wrappedContainer.GetRegistration(name, type);
         }
 
         public IRegistration GetRegistration<TType>() where TType : class
         {
-            return wrappedContainer.GetRegistration<TType>();
+            return _wrappedContainer.GetRegistration<TType>();
         }
 
         public IRegistration GetRegistration<TType>(string name) where TType : class
         {
-            return wrappedContainer.GetRegistration<TType>(name);
+            return _wrappedContainer.GetRegistration<TType>(name);
         }
 
         public IEnumerable<IRegistration> GetRegistrations(Type type)
         {
-            return wrappedContainer.GetRegistrations(type);
+            return _wrappedContainer.GetRegistrations(type);
         }
 
         public IEnumerable<IRegistration> GetRegistrations<TType>() where TType : class
         {
-            return wrappedContainer.GetRegistrations<TType>();
+            return _wrappedContainer.GetRegistrations<TType>();
         }
 
         public Func<object> LazyResolve(Type type)
         {
-            return wrappedContainer.LazyResolve(type);
+            return _wrappedContainer.LazyResolve(type);
         }
 
         public Func<object> LazyResolve(string name, Type type)
         {
-            return wrappedContainer.LazyResolve(name, type);
+            return _wrappedContainer.LazyResolve(name, type);
         }
 
         public Func<TType> LazyResolve<TType>() where TType : class
         {
-            return wrappedContainer.LazyResolve<TType>();
+            return _wrappedContainer.LazyResolve<TType>();
         }
 
         public Func<TType> LazyResolve<TType>(string name) where TType : class
         {
-            return wrappedContainer.LazyResolve<TType>(name);
+            return _wrappedContainer.LazyResolve<TType>(name);
         }
 
         public IRegistration Register(Type tType, Type tImpl)
         {
-            return wrappedContainer.Register(tType, tImpl);
+            return _wrappedContainer.Register(tType, tImpl);
         }
 
         public IRegistration Register(Type type, Func<IDependencyResolver, object> func)
         {
-            return wrappedContainer.Register(type, func);
+            return _wrappedContainer.Register(type, func);
         }
 
         public IRegistration Register(string name, Type tType, Type tImpl)
         {
-            return wrappedContainer.Register(name, tType, tImpl);
+            return _wrappedContainer.Register(name, tType, tImpl);
         }
 
         public IRegistration Register(string name, Type type, Func<IDependencyResolver, object> func)
         {
-            return wrappedContainer.Register(name, type, func);
+            return _wrappedContainer.Register(name, type, func);
         }
 
         public IRegistration Register<TType>(Func<IDependencyResolver, TType> func) where TType : class
         {
-            return wrappedContainer.Register<TType>(func);
+            return _wrappedContainer.Register<TType>(func);
         }
 
         public IRegistration Register<TType>(string name, Func<IDependencyResolver, TType> func) where TType : class
         {
-            return wrappedContainer.Register<TType>(name, func);
+            return _wrappedContainer.Register<TType>(name, func);
         }
 
         public IRegistration RegisterInstance(Type type, object instance)
         {
-            return wrappedContainer.RegisterInstance(type, instance);
+            return _wrappedContainer.RegisterInstance(type, instance);
         }
 
         public IRegistration RegisterInstance(string name, Type type, object instance)
         {
-            return wrappedContainer.RegisterInstance(name, type, instance);
+            return _wrappedContainer.RegisterInstance(name, type, instance);
         }
 
         public IRegistration RegisterInstance<TType>(TType instance) where TType : class
         {
-            return wrappedContainer.RegisterInstance<TType>(instance);
+            return _wrappedContainer.RegisterInstance<TType>(instance);
         }
 
         public IRegistration RegisterInstance<TType>(string name, TType instance) where TType : class
         {
-            return wrappedContainer.RegisterInstance<TType>(name, instance);
+            return _wrappedContainer.RegisterInstance<TType>(name, instance);
         }
 
         public void Remove(IRegistration ireg)
         {
-            wrappedContainer.Remove(ireg);
+            _wrappedContainer.Remove(ireg);
         }
 
         public object Resolve(Type type)
         {
-            return wrappedContainer.Resolve(type);
+            return _wrappedContainer.Resolve(type);
         }
 
         public object Resolve(string name, Type type)
         {
-            return wrappedContainer.Resolve(name, type);
+            return _wrappedContainer.Resolve(name, type);
         }
 
         public TType Resolve<TType>() where TType : class
         {
-            return wrappedContainer.Resolve<TType>();
+            return _wrappedContainer.Resolve<TType>();
         }
 
         public TType Resolve<TType>(string name) where TType : class
         {
-            return wrappedContainer.Resolve<TType>(name);
+            return _wrappedContainer.Resolve<TType>(name);
         }
 
         public IEnumerable<object> ResolveAll(Type type)
         {
-            return wrappedContainer.ResolveAll(type);
+            return _wrappedContainer.ResolveAll(type);
         }
 
         public IEnumerable<TType> ResolveAll<TType>() where TType : class
         {
-            return wrappedContainer.ResolveAll<TType>();
+            return _wrappedContainer.ResolveAll<TType>();
         }
 
         IRegistration IDependecyRegistrar.Register<TType, TImpl>()
         {
-            return wrappedContainer.Register<TType, TImpl>();
+            return _wrappedContainer.Register<TType, TImpl>();
         }
 
         IRegistration IDependecyRegistrar.Register<TType, TImpl>(string name)
         {
-            return wrappedContainer.Register<TType, TImpl>(name);
+            return _wrappedContainer.Register<TType, TImpl>(name);
         }
     }
 }

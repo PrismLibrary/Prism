@@ -17,7 +17,7 @@ namespace Prism.Munq.Wpf.Tests
             IMunqContainer container = new MunqContainerWrapper();
             container.RegisterTypeForNavigation<MockView>();
 
-            this.ConfigureMockServiceLocator(container);
+            ConfigureMockServiceLocator(container);
 
             // We cannot access the UnityRegionNavigationContentLoader directly so we need to call its
             // GetCandidatesFromRegion method through a navigation request.
@@ -41,7 +41,7 @@ namespace Prism.Munq.Wpf.Tests
             IMunqContainer container = new MunqContainerWrapper();
             container.RegisterTypeForNavigation<MockView>("SomeView");
 
-            this.ConfigureMockServiceLocator(container);
+            ConfigureMockServiceLocator(container);
 
             // We cannot access the UnityRegionNavigationContentLoader directly so we need to call its
             // GetCandidatesFromRegion method through a navigation request.

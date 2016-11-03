@@ -1,13 +1,14 @@
-    using System;
-    using System.Globalization;
-    using global::Munq;
-    using Microsoft.Practices.ServiceLocation;
-    using Prism.Events;
-    using Prism.Logging;
-    using Prism.Modularity;
-    using Prism.Munq.Properties;
-    using Prism.Regions;
-    using Prism.Munq.Regions;
+using System;
+using System.Globalization;
+using Munq;
+using Microsoft.Practices.ServiceLocation;
+using Prism.Events;
+using Prism.Logging;
+using Prism.Modularity;
+using Prism.Munq.Properties;
+using Prism.Regions;
+using Prism.Munq.Regions;
+
 namespace Prism.Munq
 {
 
@@ -22,7 +23,7 @@ namespace Prism.Munq
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
     public abstract class MunqBootstrapper : Bootstrapper
     {
-        private bool useDefaultConfiguration = true;
+        private bool _useDefaultConfiguration = true;
 
         /// <summary>
         /// Gets the default <see cref="IMunqContainer"/> for the application.
@@ -36,72 +37,72 @@ namespace Prism.Munq
         /// <param name="runWithDefaultConfiguration">If <see langword="true"/>, registers default Prism Library services in the container. This is the default behavior.</param>
         public override void Run(bool runWithDefaultConfiguration)
         {
-            this.useDefaultConfiguration = runWithDefaultConfiguration;
+            _useDefaultConfiguration = runWithDefaultConfiguration;
 
-            this.Logger = this.CreateLogger();
-            if (this.Logger == null)
+            Logger = CreateLogger();
+            if (Logger == null)
             {
                 throw new InvalidOperationException(Resources.NullLoggerFacadeException);
             }
 
-            this.Logger.Log(Resources.LoggerCreatedSuccessfully, Category.Debug, Priority.Low);
+            Logger.Log(Resources.LoggerCreatedSuccessfully, Category.Debug, Priority.Low);
 
-            this.Logger.Log(Resources.CreatingModuleCatalog, Category.Debug, Priority.Low);
-            this.ModuleCatalog = this.CreateModuleCatalog();
-            if (this.ModuleCatalog == null)
+            Logger.Log(Resources.CreatingModuleCatalog, Category.Debug, Priority.Low);
+            ModuleCatalog = CreateModuleCatalog();
+            if (ModuleCatalog == null)
             {
                 throw new InvalidOperationException(Resources.NullModuleCatalogException);
             }
 
-            this.Logger.Log(Resources.ConfiguringModuleCatalog, Category.Debug, Priority.Low);
-            this.ConfigureModuleCatalog();
+            Logger.Log(Resources.ConfiguringModuleCatalog, Category.Debug, Priority.Low);
+            ConfigureModuleCatalog();
 
-            this.Logger.Log(Resources.CreatingMunqContainer, Category.Debug, Priority.Low);
-            this.Container = this.CreateContainer();
-            if (this.Container == null)
+            Logger.Log(Resources.CreatingMunqContainer, Category.Debug, Priority.Low);
+            Container = CreateContainer();
+            if (Container == null)
             {
                 throw new InvalidOperationException(Resources.NullMunqContainerException);
             }
 
-            this.Logger.Log(Resources.ConfiguringMunqContainer, Category.Debug, Priority.Low);
-            this.ConfigureContainer();
+            Logger.Log(Resources.ConfiguringMunqContainer, Category.Debug, Priority.Low);
+            ConfigureContainer();
 
-            this.Logger.Log(Resources.ConfiguringServiceLocatorSingleton, Category.Debug, Priority.Low);
-            this.ConfigureServiceLocator();
+            Logger.Log(Resources.ConfiguringServiceLocatorSingleton, Category.Debug, Priority.Low);
+            ConfigureServiceLocator();
 
-            this.Logger.Log(Resources.ConfiguringViewModelLocator, Category.Debug, Priority.Low);
-            this.ConfigureViewModelLocator();
+            Logger.Log(Resources.ConfiguringViewModelLocator, Category.Debug, Priority.Low);
+            ConfigureViewModelLocator();
 
-            this.Logger.Log(Resources.ConfiguringRegionAdapters, Category.Debug, Priority.Low);
-            this.ConfigureRegionAdapterMappings();
+            Logger.Log(Resources.ConfiguringRegionAdapters, Category.Debug, Priority.Low);
+            ConfigureRegionAdapterMappings();
 
-            this.Logger.Log(Resources.ConfiguringDefaultRegionBehaviors, Category.Debug, Priority.Low);
-            this.ConfigureDefaultRegionBehaviors();
+            Logger.Log(Resources.ConfiguringDefaultRegionBehaviors, Category.Debug, Priority.Low);
+            ConfigureDefaultRegionBehaviors();
 
-            this.Logger.Log(Resources.RegisteringFrameworkExceptionTypes, Category.Debug, Priority.Low);
-            this.RegisterFrameworkExceptionTypes();
+            Logger.Log(Resources.RegisteringFrameworkExceptionTypes, Category.Debug, Priority.Low);
+            RegisterFrameworkExceptionTypes();
 
-            this.Logger.Log(Resources.CreatingShell, Category.Debug, Priority.Low);
-            this.Shell = this.CreateShell();
-            if (this.Shell != null)
+            Logger.Log(Resources.CreatingShell, Category.Debug, Priority.Low);
+            Shell = CreateShell();
+            if (Shell != null)
             {
-                this.Logger.Log(Resources.SettingTheRegionManager, Category.Debug, Priority.Low);
-                RegionManager.SetRegionManager(this.Shell, this.Container.Resolve<IRegionManager>());
+                Logger.Log(Resources.SettingTheRegionManager, Category.Debug, Priority.Low);
+                RegionManager.SetRegionManager(Shell, Container.Resolve<IRegionManager>());
 
-                this.Logger.Log(Resources.UpdatingRegions, Category.Debug, Priority.Low);
+                Logger.Log(Resources.UpdatingRegions, Category.Debug, Priority.Low);
                 RegionManager.UpdateRegions();
 
-                this.Logger.Log(Resources.InitializingShell, Category.Debug, Priority.Low);
-                this.InitializeShell();
+                Logger.Log(Resources.InitializingShell, Category.Debug, Priority.Low);
+                InitializeShell();
             }
 
-            if (this.Container.CanResolve<IModuleManager>())
+            if (Container.CanResolve<IModuleManager>())
             {
-                this.Logger.Log(Resources.InitializingModules, Category.Debug, Priority.Low);
-                this.InitializeModules();
+                Logger.Log(Resources.InitializingModules, Category.Debug, Priority.Low);
+                InitializeModules();
             }
 
-            this.Logger.Log(Resources.BootstrapperSequenceCompleted, Category.Debug, Priority.Low);
+            Logger.Log(Resources.BootstrapperSequenceCompleted, Category.Debug, Priority.Low);
         }
 
         /// <summary>
@@ -109,7 +110,7 @@ namespace Prism.Munq
         /// </summary>
         protected override void ConfigureServiceLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => this.Container.Resolve<IServiceLocator>());
+            ServiceLocator.SetLocatorProvider(() => Container.Resolve<IServiceLocator>());
         }
 
         /// <summary>
@@ -118,11 +119,11 @@ namespace Prism.Munq
         /// </summary>
         protected virtual void ConfigureContainer()
         {
-            this.Container.RegisterInstance(Logger);
+            Container.RegisterInstance(Logger);
 
-            this.Container.RegisterInstance(this.ModuleCatalog);
+            Container.RegisterInstance(ModuleCatalog);
 
-            if (useDefaultConfiguration)
+            if (_useDefaultConfiguration)
             {
                 RegisterTypeIfMissing<IServiceLocator>(_ => 
                     new MunqServiceLocatorAdapter(
@@ -176,7 +177,7 @@ namespace Prism.Munq
 
             try
             {
-                manager = this.Container.Resolve<IModuleManager>();
+                manager = Container.Resolve<IModuleManager>();
             }
             catch (Exception ex)
             {

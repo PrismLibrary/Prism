@@ -5,7 +5,6 @@ using Prism.IocContainer.Wpf.Tests.Support;
 
 namespace Prism.Munq.Wpf.Tests
 {
-    using global::Munq;
 
     [TestClass]
     public class MunqBootstrapperNullContainerFixture : BootstrapperFixtureBase

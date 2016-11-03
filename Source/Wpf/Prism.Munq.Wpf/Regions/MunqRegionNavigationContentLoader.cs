@@ -44,11 +44,11 @@ namespace Prism.Munq.Regions
             if (!contractCandidates.Any())
             {
                 // First try friendly name registration. If not found, try type registration
-                var matchingRegistration = this.container.GetRegistrations<object>().Where(r => candidateNavigationContract.Equals(r.Name, StringComparison.Ordinal)).FirstOrDefault();                
+                var matchingRegistration = container.GetRegistrations<object>().Where(r => candidateNavigationContract.Equals(r.Name, StringComparison.Ordinal)).FirstOrDefault();                
                 if (matchingRegistration == null)
                 {
-                    matchingRegistration = this
-                        .container
+                    matchingRegistration =
+                        container
                         .GetRegistrations<object>()
                         .Where(r => 
                         {
