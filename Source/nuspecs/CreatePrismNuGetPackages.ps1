@@ -91,6 +91,24 @@ else
 }
 
 
+###########################
+######  Prism.Munq  ######
+###########################
+$munqNuspecPath = 'Prism.Munq.nuspec'
+$munqWpfAssemblyPath = '../Wpf/Prism.Munq.Wpf/bin/Release/Prism.Munq.Wpf.dll'
+if (!(Test-Path $munqWpfAssemblyPath))
+{
+    Write-Host 'Prism.Munq.Wpf.dll not found'
+}
+else
+{
+    ### all assemblies should be versioned the same, so we can just use the first one ###
+    $munqWpfFileInfo = Get-Item $munqWpfAssemblyPath
+    $munqFileVersion = $munqWpfFileInfo.VersionInfo.ProductVersion   
+
+    Invoke-Expression ".\$($nugetFileName) pack $($munqNuspecPath) -Prop version=$($munqFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+}
+
 
 ###########################
 ######  Prism.Unity  ######
