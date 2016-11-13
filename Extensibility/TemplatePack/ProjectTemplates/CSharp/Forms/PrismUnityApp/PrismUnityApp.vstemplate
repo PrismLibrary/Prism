@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
-    <Name>Prism Unity App (Forms)</Name>
+    <Name>Prism Unity App (Xamarin.Forms)</Name>
     <Description>A multiproject template for building Xamarin.Forms app with Prism and Unity, sharing code using a portable class library.</Description>
     <Icon>PrismUnityApp.ico</Icon>
     <ProjectType>CSharp</ProjectType>
@@ -21,25 +21,30 @@
     </CustomParameters>
   </TemplateContent>
 
-  <WizardExtension>
+  <!--<WizardExtension>
     <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
     <FullClassName>Xamarin.VisualStudio.TemplateWizards.EnsureRegistryWizard</FullClassName>
   </WizardExtension>
   <WizardExtension>
     <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
     <FullClassName>Xamarin.VisualStudio.TemplateWizards.FixBuildConfigurationWizard</FullClassName>
+  </WizardExtension>-->
+
+  <WizardExtension>
+    <Assembly>Xamarin.Forms.Templates.VisualStudio</Assembly>
+    <FullClassName>Xamarin.Forms.Templates.Wizards.SolutionGuids</FullClassName>
   </WizardExtension>
   <WizardExtension>
     <Assembly>Prism.VisualStudio.Wizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a733e2c14bc2eb81</Assembly>
     <FullClassName>Prism.VisualStudio.Wizards.XamarinFormsProjectWizard</FullClassName>
   </WizardExtension>
 
-  <WizardData>
+  <!--<WizardData>
     <EnsureRegistryWizard>
       <Key>_Config\Projects\{786C830F-07A1-408B-BD7F-6EE04809D6DB}</Key>
       <ErrorMessageTitle>Portable Library Tools 2 required</ErrorMessageTitle>
       <ErrorMessage>To create Xamarin Forms projects please install Portable Library Tools 2.</ErrorMessage>
     </EnsureRegistryWizard>
-  </WizardData>
+  </WizardData>-->
   
 </VSTemplate>
