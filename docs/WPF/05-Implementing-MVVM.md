@@ -444,8 +444,10 @@ The Prism view model locator has a **AutoWireViewModel** attached property that 
 
 In the Basic MVVM QuickStart, the MainWindow.xaml uses the view model locator to resolve the view model.
 
-    ...
-        prism:ViewModelLocator.AutoWireViewModel="True"&gt;
+    <Window x:Class="QuickStart.Views.MainWindow"
+        ...
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True">
 
 Prism’s **ViewModelLocator** class has an attached property, **AutoWireViewMode**l that when set to true will try to locate the view model of the view, and then set the view’s data context to an instance of the view model. To locate the corresponding view model, the **ViewModelLocationProvider** first attempts to resolve the view model from any mappings that may have been registered by the **Register** method of the **ViewModelLocationProvider** class. If the view model cannot be resolved using this approach, for instance if the mapping wasn't created, the **ViewModelLocationProvider** falls back to a convention-based approach to resolve the correct view model type. This convention assumes that view models are in the same assembly as the view types, that view models are in a .**ViewModels** child namespace, that views are in a .**Views** child namespace, and that view model names correspond with view names and end with "ViewModel.". For instructions on how to change Prism’s View Model Locator convention, see [Appendix E: Extending Prism][2].
 
