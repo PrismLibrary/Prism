@@ -5,7 +5,7 @@ These are the base packages for each platform, together with the Prism's Core as
 
 | Platform | Assembly | Package | Version |
 | -------- | -------- | ------- | ------- |
-| PCL | Prism.dll | [Prism.Core][1] | [![21]][1] |
+| PCL | Prism.dll | [Prism.Core][1] | [![Prism.Core badge](https://img.shields.io/nuget/vpre/Prism.Core.svg)][1] |
 | WPF | Prism.Wpf.dll | [Prism.Wpf][2] | [![22]][2] |
 | Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][3] | [![23]][3] |
 | Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][4] | [![24]][4] |
