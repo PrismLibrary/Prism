@@ -37,6 +37,42 @@ Note that adding the container-specific package to your project, will also pull 
 
 ![NuGet package tree](images/NuGetPackageTree.png)
 
+### Overview of assemblies
+
+To recapitulate the packages described above, this is the list of all assemblies added to your solution by Prism 6 depending on the container and platform used.
+
+####Prism PCL
+| Assembly | Package |
+| -------- | ------- |
+| Prism.dll | [Prism.Core][1] |
+
+####WPF
+| Assembly | Package |
+| -------- | ------- |
+| Prism.Wpf.dll | [Prism.Wpf][2] |
+| Prism.Unity.Wpf.dll | [Prism.Unity][5] |
+| Prism.Mef.Wpf.dll | [Prism.Mef][6] |
+| Prism.Autofac.Wpf.dll | [Prism.Autofac][7] |
+| Prism.StructureMap.Wpf.dll | [Prism.StructureMap][8] |
+| Prism.Ninject.Wpf.dll | [Prism.Ninject][9] |
+
+####Xamarin.Forms
+| Assembly | Package |
+| -------- | ------- |
+| Prism.Forms.dll | [Prism.Forms][3] |
+| Prism.Unity.Forms.dll | [Prism.Unity.Forms][10] |
+| Prism.Ninject.Forms.dll | [Prism.Ninject.Forms][11] |
+| Prism.Autofac.Forms.dll | [Prism.Autofac.Forms][11] |
+| Prism.DryIoc.Forms.dll | [Prism.DryIoc.Forms][11] |
+
+####Universal Windows Platform
+| Assembly | Package |
+| -------- | ------- |
+| Prism.Windows.dll | [Prism.Windows][4] |
+| Prism.Unity.Windows.dll | [Prism.Unity][5] |
+| Prism.Autofac.Windows.dll | [Prism.Autofac][7] |
+
+
 [1]: https://www.nuget.org/packages/Prism.Core/
 [2]: https://www.nuget.org/packages/Prism.Wpf/
 [3]: https://www.nuget.org/packages/Prism.Forms/
