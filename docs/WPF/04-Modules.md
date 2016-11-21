@@ -551,6 +551,6 @@ For more information about assembly caching, see "[How to: Use Assembly Library 
 
 To learn more about modularity in Prism, see the Modularity with MEF for WPF QuickStart or the Modularity with Unity for WPF QuickStart. For more information about the QuickStarts, see .
 
-For information about the modularity features that can be extended in the Prism Library, see in .
+For information about the modularity features that can be extended in the Prism Library, see [Modules](Appendix-D-Extending-Prism.md/#modules) in [Extending Prism](Appendix-D-Extending-Prism.md).
 
 
