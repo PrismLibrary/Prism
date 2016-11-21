@@ -592,9 +592,9 @@ The following example shows how to configure the **ViewModelLocationProvider** t
 
 When bootstrapping your application use the **SetDefaultViewModelFactory** method to use your container to resolve view model types. The following is an example using Microsoft's Unity dependency injection container.
 
-    IUnityContainer \_container = new UnityContainer()
+    IUnityContainer _container = new UnityContainer();
     ...
-    ViewModelLocationProvider.SetDefaultViewModelFactory((t)=> \_container.Resolve(t));
+    ViewModelLocationProvider.SetDefaultViewModelFactory((t) => _container.Resolve(t));
 
 The default strategy for creating the view models is using the **Activator.CreateInstance** method, which is a valid approach if you have a default constructor in the view model and there are no dependencies to be injected.
 
