@@ -30,7 +30,7 @@ _**Note:** This hands-on lab uses the QuickStart that uses a Unity container, bu
 
 Additionally, this lab uses the Manifest Manager Utility, which is available on the Prism CodePlex site at <http://compositewpf.codeplex.com/releases/view/14771> in the **Download** section. You will need to download and extract the source code for that utility, and build it to use it later in the lab. You can either run it from a separate instance of Visual Studio or you can build once and just run the binaries for the second task in this lab.
 
-_**Note:** This hands-on lab assumes that you understand Prism modularity and deployment concepts. For more information, see [Modular Application Development](30-ModularApplicationDevelopment.md) and [Deploying Applications](90-DeployingPrismApplications.md)._
+_**Note:** This hands-on lab assumes that you understand Prism modularity and deployment concepts. For more information, see [Modular Application Development](04-Modules.md) and [Deploying Applications]10-Deploying.md)._
 
 ## Procedures
 
