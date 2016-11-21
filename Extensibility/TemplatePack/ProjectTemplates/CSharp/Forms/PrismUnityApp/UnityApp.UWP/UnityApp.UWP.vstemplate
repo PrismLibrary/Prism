@@ -37,26 +37,25 @@
       <CustomParameter Name="$hidewizard$" Value="false"/>
     </CustomParameters>
   </TemplateContent>
-  
   <WizardExtension>
-    <Assembly>Microsoft.VisualStudio.WinRT.TemplateWizards, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
-    <FullClassName>Microsoft.VisualStudio.WinRT.TemplateWizards.CreateProjectCertificate.Wizard</FullClassName>
-  </WizardExtension>
-  <WizardExtension>
-    <Assembly>NuGet.VisualStudio.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
-    <FullClassName>NuGet.VisualStudio.TemplateWizard</FullClassName>
-  </WizardExtension>
-  <WizardExtension>
-    <Assembly>Microsoft.VisualStudio.Universal.TemplateWizards, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
-    <FullClassName>Microsoft.VisualStudio.Universal.TemplateWizards.PlatformVersion.Wizard</FullClassName>
+    <Assembly>Xamarin.Forms.Templates.VisualStudio</Assembly>
+    <FullClassName>Xamarin.Forms.Templates.Wizards.SolutionGuids</FullClassName>
   </WizardExtension>
   <WizardExtension>
     <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
     <FullClassName>Xamarin.VisualStudio.TemplateWizards.ExtractRootProjectNameWizard</FullClassName>
   </WizardExtension>
   <WizardExtension>
+    <Assembly>NuGet.VisualStudio.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>NuGet.VisualStudio.TemplateWizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
     <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
     <FullClassName>Xamarin.VisualStudio.TemplateWizards.EnsureRegistryWizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <Assembly>Xamarin.Forms.Templates.VisualStudio</Assembly>
+    <FullClassName>Xamarin.Forms.Templates.Wizards.SetWindowsUniversalPlatformVersion</FullClassName>
   </WizardExtension>
   
   <WizardData>
