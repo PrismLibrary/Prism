@@ -16,13 +16,19 @@
           <Default>string</Default>
         </Literal>
         <Literal>
+          <ID>fieldName</ID>
+          <ToolTip>Replace with the field name</ToolTip>
+          <Default>fieldName</Default>
+        </Literal>
+        <Literal>
           <ID>CommandName</ID>
           <ToolTip>Replace with the command name</ToolTip>
           <Default>CommandName</Default>
         </Literal>
       </Declarations>
       <Code Language="csharp">
-        <![CDATA[public DelegateCommand<$parameterType$> $CommandName$Command => new DelegateCommand<$parameterType$>($CommandName$, Can$CommandName$);]]>
+        <![CDATA[DelegateCommand<$parameterType$> $fieldName$Command;
+        public DelegateCommand<$parameterType$> $CommandName$Command => $fieldName$Command ?? ($fieldName$Command = new DelegateCommand<$parameterType$>($CommandName$, Can$CommandName$));]]>
       </Code>
     </Snippet>
   </CodeSnippet>
