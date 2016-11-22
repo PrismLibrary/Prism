@@ -162,11 +162,7 @@ namespace Prism
         {
             if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
             {
-                var parameters = new NavigationParameters();
-
-                PageUtilities.OnNavigatedFrom(e.Modal, parameters);
-                PageUtilities.OnNavigatedTo(_previousPage, parameters);
-                PageUtilities.DestroyPage(e.Modal);
+                PageUtilities.HandleSystemGoBack(e.Modal, _previousPage);
                 _previousPage = null;
             }
         }

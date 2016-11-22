@@ -87,7 +87,10 @@ namespace ModuleA.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-
+            if (parameters.GetNavigationMode() == NavigationMode.Back)
+                Title = "Went Back";
+            else
+                Title = "Went Forward";
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)

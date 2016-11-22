@@ -156,5 +156,14 @@ namespace Prism.Common
 
             return stackCount - 1;
         }
+
+        public static void HandleSystemGoBack(Page previousPage, Page currentPage)
+        {
+            var parameters = new NavigationParameters();
+            parameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.Back);
+            OnNavigatedFrom(previousPage, parameters);
+            OnNavigatedTo(currentPage, parameters);
+            DestroyPage(previousPage);
+        }
     }
 }

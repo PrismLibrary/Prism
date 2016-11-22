@@ -22,10 +22,7 @@ namespace Prism.Behaviors
         {
             if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
             {
-                var parameters = new NavigationParameters();
-                PageUtilities.OnNavigatedFrom(e.Page, parameters);
-                PageUtilities.OnNavigatedTo(AssociatedObject.CurrentPage, parameters);
-                PageUtilities.DestroyPage(e.Page);
+                PageUtilities.HandleSystemGoBack(e.Page, AssociatedObject.CurrentPage);
             }            
         }
     }
