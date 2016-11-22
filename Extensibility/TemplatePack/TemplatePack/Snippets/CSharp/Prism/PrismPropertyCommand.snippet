@@ -11,13 +11,19 @@
     <Snippet>
       <Declarations>
         <Literal>
+          <ID>fieldName</ID>
+          <ToolTip>Replace with the field name</ToolTip>
+          <Default>fieldName</Default>
+        </Literal>
+        <Literal>
           <ID>CommandName</ID>
           <ToolTip>Replace with the command name</ToolTip>
           <Default>CommandName</Default>
         </Literal>
       </Declarations>
       <Code Language="csharp">
-        <![CDATA[public DelegateCommand $CommandName$Command => new DelegateCommand($CommandName$, Can$CommandName$);$end$]]>
+        <![CDATA[private DelegateCommand $fieldName$Command;
+        public DelegateCommand $CommandName$Command => $fieldName$Command ?? ($fieldName$Command = new DelegateCommand($CommandName$, Can$CommandName$));$end$]]>
       </Code>
     </Snippet>
   </CodeSnippet>
