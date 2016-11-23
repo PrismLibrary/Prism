@@ -86,6 +86,8 @@
     <Compile Include="Logging\DebugLoggerFixture.cs" />
     <Compile Include="Logging\EmptyLoggerFixture.cs" />
     <Compile Include="Mocks\Commands\DelegateCommandMock.cs" />
+    <Compile Include="Mocks\Models\MockPropertyChangedModel.cs" />
+    <Compile Include="Mocks\ViewModels\MockPropertyChangedViewModel.cs" />
     <Compile Include="Mocks\ViewModels\MockValidatingViewModel.cs" />
     <Compile Include="Mocks\ViewModels\MockViewModel.cs" />
     <Compile Include="Mocks\Views\Mock.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="Mvvm\CompositeCommandFixture.cs" />
     <Compile Include="Mvvm\DelegateCommandFixture.cs" />
     <Compile Include="Mvvm\ErrorsContainerFixture.cs" />
+    <Compile Include="Mvvm\PropertyChangedListenerFixture.cs" />
     <Compile Include="Mvvm\PropertySupportFixture.cs" />
     <Compile Include="Mvvm\ViewModelLocationProviderFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
