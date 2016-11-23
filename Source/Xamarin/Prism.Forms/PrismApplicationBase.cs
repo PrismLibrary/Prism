@@ -150,6 +150,22 @@ namespace Prism
         /// </summary>
         protected abstract void RegisterTypes();
 
+        protected override void OnResume()
+        {
+            var page = PageUtilities.GetCurrentPage();
+            var parameters = new NavigationParameters();
+            parameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.Resume);
+            PageUtilities.InvokeViewAndViewModelAction<INavigationAware>(page, x => x.OnNavigatedTo(parameters));
+        }
+
+        protected override void OnSleep()
+        {
+            var page = PageUtilities.GetCurrentPage();
+            var parameters = new NavigationParameters();
+            parameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.Sleep);
+            PageUtilities.InvokeViewAndViewModelAction<INavigationAware>(page, x => x.OnNavigatedFrom(parameters));
+        }
+
         private void PrismApplicationBase_ModalPopping(object sender, ModalPoppingEventArgs e)
         {
             if (PageNavigationService.NavigationSource == PageNavigationSource.Device)

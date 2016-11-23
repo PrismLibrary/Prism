@@ -157,6 +157,17 @@ namespace Prism.Common
             return stackCount - 1;
         }
 
+        public static Page GetCurrentPage()
+        {
+            var page = Application.Current.MainPage;
+
+            var lastModal = page.Navigation.ModalStack.LastOrDefault();
+            if (lastModal != null)
+                page = lastModal;
+
+            return GetOnNavigatedToTargetFromChild(page);
+        }
+
         public static void HandleSystemGoBack(Page previousPage, Page currentPage)
         {
             var parameters = new NavigationParameters();

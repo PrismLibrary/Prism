@@ -87,15 +87,20 @@ namespace ModuleA.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-            if (parameters.GetNavigationMode() == NavigationMode.Back)
+            var navigationMode = parameters.GetNavigationMode();
+            if (navigationMode == NavigationMode.Back)
                 Title = "Went Back";
-            else
-                Title = "Went Forward";
+            else if (navigationMode == NavigationMode.New)
+                Title = "Went to New Page";
+            else if (navigationMode == NavigationMode.Sleep)
+                Title = "App when to sleep";
+            else if (navigationMode == NavigationMode.Resume)
+                Title = "App resumed";
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)
         {
-            
+
         }
     }
 }

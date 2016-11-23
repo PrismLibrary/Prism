@@ -1,8 +1,10 @@
 ﻿namespace Prism.Navigation
 {
     public enum NavigationMode
-    {
-        Forward,
-        Back
+    {        
+        Back,
+        New,
+        Resume,
+        Sleep
     }
 }

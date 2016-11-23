@@ -371,7 +371,7 @@ namespace Prism.Navigation
         protected static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Func<Task> navigationAction = null, Action onNavigationActionCompleted = null)
         {
             var segmentParameters = UriParsingHelper.GetSegmentParameters(toSegment, parameters);
-            segmentParameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.Forward);
+            segmentParameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.New);
 
             var canNavigate = await CanNavigateAsync(fromPage, segmentParameters);
             if (!canNavigate)
