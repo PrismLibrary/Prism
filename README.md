@@ -14,6 +14,10 @@ At the current time we have no plans to create new versions of the library for S
 | Prism.Windows | <img src="https://ci.appveyor.com/api/projects/status/j04r6a45fi2f9pv4/branch/master?svg=true" /> |
 | Prism.Forms | <img src="https://ci.appveyor.com/api/projects/status/6ly53jgvwx62bm9u/branch/master?svg=true" /> |
 
+#Documentation
+
+The documentation is maintained in this repo under /docs and can be found in a readable format on [Read the Docs](http://prismlibrary.readthedocs.io/en/latest/).
+
 #Help Support Prism
 
 As most of you know, it takes a lot of time and effort for our small team to manage and maintain Prism in our spare time.  Even though Prism is open source and hosted on GitHub, there are a number of costs associated with maintaining a project such as Prism.  If you would like to help support us, the easiest thing you can do is watch our Pluralsight courses on Prism.  By watching our courses, not only do you help support the project financially, but you might also learn something along the way.  We believe this is a win-win for everyone.
@@ -65,9 +69,9 @@ Following matrix shows the platform specific support currently available.
 
 Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package and the rest will be pulled in as well.
 
-![NuGet package tree](Documentation/images/NuGetPackageTree.png)
+![NuGet package tree](docs/images/NuGetPackageTree.png)
 
-A detailed overview of each assembly per package is available [here](Documentation/DownloadandSetupPrism.md#overview-of-assemblies).
+A detailed overview of each assembly per package is available [here](docs/DownloadandSetupPrism.md#overview-of-assemblies).
 
 # Prism Template Pack
 Prism now integrates with Visual Studio and Xamarin Studio to enable a highly productive developer workflow for creating WPF, UWP, and native iOS and Android applications using Xamarin.Forms.  Jump start your Prism apps with code snippets, item templates, and project templates for your IDE of choice.
@@ -75,12 +79,12 @@ Prism now integrates with Visual Studio and Xamarin Studio to enable a highly pr
 ### Visual Studio Gallery
 The Prism Template Pack is available on the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/e7b6bde2-ba59-43dd-9d14-58409940ffa0).  To install, just go to Visual Studio -> Tools -> Extensions and Updates... then search for **Prism** in the online gallery:
 
-![Visual Studio Gallery](Documentation/images/prism-visual-studio-gallery.jpg)
+![Visual Studio Gallery](docs/images/prism-visual-studio-gallery.jpg)
 
 ### Xamarin Studio Addin
 Installation is straightforward if you've installed Xamarin Add-ins before, just go to  Xamarin Studio -> Add-In Manager...  from the Menu and then search for  **Prism**  from the Gallery:
 
-![Xamarin Studio Addin Manager](Documentation/images/prism-xamarin-studio-addin-manager.jpg)
+![Xamarin Studio Addin Manager](docs/images/prism-xamarin-studio-addin-manager.jpg)
 
 # Samples
 We have both a development sandbox (frequently changing) and stable samples for using Prism with WPF, UWP and Xamarin Forms. An overview of the samples can be found [here](Sandbox/README.md).
