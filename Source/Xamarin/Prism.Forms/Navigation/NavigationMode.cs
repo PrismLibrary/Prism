@@ -3,8 +3,6 @@
     public enum NavigationMode
     {        
         Back,
-        New,
-        Resume,
-        Sleep
+        New
     }
 }

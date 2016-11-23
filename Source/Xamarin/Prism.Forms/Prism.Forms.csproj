@@ -52,6 +52,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AppModel\IApplicationLifecycle.cs" />
     <Compile Include="Behaviors\BehaviorBase{T}.cs" />
     <Compile Include="Behaviors\CarouselPageActiveAwareBehavior.cs" />
     <Compile Include="Behaviors\NavigationPageSystemGoBackBehavior.cs" />

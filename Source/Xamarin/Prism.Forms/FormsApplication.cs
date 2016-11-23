@@ -37,6 +37,16 @@ namespace Prism
         /// Event that is raised when a view is popped modally
         /// </summary>
         public event EventHandler<ModalPoppedEventArgs> ModalPopped;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void OnResume() { }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void OnSleep() { }
     }
 }
 

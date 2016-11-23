@@ -153,17 +153,13 @@ namespace Prism
         protected override void OnResume()
         {
             var page = PageUtilities.GetCurrentPage();
-            var parameters = new NavigationParameters();
-            parameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.Resume);
-            PageUtilities.InvokeViewAndViewModelAction<INavigationAware>(page, x => x.OnNavigatedTo(parameters));
+            PageUtilities.InvokeViewAndViewModelAction<AppModel.IApplicationLifecycle>(page, x => x.OnResume());
         }
 
         protected override void OnSleep()
         {
             var page = PageUtilities.GetCurrentPage();
-            var parameters = new NavigationParameters();
-            parameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.Sleep);
-            PageUtilities.InvokeViewAndViewModelAction<INavigationAware>(page, x => x.OnNavigatedFrom(parameters));
+            PageUtilities.InvokeViewAndViewModelAction<AppModel.IApplicationLifecycle>(page, x => x.OnSleep());
         }
 
         private void PrismApplicationBase_ModalPopping(object sender, ModalPoppingEventArgs e)
