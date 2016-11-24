@@ -76,19 +76,19 @@ namespace Prism.Common
         public static void OnNavigatedFrom(object page, NavigationParameters parameters)
         {
             if (page != null)
-                InvokeViewAndViewModelAction<INavigationAware>(page, v => v.OnNavigatedFrom(parameters));
+                InvokeViewAndViewModelAction<INavigatedAware>(page, v => v.OnNavigatedFrom(parameters));
         }
 
         public static void OnNavigatingTo(object page, NavigationParameters parameters)
         {
             if (page != null)
-                InvokeViewAndViewModelAction<INavigationAware>(page, v => v.OnNavigatingTo(parameters));
+                InvokeViewAndViewModelAction<INavigatingAware>(page, v => v.OnNavigatingTo(parameters));
         }
 
         public static void OnNavigatedTo(object page, NavigationParameters parameters)
         {
             if (page != null)
-                InvokeViewAndViewModelAction<INavigationAware>(page, v => v.OnNavigatedTo(parameters));
+                InvokeViewAndViewModelAction<INavigatedAware>(page, v => v.OnNavigatedTo(parameters));
         }
 
         public static Page GetOnNavigatedToTarget(Page page, Page mainPage, bool useModalNavigation)
@@ -155,6 +155,26 @@ namespace Prism.Common
             }
 
             return stackCount - 1;
+        }
+
+        public static Page GetCurrentPage(Page mainPage)
+        {
+            var page = mainPage;
+
+            var lastModal = page.Navigation.ModalStack.LastOrDefault();
+            if (lastModal != null)
+                page = lastModal;
+
+            return GetOnNavigatedToTargetFromChild(page);
+        }
+
+        public static void HandleSystemGoBack(Page previousPage, Page currentPage)
+        {
+            var parameters = new NavigationParameters();
+            parameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.Back);
+            OnNavigatedFrom(previousPage, parameters);
+            OnNavigatedTo(currentPage, parameters);
+            DestroyPage(previousPage);
         }
     }
 }

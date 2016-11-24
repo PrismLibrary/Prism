@@ -1,8 +1,12 @@
 ﻿using HelloWorld.ViewModels;
 using HelloWorld.Views;
+using Prism.Common;
 using Prism.Modularity;
 using Prism.Mvvm;
+using Prism.Navigation;
 using Prism.Unity;
+using System.Linq;
+using Xamarin.Forms;
 
 namespace HelloWorld
 {

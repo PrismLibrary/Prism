@@ -150,6 +150,18 @@ namespace Prism
         /// </summary>
         protected abstract void RegisterTypes();
 
+        protected override void OnResume()
+        {
+            var page = PageUtilities.GetCurrentPage(MainPage);
+            PageUtilities.InvokeViewAndViewModelAction<AppModel.IApplicationLifecycle>(page, x => x.OnResume());
+        }
+
+        protected override void OnSleep()
+        {
+            var page = PageUtilities.GetCurrentPage(MainPage);
+            PageUtilities.InvokeViewAndViewModelAction<AppModel.IApplicationLifecycle>(page, x => x.OnSleep());
+        }
+
         private void PrismApplicationBase_ModalPopping(object sender, ModalPoppingEventArgs e)
         {
             if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
@@ -162,11 +174,7 @@ namespace Prism
         {
             if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
             {
-                var parameters = new NavigationParameters();
-
-                PageUtilities.OnNavigatedFrom(e.Modal, parameters);
-                PageUtilities.OnNavigatedTo(_previousPage, parameters);
-                PageUtilities.DestroyPage(e.Modal);
+                PageUtilities.HandleSystemGoBack(e.Modal, _previousPage);
                 _previousPage = null;
             }
         }

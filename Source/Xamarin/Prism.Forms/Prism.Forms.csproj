@@ -52,12 +52,18 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AppModel\IApplicationLifecycle.cs" />
     <Compile Include="Behaviors\BehaviorBase{T}.cs" />
     <Compile Include="Behaviors\CarouselPageActiveAwareBehavior.cs" />
     <Compile Include="Behaviors\NavigationPageSystemGoBackBehavior.cs" />
     <Compile Include="Behaviors\TabbedPageActiveAwareBehavior.cs" />
     <Compile Include="Behaviors\MultiPageActiveAwareBehavior{T}.cs" />
     <Compile Include="Navigation\IDestructible.cs" />
+    <Compile Include="Navigation\INavigatedAware.cs" />
+    <Compile Include="Navigation\INavigatingAware.cs" />
+    <Compile Include="Navigation\KnownNavigationParameters.cs" />
+    <Compile Include="Navigation\NavigationMode.cs" />
+    <Compile Include="Navigation\NavigationParametersExtensions.cs" />
     <Compile Include="Navigation\PageNavigationSource.cs" />
     <Compile Include="Common\PageUtilities.cs" />
     <Compile Include="IPlatformInitializer.cs" />
