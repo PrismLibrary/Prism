@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Prism.Common;
 
@@ -47,10 +48,52 @@ namespace Prism.Interactivity.InteractionRequest
         /// if the InteractionRequest is unhandled.
         /// </summary>
         /// <param name="context">The context for the interaction request.</param>
-        /// <returns>The context after the request has been handled by the UI.</returns>
+        /// <returns>
+        /// The context after the request has been handled by the UI.
+        /// </returns>
         public Task<T> RaiseAsync(T context)
         {
-            return CallbackHelper.AwaitCallbackResult<T>(callback => this.Raise(context, callback));
+            return this.RaiseAsync(context, false);
+        }
+
+        /// <summary>
+        /// Fires the Raised event asynchronously. Please note that this request may never return
+        /// if the InteractionRequest is unhandled.
+        /// </summary>
+        /// <param name="context">The context for the interaction request.</param>
+        /// <param name="executeSynchronously">
+        /// Has no effect if the popup window is not modal.
+        /// If the popup window is modal and executeSynchronously is true, returns already completed task.
+        /// That is, when the method returns, the popup window has already been closed.
+        /// </param>
+        /// <returns>
+        /// The context after the request has been handled by the UI.
+        /// </returns>
+        public Task<T> RaiseAsync(T context, bool executeSynchronously)
+        {
+            if (executeSynchronously)
+            {
+                return CallbackHelper.AwaitCallbackResult<T>(callback => this.Raise(context, callback));
+            }
+            else
+            {
+                return this.RaiseImplAsync(context);
+            }
+        }
+
+        private async Task<T> RaiseImplAsync(T context)
+        {
+            TaskCompletionSource<T> tcs = new TaskCompletionSource<T>();
+
+            await Task.Factory.StartNew(() =>
+            {
+                this.Raise(context, (c) => tcs.TrySetResult(c));
+            },
+            CancellationToken.None,
+            TaskCreationOptions.None,
+            TaskScheduler.FromCurrentSynchronizationContext());
+
+            return await tcs.Task;
         }
     }
 }
