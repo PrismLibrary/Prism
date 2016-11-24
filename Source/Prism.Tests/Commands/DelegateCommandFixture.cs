@@ -385,6 +385,24 @@ namespace Prism.Tests.Commands
         }
 
         [Fact]
+        public void GenericDelegateCommandWithNullableParameterShouldObserveCanExecute()
+        {
+            bool canExecuteChangedRaised = false;
+
+            ICommand command = new DelegateCommand<int?>((o) => { }).ObservesCanExecute(() => BoolProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            Assert.False(canExecuteChangedRaised);
+            Assert.False(command.CanExecute(null));
+
+            BoolProperty = true;
+
+            Assert.True(canExecuteChangedRaised);
+            Assert.True(command.CanExecute(null));
+        }
+
+        [Fact]
         public void GenericDelegateCommandShouldObserveCanExecuteAndObserveOtherProperties()
         {
             bool canExecuteChangedRaised = false;
