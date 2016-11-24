@@ -152,13 +152,13 @@ namespace Prism
 
         protected override void OnResume()
         {
-            var page = PageUtilities.GetCurrentPage();
+            var page = PageUtilities.GetCurrentPage(MainPage);
             PageUtilities.InvokeViewAndViewModelAction<AppModel.IApplicationLifecycle>(page, x => x.OnResume());
         }
 
         protected override void OnSleep()
         {
-            var page = PageUtilities.GetCurrentPage();
+            var page = PageUtilities.GetCurrentPage(MainPage);
             PageUtilities.InvokeViewAndViewModelAction<AppModel.IApplicationLifecycle>(page, x => x.OnSleep());
         }
 
