@@ -47,26 +47,6 @@ namespace Prism.Wpf.Tests.Interactivity
             request.Raise(new Notification());
             Assert.IsTrue(action.ExecutionCount == 1);
         }
-
-        [TestMethod]
-        public async Task WhenEventIsRaisedAsync_NotificationIsPassedBackAsync()
-        {
-            var request = new InteractionRequest<INotification>();
-            var trigger = new TestableInteractionRequestTrigger();
-            var associatedObject = new DependencyObject();
-            var action = new TestableTriggerAction();
-            var notification = new Notification();
-
-            trigger.Actions.Add(action);
-            trigger.Attach(associatedObject);
-            trigger.SourceObject = request;
-
-            Assert.IsTrue(action.ExecutionCount == 0);
-
-            var result = await request.RaiseAsync(notification);
-            Assert.IsTrue(action.ExecutionCount == 1);
-            Assert.ReferenceEquals(notification, result);
-        }
     }
 
     public class TestableInteractionRequestTrigger : InteractionRequestTrigger
