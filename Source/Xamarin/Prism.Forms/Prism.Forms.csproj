@@ -45,7 +45,7 @@
     <OutputPath>bin\Test\</OutputPath>
     <DefineConstants>TRACE;TEST</DefineConstants>
     <DocumentationFile>bin\Release\Prism.Forms.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>

@@ -77,6 +77,8 @@ namespace Prism
             _platformInitializer?.RegisterTypes(Container);
 
             InitializeModules();
+
+            FinishContainerConfiguration();
         }
 
         /// <summary>
@@ -134,6 +136,11 @@ namespace Prism
         protected abstract INavigationService CreateNavigationService();
 
         protected abstract void ConfigureContainer();
+
+        /// <summary>
+        /// Finish the container's configuration after all other types are registered.
+        /// </summary>
+        protected virtual void FinishContainerConfiguration() {}
 
         /// <summary>
         /// Configures the <see cref="Prism.Mvvm.ViewModelLocator"/> used by Prism.
