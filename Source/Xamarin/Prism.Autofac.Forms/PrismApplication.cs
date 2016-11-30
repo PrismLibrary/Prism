@@ -9,11 +9,9 @@ using Prism.Services;
 using DependencyService = Prism.Services.DependencyService;
 using Prism.Modularity;
 using Autofac;
+using Autofac.Features.ResolveAnything;
 using Prism.Autofac.Forms.Modularity;
-using System;
-using System.Globalization;
 using Prism.Autofac.Navigation;
-using Prism;
 using Prism.Autofac.Forms;
 
 namespace Prism.Autofac
@@ -36,9 +34,11 @@ namespace Prism.Autofac
         /// The method <see cref="IPlatformInitializer.RegisterTypes(IContainer)"/> will be called after <see cref="PrismApplication.RegisterTypes()"/> 
         /// to allow for registering platform specific instances.
         /// </remarks>
-        public PrismApplication(IPlatformInitializer initializer = null) : base(initializer) { }
-
-
+        protected PrismApplication(IPlatformInitializer initializer = null)
+            : base(initializer)
+        {
+        }
+        
         protected override void ConfigureViewModelLocator()
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
@@ -95,6 +95,9 @@ namespace Prism.Autofac
         protected override void ConfigureContainer()
         {
             var builder = new ContainerBuilder();
+
+            // Make sure any not specifically registered concrete type can resolve.
+            builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
 
             builder.RegisterInstance(Logger).As<ILoggerFacade>().SingleInstance();
             builder.RegisterInstance(ModuleCatalog).As<IModuleCatalog>().SingleInstance();
