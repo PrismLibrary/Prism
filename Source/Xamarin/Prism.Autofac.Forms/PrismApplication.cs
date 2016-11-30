@@ -38,7 +38,14 @@ namespace Prism.Autofac
             : base(initializer)
         {
         }
-        
+
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            FinishContainerConfiguration();
+        }
+
         protected override void ConfigureViewModelLocator()
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
@@ -111,7 +118,10 @@ namespace Prism.Autofac
             builder.Update(Container);
         }
 
-        protected override void FinishContainerConfiguration()
+        /// <summary>
+        /// Finish the container's configuration after all other types are registered.
+        /// </summary>
+        private void FinishContainerConfiguration()
         {
             var containerUpdater = new ContainerBuilder();
 
