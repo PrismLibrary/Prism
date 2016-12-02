@@ -5,6 +5,9 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
+using Prism.Unity;
+using Microsoft.Practices.Unity;
+
 namespace ${Namespace}
 {
 	// The UIApplicationDelegate for the application. This class is responsible for launching the 
