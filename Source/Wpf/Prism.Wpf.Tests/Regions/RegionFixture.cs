@@ -201,6 +201,19 @@ namespace Prism.Wpf.Tests.Regions
         }
 
         [TestMethod]
+        public void AddViewReturnsGivenRegionManager()
+        {
+            var regionManager = new MockRegionManager();
+            IRegion region = new Region();
+            region.RegionManager = regionManager;
+            var myView = new object();
+
+            var returnedRegionManager = region.Add(myView, "MyView", regionManager);
+
+            Assert.AreSame(regionManager, returnedRegionManager);
+        }
+
+        [TestMethod]
         public void AddViewReturnsExistingRegionManager()
         {
             var regionManager = new MockRegionManager();
