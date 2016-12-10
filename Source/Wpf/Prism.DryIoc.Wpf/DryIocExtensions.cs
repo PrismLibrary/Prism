@@ -14,7 +14,7 @@ namespace Prism.DryIoc
         {
             Type type = typeof(T);
             string viewName = string.IsNullOrWhiteSpace(name) ? type.Name : name;
-            container.Register(type, serviceKey: viewName);
+            container.Register(typeof(object), type, serviceKey: viewName);
         }
     }
 }

@@ -66,6 +66,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DryIocBootstrapperRegisterForNavigationFixture.cs" />
     <Compile Include="DryIocBootstrapperRunMethodFixture.cs" />
     <Compile Include="DryIocBootstrapperNullModuleManagerFixture.cs" />
     <Compile Include="DryIocBootstrapperNullModuleCatalogFixture.cs" />
