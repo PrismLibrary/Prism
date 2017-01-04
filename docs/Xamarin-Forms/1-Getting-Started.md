@@ -59,11 +59,22 @@ Open the Xamarin Android Player and ensure that a device image is installed and 
 
 Open the Android project properties and change the Minimum Android to target to be equal or less than the API level of the device image you will be running on.
 
-Select the Android Player device from the Debug drop down menu and click the debug play button.
+Select the Android Player device from the Debug drop down menu and click the debug play button (or press F5).
 
 **iOS**
 
-To be added.
+_This is for Visual Studio (on Windows):_
+
+First make sure that there's a connection with the Xamarin Mac Agent.
+
+Right click on the iOS project and select set as startup project. Also ensure build and deploy are both checked for the iOS project in the Configuration Manager.
+
+For running the application on a physical iOS device, there must be an connected the iOS device to the PC. The build configuration needs to be set on "iPhone" (even for testing with an iPad).
+If there is only one iOS device attached to the PC it'll select the one. When there're multiple iOS devices attached, you must select with device you want to run on.
+
+For running the application on a iOS simulator needs the build configuration be set to "iPhoneSimulator" (even for testing with an iPad simulator).
+
+After chosen the build configuration, the app can be run by click the debug play button (or press F5).
 
 **Windows Phone**
 
