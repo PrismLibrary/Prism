@@ -14,17 +14,20 @@ namespace Prism.DryIoc.Extensions
 
         static UnknownServiceResolverRule()
         {
-            DependencyServiceResolverRule = Rules.Default.WithUnknownServiceResolvers(request => new DelegateFactory(_ =>
-            {
-                var targetType = request.ServiceType;
-                if (!targetType.GetTypeInfo().IsInterface)
-                {
-                    return null;
-                }
-                var method = typeof(DependencyService).GetTypeInfo().GetDeclaredMethod("Get");
-                var genericMethod = method.MakeGenericMethod(targetType);
-                return genericMethod.Invoke(null, new object[] { DependencyFetchTarget.GlobalInstance });
-            }));
+            DependencyServiceResolverRule =
+                Rules.Default
+                     .WithAutoConcreteTypeResolution()
+                     .WithUnknownServiceResolvers( request => new DelegateFactory( _ =>
+              {
+                  var targetType = request.ServiceType;
+                  if( !targetType.GetTypeInfo().IsInterface )
+                  {
+                      return null;
+                  }
+                  var method = typeof( DependencyService ).GetTypeInfo().GetDeclaredMethod( "Get" );
+                  var genericMethod = method.MakeGenericMethod( targetType );
+                  return genericMethod.Invoke( null, new object[] { DependencyFetchTarget.GlobalInstance } );
+              } ) );
         }
     }
 }
