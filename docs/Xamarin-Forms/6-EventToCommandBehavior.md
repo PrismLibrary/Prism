@@ -1,4 +1,4 @@
-﻿# Using the EventToCommandBehavior
+# Using the EventToCommandBehavior
 
 The `EventToCommandBehavior` class provide a convenient way to, in XAML, "bind" events to `ICommand` according to MVVM paradigm to avoid code behind.
 
@@ -112,8 +112,3 @@ Setting `EventArgsParameterPath` to **Item** will extract the property value and
 	</ListView>
 </ContentPage>
 ````
-
-
-
-## Thanks
-Thanks to https://anthonysimmon.com/eventtocommand-in-xamarin-forms-apps/ from which a took the implementation and modified it slightly
