@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Foundation;
 using UIKit;
+using DryIoc;
 using Prism.DryIoc;
-using Microsoft.Practices.DryIoc;
 
 namespace $safeprojectname$
 {
@@ -33,7 +32,7 @@ namespace $safeprojectname$
 
     public class iOSInitializer : IPlatformInitializer
     {
-        public void RegisterTypes(IDryIocContainer container)
+        public void RegisterTypes(IContainer container)
         {
 
         }
