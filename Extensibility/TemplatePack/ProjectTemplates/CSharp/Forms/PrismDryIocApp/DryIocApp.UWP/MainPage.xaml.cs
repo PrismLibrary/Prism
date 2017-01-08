@@ -12,8 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DryIoc;
 using Prism.DryIoc;
-using Microsoft.Practices.DryIoc;
 
 namespace $safeprojectname$
 {
@@ -29,7 +29,7 @@ namespace $safeprojectname$
 
     public class UwpInitializer : IPlatformInitializer
     {
-        public void RegisterTypes(IDryIocContainer container)
+        public void RegisterTypes(IContainer container)
         {
 
         }
