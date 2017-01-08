@@ -1,4 +1,5 @@
-﻿using Prism.DryIoc;
+﻿using DryIoc;
+using Prism.DryIoc;
 using $safeprojectname$.Views;
 using $safeprojectname$.ViewModels;
 
