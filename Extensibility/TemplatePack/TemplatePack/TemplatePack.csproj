@@ -216,6 +216,13 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
+    <ProjectReference Include="..\ProjectTemplates\CSharp\Forms\PrismDryIocApp\PrismDryIocApp.csproj">
+      <Project>{2C8AFFAF-BF25-4EB7-AF28-A5CEB60651CB}</Project>
+      <Name>PrismDryIocApp</Name>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
     <ProjectReference Include="..\ProjectTemplates\CSharp\Forms\PrismUnityApp\PrismUnityApp.csproj">
       <Project>{A999803B-13A8-42FA-935A-EB5BD81C5F4D}</Project>
       <Name>PrismUnityApp</Name>
