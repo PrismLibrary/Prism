@@ -1,5 +1,6 @@
 ﻿using Prism.DryIoc;
 using $safeprojectname$.Views;
+using $safeprojectname$.ViewModels;
 
 namespace $safeprojectname$
 {
@@ -17,6 +18,7 @@ namespace $safeprojectname$
         protected override void RegisterTypes()
         {
             Container.RegisterTypeForNavigation<MainPage>();
+            Container.Register<MainPageViewModel>(Reuse.Transient);
         }
     }
 }
