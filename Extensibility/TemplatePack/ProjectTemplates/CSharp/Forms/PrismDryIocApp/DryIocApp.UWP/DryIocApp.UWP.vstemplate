@@ -67,7 +67,7 @@
       <package id="DryIoc.dll" version="2.6.4" />
     </packages>
     <packages repository="registry" keyName="NETCoreSDK" isPreunzipped="true">
-      <package id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.1.0" skipAssemblyReferences="false" />
+      <package id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.2.2" skipAssemblyReferences="false" />
     </packages>
     <EnsureRegistryWizard>
       <Key>_Config\Projects\{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A}</Key>

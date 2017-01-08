@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "Prism.Core": "6.2.0",
     "Prism.Forms": "6.2.0",
     "Prism.DryIoc.Forms": "6.2.0",
