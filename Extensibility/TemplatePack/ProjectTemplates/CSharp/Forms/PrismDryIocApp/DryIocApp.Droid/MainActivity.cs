@@ -6,8 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using DryIoc;
 using Prism.DryIoc;
-using Microsoft.Practices.DryIoc;
 
 namespace $saferootprojectname$.Droid
 {
@@ -28,7 +28,7 @@ namespace $saferootprojectname$.Droid
 
     public class AndroidInitializer : IPlatformInitializer
     {
-        public void RegisterTypes(IDryIocContainer container)
+        public void RegisterTypes(IContainer container)
         {
 
         }

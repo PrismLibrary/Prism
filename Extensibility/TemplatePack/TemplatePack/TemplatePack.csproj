@@ -150,7 +150,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Packages\Containers\dryIoc.dll.2.9.4.nupkg">
+    <Content Include="Packages\Containers\dryIoc.dll.2.6.4.nupkg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
