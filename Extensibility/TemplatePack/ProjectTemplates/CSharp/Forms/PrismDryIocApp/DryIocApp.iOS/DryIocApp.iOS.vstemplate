@@ -72,7 +72,7 @@
       <package id="Prism.Core" version="6.2.0" />
       <package id="Prism.Forms" version="6.2.0" />
       <package id="Prism.DryIoc.Forms" version="6.2.0" />
-      <package id="DryIoc" version="2.6.4" />
+      <package id="DryIoc.dll" version="2.6.4" />
     </packages>
   </WizardData>
   

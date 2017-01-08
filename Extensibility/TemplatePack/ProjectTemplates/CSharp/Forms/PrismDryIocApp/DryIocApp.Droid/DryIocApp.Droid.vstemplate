@@ -77,7 +77,7 @@
       <package id="Prism.Core" version="6.2.0" />
       <package id="Prism.Forms" version="6.2.0" />
       <package id="Prism.DryIoc.Forms" version="6.2.0" />
-      <package id="DryIoc" version="2.6.4" />
+      <package id="DryIoc.dll" version="2.6.4" />
       <package id="Xamarin.Android.Support.Animated.Vector.Drawable" version="23.3.0" />
       <package id="Xamarin.Android.Support.Vector.Drawable" version="23.3.0" />
       <package id="Xamarin.Android.Support.v4" version="23.3.0" />

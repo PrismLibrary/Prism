@@ -4,7 +4,7 @@
     "Prism.Core": "6.2.0",
     "Prism.Forms": "6.2.0",
     "Prism.DryIoc.Forms": "6.2.0",
-    "DryIoc": "2.6.4",
+    "DryIoc.dll": "2.6.4",
     "Xamarin.Forms": "2.3.1.114"
   },
   "frameworks": {
