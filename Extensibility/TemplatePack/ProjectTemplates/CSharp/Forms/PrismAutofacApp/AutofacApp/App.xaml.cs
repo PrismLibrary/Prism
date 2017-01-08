@@ -18,10 +18,6 @@ namespace $safeprojectname$
 
         protected override void RegisterTypes()
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterType<MainPageViewModel>();
-            builder.Update(Container);
-
             Container.RegisterTypeForNavigation<MainPage>();
         }
     }
