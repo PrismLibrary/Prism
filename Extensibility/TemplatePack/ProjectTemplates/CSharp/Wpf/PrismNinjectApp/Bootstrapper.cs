@@ -1,4 +1,4 @@
-﻿using Microsoft.Practices.Ninject;
+﻿using Ninject;
 using Prism.Ninject;
 using $safeprojectname$.Views;
 using System.Windows;
@@ -9,7 +9,7 @@ namespace $safeprojectname$
     {
         protected override DependencyObject CreateShell()
         {
-            return Container.Resolve<MainWindow>();
+            return Kernel.TryGet<MainWindow>();
         }
 
         protected override void InitializeShell()
