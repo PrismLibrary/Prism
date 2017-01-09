@@ -1,11 +1,13 @@
-﻿using System.Windows;
+﻿using System.ComponentModel.Composition;
+using System.Windows;
 
 namespace $safeprojectname$.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    [Export(typeof(MainWindow))]
+public partial class MainWindow : Window
     {
         public MainWindow()
         {

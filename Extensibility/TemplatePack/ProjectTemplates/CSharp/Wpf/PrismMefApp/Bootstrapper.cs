@@ -1,7 +1,7 @@
-﻿using Microsoft.Practices.Mef;
+﻿using System.ComponentModel.Composition.Hosting;
+using System.Windows;
 using Prism.Mef;
 using $safeprojectname$.Views;
-using System.Windows;
 
 namespace $safeprojectname$
 {
@@ -9,12 +9,18 @@ namespace $safeprojectname$
     {
         protected override DependencyObject CreateShell()
         {
-            return Container.Resolve<MainWindow>();
+            return Container.GetExportedValue<MainWindow>();
         }
 
         protected override void InitializeShell()
         {
             Application.Current.MainWindow.Show();
+        }
+
+        protected override void ConfigureAggregateCatalog()
+        {
+            base.ConfigureAggregateCatalog();
+            AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(Bootstrapper).Assembly));
         }
     }
 }
