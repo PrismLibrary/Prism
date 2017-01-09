@@ -222,6 +222,13 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
+    <ProjectReference Include="..\ProjectTemplates\CSharp\Wpf\PrismNinjectApp\PrismNinjectApp.Wpf.csproj">
+      <Project>{0AA64846-8F3F-4C49-AE7E-2F2111ED510A}</Project>
+      <Name>PrismNinjectApp.Wpf</Name>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
     <ProjectReference Include="..\ProjectTemplates\CSharp\Wpf\PrismUnityApp\PrismUnityApp.Wpf.csproj">
       <Project>{9DAE43F7-77D4-4191-BEAC-40EACFD9C20C}</Project>
       <Name>PrismUnityApp.Wpf</Name>
