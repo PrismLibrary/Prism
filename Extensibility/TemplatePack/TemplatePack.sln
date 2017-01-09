@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.25909.2
+VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ItemTemplates", "ItemTemplates", "{69965B92-F429-46BC-B2EE-681EC8DBA09B}"
 EndProject
@@ -48,6 +48,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.VisualStudio.Wizards", "VsWizards\Prism.VisualStudio.Wizards\Prism.VisualStudio.Wizards.csproj", "{CF820A3D-4BD3-4A92-B951-D35F3AFD6AA9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.VisualStudio.Wizards.Design", "VsWizards\Prism.VisualStudio.Wizards.Design\Prism.VisualStudio.Wizards.Design.csproj", "{B237635B-1151-479F-A422-231D93037745}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismNinjectApp", "ProjectTemplates\CSharp\Forms\PrismNinjectApp\PrismNinjectApp.csproj", "{38B9D93C-5401-4883-8276-E4CB7B451DFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,10 @@ Global
 		{B237635B-1151-479F-A422-231D93037745}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B237635B-1151-479F-A422-231D93037745}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B237635B-1151-479F-A422-231D93037745}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38B9D93C-5401-4883-8276-E4CB7B451DFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38B9D93C-5401-4883-8276-E4CB7B451DFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38B9D93C-5401-4883-8276-E4CB7B451DFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38B9D93C-5401-4883-8276-E4CB7B451DFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,5 +141,6 @@ Global
 		{9DAE43F7-77D4-4191-BEAC-40EACFD9C20C} = {D9B82372-CF98-45DA-97E9-7C84F70EA440}
 		{CF820A3D-4BD3-4A92-B951-D35F3AFD6AA9} = {17975747-054F-451F-8A3B-2ECB07EC3EEB}
 		{B237635B-1151-479F-A422-231D93037745} = {17975747-054F-451F-8A3B-2ECB07EC3EEB}
+		{38B9D93C-5401-4883-8276-E4CB7B451DFF} = {4A89CB30-0D10-4549-A85D-30180E8116DB}
 	EndGlobalSection
 EndGlobal
