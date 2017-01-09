@@ -1,4 +1,4 @@
-﻿using Microsoft.Practices.Autofac;
+﻿using Autofac;
 using Prism.Autofac;
 using $safeprojectname$.Views;
 using System.Windows;
