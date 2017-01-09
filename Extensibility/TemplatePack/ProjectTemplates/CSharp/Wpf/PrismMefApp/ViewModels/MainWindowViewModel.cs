@@ -4,7 +4,7 @@ using Prism.Mvvm;
 namespace $safeprojectname$.ViewModels
 {
     [Export(typeof(MainWindowViewModel))]
-public class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : BindableBase
     {
         private string _title = "Prism Mef Application";
         public string Title

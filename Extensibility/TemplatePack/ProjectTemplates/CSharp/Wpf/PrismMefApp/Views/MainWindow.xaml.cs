@@ -7,7 +7,7 @@ namespace $safeprojectname$.Views
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     [Export(typeof(MainWindow))]
-public partial class MainWindow : Window
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
