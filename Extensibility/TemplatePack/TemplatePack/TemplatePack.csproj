@@ -215,6 +215,13 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
+    <ProjectReference Include="..\ProjectTemplates\CSharp\Wpf\PrismMefApp\PrismMefApp.Wpf.csproj">
+      <Project>{196C5AB0-0B0F-47F5-8093-2F0D8B8A794C}</Project>
+      <Name>PrismMefApp.Wpf</Name>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
     <ProjectReference Include="..\ProjectTemplates\CSharp\Wpf\PrismModule\PrismModule.csproj">
       <Project>{0487b548-c845-4cc4-8f82-8932cfc92e1f}</Project>
       <Name>PrismModule</Name>
