@@ -6,21 +6,31 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Prism.Ninject;
+using Microsoft.Practices.Ninject;
 
 namespace $saferootprojectname$.Droid
 {
-    [Activity (Label = "$saferootprojectname$", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	[Activity (Label = "$saferootprojectname$", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        protected override void OnCreate (Bundle bundle)
-        {
+		protected override void OnCreate (Bundle bundle)
+		{
             TabLayoutResource = Resource.Layout.tabs;
             ToolbarResource = Resource.Layout.toolbar;
 
             base.OnCreate (bundle);
 
-            global::Xamarin.Forms.Forms.Init (this, bundle);
-            LoadApplication (new App ());
+			global::Xamarin.Forms.Forms.Init (this, bundle);
+			LoadApplication (new App(new AndroidInitializer()));
+		}
+	}
+
+    public class AndroidInitializer : IPlatformInitializer
+    {
+        public void RegisterTypes(INinjectContainer container)
+        {
+
         }
     }
 }
