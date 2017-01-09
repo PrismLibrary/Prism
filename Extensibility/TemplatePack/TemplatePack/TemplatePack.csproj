@@ -222,6 +222,13 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
+    <ProjectReference Include="..\ProjectTemplates\CSharp\Wpf\PrismStructureMapApp\PrismStructureMapApp.Wpf.csproj">
+      <Project>{E8F45268-CAC0-4F69-A02E-8E3DEB93531C}</Project>
+      <Name>PrismStructureMapApp.Wpf</Name>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
     <ProjectReference Include="..\ProjectTemplates\CSharp\Wpf\PrismUnityApp\PrismUnityApp.Wpf.csproj">
       <Project>{9DAE43F7-77D4-4191-BEAC-40EACFD9C20C}</Project>
       <Name>PrismUnityApp.Wpf</Name>
