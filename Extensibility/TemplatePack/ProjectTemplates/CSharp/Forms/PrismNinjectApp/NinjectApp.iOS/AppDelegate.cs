@@ -4,8 +4,8 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Ninject;
 using Prism.Ninject;
-using Microsoft.Practices.Ninject;
 
 namespace $safeprojectname$
 {
@@ -33,7 +33,7 @@ namespace $safeprojectname$
 
     public class iOSInitializer : IPlatformInitializer
     {
-        public void RegisterTypes(INinjectContainer container)
+        public void RegisterTypes(IKernel kernel)
         {
 
         }

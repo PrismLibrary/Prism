@@ -12,8 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Ninject;
 using Prism.Ninject;
-using Microsoft.Practices.Ninject;
 
 namespace $safeprojectname$
 {
@@ -29,7 +29,7 @@ namespace $safeprojectname$
 
     public class WindowsInitializer : IPlatformInitializer
     {
-        public void RegisterTypes(INinjectContainer container)
+        public void RegisterTypes(IKernel kernel)
         {
 
         }

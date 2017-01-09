@@ -6,8 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Ninject;
 using Prism.Ninject;
-using Microsoft.Practices.Ninject;
 
 namespace $saferootprojectname$.Droid
 {
@@ -28,7 +28,7 @@ namespace $saferootprojectname$.Droid
 
     public class AndroidInitializer : IPlatformInitializer
     {
-        public void RegisterTypes(INinjectContainer container)
+        public void RegisterTypes(IKernel kernel)
         {
 
         }
