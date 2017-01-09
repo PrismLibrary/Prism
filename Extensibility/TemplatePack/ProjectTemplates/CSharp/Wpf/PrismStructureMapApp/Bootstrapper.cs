@@ -1,4 +1,4 @@
-﻿using Microsoft.Practices.StructureMap;
+﻿using StructureMap;
 using Prism.StructureMap;
 using $safeprojectname$.Views;
 using System.Windows;
@@ -9,7 +9,7 @@ namespace $safeprojectname$
     {
         protected override DependencyObject CreateShell()
         {
-            return Container.Resolve<MainWindow>();
+            return Container.GetInstance<MainWindow>();
         }
 
         protected override void InitializeShell()
