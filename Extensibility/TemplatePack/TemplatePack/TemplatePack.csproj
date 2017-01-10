@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
@@ -145,6 +145,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+
+    <Content Include="Packages\Containers\ninject.3.2.2.0.nupkg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Packages\prism.ninject.6.2.0.nupkg">
+
     <Content Include="Packages\Containers\autofac.3.5.2.nupkg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -155,6 +162,7 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Packages\Containers\structuremap.4.4.0.nupkg">
+
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -241,9 +249,14 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
+
+    <ProjectReference Include="..\ProjectTemplates\CSharp\Wpf\PrismNinjectApp\PrismNinjectApp.Wpf.csproj">
+      <Project>{0AA64846-8F3F-4C49-AE7E-2F2111ED510A}</Project>
+      <Name>PrismNinjectApp.Wpf</Name>
+
     <ProjectReference Include="..\ProjectTemplates\CSharp\Wpf\PrismStructureMapApp\PrismStructureMapApp.Wpf.csproj">
       <Project>{E8F45268-CAC0-4F69-A02E-8E3DEB93531C}</Project>
-      <Name>PrismStructureMapApp.Wpf</Name>
+
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
