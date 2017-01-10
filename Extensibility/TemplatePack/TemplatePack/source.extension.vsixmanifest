@@ -29,21 +29,25 @@
     <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismMasterDetailPage" d:TargetPath="|PrismMasterDetailPage;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
     <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismCarouselPage" d:TargetPath="|PrismCarouselPage;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp" d:TargetPath="|PrismUnityApp;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismAutofacApp" d:TargetPath="|PrismAutofacApp;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismModule" d:TargetPath="|PrismModule;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp.Wpf" d:TargetPath="|PrismUnityApp.Wpf;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Prism.VisualStudio.Wizards" Path="|Prism.VisualStudio.Wizards|" AssemblyName="|Prism.VisualStudio.Wizards;AssemblyName|" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\prism.unity.6.2.0.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\prism.autofac.6.2.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="Nuget.Package" d:Source="File" Path="Packages\prism.core.6.2.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="Nuget.Package" d:Source="File" d:VsixSubPath="Packages" Path="Packages\prism.forms.6.2.0.nupkg" />
     <Asset Type="Nuget.Package" d:Source="File" d:VsixSubPath="Packages" Path="Packages\Forms\xamarin.forms.2.3.1.114.nupkg" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\commonservicelocator.1.3.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\unity.4.0.1.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\autofac.3.5.2.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.design.23.3.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v4.23.3.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.appcompat.23.3.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.cardview.23.3.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.mediarouter.23.3.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="Nuget.Package" d:Source="File" Path="Packages\prism.unity.forms.6.2.0.nupkg" />
+    <Asset Type="Nuget.Package" d:Source="File" Path="Packages\prism.autofac.forms.6.2.0.nupkg" />
     <Asset Type="Nuget.Package" d:Source="File" Path="Packages\prism.wpf.6.2.0.nupkg" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.recyclerview.23.3.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\portable.ninject.3.3.1.nupkg" />
