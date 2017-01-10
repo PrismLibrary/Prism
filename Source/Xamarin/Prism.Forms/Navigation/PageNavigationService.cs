@@ -49,7 +49,7 @@ namespace Prism.Navigation
                 var segmentParameters = UriParsingHelper.GetSegmentParameters(null, parameters);
                 segmentParameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.Back);
 
-                var canNavigate = await CanNavigateAsync(page, segmentParameters);
+                var canNavigate = await PageUtilities.CanNavigateAsync(page, segmentParameters);
                 if (!canNavigate)
                     return false;                
 
@@ -373,7 +373,7 @@ namespace Prism.Navigation
             var segmentParameters = UriParsingHelper.GetSegmentParameters(toSegment, parameters);
             segmentParameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.New);
 
-            var canNavigate = await CanNavigateAsync(fromPage, segmentParameters);
+            var canNavigate = await PageUtilities.CanNavigateAsync(fromPage, segmentParameters);
             if (!canNavigate)
                 return;
 
@@ -478,40 +478,6 @@ namespace Prism.Navigation
                 return navigation.PopModalAsync(animated);
             else
                 return navigation.PopAsync(animated);
-        }
-
-        protected static Task<bool> CanNavigateAsync(object page, NavigationParameters parameters)
-        {
-            var confirmNavigationItem = page as IConfirmNavigationAsync;
-            if (confirmNavigationItem != null)
-                return confirmNavigationItem.CanNavigateAsync(parameters);
-
-            var bindableObject = page as BindableObject;
-            if (bindableObject != null)
-            {
-                var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigationAsync;
-                if (confirmNavigationBindingContext != null)
-                    return confirmNavigationBindingContext.CanNavigateAsync(parameters);
-            }
-
-            return Task.FromResult(CanNavigate(page, parameters));
-        }
-
-        protected static bool CanNavigate(object page, NavigationParameters parameters)
-        {
-            var confirmNavigationItem = page as IConfirmNavigation;
-            if (confirmNavigationItem != null)
-                return confirmNavigationItem.CanNavigate(parameters);
-
-            var bindableObject = page as BindableObject;
-            if (bindableObject != null)
-            {
-                var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigation;
-                if (confirmNavigationBindingContext != null)
-                    return confirmNavigationBindingContext.CanNavigate(parameters);
-            }
-
-            return true;
         }
 
         protected virtual Page GetCurrentPage()
