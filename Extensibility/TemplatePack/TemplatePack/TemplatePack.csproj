@@ -119,8 +119,7 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Packages\Android\Xamarin.Android.Support.v4.23.3.0.nupkg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>      <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Packages\Android\Xamarin.Android.Support.v7.AppCompat.23.3.0.nupkg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -151,6 +150,11 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Packages\prism.autofac.6.2.0.nupkg">
+    <Content Include="Packages\prism.structuremap.6.2.0.nupkg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Packages\Containers\structuremap.4.4.0.nupkg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -233,6 +237,13 @@
     <ProjectReference Include="..\ProjectTemplates\CSharp\Wpf\PrismModule\PrismModule.csproj">
       <Project>{0487b548-c845-4cc4-8f82-8932cfc92e1f}</Project>
       <Name>PrismModule</Name>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectTemplates\CSharp\Wpf\PrismStructureMapApp\PrismStructureMapApp.Wpf.csproj">
+      <Project>{E8F45268-CAC0-4F69-A02E-8E3DEB93531C}</Project>
+      <Name>PrismStructureMapApp.Wpf</Name>
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>

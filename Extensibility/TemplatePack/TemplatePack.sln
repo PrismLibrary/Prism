@@ -50,6 +50,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.VisualStudio.Wizards.Design", "VsWizards\Prism.VisualStudio.Wizards.Design\Prism.VisualStudio.Wizards.Design.csproj", "{B237635B-1151-479F-A422-231D93037745}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismAutofacApp.Wpf", "ProjectTemplates\CSharp\Wpf\PrismAutofacApp\PrismAutofacApp.Wpf.csproj", "{83290E0A-3ABB-45FC-8CD1-05B9C27F96B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismStructureMapApp.Wpf", "ProjectTemplates\CSharp\Wpf\PrismStructureMapApp\PrismStructureMapApp.Wpf.csproj", "{E8F45268-CAC0-4F69-A02E-8E3DEB93531C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +118,10 @@ Global
 		{83290E0A-3ABB-45FC-8CD1-05B9C27F96B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83290E0A-3ABB-45FC-8CD1-05B9C27F96B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83290E0A-3ABB-45FC-8CD1-05B9C27F96B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8F45268-CAC0-4F69-A02E-8E3DEB93531C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8F45268-CAC0-4F69-A02E-8E3DEB93531C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8F45268-CAC0-4F69-A02E-8E3DEB93531C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8F45268-CAC0-4F69-A02E-8E3DEB93531C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,5 +147,7 @@ Global
 		{CF820A3D-4BD3-4A92-B951-D35F3AFD6AA9} = {17975747-054F-451F-8A3B-2ECB07EC3EEB}
 		{B237635B-1151-479F-A422-231D93037745} = {17975747-054F-451F-8A3B-2ECB07EC3EEB}
 		{83290E0A-3ABB-45FC-8CD1-05B9C27F96B7} = {D9B82372-CF98-45DA-97E9-7C84F70EA440}
+		{E8F45268-CAC0-4F69-A02E-8E3DEB93531C} = {D9B82372-CF98-45DA-97E9-7C84F70EA440}
+
 	EndGlobalSection
 EndGlobal
