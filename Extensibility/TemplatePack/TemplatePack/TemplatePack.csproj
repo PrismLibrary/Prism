@@ -146,6 +146,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="Packages\prism.mef.6.2.0.nupkg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -211,6 +215,13 @@
     <ProjectReference Include="..\ProjectTemplates\CSharp\Forms\PrismUnityApp\PrismUnityApp.csproj">
       <Project>{A999803B-13A8-42FA-935A-EB5BD81C5F4D}</Project>
       <Name>PrismUnityApp</Name>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectTemplates\CSharp\Wpf\PrismMefApp\PrismMefApp.Wpf.csproj">
+      <Project>{196C5AB0-0B0F-47F5-8093-2F0D8B8A794C}</Project>
+      <Name>PrismMefApp.Wpf</Name>
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
