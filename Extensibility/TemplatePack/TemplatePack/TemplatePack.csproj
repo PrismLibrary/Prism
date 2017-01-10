@@ -72,6 +72,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="Packages\Containers\munq.ioccontainer.3.6.1.nupkg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Packages\Containers\unity.4.0.1.nupkg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -221,6 +225,10 @@
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectTemplates\CSharp\Wpf\PrismMunqApp\PrismMunqApp.Wpf.csproj">
+      <Project>{0b884657-3c06-4091-99bf-c3e7954041f8}</Project>
+      <Name>PrismMunqApp.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProjectTemplates\CSharp\Wpf\PrismUnityApp\PrismUnityApp.Wpf.csproj">
       <Project>{9DAE43F7-77D4-4191-BEAC-40EACFD9C20C}</Project>
