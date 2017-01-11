@@ -8,6 +8,9 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
+using Prism.Unity;
+using Microsoft.Practices.Unity;
+
 namespace ${Namespace}
 {
 	[Activity (Label = "${ProjectName}", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
