@@ -20,6 +20,7 @@
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp" d:TargetPath="|PrismUnityApp;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismNinjectApp" d:TargetPath="|PrismNinjectApp;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismModule" d:TargetPath="|PrismModule;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp.Wpf" d:TargetPath="|PrismUnityApp.Wpf;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismAutofacApp.Wpf" d:TargetPath="|PrismAutofacApp.Wpf;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
