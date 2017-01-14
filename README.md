@@ -5,7 +5,7 @@ Prism 6 is a fully open source version of the Prism guidance [originally produce
 
 At the current time we have no plans to create new versions of the library for Silverlight or for Windows 8/8.1/WP8.1. For those you can still use the previous releases from Microsoft p&p [here](https://msdn.microsoft.com/en-us/library/Gg430869%28v=PandP.40%29.aspx) and [here](http://prismwindowsruntime.codeplex.com/). If there is enough interest and contributors to do the work, we can consider it, but it is not on our roadmap for now.
 
-#Build Status
+# Build Status
 
 |          | Status |
 | -------- | ------ |
@@ -14,9 +14,11 @@ At the current time we have no plans to create new versions of the library for S
 | Prism.Windows | <img src="https://ci.appveyor.com/api/projects/status/j04r6a45fi2f9pv4/branch/master?svg=true" /> |
 | Prism.Forms | <img src="https://ci.appveyor.com/api/projects/status/6ly53jgvwx62bm9u/branch/master?svg=true" /> |
 
-#Documentation
-
-The documentation is maintained in this repo under /docs and can be found in a readable format on [Read the Docs](http://prismlibrary.readthedocs.io/en/latest/).
+# Support
+- Join our Slack Channel [![Slack Status](https://prismslack.herokuapp.com/badge.svg)](https://prismslack.herokuapp.com/)
+- Documenation is maintained in this repo under /docs and can be found in a readable format on [Read the Docs](http://prismlibrary.readthedocs.io/en/latest/).
+- For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism)
+- You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues).
 
 #Help Support Prism
 
@@ -89,21 +91,9 @@ Installation is straightforward if you've installed Xamarin Add-ins before, just
 # Samples
 We have both a development sandbox (frequently changing) and stable samples for using Prism with WPF, UWP and Xamarin Forms. An overview of the samples can be found [here](Sandbox/README.md).
 
-#Roadmap/Milestones
-You can check out our milestones for coming releases [here](https://github.com/PrismLibrary/Prism/milestones).
-
-# Support
-- For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism)
-- You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues).
-
 #Contributing
 We strongly encourage you to get involved and help us evolve the code base. 
 - You can see what our expectations are for pull requests [here](https://github.com/PrismLibrary/Prism/blob/master/.github/CONTRIBUTING.md).
-
-#Moving to Prism 6 from Previous Releases
-As part of taking over the code base from Microsoft and moving towards Prism 6, there are a number of breaking changes users of Prism 5 or Prism for Windows Runtime will have to deal with. Those changes can be found in the release notes history.
-
-[Current Release Notes](https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.2.0)
 
 ### .NET Foundation
 
