@@ -61,19 +61,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mocks\Modules\ModuleMock.cs" />
     <Compile Include="Mocks\PrismApplicationMock.cs" />
-    <Compile Include="Mocks\Services\DependencyServiceMock.cs" />
-    <Compile Include="Mocks\Services\IDependencyServiceMock.cs" />
-    <Compile Include="Mocks\Services\IDryIocServiceMock.cs" />
-    <Compile Include="Mocks\ViewModels\AutowireViewModel.cs" />
-    <Compile Include="Mocks\ViewModels\ConstructorArgumentViewModel.cs" />
-    <Compile Include="Mocks\ViewModels\ViewModelAMock.cs" />
-    <Compile Include="Mocks\ViewModels\ViewModelBMock.cs" />
-    <Compile Include="Mocks\Views\AutowireView.cs" />
-    <Compile Include="Mocks\Views\ConstructorArgumentView.cs" />
-    <Compile Include="Mocks\Views\ViewMock.cs" />
-    <Compile Include="Mocks\Views\ViewAMock.cs" />
     <Compile Include="PrismApplicationFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
