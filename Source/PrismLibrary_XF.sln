@@ -30,6 +30,11 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.DI.Forms.Tests", "Xamarin\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.shproj", "{7E004833-51E6-4C9A-9742-62D604F04642}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Xamarin\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{0cb2c41d-2620-4faf-9f73-feae52d93f29}*SharedItemsImports = 4
+		Xamarin\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{1d1b893c-3f38-436f-a507-d65310b9d2a0}*SharedItemsImports = 4
+		Xamarin\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{7e004833-51e6-4c9a-9742-62d604f04642}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
