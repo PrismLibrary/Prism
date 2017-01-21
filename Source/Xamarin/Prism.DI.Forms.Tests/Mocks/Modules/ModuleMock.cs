@@ -1,6 +1,6 @@
 ﻿using Prism.Modularity;
 
-namespace Prism.Autofac.Forms.Tests.Mocks.Modules
+namespace Prism.DI.Forms.Tests.Mocks.Modules
 {
     public class ModuleMock : IModule
     {
@@ -10,5 +10,5 @@ namespace Prism.Autofac.Forms.Tests.Mocks.Modules
         {
             Initialized = true;
         }
-    }    
+    }
 }

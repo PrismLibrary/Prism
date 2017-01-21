@@ -1,7 +1,7 @@
 ﻿using Prism.Mvvm;
 using Prism.Navigation;
 
-namespace Prism.Autofac.Forms.Tests.Mocks.ViewModels
+namespace Prism.DI.Forms.Tests.Mocks.ViewModels
 {
     public class AutowireViewModel : BindableBase
     {

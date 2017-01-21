@@ -1,4 +1,4 @@
-﻿namespace Prism.DryIoc.Forms.Tests.Mocks.Services
+﻿namespace Prism.DI.Forms.Tests.Mocks.Services
 {
     public interface IDependencyServiceMock
     {
