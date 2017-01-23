@@ -6,7 +6,7 @@
     <Icon>__TemplateIcon.ico</Icon>
     <ProjectType>CSharp</ProjectType>
     <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
-    <TemplateID>904C2970-2D83-41E2-9EE7-44C12D22086A</TemplateID>
+    <TemplateID>D2FB9B6C-222F-4313-9CE0-8621470F9E57</TemplateID>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>PrismNinjectApp</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
