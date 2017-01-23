@@ -51,6 +51,7 @@
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\ninject.3.2.2.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\structuremap.4.4.2.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\autofac.4.2.1.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\autofac.4.2.1.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\portable.ninject.3.3.1.nupkg" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.design.23.3.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v4.23.3.0.nupkg" d:VsixSubPath="Packages" />

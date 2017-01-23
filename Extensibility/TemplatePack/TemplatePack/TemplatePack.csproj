@@ -170,6 +170,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <None Include="Packages\Containers\autofac.3.5.2.nupkg" />
+    <None Include="Packages\prism.autofac.forms.6.2.0.nupkg" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
