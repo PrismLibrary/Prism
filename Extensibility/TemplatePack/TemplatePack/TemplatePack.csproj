@@ -240,6 +240,13 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
+    <ProjectReference Include="..\ProjectTemplates\CSharp\Forms\PrismAutofacApp\PrismAutofacApp.csproj">
+      <Project>{C57FE2D4-A5F1-4123-A96D-C475F2DA495C}</Project>
+      <Name>PrismAutofacApp</Name>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
     <ProjectReference Include="..\ProjectTemplates\CSharp\Forms\PrismUnityApp\PrismUnityApp.csproj">
       <Project>{A999803B-13A8-42FA-935A-EB5BD81C5F4D}</Project>
       <Name>PrismUnityApp</Name>
