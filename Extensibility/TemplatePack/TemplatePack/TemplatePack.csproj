@@ -146,6 +146,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <None Include="Packages\Containers\autofac.3.5.2.nupkg" />
+    <None Include="Packages\prism.autofac.forms.6.2.0.nupkg" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -205,6 +207,13 @@
       <Project>{C8328918-1BFD-47D1-A5D7-76CC82A40DE7}</Project>
       <Name>PrismWindow</Name>
       <VSIXSubPath>ItemTemplates</VSIXSubPath>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectTemplates\CSharp\Forms\PrismAutofacApp\PrismAutofacApp.csproj">
+      <Project>{C57FE2D4-A5F1-4123-A96D-C475F2DA495C}</Project>
+      <Name>PrismAutofacApp</Name>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
