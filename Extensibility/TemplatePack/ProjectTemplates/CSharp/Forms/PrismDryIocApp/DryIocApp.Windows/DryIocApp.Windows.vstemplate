@@ -6,7 +6,7 @@
     <Icon>__TemplateIcon.ico</Icon>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType></ProjectSubType>
-    <TemplateID>A0D8C5F3-B628-4613-B1CA-25B2F6C7CA95</TemplateID>
+    <TemplateID>85D72264-66E3-4AC0-BC00-92A012F67FA6</TemplateID>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>PrismDryIocApp.Windows</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>

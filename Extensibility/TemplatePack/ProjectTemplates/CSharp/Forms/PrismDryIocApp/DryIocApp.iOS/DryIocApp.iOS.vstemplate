@@ -7,7 +7,7 @@
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType></ProjectSubType>
     <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
-    <TemplateID>A44C1DD5-87DD-4E43-BA7C-41C531DDF5D1</TemplateID>
+    <TemplateID>1aef80e3-a450-4d3f-bf1e-2c10a11d3508</TemplateID>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>PrismDryIocApp.iOS</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>

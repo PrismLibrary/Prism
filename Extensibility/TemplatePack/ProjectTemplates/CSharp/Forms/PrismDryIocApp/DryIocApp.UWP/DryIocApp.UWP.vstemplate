@@ -3,7 +3,7 @@
     <Name>DryIocApp.UWP</Name>
     <Description>Not Available</Description>
     <ProjectType>CSharp</ProjectType>
-    <TemplateID>67F2D7C6-0911-4EA9-B065-FD144BCE0620</TemplateID>
+    <TemplateID>15fb6a9d-314e-4798-8926-704eaa13caf2</TemplateID>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>PrismDryIocApp.UWP</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
