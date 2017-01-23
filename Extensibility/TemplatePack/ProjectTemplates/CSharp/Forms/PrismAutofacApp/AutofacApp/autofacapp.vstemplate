@@ -6,7 +6,7 @@
     <Icon>__TemplateIcon.ico</Icon>
     <ProjectType>CSharp</ProjectType>
     <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
-    <TemplateID>904C2970-2D83-41E2-9EE7-44C12D22086A</TemplateID>
+    <TemplateID>64F03AAC-4708-414E-8169-4CCF992295C4</TemplateID>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>PrismAutofacApp</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
