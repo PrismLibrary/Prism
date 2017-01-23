@@ -5,7 +5,7 @@
     <Description>A multiproject template for building Xamarin.Forms app with Prism and DryIoc, sharing code using a portable class library.</Description>
     <Icon>PrismDryIocApp.ico</Icon>
     <ProjectType>CSharp</ProjectType>
-    <TemplateID>6d0a03fa-d3ec-437d-8265-6965a179b07d</TemplateID>
+    <TemplateID>3461e1cd-0f6a-4521-83f0-42d16e7d4adf</TemplateID>
     <DefaultName>PrismDryIocApp</DefaultName>
     <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
