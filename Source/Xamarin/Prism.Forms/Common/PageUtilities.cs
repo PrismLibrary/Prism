@@ -38,7 +38,7 @@ namespace Prism.Common
             }
             catch (Exception ex)
             {
-                throw new Exception($"Cannot destroy {page}: {ex.Message}");
+                throw new Exception($"Cannot destroy {page}.", ex);
             }
         }
 
