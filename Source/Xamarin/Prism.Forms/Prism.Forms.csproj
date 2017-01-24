@@ -66,6 +66,7 @@
     <Compile Include="Navigation\NavigationParametersExtensions.cs" />
     <Compile Include="Navigation\PageNavigationSource.cs" />
     <Compile Include="Common\PageUtilities.cs" />
+    <Compile Include="Behaviors\EventToCommandBehavior.cs" />
     <Compile Include="IPlatformInitializer.cs" />
     <Compile Include="Navigation\INavigationPageOptions.cs" />
     <Compile Include="PrismApplicationBase.cs" />

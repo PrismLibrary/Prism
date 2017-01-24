@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems" Label="Shared" Condition="Exists('..\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems')" />
   <Import Project="..\..\packages\xunit.runner.visualstudio.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.runner.visualstudio.props" Condition="Exists('..\..\packages\xunit.runner.visualstudio.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.runner.visualstudio.props')" />
   <Import Project="..\..\packages\xunit.core.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.core.props" Condition="Exists('..\..\packages\xunit.core.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.core.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -46,19 +47,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Mocks\Modules\ModuleMock.cs" />
     <Compile Include="Mocks\PrismApplicationMock.cs" />
-    <Compile Include="Mocks\Services\DependencyServiceMock.cs" />
-    <Compile Include="Mocks\Services\IDependencyServiceMock.cs" />
-    <Compile Include="Mocks\Services\IAutofacServiceMock.cs" />
-    <Compile Include="Mocks\ViewModels\AutowireViewModel.cs" />
-    <Compile Include="Mocks\ViewModels\ConstructorArgumentViewModel.cs" />
-    <Compile Include="Mocks\ViewModels\ViewModelAMock.cs" />
-    <Compile Include="Mocks\ViewModels\ViewModelBMock.cs" />
-    <Compile Include="Mocks\Views\AutowireView.cs" />
-    <Compile Include="Mocks\Views\ConstructorArgumentView.cs" />
-    <Compile Include="Mocks\Views\ViewAMock.cs" />
-    <Compile Include="Mocks\Views\ViewMock.cs" />
     <Compile Include="PrismApplicationFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

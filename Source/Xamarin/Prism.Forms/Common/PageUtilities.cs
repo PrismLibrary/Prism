@@ -1,6 +1,7 @@
 ﻿using Prism.Navigation;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Prism.Common
@@ -71,6 +72,40 @@ namespace Prism.Common
                     DestroyPage(item);
                 }
             }
+        }
+
+        public static Task<bool> CanNavigateAsync(object page, NavigationParameters parameters)
+        {
+            var confirmNavigationItem = page as IConfirmNavigationAsync;
+            if (confirmNavigationItem != null)
+                return confirmNavigationItem.CanNavigateAsync(parameters);
+
+            var bindableObject = page as BindableObject;
+            if (bindableObject != null)
+            {
+                var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigationAsync;
+                if (confirmNavigationBindingContext != null)
+                    return confirmNavigationBindingContext.CanNavigateAsync(parameters);
+            }
+
+            return Task.FromResult(CanNavigate(page, parameters));
+        }
+
+        public static bool CanNavigate(object page, NavigationParameters parameters)
+        {
+            var confirmNavigationItem = page as IConfirmNavigation;
+            if (confirmNavigationItem != null)
+                return confirmNavigationItem.CanNavigate(parameters);
+
+            var bindableObject = page as BindableObject;
+            if (bindableObject != null)
+            {
+                var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigation;
+                if (confirmNavigationBindingContext != null)
+                    return confirmNavigationBindingContext.CanNavigate(parameters);
+            }
+
+            return true;
         }
 
         public static void OnNavigatedFrom(object page, NavigationParameters parameters)
