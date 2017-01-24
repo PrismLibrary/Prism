@@ -452,7 +452,7 @@ namespace Prism.Navigation
             return useModalNavigation;
         }
 
-        protected async Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated)
+        protected virtual async Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated)
         {
             if (page == null)
                 return;
@@ -472,7 +472,7 @@ namespace Prism.Navigation
             }
         }
 
-        protected static Task<Page> DoPop(INavigation navigation, bool useModalNavigation, bool animated)
+        protected virtual Task<Page> DoPop(INavigation navigation, bool useModalNavigation, bool animated)
         {
             if (useModalNavigation)
                 return navigation.PopModalAsync(animated);
