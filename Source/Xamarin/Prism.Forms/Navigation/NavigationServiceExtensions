@@ -25,6 +25,7 @@ namespace Prism.Navigation
       var name = nameof(T);
 
       //should we allow navigating by page type at all?
+      //name can also be retrieved from the items registered for the navigation.
       if (name.EndsWith(ViewModelSuffix))
         name = name.Replace(ViewModelSuffix, PageSuffix);
       else if (!name.EndsWith(PageSuffix))
