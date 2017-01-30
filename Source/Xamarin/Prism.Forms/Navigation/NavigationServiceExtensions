@@ -1,0 +1,25 @@
+using System;
+using System.Threading.Tasks;
+
+namespace Prism.Navigation
+{
+  public static class PrismNavigationExtensions
+  {
+    public const string ViewModelSuffix = "ViewModel";
+    public const string PageSuffix = "Page";
+
+    public static Task NavigateAsync<T>(this INavigationService navigationService, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+      where T : class
+    {
+      var name = nameof(T);
+
+      //should we allow navigating by page type at all?
+      if (name.EndsWith(ViewModelSuffix))
+        name = name.Replace(ViewModelSuffix, PageSuffix);
+      else if (!name.EndsWith(PageSuffix))
+        throw new ArgumentOutOfRangeException($"Unable to parse ViewModel '{name}'.");
+
+      return navigationService.NavigateAsync(name, parameters, useModalNavigation, animated);
+    }
+  }
+}
