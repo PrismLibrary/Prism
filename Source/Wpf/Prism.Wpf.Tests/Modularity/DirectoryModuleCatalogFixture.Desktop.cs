@@ -20,6 +20,7 @@ namespace Prism.Wpf.Tests.Modularity
         private const string ModulesDirectory3 = @".\DynamicModules\DependantModules";
         private const string ModulesDirectory4 = @".\DynamicModules\MocksModules2";
         private const string ModulesDirectory5 = @".\DynamicModules\ModulesMainDomain\";
+        private const string ModulesDirectory6 = @".\DynamicModules\Special char #";
         private const string InvalidModulesDirectory = @".\Modularity";
 
         public DirectoryModuleCatalogFixture()
@@ -51,6 +52,7 @@ namespace Prism.Wpf.Tests.Modularity
         public void EmptyPathThrows()
         {
             DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
+            catalog.ModulePath = string.Empty;
             catalog.Load();
         }
 
@@ -83,6 +85,30 @@ namespace Prism.Wpf.Tests.Modularity
             Assert.IsTrue(modules[0].Ref.Contains(@"MockModuleA.dll"));
             Assert.IsNotNull(modules[0].ModuleType);
             StringAssert.Contains(modules[0].ModuleType, "Prism.Wpf.Tests.Mocks.Modules.MockModuleA");
+        }
+
+        [TestMethod]
+        public void ShouldCorrectlyEscapeRef()
+        {
+            string assemblyPath = ModulesDirectory6 + @"\Mock Module #.dll";
+            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs", assemblyPath);
+            string fullAssemblyPath = Path.GetFullPath(assemblyPath);
+
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
+            catalog.ModulePath = ModulesDirectory6;
+            catalog.Load();
+
+            ModuleInfo[] modules = catalog.Modules.ToArray();
+
+            Assert.IsNotNull(modules);
+            Assert.AreEqual(1, modules.Length);
+            Assert.IsNotNull(modules[0].Ref);
+
+            string moduleRef = modules[0].Ref;
+            Uri moduleUri; // = new Uri(moduleRef);
+            Assert.IsTrue(Uri.TryCreate(moduleRef, UriKind.Absolute, out moduleUri));
+
+            Assert.AreEqual(fullAssemblyPath, moduleUri.LocalPath);
         }
 
         [TestMethod]
