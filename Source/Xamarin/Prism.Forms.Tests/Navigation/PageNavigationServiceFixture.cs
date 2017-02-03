@@ -104,6 +104,32 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
+        public async void Navigate_ToContentPage_ByAbsoluteName()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("/ContentPage");
+
+            Assert.True(rootPage.Navigation.ModalStack.Count == 0);
+            Assert.IsType(typeof(ContentPageMock), _applicationProvider.MainPage);
+        }
+
+        [Fact]
+        public async void Navigate_ToContentPage_ByAbsoluteUri()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
+
+            Assert.True(rootPage.Navigation.ModalStack.Count == 0);
+            Assert.IsType(typeof(ContentPageMock), _applicationProvider.MainPage);
+        }
+
+        [Fact]
         public async void Navigate_ToContentPage_ByName_WithNavigationParameters()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
