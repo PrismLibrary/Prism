@@ -237,7 +237,7 @@ namespace Prism.Modularity
                                                     onDemand
                                                         ? InitializationMode.OnDemand
                                                         : InitializationMode.WhenAvailable,
-                                                Ref = type.Assembly.CodeBase,
+                                                Ref = type.Assembly.EscapedCodeBase,
                                             };
                 moduleInfo.DependsOn.AddRange(dependsOn);
                 return moduleInfo;
