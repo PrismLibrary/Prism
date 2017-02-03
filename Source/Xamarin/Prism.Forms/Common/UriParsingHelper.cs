@@ -78,5 +78,19 @@ namespace Prism.Common
             }
             return new Uri("http://localhost" + uri, UriKind.Absolute);
         }
+
+        public static Uri Parse(string uri)
+        {
+            if (uri == null) throw new ArgumentNullException(nameof(uri));
+
+            if (uri.StartsWith("/", StringComparison.Ordinal))
+            {
+                return new Uri("http://localhost" + uri, UriKind.Absolute);
+            }
+            else
+            {
+                return new Uri(uri, UriKind.Relative);
+            }
+        }
     }
 }

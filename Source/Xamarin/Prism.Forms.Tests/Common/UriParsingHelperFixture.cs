@@ -171,5 +171,31 @@ namespace Prism.Forms.Tests.Common
             Assert.True(uri.IsAbsoluteUri);
         }
 
+        [Fact]
+        public void ParseArgumentIsNull()
+        {
+            var actual = Assert.Throws<ArgumentNullException>(() => UriParsingHelper.Parse(null));
+            Assert.NotNull(actual);
+            Assert.Equal("uri", actual.ParamName);
+        }
+
+        [Fact]
+        public void ParseRelativeUri()
+        {
+            var uri = UriParsingHelper.Parse(_relativeUri);
+            Assert.NotNull(uri);
+            Assert.Equal(_relativeUri, uri.OriginalString);
+            Assert.False(uri.IsAbsoluteUri);
+        }
+
+        [Fact]
+        public void ParseUriThatStartsWithSlash()
+        {
+            var uri = UriParsingHelper.Parse("/" + _relativeUri);
+            Assert.NotNull(uri);
+            Assert.Equal("http://localhost/" + _relativeUri, uri.OriginalString);
+            Assert.True(uri.IsAbsoluteUri);
+        }
+
     }
 }
