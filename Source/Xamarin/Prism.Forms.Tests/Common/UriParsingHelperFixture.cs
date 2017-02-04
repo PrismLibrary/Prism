@@ -197,5 +197,14 @@ namespace Prism.Forms.Tests.Common
             Assert.Equal(_absoluteUri, uri.OriginalString);
             Assert.True(uri.IsAbsoluteUri);
         }
+
+        [Fact]
+        public void ParseForAbsoluteUriWithOutProtocol()
+        {
+            var uri = UriParsingHelper.Parse(_absoluteUriWithOutProtocol);
+            Assert.NotNull(uri);
+            Assert.Equal("http://localhost" + _absoluteUriWithOutProtocol, uri.OriginalString);
+            Assert.True(uri.IsAbsoluteUri);
+        }
     }
 }
