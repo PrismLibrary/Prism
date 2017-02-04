@@ -8,6 +8,7 @@ namespace Prism.Forms.Tests.Common
     public class UriParsingHelperFixture
     {
         const string _relativeUri = "MainPage?id=3&name=brian";
+        const string _absoluteUriWithOutProtocol = "/MainPage?id=3&name=brian";
         const string _absoluteUri = "htp://www.brianlagunas.com/MainPage?id=3&name=brian";
         const string _deepLinkAbsoluteUri = "android-app://HellowWorld/MainPage?id=1/ViewA?id=2/ViewB?id=3/ViewC?id=4";
         const string _deepLinkRelativeUri = "MainPage?id=1/ViewA?id=2/ViewB?id=3/ViewC?id=4";
@@ -172,7 +173,7 @@ namespace Prism.Forms.Tests.Common
         }
 
         [Fact]
-        public void ParseArgumentIsNull()
+        public void ParseForNull()
         {
             var actual = Assert.Throws<ArgumentNullException>(() => UriParsingHelper.Parse(null));
             Assert.NotNull(actual);
@@ -180,7 +181,7 @@ namespace Prism.Forms.Tests.Common
         }
 
         [Fact]
-        public void ParseRelativeUri()
+        public void ParseForRelativeUri()
         {
             var uri = UriParsingHelper.Parse(_relativeUri);
             Assert.NotNull(uri);
@@ -189,13 +190,12 @@ namespace Prism.Forms.Tests.Common
         }
 
         [Fact]
-        public void ParseUriThatStartsWithSlash()
+        public void ParseForAbsoluteUri()
         {
-            var uri = UriParsingHelper.Parse("/" + _relativeUri);
+            var uri = UriParsingHelper.Parse(_absoluteUri);
             Assert.NotNull(uri);
-            Assert.Equal("http://localhost/" + _relativeUri, uri.OriginalString);
+            Assert.Equal(_absoluteUri, uri.OriginalString);
             Assert.True(uri.IsAbsoluteUri);
         }
-
     }
 }

@@ -89,7 +89,7 @@ namespace Prism.Common
             }
             else
             {
-                return new Uri(uri, UriKind.Relative);
+                return new Uri(uri, UriKind.RelativeOrAbsolute);
             }
         }
     }
