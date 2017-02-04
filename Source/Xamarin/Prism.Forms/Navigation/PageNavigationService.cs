@@ -89,7 +89,7 @@ namespace Prism.Navigation
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         public virtual Task NavigateAsync(string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            return NavigateAsync(new Uri(name, UriKind.RelativeOrAbsolute), parameters, useModalNavigation, animated);
+            return NavigateAsync(UriParsingHelper.Parse(name), parameters, useModalNavigation, animated);
         }
 
         /// <summary>
