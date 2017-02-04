@@ -206,5 +206,23 @@ namespace Prism.Forms.Tests.Common
             Assert.Equal("http://localhost" + _absoluteUriWithOutProtocol, uri.OriginalString);
             Assert.True(uri.IsAbsoluteUri);
         }
+
+        [Fact]
+        public void ParseForDeepLinkAbsoluteUri()
+        {
+            var uri = UriParsingHelper.Parse(_deepLinkAbsoluteUri);
+            Assert.NotNull(uri);
+            Assert.Equal(_deepLinkAbsoluteUri, uri.OriginalString);
+            Assert.True(uri.IsAbsoluteUri);
+        }
+
+        [Fact]
+        public void ParseForDeepLinkRelativeUri()
+        {
+            var uri = UriParsingHelper.Parse(_deepLinkRelativeUri);
+            Assert.NotNull(uri);
+            Assert.Equal(_deepLinkRelativeUri, uri.OriginalString);
+            Assert.False(uri.IsAbsoluteUri);
+        }
     }
 }
