@@ -24,7 +24,7 @@ Bind or declare a parameter that will be sent to the `ICommand.Execute(object)` 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	x:Class="MyNamespace.ContentPage"
-	x:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
+	xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
 	<StackLayout>    
 		<ListView.Behaviors>
 			<b:EventToCommandBehavior EventName="ItemTapped" Command={Binding ItemTappedCommand}
@@ -70,8 +70,8 @@ The XAML need a reference to the converter and the converter resource need to be
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	x:Class="MyNamespace.ContentPage"
-	x:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
-	x:c="clr-namespace:Prism.Converters;assembly=Prism.Forms">
+	xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+	xmlns:c="clr-namespace:Prism.Converters;assembly=Prism.Forms">
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<c:ItemTappedEventArgsConverter x:Key="itemTappedEventArgsConverter" />
@@ -103,7 +103,7 @@ Setting `EventArgsParameterPath` to **Item** will extract the property value and
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	x:Class="MyNamespace.ContentPage"
-	x:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
+	xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
     <ListView>
 		<ListView.Behaviors>
 			<b:EventToCommandBehavior EventName="ItemTapped" Command={Binding ItemTappedCommand}
