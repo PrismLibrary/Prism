@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>DryIocApp.iOS</Name>
+    <Description>Not Available</Description>
+    <Icon>__TemplateIcon.ico</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType></ProjectSubType>
+    <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
+    <TemplateID>1aef80e3-a450-4d3f-bf1e-2c10a11d3508</TemplateID>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>PrismDryIocApp.iOS</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
+    <Hidden>true</Hidden>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="$safeprojectname$.iOS.csproj" File="DryIocAppTemplate.iOS.csproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" TargetFileName="AppDelegate.cs">AppDelegate.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Entitlements.plist">Entitlements.plist</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Info.plist">Info.plist</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Main.cs">Main.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="iTunesArtwork">iTunesArtwork</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="iTunesArtwork@2x">iTunesArtwork@2x</ProjectItem>
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Resources" TargetFolderName="Resources">
+        <ProjectItem ReplaceParameters="false" TargetFileName="Default-Portrait.png">Default-Portrait.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Default-568h@2x.png">Default-568h@2x.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Default-Portrait@2x.png">Default-Portrait@2x.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Default.png">Default.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Default@2x.png">Default@2x.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Icon-60@2x.png">Icon-60@2x.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Icon-60@3x.png">Icon-60@3x.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Icon-76.png">Icon-76.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Icon-76@2x.png">Icon-76@2x.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Icon-Small-40.png">Icon-Small-40.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Icon-Small-40@2x.png">Icon-Small-40@2x.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Icon-Small-40@3x.png">Icon-Small-40@3x.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Icon-Small.png">Icon-Small.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Icon-Small@2x.png">Icon-Small@2x.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Icon-Small@3x.png">Icon-Small@3x.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Icon-Small@3x.png">Icon-Small@3x.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="LaunchScreen.storyboard">LaunchScreen.storyboard</ProjectItem>
+      </Folder>
+    </Project>
+  </TemplateContent>
+
+  <WizardExtension>
+    <Assembly>Xamarin.Forms.Templates.VisualStudio</Assembly>
+    <FullClassName>Xamarin.Forms.Templates.Wizards.SolutionGuids</FullClassName>
+  </WizardExtension>
+
+  <WizardExtension>
+    <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
+    <FullClassName>Xamarin.VisualStudio.TemplateWizards.ExtractRootProjectNameWizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
+    <FullClassName>Xamarin.VisualStudio.TemplateWizards.SanitizedAssemblyNameWizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <Assembly>NuGet.VisualStudio.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>NuGet.VisualStudio.TemplateWizard</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <packages repository="extension" repositoryId="Prism.TemplatePack.138e3411-ac97-4c11-8016-c27a831cba2e">
+      <package id="Xamarin.Forms" version="2.3.1.114" />
+      <package id="Prism.Core" version="6.2.0" />
+      <package id="Prism.Forms" version="6.2.0" />
+      <package id="Prism.DryIoc.Forms" version="6.2.0" />
+      <package id="DryIoc.dll" version="2.6.4" />
+    </packages>
+  </WizardData>
+  
+</VSTemplate>

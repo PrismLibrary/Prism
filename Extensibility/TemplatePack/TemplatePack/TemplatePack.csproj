@@ -170,6 +170,22 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+       <Content Include="Packages\Containers\autofac.3.5.2.nupkg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content> 
+     <Content Include="Packages\prism.autofac.forms.6.2.0.nupkg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>   
+    <Content Include="Packages\Containers\dryioc.dll.2.6.4.nupkg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Packages\prism.dryioc.forms.6.2.0.nupkg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -229,6 +245,20 @@
       <Project>{C8328918-1BFD-47D1-A5D7-76CC82A40DE7}</Project>
       <Name>PrismWindow</Name>
       <VSIXSubPath>ItemTemplates</VSIXSubPath>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>    
+       <ProjectReference Include="..\ProjectTemplates\CSharp\Forms\PrismAutofacApp\PrismAutofacApp.csproj">
+      <Project>{C57FE2D4-A5F1-4123-A96D-C475F2DA495C}</Project>
+      <Name>PrismAutofacApp</Name>
+      <VSIXSubPath>ItemTemplates</VSIXSubPath>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectTemplates\CSharp\Forms\PrismDryIocApp\PrismDryIocApp.csproj">
+      <Project>{2C8AFFAF-BF25-4EB7-AF28-A5CEB60651CB}</Project>
+      <Name>PrismDryIocApp</Name>
+      <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>

@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using DryIoc;
 using Prism.Common;
 using Prism.DryIoc.Forms.Tests.Mocks;
-using Prism.DryIoc.Forms.Tests.Mocks.Modules;
-using Prism.DryIoc.Forms.Tests.Mocks.Services;
-using Prism.DryIoc.Forms.Tests.Mocks.ViewModels;
-using Prism.DryIoc.Forms.Tests.Mocks.Views;
+using Prism.DI.Forms.Tests.Mocks.Modules;
+using Prism.DI.Forms.Tests.Mocks.Services;
+using Prism.DI.Forms.Tests.Mocks.ViewModels;
+using Prism.DI.Forms.Tests.Mocks.Views;
 using Prism.DryIoc.Navigation;
 using Prism.Navigation;
 using Xamarin.Forms;
@@ -41,9 +41,9 @@ namespace Prism.DryIoc.Forms.Tests
         public void ResolveTypeRegisteredWithContainer()
         {
             var app = new PrismApplicationMock();
-            var service = app.Container.Resolve<IDryIocServiceMock>();
+            var service = app.Container.Resolve<IServiceMock>();
             Assert.NotNull(service);
-            Assert.IsType<DryIocServiceMock>(service);
+            Assert.IsType<ServiceMock>(service);
         }
 
         [Fact]

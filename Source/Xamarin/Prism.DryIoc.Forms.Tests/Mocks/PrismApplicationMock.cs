@@ -1,8 +1,8 @@
 using DryIoc;
-using Prism.DryIoc.Forms.Tests.Mocks.Modules;
-using Prism.DryIoc.Forms.Tests.Mocks.Services;
-using Prism.DryIoc.Forms.Tests.Mocks.ViewModels;
-using Prism.DryIoc.Forms.Tests.Mocks.Views;
+using Prism.DI.Forms.Tests.Mocks.Modules;
+using Prism.DI.Forms.Tests.Mocks.Services;
+using Prism.DI.Forms.Tests.Mocks.ViewModels;
+using Prism.DI.Forms.Tests.Mocks.Views;
 using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
@@ -41,7 +41,7 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
 
         protected override void RegisterTypes()
         {
-            Container.Register<IDryIocServiceMock, DryIocServiceMock>();
+            Container.Register<IServiceMock, ServiceMock>();
             Container.RegisterTypeForNavigation<ViewMock>("view");
             Container.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
             Container.Register<AutowireViewModel>();

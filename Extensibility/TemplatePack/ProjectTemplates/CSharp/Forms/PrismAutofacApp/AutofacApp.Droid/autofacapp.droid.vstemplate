@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>AutofacApp.Droid</Name>
+    <Description>Not Available</Description>
+    <Icon>__TemplateIcon.ico</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType></ProjectSubType>
+    <TemplateID>7C2E3352-5894-465D-BD7A-FB40F68BB5B6</TemplateID>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>PrismAutofacApp.Droid</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Hidden>true</Hidden>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="$safeprojectname$.Droid.csproj" File="AutofacAppTemplate.Droid.csproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" TargetFileName="MainActivity.cs">MainActivity.cs</ProjectItem>
+      <Folder Name="Assets" TargetFolderName="Assets">
+        <ProjectItem ReplaceParameters="false" TargetFileName="AboutAssets.txt">AboutAssets.txt</ProjectItem>
+      </Folder>
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="AndroidManifest.xml">AndroidManifest.xml</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Resources" TargetFolderName="Resources">
+        <Folder Name="drawable" TargetFolderName="drawable">
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon.png">icon.png</ProjectItem>
+        </Folder>
+        <Folder Name="drawable-hdpi" TargetFolderName="drawable-hdpi">
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon.png">icon.png</ProjectItem>
+        </Folder>
+        <Folder Name="drawable-xhdpi" TargetFolderName="drawable-xhdpi">
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon.png">icon.png</ProjectItem>
+        </Folder>
+        <Folder Name="drawable-xxhdpi" TargetFolderName="drawable-xxhdpi">
+          <ProjectItem ReplaceParameters="false" TargetFileName="icon.png">icon.png</ProjectItem>
+        </Folder>
+        <Folder Name="layout" TargetFolderName="layout">
+          <ProjectItem ReplaceParameters="false" TargetFileName="tabs.xml">tabs.xml</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="toolbar.xml">toolbar.xml</ProjectItem>
+        </Folder>
+        <Folder Name="values" TargetFolderName="values">
+          <ProjectItem ReplaceParameters="false" TargetFileName="colors.xml">colors.xml</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="styles.xml">styles.xml</ProjectItem>
+        </Folder>
+        <Folder Name="values-v21" TargetFolderName="values-v21">
+          <ProjectItem ReplaceParameters="false" TargetFileName="styles.xml">styles.xml</ProjectItem>
+        </Folder>
+        <ProjectItem ReplaceParameters="false" TargetFileName="AboutResources.txt">AboutResources.txt</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Resource.Designer.cs">Resource.Designer.cs</ProjectItem>
+      </Folder>
+    </Project>
+  </TemplateContent>
+  
+  <WizardExtension>
+    <Assembly>Xamarin.Forms.Templates.VisualStudio</Assembly>
+    <FullClassName>Xamarin.Forms.Templates.Wizards.SolutionGuids</FullClassName>
+  </WizardExtension>
+  
+  <WizardExtension>
+    <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
+    <FullClassName>Xamarin.VisualStudio.TemplateWizards.ExtractRootProjectNameWizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <Assembly>NuGet.VisualStudio.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>NuGet.VisualStudio.TemplateWizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <Assembly>Xamarin.VisualStudio.TemplateWizards, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756</Assembly>
+    <FullClassName>Xamarin.VisualStudio.TemplateWizards.AndroidTargetFrameworkVersionWizard</FullClassName>
+  </WizardExtension>
+  <WizardData>
+    <packages repository="extension" repositoryId="Prism.TemplatePack.138e3411-ac97-4c11-8016-c27a831cba2e">
+      <package id="Xamarin.Forms" version="2.3.1.114" />
+      <package id="Prism.Core" version="6.2.0" />
+      <package id="Prism.Forms" version="6.2.0" />
+      <package id="Prism.Autofac.Forms" version="6.2.0" />
+      <package id="Autofac" version="3.5.2" />
+      <package id="Xamarin.Android.Support.Animated.Vector.Drawable" version="23.3.0" />
+      <package id="Xamarin.Android.Support.Vector.Drawable" version="23.3.0" />
+      <package id="Xamarin.Android.Support.v4" version="23.3.0" />
+      <package id="Xamarin.Android.Support.Design" version="23.3.0" />
+      <package id="Xamarin.Android.Support.v7.AppCompat" version="23.3.0" />
+      <package id="Xamarin.Android.Support.v7.CardView" version="23.3.0" />
+      <package id="Xamarin.Android.Support.v7.MediaRouter" version="23.3.0" />
+      <package id="Xamarin.Android.Support.v7.RecyclerView" version="23.3.0" />
+    </packages>
+  </WizardData>
+</VSTemplate>

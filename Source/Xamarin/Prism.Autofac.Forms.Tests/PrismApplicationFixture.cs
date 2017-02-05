@@ -3,10 +3,10 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Prism.Common;
 using Prism.Autofac.Forms.Tests.Mocks;
-using Prism.Autofac.Forms.Tests.Mocks.Modules;
-using Prism.Autofac.Forms.Tests.Mocks.Services;
-using Prism.Autofac.Forms.Tests.Mocks.ViewModels;
-using Prism.Autofac.Forms.Tests.Mocks.Views;
+using Prism.DI.Forms.Tests.Mocks.Modules;
+using Prism.DI.Forms.Tests.Mocks.Services;
+using Prism.DI.Forms.Tests.Mocks.ViewModels;
+using Prism.DI.Forms.Tests.Mocks.Views;
 using Prism.Autofac.Navigation;
 using Prism.Navigation;
 using Xamarin.Forms;
@@ -42,9 +42,9 @@ namespace Prism.Autofac.Forms.Tests
         public void ResolveTypeRegisteredWithContainer()
         {
             var app = new PrismApplicationMock();
-            var service = app.Container.Resolve<IAutofacServiceMock>();
+            var service = app.Container.Resolve<IServiceMock>();
             Assert.NotNull(service);
-            Assert.IsType<AutofacServiceMock>(service);
+            Assert.IsType<ServiceMock>(service);
         }
 
         [Fact]
