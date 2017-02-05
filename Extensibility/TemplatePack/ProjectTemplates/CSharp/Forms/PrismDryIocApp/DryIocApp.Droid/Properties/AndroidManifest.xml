@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto">
+  <uses-sdk android:minSdkVersion="23" android:targetSdkVersion="23" />
+	<application android:label="$safeprojectname$" android:theme="@style/MyTheme"></application>
+</manifest>

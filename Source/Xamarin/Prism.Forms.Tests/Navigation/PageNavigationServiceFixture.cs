@@ -104,6 +104,32 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
+        public async void Navigate_ToContentPage_ByAbsoluteName()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("/ContentPage");
+
+            Assert.True(rootPage.Navigation.ModalStack.Count == 0);
+            Assert.IsType(typeof(ContentPageMock), _applicationProvider.MainPage);
+        }
+
+        [Fact]
+        public async void Navigate_ToContentPage_ByAbsoluteUri()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
+
+            Assert.True(rootPage.Navigation.ModalStack.Count == 0);
+            Assert.IsType(typeof(ContentPageMock), _applicationProvider.MainPage);
+        }
+
+        [Fact]
         public async void Navigate_ToContentPage_ByName_WithNavigationParameters()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
@@ -391,6 +417,38 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.NavigateAsync("ContentPage/NavigationPage/ContentPage");
 
             var navPage = rootPage.Navigation.ModalStack[0].Navigation.ModalStack[0];
+            Assert.True(navPage.Navigation.NavigationStack.Count == 1);
+        }
+
+        [Fact]
+        public async void DeepNavigate_From_ContentPage_To_NavigationPage_ToContentPage_ByAbsoluteName()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("/NavigationPage/ContentPage");
+
+            Assert.Equal(0, rootPage.Navigation.ModalStack.Count);
+
+            var navPage = _applicationProvider.MainPage;
+            Assert.IsType<NavigationPageMock>(navPage);
+            Assert.True(navPage.Navigation.NavigationStack.Count == 1);
+        }
+
+        [Fact]
+        public async void DeepNavigate_From_ContentPage_To_NavigationPage_ToContentPage_ByAbsoluteUri()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync(new Uri("http://localhost/NavigationPage/ContentPage", UriKind.Absolute));
+
+            Assert.Equal(0, rootPage.Navigation.ModalStack.Count);
+
+            var navPage = _applicationProvider.MainPage;
+            Assert.IsType<NavigationPageMock>(navPage);
             Assert.True(navPage.Navigation.NavigationStack.Count == 1);
         }
 

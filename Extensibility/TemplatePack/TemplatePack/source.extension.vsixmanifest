@@ -20,6 +20,7 @@
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp" d:TargetPath="|PrismUnityApp;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismDryIocApp" d:TargetPath="|PrismDryIocApp;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismModule" d:TargetPath="|PrismModule;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismUnityApp.Wpf" d:TargetPath="|PrismUnityApp.Wpf;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismAutofacApp.Wpf" d:TargetPath="|PrismAutofacApp.Wpf;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
@@ -42,6 +43,7 @@
     <Asset Type="Nuget.Package" d:Source="File" Path="Packages\prism.forms.6.2.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\prism.unity.6.2.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="Nuget.Package" d:Source="File" Path="Packages\prism.unity.forms.6.2.0.nupkg" />
+    <Asset Type="Nuget.Package" d:Source="File" Path="Packages\prism.dryioc.forms.6.2.0.nupkg" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\prism.structuremap.6.2.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\prism.autofac.6.2.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\prism.ninject.6.2.0.nupkg" d:VsixSubPath="Packages" />
@@ -54,6 +56,7 @@
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\autofac.4.2.1.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\autofac.4.2.1.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\portable.ninject.3.3.1.nupkg" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\dryioc.dll.2.6.4.nupkg" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.design.23.3.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v4.23.3.0.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Android\xamarin.android.support.v7.appcompat.23.3.0.nupkg" d:VsixSubPath="Packages" />
