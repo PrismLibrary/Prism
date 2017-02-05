@@ -26,6 +26,7 @@
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismAutofacApp.Wpf" d:TargetPath="|PrismAutofacApp.Wpf;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismNinjectApp.Wpf" d:TargetPath="|PrismNinjectApp.Wpf;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismStructureMapApp.Wpf" d:TargetPath="|PrismStructureMapApp.Wpf;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="PrismAutofacApp" d:TargetPath="|PrismAutofacApp;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismUserControl" d:TargetPath="|PrismUserControl;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
     <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismViewModel" d:TargetPath="|PrismViewModel;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
     <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="PrismWindow" d:TargetPath="|PrismWindow;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
@@ -52,6 +53,7 @@
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\unity.4.0.1.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\ninject.3.2.2.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\structuremap.4.4.2.nupkg" d:VsixSubPath="Packages" />
+    <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\autofac.4.2.1.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\autofac.4.2.1.nupkg" d:VsixSubPath="Packages" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\portable.ninject.3.3.1.nupkg" />
     <Asset Type="NuGet.Package" d:Source="File" Path="Packages\Containers\dryioc.dll.2.6.4.nupkg" />
