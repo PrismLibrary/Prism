@@ -51,7 +51,7 @@ namespace ModuleA.ViewModels
         {
             _navigationService = navigationService;
 
-            NavigateCommand = new DelegateCommand(Navigate).ObservesCanExecute((vm) => CanNavigate);
+            NavigateCommand = new DelegateCommand(Navigate).ObservesCanExecute(() => CanNavigate);
             SaveCommand = new DelegateCommand(Save);
             ResetCommand = new DelegateCommand(Reset);
 
