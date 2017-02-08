@@ -4,11 +4,17 @@ using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class NavigationPageMock : NavigationPage
+    public class NavigationPageMock : NavigationPage, IDestructible
     {
+        public bool DestroyCalled { get; private set; } = false;
         public NavigationPageMock() : base (new ContentPageMock())
         {
             ViewModelLocator.SetAutowireViewModel(this, true);
+        }
+
+        public void Destroy()
+        {
+            DestroyCalled = true;
         }
     }
 
