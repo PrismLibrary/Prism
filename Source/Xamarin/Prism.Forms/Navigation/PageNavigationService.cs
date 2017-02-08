@@ -185,9 +185,9 @@ namespace Prism.Navigation
 
         private void DestroyStackedPages(Page page)
         {
-            foreach (var childPage in page.Navigation.ModalStack)
+            foreach (var childPage in page.Navigation.ModalStack.Reverse())
             {
-                DestroyStackedPages(childPage);
+                PageUtilities.DestroyPage(childPage);
             }
             PageUtilities.DestroyPage(page);
         }
