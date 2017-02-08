@@ -139,13 +139,14 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_FromDeepPages_ToContentPage_ByAbsoluteUri()
         {
-            // Set up top page.
-            var contentPageMock = new ContentPageMock();
-            var contentPageMockViewModel = (ViewModelBase)contentPageMock.BindingContext;
-            var applicationProvider = new ApplicationProviderMock(contentPageMock);
-
+            var applicationProvider = new ApplicationProviderMock(null);
             var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
             var pageAware = (IPageAware)navigationService;
+
+            // Set up top page.
+            await navigationService.NavigateAsync("ContentPage");
+            var contentPageMock = (ContentPageMock)applicationProvider.MainPage;
+            var contentPageMockViewModel = (ViewModelBase)contentPageMock.BindingContext;
 
 
             // Navigation Modal
