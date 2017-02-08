@@ -184,11 +184,17 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.True(rootPage.Navigation.NavigationStack.Count == 2);
             Assert.IsType(typeof(TabbedPageMock), rootPage.CurrentPage);
-
+            var tabbedPageMock = rootPage.CurrentPage as TabbedPageMock;
+            Assert.NotNull(tabbedPageMock);
+            var viewModel = (ViewModelBase)tabbedPageMock.BindingContext;
+            
             await navigationService.GoBackAsync();
 
             Assert.True(rootPage.Navigation.NavigationStack.Count == 1);
             Assert.IsType(typeof(ContentPageMock), rootPage.CurrentPage);
+            Assert.True(tabbedPageMock.DestroyCalled);
+            Assert.Null(tabbedPageMock.BindingContext);
+            Assert.True(viewModel.DestroyCalled);
         }
 
         [Fact]
