@@ -120,13 +120,17 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_ToContentPage_ByAbsoluteUri()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPageMock();
+            var rootPageViewModel = (ViewModelBase) rootPage.BindingContext;
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 0);
             Assert.IsType(typeof(ContentPageMock), _applicationProvider.MainPage);
+            Assert.NotEqual(rootPage, _applicationProvider.MainPage);
+            Assert.True(rootPage.DestroyCalled);
+            Assert.True(rootPageViewModel.DestroyCalled);
         }
 
         [Fact]

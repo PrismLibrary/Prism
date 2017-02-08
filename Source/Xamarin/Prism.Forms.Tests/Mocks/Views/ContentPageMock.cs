@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class ContentPageMock : ContentPage, INavigationAware, IConfirmNavigationAsync
+    public class ContentPageMock : ContentPage, INavigationAware, IConfirmNavigationAsync, IDestructible
     {
         public bool OnNavigatedToCalled { get; private set; } = false;
         public bool OnNavigatedFromCalled { get; private set; } = false;
         public bool OnNavigatingToCalled { get; private set; } = false;
 
         public bool OnConfirmNavigationCalled { get; private set; } = false;
+
+        public bool DestroyCalled { get; private set; } = false;
 
         public ContentPageMock()
         {
@@ -45,6 +47,11 @@ namespace Prism.Forms.Tests.Mocks.Views
 
                 return true;
             });
+        }
+
+        public void Destroy()
+        {
+            DestroyCalled = true;
         }
     }
 }
