@@ -119,29 +119,34 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_ToContentPage_ByAbsoluteUri()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            // Set up top page.
             var rootPage = new ContentPageMock();
-            var rootPageViewModel = (ViewModelBase) rootPage.BindingContext;
-            ((IPageAware)navigationService).Page = rootPage;
+            var rootPageViewModel = (ViewModelBase)rootPage.BindingContext;
+            var applicationProvider = new ApplicationProviderMock(rootPage);
+            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
 
             await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 0);
-            Assert.IsType(typeof(ContentPageMock), _applicationProvider.MainPage);
+            Assert.IsType(typeof(ContentPageMock), applicationProvider.MainPage);
             Assert.NotEqual(rootPage, _applicationProvider.MainPage);
             Assert.True(rootPage.DestroyCalled);
+            Assert.Equal(0, rootPage.Behaviors.Count);
+            Assert.Null(rootPage.BindingContext);
             Assert.True(rootPageViewModel.DestroyCalled);
         }
 
         [Fact]
         public async void Navigate_FromDeepPages_ToContentPage_ByAbsoluteUri()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var pageAware = (IPageAware)navigationService;
-
             // Set up top page.
             var contentPageMock = new ContentPageMock();
             var contentPageMockViewModel = (ViewModelBase)contentPageMock.BindingContext;
+            var applicationProvider = new ApplicationProviderMock(contentPageMock);
+
+            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
+            var pageAware = (IPageAware)navigationService;
+
 
             // Navigation Modal
             pageAware.Page = contentPageMock;
@@ -165,27 +170,36 @@ namespace Prism.Forms.Tests.Navigation
             var tabbedPage = (TabbedPageMock)navigationPage.Navigation.ModalStack[0];
             var tabbedPageViewModel = (ViewModelBase)tabbedPage.BindingContext;
 
-
             // Absolute Navigation
             pageAware.Page = tabbedPage;
             await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
 
-            Assert.IsType(typeof(ContentPageMock), _applicationProvider.MainPage);
-            Assert.NotEqual(contentPageMock, _applicationProvider.MainPage);
+            Assert.IsType(typeof(ContentPageMock), applicationProvider.MainPage);
+            Assert.NotEqual(contentPageMock, applicationProvider.MainPage);
 
             Assert.True(contentPageMock.DestroyCalled);
+            Assert.Equal(0, contentPageMock.Behaviors.Count);
+            Assert.Null(contentPageMock.BindingContext);
             Assert.True(contentPageMockViewModel.DestroyCalled);
 
             Assert.True(navigationPage.DestroyCalled);
+            Assert.Equal(0, navigationPage.Behaviors.Count);
+            Assert.Null(navigationPage.BindingContext);
             Assert.True(navigationPageViewModel.DestroyCalled);
 
             Assert.True(navigationChild1.DestroyCalled);
+            Assert.Equal(0, navigationChild1.Behaviors.Count);
+            Assert.Null(navigationPage.BindingContext);
             Assert.True(navigationChild1ViewModel.DestroyCalled);
 
             Assert.True(navigationChild2.DestroyCalled);
+            Assert.Equal(0, navigationChild2.Behaviors.Count);
+            Assert.Null(navigationPage.BindingContext);
             Assert.True(navigationChild2ViewModel.DestroyCalled);
 
             Assert.True(tabbedPage.DestroyCalled);
+            Assert.Equal(0, tabbedPage.Behaviors.Count);
+            Assert.Null(navigationPage.BindingContext);
             Assert.True(tabbedPageViewModel.DestroyCalled);
         }
 
