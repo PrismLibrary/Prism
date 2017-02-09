@@ -51,7 +51,7 @@ namespace Prism.Common
             else if (page is TabbedPage)
             {
                 var tabbedPage = (TabbedPage)page;
-                foreach (var item in tabbedPage.Children)
+                foreach (var item in tabbedPage.Children.Reverse())
                 {
                     DestroyPage(item);
                 }
@@ -59,7 +59,7 @@ namespace Prism.Common
             else if (page is CarouselPage)
             {
                 var carouselPage = (CarouselPage)page;
-                foreach (var item in carouselPage.Children)
+                foreach (var item in carouselPage.Children.Reverse())
                 {
                     DestroyPage(item);
                 }
@@ -67,7 +67,7 @@ namespace Prism.Common
             else if (page is NavigationPage)
             {
                 var navigationPage = (NavigationPage)page;
-                foreach (var item in navigationPage.Navigation.NavigationStack)
+                foreach (var item in navigationPage.Navigation.NavigationStack.Reverse())
                 {
                     DestroyPage(item);
                 }

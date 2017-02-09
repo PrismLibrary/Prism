@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class MasterDetailPageMock : MasterDetailPage, IMasterDetailPageOptions
+    public class MasterDetailPageMock : MasterDetailPage, IMasterDetailPageOptions, IDestructible
     {
         public MasterDetailPageMock()
         {
@@ -15,6 +15,10 @@ namespace Prism.Forms.Tests.Mocks.Views
         }
 
         public bool IsPresentedAfterNavigation { get; set; }
+        public void Destroy()
+        {
+            PageNavigationEventRecoder.Record(this, PageNavigationEvent.Destroy);
+        }
     }
 
     public class MasterDetailPageEmptyMock : MasterDetailPage

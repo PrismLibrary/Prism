@@ -15,6 +15,7 @@ namespace Prism.Forms.Tests.Mocks.Views
         public void Destroy()
         {
             DestroyCalled = true;
+            PageNavigationEventRecoder.Record(this, PageNavigationEvent.Destroy);
         }
     }
 
