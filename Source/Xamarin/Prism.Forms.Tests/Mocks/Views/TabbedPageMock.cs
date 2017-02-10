@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class TabbedPageMock : TabbedPage, IDestructible
+    public class TabbedPageMock : TabbedPage, IDestructible, INavigationAware
     {
         public bool DestroyCalled { get; private set; } = false;
 
@@ -21,6 +21,21 @@ namespace Prism.Forms.Tests.Mocks.Views
         {
             DestroyCalled = true;
             PageNavigationEventRecoder.Record(this, PageNavigationEvent.Destroy);
+        }
+
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatedFrom);
+        }
+
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
+            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatedTo);
+        }
+
+        public void OnNavigatingTo(NavigationParameters parameters)
+        {
+            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatingTo);
         }
     }
 }

@@ -43,6 +43,14 @@ namespace Prism.Forms.Tests.Mocks
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public void Clear()
+        {
+            _records.Clear();
+        }
+
+        /// <summary>
         /// Start Recording of Event.
         /// </summary>
         /// <returns></returns>

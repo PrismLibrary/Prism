@@ -47,6 +47,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Common\PageUtilitiesFixture.cs" />
+    <Compile Include="Mocks\PageExtensions.cs" />
+    <Compile Include="Mocks\PageNavigation.cs" />
     <Compile Include="Mocks\PageNavigationEvent.cs" />
     <Compile Include="Mocks\PageNavigationRecord.cs" />
     <Compile Include="Mocks\PageNavigationEventRecoder.cs" />

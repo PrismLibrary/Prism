@@ -24,16 +24,19 @@ namespace Prism.Forms.Tests.Mocks.Views
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
             OnNavigatedFromCalled = true;
+            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatedFrom);
         }
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
             OnNavigatedToCalled = true;
+            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatedTo);
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)
         {
             OnNavigatingToCalled = true;
+            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatingTo);
         }
 
         public Task<bool> CanNavigateAsync(NavigationParameters parameters)

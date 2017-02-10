@@ -21,18 +21,21 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
         {
             OnNavigatedFromCalled = true;
             NavigatedFromParameters = parameters;
+            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatedFrom);
         }
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
             OnNavigatedToCalled = true;
             NavigatedToParameters = parameters;
+            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatedTo);
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)
         {
             OnNavigatingdToCalled = true;
             NavigatedToParameters = parameters;
+            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatingTo);
         }
 
         public void Destroy()

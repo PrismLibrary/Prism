@@ -139,134 +139,245 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_FromDeepPages_ToContentPage_ByAbsoluteUri()
         {
-            var applicationProvider = new ApplicationProviderMock(null);
-            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
-            var pageAware = (IPageAware)navigationService;
+            using (var recoder = PageNavigationEventRecoder.BeginRecord())
+            {
+                var applicationProvider = new ApplicationProviderMock(null);
+                var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
+                var pageAware = (IPageAware)navigationService;
 
-            // Set up top page.
-            await navigationService.NavigateAsync("ContentPage");
-            var contentPageMock = (ContentPageMock)applicationProvider.MainPage;
-            var contentPageMockViewModel = (ViewModelBase)contentPageMock.BindingContext;
+                // Set up top page.
+                await navigationService.NavigateAsync("ContentPage");
+                var contentPageMock = (ContentPageMock)applicationProvider.MainPage;
+                var contentPageMockViewModel = (ViewModelBase)contentPageMock.BindingContext;
 
 
-            // Navigation Modal
-            pageAware.Page = contentPageMock;
-            await navigationService.NavigateAsync("NavigationPage");
+                // Navigation Modal
+                pageAware.Page = contentPageMock;
+                await navigationService.NavigateAsync("NavigationPage");
 
-            var navigationPage = (NavigationPageMock)contentPageMock.Navigation.ModalStack[0];
-            var navigationPageViewModel = (ViewModelBase) navigationPage.BindingContext;
+                var navigationPage = (NavigationPageMock)contentPageMock.Navigation.ModalStack[0];
+                var navigationPageViewModel = (ViewModelBase)navigationPage.BindingContext;
 
-            var navigationChild1 = (ContentPageMock)navigationPage.Navigation.NavigationStack[0];
-            var navigationChild1ViewModel = (ViewModelBase)navigationChild1.BindingContext;
+                var navigationChild1 = (ContentPageMock)navigationPage.Navigation.NavigationStack[0];
+                var navigationChild1ViewModel = (ViewModelBase)navigationChild1.BindingContext;
 
-            // Navigation UnModal
-            pageAware.Page = navigationChild1;
-            await navigationService.NavigateAsync("ContentPage");
-            var navigationChild2 = (ContentPageMock)navigationPage.Navigation.NavigationStack[1];
-            var navigationChild2ViewModel = (ViewModelBase)navigationChild1.BindingContext;
+                // Navigation UnModal
+                pageAware.Page = navigationChild1;
+                await navigationService.NavigateAsync("ContentPage");
+                var navigationChild2 = (ContentPageMock)navigationPage.Navigation.NavigationStack[1];
+                var navigationChild2ViewModel = (ViewModelBase)navigationChild2.BindingContext;
 
-            // Navigation Modal
-            pageAware.Page = navigationChild2;
-            await navigationService.NavigateAsync("TabbedPage", useModalNavigation:true);
-            var tabbedPage = (TabbedPageMock)navigationPage.Navigation.ModalStack[0];
-            var tabbedPageViewModel = (ViewModelBase)tabbedPage.BindingContext;
+                // Navigation Modal
+                pageAware.Page = navigationChild2;
+                await navigationService.NavigateAsync("TabbedPage", useModalNavigation: true);
+                var tabbedPage = (TabbedPageMock)navigationPage.Navigation.ModalStack[1];
+                var tabbedPageViewModel = (ViewModelBase)tabbedPage.BindingContext;
+                var tabbedChild1 = tabbedPage.Children[0];
+                var tabbedChild1ViewModel = tabbedChild1.BindingContext;
+                var tabbedChild3 = tabbedPage.Children[2];
+                var tabbedChild3ViewModel = tabbedChild3.BindingContext;
 
-            // Absolute Navigation
-            pageAware.Page = tabbedPage;
-            await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
+                // Absolute Navigation
+                recoder.Clear();
+                pageAware.Page = tabbedPage;
+                await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
 
-            Assert.IsType(typeof(ContentPageMock), applicationProvider.MainPage);
-            Assert.NotEqual(contentPageMock, applicationProvider.MainPage);
+                var navigatedPage = applicationProvider.MainPage;
+                var navigatedPageViewModel = navigatedPage.BindingContext;
 
-            Assert.True(contentPageMock.DestroyCalled);
-            Assert.Equal(0, contentPageMock.Behaviors.Count);
-            Assert.Null(contentPageMock.BindingContext);
-            Assert.True(contentPageMockViewModel.DestroyCalled);
+                Assert.IsType(typeof(ContentPageMock), applicationProvider.MainPage);
+                Assert.NotEqual(contentPageMock, applicationProvider.MainPage);
 
-            Assert.True(navigationPage.DestroyCalled);
-            Assert.Equal(0, navigationPage.Behaviors.Count);
-            Assert.Null(navigationPage.BindingContext);
-            Assert.True(navigationPageViewModel.DestroyCalled);
+                // OnNavigatingTo
+                Assert.Equal(navigatedPage, recoder.Records[0].Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatingTo, recoder.Records[0].Event);
 
-            Assert.True(navigationChild1.DestroyCalled);
-            Assert.Equal(0, navigationChild1.Behaviors.Count);
-            Assert.Null(navigationPage.BindingContext);
-            Assert.True(navigationChild1ViewModel.DestroyCalled);
+                Assert.Equal(navigatedPageViewModel, recoder.Records[1].Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatingTo, recoder.Records[1].Event);
 
-            Assert.True(navigationChild2.DestroyCalled);
-            Assert.Equal(0, navigationChild2.Behaviors.Count);
-            Assert.Null(navigationPage.BindingContext);
-            Assert.True(navigationChild2ViewModel.DestroyCalled);
+                // Destroy objects.
+                Assert.Equal(tabbedChild3, recoder.Records[2].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[2].Event);
 
-            Assert.True(tabbedPage.DestroyCalled);
-            Assert.Equal(0, tabbedPage.Behaviors.Count);
-            Assert.Null(tabbedPage.BindingContext);
-            Assert.True(tabbedPageViewModel.DestroyCalled);
+                Assert.Equal(tabbedChild3ViewModel, recoder.Records[3].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[3].Event);
+
+                Assert.Equal(tabbedPageViewModel, recoder.Records[4].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[4].Event);
+
+                Assert.Equal(tabbedChild1, recoder.Records[5].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[5].Event);
+
+                Assert.Equal(tabbedChild1ViewModel, recoder.Records[6].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[6].Event);
+
+                Assert.Equal(tabbedPage, recoder.Records[7].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[7].Event);
+
+                Assert.Equal(tabbedPageViewModel, recoder.Records[8].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[8].Event);
+
+                Assert.Equal(navigationChild2, recoder.Records[9].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[9].Event);
+
+                Assert.Equal(navigationChild2ViewModel, recoder.Records[10].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[10].Event);
+
+                Assert.Equal(navigationChild1, recoder.Records[11].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[11].Event);
+
+                Assert.Equal(navigationChild1ViewModel, recoder.Records[12].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[12].Event);
+
+                Assert.Equal(navigationPage, recoder.Records[13].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[13].Event);
+
+                Assert.Equal(navigationPageViewModel, recoder.Records[14].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[14].Event);
+
+                Assert.Equal(contentPageMock, recoder.Records[15].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[15].Event);
+
+                Assert.Equal(contentPageMockViewModel, recoder.Records[16].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[16].Event);
+
+                // OnNavigatedFrom
+                Assert.Equal(tabbedPage, recoder.Records[17].Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatedFrom, recoder.Records[17].Event);
+
+                //Assert.Equal(tabbedPageViewModel, recoder.Records[18].Sender);
+                //Assert.Equal(PageNavigationEvent.OnNavigatedFrom, recoder.Records[18].Event);
+
+                // OnNavigatedTo
+                Assert.Equal(navigatedPage, recoder.Records[18].Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatedTo, recoder.Records[18].Event);
+
+                Assert.Equal(navigatedPageViewModel, recoder.Records[19].Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatedTo, recoder.Records[19].Event);
+
+                Assert.Equal(20, recoder.Records.Count);
+            }
         }
 
         [Fact]
         public async void Navigate_FromDeepPagesWithDeepLink_ToContentPage_ByAbsoluteUri()
         {
-            var applicationProvider = new ApplicationProviderMock(null);
-            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
-            var pageAware = (IPageAware)navigationService;
+            using (var recoder = PageNavigationEventRecoder.BeginRecord())
+            {
+                var applicationProvider = new ApplicationProviderMock(null);
+                var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
+                var pageAware = (IPageAware)navigationService;
 
-            // Set up top page.
-            await navigationService.NavigateAsync("ContentPage");
-            var contentPageMock = (ContentPageMock)applicationProvider.MainPage;
-            var contentPageMockViewModel = (ViewModelBase)contentPageMock.BindingContext;
+                // Set up top page.
+                await navigationService.NavigateAsync("ContentPage");
+                var contentPageMock = (ContentPageMock)applicationProvider.MainPage;
+                var contentPageMockViewModel = (ViewModelBase)contentPageMock.BindingContext;
 
 
-            // Navigation Modal
-            pageAware.Page = contentPageMock;
-            await navigationService.NavigateAsync("NavigationPage/ContentPage/ContentPage");
+                // Navigation Modal
+                pageAware.Page = contentPageMock;
+                await navigationService.NavigateAsync("NavigationPage/ContentPage/ContentPage");
 
-            var navigationPage = (NavigationPageMock)contentPageMock.Navigation.ModalStack[0];
-            var navigationPageViewModel = (ViewModelBase)navigationPage.BindingContext;
+                var navigationPage = (NavigationPageMock)contentPageMock.Navigation.ModalStack[0];
+                var navigationPageViewModel = (ViewModelBase)navigationPage.BindingContext;
 
-            var navigationChild1 = (ContentPageMock)navigationPage.Navigation.NavigationStack[0];
-            var navigationChild1ViewModel = (ViewModelBase)navigationChild1.BindingContext;
+                var navigationChild1 = (ContentPageMock)navigationPage.Navigation.NavigationStack[0];
+                var navigationChild1ViewModel = (ViewModelBase)navigationChild1.BindingContext;
 
-            var navigationChild2 = (ContentPageMock)navigationPage.Navigation.NavigationStack[1];
-            var navigationChild2ViewModel = (ViewModelBase)navigationChild1.BindingContext;
+                var navigationChild2 = (ContentPageMock)navigationPage.Navigation.NavigationStack[1];
+                var navigationChild2ViewModel = (ViewModelBase)navigationChild2.BindingContext;
 
-            // Navigation Modal
-            pageAware.Page = navigationChild2;
-            await navigationService.NavigateAsync("TabbedPage", useModalNavigation: true);
-            var tabbedPage = (TabbedPageMock)navigationPage.Navigation.ModalStack[0];
-            var tabbedPageViewModel = (ViewModelBase)tabbedPage.BindingContext;
+                // Navigation Modal
+                pageAware.Page = navigationChild2;
+                await navigationService.NavigateAsync("TabbedPage", useModalNavigation: true);
+                var tabbedPage = (TabbedPageMock)navigationPage.Navigation.ModalStack[1];
+                var tabbedPageViewModel = (ViewModelBase)tabbedPage.BindingContext;
+                var tabbedChild1 = tabbedPage.Children[0];
+                var tabbedChild1ViewModel = tabbedChild1.BindingContext;
+                var tabbedChild3 = tabbedPage.Children[2];
+                var tabbedChild3ViewModel = tabbedChild3.BindingContext;
 
-            // Absolute Navigation
-            //pageAware.Page = tabbedPage;
-            await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
+                // Absolute Navigation
+                recoder.Clear();
+                pageAware.Page = tabbedPage;
+                await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
 
-            Assert.IsType(typeof(ContentPageMock), applicationProvider.MainPage);
-            Assert.NotEqual(contentPageMock, applicationProvider.MainPage);
+                var navigatedPage = applicationProvider.MainPage;
+                var navigatedPageViewModel = navigatedPage.BindingContext;
 
-            Assert.True(contentPageMock.DestroyCalled);
-            Assert.Equal(0, contentPageMock.Behaviors.Count);
-            Assert.Null(contentPageMock.BindingContext);
-            Assert.True(contentPageMockViewModel.DestroyCalled);
+                Assert.IsType(typeof(ContentPageMock), applicationProvider.MainPage);
+                Assert.NotEqual(contentPageMock, applicationProvider.MainPage);
 
-            //Assert.True(navigationPage.DestroyCalled);
-            Assert.Equal(0, navigationPage.Behaviors.Count);
-            Assert.Null(navigationPage.BindingContext);
-            Assert.True(navigationPageViewModel.DestroyCalled);
+                // OnNavigatingTo
+                Assert.Equal(navigatedPage, recoder.Records[0].Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatingTo, recoder.Records[0].Event);
 
-            Assert.True(navigationChild1.DestroyCalled);
-            Assert.Equal(0, navigationChild1.Behaviors.Count);
-            Assert.Null(navigationPage.BindingContext);
-            Assert.True(navigationChild1ViewModel.DestroyCalled);
+                Assert.Equal(navigatedPageViewModel, recoder.Records[1].Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatingTo, recoder.Records[1].Event);
 
-            Assert.True(navigationChild2.DestroyCalled);
-            Assert.Equal(0, navigationChild2.Behaviors.Count);
-            Assert.Null(navigationPage.BindingContext);
-            Assert.True(navigationChild2ViewModel.DestroyCalled);
+                // Destroy objects.
+                Assert.Equal(tabbedChild3, recoder.Records[2].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[2].Event);
 
-            Assert.True(tabbedPage.DestroyCalled);
-            Assert.Equal(0, tabbedPage.Behaviors.Count);
-            Assert.Null(tabbedPage.BindingContext);
-            Assert.True(tabbedPageViewModel.DestroyCalled);
+                Assert.Equal(tabbedChild3ViewModel, recoder.Records[3].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[3].Event);
+
+                Assert.Equal(tabbedPageViewModel, recoder.Records[4].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[4].Event);
+
+                Assert.Equal(tabbedChild1, recoder.Records[5].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[5].Event);
+
+                Assert.Equal(tabbedChild1ViewModel, recoder.Records[6].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[6].Event);
+
+                Assert.Equal(tabbedPage, recoder.Records[7].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[7].Event);
+
+                Assert.Equal(tabbedPageViewModel, recoder.Records[8].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[8].Event);
+
+                Assert.Equal(navigationChild2, recoder.Records[9].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[9].Event);
+
+                Assert.Equal(navigationChild2ViewModel, recoder.Records[10].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[10].Event);
+
+                Assert.Equal(navigationChild1, recoder.Records[11].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[11].Event);
+
+                Assert.Equal(navigationChild1ViewModel, recoder.Records[12].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[12].Event);
+
+                Assert.Equal(navigationPage, recoder.Records[13].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[13].Event);
+
+                Assert.Equal(navigationPageViewModel, recoder.Records[14].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[14].Event);
+
+                Assert.Equal(contentPageMock, recoder.Records[15].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[15].Event);
+
+                Assert.Equal(contentPageMockViewModel, recoder.Records[16].Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[16].Event);
+
+                // OnNavigatedFrom
+                Assert.Equal(tabbedPage, recoder.Records[17].Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatedFrom, recoder.Records[17].Event);
+
+                //Assert.Equal(tabbedPageViewModel, recoder.Records[18].Sender);
+                //Assert.Equal(PageNavigationEvent.OnNavigatedFrom, recoder.Records[18].Event);
+
+                // OnNavigatedTo
+                Assert.Equal(navigatedPage, recoder.Records[18].Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatedTo, recoder.Records[18].Event);
+
+                Assert.Equal(navigatedPageViewModel, recoder.Records[19].Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatedTo, recoder.Records[19].Event);
+
+                Assert.Equal(20, recoder.Records.Count);
+            }
+
         }
 
         [Fact]
