@@ -139,46 +139,45 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_FromDeepPages_ToContentPage_ByAbsoluteUri()
         {
+            var applicationProvider = new ApplicationProviderMock(null);
+            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
+            var pageAware = (IPageAware)navigationService;
+
+            // Set up top page.
+            await navigationService.NavigateAsync("ContentPage");
+            var contentPageMock = (ContentPageMock)applicationProvider.MainPage;
+            var contentPageMockViewModel = (ViewModelBase)contentPageMock.BindingContext;
+
+
+            // Navigation Modal
+            pageAware.Page = contentPageMock;
+            await navigationService.NavigateAsync("NavigationPage");
+
+            var navigationPage = (NavigationPageMock)contentPageMock.Navigation.ModalStack[0];
+            var navigationPageViewModel = (ViewModelBase)navigationPage.BindingContext;
+
+            var navigationChild1 = (ContentPageMock)navigationPage.Navigation.NavigationStack[0];
+            var navigationChild1ViewModel = (ViewModelBase)navigationChild1.BindingContext;
+
+            // Navigation UnModal
+            pageAware.Page = navigationChild1;
+            await navigationService.NavigateAsync("ContentPage");
+            var navigationChild2 = (ContentPageMock)navigationPage.Navigation.NavigationStack[1];
+            var navigationChild2ViewModel = (ViewModelBase)navigationChild2.BindingContext;
+
+            // Navigation Modal
+            pageAware.Page = navigationChild2;
+            await navigationService.NavigateAsync("TabbedPage", useModalNavigation: true);
+            var tabbedPage = (TabbedPageMock)navigationPage.Navigation.ModalStack[1];
+            var tabbedPageViewModel = (ViewModelBase)tabbedPage.BindingContext;
+            var tabbedChild1 = tabbedPage.Children[0];
+            var tabbedChild1ViewModel = tabbedChild1.BindingContext;
+            var tabbedChild3 = tabbedPage.Children[2];
+            var tabbedChild3ViewModel = tabbedChild3.BindingContext;
+
             using (var recoder = PageNavigationEventRecoder.BeginRecord())
             {
-                var applicationProvider = new ApplicationProviderMock(null);
-                var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
-                var pageAware = (IPageAware)navigationService;
-
-                // Set up top page.
-                await navigationService.NavigateAsync("ContentPage");
-                var contentPageMock = (ContentPageMock)applicationProvider.MainPage;
-                var contentPageMockViewModel = (ViewModelBase)contentPageMock.BindingContext;
-
-
-                // Navigation Modal
-                pageAware.Page = contentPageMock;
-                await navigationService.NavigateAsync("NavigationPage");
-
-                var navigationPage = (NavigationPageMock)contentPageMock.Navigation.ModalStack[0];
-                var navigationPageViewModel = (ViewModelBase)navigationPage.BindingContext;
-
-                var navigationChild1 = (ContentPageMock)navigationPage.Navigation.NavigationStack[0];
-                var navigationChild1ViewModel = (ViewModelBase)navigationChild1.BindingContext;
-
-                // Navigation UnModal
-                pageAware.Page = navigationChild1;
-                await navigationService.NavigateAsync("ContentPage");
-                var navigationChild2 = (ContentPageMock)navigationPage.Navigation.NavigationStack[1];
-                var navigationChild2ViewModel = (ViewModelBase)navigationChild2.BindingContext;
-
-                // Navigation Modal
-                pageAware.Page = navigationChild2;
-                await navigationService.NavigateAsync("TabbedPage", useModalNavigation: true);
-                var tabbedPage = (TabbedPageMock)navigationPage.Navigation.ModalStack[1];
-                var tabbedPageViewModel = (ViewModelBase)tabbedPage.BindingContext;
-                var tabbedChild1 = tabbedPage.Children[0];
-                var tabbedChild1ViewModel = tabbedChild1.BindingContext;
-                var tabbedChild3 = tabbedPage.Children[2];
-                var tabbedChild3ViewModel = tabbedChild3.BindingContext;
-
                 // Absolute Navigation
-                recoder.Clear();
                 pageAware.Page = tabbedPage;
                 await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
 
@@ -262,43 +261,42 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_FromDeepPagesWithDeepLink_ToContentPage_ByAbsoluteUri()
         {
+            var applicationProvider = new ApplicationProviderMock(null);
+            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
+            var pageAware = (IPageAware)navigationService;
+
+            // Set up top page.
+            await navigationService.NavigateAsync("ContentPage");
+            var contentPageMock = (ContentPageMock)applicationProvider.MainPage;
+            var contentPageMockViewModel = (ViewModelBase)contentPageMock.BindingContext;
+
+
+            // Navigation Modal
+            pageAware.Page = contentPageMock;
+            await navigationService.NavigateAsync("NavigationPage/ContentPage/ContentPage");
+
+            var navigationPage = (NavigationPageMock)contentPageMock.Navigation.ModalStack[0];
+            var navigationPageViewModel = (ViewModelBase)navigationPage.BindingContext;
+
+            var navigationChild1 = (ContentPageMock)navigationPage.Navigation.NavigationStack[0];
+            var navigationChild1ViewModel = (ViewModelBase)navigationChild1.BindingContext;
+
+            var navigationChild2 = (ContentPageMock)navigationPage.Navigation.NavigationStack[1];
+            var navigationChild2ViewModel = (ViewModelBase)navigationChild2.BindingContext;
+
+            // Navigation Modal
+            pageAware.Page = navigationChild2;
+            await navigationService.NavigateAsync("TabbedPage", useModalNavigation: true);
+            var tabbedPage = (TabbedPageMock)navigationPage.Navigation.ModalStack[1];
+            var tabbedPageViewModel = (ViewModelBase)tabbedPage.BindingContext;
+            var tabbedChild1 = tabbedPage.Children[0];
+            var tabbedChild1ViewModel = tabbedChild1.BindingContext;
+            var tabbedChild3 = tabbedPage.Children[2];
+            var tabbedChild3ViewModel = tabbedChild3.BindingContext;
+
+            // Absolute Navigation
             using (var recoder = PageNavigationEventRecoder.BeginRecord())
             {
-                var applicationProvider = new ApplicationProviderMock(null);
-                var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
-                var pageAware = (IPageAware)navigationService;
-
-                // Set up top page.
-                await navigationService.NavigateAsync("ContentPage");
-                var contentPageMock = (ContentPageMock)applicationProvider.MainPage;
-                var contentPageMockViewModel = (ViewModelBase)contentPageMock.BindingContext;
-
-
-                // Navigation Modal
-                pageAware.Page = contentPageMock;
-                await navigationService.NavigateAsync("NavigationPage/ContentPage/ContentPage");
-
-                var navigationPage = (NavigationPageMock)contentPageMock.Navigation.ModalStack[0];
-                var navigationPageViewModel = (ViewModelBase)navigationPage.BindingContext;
-
-                var navigationChild1 = (ContentPageMock)navigationPage.Navigation.NavigationStack[0];
-                var navigationChild1ViewModel = (ViewModelBase)navigationChild1.BindingContext;
-
-                var navigationChild2 = (ContentPageMock)navigationPage.Navigation.NavigationStack[1];
-                var navigationChild2ViewModel = (ViewModelBase)navigationChild2.BindingContext;
-
-                // Navigation Modal
-                pageAware.Page = navigationChild2;
-                await navigationService.NavigateAsync("TabbedPage", useModalNavigation: true);
-                var tabbedPage = (TabbedPageMock)navigationPage.Navigation.ModalStack[1];
-                var tabbedPageViewModel = (ViewModelBase)tabbedPage.BindingContext;
-                var tabbedChild1 = tabbedPage.Children[0];
-                var tabbedChild1ViewModel = tabbedChild1.BindingContext;
-                var tabbedChild3 = tabbedPage.Children[2];
-                var tabbedChild3ViewModel = tabbedChild3.BindingContext;
-
-                // Absolute Navigation
-                recoder.Clear();
                 pageAware.Page = tabbedPage;
                 await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
 

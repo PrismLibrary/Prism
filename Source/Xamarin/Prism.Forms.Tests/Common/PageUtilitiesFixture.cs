@@ -87,8 +87,6 @@ namespace Prism.Forms.Tests.Common
 
                 PageUtilities.DestroyPage(masterDetailPage);
 
-                Assert.Equal(4, recoder.Records.Count);
-
                 // masterDetailPage
                 Assert.Equal(detailPage, recoder.Records[0].Sender);
                 Assert.Null(detailPage.BindingContext);
@@ -106,6 +104,8 @@ namespace Prism.Forms.Tests.Common
 
                 Assert.Equal(masterDetailPageViewModel, recoder.Records[3].Sender);
                 Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[3].Event);
+
+                Assert.Equal(4, recoder.Records.Count);
             }
         }
 
