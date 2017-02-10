@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 
 namespace Prism.Forms.Tests.Mocks
@@ -9,12 +10,15 @@ namespace Prism.Forms.Tests.Mocks
     {
         private static ThreadLocal<PageNavigationEventRecoder> Current { get; } = new ThreadLocal<PageNavigationEventRecoder>();
 
-        private readonly List<PageNavigationRecord> _records = new List<PageNavigationRecord>();
+        private readonly Queue<PageNavigationRecord> _records = new Queue<PageNavigationRecord>();
 
-        public IReadOnlyList<PageNavigationRecord> Records => _records;
-        /// <summary>
-        /// Initialize Instance.
-        /// </summary>
+        public IReadOnlyList<PageNavigationRecord> Records => _records.ToList();
+
+        public bool IsEmpty => _records.Count == 0;
+
+            /// <summary>
+            /// Initialize Instance.
+            /// </summary>
         private PageNavigationEventRecoder()
         {
         }
@@ -36,7 +40,14 @@ namespace Prism.Forms.Tests.Mocks
         /// <param name="pageNavigationEvent"></param>
         private void RecordInner(object sender, PageNavigationEvent pageNavigationEvent)
         {
-            _records.Add(new PageNavigationRecord(sender, pageNavigationEvent));
+            _records.Enqueue(new PageNavigationRecord(sender, pageNavigationEvent));
+        }
+
+        public PageNavigationRecord TakeFirst()
+        {
+            if(_records.Count == 0) throw new InvalidOperationException("Not exist records.");
+
+            return _records.Dequeue();
         }
 
         /// <summary>

@@ -188,73 +188,94 @@ namespace Prism.Forms.Tests.Navigation
                 Assert.NotEqual(contentPageMock, applicationProvider.MainPage);
 
                 // OnNavigatingTo
-                Assert.Equal(navigatedPage, recoder.Records[0].Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatingTo, recoder.Records[0].Event);
+                var record = recoder.TakeFirst();
+                Assert.Equal(navigatedPage, record.Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
 
-                Assert.Equal(navigatedPageViewModel, recoder.Records[1].Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatingTo, recoder.Records[1].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigatedPageViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
 
                 // Destroy objects.
-                Assert.Equal(tabbedChild3, recoder.Records[2].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[2].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedChild3, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(tabbedChild3ViewModel, recoder.Records[3].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[3].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedChild3ViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(tabbedPageViewModel, recoder.Records[4].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[4].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedPageViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(tabbedChild1, recoder.Records[5].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[5].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedChild1, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(tabbedChild1ViewModel, recoder.Records[6].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[6].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedChild1ViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(tabbedPage, recoder.Records[7].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[7].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedPage, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(tabbedPageViewModel, recoder.Records[8].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[8].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedPageViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(navigationChild2, recoder.Records[9].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[9].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigationChild2, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(navigationChild2ViewModel, recoder.Records[10].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[10].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigationChild2ViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(navigationChild1, recoder.Records[11].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[11].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigationChild1, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(navigationChild1ViewModel, recoder.Records[12].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[12].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigationChild1ViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(navigationPage, recoder.Records[13].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[13].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigationPage, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(navigationPageViewModel, recoder.Records[14].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[14].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigationPageViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(contentPageMock, recoder.Records[15].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[15].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(contentPageMock, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(contentPageMockViewModel, recoder.Records[16].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[16].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(contentPageMockViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
                 // OnNavigatedFrom
-                Assert.Equal(tabbedPage, recoder.Records[17].Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedFrom, recoder.Records[17].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedPage, record.Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
 
-                //Assert.Equal(tabbedPageViewModel, recoder.Records[18].Sender);
-                //Assert.Equal(PageNavigationEvent.OnNavigatedFrom, recoder.Records[18].Event);
+                //record = recoder.TakeFirst();
+                //Assert.Equal(tabbedPageViewModel, record.Sender);
+                //Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
 
                 // OnNavigatedTo
-                Assert.Equal(navigatedPage, recoder.Records[18].Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedTo, recoder.Records[18].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigatedPage, record.Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
 
-                Assert.Equal(navigatedPageViewModel, recoder.Records[19].Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedTo, recoder.Records[19].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigatedPageViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
 
-                Assert.Equal(20, recoder.Records.Count);
+                Assert.True(recoder.IsEmpty);
             }
         }
 
@@ -307,73 +328,94 @@ namespace Prism.Forms.Tests.Navigation
                 Assert.NotEqual(contentPageMock, applicationProvider.MainPage);
 
                 // OnNavigatingTo
-                Assert.Equal(navigatedPage, recoder.Records[0].Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatingTo, recoder.Records[0].Event);
+                var record = recoder.TakeFirst();
+                Assert.Equal(navigatedPage, record.Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
 
-                Assert.Equal(navigatedPageViewModel, recoder.Records[1].Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatingTo, recoder.Records[1].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigatedPageViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
 
                 // Destroy objects.
-                Assert.Equal(tabbedChild3, recoder.Records[2].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[2].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedChild3, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(tabbedChild3ViewModel, recoder.Records[3].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[3].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedChild3ViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(tabbedPageViewModel, recoder.Records[4].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[4].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedPageViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(tabbedChild1, recoder.Records[5].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[5].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedChild1, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(tabbedChild1ViewModel, recoder.Records[6].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[6].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedChild1ViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(tabbedPage, recoder.Records[7].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[7].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedPage, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(tabbedPageViewModel, recoder.Records[8].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[8].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedPageViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(navigationChild2, recoder.Records[9].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[9].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigationChild2, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(navigationChild2ViewModel, recoder.Records[10].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[10].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigationChild2ViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(navigationChild1, recoder.Records[11].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[11].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigationChild1, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(navigationChild1ViewModel, recoder.Records[12].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[12].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigationChild1ViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(navigationPage, recoder.Records[13].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[13].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigationPage, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(navigationPageViewModel, recoder.Records[14].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[14].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigationPageViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(contentPageMock, recoder.Records[15].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[15].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(contentPageMock, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.Equal(contentPageMockViewModel, recoder.Records[16].Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, recoder.Records[16].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(contentPageMockViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
                 // OnNavigatedFrom
-                Assert.Equal(tabbedPage, recoder.Records[17].Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedFrom, recoder.Records[17].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(tabbedPage, record.Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
 
-                //Assert.Equal(tabbedPageViewModel, recoder.Records[18].Sender);
-                //Assert.Equal(PageNavigationEvent.OnNavigatedFrom, recoder.Records[18].Event);
+                //record = recoder.TakeFirst();
+                //Assert.Equal(tabbedPageViewModel, record.Sender);
+                //Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
 
                 // OnNavigatedTo
-                Assert.Equal(navigatedPage, recoder.Records[18].Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedTo, recoder.Records[18].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigatedPage, record.Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
 
-                Assert.Equal(navigatedPageViewModel, recoder.Records[19].Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedTo, recoder.Records[19].Event);
+                record = recoder.TakeFirst();
+                Assert.Equal(navigatedPageViewModel, record.Sender);
+                Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
 
-                Assert.Equal(20, recoder.Records.Count);
+                Assert.True(recoder.IsEmpty);
             }
 
         }
