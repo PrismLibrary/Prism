@@ -8,7 +8,7 @@ namespace Prism.Forms.Tests.Mocks
 {
     public class PageNavigationEventRecoder : IDisposable
     {
-        private static ThreadLocal<PageNavigationEventRecoder> Current { get; } = new ThreadLocal<PageNavigationEventRecoder>();
+        private static PageNavigationEventRecoder Current { get; set; }
 
         private readonly Queue<PageNavigationRecord> _records = new Queue<PageNavigationRecord>();
 
@@ -30,7 +30,7 @@ namespace Prism.Forms.Tests.Mocks
         /// <param name="pageNavigationEvent"></param>
         public static void Record(object sender, PageNavigationEvent pageNavigationEvent)
         {
-            Current.Value?.RecordInner(sender, pageNavigationEvent);
+            Current?.RecordInner(sender, pageNavigationEvent);
         }
 
         /// <summary>
@@ -56,13 +56,13 @@ namespace Prism.Forms.Tests.Mocks
         /// <returns></returns>
         public static PageNavigationEventRecoder BeginRecord()
         {
-            Current.Value = new PageNavigationEventRecoder();
-            return Current.Value;
+            Current = new PageNavigationEventRecoder();
+            return Current;
         }
 
         public void Dispose()
         {
-            Current.Value = null;
+            Current = null;
         }
     }
 }

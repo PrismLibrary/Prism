@@ -22,19 +22,6 @@ namespace Prism.Forms.Tests.Mocks
             MainPage = page;
         }
 
-        public Page MainPage
-        {
-            get { return _mainPage; }
-            set
-            {
-                _mainPage = value;
-                if (_mainPage != null)
-                {
-                    var pageNavigation = new PageNavigation();
-                    _mainPage.SetInner(pageNavigation);
-                    pageNavigation.PushAsync(_mainPage);
-                }
-            }
-        }
+        public Page MainPage { get; set; }
     }
 }

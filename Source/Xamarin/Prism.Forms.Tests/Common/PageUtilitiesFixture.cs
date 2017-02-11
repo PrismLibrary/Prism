@@ -208,5 +208,49 @@ namespace Prism.Forms.Tests.Common
             }
 
         }
+
+        [Fact]
+        public void DestroyWithModalStack()
+        {
+            var contentPage1 = new ContentPageMock();
+            var viewModel1 = contentPage1.BindingContext;
+            var contentPage2 = new ContentPageMock();
+            var viewModel2 = contentPage2.BindingContext;
+            var contentPage3 = new ContentPageMock();
+            var viewModel3 = contentPage3.BindingContext;
+            contentPage1.Navigation.PushModalAsync(contentPage2);
+            contentPage1.Navigation.PushModalAsync(contentPage3);
+
+            using (var recorder = PageNavigationEventRecoder.BeginRecord())
+            {
+                PageUtilities.DestroyWithModalStack(contentPage1);
+
+                var record = recorder.TakeFirst();
+                Assert.Equal(contentPage3, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+                record = recorder.TakeFirst();
+                Assert.Equal(viewModel3, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+                record = recorder.TakeFirst();
+                Assert.Equal(contentPage2, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+                record = recorder.TakeFirst();
+                Assert.Equal(viewModel2, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+                record = recorder.TakeFirst();
+                Assert.Equal(contentPage1, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+                record = recorder.TakeFirst();
+                Assert.Equal(viewModel1, record.Sender);
+                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+                Assert.True(recorder.IsEmpty);
+            }
+        }
     }
 }

@@ -74,6 +74,16 @@ namespace Prism.Common
             }
         }
 
+        public static void DestroyWithModalStack(Page page)
+        {
+            foreach (var childPage in page.Navigation.ModalStack.Reverse())
+            {
+                PageUtilities.DestroyPage(childPage);
+            }
+            PageUtilities.DestroyPage(page);
+        }
+
+
         public static Task<bool> CanNavigateAsync(object page, NavigationParameters parameters)
         {
             var confirmNavigationItem = page as IConfirmNavigationAsync;
