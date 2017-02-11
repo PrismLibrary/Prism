@@ -7,8 +7,6 @@ namespace Prism.Forms.Tests.Mocks
 {
     public class ApplicationProviderMock : IApplicationProvider
     {
-        private Page _mainPage;
-
         public ApplicationProviderMock()
         {
             MainPage = new ContentPage()
