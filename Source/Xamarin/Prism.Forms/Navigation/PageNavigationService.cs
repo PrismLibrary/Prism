@@ -174,13 +174,14 @@ namespace Prism.Navigation
             await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
 
             var currentPage = _applicationProvider.MainPage;
+            var modalStack = currentPage?.Navigation.ModalStack.ToList();
             await DoNavigateAction(GetCurrentPage(), nextSegment, nextPage, parameters, async () =>
             {
                 await DoPush(null, nextPage, useModalNavigation, animated);
             });
             if (currentPage != null)
             {
-                PageUtilities.DestroyWithModalStack(currentPage);
+                PageUtilities.DestroyWithModalStack(currentPage, modalStack);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using Prism.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -74,13 +75,13 @@ namespace Prism.Common
             }
         }
 
-        public static void DestroyWithModalStack(Page page)
+        public static void DestroyWithModalStack(Page page, IList<Page> modalStack)
         {
-            foreach (var childPage in page.Navigation.ModalStack.Reverse())
+            foreach (var childPage in modalStack.Reverse())
             {
-                PageUtilities.DestroyPage(childPage);
+                DestroyPage(childPage);
             }
-            PageUtilities.DestroyPage(page);
+            DestroyPage(page);
         }
 
 

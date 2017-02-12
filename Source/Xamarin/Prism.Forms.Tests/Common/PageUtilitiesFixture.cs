@@ -1,6 +1,8 @@
-﻿using Prism.Common;
+﻿using System.Collections.Generic;
+using Prism.Common;
 using Prism.Forms.Tests.Mocks;
 using Prism.Forms.Tests.Mocks.Views;
+using Xamarin.Forms;
 using Xunit;
 
 namespace Prism.Forms.Tests.Common
@@ -218,12 +220,13 @@ namespace Prism.Forms.Tests.Common
             var viewModel2 = contentPage2.BindingContext;
             var contentPage3 = new ContentPageMock();
             var viewModel3 = contentPage3.BindingContext;
-            contentPage1.Navigation.PushModalAsync(contentPage2);
-            contentPage1.Navigation.PushModalAsync(contentPage3);
+            var modalStack = new List<Page>();
+            modalStack.Add(contentPage2);
+            modalStack.Add(contentPage3);
 
             using (var recorder = PageNavigationEventRecoder.BeginRecord())
             {
-                PageUtilities.DestroyWithModalStack(contentPage1);
+                PageUtilities.DestroyWithModalStack(contentPage1, modalStack);
 
                 var record = recorder.TakeFirst();
                 Assert.Equal(contentPage3, record.Sender);
