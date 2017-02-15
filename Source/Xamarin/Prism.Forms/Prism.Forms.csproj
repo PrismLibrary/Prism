@@ -69,6 +69,8 @@
     <Compile Include="Behaviors\EventToCommandBehavior.cs" />
     <Compile Include="IPlatformInitializer.cs" />
     <Compile Include="Navigation\INavigationPageOptions.cs" />
+    <Compile Include="Navigation\NavigationParameterInvalidCastException.cs" />
+    <Compile Include="Navigation\NavigationParameterNotFoundException.cs" />
     <Compile Include="PrismApplicationBase.cs" />
     <Compile Include="Common\ApplicationProvider.cs" />
     <Compile Include="Common\IApplicationProvider.cs" />
