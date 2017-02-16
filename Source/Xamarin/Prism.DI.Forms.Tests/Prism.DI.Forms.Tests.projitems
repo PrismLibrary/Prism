@@ -22,5 +22,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ConstructorArgumentView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewAMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ConcreteTypeMock.cs" />
   </ItemGroup>
 </Project>

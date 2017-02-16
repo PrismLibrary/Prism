@@ -12,6 +12,7 @@ using Prism.DryIoc.Navigation;
 using Prism.Navigation;
 using Xamarin.Forms;
 using Xunit;
+using Prism.DI.Forms.Tests.Mocks;
 #if TEST
 using Application = Prism.FormsApplication;
 #endif
@@ -35,6 +36,16 @@ namespace Prism.DryIoc.Forms.Tests
             Assert.True(app.Initialized);
             Assert.NotNull(Application.Current.MainPage);
             Assert.Same(view, Application.Current.MainPage);
+        }
+
+        [Fact]
+        public void ResolveConcreteTypeNotRegisteredWithContainer()
+        {
+            var app = new PrismApplicationMock();
+            Assert.True( app.Initialized );
+            var concreteType = app.Container.Resolve<ConcreteTypeMock>( IfUnresolved.ReturnDefault );
+            Assert.NotNull( concreteType );
+            Assert.IsType<ConcreteTypeMock>( concreteType );
         }
 
         [Fact]

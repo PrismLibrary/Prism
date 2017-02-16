@@ -13,6 +13,7 @@ using Xamarin.Forms;
 using Xunit;
 using Autofac;
 using Autofac.Core.Registration;
+using Prism.DI.Forms.Tests.Mocks;
 #if TEST
 using Application = Prism.FormsApplication;
 #endif
@@ -36,6 +37,16 @@ namespace Prism.Autofac.Forms.Tests
             Assert.True(app.Initialized);
             Assert.NotNull(Application.Current.MainPage);
             Assert.Same(view, Application.Current.MainPage);
+        }
+
+        [Fact]
+        public void ResolveConcreteTypeNotRegisteredWithContainer()
+        {
+            var app = new PrismApplicationMock();
+            Assert.True( app.Initialized );
+            var concreteType = app.Container.Resolve<ConcreteTypeMock>();
+            Assert.NotNull( concreteType );
+            Assert.IsType<ConcreteTypeMock>( concreteType );
         }
 
         [Fact]
