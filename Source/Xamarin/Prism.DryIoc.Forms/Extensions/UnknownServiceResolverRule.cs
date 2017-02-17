@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using DryIoc;
 using Xamarin.Forms;
 
@@ -10,21 +9,14 @@ namespace Prism.DryIoc.Extensions
     /// </summary>
     public static class UnknownServiceResolverRule
     {
-        public static Rules DependencyServiceResolverRule;
-
-        static UnknownServiceResolverRule()
+        public static Factory DependencyServiceResolverRule(Request request)
         {
-            DependencyServiceResolverRule = Rules.Default.WithUnknownServiceResolvers(request => new DelegateFactory(_ =>
+            return new DelegateFactory(_ =>
             {
-                var targetType = request.ServiceType;
-                if (!targetType.GetTypeInfo().IsInterface)
-                {
-                    return null;
-                }
                 var method = typeof(DependencyService).GetTypeInfo().GetDeclaredMethod("Get");
-                var genericMethod = method.MakeGenericMethod(targetType);
+                var genericMethod = method.MakeGenericMethod(request.ServiceType);
                 return genericMethod.Invoke(null, new object[] { DependencyFetchTarget.GlobalInstance });
-            }));
+            });
         }
     }
 }

@@ -13,6 +13,7 @@ using Xamarin.Forms;
 using Xunit;
 using Autofac;
 using Autofac.Core.Registration;
+using Prism.DI.Forms.Tests;
 #if TEST
 using Application = Prism.FormsApplication;
 #endif
@@ -48,6 +49,16 @@ namespace Prism.Autofac.Forms.Tests
         }
 
         [Fact]
+        public void ResolveConcreteTypeNotRegisteredWithContainer()
+        {
+            var app = new PrismApplicationMock();
+            Assert.True(app.Initialized);
+            var concreteType = app.Container.Resolve<ConcreteTypeMock>();
+            Assert.NotNull(concreteType);
+            Assert.IsType<ConcreteTypeMock>(concreteType);
+        }
+
+        [Fact]
         public void ResolveTypeRegisteredWithDependencyService()
         {
             var app = new PrismApplicationMock();
@@ -80,7 +91,7 @@ namespace Prism.Autofac.Forms.Tests
         }
 
         [Fact]
-        public async Task Navigate_UnregisteredView_ThrowInvalidOperationException()
+        public async Task Navigate_UnregisteredView_ThrowNullReferenceException()
         {
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);

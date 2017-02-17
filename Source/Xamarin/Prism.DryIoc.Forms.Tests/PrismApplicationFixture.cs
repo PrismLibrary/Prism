@@ -12,6 +12,7 @@ using Prism.DryIoc.Navigation;
 using Prism.Navigation;
 using Xamarin.Forms;
 using Xunit;
+using Prism.DI.Forms.Tests;
 #if TEST
 using Application = Prism.FormsApplication;
 #endif
@@ -47,6 +48,16 @@ namespace Prism.DryIoc.Forms.Tests
         }
 
         [Fact]
+        public void ResolveConcreteTypeNotRegisteredWithContainer()
+        {
+            var app = new PrismApplicationMock();
+            Assert.True(app.Initialized);
+            var concreteType = app.Container.Resolve<ConcreteTypeMock>();
+            Assert.NotNull(concreteType);
+            Assert.IsType<ConcreteTypeMock>(concreteType);
+        }
+
+        [Fact]
         public void ResolveTypeRegisteredWithDependencyService()
         {
             var app = new PrismApplicationMock();
@@ -79,12 +90,12 @@ namespace Prism.DryIoc.Forms.Tests
         }
 
         [Fact]
-        public async Task Navigate_UnregisteredView_ThrowInvalidOperationException()
+        public async Task Navigate_UnregisteredView_ThrowArgumentOutOfRangeException()
         {
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
-            var exception = await Assert.ThrowsAsync<NullReferenceException>(async () => await navigationService.NavigateAsync("missing"));
-            Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
+            var exception = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await navigationService.NavigateAsync("missing"));
+            //Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
         [Fact]
