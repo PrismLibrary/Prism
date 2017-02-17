@@ -65,7 +65,8 @@ namespace Prism.DryIoc
         /// <returns>An instance of <see cref="Rules" /></returns>
         protected virtual Rules CreateContainerRules()
         {
-            return UnknownServiceResolverRule.DependencyServiceResolverRule;
+            return Rules.Default.WithAutoConcreteTypeResolution()
+                .WithUnknownServiceResolvers(request => UnknownServiceResolverRule.DependencyServiceResolverRule(request));
         }
 
         protected override void ConfigureContainer()

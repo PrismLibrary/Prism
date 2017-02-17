@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -9,6 +9,7 @@
     <Import_RootNamespace>Prism.DI.Forms.Tests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ConcreteTypeMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Modules\ModuleMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\DependencyServiceMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\IDependencyServiceMock.cs" />
