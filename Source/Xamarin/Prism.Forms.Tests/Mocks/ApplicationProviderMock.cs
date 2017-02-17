@@ -13,6 +13,11 @@ namespace Prism.Forms.Tests.Mocks
             };
         }
 
+        public ApplicationProviderMock(Page page)
+        {
+            MainPage = page;
+        }
+
         public Page MainPage { get; set; }
     }
 }

@@ -175,8 +175,21 @@ namespace Prism.Navigation
 
             await DoNavigateAction(GetCurrentPage(), nextSegment, nextPage, parameters, async () =>
             {
+                if (_applicationProvider.MainPage != null)
+                {
+                    DestroyStackedPages(_applicationProvider.MainPage);
+                }
                 await DoPush(null, nextPage, useModalNavigation, animated);
             });
+        }
+
+        private void DestroyStackedPages(Page page)
+        {
+            foreach (var childPage in page.Navigation.ModalStack.Reverse())
+            {
+                PageUtilities.DestroyPage(childPage);
+            }
+            PageUtilities.DestroyPage(page);
         }
 
         protected virtual async Task ProcessNavigationForContentPage(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)

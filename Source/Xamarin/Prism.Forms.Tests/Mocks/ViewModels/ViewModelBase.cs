@@ -4,7 +4,7 @@ using Prism.Navigation;
 
 namespace Prism.Forms.Tests.Mocks.ViewModels
 {
-    public class ViewModelBase : BindableBase, INavigationAware
+    public class ViewModelBase : BindableBase, INavigationAware, IDestructible
     {
         public NavigationParameters NavigatedToParameters { get; private set; }
         public NavigationParameters NavigatedFromParameters { get; private set; }
@@ -14,6 +14,8 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
         public bool OnNavigatingdToCalled { get; private set; } = false;
 
         public bool OnNavigatedFromCalled { get; private set; } = false;
+
+        public bool DestroyCalled { get; private set; } = false;
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
@@ -31,6 +33,11 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
         {
             OnNavigatingdToCalled = true;
             NavigatedToParameters = parameters;
+        }
+
+        public void Destroy()
+        {
+            DestroyCalled = true;
         }
     }
 }
