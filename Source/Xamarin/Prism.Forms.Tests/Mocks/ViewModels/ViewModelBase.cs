@@ -4,10 +4,11 @@ using Prism.Navigation;
 
 namespace Prism.Forms.Tests.Mocks.ViewModels
 {
-    public class ViewModelBase : BindableBase, INavigationAware, IDestructible
+    public class ViewModelBase : BindableBase, INavigationAware, IDestructible, IPageNavigationEventRecodable
     {
         public NavigationParameters NavigatedToParameters { get; private set; }
         public NavigationParameters NavigatedFromParameters { get; private set; }
+        public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
 
         public bool OnNavigatedToCalled { get; private set; } = false;
 
@@ -21,27 +22,27 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
         {
             OnNavigatedFromCalled = true;
             NavigatedFromParameters = parameters;
-            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatedFrom);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedFrom);
         }
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
             OnNavigatedToCalled = true;
             NavigatedToParameters = parameters;
-            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatedTo);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)
         {
             OnNavigatingdToCalled = true;
             NavigatedToParameters = parameters;
-            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatingTo);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatingTo);
         }
 
         public void Destroy()
         {
             DestroyCalled = true;
-            PageNavigationEventRecoder.Record(this, PageNavigationEvent.Destroy);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.Destroy);
         }
     }
 }

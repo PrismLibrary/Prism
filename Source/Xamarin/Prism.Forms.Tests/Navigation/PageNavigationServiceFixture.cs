@@ -107,106 +107,102 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_ToContentPage_ByAbsoluteName()
         {
             // Set up top page.
-            var rootPage = new ContentPageMock();
+            var recorder = new PageNavigationEventRecorder();
+            var rootPage = new ContentPageMock(recorder);
             var rootPageViewModel = (ViewModelBase)rootPage.BindingContext;
             var applicationProvider = new ApplicationProviderMock(rootPage);
-            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
+            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade, recorder);
 
-            using (var recorder = PageNavigationEventRecoder.BeginRecord())
-            {
-                await navigationService.NavigateAsync("/ContentPage");
+            await navigationService.NavigateAsync("/ContentPage");
 
-                var navigatedPage = applicationProvider.MainPage;
-                Assert.IsType(typeof(ContentPageMock), navigatedPage);
-                Assert.NotEqual(rootPage, _applicationProvider.MainPage);
+            var navigatedPage = applicationProvider.MainPage;
+            Assert.IsType(typeof(ContentPageMock), navigatedPage);
+            Assert.NotEqual(rootPage, _applicationProvider.MainPage);
 
-                var record = recorder.TakeFirst();
-                Assert.Equal(navigatedPage, record.Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            var record = recorder.TakeFirst();
+            Assert.Equal(navigatedPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(navigatedPage.BindingContext, record.Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(navigatedPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(rootPage, record.Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(rootPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(rootPageViewModel, record.Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(rootPageViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(navigatedPage, record.Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(navigatedPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(navigatedPage.BindingContext, record.Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(navigatedPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(rootPage, record.Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(rootPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(rootPageViewModel, record.Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(rootPageViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.True(recorder.IsEmpty);
-            }
+            Assert.True(recorder.IsEmpty);
         }
 
         [Fact]
         public async void Navigate_ToContentPage_ByAbsoluteUri()
         {
             // Set up top page.
-            var rootPage = new ContentPageMock();
+            var recorder = new PageNavigationEventRecorder(); ;
+            var rootPage = new ContentPageMock(recorder);
             var rootPageViewModel = (ViewModelBase)rootPage.BindingContext;
             var applicationProvider = new ApplicationProviderMock(rootPage);
-            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
+            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade, recorder);
 
-            using (var recorder = PageNavigationEventRecoder.BeginRecord())
-            {
-                await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
+            await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
 
-                var navigatedPage = applicationProvider.MainPage;
-                Assert.IsType(typeof(ContentPageMock), navigatedPage);
-                Assert.NotEqual(rootPage, _applicationProvider.MainPage);
+            var navigatedPage = applicationProvider.MainPage;
+            Assert.IsType(typeof(ContentPageMock), navigatedPage);
+            Assert.NotEqual(rootPage, _applicationProvider.MainPage);
 
-                var record = recorder.TakeFirst();
-                Assert.Equal(navigatedPage, record.Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            var record = recorder.TakeFirst();
+            Assert.Equal(navigatedPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(navigatedPage.BindingContext, record.Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(navigatedPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(rootPage, record.Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(rootPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(rootPageViewModel, record.Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(rootPageViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(navigatedPage, record.Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(navigatedPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(navigatedPage.BindingContext, record.Sender);
-                Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(navigatedPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(rootPage, record.Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(rootPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                record = recorder.TakeFirst();
-                Assert.Equal(rootPageViewModel, record.Sender);
-                Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(rootPageViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-                Assert.True(recorder.IsEmpty);
-            }
+            Assert.True(recorder.IsEmpty);
         }
 
         [Fact]

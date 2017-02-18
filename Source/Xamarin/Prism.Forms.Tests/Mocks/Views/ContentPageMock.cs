@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class ContentPageMock : ContentPage, INavigationAware, IConfirmNavigationAsync, IDestructible
+    public class ContentPageMock : ContentPage, INavigationAware, IConfirmNavigationAsync, IDestructible, IPageNavigationEventRecodable
     {
+        public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
         public bool OnNavigatedToCalled { get; private set; } = false;
         public bool OnNavigatedFromCalled { get; private set; } = false;
         public bool OnNavigatingToCalled { get; private set; } = false;
@@ -16,27 +17,34 @@ namespace Prism.Forms.Tests.Mocks.Views
 
         public bool DestroyCalled { get; private set; } = false;
 
-        public ContentPageMock()
+        public ContentPageMock() : this(null)
+        {
+        }
+
+        public ContentPageMock(PageNavigationEventRecorder recorder)
         {
             ViewModelLocator.SetAutowireViewModel(this, true);
+
+            PageNavigationEventRecorder = recorder;
+            ((IPageNavigationEventRecodable)BindingContext).PageNavigationEventRecorder = recorder;
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
             OnNavigatedFromCalled = true;
-            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatedFrom);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedFrom);
         }
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
             OnNavigatedToCalled = true;
-            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatedTo);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)
         {
             OnNavigatingToCalled = true;
-            PageNavigationEventRecoder.Record(this, PageNavigationEvent.OnNavigatingTo);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatingTo);
         }
 
         public Task<bool> CanNavigateAsync(NavigationParameters parameters)
@@ -55,7 +63,7 @@ namespace Prism.Forms.Tests.Mocks.Views
         public void Destroy()
         {
             DestroyCalled = true;
-            PageNavigationEventRecoder.Record(this, PageNavigationEvent.Destroy);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.Destroy);
         }
     }
 }
