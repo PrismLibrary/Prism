@@ -221,6 +221,17 @@ namespace Prism.Windows
         }
 
         /// <summary>
+        /// OnFileActivated is the entry point for an applicatoin when it is launched and the ActivationKind is File.
+        /// Call <see cref="OnActivated"/> to bootstrap the prism application.
+        /// </summary>
+        /// <param name="args">Event data for the event.</param>
+        protected override void OnFileActivated(FileActivatedEventArgs args)
+        {
+            base.OnFileActivated(args);
+            OnActivated(args);
+        }
+
+        /// <summary>
         /// OnActivated is the entry point for an application when it is launched via
         /// means other normal user interaction. This includes Voice Commands, URI activation,
         /// being used as a share target from another app, etc.
