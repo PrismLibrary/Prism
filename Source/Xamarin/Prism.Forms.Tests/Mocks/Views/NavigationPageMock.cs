@@ -4,11 +4,27 @@ using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class NavigationPageMock : NavigationPage
+    public class NavigationPageMock : NavigationPage, IDestructible, IPageNavigationEventRecodable
     {
-        public NavigationPageMock() : base (new ContentPageMock())
+        public bool DestroyCalled { get; private set; } = false;
+        public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
+
+        public NavigationPageMock() : this(null)
+        {
+        }
+
+        public NavigationPageMock(PageNavigationEventRecorder recorder) : base(new ContentPageMock(recorder))
         {
             ViewModelLocator.SetAutowireViewModel(this, true);
+
+            PageNavigationEventRecorder = recorder;
+            ((IPageNavigationEventRecodable)BindingContext).PageNavigationEventRecorder = recorder;
+        }
+
+        public void Destroy()
+        {
+            DestroyCalled = true;
+            PageNavigationEventRecorder.Record(this, PageNavigationEvent.Destroy);
         }
     }
 
