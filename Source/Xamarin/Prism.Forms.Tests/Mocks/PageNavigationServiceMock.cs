@@ -19,19 +19,11 @@ namespace Prism.Forms.Tests.Mocks
 
         protected override Page CreatePage(string name)
         {
-            var instance = _containerMock.GetInstance(name);
-            var recodable = instance as IPageNavigationEventRecodable;
-            if (recodable != null)
-            {
-                recodable.PageNavigationEventRecorder = _recorder;
-            }
+            var page = _containerMock.GetInstance(name) as Page;
 
-            var page = instance as Page;
-            var viewModelMock = page?.BindingContext as IPageNavigationEventRecodable;
-            if (viewModelMock != null)
-            {
-                viewModelMock.PageNavigationEventRecorder = _recorder;
-            }
+            PageUtilities.InvokeViewAndViewModelAction<IPageNavigationEventRecordable>(
+                page, 
+                x => x.PageNavigationEventRecorder = _recorder);
 
             return page;
         }

@@ -4,7 +4,7 @@ using Prism.Navigation;
 
 namespace Prism.Forms.Tests.Mocks.ViewModels
 {
-    public class ViewModelBase : BindableBase, INavigationAware, IDestructible, IPageNavigationEventRecodable
+    public class ViewModelBase : BindableBase, INavigationAware, IDestructible, IPageNavigationEventRecordable
     {
         public NavigationParameters NavigatedToParameters { get; private set; }
         public NavigationParameters NavigatedFromParameters { get; private set; }

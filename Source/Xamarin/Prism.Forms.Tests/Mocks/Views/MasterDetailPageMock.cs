@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class MasterDetailPageMock : MasterDetailPage, IMasterDetailPageOptions, IDestructible, IPageNavigationEventRecodable
+    public class MasterDetailPageMock : MasterDetailPage, IMasterDetailPageOptions, IDestructible, IPageNavigationEventRecordable
     {
         public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
 
@@ -20,7 +20,7 @@ namespace Prism.Forms.Tests.Mocks.Views
             ViewModelLocator.SetAutowireViewModel(this, true);
 
             PageNavigationEventRecorder = recorder;
-            ((IPageNavigationEventRecodable)BindingContext).PageNavigationEventRecorder = recorder;
+            ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
         }
 
         public bool IsPresentedAfterNavigation { get; set; }

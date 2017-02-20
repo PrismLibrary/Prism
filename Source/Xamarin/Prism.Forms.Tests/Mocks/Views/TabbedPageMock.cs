@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class TabbedPageMock : TabbedPage, IDestructible, INavigationAware, IPageNavigationEventRecodable
+    public class TabbedPageMock : TabbedPage, IDestructible, INavigationAware, IPageNavigationEventRecordable
     {
         public bool DestroyCalled { get; private set; } = false;
         public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
@@ -22,7 +22,7 @@ namespace Prism.Forms.Tests.Mocks.Views
             Children.Add(new ContentPageMock(recorder) { Title = "Page 3" });
 
             PageNavigationEventRecorder = recorder;
-            ((IPageNavigationEventRecodable)BindingContext).PageNavigationEventRecorder = recorder;
+            ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
         }
 
 
