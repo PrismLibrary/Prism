@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class ContentPageMock : ContentPage, INavigationAware, IConfirmNavigationAsync, IDestructible, IPageNavigationEventRecodable
+    public class ContentPageMock : ContentPage, INavigationAware, IConfirmNavigationAsync, IDestructible, IPageNavigationEventRecordable
     {
         public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
         public bool OnNavigatedToCalled { get; private set; } = false;
@@ -26,7 +26,7 @@ namespace Prism.Forms.Tests.Mocks.Views
             ViewModelLocator.SetAutowireViewModel(this, true);
 
             PageNavigationEventRecorder = recorder;
-            ((IPageNavigationEventRecodable)BindingContext).PageNavigationEventRecorder = recorder;
+            ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)

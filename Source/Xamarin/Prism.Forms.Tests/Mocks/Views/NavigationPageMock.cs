@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class NavigationPageMock : NavigationPage, IDestructible, IPageNavigationEventRecodable
+    public class NavigationPageMock : NavigationPage, IDestructible, IPageNavigationEventRecordable
     {
         public bool DestroyCalled { get; private set; } = false;
         public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
@@ -18,7 +18,7 @@ namespace Prism.Forms.Tests.Mocks.Views
             ViewModelLocator.SetAutowireViewModel(this, true);
 
             PageNavigationEventRecorder = recorder;
-            ((IPageNavigationEventRecodable)BindingContext).PageNavigationEventRecorder = recorder;
+            ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
         }
 
         public void Destroy()
