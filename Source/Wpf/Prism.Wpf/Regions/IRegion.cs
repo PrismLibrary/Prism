@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 
@@ -65,6 +66,12 @@ namespace Prism.Regions
         /// <param name="createRegionManagerScope">When <see langword="true"/>, the added view will receive a new instance of <see cref="IRegionManager"/>, otherwise it will use the current region manager for this region.</param>
         /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="DependencyObject"/>.</returns>
         IRegionManager Add(object view, string viewName, bool createRegionManagerScope);
+
+        /// <summary>
+        /// Gets all the active views includes views of scoped <see cref="IRegionManager"/>s
+        /// </summary>
+        /// <returns>A <see cref="IEnumerable{object}"/> of all related views</returns>
+        IEnumerable<object> GetAllActiveViews();
 
         /// <summary>
         /// Removes the specified view from the region.
