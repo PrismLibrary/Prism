@@ -3,9 +3,9 @@
 
 $nugetOutputDirectory = 'Packages'
 
-$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.3.0-Pre1'
+$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.3.0-Pre2'
 
-$xamarinFormsVersion = '2.3.2.127'
+$xamarinFormsVersion = '2.3.3.193'
 
 $nugetFileName = 'nuget.exe'
 
