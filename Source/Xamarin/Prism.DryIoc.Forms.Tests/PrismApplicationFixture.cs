@@ -90,11 +90,11 @@ namespace Prism.DryIoc.Forms.Tests
         }
 
         [Fact]
-        public async Task Navigate_UnregisteredView_ThrowArgumentOutOfRangeException()
+        public async Task Navigate_UnregisteredView_ThrowContainerException()
         {
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
-            var exception = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await navigationService.NavigateAsync("missing"));
+            var exception = await Assert.ThrowsAsync<ContainerException>(async () => await navigationService.NavigateAsync("missing"));
             //Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
