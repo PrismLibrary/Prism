@@ -20,6 +20,7 @@ Following matrix shows the platform specific support currently available.
 |------------------------|------------|:---:|:---:|:---:|
 | [Prism.Autofac][7] <sup>(*)</sup>  | [![Prism.Autofac badge](https://img.shields.io/nuget/vpre/Prism.Autofac.svg)][7] |  X  |  X  |  &darr;  |
 | [Prism.Autofac.Forms][12]   | [![Prism.Autofac.Forms badge](https://img.shields.io/nuget/vpre/Prism.Autofac.Forms.svg)][12] |  -  |  -  |  X  |
+| [Prism.DryIoc][14]   | [![Prism.DryIoc badge](https://img.shields.io/nuget/vpre/Prism.DryIoc.svg)][14] |  X  |  -  |  -  |
 | [Prism.DryIoc.Forms][13]   | [![Prism.DryIoc.Forms badge](https://img.shields.io/nuget/vpre/Prism.DryIoc.Forms.svg)][13] |  -  |  -  |  X  |
 | [Prism.Mef][6]  <sup>(**)</sup> | [![Prism.Mef badge](https://img.shields.io/nuget/vpre/Prism.Mef.svg)][6] |  X  | - | - |
 | [Prism.Ninject][9] <sup>(*)</sup>   | [![Prism.Ninject badge](https://img.shields.io/nuget/vpre/Prism.Ninject.svg)][9] |  X  |     |  &darr;  |
@@ -55,6 +56,7 @@ To recapitulate the packages described above, this is the list of all assemblies
 | Prism.Autofac.Wpf.dll | [Prism.Autofac][7] |
 | Prism.StructureMap.Wpf.dll | [Prism.StructureMap][8] |
 | Prism.Ninject.Wpf.dll | [Prism.Ninject][9] |
+| Prism.DryIoc.Wpf.dll | [Prism.DryIoc][14] |
 
 ####Xamarin.Forms
 | Assembly | Package |
@@ -86,3 +88,4 @@ To recapitulate the packages described above, this is the list of all assemblies
 [11]: https://www.nuget.org/packages/Prism.Ninject.Forms/
 [12]: https://www.nuget.org/packages/Prism.Autofac.Forms/
 [13]: https://www.nuget.org/packages/Prism.DryIoc.Forms/
+[14]: https://www.nuget.org/packages/Prism.DryIoc/
