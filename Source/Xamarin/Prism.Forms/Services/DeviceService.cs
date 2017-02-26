@@ -59,6 +59,15 @@ namespace Prism.Services
         }
 
         /// <summary>
+        /// Request the device open a Uri.
+        /// </summary>
+        /// <param name="uri">The Uri to open</param>
+        public void OpenUri(Uri uri)
+        {
+            Device.OpenUri(uri);
+        }
+
+        /// <summary>
         /// Starts a recurring timer using the Device clock capabilities.
         /// </summary>
         /// <param name="interval">The interval between invocations of the callback </param>

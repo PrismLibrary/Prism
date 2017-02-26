@@ -44,6 +44,12 @@ namespace Prism.Services
         T OnPlatform<T>(T iOS, T android, T winPhone);
 
         /// <summary>
+        /// Request the device open a Uri.
+        /// </summary>
+        /// <param name="uri">The Uri to open</param>
+        void OpenUri(Uri uri);
+
+        /// <summary>
         /// Starts a recurring timer using the Device clock capabilities.
         /// </summary>
         /// <param name="interval">The interval between invocations of the callback </param>
