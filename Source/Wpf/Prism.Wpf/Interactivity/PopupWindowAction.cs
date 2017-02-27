@@ -285,7 +285,7 @@ namespace Prism.Interactivity
                 iira.FinishInteraction = () => wrapperWindow.Close();
             };
 
-            MvvmHelpers.ViewAndViewModelAction(this.WindowContent, setNotificationAndClose);
+            MvvmHelpers.ViewAndViewModelAction(wrapperWindow.Content, setNotificationAndClose);
         }
 
         /// <summary>
