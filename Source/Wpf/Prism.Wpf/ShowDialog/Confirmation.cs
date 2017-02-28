@@ -12,7 +12,7 @@ namespace Prism.ShowDialog
     {
         public Confirmation()
         {
-            this.CancelCommand = new DelegateCommand(() => this.OnCancel());
+            this.CancelCommand = new DelegateCommand(() => this.OnCancel(), () => this.CanCancel());
         }
 
         public bool Confirmed { get; set; }
@@ -22,15 +22,15 @@ namespace Prism.ShowDialog
         protected virtual void OnCancel()
         {
             this.Confirmed = false;
-
             this.FinishInteraction?.Invoke();
         }
 
         protected override void OnAccept()
         {
             this.Confirmed = true;
-
             base.OnAccept();
         }
+
+        protected virtual bool CanCancel() => true;
     }
 }

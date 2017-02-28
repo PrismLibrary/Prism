@@ -4,14 +4,14 @@ using System.Windows.Controls;
 namespace Prism.ShowDialog
 {
     /// <summary>
-    /// Interaction logic for DefaultNotification.xaml
+    /// Interaction logic for DefaultConfirmation.xaml
     /// </summary>
-    public partial class DefaultNotification : UserControl
+    public partial class DefaultConfirmation : UserControl
     {
         /// <summary>
-        /// Creates a new instance of <see cref="DefaultNotification"/>
+        /// Creates a new instance of ConfirmationChildWindow.
         /// </summary>
-        public DefaultNotification()
+        public DefaultConfirmation()
         {
             InitializeComponent();
         }

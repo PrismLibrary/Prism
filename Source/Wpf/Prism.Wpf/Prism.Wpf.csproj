@@ -216,8 +216,14 @@
     <Compile Include="Extensions\ServiceLocatorExtensions.cs" />
     <Compile Include="Common\UriParsingHelper.cs" />
     <Compile Include="ShowDialog\Confirmation.cs" />
+    <Compile Include="ShowDialog\DefaultConfirmation.xaml.cs">
+      <DependentUpon>DefaultConfirmation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ShowDialog\DefaultNotification.xaml.cs">
       <DependentUpon>DefaultNotification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShowDialog\DefaultYesNoCancel.xaml.cs">
+      <DependentUpon>DefaultYesNoCancel.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShowDialog\IConfirmation.cs" />
     <Compile Include="ShowDialog\INotification.cs" />
@@ -229,9 +235,6 @@
     <Compile Include="ShowDialog\ShowDialogRequest.cs" />
     <Compile Include="ShowDialog\ShowDialogRequestEventArgs.cs" />
     <Compile Include="ShowDialog\ShowDialogRequestTrigger.cs" />
-    <Compile Include="ShowDialog\UserControl1.xaml.cs">
-      <DependentUpon>UserControl1.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ShowDialog\YesNoCancel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -257,13 +260,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ShowDialog\DefaultConfirmation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ShowDialog\DefaultNotification.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ShowDialog\UserControl1.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="ShowDialog\DefaultYesNoCancel.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

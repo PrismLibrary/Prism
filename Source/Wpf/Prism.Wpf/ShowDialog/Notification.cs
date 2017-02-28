@@ -13,7 +13,7 @@ namespace Prism.ShowDialog
     {
         public Notification()
         {
-            this.AcceptCommand = new DelegateCommand(() => this.OnAccept());
+            this.AcceptCommand = new DelegateCommand(() => this.OnAccept(), () => this.CanAccept());
         }
 
         public object Content { get; set; }
@@ -26,5 +26,7 @@ namespace Prism.ShowDialog
         {
             this.FinishInteraction?.Invoke();
         }
+
+        protected virtual bool CanAccept() => true;
     }
 }

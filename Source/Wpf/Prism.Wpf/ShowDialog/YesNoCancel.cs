@@ -12,8 +12,8 @@ namespace Prism.ShowDialog
     {
         public YesNoCancel()
         {
-            this.CancelCommand = new DelegateCommand(() => this.OnCancel());
-            this.RejectCommand = new DelegateCommand(() => this.OnReject());
+            this.CancelCommand = new DelegateCommand(() => this.OnCancel(), () => this.CanCancel());
+            this.RejectCommand = new DelegateCommand(() => this.OnReject(), () => this.CanReject());
         }
 
         public bool? Confirmed { get; set; }
@@ -24,23 +24,24 @@ namespace Prism.ShowDialog
 
         protected virtual void OnCancel()
         {
-            this.Confirmed = false;
-
+            this.Confirmed = null;
             this.FinishInteraction?.Invoke();
         }
 
         protected virtual void OnReject()
         {
-            this.Confirmed = null;
-
+            this.Confirmed = false;
             this.FinishInteraction?.Invoke();
         }
 
         protected override void OnAccept()
         {
             this.Confirmed = true;
-
             base.OnAccept();
         }
+
+        protected virtual bool CanCancel() => true;
+
+        protected virtual bool CanReject() => true;
     }
 }
