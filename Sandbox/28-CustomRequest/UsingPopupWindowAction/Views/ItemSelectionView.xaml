@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="UsingPopupWindowAction.Views.ItemSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             Width="400">
+    <StackPanel>
+
+        <TextBlock FontSize="24" Foreground="DarkBlue" Margin="10">Item Selection</TextBlock>
+
+        <TextBlock Margin="10" TextWrapping="Wrap">
+                This view has its own view model that implements the <Bold>IInteractionRequestAware</Bold> interface.
+                Thanks to this, the view model is automatically populated with the corresponding "notification" 
+                and an action to finish the interaction, which in this case closes the window.
+        </TextBlock>
+
+        <TextBlock Margin="10" TextWrapping="Wrap" FontWeight="Bold">Please select an item:</TextBlock>
+        <ListBox SelectionMode="Single" Margin="10,0" Height="100" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"></ListBox>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Margin="10" Command="{Binding AcceptCommand}">Select Item</Button>
+            <Button Grid.Column="1" Margin="10" Command="{Binding CancelCommand}">Cancel</Button>
+        </Grid>
+    </StackPanel>
+</UserControl>

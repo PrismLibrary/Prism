@@ -1,0 +1,33 @@
+﻿<Window x:Class="UsingPopupWindowAction.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:views="clr-namespace:UsingPopupWindowAction.Views"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        Title="{Binding Title}" Height="350" Width="525">
+    <i:Interaction.Triggers>
+        <prism:ShowDialogRequestTrigger SourceObject="{Binding NotificationRequest}">
+            <prism:ShowDialogAction IsModal="True" CenterOverAssociatedObject="True" WindowContentType="{x:Type prism:DefaultNotification}" />
+        </prism:ShowDialogRequestTrigger>
+        <prism:ShowDialogRequestTrigger SourceObject="{Binding ConfirmationRequest}">
+            <prism:ShowDialogAction IsModal="True" CenterOverAssociatedObject="True" WindowContentType="{x:Type prism:DefaultConfirmation}" />
+        </prism:ShowDialogRequestTrigger>
+        <prism:ShowDialogRequestTrigger SourceObject="{Binding CustomPopupRequest}">
+            <prism:ShowDialogAction IsModal="True" CenterOverAssociatedObject="True" WindowContentType="{x:Type views:CustomPopupView}" />
+        </prism:ShowDialogRequestTrigger>
+
+        <prism:ShowDialogRequestTrigger SourceObject="{Binding CustomNotificationRequest}">
+            <prism:ShowDialogAction IsModal="True" CenterOverAssociatedObject="True"  WindowContentType="{x:Type views:ItemSelectionView}" />
+        </prism:ShowDialogRequestTrigger>
+        
+    </i:Interaction.Triggers>
+    <StackPanel>
+        <Button Margin="5" Content="Raise Default Notification" Command="{Binding NotificationCommand}" />
+        <Button Margin="5" Content="Raise Default Confirmation" Command="{Binding ConfirmationCommand}"/>
+        <Button Margin="5" Content="Raise Custom Popup" Command="{Binding CustomPopupCommand}"/>
+        <Button Margin="5" Content="Raise Custom Interaction" Command="{Binding CustomNotificationCommand}"/>
+
+        <TextBlock Text="{Binding Title}" Margin="25" HorizontalAlignment="Center" FontSize="24" />
+    </StackPanel>
+</Window>
