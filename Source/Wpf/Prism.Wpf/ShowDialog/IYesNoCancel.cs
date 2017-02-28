@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Prism.ShowDialog
 {
-    interface IYesNoCancel : INotification
+    public interface IYesNoCancel : INotification
     {
         bool? Confirmed { get; set; }
     }

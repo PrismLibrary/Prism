@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Prism.ShowDialog
 {
-    interface IConfirmation : INotification
+    public interface IConfirmation : INotification
     {
         bool Confirmed { get; set; }
     }

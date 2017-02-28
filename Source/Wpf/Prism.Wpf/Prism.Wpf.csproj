@@ -234,6 +234,7 @@
     <Compile Include="ShowDialog\ShowDialogAction.cs" />
     <Compile Include="ShowDialog\ShowDialogRequest.cs" />
     <Compile Include="ShowDialog\ShowDialogRequestEventArgs.cs" />
+    <Compile Include="ShowDialog\ShowDialogRequestExtensions.cs" />
     <Compile Include="ShowDialog\ShowDialogRequestTrigger.cs" />
     <Compile Include="ShowDialog\YesNoCancel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
