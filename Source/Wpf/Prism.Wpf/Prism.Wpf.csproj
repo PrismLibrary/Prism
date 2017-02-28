@@ -215,12 +215,24 @@
     <Compile Include="Regions\ViewSortHintAttribute.cs" />
     <Compile Include="Extensions\ServiceLocatorExtensions.cs" />
     <Compile Include="Common\UriParsingHelper.cs" />
+    <Compile Include="ShowDialog\Confirmation.cs" />
+    <Compile Include="ShowDialog\DefaultNotification.xaml.cs">
+      <DependentUpon>DefaultNotification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShowDialog\IConfirmation.cs" />
+    <Compile Include="ShowDialog\INotification.cs" />
     <Compile Include="ShowDialog\IShowDialogRequest.cs" />
     <Compile Include="ShowDialog\IShowDialogRequestAware.cs" />
+    <Compile Include="ShowDialog\IYesNoCancel.cs" />
+    <Compile Include="ShowDialog\Notification.cs" />
     <Compile Include="ShowDialog\ShowDialogAction.cs" />
     <Compile Include="ShowDialog\ShowDialogRequest.cs" />
     <Compile Include="ShowDialog\ShowDialogRequestEventArgs.cs" />
     <Compile Include="ShowDialog\ShowDialogRequestTrigger.cs" />
+    <Compile Include="ShowDialog\UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShowDialog\YesNoCancel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -242,6 +254,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Interactivity\DefaultPopupWindows\DefaultWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShowDialog\DefaultNotification.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShowDialog\UserControl1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
