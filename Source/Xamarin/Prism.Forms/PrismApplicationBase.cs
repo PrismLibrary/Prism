@@ -70,11 +70,11 @@ namespace Prism
 
             ConfigureContainer();
 
-            NavigationService = CreateNavigationService();
-
             RegisterTypes();
 
             _platformInitializer?.RegisterTypes(Container);
+            
+            NavigationService = CreateNavigationService();
 
             InitializeModules();
         }
