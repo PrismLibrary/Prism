@@ -116,8 +116,10 @@ namespace Prism.Commands
 
         void Inpc_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (_propertiesToObserve.Contains(e.PropertyName))
+            if (_propertiesToObserve.Contains(e.PropertyName) || (string.IsNullOrEmpty(e.PropertyName) && _propertiesToObserve.Count > 0))
+            {
                 RaiseCanExecuteChanged();
+            }
         }
 
         #region IsActive

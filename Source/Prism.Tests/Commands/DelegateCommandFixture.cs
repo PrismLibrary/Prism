@@ -365,6 +365,33 @@ namespace Prism.Tests.Commands
             });
         }
 
+        [Fact]
+        public void NonGenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName()
+        {
+            bool canExecuteChangedRaised = false;
+
+            var command = new DelegateCommand(() => { }).ObservesProperty(() => IntProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            OnPropertyChanged(null);
+
+            Assert.True(canExecuteChangedRaised);
+        }
+
+        [Fact]
+        public void NonGenericDelegateCommandNotObservingPropertiesShouldNotRaiseOnEmptyPropertyName()
+        {
+            bool canExecuteChangedRaised = false;
+
+            var command = new DelegateCommand(() => { });
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            OnPropertyChanged(null);
+
+            Assert.False(canExecuteChangedRaised);
+        }
 
         [Fact]
         public void GenericDelegateCommandShouldObserveCanExecute()
@@ -481,6 +508,36 @@ namespace Prism.Tests.Commands
                 DelegateCommand<object> command = new DelegateCommand<object>((o) => { }).ObservesProperty(() => IntProperty).ObservesProperty(() => IntProperty);
             });
         }
+
+        [Fact]
+        public void GenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName()
+        {
+            bool canExecuteChangedRaised = false;
+
+            var command = new DelegateCommand<object>((o) => { }).ObservesProperty(() => IntProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            OnPropertyChanged(null);
+
+            Assert.True(canExecuteChangedRaised);
+        }
+
+        [Fact]
+        public void GenericDelegateCommandNotObservingPropertiesShouldNotRaiseOnEmptyPropertyName()
+        {
+            bool canExecuteChangedRaised = false;
+
+            var command = new DelegateCommand<object>((o) => { });
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            OnPropertyChanged(null);
+
+            Assert.False(canExecuteChangedRaised);
+        }
+
+
 
         private bool _boolProperty;
         public bool BoolProperty
