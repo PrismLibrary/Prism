@@ -18,7 +18,7 @@ namespace Prism.Navigation
 
         protected IApplicationProvider _applicationProvider;
         protected ILoggerFacade _logger;
-
+        
         protected Page _page;
         Page IPageAware.Page
         {

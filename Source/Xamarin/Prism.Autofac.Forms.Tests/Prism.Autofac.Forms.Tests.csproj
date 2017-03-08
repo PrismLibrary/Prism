@@ -97,10 +97,6 @@
       <Project>{943664cf-3a0c-4eff-8bda-29241d49dd85}</Project>
       <Name>Prism.Autofac.Forms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Prism.Forms\Prism.Forms.csproj">
-      <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
-      <Name>Prism.Forms</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
