@@ -223,9 +223,10 @@ namespace Prism.Tests.Events
         [Fact]
         public void ShouldUnsubscribeFromUIThread()
         {
-            var PubSubEvent = new TestablePubSubEvent<string>();
-            PubSubEvent.SynchronizationContext = new SynchronizationContext();
-
+            var PubSubEvent = new TestablePubSubEvent<string>()
+            {
+                SynchronizationContext = new SynchronizationContext()
+            };
             var actionEvent = new ActionHelper();
             PubSubEvent.Subscribe(
                 actionEvent.Action,
@@ -239,9 +240,10 @@ namespace Prism.Tests.Events
         [Fact]
         public void ShouldUnsubscribeFromUIThreadNonGeneric()
         {
-            var pubSubEvent = new TestablePubSubEvent();
-            pubSubEvent.SynchronizationContext = new SynchronizationContext();
-
+            var pubSubEvent = new TestablePubSubEvent()
+            {
+                SynchronizationContext = new SynchronizationContext()
+            };
             var actionEvent = new ActionHelper();
             pubSubEvent.Subscribe(
                 actionEvent.Action,

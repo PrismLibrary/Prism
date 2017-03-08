@@ -1,7 +1,3 @@
-
-
-
-
 namespace Prism.Events
 {
     /// <summary>

@@ -96,8 +96,7 @@ namespace Prism.Commands
 
             if (_inpc == null)
             {
-                var constantExpression = expression.Expression as ConstantExpression;
-                if (constantExpression != null)
+                if (expression.Expression is ConstantExpression constantExpression)
                 {
                     _inpc = constantExpression.Value as INotifyPropertyChanged;
                     if (_inpc != null)

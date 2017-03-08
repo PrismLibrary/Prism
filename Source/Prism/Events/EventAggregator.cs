@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -26,12 +24,12 @@ namespace Prism.Events
         {
             lock (events)
             {
-                EventBase existingEvent = null;
-
-                if (!events.TryGetValue(typeof(TEventType), out existingEvent))
+                if (!events.TryGetValue(typeof(TEventType), out EventBase existingEvent))
                 {
-                    TEventType newEvent = new TEventType();
-                    newEvent.SynchronizationContext = syncContext;
+                    TEventType newEvent = new TEventType()
+                    {
+                        SynchronizationContext = syncContext
+                    };
                     events[typeof(TEventType)] = newEvent;
 
                     return newEvent;

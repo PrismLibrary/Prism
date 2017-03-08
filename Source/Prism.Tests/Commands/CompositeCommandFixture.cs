@@ -256,8 +256,10 @@ namespace Prism.Tests.Commands
         public void MultiDispatchCommandExecutesActiveRegisteredCommands()
         {
             CompositeCommand activeAwareCommand = new CompositeCommand();
-            MockActiveAwareCommand command = new MockActiveAwareCommand();
-            command.IsActive = true;
+            MockActiveAwareCommand command = new MockActiveAwareCommand()
+            {
+                IsActive = true
+            };
             activeAwareCommand.RegisterCommand(command);
 
             activeAwareCommand.Execute(null);
@@ -269,8 +271,10 @@ namespace Prism.Tests.Commands
         public void MultiDispatchCommandDoesNotExecutesInactiveRegisteredCommands()
         {
             CompositeCommand activeAwareCommand = new CompositeCommand(true);
-            MockActiveAwareCommand command = new MockActiveAwareCommand();
-            command.IsActive = false;
+            MockActiveAwareCommand command = new MockActiveAwareCommand()
+            {
+                IsActive = false
+            };
             activeAwareCommand.RegisterCommand(command);
 
             activeAwareCommand.Execute(null);
@@ -334,9 +338,11 @@ namespace Prism.Tests.Commands
         [Fact]
         public void ShouldNotMonitorActivityIfUseActiveMonitoringFalse()
         {
-            var mockCommand = new MockActiveAwareCommand();
-            mockCommand.IsValid = true;
-            mockCommand.IsActive = true;
+            var mockCommand = new MockActiveAwareCommand()
+            {
+                IsValid = true,
+                IsActive = true
+            };
             var nonActiveAwareCompositeCommand = new CompositeCommand(false);
             bool canExecuteChangedRaised = false;
             nonActiveAwareCompositeCommand.RegisterCommand(mockCommand);
@@ -493,8 +499,7 @@ namespace Prism.Tests.Commands
         public void Execute(object parameter)
         {
             WasExecuted = true;
-            if (ExecuteAction != null)
-                ExecuteAction(parameter);
+            ExecuteAction?.Invoke(parameter);
         }
 
         #endregion
