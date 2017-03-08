@@ -18,25 +18,6 @@ if (!(Test-Path $nugetFileName))
 
 
 
-##########################
-######  Prism.Core  ######
-##########################
-$coreNuspecPath = 'Prism.Core.nuspec'
-$coreAssemblyPath = '../Prism/bin/Release/Prism.dll'
-if ((Test-Path $coreAssemblyPath))
-{
-    $fileInfo = Get-Item $coreAssemblyPath
-    $coreFileVersion = $fileInfo.VersionInfo.ProductVersion
-
-    Invoke-Expression ".\$($nugetFileName) pack $($coreNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)" 
-}
-else
-{
-    Write-Host 'Prism.dll not found'
-}
-
-
-
 ###########################
 ######   Prism.Wpf   ######
 ###########################
