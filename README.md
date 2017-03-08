@@ -89,11 +89,11 @@ Installation is straightforward if you've installed Xamarin Add-ins before, just
 ![Xamarin Studio Addin Manager](docs/images/prism-xamarin-studio-addin-manager.jpg)
 
 # Samples
-We have both a development sandbox (frequently changing) and stable samples for using Prism with WPF, UWP and Xamarin Forms. An overview of the samples can be found [here](Sandbox/README.md).
+We have both a development sandbox (frequently changing) and stable samples for using Prism with WPF, UWP and Xamarin Forms. An overview of the samples can be found [here](samples/README.md).
 
 #Contributing
 We strongly encourage you to get involved and help us evolve the code base. 
-- You can see what our expectations are for pull requests [here](https://github.com/PrismLibrary/Prism/blob/master/.github/CONTRIBUTING.md).
+- You can see what our expectations are for pull requests [here](docs/CONTRIBUTING.md).
 
 ### .NET Foundation
 
