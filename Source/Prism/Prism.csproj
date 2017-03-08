@@ -17,7 +17,7 @@
     <PackageLicenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
     <PackageTags>prism wpf xamarin mvvm uwp uap xaml</PackageTags>
-    <NeutralLanguage></NeutralLanguage>
+    <NeutralLanguage>en-US</NeutralLanguage>
     <Company></Company>
   </PropertyGroup>
 

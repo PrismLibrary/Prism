@@ -178,7 +178,7 @@
       <Name>Prism</Name>
     </ProjectReference>
     <ProjectReference Include="..\Prism.Windows\Prism.Windows.csproj">
-      <Project>{3b7c3599-a336-4db2-8678-710e3b36203b}</Project>
+      <Project>{c498b667-7c52-4eb7-bf6d-9b49985b4a9e}</Project>
       <Name>Prism.Windows</Name>
     </ProjectReference>
   </ItemGroup>
