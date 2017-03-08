@@ -1,7 +1,4 @@
-
-
 using Prism.Mvvm;
-using System.ComponentModel;
 
 namespace Prism.Tests.Mocks.ViewModels
 {

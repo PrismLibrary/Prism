@@ -31,11 +31,14 @@ namespace Prism.Tests.Events
             Payload payload = new Payload();
             object[] received1 = null;
             object[] received2 = null;
-            var eventSubscription1 = new MockEventSubscription();
-            eventSubscription1.GetPublishActionReturnValue = delegate(object[] args) { received1 = args; };
-            var eventSubscription2 = new MockEventSubscription();
-            eventSubscription2.GetPublishActionReturnValue = delegate(object[] args) { received2 = args; };
-
+            var eventSubscription1 = new MockEventSubscription()
+            {
+                GetPublishActionReturnValue = delegate (object[] args) { received1 = args; }
+            };
+            var eventSubscription2 = new MockEventSubscription()
+            {
+                GetPublishActionReturnValue = delegate (object[] args) { received2 = args; }
+            };
             customEvent.Subscribe(eventSubscription1);
             customEvent.Subscribe(eventSubscription2);
 
@@ -69,9 +72,10 @@ namespace Prism.Tests.Events
         {
             var eventBase = new TestableEventBase();
 
-            var eventSubscription = new MockEventSubscription();
-            eventSubscription.GetPublishActionReturnValue = null;
-
+            var eventSubscription = new MockEventSubscription()
+            {
+                GetPublishActionReturnValue = null
+            };
             var token = eventBase.Subscribe(eventSubscription);
 
             eventBase.Publish();

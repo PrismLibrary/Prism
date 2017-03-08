@@ -67,8 +67,7 @@ namespace Prism.Commands
 
             if (this._monitorCommandActivity)
             {
-                var activeAwareCommand = command as IActiveAware;
-                if (activeAwareCommand != null)
+                if (command is IActiveAware activeAwareCommand)
                 {
                     activeAwareCommand.IsActiveChanged += this.Command_IsActiveChanged;
                 }
@@ -95,8 +94,7 @@ namespace Prism.Commands
 
                 if (this._monitorCommandActivity)
                 {
-                    var activeAwareCommand = command as IActiveAware;
-                    if (activeAwareCommand != null)
+                    if (command is IActiveAware activeAwareCommand)
                     {
                         activeAwareCommand.IsActiveChanged -= this.Command_IsActiveChanged;
                     }

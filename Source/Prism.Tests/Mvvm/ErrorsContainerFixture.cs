@@ -122,8 +122,10 @@ namespace Prism.Tests.Mvvm
         [Fact]
         public void WhenClearingErrorsForPropertyWithErrorsGeneric_ThenPropertyHasNoErrors()
         {
-            var viewModel = new Prism.Tests.Mocks.ViewModels.MockValidatingViewModel();
-            viewModel.MockProperty = -5;
+            var viewModel = new Mocks.ViewModels.MockValidatingViewModel()
+            {
+                MockProperty = -5
+            };
             Assert.True(viewModel.HasErrors);
 
             viewModel.ClearMockPropertyErrors();
@@ -163,8 +165,10 @@ namespace Prism.Tests.Mvvm
         [Fact]
         public void WhenSettingsErrorsForPropertyWithNullCollection_ThenPropertyHasNoErrors()
         {
-            var viewModel = new Prism.Tests.Mocks.ViewModels.MockValidatingViewModel();
-            viewModel.MockProperty = 10;
+            var viewModel = new Mocks.ViewModels.MockValidatingViewModel()
+            {
+                MockProperty = 10
+            };
             Assert.False(viewModel.HasErrors);
 
             viewModel.SetMockPropertyErrorsWithNullCollection();

@@ -1,6 +1,3 @@
-
-
-
 using System;
 using Prism.Events;
 
@@ -12,7 +9,6 @@ namespace Prism.Tests.Events
 
         public MockDelegateReference()
         {
-
         }
 
         public MockDelegateReference(Delegate target)
