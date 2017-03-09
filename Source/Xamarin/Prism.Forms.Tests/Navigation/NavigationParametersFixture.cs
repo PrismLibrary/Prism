@@ -103,6 +103,16 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
+        public void TryGetValueReturnsDefaultWhenGivenInvalidKey()
+        {
+            var parameters = new NavigationParameters();
+            int value;
+            var result = parameters.TryGetValue("id", out value);
+            Assert.Equal(false, result);
+            Assert.Equal(default(int), value);
+        }
+
+        [Fact]
         public void GetValueReturnsDefaultWhenParameterValueIsNull()
         {
             var parameters = new NavigationParameters();
@@ -112,12 +122,33 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
+        public void TryGetValueReturnsDefaultWhenParameterValueIsNull()
+        {
+            var parameters = new NavigationParameters();
+            parameters.Add("value", null);
+            int value;
+            var result = parameters.TryGetValue("value", out value);
+            Assert.Equal(true, result);
+            Assert.Equal(0, value);
+        }
+
+        [Fact]
         public void GetValueReturnsTypedParameterWhenParametersParsedFromQuery()
         {
             var parameters = new NavigationParameters(_uri);
             var result = parameters.GetValue<int>("id");
             Assert.IsType<int>(result);
             Assert.Equal(3, result);
+        }
+
+        [Fact]
+        public void TryGetValueReturnsTypedParameterWhenParametersParsedFromQuery()
+        {
+            var parameters = new NavigationParameters(_uri);
+            int value;
+            var result = parameters.TryGetValue("id", out value);
+            Assert.Equal(true, result);
+            Assert.Equal(3, value);
         }
 
         [Fact]
