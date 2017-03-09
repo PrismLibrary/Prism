@@ -1,4 +1,4 @@
-﻿#Prism Library for WPF 
+#Prism Library for WPF 
 
 The Prism Library helps architects and developers create composite applications for Windows Presentation Foundation (WPF) using the Model-View-ViewModel pattern. The Prism Library can support those wanting to build a number of application styles with WPF, but it is was primarily constructed for applications composed of discrete, functionally complete pieces that work together to create a single, integrated user interface (UI), often referred to as a composite application. The Prism Library accelerates the development of applications using proven design patterns. 
 
@@ -19,7 +19,7 @@ The Prism Library ships signed binaries through NuGet packages to allow you to t
 
 ## Add Reference using NuGet and Accessing the Library Source Code
 
-Add references to the Prism binaries in your code by searching NuGet for Prism. See the list of current [Nuget packages](https://github.com/PrismLibrary/Prism/blob/master/Documentation/DownloadandSetupPrism.md#nuget-packages).
+Add references to the Prism binaries in your code by searching NuGet for Prism. See the list of current [Nuget packages](../NuGet-Packages.md).
 
 ## Organization of the Prism Library
 
@@ -71,5 +71,3 @@ For more information about MEF, see the following:
  * MEF community site on CodePlex: <http://mef.codeplex.com/>.
 
 For more information about service locator, see the Common Service Locator on CodePlex: <http://commonservicelocator.codeplex.com/>.
-
-

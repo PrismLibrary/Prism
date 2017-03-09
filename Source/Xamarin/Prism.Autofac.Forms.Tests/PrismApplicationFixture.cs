@@ -3,16 +3,17 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Prism.Common;
 using Prism.Autofac.Forms.Tests.Mocks;
-using Prism.Autofac.Forms.Tests.Mocks.Modules;
-using Prism.Autofac.Forms.Tests.Mocks.Services;
-using Prism.Autofac.Forms.Tests.Mocks.ViewModels;
-using Prism.Autofac.Forms.Tests.Mocks.Views;
+using Prism.DI.Forms.Tests.Mocks.Modules;
+using Prism.DI.Forms.Tests.Mocks.Services;
+using Prism.DI.Forms.Tests.Mocks.ViewModels;
+using Prism.DI.Forms.Tests.Mocks.Views;
 using Prism.Autofac.Navigation;
 using Prism.Navigation;
 using Xamarin.Forms;
 using Xunit;
 using Autofac;
 using Autofac.Core.Registration;
+using Prism.DI.Forms.Tests;
 #if TEST
 using Application = Prism.FormsApplication;
 #endif
@@ -42,9 +43,19 @@ namespace Prism.Autofac.Forms.Tests
         public void ResolveTypeRegisteredWithContainer()
         {
             var app = new PrismApplicationMock();
-            var service = app.Container.Resolve<IAutofacServiceMock>();
+            var service = app.Container.Resolve<IServiceMock>();
             Assert.NotNull(service);
-            Assert.IsType<AutofacServiceMock>(service);
+            Assert.IsType<ServiceMock>(service);
+        }
+
+        [Fact]
+        public void ResolveConcreteTypeNotRegisteredWithContainer()
+        {
+            var app = new PrismApplicationMock();
+            Assert.True(app.Initialized);
+            var concreteType = app.Container.Resolve<ConcreteTypeMock>();
+            Assert.NotNull(concreteType);
+            Assert.IsType<ConcreteTypeMock>(concreteType);
         }
 
         [Fact]
@@ -80,7 +91,7 @@ namespace Prism.Autofac.Forms.Tests
         }
 
         [Fact]
-        public async Task Navigate_UnregisteredView_ThrowInvalidOperationException()
+        public async Task Navigate_UnregisteredView_ThrowNullReferenceException()
         {
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);

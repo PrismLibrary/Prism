@@ -1,4 +1,4 @@
-﻿#Communicating Between Loosely Coupled Components Using the Prism Library for WPF
+#Communicating Between Loosely Coupled Components Using the Prism Library for WPF
 
 When building large complex WPF applications, a common approach is to divide the functionality into discrete module assemblies. It is also desirable to minimize the use of static references between these modules, which can be accomplished through the use of delegate commands, region context, shared services, and event aggregator. This allows the modules to be independently developed, tested, deployed, and updated, and it forces loosely coupled communication. This topic provides guidance when to use delegate commands and routed commands and when to use event aggregator and .NET framework events.
 
@@ -148,7 +148,7 @@ public class MarketFeedService : IMarketFeedService, IDisposable
 
 This helps with cross-module communication because service consumers do not need a static reference to modules providing the service. This service can be used to send or receive data between modules.
 
-_**Note:** Some dependency injection containers allow the registration of dependencies using attributes, as shown in this example. Other containers may use explicit registration. In these cases, the registration typically occurs during module loading when Prism invokes the **IModule.Initialize** method. See [Modular Application Development](30-ModularApplicationDevelopment.md) for more information._
+_**Note:** Some dependency injection containers allow the registration of dependencies using attributes, as shown in this example. Other containers may use explicit registration. In these cases, the registration typically occurs during module loading when Prism invokes the **IModule.Initialize** method. See [Modular Application Development](04-Modules.md) for more information._
 
 ## Event Aggregation
 

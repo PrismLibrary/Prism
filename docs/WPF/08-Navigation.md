@@ -84,7 +84,7 @@ Frequently, an application will need to interact with the user in a limited way.
 #####  Interacting with the user using a pop-up window in the State-Based Navigation QuickStart
 
 Interacting with the user using a pop-up window in the State-Based Navigation QuickStart
-To implement this behavior, the State-Based Navigation QuickStart implements a **SendMessage** command, which is bound to the **Send Message** button. When this command is invoked, the view model interacts with the view to display the pop-up window. This is achieved using the Interaction Request pattern described in [Implementing the MVVM Pattern](40-ImplementingtheMVVMPattern.md).
+To implement this behavior, the State-Based Navigation QuickStart implements a **SendMessage** command, which is bound to the **Send Message** button. When this command is invoked, the view model interacts with the view to display the pop-up window. This is achieved using the Interaction Request pattern described in [Implementing the MVVM Pattern](05-Implementing-MVVM.md).
 
 The following code example shows how the view in the State-Based Navigation QuickStart application responds to the **SendMessageRequest** interaction request object provided by the view model. When the request event is received, the **SendMessageChildWindow** is displayed as a popup window.
 
@@ -145,7 +145,7 @@ View discovery is supported through the **RegisterViewWithRegion** method on the
     regionManager.RegisterViewWithRegion("MainRegion", () =>
                        container.Resolve<InboxView>());
 
-For a detailed overview of Prisms region support and information about how to leverage regions to compose the application's UI using view injection and discovery, see [Composing the User Interface](50-ComposingtheUserInterface.md). The rest of this topic describes how regions have been extended to support view-based navigation, and how this addresses the various challenges described earlier.
+For a detailed overview of Prisms region support and information about how to leverage regions to compose the application's UI using view injection and discovery, see [Composing the User Interface](07-Composing-the-UI.md). The rest of this topic describes how regions have been extended to support view-based navigation, and how this addresses the various challenges described earlier.
 
 ### Basic Region Navigation
 
@@ -293,7 +293,7 @@ If the **IsNavigationTarget** method always returns **true**, regardless of the 
 
 You will often find that you will need to interact with the user during a navigation operation, so that the user can confirm or cancel it. In many applications, for example, the user may try to navigate while in the middle of entering or editing data. In these situations, you may want to ask the user whether he or she wants to save or discard the data that has been entered before continuing to navigate away from the page, or whether the user wants to cancel the navigation operation altogether. Prism supports these scenarios via the **IConfirmNavigationRequest** interface.
 
-The **IConfirmNavigationRequest** interface derives from the **INavigationAware** interface and adds the **ConfirmNavigationRequest** method. By implementing this interface on your view or view model class, you allow them to participate in the navigation sequence in a way that allows them to interact with the user so that the user can confirm or cancel the navigation. You will often use an **Interaction Request** object, as described in in [Advanced MVVM Scenarios](45-AdvancedMVVMScenarios.md), to display a confirmation pop-up window.
+The **IConfirmNavigationRequest** interface derives from the **INavigationAware** interface and adds the **ConfirmNavigationRequest** method. By implementing this interface on your view or view model class, you allow them to participate in the navigation sequence in a way that allows them to interact with the user so that the user can confirm or cancel the navigation. You will often use an **Interaction Request** object, as described in in [Advanced MVVM Scenarios](06-Advanced-MVVM.md), to display a confirmation pop-up window.
 
 **Note:** The **ConfirmNavigationRequest** method is called on the active view or view model, similar to the **OnNavigatedFrom** method described earlier.
 
@@ -456,11 +456,11 @@ The following illustration provides an overview of the sequence of operations du
 
 # More Information
 
-For more information about Prism regions, see [Composing the User Interface](50-ComposingtheUserInterface.md).
+For more information about Prism regions, see [Composing the User Interface](07-Composing-the-UI.md).
 
-For more information about the MVVM pattern and Interaction Request pattern, see [Implementing the MVVM Pattern](40-ImplementingtheMVVMPattern.md) and [Advanced MVVM Scenarios](45-AdvancedMVVMScenarios.md).
+For more information about the MVVM pattern and Interaction Request pattern, see [Implementing the MVVM Pattern](05-Implementing-MVVM.md) and [Advanced MVVM Scenarios](06-Advanced-MVVM.md).
 
-For more information about the **Interaction Request** object, Using Interaction Request Objects in [Advanced MVVM Scenarios](45-AdvancedMVVMScenarios.md).
+For more information about the **Interaction Request** object, Using Interaction Request Objects in [Advanced MVVM Scenarios](06-Advanced-MVVM.md).
 
 For more information about the Visual State Manager, see [VisualStateManager Class](http://msdn.microsoft.com/en-us/library/cc626338(v=VS.95).aspx) on MSDN.
 

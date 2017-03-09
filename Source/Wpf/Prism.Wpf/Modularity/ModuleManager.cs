@@ -174,7 +174,7 @@ namespace Prism.Modularity
         /// <summary>
         /// Loads the modules that are not intialized and have their dependencies loaded.
         /// </summary>
-        protected void LoadModulesThatAreReadyForLoad()
+        protected virtual void LoadModulesThatAreReadyForLoad()
         {
             bool keepLoading = true;
             while (keepLoading)

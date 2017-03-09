@@ -47,8 +47,9 @@ namespace Prism.Navigation
 
                 var page = GetCurrentPage();
                 var segmentParameters = UriParsingHelper.GetSegmentParameters(null, parameters);
+                segmentParameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.Back);
 
-                var canNavigate = await CanNavigateAsync(page, segmentParameters);
+                var canNavigate = await PageUtilities.CanNavigateAsync(page, segmentParameters);
                 if (!canNavigate)
                     return false;                
 
@@ -88,7 +89,7 @@ namespace Prism.Navigation
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         public virtual Task NavigateAsync(string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            return NavigateAsync(new Uri(name, UriKind.RelativeOrAbsolute), parameters, useModalNavigation, animated);
+            return NavigateAsync(UriParsingHelper.Parse(name), parameters, useModalNavigation, animated);
         }
 
         /// <summary>
@@ -172,10 +173,16 @@ namespace Prism.Navigation
 
             await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
 
+            var currentPage = _applicationProvider.MainPage;
+            var modalStack = currentPage?.Navigation.ModalStack.ToList();
             await DoNavigateAction(GetCurrentPage(), nextSegment, nextPage, parameters, async () =>
             {
                 await DoPush(null, nextPage, useModalNavigation, animated);
             });
+            if (currentPage != null)
+            {
+                PageUtilities.DestroyWithModalStack(currentPage, modalStack);
+            }
         }
 
         protected virtual async Task ProcessNavigationForContentPage(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -370,8 +377,9 @@ namespace Prism.Navigation
         protected static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Func<Task> navigationAction = null, Action onNavigationActionCompleted = null)
         {
             var segmentParameters = UriParsingHelper.GetSegmentParameters(toSegment, parameters);
+            segmentParameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.New);
 
-            var canNavigate = await CanNavigateAsync(fromPage, segmentParameters);
+            var canNavigate = await PageUtilities.CanNavigateAsync(fromPage, segmentParameters);
             if (!canNavigate)
                 return;
 
@@ -450,7 +458,7 @@ namespace Prism.Navigation
             return useModalNavigation;
         }
 
-        protected async Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated)
+        protected virtual async Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated)
         {
             if (page == null)
                 return;
@@ -470,46 +478,12 @@ namespace Prism.Navigation
             }
         }
 
-        protected static Task<Page> DoPop(INavigation navigation, bool useModalNavigation, bool animated)
+        protected virtual Task<Page> DoPop(INavigation navigation, bool useModalNavigation, bool animated)
         {
             if (useModalNavigation)
                 return navigation.PopModalAsync(animated);
             else
                 return navigation.PopAsync(animated);
-        }
-
-        protected static Task<bool> CanNavigateAsync(object page, NavigationParameters parameters)
-        {
-            var confirmNavigationItem = page as IConfirmNavigationAsync;
-            if (confirmNavigationItem != null)
-                return confirmNavigationItem.CanNavigateAsync(parameters);
-
-            var bindableObject = page as BindableObject;
-            if (bindableObject != null)
-            {
-                var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigationAsync;
-                if (confirmNavigationBindingContext != null)
-                    return confirmNavigationBindingContext.CanNavigateAsync(parameters);
-            }
-
-            return Task.FromResult(CanNavigate(page, parameters));
-        }
-
-        protected static bool CanNavigate(object page, NavigationParameters parameters)
-        {
-            var confirmNavigationItem = page as IConfirmNavigation;
-            if (confirmNavigationItem != null)
-                return confirmNavigationItem.CanNavigate(parameters);
-
-            var bindableObject = page as BindableObject;
-            if (bindableObject != null)
-            {
-                var confirmNavigationBindingContext = bindableObject.BindingContext as IConfirmNavigation;
-                if (confirmNavigationBindingContext != null)
-                    return confirmNavigationBindingContext.CanNavigate(parameters);
-            }
-
-            return true;
         }
 
         protected virtual Page GetCurrentPage()

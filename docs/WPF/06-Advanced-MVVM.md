@@ -1,12 +1,12 @@
-﻿#Advanced MVVM Scenarios Using the Prism Library for WPF
+#Advanced MVVM Scenarios Using the Prism Library for WPF
 
 The previous topic described how to implement the basic elements of the Model-View-ViewModel (MVVM) pattern by separating your application's user interface (UI), presentation logic, and business logic into three separate classes (the view, view model, and model), implementing the interactions between those classes (through data binding, commands, and data validation interfaces), and by implementing a strategy to handle construction and wire-up. This topic describes some sophisticated scenarios and describes how the MVVM pattern can support them. The next section describes how commands can be chained together or associated with child views and how they can be extended to support custom requirements. The following sections then describe how to handle asynchronous data requests and subsequent UI interactions and how to handle interaction requests between the view and the view model.
 
-The section, [Advanced Construction and Wire-Up](45-AdvancedMVVMScenarios.md#advanced-construction-and-wire-up), provides guidance on handling construction and wire-up when using a dependency injection container, such as the Unity Application Block (Unity), or when using the Managed Extensibility Framework (MEF). The final section describes how you can test MVVM applications by providing guidance on unit testing your application's view model and model classes, and on testing behaviors.
+The section, [Advanced Construction and Wire-Up](06-Advanced-MVVM/#advanced-construction-and-wire-up), provides guidance on handling construction and wire-up when using a dependency injection container, such as the Unity Application Block (Unity), or when using the Managed Extensibility Framework (MEF). The final section describes how you can test MVVM applications by providing guidance on unit testing your application's view model and model classes, and on testing behaviors.
 
 ## Commands
 
-Commands provide a way to separate the command's implementation logic from its UI representation. Data binding or behaviors provide a way to declaratively associate elements in the view with commands proffered by the view model. The section, [Commands](40-ImplementingtheMVVMPattern.md#commands) in [Implementing the MVVM Pattern](40-ImplementingtheMVVMPattern.md), described how commands can be implemented as command objects or command methods on the view model, and how they can be invoked from controls in the view by using the built-in **Command** property provided by certain controls.
+Commands provide a way to separate the command's implementation logic from its UI representation. Data binding or behaviors provide a way to declaratively associate elements in the view with commands proffered by the view model. The section, [Commands](05-Implementing-MVVM/#commands) in [Implementing the MVVM Pattern](05-Implementing-MVVM.md), described how commands can be implemented as command objects or command methods on the view model, and how they can be invoked from controls in the view by using the built-in **Command** property provided by certain controls.
 
 **WPF Routed Commands**: It should be noted that commands implemented as command objects or command methods in the MVVM pattern differ somewhat from WPF's built-in implementation of commands named routed commands. WPF routed commands deliver command messages by routing them through elements in the UI tree (specifically the [logical tree](https://msdn.microsoft.com/en-us/library/ms753391.aspx)). Therefore, command messages are routed up or down the UI tree from the focused element or to an explicitly specified target element; by default, they are not routed to components outside of the UI tree, such as the view model associated with the view. However, WPF-routed commands can use a command handler defined in the view's code-behind to forward the command call to the view model class.
 
@@ -44,7 +44,7 @@ _**Note:** The preceding **commandProxy** object provides instance access to the
 
 Often, your application will need to display a collection of child views within the application's UI, where each child view will have a corresponding view model that, in turn, may implement one or more commands. Composite commands can be used to represent the commands implemented by child views within the application's UI and help to coordinate how they are invoked from within the parent view. To support these scenarios, the Prism **CompositeCommand** and **DelegateCommand** classes have been designed to work with Prism regions.
 
-Prism regions (described in section, [Regions](50-ComposingtheUserInterface.md#regions), in [Composing the User Interface](50-ComposingtheUserInterface.md)) provide a way for child views to be associated with logical placeholders in the application's UI. They are often used to decouple the specific layout of child views from their logical placeholder and its position in the UI. Regions are based on named placeholders that are attached to specific layout controls. The following illustration shows an example where each child view has been added to the region named **EditRegion**, and the UI designer has chosen to use a **Tab** control to lay out the views within that region.
+Prism regions (described in section, [Regions](07-Composing-the-UI/#regions), in [Composing the User Interface](07-Composing-the-UI.md)) provide a way for child views to be associated with logical placeholders in the application's UI. They are often used to decouple the specific layout of child views from their logical placeholder and its position in the UI. Regions are based on named placeholders that are attached to specific layout controls. The following illustration shows an example where each child view has been added to the region named **EditRegion**, and the UI designer has chosen to use a **Tab** control to lay out the views within that region.
 
 ![Defining the EditRegion using a Tab control](images/Ch6AdvMVVMFig2.png)
 
@@ -222,7 +222,7 @@ this.questionnaireRepository.GetQuestionnaireAsync(
         {
             // Handle error.
         }
-    })
+    });
 ```
 
 ## User Interaction Patterns
@@ -246,8 +246,7 @@ After the view model has a reference to the interaction service, it can programm
 Modal interactions, such as where the user is presented with a **MessageBox** or modal pop-up window to obtain a specific response before execution can proceed, can be implemented in a synchronous way, using a blocking method call, as shown in the following code example.
 
 ```
-var result = 
-    interactionService.ShowMessageBox(
+var result = interactionService.ShowMessageBox(
         "Are you sure you want to cancel this operation?",
         "Confirm",
         MessageBoxButton.OK );
@@ -505,7 +504,7 @@ public void ShowView(string viewName)
 }
 ```
 
-_**Note:** Prism provides extensive support for navigation within regions. Region navigation uses a mechanism very similar to the preceding approach, except that the region manager is responsible for coordinating the instantiation and placement of the view in the specific region. For more information, see the section [View-Based Navigation](60-Navigation.md#view-based-navigation), in [Navigation](60-Navigation.md)._
+_**Note:** Prism provides extensive support for navigation within regions. Region navigation uses a mechanism very similar to the preceding approach, except that the region manager is responsible for coordinating the instantiation and placement of the view in the specific region. For more information, see the section [View-Based Navigation](08-Navigation/#view-based-navigation), in [Navigation](08-Navigation.md)._
 
 ## Testing MVVM Applications
 
@@ -665,7 +664,7 @@ For more information about MEF, see [Managed Extensibility Framework Overview](h
 
 For more information about Unity, see [Unity Application Block](http://www.msdn.com/unity) on MSDN.
 
-For more information about **DelegateCommand**, see [Implementing the MVVM Pattern](40-ImplementingtheMVVMPattern.md).
+For more information about **DelegateCommand**, see [Implementing the MVVM Pattern](05-Implementing-MVVM.md).
 
 For more information about using Microsoft Expression Blend behaviors, see [Working with built-in behaviors](https://msdn.microsoft.com/en-us/library/ff724013%28v=Expression.40%29.aspx) on MSDN.
 
@@ -675,7 +674,7 @@ For more information about creating custom triggers and actions with Microsoft E
 
 For more information about using the dispatcher in WPF, see [Threading Model](http://msdn.microsoft.com/en-us/library/ms741870.aspx) and [The Dispatcher Class](https://msdn.microsoft.com/en-us/library/ms615907%28v=VS.95%29.aspx) on MSDN.
 
-For more information about region navigation, see the section, [View-Based Navigation](60-Navigation.md#view-based-navigation) in [Navigation](60-Navigation.md).
+For more information about region navigation, see the section, [View-Based Navigation](08-Navigation.md#view-based-navigation) in [Navigation](08-Navigation.md).
 
 For more information about the Event-based Asynchronous pattern, see [Event-based Asynchronous Pattern Overview](http://msdn.microsoft.com/en-us/library/wewwczdw.aspx) on MSDN.
 

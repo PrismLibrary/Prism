@@ -3,9 +3,9 @@
 
 $nugetOutputDirectory = 'Packages'
 
-$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.3.0-Pre1'
+$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.3.0-Pre2'
 
-$xamarinFormsVersion = '2.3.2.127'
+$xamarinFormsVersion = '2.3.3.193'
 
 $nugetFileName = 'nuget.exe'
 
@@ -180,6 +180,25 @@ else
     
 
     Invoke-Expression ".\$($nugetFileName) pack $($autofacNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($autofacFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop uwpVersion=$($uwpFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+}
+
+###########################
+#####  Prism.DryIoc  #####
+###########################
+$dryIocNuspecPath = 'Prism.DryIoc.nuspec'
+$dryIocWpfAssemblyPath = '../Wpf/Prism.DryIoc.Wpf/bin/Release/Prism.DryIoc.Wpf.dll'
+if (!(Test-Path $dryIocWpfAssemblyPath))
+{
+    Write-Host 'Prism.DryIoc.Wpf.dll not found'
+}
+else
+{
+    ### all assemblies should be versioned the same, so we can just use the first one ###
+    $dryIocWpfFileInfo = Get-Item $dryIocWpfAssemblyPath
+    $dryIocFileVersion = $dryIocWpfFileInfo.VersionInfo.ProductVersion
+    
+
+    Invoke-Expression ".\$($nugetFileName) pack $($dryIocNuspecPath) -Prop version=$($dryIocFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 ###########################

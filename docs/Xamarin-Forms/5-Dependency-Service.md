@@ -1,4 +1,4 @@
-﻿#Using the DependencyService with Prism
+#Using the DependencyService with Prism
 
 Xamarin.Forms includes a DependencyService to let shared code to easily resolve Interfaces to platform-specific implementations, allowing you to access features of the iOS, Android and Windows Phone SDKs from your PCL or Shared Project.
 
@@ -13,6 +13,7 @@ public MainPageViewModel(ITextToSpeech textToSpeechService)
 }
 ```
 You can also gain access to Xamarin's DependencyService by using the **IDependencyService** interface.  This interface removes the static call in your ViewModel, but still gives you access to Xamarin's DependencyService API.
+
 ```
 public MainPageViewModel(IDependencyService dependencyService)
 {
@@ -29,6 +30,7 @@ Create a new Xamarin.Forms Portable or Shared project.
 Use Nuget to add Prism to each of your projects in the solution.
 
 Add the Following Nuget packages to your projects.
+
 * [Prism.Unity.Forms](https://www.nuget.org/packages/Prism.Unity.Forms/)
 * [Prism.Forms](https://www.nuget.org/packages/Prism.Forms/)
 * [Prism.Core](https://www.nuget.org/packages/Prism.Core/)
@@ -233,5 +235,5 @@ public class MainPageViewModel : BindableBase
 ```
 As you can see, you no longer need to make a call to the static Xamarin.Forms.DependencyService.  Just ask for it in your ViewModel constructor, and Prism will use the container to resolve the instance and provide it to you.
 
-[View the Sample](http://www.github.com/prismlibrary/)
+[View the Sample](https://github.com/PrismLibrary/Prism-Samples-Forms/tree/master/UsingDependencyService)
 

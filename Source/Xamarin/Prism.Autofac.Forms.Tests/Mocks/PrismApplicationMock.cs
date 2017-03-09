@@ -1,7 +1,7 @@
-using Prism.Autofac.Forms.Tests.Mocks.Modules;
-using Prism.Autofac.Forms.Tests.Mocks.Services;
-using Prism.Autofac.Forms.Tests.Mocks.ViewModels;
-using Prism.Autofac.Forms.Tests.Mocks.Views;
+using Prism.DI.Forms.Tests.Mocks.Modules;
+using Prism.DI.Forms.Tests.Mocks.Services;
+using Prism.DI.Forms.Tests.Mocks.ViewModels;
+using Prism.DI.Forms.Tests.Mocks.Views;
 using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
@@ -43,7 +43,7 @@ namespace Prism.Autofac.Forms.Tests.Mocks
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<AutofacServiceMock>().As<IAutofacServiceMock>();
+            builder.RegisterType<ServiceMock>().As<IServiceMock>();
             builder.RegisterType<AutowireViewModel>();
             builder.RegisterType<ViewModelAMock>();
             builder.Register(ctx => new ViewModelBMock()).Named<ViewModelBMock>(ViewModelBMock.Key);

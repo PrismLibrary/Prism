@@ -59,11 +59,22 @@ Open the Xamarin Android Player and ensure that a device image is installed and 
 
 Open the Android project properties and change the Minimum Android to target to be equal or less than the API level of the device image you will be running on.
 
-Select the Android Player device from the Debug drop down menu and click the debug play button.
+Select the Android Player device from the Debug drop down menu and click the debug play button (or press F5).
 
 **iOS**
 
-To be added.
+_This is for Visual Studio (on Windows):_
+
+First make sure that there's a connection with the Xamarin Mac Agent.
+
+Right click on the iOS project and select set as startup project. Also ensure build and deploy are both checked for the iOS project in the Configuration Manager.
+
+For running the application on a physical iOS device, there must be an connected the iOS device to the PC. The build configuration needs to be set on "iPhone" (even for testing with an iPad).
+If there is only one iOS device attached to the PC it'll select the one. When there're multiple iOS devices attached, you must select with device you want to run on.
+
+For running the application on a iOS simulator needs the build configuration be set to "iPhoneSimulator" (even for testing with an iPad simulator).
+
+After chosen the build configuration, the app can be run by click the debug play button (or press F5).
 
 **Windows Phone**
 
@@ -94,7 +105,7 @@ The Prism library is referenced.
 
 `prism:ViewModelLocator.AutowireViewModel="True"`
 
-This view (MainPage.xaml) is wired to the view model (MainPageViewModel.cs) *automatically via naming conventions* allowing for databinding to the view model. See [ViewModelLocator documentation](https://github.com/PrismLibrary/Prism/blob/master/Documentation/Xamarin.Forms/2-ViewModelLocator.md) for more information.
+This view (MainPage.xaml) is wired to the view model (MainPageViewModel.cs) *automatically via naming conventions* allowing for databinding to the view model. See [ViewModelLocator documentation](2-ViewModelLocator.md) for more information.
 
 `<Label Text="{Binding Title}" />`
 
@@ -102,6 +113,7 @@ A label is created on the page with the text bound to the property named Title i
 
 ####View Models
 Within the Portable project there is a `ViewModels` folder. This folder will contain all of your view model related code. The template created a view model for the MainPage called `MainPageViewModel.cs` in this folder.  Lets take a look at this class and break down what is going on here.
+
 ```cs
 public class MainPageViewModel : BindableBase, INavigationAware
 {
@@ -129,7 +141,7 @@ The MainPageViewModel inherits from `BindableBase` and implements the `INavigati
 
 The `BindableBase` class implements the [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged%28v=vs.110%29.aspx) interface which allows for the view to be able to databind to properties created here. `BindableBase` also provides a protected `SetProperty` method to simplify creating these properties. 
 
-The `INavigationAware` interface allows for the view model to be notified when it is being navigated from or being navigated to. See the [INavigationAware documentation](https://github.com/PrismLibrary/Prism/blob/master/Documentation/Xamarin.Forms/3-NavigationService.md#inavigationaware) for more information.
+The `INavigationAware` interface allows for the view model to be notified when it is being navigated from or being navigated to. See the [INavigationAware documentation](3-Navigation-Service/#inavigationaware) for more information.
 
 ```cs
 private string _title;
@@ -151,7 +163,7 @@ public void OnNavigatedTo(NavigationParameters parameters)
 {
 ...
 ```
-These methods are called with the view model is navigated from or to. Here it expects a string via the NavigationParameters parameter and modifies the Title property with the string's value. See the [INavigationAware documentation](https://github.com/PrismLibrary/Prism/blob/master/Documentation/Xamarin.Forms/3-NavigationService.md#inavigationaware) for more information.
+These methods are called with the view model is navigated from or to. Here it expects a string via the NavigationParameters parameter and modifies the Title property with the string's value. See the [INavigationAware documentation](3-Navigation-Service/#inavigationaware) for more information.
 
 ##Adding a new Page (View) and ViewModel
 Now that we have a basic understanding of how project is setup with Prism for Xamarin.Forms, let's add to it and create a new Page (View) and ViewModel. We'll create a page with a text entry field and a button similar to the wireframe below. Later we'll add functionality to make the phone speak the text that's entered into the text field.
@@ -183,11 +195,14 @@ Let's break down what is going on here.
 The Prism library is referenced. 
 
 `prism:ViewModelLocator.AutowireViewModel="True"`
-This view (SpeakPage.xaml) is wired to the view model (SpeakPageViewModel.cs) *automatically via naming conventions* allowing for databinding to the view model. See [ViewModelLocator documentation](https://github.com/PrismLibrary/Prism/blob/master/Documentation/Xamarin.Forms/2-ViewModelLocator.md) for more information.
+This view (SpeakPage.xaml) is wired to the view model (SpeakPageViewModel.cs) *automatically via naming conventions* allowing for databinding to the view model. See [ViewModelLocator documentation](2-ViewModelLocator.md) for more information.
 
-``` <StackLayout VerticalOptions="CenterAndExpand">
+```xaml
+<StackLayout VerticalOptions="CenterAndExpand">
 ...
-</StackLayout>```
+</StackLayout>
+```
+
 This sets the ContentPage's view to a [StackLayout](https://developer.xamarin.com/api/type/Xamarin.Forms.StackLayout/). A StackLayout positions it's child elements each on a single line, stacking them either horizontally or vertically. This is a very common layout used within Xamarin Forms. We're using it along with it's VerticalOptions set to CenterAndExpand so the child elements show up as stacked vertically and centered as shown in the wireframe above.
 
 `<Entry Text="{Binding TextToSay}" />`
@@ -251,7 +266,7 @@ public SpeakPageViewModel()
 }
 ```
 
-Creates a [DelegateCommand](https://msdn.microsoft.com/en-us/library/microsoft.practices.prism.commands.delegatecommand%28v=pandp.50%29.aspx) called `SpeakCommand` that the Speak button is bound to. The `SpeakCommand` is created in the `SpeakPageViewModel` constructor and will invoke the `Speak` method, which hasn't been written yet. To be able to perform the actual text-to-speech platform specific APIs need to be used. This is outside the scope of this documentation, but head over to the [Dependency Service documentation](/Documentation/Xamarin.Forms/5-DependencyService.md) to see how this is done.
+Creates a [DelegateCommand](https://msdn.microsoft.com/en-us/library/microsoft.practices.prism.commands.delegatecommand%28v=pandp.50%29.aspx) called `SpeakCommand` that the Speak button is bound to. The `SpeakCommand` is created in the `SpeakPageViewModel` constructor and will invoke the `Speak` method, which hasn't been written yet. To be able to perform the actual text-to-speech platform specific APIs need to be used. This is outside the scope of this documentation, but head over to the [Dependency Service documentation](5-Dependency-Service.md) to see how this is done.
 
 ##Navigating to your new page
 We now have two pages in our app, a main page and a speak page. To navigate to the new page, we'll need to register the page for navigation. In the Portable Class Library, `HelloXFPrism (Portable)`, open App.xaml.cs (you may have to click the carrot next to App.xaml to see it). Register the new page for navigation by updating `RegisterTypes()` to include the following.
@@ -305,4 +320,4 @@ Tells the navigation service to navigate to the SpeakPage.
 
 With navigation all wired up and the "Navigate to speak page" button is pressed in the view the NavigateToSpeakPageCommand will be called on the view model, the command will execute the NavigateToSpeakPage method, and finally the Navigation Service will perform the navigation to the SpeakPage.
 
-For more information on the navigation service see the [navigation service documentation](https://github.com/PrismLibrary/Prism/blob/master/Documentation/Xamarin.Forms/3-NavigationService.md)
+For more information on the navigation service see the [navigation service documentation](3-Navigation-Service.md)

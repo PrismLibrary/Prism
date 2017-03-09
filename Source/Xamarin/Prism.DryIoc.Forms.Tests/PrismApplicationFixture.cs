@@ -4,14 +4,15 @@ using System.Threading.Tasks;
 using DryIoc;
 using Prism.Common;
 using Prism.DryIoc.Forms.Tests.Mocks;
-using Prism.DryIoc.Forms.Tests.Mocks.Modules;
-using Prism.DryIoc.Forms.Tests.Mocks.Services;
-using Prism.DryIoc.Forms.Tests.Mocks.ViewModels;
-using Prism.DryIoc.Forms.Tests.Mocks.Views;
+using Prism.DI.Forms.Tests.Mocks.Modules;
+using Prism.DI.Forms.Tests.Mocks.Services;
+using Prism.DI.Forms.Tests.Mocks.ViewModels;
+using Prism.DI.Forms.Tests.Mocks.Views;
 using Prism.DryIoc.Navigation;
 using Prism.Navigation;
 using Xamarin.Forms;
 using Xunit;
+using Prism.DI.Forms.Tests;
 #if TEST
 using Application = Prism.FormsApplication;
 #endif
@@ -41,9 +42,19 @@ namespace Prism.DryIoc.Forms.Tests
         public void ResolveTypeRegisteredWithContainer()
         {
             var app = new PrismApplicationMock();
-            var service = app.Container.Resolve<IDryIocServiceMock>();
+            var service = app.Container.Resolve<IServiceMock>();
             Assert.NotNull(service);
-            Assert.IsType<DryIocServiceMock>(service);
+            Assert.IsType<ServiceMock>(service);
+        }
+
+        [Fact]
+        public void ResolveConcreteTypeNotRegisteredWithContainer()
+        {
+            var app = new PrismApplicationMock();
+            Assert.True(app.Initialized);
+            var concreteType = app.Container.Resolve<ConcreteTypeMock>();
+            Assert.NotNull(concreteType);
+            Assert.IsType<ConcreteTypeMock>(concreteType);
         }
 
         [Fact]
@@ -79,12 +90,12 @@ namespace Prism.DryIoc.Forms.Tests
         }
 
         [Fact]
-        public async Task Navigate_UnregisteredView_ThrowInvalidOperationException()
+        public async Task Navigate_UnregisteredView_ThrowContainerException()
         {
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
-            var exception = await Assert.ThrowsAsync<NullReferenceException>(async () => await navigationService.NavigateAsync("missing"));
-            Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
+            var exception = await Assert.ThrowsAsync<ContainerException>(async () => await navigationService.NavigateAsync("missing"));
+            //Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
         [Fact]

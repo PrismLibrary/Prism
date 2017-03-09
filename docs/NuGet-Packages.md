@@ -5,10 +5,10 @@ These are the base packages for each platform, together with the Prism's Core as
 
 | Platform | Assembly | Package | Version |
 | -------- | -------- | ------- | ------- |
-| PCL | Prism.dll | [Prism.Core][1] | [![21]][1] |
-| WPF | Prism.Wpf.dll | [Prism.Wpf][2] | [![22]][2] |
-| Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][3] | [![23]][3] |
-| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][4] | [![24]][4] |
+| PCL | Prism.dll | [Prism.Core][1] | [![Prism.Core badge](https://img.shields.io/nuget/vpre/Prism.Core.svg)][1] |
+| WPF | Prism.Wpf.dll | [Prism.Wpf][2] | [![Prism.WPF badge](https://img.shields.io/nuget/vpre/Prism.Wpf.svg)][2] |
+| Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][3] | [![Prism.Forms badge](https://img.shields.io/nuget/vpre/Prism.Forms.svg)][3] |
+| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][4] | [![Prism.Windows badge](https://img.shields.io/nuget/vpre/Prism.Windows.svg)][4] |
 
 ### Container-specific packages
 
@@ -18,15 +18,16 @@ Following matrix shows the platform specific support currently available.
 
 | Package                | Version    | WPF | Win10 UWP | Xamarin.Forms |
 |------------------------|------------|:---:|:---:|:---:|
-| [Prism.Autofac][7] <sup>(*)</sup>  | [![27]][7] |  X  |  X  |  &darr;  |
-| [Prism.Autofac.Forms][12]   | [![32]][12] |  -  |  -  |  X  |
-| [Prism.DryIoc.Forms][13]   | [![33]][13] |  -  |  -  |  X  |
-| [Prism.Mef][6]  <sup>(**)</sup> | [![26]][6] |  X  | - | - |
-| [Prism.Ninject][9] <sup>(*)</sup>   | [![29]][9] |  X  |     |  &darr;  |
-| [Prism.Ninject.Forms][11]| [![31]][11]|  -  |  -  |  X  |
-| [Prism.StructureMap][8]| [![28]][8] |  X  |     |     |
-| [Prism.Unity][5] <sup>(*)</sup>  | [![25]][5] |  X  |  X  |  &darr;  |
-| [Prism.Unity.Forms][10]| [![30]][10]|  -  |  -  |  X  |
+| [Prism.Autofac][7] <sup>(*)</sup>  | [![Prism.Autofac badge](https://img.shields.io/nuget/vpre/Prism.Autofac.svg)][7] |  X  |  X  |  &darr;  |
+| [Prism.Autofac.Forms][12]   | [![Prism.Autofac.Forms badge](https://img.shields.io/nuget/vpre/Prism.Autofac.Forms.svg)][12] |  -  |  -  |  X  |
+| [Prism.DryIoc][14]   | [![Prism.DryIoc badge](https://img.shields.io/nuget/vpre/Prism.DryIoc.svg)][14] |  X  |  -  |  -  |
+| [Prism.DryIoc.Forms][13]   | [![Prism.DryIoc.Forms badge](https://img.shields.io/nuget/vpre/Prism.DryIoc.Forms.svg)][13] |  -  |  -  |  X  |
+| [Prism.Mef][6]  <sup>(**)</sup> | [![Prism.Mef badge](https://img.shields.io/nuget/vpre/Prism.Mef.svg)][6] |  X  | - | - |
+| [Prism.Ninject][9] <sup>(*)</sup>   | [![Prism.Ninject badge](https://img.shields.io/nuget/vpre/Prism.Ninject.svg)][9] |  X  |     |  &darr;  |
+| [Prism.Ninject.Forms][11]| [![Prism.Ninject.Forms badge](https://img.shields.io/nuget/vpre/Prism.Ninject.Forms.svg)][11]|  -  |  -  |  X  |
+| [Prism.StructureMap][8]| [![Prism.StructureMap badge](https://img.shields.io/nuget/vpre/Prism.StructureMap.svg)][8] |  X  |     |     |
+| [Prism.Unity][5] <sup>(*)</sup>  | [![Prism.Unity badge](https://img.shields.io/nuget/vpre/Prism.Unity.svg)][5] |  X  |  X  |  &darr;  |
+| [Prism.Unity.Forms][10]| [![Prism.Unity.Forms badge](https://img.shields.io/nuget/vpre/Prism.Unity.Forms.svg)][10]|  -  |  -  |  X  |
 
 
 <sup>(*)</sup> As Xamarin Forms also supports UWP now, adding Prism.Unity, Prism.Ninject, or Prism.Autofac puts in some incorrect dependencies. Therefore we created a new package for Xamarin Forms projects. 
@@ -36,6 +37,43 @@ Following matrix shows the platform specific support currently available.
 Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package and the rest will be pulled in as well.
 
 ![NuGet package tree](images/NuGetPackageTree.png)
+
+### Overview of assemblies
+
+To recapitulate the packages described above, this is the list of all assemblies added to your solution by Prism 6 depending on the container and platform used.
+
+####Prism PCL
+| Assembly | Package |
+| -------- | ------- |
+| Prism.dll | [Prism.Core][1] |
+
+####WPF
+| Assembly | Package |
+| -------- | ------- |
+| Prism.Wpf.dll | [Prism.Wpf][2] |
+| Prism.Unity.Wpf.dll | [Prism.Unity][5] |
+| Prism.Mef.Wpf.dll | [Prism.Mef][6] |
+| Prism.Autofac.Wpf.dll | [Prism.Autofac][7] |
+| Prism.StructureMap.Wpf.dll | [Prism.StructureMap][8] |
+| Prism.Ninject.Wpf.dll | [Prism.Ninject][9] |
+| Prism.DryIoc.Wpf.dll | [Prism.DryIoc][14] |
+
+####Xamarin.Forms
+| Assembly | Package |
+| -------- | ------- |
+| Prism.Forms.dll | [Prism.Forms][3] |
+| Prism.Unity.Forms.dll | [Prism.Unity.Forms][10] |
+| Prism.Ninject.Forms.dll | [Prism.Ninject.Forms][11] |
+| Prism.Autofac.Forms.dll | [Prism.Autofac.Forms][11] |
+| Prism.DryIoc.Forms.dll | [Prism.DryIoc.Forms][11] |
+
+####Universal Windows Platform
+| Assembly | Package |
+| -------- | ------- |
+| Prism.Windows.dll | [Prism.Windows][4] |
+| Prism.Unity.Windows.dll | [Prism.Unity][5] |
+| Prism.Autofac.Windows.dll | [Prism.Autofac][7] |
+
 
 [1]: https://www.nuget.org/packages/Prism.Core/
 [2]: https://www.nuget.org/packages/Prism.Wpf/
@@ -50,17 +88,4 @@ Note that adding the container-specific package to your project, will also pull 
 [11]: https://www.nuget.org/packages/Prism.Ninject.Forms/
 [12]: https://www.nuget.org/packages/Prism.Autofac.Forms/
 [13]: https://www.nuget.org/packages/Prism.DryIoc.Forms/
-
-[21]: https://img.shields.io/nuget/vpre/Prism.Core.svg
-[22]: https://img.shields.io/nuget/vpre/Prism.Wpf.svg
-[23]: https://img.shields.io/nuget/vpre/Prism.Forms.svg
-[24]: https://img.shields.io/nuget/vpre/Prism.Windows.svg
-[25]: https://img.shields.io/nuget/vpre/Prism.Unity.svg
-[26]: https://img.shields.io/nuget/vpre/Prism.Mef.svg
-[27]: https://img.shields.io/nuget/vpre/Prism.Autofac.svg
-[28]: https://img.shields.io/nuget/vpre/Prism.StructureMap.svg
-[29]: https://img.shields.io/nuget/vpre/Prism.Ninject.svg
-[30]: https://img.shields.io/nuget/vpre/Prism.Unity.Forms.svg
-[31]: https://img.shields.io/nuget/vpre/Prism.Ninject.Forms.svg
-[32]: https://img.shields.io/nuget/vpre/Prism.Autofac.Forms.svg
-[33]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Forms.svg
+[14]: https://www.nuget.org/packages/Prism.DryIoc/

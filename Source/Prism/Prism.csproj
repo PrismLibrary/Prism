@@ -38,7 +38,7 @@
     <OutputPath>bin\Test\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <DocumentationFile>bin\Release\Prism.xml</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -61,6 +61,7 @@
     <Compile Include="Commands\CompositeCommand.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Commands\DelegateCommandBase.cs" />
+    <Compile Include="Commands\DelegateCommand{T}.cs" />
     <Compile Include="Events\BackgroundEventSubscription.cs" />
     <Compile Include="Events\DataEventArgs.cs" />
     <Compile Include="Events\DelegateReference.cs" />

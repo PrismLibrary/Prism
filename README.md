@@ -1,11 +1,11 @@
-﻿# Prism
+# Prism
 Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Windows 10 UWP, and Xamarin Forms. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for UWP and Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
 
 Prism 6 is a fully open source version of the Prism guidance [originally produced by Microsoft patterns & practices](http://blogs.msdn.com/b/dotnet/archive/2015/03/19/prism-grows-up.aspx). The core team members were all part of the p&p team that developed Prism 1 through 5, and the effort has now been turned over to the open source community to keep it alive and thriving to support the .NET community. There are thousands of companies who have adopted previous versions of Prism for WPF, Silverlight, and Windows Runtime, and we hope they will continue to move along with us as we continue to evolve and enhance the framework to keep pace with current platform capabilities and requirements.
 
 At the current time we have no plans to create new versions of the library for Silverlight or for Windows 8/8.1/WP8.1. For those you can still use the previous releases from Microsoft p&p [here](https://msdn.microsoft.com/en-us/library/Gg430869%28v=PandP.40%29.aspx) and [here](http://prismwindowsruntime.codeplex.com/). If there is enough interest and contributors to do the work, we can consider it, but it is not on our roadmap for now.
 
-#Build Status
+# Build Status
 
 |          | Status |
 | -------- | ------ |
@@ -13,6 +13,12 @@ At the current time we have no plans to create new versions of the library for S
 | Prism.Wpf | <img src="https://ci.appveyor.com/api/projects/status/4lt3n2wf5m2efms7/branch/master?svg=true" /> |
 | Prism.Windows | <img src="https://ci.appveyor.com/api/projects/status/j04r6a45fi2f9pv4/branch/master?svg=true" /> |
 | Prism.Forms | <img src="https://ci.appveyor.com/api/projects/status/6ly53jgvwx62bm9u/branch/master?svg=true" /> |
+
+# Support
+- Join our Slack Channel [![Slack Status](https://prismslack.herokuapp.com/badge.svg)](https://prismslack.herokuapp.com/)
+- Documenation is maintained in this repo under /docs and can be found in a readable format on [Read the Docs](http://prismlibrary.readthedocs.io/en/latest/).
+- For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism)
+- You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues).
 
 #Help Support Prism
 
@@ -65,9 +71,9 @@ Following matrix shows the platform specific support currently available.
 
 Note that adding the container-specific package to your project, will also pull in the correct platform-specific package and the core PCL library. E.g. when you'd like to use Unity in a WPF project, add the Prism.Unity package and the rest will be pulled in as well.
 
-![NuGet package tree](Documentation/images/NuGetPackageTree.png)
+![NuGet package tree](docs/images/NuGetPackageTree.png)
 
-A detailed overview of each assembly per package is available [here](Documentation/DownloadandSetupPrism.md#overview-of-assemblies).
+A detailed overview of each assembly per package is available [here](docs/DownloadandSetupPrism.md#overview-of-assemblies).
 
 # Prism Template Pack
 Prism now integrates with Visual Studio and Xamarin Studio to enable a highly productive developer workflow for creating WPF, UWP, and native iOS and Android applications using Xamarin.Forms.  Jump start your Prism apps with code snippets, item templates, and project templates for your IDE of choice.
@@ -75,31 +81,19 @@ Prism now integrates with Visual Studio and Xamarin Studio to enable a highly pr
 ### Visual Studio Gallery
 The Prism Template Pack is available on the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/e7b6bde2-ba59-43dd-9d14-58409940ffa0).  To install, just go to Visual Studio -> Tools -> Extensions and Updates... then search for **Prism** in the online gallery:
 
-![Visual Studio Gallery](Documentation/images/prism-visual-studio-gallery.jpg)
+![Visual Studio Gallery](docs/images/prism-visual-studio-gallery.jpg)
 
 ### Xamarin Studio Addin
 Installation is straightforward if you've installed Xamarin Add-ins before, just go to  Xamarin Studio -> Add-In Manager...  from the Menu and then search for  **Prism**  from the Gallery:
 
-![Xamarin Studio Addin Manager](Documentation/images/prism-xamarin-studio-addin-manager.jpg)
+![Xamarin Studio Addin Manager](docs/images/prism-xamarin-studio-addin-manager.jpg)
 
 # Samples
 We have both a development sandbox (frequently changing) and stable samples for using Prism with WPF, UWP and Xamarin Forms. An overview of the samples can be found [here](Sandbox/README.md).
 
-#Roadmap/Milestones
-You can check out our milestones for coming releases [here](https://github.com/PrismLibrary/Prism/milestones).
-
-# Support
-- For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism)
-- You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues).
-
 #Contributing
 We strongly encourage you to get involved and help us evolve the code base. 
 - You can see what our expectations are for pull requests [here](https://github.com/PrismLibrary/Prism/blob/master/.github/CONTRIBUTING.md).
-
-#Moving to Prism 6 from Previous Releases
-As part of taking over the code base from Microsoft and moving towards Prism 6, there are a number of breaking changes users of Prism 5 or Prism for Windows Runtime will have to deal with. Those changes can be found in the release notes history.
-
-[Current Release Notes](https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.2.0)
 
 ### .NET Foundation
 

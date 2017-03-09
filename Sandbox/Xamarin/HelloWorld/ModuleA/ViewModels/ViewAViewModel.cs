@@ -3,10 +3,11 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism;
+using Prism.AppModel;
 
 namespace ModuleA.ViewModels
 {
-    public class ViewAViewModel : BindableBase, INavigationAware, IActiveAware
+    public class ViewAViewModel : BindableBase, INavigationAware, IActiveAware, IApplicationLifecycle
     {
         private readonly INavigationService _navigationService;
 
@@ -50,7 +51,7 @@ namespace ModuleA.ViewModels
         {
             _navigationService = navigationService;
 
-            NavigateCommand = new DelegateCommand(Navigate).ObservesCanExecute((vm) => CanNavigate);
+            NavigateCommand = new DelegateCommand(Navigate).ObservesCanExecute(() => CanNavigate);
             SaveCommand = new DelegateCommand(Save);
             ResetCommand = new DelegateCommand(Reset);
 
@@ -87,12 +88,26 @@ namespace ModuleA.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-
+            var navigationMode = parameters.GetNavigationMode();
+            if (navigationMode == NavigationMode.Back)
+                Title = "Went Back";
+            else if (navigationMode == NavigationMode.New)
+                Title = "Went to New Page";
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)
         {
-            
+
+        }
+
+        public void OnResume()
+        {
+            Title = "Application resumed";
+        }
+
+        public void OnSleep()
+        {
+            Title = "Aplpication went to sleep";
         }
     }
 }

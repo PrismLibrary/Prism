@@ -8,6 +8,7 @@ namespace Prism.Forms.Tests.Common
     public class UriParsingHelperFixture
     {
         const string _relativeUri = "MainPage?id=3&name=brian";
+        const string _absoluteUriWithOutProtocol = "/MainPage?id=3&name=brian";
         const string _absoluteUri = "htp://www.brianlagunas.com/MainPage?id=3&name=brian";
         const string _deepLinkAbsoluteUri = "android-app://HellowWorld/MainPage?id=1/ViewA?id=2/ViewB?id=3/ViewC?id=4";
         const string _deepLinkRelativeUri = "MainPage?id=1/ViewA?id=2/ViewB?id=3/ViewC?id=4";
@@ -171,5 +172,57 @@ namespace Prism.Forms.Tests.Common
             Assert.True(uri.IsAbsoluteUri);
         }
 
+        [Fact]
+        public void ParseForNull()
+        {
+            var actual = Assert.Throws<ArgumentNullException>(() => UriParsingHelper.Parse(null));
+            Assert.NotNull(actual);
+            Assert.Equal("uri", actual.ParamName);
+        }
+
+        [Fact]
+        public void ParseForRelativeUri()
+        {
+            var uri = UriParsingHelper.Parse(_relativeUri);
+            Assert.NotNull(uri);
+            Assert.Equal(_relativeUri, uri.OriginalString);
+            Assert.False(uri.IsAbsoluteUri);
+        }
+
+        [Fact]
+        public void ParseForAbsoluteUri()
+        {
+            var uri = UriParsingHelper.Parse(_absoluteUri);
+            Assert.NotNull(uri);
+            Assert.Equal(_absoluteUri, uri.OriginalString);
+            Assert.True(uri.IsAbsoluteUri);
+        }
+
+        [Fact]
+        public void ParseForAbsoluteUriWithOutProtocol()
+        {
+            var uri = UriParsingHelper.Parse(_absoluteUriWithOutProtocol);
+            Assert.NotNull(uri);
+            Assert.Equal("http://localhost" + _absoluteUriWithOutProtocol, uri.OriginalString);
+            Assert.True(uri.IsAbsoluteUri);
+        }
+
+        [Fact]
+        public void ParseForDeepLinkAbsoluteUri()
+        {
+            var uri = UriParsingHelper.Parse(_deepLinkAbsoluteUri);
+            Assert.NotNull(uri);
+            Assert.Equal(_deepLinkAbsoluteUri, uri.OriginalString);
+            Assert.True(uri.IsAbsoluteUri);
+        }
+
+        [Fact]
+        public void ParseForDeepLinkRelativeUri()
+        {
+            var uri = UriParsingHelper.Parse(_deepLinkRelativeUri);
+            Assert.NotNull(uri);
+            Assert.Equal(_deepLinkRelativeUri, uri.OriginalString);
+            Assert.False(uri.IsAbsoluteUri);
+        }
     }
 }

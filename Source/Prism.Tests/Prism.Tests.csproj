@@ -85,14 +85,13 @@
     <Compile Include="Events\PubSubEventFixture.cs" />
     <Compile Include="Logging\DebugLoggerFixture.cs" />
     <Compile Include="Logging\EmptyLoggerFixture.cs" />
-    <Compile Include="Mocks\Commands\DelegateCommandMock.cs" />
     <Compile Include="Mocks\ViewModels\MockValidatingViewModel.cs" />
     <Compile Include="Mocks\ViewModels\MockViewModel.cs" />
     <Compile Include="Mocks\Views\Mock.cs" />
     <Compile Include="Mocks\Views\MockView.cs" />
     <Compile Include="Mvvm\BindableBaseFixture.cs" />
-    <Compile Include="Mvvm\CompositeCommandFixture.cs" />
-    <Compile Include="Mvvm\DelegateCommandFixture.cs" />
+    <Compile Include="Commands\CompositeCommandFixture.cs" />
+    <Compile Include="Commands\DelegateCommandFixture.cs" />
     <Compile Include="Mvvm\ErrorsContainerFixture.cs" />
     <Compile Include="Mvvm\PropertySupportFixture.cs" />
     <Compile Include="Mvvm\ViewModelLocationProviderFixture.cs" />

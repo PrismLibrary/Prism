@@ -1,4 +1,4 @@
-﻿#Modular Application Development Using Prism Library for WPF
+#Modular Application Development Using Prism Library for WPF
 
 A modular application is an application that is divided into a set of loosely coupled functional units (named modules) that can be integrated into a larger application. A client module encapsulates a portion of the application's overall functionality and typically represents a set of related concerns. It can include a collection of related components, such as application features, including user interface and business logic, or pieces of application infrastructure, such as application-level services for logging or authenticating users. Modules are independent of one another but can communicate with each other in a loosely coupled fashion. Using a modular application design makes it easier for you to develop, test, deploy, and maintain your application.
 
@@ -551,6 +551,6 @@ For more information about assembly caching, see "[How to: Use Assembly Library 
 
 To learn more about modularity in Prism, see the Modularity with MEF for WPF QuickStart or the Modularity with Unity for WPF QuickStart. For more information about the QuickStarts, see .
 
-For information about the modularity features that can be extended in the Prism Library, see in .
+For information about the modularity features that can be extended in the Prism Library, see [Modules](Appendix-D-Extending-Prism/#modules) in [Extending Prism](Appendix-D-Extending-Prism.md).
 
 

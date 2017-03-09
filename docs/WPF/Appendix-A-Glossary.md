@@ -1,4 +1,4 @@
-﻿#Glossary for the Prism Library for WPF 
+#Glossary for the Prism Library for WPF 
 
 This glossary includes definitions of important terms that appear in the Prism documentation.
 
