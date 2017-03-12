@@ -37,6 +37,7 @@ namespace Prism.Forms.Tests.Behaviors
         public void Command_OrderOfExecution()
         {
             const string commandParameter = "ItemProperty";
+            var executedCommand = false;
             var converter = new ItemTappedEventArgsConverter(false);
             var behavior = new EventToCommandBehaviorMock
             {
@@ -45,6 +46,7 @@ namespace Prism.Forms.Tests.Behaviors
                 CommandParameter = commandParameter,
                 Command = new DelegateCommand<string>(o =>
                 {
+                    executedCommand = true;
                     Assert.NotNull(o);
                     Assert.Equal(commandParameter, o);
                     Assert.False(converter.HasConverted);
@@ -53,18 +55,21 @@ namespace Prism.Forms.Tests.Behaviors
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
             behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, commandParameter));
+            Assert.True(executedCommand);
         }
 
         [Fact]
         public void Command_Converter()
         {
             const string item = "ItemProperty";
+            var executedCommand = false;
             var behavior = new EventToCommandBehaviorMock
             {
                 EventName = "ItemTapped",
                 EventArgsConverter = new ItemTappedEventArgsConverter(false),
                 Command = new DelegateCommand<string>(o =>
                 {
+                    executedCommand = true;
                     Assert.NotNull(o);
                     Assert.Equal(item, o);
                 })
@@ -72,12 +77,14 @@ namespace Prism.Forms.Tests.Behaviors
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
             behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, item));
+            Assert.True(executedCommand);
         }
 
         [Fact]
         public void Command_ConverterWithConverterParameter()
         {
             const string item = "ItemProperty";
+            var executedCommand = false;
             var behavior = new EventToCommandBehaviorMock
             {
                 EventName = "ItemTapped",
@@ -85,6 +92,7 @@ namespace Prism.Forms.Tests.Behaviors
                 EventArgsConverterParameter = item,
                 Command = new DelegateCommand<string>(o =>
                 {
+                    executedCommand = true;
                     Assert.NotNull(o);
                     Assert.Equal(item, o);
                 })
@@ -92,18 +100,21 @@ namespace Prism.Forms.Tests.Behaviors
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
             behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, null));
+            Assert.True(executedCommand);
         }
 
         [Fact]
         public void Command_ExecuteWithParameter()
         {
             const string item = "ItemProperty";
+            var executedCommand = false;
             var behavior = new EventToCommandBehaviorMock
             {
                 EventName = "ItemTapped",
                 CommandParameter = item,
                 Command = new DelegateCommand<string>(o =>
                 {
+                    executedCommand = true;
                     Assert.NotNull(o);
                     Assert.Equal(item, o);
                 })
@@ -111,18 +122,21 @@ namespace Prism.Forms.Tests.Behaviors
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
             behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, null));
+            Assert.True(executedCommand);
         }
 
         [Fact]
         public void Command_EventArgsParameterPath()
         {
             const string item = "ItemProperty";
+            var executedCommand = false;
             var behavior = new EventToCommandBehaviorMock
             {
                 EventName = "ItemTapped",
                 EventArgsParameterPath = "Item",
                 Command = new DelegateCommand<string>(o =>
                 {
+                    executedCommand = true;
                     Assert.NotNull(o);
                     Assert.Equal(item, o);
                 })
@@ -130,6 +144,7 @@ namespace Prism.Forms.Tests.Behaviors
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
             behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, item));
+            Assert.True(executedCommand);
         }
 
         [Fact]
@@ -139,12 +154,14 @@ namespace Prism.Forms.Tests.Behaviors
             {
                 AProperty = "Value"
             };
+            var executedCommand = false;
             var behavior = new EventToCommandBehaviorMock
             {
                 EventName = "ItemTapped",
                 EventArgsParameterPath = "Item.AProperty",
                 Command = new DelegateCommand<object>(o =>
                 {
+                    executedCommand = true;
                     Assert.NotNull(o);
                     Assert.Equal("Value", o);
                 })
@@ -152,6 +169,7 @@ namespace Prism.Forms.Tests.Behaviors
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
             behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, item));
+            Assert.True(executedCommand);
         }
 
         [Fact]
@@ -171,15 +189,21 @@ namespace Prism.Forms.Tests.Behaviors
         public void Command_CanExecuteWithParameterShouldExecute()
         {
             var shouldExeute = bool.TrueString;
+            var executedCommand = false;
             var behavior = new EventToCommandBehaviorMock
             {
                 EventName = "ItemTapped",
                 CommandParameter = shouldExeute,
-                Command = new DelegateCommand<string>(o => Assert.True(true), o => o.Equals(bool.TrueString))
+                Command = new DelegateCommand<string>(o =>
+                {
+                    executedCommand = true;
+                    Assert.True(true);
+                }, o => o.Equals(bool.TrueString))
             };
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
             behavior.RaiseEvent(listView, null);
+            Assert.True(executedCommand);
         }
 
         [Fact]
@@ -200,14 +224,20 @@ namespace Prism.Forms.Tests.Behaviors
         [Fact]
         public void Command_Execute()
         {
+            var executedCommand = false;
             var behavior = new EventToCommandBehaviorMock
             {
                 EventName = "ItemTapped",
-                Command = new DelegateCommand(() => Assert.True(true))
+                Command = new DelegateCommand(() =>
+                {
+                    executedCommand = true;
+                    Assert.True(true);
+                })
             };
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
             behavior.RaiseEvent(listView, null);
+            Assert.True(executedCommand);
         }
 
         [Fact]
