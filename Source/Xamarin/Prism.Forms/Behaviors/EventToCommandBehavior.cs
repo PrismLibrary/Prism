@@ -9,7 +9,7 @@ using Xamarin.Forms;
 namespace Prism.Behaviors
 {
     /// <summary>
-    /// Behavior class that enable using <see cref="ICommand" /> to react on events raised by <see cref="Element" /> element.
+    /// Behavior class that enable using <see cref="ICommand" /> to react on events raised by <see cref="BindableObject" /> bindable.
     /// </summary>
     /// <para>
     /// There are multiple ways to pass a parameter to the <see cref="ICommand.Execute"/> method. 
@@ -32,7 +32,7 @@ namespace Prism.Behaviors
     /// &lt;/ListView&gt;
     /// </example>
     // This is a modified version of https://anthonysimmon.com/eventtocommand-in-xamarin-forms-apps/
-    public class EventToCommandBehavior : BehaviorBase<Element>
+    public class EventToCommandBehavior : BehaviorBase<BindableObject>
     {
         public static readonly BindableProperty EventNameProperty =
             BindableProperty.Create(nameof(EventName), typeof(string), typeof(EventToCommandBehavior));
@@ -120,9 +120,9 @@ namespace Prism.Behaviors
             set { SetValue(EventArgsConverterParameterProperty, value); }
         }
 
-        protected override void OnAttachedTo(Element element)
+        protected override void OnAttachedTo(BindableObject bindable)
         {
-            base.OnAttachedTo(element);
+            base.OnAttachedTo(bindable);
 
             _eventInfo = AssociatedObject
                 .GetType()
@@ -130,13 +130,13 @@ namespace Prism.Behaviors
             if (_eventInfo == null)
             {
                 throw new ArgumentException(
-                    $"No matching event '{EventName}' on attached type '{element.GetType().Name}'");
+                    $"No matching event '{EventName}' on attached type '{bindable.GetType().Name}'");
             }
 
             AddEventHandler(_eventInfo, AssociatedObject, OnEventRaised);
         }
 
-        protected override void OnDetachingFrom(Element element)
+        protected override void OnDetachingFrom(BindableObject bindable)
         {
             if (_handler != null)
             {
@@ -144,7 +144,7 @@ namespace Prism.Behaviors
             }
             _handler = null;
             _eventInfo = null;
-            base.OnDetachingFrom(element);
+            base.OnDetachingFrom(bindable);
         }
 
         private void AddEventHandler(EventInfo eventInfo, object item, Action<object, EventArgs> action)
