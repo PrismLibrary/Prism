@@ -32,12 +32,9 @@ namespace Prism.Ninject
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navService = CreateNavigationService();
-                    ((IPageAware)navService).Page = page;
-
                     overrides = new IParameter[]
                     {
-                        new ConstructorArgument( "navigationService", navService )
+                        new ConstructorArgument("navigationService", CreateNavigationService(page))
                     };
                 }
 

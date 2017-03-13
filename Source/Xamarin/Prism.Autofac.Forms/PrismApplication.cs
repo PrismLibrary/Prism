@@ -55,10 +55,7 @@ namespace Prism.Autofac
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navService = CreateNavigationService();
-                    ((IPageAware)navService).Page = page;
-
-                    parameter = new NamedParameter("navigationService", navService);
+                    parameter = new NamedParameter("navigationService", CreateNavigationService(page));
                 }
 
                 return Container.Resolve(type, parameter);
@@ -129,7 +126,6 @@ namespace Prism.Autofac
 
             // Make sure any not specifically registered concrete type can resolve.
             containerUpdater.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
-
             containerUpdater.Update(Container);
         }
     }
