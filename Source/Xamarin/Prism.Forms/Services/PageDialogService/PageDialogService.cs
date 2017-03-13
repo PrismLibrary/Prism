@@ -85,9 +85,7 @@ namespace Prism.Services
 
             foreach (var button in buttons.Where(button => button != null && button.Text.Equals(pressedButton)))
             {
-                if (button.Command.CanExecute(button.Text))
-                    button.Command.Execute(button.Text);
-
+                button.PressButton();
                 return;
             }
         }
