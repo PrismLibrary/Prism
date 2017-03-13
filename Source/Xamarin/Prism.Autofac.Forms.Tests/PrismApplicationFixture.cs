@@ -62,14 +62,11 @@ namespace Prism.Autofac.Forms.Tests
         public void ResolveTypeRegisteredWithDependencyService()
         {
             var app = new PrismApplicationMock();
-            // TODO
-            // Since we must call Xamarin.Forms.Init() (and cannot do so from PCL)
-            // to call Xamarin.Forms.DependencyService
-            // we check that this throws an InvalidOperationException (for reason stated above).
-            // This shows that a call to Xamarin.Forms.DependencyService was made and thus should return
-            // service instance (if registered)
-            Assert.Throws<ComponentNotRegisteredException>(
-                () => app.Container.Resolve<IDependencyServiceMock>());
+            //TODO: Autofac needs to be updated to support resolving unknown interfaces by using the DependencyService
+            Assert.Throws<ComponentNotRegisteredException>(() => app.Container.Resolve<IDependencyServiceMock>());
+            //var service = app.Container.Resolve<IDependencyServiceMock>();
+            //Assert.NotNull(service);
+            //Assert.IsType<DependencyServiceMock>(service);
         }
 
         [Fact]
