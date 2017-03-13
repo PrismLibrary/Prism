@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DryIoc;
+using Prism.AppModel;
 using Prism.Common;
 using Prism.DryIoc.Extensions;
 using Prism.DryIoc.Modularity;
@@ -76,6 +77,7 @@ namespace Prism.DryIoc
             Container.RegisterInstance(Container);
             Container.Register<INavigationService, DryIocPageNavigationService>(serviceKey: _navigationServiceKey);
             Container.Register<IApplicationProvider, ApplicationProvider>(Reuse.Singleton);
+            Container.Register<IApplicationStore, ApplicationStore>(Reuse.Singleton);
             Container.Register<IModuleManager, ModuleManager>(Reuse.Singleton);
             Container.Register<IModuleInitializer, DryIocModuleInitializer>(Reuse.Singleton);
             Container.Register<IEventAggregator, EventAggregator>(Reuse.Singleton);

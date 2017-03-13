@@ -1,6 +1,7 @@
 ﻿using Ninject;
 using Ninject.Parameters;
 using Ninject.Planning.Bindings.Resolvers;
+using Prism.AppModel;
 using Prism.Common;
 using Prism.Events;
 using Prism.Logging;
@@ -67,6 +68,7 @@ namespace Prism.Ninject
             Container.Bind<IModuleCatalog>().ToConstant(ModuleCatalog).InSingletonScope();
 
             Container.Bind<IApplicationProvider>().To<ApplicationProvider>().InSingletonScope();
+            Container.Bind<IApplicationStore>().To<ApplicationStore>().InSingletonScope();
             Container.Bind<INavigationService>().To<NinjectPageNavigationService>().Named(_navigationServiceName);
             Container.Bind<IModuleManager>().To<ModuleManager>().InSingletonScope();
             Container.Bind<IModuleInitializer>().To<NinjectModuleInitializer>().InSingletonScope();
