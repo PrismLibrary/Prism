@@ -152,7 +152,9 @@ namespace Prism.Common
             else
             {
                 target = GetPreviousPage(page, page.Navigation.NavigationStack);
-                if (target == null)
+                if (target != null)
+                    target = GetOnNavigatedToTargetFromChild(target);
+                else
                     target = GetOnNavigatedToTarget(page, mainPage, true);
             }
 
@@ -219,7 +221,7 @@ namespace Prism.Common
             var parameters = new NavigationParameters();
             parameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.Back);
             OnNavigatedFrom(previousPage, parameters);
-            OnNavigatedTo(currentPage, parameters);
+            OnNavigatedTo(GetOnNavigatedToTargetFromChild(currentPage), parameters);
             DestroyPage(previousPage);
         }
     }
