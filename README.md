@@ -93,7 +93,7 @@ We have both a development sandbox (frequently changing) and stable samples for 
 
 #Contributing
 We strongly encourage you to get involved and help us evolve the code base. 
-- You can see what our expectations are for pull requests [here](docs/CONTRIBUTING.md).
+- You can see what our expectations are for pull requests [here](.github/CONTRIBUTING.md).
 
 ### .NET Foundation
 
