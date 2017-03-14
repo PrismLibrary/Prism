@@ -47,7 +47,6 @@
     <CodeAnalysisRules>
     </CodeAnalysisRules>
     <NoWarn>0067, 0649</NoWarn>
-    <CodeAnalysisRuleSet>..\..\Prism.TestProjects.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

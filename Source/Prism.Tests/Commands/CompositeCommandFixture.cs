@@ -584,7 +584,11 @@ namespace Prism.Tests.Commands
             throw new NotImplementedException();
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { throw new NotSupportedException(); }
+            remove { throw new NotSupportedException(); }
+        }
 
         public void Execute(object parameter)
         {
