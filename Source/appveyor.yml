@@ -1,0 +1,8 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+before_test:
+  - dotnet --info
+  - dotnet restore
+build:
+  project: Source/PrismLibrary.sln
+  verbosity: minimal
