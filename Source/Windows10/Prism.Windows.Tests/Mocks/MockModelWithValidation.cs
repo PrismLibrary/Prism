@@ -41,8 +41,8 @@ namespace Prism.Windows.Tests.Mocks
 
         public event PropertyChangedEventHandler PropertyChanged
         {
-            add { throw new NotSupportedException(); }
-            remove { throw new NotSupportedException(); }
+            add { }
+            remove { }
         }
     }
 }

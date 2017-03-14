@@ -586,8 +586,8 @@ namespace Prism.Tests.Commands
 
         public event EventHandler CanExecuteChanged
         {
-            add { throw new NotSupportedException(); }
-            remove { throw new NotSupportedException(); }
+            add { }
+            remove { }
         }
 
         public void Execute(object parameter)
