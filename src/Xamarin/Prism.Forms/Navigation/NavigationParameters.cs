@@ -176,6 +176,34 @@ namespace Prism.Navigation
         }
 
         /// <summary>
+        /// Gets a strongly typed value with the specified key.
+        /// </summary>
+        /// <typeparam name="T">The type to cast/convert the value to.</typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="value">Key value if such key exists.</param>
+        /// <returns>True if such key exists.</returns>
+        public bool TryGetValue<T>(string key, out T value)
+        {
+            foreach (var kvp in _entries)
+            {
+                if (string.Compare(kvp.Key, key, StringComparison.Ordinal) == 0)
+                {
+                    if (kvp.Value == null)
+                        value = default(T);
+                    else if (kvp.Value.GetType() == typeof(T))
+                        value = (T)kvp.Value;
+                    else
+                        value = (T)Convert.ChangeType(kvp.Value, typeof(T));
+
+                    return true;
+                }
+            }
+
+            value = default(T);
+            return false;
+        }
+
+        /// <summary>
         /// Gets a strongly typed collection containing the values with the specified key.
         /// </summary>
         /// <typeparam name="T">The type to cast/convert the value to.</typeparam>
