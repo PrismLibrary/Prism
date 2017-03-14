@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <OutputType>Exe</OutputType>
     <PackageTargetFallback>$(PackageTargetFallback);portable-win+net45+wp8+win81+wpa8</PackageTargetFallback>
     <RootNamespace>Prism.Autofac.Forms.Tests</RootNamespace>
     <AssemblyName>Prism.Autofac.Forms.Tests</AssemblyName>
