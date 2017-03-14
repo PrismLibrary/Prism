@@ -1,0 +1,18 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+build: off
+test: off
+before_build:
+  - dotnet --info
+  - dotnet restore Source/PrismLibrary_Core.sln
+  - dotnet restore Source/PrismLibrary_Xamarin.sln
+  - nuget restore Source/PrismLibrary_Win10.sln
+  - nuget restore Source/PrismLibrary_Wpf.sln
+build_script:
+  - dotnet build Source/PrismLibrary_Core.sln
+  - msbuild Source/PrismLibrary_Xamarin.sln
+  - msbuild Source/PrismLibrary_Win10.sln
+  - msbuild Source/PrismLibrary_Wpf.sln
+test_script:
+  - dotnet test Source/Prism.Tests/Prism.Tests.csproj
+  - xunit.console.x86 Source/Xamarin/Prism.Forms.Tests/Prism.Forms.Tests.csproj -appveyor
