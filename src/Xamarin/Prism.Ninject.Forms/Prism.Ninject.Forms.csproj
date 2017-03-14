@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <TargetFramework>netstandard1.0</TargetFramework>
     <PackageTargetFallback>$(PackageTargetFallback);portable-win+net45+wp8+win81+wpa8</PackageTargetFallback>
     <Authors>Brian Lagunas, Brian Noyes</Authors>
     <Company>Brian Lagunas, Brian Noyes</Company>
@@ -16,6 +16,7 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <FileVersion>6.3.0.0</FileVersion>
     <Version>6.3.0-pre2</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
