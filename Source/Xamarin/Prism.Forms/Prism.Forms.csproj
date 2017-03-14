@@ -97,8 +97,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DeviceService.cs" />
     <Compile Include="Services\IDeviceService.cs" />
-    <Compile Include="Services\PageDialogService\ActionSheetButton.cs" />
     <Compile Include="Services\DependencyService.cs" />
+    <Compile Include="Services\PageDialogService\ActionSheetButtonBase.cs" />
+    <Compile Include="Services\PageDialogService\ActionSheetButton.cs" />
+    <Compile Include="Services\PageDialogService\ActionSheetButton{T}.cs" />
     <Compile Include="Services\PageDialogService\IActionSheetButton.cs" />
     <Compile Include="Services\IDependencyService.cs" />
     <Compile Include="Services\PageDialogService\IPageDialogService.cs" />
