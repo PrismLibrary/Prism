@@ -1,46 +1,44 @@
 ﻿### This is just the initial script to get the nuget packages out.  We need to refactor this script to make it easier to maintain and update
 ### One idea is to force a Visual Studio build using the Release build configuration before packing the nuspecs
 
-$nugetOutputDirectory = (Get-Item -Path ".\" -Verbose).FullName + '\..\packages\'
-$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.4.0'
-$prismSemVer = '6.4.0-rc1';
-$prismVer = '6.4.0.0';
+$nugetOutputDirectory = 'Packages'
 
-### Prism.Core 
-Invoke-Expression "dotnet pack '..\Prism\Prism.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
+$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.3.0-Pre2'
 
-### Prism.Xamarin
-### Prism.Forms currently not packing to a bug in Xamarin Forms build targets
-### Invoke-Expression "dotnet pack '..\Xamarin\Prism.Forms\Prism.Forms.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-### Invoke-Expression "dotnet pack '..\Xamarin\Prism.Autofac.Forms\Prism.Autofac.Forms.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-### Invoke-Expression "dotnet pack '..\Xamarin\Prism.Dryloc.Forms\Prism.Dryloc.Forms.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-### Invoke-Expression "dotnet pack '..\Xamarin\Prism.Ninject.Forms\Prism.Ninject.Forms.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-### Invoke-Expression "dotnet pack '..\Xamarin\Prism.Unity.Forms\Prism.Unity.Forms.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-
-### Prism.UWP 
-### UWP currently not supported in dotnet-cli
-### Invoke-Expression "dotnet pack '..\Windows10\Prism.Windows\Prism.Windows.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-### Invoke-Expression "dotnet pack '..\Windows10\Prism.Unity.Windows\Prism.Unity.Windows.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-### Invoke-Expression "dotnet pack '..\Windows10\Prism.SimpleInjector.Windows\Prism.SimpleInjector.Windows.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-### Invoke-Expression "dotnet pack '..\Windows10\Prism.Autofac.Windows\Prism.Autofac.Windows.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-
-### Prism.WPF
-### WPF currently not supported in dotnet-cli
-### Invoke-Expression "dotnet pack '..\Wpf\Prism.Wpf\Prism.Wpf.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-### Invoke-Expression "dotnet pack '..\Wpf\Prism.Autofac.Wpf\Prism.Autofac.Wpf.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-### Invoke-Expression "dotnet pack '..\Wpf\Prism.Dryloc.Wpf\Prism.Dryloc.Wpf.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-### Invoke-Expression "dotnet pack '..\Wpf\Prism.Mef.Wpf\Prism.Mef.Wpf.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-### Invoke-Expression "dotnet pack '..\Wpf\Prism.Ninject.Wpf\Prism.Ninject.Wpf.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-### Invoke-Expression "dotnet pack '..\Wpf\Prism.StructureMap.Wpf\Prism.StructureMap.Wpf.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-### Invoke-Expression "dotnet pack '..\Wpf\Prism.Unity.Wpf\Prism.Unity.Wpf.csproj' -c Release -o $($nugetOutputDirectory) /p:Version=$($prismSemVer) /p:AssemblyVersion=$($prismVer) /p:FileVersion=$($prismVer) /p:ReleaseNotes=$($releaseNotesUri)"
-
+$xamarinFormsVersion = '2.3.3.193'
 
 $nugetFileName = 'nuget.exe'
+
 if (!(Test-Path $nugetFileName))
 {
     Write-Host 'Downloading Nuget.exe ...'
 
     (New-Object System.Net.WebClient).DownloadFile('http://nuget.org/nuget.exe', $nugetFileName)
+}
+
+
+$coreAssemblyPath = '../Prism/bin/Release/Prism.dll'
+if ((Test-Path $coreAssemblyPath))
+{
+    $fileInfo = Get-Item $coreAssemblyPath
+    $coreFileVersion = $fileInfo.VersionInfo.ProductVersion
+}
+
+###########################
+######   Prism.Wpf   ######
+###########################
+$wpfNuspecPath = 'Prism.Wpf.nuspec'
+$wpfAssemblyPath = '../Wpf/Prism.Wpf/bin/Release/Prism.Wpf.dll'
+if ((Test-Path $wpfAssemblyPath))
+{
+    $fileInfo = Get-Item $wpfAssemblyPath
+    $wpfFileVersion = $fileInfo.VersionInfo.ProductVersion
+
+    Invoke-Expression ".\$($nugetFileName) pack $($wpfNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($wpfFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+}
+else
+{
+    Write-Host 'Prism.Wpf.dll not found'
 }
 
 
@@ -76,23 +74,6 @@ else
     $simpleInjectorFileVersion = $simpleInjectorFileInfo.VersionInfo.ProductVersion
 
     Invoke-Expression ".\$($nugetFileName) pack $($simpleInjectorNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($simpleInjectorFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop uwpVersion=$($uwpFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
-}
-
-###########################
-######   Prism.Wpf   ######
-###########################
-$wpfNuspecPath = 'Prism.Wpf.nuspec'
-$wpfAssemblyPath = '../Wpf/Prism.Wpf/bin/Release/Prism.Wpf.dll'
-if ((Test-Path $wpfAssemblyPath))
-{
-    $fileInfo = Get-Item $wpfAssemblyPath
-    $wpfFileVersion = $fileInfo.VersionInfo.ProductVersion
-
-    Invoke-Expression ".\$($nugetFileName) pack $($wpfNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($wpfFileVersion) -Prop coreVersion=$($coreFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
-}
-else
-{
-    Write-Host 'Prism.Wpf.dll not found'
 }
 
 ###########################
