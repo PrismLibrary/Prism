@@ -2,22 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
-    <AssemblyName>Prism</AssemblyName>
-    <RootNamespace>Prism</RootNamespace>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>prism.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
     <PackageId>Prism.Core</PackageId>
-    <Authors>Brian Lagunas, Brian Noyes</Authors>
-    <Company>Brian Lagunas, Brian Noyes</Company>
-    <Product>Prism 6</Product>
     <Description>Prism is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices.  Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms; WPF, Windows 10 UWP, and Xamarin Forms. Features that need to be platform specific are implemented in the respective libraries for the target platform.</Description>
-    <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
-    <PackageProjectUrl>http://prismlibrary.com/</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</PackageLicenseUrl>
-    <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
     <PackageTags>prism wpf xamarin mvvm uwp uap xaml</PackageTags>
-    <NeutralLanguage>en-US</NeutralLanguage>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
