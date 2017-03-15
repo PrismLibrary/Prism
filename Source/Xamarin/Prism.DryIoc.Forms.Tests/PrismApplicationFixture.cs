@@ -62,8 +62,8 @@ namespace Prism.DryIoc.Forms.Tests
         {
             var app = new PrismApplicationMock();
             var service = app.Container.Resolve<IDependencyServiceMock>();
-            Assert.NotNull( service );
-            Assert.IsType<DependencyServiceMock>( service );
+            Assert.NotNull(service);
+            Assert.IsType<DependencyServiceMock>(service);
         }
 
         [Fact]

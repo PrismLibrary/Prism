@@ -7,7 +7,10 @@ namespace Prism
 {
     public class FormsDependencyService : Dictionary<Type, object>
     {
-        private FormsDependencyService() { }
+        private FormsDependencyService()
+        {
+            
+        }
 
         private static Lazy<FormsDependencyService> current =
             new Lazy<FormsDependencyService>(() => new FormsDependencyService());
@@ -16,7 +19,7 @@ namespace Prism
             get { return current.Value; }
         }
 
-        public static T Get<T>( Xamarin.Forms.DependencyFetchTarget fetchTarget = Xamarin.Forms.DependencyFetchTarget.GlobalInstance )
+        public static T Get<T>(Xamarin.Forms.DependencyFetchTarget fetchTarget = Xamarin.Forms.DependencyFetchTarget.GlobalInstance)
         {
             var typeToResolve = typeof(T);
             return Current.ContainsKey(typeToResolve) ? (T)Current[typeToResolve] : default(T);
