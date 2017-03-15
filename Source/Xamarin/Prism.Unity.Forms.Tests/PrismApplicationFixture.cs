@@ -62,15 +62,8 @@ namespace Prism.Unity.Forms.Tests
         {
             var app = new PrismApplicationMock();
             var service = app.Container.Resolve<IDependencyServiceMock>();
-            Assert.NotNull( service );
-            Assert.IsType<DependencyServiceMock>( service );
-            // TODO(joacar)
-            // Since we must call Xamarin.Forms.Init() (and cannot do so from PCL)
-            // to call Xamarin.Forms.DependencyService
-            // we check that this throws an InvalidOperationException (for reason stated above).
-            // This shows that a call to Xamarin.Forms.DependencyService was made and thus should return
-            // service instance (if registered)
-            //Assert.Throws<TargetInvocationException>(() => app.Container.Resolve<IDependencyServiceMock>());
+            Assert.NotNull(service);
+            Assert.IsType<DependencyServiceMock>(service);
         }
 
         [Fact]
@@ -144,7 +137,7 @@ namespace Prism.Unity.Forms.Tests
             Assert.IsType<ViewModelBMock>(viewModel);
         }
 
-        private static INavigationService ResolveAndSetRootPage( PrismApplicationMock app )
+        private static INavigationService ResolveAndSetRootPage(PrismApplicationMock app)
         {
             var navigationService = app.NavigationService;
             ((IPageAware)navigationService).Page = new ContentPage();

@@ -15,7 +15,7 @@ namespace Prism.Unity.Forms.Tests.Mocks
         {
         }
 
-        public PrismApplicationMock( Page startPage ) : this()
+        public PrismApplicationMock(Page startPage) : this()
         {
             Current.MainPage = startPage;
         }
@@ -31,12 +31,12 @@ namespace Prism.Unity.Forms.Tests.Mocks
 
         protected override void ConfigureModuleCatalog()
         {
-            ModuleCatalog.AddModule( new ModuleInfo
+            ModuleCatalog.AddModule(new ModuleInfo
             {
                 InitializationMode = InitializationMode.WhenAvailable,
                 ModuleName = "ModuleMock",
                 ModuleType = typeof(ModuleMock)
-            } );
+            });
         }
 
         protected override void RegisterTypes()
