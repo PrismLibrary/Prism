@@ -3,16 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <PackageTargetFallback>$(PackageTargetFallback);portable-win+net45+wp8+win81+wpa8</PackageTargetFallback>
-    <Authors>Brian Lagunas, Brian Noyes</Authors>
-    <Company>Brian Lagunas, Brian Noyes</Company>
-    <Product>Prism 6</Product>
     <Description>Use these extensions to build Xamarin.Forms applications with Prism and DryIoc.</Description>
-    <PackageLicenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>http://prismlibrary.com/</PackageProjectUrl>
-    <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
     <PackageTags>prism, mvvm, uwp, DryIoc, dependency injection, di, xamarin, xamarin.forms</PackageTags>
-    <NeutralLanguage>en-US</NeutralLanguage>
     <FileVersion>6.3.0.0</FileVersion>
     <Version>6.3.0-pre2</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
