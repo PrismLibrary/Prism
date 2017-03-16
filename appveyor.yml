@@ -1,17 +1,23 @@
-version: 1.0.{build}
 image: Visual Studio 2017
+shallow_clone: true
 build: off
 test: off
 before_build:
   - dotnet --info
-  - dotnet restore Source/PrismLibrary_Core.sln
-  - dotnet restore Source/PrismLibrary_Xamarin.sln
-  - nuget restore Source/PrismLibrary_Win10.sln
-  - nuget restore Source/PrismLibrary_Wpf.sln
+  - dotnet restore Source\PrismLibrary_Core.sln
+  - dotnet restore Source\PrismLibrary_Xamarin.sln
+  - nuget restore Source\PrismLibrary_Win10.sln
+  - nuget restore Source\PrismLibrary_Wpf.sln
 build_script:
-  - dotnet build Source/PrismLibrary_Core.sln
-  - msbuild Source/PrismLibrary_Xamarin.sln
-  - msbuild Source/PrismLibrary_Win10.sln /p:AppxBundlePlatforms="$(BuildPlatform)" /p:AppxPackageDir="$(Build.BinariesDirectory)\AppxPackages\" /p:AppxBundle=Always
-  - msbuild Source/PrismLibrary_Wpf.sln
+  - dotnet build Source\PrismLibrary_Core.sln
+  - msbuild Source\PrismLibrary_Xamarin.sln
+  - msbuild Source\PrismLibrary_Win10.sln
+  - msbuild Source\PrismLibrary_Wpf.sln
 test_script:
-  - dotnet test Source/Prism.Tests/Prism.Tests.csproj
+  - dotnet test Source\Prism.Tests\Prism.Tests.csproj
+  - vstest.console /logger:Appveyor Source\Wpf\Prism.Wpf.Tests\bin\Debug\Prism.Wpf.Tests.dll
+  - vstest.console /logger:Appveyor Source\Wpf\Prism.Autofac.Wpf.Tests\bin\Debug\Prism.Autofac.Wpf.Tests.dll
+  - vstest.console /logger:Appveyor Source\Wpf\Prism.DryIoc.Wpf.Tests\bin\Debug\Prism.DryIoc.Wpf.Tests.dll
+  - vstest.console /logger:Appveyor Source\Wpf\Prism.Mef.Wpf.Tests\bin\Debug\Prism.Mef.Wpf.Tests.dll
+  - vstest.console /logger:Appveyor Source\Wpf\Prism.StructureMap.Wpf.Tests\bin\Debug\Prism.StructureMap.Wpf.Tests.dll
+  - vstest.console /logger:Appveyor Source\Wpf\Prism.Unity.Wpf.Tests\bin\Debug\Prism.Unity.Wpf.Tests.dll
