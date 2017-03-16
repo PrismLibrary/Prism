@@ -15,4 +15,3 @@ build_script:
   - msbuild Source/PrismLibrary_Wpf.sln
 test_script:
   - dotnet test Source/Prism.Tests/Prism.Tests.csproj
-  - xunit.console.x86 Source/Xamarin/Prism.Forms.Tests/Prism.Forms.Tests.csproj -appveyor
