@@ -47,12 +47,7 @@ namespace Prism.Windows.Validation
         /// <exception cref="ArgumentNullException">When <paramref name="entityToValidate"/> is <see langword="null" />.</exception>
         public BindableValidator(INotifyPropertyChanged entityToValidate)
         {
-            if (entityToValidate == null)
-            {
-                throw new ArgumentNullException(nameof(entityToValidate));
-            }
-
-            _entityToValidate = entityToValidate;
+            _entityToValidate = entityToValidate ?? throw new ArgumentNullException(nameof(entityToValidate));
             IsValidationEnabled = true;
             _getResourceDelegate = (mapId, key) =>
             {

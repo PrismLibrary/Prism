@@ -7,7 +7,6 @@
     <PackageTags>prism mvvm uwp unity dependency injection di, xamarin, xamarin.forms</PackageTags>
     <FileVersion>6.3.0.0</FileVersion>
     <Version>6.3.0-pre2</Version>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

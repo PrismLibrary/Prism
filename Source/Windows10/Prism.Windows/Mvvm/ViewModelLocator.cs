@@ -26,8 +26,7 @@ namespace Prism.Windows.Mvvm
 
         private static void Bind(object view, object viewModel)
         {
-            var element = view as FrameworkElement;
-            if (element != null)
+            if (view is FrameworkElement element)
                 element.DataContext = viewModel;
         }
     }
