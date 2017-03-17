@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Prism.Wpf</id>
+    <version>$version$</version>
+    <title>Prism 6 for WPF</title>
+    <authors>Brian Lagunas, Brian Noyes</authors>
+    <owners>Brian Lagunas, Brian Noyes</owners>
+    <licenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</licenseUrl>
+    <projectUrl>http://prismlibrary.com/</projectUrl>
+    <iconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Prism is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices.  Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms; WPF, Windows 10 UWP, and Xamarin Forms. Features that need to be platform specific are implemented in the respective libraries for the target platform.
+
+Prism.Wpf helps you more easily design and build rich, flexible, and easy to maintain Windows Presentation Foundation (WPF) desktop applications. This library provides user interface composition as well as modularity support.</description>
+    <summary>Prism libraries related to user interface composition, regions, and modularity for WPF.</summary>
+    <releaseNotes>$releaseNotes$</releaseNotes>
+    <language>en-US</language>
+    <tags>prism mvvm xamarin uwp uap xaml wpf</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="CommonServiceLocator" version="1.3" />
+        <dependency id="Prism.Core" version="$coreVersion$" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\src\Prism.Wpf\bin\Release\Prism.Wpf.*" target="lib\net45\" exclude="**\*.pdb" />
+    <file src="..\src\Prism.Wpf\bin\Release\System.Windows.Interactivity.dll" target="lib\net45\" />
+  </files>
+</package>

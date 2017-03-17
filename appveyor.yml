@@ -2,22 +2,57 @@ image: Visual Studio 2017
 shallow_clone: true
 build: off
 test: off
+skip_branch_with_pr: true
+skip_tags: true
+configuration: Release
+
+#branches:
+#  only:
+#  - master
+
+only_commits:
+  files:
+  - appveyor.yml
+  - src\*
+  - nuspecs\*
+
+nuget:
+  disable_publish_on_pr: true
+
 before_build:
-  - dotnet --info
-  - dotnet restore Source\PrismLibrary_Core.sln
-  - dotnet restore Source\PrismLibrary_Xamarin.sln
-  - nuget restore Source\PrismLibrary_Win10.sln
-  - nuget restore Source\PrismLibrary_Wpf.sln
-build_script:
-  - dotnet build Source\PrismLibrary_Core.sln
-  - msbuild Source\PrismLibrary_Xamarin.sln
-  - msbuild Source\PrismLibrary_Win10.sln
-  - msbuild Source\PrismLibrary_Wpf.sln
+  - nuget restore PrismLibrary.sln
+  - dotnet restore PrismLibrary.sln  
+
+build:
+  parallel: true
+  project: PrismLibrary.sln
+
 test_script:
-  - dotnet test Source\Prism.Tests\Prism.Tests.csproj
-  - vstest.console /logger:Appveyor Source\Wpf\Prism.Wpf.Tests\bin\Debug\Prism.Wpf.Tests.dll
-  - vstest.console /logger:Appveyor Source\Wpf\Prism.Autofac.Wpf.Tests\bin\Debug\Prism.Autofac.Wpf.Tests.dll
-  - vstest.console /logger:Appveyor Source\Wpf\Prism.DryIoc.Wpf.Tests\bin\Debug\Prism.DryIoc.Wpf.Tests.dll
-  - vstest.console /logger:Appveyor Source\Wpf\Prism.Mef.Wpf.Tests\bin\Debug\Prism.Mef.Wpf.Tests.dll
-  - vstest.console /logger:Appveyor Source\Wpf\Prism.StructureMap.Wpf.Tests\bin\Debug\Prism.StructureMap.Wpf.Tests.dll
-  - vstest.console /logger:Appveyor Source\Wpf\Prism.Unity.Wpf.Tests\bin\Debug\Prism.Unity.Wpf.Tests.dll
+  - dotnet test test\Prism.Tests\Prism.Tests.csproj
+  - vstest.console /logger:Appveyor test\Prism.Wpf.Tests\bin\Debug\Prism.Wpf.Tests.dll
+  - vstest.console /logger:Appveyor test\Prism.Autofac.Wpf.Tests\bin\Debug\Prism.Autofac.Wpf.Tests.dll
+  - vstest.console /logger:Appveyor test\Prism.DryIoc.Wpf.Tests\bin\Debug\Prism.DryIoc.Wpf.Tests.dll
+  - vstest.console /logger:Appveyor test\Prism.Mef.Wpf.Tests\bin\Debug\Prism.Mef.Wpf.Tests.dll
+  - vstest.console /logger:Appveyor test\Prism.StructureMap.Wpf.Tests\bin\Debug\Prism.StructureMap.Wpf.Tests.dll
+  - vstest.console /logger:Appveyor test\Prism.Unity.Wpf.Tests\bin\Debug\Prism.Unity.Wpf.Tests.dll
+  # Xamarin tests are currently disabled due to a blocking issue: https://bugzilla.xamarin.com/show_bug.cgi?id=53060
+  # UWP tests are not currently not supported by appveyor: https://github.com/appveyor/ci/issues/393
+
+after_test:
+  - dotnet pack src\Prism\ -c Release
+  # Xamarin packaging is currently disabled due to a blocking issue: https://bugzilla.xamarin.com/show_bug.cgi?id=53060
+  - ps nuspecs\CreateWpfWindowsNugetPackages.ps1
+
+artifacts:
+  path: 'src\**\*.nupkg'
+  name: Nuget
+
+deploy:  
+- provider: NuGet
+  name: nuget_prerelease
+  server: https://www.myget.org/F/Prism/api/v2/package
+  api_key:
+    secure: asd
+  skip_symbols: true
+  on:
+    branch: master
