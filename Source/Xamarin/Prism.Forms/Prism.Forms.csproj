@@ -103,6 +103,8 @@
     <Compile Include="Services\IDependencyService.cs" />
     <Compile Include="Services\PageDialogService\IPageDialogService.cs" />
     <Compile Include="Services\PageDialogService\PageDialogService.cs" />
+    <Compile Include="AppModel\IApplicationStore.cs" />
+    <Compile Include="AppModel\ApplicationStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Prism\Prism.csproj">
