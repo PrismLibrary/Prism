@@ -9,8 +9,8 @@
     <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
     <Copyright>Copyright 2017</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>6.3</Version>
-    <AssemblyVersion>6.3</AssemblyVersion>
-    <FileVersion>6.3</FileVersion>
+    <Version>$(fullBuildSemanticVersion)</Version>
+    <AssemblyVersion>$(fullBuildVersion)</AssemblyVersion>
+    <FileVersion>$(fullBuildVersion)</FileVersion>
   </PropertyGroup>
 </Project>

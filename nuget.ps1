@@ -1,9 +1,6 @@
-﻿### This is just the initial script to get the nuget packages out.  We need to refactor this script to make it easier to maintain and update
-### One idea is to force a Visual Studio build using the Release build configuration before packing the nuspecs
-
-$nugetOutputDirectory = '../src/'
-$nuspecDirectory = '';
-$srcDirectory = '../src/'
+﻿$nugetOutputDirectory = 'packages\'
+$nuspecDirectory = 'nuspecs\'
+$srcDirectory = 'src\'
 $releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.3.0-Pre2'
 $xamarinFormsVersion = '2.3.3.193'
 $nugetFileName = 'nuget.exe'
@@ -14,7 +11,7 @@ if (!(Test-Path $nugetFileName))
     (New-Object System.Net.WebClient).DownloadFile('http://nuget.org/nuget.exe', $nugetFileName)
 }
 
-$coreAssemblyPath = "$($srcDirectory)Prism/bin/Release/netstandard1.0/Prism.dll"
+$coreAssemblyPath = "$($srcDirectory)Prism\bin\Release\netstandard1.0\Prism.dll"
 if ((Test-Path $coreAssemblyPath))
 {
     $fileInfo = Get-Item $coreAssemblyPath
@@ -25,7 +22,7 @@ if ((Test-Path $coreAssemblyPath))
 ######   Prism.Wpf   ######
 ###########################
 $wpfNuspecPath = "$($nuspecDirectory)Prism.Wpf.nuspec"
-$wpfAssemblyPath = "$($srcDirectory)Prism.Wpf/bin/Release/Prism.Wpf.dll"
+$wpfAssemblyPath = "$($srcDirectory)Prism.Wpf\bin\Release\Prism.Wpf.dll"
 if ((Test-Path $wpfAssemblyPath))
 {
     $fileInfo = Get-Item $wpfAssemblyPath
@@ -42,7 +39,7 @@ else
 #####  Prism.Windows  #####
 ###########################
 $uwpNuspecPath = "$($nuspecDirectory)Prism.Windows.nuspec"
-$uwpAssemblyPath = "$($srcDirectory)Prism.Windows/bin/Release/Prism.Windows.dll"
+$uwpAssemblyPath = "$($srcDirectory)Prism.Windows\bin\Release\Prism.Windows.dll"
 if ((Test-Path $uwpAssemblyPath))
 {
     $fileInfo = Get-Item $uwpAssemblyPath
@@ -59,7 +56,7 @@ else
 #####  Prism.SimpleInjector  #####
 ##################################
 $simpleInjectorNuspecPath = "$($nuspecDirectory)Prism.SimpleInjector.nuspec"
-$simpleInjectorUwpAssemblyPath = "$($srcDirectory)Prism.SimpleInjector.Windows/bin/Release/Prism.SimpleInjector.Windows.dll"
+$simpleInjectorUwpAssemblyPath = "$($srcDirectory)Prism.SimpleInjector.Windows\bin\Release\Prism.SimpleInjector.Windows.dll"
 if (!(Test-Path $simpleInjectorUwpAssemblyPath))
 {
     Write-Host 'Prism.SimpleInjector.Windows.dll not found'
@@ -76,9 +73,9 @@ else
 ######  Prism.Unity  ######
 ###########################
 $unityNuspecPath = "$($nuspecDirectory)Prism.Unity.nuspec"
-$unityWpfAssemblyPath = "$($srcDirectory)Prism.Unity.Wpf/bin/Release/Prism.Unity.Wpf.dll"
-$unityUwpAssemblyPath = "$($srcDirectory)Prism.Unity.Windows/bin/Release/Prism.Unity.Windows.dll"
-$unityFormsAssemblyPath = "$($srcDirectory)Prism.Unity.Forms/bin/Release/netstandard1.0/Prism.Unity.Forms.dll"
+$unityWpfAssemblyPath = "$($srcDirectory)Prism.Unity.Wpf\bin\Release\Prism.Unity.Wpf.dll"
+$unityUwpAssemblyPath = "$($srcDirectory)Prism.Unity.Windows\bin\Release\Prism.Unity.Windows.dll"
+$unityFormsAssemblyPath = "$($srcDirectory)Prism.Unity.Forms\bin\Release\netstandard1.0\Prism.Unity.Forms.dll"
 if (!(Test-Path $unityWpfAssemblyPath))
 {
     Write-Host 'Prism.Unity.Wpf.dll not found'
@@ -104,8 +101,8 @@ else
 #####  Prism.Autofac  #####
 ###########################
 $autofacNuspecPath = "$($nuspecDirectory)Prism.Autofac.nuspec"
-$autofacWpfAssemblyPath = "$($srcDirectory)Prism.Autofac.Wpf/bin/Release/Prism.Autofac.Wpf.dll"
-$autofacUwpAssemblyPath = "$($srcDirectory)Prism.Autofac.Windows/bin/Release/Prism.Autofac.Windows.dll"
+$autofacWpfAssemblyPath = "$($srcDirectory)Prism.Autofac.Wpf\bin\Release\Prism.Autofac.Wpf.dll"
+$autofacUwpAssemblyPath = "$($srcDirectory)Prism.Autofac.Windows\bin\Release\Prism.Autofac.Windows.dll"
 if (!(Test-Path $autofacWpfAssemblyPath))
 {
     Write-Host 'Prism.Autofac.Wpf.dll not found'
@@ -127,7 +124,7 @@ else
 #####  Prism.DryIoc  #####
 ###########################
 $dryIocNuspecPath = "$($nuspecDirectory)Prism.DryIoc.nuspec"
-$dryIocWpfAssemblyPath = "$($srcDirectory)Prism.DryIoc.Wpf/bin/Release/Prism.DryIoc.Wpf.dll"
+$dryIocWpfAssemblyPath = "$($srcDirectory)Prism.DryIoc.Wpf\bin\Release\Prism.DryIoc.Wpf.dll"
 if (!(Test-Path $dryIocWpfAssemblyPath))
 {
     Write-Host 'Prism.DryIoc.Wpf.dll not found'
@@ -138,14 +135,14 @@ else
     $dryIocWpfFileInfo = Get-Item $dryIocWpfAssemblyPath
     $dryIocFileVersion = $dryIocWpfFileInfo.VersionInfo.ProductVersion
     
-    Invoke-Expression ".\$($nugetFileName) pack $($dryIocNuspecPath) -Prop version=$($dryIocFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    Invoke-Expression ".\$($nugetFileName) pack $($dryIocNuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($dryIocFileVersion) -Prop wpfVersion=$($wpfFileVersion) -Prop releaseNotes=$($releaseNotesUri)"
 }
 
 ###########################
 #######  Prism.Mef  #######
 ###########################
 $mefNuspecPath = "$($nuspecDirectory)Prism.Mef.nuspec"
-$mefAssemblyPath = "$($srcDirectory)Prism.Mef.Wpf/bin/Release/Prism.Mef.Wpf.dll"
+$mefAssemblyPath = "$($srcDirectory)Prism.Mef.Wpf\bin\Release\Prism.Mef.Wpf.dll"
 if ((Test-Path $mefAssemblyPath))
 {
     $fileInfo = Get-Item $mefAssemblyPath
@@ -162,7 +159,7 @@ else
 #####  Prism.Ninject  #####
 ###########################
 $ninjectNuspecPath = "$($nuspecDirectory)Prism.Ninject.nuspec"
-$ninjectAssemblyPath = "$($srcDirectory)Prism.Ninject.Wpf/bin/Release/Prism.Ninject.Wpf.dll"
+$ninjectAssemblyPath = "$($srcDirectory)Prism.Ninject.Wpf\bin\Release\Prism.Ninject.Wpf.dll"
 if ((Test-Path $ninjectAssemblyPath))
 {
     $fileInfo = Get-Item $ninjectAssemblyPath
@@ -179,7 +176,7 @@ else
 ##  Prism.StructureMap  ###
 ###########################
 $structureMapNuspecPath = "$($nuspecDirectory)Prism.StructureMap.nuspec"
-$structureMapAssemblyPath = "$($srcDirectory)Prism.StructureMap.Wpf/bin/Release/Prism.StructureMap.Wpf.dll"
+$structureMapAssemblyPath = "$($srcDirectory)Prism.StructureMap.Wpf\bin\Release\Prism.StructureMap.Wpf.dll"
 if ((Test-Path $structureMapAssemblyPath))
 {
     $fileInfo = Get-Item $structureMapAssemblyPath
