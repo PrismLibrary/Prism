@@ -1,4 +1,4 @@
-using DryIoc;
+﻿using Microsoft.Practices.Unity;
 using Prism.DI.Forms.Tests.Mocks.Modules;
 using Prism.DI.Forms.Tests.Mocks.Services;
 using Prism.DI.Forms.Tests.Mocks.ViewModels;
@@ -7,7 +7,7 @@ using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
 
-namespace Prism.DryIoc.Forms.Tests.Mocks
+namespace Prism.Unity.Forms.Tests.Mocks
 {
     public class PrismApplicationMock : PrismApplication
     {
@@ -41,16 +41,16 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
 
         protected override void RegisterTypes()
         {
-            Container.Register<IServiceMock, ServiceMock>();
+            Container.RegisterType<IServiceMock, ServiceMock>();
             Container.RegisterTypeForNavigation<ViewMock>("view");
             Container.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
-            Container.Register<AutowireViewModel>();
-            Container.Register<ViewModelAMock>();
-            Container.Register<ViewModelBMock>(serviceKey: ViewModelBMock.Key);
-            Container.Register<ConstructorArgumentViewModel>();
+            Container.RegisterType<AutowireViewModel>();
+            Container.RegisterType<ViewModelAMock>();
+            Container.RegisterType<ViewModelBMock>(ViewModelBMock.Key);
+            Container.RegisterType<ConstructorArgumentViewModel>();
             Container.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
             Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
-            Container.Register<ModuleMock>(Reuse.Singleton);
+            Container.RegisterType<ModuleMock>(new ContainerControlledLifetimeManager());
 
             FormsDependencyService.Register<IDependencyServiceMock>(new DependencyServiceMock());
         }

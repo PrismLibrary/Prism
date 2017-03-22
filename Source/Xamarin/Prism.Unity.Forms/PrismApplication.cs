@@ -30,12 +30,9 @@ namespace Prism.Unity
                 var page = view as Page;
                 if (page != null)
                 {
-                    var navService = CreateNavigationService();
-                    ((IPageAware)navService).Page = page;
-
                     overrides = new ParameterOverrides
                     {
-                        { "navigationService", navService }
+                        { "navigationService", CreateNavigationService(page) }
                     };
                 }
 

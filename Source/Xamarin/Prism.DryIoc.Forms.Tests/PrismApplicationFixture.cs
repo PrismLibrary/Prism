@@ -61,14 +61,9 @@ namespace Prism.DryIoc.Forms.Tests
         public void ResolveTypeRegisteredWithDependencyService()
         {
             var app = new PrismApplicationMock();
-            // TODO(joacar)
-            // Since we must call Xamarin.Forms.Init() (and cannot do so from PCL)
-            // to call Xamarin.Forms.DependencyService
-            // we check that this throws an InvalidOperationException (for reason stated above).
-            // This shows that a call to Xamarin.Forms.DependencyService was made and thus should return
-            // service instance (if registered)
-            Assert.Throws<TargetInvocationException>(
-                () => app.Container.Resolve<IDependencyServiceMock>(IfUnresolved.ReturnDefault));
+            var service = app.Container.Resolve<IDependencyServiceMock>();
+            Assert.NotNull(service);
+            Assert.IsType<DependencyServiceMock>(service);
         }
 
         [Fact]

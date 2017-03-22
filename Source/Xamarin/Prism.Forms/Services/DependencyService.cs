@@ -1,4 +1,5 @@
-﻿namespace Prism.Services
+﻿
+namespace Prism.Services
 {
     /// <summary>
     /// A service that provides acess to platform-specific implementations of a specified type
@@ -12,7 +13,11 @@
         /// <returns>The class instance</returns>
         public T Get<T>() where T : class
         {
+#if TEST
+            return Prism.FormsDependencyService.Get<T>();
+#else
             return Xamarin.Forms.DependencyService.Get<T>();
+#endif
         }
     }
 }

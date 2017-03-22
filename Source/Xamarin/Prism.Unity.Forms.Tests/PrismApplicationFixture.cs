@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
 using Prism.Common;
-using Prism.Autofac.Forms.Tests.Mocks;
+using Prism.Unity.Forms.Tests.Mocks;
 using Prism.DI.Forms.Tests.Mocks.Modules;
 using Prism.DI.Forms.Tests.Mocks.Services;
 using Prism.DI.Forms.Tests.Mocks.ViewModels;
 using Prism.DI.Forms.Tests.Mocks.Views;
-using Prism.Autofac.Navigation;
+using Prism.Unity.Navigation;
 using Prism.Navigation;
 using Xamarin.Forms;
 using Xunit;
-using Autofac;
-using Autofac.Core.Registration;
 using Prism.DI.Forms.Tests;
 #if TEST
 using Application = Prism.FormsApplication;
 #endif
 
-namespace Prism.Autofac.Forms.Tests
+namespace Prism.Unity.Forms.Tests
 {
     public class PrismApplicationFixture
     {
@@ -62,11 +61,9 @@ namespace Prism.Autofac.Forms.Tests
         public void ResolveTypeRegisteredWithDependencyService()
         {
             var app = new PrismApplicationMock();
-            //TODO: Autofac needs to be updated to support resolving unknown interfaces by using the DependencyService
-            Assert.Throws<ComponentNotRegisteredException>(() => app.Container.Resolve<IDependencyServiceMock>());
-            //var service = app.Container.Resolve<IDependencyServiceMock>();
-            //Assert.NotNull(service);
-            //Assert.IsType<DependencyServiceMock>(service);
+            var service = app.Container.Resolve<IDependencyServiceMock>();
+            Assert.NotNull(service);
+            Assert.IsType<DependencyServiceMock>(service);
         }
 
         [Fact]
@@ -75,7 +72,7 @@ namespace Prism.Autofac.Forms.Tests
             var app = new PrismApplicationMock();
             var navigationService = app.NavigationService;
             Assert.NotNull(navigationService);
-            Assert.IsType<AutofacPageNavigationService>(navigationService);
+            Assert.IsType<UnityPageNavigationService>(navigationService);
         }
 
         [Fact]
@@ -88,12 +85,12 @@ namespace Prism.Autofac.Forms.Tests
         }
 
         [Fact]
-        public async Task Navigate_UnregisteredView_ThrowNullReferenceException()
+        public async Task Navigate_UnregisteredView_ThrowContainerException()
         {
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
             var exception = await Assert.ThrowsAsync<NullReferenceException>(async () => await navigationService.NavigateAsync("missing"));
-            Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
+            //Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
         [Fact]
@@ -108,11 +105,26 @@ namespace Prism.Autofac.Forms.Tests
         }
 
         [Fact]
+        public void Navigate_ViewModelFactory_PageAware()
+        {
+            var app = new PrismApplicationMock();
+            var view = new AutowireView();
+            var viewModel = (AutowireViewModel)view.BindingContext;
+            var pageAware = (IPageAware)viewModel.NavigationService;
+            var navigationServicePage = app.CreateNavigationServiceForPage(view);
+            Assert.IsType<AutowireView>(pageAware.Page);
+            var navigatedPage = ((IPageAware)navigationServicePage).Page;
+            Assert.IsType<AutowireView>(navigatedPage);
+            Assert.Same(view, pageAware.Page);
+            Assert.Same(pageAware.Page, navigatedPage);
+        }
+
+        [Fact]
         public void Container_ResolveByType()
         {
             var app = new PrismApplicationMock();
             var viewModel = app.Container.Resolve<ViewModelAMock>();
-            Assert.NotNull(viewModel);
+            Assert.NotNull( viewModel );
             Assert.IsType<ViewModelAMock>(viewModel);
         }
 
@@ -120,7 +132,7 @@ namespace Prism.Autofac.Forms.Tests
         public void Container_ResolveByKey()
         {
             var app = new PrismApplicationMock();
-            var viewModel = app.Container.ResolveNamed<ViewModelBMock>(ViewModelBMock.Key);
+            var viewModel = app.Container.Resolve<ViewModelBMock>(ViewModelBMock.Key);
             Assert.NotNull(viewModel);
             Assert.IsType<ViewModelBMock>(viewModel);
         }
