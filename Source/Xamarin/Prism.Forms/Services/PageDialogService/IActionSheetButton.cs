@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 
 namespace Prism.Services
 {
@@ -23,8 +24,8 @@ namespace Prism.Services
         string Text { get; }
 
         /// <summary>
-        /// Command to execute when button is pressed
+        /// Presses the button.
         /// </summary>
-        ICommand Command { get; }
+        void PressButton();
     }
 }
