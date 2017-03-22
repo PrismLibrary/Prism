@@ -27,15 +27,15 @@ namespace Prism.Mvvm
         /// support CallerMemberName.</param>
         /// <returns>True if the value was changed, false if the existing value matched the
         /// desired value.</returns>
-        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (Equals(storage, value)) return false;
+        //protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        //{
+        //    if (Equals(storage, value)) return false;
 
-            storage = value;
-            RaisePropertyChanged(propertyName);
+        //    storage = value;
+        //    RaisePropertyChanged(propertyName);
 
-            return true;
-        }
+        //    return true;
+        //}
 
 		/// <summary>
 		/// Checks if a property already matches a desired value. Sets the property and
