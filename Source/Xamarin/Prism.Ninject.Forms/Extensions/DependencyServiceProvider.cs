@@ -2,6 +2,9 @@
 using System;
 using System.Reflection;
 using Xamarin.Forms;
+#if TEST
+using DependencyService = Prism.FormsDependencyService;
+#endif
 
 namespace Prism.Ninject.Extensions
 {

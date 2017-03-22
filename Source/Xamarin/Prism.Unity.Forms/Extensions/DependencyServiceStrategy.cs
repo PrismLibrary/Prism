@@ -3,6 +3,9 @@ using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity;
 using Xamarin.Forms;
+#if TEST
+using DependencyService = Prism.FormsDependencyService;
+#endif
 
 namespace Prism.Unity.Extensions
 {
@@ -10,16 +13,16 @@ namespace Prism.Unity.Extensions
     {
         private readonly IUnityContainer _container;
 
-        public DependencyServiceStrategy(IUnityContainer container)
+        public DependencyServiceStrategy( IUnityContainer container )
         {
             _container = container;
         }
 
-        public override void PreBuildUp(IBuilderContext context)
+        public override void PreBuildUp( IBuilderContext context )
         {
             var key = context.OriginalBuildKey;
 
-            if (key.Type.GetTypeInfo().IsInterface && !_container.IsRegistered(key.Type))
+            if( key.Type.GetTypeInfo().IsInterface && !_container.IsRegistered( key.Type ) )
             {
                 context.Existing = CallToDependencyService(key.Type);
                 context.BuildComplete = context.Existing != null;

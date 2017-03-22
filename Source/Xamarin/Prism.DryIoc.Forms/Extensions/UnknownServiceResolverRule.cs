@@ -1,6 +1,9 @@
 ﻿using System.Reflection;
 using DryIoc;
 using Xamarin.Forms;
+#if TEST
+using DependencyService = Prism.FormsDependencyService;
+#endif
 
 namespace Prism.DryIoc.Extensions
 {

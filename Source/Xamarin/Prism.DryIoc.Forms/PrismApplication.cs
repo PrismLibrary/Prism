@@ -107,18 +107,6 @@ namespace Prism.DryIoc
             return Container.Resolve<INavigationService>(_navigationServiceKey);
         }
 
-        /// <summary>
-        /// Create instance of <see cref="INavigationService"/> and set the <see cref="IPageAware.Page"/> property to <paramref name="page"/>
-        /// </summary>
-        /// <param name="page">Active page</param>
-        /// <returns>Instance of <see cref="INavigationService"/> with <see cref="IPageAware.Page"/> set</returns>
-        protected INavigationService CreateNavigationService(Page page)
-        {
-            var navigationService = CreateNavigationService();
-            ((IPageAware)navigationService).Page = page;
-            return navigationService;
-        }
-
         protected override void ConfigureViewModelLocator()
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
