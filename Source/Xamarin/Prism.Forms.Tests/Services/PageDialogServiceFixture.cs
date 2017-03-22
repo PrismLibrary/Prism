@@ -25,8 +25,6 @@ namespace Prism.Forms.Tests.Services
             Assert.Equal(typeof(ArgumentException), argumentException.GetType());
         }
 
-        #region Tests using Action
-
         [Fact]
         public async Task DisplayActionSheet_CancelButtonPressed_UsingAction()
         {
