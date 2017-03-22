@@ -73,6 +73,8 @@ namespace Prism.Forms.Tests.Services
             await DisplayActionSheet_PressButton_UsingGenericAction(null);
         }
 
+        #region Obsolete ActionSheetButton using Commands
+
         [Fact]
         public async Task DisplayActionSheet_CancelButtonPressed_UsingGenericCommand()
         {
@@ -194,6 +196,8 @@ namespace Prism.Forms.Tests.Services
                     break;
             }
         }
+
+        #endregion Obsolete ActionSheetButton using Commands
 
         private async Task DisplayActionSheet_PressButton_UsingAction(string text)
         {
