@@ -15,27 +15,27 @@ namespace Prism.Mvvm
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// Checks if a property already matches a desired value. Sets the property and
-        /// notifies listeners only when necessary.
-        /// </summary>
-        /// <typeparam name="T">Type of the property.</typeparam>
-        /// <param name="storage">Reference to a property with both getter and setter.</param>
-        /// <param name="value">Desired value for the property.</param>
-        /// <param name="propertyName">Name of the property used to notify listeners. This
-        /// value is optional and can be provided automatically when invoked from compilers that
-        /// support CallerMemberName.</param>
-        /// <returns>True if the value was changed, false if the existing value matched the
-        /// desired value.</returns>
-        //protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        //{
-        //    if (Equals(storage, value)) return false;
+		/// <summary>
+		/// Checks if a property already matches a desired value. Sets the property and
+		/// notifies listeners only when necessary.
+		/// </summary>
+		/// <typeparam name="T">Type of the property.</typeparam>
+		/// <param name="storage">Reference to a property with both getter and setter.</param>
+		/// <param name="value">Desired value for the property.</param>
+		/// <param name="propertyName">Name of the property used to notify listeners. This
+		/// value is optional and can be provided automatically when invoked from compilers that
+		/// support CallerMemberName.</param>
+		/// <returns>True if the value was changed, false if the existing value matched the
+		/// desired value.</returns>
+		protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+		{
+			if (Equals(storage, value)) return false;
 
-        //    storage = value;
-        //    RaisePropertyChanged(propertyName);
+			storage = value;
+			RaisePropertyChanged(propertyName);
 
-        //    return true;
-        //}
+			return true;
+		}
 
 		/// <summary>
 		/// Checks if a property already matches a desired value. Sets the property and
@@ -50,7 +50,7 @@ namespace Prism.Mvvm
 		/// <param name="onChanged">Action that is called after the property value has been changed.</param>
 		/// <returns>True if the value was changed, false if the existing value matched the
 		/// desired value.</returns>
-		protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null, Action onChanged = null)
+		protected virtual bool SetProperty<T>(ref T storage, T value, Action onChanged, [CallerMemberName] string propertyName = null)
 		{
 			if (Equals(storage, value)) return false;
 
