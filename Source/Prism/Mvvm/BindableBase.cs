@@ -75,20 +75,6 @@ namespace Prism.Mvvm
 		}
 
 		/// <summary>
-		/// Raises this object's PropertyChanged event for each of the properties.
-		/// </summary>
-		/// <param name="propertyNames">The properties that have a new value.</param>
-		protected void RaisePropertyChanged(params string[] propertyNames)
-		{
-			if (propertyNames == null) throw new ArgumentNullException(nameof(propertyNames));
-
-			foreach (var name in propertyNames)
-			{
-				RaisePropertyChanged(name);
-			}
-		}
-
-		/// <summary>
 		/// Notifies listeners that a property value has changed.
 		/// </summary>
 		/// <param name="propertyName">Name of the property used to notify listeners. This

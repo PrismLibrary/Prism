@@ -374,7 +374,7 @@ namespace Prism.Tests.Commands
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
-			RaisePropertyChanged();
+			RaisePropertyChanged(null);
 
             Assert.True(canExecuteChangedRaised);
         }
@@ -518,7 +518,7 @@ namespace Prism.Tests.Commands
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
-            RaisePropertyChanged();
+            RaisePropertyChanged(null);
 
             Assert.True(canExecuteChangedRaised);
         }
@@ -532,7 +532,7 @@ namespace Prism.Tests.Commands
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
-			RaisePropertyChanged();
+			RaisePropertyChanged(null);
 
             Assert.False(canExecuteChangedRaised);
         }
