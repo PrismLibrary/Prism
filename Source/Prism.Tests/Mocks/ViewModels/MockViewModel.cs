@@ -24,7 +24,7 @@ namespace Prism.Tests.Mocks.ViewModels
 
         internal void InvokeOnPropertyChanged()
         {
-            this.OnPropertyChanged(() => this.MockProperty);
+			RaisePropertyChanged(nameof(MockProperty));
         }
     }
 }
