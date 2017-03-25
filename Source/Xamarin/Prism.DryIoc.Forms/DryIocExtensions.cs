@@ -36,7 +36,10 @@ namespace Prism.DryIoc
         public static void RegisterTypeForNavigation(this IContainer container, Type viewType, string name)
         {
             PageNavigationRegistry.Register(name, viewType);
-            container.Register(typeof(object), viewType, serviceKey: name);
+            container.Register(typeof(object), 
+                               viewType, 
+                               made: Made.Of(FactoryMethod.ConstructorWithResolvableArguments), 
+                               serviceKey: name);
         }
 
         /// <summary>
