@@ -14,7 +14,7 @@ namespace Prism.Regions
     /// and filters it to display an <see cref="INotifyCollectionChanged"/> collection of
     /// <see cref="object"/> elements (the items which the <see cref="ItemMetadata"/> wraps).
     /// </summary>
-    public partial class ViewsCollection : IViewsCollection
+    public class ViewsCollection : IViewsCollection
     {
         private readonly ObservableCollection<ItemMetadata> subjectCollection;
 
