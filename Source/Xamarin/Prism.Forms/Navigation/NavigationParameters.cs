@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace Prism.Navigation
 {
@@ -167,6 +168,8 @@ namespace Prism.Navigation
                         return default(T);
                     else if (kvp.Value.GetType() == typeof(T))
                         return (T)kvp.Value;
+                    else if (typeof(T).GetTypeInfo().IsAssignableFrom(kvp.Value.GetType().GetTypeInfo()))
+                        return (T)kvp.Value;
                     else
                         return (T)Convert.ChangeType(kvp.Value, typeof(T));
                 }
@@ -191,6 +194,8 @@ namespace Prism.Navigation
                     if (kvp.Value == null)
                         value = default(T);
                     else if (kvp.Value.GetType() == typeof(T))
+                        value = (T)kvp.Value;
+                    else if (typeof(T).GetTypeInfo().IsAssignableFrom(kvp.Value.GetType().GetTypeInfo()))
                         value = (T)kvp.Value;
                     else
                         value = (T)Convert.ChangeType(kvp.Value, typeof(T));
@@ -220,6 +225,8 @@ namespace Prism.Navigation
                     if (kvp.Value == null)
                         values.Add(default(T));
                     else if (kvp.Value.GetType() == typeof(T))
+                        values.Add((T)kvp.Value);
+                    else if (typeof(T).GetTypeInfo().IsAssignableFrom(kvp.Value.GetType().GetTypeInfo()))
                         values.Add((T)kvp.Value);
                     else
                         values.Add((T)Convert.ChangeType(kvp.Value, typeof(T)));
