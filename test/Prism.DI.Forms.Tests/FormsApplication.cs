@@ -1,6 +1,4 @@
-﻿#if TEST
-
-using System;
+﻿using System;
 using Xamarin.Forms;
 
 namespace Prism
@@ -49,5 +47,3 @@ namespace Prism
         protected virtual void OnSleep() { }
     }
 }
-
-#endif

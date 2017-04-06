@@ -14,9 +14,6 @@ using Xunit;
 using Autofac;
 using Autofac.Core.Registration;
 using Prism.DI.Forms.Tests;
-#if TEST
-using Application = Prism.FormsApplication;
-#endif
 
 namespace Prism.Autofac.Forms.Tests
 {

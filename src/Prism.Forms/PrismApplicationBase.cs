@@ -4,9 +4,6 @@ using Prism.Modularity;
 using Prism.Navigation;
 using System.Linq;
 using Xamarin.Forms;
-#if TEST
-using Application = Prism.FormsApplication;
-#endif
 
 namespace Prism
 {
