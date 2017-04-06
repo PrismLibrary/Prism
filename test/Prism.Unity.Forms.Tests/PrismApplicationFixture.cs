@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Prism.Common;
@@ -13,9 +12,6 @@ using Prism.Navigation;
 using Xamarin.Forms;
 using Xunit;
 using Prism.DI.Forms.Tests;
-#if TEST
-using Application = Prism.FormsApplication;
-#endif
 
 namespace Prism.Unity.Forms.Tests
 {

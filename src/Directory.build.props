@@ -7,6 +7,7 @@
     <PackageProjectUrl>http://prismlibrary.com/</PackageProjectUrl>
     <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
+    <PackageReleaseNotes>https://github.com/PrismLibrary/Prism/wiki/Release-Notes-$(fullBuildSemanticVersion)</PackageReleaseNotes>
     <Copyright>Copyright 2017</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Version>$(fullBuildSemanticVersion)</Version>

@@ -1,8 +1,7 @@
 ﻿$nugetOutputDirectory = 'packages\'
 $nuspecDirectory = 'nuspecs\'
 $srcDirectory = 'src\'
-$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.3.0-Pre2'
-$xamarinFormsVersion = '2.3.3.193'
+$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-6.3.0'
 $nugetFileName = 'nuget.exe'
 
 if (!(Test-Path $nugetFileName))
