@@ -5,8 +5,6 @@
     <PackageTargetFallback>$(PackageTargetFallback);portable-win+net45+wp8+win81+wpa8</PackageTargetFallback>
     <Description>Use these extensions to build Xamarin.Forms applications with Prism and Autofac.</Description>
     <PackageTags>prism mvvm wpf uwp autofac dependency injection di, xamarin, xamarin.forms</PackageTags>
-    <FileVersion>6.3.0.0</FileVersion>
-    <Version>6.3.0-pre2</Version>
   </PropertyGroup>
 
   <ItemGroup>

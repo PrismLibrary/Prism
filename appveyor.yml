@@ -47,19 +47,19 @@ test_script:
   - vstest.console /logger:Appveyor test\Prism.Mef.Wpf.Tests\bin\Release\Prism.Mef.Wpf.Tests.dll
   - vstest.console /logger:Appveyor test\Prism.StructureMap.Wpf.Tests\bin\Release\Prism.StructureMap.Wpf.Tests.dll
   - vstest.console /logger:Appveyor test\Prism.Unity.Wpf.Tests\bin\Release\Prism.Unity.Wpf.Tests.dll
-  - dotnet test test\Prism.Forms.Tests\Prism.Forms.Tests.csproj
-  - dotnet test test\Prism.Autofac.Forms.Tests\Prism.Autofac.Forms.Tests.csproj
-  - dotnet test test\Prism.DryIoc.Forms.Tests\Prism.DryIoc.Forms.Tests.csproj
-  - dotnet test test\Prism.Unity.Forms.Tests\Prism.Unity.Forms.Tests.csproj
+  #- dotnet test test\Prism.Forms.Tests\Prism.Forms.Tests.csproj
+  #- dotnet test test\Prism.Autofac.Forms.Tests\Prism.Autofac.Forms.Tests.csproj
+  #- dotnet test test\Prism.DryIoc.Forms.Tests\Prism.DryIoc.Forms.Tests.csproj
+  #- dotnet test test\Prism.Unity.Forms.Tests\Prism.Unity.Forms.Tests.csproj
   # UWP tests are not currently not supported by appveyor: https://github.com/appveyor/ci/issues/393
 
 after_test:
   - dotnet pack src\Prism\ -c Release
-  - dotnet pack src\Prism.Forms\ -c Release
-  - dotnet pack src\Prism.Autofac.Forms\ -c Release
-  - dotnet pack src\Prism.DryIoc.Forms\ -c Release
-  - dotnet pack src\Prism.Ninject.Forms\ -c Release
-  - dotnet pack src\Prism.Unity.Forms\ -c Release
+  #- dotnet pack src\Prism.Forms\ -c Release
+  #- dotnet pack src\Prism.Autofac.Forms\ -c Release
+  #- dotnet pack src\Prism.DryIoc.Forms\ -c Release
+  #- dotnet pack src\Prism.Ninject.Forms\ -c Release
+  #- dotnet pack src\Prism.Unity.Forms\ -c Release
   - powershell -f .\nuget.ps1
 
 artifacts:
