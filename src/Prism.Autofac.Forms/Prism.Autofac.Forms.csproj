@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.4.0" />
+    <PackageReference Include="Autofac" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
