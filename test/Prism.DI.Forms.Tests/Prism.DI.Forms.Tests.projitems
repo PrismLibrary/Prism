@@ -10,8 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConcreteTypeMock.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FormsApplication.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FormsDependencyService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Modules\ModuleMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\DependencyServiceMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\IDependencyServiceMock.cs" />

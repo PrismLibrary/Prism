@@ -7,6 +7,8 @@
     <PackageTags>prism, mvvm, uwp, DryIoc, dependency injection, di, xamarin, xamarin.forms</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|AnyCPU'" />
+
   <ItemGroup>
     <PackageReference Include="DryIoc" Version="2.10.5" />
   </ItemGroup>

@@ -7,6 +7,8 @@
     <PackageTags>prism mvvm uwp ninject dependency injection di, xamarin, xamarin.forms</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|AnyCPU'" />
+
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
     <PackageReference Include="Portable.Ninject" Version="3.3.1" />

@@ -11,6 +11,9 @@ using Prism.Navigation;
 using Xamarin.Forms;
 using Xunit;
 using Prism.DI.Forms.Tests;
+#if TEST
+using Application = Prism.FormsApplication;
+#endif
 
 namespace Prism.DryIoc.Forms.Tests
 {

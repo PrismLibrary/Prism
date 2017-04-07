@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if TEST
+
+using System;
 using System.Collections.Generic;
 
 namespace Prism
@@ -29,3 +31,5 @@ namespace Prism
         }
     }
 }
+
+#endif

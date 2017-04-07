@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 using Prism.Common;
 using Prism.Autofac.Forms.Tests.Mocks;
@@ -14,6 +13,9 @@ using Xunit;
 using Autofac;
 using Autofac.Core.Registration;
 using Prism.DI.Forms.Tests;
+#if TEST
+using Application = Prism.FormsApplication;
+#endif
 
 namespace Prism.Autofac.Forms.Tests
 {

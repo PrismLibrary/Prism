@@ -7,6 +7,8 @@
     <PackageTags>prism mvvm wpf uwp autofac dependency injection di, xamarin, xamarin.forms</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|AnyCPU'" />
+
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />
   </ItemGroup>
