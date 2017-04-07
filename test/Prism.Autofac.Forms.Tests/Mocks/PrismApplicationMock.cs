@@ -57,7 +57,9 @@ namespace Prism.Autofac.Forms.Tests.Mocks
             Container.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
             Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
 
+#if TEST
             FormsDependencyService.Register<IDependencyServiceMock>(new DependencyServiceMock());
+#endif
         }
 
         public INavigationService CreateNavigationServiceForPage()
