@@ -40,17 +40,17 @@ build:
   verbosity: minimal
 
 test_script:
-  - dotnet test test\Prism.Tests\Prism.Tests.csproj
+  - dotnet test test\Prism.Tests\Prism.Tests.csproj -c Test
   - vstest.console /logger:Appveyor test\Prism.Wpf.Tests\bin\Release\Prism.Wpf.Tests.dll
   - vstest.console /logger:Appveyor test\Prism.Autofac.Wpf.Tests\bin\Release\Prism.Autofac.Wpf.Tests.dll
   - vstest.console /logger:Appveyor test\Prism.DryIoc.Wpf.Tests\bin\Release\Prism.DryIoc.Wpf.Tests.dll
   - vstest.console /logger:Appveyor test\Prism.Mef.Wpf.Tests\bin\Release\Prism.Mef.Wpf.Tests.dll
   - vstest.console /logger:Appveyor test\Prism.StructureMap.Wpf.Tests\bin\Release\Prism.StructureMap.Wpf.Tests.dll
   - vstest.console /logger:Appveyor test\Prism.Unity.Wpf.Tests\bin\Release\Prism.Unity.Wpf.Tests.dll
-  #- dotnet test test\Prism.Forms.Tests\Prism.Forms.Tests.csproj
-  #- dotnet test test\Prism.Autofac.Forms.Tests\Prism.Autofac.Forms.Tests.csproj
-  #- dotnet test test\Prism.DryIoc.Forms.Tests\Prism.DryIoc.Forms.Tests.csproj
-  #- dotnet test test\Prism.Unity.Forms.Tests\Prism.Unity.Forms.Tests.csproj
+  #- dotnet test test\Prism.Forms.Tests\Prism.Forms.Tests.csproj -c Test
+  #- dotnet test test\Prism.Autofac.Forms.Tests\Prism.Autofac.Forms.Tests.csproj -c Test
+  #- dotnet test test\Prism.DryIoc.Forms.Tests\Prism.DryIoc.Forms.Tests.csproj -c Test
+  #- dotnet test test\Prism.Unity.Forms.Tests\Prism.Unity.Forms.Tests.csproj -c Test
   # UWP tests are not currently not supported by appveyor: https://github.com/appveyor/ci/issues/393
 
 after_test:
