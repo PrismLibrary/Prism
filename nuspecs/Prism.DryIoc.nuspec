@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Prism.DryIoc</id>
+    <version>$version$</version>
+    <title>DryIoc for Prism 6</title>
+    <authors>Brian Lagunas, Brian Noyes</authors>
+    <owners>Brian Lagunas, Brian Noyes</owners>
+    <licenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</licenseUrl>
+    <projectUrl>http://prismlibrary.com/</projectUrl>
+    <iconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Use these extensions to build Prism applications based on DryIoc.</description>
+    <summary>DryIoc extensions for Prism.</summary>
+    <releaseNotes>$releaseNotes$</releaseNotes>
+    <language>en-US</language>
+    <tags>prism mvvm xaml DryIoc</tags>
+    <dependencies>
+      
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="DryIoc.dll" version="2.10.1" />
+        <dependency id="DryIoc.CommonServiceLocator.dll" version="2.2.1" />
+        <dependency id="Prism.Wpf" version="$wpfVersion$" />
+      </group>
+      
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\src\Prism.DryIoc.Wpf\bin\Release\Prism.DryIoc.Wpf.*" target="lib\net45\" exclude="**\*.pdb" />
+  </files>
+</package>
