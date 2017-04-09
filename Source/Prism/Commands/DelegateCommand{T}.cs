@@ -100,7 +100,7 @@ namespace Prism.Commands
 
         protected override bool CanExecute(object parameter)
         {
-            return CanExecute((T)parameter);
+            return (parameter is null || parameter is T) && CanExecute((T)parameter);            
         }
 
         /// <summary>
