@@ -82,16 +82,7 @@ namespace Prism.Mef.Modularity
                 }
                 else
                 {
-                    string path;
-
-                    if (moduleInfo.Ref.StartsWith(RefFilePrefix + "/", StringComparison.Ordinal))
-                    {
-                        path = moduleInfo.Ref.Substring(RefFilePrefix.Length + 1);
-                    }
-                    else
-                    {
-                        path = moduleInfo.Ref.Substring(RefFilePrefix.Length);
-                    }
+                    string path = uri.LocalPath;
 
                     long fileSize = -1L;
                     if (File.Exists(path))
