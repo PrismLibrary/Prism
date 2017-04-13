@@ -5,6 +5,7 @@ using Prism.Logging;
 using Prism.Navigation;
 using Xamarin.Forms;
 
+// ReSharper disable once CheckNamespace
 namespace Prism.Autofac.Navigation
 {
     /// <summary>
@@ -12,7 +13,7 @@ namespace Prism.Autofac.Navigation
     /// </summary>
     public class AutofacPageNavigationService : PageNavigationService
     {
-        readonly IContainer _container;
+        private IContainer _container;
 
         /// <summary>
         /// Create a new instance of <see cref="AutofacPageNavigationService"/> with <paramref name="container"/>
@@ -26,10 +27,15 @@ namespace Prism.Autofac.Navigation
             _container = container;
         }
 
+        internal void SetContainer(IContainer container)
+        {
+            _container = container;
+        }
+
         /// <summary>
-        /// Resolve a <see cref="Page"/> from <see cref="_container"/> for <paramref name="segmentName"/>
+        /// Resolve a <see cref="Page"/> from <see cref="_container"/> for <paramref name="name"/>
         /// </summary>
-        /// <param name="segmentName">Page to resolve</param>
+        /// <param name="name">Page to resolve</param>
         /// <returns>A <see cref="Page"/></returns>
         protected override Page CreatePage(string name)
         {

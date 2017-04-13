@@ -46,6 +46,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AutofacExtensions.cs" />
+    <Compile Include="Immutable\AutofacContainer.cs" />
+    <Compile Include="Immutable\IAutofacContainer.cs" />
+    <Compile Include="Immutable\IPreRegisterTypes.cs" />
+    <Compile Include="Immutable\RuntimeComponentRegistry.cs" />
     <Compile Include="IPlatformInitializer.cs" />
     <Compile Include="Modularity\AutofacModuleInitializer.cs" />
     <Compile Include="Navigation\AutofacPageNavigationService.cs" />

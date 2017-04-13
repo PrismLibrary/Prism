@@ -5,17 +5,15 @@ using Prism.DI.Forms.Tests.Mocks.Views;
 using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
-using Autofac;
 
 namespace Prism.Autofac.Forms.Tests.Mocks
 {
     public class PrismApplicationMock : PrismApplication
     {
         public PrismApplicationMock()
-        {
-        }
+        { }
 
-        public PrismApplicationMock(Page startPage) : this()
+        public PrismApplicationMock(Page startPage)
         {
             Current.MainPage = startPage;
         }
@@ -41,23 +39,21 @@ namespace Prism.Autofac.Forms.Tests.Mocks
 
         protected override void RegisterTypes()
         {
-            var builder = new ContainerBuilder();
+            FormsDependencyService.Register<IDependencyServiceMock>(new DependencyServiceMock());
 
-            builder.RegisterType<ServiceMock>().As<IServiceMock>();
-            builder.RegisterType<AutowireViewModel>();
-            builder.RegisterType<ViewModelAMock>();
-            builder.Register(ctx => new ViewModelBMock()).Named<ViewModelBMock>(ViewModelBMock.Key);
-            builder.RegisterType<ConstructorArgumentViewModel>();
-            builder.RegisterType<ModuleMock>().SingleInstance();
-
-            builder.Update(Container);
+            Container.RegisterType<ServiceMock>().As<IServiceMock>();
+            Container.RegisterType<AutowireViewModel>();
+            Container.RegisterType<ViewModelAMock>();
+            Container.Register(ctx => new ViewModelBMock()).Named<ViewModelBMock>(ViewModelBMock.Key);
+            Container.RegisterType<ConstructorArgumentViewModel>();
+            Container.RegisterType<ModuleMock>().SingleInstance();
+            Container.Register(ctx => FormsDependencyService.Get<IDependencyServiceMock>())
+                .As<IDependencyServiceMock>();
 
             Container.RegisterTypeForNavigation<ViewMock>("view");
             Container.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
             Container.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
             Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
-
-            FormsDependencyService.Register<IDependencyServiceMock>(new DependencyServiceMock());
         }
 
         public INavigationService CreateNavigationServiceForPage()

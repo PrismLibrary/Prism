@@ -65,7 +65,8 @@ namespace Prism.Autofac.Forms
         /// <param name="otherView">Other Platform Specific View Type</param>
         /// <param name="windowsView">Windows Specific View Type</param>
         /// <param name="winPhoneView">Windows Phone Specific View Type</param>
-        /// <returns><see cref="IUnityContainer"/></returns>
+        /// <returns><see cref="IContainer"/></returns>
+        // ReSharper disable once InconsistentNaming
         public static IContainer RegisterTypeForNavigationOnPlatform<TView, TViewModel>(this IContainer container, string name = null, Type androidView = null, Type iOSView = null, Type otherView = null, Type windowsView = null, Type winPhoneView = null)
             where TView : Page
             where TViewModel : class
@@ -109,7 +110,7 @@ namespace Prism.Autofac.Forms
         /// <param name="desktopView">Desktop Specific View Type</param>
         /// <param name="tabletView">Tablet Specific View Type</param>
         /// <param name="phoneView">Phone Specific View Type</param>
-        /// <returns><see cref="IUnityContainer"/></returns>
+        /// <returns><see cref="IContainer"/></returns>
         public static IContainer RegisterTypeForNavigationOnIdiom<TView, TViewModel>(this IContainer container, string name = null, Type desktopView = null, Type tabletView = null, Type phoneView = null)
             where TView : Page
             where TViewModel : class
@@ -151,6 +152,7 @@ namespace Prism.Autofac.Forms
         /// after the container is already created.
         /// Uses a new ContainerBuilder instance to update the Container.
         /// </summary>
+        /// <param name="container">The container to register type with</param>
         /// <param name="type">The type to register.</param>
         /// <param name="name">The name you will use to resolve the component in future.</param>
         /// <param name="registerAsSingleton">Registers the type as a singleton.</param>
@@ -162,16 +164,27 @@ namespace Prism.Autofac.Forms
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
 
-            if (!container.IsRegistered(type))
+            if (container is IAutofacContainer afContainer)
             {
-                var containerUpdater = new ContainerBuilder();
+                //TODO: In the future, the use of IsTypeRegistered() should be eliminated and these should be done as conditional 
+                //  registrations instead: http://docs.autofac.org/en/latest/register/registration.html#conditional-registration
+                //  But conditional registrations are not available until Autofac 4.4.0, and we are only requiring 3.5.2 at this time
 
-                if (registerAsSingleton)
-                    containerUpdater.RegisterType(type).Named<Page>(name).SingleInstance();
-                else
-                    containerUpdater.RegisterType(type).Named<Page>(name);
-
-                containerUpdater.Update(container);
+                if (!afContainer.IsTypeRegistered(type))
+                {
+                    if (registerAsSingleton)
+                    {
+                        afContainer.RegisterType(type).Named<Page>(name).SingleInstance();
+                        //With conditional registration in Autofac 4.4.0 and higher, it will look something like this:
+                        //afContainer.Builder.RegisterType(type).Named<Page>(name).SingleInstance().IfNotRegistered(type);
+                    }
+                    else
+                    {
+                        afContainer.RegisterType(type).Named<Page>(name);
+                        //With conditional registration in Autofac 4.4.0 and higher, it will look something like this:
+                        //afContainer.Builder.RegisterType(type).Named<Page>(name).IfNotRegistered(type);
+                    }
+                }
             }
         }
     }
