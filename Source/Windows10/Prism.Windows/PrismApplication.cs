@@ -439,10 +439,6 @@ namespace Prism.Windows
                 NavigationService.GoBack();
                 e.Handled = true;
             }
-            else if (DeviceGestureService.IsHardwareBackButtonPresent && e.IsHardwareButton)
-            {
-                Exit();
-            }
         }
 
         /// <summary>
