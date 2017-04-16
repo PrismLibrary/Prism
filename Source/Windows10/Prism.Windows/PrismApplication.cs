@@ -434,14 +434,17 @@ namespace Prism.Windows
         /// <param name="e"></param>
         private void OnGoBackRequested(object sender, DeviceGestureEventArgs e)
         {
-            if (NavigationService.CanGoBack())
+            if (!e.Handled)
             {
-                NavigationService.GoBack();
-                e.Handled = true;
-            }
-            else if (DeviceGestureService.IsHardwareBackButtonPresent && e.IsHardwareButton)
-            {
-                Exit();
+                if (NavigationService.CanGoBack())
+                {
+                    NavigationService.GoBack();
+                    e.Handled = true;
+                }
+                else if (DeviceGestureService.IsHardwareBackButtonPresent && e.IsHardwareButton)
+                {
+                    Exit();
+                }
             }
         }
 
