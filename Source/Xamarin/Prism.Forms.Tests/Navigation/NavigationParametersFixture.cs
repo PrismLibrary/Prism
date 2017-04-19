@@ -230,8 +230,48 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<int>(result[1]);
             Assert.IsType<int>(result[2]);
         }
+
+        [Fact]
+        public void GetValueUseParentClassAsTypeParameter()
+        {
+            var parameters = new NavigationParameters();
+            parameters.Add("id", new Child());
+
+            Assert.NotNull(parameters.GetValue<Person>("id"));
+        }
+
+        [Fact]
+        public void TryGetValueUseParentClassAsTypeParameter()
+        {
+            var parameters = new NavigationParameters();
+            parameters.Add("id", new Child());
+
+            Person value;
+            var result = parameters.TryGetValue<Person>("id", out value);
+            Assert.True(result);
+            Assert.IsType<Child>(value);
+        }
+
+        [Fact]
+        public void GetValuesUseParentClassAsTypeParameter()
+        {
+            var parameters = new NavigationParameters();
+            parameters.Add("id", new Child());
+            parameters.Add("id", new Child());
+            parameters.Add("id", new Person());
+
+            var result = parameters.GetValues<Person>("id").ToArray();
+
+            Assert.Equal(3, result.Count());
+            Assert.NotNull(result[0]);
+            Assert.NotNull(result[1]);
+            Assert.NotNull(result[2]);
+        }
     }
 
     public class Person
+    { }
+
+    public class Child : Person
     { }
 }
