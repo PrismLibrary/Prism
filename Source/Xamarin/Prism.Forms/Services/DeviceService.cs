@@ -45,7 +45,6 @@ namespace Prism.Services
 					default:
 						return RuntimePlatform.Unknown;
 				}
-
 			}
 		}
 
