@@ -8,40 +8,48 @@ namespace Prism.Services
     /// </summary>
     public interface IDeviceService
     {
-        /// <summary>
-        /// Gets the kind of device that Xamarin.Forms is currently working on.
-        /// </summary>
-        TargetIdiom Idiom { get; }
+		/// <summary>
+		/// Gets the kind of device that Xamarin.Forms is currently working on.
+		/// </summary>
+		TargetIdiom Idiom { get; }
 
-        /// <summary>
-        /// Gets the Platform (OS) that Xamarin.Forms is working on.
-        /// </summary>
-        TargetPlatform Platform { get; }
+		/// <summary>
+		/// Gets the Platform (OS) that Xamarin.Forms is working on.
+		/// </summary>
+		[Obsolete("Use RuntimePlatform instead")]
+		TargetPlatform Platform { get; }
 
-        /// <summary>
-        /// Invokes an action on the device main UI thread.
-        /// </summary>
-        /// <param name="action">The Action to invoke</param>
-        void BeginInvokeOnMainThread(Action action);
+		/// <summary>
+		/// Gets the Platform (OS) that Xamarin.Forms is working on.
+		/// </summary>
+		RuntimePlatform RuntimePlatform { get; }
 
-        /// <summary>
-        /// Executes different actions depending on which Platform (OS) that Xamarin.Forms is working.
-        /// </summary>
-        /// <param name="iOS">Action to execute when running on iOS</param>
-        /// <param name="android">Action to execute when running on Android</param>
-        /// <param name="winPhone">Action to execute when running on WinPhone</param>
-        /// <param name="defaultAction">Action to execute if no Action was provided for the current Platform (OS)</param>
-        void OnPlatform(Action iOS = null, Action android = null, Action winPhone = null, Action defaultAction = null);
+		/// <summary>
+		/// Invokes an action on the device main UI thread.
+		/// </summary>
+		/// <param name="action">The Action to invoke</param>
+		void BeginInvokeOnMainThread(Action action);
 
-        /// <summary>
-        /// Returns different values depending on the Platform (OS) that Xamarin.Forms is working.
-        /// </summary>
-        /// <typeparam name="T">Type of value to be returned</typeparam>
-        /// <param name="iOS">The value for iOS</param>
-        /// <param name="android">The value for Android</param>
-        /// <param name="winPhone">The value for WinPhone</param>
-        /// <returns>The value for the current Platform (OS)</returns>
-        T OnPlatform<T>(T iOS, T android, T winPhone);
+		/// <summary>
+		/// Executes different actions depending on which Platform (OS) that Xamarin.Forms is working.
+		/// </summary>
+		/// <param name="iOS">Action to execute when running on iOS</param>
+		/// <param name="android">Action to execute when running on Android</param>
+		/// <param name="winPhone">Action to execute when running on WinPhone</param>
+		/// <param name="defaultAction">Action to execute if no Action was provided for the current Platform (OS)</param>
+		[Obsolete("Use switch(RuntimePlatform) instead.")]
+		void OnPlatform(Action iOS = null, Action android = null, Action winPhone = null, Action defaultAction = null);
+
+		/// <summary>
+		/// Returns different values depending on the Platform (OS) that Xamarin.Forms is working.
+		/// </summary>
+		/// <typeparam name="T">Type of value to be returned</typeparam>
+		/// <param name="iOS">The value for iOS</param>
+		/// <param name="android">The value for Android</param>
+		/// <param name="winPhone">The value for WinPhone</param>
+		/// <returns>The value for the current Platform (OS)</returns>
+		[Obsolete("Use switch(RuntimePlatform) instead.")]
+		T OnPlatform<T>(T iOS, T android, T winPhone);
 
         /// <summary>
         /// Request the device open a Uri.
