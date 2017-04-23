@@ -25,18 +25,27 @@ namespace Prism.Unity
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                ParameterOverrides overrides = null;
-
                 var page = view as Page;
-                if (page != null)
+                if (page == null)
                 {
-                    overrides = new ParameterOverrides
-                    {
-                        { "navigationService", CreateNavigationService(page) }
-                    };
+                    return Container.Resolve(type);
                 }
 
-                return Container.Resolve(type, overrides);
+                var navService = CreateNavigationService(page);
+                var overrides = new ParameterOverrides
+                {
+                    { "navigationService", navService }
+                };
+                var dependencyOverride = new DependencyOverrides()
+                {
+                    { typeof(INavigationService), navService }
+                };
+                var propertyOverrides = new PropertyOverrides()
+                {
+                    {"navigationService", navService}
+                };
+
+                return Container.Resolve(type, overrides, dependencyOverride, propertyOverrides);
             });
         }
 
