@@ -54,6 +54,17 @@ namespace Prism.Interactivity
                 typeof(bool),
                 typeof(PopupWindowAction),
                 new PropertyMetadata(null));
+                
+        /// <summary>
+        /// Determines if the content should be initially shown centered over the window of the view that raised the interaction request or not.
+        /// Overrides CenterOverAssociatedObject
+        /// </summary>
+        public static readonly DependencyProperty CenterOverWindowProperty =
+            DependencyProperty.Register(
+                "CenterOverWindow",
+                typeof(bool),
+                typeof(PopupWindowAction),
+                new PropertyMetadata(null));        
 
         /// <summary>
         /// If set, applies this WindowStartupLocation to the child window.
@@ -110,6 +121,15 @@ namespace Prism.Interactivity
             get { return (bool)GetValue(CenterOverAssociatedObjectProperty); }
             set { SetValue(CenterOverAssociatedObjectProperty, value); }
         }
+        
+        /// <summary>
+        /// Gets or sets if the window will be initially shown centered over the view that raised the interaction request or not.
+        /// </summary>
+        public bool CenterOverWindow
+        {
+            get { return (bool)GetValue(CenterOverWindowProperty); }
+            set { SetValue(CenterOverWindowProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the startup location of the Window.
@@ -161,7 +181,7 @@ namespace Prism.Interactivity
                 };
             wrapperWindow.Closed += handler;
 
-            if (this.CenterOverAssociatedObject && this.AssociatedObject != null)
+            if ((this.CenterOverAssociatedObject || this.CenterOverWindow) && this.AssociatedObject != null)
             {
                 // If we should center the popup over the parent window we subscribe to the SizeChanged event
                 // so we can change its position after the dimensions are set.
@@ -181,7 +201,7 @@ namespace Prism.Interactivity
                             return;
                         }
 
-                        FrameworkElement view = this.AssociatedObject;
+                        FrameworkElement view = this.CenterOverWindow ? wrapperWindow.Owner : this.AssociatedObject;
 
                         // Position is the top left position of the view from which the request was initiated.
                         // On multiple monitors, if the X or Y coordinate is negative it represent that the monitor from which
