@@ -219,7 +219,8 @@ namespace Prism.Windows
         {
             return Activator.CreateInstance(type);
         }
-        /// <summary> Invoked when the application is .
+
+        /// <summary> Invoked when the application is activated via ShareTarget.
         /// OnShareTargetActivated is the entry point for an application when it is activated through sharing.
         /// Call <see cref="OnActivated"/> to bootstrap the prism application.
         /// </summary>
@@ -229,6 +230,7 @@ namespace Prism.Windows
             base.OnShareTargetActivated(args);
             OnActivated(args);
         }
+
         /// <summary>
         /// OnFileActivated is the entry point for an application when it is launched and the ActivationKind is File.
         /// Call <see cref="OnActivated"/> to bootstrap the prism application.
