@@ -374,7 +374,7 @@ namespace Prism.Tests.Commands
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
-            RaisePropertyChanged(null);
+			RaisePropertyChanged(null);
 
             Assert.True(canExecuteChangedRaised);
         }
@@ -388,53 +388,9 @@ namespace Prism.Tests.Commands
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
-            RaisePropertyChanged(null);
+			RaisePropertyChanged(null);
 
             Assert.False(canExecuteChangedRaised);
-        }
-
-        [Fact]
-        public void NonGenericDelegateCommandShouldObserveOneComplexProperty()
-        {
-            bool canExecuteChangedRaised = false;
-
-            var command = new DelegateCommand(() => { }).ObservesProperty(ComplexProperty, p => p.IntProperty);
-
-            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
-
-            ComplexProperty.IntProperty = 10;
-
-            Assert.True(canExecuteChangedRaised);
-        }
-
-        [Fact]
-        public void NonGenericDelegateCommandShouldObserveMultipleComplexProperties()
-        {
-            bool canExecuteChangedRaised = false;
-
-            var command = new DelegateCommand(() => { }).ObservesProperty(ComplexProperty, p => p.IntProperty)
-                .ObservesProperty(ComplexProperty, p => p.BoolProperty);
-
-            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
-
-            ComplexProperty.IntProperty = 10;
-
-            Assert.True(canExecuteChangedRaised);
-
-            canExecuteChangedRaised = false;
-
-            ComplexProperty.BoolProperty = true;
-
-            Assert.True(canExecuteChangedRaised);
-        }
-
-        [Fact]
-        public void NonGenericDelegateCommandShouldNotObserveDuplicateComplexProperties()
-        {
-            Assert.Throws<ArgumentException>(() =>
-            {
-                DelegateCommand command = new DelegateCommand(() => { }).ObservesProperty(ComplexProperty, p => p.IntProperty).ObservesProperty(ComplexProperty, p => p.IntProperty);
-            });
         }
 
         [Fact]
@@ -576,54 +532,12 @@ namespace Prism.Tests.Commands
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
-            RaisePropertyChanged(null);
+			RaisePropertyChanged(null);
 
             Assert.False(canExecuteChangedRaised);
         }
 
-        [Fact]
-        public void GenericDelegateCommandShouldObserveOneComplexProperty()
-        {
-            bool canExecuteChangedRaised = false;
 
-            var command = new DelegateCommand<object>((o) => { }).ObservesProperty(ComplexProperty, p => p.IntProperty);
-
-            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
-
-            ComplexProperty.IntProperty = 10;
-
-            Assert.True(canExecuteChangedRaised);
-        }
-
-        [Fact]
-        public void GenericDelegateCommandShouldObserveMultipleComplexProperties()
-        {
-            bool canExecuteChangedRaised = false;
-
-            var command = new DelegateCommand<object>((o) => { }).ObservesProperty(ComplexProperty, p => p.IntProperty)
-                .ObservesProperty(ComplexProperty, p => p.BoolProperty);
-
-            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
-
-            ComplexProperty.IntProperty = 10;
-
-            Assert.True(canExecuteChangedRaised);
-
-            canExecuteChangedRaised = false;
-
-            ComplexProperty.BoolProperty = true;
-
-            Assert.True(canExecuteChangedRaised);
-        }
-
-        [Fact]
-        public void GenericDelegateCommandShouldNotObserveDuplicateComplexProperties()
-        {
-            Assert.Throws<ArgumentException>(() =>
-            {
-                DelegateCommand<object> command = new DelegateCommand<object>((o) => { }).ObservesProperty(ComplexProperty, p => p.IntProperty).ObservesProperty(ComplexProperty, p => p.IntProperty);
-            });
-        }
 
         private bool _boolProperty;
         public bool BoolProperty
@@ -637,30 +551,6 @@ namespace Prism.Tests.Commands
         {
             get { return _intProperty; }
             set { SetProperty(ref _intProperty, value); }
-        }
-
-        public class ComplexType : BindableBase
-        {
-            private bool _boolProperty;
-            public bool BoolProperty
-            {
-                get { return _boolProperty; }
-                set { SetProperty(ref _boolProperty, value); }
-            }
-
-            private int _intProperty;
-            public int IntProperty
-            {
-                get { return _intProperty; }
-                set { SetProperty(ref _intProperty, value); }
-            }
-        }
-
-        private ComplexType _complexProperty = new ComplexType();
-        public ComplexType ComplexProperty
-        {
-            get { return _complexProperty; }
-            set { SetProperty(ref _complexProperty, value); }
         }
 
         class CanExecutChangeHandler

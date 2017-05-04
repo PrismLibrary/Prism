@@ -116,20 +116,6 @@ namespace Prism.Commands
         }
 
         /// <summary>
-        /// Observes a property that implements INotifyPropertyChanged, and automatically calls DelegateCommandBase.RaiseCanExecuteChanged on property changed notifications.
-        /// </summary>
-        /// <typeparam name="TType">The object type containing the property specified in the expression.</typeparam>
-        /// <typeparam name="TProp">The property type specified in the expression.</typeparam>
-        /// <param name="target">The object containing the property to observe</param>
-        /// <param name="propertyExpression">The property expression. Example: ObservesProperty(Person, p => p.FirstName).</param>
-        /// <returns>The current instance of DelegateCommand</returns>
-        public DelegateCommand<T> ObservesProperty<TType, TProp>(TType target, Expression<Func<TType, TProp>> propertyExpression)
-        {
-            ObservesPropertyInternal(target, propertyExpression);
-            return this;
-        }
-
-        /// <summary>
         /// Observes a property that is used to determine if this command can execute, and if it implements INotifyPropertyChanged it will automatically call DelegateCommandBase.RaiseCanExecuteChanged on property changed notifications.
         /// </summary>
         /// <param name="canExecuteExpression">The property expression. Example: ObservesCanExecute(() => PropertyName).</param>
