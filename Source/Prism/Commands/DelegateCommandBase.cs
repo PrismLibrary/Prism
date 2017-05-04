@@ -18,8 +18,8 @@ namespace Prism.Commands
 
         private SynchronizationContext _synchronizationContext;
 
-        readonly HashSet<string> _propertiesToObserve = new HashSet<string>();
-        private INotifyPropertyChanged _inpc;
+        private readonly HashSet<Tuple<object, string>> _propertiesToObserve = new HashSet<Tuple<object, string>>();
+        private readonly HashSet<INotifyPropertyChanged> _inpc = new HashSet<INotifyPropertyChanged>();
 
 
         /// <summary>
@@ -85,38 +85,58 @@ namespace Prism.Commands
         /// <param name="propertyExpression">The property expression. Example: ObservesProperty(() => PropertyName).</param>
         protected internal void ObservesPropertyInternal<T>(Expression<Func<T>> propertyExpression)
         {
-            AddPropertyToObserve(PropertySupport.ExtractPropertyName(propertyExpression));
-            HookInpc(propertyExpression.Body as MemberExpression);
+            var constantExpression = (propertyExpression?.Body as MemberExpression)?.Expression as ConstantExpression;
+            var objectToObserve = constantExpression?.Value;
+            ObservesPropertyInternal(objectToObserve, PropertySupport.ExtractPropertyName(propertyExpression));
         }
 
-        protected void HookInpc(MemberExpression expression)
+        protected internal void ObservesPropertyInternal<T, TProp>(T target, Expression<Func<T, TProp>> propertyExpression)
         {
-            if (expression == null)
-                return;
+            ObservesPropertyInternal(target, PropertySupport.ExtractPropertyName(propertyExpression));
+        }
 
-            if (_inpc == null)
+        private void ObservesPropertyInternal(object target, string propertyName)
+        {
+            AddPropertyToObserve(target, propertyName);
+            HookInpc(target);
+        }
+
+        protected void HookInpc(object target)
+        {
+            if (target == null)
+                throw new ArgumentNullException(nameof(target));
+
+            var notifyPropertyChangedObject = target as INotifyPropertyChanged;
+
+            if (notifyPropertyChangedObject == null)
+                throw new InvalidOperationException(string.Format("{0} object must implement INotifyPropertyChanged.", nameof(target)));
+
+            if (!_inpc.Contains(notifyPropertyChangedObject))
             {
-                var constantExpression = expression.Expression as ConstantExpression;
-                if (constantExpression != null)
-                {
-                    _inpc = constantExpression.Value as INotifyPropertyChanged;
-                    if (_inpc != null)
-                        _inpc.PropertyChanged += Inpc_PropertyChanged;
-                }
+                notifyPropertyChangedObject.PropertyChanged += Inpc_PropertyChanged;
+                _inpc.Add(notifyPropertyChangedObject);
             }
         }
 
-        protected void AddPropertyToObserve(string property)
+        protected void AddPropertyToObserve(object target, string property)
         {
-            if (_propertiesToObserve.Contains(property))
-                throw new ArgumentException(String.Format("{0} is already being observed.", property));
+            if (target == null)
+                throw new ArgumentNullException(nameof(target));
 
-            _propertiesToObserve.Add(property);
+            if (string.IsNullOrEmpty(property))
+                throw new ArgumentNullException(nameof(property));
+
+            var propertyToObserve = new Tuple<object, string>(target, property);
+
+            if (_propertiesToObserve.Contains(propertyToObserve))
+                throw new ArgumentException(String.Format("{0} of {1} is already being observed.", property, target.GetType().Name));
+
+            _propertiesToObserve.Add(propertyToObserve);
         }
 
         void Inpc_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (_propertiesToObserve.Contains(e.PropertyName) || (string.IsNullOrEmpty(e.PropertyName) && _propertiesToObserve.Count > 0))
+            if (_propertiesToObserve.Contains(new Tuple<object, string>(sender, e.PropertyName)) || (string.IsNullOrEmpty(e.PropertyName) && _propertiesToObserve.Count > 0))
             {
                 RaiseCanExecuteChanged();
             }

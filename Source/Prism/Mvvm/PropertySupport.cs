@@ -33,6 +33,27 @@ namespace Prism.Mvvm
         }
 
         /// <summary>
+        /// Extracts the property name from a property expression.
+        /// </summary>
+        /// <typeparam name="T">The object type containing the property specified in the expression.</typeparam>
+        /// <typeparam name="TProp">The property type specified in the expression.</typeparam>
+        /// <param name="propertyExpression">The property expression (e.g. p => p.PropertyName)</param>
+        /// <returns>The name of the property.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the <paramref name="propertyExpression"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when the expression is:<br/>
+        ///     Not a <see cref="MemberExpression"/><br/>
+        ///     The <see cref="MemberExpression"/> does not represent a property.<br/>
+        ///     Or, the property is static.
+        /// </exception>
+        public static string ExtractPropertyName<T, TProp>(Expression<Func<T, TProp>> propertyExpression)
+        {
+            if (propertyExpression == null)
+                throw new ArgumentNullException(nameof(propertyExpression));
+
+            return ExtractPropertyNameFromLambda(propertyExpression);
+        }
+
+        /// <summary>
         /// Extracts the property name from a LambdaExpression.
         /// </summary>
         /// <param name="expression">The LambdaExpression</param>
