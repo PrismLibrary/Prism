@@ -3,13 +3,14 @@ using System.Windows.Input;
 using Xunit;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Reflection;
 
 namespace Prism.Tests.Commands
 {
     /// <summary>
     /// Summary description for DelegateCommandFixture
     /// </summary>
-    public class DelegateCommandFixture : BindableBase
+    public class DelegateCommandFixture : TestPurposeBindableBase
     {
         [Fact]
         public void WhenConstructedWithGenericTypeOfObject_InitializesValues()
@@ -380,6 +381,26 @@ namespace Prism.Tests.Commands
         }
 
         [Fact]
+        public void NonGenericDelegateCommandShouldObserveOneComplexProperty()
+        {
+            ComplexProperty = new ComplexType()
+            {
+                InnerComplexProperty = new ComplexType()
+            };
+
+            bool canExecuteChangedRaised = false;
+
+            var command = new DelegateCommand(() => { })
+                .ObservesProperty(() => ComplexProperty.InnerComplexProperty.IntProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            ComplexProperty.InnerComplexProperty.IntProperty = 10;
+
+            Assert.True(canExecuteChangedRaised);
+        }
+
+        [Fact]
         public void NonGenericDelegateCommandNotObservingPropertiesShouldNotRaiseOnEmptyPropertyName()
         {
             bool canExecuteChangedRaised = false;
@@ -391,6 +412,123 @@ namespace Prism.Tests.Commands
 			RaisePropertyChanged(null);
 
             Assert.False(canExecuteChangedRaised);
+        }
+
+        [Fact]
+        public void NonGenericDelegateCommandShouldObserveComplexPropertyWhenRootPropertyIsNull()
+        {
+            bool canExecuteChangedRaise = false;
+
+            ComplexProperty = null;
+
+            var command = new DelegateCommand(() => { })
+                .ObservesProperty(() => ComplexProperty.InnerComplexProperty.IntProperty);
+
+            command.CanExecuteChanged += delegate
+            {
+                canExecuteChangedRaise = true;
+            };
+
+            var newComplexObject = new ComplexType()
+            {
+                InnerComplexProperty = new ComplexType()
+                {
+                    IntProperty = 10
+                }
+            };
+
+            ComplexProperty = newComplexObject;
+
+            Assert.True(canExecuteChangedRaise);
+        }
+
+        [Fact]
+        public void NonGenericDelegateCommandShouldObserveComplexPropertyWhenParentPropertyIsNull()
+        {
+            bool canExecuteChangedRaise = false;
+
+            ComplexProperty = new ComplexType();
+
+            var command = new DelegateCommand(() => { })
+                .ObservesProperty(() => ComplexProperty.InnerComplexProperty.IntProperty);
+
+            command.CanExecuteChanged += delegate
+            {
+                canExecuteChangedRaise = true;
+            };
+
+            var newComplexObject = new ComplexType()
+            {
+                InnerComplexProperty = new ComplexType()
+                {
+                    IntProperty = 10
+                }
+            };
+
+            ComplexProperty.InnerComplexProperty = newComplexObject;
+
+            Assert.True(canExecuteChangedRaise);
+        }
+
+        [Fact]
+        public void NonGenericDelegateCommandPropertyObserverUnsubscribeUnusedListeners()
+        {
+            int canExecuteChangedRaiseCount = 0;
+
+            ComplexProperty = new ComplexType()
+            {
+                IntProperty = 1,
+                InnerComplexProperty = new ComplexType()
+                {
+                    IntProperty = 1,
+                    InnerComplexProperty = new ComplexType()
+                    {
+                        IntProperty = 1
+                    }
+                }
+            };
+
+            var command = new DelegateCommand(() => { })
+                .ObservesProperty(() => ComplexProperty.IntProperty)
+                .ObservesProperty(() => ComplexProperty.InnerComplexProperty.InnerComplexProperty.IntProperty)
+                .ObservesProperty(() => ComplexProperty.InnerComplexProperty.IntProperty);
+
+            command.CanExecuteChanged += delegate
+            {
+                canExecuteChangedRaiseCount++;
+            };
+
+            ComplexProperty.IntProperty = 2;
+            ComplexProperty.InnerComplexProperty.InnerComplexProperty.IntProperty = 2;
+            ComplexProperty.InnerComplexProperty.IntProperty = 2;
+
+            Assert.Equal(canExecuteChangedRaiseCount, 3);
+
+            var innerInnerComplexProp = ComplexProperty.InnerComplexProperty.InnerComplexProperty;
+            var innerComplexProp = ComplexProperty.InnerComplexProperty;
+            var complexProp = ComplexProperty;
+
+            ComplexProperty = new ComplexType()
+            {
+                InnerComplexProperty = new ComplexType()
+                {
+                    InnerComplexProperty = new ComplexType()
+                }
+            };
+
+            Assert.Equal(innerInnerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
+            Assert.Equal(innerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
+            Assert.Equal(complexProp.GetPropertyChangedSubscribledLenght(), 0);
+
+            innerInnerComplexProp = ComplexProperty.InnerComplexProperty.InnerComplexProperty;
+            innerComplexProp = ComplexProperty.InnerComplexProperty;
+            complexProp = ComplexProperty;
+
+            ComplexProperty = null;
+
+            Assert.Equal(innerInnerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
+            Assert.Equal(innerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
+            Assert.Equal(complexProp.GetPropertyChangedSubscribledLenght(), 0);
         }
 
         [Fact]
@@ -537,7 +675,146 @@ namespace Prism.Tests.Commands
             Assert.False(canExecuteChangedRaised);
         }
 
+        [Fact]
+        public void GenericDelegateCommandShouldObserveComplexPropertyWhenParentPropertyIsNull()
+        {
+            bool canExecuteChangedRaise = false;
 
+            ComplexProperty = new ComplexType();
+
+            var command = new DelegateCommand<object>((o) => { })
+                .ObservesProperty(() => ComplexProperty.InnerComplexProperty.IntProperty);
+
+            command.CanExecuteChanged += delegate
+            {
+                canExecuteChangedRaise = true;
+            };
+
+            var newComplexObject = new ComplexType()
+            {
+                InnerComplexProperty = new ComplexType()
+                {
+                    IntProperty = 10
+                }
+            };
+
+            ComplexProperty.InnerComplexProperty = newComplexObject;
+
+            Assert.True(canExecuteChangedRaise);
+        }
+
+        [Fact]
+        public void GenericDelegateCommandShouldObserveComplexPropertyWhenRootPropertyIsNull()
+        {
+            bool canExecuteChangedRaise = false;
+
+            ComplexProperty = null;
+
+            var command = new DelegateCommand<object>((o) => { })
+                .ObservesProperty(() => ComplexProperty.InnerComplexProperty.IntProperty);
+
+            command.CanExecuteChanged += delegate
+            {
+                canExecuteChangedRaise = true;
+            };
+
+            var newComplexObject = new ComplexType()
+            {
+                InnerComplexProperty = new ComplexType()
+                {
+                    IntProperty = 10
+                }
+            };
+
+            ComplexProperty = newComplexObject;
+
+            Assert.True(canExecuteChangedRaise);
+        }
+
+        [Fact]
+        public void GenericDelegateCommandPropertyObserverUnsubscribeUnusedListeners()
+        {
+            int canExecuteChangedRaiseCount = 0;
+
+            ComplexProperty = new ComplexType()
+            {
+                IntProperty = 1,
+                InnerComplexProperty = new ComplexType()
+                {
+                    IntProperty = 1,
+                    InnerComplexProperty = new ComplexType()
+                    {
+                        IntProperty = 1
+                    }
+                }
+            };
+
+            var command = new DelegateCommand<object>((o) => { })
+                .ObservesProperty(() => ComplexProperty.IntProperty)
+                .ObservesProperty(() => ComplexProperty.InnerComplexProperty.InnerComplexProperty.IntProperty)
+                .ObservesProperty(() => ComplexProperty.InnerComplexProperty.IntProperty);
+
+            command.CanExecuteChanged += delegate
+            {
+                canExecuteChangedRaiseCount++;
+            };
+
+            ComplexProperty.IntProperty = 2;
+            ComplexProperty.InnerComplexProperty.InnerComplexProperty.IntProperty = 2;
+            ComplexProperty.InnerComplexProperty.IntProperty = 2;
+
+            Assert.Equal(canExecuteChangedRaiseCount, 3);
+
+            var innerInnerComplexProp = ComplexProperty.InnerComplexProperty.InnerComplexProperty;
+            var innerComplexProp = ComplexProperty.InnerComplexProperty;
+            var complexProp = ComplexProperty;
+
+            ComplexProperty = new ComplexType()
+            {
+                InnerComplexProperty = new ComplexType()
+                {
+                    InnerComplexProperty = new ComplexType()
+                }
+            };
+
+            Assert.Equal(innerInnerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
+            Assert.Equal(innerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
+            Assert.Equal(complexProp.GetPropertyChangedSubscribledLenght(), 0);
+
+            innerInnerComplexProp = ComplexProperty.InnerComplexProperty.InnerComplexProperty;
+            innerComplexProp = ComplexProperty.InnerComplexProperty;
+            complexProp = ComplexProperty;
+
+            ComplexProperty = null;
+
+            Assert.Equal(innerInnerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
+            Assert.Equal(innerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
+            Assert.Equal(complexProp.GetPropertyChangedSubscribledLenght(), 0);
+        }
+
+        public class ComplexType : TestPurposeBindableBase
+        {
+            private int _intProperty;
+            public int IntProperty
+            {
+                get { return _intProperty; }
+                set { SetProperty(ref _intProperty, value); }
+            }
+
+            private ComplexType _innerComplexProperty;
+            public ComplexType InnerComplexProperty
+            {
+                get { return _innerComplexProperty; }
+                set { SetProperty(ref _innerComplexProperty, value); }
+            }
+        }
+
+        private ComplexType _complexProperty;
+        public ComplexType ComplexProperty
+        {
+            get { return _complexProperty; }
+            set { SetProperty(ref _complexProperty, value); }
+        }
 
         private bool _boolProperty;
         public bool BoolProperty

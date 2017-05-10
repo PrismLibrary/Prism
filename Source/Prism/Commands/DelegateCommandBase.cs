@@ -17,10 +17,7 @@ namespace Prism.Commands
         private bool _isActive;
 
         private SynchronizationContext _synchronizationContext;
-
-        readonly HashSet<string> _propertiesToObserve = new HashSet<string>();
-        private INotifyPropertyChanged _inpc;
-
+        private readonly HashSet<string> _observedPropertiesExpressions = new HashSet<string>();
 
         /// <summary>
         /// Creates a new instance of a <see cref="DelegateCommandBase"/>, specifying both the execute action and the can execute function.
@@ -85,40 +82,15 @@ namespace Prism.Commands
         /// <param name="propertyExpression">The property expression. Example: ObservesProperty(() => PropertyName).</param>
         protected internal void ObservesPropertyInternal<T>(Expression<Func<T>> propertyExpression)
         {
-            AddPropertyToObserve(PropertySupport.ExtractPropertyName(propertyExpression));
-            HookInpc(propertyExpression.Body as MemberExpression);
-        }
-
-        protected void HookInpc(MemberExpression expression)
-        {
-            if (expression == null)
-                return;
-
-            if (_inpc == null)
+            if (_observedPropertiesExpressions.Contains(propertyExpression.ToString()))
             {
-                var constantExpression = expression.Expression as ConstantExpression;
-                if (constantExpression != null)
-                {
-                    _inpc = constantExpression.Value as INotifyPropertyChanged;
-                    if (_inpc != null)
-                        _inpc.PropertyChanged += Inpc_PropertyChanged;
-                }
+                throw new ArgumentException($"{propertyExpression.ToString()} is already being observed.", 
+                    nameof(propertyExpression));
             }
-        }
-
-        protected void AddPropertyToObserve(string property)
-        {
-            if (_propertiesToObserve.Contains(property))
-                throw new ArgumentException(String.Format("{0} is already being observed.", property));
-
-            _propertiesToObserve.Add(property);
-        }
-
-        void Inpc_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (_propertiesToObserve.Contains(e.PropertyName) || (string.IsNullOrEmpty(e.PropertyName) && _propertiesToObserve.Count > 0))
+            else
             {
-                RaiseCanExecuteChanged();
+                _observedPropertiesExpressions.Add(propertyExpression.ToString());
+                PropertyObserver.Observes(propertyExpression, RaiseCanExecuteChanged);
             }
         }
 
