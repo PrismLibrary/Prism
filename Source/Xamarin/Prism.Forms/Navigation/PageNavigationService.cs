@@ -299,18 +299,6 @@ namespace Prism.Navigation
         {
             bool isPresented = GetMasterDetailPageIsPresented(currentPage);
 
-            if (useModalNavigation.HasValue && useModalNavigation.Value)
-            {
-                var nextPage = CreatePageFromSegment(nextSegment);
-                await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
-                {
-                    currentPage.IsPresented = isPresented;
-                    await DoPush(currentPage, nextPage, true, animated);
-                });
-                return;
-            }
-
             var detail = currentPage.Detail;
             if (detail == null)
             {
@@ -320,6 +308,18 @@ namespace Prism.Navigation
                 {
                     currentPage.IsPresented = isPresented;
                     currentPage.Detail = newDetail;
+                });
+                return;
+            }
+
+            if (useModalNavigation.HasValue && useModalNavigation.Value)
+            {
+                var nextPage = CreatePageFromSegment(nextSegment);
+                await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
+                await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
+                {
+                    currentPage.IsPresented = isPresented;
+                    await DoPush(currentPage, nextPage, true, animated);
                 });
                 return;
             }
