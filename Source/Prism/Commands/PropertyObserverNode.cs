@@ -13,16 +13,14 @@ namespace Prism.Commands
     internal class PropertyObserverNode
     {
         private readonly Action _action;
-        private readonly LinkedList<Expression> _fragments;
         private string _propertyName;
         private PropertyObserver _propertyObserver;
 
         private PropertyObserverNode(Expression propertyExpression, Action action, PropertyObserver propertyObserver)
         {
-            _fragments = ExtractFragments(propertyExpression as MemberExpression);
             _action = action;
             _propertyObserver = propertyObserver;
-            SubscribeListeners(_fragments);
+            SubscribeListeners(propertyExpression as MemberExpression);
         }
 
         /// <summary>
@@ -36,12 +34,14 @@ namespace Prism.Commands
             new PropertyObserverNode(propertyExpression, action, propertyObserver);
         }
 
-        private void SubscribeListeners(LinkedList<Expression> fragments)
+        private void SubscribeListeners(MemberExpression propertyExpression)
         {
-            var propertyFragment = fragments.First;
-            var propertyOwnerFragment = propertyFragment.Next;
-            _propertyName = (propertyFragment.Value as MemberExpression).Member.Name; 
-            var propertyOwnerObject = EvalExpression(propertyOwnerFragment.Value);
+
+            // Represents the object that propertyExpression belongs to. It will be the Command object when the property belongs to it.
+            var propertyOwnerExpression = propertyExpression.Expression as Expression;
+
+            _propertyName = (propertyExpression).Member.Name;
+            var propertyOwnerObject = EvalExpression(propertyOwnerExpression);
 
             if (propertyOwnerObject != null)
             {
@@ -56,9 +56,9 @@ namespace Prism.Commands
                 _propertyObserver.RegisterListener(inpcObject, OnPropertyChanged);
             }
 
-            if (propertyOwnerFragment.Value is MemberExpression)
+            if (propertyOwnerExpression is MemberExpression)
             {
-                Observes(propertyOwnerFragment.Value, _propertyObserver.Restart, _propertyObserver);
+                Observes(propertyOwnerExpression, _propertyObserver.Restart, _propertyObserver);
             }
         }
 
@@ -69,20 +69,20 @@ namespace Prism.Commands
             //  - DelegateCommandFixture.NonGenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName
             if (e.PropertyName == _propertyName || e.PropertyName == null)
             {
-                _action?.Invoke(); 
+                _action?.Invoke();
             }
         }
 
         private object EvalExpression(Expression expression)
         {
-            object result; 
+            object result;
 
             if (expression is MemberExpression)
             {
-                var memberExpression = expression as MemberExpression;
-                var objectMember = Expression.Convert(memberExpression, typeof(object));
-                var getterLambda = Expression.Lambda<Func<object>>(objectMember);
-                var getter = getterLambda.Compile();
+                MemberExpression memberExpression = expression as MemberExpression;
+                UnaryExpression objectMember = Expression.Convert(memberExpression, typeof(object));
+                Expression<Func<object>> getterLambda = Expression.Lambda<Func<object>>(objectMember);
+                Func<object> getter = getterLambda.Compile();
 
                 //TODO: Remove try ... catch by checking if object associated to "getter" is null
                 try
@@ -90,13 +90,13 @@ namespace Prism.Commands
                     result = getter.Invoke();
                 }
                 // When object associated to "getter" is null Android and Windows threw NullReferenceException,
-                // iOS threw TargetException. So Im catching Exception assuming the objects is null. :/
-                catch (Exception) 
+                // iOS threw TargetException. Im catching Exception assuming the objects is null. :/
+                catch (Exception)
                 {
                     result = null;
                 }
             }
-            else if(expression is ConstantExpression)
+            else if (expression is ConstantExpression)
             {
                 result = (expression as ConstantExpression)?.Value;
             }
@@ -105,34 +105,6 @@ namespace Prism.Commands
                 throw new NotSupportedException("Operation not supported for the given expression type. " +
                     "Only MemberExpression and ConstanteExpression are currently supported.");
             }
-
-            return result;
-        }
-
-        private LinkedList<Expression> ExtractFragments(MemberExpression memberExpression)
-        {
-            if(memberExpression == null)
-            {
-                throw new ArgumentNullException(nameof(memberExpression));
-            }
-
-            var result = new LinkedList<Expression>();
-
-            while (memberExpression != null)
-            {
-                result.AddLast(memberExpression);
-                memberExpression = memberExpression.Expression as MemberExpression;
-            }
-
-            var root = (result.Last() as MemberExpression)?.Expression as ConstantExpression;
-
-            if(root == null)
-            {
-                throw new InvalidOperationException(
-                    "Could not get root element. This operation supports only nested properties lambda like this: () => Prop.NestedProp.NestedProp.PropertyToObserve. Is it called on the correct form?");
-            }
-
-            result.AddLast(root);
 
             return result;
         }

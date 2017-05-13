@@ -3,14 +3,13 @@ using System.Windows.Input;
 using Xunit;
 using Prism.Commands;
 using Prism.Mvvm;
-using System.Reflection;
 
 namespace Prism.Tests.Commands
 {
     /// <summary>
     /// Summary description for DelegateCommandFixture
     /// </summary>
-    public class DelegateCommandFixture : TestPurposeBindableBase
+    public class DelegateCommandFixture : BindableBase
     {
         [Fact]
         public void WhenConstructedWithGenericTypeOfObject_InitializesValues()
