@@ -9,7 +9,7 @@ namespace Prism.Commands
     /// Provide a way to observe property changes of INotifyPropertyChanged objects and invokes a 
     /// custom action when the PropertyChanged event is fired.
     /// </summary>
-    public class PropertyObserver
+    internal class PropertyObserver
     {
         private readonly Expression _propertyExpression;
         private readonly Action _action;
