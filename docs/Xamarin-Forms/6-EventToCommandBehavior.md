@@ -27,7 +27,7 @@ Bind or declare a parameter that will be sent to the `ICommand.Execute(object)` 
 	xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
 	<StackLayout>    
 		<ListView.Behaviors>
-			<b:EventToCommandBehavior EventName="ItemTapped" Command={Binding ItemTappedCommand}
+			<b:EventToCommandBehavior EventName="ItemTapped" Command="{Binding ItemTappedCommand}"
 									  CommandParameter="MyParameter" />
 		</ListView.Behaviors>
 	</ListView>	
@@ -106,7 +106,7 @@ Setting `EventArgsParameterPath` to **Item** will extract the property value and
 	xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
     <ListView>
 		<ListView.Behaviors>
-			<b:EventToCommandBehavior EventName="ItemTapped" Command={Binding ItemTappedCommand}
+			<b:EventToCommandBehavior EventName="ItemTapped" Command="{Binding ItemTappedCommand}"
 									  EventArgsParameterPath="Item" />
 		</ListView.Behaviors>
 	</ListView>
