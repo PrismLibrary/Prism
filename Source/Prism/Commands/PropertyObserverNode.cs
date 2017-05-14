@@ -79,8 +79,9 @@ namespace Prism.Commands
 
             if (expression is MemberExpression)
             {
-                string propertyName = (expression as MemberExpression).Member.Name;
-                object propertyOwnerObject = GetPropertyValue((expression as MemberExpression).Expression);
+                MemberExpression memberExpression = expression as MemberExpression;
+                string propertyName = memberExpression.Member.Name;
+                object propertyOwnerObject = GetPropertyValue(memberExpression.Expression);
 
                 if (propertyOwnerObject == null)
                 {
