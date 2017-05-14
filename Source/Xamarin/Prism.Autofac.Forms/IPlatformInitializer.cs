@@ -1,8 +1,6 @@
-﻿using Autofac;
-
-namespace Prism.Autofac.Forms
+﻿namespace Prism.Autofac.Forms
 {
-    public interface IPlatformInitializer : IPlatformInitializer<IContainer>
+    public interface IPlatformInitializer : IPlatformInitializer<IAutofacContainer>
     {
     }
 }

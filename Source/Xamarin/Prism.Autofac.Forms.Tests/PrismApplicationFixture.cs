@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Reflection;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Prism.Common;
 using Prism.Autofac.Forms.Tests.Mocks;
@@ -12,7 +12,6 @@ using Prism.Navigation;
 using Xamarin.Forms;
 using Xunit;
 using Autofac;
-using Autofac.Core.Registration;
 using Prism.DI.Forms.Tests;
 #if TEST
 using Application = Prism.FormsApplication;
@@ -62,11 +61,15 @@ namespace Prism.Autofac.Forms.Tests
         public void ResolveTypeRegisteredWithDependencyService()
         {
             var app = new PrismApplicationMock();
-            //TODO: Autofac needs to be updated to support resolving unknown interfaces by using the DependencyService
-            Assert.Throws<ComponentNotRegisteredException>(() => app.Container.Resolve<IDependencyServiceMock>());
-            //var service = app.Container.Resolve<IDependencyServiceMock>();
-            //Assert.NotNull(service);
-            //Assert.IsType<DependencyServiceMock>(service);
+
+            //Was: Autofac needs to be updated to support resolving unknown interfaces by using the DependencyService
+            //Assert.Throws<ComponentNotRegisteredException>(() => app.Container.Resolve<IDependencyServiceMock>());
+
+            //  Update 2017-04-03: Probably don't need this support, since use of DependencyService is being deprecated.
+            //  So added "support" for it by secondarily registering the service directly in the Autofac container.
+            var service = app.Container.Resolve<IDependencyServiceMock>();
+            Assert.NotNull(service);
+            Assert.IsType<DependencyServiceMock>(service);
         }
 
         [Fact]
@@ -130,6 +133,25 @@ namespace Prism.Autofac.Forms.Tests
             var navigationService = app.NavigationService;
             ((IPageAware)navigationService).Page = new ContentPage();
             return navigationService;
+        }
+
+        [Fact]
+        public void Container_IsImmutableAfterBuild()
+        {
+            //Arrange
+            var app = new PrismApplicationMock();
+
+            //Act
+            //Referencing the Container's ComponentRegistry causes the Container to be built
+            //  and no further type registration should be possible.
+            var componentRegistry = app.Container.ComponentRegistry;
+
+            //Assert
+            Assert.True(app.Container.IsContainerBuilt);
+            Assert.Throws<InvalidOperationException>(() => app.Container.Register(ctx => new List<string>())
+                .As<IList<string>>());
+            //But type resolution will work properly
+            Assert.NotNull(app.Container.Resolve<ViewModelAMock>());
         }
     }
 }
