@@ -73,31 +73,31 @@ namespace Prism.DryIoc
             if (string.IsNullOrWhiteSpace(name))
                 name = typeof(TView).Name;
 
-            if (Device.OS == TargetPlatform.Android && androidView != null)
-            {
-                container.RegisterTypeForNavigationWithViewModel<TViewModel>(androidView, name);
-            }
-            else if (Device.OS == TargetPlatform.iOS && iOSView != null)
-            {
-                container.RegisterTypeForNavigationWithViewModel<TViewModel>(iOSView, name);
-            }
-            else if (Device.OS == TargetPlatform.Other && otherView != null)
-            {
-                container.RegisterTypeForNavigationWithViewModel<TViewModel>(otherView, name);
-            }
-            else if (Device.OS == TargetPlatform.Windows && windowsView != null)
-            {
-                container.RegisterTypeForNavigationWithViewModel<TViewModel>(windowsView, name);
-            }
-            else if (Device.OS == TargetPlatform.WinPhone && winPhoneView != null)
-            {
-                container.RegisterTypeForNavigationWithViewModel<TViewModel>(winPhoneView, name);
-            }
-            else
-            {
-                container.RegisterTypeForNavigation<TView, TViewModel>(name);
-            }
-        }
+			if (Device.RuntimePlatform == Device.Android && androidView != null)
+			{
+				container.RegisterTypeForNavigationWithViewModel<TViewModel>(androidView, name);
+			}
+			else if (Device.RuntimePlatform == Device.iOS && iOSView != null)
+			{
+				container.RegisterTypeForNavigationWithViewModel<TViewModel>(iOSView, name);
+			}
+			//else if (Device.OS == TargetPlatform.Other && otherView != null)
+			//{
+			//	container.RegisterTypeForNavigationWithViewModel<TViewModel>(otherView, name);
+			//}
+			else if (Device.RuntimePlatform == Device.Windows && windowsView != null)
+			{
+				container.RegisterTypeForNavigationWithViewModel<TViewModel>(windowsView, name);
+			}
+			else if (Device.RuntimePlatform == Device.WinPhone && winPhoneView != null)
+			{
+				container.RegisterTypeForNavigationWithViewModel<TViewModel>(winPhoneView, name);
+			}
+			else
+			{
+				container.RegisterTypeForNavigation<TView, TViewModel>(name);
+			}
+		}
 
         /// <summary>
         /// Registers a Page for navigation based on the Device Idiom using a shared ViewModel
