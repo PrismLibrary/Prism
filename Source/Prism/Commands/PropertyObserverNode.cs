@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Prism.Commands
 {
@@ -37,15 +36,16 @@ namespace Prism.Commands
         private void SubscribeListeners(MemberExpression propertyExpression)
         {
 
-            // Represents the object that propertyExpression belongs to. It will be the Command object when the property belongs to it.
-            var propertyOwnerExpression = propertyExpression.Expression as Expression;
+            // Represents the object that property in propertyExpression belongs to. 
+            // It may be the ModelView object in case of property in propertyExpression belongs to it.
+            Expression propertyOwnerExpression = propertyExpression.Expression as Expression;
 
-            _propertyName = (propertyExpression).Member.Name;
-            var propertyOwnerObject = EvalExpression(propertyOwnerExpression);
+            _propertyName = propertyExpression.Member.Name;
+            object propertyOwnerObject = GetPropertyValue(propertyOwnerExpression);
 
             if (propertyOwnerObject != null)
             {
-                var inpcObject = propertyOwnerObject as INotifyPropertyChanged;
+                INotifyPropertyChanged inpcObject = propertyOwnerObject as INotifyPropertyChanged;
 
                 if (inpcObject == null)
                 {
@@ -67,33 +67,29 @@ namespace Prism.Commands
             // Invoke action when e.PropertyName == null in order to satisfy:
             //  - DelegateCommandFixture.GenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName
             //  - DelegateCommandFixture.NonGenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName
-            if (e.PropertyName == _propertyName || e.PropertyName == null)
+            if (e?.PropertyName == _propertyName || e?.PropertyName == null)
             {
                 _action?.Invoke();
             }
         }
 
-        private object EvalExpression(Expression expression)
+        private static object GetPropertyValue(Expression expression)
         {
             object result;
 
             if (expression is MemberExpression)
             {
-                MemberExpression memberExpression = expression as MemberExpression;
-                UnaryExpression objectMember = Expression.Convert(memberExpression, typeof(object));
-                Expression<Func<object>> getterLambda = Expression.Lambda<Func<object>>(objectMember);
-                Func<object> getter = getterLambda.Compile();
+                string propertyName = (expression as MemberExpression).Member.Name;
+                object propertyOwnerObject = GetPropertyValue((expression as MemberExpression).Expression);
 
-                //TODO: Remove try ... catch by checking if object associated to "getter" is null
-                try
-                {
-                    result = getter.Invoke();
-                }
-                // When object associated to "getter" is null Android and Windows threw NullReferenceException,
-                // iOS threw TargetException. Im catching Exception assuming the objects is null. :/
-                catch (Exception)
+                if (propertyOwnerObject == null)
                 {
                     result = null;
+                }
+                else
+                {
+                    PropertyInfo propertyInfo = propertyOwnerObject.GetType().GetRuntimeProperty(propertyName);
+                    result = propertyInfo?.GetValue(propertyOwnerObject);
                 }
             }
             else if (expression is ConstantExpression)

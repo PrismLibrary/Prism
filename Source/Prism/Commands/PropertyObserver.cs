@@ -34,7 +34,7 @@ namespace Prism.Commands
         /// </summary>
         /// <param name="propertyExpression">Expression representing property to be observed. Ex.: "() => Prop.NestedProp.PropToObserve".</param>
         /// <param name="action">Action to be invoked when PropertyChanged event occours.</param>
-        public static PropertyObserver Observes<T>(Expression<Func<T>> propertyExpression, Action action)
+        internal static PropertyObserver Observes<T>(Expression<Func<T>> propertyExpression, Action action)
         {
             return new PropertyObserver(propertyExpression.Body, action);
         }          
@@ -56,7 +56,7 @@ namespace Prism.Commands
         /// <summary>
         /// Stop listen by unsubscribing all INotifyPropertyChanged.PropertyChanged listeners.
         /// </summary>
-        public void Stop()
+        internal void Stop()
         {
             foreach(Tuple<INotifyPropertyChanged, PropertyChangedEventHandler> listener in _registeredListeners)
             {
