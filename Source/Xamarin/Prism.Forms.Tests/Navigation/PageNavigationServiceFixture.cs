@@ -5,6 +5,7 @@ using Prism.Forms.Tests.Mocks.Views;
 using Prism.Logging;
 using Prism.Navigation;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;
 
@@ -64,98 +65,141 @@ namespace Prism.Forms.Tests.Navigation
             });
         }
 
+        /// <summary>
+        /// It is a test of navigation to RootPage. The Type of Page does not matter.
+        /// </summary>
+        /// <returns></returns>
         [Fact]
-        public async void Navigate_ToContentPage_ByName()
+        public async Task NavigateAsync_To_RootPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
-            ((IPageAware)navigationService).Page = rootPage;
+            var applicationProvider = new ApplicationProviderMock(null);
+            var recorder = new PageNavigationEventRecorder();
+            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade, recorder);
 
             await navigationService.NavigateAsync("ContentPage");
 
-            Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
-        }
+            var mainPage = applicationProvider.MainPage;
 
-        [Fact]
-        public async void NavigateAsync_ToContentPage_ByName()
-        {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.NavigationPage();
-            ((IPageAware)navigationService).Page = rootPage;
-
-            await navigationService.NavigateAsync("ContentPage", useModalNavigation: false);
-
-            Assert.True(rootPage.Navigation.NavigationStack.Count == 1);
-            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.NavigationStack[0]);
-        }
-
-        [Fact]
-        public async void Navigate_ToContentPage_ByRelativeUri()
-        {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
-            ((IPageAware)navigationService).Page = rootPage;
-
-            await navigationService.NavigateAsync(new Uri("ContentPage", UriKind.Relative));
-
-            Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
-        }
-
-        [Fact]
-        public async void Navigate_ToContentPage_ByAbsoluteName()
-        {
-            // Set up top page.
-            var recorder = new PageNavigationEventRecorder();
-            var rootPage = new ContentPageMock(recorder);
-            var rootPageViewModel = (ViewModelBase)rootPage.BindingContext;
-            var applicationProvider = new ApplicationProviderMock(rootPage);
-            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade, recorder);
-
-            await navigationService.NavigateAsync("/ContentPage");
-
-            var navigatedPage = applicationProvider.MainPage;
-            Assert.IsType(typeof(ContentPageMock), navigatedPage);
-            Assert.NotEqual(rootPage, _applicationProvider.MainPage);
+            Assert.IsType<ContentPageMock>(mainPage);
+            Assert.Equal(0, mainPage.Navigation.ModalStack.Count);
+            Assert.Equal(0, mainPage.Navigation.NavigationStack.Count);
 
             var record = recorder.TakeFirst();
-            Assert.Equal(navigatedPage, record.Sender);
+            Assert.Equal(mainPage, record.Sender);
             Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
 
             record = recorder.TakeFirst();
-            Assert.Equal(navigatedPage.BindingContext, record.Sender);
+            Assert.Equal(mainPage.BindingContext, record.Sender);
             Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
 
             record = recorder.TakeFirst();
-            Assert.Equal(rootPage, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
-
-            record = recorder.TakeFirst();
-            Assert.Equal(rootPageViewModel, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
-
-            record = recorder.TakeFirst();
-            Assert.Equal(navigatedPage, record.Sender);
+            Assert.Equal(mainPage, record.Sender);
             Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
 
             record = recorder.TakeFirst();
-            Assert.Equal(navigatedPage.BindingContext, record.Sender);
+            Assert.Equal(mainPage.BindingContext, record.Sender);
             Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
-
-            record = recorder.TakeFirst();
-            Assert.Equal(rootPage, record.Sender);
-            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
-
-            record = recorder.TakeFirst();
-            Assert.Equal(rootPageViewModel, record.Sender);
-            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
             Assert.True(recorder.IsEmpty);
         }
 
+        /// <summary>
+        /// It is a test of navigation to RootPage. The Type of Page does not matter.
+        /// </summary>
+        /// <returns></returns>
         [Fact]
-        public async void Navigate_ToContentPage_ByAbsoluteUri()
+        public async Task NavigateAsync_To_RootPage_ByAbsoluteName()
+        {
+            var applicationProvider = new ApplicationProviderMock(null);
+            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
+
+            await navigationService.NavigateAsync("/ContentPage");
+
+            var mainPage = applicationProvider.MainPage;
+
+            Assert.IsType<ContentPageMock>(mainPage);
+            Assert.Equal(0, mainPage.Navigation.ModalStack.Count);
+            Assert.Equal(0, mainPage.Navigation.NavigationStack.Count);
+        }
+
+        /// <summary>
+        /// It is a test of navigation to RootPage. The Type of Page does not matter.
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task NavigateAsync_To_RootPage_ByRelativeUri()
+        {
+            var applicationProvider = new ApplicationProviderMock(null);
+            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
+
+            await navigationService.NavigateAsync(new Uri("ContentPage", UriKind.Relative));
+
+            var mainPage = applicationProvider.MainPage;
+
+            Assert.IsType<ContentPageMock>(mainPage);
+            Assert.Equal(0, mainPage.Navigation.ModalStack.Count);
+            Assert.Equal(0, mainPage.Navigation.NavigationStack.Count);
+        }
+        /// <summary>
+        /// It is a test of navigation to RootPage. The Type of Page does not matter.
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task NavigateAsync_To_RootPage_ByAbsoluteUri()
+        {
+            var applicationProvider = new ApplicationProviderMock(null);
+            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
+
+            await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
+
+            Assert.IsType<ContentPageMock>(applicationProvider.MainPage);
+            Assert.Equal(0, applicationProvider.MainPage.Navigation.ModalStack.Count);
+            Assert.Equal(0, applicationProvider.MainPage.Navigation.NavigationStack.Count);
+        }
+
+
+        /// <summary>
+        /// This test case does not depend on the Page of the transition destination. Therefore, the name is OtherPage.
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task NavigateAsync_From_RootPage_ToOtherPage_ByRelativeName()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("ContentPage");
+
+            Assert.Equal(1, rootPage.Navigation.ModalStack.Count);
+            Assert.Equal(0, rootPage.Navigation.NavigationStack.Count);
+            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
+        }
+
+        /// <summary>
+        /// This test case does not depend on the Page of the transition destination. Therefore, the name is OtherPage.
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task NavigateAsync_From_RootPage_ToOtherPage_ByRelativeUri()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync(new Uri("ContentPage", UriKind.Relative));
+
+            Assert.Equal(1, rootPage.Navigation.ModalStack.Count);
+            Assert.Equal(0, rootPage.Navigation.NavigationStack.Count);
+            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
+        }
+
+        /// <summary>
+        /// This test case does not depend on the Page of the transition destination. Therefore, the name is OtherPage.
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task NavigateAsync_From_RootPage_ToOtherPagee_ByAbsoluteUri()
         {
             // Set up top page.
             var recorder = new PageNavigationEventRecorder(); ;
@@ -204,6 +248,58 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.True(recorder.IsEmpty);
         }
+
+        /// <summary>
+        /// This test case does not depend on the Page of the transition destination. Therefore, the name is OtherPage.
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task NavigateAsync_From_NavigationPage_ToOtherPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new NavigationPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("ContentPage");
+
+            Assert.Equal(0, rootPage.Navigation.ModalStack.Count);
+            Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
+            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.NavigationStack[0]);
+        }
+
+
+        [Fact]
+        public async Task NavigateAsync_From_NavigationPage_ToOtherPage_ByModal()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new ContentPage();
+            var navigationPage = new NavigationPage(rootPage);
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("ContentPage", useModalNavigation: true);
+
+            Assert.Equal(1, rootPage.Navigation.ModalStack.Count);
+            Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
+            Assert.IsType<ContentPage>(rootPage.Navigation.NavigationStack[0]);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.ModalStack[0]);
+        }
+
+        [Fact]
+        public async Task NavigateAsync_From_NavigationPage_ToOtherPage_ByNotModal()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new ContentPage();
+            var navigationPage = new NavigationPage(rootPage);
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("ContentPage", useModalNavigation: false);
+
+            Assert.Equal(0, rootPage.Navigation.ModalStack.Count);
+            Assert.Equal(2, rootPage.Navigation.NavigationStack.Count);
+            Assert.IsType<ContentPage>(rootPage.Navigation.NavigationStack[0]);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.NavigationStack[1]);
+        }
+
 
         [Fact]
         public async void Navigate_ToContentPage_ByName_WithNavigationParameters()
