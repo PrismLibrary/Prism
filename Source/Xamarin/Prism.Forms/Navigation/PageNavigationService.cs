@@ -214,19 +214,29 @@ namespace Prism.Navigation
 
             var currentNavRoot = currentPage.Navigation.NavigationStack[0];
             var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
+            var destroyPages = new List<Page>();
             if (currentNavRoot.GetType() == nextPageType)
             {
                 if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
+                {
+                    destroyPages.AddRange(currentPage.Navigation.NavigationStack);
+                    destroyPages.RemoveAt(0);
+                    destroyPages.Reverse();
                     await currentPage.Navigation.PopToRootAsync(false);
+                }
 
                 await ProcessNavigation(currentNavRoot, segments, parameters, false, animated);
                 await DoNavigateAction(currentNavRoot, nextSegment, currentNavRoot, parameters);
-                return;
             }
             else
             {
                 if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
+                {
+                    destroyPages.AddRange(currentPage.Navigation.NavigationStack);
+                    destroyPages.RemoveAt(0);
+                    destroyPages.Reverse();
                     await currentPage.Navigation.PopToRootAsync(false);
+                }
 
                 var newRoot = CreatePageFromSegment(nextSegment);
                 await ProcessNavigation(newRoot, segments, parameters, false, animated);
@@ -238,12 +248,16 @@ namespace Prism.Navigation
                     if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
                     {
                         currentPage.Navigation.RemovePage(currentNavRoot);
-                        PageUtilities.DestroyPage(currentNavRoot);
+                        destroyPages.Add(currentNavRoot);
                     }
 
                     await push;
                 });
-                return;
+            }
+
+            foreach (var destroyPage in destroyPages)
+            {
+                PageUtilities.DestroyPage(destroyPage);
             }
         }
 

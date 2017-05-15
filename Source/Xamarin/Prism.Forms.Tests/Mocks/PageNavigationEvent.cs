@@ -5,6 +5,7 @@
         OnNavigatingTo,
         OnNavigatedFrom,
         OnNavigatedTo,
+        CanNavigateAsync,
         Destroy
     }
 }

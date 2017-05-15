@@ -26,6 +26,16 @@ namespace Prism.Common
             }
         }
 
+        public static T GetFromViewOrViewModel<T>(object view) where T : class
+        {
+            T viewAsT = view as T;
+            if (viewAsT != null)
+                return viewAsT;
+
+            var element = view as BindableObject;
+            return element?.BindingContext as T;
+        }
+
         public static void DestroyPage(Page page)
         {
             try
