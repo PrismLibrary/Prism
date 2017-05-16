@@ -348,7 +348,6 @@ namespace Prism.Forms.Tests.Navigation
             var recorder = new PageNavigationEventRecorder(); ;
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade, recorder);
             var rootPage = new OtherContentPageMock(recorder);
-            ((IPageAware)navigationService).Page = rootPage;
             var navigationPage = new NavigationPage(rootPage);
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -360,7 +359,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType(typeof(ContentPageMock), contentPage);
 
             var record = recorder.TakeFirst();
-            Assert.Equal(contentPage, record.Sender);
+            Assert.Same(contentPage, record.Sender);
             Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
 
             record = recorder.TakeFirst();
@@ -701,10 +700,11 @@ namespace Prism.Forms.Tests.Navigation
 
 
         [Fact]
-        public async void Navigate_ToContentPage_ByName_WithNavigationParameters()
+        public async void NavigateAsync_With_NavigationParameters()
         {
+            var recorder = new PageNavigationEventRecorder(); ;
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new OtherContentPageMock(recorder);
             ((IPageAware)navigationService).Page = rootPage;
 
             var navParameters = new NavigationParameters();
@@ -712,15 +712,27 @@ namespace Prism.Forms.Tests.Navigation
 
             await navigationService.NavigateAsync("ContentPage", navParameters);
 
-            Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
+            var beforePageViewModel = rootPage.BindingContext as OtherContentPageMockViewModel;
+            Assert.NotNull(beforePageViewModel);
+            Assert.NotNull(beforePageViewModel.CanNavigateParameters);
+            Assert.Null(beforePageViewModel.NavigatingToParameters);
+            Assert.NotNull(beforePageViewModel.NavigatedFromParameters);
+            Assert.Null(beforePageViewModel.NavigatedToParameters);
 
-            var viewModel = rootPage.Navigation.ModalStack[0].BindingContext as ContentPageMockViewModel;
-            Assert.NotNull(viewModel);
+            var afterViewModel = rootPage.Navigation.ModalStack.Last().BindingContext as ContentPageMockViewModel;
 
-            Assert.NotNull(viewModel.NavigatedToParameters);
-            Assert.True(viewModel.NavigatedToParameters.Count > 0);
-            Assert.Equal(3, viewModel.NavigatedToParameters["id"]);
+            Assert.NotNull(afterViewModel);
+            Assert.Null(afterViewModel.CanNavigateParameters);
+            Assert.NotNull(afterViewModel.NavigatingToParameters);
+            Assert.Null(afterViewModel.NavigatedFromParameters);
+            Assert.NotNull(afterViewModel.NavigatedToParameters);
+
+            Assert.True(afterViewModel.NavigatedToParameters.Count > 0);
+            Assert.Equal(3, afterViewModel.NavigatedToParameters["id"]);
+
+            Assert.Equal(beforePageViewModel.CanNavigateParameters, afterViewModel.NavigatingToParameters);
+            Assert.Equal(beforePageViewModel.CanNavigateParameters, beforePageViewModel.NavigatedFromParameters);
+            Assert.Equal(beforePageViewModel.CanNavigateParameters, afterViewModel.NavigatedToParameters);
         }
 
         [Fact]

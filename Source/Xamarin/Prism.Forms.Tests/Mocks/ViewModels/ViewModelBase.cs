@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Prism.Mvvm;
 using Prism.Navigation;
 
 namespace Prism.Forms.Tests.Mocks.ViewModels
 {
-    public class ViewModelBase : BindableBase, INavigationAware, IDestructible, IPageNavigationEventRecordable
+    public class ViewModelBase : BindableBase, INavigationAware, IDestructible, IPageNavigationEventRecordable, IConfirmNavigation
     {
-        public NavigationParameters NavigatedToParameters { get; private set; }
+        public NavigationParameters NavigatingToParameters { get; private set; }
         public NavigationParameters NavigatedFromParameters { get; private set; }
+        public NavigationParameters NavigatedToParameters { get; private set; }
+        public NavigationParameters CanNavigateParameters { get; private set; }
         public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
 
         public bool OnNavigatedToCalled { get; private set; } = false;
@@ -35,7 +38,7 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
         public void OnNavigatingTo(NavigationParameters parameters)
         {
             OnNavigatingdToCalled = true;
-            NavigatedToParameters = parameters;
+            NavigatingToParameters = parameters;
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatingTo);
         }
 
@@ -43,6 +46,12 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
         {
             DestroyCalled = true;
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.Destroy);
+        }
+
+        public bool CanNavigate(NavigationParameters parameters)
+        {
+            CanNavigateParameters = parameters;
+            return true;
         }
     }
 }
