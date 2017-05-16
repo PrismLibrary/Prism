@@ -108,6 +108,7 @@
     <Compile Include="AppModel\IApplicationStore.cs" />
     <Compile Include="AppModel\ApplicationStore.cs" />
     <Compile Include="FormsDependencyService.cs" />
+    <Compile Include="Services\RuntimePlatform.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Prism\Prism.csproj">
