@@ -210,50 +210,41 @@ namespace Prism.Navigation
                 return;
             }
 
-            bool clearNavStack = GetClearNavigationPageNavigationStack(currentPage);
+            var clearNavStack =
+                GetClearNavigationPageNavigationStack(currentPage)
+                && 1 < currentPage.Navigation.NavigationStack.Count;
 
-            var currentNavRoot = currentPage.Navigation.NavigationStack[0];
-            var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
-            var destroyPages = new List<Page>();
-            if (currentNavRoot.GetType() == nextPageType)
+            List<Page> destroyPages;
+            if (clearNavStack)
             {
-                if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
-                {
-                    destroyPages.AddRange(currentPage.Navigation.NavigationStack);
-                    destroyPages.RemoveAt(0);
-                    destroyPages.Reverse();
-                    await currentPage.Navigation.PopToRootAsync(false);
-                }
-
-                await ProcessNavigation(currentNavRoot, segments, parameters, false, animated);
-                await DoNavigateAction(currentNavRoot, nextSegment, currentNavRoot, parameters);
+                destroyPages = currentPage.Navigation.NavigationStack.ToList();
+                destroyPages.RemoveAt(0);
+                destroyPages.Reverse();
+                await currentPage.Navigation.PopToRootAsync(false);
             }
             else
             {
-                if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
+                destroyPages = new List<Page>();
+            }
+
+            var currentNavRoot = currentPage.Navigation.NavigationStack[0];
+            var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
+
+            var replaseRoot = currentNavRoot.GetType() != nextPageType;
+            var rootPage = replaseRoot ? CreatePageFromSegment(nextSegment) : currentNavRoot;
+            await ProcessNavigation(rootPage, segments, parameters, false, animated);
+            await DoNavigateAction(currentNavRoot, nextSegment, rootPage, parameters, async () =>
+            {
+                if (replaseRoot)
                 {
-                    destroyPages.AddRange(currentPage.Navigation.NavigationStack);
-                    destroyPages.RemoveAt(0);
-                    destroyPages.Reverse();
-                    await currentPage.Navigation.PopToRootAsync(false);
-                }
+                    var push = DoPush(currentPage, rootPage, false, animated);
 
-                var newRoot = CreatePageFromSegment(nextSegment);
-                await ProcessNavigation(newRoot, segments, parameters, false, animated);
-
-                await DoNavigateAction(currentNavRoot, nextSegment, newRoot, parameters, async () =>
-                {
-                    var push = DoPush(currentPage, newRoot, false, animated);
-
-                    if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
-                    {
-                        currentPage.Navigation.RemovePage(currentNavRoot);
-                        destroyPages.Add(currentNavRoot);
-                    }
+                    currentPage.Navigation.RemovePage(currentNavRoot);
+                    destroyPages.Add(currentNavRoot);
 
                     await push;
-                });
-            }
+                }
+            });
 
             foreach (var destroyPage in destroyPages)
             {

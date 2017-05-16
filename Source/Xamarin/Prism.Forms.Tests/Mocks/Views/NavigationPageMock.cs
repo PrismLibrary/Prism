@@ -5,8 +5,9 @@ using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class NavigationPageMock : NavigationPage, INavigationAware, IDestructible, IPageNavigationEventRecordable
+    public class NavigationPageMock : NavigationPage, INavigationAware, IDestructible, IPageNavigationEventRecordable, INavigationPageOptions
     {
+        public bool ClearNavigationStackOnNavigation { get; set; } = true;
         public bool DestroyCalled { get; private set; } = false;
         public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
 
@@ -52,17 +53,41 @@ namespace Prism.Forms.Tests.Mocks.Views
         }
     }
 
-    public class NavigationPageEmptyMock : NavigationPageMock
+    public class NavigationPageEmptyMock : NavigationPage, INavigationAware, IDestructible, IPageNavigationEventRecordable
     {
-        public NavigationPageEmptyMock()
+        public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
+        public NavigationPageEmptyMock() : this(null)
         {
-            
         }
 
-        public NavigationPageEmptyMock(PageNavigationEventRecorder recorder) : base(recorder)
+        public NavigationPageEmptyMock(PageNavigationEventRecorder recorder)
         {
+            ViewModelLocator.SetAutowireViewModel(this, true);
 
+            PageNavigationEventRecorder = recorder;
+            ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
         }
+
+        public void Destroy()
+        {
+            PageNavigationEventRecorder.Record(this, PageNavigationEvent.Destroy);
+        }
+
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedFrom);
+        }
+
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
+        }
+
+        public void OnNavigatingTo(NavigationParameters parameters)
+        {
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatingTo);
+        }
+
     }
 
     public class NavigationPageWithStackMock : NavigationPage

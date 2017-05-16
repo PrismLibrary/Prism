@@ -52,6 +52,8 @@
     <Compile Include="Mocks\PageNavigationRecord.cs" />
     <Compile Include="Mocks\PageNavigationEventRecorder.cs" />
     <Compile Include="Mocks\ViewModels\NavigationPageEmptyMockViewModel.cs" />
+    <Compile Include="Mocks\ViewModels\OtherContentPageMockViewModel.cs" />
+    <Compile Include="Mocks\Views\OtherContentPageMock.cs" />
     <Compile Include="Navigation\PageNavigationInfoFixture.cs" />
     <Compile Include="Navigation\PageNavigationRegistryFixture.cs" />
     <Compile Include="Behaviors\EventToCommandBehaviorFixture.cs" />
