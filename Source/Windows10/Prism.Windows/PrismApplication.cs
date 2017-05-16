@@ -220,8 +220,19 @@ namespace Prism.Windows
             return Activator.CreateInstance(type);
         }
 
+        /// <summary> Invoked when the application is activated via ShareTarget.
+        /// OnShareTargetActivated is the entry point for an application when it is activated through sharing.
+        /// Call <see cref="OnActivated"/> to bootstrap the prism application.
+        /// </summary>
+        /// <param name="args">Event data for the event.</param>
+        protected override void OnShareTargetActivated(ShareTargetActivatedEventArgs args)
+        {
+            base.OnShareTargetActivated(args);
+            OnActivated(args);
+        }
+
         /// <summary>
-        /// OnFileActivated is the entry point for an applicatoin when it is launched and the ActivationKind is File.
+        /// OnFileActivated is the entry point for an application when it is launched and the ActivationKind is File.
         /// Call <see cref="OnActivated"/> to bootstrap the prism application.
         /// </summary>
         /// <param name="args">Event data for the event.</param>
@@ -434,14 +445,13 @@ namespace Prism.Windows
         /// <param name="e"></param>
         private void OnGoBackRequested(object sender, DeviceGestureEventArgs e)
         {
-            if (NavigationService.CanGoBack())
+            if (!e.Handled)
             {
-                NavigationService.GoBack();
-                e.Handled = true;
-            }
-            else if (DeviceGestureService.IsHardwareBackButtonPresent && e.IsHardwareButton)
-            {
-                Exit();
+                if (NavigationService.CanGoBack())
+                {
+                    NavigationService.GoBack();
+                    e.Handled = true;
+                }
             }
         }
 
