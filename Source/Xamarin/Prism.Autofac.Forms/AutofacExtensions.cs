@@ -53,20 +53,21 @@ namespace Prism.Autofac.Forms
             return container.RegisterTypeForNavigationWithViewModel<TViewModel>(typeof(TView), name);
         }
 
-        /// <summary>
-        /// Registers a Page for navigation based on the current Device OS using a shared ViewModel
-        /// </summary>
-        /// <typeparam name="TView">Default View Type to be shared across multiple Device Operating Systems if they are not specified directly.</typeparam>
-        /// <typeparam name="TViewModel">Shared ViewModel Type</typeparam>
-        /// <param name="container"><see cref="IContainer"/> used to register type for Navigation.</param>
-        /// <param name="name">The unique name to register with the Page. If left empty or null will default to the ViewModel root name. i.e. MyPageViewModel => MyPage</param>
-        /// <param name="androidView">Android Specific View Type</param>
-        /// <param name="iOSView">iOS Specific View Type</param>
-        /// <param name="otherView">Other Platform Specific View Type</param>
-        /// <param name="windowsView">Windows Specific View Type</param>
-        /// <param name="winPhoneView">Windows Phone Specific View Type</param>
-        /// <returns><see cref="IUnityContainer"/></returns>
-        public static IContainer RegisterTypeForNavigationOnPlatform<TView, TViewModel>(this IContainer container, string name = null, Type androidView = null, Type iOSView = null, Type otherView = null, Type windowsView = null, Type winPhoneView = null)
+		/// <summary>
+		/// Registers a Page for navigation based on the current Device OS using a shared ViewModel
+		/// </summary>
+		/// <typeparam name="TView">Default View Type to be shared across multiple Device Operating Systems if they are not specified directly.</typeparam>
+		/// <typeparam name="TViewModel">Shared ViewModel Type</typeparam>
+		/// <param name="container"><see cref="IContainer"/> used to register type for Navigation.</param>
+		/// <param name="name">The unique name to register with the Page. If left empty or null will default to the ViewModel root name. i.e. MyPageViewModel => MyPage</param>
+		/// <param name="androidView">Android Specific View Type</param>
+		/// <param name="iOSView">iOS Specific View Type</param>
+		/// <param name="otherView">Other Platform Specific View Type</param>
+		/// <param name="windowsView">Windows Specific View Type</param>
+		/// <param name="winPhoneView">Windows Phone Specific View Type</param>
+		/// <returns><see cref="IUnityContainer"/></returns>
+		[Obsolete("RegisterTypeForNavigationOnPlatform is obsolete. Use switch(Device.RuntimePlatform) instead.")]
+		public static IContainer RegisterTypeForNavigationOnPlatform<TView, TViewModel>(this IContainer container, string name = null, Type androidView = null, Type iOSView = null, Type otherView = null, Type windowsView = null, Type winPhoneView = null)
             where TView : Page
             where TViewModel : class
         {
