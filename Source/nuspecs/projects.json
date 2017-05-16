@@ -1,0 +1,68 @@
+{
+    "core": "../Prism/bin/Release/netstandard1.0/Prism.dll",
+    "projects": {
+        "Prism.Autofac": {
+            "nuspec": "Prism.Autofac.nuspec",
+            "files": {
+                "uwp": "../Windows10/Prism.Autofac.Windows/bin/Release/Prism.Autofac.Windows.dll",
+                "wpf": "../Wpf/Prism.Autofac.Wpf/bin/Release/Prism.Autofac.Wpf.dll"
+            }
+        },
+        "Prism.DryIoc": {
+            "nuspec": "Prism.DryIoc.nuspec",
+            "files": {
+                "uwp": "",
+                "wpf": "../Wpf/Prism.DryIoc.Wpf/bin/Release/Prism.DryIoc.Wpf.dll"
+            }
+        },
+        "Prism.Mef": {
+            "nuspec": "Prism.Mef.nuspec",
+            "files": {
+                "uwp": "",
+                "wpf": "../Wpf/Prism.Mef.Wpf/bin/Release/Prism.Mef.Wpf.dll"
+            }
+        },
+        "Prism.Ninject": {
+            "nuspec": "Prism.Ninject.nuspec",
+            "files": {
+                "uwp": "",
+                "wpf": "../Wpf/Prism.Ninject.Wpf/bin/Release/Prism.Ninject.Wpf.dll"
+            }
+        },
+        "Prism.SimpleInjector": {
+            "nuspec": "Prism.SimpleInjector.nuspec",
+            "files": {
+                "uwp": "../Windows10/Prism.SimpleInjector.Windows/bin/Release/Prism.SimpleInjector.Windows.dll",
+                "wpf": ""
+            }
+        },
+        "Prism.StructureMap": {
+            "nuspec": "Prism.StructureMap.nuspec",
+            "files": {
+                "uwp": "",
+                "wpf": "../Wpf/Prism.StructureMap.Wpf/bin/Release/Prism.StructureMap.Wpf.dll"
+            }
+        },
+        "Prism.Unity": {
+            "nuspec": "Prism.Unity.nuspec",
+            "files": {
+                "uwp": "../Windows10/Prism.Unity.Windows/bin/Release/Prism.Unity.Windows.dll",
+                "wpf": "../Wpf/Prism.Unity.Wpf/bin/Release/Prism.Unity.Wpf.dll"
+            }
+        },
+        "Prism.Windows": {
+            "nuspec": "Prism.Windows.nuspec",
+            "files": {
+                "uwp": "../Windows10/Prism.Windows/bin/Release/Prism.Windows.dll",
+                "wpf": ""
+            }
+        },
+        "Prism.Wpf": {
+            "nuspec": "Prism.Wpf.nuspec",
+            "files": {
+                "uwp": "",
+                "wpf": "../Wpf/Prism.Wpf/bin/Release/Prism.Wpf.dll"
+            }
+        }
+    }
+}
