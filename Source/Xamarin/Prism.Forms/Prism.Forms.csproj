@@ -53,6 +53,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AppModel\IApplicationLifecycle.cs" />
+    <Compile Include="AppModel\RuntimePlatform.cs" />
     <Compile Include="Behaviors\BehaviorBase{T}.cs" />
     <Compile Include="Behaviors\CarouselPageActiveAwareBehavior.cs" />
     <Compile Include="Behaviors\NavigationPageSystemGoBackBehavior.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Behaviors\EventToCommandBehavior.cs" />
     <Compile Include="IPlatformInitializer.cs" />
     <Compile Include="Navigation\INavigationPageOptions.cs" />
+    <Compile Include="Platform{T}.cs" />
     <Compile Include="PrismApplicationBase.cs" />
     <Compile Include="Common\ApplicationProvider.cs" />
     <Compile Include="Common\IApplicationProvider.cs" />
@@ -108,7 +110,6 @@
     <Compile Include="AppModel\IApplicationStore.cs" />
     <Compile Include="AppModel\ApplicationStore.cs" />
     <Compile Include="FormsDependencyService.cs" />
-    <Compile Include="Services\RuntimePlatform.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Prism\Prism.csproj">

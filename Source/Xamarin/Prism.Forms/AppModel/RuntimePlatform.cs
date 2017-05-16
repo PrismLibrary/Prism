@@ -1,7 +1,7 @@
-﻿namespace Prism.Services
+﻿namespace Prism.AppModel
 {
 	/// <summary>
-	/// Represents tge Platform (OS) that the application is running on.
+	/// Represents the Platform (OS) that the application is running on.
 	/// </summary>
 	/// <remarks>This enum acts as a wrapper around the Device.RuntimePlatform string-based options</remarks>
 	public enum RuntimePlatform

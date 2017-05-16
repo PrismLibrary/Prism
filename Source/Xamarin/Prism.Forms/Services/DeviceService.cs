@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.AppModel;
+using System;
 using Xamarin.Forms;
 
 namespace Prism.Services
