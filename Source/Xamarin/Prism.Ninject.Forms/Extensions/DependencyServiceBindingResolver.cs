@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Ninject.Activation;
-using Ninject.Infrastructure;
 using Ninject.Planning.Bindings;
 using Ninject.Components;
 
@@ -18,7 +17,7 @@ namespace Prism.Ninject.Extensions
     public class DependencyServiceBindingResolver : NinjectComponent, IMissingBindingResolver
     {
         /// <inheritDoc />
-        public IEnumerable<IBinding> Resolve(Multimap<Type, IBinding> bindings, IRequest request)
+        public IEnumerable<IBinding> Resolve(IDictionary<Type, IEnumerable<IBinding>> bindings, IRequest request)
         {
             var service = request.Service;
             if (!service.GetTypeInfo().IsInterface)
