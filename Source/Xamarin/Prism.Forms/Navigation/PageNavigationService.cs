@@ -303,7 +303,7 @@ namespace Prism.Navigation
             if (detail == null)
             {
                 var newDetail = CreatePageFromSegment(nextSegment);
-                await ProcessNavigation(newDetail, segments, parameters, newDetail is NavigationPage ? false : true, animated);
+                await ProcessNavigation(newDetail, segments, parameters, useModalNavigation, animated);
                 await DoNavigateAction(null, nextSegment, newDetail, parameters, onNavigationActionCompleted: () =>
                 {
                     currentPage.IsPresented = isPresented;
