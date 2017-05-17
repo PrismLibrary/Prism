@@ -54,19 +54,20 @@ namespace Prism.DryIoc
             container.RegisterTypeForNavigationWithViewModel<TViewModel>(typeof(TView), name);
         }
 
-        /// <summary>
-        /// Registers a Page for navigation based on the current Device OS using a shared ViewModel
-        /// </summary>
-        /// <typeparam name="TView">Default View Type to be shared across multiple Device Operating Systems if they are not specified directly.</typeparam>
-        /// <typeparam name="TViewModel">Shared ViewModel Type</typeparam>
-        /// <param name="container"><see cref="IContainer"/> used to register type for Navigation.</param>
-        /// <param name="name">The unique name to register with the Page. If left empty or null will default to the ViewModel root name. i.e. MyPageViewModel => MyPage</param>
-        /// <param name="androidView">Android Specific View Type</param>
-        /// <param name="iOSView">iOS Specific View Type</param>
-        /// <param name="otherView">Other Platform Specific View Type</param>
-        /// <param name="windowsView">Windows Specific View Type</param>
-        /// <param name="winPhoneView">Windows Phone Specific View Type</param>
-        public static void RegisterTypeForNavigationOnPlatform<TView, TViewModel>(this IContainer container, string name = null, Type androidView = null, Type iOSView = null, Type otherView = null, Type windowsView = null, Type winPhoneView = null)
+		/// <summary>
+		/// Registers a Page for navigation based on the current Device OS using a shared ViewModel
+		/// </summary>
+		/// <typeparam name="TView">Default View Type to be shared across multiple Device Operating Systems if they are not specified directly.</typeparam>
+		/// <typeparam name="TViewModel">Shared ViewModel Type</typeparam>
+		/// <param name="container"><see cref="IContainer"/> used to register type for Navigation.</param>
+		/// <param name="name">The unique name to register with the Page. If left empty or null will default to the ViewModel root name. i.e. MyPageViewModel => MyPage</param>
+		/// <param name="androidView">Android Specific View Type</param>
+		/// <param name="iOSView">iOS Specific View Type</param>
+		/// <param name="otherView">Other Platform Specific View Type</param>
+		/// <param name="windowsView">Windows Specific View Type</param>
+		/// <param name="winPhoneView">Windows Phone Specific View Type</param>
+		[Obsolete("This signature of the RegisterTypeForNavigationOnPlatform method is obsolete due to Device.OnPlatform being deprecated. Use the new IPlatform[] overload instead.")]
+		public static void RegisterTypeForNavigationOnPlatform<TView, TViewModel>(this IContainer container, string name = null, Type androidView = null, Type iOSView = null, Type otherView = null, Type windowsView = null, Type winPhoneView = null)
             where TView : Page
             where TViewModel : class
         {
@@ -99,17 +100,59 @@ namespace Prism.DryIoc
             }
         }
 
-        /// <summary>
-        /// Registers a Page for navigation based on the Device Idiom using a shared ViewModel
-        /// </summary>
-        /// <typeparam name="TView">Default View Type to be used across multiple Idioms if they are not specified directly.</typeparam>
-        /// <typeparam name="TViewModel">The shared ViewModel</typeparam>
-        /// <param name="container"><see cref="IContainer"/> used to register type for Navigation.</param>
-        /// <param name="name">The common name used for Navigation. If left empty or null will default to the ViewModel root name. i.e. MyPageViewModel => MyPage</param>
-        /// <param name="desktopView">Desktop Specific View Type</param>
-        /// <param name="tabletView">Tablet Specific View Type</param>
-        /// <param name="phoneView">Phone Specific View Type</param>
-        public static void RegisterTypeForNavigationOnIdiom<TView, TViewModel>(this IContainer container, string name = null, Type desktopView = null, Type tabletView = null, Type phoneView = null)
+		/// <summary>
+		/// Registers a Page for navigation based on the current Device OS using a shared ViewModel
+		/// </summary>
+		/// <typeparam name="TView">Default View Type to be shared across multiple Device Operating Systems if they are not specified directly.</typeparam>
+		/// <typeparam name="TViewModel">Shared ViewModel Type</typeparam>
+		/// <param name="container"><see cref="IContainer"/> used to register type for Navigation.</param>
+		/// <param name="platforms"></param>
+		public static void RegisterTypeForNavigationOnPlatform<TView, TViewModel>(this IContainer container, params IPlatform[] platforms)
+			where TView : Page
+			where TViewModel : class
+		{
+			var name = typeof(TView).Name;
+			RegisterTypeForNavigationOnPlatform<TView, TViewModel>(container, name, platforms);
+		}
+
+		/// <summary>
+		/// Registers a Page for navigation based on the current Device OS using a shared ViewModel
+		/// </summary>
+		/// <typeparam name="TView">Default View Type to be shared across multiple Device Operating Systems if they are not specified directly.</typeparam>
+		/// <typeparam name="TViewModel">Shared ViewModel Type</typeparam>
+		/// <param name="container"><see cref="IContainer"/> used to register type for Navigation.</param>
+		/// <param name="name">The unique name to register with the Page. If left empty or null will default to the View name.</param>
+		/// <param name="platforms"></param>
+		public static void RegisterTypeForNavigationOnPlatform<TView, TViewModel>(this IContainer container, string name, params IPlatform[] platforms)
+			where TView : Page
+			where TViewModel : class
+		{
+			if (string.IsNullOrWhiteSpace(name))
+				name = typeof(TView).Name;
+
+			foreach (var platform in platforms)
+			{
+				if (Device.RuntimePlatform == platform.RuntimePlatform.ToString())
+				{
+					container.RegisterTypeForNavigationWithViewModel<TViewModel>(platform.ViewType, name);
+					return;
+				}
+			}
+
+			container.RegisterTypeForNavigation<TView, TViewModel>(name);
+		}
+
+		/// <summary>
+		/// Registers a Page for navigation based on the Device Idiom using a shared ViewModel
+		/// </summary>
+		/// <typeparam name="TView">Default View Type to be used across multiple Idioms if they are not specified directly.</typeparam>
+		/// <typeparam name="TViewModel">The shared ViewModel</typeparam>
+		/// <param name="container"><see cref="IContainer"/> used to register type for Navigation.</param>
+		/// <param name="name">The common name used for Navigation. If left empty or null will default to the ViewModel root name. i.e. MyPageViewModel => MyPage</param>
+		/// <param name="desktopView">Desktop Specific View Type</param>
+		/// <param name="tabletView">Tablet Specific View Type</param>
+		/// <param name="phoneView">Phone Specific View Type</param>
+		public static void RegisterTypeForNavigationOnIdiom<TView, TViewModel>(this IContainer container, string name = null, Type desktopView = null, Type tabletView = null, Type phoneView = null)
             where TView : Page
             where TViewModel : class
         {
