@@ -587,6 +587,23 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
+        public async void DeepNavigate_From_NavigationPage_With_UseModalNavigationIsNull()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new ContentPage();
+            var navigationPage = new NavigationPage(rootPage);
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("ContentPage/PageMock");
+
+            Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
+            Assert.Equal(3, navigationPage.Navigation.NavigationStack.Count);
+            Assert.IsType<ContentPage>(navigationPage.Navigation.NavigationStack[0]);
+            Assert.IsType<ContentPageMock>(navigationPage.Navigation.NavigationStack[1]);
+            Assert.IsType<PageMock>(navigationPage.Navigation.NavigationStack[2]);
+        }
+
+        [Fact]
         public async void DeepNavigate_From_ContentPage_To_CarouselPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
