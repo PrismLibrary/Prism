@@ -140,25 +140,35 @@ namespace Prism.Navigation
                 return;
             }
 
+            bool? nextUseModalNavigation = null;
+            if (useModalNavigation.HasValue)
+            {
+                nextUseModalNavigation = useModalNavigation;
+            }
+            else if (currentPage.Parent is NavigationPage)
+            {
+                nextUseModalNavigation = false;
+            }
+
             if (currentPage is ContentPage)
             {
-                await ProcessNavigationForContentPage(currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForContentPage(currentPage, nextSegment, segments, parameters, nextUseModalNavigation, animated);
             }
             else if (currentPage is NavigationPage)
             {
-                await ProcessNavigationForNavigationPage((NavigationPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForNavigationPage((NavigationPage)currentPage, nextSegment, segments, parameters, nextUseModalNavigation, animated);
             }
             else if (currentPage is TabbedPage)
             {
-                await ProcessNavigationForTabbedPage((TabbedPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForTabbedPage((TabbedPage)currentPage, nextSegment, segments, parameters, nextUseModalNavigation, animated);
             }
             else if (currentPage is CarouselPage)
             {
-                await ProcessNavigationForCarouselPage((CarouselPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForCarouselPage((CarouselPage)currentPage, nextSegment, segments, parameters, nextUseModalNavigation, animated);
             }
             else if (currentPage is MasterDetailPage)
             {
-                await ProcessNavigationForMasterDetailPage((MasterDetailPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForMasterDetailPage((MasterDetailPage)currentPage, nextSegment, segments, parameters, nextUseModalNavigation, animated);
             }
         }
 
