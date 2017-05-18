@@ -74,6 +74,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Commands\TestPurposeBindableBase.cs" />
     <Compile Include="Events\BackgroundEventSubscriptionFixture.cs" />
     <Compile Include="Events\DataEventArgsFixture.cs" />
     <Compile Include="Events\DelegateReferenceFixture.cs" />
