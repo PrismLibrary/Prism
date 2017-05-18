@@ -35,6 +35,7 @@ namespace Prism.Forms.Tests.Mocks.Views
         public MasterDetailPageEmptyMock()
         {
             ViewModelLocator.SetAutowireViewModel(this, true);
+            Master = new ContentPageMock {Title = "Master"};
         }
     }
 }
