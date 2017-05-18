@@ -1,7 +1,6 @@
 ﻿namespace Prism.Forms.Tests.Mocks.ViewModels
 {
-    public class PageMockViewModel : ViewModelBase
+    public class OtherContentPageMockViewModel : ViewModelBase
     {
-
     }
 }

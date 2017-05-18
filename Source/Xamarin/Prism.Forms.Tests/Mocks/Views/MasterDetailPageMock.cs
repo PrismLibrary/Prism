@@ -15,6 +15,7 @@ namespace Prism.Forms.Tests.Mocks.Views
 
         public MasterDetailPageMock(PageNavigationEventRecorder recorder)
         {
+            Master = new ContentPageMock{ Title = "Master" };
             Detail = new ContentPageMock(recorder);
 
             ViewModelLocator.SetAutowireViewModel(this, true);
@@ -35,6 +36,7 @@ namespace Prism.Forms.Tests.Mocks.Views
         public MasterDetailPageEmptyMock()
         {
             ViewModelLocator.SetAutowireViewModel(this, true);
+            Master = new ContentPageMock {Title = "Master"};
         }
     }
 }
