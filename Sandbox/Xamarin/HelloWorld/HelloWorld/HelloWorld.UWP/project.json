@@ -1,8 +1,8 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
     "Unity": "4.0.1",
-    "Xamarin.Forms": "2.3.3.193"
+    "Xamarin.Forms": "2.3.5.239-pre3"
   },
   "frameworks": {
     "uap10.0": {}
