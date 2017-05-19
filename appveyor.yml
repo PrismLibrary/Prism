@@ -106,5 +106,5 @@ deploy:
     secure: ZR2WeSlQqSkfL6YpxWzIqhdeKSdxxPqp9yvN7l+SyIX+yIHNcKNqCENWcE8A6GsQ
   skip_symbols: false
   on:
-    branch: task/netstandard
+    branch: master
     Configuration: Release
