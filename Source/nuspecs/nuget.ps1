@@ -8,7 +8,7 @@ $nugetFileName = 'nuget.exe'
 
 if($solutionPath -like '*PrismLibrary_XF*' -and $configuration -eq 'Release')
 {
-    dotnet pack ../PrismLibrary_XF.sln -c $configuration
+    dotnet pack $solutionPath -c $configuration
     return
 }
 

@@ -5,6 +5,7 @@ skip_branch_with_pr: true
 skip_tags: true
 configuration:
   - Test
+  - Debug
   - Release
 
 only_commits:
@@ -12,6 +13,11 @@ only_commits:
   - appveyor.yml
   - Source\*
   - Source\nuspecs\*
+  - Sandbox\*
+
+skip_commits:
+  files:
+    - '**/*.md'
 
 nuget:
   disable_publish_on_pr: true
@@ -19,6 +25,7 @@ nuget:
 init:
   - ps: $env:fullBuildVersion = $env:BuildVersion + $env:APPVEYOR_BUILD_NUMBER
   - ps: $env:fullBuildSemanticVersion = $env:BuildSemanticVersion + $env:APPVEYOR_BUILD_NUMBER
+  - ps: Write-Host "Version $version"
   - ps: Write-Host "Build Version:" $env:fullBuildVersion
   - ps: Write-Host "Build Semantic Version:" $env:fullBuildSemanticVersion
   - ps: Write-Host "Commit:" $env:APPVEYOR_REPO_COMMIT_MESSAGE 
@@ -27,59 +34,68 @@ init:
 assembly_info:
   patch: true
   file: 'Source\**\AssemblyInfo.cs'
-  assembly_version: $(fullBuildVersion)
-  assembly_file_version: $(fullBuildVersion)
-  assembly_informational_version: $(fullBuildSemanticVersion)
+  assembly_version: "1.0.0.0"
+  assembly_informational_version: "7.0.0-build{build}"
 
 environment:
   matrix:
   - solution_name: .\Source\PrismLibrary_Core.sln
   - solution_name: .\Source\PrismLibrary_Win10.sln
+  - solution_name: .\Sandbox\Windows10\HelloWorld\HelloWorld.sln
   - solution_name: .\Source\PrismLibrary_Wpf.sln
   - solution_name: .\Source\PrismLibrary_XF.sln
+  - solution_name: .\Sandbox\Xamarin\HelloWorld\HelloWorld.sln
   - solution_name: .\Source\PrismLibrary.sln
+
+matrix:
+  exclude:
+    # PrismLibrary.sln should only be built in release for the NuGet pack
+    - solution_name: .\Source\PrismLibrary.sln
+      configuration: Test
+    - solution_name: .\Source\PrismLibrary.sln
+      configuration: Debug
+    # PrismLibrary_Core, PrismLibrary_Win10, & PrismLibrary_Wpf only need to build in Release
+    - solution_name: .\Source\PrismLibrary_Core.sln
+      configuration: Test
+    - solution_name: .\Source\PrismLibrary_Core.sln
+      configuration: Debug
+    - solution_name: .\Source\PrismLibrary_Win10.sln
+      configuration: Test
+    - solution_name: .\Source\PrismLibrary_Win10.sln
+      configuration: Debug
+    - solution_name: .\Source\PrismLibrary_Wpf.sln
+      configuration: Test
+    - solution_name: .\Source\PrismLibrary_Wpf.sln
+      configuration: Debug
+    # PrismLibrary_XF.sln can only be tested with the Test configuration
+    - solution_name: .\Source\PrismLibrary_XF.sln
+      configuration: Debug
+    # The Sandbox solutions should only be built in debug for validation
+    - solution_name: .\Sandbox\Windows10\HelloWorld\HelloWorld.sln
+      configuration: Test
+    - solution_name: .\Sandbox\Windows10\HelloWorld\HelloWorld.sln
+      configuration: Release
+    - solution_name: .\Sandbox\Xamarin\HelloWorld\HelloWorld.sln
+      configuration: Test
+    - solution_name: .\Sandbox\Xamarin\HelloWorld\HelloWorld.sln
+      configuration: Release
 
 before_build:
   - nuget restore %solution_name%
-
-#build:
-#  parallel: true
-#  project: PrismLibrary.sln
-#  verbosity: minimal
 
 build_script:
   - msbuild %solution_name% 
 
 test_script:
-  - ps: .\test.ps1 -configuration $Configuration -solutionPath %solution_name%
-  #- dotnet test Source\Prism.Tests\Prism.Tests.csproj -c Test
-  #- vstest.console /logger:Appveyor Source\Wpf\\Prism.Wpf.Tests\bin\Release\Prism.Wpf.Tests.dll
-  #- vstest.console /logger:Appveyor Source\Wpf\Prism.Autofac.Wpf.Tests\bin\Release\Prism.Autofac.Wpf.Tests.dll
-  #- vstest.console /logger:Appveyor Source\Wpf\Prism.DryIoc.Wpf.Tests\bin\Release\Prism.DryIoc.Wpf.Tests.dll
-  #- vstest.console /logger:Appveyor Source\Wpf\Prism.Mef.Wpf.Tests\bin\Release\Prism.Mef.Wpf.Tests.dll
-  #- vstest.console /logger:Appveyor Source\Wpf\Prism.StructureMap.Wpf.Tests\bin\Release\Prism.StructureMap.Wpf.Tests.dll
-  #- vstest.console /logger:Appveyor Source\Wpf\Prism.Unity.Wpf.Tests\bin\Release\Prism.Unity.Wpf.Tests.dll
-  #- dotnet test Source\Xamarin\Prism.Autofac.Forms.Tests\Prism.Autofac.Forms.Tests.csproj -c Test
-  #- dotnet test Source\Xamarin\Prism.DryIoc.Forms.Tests\Prism.DryIoc.Forms.Tests.csproj -c Test
-  #- dotnet test Source\Xamarin\Prism.Forms.Tests\Prism.Forms.Tests.csproj -c Test
-  #- dotnet test Source\Xamarin\Prism.Unity.Forms.Tests\Prism.Unity.Forms.Tests.csproj -c Test
   # UWP tests are not currently not supported by appveyor: https://github.com/appveyor/ci/issues/393
+  - ps: .\tools\test.ps1 -configuration $env:Configuration -solutionPath $env:solution_name
 
 after_test:
-  -ps: .\Source\nuspecs\nuget.ps1 -configuration %configuration% -solutionPath %solution_name%
   #- dotnet pack %solution_name%
-  #on:
-  #  Configuration: Release
-  #  solution_name: 
-  #- dotnet pack Source\Prism\PrismLibrary_XF.sln -c Release
-  #- dotnet pack src\Prism.Forms\ -c Release
-  #- dotnet pack src\Prism.Autofac.Forms\ -c Release
-  #- dotnet pack src\Prism.DryIoc.Forms\ -c Release
-  #- dotnet pack src\Prism.Ninject.Forms\ -c Release
-  #- dotnet pack src\Prism.Unity.Forms\ -c Release
-  #- powershell -f .\nuget.ps1
+  -ps: .\Source\nuspecs\nuget.ps1 -configuration $env:Configuration -solutionPath $env:solution_name
 
 artifacts:
+  - path: 'Build\*.nupkg'
   - path: 'Source\Build\*.nupkg'
   - path: 'Source\nuspecs\Packages\*.nupkg'
 
@@ -90,5 +106,5 @@ deploy:
     secure: ZR2WeSlQqSkfL6YpxWzIqhdeKSdxxPqp9yvN7l+SyIX+yIHNcKNqCENWcE8A6GsQ
   skip_symbols: false
   on:
-    branch: master
+    branch: task/netstandard
     Configuration: Release
