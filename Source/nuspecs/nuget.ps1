@@ -6,16 +6,21 @@ $releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-'
 $coreFileVersion = '1.0.0'
 $nugetFileName = 'nuget.exe'
 
+
 if($solutionPath -like '*PrismLibrary_XF*' -and $configuration -eq 'Release')
 {
+    Write-Host "Packing PrismLibrary_XF"
     dotnet pack $solutionPath -c $configuration
     return
 }
 
 if($configuration -eq 'Test' -or $solutionPath -notlike 'PrismLibrary.sln')
 {
+    Write-Host "Returning without packing $solutionPath"
     return
 }
+
+Write-Host "Packing $solutionPath"
 
 function Get-FileVersion
 {

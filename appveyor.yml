@@ -86,13 +86,14 @@ before_build:
 build_script:
   - msbuild %solution_name% 
 
+after_build:
+  #- dotnet pack %solution_name%
+  # -ps: Write-Host "Completed build for $env:solution_name"
+  -ps: .\Source\nuspecs\nuget.ps1 -configuration $env:Configuration -solutionPath $env:solution_name
+
 test_script:
   # UWP tests are not currently not supported by appveyor: https://github.com/appveyor/ci/issues/393
   - ps: .\tools\test.ps1 -configuration $env:Configuration -solutionPath $env:solution_name
-
-after_test:
-  #- dotnet pack %solution_name%
-  -ps: .\Source\nuspecs\nuget.ps1 -configuration $env:Configuration -solutionPath $env:solution_name
 
 artifacts:
   - path: '**\Build\*.nupkg'
