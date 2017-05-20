@@ -84,12 +84,12 @@ before_build:
   - nuget restore %solution_name%
 
 build_script:
-  - msbuild %solution_name% 
+  - msbuild %solution_name% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 after_build:
   #- dotnet pack %solution_name%
   # -ps: Write-Host "Completed build for $env:solution_name"
-  -ps: .\Source\nuspecs\nuget.ps1 -configuration $env:Configuration -solutionPath $env:solution_name
+- ps: .\Source\nuspecs\nuget.ps1 -configuration $env:Configuration -solutionPath $env:solution_name
 
 test_script:
   # UWP tests are not currently not supported by appveyor: https://github.com/appveyor/ci/issues/393

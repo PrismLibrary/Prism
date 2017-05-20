@@ -10,7 +10,7 @@ $nugetFileName = 'nuget.exe'
 if($solutionPath -like '*PrismLibrary_XF*' -and $configuration -eq 'Release')
 {
     Write-Host "Packing PrismLibrary_XF"
-    dotnet pack $solutionPath -c $configuration
+    dotnet pack $solutionPath -c $configuration --no-build
     return
 }
 

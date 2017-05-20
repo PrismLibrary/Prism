@@ -11,8 +11,21 @@ elseif($solutionPath -like '*PrismLibrary_Win10*')
 {
     Write-Host "Testing Windows 10"
     Write-Host "UWP tests are not currently not supported by appveyor: https://github.com/appveyor/ci/issues/393"
+    # Write-Host "listing current directory"
+    # ls
+    # Write-Host "listing source directory"
+    # ls ./Source
+    # Write-Host "listing Windows10 directory"
+    # ls ./Source/Windows10
+    # Write-Host "listing Windows Tests directory"
+    # ls ./Source/Windows10/Prism.Windows.Tests
+    # Write-Host "listing bin directory"
+    # ls ./Source/Windows10/Prism.Windows.Tests/bin
+    # Write-Host "listing Release binary"
+    # ls ./Source/Windows10/Prism.Windows.Tests/bin/Release
+    # Get-ChildItem ./Source/Windows10/Prism.Windows.Tests/bin
     # xunit.console .\Source\Windows10\Prism.Windows.Tests\bin\Debug\Prism.Windows.Tests.dll /appveyor
-    vstest.console /logger:Appveyor .\Source\Windows10\Prism.Windows.Tests\bin\$configuration\Prism.Windows.Tests.dll
+    vstest.console /logger:Appveyor .\Source\Windows10\Prism.Windows.Tests\bin\$configuration\Prism.Windows.Tests.exe
 }
 elseif($solutionPath -like '*PrismLibrary_Wpf*')
 {
