@@ -95,9 +95,8 @@ after_test:
   -ps: .\Source\nuspecs\nuget.ps1 -configuration $env:Configuration -solutionPath $env:solution_name
 
 artifacts:
-  - path: 'Build\*.nupkg'
-  - path: 'Source\Build\*.nupkg'
-  - path: 'Source\nuspecs\Packages\*.nupkg'
+  - path: '**\Build\*.nupkg'
+  - path: '**\nuspecs\**\*.nupkg'
 
 deploy:
 - provider: NuGet
