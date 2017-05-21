@@ -56,11 +56,11 @@ assembly_info:
 environment:
   matrix:
   - solution_name: .\Source\PrismLibrary_Core.sln
-  - solution_name: .\Source\PrismLibrary_Win10.sln
   - solution_name: .\Sandbox\Windows10\HelloWorld\HelloWorld.sln
+  - solution_name: .\Source\PrismLibrary_Win10.sln
   - solution_name: .\Source\PrismLibrary_Wpf.sln
-  - solution_name: .\Source\PrismLibrary_XF.sln
   - solution_name: .\Sandbox\Xamarin\HelloWorld\HelloWorld.sln
+  - solution_name: .\Source\PrismLibrary_XF.sln
   - solution_name: .\Source\PrismLibrary.sln
 
 matrix:
@@ -103,9 +103,32 @@ build_script:
   - msbuild %solution_name% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 after_build:
-  #- dotnet pack %solution_name%
-  # -ps: Write-Host "Completed build for $env:solution_name"
-- ps: .\Source\nuspecs\nuget.ps1 -configuration $env:Configuration -solutionPath $env:solution_name
+- ps: >-
+    if($env:solution_name.EndsWith("PrismLibrary_XF.sln") -and $env:Configuration -eq 'Release')
+
+    {
+        Write-Host "Packing PrismLibrary_XF"
+        dotnet pack $env:solution_name -c $env:Configuration --no-build
+    }
+
+    elseif($env:Configuration -eq 'Release' -and $env:solution_name.EndsWith("PrismLibrary.sln"))
+
+    {
+        Write-Host "Packing $env:solution_name"
+        .\Source\nuspecs\nuget.ps1
+    }
+
+    if($env:Configuration -eq 'Release')
+
+    {
+        $env:SOLUTION_ARTIFACTS_DIRECTORY = (Get-Item $env:solution_name).Basename
+
+        New-Item -ItemType Directory -Force -Path $env:SOLUTION_ARTIFACTS_DIRECTORY
+
+        Copy-Item "**\bin\Release\**\Prism*dll","**\bin\Release\**\Prism*xml" -Destination ./$env:SOLUTION_ARTIFACTS_DIRECTORY/ -Recurse -Exclude "*Tool*" -Force -Confirm:$False
+
+        Get-ChildItem $env:SOLUTION_ARTIFACTS_DIRECTORY
+    }
 
 test_script:
   # UWP tests are not currently not supported by appveyor: https://github.com/appveyor/ci/issues/393
@@ -114,6 +137,7 @@ test_script:
 artifacts:
   - path: '**\Build\*.nupkg'
   - path: '**\nuspecs\**\*.nupkg'
+  - path: '$(solution_artifacts_directory)'
 
 deploy:
 - provider: NuGet
