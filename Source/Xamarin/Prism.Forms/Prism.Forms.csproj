@@ -20,8 +20,9 @@
     <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
     <PackageOutputPath>../../Build</PackageOutputPath>
     <VersionPrefix>7.0.0</VersionPrefix>
-    <VersionSuffix Condition=" '$(BUILD_BUILDNUMBER)' != '' ">beta$(BUILD_BUILDNUMBER)</VersionSuffix>
-    <VersionSuffix Condition=" '$(PREVIEW_NUMBER)' != '' ">pre$(PREVIEW_NUMBER)</VersionSuffix>
+    <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' ">7.0.0</VersionPrefix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">beta$(APPVEYOR_BUILD_NUMBER)</VersionSuffix>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
