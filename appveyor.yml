@@ -23,19 +23,35 @@ nuget:
   disable_publish_on_pr: true
 
 init:
-  - ps: $env:fullBuildVersion = $env:BuildVersion + $env:APPVEYOR_BUILD_NUMBER
-  - ps: $env:fullBuildSemanticVersion = $env:BuildSemanticVersion + $env:APPVEYOR_BUILD_NUMBER
-  - ps: Write-Host "Version $version"
-  - ps: Write-Host "Build Version:" $env:fullBuildVersion
-  - ps: Write-Host "Build Semantic Version:" $env:fullBuildSemanticVersion
-  - ps: Write-Host "Commit:" $env:APPVEYOR_REPO_COMMIT_MESSAGE 
-  - ps: Write-Host "Commit extended:" $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED
+- ps: >-
+    $informationalVersion = "7.0.0"
 
+    if($env:APPVEYOR_REPO_TAG -eq $true)
+
+    {
+      $informationalVersion = $env:APPVEYOR_REPO_TAG_NAME -creplace '^.*\.v', ''
+      $env:PRISM_RELEASE = $informationalVersion
+    }
+
+    else
+
+    {
+      $informationalVersion += "-beta$env:APPVEYOR_BUILD_NUMBER"
+    }
+
+    Update-AppveyorBuild -Version $informationalVersion
+
+    Write-Host "AppVeyor Build Version:" $env:APPVEYOR_BUILD_VERSION
+
+    Write-Host "Commit:$env:APPVEYOR_REPO_COMMIT_MESSAGE"
+
+    Write-Host "Commit extended:" $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED
 assembly_info:
+
   patch: true
   file: 'Source\**\AssemblyInfo.cs'
-  assembly_version: "1.0.0.0"
-  assembly_informational_version: "7.0.0-build{build}"
+  assembly_version: '1.0.0.0'
+  assembly_informational_version: '$(appveyor_build_version)'
 
 environment:
   matrix:
