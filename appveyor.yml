@@ -107,27 +107,70 @@ after_build:
     if($env:solution_name.EndsWith("PrismLibrary_XF.sln") -and $env:Configuration -eq 'Release')
 
     {
-        Write-Host "Packing PrismLibrary_XF"
-        dotnet pack $env:solution_name -c $env:Configuration --no-build
+      Write-Host "Packing PrismLibrary_XF"
+      dotnet pack $env:solution_name -c $env:Configuration --no-build
     }
 
     elseif($env:Configuration -eq 'Release' -and $env:solution_name.EndsWith("PrismLibrary.sln"))
 
     {
-        Write-Host "Packing $env:solution_name"
-        .\Source\nuspecs\nuget.ps1
+      Write-Host "Packing $env:solution_name"
+      .\Source\nuspecs\nuget.ps1
     }
+
+    Write-Host "Looking for build Artifacts...."
 
     if($env:Configuration -eq 'Release')
 
     {
-        $env:SOLUTION_ARTIFACTS_DIRECTORY = (Get-Item $env:solution_name).Basename
+      $env:SOLUTION_ARTIFACTS_DIRECTORY = (Get-Item $env:solution_name).Basename
 
-        New-Item -ItemType Directory -Force -Path $env:SOLUTION_ARTIFACTS_DIRECTORY
+      if($env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary" -or $env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary_Wpf")
+      {
+        $outputDir = if($env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary") {"$($env:SOLUTION_ARTIFACTS_DIRECTORY)/net45"} else {"PrismLibrary"}
+        New-Item -ItemType Directory -Force -Path $outputDir
+        $wpfArtifacts = @(
+          "./Source/Prism/bin/Release/**/Prism*",
+          "./Source/Wpf/Prism.Autofac.Wpf/bin/Release/Prism*",
+          "./Source/Wpf/Prism.DryIoc.Wpf/bin/Release/Prism*",
+          "./Source/Wpf/Prism.Mef.Wpf/bin/Release/Prism*",
+          "./Source/Wpf/Prism.Ninject.Wpf/bin/Release/Prism*",
+          "./Source/Wpf/Prism.StructureMap.Wpf/bin/Release/Prism*",
+          "./Source/Wpf/Prism.Unity.Wpf/bin/Release/Prism*",
+          "./Source/Wpf/Prism.Wpf/bin/Release/Prism*"
+        )
+        Write-Host "Writing artifacts to $outputDir"
+        Copy-Item $wpfArtifacts -Destination $outputDir -Force -Confirm:$False
+      }
 
-        Copy-Item "**\bin\Release\**\Prism*dll","**\bin\Release\**\Prism*xml" -Destination ./$env:SOLUTION_ARTIFACTS_DIRECTORY/ -Recurse -Exclude "*Tool*" -Force -Confirm:$False
+      if($env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary" -or $env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary_Win10")
+      {
+        $outputDir = if($env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary") {"$($env:SOLUTION_ARTIFACTS_DIRECTORY)/uap10"} else {"PrismLibrary"}
+        New-Item -ItemType Directory -Force -Path $outputDir
+        $winArtifacts = @(
+          "./Source/Prism/bin/Release/**/Prism*",
+          "./Source/Windows10/Prism.Autofac.Windows/bin/Release/Prism*",
+          "./Source/Windows10/Prism.SimpleInjector.Windows/bin/Release/Prism*",
+          "./Source/Windows10/Prism.Unity.Windows/bin/Release/Prism*",
+          "./Source/Windows10/Prism.Windows/bin/Release/Prism*"
+        )
+        Copy-Item $winArtifacts -Destination $outputDir -Force -Confirm:$False
+      }
 
-        Get-ChildItem $env:SOLUTION_ARTIFACTS_DIRECTORY
+      if($env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary" -or $env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary_XF")
+      {
+        $outputDir = if($env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary") {"$($env:SOLUTION_ARTIFACTS_DIRECTORY)/netstandard"} else {"PrismLibrary"}
+        New-Item -ItemType Directory -Force -Path $outputDir
+        $xfArtifacts = @(
+            "./Source/Prism/bin/Release/net*",
+            "./Source/Xamarin/Prism.Autofac.Forms/bin/Release/net*"
+            "./Source/Xamarin/Prism.DryIoc.Forms/bin/Release/net*"
+            "./Source/Xamarin/Prism.Forms/bin/Release/net*"
+            "./Source/Xamarin/Prism.Ninject.Forms/bin/Release/net*"
+            "./Source/Xamarin/Prism.Unity.Forms/bin/Release/net*"
+        )
+        Copy-Item $xfArtifacts -Destination $outputDir -Recurse -Force -Confirm:$False
+      }
     }
 
 # UWP tests are not currently not supported by appveyor: https://github.com/appveyor/ci/issues/393
