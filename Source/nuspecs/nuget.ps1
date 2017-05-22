@@ -25,7 +25,7 @@ function Get-FileVersion
     throw "Could not locate the assembly '$assemblyPath'"
 }
 
-function Build-NuGetExpression
+function ConvertTo-NuGetExpression
 {
     [OutputType([string])]
     Param (
@@ -56,7 +56,7 @@ function Build-NuGetExpression
     return $expression
 }
 
-function Pack-Project ($project) {
+function Save-NuGetPackage ($project) {
     $nuspecPath = $project["nuspec"]
     $wpfAssemblyPath = $project["projects"]["wpf"]
     $uwpAssemblyPath = $project["projects"]["uwp"]
@@ -64,7 +64,13 @@ function Pack-Project ($project) {
     $wpfVersion = Get-FileVersion -assemblyPath $wpfAssemblyPath
     $uwpVersion = Get-FileVersion -assemblyPath $uwpAssemblyPath
 
-    Invoke-Expression | Build-NuGetExpression -nuspecPath $nuspecPath -wpfVersion $wpfVersion -uwpVersion $uwpVersion
+    Invoke-Expression | ConvertTo-NuGetExpression -nuspecPath $nuspecPath -wpfVersion $wpfVersion -uwpVersion $uwpVersion
+}
+
+if(Test-Path ./Source)
+{
+    $returnPath = "../.."
+    Set-Location ./Source/nuspecs
 }
 
 if (!(Test-Path $nugetFileName))
@@ -76,15 +82,25 @@ if (!(Test-Path $nugetFileName))
 $projectsJson = Get-Content -Raw -Path projects.json | ConvertFrom-Json
 $coreFileVersion = Get-FileVersion -assemblyPath $projectsJson["core"]
 
-if($IsWindows)
+Write-Host "Is Windows: $IsWindows"
+Write-Host "Is CoreCLR: $IsCoreCLR"
+Write-Host "Is Linux: $IsLinux"
+Write-Host "Is OSX: $IsOSX"
+
+if($IsWindows -or $PSEdition -eq "Desktop")
 {
-    foreach ($project in $projects["projects"].GetEnumerator()) 
+    foreach ($project in $projectsJson["projects"].GetEnumerator()) 
     {
         Write-Host "Building package for $($project.Name)"
-        Pack-Project -project $project.Value
+        Save-NuGetPackage -project $project.Value
     }
 }
 else
 {
     Write-Host "This script must be executed on Windows"
+}
+
+if($returnPath)
+{
+    Set-Location $returnPath
 }
