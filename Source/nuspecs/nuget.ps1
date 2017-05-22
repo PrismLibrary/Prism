@@ -41,16 +41,16 @@ function ConvertTo-NuGetExpression
         $fileVersion = $uwpVersion
     }
 
-    $expression = ".\$($nugetFileName) pack $($nuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($fileVersion) -Prop coreVersion=$($fileVersion) -Prop releaseNotes=$($releaseNotesUri)"
+    $expression = ".\$($nugetFileName) pack $($nuspecPath) -outputdirectory $($nugetOutputDirectory) -Prop version=$($fileVersion) -Prop coreVersion=$($fileVersion) -Prop releaseNotes=$($releaseNotesUri)$fileVersion"
 
     if($wpfVersion)
     {
-        $expression = "$expression -Prop wpfVersion=$($wpfFileVersion)"
+        $expression = "$expression -Prop wpfVersion=$($wpfVersion)"
     }
 
     if($uwpVersion)
     {
-        $expression = "$expression -Prop uwpVersion=$($uwpFileVersion)"
+        $expression = "$expression -Prop uwpVersion=$($uwpVersion)"
     }
 
     Write-Host "Finished Expression: $expression"
