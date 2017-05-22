@@ -222,10 +222,18 @@ artifacts:
 
 deploy:
 - provider: NuGet
-  server: https://www.myget.org/F/prism-pre/api/v2/package
+  server: https://www.myget.org/F/prism/api/v2/package
   api_key:
-    secure: ZR2WeSlQqSkfL6YpxWzIqhdeKSdxxPqp9yvN7l+SyIX+yIHNcKNqCENWcE8A6GsQ
+    secure: hPrzACGookFpABk0yLEZECc3bOpIEubvv2AJaTuKYKsiDrJSjywelIch9z/KgBlR
   skip_symbols: false
   on:
     branch: master
+    Configuration: Release
+- provider: NuGet
+  server: https://www.myget.org/F/prism/api/v2/package
+  api_key:
+    secure: hPrzACGookFpABk0yLEZECc3bOpIEubvv2AJaTuKYKsiDrJSjywelIch9z/KgBlR
+  skip_symbols: false
+  on:
+    appveyor_repo_tag: true
     Configuration: Release
