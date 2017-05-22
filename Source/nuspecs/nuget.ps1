@@ -53,16 +53,30 @@ function ConvertTo-NuGetExpression
         $expression = "$expression -Prop uwpVersion=$($uwpFileVersion)"
     }
 
+    Write-Host "Finished Expression: $expression"
     return $expression
 }
 
 function Save-NuGetPackage ($project) {
-    $nuspecPath = $project["nuspec"]
-    $wpfAssemblyPath = $project["projects"]["wpf"]
-    $uwpAssemblyPath = $project["projects"]["uwp"]
+    $nuspecPath = $project.NuSpec
+    $wpfAssemblyPath = $project.Files.Wpf
+    $uwpAssemblyPath = $project.Files.UWP
+
+    Write-Host "NuSpec: $nuspecPath"
+    Write-Host "WPF Assembly: $wpfAssemblyPath"
+    Write-Host "UWP Assembly: $uwpAssemblyPath"
 
     $wpfVersion = Get-FileVersion -assemblyPath $wpfAssemblyPath
     $uwpVersion = Get-FileVersion -assemblyPath $uwpAssemblyPath
+
+    Write-Host "WPF Version: $wpfVersion"
+    Write-Host "UWP Version: $uwpVersion"
+
+    if($wpfVersion -eq '' -and $uwpVersion -eq '')
+    {
+        Write-Host "Something seems to be wrong, we couldn't locate any binaries for $($project.Name)"
+        return
+    }
 
     Invoke-Expression | ConvertTo-NuGetExpression -nuspecPath $nuspecPath -wpfVersion $wpfVersion -uwpVersion $uwpVersion
 }
@@ -80,19 +94,14 @@ if (!(Test-Path $nugetFileName))
 }
 
 $projectsJson = Get-Content -Raw -Path projects.json | ConvertFrom-Json
-$coreFileVersion = Get-FileVersion -assemblyPath $projectsJson["core"]
-
-Write-Host "Is Windows: $IsWindows"
-Write-Host "Is CoreCLR: $IsCoreCLR"
-Write-Host "Is Linux: $IsLinux"
-Write-Host "Is OSX: $IsOSX"
+$coreFileVersion = Get-FileVersion -assemblyPath $projectsJson.Core
 
 if($IsWindows -or $PSEdition -eq "Desktop")
 {
-    foreach ($project in $projectsJson["projects"].GetEnumerator()) 
+    foreach ($project in $projectsJson.Projects) 
     {
         Write-Host "Building package for $($project.Name)"
-        Save-NuGetPackage -project $project.Value
+        Save-NuGetPackage -project $project
     }
 }
 else
