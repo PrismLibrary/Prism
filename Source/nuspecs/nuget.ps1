@@ -78,7 +78,8 @@ function Save-NuGetPackage ($project) {
         return
     }
 
-    Invoke-Expression | ConvertTo-NuGetExpression -nuspecPath $nuspecPath -wpfVersion $wpfVersion -uwpVersion $uwpVersion
+    $expression = ConvertTo-NuGetExpression -nuspecPath $nuspecPath -wpfVersion $wpfVersion -uwpVersion $uwpVersion
+    Invoke-Command $expression
 }
 
 if(Test-Path ./Source)
