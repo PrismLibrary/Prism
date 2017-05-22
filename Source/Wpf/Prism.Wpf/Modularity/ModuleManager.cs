@@ -265,7 +265,7 @@ namespace Prism.Modularity
                 moduleTypeLoadingException = new ModuleTypeLoadingException(moduleInfo.ModuleName, exception.Message, exception);
             }
 
-            this.loggerFacade.Log(moduleTypeLoadingException.Message, Category.Exception, Priority.High);
+            this.loggerFacade.Log(moduleTypeLoadingException.ToString(), Category.Exception, Priority.High);
 
             throw moduleTypeLoadingException;
         }
