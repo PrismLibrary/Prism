@@ -77,6 +77,8 @@ namespace Prism
             NavigationService = CreateNavigationService();
 
             InitializeModules();
+
+            Logger = CreateLogger();
         }
 
         /// <summary>

@@ -7,6 +7,7 @@ using Prism.DryIoc.Extensions;
 using Prism.DryIoc.Modularity;
 using Prism.DryIoc.Navigation;
 using Prism.Events;
+using Prism.Logging;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -49,6 +50,14 @@ namespace Prism.DryIoc
         {
             var rules = CreateContainerRules();
             return new Container(rules);
+        }
+
+        protected override ILoggerFacade CreateLogger()
+        {
+            if( Container != null && Container.IsRegistered<ILoggerFacade>() )
+                return Container.Resolve<ILoggerFacade>();
+
+            return base.CreateLogger();
         }
 
         protected override IModuleManager CreateModuleManager()
