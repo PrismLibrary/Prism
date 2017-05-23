@@ -1,8 +1,7 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
-MinimumVisualStudioVersion = 10.0.40219.1
+VisualStudioVersion = 15.0.26124.0
+MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism", "Prism\Prism.csproj", "{E6C50355-D01E-4CAA-884D-D7929861315C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Forms", "Xamarin\Prism.Forms\Prism.Forms.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
@@ -27,17 +26,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Autofac.Forms", "Xama
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Autofac.Forms.Tests", "Xamarin\Prism.Autofac.Forms.Tests\Prism.Autofac.Forms.Tests.csproj", "{0CB2C41D-2620-4FAF-9F73-FEAE52D93F29}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.DI.Forms.Tests", "Xamarin\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.shproj", "{7E004833-51E6-4C9A-9742-62D604F04642}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Unity.Forms.Tests", "Xamarin\Prism.Unity.Forms.Tests\Prism.Unity.Forms.Tests.csproj", "{2B5E37A2-B719-478A-A513-FBFA08F7EED6}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Xamarin\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{0cb2c41d-2620-4faf-9f73-feae52d93f29}*SharedItemsImports = 4
-		Xamarin\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{1d1b893c-3f38-436f-a507-d65310b9d2a0}*SharedItemsImports = 4
-		Xamarin\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{2b5e37a2-b719-478a-a513-fbfa08f7eed6}*SharedItemsImports = 4
-		Xamarin\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{7e004833-51e6-4c9a-9742-62d604f04642}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -221,7 +212,6 @@ Global
 		{DD171BA8-7B2D-4722-B5BF-E0A9EBFA1D5F} = {FEC22018-CBB0-493A-942D-59D1B93496E8}
 		{1D1B893C-3F38-436F-A507-D65310B9D2A0} = {FEC22018-CBB0-493A-942D-59D1B93496E8}
 		{0CB2C41D-2620-4FAF-9F73-FEAE52D93F29} = {FEC22018-CBB0-493A-942D-59D1B93496E8}
-		{7E004833-51E6-4C9A-9742-62D604F04642} = {FEC22018-CBB0-493A-942D-59D1B93496E8}
 		{2B5E37A2-B719-478A-A513-FBFA08F7EED6} = {FEC22018-CBB0-493A-942D-59D1B93496E8}
 	EndGlobalSection
 EndGlobal
