@@ -30,12 +30,9 @@
     <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Release' ">
-    <SignAssembly>True</SignAssembly>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <AssemblyOriginatorKeyFile>..\..\prism.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>False</DelaySign>
   </PropertyGroup>
 
   <ItemGroup>

@@ -23,6 +23,9 @@
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' ">7.0.0</VersionPrefix>
     <!-- This will create CI builds as 7.0.0-ci1234 -->
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">ci$(APPVEYOR_BUILD_NUMBER)</VersionSuffix>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\prism.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|AnyCPU'">
@@ -30,11 +33,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <SignAssembly>True</SignAssembly>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <AssemblyOriginatorKeyFile>..\prism.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>False</DelaySign>
   </PropertyGroup>
 
   <ItemGroup>
