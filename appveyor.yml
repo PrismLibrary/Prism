@@ -220,20 +220,20 @@ artifacts:
   - path: '**\nuspecs\**\*.nupkg'
   - path: '$(solution_artifacts_directory)'
 
-deploy:
-- provider: NuGet
-  server: https://www.myget.org/F/prism/api/v2/package
-  api_key:
-    secure: hPrzACGookFpABk0yLEZECc3bOpIEubvv2AJaTuKYKsiDrJSjywelIch9z/KgBlR
-  skip_symbols: false
-  on:
-    branch: master
-    Configuration: Release
-- provider: NuGet
-  server: https://www.myget.org/F/prism/api/v2/package
-  api_key:
-    secure: hPrzACGookFpABk0yLEZECc3bOpIEubvv2AJaTuKYKsiDrJSjywelIch9z/KgBlR
-  skip_symbols: false
-  on:
-    appveyor_repo_tag: true
-    Configuration: Release
+# deploy:
+# - provider: NuGet
+#   server: https://www.myget.org/F/prism/api/v2/package
+#   api_key:
+#     secure: hPrzACGookFpABk0yLEZECc3bOpIEubvv2AJaTuKYKsiDrJSjywelIch9z/KgBlR
+#   skip_symbols: false
+#   on:
+#     branch: master
+#     Configuration: Release
+# - provider: NuGet
+#   server: https://www.myget.org/F/prism/api/v2/package
+#   api_key:
+#     secure: hPrzACGookFpABk0yLEZECc3bOpIEubvv2AJaTuKYKsiDrJSjywelIch9z/KgBlR
+#   skip_symbols: false
+#   on:
+#     appveyor_repo_tag: true
+#     Configuration: Release
