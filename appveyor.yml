@@ -1,0 +1,239 @@
+version: 7.0.0.{build}
+image: Visual Studio 2017
+shallow_clone: true
+skip_branch_with_pr: true
+skip_tags: true
+configuration:
+  - Test
+  - Debug
+  - Release
+
+only_commits:
+  files:
+  - appveyor.yml
+  - Source\*
+  - Source\nuspecs\*
+  - Sandbox\*
+
+skip_commits:
+  files:
+    - '**/*.md'
+
+nuget:
+  disable_publish_on_pr: true
+
+init:
+- ps: >-
+    $informationalVersion = "7.0.0"
+
+    if($env:APPVEYOR_REPO_TAG -eq $true)
+
+    {
+      $informationalVersion = $env:APPVEYOR_REPO_TAG_NAME -creplace '^.*\.v', ''
+      $env:PRISM_RELEASE = $informationalVersion
+    }
+
+    else
+
+    {
+      $informationalVersion += "-ci$env:APPVEYOR_BUILD_NUMBER"
+    }
+
+    Update-AppveyorBuild -Version $informationalVersion
+
+    Write-Host "AppVeyor Build Version:" $env:APPVEYOR_BUILD_VERSION
+
+    Write-Host "Commit:$env:APPVEYOR_REPO_COMMIT_MESSAGE"
+
+    Write-Host "Commit extended:" $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED
+assembly_info:
+
+  patch: true
+  file: 'Source\**\AssemblyInfo.cs'
+  assembly_version: '1.0.0.0'
+  assembly_informational_version: '$(appveyor_build_version)'
+
+environment:
+  matrix:
+  - solution_name: .\Source\PrismLibrary_Core.sln
+  - solution_name: .\Sandbox\Windows10\HelloWorld\HelloWorld.sln
+  - solution_name: .\Source\PrismLibrary_Win10.sln
+  - solution_name: .\Source\PrismLibrary_Wpf.sln
+  - solution_name: .\Sandbox\Xamarin\HelloWorld\HelloWorld.sln
+  - solution_name: .\Source\PrismLibrary_XF.sln
+  - solution_name: .\Source\PrismLibrary.sln
+
+matrix:
+  exclude:
+    # PrismLibrary.sln should only be built in release for the NuGet pack
+    - solution_name: .\Source\PrismLibrary.sln
+      configuration: Test
+    - solution_name: .\Source\PrismLibrary.sln
+      configuration: Debug
+    # PrismLibrary_Core, PrismLibrary_Win10, & PrismLibrary_Wpf only need to build in Release
+    - solution_name: .\Source\PrismLibrary_Core.sln
+      configuration: Test
+    - solution_name: .\Source\PrismLibrary_Core.sln
+      configuration: Debug
+    - solution_name: .\Source\PrismLibrary_Win10.sln
+      configuration: Test
+    - solution_name: .\Source\PrismLibrary_Win10.sln
+      configuration: Debug
+    - solution_name: .\Source\PrismLibrary_Wpf.sln
+      configuration: Test
+    - solution_name: .\Source\PrismLibrary_Wpf.sln
+      configuration: Debug
+    # PrismLibrary_XF.sln can only be tested with the Test configuration
+    - solution_name: .\Source\PrismLibrary_XF.sln
+      configuration: Debug
+    # The Sandbox solutions should only be built in debug for validation
+    - solution_name: .\Sandbox\Windows10\HelloWorld\HelloWorld.sln
+      configuration: Test
+    - solution_name: .\Sandbox\Windows10\HelloWorld\HelloWorld.sln
+      configuration: Release
+    - solution_name: .\Sandbox\Xamarin\HelloWorld\HelloWorld.sln
+      configuration: Test
+    - solution_name: .\Sandbox\Xamarin\HelloWorld\HelloWorld.sln
+      configuration: Release
+
+before_build:
+  - nuget restore %solution_name%
+
+build_script:
+  - msbuild %solution_name% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+after_build:
+- ps: >-
+    if($env:solution_name.EndsWith("PrismLibrary_XF.sln") -and $env:Configuration -eq 'Release')
+
+    {
+      Write-Host "Packing PrismLibrary_XF"
+      dotnet pack $env:solution_name -c $env:Configuration --no-build
+    }
+
+    elseif($env:Configuration -eq 'Release' -and $env:solution_name.EndsWith("PrismLibrary.sln"))
+
+    {
+      Write-Host "Packing $env:solution_name"
+      .\Source\nuspecs\nuget.ps1
+    }
+
+    Write-Host "Looking for build Artifacts...."
+
+    if($env:Configuration -eq 'Release')
+
+    {
+      $env:SOLUTION_ARTIFACTS_DIRECTORY = (Get-Item $env:solution_name).Basename
+
+      if($env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary" -or $env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary_Wpf")
+      {
+        $outputDir = if($env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary") {"$($env:SOLUTION_ARTIFACTS_DIRECTORY)/net45"} else {"PrismLibrary"}
+        New-Item -ItemType Directory -Force -Path $outputDir
+        $wpfArtifacts = @(
+          "./Source/Prism/bin/Release/**/Prism*",
+          "./Source/Wpf/Prism.Autofac.Wpf/bin/Release/Prism*",
+          "./Source/Wpf/Prism.DryIoc.Wpf/bin/Release/Prism*",
+          "./Source/Wpf/Prism.Mef.Wpf/bin/Release/Prism*",
+          "./Source/Wpf/Prism.Ninject.Wpf/bin/Release/Prism*",
+          "./Source/Wpf/Prism.StructureMap.Wpf/bin/Release/Prism*",
+          "./Source/Wpf/Prism.Unity.Wpf/bin/Release/Prism*",
+          "./Source/Wpf/Prism.Wpf/bin/Release/Prism*"
+        )
+        Write-Host "Writing artifacts to $outputDir"
+        Copy-Item $wpfArtifacts -Destination $outputDir -Force -Confirm:$False
+      }
+
+      if($env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary" -or $env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary_Win10")
+      {
+        $outputDir = if($env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary") {"$($env:SOLUTION_ARTIFACTS_DIRECTORY)/uap10"} else {"PrismLibrary"}
+        New-Item -ItemType Directory -Force -Path $outputDir
+        $winArtifacts = @(
+          "./Source/Prism/bin/Release/**/Prism*",
+          "./Source/Windows10/Prism.Autofac.Windows/bin/Release/Prism*",
+          "./Source/Windows10/Prism.SimpleInjector.Windows/bin/Release/Prism*",
+          "./Source/Windows10/Prism.Unity.Windows/bin/Release/Prism*",
+          "./Source/Windows10/Prism.Windows/bin/Release/Prism*"
+        )
+        Copy-Item $winArtifacts -Destination $outputDir -Force -Confirm:$False
+      }
+
+      if($env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary" -or $env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary_XF")
+      {
+        $outputDir = if($env:SOLUTION_ARTIFACTS_DIRECTORY -eq "PrismLibrary") {"$($env:SOLUTION_ARTIFACTS_DIRECTORY)/netstandard"} else {"PrismLibrary"}
+        New-Item -ItemType Directory -Force -Path $outputDir
+        $xfArtifacts = @(
+            "./Source/Prism/bin/Release/net*",
+            "./Source/Xamarin/Prism.Autofac.Forms/bin/Release/net*"
+            "./Source/Xamarin/Prism.DryIoc.Forms/bin/Release/net*"
+            "./Source/Xamarin/Prism.Forms/bin/Release/net*"
+            "./Source/Xamarin/Prism.Ninject.Forms/bin/Release/net*"
+            "./Source/Xamarin/Prism.Unity.Forms/bin/Release/net*"
+        )
+        Copy-Item $xfArtifacts -Destination $outputDir -Recurse -Force -Confirm:$False
+      }
+    }
+
+# UWP tests are not currently not supported by appveyor: https://github.com/appveyor/ci/issues/393
+test_script:
+- ps: >-
+    Write-Host "Starting Test Run: $env:solution_name - $env:Configuration"
+
+    if($env:solution_name -like '*PrismLibrary_Core*')
+
+    {
+        Write-Host "Testing Prism Core"
+        dotnet test .\Source\Prism.Tests\Prism.Tests.csproj -c $env:Configuration
+    }
+
+    elseif($env:solution_name -like '*PrismLibrary_Win10*')
+
+    {
+        Write-Host "Testing Windows 10"
+        Write-Host "UWP tests are not currently not supported by appveyor:https://github.com/appveyor/ci/issues/393"
+        vstest.console /logger:Appveyor .\Source\Windows10\Prism.Windows.Tests\bin\$env:Configuration\Prism.Windows.Tests.exe
+    }
+
+    elseif($env:solution_name -like '*PrismLibrary_Wpf*')
+
+    {
+        Write-Host "Testing WPF"
+        vstest.console /logger:Appveyor .\Source\Wpf\\Prism.Wpf.Tests\bin\$env:Configuration\Prism.Wpf.Tests.dll
+        vstest.console /logger:Appveyor .\Source\Wpf\Prism.Autofac.Wpf.Tests\bin\$env:Configuration\Prism.Autofac.Wpf.Tests.dll
+        vstest.console /logger:Appveyor .\Source\Wpf\Prism.DryIoc.Wpf.Tests\bin\$env:Configuration\Prism.DryIoc.Wpf.Tests.dll
+        vstest.console /logger:Appveyor .\Source\Wpf\Prism.Mef.Wpf.Tests\bin\$env:Configuration\Prism.Mef.Wpf.Tests.dll
+        vstest.console /logger:Appveyor .\Source\Wpf\Prism.StructureMap.Wpf.Tests\bin\$env:Configuration\Prism.StructureMap.Wpf.Tests.dll
+        vstest.console /logger:Appveyor .\Source\Wpf\Prism.Unity.Wpf.Tests\bin\$env:Configuration\Prism.Unity.Wpf.Tests.dll
+    }
+
+    elseif($env:solution_name -like '*PrismLibrary_XF*' -and $env:Configuration -eq "Test")
+
+    {
+        Write-Host "Testing Prism Forms"
+        dotnet test .\Source\Xamarin\Prism.Forms.Tests\Prism.Forms.Tests.csproj -c Test --no-build
+        dotnet test .\Source\Xamarin\Prism.Autofac.Forms.Tests\Prism.Autofac.Forms.Tests.csproj -c Test --no-build
+        dotnet test .\Source\Xamarin\Prism.DryIoc.Forms.Tests\Prism.DryIoc.Forms.Tests.csproj -c Test --no-build
+        dotnet test .\Source\Xamarin\Prism.Unity.Forms.Tests\Prism.Unity.Forms.Tests.csproj -c Test --no-build
+    }
+
+artifacts:
+  - path: '**\Build\*.nupkg'
+  - path: '**\nuspecs\**\*.nupkg'
+  - path: '$(solution_artifacts_directory)'
+
+# deploy:
+# - provider: NuGet
+#   server: https://www.myget.org/F/prism/api/v2/package
+#   api_key:
+#     secure: hPrzACGookFpABk0yLEZECc3bOpIEubvv2AJaTuKYKsiDrJSjywelIch9z/KgBlR
+#   skip_symbols: false
+#   on:
+#     branch: master
+#     Configuration: Release
+# - provider: NuGet
+#   server: https://www.myget.org/F/prism/api/v2/package
+#   api_key:
+#     secure: hPrzACGookFpABk0yLEZECc3bOpIEubvv2AJaTuKYKsiDrJSjywelIch9z/KgBlR
+#   skip_symbols: false
+#   on:
+#     appveyor_repo_tag: true
+#     Configuration: Release

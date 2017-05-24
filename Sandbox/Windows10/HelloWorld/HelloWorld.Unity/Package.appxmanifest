@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="ba1314fa-2272-4d8b-b46c-82b62aaf1123" Publisher="CN=bartl" Version="1.0.0.0" />
+  <Identity Name="ba1314fa-2272-4d8b-b46c-82b62aaf1123" Publisher="CN=BLagunas" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="ba1314fa-2272-4d8b-b46c-82b62aaf1123" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>HelloWorld.Unity</DisplayName>
-    <PublisherDisplayName>bartl</PublisherDisplayName>
+    <PublisherDisplayName>BLagunas</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
