@@ -119,7 +119,7 @@ namespace Prism.Navigation
             catch (Exception e)
             {
                 _logger.Log(e.ToString(), Category.Exception, Priority.High);
-                return Task.FromResult<object>(null);
+                throw;
             }
             finally
             {
@@ -458,23 +458,24 @@ namespace Prism.Navigation
             return useModalNavigation;
         }
 
-        protected virtual async Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated)
+        protected virtual Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated)
         {
             if (page == null)
-                return;
+                throw new ArgumentNullException(nameof(page));
 
             if (currentPage == null)
             {
                 _applicationProvider.MainPage = page;
+                return Task.FromResult<object>(null);
             }
             else
             {
                 bool useModalForPush = UseModalNavigation(currentPage, useModalNavigation);
 
                 if (useModalForPush)
-                    await currentPage.Navigation.PushModalAsync(page, animated);
+                    return currentPage.Navigation.PushModalAsync(page, animated);
                 else
-                    await currentPage.Navigation.PushAsync(page, animated);
+                    return currentPage.Navigation.PushAsync(page, animated);
             }
         }
 
