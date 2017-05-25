@@ -115,7 +115,7 @@ namespace Prism.DryIoc
             ServiceLocator.SetLocatorProvider(() => serviceLocator);
 
             // register the locator in DryIoc as well
-            Container.RegisterInstance<IServiceLocator>(serviceLocator);
+            Container.UseInstance<IServiceLocator>(serviceLocator);
         }
 
         /// <summary>
@@ -143,8 +143,8 @@ namespace Prism.DryIoc
         /// </summary>
         protected virtual void ConfigureContainer()
         {
-            Container.RegisterInstance<ILoggerFacade>(Logger);
-            Container.RegisterInstance<IModuleCatalog>(ModuleCatalog);
+            Container.UseInstance<ILoggerFacade>(Logger);
+            Container.UseInstance<IModuleCatalog>(ModuleCatalog);
 
             if (_useDefaultConfiguration)
             {
