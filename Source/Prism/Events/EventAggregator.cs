@@ -26,9 +26,7 @@ namespace Prism.Events
         {
             lock (events)
             {
-                EventBase existingEvent = null;
-
-                if (!events.TryGetValue(typeof(TEventType), out existingEvent))
+                if (!events.TryGetValue(typeof(TEventType), out EventBase existingEvent))
                 {
                     TEventType newEvent = new TEventType();
                     newEvent.SynchronizationContext = syncContext;

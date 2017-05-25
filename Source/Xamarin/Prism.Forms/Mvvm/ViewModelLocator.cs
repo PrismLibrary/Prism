@@ -35,8 +35,7 @@ namespace Prism.Mvvm
 
         private static void OnAutowireViewModelChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            bool? bNewValue = (bool?)newValue;
-            if (bNewValue.HasValue && bNewValue.Value)
+            if (newValue is bool shouldAutowire && shouldAutowire)
                 ViewModelLocationProvider.AutoWireViewModelChanged(bindable, Bind);
         }
 
@@ -47,8 +46,7 @@ namespace Prism.Mvvm
         /// <param name="viewModel">The object to use as the <see cref="Xamarin.Forms.BindableObject.BindingContext"/> for the View</param>
         static void Bind(object view, object viewModel)
         {
-            BindableObject element = view as BindableObject;
-            if (element != null)
+            if (view is BindableObject element)
                 element.BindingContext = viewModel;
         }
     }

@@ -54,8 +54,7 @@ namespace Prism.Mvvm
         public IEnumerable<T> GetErrors(string propertyName)
         {
             var localPropertyName = propertyName ?? string.Empty;
-            List<T> currentValidationResults = null;
-            if (this.validationResults.TryGetValue(localPropertyName, out currentValidationResults))
+            if (this.validationResults.TryGetValue(localPropertyName, out List<T> currentValidationResults))
             {
                 return currentValidationResults;
             }

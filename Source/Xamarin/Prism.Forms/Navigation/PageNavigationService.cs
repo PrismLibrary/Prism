@@ -144,21 +144,21 @@ namespace Prism.Navigation
             {
                 await ProcessNavigationForContentPage(currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
-            else if (currentPage is NavigationPage)
+            else if (currentPage is NavigationPage navigationPage)
             {
-                await ProcessNavigationForNavigationPage((NavigationPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForNavigationPage(navigationPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
-            else if (currentPage is TabbedPage)
+            else if (currentPage is TabbedPage tabbedPage)
             {
-                await ProcessNavigationForTabbedPage((TabbedPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForTabbedPage(tabbedPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
-            else if (currentPage is CarouselPage)
+            else if (currentPage is CarouselPage carouselPage)
             {
-                await ProcessNavigationForCarouselPage((CarouselPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForCarouselPage(carouselPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
-            else if (currentPage is MasterDetailPage)
+            else if (currentPage is MasterDetailPage mdp)
             {
-                await ProcessNavigationForMasterDetailPage((MasterDetailPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForMasterDetailPage(mdp, nextSegment, segments, parameters, useModalNavigation, animated);
             }
         }
 
@@ -350,12 +350,10 @@ namespace Prism.Navigation
 
         protected static bool GetMasterDetailPageIsPresented(MasterDetailPage page)
         {
-            var iMasterDetailPage = page as IMasterDetailPageOptions;
-            if (iMasterDetailPage != null)
+            if (page is IMasterDetailPageOptions iMasterDetailPage)
                 return iMasterDetailPage.IsPresentedAfterNavigation;
 
-            var iMasterDetailPageBindingContext = page.BindingContext as IMasterDetailPageOptions;
-            if (iMasterDetailPageBindingContext != null)
+            if (page.BindingContext is IMasterDetailPageOptions iMasterDetailPageBindingContext)
                 return iMasterDetailPageBindingContext.IsPresentedAfterNavigation;
 
             return false;
@@ -363,12 +361,10 @@ namespace Prism.Navigation
 
         protected static bool GetClearNavigationPageNavigationStack(NavigationPage page)
         {
-            var iNavigationPage = page as INavigationPageOptions;
-            if (iNavigationPage != null)
+            if (page is INavigationPageOptions iNavigationPage)
                 return iNavigationPage.ClearNavigationStackOnNavigation;
 
-            var iNavigationPageBindingContext = page.BindingContext as INavigationPageOptions;
-            if (iNavigationPageBindingContext != null)
+            if (page.BindingContext is INavigationPageOptions iNavigationPageBindingContext)
                 return iNavigationPageBindingContext.ClearNavigationStackOnNavigation;
 
             return true;
