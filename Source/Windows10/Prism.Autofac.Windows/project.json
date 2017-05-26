@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "Autofac": "3.5.2",
+    "Autofac": "4.6.0",
     "CommonServiceLocator": "1.3.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2"
   },
