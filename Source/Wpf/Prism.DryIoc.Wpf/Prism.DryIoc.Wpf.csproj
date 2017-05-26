@@ -36,8 +36,8 @@
     <AssemblyOriginatorKeyFile>..\..\prism.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DryIoc, Version=2.10.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DryIoc.dll.2.10.1\lib\net45\DryIoc.dll</HintPath>
+    <Reference Include="DryIoc, Version=2.10.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DryIoc.dll.2.10.7\lib\net45\DryIoc.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DryIoc.CommonServiceLocator, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">

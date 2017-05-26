@@ -72,9 +72,9 @@ namespace Prism.DryIoc
 
         protected override void ConfigureContainer()
         {
-            Container.RegisterInstance(Logger);
-            Container.RegisterInstance(ModuleCatalog);
-            Container.RegisterInstance(Container);
+            Container.UseInstance(Logger);
+            Container.UseInstance(ModuleCatalog);
+            Container.UseInstance(Container);
             Container.Register<INavigationService, DryIocPageNavigationService>(serviceKey: _navigationServiceKey);
             Container.Register<IApplicationProvider, ApplicationProvider>(Reuse.Singleton);
             Container.Register<IApplicationStore, ApplicationStore>(Reuse.Singleton);
