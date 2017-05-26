@@ -6,6 +6,7 @@ using Prism.Logging;
 using Prism.Navigation;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;
 
