@@ -78,32 +78,49 @@ namespace Prism.Forms.Tests.Common
         public void DestoryMasterDetailPage()
         {
             var recorder = new PageNavigationEventRecorder();
-            var masterDetailPage = new MasterDetailPageMock(recorder);
-            var masterDetailPageViewModel = masterDetailPage.BindingContext;
-            var detailPage = masterDetailPage.Detail;
+            var masterPage = new ContentPageMock(recorder) {Title = "Master"};
+            var masterPageViewModel = masterPage.BindingContext;
+            var detailPage = new ContentPageMock(recorder) {Title = "Detail"};
             var detailPageViewModel = detailPage.BindingContext;
+            var masterDetailPage = new MasterDetailPageMock(recorder, masterPage, detailPage);
+            var masterDetailPageViewModel = masterDetailPage.BindingContext;
 
             PageUtilities.DestroyPage(masterDetailPage);
 
-            // masterDetailPage
-            Assert.Equal(detailPage, recorder.Records[0].Sender);
+            // MasterPage
+            var record = recorder.TakeFirst();
+            Assert.Equal(masterPage, record.Sender);
+            Assert.Null(masterPage.BindingContext);
+            Assert.Equal(0, masterPage.Behaviors.Count);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(masterPageViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+            // DetailPage
+            record = recorder.TakeFirst();
+            Assert.Equal(detailPage, record.Sender);
             Assert.Null(detailPage.BindingContext);
             Assert.Equal(0, detailPage.Behaviors.Count);
-            Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[0].Event);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-            Assert.Equal(detailPageViewModel, recorder.Records[1].Sender);
-            Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[1].Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(detailPageViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-            // detailPage
-            Assert.Equal(masterDetailPage, recorder.Records[2].Sender);
+            // MasterDetailPage
+            record = recorder.TakeFirst();
+            Assert.Equal(masterDetailPage, record.Sender);
             Assert.Null(masterDetailPage.BindingContext);
             Assert.Equal(0, masterDetailPage.Behaviors.Count);
-            Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[2].Event);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-            Assert.Equal(masterDetailPageViewModel, recorder.Records[3].Sender);
-            Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[3].Event);
+            record = recorder.TakeFirst();
+            Assert.Equal(masterDetailPageViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
-            Assert.Equal(4, recorder.Records.Count);
+            Assert.True(recorder.IsEmpty);
         }
 
         [Fact]

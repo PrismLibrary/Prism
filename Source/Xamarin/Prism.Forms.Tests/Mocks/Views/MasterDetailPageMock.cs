@@ -23,6 +23,17 @@ namespace Prism.Forms.Tests.Mocks.Views
             ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
         }
 
+        public MasterDetailPageMock(PageNavigationEventRecorder recorder, Page masterPage, Page detailPage)
+        {
+            Master = masterPage;
+            Detail = detailPage;
+
+            ViewModelLocator.SetAutowireViewModel(this, true);
+
+            PageNavigationEventRecorder = recorder;
+            ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
+        }
+
         public bool IsPresentedAfterNavigation { get; set; }
         public void Destroy()
         {
