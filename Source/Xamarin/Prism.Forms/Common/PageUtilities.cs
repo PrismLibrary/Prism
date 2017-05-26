@@ -47,6 +47,7 @@ namespace Prism.Common
         {
             if (page is MasterDetailPage)
             {
+                DestroyPage(((MasterDetailPage)page).Master);
                 DestroyPage(((MasterDetailPage)page).Detail);
             }
             else if (page is TabbedPage)
