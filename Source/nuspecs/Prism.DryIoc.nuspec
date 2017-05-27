@@ -18,7 +18,7 @@
     <dependencies>
       
       <group targetFramework=".NETFramework4.5">
-        <dependency id="DryIoc.dll" version="2.10.1" />
+        <dependency id="DryIoc.dll" version="2.10.7" />
         <dependency id="DryIoc.CommonServiceLocator.dll" version="2.2.1" />
         <dependency id="Prism.Wpf" version="$wpfVersion$" />
       </group>

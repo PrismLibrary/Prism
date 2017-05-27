@@ -18,14 +18,14 @@
     <dependencies>
       
       <group targetFramework=".NETFramework4.5">
-        <dependency id="Autofac" version="3.5.2" />
+        <dependency id="Autofac" version="4.6.0" />
         <dependency id="Prism.Wpf" version="$wpfVersion$" />
       </group>
       
       <group targetFramework="uap10.0">
         <dependency id="Prism.Windows" version="$uwpVersion$" />
         <dependency id="CommonServiceLocator" version="1.3.0" />
-        <dependency id="Autofac" version="3.5.2" />
+        <dependency id="Autofac" version="4.6.0" />
       </group>
       
     </dependencies>
