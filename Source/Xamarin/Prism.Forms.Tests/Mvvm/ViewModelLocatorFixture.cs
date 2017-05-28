@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 using Xunit;
 
 namespace Prism.Forms.Tests.Mvvm
@@ -61,14 +62,25 @@ namespace Prism.Forms.Tests.Mvvm
         {
             ResetViewModelLocationProvider();
 
-            PageMock view = new PageMock();
+            var view = new TestPageOfShouldUseCustomDefaultViewTypeToViewModelTypeResolverWhenSet();
             Assert.Null(view.BindingContext);
 
-            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType => typeof(ViewModelLocatorFixture));
+            var propertyInfo = typeof(ViewModelLocationProvider).GetField("_defaultViewTypeToViewModelTypeResolver", BindingFlags.NonPublic | BindingFlags.Static);
+            var defaultResolver = (Func<Type, Type>)propertyInfo.GetValue(typeof(ViewModelLocationProvider));
+
+            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(
+                viewType => 
+                    viewType == typeof(TestPageOfShouldUseCustomDefaultViewTypeToViewModelTypeResolverWhenSet) 
+                        ? typeof(ViewModelLocatorFixture) 
+                        : defaultResolver(viewType));
 
             ViewModelLocator.SetAutowireViewModel(view, true);
             Assert.NotNull(view.BindingContext);
             Assert.IsType<ViewModelLocatorFixture>(view.BindingContext);
+        }
+
+        private class TestPageOfShouldUseCustomDefaultViewTypeToViewModelTypeResolverWhenSet : ContentPage
+        {
         }
 
         [Fact]
