@@ -14,7 +14,7 @@ namespace Prism.Regions
     /// and filters it to display an <see cref="INotifyCollectionChanged"/> collection of
     /// <see cref="object"/> elements (the items which the <see cref="ItemMetadata"/> wraps).
     /// </summary>
-    public partial class ViewsCollection : IViewsCollection
+    public class ViewsCollection : IViewsCollection
     {
         private readonly ObservableCollection<ItemMetadata> subjectCollection;
 
@@ -62,11 +62,6 @@ namespace Prism.Regions
             }
         }
 
-        private IEnumerable<object> FilteredItems
-        {
-            get { return this.filteredItems; }
-        }
-
         /// <summary>
         /// Determines whether the collection contains a specific value.
         /// </summary>
@@ -74,7 +69,7 @@ namespace Prism.Regions
         /// <returns><see langword="true" /> if <paramref name="value"/> is found in the collection; otherwise, <see langword="false" />.</returns>
         public bool Contains(object value)
         {
-            return this.FilteredItems.Contains(value);
+            return this.filteredItems.Contains(value);
         }
 
         ///<summary>
@@ -85,8 +80,7 @@ namespace Prism.Regions
         ///</returns>
         public IEnumerator<object> GetEnumerator()
         {
-            return
-                this.FilteredItems.GetEnumerator();
+            return this.filteredItems.GetEnumerator();
         }
 
         ///<summary>
@@ -305,6 +299,28 @@ namespace Prism.Regions
                 }
 
                 return this.comparer(x, y);
+            }
+        }
+
+        private void NotifyAdd(IList items, int newStartingIndex)
+        {
+            if (items.Count > 0)
+            {
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(
+                                            NotifyCollectionChangedAction.Add,
+                                            items,
+                                            newStartingIndex));
+            }
+        }
+
+        private void NotifyRemove(IList items, int originalIndex)
+        {
+            if (items.Count > 0)
+            {
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(
+                    NotifyCollectionChangedAction.Remove,
+                    items,
+                    originalIndex));
             }
         }
     }

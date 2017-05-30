@@ -211,7 +211,6 @@
     <Compile Include="Regions\ViewRegistrationException.cs" />
     <Compile Include="Regions\ViewRegistrationException.Desktop.cs" />
     <Compile Include="Regions\ViewsCollection.cs" />
-    <Compile Include="Regions\ViewsCollection.Desktop.cs" />
     <Compile Include="Regions\ViewSortHintAttribute.cs" />
     <Compile Include="Extensions\ServiceLocatorExtensions.cs" />
     <Compile Include="Common\UriParsingHelper.cs" />
