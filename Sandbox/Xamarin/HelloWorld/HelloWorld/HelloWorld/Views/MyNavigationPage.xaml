@@ -4,8 +4,5 @@
               xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
               prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="HelloWorld.Views.MyNavigationPage">
-  <StackLayout>
-    <Label Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" />
-    <Button Command="{Binding NavigateCommand}" Text="Navigate" />
-  </StackLayout>
+
 </NavigationPage>
