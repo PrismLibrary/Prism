@@ -147,7 +147,7 @@ namespace Prism.Regions
             RequestCanNavigateFromOnCurrentlyActiveView(
                 this.currentNavigationContext,
                 navigationCallback,
-                this.Region.ActiveViews.ToArray(),
+                this.Region.GetAllActiveViews().ToArray(),
                 0);
         }
 

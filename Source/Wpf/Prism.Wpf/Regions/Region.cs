@@ -3,6 +3,7 @@
 using Microsoft.Practices.ServiceLocation;
 using Prism.Properties;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
@@ -266,6 +267,32 @@ namespace Prism.Regions
             IRegionManager manager = createRegionManagerScope ? this.RegionManager.CreateRegionManager() : this.RegionManager;
             this.InnerAdd(view, viewName, manager);
             return manager;
+        }
+
+        /// <summary>
+        /// Gets all the active views includes views of scoped <see cref="IRegionManager"/>s
+        /// </summary>
+        /// <returns>A <see cref="IEnumerable{object}"/> of all related views</returns>
+        public virtual IEnumerable<object> GetAllActiveViews()
+        {
+            List<object> views = ActiveViews.ToList();
+            List<object> childViews = new List<object>();
+
+            foreach (object view in views)
+            {
+                DependencyObject dependencyObject = view as DependencyObject;
+                IRegionManager viewRegionManager = dependencyObject?.GetValue(Regions.RegionManager.RegionManagerProperty) as IRegionManager;
+                if (viewRegionManager != null && viewRegionManager != RegionManager)
+                {
+                    foreach (IRegion region in viewRegionManager.Regions)
+                    {
+                        childViews.AddRange(region.GetAllActiveViews());
+                    }
+                }
+            }
+
+            views.AddRange(childViews);
+            return views;
         }
 
         /// <summary>
