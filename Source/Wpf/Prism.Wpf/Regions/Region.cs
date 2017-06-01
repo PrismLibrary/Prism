@@ -267,6 +267,19 @@ namespace Prism.Regions
             this.InnerAdd(view, viewName, manager);
             return manager;
         }
+        /// <summary>
+        /// Adds a new view to the region.
+        /// </summary>
+        /// <param name="view">The view to add.</param>
+        /// <param name="viewName">The name of the view. This can be used to retrieve it later by calling <see cref="IRegion.GetView"/>.</param>
+        /// <param name="createRegionManagerScope">When <see langword="true"/>, the added view will receive a new instance of <see cref="IRegionManager"/>, otherwise it will use the current region manager for this region.</param>
+        /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="DependencyObject"/>.</returns>
+        public virtual IRegionManager Add(object view, string viewName, IRegionManager regionManager)
+        {
+            IRegionManager manager = regionManager ?? this.RegionManager;
+            this.InnerAdd(view, viewName, manager);
+            return manager;
+        }
 
         /// <summary>
         /// Removes the specified view from the region.
