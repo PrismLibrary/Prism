@@ -17,6 +17,12 @@ namespace Prism.Unity
 {
     public abstract class PrismApplication : PrismApplicationBase<IUnityContainer>
     {
+        /// <summary>
+        /// Gets the current Prism Application
+        /// </summary>
+        public static new PrismApplication Current => 
+            Application.Current as PrismApplication;
+
         const string _navigationServiceName = "UnityPageNavigationService";
 
         public PrismApplication(IPlatformInitializer initializer = null) : base (initializer) { }
