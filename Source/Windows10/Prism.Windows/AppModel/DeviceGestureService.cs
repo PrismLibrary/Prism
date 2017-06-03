@@ -34,9 +34,7 @@ namespace Prism.Windows.AppModel
             IsMousePresent = new MouseCapabilities().MousePresent != 0;
             IsTouchPresent = new TouchCapabilities().TouchPresent != 0;
 
-            if (IsHardwareBackButtonPresent)
-                HardwareButtons.BackPressed += OnHardwareButtonsBackPressed;
-
+           
             if (IsHardwareCameraButtonPresent)
             {
                 HardwareButtons.CameraHalfPressed += OnHardwareButtonCameraHalfPressed;
@@ -47,7 +45,16 @@ namespace Prism.Windows.AppModel
             if (IsMousePresent)
                 MouseDevice.GetForCurrentView().MouseMoved += OnMouseMoved;
 
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnSystemNavigationManagerBackRequested;
+            if (IsHardwareBackButtonPresent)
+            {
+                HardwareButtons.BackPressed += OnHardwareButtonsBackPressed;
+
+            }
+            else
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested += OnSystemNavigationManagerBackRequested;
+
+            }
 
             Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += OnAcceleratorKeyActivated;
 
