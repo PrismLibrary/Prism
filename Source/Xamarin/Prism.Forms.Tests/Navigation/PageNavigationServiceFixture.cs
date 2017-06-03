@@ -252,13 +252,12 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public async Task NavigateAsync_From_NavigationPage_With_ChildPage()
+        public async Task NavigateAsync_From_ChildPageOfNavigationPage()
         {
             var recorder = new PageNavigationEventRecorder(); ;
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade, recorder);
             var contentPageMock = new ContentPageMock(recorder);
             var navigationPage = new NavigationPageMock(recorder, contentPageMock);
-            //navigationPage.ClearNavigationStackOnNavigation = false;
 
             // Navigate to Page2
             ((IPageAware)navigationService).Page = contentPageMock;
@@ -426,6 +425,59 @@ namespace Prism.Forms.Tests.Navigation
             record = recorder.TakeFirst();
             Assert.Equal(secondContentPageMockViewModel, record.Sender);
             Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+            Assert.True(recorder.IsEmpty);
+        }
+
+        [Fact]
+        public async Task NavigateAsync_From_NavigationPage_When_NotClearNavigationStack()
+        {
+            var recorder = new PageNavigationEventRecorder(); ;
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade, recorder);
+            var contentPageMock = new ContentPageMock(recorder);
+            var navigationPage = new NavigationPageMock(recorder, contentPageMock);
+            navigationPage.ClearNavigationStackOnNavigation = false;
+
+            // Navigate to Page2
+            ((IPageAware)navigationService).Page = contentPageMock;
+            await navigationService.NavigateAsync("SecondContentPageMock");
+
+            var secondContentPage = navigationPage.Navigation.NavigationStack.Last();
+            var secondContentPageViewModel = secondContentPage.BindingContext;
+
+            recorder.Clear();
+            ((IPageAware)navigationService).Page = navigationPage;
+            await navigationService.NavigateAsync("ContentPage");
+
+            Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
+            Assert.Equal(3, navigationPage.Navigation.NavigationStack.Count);
+
+            var currentPage = navigationPage.Navigation.NavigationStack.Last();
+            Assert.NotEqual(contentPageMock, currentPage);
+
+            var record = recorder.TakeFirst();
+            Assert.Equal(currentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(currentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPageViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(currentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(currentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
 
             Assert.True(recorder.IsEmpty);
         }
@@ -796,7 +848,7 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.NavigateAsync("ContentPage/NavigationPageWithStackNoMatch/ContentPage");
 
             var navPage = rootPage.Navigation.ModalStack[0].Navigation.ModalStack[0];
-            Assert.True(navPage.Navigation.NavigationStack.Count == 1);
+            Assert.Equal(1, navPage.Navigation.NavigationStack.Count);
         }
 
         [Fact]

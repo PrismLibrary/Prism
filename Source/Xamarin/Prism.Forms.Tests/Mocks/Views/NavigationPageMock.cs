@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class NavigationPageMock : NavigationPage, IDestructible, IPageNavigationEventRecordable
+    public class NavigationPageMock : NavigationPage, IDestructible, IPageNavigationEventRecordable, INavigationPageOptions, INavigationAware
     {
         public bool DestroyCalled { get; private set; } = false;
         public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
@@ -30,6 +30,22 @@ namespace Prism.Forms.Tests.Mocks.Views
         {
             DestroyCalled = true;
             PageNavigationEventRecorder.Record(this, PageNavigationEvent.Destroy);
+        }
+
+        public bool ClearNavigationStackOnNavigation { get; set; } = true;
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedFrom);
+        }
+
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
+        }
+
+        public void OnNavigatingTo(NavigationParameters parameters)
+        {
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatingTo);
         }
     }
 
