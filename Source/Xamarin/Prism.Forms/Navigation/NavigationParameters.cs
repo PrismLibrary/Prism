@@ -237,6 +237,34 @@ namespace Prism.Navigation
         }
 
         /// <summary>
+        /// Gets the value stored for the specified key
+        /// </summary>
+        /// <typeparam name="T">Type to return</typeparam>
+        /// <param name="key">Key to lookup</param>
+        /// <returns>Value for specified key</returns>
+        public T GetValueForKey<T>( string key ) => ( T )Convert.ChangeType( this[ key ], typeof( T ) );
+
+        /// <summary>
+        /// Gets the value stored for a specified key. Returns a specified defaultValue
+        /// if the key specified does not exist.
+        /// </summary>
+        /// <typeparam name="T">Type to return</typeparam>
+        /// <param name="key">Key to lookup</param>
+        /// <param name="defaultValue">Default Value if Key does not exist</param>
+        /// <returns>Value for specified key or defaultValue</returns>
+        public T GetValueForKey<T>( string key, T defaultValue )
+        {
+            try
+            {
+                return GetValueForKey<T>( key );
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
         /// Converts the list of key value pairs to a query string.
         /// </summary>
         /// <returns></returns>
