@@ -22,12 +22,6 @@ namespace Prism.DryIoc
     public abstract class PrismApplication : PrismApplicationBase<IContainer>
     {
         /// <summary>
-        /// Gets the current Prism Application
-        /// </summary>
-        public static new PrismApplication Current => 
-            Application.Current as PrismApplication;
-
-        /// <summary>
         /// Service key used when registering the <see cref="DryIocPageNavigationService"/> with the container
         /// </summary>
         private const string _navigationServiceKey = "DryIocPageNavigationService";
