@@ -19,6 +19,12 @@ namespace Prism.Ninject
 {
     public abstract class PrismApplication : PrismApplicationBase<IKernel>
     {
+        /// <summary>
+        /// Gets the current Prism Application
+        /// </summary>
+        public static new PrismApplication Current => 
+            Application.Current as PrismApplication;
+
         const string _navigationServiceName = "NinjectPageNavigationService";
 
         public PrismApplication(IPlatformInitializer initializer = null) : base(initializer) { }
