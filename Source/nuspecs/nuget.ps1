@@ -91,7 +91,7 @@ if(Test-Path ./Source)
 if (!(Test-Path $nugetFileName))
 {
     Write-Host 'Downloading Nuget.exe ...'
-    Invoke-WebRequest -Uri "http://nuget.org/nuget.exe" -OutFile $nugetFileName
+    Invoke-WebRequest -Uri "https://nuget.org/nuget.exe" -OutFile $nugetFileName
 }
 
 $projectsJson = Get-Content -Raw -Path projects.json | ConvertFrom-Json
