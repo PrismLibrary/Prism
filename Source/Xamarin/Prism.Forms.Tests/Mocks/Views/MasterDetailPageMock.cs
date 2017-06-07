@@ -15,6 +15,7 @@ namespace Prism.Forms.Tests.Mocks.Views
 
         public MasterDetailPageMock(PageNavigationEventRecorder recorder)
         {
+            Master = new ContentPageMock { Title = "Master" };
             Detail = new ContentPageMock(recorder);
 
             ViewModelLocator.SetAutowireViewModel(this, true);
