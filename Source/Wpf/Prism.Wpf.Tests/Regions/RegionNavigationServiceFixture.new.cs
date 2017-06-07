@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -946,7 +947,7 @@ namespace Prism.Wpf.Tests.Regions
             ExceptionAssert.Throws<ArgumentNullException>(
                 () =>
                 {
-                    target.RequestNavigate(navigationUri, null);
+                    target.RequestNavigate(navigationUri, null, null);
                 });
         }
 
@@ -968,7 +969,7 @@ namespace Prism.Wpf.Tests.Regions
         }
 
         [TestMethod]
-        public void WhenNavigatingWithNullUri_ThenMarshallExceptionToCallback()
+        public async Task WhenNavigatingWithNullUri_ThenMarshallExceptionToCallback()
         {
             IServiceLocator serviceLocator = new Mock<IServiceLocator>().Object;
             RegionNavigationContentLoader contentLoader = new Mock<RegionNavigationContentLoader>(serviceLocator).Object;
@@ -978,7 +979,8 @@ namespace Prism.Wpf.Tests.Regions
             target.Region = new Region();
 
             Exception error = null;
-            target.RequestNavigate(null, nr => error = nr.Error);
+            NavigationResult result = await target.RequestNavigateAsync(null);
+            error = result.Error;
 
             Assert.IsNotNull(error);
             Assert.IsInstanceOfType(error, typeof(ArgumentNullException));

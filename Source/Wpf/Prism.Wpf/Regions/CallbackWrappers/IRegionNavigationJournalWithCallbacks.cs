@@ -4,15 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace Prism.Regions
+namespace Prism.Regions.CallbackWrappers
 {
     /// <summary>
     /// Provides journaling of current, back, and forward navigation within regions.
     /// </summary>
-    public interface IRegionNavigationJournal
+    public interface IRegionNavigationJournalWithCallbacks
     {
         /// <summary>
         /// Gets a value that indicates whether there is at least one entry in the back navigation history.
@@ -48,22 +47,12 @@ namespace Prism.Regions
         /// <summary>
         /// Navigates to the most recent entry in the back navigation history, or does nothing if no entry exists in back navigation.
         /// </summary>
-        /// <returns>The navigation result</returns>
-        /// <remarks>
-        /// If no entry exists in back navigation stack (CanGoBack false), the <see cref="NavigationContext"/> in
-        /// returned <see cref="NavigationResult"/> is set to <see langword="null"/>.
-        /// </remarks>
-        Task<NavigationResult> GoBackAsync();
+        void GoBack();
 
         /// <summary>
         /// Navigates to the most recent entry in the forward navigation history, or does nothing if no entry exists in forward navigation.
         /// </summary>
-        /// <returns>The navigation result</returns>
-        /// <remarks>
-        /// If no entry exists in forward navigation stack (CanGoForward false), the <see cref="NavigationContext"/> in
-        /// returned <see cref="NavigationResult"/> is set to <see langword="null"/>.
-        /// </remarks>
-        Task<NavigationResult> GoForwardAsync();
+        void GoForward();
 
         /// <summary>
         /// Records the navigation to the entry..

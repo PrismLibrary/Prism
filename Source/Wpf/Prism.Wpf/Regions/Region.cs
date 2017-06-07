@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Prism.Regions
@@ -350,21 +351,21 @@ namespace Prism.Regions
         /// Initiates navigation to the specified target.
         /// </summary>
         /// <param name="target">The target.</param>
-        /// <param name="navigationCallback">A callback to execute when the navigation request is completed.</param>
-        public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback)
+        /// <returns>The navigation result.</returns>
+        public Task<NavigationResult> RequestNavigateAsync(Uri target)
         {
-            this.RequestNavigate(target, navigationCallback, null);
+            return this.RequestNavigateAsync(target, null);
         }
 
         /// <summary>
         /// Initiates navigation to the specified target.
         /// </summary>
         /// <param name="target">The target.</param>
-        /// <param name="navigationCallback">A callback to execute when the navigation request is completed.</param>
         /// <param name="navigationParameters">The navigation parameters specific to the navigation request.</param>
-        public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        /// <returns>The navigation result.</returns>
+        public Task<NavigationResult> RequestNavigateAsync(Uri target, NavigationParameters navigationParameters)
         {
-            this.NavigationService.RequestNavigate(target, navigationCallback, navigationParameters);
+            return this.NavigationService.RequestNavigateAsync(target, navigationParameters);
         }
 
         private void InnerAdd(object view, string viewName, IRegionManager scopedRegionManager)
