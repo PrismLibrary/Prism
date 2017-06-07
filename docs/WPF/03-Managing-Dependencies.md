@@ -1,4 +1,4 @@
-#Managing Dependencies Between Components Using the Prism Library for WPF
+# Managing Dependencies Between Components Using the Prism Library for WPF
 
 Applications based on the Prism Library are composite applications that potentially consist of many loosely coupled types and services. They need to interact to contribute content and receive notifications based on user actions. Because they are loosely coupled, they need a way to interact and communicate with one another to deliver the required business functionality. To tie together these various pieces, applications based on the Prism Library rely on a dependency injection container.
 
