@@ -481,6 +481,58 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.True(recorder.IsEmpty);
         }
+
+        [Fact]
+        public async Task NavigateAsync_From_NavigationPage_When_NotClearNavigationStack_And_SamePage()
+        {
+            var recorder = new PageNavigationEventRecorder(); ;
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade, recorder);
+            var contentPageMock = new ContentPageMock(recorder);
+            var navigationPage = new NavigationPageMock(recorder, contentPageMock);
+            navigationPage.ClearNavigationStackOnNavigation = false;
+
+            // Navigate to Page2
+            ((IPageAware)navigationService).Page = contentPageMock;
+            await navigationService.NavigateAsync("SecondContentPageMock");
+
+            var secondContentPage = navigationPage.Navigation.NavigationStack.Last();
+
+            recorder.Clear();
+            ((IPageAware)navigationService).Page = navigationPage;
+            await navigationService.NavigateAsync("SecondContentPageMock");
+
+            Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
+            Assert.Equal(2, navigationPage.Navigation.NavigationStack.Count);
+
+            var currentPage = navigationPage.Navigation.NavigationStack.Last();
+            Assert.Equal(secondContentPage, currentPage);
+
+            var record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            Assert.True(recorder.IsEmpty);
+        }
         #endregion
 
         [Fact]
