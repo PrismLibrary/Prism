@@ -1,0 +1,36 @@
+using System;
+using System.Threading.Tasks;
+
+namespace Prism.Navigation
+{
+  public static class PrismNavigationExtensions
+  {
+    public const string ViewModelSuffix = "ViewModel";
+    public const string PageSuffix = "Page";
+
+    /// <summary>
+    /// Initiates navigation to the target specified by the name.
+    /// </summary>
+    /// <typeparam name="T">The type of the target to navigate to.</typeparam>
+    /// <param name="navigationService">The <see cref="INavigationService"/> object to initiate the navigation request with.</param>
+    /// <param name="parameters">The navigation parameters.</param>
+    /// <param name="useModalNavigation">If true uses PopModalAsync, if false uses PopAsync.</param>
+    /// <param name="animated">If true the transition is animated, if false there is no animation on transition.</param>
+    /// <remarks>
+    /// Name must end with either ViewModel or Page, and must have a matching navigation object available.
+    /// </remarks>
+    public static Task NavigateAsync<T>(this INavigationService navigationService, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+      where T : class
+    {
+      var name = nameof(T);
+
+      //should we allow navigating by page type at all?
+      if (name.EndsWith(PageSuffix + ViewModelSuffix))
+        name = name.Replace(ViewModelSuffix, string.Empty);
+      else
+        throw new ArgumentOutOfRangeException($"Unable to parse ViewModel '{name}'.");
+
+      return navigationService.NavigateAsync(name, parameters, useModalNavigation, animated);
+    }
+  }
+}
