@@ -45,7 +45,7 @@ namespace Prism.Commands
         /// <see cref="IActiveAware.IsActiveChanged"/> event.
         /// </remarks>
         /// <param name="command">The command to register.</param>
-        public virtual void RegisterCommand(ICommand command)
+        public virtual CompositeCommand RegisterCommand(ICommand command)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             if (command == this)
@@ -73,13 +73,14 @@ namespace Prism.Commands
                     activeAwareCommand.IsActiveChanged += this.Command_IsActiveChanged;
                 }
             }
+            return this;
         }
 
         /// <summary>
         /// Removes a command from the collection and removes itself from the <see cref="ICommand.CanExecuteChanged"/> event of it.
         /// </summary>
         /// <param name="command">The command to unregister.</param>
-        public virtual void UnregisterCommand(ICommand command)
+        public CompositeCommand UnregisterCommand(ICommand command)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             bool removed;
@@ -102,6 +103,7 @@ namespace Prism.Commands
                     }
                 }
             }
+            return this;
         }
 
         private void OnRegisteredCommandCanExecuteChanged(object sender, EventArgs e)
