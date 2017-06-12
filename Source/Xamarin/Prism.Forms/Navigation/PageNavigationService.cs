@@ -188,13 +188,20 @@ namespace Prism.Navigation
         protected virtual async Task ProcessNavigationForContentPage(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             var nextPage = CreatePageFromSegment(nextSegment);
-
-            await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
-
-            await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
+            bool useReverse = UseReverseNavigation(currentPage, nextPage);
+            if (!useReverse)
             {
-                await DoPush(currentPage, nextPage, useModalNavigation, animated);
-            });
+                await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
+
+                await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
+                {
+                    await DoPush(currentPage, nextPage, useModalNavigation, animated);
+                });
+            }
+            else
+            {
+                await UseReverseNavigation(currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+            }
         }
 
         protected virtual async Task ProcessNavigationForNavigationPage(NavigationPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -458,7 +465,48 @@ namespace Prism.Navigation
             return useModalNavigation;
         }
 
-        protected virtual Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated)
+        protected static bool UseReverseNavigation(Page currentPage, Page nextPage)
+        {
+            return currentPage?.Parent is NavigationPage && nextPage is ContentPage;
+        }
+
+        protected virtual async Task UseReverseNavigation(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            var navigationStack = new Stack<string>();
+            navigationStack.Push(nextSegment);
+
+            var segmentsReversed = segments.Reverse();
+            var newSegments = new Queue<string>();
+            foreach (var item in segmentsReversed)
+            {
+                var page = CreatePageFromSegment(item);
+                if (page is ContentPage)
+                {
+                    navigationStack.Push(item);
+                }
+                else
+                {
+                    newSegments.Enqueue(item);
+                }
+
+            }
+            if (newSegments.Count > 0)
+                await ProcessNavigation(currentPage, newSegments, parameters, useModalNavigation, animated);
+
+            bool insertBefore = false;
+            while (navigationStack.Count > 0)
+            {
+                var segment = navigationStack.Pop();
+                var nextPage = CreatePageFromSegment(segment);
+                await DoNavigateAction(currentPage, segment, nextPage, parameters, async () =>
+                {
+                    await DoPush(currentPage, nextPage, useModalNavigation, animated, insertBefore);
+                });
+                insertBefore = true;
+            }
+        }
+
+        protected virtual Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated, bool insertBeforeLast = false)
         {
             if (page == null)
                 throw new ArgumentNullException(nameof(page));
@@ -473,9 +521,23 @@ namespace Prism.Navigation
                 bool useModalForPush = UseModalNavigation(currentPage, useModalNavigation);
 
                 if (useModalForPush)
+                {
                     return currentPage.Navigation.PushModalAsync(page, animated);
+                }
                 else
-                    return currentPage.Navigation.PushAsync(page, animated);
+                {
+                    if (insertBeforeLast)
+                    {
+                        var lastPage = currentPage.Navigation.NavigationStack.LastOrDefault();
+                        currentPage.Navigation.InsertPageBefore(page, lastPage);
+                        return Task.FromResult(true);
+                    }
+                    else
+                    {
+                        return currentPage.Navigation.PushAsync(page, animated);
+                    }
+                }
+
             }
         }
 
