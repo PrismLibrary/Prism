@@ -571,6 +571,21 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
+        public async void DeepNavigate_To_EmptyNavigationPage_ToContentPage_toContentPage_toContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("NavigationPage-Empty/ContentPage/ContentPage/ContentPage1");
+
+            var navPage = rootPage.Navigation.ModalStack[0];
+            Assert.True(navPage.Navigation.NavigationStack.Count == 3);
+            var lastPage = navPage.Navigation.NavigationStack.LastOrDefault();
+            Assert.True(lastPage.GetType() == typeof(ContentPageMock1));
+        }
+
+        [Fact]
         public async void DeepNavigate_From_ContentPage_To_NavigationPageWithNavigationStack_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
@@ -584,7 +599,7 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public async void DeepNavigate_From_ContentPage_To_NavigationPageWithNavigationStack_ToContentPagek_ToContentPage()
+        public async void DeepNavigate_From_ContentPage_To_NavigationPageWithNavigationStack_ToContentPage_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
