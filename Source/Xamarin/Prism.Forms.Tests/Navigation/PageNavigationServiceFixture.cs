@@ -934,6 +934,43 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
+        public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToTabbedPage_ToPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("MasterDetailPage-Empty/NavigationPage/TabbedPage/PageMock");
+
+            var mdpPage = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
+            var navPage = mdpPage.Detail as NavigationPageMock;
+            var tabbedPage = navPage.Navigation.NavigationStack[0] as TabbedPageMock;
+            Assert.NotNull(mdpPage);
+            Assert.NotNull(navPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+            Assert.IsType(typeof(PageMock), tabbedPage.CurrentPage);
+        }
+
+        [Fact]
+        public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToContentPage_ToTabbedPage_ToPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("MasterDetailPage-Empty/NavigationPage/ContentPage/TabbedPage/PageMock");
+
+            var mdpPage = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
+            var navPage = mdpPage.Detail as NavigationPageMock;
+            var contentPage = navPage.Navigation.NavigationStack[0] as ContentPageMock;
+            var tabbedPage = navPage.Navigation.NavigationStack[1] as TabbedPageMock;
+            Assert.NotNull(mdpPage);
+            Assert.NotNull(navPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+            Assert.IsType(typeof(PageMock), tabbedPage.CurrentPage);
+        }
+
+        [Fact]
         public async void DeepNavigate_ToCarouselPage_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
