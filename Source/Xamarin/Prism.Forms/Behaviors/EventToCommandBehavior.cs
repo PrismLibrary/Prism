@@ -185,6 +185,10 @@ namespace Prism.Behaviors
                 {
                     var propInfo = propertyValue.GetType().GetTypeInfo().GetDeclaredProperty(propertyPathPart);
                     propertyValue = propInfo.GetValue(propertyValue);
+                    if (propertyValue == null)
+                    {
+                        break;
+                    }
                 }
                 parameter = propertyValue;
             }
