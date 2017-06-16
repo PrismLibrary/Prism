@@ -176,10 +176,6 @@ namespace Prism.Forms.Tests.Behaviors
         [Fact]
         public void Command_EventArgsParameterPath_Nested_When_ChildIsNull()
         {
-            dynamic item = new
-            {
-                AProperty = "Value"
-            };
             var executedCommand = false;
             var behavior = new EventToCommandBehaviorMock
             {
