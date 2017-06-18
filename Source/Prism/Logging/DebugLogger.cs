@@ -5,6 +5,7 @@ using Prism.Properties;
 
 namespace Prism.Logging
 {
+#if DEBUG
     /// <summary>
     /// Implementation of <see cref="ILoggerFacade"/> that logs into a message into the Debug.Listeners collection.
     /// </summary>
@@ -24,4 +25,5 @@ namespace Prism.Logging
             Debug.WriteLine(messageToLog);
         }
     }
+#endif
 }
