@@ -1,8 +1,8 @@
-#Using the Page Dialog Service
+# Using the Page Dialog Service
 
 Displaying an alert or asking a user to make a choice is a common UI task. Xamarin.Forms has two methods on the Page class for interacting with the user via a pop-up: DisplayAlert and DisplayActionSheet.  Prism provides a single **IPageDialogService** that abstracts away the Xamarin.Forms Page object dependency required for these actions and keeps your ViewModels clean and testable.  Simply request this service via the constructor of your ViewModel, and call either the DisplayAlert, or DisplayActionSheet to invoke the desired notification.
 
-```
+```cs
 public MainPageViewModel(IPageDialogService dialogService)
 {
     _dialogService = dialogService;
@@ -10,9 +10,10 @@ public MainPageViewModel(IPageDialogService dialogService)
 ```
 
 ## DisplayAlertAsync
+
 The **DisplayAlertAsync** method shows a modal pop-up to alert the user or ask simple questions of them. To display these alerts with Prism's **IPageDialogService**, use the **DisplayAlertAsync** method. The following line of code shows a simple message to the user:
 
-```
+```cs
 _dialogService.DisplayAlertAsync("Alert", "You have been alerted", "OK");
 ```
 
@@ -22,7 +23,7 @@ This example does not collect information from the user. The alert displays moda
 
 To get a response from an alert, supply text for both buttons and await the method. After the user selects one of the options the answer will be returned to your code. Note the async and await keywords in the sample code below:
 
-```
+```cs
 var alertButton2 = new Button { Text = "DisplayAlert Yes/No" }; // triggers alert
 alertButton2.Clicked += async (sender, e) => 
 {
@@ -30,6 +31,7 @@ alertButton2.Clicked += async (sender, e) =>
     Debug.WriteLine("Answer: " + answer); // writes true or false to the console
 };
 ```
+
 ![Question dialog on the 3 major platforms](images/pagedialogservice_02.png)
 
 ## DisplayActionSheetAsync
@@ -38,7 +40,7 @@ The UIActionSheet is a common UI element in iOS. The **IPageDialogService.Displa
 
 To display an action sheet, await **DisplayActionSheetAsync** in any ViewModel, passing the message and button labels as strings. The method returns the string label of the button that was clicked by the user. A simple example is shown here:
 
-```
+```cs
 var actionButton1 = new Button { Text = "ActionSheet Simple" };
 actionButton1.Clicked += async (sender, e) => 
 {
@@ -46,11 +48,12 @@ actionButton1.Clicked += async (sender, e) =>
     Debug.WriteLine("Action: " + action); // writes the selected button label to the console
 };
 ```
+
 ![Action dialog on the 3 major platforms](images/pagedialogservice_03.png)
 
 The destroy button is rendered differently than the others, and can be left null or specified as the third string parameter. This example uses the destroy button:
 
-```
+```cs
 var actionButton2 = new Button { Text = "ActionSheet" };
 actionButton2.Clicked += async (sender, e) => 
 {
@@ -64,12 +67,13 @@ actionButton2.Clicked += async (sender, e) =>
 Additionally, Prism provides another option which accepts an array of **IActionSheetButton** that allow you to specificy the title of the buttons, as well as the **DelegateCommand** that should be executed when the option is selected by the user.  This eliminates the need to capture a string result, perform a logical check against the result, and then execute a method or logic in response.
 
 To create an IActionSheetButton, use one of the three factory methods off of the **ActionSheetButton** class.
+
 - ActionSheetButton.CreateButton
 - ActionSheetButton.CreateCancelButton
 - ActionSheetButton.CreateDestroyButton
 
 
-```
+```cs
 IActionSheetButton selectAAction = ActionSheetButton.CreateButton("Select A", new DelegateCommand(() => { Debug.WriteLine("Select A"); }));
 IActionSheetButton cancelAction = ActionSheetButton.CreateCancelButton("Cancel", new DelegateCommand(() => { Debug.WriteLine("Cancel"); }));
 IActionSheetButton destroyAction = ActionSheetButton.CreateDestroyButton("Destroy", new DelegateCommand(() => { Debug.WriteLine("Destroy"); }));

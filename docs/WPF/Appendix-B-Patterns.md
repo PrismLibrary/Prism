@@ -1,10 +1,10 @@
-#Patterns in the Prism Library for WPF
+# Patterns in the Prism Library for WPF
 
 When you build applications, you typically encounter or employ patterns. In the Prism Library and example reference implementation, the guidance demonstrates the Adapter, Application Controller, Command, Composite and Composite View, Dependency Injection, Event Aggregator, Façade, Inversion of Control, Observer, Model-View-ViewModel (MVVM), Registry, Repository, Separated Interface, Plug-In, and Service Locator patterns that are briefly discussed in this appendix. The following illustration shows a typical composite application architecture using the Prism Library and some of the common patterns. A simpler application would likely encounter some of these patterns while using Prism, but not necessarily all of them.
 
 ![Sample composite application architecture with common patterns](images/Ch12PatternsFig1.png)
 
-##### Sample composite application architecture with common patterns
+## Sample composite application architecture with common patterns
 
 This section provides a brief overview of the patterns in alphabetical order and pointers to where you can see an example of each pattern in the Prism code.
 
@@ -81,7 +81,7 @@ The ability to locate and load modules at run time opens greater opportunities f
 
 The Service Locator pattern solves the same problems that the Dependency Injection pattern solves, but it uses a different approach. It allows classes to locate specific services they are interested in without needing to know who implements the service. Frequently, this is used as an alternative to dependency injection, but there are times when a class will need to use service location instead of dependency injection, such as when it needs to resolve multiple implementers of a service. In the Prism Library, this can be seen when the **ModuleInitializer** service resolves individual **IModules**. For an example of using the **UnityContainer** to locate a service in the UI Composition Quickstart, see the file ModuleInit.cs.
 
-# More Information
+## More Information
 
 The following are references and links to the patterns found in the Stock Trader RI and in the Prism Library:
 
