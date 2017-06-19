@@ -21,6 +21,8 @@ namespace Prism.SimpleInjector
     /// </summary>
     public abstract class PrismApplication : PrismApplicationBase<Container>, IDisposable
     {
+        private Scope _scope;
+
         /// <summary>
         /// Create a new instance of <see cref="PrismApplication"/>
         /// </summary>
@@ -45,6 +47,13 @@ namespace Prism.SimpleInjector
                 Container.Dispose();
                 Container = null;
             }
+
+            if (_scope != null)
+            {
+                _scope.Dispose();
+                _scope = null;
+            }
+
             GC.SuppressFinalize(this);
         }
 
@@ -64,7 +73,6 @@ namespace Prism.SimpleInjector
             Container.Options.DefaultScopedLifestyle = new ThreadScopedLifestyle();
             Container.Register(() => Logger, Lifestyle.Singleton);
             Container.Register(() => ModuleCatalog, Lifestyle.Singleton);
-            Container.Register(() => Container);
             Container.Register<INavigationService, SimpleInjectorPageNavigationService>(Lifestyle.Scoped);
             Container.Register<ISimpleInjectorPageNavigationService, SimpleInjectorPageNavigationService>(Lifestyle.Scoped);
             Container.Register<IApplicationProvider, ApplicationProvider>(Lifestyle.Singleton);
@@ -95,6 +103,11 @@ namespace Prism.SimpleInjector
         /// <returns>Instance of <see cref="INavigationService"/></returns>
         protected override INavigationService CreateNavigationService()
         {
+            if (Lifestyle.Scoped.GetCurrentScope(Container) == null)
+            {
+                _scope = ThreadScopedLifestyle.BeginScope(Container);
+            }
+
             return Container.GetInstance<ISimpleInjectorPageNavigationService>();
         }
 
