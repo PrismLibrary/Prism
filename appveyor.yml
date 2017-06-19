@@ -167,6 +167,7 @@ after_build:
             "./Source/Xamarin/Prism.DryIoc.Forms/bin/Release/net*"
             "./Source/Xamarin/Prism.Forms/bin/Release/net*"
             "./Source/Xamarin/Prism.Ninject.Forms/bin/Release/net*"
+            "./Source/Xamarin/Prism.SimpleInjector.Forms/bin/Release/net*"
             "./Source/Xamarin/Prism.Unity.Forms/bin/Release/net*"
         )
         Copy-Item $xfArtifacts -Destination $outputDir -Recurse -Force -Confirm:$False
@@ -212,6 +213,7 @@ test_script:
         dotnet test .\Source\Xamarin\Prism.Forms.Tests\Prism.Forms.Tests.csproj -c Test --no-build
         dotnet test .\Source\Xamarin\Prism.Autofac.Forms.Tests\Prism.Autofac.Forms.Tests.csproj -c Test --no-build
         dotnet test .\Source\Xamarin\Prism.DryIoc.Forms.Tests\Prism.DryIoc.Forms.Tests.csproj -c Test --no-build
+        dotnet test .\Source\Xamarin\Prism.SimpleInjector.Forms.Tests\Prism.SimpleInjector.Forms.Tests.csproj -c Test --no-build
         dotnet test .\Source\Xamarin\Prism.Unity.Forms.Tests\Prism.Unity.Forms.Tests.csproj -c Test --no-build
     }
 
