@@ -74,7 +74,6 @@ namespace Prism.SimpleInjector
             Container.Register(() => Logger, Lifestyle.Singleton);
             Container.Register(() => ModuleCatalog, Lifestyle.Singleton);
             Container.Register<INavigationService, SimpleInjectorPageNavigationService>(Lifestyle.Scoped);
-            Container.Register<ISimpleInjectorPageNavigationService, SimpleInjectorPageNavigationService>(Lifestyle.Scoped);
             Container.Register<IApplicationProvider, ApplicationProvider>(Lifestyle.Singleton);
             Container.Register<IApplicationStore, ApplicationStore>(Lifestyle.Singleton);
             Container.Register<IModuleManager, ModuleManager>(Lifestyle.Singleton);
@@ -108,7 +107,7 @@ namespace Prism.SimpleInjector
                 _scope = ThreadScopedLifestyle.BeginScope(Container);
             }
 
-            return Container.GetInstance<ISimpleInjectorPageNavigationService>();
+            return Container.GetInstance<INavigationService>();
         }
 
         protected override void ConfigureViewModelLocator()

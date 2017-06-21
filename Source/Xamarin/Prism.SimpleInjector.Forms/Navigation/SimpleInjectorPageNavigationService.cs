@@ -5,13 +5,12 @@ using Prism.Logging;
 using Prism.Navigation;
 using Xamarin.Forms;
 
-[assembly: InternalsVisibleTo("Prism.SimpleInjector.Forms.Tests")]
 namespace Prism.SimpleInjector.Navigation
 {
     /// <summary>
     /// Page navigation service for using SimpleInjector
     /// </summary>
-    internal sealed class SimpleInjectorPageNavigationService : PageNavigationService, ISimpleInjectorPageNavigationService
+    public class SimpleInjectorPageNavigationService : PageNavigationService
     {
         private readonly Container _container;
 
