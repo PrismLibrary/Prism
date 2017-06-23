@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using SimpleInjector;
 using Prism.Common;
 using Prism.Logging;
@@ -33,12 +34,14 @@ namespace Prism.SimpleInjector.Navigation
         /// <returns>A <see cref="Page"/></returns>
         protected override Page CreatePage(string segmentName)
         {
-            var page = _container.GetInstance(segmentName) as Page;
-
-            if (page == null)
+            try
+            {
+                return _container.GetInstance(segmentName) as Page;
+            }
+            catch (ArgumentNullException)
+            {
                 throw new SimpleInjectorPageNavigationException($"The requested page '{segmentName}' has not been registered.");
-
-            return page;
+            }
         }
     }
 }

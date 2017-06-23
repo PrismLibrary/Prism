@@ -35,7 +35,7 @@ namespace Prism.SimpleInjector
         public static void RegisterTypeForNavigation(this Container container, Type viewType, string name)
         {
             PageNavigationRegistry.Register(name, viewType);
-            container.Register(typeof(object), viewType);
+            container.Register(viewType, viewType);
         }
 
         /// <summary>

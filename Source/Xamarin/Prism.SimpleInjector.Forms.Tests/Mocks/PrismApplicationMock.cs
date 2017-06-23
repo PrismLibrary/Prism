@@ -50,8 +50,7 @@ namespace Prism.SimpleInjector.Forms.Tests.Mocks
             Container.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
             Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
             Container.Register<ModuleMock>(Lifestyle.Singleton);
-
-            FormsDependencyService.Register<IDependencyServiceMock>(new DependencyServiceMock());
+            Container.Register<IDependencyServiceMock, DependencyServiceMock>();
         }
 
         public INavigationService CreateNavigationServiceForPage(Page page)
