@@ -34,8 +34,10 @@ namespace Prism.Windows.AppModel
             IsMousePresent = new MouseCapabilities().MousePresent != 0;
             IsTouchPresent = new TouchCapabilities().TouchPresent != 0;
 
+#if WINDOWS_PHONE_APP
             if (IsHardwareBackButtonPresent)
                 HardwareButtons.BackPressed += OnHardwareButtonsBackPressed;
+#endif // WINDOWS_PHONE_APP
 
             if (IsHardwareCameraButtonPresent)
             {
@@ -166,6 +168,7 @@ namespace Prism.Windows.AppModel
             e.Handled = args.Handled;
         }
 
+#if WINDOWS_PHONE_APP
         /// <summary>
         /// 
         /// </summary>
@@ -179,6 +182,7 @@ namespace Prism.Windows.AppModel
 
             e.Handled = args.Handled;
         }
+#endif // WINDOWS_PHONE_APP
 
         /// <summary>
         /// Invoked on every keystroke, including system keys such as Alt key combinations.
