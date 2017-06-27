@@ -1,4 +1,4 @@
-#Managing Dependencies Between Components Using the Prism Library for WPF
+# Managing Dependencies Between Components Using the Prism Library for WPF
 
 Applications based on the Prism Library are composite applications that potentially consist of many loosely coupled types and services. They need to interact to contribute content and receive notifications based on user actions. Because they are loosely coupled, they need a way to interact and communicate with one another to deliver the required business functionality. To tie together these various pieces, applications based on the Prism Library rely on a dependency injection container.
 
@@ -18,8 +18,6 @@ In the context of an application based on the Prism Library, there are specific 
 * A container can create the view models and injects the view.
 * A container injects the composition services, such as the region manager and the event aggregator.
 * A container is used for registering module-specific services, which are services that have module-specific functionality.
-
-
 
 **Note:** Some samples in the Prism guidance rely on the Unity Application Block (Unity) as the container. Other code samples, for example the Modularity QuickStarts, use Managed Extensibility Framework (MEF). The Prism Library itself is not container-specific, and you can use its services and patterns with other containers, such as Castle Windsor, StructureMap, and Spring.NET.
 
@@ -41,8 +39,7 @@ Unity provides several capabilities that MEF does not:
 
 * It resolves concrete types without registration.
 * It resolves open generics.
-* It uses interception to capture calls to
-objects and add additional functionality to the target object.
+* It uses interception to capture calls to objects and add additional functionality to the target object.
 
 
 MEF provides several capabilities that Unity does not:
@@ -56,25 +53,24 @@ MEF provides several capabilities that Unity does not:
 The containers have differences in capabilities and work differently, but the Prism Library will work with either container and provide similar functionality. When considering which container to use, keep in mind the preceding capabilities and determine which fits your scenario better. 
 
 ## Considerations for Using the Container
+
 You should consider the following before using containers:
 
 * Consider whether it is appropriate to register and resolve components using the container:
-    * Consider whether the performance impact of registering with the container and resolving instances from it is acceptable in your scenario. For example, if you need to create 10,000 polygons to draw a surface within the local scope of a rendering method, the cost of resolving all of those polygon instances through the container might have a significant performance cost because of the container's use of reflection for creating each entity.
-    * If there are many or deep dependencies, the cost of creation can increase significantly.
-    * If the component does not have any dependencies or is not a dependency for other types, it may not make sense to put it in the container.
-    * If the component has a single set of dependencies that are integral to the type and will never change, it may not make sense to put it in the container.
+  * Consider whether the performance impact of registering with the container and resolving instances from it is acceptable in your scenario. For example, if you need to create 10,000 polygons to draw a surface within the local scope of a rendering method, the cost of resolving all of those polygon instances through the container might have a significant performance cost because of the container's use of reflection for creating each entity.
+  * If there are many or deep dependencies, the cost of creation can increase significantly.
+  * If the component does not have any dependencies or is not a dependency for other types, it may not make sense to put it in the container.
+  * If the component has a single set of dependencies that are integral to the type and will never change, it may not make sense to put it in the container.
 
 * Consider whether a component's lifetime should be registered as a singleton or instance:
-
-    * If the component is a global service that acts as a resource manager for a single resource, such as a logging service, you may want to register it as a singleton.
-    * If the component provides shared state to multiple consumers, you may want to register it as a singleton.
-    * If the object that is being injected needs to have a new instance of it injected each time a dependent object needs one, register it as a non-singleton. For example, each view probably needs a new instance of a view model.
+  * If the component is a global service that acts as a resource manager for a single resource, such as a logging service, you may want to register it as a singleton.
+  * If the component provides shared state to multiple consumers, you may want to register it as a singleton.
+  * If the object that is being injected needs to have a new instance of it injected each time a dependent object needs one, register it as a non-singleton. For example, each view probably needs a new instance of a view model.
 
 * Consider whether you want to configure the container through code or configuration:
-
-    * If you want to centrally manage all the different services, configure the container through configuration.
-    * If you want to conditionally register specific services, configure the container through code.
-    * If you have module-level services, consider configuring the container through code so that those services are registered only if the module is loaded.
+  * If you want to centrally manage all the different services, configure the container through configuration.
+  * If you want to conditionally register specific services, configure the container through code.
+  * If you have module-level services, consider configuring the container through code so that those services are registered only if the module is loaded.
 
 **Note:** Some containers, such as MEF, cannot be configured via a configuration file and must be configured via code.
 
@@ -83,6 +79,7 @@ You should consider the following before using containers:
 Containers are used for two primary purposes, namely registering and resolving.
 
 ### Registering
+
 Before you can inject dependencies into an object, the types of the dependencies need to be registered with the container. Registering a type typically involves passing the container an interface and a concrete type that implements that interface. There are primarily two means for registering types and objects: through code or through configuration. The specific means vary from container to container.
 
 Typically, there are two ways of registering types and objects in the container through code:
@@ -94,7 +91,7 @@ Typically, there are two ways of registering types and objects in the container 
 
 During initialization, a type can register other types, such as views and services. Registration allows their dependencies to be provided through the container and allows them to be accessed from other types. To do this, the type will need to have the container injected into the module constructor. The following code shows how the **OrderModule** type in the Commanding QuickStart registers a type.
 
-```
+```cs
 // OrderModule.cs
 public class OrderModule : IModule
 {
@@ -106,6 +103,7 @@ public class OrderModule : IModule
     ...
 }
 ```
+
 Depending on which container you use, registration can also be performed outside the code through configuration. For an example of this, see in .
 
 **Note:** The advantage of registering in code, compared to configuration, is that the registration happens only if the module loads.
@@ -114,7 +112,7 @@ Depending on which container you use, registration can also be performed outside
 
 MEF uses an attribute-based system for registering types with the container. As a result, adding type registration to the container is simple: it requires the addition of the **[Export]** attribute to a type as shown in the following code example.
 
-```
+```cs
 [Export(typeof(ILoggerFacade))]
 public class CallbackLogger: ILoggerFacade
 {
@@ -123,11 +121,11 @@ public class CallbackLogger: ILoggerFacade
 
 Another option when using MEF is to create an instance of a class and register that particular instance with the container. The **QuickStartBootstrapper** in the Modularity with MEF QuickStart shows an example of this in the **ConfigureContainer** method, as shown here.
 
-```
+```cs
 protected override void ConfigureContainer()
 {
     base.ConfigureContainer();
-    
+
     // Because we created the CallbackLogger and it needs to
     // be used immediately, we compose it to satisfy any imports it has.
     this.Container.ComposeExportedValue<CallbackLogger>(this.callbackLogger);
@@ -154,7 +152,7 @@ In general, when a type is resolved, one of three things happens:
 
 The following code example from the Commanding QuickStart shows where the **OrdersEditorView** and **OrdersToolBar** views are resolved from the container to associate them to the corresponding regions.
 
-```
+```cs
 // OrderModule.cs
 public class OrderModule : IModule
 {
@@ -176,7 +174,7 @@ public class OrderModule : IModule
 
 The **OrdersEditorViewModel** constructor contains the following dependencies (the orders repository and the orders command proxy), which are injected when it is resolved.
 
-```
+```cs
 // OrdersEditorViewModel.cs
 public OrdersEditorViewModel(IOrdersRepository ordersRepository, OrdersCommandProxy commandProxy)
 {
@@ -185,7 +183,7 @@ public OrdersEditorViewModel(IOrdersRepository ordersRepository, OrdersCommandPr
 
     // Create dummy order data.
     this.PopulateOrders();
-    
+
     // Initialize a CollectionView for the underlying Orders collection.
     this.Orders = new ListCollectionView( _orders );
     // Track the current selection.
@@ -200,7 +198,7 @@ In addition to the constructor injection shown in the preceding code, Unity also
 
 The following code example shows how the **Bootstrapper** in the Modularity with MEF QuickStart obtains an instance of the shell. Instead of requesting a concrete type, the code could request an instance of an interface.
 
-```
+```cs
 protected override DependencyObject CreateShell()
 {
     return this.Container.GetExportedValue<Shell>();
@@ -209,7 +207,7 @@ protected override DependencyObject CreateShell()
 
 In any class that is resolved by MEF, you can also use constructor injection, as shown in the following code example from ModuleA in the Modularity with MEF QuickStart, which has an **ILoggerFacade** and an **IModuleTracker** injected.
 
-```
+```cs
 [ImportingConstructor]
 public ModuleA(ILoggerFacade logger, IModuleTracker moduleTracker)
 {
@@ -229,13 +227,14 @@ public ModuleA(ILoggerFacade logger, IModuleTracker moduleTracker)
 
 Another option is to use property injection, as shown in the **ModuleTracker** class from the Modularity with MEF QuickStart, which has an instance of the **ILoggerFacade** injected.
 
-```
+```cs
 [Export(typeof(IModuleTracker))]
 public class ModuleTracker : IModuleTracker
 {
     [Import] private ILoggerFacade Logger;
 }
 ```
+
 ## Using Dependency Injection Containers and Services in Prism
 
 Dependency injection containers, often referred to as just "containers," are used to satisfy dependencies between components; satisfying these dependencies typically involves registration and resolution. The Prism Library provides support for the Unity container and for MEF, but it is not container-specific. Because the library accesses the container through the **IServiceLocator** interface, the container can be replaced. To do this, your container must implement the **IServiceLocator** interface. Usually, if you are replacing the container, you will also need to provide your own container-specific bootstrapper. The **IServiceLocator** interface is defined in the Common Service Locator Library. This is an open source effort to provide an abstraction over IoC (Inversion of Control) containers, such as dependency injection containers, and service locators. The objective of using this library is to leverage IoC and Service Location without tying to a specific implementation.
@@ -250,7 +249,7 @@ Although the Prism Library does not reference or rely on a specific container, i
 
 The following code shows the **IServiceLocator** interface.
 
-```
+```cs
 public interface IServiceLocator : IServiceProvider
 {
     object GetInstance(Type serviceType);
@@ -264,7 +263,7 @@ public interface IServiceLocator : IServiceProvider
 
 The Service Locator is extended in the Prism Library with the extension methods shown in the following code. You can see that **IServiceLocator** is used only for resolving, meaning it is used to obtain an instance; it is not used for registration.
 
-```
+```cs
 // ServiceLocatorExtensions
 public static class ServiceLocatorExtensions
 {
@@ -291,7 +290,7 @@ The **TryResolve** extension method—which the Unity container does not support
 
 The **ModuleInitializer** uses **IServiceLocator** for resolving the module during module loading, as shown in the following code examples.
 
-```
+```cs
 // ModuleInitializer.cs - Initialize()
 IModule moduleInstance = null;
 try
@@ -302,21 +301,22 @@ try
 ...
 ```
 
-```
+```cs
 // ModuleInitializer.cs - CreateModule()
 protected virtual IModule CreateModule(string typeName)
 {
     Type moduleType = Type.GetType(typeName);
-    
+
     if (moduleType == null)
     {
         throw new ModuleInitializeException(string.Format(CultureInfo.CurrentCulture, Properties.Resources.FailedToGetType, typeName));
     }
-    
+
     return (IModule)this.serviceLocator.GetInstance(moduleType);
 }
 ```
-# Considerations for Using IServiceLocator
+
+## Considerations for Using IServiceLocator
 
 **IServiceLocator** is not meant to be the general-purpose container. Containers have different semantics of usage, which often drives the decision for why that container is chosen. Bearing this in mind, the Stock Trader RI uses the dependency injection container directly instead of using the **IServiceLocator**. This is the recommend approach for your application development.
 
@@ -325,13 +325,12 @@ In the following situations, it may be appropriate for you to use the **IService
 * You are an independent software vendor (ISV) designing a third-party service that needs to support multiple containers.
 * You are designing a service to be used in an organization where they use multiple containers.
 
-# More Information
+## More Information
 
 For information related to containers, see the following:
 
 * [Unity Application Block](http://www.msdn.com/unity) on MSDN.
-* [Unity community site](http://www.codeplex.com/unity) on 
-CodePlex.
+* [Unity community site](http://www.codeplex.com/unity) on CodePlex.
 * [Managed Extensibility Framework Overview](http://msdn.microsoft.com/en-us/library/dd460648.aspx) on MSDN.
 * [MEF community site](http://mef.codeplex.com/) on CodePlex.
 * [Inversion of Control containers and the Dependency Injection pattern](http://www.martinfowler.com/articles/injection.html) on Martin Fowler's website.

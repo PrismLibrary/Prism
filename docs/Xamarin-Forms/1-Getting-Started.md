@@ -1,33 +1,40 @@
-#Getting started with Prism for Xamarin.Forms
-##Content
- - [Overview](#overview)
- - [Prerequisites](#prerequisites)
- - [Background](#background)
-	 - Xamarin.Forms
-	 - MVVM
- - [Creating a new solution](#creating-a-new-solution)
-	 - Installing and using the Prism Template Pack
-	 - Running the app
-	 - Views overview
-	 - View Models overview
- - [Adding a new Page (View) and ViewModel](#adding-a-new-page-view-and-viewmodel)
- - [Navigating to your new Page](#navigating-to-your-new-page)
+# Getting started with Prism for Xamarin.Forms
 
-##Overview
+## Content
+
+- [Overview](#overview)
+- [Prerequisites](#prerequisites)
+- [Background](#background)
+  - Xamarin.Forms
+  - MVVM
+- [Creating a new solution](#creating-a-new-solution)
+  - Installing and using the Prism Template Pack
+  - Running the app
+  - Views overview
+  - View Models overview
+- [Adding a new Page (View) and ViewModel](#adding-a-new-page-view-and-viewmodel)
+- [Navigating to your new Page](#navigating-to-your-new-page)
+
+## Overview
+
 This guide will walk you through creating a new Xamarin.Forms project that uses Prism, running the application, and modifying it to demonstrate basic use of Prism for Xamarin.Forms.
 
-##Prerequisites
+## Prerequisites
+
 This guide assumes that you have Xamarin, Xamarin Android Player, and Visual Studio 2015 already installed along with a basic understanding of those technologies. If you do not, please take a look at the excellent resources available at [xamarin.com](xamarin.com) and [visualstudio.com](visualstudio.com).
 
-##Background
-###What's Xamarin.Forms?
+## Background
+
+### What's Xamarin.Forms?
+
 > Build native UIs for iOS, Android and Windows
 from a single, shared C# codebase.
 
 Xamarin.Forms allows you to build applications for iOS, Android and Windows that share both back and front end code. For more information take a look at [Xamarin.Forms](https://xamarin.com/forms).
 
 
-###What's MVVM?
+### What's MVVM?
+
 MVVM stands for Model View ViewModel and it is a design pattern that allows for clean separation of concerns between the user interface and the model behind it. A major advantage of MVVM is that it leverages data-binding to display information and respond to user input.
 
 The following diagram shows the interaction between the components in MVVM.
@@ -36,8 +43,10 @@ The following diagram shows the interaction between the components in MVVM.
 
 For more information reference [The MVVM Pattern](https://msdn.microsoft.com/en-us/library/hh848246.aspx) by Microsoft Patterns & Practices
 
-##Creating a new solution
-###Installing and using the Prism Template Pack
+## Creating a new solution
+
+### Installing and using the Prism Template Pack
+
 The easiest way to get a new solution up and running is with the *Prism Template Pack*. Let's start by installing it in Visual Studio.
 
 Go to `Tools > Extensions and Updates` select `Online` and search for *Prism Template Pack*. Locate the the extensions, click `Download`, and complete the installation. Click the `Restart Now` button.
@@ -50,7 +59,8 @@ A new solution was created with a Portable Class Library (PCL) project labeled `
 
 ![Solution structure](images/GettingStarted_SolutionExplorer.png)
 
-####Running the app
+#### Running the app
+
 **Android**
 
 Right click on the Android project and select set as startup project. Also ensure build and deploy are both checked for the Android project in the Configuration Manager.
@@ -80,7 +90,8 @@ After chosen the build configuration, the app can be run by click the debug play
 
 To be added.
 
-####Views
+#### Views
+
 Within the Portable project there is a `View` folder. This folder will contain all of your view related code. The template created a [Content Page](https://developer.xamarin.com/guides/xamarin-forms/controls/pages/) called `MainPage.xaml` in this folder.  Lets take a look at this file.
 
 ```xaml
@@ -111,7 +122,8 @@ This view (MainPage.xaml) is wired to the view model (MainPageViewModel.cs) *aut
 
 A label is created on the page with the text bound to the property named Title in the view model (MainPageViewModel.cs).
 
-####View Models
+#### View Models
+
 Within the Portable project there is a `ViewModels` folder. This folder will contain all of your view model related code. The template created a view model for the MainPage called `MainPageViewModel.cs` in this folder.  Lets take a look at this class and break down what is going on here.
 
 ```cs
@@ -137,6 +149,7 @@ public class MainPageViewModel : BindableBase, INavigationAware
 ```cs
 public class MainPageViewModel : BindableBase, INavigationAware
 ```
+
 The MainPageViewModel inherits from `BindableBase` and implements the `INavigationAware` interface. 
 
 The `BindableBase` class implements the [INotifyPropertyChanged](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged%28v=vs.110%29.aspx) interface which allows for the view to be able to databind to properties created here. `BindableBase` also provides a protected `SetProperty` method to simplify creating these properties. 
@@ -163,14 +176,17 @@ public void OnNavigatedTo(NavigationParameters parameters)
 {
 ...
 ```
+
 These methods are called with the view model is navigated from or to. Here it expects a string via the NavigationParameters parameter and modifies the Title property with the string's value. See the [INavigationAware documentation](3-Navigation-Service/#inavigationaware) for more information.
 
-##Adding a new Page (View) and ViewModel
+## Adding a new Page (View) and ViewModel
+
 Now that we have a basic understanding of how project is setup with Prism for Xamarin.Forms, let's add to it and create a new Page (View) and ViewModel. We'll create a page with a text entry field and a button similar to the wireframe below. Later we'll add functionality to make the phone speak the text that's entered into the text field.
 
 ![Sketch of a view with a text entry field and button.](images/GettingStarted_ViewSketch.png)
 
-###View
+### View
+
 Let's create the new content page in the project, also known as the view. Again, the easiest way to do this is with the *Prism Template Pack*. We'll create the view first. Right click on the `Views` folder, click `Add > New Item...` under `Installed > Visual C# > Prism > Forms` select `Prism ContentPage (Forms)`. Name the page `SpeakPage.xaml` and click `Add`. This creates a blank content page. 
 
 There are many different types of [pages available in Xamarin Forms](https://developer.xamarin.com/guides/xamarin-forms/controls/pages/), but the ContentPage is one of the most basic. It displays a single visual object, typically a [layout](https://developer.xamarin.com/guides/xamarin-forms/controls/layouts/). Update`SpeakPage.xaml` to have the contents shown below.
@@ -211,7 +227,8 @@ An [Entry](https://developer.xamarin.com/api/type/Xamarin.Forms.Entry/) is provi
 `<Button Text="Speak" Command="{Binding SpeakCommand}"/>`
 A [Button](https://developer.xamarin.com/api/type/Xamarin.Forms.Button/) is placed below the Entry. The button's command is executed when it is clicked and is bound to a command named SpeakCommand in the SpeakPageViewModel, which we'll create soon.
 
-###View Model
+### View Model
+
 Now that we have a view named SpeakPage, we'll add it's corresponding view model. As with all the other steps, the easiest way to create a view model is with the *Prism Template Pack*. Right click on the `ViewModels` folder, click `Add > New Item...` under `Installed > Visual C# > Prism > Forms` select `Prism ViewModel`. Name the page `SpeakPageViewModel.cs` and click `Add`. This creates a view model for the SpeakPage. Update `SpeakPageViewModel.cs` to have the following contents within the namespace.
 
 ```cs
@@ -268,12 +285,15 @@ public SpeakPageViewModel()
 
 Creates a [DelegateCommand](https://msdn.microsoft.com/en-us/library/microsoft.practices.prism.commands.delegatecommand%28v=pandp.50%29.aspx) called `SpeakCommand` that the Speak button is bound to. The `SpeakCommand` is created in the `SpeakPageViewModel` constructor and will invoke the `Speak` method, which hasn't been written yet. To be able to perform the actual text-to-speech platform specific APIs need to be used. This is outside the scope of this documentation, but head over to the [Dependency Service documentation](5-Dependency-Service.md) to see how this is done.
 
-##Navigating to your new page
+## Navigating to your new page
+
 We now have two pages in our app, a main page and a speak page. To navigate to the new page, we'll need to register the page for navigation. In the Portable Class Library, `HelloXFPrism (Portable)`, open App.xaml.cs (you may have to click the carrot next to App.xaml to see it). Register the new page for navigation by updating `RegisterTypes()` to include the following.
+
 ```cs
 Container.RegisterTypeForNavigation<SpeakPage>();
 ```
 You can now navigate to the new page so let's setup MainPage to navigate. In `MainPage.xaml` add a button below the existing label.
+
 ```xaml
 <Button Text="Navigate to speak page" Command="{Binding NavigateToSpeakPageCommand}" />
 ```

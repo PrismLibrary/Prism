@@ -1,4 +1,4 @@
-#Communicating Between Loosely Coupled Components Using the Prism Library for WPF
+# Communicating Between Loosely Coupled Components Using the Prism Library for WPF
 
 When building large complex WPF applications, a common approach is to divide the functionality into discrete module assemblies. It is also desirable to minimize the use of static references between these modules, which can be accomplished through the use of delegate commands, region context, shared services, and event aggregator. This allows the modules to be independently developed, tested, deployed, and updated, and it forces loosely coupled communication. This topic provides guidance when to use delegate commands and routed commands and when to use event aggregator and .NET framework events.
 
@@ -10,6 +10,7 @@ When communicating between modules, it is important that you know the difference
 - **Event aggregation**. For communication across view models, presenters, or controllers when there is not a direct action-reaction expectation.
 
 ## Solution Commanding
+
 If you need to respond to a user gesture, such as clicking on a command invoker (for example, a button or menu item), and if you want the invoker to be enabled based on business logic, use commanding.
 
 Windows Presentation Foundation (WPF) provides **RoutedCommand**, which is good at connecting command invokers, such as menu items and buttons, with command handlers that are associated with the current item in the visual tree that has keyboard focus.
@@ -26,7 +27,7 @@ _**Note:** **DelegateCommand** and **CompositeCommand** can be found in the Pris
 
 >**About WPF Routed Events and Routed Commands**
 
->A routed event is a type of event that can invoke handlers on multiple listeners in an element tree, instead of notifying only the object that directly subscribed to the event. WPF-routed commands deliver command messages through UI elements in the visual tree, but the elements outside the tree will not receive these messages because they only bubble up or down from the focused element or an explicitly stated target element. Routed events can be used to communicate through the element tree, because the event data for the event is perpetuated to each element in the route. One element could change something in the event data, and that change would be available to the next element in the route. 
+> A routed event is a type of event that can invoke handlers on multiple listeners in an element tree, instead of notifying only the object that directly subscribed to the event. WPF-routed commands deliver command messages through UI elements in the visual tree, but the elements outside the tree will not receive these messages because they only bubble up or down from the focused element or an explicitly stated target element. Routed events can be used to communicate through the element tree, because the event data for the event is perpetuated to each element in the route. One element could change something in the event data, and that change would be available to the next element in the route. 
 
 > Therefore, you should use WPF routed events in the following scenarios: defining common handlers at a common root or defining your own custom control class.
 
@@ -34,7 +35,7 @@ _**Note:** **DelegateCommand** and **CompositeCommand** can be found in the Pris
 
 To create a delegate command, instantiate a **DelegateCommand** field in the constructor of your view model, and then expose it as an **ICommand** property.
 
-```
+```cs
 // ArticleViewModel.cs
 public class ArticleViewModel : BindableBase
 {
@@ -45,7 +46,6 @@ public class ArticleViewModel : BindableBase
                             IEventAggregator eventAggregator)
     {
         this.showArticleListCommand = new DelegateCommand(this.ShowArticleList);
-        
     }
 
     public ICommand ShowArticleListCommand
@@ -59,7 +59,7 @@ public class ArticleViewModel : BindableBase
 
 To create a composite command, instantiate a **CompositeCommand** field in the constructor, add commands to it, and then expose it as an **ICommand** property.
 
-```
+```cs
 public class MyViewModel : BindableBase
 {
     private readonly CompositeCommand saveAllCommand;
@@ -84,7 +84,7 @@ public class MyViewModel : BindableBase
 
 Typically, to create a globally available command, create an instance of the **DelegateCommand** or the **CompositeCommand** and expose it through a static class.
 
-```
+```cs
 public static class GlobalCommands
 {
     public static CompositeCommand MyCompositeCommand = new CompositeCommand();
@@ -93,7 +93,7 @@ public static class GlobalCommands
 
 In your module, associate child commands to the globally available command.
 
-```
+```cs
 GlobalCommands.MyCompositeCommand.RegisterCommand(command1);
 GlobalCommands.MyCompositeCommand.RegisterCommand(command2);
 ```
@@ -104,7 +104,7 @@ _**Note:** To increase the testability of your code, you can use a proxy class t
 
 The following code example shows how to bind a button to the command in WPF.
 
-```
+```cs
 <Button Name="MyCompositeCommandButton" Command="{x:Static local:GlobalCommands.MyCompositeCommand}">Execute My Composite Command</Button>
 ```
 
@@ -126,7 +126,7 @@ _**Note:** The Prism Library currently only supports consuming the **RegionConte
 
 >**About the Data Context Property**
  
->Data context is a concept that allows elements to inherit information from their parent elements about the data source that is used for binding. Child elements automatically inherit the **DataContext** of their parent element. The data flows down the visual tree.
+> Data context is a concept that allows elements to inherit information from their parent elements about the data source that is used for binding. Child elements automatically inherit the **DataContext** of their parent element. The data flows down the visual tree.
 
 ## Shared Services
 
@@ -136,7 +136,7 @@ In the Stock Trader Reference Implementation (Stock Trader RI), the Market modul
 
 To see how these services are exported into MEF, see the **MarketFeedService.cs** and **MarketHistoryService.cs** files, as shown in the following code example. The Position module's **ObservablePosition** receives the **IMarketFeedService** service through constructor dependency injection.
 
-```
+```cs
 // MarketFeedService.cs
 [Export(typeof(IMarketFeedService))]
 [PartCreationPolicy(CreationPolicy.Shared)]
@@ -172,7 +172,7 @@ Events created with the Prism Library are typed events. This means you can take 
 
 The **EventAggregator** class is offered as a service in the container and can be retrieved through the **IEventAggregator** interface. The event aggregator is responsible for locating or building events and for keeping a collection of the events in the system.
 
-```
+```cs
 public interface IEventAggregator
 {
     TEventType GetEvent<TEventType>() where TEventType : EventBase;
@@ -189,7 +189,7 @@ The **PubSubEvent** class is a generic class that requires the payload type to b
 
 _**Note:** **PubSubEvent** can be found in the Prism.Events namespace which is located in the Prism.Core NuGet package._
 
-```
+```cs
 // PubSubEvent.cs
 public class PubSubEvent<TPayload> : EventBase
 {
@@ -198,7 +198,7 @@ public class PubSubEvent<TPayload> : EventBase
     public SubscriptionToken Subscribe(Action<TPayload> action, ThreadOption threadOption);
     public SubscriptionToken Subscribe(Action<TPayload> action, bool keepSubscriberReferenceAlive)
     public SubscriptionToken Subscribe(Action<TPayload> action, ThreadOption threadOption, bool keepSubscriberReferenceAlive)
-    
+
     public virtual SubscriptionToken Subscribe(Action<TPayload> action, ThreadOption threadOption, bool keepSubscriberReferenceAlive);
     public virtual SubscriptionToken Subscribe(Action<TPayload> action, ThreadOption threadOption, bool keepSubscriberReferenceAlive, Predicate<TPayload> filter);
     public virtual void Publish(TPayload payload);
@@ -218,7 +218,7 @@ The **PubSubEvent&lt;TPayload&gt;** is intended to be the base class for an appl
 
 For example, the following code shows the **TickerSymbolSelectedEvent** in the Stock Trader Reference Implementation (Stock Trader RI). The payload is a string containing the company symbol. Notice how the implementation for this class is empty.
 
-```
+```cs
 public class TickerSymbolSelectedEvent : PubSubEvent<string>{}
 ```
 
@@ -230,7 +230,7 @@ Publishers raise an event by retrieving the event from the **EventAggregator** a
 
 The following code demonstrates publishing the **TickerSymbolSelectedEvent**.
 
-```
+```cs
 this.eventAggregator.GetEvent<TickerSymbolSelectedEvent>().Publish("STOCK0");
 ```
 
@@ -253,7 +253,7 @@ By default, the subscriber receives the event on the publisher's thread. If the 
 
 The **PubSubEvent** provided with the Prism Library can assist by allowing the subscriber to automatically receive the event on the UI thread. The subscriber indicates this during subscription, as shown in the following code example.
 
-```
+```cs
 public void Run()
 {
     ...
@@ -281,7 +281,7 @@ Subscribers may not need to handle every instance of a published event. In these
 
 Frequently, this filter is supplied as a lambda expression, as shown in the following code example. 
 
-```
+```cs
 FundAddedEvent fundAddedEvent = this.eventAggregator.GetEvent<FundAddedEvent>();
 
 fundAddedEvent.Subscribe(FundAddedEventHandler, ThreadOption.UIThread, false,
@@ -302,7 +302,7 @@ However, maintaining this weak delegate reference is slower than a corresponding
 
 To subscribe with a strong reference, use the **keepSubscriberReferenceAlive** parameter on the **Subscribe** method, as shown in the following code example.
 
-```
+```cs
 FundAddedEvent fundAddedEvent = eventAggregator.GetEvent<FundAddedEvent>();
 
 bool keepSubscriberReferenceAlive = true;
@@ -320,7 +320,7 @@ The **keepSubscriberReferenceAlive** parameter is of type **bool**:
 
 For a minimal or default subscription, the subscriber must provide a callback method with the appropriate signature that receives the event notification. For example, the handler for the **TickerSymbolSelectedEvent** requires the method to take a string parameter, as shown in the following code example.
 
-```
+```cs
 public TrendLineViewModel(IMarketHistoryService marketHistoryService, IEventAggregator eventAggregator)
 {
     ... eventAggregator.GetEvent<TickerSymbolSelectedEvent>().Subscribe(this.TickerSymbolChanged);
@@ -341,7 +341,7 @@ If your subscriber no longer wants to receive events, you can unsubscribe by usi
 
 The following code example shows how to directly unsubscribe to the handler.
 
-```
+```cs
 FundAddedEvent fundAddedEvent = this.eventAggregator.GetEvent<FundAddedEvent>();
 
 fundAddedEvent.Subscribe(FundAddedEventHandler, ThreadOption.PublisherThread);
@@ -351,7 +351,7 @@ fundAddedEvent.Unsubscribe(FundAddedEventHandler);
 
 The following code example shows how to unsubscribe with a subscription token. The token is supplied as a return value from the Subscribe method.
 
-```
+```cs
 FundAddedEvent fundAddedEvent = this.eventAggregator.GetEvent<FundAddedEvent>();
 
 subscriptionToken = fundAddedEvent.Subscribe(FundAddedEventHandler, ThreadOption.UIThread, false, fundOrder => fundOrder.CustomerId == this.customerId);
@@ -359,8 +359,6 @@ subscriptionToken = fundAddedEvent.Subscribe(FundAddedEventHandler, ThreadOption
 fundAddedEvent.Unsubscribe(subscriptionToken);
 ```
 
-##  More Information
+## More Information
 
 For more information about weak references, see [Weak References](http://msdn.microsoft.com/en-us/library/ms404247.aspx) on MSDN.
-
-
