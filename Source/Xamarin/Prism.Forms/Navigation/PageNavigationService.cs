@@ -199,51 +199,52 @@ namespace Prism.Navigation
 
         protected virtual async Task ProcessNavigationForNavigationPage(NavigationPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            if (currentPage.Navigation.NavigationStack.Count == 0)
+            var clearNavigationStack = GetClearNavigationPageNavigationStack(currentPage);
+            var isEmptyOfNavigationStack = currentPage.Navigation.NavigationStack.Count == 0;
+
+            List<Page> destroyPages;
+            if (clearNavigationStack && !isEmptyOfNavigationStack)
             {
-                var newRoot = CreatePageFromSegment(nextSegment);
-                await ProcessNavigation(newRoot, segments, parameters, false, animated);
-                await DoNavigateAction(currentPage, nextSegment, newRoot, parameters, async () =>
-                {
-                    await DoPush(currentPage, newRoot, false, animated);
-                });
-                return;
-            }
+                destroyPages = currentPage.Navigation.NavigationStack.ToList();
+                destroyPages.Reverse();
 
-            bool clearNavStack = GetClearNavigationPageNavigationStack(currentPage);
-
-            var currentNavRoot = currentPage.Navigation.NavigationStack[0];
-            var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
-            if (currentNavRoot.GetType() == nextPageType)
-            {
-                if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
-                    await currentPage.Navigation.PopToRootAsync(false);
-
-                await ProcessNavigation(currentNavRoot, segments, parameters, false, animated);
-                await DoNavigateAction(currentNavRoot, nextSegment, currentNavRoot, parameters);
-                return;
+                await currentPage.Navigation.PopToRootAsync(false);
             }
             else
             {
-                if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
-                    await currentPage.Navigation.PopToRootAsync(false);
+                destroyPages = new List<Page>();
+            }
 
-                var newRoot = CreatePageFromSegment(nextSegment);
-                await ProcessNavigation(newRoot, segments, parameters, false, animated);
+            var topPage = currentPage.Navigation.NavigationStack.LastOrDefault();
+            var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
+            if (topPage?.GetType() == nextPageType)
+            {
+                if(clearNavigationStack)
+                    destroyPages.Remove(destroyPages.Last());
 
-                await DoNavigateAction(currentNavRoot, nextSegment, newRoot, parameters, async () =>
+                await ProcessNavigation(topPage, segments, parameters, false, animated);
+                await DoNavigateAction(topPage, nextSegment, topPage, parameters);
+            }
+            else
+            {
+                // Replace RootPage of NavigationStack
+                var nextPage = CreatePageFromSegment(nextSegment);
+                await ProcessNavigation(nextPage, segments, parameters, false, animated);
+                await DoNavigateAction(topPage ?? currentPage, nextSegment, nextPage, parameters, async () =>
                 {
-                    var push = DoPush(currentPage, newRoot, false, animated);
+                    var push = DoPush(currentPage, nextPage, false, animated);
 
-                    if (clearNavStack && currentPage.Navigation.NavigationStack.Count > 1)
-                    {
-                        currentPage.Navigation.RemovePage(currentNavRoot);
-                        PageUtilities.DestroyPage(currentNavRoot);
-                    }
+                    if (clearNavigationStack && !isEmptyOfNavigationStack)
+                        currentPage.Navigation.RemovePage(topPage);
 
                     await push;
                 });
-                return;
+            }
+
+
+            foreach (var destroyPage in destroyPages)
+            {
+                PageUtilities.DestroyPage(destroyPage);
             }
         }
 

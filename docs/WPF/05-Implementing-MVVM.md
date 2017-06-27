@@ -1,4 +1,4 @@
-#Implementing the MVVM Pattern Using the Prism Library for WPF
+# Implementing the MVVM Pattern Using the Prism Library for WPF
 
 The Model-View-ViewModel (MVVM) pattern helps you to cleanly separate the business and presentation logic of your application from its user interface (UI). Maintaining a clean separation between application logic and UI helps to address numerous development and design issues and can make your application much easier to test, maintain, and evolve. It can also greatly improve code re-use opportunities and allows developers and UI designers to more easily collaborate when developing their respective parts of the application.
 
@@ -18,7 +18,7 @@ The following illustration shows the three MVVM classes and their interaction.
 
 ![MVVM classes and their interactions](images/Ch5MvvmFig1.png)
 
-##### The MVVM classes and their interactions
+### The MVVM classes and their interactions
 
 Like with all separated presentation patterns, the key to using the MVVM pattern effectively lies in understanding the appropriate way to factor your application's code into the correct classes, and in understanding the ways in which these classes interact in various scenarios. The following sections describe the responsibilities and characteristics of each of the classes in the MVVM pattern.
 
@@ -109,62 +109,68 @@ The following sections describe how to implement the required interfaces in orde
 
 Implementing the **INotifyPropertyChanged** interface in your view model or model classes allows them to provide change notifications to any data-bound controls in the view when the underlying property value changes. Implementing this interface is straightforward, as shown in the following code example.
 
-    public class Questionnaire : INotifyPropertyChanged
+```cs
+public class Questionnaire : INotifyPropertyChanged
+{
+    private string favoriteColor;
+    public event PropertyChangedEventHandler PropertyChanged;
+    ...
+    public string FavoriteColor
     {
-        private string favoriteColor;
-        public event PropertyChangedEventHandler PropertyChanged;
-        ...
-        public string FavoriteColor
+        get { return this.favoriteColor; }
+        set
         {
-            get { return this.favoriteColor; }
-            set
+            if (value != this.favoriteColor)
             {
-                if (value != this.favoriteColor)
+                this.favoriteColor = value;
+
+                var handler = this.PropertyChanged;
+                if (handler != null)
                 {
-                    this.favoriteColor = value;
-    
-                    var handler = this.PropertyChanged;
-                    if (handler != null)
-                    {
-                        handler(this,
-                              new PropertyChangedEventArgs("FavoriteColor"));
-                    }
+                    handler(this,
+                            new PropertyChangedEventArgs("FavoriteColor"));
                 }
             }
         }
     }
+}
+```
 
 Implementing the **INotifyPropertyChanged** interface on many view model classes can be repetitive and error-prone because of the need to specify the property name in the event argument. The Prism Library provides the BindableBase base class from which you can derive your view model classes that implements the **INotifyPropertyChanged** interface in a type-safe manner, as shown here.
 
-    public abstract class BindableBase : INotifyPropertyChanged
-    {
-       public event PropertyChangedEventHandler PropertyChanged;
-       ...
-       protected virtual bool SetProperty<T>(ref T storage, T value, 
-                              [CallerMemberName] string propertyName = null)
-       {...}
-       protected void OnPropertyChanged<T>(
-                              Expression<Func<T>> propertyExpression)
-       {...}
-     
-       protected void OnPropertyChanged(string propertyName)
-       {...}
-    }
-    
+```cs
+public abstract class BindableBase : INotifyPropertyChanged
+{
+    public event PropertyChangedEventHandler PropertyChanged;
+    ...
+    protected virtual bool SetProperty<T>(ref T storage, T value,
+                            [CallerMemberName] string propertyName = null)
+    {...}
+    protected void OnPropertyChanged<T>(
+                            Expression<Func<T>> propertyExpression)
+    {...}
+
+    protected void OnPropertyChanged(string propertyName)
+    {...}
+}
+```
+
 A derived view model class can raise the property change event in the setter by calling the **SetProperty** method. The **SetProperty** method checks whether the backing field is different from the value being set. If different, the backing field is updated and the **PropertyChanged** event is raised.
 
 The following code example shows how to set the property and simultaneously signal the change of another property by using a lambda expression in the **OnPropertyChanged** method. This example comes from the Stock Trader RI. The **TransactionInfo** and **TickerSymbol** properties are related. If the **TransactionInfo** property changes, the **TickerSymbol** will also likely be updated. By calling **OnPropertyChanged** for the **TickerSymbol** property in the setter of the **TransactionInfo** property, two **PropertyChanged** events will be raised, one for **TransactionInfo** and one for **TickerSymbol**.
 
-    public TransactionInfo TransactionInfo
+```cs
+public TransactionInfo TransactionInfo
+{
+    get { return this.transactionInfo; }
+    set
     {
-        get { return this.transactionInfo; } 
-        set 
-        { 
-             SetProperty(ref this.transactionInfo, value); 
-             this.OnPropertyChanged(() => this.TickerSymbol);
-        }
+        SetProperty(ref this.transactionInfo, value);
+        this.OnPropertyChanged(() => this.TickerSymbol);
     }
-    
+}
+```
+
 **Note:** Using a lambda expression in this way involves a small performance cost because the lambda expression has to be evaluated for each call. The benefit is that this approach provides compile-time type safety and refactoring support if you rename a property. Although the performance cost is small and would not normally impact your application, the costs can accrue if you have many change notifications. In this case, you should consider using the non-lambda method overload.
 
 Often, your model or view model will include properties whose values are calculated from other properties in the model or view model. When handling changes to properties, be sure to also raise notification events for any calculated properties.
@@ -173,24 +179,28 @@ Often, your model or view model will include properties whose values are calcula
 
 Your view model or model class may represent a collection of items, or it may define one or more properties that return a collection of items. In either case, it is likely that you will want to display the collection in an **ItemsControl**, such as a **ListBox**, or in a **DataGrid** control in the view. These controls can be data bound to a view model that represents a collection or to a property that returns a collection via the **ItemSource** property.
 
+```xml
     <DataGrid ItemsSource="{Binding Path=LineItems}" />
-    
+```
+
 To properly support change notification requests, the view model or model class, if it represents a collection, should implement the **INotifyCollectionChanged** interface (in addition to the **INotifyPropertyChanged** interface). If the view model or model class defines a property that returns a reference to a collection, the collection class returned should implement the **INotifyCollectionChanged** interface.
 
 However, implementing the **INotifyCollectionChanged** interface can be challenging because it has to provide notifications when items are added, removed, or changed within the collection. Instead of directly implementing the interface, it is often easier to use or derive from a collection class that already implements it. The **ObservableCollection&lt;T&gt;** class provides an implementation of this interface and is commonly used as either a base class or to implement properties that represent a collection of items.
 
 If you need to provide a collection to the view for data binding, and you do not need to track the user's selection or to support filtering, sorting, or grouping of the items in the collection, you can simply define a property on your view model that returns a reference to the **ObservableCollection&lt;T&gt;** instance.
 
-    public class OrderViewModel : BindableBase
+```cs
+public class OrderViewModel : BindableBase
+{
+    public OrderViewModel( IOrderService orderService )
     {
-        public OrderViewModel( IOrderService orderService )
-        {
-            this.LineItems = new ObservableCollection<OrderLineItem>(
-                                   orderService.GetLineItemList() );
-        }
-    
-        public ObservableCollection<OrderLineItem> LineItems { get; private set; }
+        this.LineItems = new ObservableCollection<OrderLineItem>(
+                                orderService.GetLineItemList() );
     }
+
+    public ObservableCollection<OrderLineItem> LineItems { get; private set; }
+}
+```
 
 If you obtain a reference to a collection class (for example, from another component or service that does not implement **INotifyCollectionChanged**), you can often wrap that collection in an **ObservableCollection&lt;T&gt;** instance using one of the constructors that take an **IEnumerable&lt;T&gt;** or **List&lt;T&gt;** parameter.
 
@@ -216,42 +226,48 @@ The view model should implement a read-only property that returns an **ICollecti
 
 The following code example shows the use of the **ListCollectionView** in WPF to keep track of the currently selected customer.
 
-    public class MyViewModel : BindableBase
+```cs
+public class MyViewModel : BindableBase
+{
+    public ICollectionView Customers { get; private set; }
+
+    public MyViewModel( ObservableCollection<Customer> customers )
     {
-        public ICollectionView Customers { get; private set; }
-    
-        public MyViewModel( ObservableCollection<Customer> customers )
-        {
-            // Initialize the CollectionView for the underlying model
-            // and track the current selection.
-            Customers = new ListCollectionView( customers );
-            
-            Customers.CurrentChanged +=SelectedItemChanged;
-        }
-    
-        private void SelectedItemChanged( object sender, EventArgs e )
-        {
-            Customer current = Customers.CurrentItem as Customer;
-            ...
-        }
+        // Initialize the CollectionView for the underlying model
+        // and track the current selection.
+        Customers = new ListCollectionView( customers );
+
+        Customers.CurrentChanged +=SelectedItemChanged;
+    }
+
+    private void SelectedItemChanged( object sender, EventArgs e )
+    {
+        Customer current = Customers.CurrentItem as Customer;
         ...
     }
+    ...
+}
+```
 
 In the view, you can then bind an **ItemsControl**, such as a **ListBox**, to the **Customers** property on the view model via its **ItemsSource** property, as shown here.
 
-    <ListBox ItemsSource="{Binding Path=Customers}">
-        <ListBox.ItemTemplate>
-            <DataTemplate>
-                <StackPanel>
-                    <TextBlock Text="{Binding Path=Name}"/>
-                </StackPanel>
-            </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+```xml
+<ListBox ItemsSource="{Binding Path=Customers}">
+    <ListBox.ItemTemplate>
+        <DataTemplate>
+            <StackPanel>
+                <TextBlock Text="{Binding Path=Name}"/>
+            </StackPanel>
+        </DataTemplate>
+    </ListBox.ItemTemplate>
+</ListBox>
+```
 
 When the user selects a customer in the UI, the view model will be informed so that it can apply the commands that relate to the currently selected customer. The view model can also programmatically change the current selection in the UI by calling methods on the collection view object, as shown in the following code example.
 
-    Customers.MoveCurrentToNext();
+```cs
+Customers.MoveCurrentToNext();
+```
 
 When the selection changes in the collection view, the UI automatically updates to visually represent the selected state of the item.
 
@@ -271,19 +287,23 @@ The following sections describe how to implement commands in your view, as comma
 
 There are a number of scenarios where the command calls code with long running transactions that cannot block the UI thread. For these scenarios you should use the **FromAsyncHandler** method of the **DelegateCommand** class, which creates a new instance of the **DelegateCommand** from an async handler method.
 
-    // DelegateCommand.cs
-    public static DelegateCommand FromAsyncHandler(Func<Task> executeMethod, Func<bool> canExecuteMethod)
-    {
-        return new DelegateCommand(executeMethod, canExecuteMethod);
-    }
-    
+```cs
+// DelegateCommand.cs
+public static DelegateCommand FromAsyncHandler(Func<Task> executeMethod, Func<bool> canExecuteMethod)
+{
+    return new DelegateCommand(executeMethod, canExecuteMethod);
+}
+```
+
 For example, the following code shows how a **DelegateCommand** instance, which represents a sign in command, is constructed by specifying delegates to the **SignInAsync** and **CanSignIn** view model methods. The command is then exposed to the view through a read-only property that returns a reference to an [***ICommand***](http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.input.icommand.aspx).
 
-    // SignInFlyoutViewModel.cs
-    public DelegateCommand SignInCommand { get; private set;  }
-    
-    ...
-    SignInCommand = DelegateCommand.FromAsyncHandler(SignInAsync, CanSignIn);
+```cs
+// SignInFlyoutViewModel.cs
+public DelegateCommand SignInCommand { get; private set;  }
+
+...
+SignInCommand = DelegateCommand.FromAsyncHandler(SignInAsync, CanSignIn);
+```
 
 ### Implementing Command Objects
 
@@ -295,30 +315,34 @@ Implementing the **ICommand** interface is straightforward. However, there are a
 
 The Prism **DelegateCommand** class encapsulates two delegates that each reference a method implemented within your view model class. It inherits from the **DelegateCommandBase** class, which implements the **ICommand** interface's **Execute** and **CanExecute** methods by invoking these delegates. You specify the delegates to your view model methods in the **DelegateCommand** class constructor, which is defined as follows.
 
-    // DelegateCommand.cs
-    public class DelegateCommand<T> : DelegateCommandBase
+```cs
+// DelegateCommand.cs
+public class DelegateCommand<T> : DelegateCommandBase
+{
+    public DelegateCommand(Action<T> executeMethod,Func<T,bool> canExecuteMethod ): base((o) => executeMethod((T)o), (o) => canExecuteMethod((T)o))
     {
-        public DelegateCommand(Action<T> executeMethod,Func<T,bool> canExecuteMethod ): base((o) => executeMethod((T)o), (o) => canExecuteMethod((T)o))
-        {
-            ...
-        }
+        ...
     }
+}
+```
 
 For example, the following code example shows how a **DelegateCommand** instance, which represents a **Submit** command, is constructed by specifying delegates to the **OnSubmit** and **CanSubmit** view model methods. The command is then exposed to the view via a read-only property that returns a reference to an **ICommand**.
 
-    public class QuestionnaireViewModel
+```cs
+public class QuestionnaireViewModel
+{
+    public QuestionnaireViewModel()
     {
-        public QuestionnaireViewModel()
-        {
-           this.SubmitCommand = new DelegateCommand<object>(
-                                            this.OnSubmit, this.CanSubmit );
-        }
-     
-        public ICommand SubmitCommand { get; private set; }
-    
-        private void OnSubmit(object arg)   {...}
-        private bool CanSubmit(object arg)  { return true; }
+        this.SubmitCommand = new DelegateCommand<object>(
+                                        this.OnSubmit, this.CanSubmit );
     }
+
+    public ICommand SubmitCommand { get; private set; }
+
+    private void OnSubmit(object arg)   {...}
+    private bool CanSubmit(object arg)  { return true; }
+}
+```
 
 When the **Execute** method is called on the **DelegateCommand** object, it simply forwards the call to the method in your view model class via the delegate that you specified in the constructor. Similarly, when the **CanExecute** method is called, the corresponding method in your view model class is called. The delegate to the **CanExecute** method in the constructor is optional. If a delegate is not specified, **DelegateCommand** will always return **true** for **CanExecute**.
 
@@ -332,7 +356,9 @@ Other implementations of the **ICommand** interface are available. The **ActionC
 
 There are a number of ways in which a control in the view can be associated with a command object proffered by the view model. Certain WPF controls, notably **ButtonBase** derived controls, such as **Button** or **RadioButton**, and **Hyperlink**, or **MenuItem** derived controls, can be easily data bound to a command object through the **Command** property. WPF also supports binding view model **ICommand** to a **KeyGesture**.
 
-    <Button Command="{Binding Path=SubmitCommand}" CommandParameter="SubmitOrder"/>
+```xml
+<Button Command="{Binding Path=SubmitCommand}" CommandParameter="SubmitOrder"/>
+```
 
 A command parameter can also be optionally defined using the **CommandParameter** property. The type of the expected argument is specified in the **Execute** and **CanExecute** target methods. The control will automatically invoke the target command when the user interacts with that control, and the command parameter, if provided, will be passed as the argument to the command's **Execute** method. In the preceding example, the button will automatically invoke the **SubmitCommand** when it is clicked. Additionally, if a **CanExecute** handler is specified, the button will be automatically disabled if **CanExecute** returns **false**, and it will be enabled if it returns **true**.
 
@@ -356,9 +382,11 @@ The **IDataErrorInfo** indexer property is accessed when a data-bound property i
 
 When binding controls in the view to properties you want to validate through the **IDataErrorInfo** interface, set the **ValidatesOnDataErrors** property on the data binding to **true**. This will ensure that the data binding engine will request error information for the data-bound property.
 
-    <TextBox
-        Text="{Binding Path=CurrentEmployee.Name, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True }"
-    />
+```xml
+<TextBox
+    Text="{Binding Path=CurrentEmployee.Name, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True }"
+/>
+```
 
 ### Implementing INotifyDataErrorInfo
 
@@ -370,36 +398,38 @@ The **INotifyDataErrorInfo** interface also defines an **ErrorsChanged** event. 
 
 To support **INotifyDataErrorInfo**, you will need to maintain a list of errors for each property. The Model-View-ViewModel Reference Implementation (MVVM RI) demonstrates one way to do this using an **ErrorsContainer** collection class that tracks all the validation errors in the object. It also raises notification events if the error list changes. The following code example shows a **DomainObject** (a root model object) and shows an example implementation of **INotifyDataErrorInfo** using the **ErrorsContainer** class.
 
-    public abstract class DomainObject : INotifyPropertyChanged, 
-                                         INotifyDataErrorInfo
+```cs
+public abstract class DomainObject : INotifyPropertyChanged, 
+                                        INotifyDataErrorInfo
+{
+    private ErrorsContainer<ValidationResult> errorsContainer =
+                    new ErrorsContainer<ValidationResult>(
+                        pn => this.RaiseErrorsChanged( pn ) );
+
+    public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+    public bool HasErrors
     {
-        private ErrorsContainer<ValidationResult> errorsContainer =
-                        new ErrorsContainer<ValidationResult>(
-                           pn => this.RaiseErrorsChanged( pn ) );
-    
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-    
-        public bool HasErrors
-        {
-            get { return this.ErrorsContainer.HasErrors; }
-        }
-     
-        public IEnumerable GetErrors( string propertyName )
-        {
-            return this.errorsContainer.GetErrors( propertyName );
-        }
-    
-        protected void RaiseErrorsChanged( string propertyName )
-        {
-            var handler = this.ErrorsChanged;
-            if (handler != null)
-            {
-                handler(this, new DataErrorsChangedEventArgs(propertyName) );
-            }
-        }
-       ...
+        get { return this.ErrorsContainer.HasErrors; }
     }
     
+    public IEnumerable GetErrors( string propertyName )
+    {
+        return this.errorsContainer.GetErrors( propertyName );
+    }
+
+    protected void RaiseErrorsChanged( string propertyName )
+    {
+        var handler = this.ErrorsChanged;
+        if (handler != null)
+        {
+            handler(this, new DataErrorsChangedEventArgs(propertyName) );
+        }
+    }
+    ...
+}
+```
+
 ## Construction and Wire-Up
 
 The MVVM pattern helps you to cleanly separate your UI from your presentation and business logic and data, so implementing the right code in the right class is an important first step in using the MVVM pattern effectively. Managing the interactions between the view and view model classes through data binding and commands are also important aspects to consider. The next step is to consider how the view, view model, and model classes are instantiated and associated with each other at run time.
@@ -418,10 +448,12 @@ There are multiple ways the view and the view model can be constructed and assoc
 
 Perhaps the simplest approach is for the view to declaratively instantiate its corresponding view model in XAML. When the view is constructed, the corresponding view model object will also be constructed. You can also specify in XAML that the view model be set as the view's data context.
 
-    <UserControl.DataContext>
-        <my:MyViewModel/>
-    </UserControl.DataContext>
-  
+```xml
+<UserControl.DataContext>
+    <my:MyViewModel/>
+</UserControl.DataContext>
+```
+
 When this view is created, an instance of the **MyViewModel** is automatically constructed and set as the view's data context. This approach requires your view model to have a default (parameter-less) constructor.
 
 The declarative construction and assignment of the view model by the view has the advantage that it is simple and works well in design-time tools such as Microsoft Expression Blend or Microsoft Visual Studio. The disadvantage of this approach is that the view has knowledge of the corresponding view model type and that the view model type must have a default constructor.
@@ -430,11 +462,13 @@ The declarative construction and assignment of the view model by the view has th
 
 Another approach is for the view to instantiate its corresponding view model instance programmatically in its constructor. It can then set it as its data context, as shown in the following code example.
 
-    public MyView()
-    {
-        InitializeComponent();
-        this.DataContext = new MyViewModel();
-    }
+```cs
+public MyView()
+{
+    InitializeComponent();
+    this.DataContext = new MyViewModel();
+}
+```
 
 ## Creating the View Model Using a View Model Locator
 
@@ -444,10 +478,12 @@ The Prism view model locator has a **AutoWireViewModel** attached property that 
 
 In the Basic MVVM QuickStart, the MainWindow.xaml uses the view model locator to resolve the view model.
 
-    <Window x:Class="QuickStart.Views.MainWindow"
-        ...
-        xmlns:prism="http://prismlibrary.com/"
-        prism:ViewModelLocator.AutoWireViewModel="True">
+```xml
+<Window x:Class="QuickStart.Views.MainWindow"
+    ...
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+```
 
 Prism’s **ViewModelLocator** class has an attached property, **AutoWireViewMode**l that when set to true will try to locate the view model of the view, and then set the view’s data context to an instance of the view model. To locate the corresponding view model, the **ViewModelLocationProvider** first attempts to resolve the view model from any mappings that may have been registered by the **Register** method of the **ViewModelLocationProvider** class. If the view model cannot be resolved using this approach, for instance if the mapping wasn't created, the **ViewModelLocationProvider** falls back to a convention-based approach to resolve the correct view model type. This convention assumes that view models are in the same assembly as the view types, that view models are in a .**ViewModels** child namespace, that views are in a .**Views** child namespace, and that view model names correspond with view names and end with "ViewModel.". For instructions on how to change Prism’s View Model Locator convention, see [Appendix D: Extending Prism](Appendix-D-Extending-Prism.md).
 
@@ -461,31 +497,35 @@ Data templates are flexible and lightweight. The UI designer can use them to eas
 
 The following example shows an **ItemsControl** that is bound to a list of customers. Each customer object in the underlying collection is a view model instance. The view for the customer is defined by an inline data template. In the following example, the view for each customer view model consists of a **StackPanel** with a label and text box control bound to the **Name** property on the view model.
 
-    <ItemsControl ItemsSource="{Binding Customers}">
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Text="Customer Name: " />
-                    <TextBox Text="{Binding Name}" />
-                </StackPanel>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+```xml
+<ItemsControl ItemsSource="{Binding Customers}">
+    <ItemsControl.ItemTemplate>
+        <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="Customer Name: " />
+                <TextBox Text="{Binding Name}" />
+            </StackPanel>
+        </DataTemplate>
+    </ItemsControl.ItemTemplate>
+</ItemsControl>
+```
 
 You can also define a data template as a resource. The following example shows the data template defined a resource and applied to a content control via the **StaticResource** markup extension.
 
-    <UserControl ...>
-        <UserControl.Resources>
-            <DataTemplate x:Key="CustomerViewTemplate">
-                <local:CustomerContactView />
-            </DataTemplate>
-        </UserControl.Resources>
-    
-        <Grid>
-            <ContentControl Content="{Binding Customer}"
-                    ContentTemplate="{StaticResource CustomerViewTemplate}" />
-        </Grid>
-    </UserControl>
+```xml
+<UserControl ...>
+    <UserControl.Resources>
+        <DataTemplate x:Key="CustomerViewTemplate">
+            <local:CustomerContactView />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <ContentControl Content="{Binding Customer}"
+                ContentTemplate="{StaticResource CustomerViewTemplate}" />
+    </Grid>
+</UserControl>
+```
 
 Here, the data template wraps a concrete view type. This allows the view to define code-behind behavior. In this way, the data template mechanism can be used to externally provide the association between the view and the view model. Although the preceding example shows the template in the **UserControl** resources, it would often be placed in application's resources for reuse.
 

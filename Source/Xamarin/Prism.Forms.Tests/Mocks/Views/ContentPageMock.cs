@@ -66,4 +66,15 @@ namespace Prism.Forms.Tests.Mocks.Views
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.Destroy);
         }
     }
+
+    public class SecondContentPageMock : ContentPageMock
+    {
+        public SecondContentPageMock()
+        {
+        }
+
+        public SecondContentPageMock(PageNavigationEventRecorder recorder) : base(recorder)
+        {
+        }
+    }
 }

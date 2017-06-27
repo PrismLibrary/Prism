@@ -66,6 +66,17 @@ namespace Prism.Mvvm
         }
 
         /// <summary>
+        /// Clears all errors.
+        /// </summary>
+        public void ClearErrors()
+        {
+            foreach (var key in this.validationResults.Keys.ToArray())
+            {
+                ClearErrors(key);
+            }
+        }
+
+        /// <summary>
         /// Clears the errors for the property indicated by the property expression.
         /// </summary>
         /// <typeparam name="TProperty">The property type.</typeparam>
