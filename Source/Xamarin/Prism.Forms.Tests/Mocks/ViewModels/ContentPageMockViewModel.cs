@@ -18,4 +18,8 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
             return true;
         }
     }
+
+    public class SecondContentPageMockViewModel : ViewModelBase
+    {
+    }
 }
