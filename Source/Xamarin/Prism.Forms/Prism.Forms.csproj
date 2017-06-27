@@ -35,10 +35,6 @@
     <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard1.0|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD1_0;TEST</DefineConstants>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="2.3.5.239-pre3" />
   </ItemGroup>
