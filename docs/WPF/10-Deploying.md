@@ -1,4 +1,4 @@
-#Deploying Applications Using the Prism Library for WPF
+# Deploying Applications Using the Prism Library for WPF
 
 To successfully move a Prism application into production, you need to plan for deployment as part of the design process of your application. This topic covers the considerations and actions you need to perform to prepare your composite or modular application for deployment and the actions you need to take to get the application in the user's hands.
 
@@ -38,7 +38,7 @@ The following illustration shows the typical structure for a ClickOnce applicati
 
 ![ClickOnce publish folder structure](images/Ch10DeployingFig1.png)
 
-##### ClickOnce publish folder structure
+#### ClickOnce publish folder structure
 
 Under each publish version's application files folder, you have another copy of the deployment manifest (.application file) that can be used to deploy specific versions to a client computer, or it can be copied to the root folder to cause a server-side rollback to a previous version. The application executable, in addition to any dependent libraries (such as Prism module assemblies) and resource files, will also be in this folder and will be automatically suffixed by a .deploy file name extension when published by Visual Studio. This is done to simplify the file extension mappings on the publishing web server so that you don't have to allow downloads of .dll, .exe, and a myriad of other potential file types that the application is composed of.
 
@@ -55,7 +55,8 @@ It includes the application files themselves, usually with a .deploy file name e
 
 The actual deployment of the application to a user via ClickOnce is almost always initiated by providing a URL or hyperlink to the deployment manifest of your published application on the deployment server. The user can click the hyperlink or enter the address in a browser, and the ClickOnce deployment process is invoked. After the manifest and application files are downloaded to the client computer, the application is launched. There are ClickOnce options that allow you to install the application during the initial deployment for offline use, or you can require the user to launch the application using the link or URL every time. When you publish a new version of the application to the deployment server, ClickOnce can automatically or manually check for updates and will download and apply the update for the next time the application launches.
 
-# More Information
+## More Information
+
 You can download the [Manifest Manager Utility][1] from the Prism community site on Codeplex.
 
 To learn the specific steps involved in publishing and updating a WPF Prism application that uses dynamic module loading, see the [Publishing and Updating Applications Using the Prism Library Hands-on Lab](Appendix-E-Click-Once.md).

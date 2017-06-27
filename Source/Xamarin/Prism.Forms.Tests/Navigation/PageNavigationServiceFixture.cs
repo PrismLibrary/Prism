@@ -6,6 +6,7 @@ using Prism.Logging;
 using Prism.Navigation;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;
 
@@ -27,6 +28,8 @@ namespace Prism.Forms.Tests.Navigation
             _container.Register("ContentPage1", typeof(ContentPageMock1));
             _container.Register(typeof(ContentPageMockViewModel).FullName, typeof(ContentPageMock));
             _container.Register(typeof(ContentPageMock1ViewModel).FullName, typeof(ContentPageMock1));
+
+            _container.Register("SecondContentPageMock", typeof(SecondContentPageMock));
 
             _container.Register("NavigationPage", typeof(NavigationPageMock));
             _container.Register("NavigationPage-Empty", typeof(NavigationPageEmptyMock));
@@ -207,6 +210,333 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.True(recorder.IsEmpty);
         }
+
+        #region NavigateAsync from NavigationPage with ChildPage
+        [Fact]
+        public async Task NavigateAsync_From_NavigationPage_Without_ChildPage()
+        {
+            var recorder = new PageNavigationEventRecorder();
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade, recorder);
+            var navigationPage = new NavigationPageEmptyMock(recorder);
+
+            ((IPageAware)navigationService).Page = navigationPage;
+            await navigationService.NavigateAsync("ContentPage");
+
+            Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
+            Assert.Equal(1, navigationPage.Navigation.NavigationStack.Count);
+            var contentPage = navigationPage.Navigation.NavigationStack.Last();
+            Assert.IsType(typeof(ContentPageMock), contentPage);
+
+            var record = recorder.TakeFirst();
+            Assert.Equal(contentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(navigationPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(navigationPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            Assert.True(recorder.IsEmpty);
+        }
+
+        [Fact]
+        public async Task NavigateAsync_From_ChildPageOfNavigationPage()
+        {
+            var recorder = new PageNavigationEventRecorder(); ;
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade, recorder);
+            var contentPageMock = new ContentPageMock(recorder);
+            var navigationPage = new NavigationPageMock(recorder, contentPageMock);
+
+            // Navigate to Page2
+            ((IPageAware)navigationService).Page = contentPageMock;
+            await navigationService.NavigateAsync("SecondContentPageMock");
+
+            Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
+            Assert.Equal(2, navigationPage.Navigation.NavigationStack.Count);
+
+            var pageMock = navigationPage.Navigation.NavigationStack.Last();
+
+            Assert.IsType<SecondContentPageMock>(pageMock);
+
+            var record = recorder.TakeFirst();
+            Assert.Equal(pageMock, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(pageMock.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPageMock, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPageMock.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(pageMock, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(pageMock.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            Assert.True(recorder.IsEmpty);
+        }
+
+        [Fact]
+        public async Task NavigateAsync_From_NavigationPage_With_ChildPage_And_DoesNotReplaseRootPage()
+        {
+            var recorder = new PageNavigationEventRecorder(); ;
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade, recorder);
+            var contentPageMock = new ContentPageMock(recorder);
+            var contentPageMockViewModel = contentPageMock.BindingContext;
+            var navigationPage = new NavigationPageMock(recorder, contentPageMock);
+
+            // Navigate to Page2
+            ((IPageAware)navigationService).Page = contentPageMock;
+            await navigationService.NavigateAsync("SecondContentPageMock");
+
+            var secondContentPage = navigationPage.Navigation.NavigationStack.Last();
+            var secondContentPageViewModel = secondContentPage.BindingContext;
+
+            recorder.Clear();
+            // PopToRootAsync
+            ((IPageAware)navigationService).Page = navigationPage;
+            await navigationService.NavigateAsync("ContentPage");
+
+            Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
+            Assert.Equal(1, navigationPage.Navigation.NavigationStack.Count);
+
+            var rootPage = navigationPage.Navigation.NavigationStack.Last();
+            Assert.Equal(contentPageMock, rootPage);
+
+            var record = recorder.TakeFirst();
+            Assert.Equal(contentPageMock, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPageMockViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPageMock, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPageMockViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPageMock, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPageMock.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPageViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+            Assert.True(recorder.IsEmpty);
+        }
+
+        [Fact]
+        public async Task NavigateAsync_From_NavigationPage_With_ChildPage_And_ReplaseRootPage()
+        {
+            var recorder = new PageNavigationEventRecorder(); ;
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade, recorder);
+            var secondContentPageMock = new SecondContentPageMock(recorder);
+            var secondContentPageMockViewModel = secondContentPageMock.BindingContext;
+            var navigationPage = new NavigationPageMock(recorder, secondContentPageMock);
+
+            // Navigate to Page2
+            ((IPageAware)navigationService).Page = secondContentPageMock;
+            await navigationService.NavigateAsync("MasterDetailPage");
+
+            var masterDetailPage = navigationPage.Navigation.NavigationStack.Last();
+            var masterDetailPageViewModel = masterDetailPage.BindingContext;
+
+            recorder.Clear();
+            // PopToRootAsync
+            ((IPageAware)navigationService).Page = navigationPage;
+            await navigationService.NavigateAsync("ContentPage");
+
+            Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
+            Assert.Equal(1, navigationPage.Navigation.NavigationStack.Count);
+
+            var contentPage = navigationPage.Navigation.NavigationStack.Last();
+            Assert.NotEqual(secondContentPageMock, contentPage);
+
+            var record = recorder.TakeFirst();
+            Assert.Equal(contentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPageMock, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPageMockViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(masterDetailPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(masterDetailPageViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPageMock, record.Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPageMockViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+            Assert.True(recorder.IsEmpty);
+        }
+
+        [Fact]
+        public async Task NavigateAsync_From_NavigationPage_When_NotClearNavigationStack()
+        {
+            var recorder = new PageNavigationEventRecorder(); ;
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade, recorder);
+            var contentPageMock = new ContentPageMock(recorder);
+            var navigationPage = new NavigationPageMock(recorder, contentPageMock);
+            navigationPage.ClearNavigationStackOnNavigation = false;
+
+            // Navigate to Page2
+            ((IPageAware)navigationService).Page = contentPageMock;
+            await navigationService.NavigateAsync("SecondContentPageMock");
+
+            var secondContentPage = navigationPage.Navigation.NavigationStack.Last();
+            var secondContentPageViewModel = secondContentPage.BindingContext;
+
+            recorder.Clear();
+            ((IPageAware)navigationService).Page = navigationPage;
+            await navigationService.NavigateAsync("ContentPage");
+
+            Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
+            Assert.Equal(3, navigationPage.Navigation.NavigationStack.Count);
+
+            var currentPage = navigationPage.Navigation.NavigationStack.Last();
+            Assert.NotEqual(contentPageMock, currentPage);
+
+            var record = recorder.TakeFirst();
+            Assert.Equal(currentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(currentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPageViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(currentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(currentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            Assert.True(recorder.IsEmpty);
+        }
+
+        [Fact]
+        public async Task NavigateAsync_From_NavigationPage_When_NotClearNavigationStack_And_SamePage()
+        {
+            var recorder = new PageNavigationEventRecorder(); ;
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade, recorder);
+            var contentPageMock = new ContentPageMock(recorder);
+            var navigationPage = new NavigationPageMock(recorder, contentPageMock);
+            navigationPage.ClearNavigationStackOnNavigation = false;
+
+            // Navigate to Page2
+            ((IPageAware)navigationService).Page = contentPageMock;
+            await navigationService.NavigateAsync("SecondContentPageMock");
+
+            var secondContentPage = navigationPage.Navigation.NavigationStack.Last();
+
+            recorder.Clear();
+            ((IPageAware)navigationService).Page = navigationPage;
+            await navigationService.NavigateAsync("SecondContentPageMock");
+
+            Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
+            Assert.Equal(2, navigationPage.Navigation.NavigationStack.Count);
+
+            var currentPage = navigationPage.Navigation.NavigationStack.Last();
+            Assert.Equal(secondContentPage, currentPage);
+
+            var record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            Assert.True(recorder.IsEmpty);
+        }
+        #endregion
 
         [Fact]
         public async void Navigate_ToContentPage_ByName_WithNavigationParameters()
@@ -626,7 +956,7 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.NavigateAsync("ContentPage/NavigationPageWithStackNoMatch/ContentPage");
 
             var navPage = rootPage.Navigation.ModalStack[0].Navigation.ModalStack[0];
-            Assert.True(navPage.Navigation.NavigationStack.Count == 1);
+            Assert.Equal(1, navPage.Navigation.NavigationStack.Count);
         }
 
         [Fact]

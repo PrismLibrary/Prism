@@ -1,5 +1,6 @@
-#NuGet Packages
-### Core Packages
+# NuGet Packages
+
+## Core Packages
 
 These are the base packages for each platform, together with the Prism's Core assembly as a cross-platform PCL.
 
@@ -42,12 +43,14 @@ Note that adding the container-specific package to your project, will also pull 
 
 To recapitulate the packages described above, this is the list of all assemblies added to your solution by Prism 6 depending on the container and platform used.
 
-####Prism PCL
+#### Prism PCL
+
 | Assembly | Package |
 | -------- | ------- |
 | Prism.dll | [Prism.Core][1] |
 
-####WPF
+#### WPF
+
 | Assembly | Package |
 | -------- | ------- |
 | Prism.Wpf.dll | [Prism.Wpf][2] |
@@ -58,7 +61,8 @@ To recapitulate the packages described above, this is the list of all assemblies
 | Prism.Ninject.Wpf.dll | [Prism.Ninject][9] |
 | Prism.DryIoc.Wpf.dll | [Prism.DryIoc][14] |
 
-####Xamarin.Forms
+#### Xamarin.Forms
+
 | Assembly | Package |
 | -------- | ------- |
 | Prism.Forms.dll | [Prism.Forms][3] |
@@ -67,7 +71,8 @@ To recapitulate the packages described above, this is the list of all assemblies
 | Prism.Autofac.Forms.dll | [Prism.Autofac.Forms][11] |
 | Prism.DryIoc.Forms.dll | [Prism.DryIoc.Forms][11] |
 
-####Universal Windows Platform
+#### Universal Windows Platform
+
 | Assembly | Package |
 | -------- | ------- |
 | Prism.Windows.dll | [Prism.Windows][4] |

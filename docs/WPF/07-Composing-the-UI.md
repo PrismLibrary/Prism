@@ -1,4 +1,4 @@
-#Composing the User Interface Using the Prism Library for WPF
+# Composing the User Interface Using the Prism Library for WPF
 
 A composite application user interface (UI) is composed from loosely coupled visual components known as *views* that are typically contained in the application modules, but they do not need to be. If you divide your application into modules, you need some way to loosely compose the UI, but you might choose to use this approach even if the views are not in modules. To the user, the application presents a seamless user experience and delivers a fully integrated application.
 
@@ -108,7 +108,6 @@ Applications can contain one or more instances of a **RegionManager**. You can s
 
 The **RegionManager** provides a RegionContext attached property that permits its regions to share data.
 
-
 #### Region Implementation
 
 A region is a class that implements the **IRegion** interface. The term _region_ represents a container that can hold dynamic data that is presented in a UI. A region allows the Prism Library to place dynamic content contained in modules in predefined placeholders in a UI container.
@@ -180,12 +179,9 @@ If the item in the collection is a **System.Windows.FrameworkElement**, it will 
 The region items are checked in the following order:
 
 1. **IRegionMemberLifetime.KeepAlive** value
-
-2. **DataContext's IRegionMemberLifetime.KeepAlive** value
-
-3. **RegionMemberLifetimeAttribute.KeepAlive** value
-
-4. **DataContext's RegionMemberLifetimeAttribute.KeepAlive** value
+1. **DataContext's IRegionMemberLifetime.KeepAlive** value
+1. **RegionMemberLifetimeAttribute.KeepAlive** value
+1. **DataContext's RegionMemberLifetimeAttribute.KeepAlive** value
 
 ##### Control-Specific Behaviors
 
@@ -257,7 +253,7 @@ The shell implementation in the Stock Trader RI is provided by Shell.xaml, its c
 
 The following XAML shows the structure and main XAML elements that define the shell. Notice that the **RegionName** attached property is used to define the four regions and that the window background image provides a background for the shell.
 
-```
+```xml
 <!--Shell.xaml (WPF) -->
 <Window x:Class="StockTraderRI.Shell">
 
@@ -305,7 +301,7 @@ The following XAML shows the structure and main XAML elements that define the sh
 
 The implementation of the **Shell** code-behind file is very simple. The **Shell** is exported so that when the bootstrapper creates it, its dependencies will be resolved by the Managed Extensibility Framework (MEF). The shell has its single dependency—the **ShellViewModel**—injected during construction, as shown in the following example.
 
-```
+```cs
 // Shell.xaml.cs
 [Export]
 public partial class Shell : Window
@@ -326,7 +322,7 @@ public partial class Shell : Window
 }
 ```
 
-```
+```cs
 // ShellViewModel.cs
 [Export]
 public class ShellViewModel : BindableBase
@@ -365,7 +361,7 @@ The shell's **ActionRegion** contains the **OrdersView**. The **OrdersView** con
 
 A region is a class that implements the **IRegion** interface. The region is the container that holds content to be displayed by a control. The following code shows the **IRegion** interface.
 
-```
+```cs
 public interface IRegion : INavigateAsync, INotifyPropertyChanged
 {
     IViewsCollection Views { get; }
@@ -391,17 +387,18 @@ The **RegionManager** supplies an attached property that you can use for simple 
 
 Notice the use of the **x:Static** markup extension to reference the **MainRegion** string constant. This practice eliminates magic strings in the XAML.
 
-```
+```xml
 <!-- (WPF) -->
 <Controls:AnimatedTabControl 
     x:Name="PositionBuySellTab"
     prism:RegionManager.RegionName="{x:Static inf:RegionNames.MainRegion}"/>
 ```
+
 #### Adding a Region by Using Code
 
 The **RegionManager** can register regions directly without using XAML. The following code example shows how to add a region to a control from the code-behind file. First a reference to the region manager is obtained. Then, using the **RegionManager** static methods **SetRegionManager** and **SetRegionName**, the region is attached to the UI's **ActionContent** control and then that region is named **ActionRegion**.
 
-```
+```cs
 IRegionManager regionManager = ServiceLocator.Current.GetInstance<IRegionManager>();
 RegionManager.SetRegionManager(this.ActionContent, regionManager);
 RegionManager.SetRegionName(this.ActionContent, "ActionRegion");
@@ -423,14 +420,14 @@ The Prism Library defines a standard registry, **RegionViewRegistry**, to regist
 
 To show a view in a region, register the view with the region manager, as shown in the following code example. You can directly register a view type with the region, in which case the view will be constructed by the dependency injection container and added to the region when the control hosting the region is loaded.
 
-```
+```cs
 // View discovery
 this.regionManager.RegisterViewWithRegion("MainRegion", typeof(EmployeeView));
 ```
 
 Optionally, you can provide a delegate that returns the view to be shown, as shown in the next example. The region manager will display the view when the region is created. 
 
-```
+```cs
 // View discovery
 this.regionManager.RegisterViewWithRegion("MainRegion", () => this.container.Resolve<EmployeeView>());
 ```
@@ -447,7 +444,7 @@ The Prism Library defines a standard registry, **RegionManager**, and a standard
 
 To use view injection to add a view to a region, get the region from the region manager, and then call the **Add** method, as shown in the following code. With view injection, the view is displayed only after the view is added to a region, which can happen when the module is loaded or when a user action completes a predefined action.
 
-```
+```cs
 // View injection
 IRegion region = regionManager.Regions["MainRegion"];
 
@@ -458,7 +455,7 @@ region.Activate(ordersView);
 
 In addition to the Stock Trader RI, the UI Composition QuickStart has a walkthrough for implementing view injection. 
 
-#### Navigation
+#### Region Navigation
 
 The Prism Library 5.0 includes Navigation APIs that provide a rich and consistent API for implementing navigation in a WPF application.
 
@@ -466,7 +463,7 @@ Region navigation is a form of view injection. When a navigation request is proc
 
 The following code example from the Stock Trader RI **ArticleViewModel** illustrates how to initiate a navigation request.
 
-```
+```cs
 this.regionManager.RequestNavigate(RegionNames.SecondaryRegion, new Uri("/NewsReaderView", UriKind.Relative));
 ```
 
@@ -486,22 +483,22 @@ If you want to change how views are ordered, the **Region** class provides a **S
 
 The View Switching QuickStart demonstrates a simple numbering scheme to order the views in the left-hand-side navigation region. The following code examples show **ViewSortHint** applied to each of the navigation item views.
 
-```
+```cs
 [Export]
 [ViewSortHint("01")]
-public partial class EmailNavigationItemView
+public partial class EmailNavigationItemView { ... }
 
 [Export]
 [ViewSortHint("02")]
-public partial class CalendarNavigationItemView
+public partial class CalendarNavigationItemView { ... }
 
 [Export]
 [ViewSortHint("03")]
-public partial class ContactsDetailNavigationItemView
+public partial class ContactsDetailNavigationItemView { ... }
 
 [Export]
 [ViewSortHint("04")]
-public partial class ContactsAvatarNavigationItemView
+public partial class ContactsAvatarNavigationItemView { ... }
 ```
 
 ### Sharing Data Between Multiple Regions
@@ -514,7 +511,7 @@ _**Note:** The **DataContext** property in WPF is used to set the local data con
 
 The following code shows how the **RegionContext** attached property is used in XAML.
 
-```
+```xml
 <TabControl AutomationProperties.AutomationId="DetailsTabControl" 
     prism:RegionManager.RegionName="{x:Static local:RegionNames.TabRegion}"
     prism:RegionManager.RegionContext="{Binding Path=SelectedEmployee.EmployeeId}"
@@ -523,13 +520,13 @@ The following code shows how the **RegionContext** attached property is used in 
 
 You can also set the **RegionContext** in code, as shown in the following example.
 
-```
+```cs
 RegionManager.Regions["Region1"].Context = employeeId;
 ```
 
 To retrieve the **RegionContext** in a view, the **GetObservableContext** static method of the **RegionContext** class is used. It passes the view as a parameter and then accesses its **Value** property, as shown in the following code example.
 
-```
+```cs
 private void GetRegionContext()
 {
     this.Model.EmployeeId = (int)RegionContext.GetObservableContext(this).Value;
@@ -538,7 +535,7 @@ private void GetRegionContext()
 
 The value of the **RegionContext** can be changed from within a view by simply assigning a new value to its **Value** property. Views can opt to be notified of changes to the **RegionContext** by subscribing to the **PropertyChanged** event on the **ObservableObject** that is returned by the **GetObservableContext** method. This allows multiple views to be kept in synchronization when their **RegionContext** is changed. The following code example demonstrates subscribing to the **PropertyChanged** event.
 
-```
+```cs
 ObservableObject<object> viewRegionContext = 
                 RegionContext.GetObservableContext(this);
 viewRegionContext.PropertyChanged += this.ViewRegionContext_OnPropertyChangedEvent;
@@ -569,7 +566,7 @@ Instead, use scoped regions so that each view will have its own **RegionManager*
 
 To create a local **RegionManager** for a view, specify that a new **RegionManager** should be created when you add your view to a region, as illustrated in the following code example.
 
-```
+```cs
 IRegion detailsRegion = this.regionManager.Regions["DetailsRegion"];
 View view = new View();
 bool createRegionManagerScope = true;
@@ -661,11 +658,11 @@ Consider the following when you design the layout of a composite application:
 - The shell defines the main layout of the application. Each area of the layout is a region and should be kept as an empty container. Do not place content inside regions at design time because content will be loaded there at run time.
 - The shell should contain the background, titles, and the footer. Think of the shell as an ASP.NET master page.
 - Control containers that act as regions are decoupled from the views that they contain. Therefore, you should be able to change the size of the views without modifying the controls, and you should be able to change the size of the controls without modifying the views. You should consider the following when defining the size of a view:
-    - If a view will be used in several regions or if it is uncertain where it will be used, design it with dynamic width and height.
-    - If the views have fixed sizes, the regions of the shell should use dynamic sizes.
-    - If the shell regions have fixed sizes, the views should use dynamic sizes.
-    - Views might require a fixed height and dynamic width. An example of this is the **PositionPieChart** view located in the sidebar of the Stock Trader RI.
-    - Other views might require a dynamic height and width**.** For example, the **NewsReader** views in the sidebar of the Stock Trader RI. The height itself depends on the title's length, and the width should always adapt to the region's size (sidebar width). The same applies to the **PositionSummaryView** view, where the grid's width should adapt to the screen size and the height should adapt to the number of rows in the grid.
+  - If a view will be used in several regions or if it is uncertain where it will be used, design it with dynamic width and height.
+  - If the views have fixed sizes, the regions of the shell should use dynamic sizes.
+  - If the shell regions have fixed sizes, the views should use dynamic sizes.
+  - Views might require a fixed height and dynamic width. An example of this is the **PositionPieChart** view located in the sidebar of the Stock Trader RI.
+  - Other views might require a dynamic height and width**.** For example, the **NewsReader** views in the sidebar of the Stock Trader RI. The height itself depends on the title's length, and the width should always adapt to the region's size (sidebar width). The same applies to the **PositionSummaryView** view, where the grid's width should adapt to the screen size and the height should adapt to the number of rows in the grid.
 - Views should generally have transparent backgrounds, allowing the shell background to provide the application visual background.
 - Always use named resources for assigning colors, brushes, fonts and font sizes, rather than directly assigning the property value in XAML. This makes application maintenance much easier over time. It also allows an application to respond to changes in resource dictionaries at run time.
 
@@ -715,21 +712,21 @@ The following are some of the characteristics of a designer friendly (also known
 The following actions are performed many times during an editing session. User code that is not designer friendly will cause one or more of these actions to fail, thus reducing the productivity and creativity of a developer or designer.
 
 - Design surface actions:
-    - Constructing objects
-    - Loading objects
-    - Setting property values
-    - Performing design surface gestures
-    - Using a control as the root element
-    - Hosting a control inside another control
-    - Opening, closing, and reopening a XAML file repeatedly
-    - Rebuilding the project
-    - Reloading the designer
+  - Constructing objects
+  - Loading objects
+  - Setting property values
+  - Performing design surface gestures
+  - Using a control as the root element
+  - Hosting a control inside another control
+  - Opening, closing, and reopening a XAML file repeatedly
+  - Rebuilding the project
+  - Reloading the designer
 - Binding builder actions:
-    - Discovering the **DataContext**
-    - Listing the available data sources
-    - Listing data source type properties
+  - Discovering the **DataContext**
+  - Listing the available data sources
+  - Listing data source type properties
 - Design-time sample data actions:
-    - Using controls on the design surface to correctly display sample data
+  - Using controls on the design surface to correctly display sample data
 
 #### Coding for Design Time
 
@@ -756,9 +753,9 @@ When your application executes at run time, the startup code in App.xaml.cs or A
 - Never assume that referenced objects will be instantiated in design-time code. In code that can be executed at design time, always perform a null check before accessing any reference object.
 - If your code accesses the **Application** or **Application.Current** objects, perform a null reference check before accessing the object.
 - If your constructors or **Loaded** event handlers need to run complex code or code that accesses a database or calls out to the network, consider one of the following solutions:
-    - Wrap the code inside a check that determines if the code is running at design time by calling the **System.ComponentModel DesignerProperties** method, **DesignerProperties.GetIsInDesignMode**.
-    - Instead of running the code directly in the constructor or **Loaded** event handler, abstract the calls to a class behind an interface, and then use one of many techniques to resolve that dependency differently at design time, run time, and test time.
-    
+  - Wrap the code inside a check that determines if the code is running at design time by calling the **System.ComponentModel DesignerProperties** method, **DesignerProperties.GetIsInDesignMode**.
+  - Instead of running the code directly in the constructor or **Loaded** event handler, abstract the calls to a class behind an interface, and then use one of many techniques to resolve that dependency differently at design time, run time, and test time.
+
     For example, instead of calling out to a data service directly to retrieve data, wrap the data service calls in a class that exposes the methods through an interface. Then, at design time, resolve the interface with a mock or design-time object.
 
 #### Understanding when User Control Code Executes at Design-Time
@@ -817,7 +814,7 @@ When the **PersonView** is constructed, its dependency **PersonViewModel** will 
 
 _**Note:** If the view model has no external dependencies that need to be resolved, the view model can be instantiated in the view's XAML, and its **DataContext** and the **d:DataContext** are not required._
 
-```
+```cs
 // PersonViewModel.cs
 [Export]
 public class PersonViewModel 
@@ -827,7 +824,7 @@ public class PersonViewModel
 }
 ```
 
-```
+```cs
 // PersonView.xaml.cs
 [Export]
 public partial class PersonView : UserControl
@@ -850,7 +847,7 @@ This is a good pattern for wiring up a view and view model; however, it leaves t
 
 In the following XAML example, you can see the **d:DesignInstance** markup extension used on the **Grid** to return a faux instance of **PersonViewModel** that is then exposed by the **d:DataContext**. As a result, all child controls of the **Grid** will inherit the **d:DataContext**, enabling the designer tooling to discover and use its types and properties, resulting in a more productive design experience for developers and designers.
 
-```
+```xml
 <!--PersonView.xaml -->
 <UserControl
     xmlns:local="clr-namespace:WpfApplication1"
@@ -873,7 +870,7 @@ In the following XAML example, you can see the **d:DesignInstance** markup exten
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-        
+
             <Label Grid.Column="0" Grid.Row="0" Content="First Name" />
             <Label Grid.Column="0" Grid.Row="1" Content="Las Name" />
 
@@ -978,7 +975,7 @@ One technique that you can use to consume the sample data class described previo
 
 The following XAML example instantiate the **Customers** class, and then sets it as the **d:DataContext**. Child controls of this **Grid** can consume data exposed by the **Customers** class.
 
-```
+```xml
 <Grid d:DataContext="{d:DesignInstance local:Customers, IsDesignTimeCreatable=True}">
 ```
 
@@ -1008,8 +1005,8 @@ For more information about the guidelines discussed in this topic, see the follo
 
 - [Dependency Properties Overview](http://msdn.microsoft.com/en-us/library/ms752914.aspx) on MSDN.
 - Data binding; see:
-    - [Data Binding Overview](http://msdn.microsoft.com/en-us/library/ms742521.aspx) on MSDN.
-    - [Data Binding in WPF](http://msdn.microsoft.com/en-us/magazine/cc163299.aspx) in *MSDN Magazine*.
+  - [Data Binding Overview](http://msdn.microsoft.com/en-us/library/ms742521.aspx) on MSDN.
+  - [Data Binding in WPF](http://msdn.microsoft.com/en-us/magazine/cc163299.aspx) in *MSDN Magazine*.
 - [Data Templating Overview](http://msdn.microsoft.com/en-us/library/ms742521.aspx) on MSDN.
 - [Resources Overview](http://msdn.microsoft.com/en-us/library/ms750613.aspx) on MSDN.
 - [UserControl Class](http://msdn.microsoft.com/en-us/library/system.windows.forms.usercontrol.aspx) on MSDN.

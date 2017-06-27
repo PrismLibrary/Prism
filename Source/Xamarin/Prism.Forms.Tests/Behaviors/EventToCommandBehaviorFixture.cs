@@ -172,6 +172,27 @@ namespace Prism.Forms.Tests.Behaviors
             Assert.True(executedCommand);
         }
 
+
+        [Fact]
+        public void Command_EventArgsParameterPath_Nested_When_ChildIsNull()
+        {
+            var executedCommand = false;
+            var behavior = new EventToCommandBehaviorMock
+            {
+                EventName = "ItemTapped",
+                EventArgsParameterPath = "Item.AProperty",
+                Command = new DelegateCommand<object>(o =>
+                {
+                    executedCommand = true;
+                    Assert.Null(o);
+                })
+            };
+            var listView = new ListView();
+            listView.Behaviors.Add(behavior);
+            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, null));
+            Assert.True(executedCommand);
+        }
+
         [Fact]
         public void Command_CanExecute()
         {
