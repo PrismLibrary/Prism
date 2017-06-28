@@ -25,7 +25,10 @@ namespace Prism.Forms.Tests.Navigation
             _container.Register("PageMock", typeof(PageMock));
 
             _container.Register("ContentPage", typeof(ContentPageMock));
+            _container.Register("ContentPage1", typeof(ContentPageMock1));
             _container.Register(typeof(ContentPageMockViewModel).FullName, typeof(ContentPageMock));
+            _container.Register(typeof(ContentPageMock1ViewModel).FullName, typeof(ContentPageMock1));
+
             _container.Register("SecondContentPageMock", typeof(SecondContentPageMock));
 
             _container.Register("NavigationPage", typeof(NavigationPageMock));
@@ -877,6 +880,41 @@ namespace Prism.Forms.Tests.Navigation
             Assert.True(navPage.Navigation.NavigationStack.Count == 1);
         }
 
+
+        [Fact]
+        public async void DeepNavigate_From_ContentPage_To_EmptyNavigationPage_ToContentPage_toContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("ContentPage/NavigationPage-Empty/ContentPage/ContentPage1");
+
+            var navPage = rootPage.Navigation.ModalStack[0].Navigation.ModalStack[0];
+
+            Assert.True(navPage.Navigation.NavigationStack.Count == 2);
+            var lastPage = navPage.Navigation.NavigationStack.LastOrDefault();
+            Assert.True(lastPage.GetType() == typeof(ContentPageMock1));
+            await navPage.Navigation.PopAsync();
+            lastPage = navPage.Navigation.NavigationStack.LastOrDefault();
+            Assert.True(lastPage.GetType() == typeof(ContentPageMock));
+        }
+
+        [Fact]
+        public async void DeepNavigate_To_EmptyNavigationPage_ToContentPage_toContentPage_toContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("NavigationPage-Empty/ContentPage/ContentPage/ContentPage1");
+
+            var navPage = rootPage.Navigation.ModalStack[0];
+            Assert.True(navPage.Navigation.NavigationStack.Count == 3);
+            var lastPage = navPage.Navigation.NavigationStack.LastOrDefault();
+            Assert.True(lastPage.GetType() == typeof(ContentPageMock1));
+        }
+
         [Fact]
         public async void DeepNavigate_From_ContentPage_To_NavigationPageWithNavigationStack_ToContentPage()
         {
@@ -888,6 +926,24 @@ namespace Prism.Forms.Tests.Navigation
 
             var navPage = rootPage.Navigation.ModalStack[0].Navigation.ModalStack[0];
             Assert.True(navPage.Navigation.NavigationStack.Count == 1);
+        }
+
+        [Fact]
+        public async void DeepNavigate_From_ContentPage_To_NavigationPageWithNavigationStack_ToContentPage_ToContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("ContentPage/NavigationPageWithStack/ContentPage/ContentPage1");
+
+            var navPage = rootPage.Navigation.ModalStack[0].Navigation.ModalStack[0];
+            Assert.True(navPage.Navigation.NavigationStack.Count == 2);
+            var lastPage = navPage.Navigation.NavigationStack.LastOrDefault();
+            Assert.True(lastPage.GetType() == typeof(ContentPageMock1));
+            await navPage.Navigation.PopAsync();
+            lastPage = navPage.Navigation.NavigationStack.LastOrDefault();
+            Assert.True(lastPage.GetType() == typeof(ContentPageMock));
         }
 
         [Fact]
@@ -1203,6 +1259,43 @@ namespace Prism.Forms.Tests.Navigation
 
             var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
             Assert.NotNull(tabbedPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+            Assert.IsType(typeof(PageMock), tabbedPage.CurrentPage);
+        }
+
+        [Fact]
+        public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToTabbedPage_ToPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("MasterDetailPage-Empty/NavigationPage/TabbedPage/PageMock");
+
+            var mdpPage = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
+            var navPage = mdpPage.Detail as NavigationPageMock;
+            var tabbedPage = navPage.Navigation.NavigationStack[0] as TabbedPageMock;
+            Assert.NotNull(mdpPage);
+            Assert.NotNull(navPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+            Assert.IsType(typeof(PageMock), tabbedPage.CurrentPage);
+        }
+
+        [Fact]
+        public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToContentPage_ToTabbedPage_ToPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("MasterDetailPage-Empty/NavigationPage/ContentPage/TabbedPage/PageMock");
+
+            var mdpPage = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
+            var navPage = mdpPage.Detail as NavigationPageMock;
+            var contentPage = navPage.Navigation.NavigationStack[0] as ContentPageMock;
+            var tabbedPage = navPage.Navigation.NavigationStack[1] as TabbedPageMock;
+            Assert.NotNull(mdpPage);
+            Assert.NotNull(navPage);
             Assert.NotNull(tabbedPage.CurrentPage);
             Assert.IsType(typeof(PageMock), tabbedPage.CurrentPage);
         }
