@@ -15,7 +15,7 @@ The `EventToCommandBehavior` expose the following properties
 
 First declare the namespace and assembly in where `EventToCommandBehavior` is declared and declare a XML-namespace.
 
-`x:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"`
+`xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"`
 
 ### CommandParameter
 
