@@ -263,10 +263,16 @@ namespace Prism.Navigation
         protected virtual async Task ProcessNavigationForTabbedPage(TabbedPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             var nextSegmentType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
+            // Add Children from known parameters
+            ProcessAddChildrenToTabbedPage(currentPage, parameters);
             foreach (var child in currentPage.Children)
             {
                 if (child.GetType() != nextSegmentType)
+                {
+                    (child as INavigatingAware)?.OnNavigatingTo(parameters);
+                    (child?.BindingContext as INavigatingAware)?.OnNavigatingTo(parameters);
                     continue;
+                }
 
                 await ProcessNavigation(child, segments, parameters, useModalNavigation, animated);
                 await DoNavigateAction(null, nextSegment, child, parameters, onNavigationActionCompleted: () =>
@@ -282,6 +288,24 @@ namespace Prism.Navigation
             {
                 await DoPush(currentPage, nextPage, useModalNavigation, animated);
             });
+        }
+
+        protected virtual void ProcessAddChildrenToTabbedPage( TabbedPage currentPage, NavigationParameters parameters )
+        {
+            var childrenToAdd = parameters.GetValues<string>(KnownNavigationParameters.CreateTab);
+            var selectedChild = parameters.GetValue<string>(KnownNavigationParameters.SelectedTab);
+
+            if(!string.IsNullOrWhiteSpace(selectedChild) && !childrenToAdd.Contains(selectedChild))
+                (childrenToAdd as List<string>).Add(selectedChild);
+            
+            foreach( var childName in childrenToAdd )
+            {
+                var childPage = CreatePage(childName);
+                SetAutowireViewModelOnPage(childPage);
+                currentPage.Children.Add(childPage);
+                if(childName == selectedChild)
+                    currentPage.CurrentPage = childPage;
+            }
         }
 
         protected virtual async Task ProcessNavigationForCarouselPage(CarouselPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
