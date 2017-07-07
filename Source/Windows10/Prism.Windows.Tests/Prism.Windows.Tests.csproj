@@ -19,7 +19,7 @@
     <PackageCertificateKeyFile>Prism.Windows.Tests_TemporaryKey.pfx</PackageCertificateKeyFile>
     <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">14.0</UnitTestPlatformVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
-    <PackageCertificateThumbprint>ECF8B376B4E9A595BDDCF95EA6BDDB1A462E760A</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>5CECEF69499DE05BF4331C503023B520DC512EF1</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
