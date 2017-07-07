@@ -946,7 +946,7 @@ namespace Prism.Wpf.Tests.Regions
             ExceptionAssert.Throws<ArgumentNullException>(
                 () =>
                 {
-                    target.RequestNavigate(navigationUri, null);
+                    target.RequestNavigate(navigationUri, null, null);
                 });
         }
 
@@ -977,11 +977,10 @@ namespace Prism.Wpf.Tests.Regions
             RegionNavigationService target = new RegionNavigationService(serviceLocator, contentLoader, journal);
             target.Region = new Region();
 
-            Exception error = null;
-            target.RequestNavigate(null, nr => error = nr.Error);
+            NavigationResult result = target.RequestNavigateAsync(null).Result;
 
-            Assert.IsNotNull(error);
-            Assert.IsInstanceOfType(error, typeof(ArgumentNullException));
+            Assert.IsNotNull(result.Error);
+            Assert.IsInstanceOfType(result.Error, typeof(ArgumentNullException));
         }
 
 

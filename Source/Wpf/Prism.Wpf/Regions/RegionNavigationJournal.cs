@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Prism.Regions
 {
@@ -59,52 +60,70 @@ namespace Prism.Regions
         /// <summary>
         /// Navigates to the most recent entry in the back navigation history, or does nothing if no entry exists in back navigation.
         /// </summary>
-        public void GoBack()
+        /// <returns>The navigation result</returns>
+        /// <remarks>
+        /// If no entry exists in back navigation stack (CanGoBack false), the <see cref="NavigationContext"/> in
+        /// returned <see cref="NavigationResult"/> is set to <see langword="null"/>.
+        /// </remarks>
+        public async Task<NavigationResult> GoBackAsync()
         {
             if (this.CanGoBack)
             {
                 IRegionNavigationJournalEntry entry = this.backStack.Peek();
-                this.InternalNavigate(
-                    entry,
-                    result =>
-                    {
-                        if (result)
-                        {
-                            if (this.CurrentEntry != null)
-                            {
-                                this.forwardStack.Push(this.CurrentEntry);
-                            }
 
-                            this.backStack.Pop();
-                            this.CurrentEntry = entry;
-                        }
-                    });
+                NavigationResult result = await this.InternalNavigate(entry);
+
+                if (result.Result == true)
+                {
+                    if (this.CurrentEntry != null)
+                    {
+                        this.forwardStack.Push(this.CurrentEntry);
+                    }
+
+                    this.backStack.Pop();
+                    this.CurrentEntry = entry;
+                }
+
+                return result;
+            }
+            else
+            {
+                return new NavigationResult(null, false);
             }
         }
 
         /// <summary>
         /// Navigates to the most recent entry in the forward navigation history, or does nothing if no entry exists in forward navigation.
         /// </summary>
-        public void GoForward()
+        /// <returns>The navigation result</returns>
+        /// <remarks>
+        /// If no entry exists in forward navigation stack (CanGoForward false), the <see cref="NavigationContext"/> in
+        /// returned <see cref="NavigationResult"/> is set to <see langword="null"/>.
+        /// </remarks>
+        public async Task<NavigationResult> GoForwardAsync()
         {
             if (this.CanGoForward)
             {
                 IRegionNavigationJournalEntry entry = this.forwardStack.Peek();
-                this.InternalNavigate(
-                    entry,
-                    result =>
-                    {
-                        if (result)
-                        {
-                            if (this.CurrentEntry != null)
-                            {
-                                this.backStack.Push(this.CurrentEntry);
-                            }
 
-                            this.forwardStack.Pop();
-                            this.CurrentEntry = entry;
-                        }
-                    });
+                NavigationResult result = await this.InternalNavigate(entry);
+
+                if (result.Result == true)
+                {
+                    if (this.CurrentEntry != null)
+                    {
+                        this.backStack.Push(this.CurrentEntry);
+                    }
+
+                    this.forwardStack.Pop();
+                    this.CurrentEntry = entry;
+                }
+
+                return result;
+            }
+            else
+            {
+                return new NavigationResult(null, false);
             }
         }
 
@@ -136,21 +155,13 @@ namespace Prism.Regions
             this.forwardStack.Clear();
         }
 
-        private void InternalNavigate(IRegionNavigationJournalEntry entry, Action<bool> callback)
+        private async Task<NavigationResult> InternalNavigate(IRegionNavigationJournalEntry entry)
         {
             this.isNavigatingInternal = true;
-            this.NavigationTarget.RequestNavigate(
-                entry.Uri,
-                nr =>
-                {
-                    this.isNavigatingInternal = false;
+            NavigationResult result = await this.NavigationTarget.RequestNavigateAsync(entry.Uri, entry.Parameters);
+            this.isNavigatingInternal = false;
 
-                    if (nr.Result.HasValue)
-                    {
-                        callback(nr.Result.Value);
-                    }
-                },
-                entry.Parameters);
+            return result;
         }
     }
 }

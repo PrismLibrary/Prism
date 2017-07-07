@@ -163,6 +163,7 @@
     <Compile Include="Regions\ContentControlRegionAdapter.cs" />
     <Compile Include="Regions\DefaultRegionManagerAccessor.cs" />
     <Compile Include="Regions\IConfirmNavigationRequest.cs" />
+    <Compile Include="Regions\IConfirmNavigationRequestAsync.cs" />
     <Compile Include="Regions\INavigateAsync.cs" />
     <Compile Include="Regions\INavigationAware.cs" />
     <Compile Include="Regions\IRegion.cs" />
@@ -200,6 +201,7 @@
     <Compile Include="Regions\RegionNavigationFailedEventArgs.cs" />
     <Compile Include="Regions\RegionNavigationJournal.cs" />
     <Compile Include="Regions\RegionNavigationJournalEntry.cs" />
+    <Compile Include="Regions\RegionNavigationJournalExtensions.cs" />
     <Compile Include="Regions\RegionNavigationService.cs" />
     <Compile Include="Regions\RegionViewRegistry.cs" />
     <Compile Include="Regions\SelectorRegionAdapter.cs" />

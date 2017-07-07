@@ -12,6 +12,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Prism.Regions
@@ -321,17 +322,7 @@ namespace Prism.Regions
         /// <param name="navigationCallback">The navigation callback.</param>
         public void RequestNavigate(string regionName, Uri source, Action<NavigationResult> navigationCallback)
         {
-            if (navigationCallback == null)
-                throw new ArgumentNullException(nameof(navigationCallback));
-
-            if (Regions.ContainsRegionWithName(regionName))
-            {
-                Regions[regionName].RequestNavigate(source, navigationCallback);
-            }
-            else
-            {
-                navigationCallback(new NavigationResult(new NavigationContext(null, source), false));
-            }
+            RequestNavigate(regionName, source, navigationCallback, null);
         }
 
         /// <summary>
@@ -352,10 +343,7 @@ namespace Prism.Regions
         /// <param name="navigationCallback">The navigation callback.</param>
         public void RequestNavigate(string regionName, string source, Action<NavigationResult> navigationCallback)
         {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            RequestNavigate(regionName, new Uri(source, UriKind.RelativeOrAbsolute), navigationCallback);
+            RequestNavigate(regionName, source, navigationCallback, null);
         }
 
         /// <summary>
@@ -380,14 +368,14 @@ namespace Prism.Regions
             if (navigationCallback == null)
                 throw new ArgumentNullException(nameof(navigationCallback));
 
-            if (Regions.ContainsRegionWithName(regionName))
-            {
-                Regions[regionName].RequestNavigate(target, navigationCallback, navigationParameters);
-            }
-            else
-            {
-                navigationCallback(new NavigationResult(new NavigationContext(null, target, navigationParameters), false));
-            }
+            var task = RequestNavigateImpl(regionName, target, navigationCallback, navigationParameters);
+
+        }
+
+        private async Task RequestNavigateImpl(string regionName, Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        {
+            NavigationResult result = await RequestNavigateAsync(regionName, target, navigationParameters);
+            navigationCallback(result);
         }
 
         /// <summary>
@@ -399,6 +387,9 @@ namespace Prism.Regions
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
         public void RequestNavigate(string regionName, string target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
         {
+            if (target == null)
+                throw new ArgumentNullException(nameof(target));
+
             RequestNavigate(regionName, new Uri(target, UriKind.RelativeOrAbsolute), navigationCallback, navigationParameters);
         }
 
@@ -421,7 +412,66 @@ namespace Prism.Regions
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
         public void RequestNavigate(string regionName, string target, NavigationParameters navigationParameters)
         {
-            RequestNavigate(regionName, new Uri(target, UriKind.RelativeOrAbsolute), nr => { }, navigationParameters);
+            RequestNavigate(regionName, target, nr => { }, navigationParameters);
+        }
+
+        /// <summary>
+        /// Navigates the specified region manager.
+        /// </summary>
+        /// <param name="regionName">The name of the region to call Navigate on.</param>
+        /// <param name="source">The URI of the content to display.</param>
+        /// <returns>The navigation result.</returns>
+        public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri source)
+        {
+            return RequestNavigateAsync(regionName, source, null);
+        }
+
+        /// <summary>
+        /// Navigates the specified region manager.
+        /// </summary>
+        /// <param name="regionName">The name of the region to call Navigate on.</param>
+        /// <param name="source">The URI of the content to display.</param>
+        /// <returns>The navigation result.</returns>
+        public Task<NavigationResult> RequestNavigateAsync(string regionName, string source)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            return RequestNavigateAsync(regionName, source, null);
+        }
+
+        /// <summary>
+        /// This method allows an IRegionManager to locate a specified region and navigate in it to the specified target Uri, passing a navigation callback and an instance of NavigationParameters, which holds a collection of object parameters.
+        /// </summary>
+        /// <param name="regionName">The name of the region where the navigation will occur.</param>
+        /// <param name="target">A Uri that represents the target where the region will navigate.</param>
+        /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
+        /// <returns>The navigation result.</returns>
+        public Task<NavigationResult> RequestNavigateAsync(string regionName, Uri target, NavigationParameters navigationParameters)
+        {
+            if (Regions.ContainsRegionWithName(regionName))
+            {
+                return Regions[regionName].RequestNavigateAsync(target, navigationParameters);
+            }
+            else
+            {
+                return Task.FromResult(new NavigationResult(new NavigationContext(null, target), false));
+            }
+        }
+
+        /// <summary>
+        /// This method allows an IRegionManager to locate a specified region and navigate in it to the specified target string, passing a navigation callback and an instance of NavigationParameters, which holds a collection of object parameters.
+        /// </summary>
+        /// <param name="regionName">The name of the region where the navigation will occur.</param>
+        /// <param name="target">A string that represents the target where the region will navigate.</param>
+        /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
+        /// <returns>The navigation result.</returns>
+        public Task<NavigationResult> RequestNavigateAsync(string regionName, string target, NavigationParameters navigationParameters)
+        {
+            if (target == null)
+                throw new ArgumentNullException(nameof(target));
+
+            return RequestNavigateAsync(regionName, new Uri(target, UriKind.RelativeOrAbsolute), navigationParameters);
         }
 
         private class RegionCollection : IRegionCollection
