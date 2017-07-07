@@ -1,7 +1,7 @@
 version: 7.0.0.{build}
 image: Visual Studio 2017
 shallow_clone: true
-skip_branch_with_pr: true
+skip_branch_with_pr: false
 skip_tags: true
 configuration:
   - Test
