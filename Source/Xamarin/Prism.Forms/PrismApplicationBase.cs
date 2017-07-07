@@ -87,7 +87,11 @@ namespace Prism
         /// </remarks>
         protected virtual ILoggerFacade CreateLogger()
         {
+#if DEBUG        
             return new DebugLogger();
+#else
+            return new EmptyLogger();
+#endif
         }
 
         /// <summary>

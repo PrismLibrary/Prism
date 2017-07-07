@@ -3,6 +3,9 @@ using System.Diagnostics;
 using System.Globalization;
 using Prism.Properties;
 
+// Define DEBUG symbol to enable Debug.WriteLine to work even when Prism is compiled in Release-mode for Nuget-feed.
+#define DEBUG
+
 namespace Prism.Logging
 {
     /// <summary>
