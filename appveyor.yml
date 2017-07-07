@@ -56,10 +56,10 @@ assembly_info:
 environment:
   matrix:
   - solution_name: .\Source\PrismLibrary_Core.sln
-  - solution_name: .\Sandbox\Windows10\HelloWorld\HelloWorld.sln
+  #- solution_name: .\Sandbox\Windows10\HelloWorld\HelloWorld.sln
   - solution_name: .\Source\PrismLibrary_Win10.sln
   - solution_name: .\Source\PrismLibrary_Wpf.sln
-  - solution_name: .\Sandbox\Xamarin\HelloWorld\HelloWorld.sln
+  #- solution_name: .\Sandbox\Xamarin\HelloWorld\HelloWorld.sln
   - solution_name: .\Source\PrismLibrary_XF.sln
   - solution_name: .\Source\PrismLibrary.sln
 
@@ -87,14 +87,14 @@ matrix:
     - solution_name: .\Source\PrismLibrary_XF.sln
       configuration: Debug
     # The Sandbox solutions should only be built in debug for validation
-    - solution_name: .\Sandbox\Windows10\HelloWorld\HelloWorld.sln
-      configuration: Test
-    - solution_name: .\Sandbox\Windows10\HelloWorld\HelloWorld.sln
-      configuration: Release
-    - solution_name: .\Sandbox\Xamarin\HelloWorld\HelloWorld.sln
-      configuration: Test
-    - solution_name: .\Sandbox\Xamarin\HelloWorld\HelloWorld.sln
-      configuration: Release
+    #- solution_name: .\Sandbox\Windows10\HelloWorld\HelloWorld.sln
+    #  configuration: Test
+    #- solution_name: .\Sandbox\Windows10\HelloWorld\HelloWorld.sln
+    #  configuration: Release
+    #- solution_name: .\Sandbox\Xamarin\HelloWorld\HelloWorld.sln
+    #  configuration: Test
+    #- solution_name: .\Sandbox\Xamarin\HelloWorld\HelloWorld.sln
+    #  configuration: Release
 
 before_build:
   - nuget restore %solution_name%
