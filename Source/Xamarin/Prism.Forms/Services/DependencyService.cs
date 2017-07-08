@@ -13,11 +13,7 @@ namespace Prism.Services
         /// <returns>The class instance</returns>
         public T Get<T>() where T : class
         {
-#if TEST
-            return Prism.FormsDependencyService.Get<T>();
-#else
             return Xamarin.Forms.DependencyService.Get<T>();
-#endif
         }
     }
 }
