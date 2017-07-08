@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using DryIoc;
 using Prism.Common;
 using Prism.DryIoc.Forms.Tests.Mocks;
@@ -13,14 +11,16 @@ using Prism.Navigation;
 using Xamarin.Forms;
 using Xunit;
 using Prism.DI.Forms.Tests;
-#if TEST
-using Application = Prism.FormsApplication;
-#endif
 
 namespace Prism.DryIoc.Forms.Tests
 {
     public class PrismApplicationFixture
     {
+        public PrismApplicationFixture()
+        {
+            Xamarin.Forms.Mocks.MockForms.Init();
+        }
+
         [Fact]
         public void OnInitialized()
         {
