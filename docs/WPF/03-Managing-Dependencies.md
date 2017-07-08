@@ -25,7 +25,6 @@ In the context of an application based on the Prism Library, there are specific 
 
 The Prism Library provides two options for dependency injection containers: Unity or MEF. Prism is extensible, thereby allowing other containers to be used instead with a little bit of work. Both Unity and MEF provide the same basic functionality for dependency injection, even though they work very differently. Some of the capabilities provided by both containers include the following:
 
-
 * They both register types with the container.
 * They both register instances with the container.
 * They both imperatively create instances of registered types.
@@ -34,13 +33,11 @@ The Prism Library provides two options for dependency injection containers: Unit
 * They both have declarative attributes for marking types and dependencies that need to be managed.
 * They both resolve dependencies in an object graph.
 
-
 Unity provides several capabilities that MEF does not:
 
 * It resolves concrete types without registration.
 * It resolves open generics.
 * It uses interception to capture calls to objects and add additional functionality to the target object.
-
 
 MEF provides several capabilities that Unity does not:
 
@@ -57,20 +54,20 @@ The containers have differences in capabilities and work differently, but the Pr
 You should consider the following before using containers:
 
 * Consider whether it is appropriate to register and resolve components using the container:
-  * Consider whether the performance impact of registering with the container and resolving instances from it is acceptable in your scenario. For example, if you need to create 10,000 polygons to draw a surface within the local scope of a rendering method, the cost of resolving all of those polygon instances through the container might have a significant performance cost because of the container's use of reflection for creating each entity.
-  * If there are many or deep dependencies, the cost of creation can increase significantly.
-  * If the component does not have any dependencies or is not a dependency for other types, it may not make sense to put it in the container.
-  * If the component has a single set of dependencies that are integral to the type and will never change, it may not make sense to put it in the container.
+    * Consider whether the performance impact of registering with the container and resolving instances from it is acceptable in your scenario. For example, if you need to create 10,000 polygons to draw a surface within the local scope of a rendering method, the cost of resolving all of those polygon instances through the container might have a significant performance cost because of the container's use of reflection for creating each entity.
+    * If there are many or deep dependencies, the cost of creation can increase significantly.
+    * If the component does not have any dependencies or is not a dependency for other types, it may not make sense to put it in the container.
+    * If the component has a single set of dependencies that are integral to the type and will never change, it may not make sense to put it in the container.
 
 * Consider whether a component's lifetime should be registered as a singleton or instance:
-  * If the component is a global service that acts as a resource manager for a single resource, such as a logging service, you may want to register it as a singleton.
-  * If the component provides shared state to multiple consumers, you may want to register it as a singleton.
-  * If the object that is being injected needs to have a new instance of it injected each time a dependent object needs one, register it as a non-singleton. For example, each view probably needs a new instance of a view model.
+    * If the component is a global service that acts as a resource manager for a single resource, such as a logging service, you may want to register it as a singleton.
+    * If the component provides shared state to multiple consumers, you may want to register it as a singleton.
+    * If the object that is being injected needs to have a new instance of it injected each time a dependent object needs one, register it as a non-singleton. For example, each view probably needs a new instance of a view model.
 
 * Consider whether you want to configure the container through code or configuration:
-  * If you want to centrally manage all the different services, configure the container through configuration.
-  * If you want to conditionally register specific services, configure the container through code.
-  * If you have module-level services, consider configuring the container through code so that those services are registered only if the module is loaded.
+    * If you want to centrally manage all the different services, configure the container through configuration.
+    * If you want to conditionally register specific services, configure the container through code.
+    * If you have module-level services, consider configuring the container through code so that those services are registered only if the module is loaded.
 
 **Note:** Some containers, such as MEF, cannot be configured via a configuration file and must be configured via code.
 

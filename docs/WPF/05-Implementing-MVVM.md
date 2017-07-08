@@ -412,7 +412,7 @@ public abstract class DomainObject : INotifyPropertyChanged,
     {
         get { return this.ErrorsContainer.HasErrors; }
     }
-    
+
     public IEnumerable GetErrors( string propertyName )
     {
         return this.errorsContainer.GetErrors( propertyName );

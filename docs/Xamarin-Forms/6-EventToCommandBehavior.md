@@ -32,7 +32,7 @@ Bind or declare a parameter that will be sent to the `ICommand.Execute(object)` 
                                       Command="{Binding ItemTappedCommand}"
                                       CommandParameter="MyParameter" />
         </ListView.Behaviors>
-    </ListView>	
+    </ListView>
 </ContentPage>
 ```
 
@@ -70,8 +70,8 @@ namespace Prism.Converters
 The XAML need a reference to the converter and the converter resource need to be defined
 
 ```xml
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyNamespace.ContentPage"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              xmlns:c="clr-namespace:Prism.Converters;assembly=Prism.Forms">

@@ -25,8 +25,8 @@ Prism provides support for modular application development and for run-time modu
 - Declarative metadata attributes for modules to support initialization mode and dependencies
 - Integration with dependency injection containers to support loose coupling between modules
 - For module loading:
-  - Dependency management, including duplicate and cycle detection to ensure modules are loaded in the correct order and only loaded and initialized once
-  - On-demand and background downloading of modules to minimize application start-up time; the rest of the modules can be loaded and initialized in the background or when they are required
+    - Dependency management, including duplicate and cycle detection to ensure modules are loaded in the correct order and only loaded and initialized once
+    - On-demand and background downloading of modules to minimize application start-up time; the rest of the modules can be loaded and initialized in the background or when they are required
 
 ## Core Concepts
 
@@ -554,5 +554,3 @@ For more information about assembly caching, see "[How to: Use Assembly Library 
 To learn more about modularity in Prism, see the Modularity with MEF for WPF QuickStart or the Modularity with Unity for WPF QuickStart. For more information about the QuickStarts, see .
 
 For information about the modularity features that can be extended in the Prism Library, see [Modules](Appendix-D-Extending-Prism/#modules) in [Extending Prism](Appendix-D-Extending-Prism.md).
-
-
