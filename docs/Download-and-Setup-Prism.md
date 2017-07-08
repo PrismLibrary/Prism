@@ -30,9 +30,9 @@ You can download the source code, documentation, and samples for the Prism libra
 
 - [Prism Source Code and Documentation](https://github.com/PrismLibrary/Prism/releases)
 - Samples
-  - [WPF](https://github.com/PrismLibrary/Prism-Samples-Wpf)
-  - [Universal Windows Platform](https://github.com/PrismLibrary/Prism-Samples-Windows)
-  - [Xamarin.Forms](https://github.com/PrismLibrary/Prism-Samples-Forms)
+    - [WPF](https://github.com/PrismLibrary/Prism-Samples-Wpf)
+    - [Universal Windows Platform](https://github.com/PrismLibrary/Prism-Samples-Windows)
+    - [Xamarin.Forms](https://github.com/PrismLibrary/Prism-Samples-Forms)
 
 _Optionally you can add the Prism assemblies directly to your projects by using the [NuGet packages](NuGet-Packages.md)._
 

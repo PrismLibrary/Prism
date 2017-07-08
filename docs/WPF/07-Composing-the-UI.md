@@ -658,11 +658,11 @@ Consider the following when you design the layout of a composite application:
 - The shell defines the main layout of the application. Each area of the layout is a region and should be kept as an empty container. Do not place content inside regions at design time because content will be loaded there at run time.
 - The shell should contain the background, titles, and the footer. Think of the shell as an ASP.NET master page.
 - Control containers that act as regions are decoupled from the views that they contain. Therefore, you should be able to change the size of the views without modifying the controls, and you should be able to change the size of the controls without modifying the views. You should consider the following when defining the size of a view:
-  - If a view will be used in several regions or if it is uncertain where it will be used, design it with dynamic width and height.
-  - If the views have fixed sizes, the regions of the shell should use dynamic sizes.
-  - If the shell regions have fixed sizes, the views should use dynamic sizes.
-  - Views might require a fixed height and dynamic width. An example of this is the **PositionPieChart** view located in the sidebar of the Stock Trader RI.
-  - Other views might require a dynamic height and width**.** For example, the **NewsReader** views in the sidebar of the Stock Trader RI. The height itself depends on the title's length, and the width should always adapt to the region's size (sidebar width). The same applies to the **PositionSummaryView** view, where the grid's width should adapt to the screen size and the height should adapt to the number of rows in the grid.
+    - If a view will be used in several regions or if it is uncertain where it will be used, design it with dynamic width and height.
+    - If the views have fixed sizes, the regions of the shell should use dynamic sizes.
+    - If the shell regions have fixed sizes, the views should use dynamic sizes.
+    - Views might require a fixed height and dynamic width. An example of this is the **PositionPieChart** view located in the sidebar of the Stock Trader RI.
+    - Other views might require a dynamic height and width**.** For example, the **NewsReader** views in the sidebar of the Stock Trader RI. The height itself depends on the title's length, and the width should always adapt to the region's size (sidebar width). The same applies to the **PositionSummaryView** view, where the grid's width should adapt to the screen size and the height should adapt to the number of rows in the grid.
 - Views should generally have transparent backgrounds, allowing the shell background to provide the application visual background.
 - Always use named resources for assigning colors, brushes, fonts and font sizes, rather than directly assigning the property value in XAML. This makes application maintenance much easier over time. It also allows an application to respond to changes in resource dictionaries at run time.
 
@@ -712,21 +712,21 @@ The following are some of the characteristics of a designer friendly (also known
 The following actions are performed many times during an editing session. User code that is not designer friendly will cause one or more of these actions to fail, thus reducing the productivity and creativity of a developer or designer.
 
 - Design surface actions:
-  - Constructing objects
-  - Loading objects
-  - Setting property values
-  - Performing design surface gestures
-  - Using a control as the root element
-  - Hosting a control inside another control
-  - Opening, closing, and reopening a XAML file repeatedly
-  - Rebuilding the project
-  - Reloading the designer
+    - Constructing objects
+    - Loading objects
+    - Setting property values
+    - Performing design surface gestures
+    - Using a control as the root element
+    - Hosting a control inside another control
+    - Opening, closing, and reopening a XAML file repeatedly
+    - Rebuilding the project
+    - Reloading the designer
 - Binding builder actions:
-  - Discovering the **DataContext**
-  - Listing the available data sources
-  - Listing data source type properties
+    - Discovering the **DataContext**
+    - Listing the available data sources
+    - Listing data source type properties
 - Design-time sample data actions:
-  - Using controls on the design surface to correctly display sample data
+    - Using controls on the design surface to correctly display sample data
 
 #### Coding for Design Time
 
@@ -753,8 +753,8 @@ When your application executes at run time, the startup code in App.xaml.cs or A
 - Never assume that referenced objects will be instantiated in design-time code. In code that can be executed at design time, always perform a null check before accessing any reference object.
 - If your code accesses the **Application** or **Application.Current** objects, perform a null reference check before accessing the object.
 - If your constructors or **Loaded** event handlers need to run complex code or code that accesses a database or calls out to the network, consider one of the following solutions:
-  - Wrap the code inside a check that determines if the code is running at design time by calling the **System.ComponentModel DesignerProperties** method, **DesignerProperties.GetIsInDesignMode**.
-  - Instead of running the code directly in the constructor or **Loaded** event handler, abstract the calls to a class behind an interface, and then use one of many techniques to resolve that dependency differently at design time, run time, and test time.
+    - Wrap the code inside a check that determines if the code is running at design time by calling the **System.ComponentModel DesignerProperties** method, **DesignerProperties.GetIsInDesignMode**.
+    - Instead of running the code directly in the constructor or **Loaded** event handler, abstract the calls to a class behind an interface, and then use one of many techniques to resolve that dependency differently at design time, run time, and test time.
 
     For example, instead of calling out to a data service directly to retrieve data, wrap the data service calls in a class that exposes the methods through an interface. Then, at design time, resolve the interface with a mock or design-time object.
 
@@ -1005,8 +1005,8 @@ For more information about the guidelines discussed in this topic, see the follo
 
 - [Dependency Properties Overview](http://msdn.microsoft.com/en-us/library/ms752914.aspx) on MSDN.
 - Data binding; see:
-  - [Data Binding Overview](http://msdn.microsoft.com/en-us/library/ms742521.aspx) on MSDN.
-  - [Data Binding in WPF](http://msdn.microsoft.com/en-us/magazine/cc163299.aspx) in *MSDN Magazine*.
+    - [Data Binding Overview](http://msdn.microsoft.com/en-us/library/ms742521.aspx) on MSDN.
+    - [Data Binding in WPF](http://msdn.microsoft.com/en-us/magazine/cc163299.aspx) in *MSDN Magazine*.
 - [Data Templating Overview](http://msdn.microsoft.com/en-us/library/ms742521.aspx) on MSDN.
 - [Resources Overview](http://msdn.microsoft.com/en-us/library/ms750613.aspx) on MSDN.
 - [UserControl Class](http://msdn.microsoft.com/en-us/library/system.windows.forms.usercontrol.aspx) on MSDN.

@@ -5,13 +5,13 @@
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
 - [Background](#background)
-  - Xamarin.Forms
-  - MVVM
+    - Xamarin.Forms
+    - MVVM
 - [Creating a new solution](#creating-a-new-solution)
-  - Installing and using the Prism Template Pack
-  - Running the app
-  - Views overview
-  - View Models overview
+    - Installing and using the Prism Template Pack
+    - Running the app
+    - Views overview
+    - View Models overview
 - [Adding a new Page (View) and ViewModel](#adding-a-new-page-view-and-viewmodel)
 - [Navigating to your new Page](#navigating-to-your-new-page)
 
@@ -94,7 +94,7 @@ To be added.
 
 Within the Portable project there is a `View` folder. This folder will contain all of your view related code. The template created a [Content Page](https://developer.xamarin.com/guides/xamarin-forms/controls/pages/) called `MainPage.xaml` in this folder.  Lets take a look at this file.
 
-```xaml
+```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -191,10 +191,10 @@ Let's create the new content page in the project, also known as the view. Again,
 
 There are many different types of [pages available in Xamarin Forms](https://developer.xamarin.com/guides/xamarin-forms/controls/pages/), but the ContentPage is one of the most basic. It displays a single visual object, typically a [layout](https://developer.xamarin.com/guides/xamarin-forms/controls/layouts/). Update`SpeakPage.xaml` to have the contents shown below.
 
-```xaml
+```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="HelloXFPrism.Views.SpeakPage">
@@ -208,12 +208,12 @@ There are many different types of [pages available in Xamarin Forms](https://dev
 Let's break down what is going on here.
 
 `xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"`
-The Prism library is referenced. 
+The Prism library is referenced.
 
 `prism:ViewModelLocator.AutowireViewModel="True"`
 This view (SpeakPage.xaml) is wired to the view model (SpeakPageViewModel.cs) *automatically via naming conventions* allowing for databinding to the view model. See [ViewModelLocator documentation](2-ViewModelLocator.md) for more information.
 
-```xaml
+```xml
 <StackLayout VerticalOptions="CenterAndExpand">
 ...
 </StackLayout>
@@ -292,9 +292,10 @@ We now have two pages in our app, a main page and a speak page. To navigate to t
 ```cs
 Container.RegisterTypeForNavigation<SpeakPage>();
 ```
+
 You can now navigate to the new page so let's setup MainPage to navigate. In `MainPage.xaml` add a button below the existing label.
 
-```xaml
+```xml
 <Button Text="Navigate to speak page" Command="{Binding NavigateToSpeakPageCommand}" />
 ```
 

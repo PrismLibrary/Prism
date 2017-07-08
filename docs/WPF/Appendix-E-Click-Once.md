@@ -16,7 +16,7 @@ Before you can use the Prism Library, the following must be installed:
 - Microsoft Visual Studio 2013 Professional, Premium, or Ultimate editions
 - Microsoft .NET Framework 4.5 (installed with Visual Studio 2013)
 - Optional tool:
-  - [Microsoft Blend for Visual Studio 2013](https://www.microsoft.com/expression/products/Blend_Overview.aspx)
+    - [Microsoft Blend for Visual Studio 2013](https://www.microsoft.com/expression/products/Blend_Overview.aspx)
 
 ## Preparation
 

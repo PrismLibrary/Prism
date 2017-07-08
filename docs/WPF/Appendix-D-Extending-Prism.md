@@ -638,5 +638,3 @@ ViewModelLocationProvider.SetDefaultViewModelFactory((t) => _container.Resolve(t
 ```
 
 The default strategy for creating the view models is using the **Activator.CreateInstance** method, which is a valid approach if you have a default constructor in the view model and there are no dependencies to be injected.
-
-

@@ -72,7 +72,6 @@ To create an IActionSheetButton, use one of the three factory methods off of the
 - ActionSheetButton.CreateCancelButton
 - ActionSheetButton.CreateDestroyButton
 
-
 ```cs
 IActionSheetButton selectAAction = ActionSheetButton.CreateButton("Select A", new DelegateCommand(() => { Debug.WriteLine("Select A"); }));
 IActionSheetButton cancelAction = ActionSheetButton.CreateCancelButton("Cancel", new DelegateCommand(() => { Debug.WriteLine("Cancel"); }));

@@ -178,7 +178,7 @@ Create a view that we can use to pass text to the speech service for the device 
   <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
     <Entry Text="{Binding TextToSay}" VerticalOptions="Center" HorizontalOptions="Center" />
     <Button Command="{Binding SpeakCommand}" Text="Speak"/>
-  </StackLayout>  
+  </StackLayout>
 </ContentPage>
 ```
 

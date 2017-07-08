@@ -135,7 +135,7 @@ The following shows how to use the Blend EventTrigger configured to listen to th
 
 When you need to invoke a command in response to an event raised by a control located in the view, you can use Prism’s **InvokeCommandAction**. Prism’s **InvokeCommandAction** differs from the class of the same name in the Blend SDK in two ways. First, the Prism **InvokeCommandAction** updates the enabled state of the associated control based on the return value of the command’s **CanExecute** method. Second, the Prism **InvokeCommandAction** uses the **EventArgs** parameter passed to it from the parent trigger, passing it to the associated command if the **CommandParameter** is not set.
 
-Sometimes you need to pass a parameter to the command that comes from the parent trigger, such as the **EventArgs** from the **EventTrigger**. In that  scenario you cannot use Blend’s **InvokeCommandAction** action. 
+Sometimes you need to pass a parameter to the command that comes from the parent trigger, such as the **EventArgs** from the **EventTrigger**. In that  scenario you cannot use Blend’s **InvokeCommandAction** action.
 
 In the following code you can see that Prism’s **InvokeCommandAction** has a property called **TriggerParameterPath** that is used to specify the member (possibly nested) of the parameter passed as the command parameter. In the following example, the **AddedItems** property of the **SelectionChanged** EventArgs will be passed to the **SelectedCommand** command.
 
