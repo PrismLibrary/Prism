@@ -52,7 +52,7 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
             Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
             Container.Register<ModuleMock>(Reuse.Singleton);
 
-            FormsDependencyService.Register<IDependencyServiceMock>(new DependencyServiceMock());
+            DependencyService.Register<IDependencyServiceMock, DependencyServiceMock>();
         }
 
         public INavigationService CreateNavigationServiceForPage(Page page)

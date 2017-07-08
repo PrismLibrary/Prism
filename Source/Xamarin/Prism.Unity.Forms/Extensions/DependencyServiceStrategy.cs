@@ -3,9 +3,6 @@ using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity;
 using Xamarin.Forms;
-#if TEST
-using DependencyService = Prism.FormsDependencyService;
-#endif
 
 namespace Prism.Unity.Extensions
 {
