@@ -1,4 +1,4 @@
-#Navigation Using the Prism Library for WPF
+# Navigation Using the Prism Library for WPF
 
 As the user interacts with a rich client application, its user interface (UI) will be continuously updated to reflect the current task and data that the user is working on. The UI may undergo considerable changes over time as the user interacts with and completes various tasks within the application. The process by which the application coordinates these UI changes is often referred to as *navigation*. This topic describes how to implement navigation for composite Model-View-ViewModel (MVVM) applications using the Prism library.
 
@@ -36,16 +36,18 @@ Your application may often need to present the same data to the user, but in dif
 
 ![Animated transition between views](images/Ch8NavigationFig1.png)
 
-#####  Contact view navigation in the State-Based Navigation QuickStart
+#### Contact view navigation in the State-Based Navigation QuickStart
 
 Because the view is presenting the same data, but in a different visual representation, the view model is not required to be involved in the navigation between representations. In this case, navigation is entirely handled within the view itself. This approach provides the UI designer with a lot of flexibility to design a compelling user experience without requiring changes to the application's code.
 
 Blend behaviors provide a good way to implement this style of navigation within a view. The State-Based Navigation QuickStart application uses Blend's **DataStateBehavior** data-bound to a radio button to switch between two visual states that are defined using the visual state manager, one button to show the contacts as a list and one button to show the contacts as icons.
 
-    <ei:DataStateBehavior Binding="{Binding IsChecked, ElementName=ShowAsListButton}" 
-               Value="True"
-               TrueState="ShowAsList" 
-               FalseState="ShowAsIcons"/>
+```xml
+<ei:DataStateBehavior Binding="{Binding IsChecked, ElementName=ShowAsListButton}" 
+            Value="True"
+            TrueState="ShowAsList" 
+            FalseState="ShowAsIcons"/>
+```
 
 ![State based navigation sample screenshot](images/Ch8NavigationFig2.png)
 
@@ -63,17 +65,19 @@ Similarly, the view within an application may sometimes need to change its layou
 
 ![Connection state representation](images/Ch8NavigationFig3.png)
 
-#####  Connection state representation in the State-Based Navigation QuickStart
+#### Connection state representation in the State-Based Navigation QuickStart
 
 To implement this, the view defines a **DataStateBehavior** data bound to the view model's **ConnectionStatus** property to toggle between the appropriate visual states.
 
-    <ei:DataStateBehavior Binding="{Binding ConnectionStatus}" 
-                          Value="Available" 
-                          TrueState="Available" FalseState="Unavailable"/>
+```xml
+<ei:DataStateBehavior Binding="{Binding ConnectionStatus}" 
+                        Value="Available" 
+                        TrueState="Available" FalseState="Unavailable"/>
+```
 
 Note that the connection state can be changed by the user via the UI or by the application according to some internal logic or event. For example, the application may move to an "unavailable" state if the user does not interact with the view within a certain time period or when the user's calendar indicates that he or she is in a meeting. The State-Based Navigation QuickStart simulates this scenario by switching the connection status randomly using a timer. When the connection status is changed, the property on the view model is updated, and the view is informed via a property changed event. The UI is then updated to reflect the current connection status.
 
-All the preceding examples involve defining visual states in the view and switching between them as a result of the user's interaction with the view or via changes in properties defined by the view model. This approach allows the UI designer to implemenent navigation-like visual behavior in the view without requiring the view to be replaced or requiring any code changes to the application's code. This approach is suitable when the view is required to render the same data in different styles or layouts. It is not suitable for situations in which the user is to be presented with different data or application functionality or when navigating to a different part of the application.
+All the preceding examples involve defining visual states in the view and switching between them as a result of the user's interaction with the view or via changes in properties defined by the view model. This approach allows the UI designer to implement navigation-like visual behavior in the view without requiring the view to be replaced or requiring any code changes to the application's code. This approach is suitable when the view is required to render the same data in different styles or layouts. It is not suitable for situations in which the user is to be presented with different data or application functionality or when navigating to a different part of the application.
 
 ### Interacting With the User
 
@@ -81,20 +85,22 @@ Frequently, an application will need to interact with the user in a limited way.
 
 ![Interacting with the user using a pop-up window](images/Ch8NavigationFig4.png)
 
-#####  Interacting with the user using a pop-up window in the State-Based Navigation QuickStart
+#### Interacting with the user using a pop-up window in the State-Based Navigation QuickStart
 
 Interacting with the user using a pop-up window in the State-Based Navigation QuickStart
 To implement this behavior, the State-Based Navigation QuickStart implements a **SendMessage** command, which is bound to the **Send Message** button. When this command is invoked, the view model interacts with the view to display the pop-up window. This is achieved using the Interaction Request pattern described in [Implementing the MVVM Pattern](05-Implementing-MVVM.md).
 
 The following code example shows how the view in the State-Based Navigation QuickStart application responds to the **SendMessageRequest** interaction request object provided by the view model. When the request event is received, the **SendMessageChildWindow** is displayed as a popup window.
 
-    <prism:InteractionRequestTrigger SourceObject="{Binding SendMessageRequest}">
-    	<prism:PopupWindowAction IsModal="True">
-    		<prism:PopupWindowAction.WindowContent>
-    			<vs:SendMessagePopupView />
-    		</prism:PopupWindowAction.WindowContent>
-    	</prism:PopupWindowAction>
-    </prism:InteractionRequestTrigger>
+```xml
+<prism:InteractionRequestTrigger SourceObject="{Binding SendMessageRequest}">
+    <prism:PopupWindowAction IsModal="True">
+        <prism:PopupWindowAction.WindowContent>
+            <vs:SendMessagePopupView />
+        </prism:PopupWindowAction.WindowContent>
+    </prism:PopupWindowAction>
+</prism:InteractionRequestTrigger>
+```
 
 ## View-Based Navigation
 
@@ -118,7 +124,9 @@ Prism regions are designed to support the development of composite applications 
 
 Prism regions are essentially named placeholders within which views can be displayed. Any control in the application's UI can be a declared a region by simply adding a **RegionName** attached property to it, as shown here.
 
-    <ContentControl prism:RegionManager.RegionName="MainRegion" ... />
+```xml
+<ContentControl prism:RegionManager.RegionName="MainRegion" ... />
+```
 
 For each control specified as a region, Prism creates a **Region** object to represent the region and a **RegionAdapter** object, which manages the placement and activation of views into the specified control. The Prism Library provides **RegionAdapter** implementations for most of the common WPF controls. You can create a custom **RegionAdapter** to support additional controls or when you need to define a custom behavior. The **RegionManager** class provides access to the **Region** objects within the application.
 
@@ -132,18 +140,22 @@ Previous versions of Prism allowed views to be displayed in a region in two ways
 
 View injection is supported through the **Add** method on the **Region** class. The follow code example shows how you can obtain a reference to a **Region** object via the **RegionManager** class and programmatically add a view to it. In this example, the view is created using a dependency injection container.
 
+```cs
     IRegionManager regionManager = ...;
     IRegion mainRegion = regionManager.Regions["MainRegion"];
     InboxView view = this.container.Resolve<InboxView>();
     mainRegion.Add(view);
-    
+```
+
 The second method, called *view discovery*, allows a module to register a view type against a region name. Whenever a region with the specified name is displayed, an instance of the specified view will be automatically created and displayed in the region. This approach is useful for relatively static content, where the view to be displayed in a region does not change.
 
 View discovery is supported through the **RegisterViewWithRegion** method on the **RegionManager** class. This method allows you to specify a callback method that will be called when the named region is shown. The following code example shows how you can create a view (via the dependency injection container) when the main region is first shown.
 
+```cs
     IRegionManager regionManager = ...;
     regionManager.RegisterViewWithRegion("MainRegion", () =>
                        container.Resolve<InboxView>());
+```
 
 For a detailed overview of Prisms region support and information about how to leverage regions to compose the application's UI using view injection and discovery, see [Composing the User Interface](07-Composing-the-UI.md). The rest of this topic describes how regions have been extended to support view-based navigation, and how this addresses the various challenges described earlier.
 
@@ -157,21 +169,27 @@ Navigation within a region means that a new view is to be displayed within that 
 
 The **INavigateAsync** interface is implemented by the **Region** class, allowing you to initiate navigation within that region.
 
-    IRegion mainRegion = ...;
-    mainRegion.RequestNavigate(new Uri("InboxView", UriKind.Relative));
+```cs
+IRegion mainRegion = ...;
+mainRegion.RequestNavigate(new Uri("InboxView", UriKind.Relative));
+```
 
 You can also call the **RequestNavigate** method on the **RegionManager**, which allows you to specify the name of the region to be navigated. This convenient method obtains a reference to the specified region and then calls the **RequestNavigate** method, as shown in the preceding code example.
 
-    IRegionManager regionManager = ...;
-    regionManager.RequestNavigate("MainRegion",
-                                   new Uri("InboxView", UriKind.Relative));
+```cs
+IRegionManager regionManager = ...;
+regionManager.RequestNavigate("MainRegion",
+                                new Uri("InboxView", UriKind.Relative));
+```
 
 By default, the navigation URI specifies the name of a view that is registered in the container.
 
 Using MEF, you can simply export the view type with the specified name.
 
-    [Export("InboxView")]
-    public partial class InboxView : UserControl
+```cs
+[Export("InboxView")]
+public partial class InboxView : UserControl { ... }
+```
 
 During navigation, the specified view is instantiated, via the container or MEF, along with its corresponding view model and other dependent services and components. After the view is instantiated, it is then added to the specified region and activated (activation is described in more detail later in this topic).
 
@@ -179,16 +197,18 @@ During navigation, the specified view is instantiated, via the container or MEF,
 
 The **RequestNavigate** method also allows you to specify a callback method, or a delegate, which will be called when navigation is complete.
 
-    private void SelectedEmployeeChanged(object sender, EventArgs e)
-    {
-        ...
-        regionManager.RequestNavigate(RegionNames.TabRegion,
-                         "EmployeeDetails", NavigationCompleted);
-    }
-    private void NavigationCompleted(NavigationResult result)
-    {
-        ...
-    }
+```cs
+private void SelectedEmployeeChanged(object sender, EventArgs e)
+{
+    ...
+    regionManager.RequestNavigate(RegionNames.TabRegion,
+                        "EmployeeDetails", NavigationCompleted);
+}
+private void NavigationCompleted(NavigationResult result)
+{
+    ...
+}
+```
 
 The **NavigationResult** class defines properties that provide information about the navigation operation. The **Result** property indicates whether or not navigation succeeded. If navigation was successful, then the **Result** property will be _true_. If navigation failed, normally because of returning 'continuationCallBack(false)' in the **IConfirmNavigationResult.ConfirmNavigationRequest** method, then the **Result** property will be _false_. If navigation failed due to an exception, the **Result** property will be _false_ and the **Error** property provides a reference to any exception that was thrown during navigation. The **Context** property provides access to the navigation URI and any parameters it contains, and a reference to the navigation service that coordinated the navigation operation.
 
@@ -201,12 +221,14 @@ During navigation, Prism checks to see whether the view implements the **INaviga
 
 This interface allows the view or view model to participate in a navigation operation. The **INavigationAware** interface defines three methods.
 
-    public interface INavigationAware
-    {
-        bool IsNavigationTarget(NavigationContext navigationContext);
-        void OnNavigatedTo(NavigationContext navigationContext);
-        void OnNavigatedFrom(NavigationContext navigationContext);
-    }
+```cs
+public interface INavigationAware
+{
+    bool IsNavigationTarget(NavigationContext navigationContext);
+    void OnNavigatedTo(NavigationContext navigationContext);
+    void OnNavigatedFrom(NavigationContext navigationContext);
+}
+```
 
 The **IsNavigationTarget** method allows an existing (displayed) view or view model to indicate whether it is able to handle the navigation request. This is useful in cases where you can re-use an existing view to handle the navigation operation or when navigating to a view that already exists. For example, a view displaying customer information can be updated to display a different customer's information. For more information about using this method, see the section, [Navigating to Existing Views](#navigating-to-existing-views), later in this topic.
 
@@ -216,13 +238,15 @@ If the newly created view implements this interface (or its view model), its **O
 
 After the new view is instantiated, initialized, and added to the target region, it then becomes the active view, and the previous view is deactivated. Sometimes you will want the deactivated view to be removed from the region. Prism provides the **IRegionMemberLifetime** interface, which allows you to control the lifetime of views within regions by allowing you to specify whether deactivated views are to be removed from the region or simply marked as deactivated.
 
-    public class EmployeeDetailsViewModel : IRegionMemberLifetime
+```cs
+public class EmployeeDetailsViewModel : IRegionMemberLifetime
+{
+    public bool KeepAlive
     {
-        public bool KeepAlive
-        {
-            get { return true; }
-        }
+        get { return true; }
     }
+}
+```
 
 The **IRegionMemberLifetime** interface defines a single read-only property, **KeepAlive**. If this property returns **false**, the view is removed from the region when it is deactivated. Because the region no longer has a reference to the view, it then becomes eligible for garbage collection (unless some other component in your application maintains a reference to it). You can implement this interface on your view or your view model classes. Although the **IRegionMemberLifetime** interface is primarily intended to allow you to manage the lifetime of views within regions during activation and deactivation, the **KeepAlive** property is also considered during navigation after the new view is activated in the target region.
 
@@ -236,34 +260,40 @@ Prism provides the **NavigationParameters** class to help specify and retrieve n
 
 The following code example shows how to add individual string parameters to the **NavigationParameters** instance so that it can be appended to the navigation URI.
 
-    Employee employee = Employees.CurrentItem as Employee;
-    if (employee != null)
-    {
-        var navigationParameters = new NavigationParameters();
-        navigationParameters.Add("ID", employee.Id);
-        _regionManager.RequestNavigate(RegionNames.TabRegion,
-             new Uri("EmployeeDetailsView" + navigationParameters.ToString(), UriKind.Relative));
-    }
+```cs
+Employee employee = Employees.CurrentItem as Employee;
+if (employee != null)
+{
+    var navigationParameters = new NavigationParameters();
+    navigationParameters.Add("ID", employee.Id);
+    _regionManager.RequestNavigate(RegionNames.TabRegion,
+            new Uri("EmployeeDetailsView" + navigationParameters.ToString(), UriKind.Relative));
+}
+```
 
 Additionally, you can pass object parameters by adding them to the **NavigationParameters** instance, and passing it as a parameter of the **RequestNavigate** method. This is shown in the following code.
 
-    Employee employee = Employees.CurrentItem as Employee;
-    if (employee != null)
-    {
-        var parameters = new NavigationParameters();
-        parameters.Add("ID", employee.Id);
-        parameters.Add("myObjectParameter", new ObjectParameter());
-        regionManager.RequestNavigate(RegionNames.TabRegion,
-             new Uri("EmployeeDetailsView", UriKind.Relative), parameters);
-    }
+```cs
+Employee employee = Employees.CurrentItem as Employee;
+if (employee != null)
+{
+    var parameters = new NavigationParameters();
+    parameters.Add("ID", employee.Id);
+    parameters.Add("myObjectParameter", new ObjectParameter());
+    regionManager.RequestNavigate(RegionNames.TabRegion,
+            new Uri("EmployeeDetailsView", UriKind.Relative), parameters);
+}
+```
 
 You can retrieve the navigation parameters using the **Parameters** property on the **NavigationContext** object. This property returns an instance of the **NavigationParameters** class, which provides an indexer property to allow easy access to individual parameters, independently of them being passed through the query or through the **RequestNavigate** method.
 
-    public void OnNavigatedTo(NavigationContext navigationContext)
-    {
-        string id = navigationContext.Parameters["ID"];
-        ObjectParameter myParameter = navigationContext.Parameters["myObjectParameter"];
-    }
+```cs
+public void OnNavigatedTo(NavigationContext navigationContext)
+{
+    string id = navigationContext.Parameters["ID"];
+    ObjectParameter myParameter = navigationContext.Parameters["myObjectParameter"];
+}
+```
 
 ### Navigating to Existing Views
 
@@ -281,11 +311,13 @@ Prism supports the two scenarios described earlier via the **IsNavigationTarget*
 
 The implementation of the **IsNavigationTarget** method can use the **NavigationContext** parameter to determine whether it can handle the navigation request. The **NavigationContext** object provides access to the navigation URI and the navigation parameters. In the preceding examples, the implementation of this method in the **EditCustomer** view model compares the current customer ID to the ID specified in the navigation request, and it returns **true** if they match.
 
-    public bool IsNavigationTarget(NavigationContext navigationContext)
-    {
-        string id = navigationContext.Parameters["ID"];
-        return _currentCustomer.Id.Equals(id);
-    }
+```cs
+public bool IsNavigationTarget(NavigationContext navigationContext)
+{
+    string id = navigationContext.Parameters["ID"];
+    return _currentCustomer.Id.Equals(id);
+}
+```
 
 If the **IsNavigationTarget** method always returns **true**, regardless of the navigation parameters, that view instance will always be re-used. This allows you to ensure that only one view of a particular type will be displayed in a particular region.
 
@@ -303,61 +335,67 @@ The **ConfirmNavigationRequest** method provides two parameters, a reference to 
 
 The following steps summarize the process of confirming navigation using an **InteractionRequest** object:
 
-1.  Navigation operation is initiated via a **RequestNavigate** call.
-2.  If the view or view model implements **IConfirmNavigation**, call **ConfirmNavigationRequest**.
-3.  The view model raises the interaction request event.
-4.  The view displays the confirmation pop-up window and awaits the user's response.
-5.  The interaction request callback is invoked when the user closes the pop-up window.
-6.  Continuation callback is invoked to continue or cancel the pending navigation operation.
-7.  The navigation operation is completed or canceled.
+1. Navigation operation is initiated via a **RequestNavigate** call.
+1. If the view or view model implements **IConfirmNavigation**, call **ConfirmNavigationRequest**.
+1. The view model raises the interaction request event.
+1. The view displays the confirmation pop-up window and awaits the user's response.
+1. The interaction request callback is invoked when the user closes the pop-up window.
+1. Continuation callback is invoked to continue or cancel the pending navigation operation.
+1. The navigation operation is completed or canceled.
 
 To illustrate this, look at the View-Switching Navigation Quick Start. This application provides the ability for the user to compose a new email using the **ComposeEmailView** and **ComposeEmailViewModel** classes. The view model class implements the **IConfirmNavigation** interface. If the user navigates, such as by clicking the **Calendar** button, when they are composing an email, the **ConfirmNavigationRequest** method will be called so that the view model can confirm the navigation with the user. To support this, the view model class defines an interaction request, as shown in the following code example.
 
-    public class ComposeEmailViewModel : NotificationObject, IConfirmNavigationRequest
+```cs
+public class ComposeEmailViewModel : NotificationObject, IConfirmNavigationRequest
+{
+    . . .
+    private readonly InteractionRequest<Confirmation> confirmExitInteractionRequest;
+
+    public ComposeEmailViewModel(IEmailService emailService)
     {
         . . .
-        private readonly InteractionRequest<Confirmation> confirmExitInteractionRequest;
-    
-        public ComposeEmailViewModel(IEmailService emailService)
-        {
-            . . .
-            this.confirmExitInteractionRequest = new InteractionRequest<Confirmation>();
-        }
-    
-        public IInteractionRequest ConfirmExitInteractionRequest
-        {
-            get { return this.confirmExitInteractionRequest; }
-        }
+        this.confirmExitInteractionRequest = new InteractionRequest<Confirmation>();
     }
+
+    public IInteractionRequest ConfirmExitInteractionRequest
+    {
+        get { return this.confirmExitInteractionRequest; }
+    }
+}
+```
 
 In the **ComposeEmailView** class, an interaction request trigger is defined, and data is bound to the **ConfirmExitInteractionRequest** property on the view model. When the interaction request is made, a simple pop-up window will be displayed to the user.
 
-    <UserControl.Resources>
-        <DataTemplate x:Key="ConfirmExitDialogTemplate">
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                       Text="{Binding}"/>
-        </DataTemplate>
-    </UserControl.Resources>
-    
-    <Grid x:Name="LayoutRoot" Background="White">
-    <ei:Interaction.Triggers>
-         <prism:InteractionRequestTrigger SourceObject="{Binding  
-               ConfirmExitInteractionRequest}">
-            <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True"/>
-          </prism:InteractionRequestTrigger>
-    </ei:Interaction.Triggers>
-    ...
+```xml
+<UserControl.Resources>
+    <DataTemplate x:Key="ConfirmExitDialogTemplate">
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Text="{Binding}"/>
+    </DataTemplate>
+</UserControl.Resources>
+
+<Grid x:Name="LayoutRoot" Background="White">
+<ei:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding  
+            ConfirmExitInteractionRequest}">
+        <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True"/>
+        </prism:InteractionRequestTrigger>
+</ei:Interaction.Triggers>
+...
+```
 
 The **ConfirmNavigationRequest** method on the **ComposeEmailVewModel** class is called if the user attempts to navigate while an email is being composed. The implementation of this method invokes the interaction request defined earlier so that the user can confirm or cancel the navigation operation.
 
-    void IConfirmNavigationRequest.ConfirmNavigationRequest(
-              NavigationContext navigationContext, Action<bool> continuationCallback)
-    {
-        . . .
-        this.confirmExitInteractionRequest.Raise(
-                  new Confirmation {Content = "...", Title = "..."},
-                  c => {continuationCallback(c.Confirmed);});
-    }
+```cs
+void IConfirmNavigationRequest.ConfirmNavigationRequest(
+            NavigationContext navigationContext, Action<bool> continuationCallback)
+{
+    . . .
+    this.confirmExitInteractionRequest.Raise(
+                new Confirmation {Content = "...", Title = "..."},
+                c => {continuationCallback(c.Confirmed);});
+}
+```
 
 The callback for the interaction request is called when the user clicks the buttons in the confirmation pop-up window to confirm or cancel the operation. This callback simply calls the continuation callback, passing in the value of the **Confirmed** flag, and causing the navigation to continue or be canceled.
 
@@ -365,11 +403,13 @@ The callback for the interaction request is called when the user clicks the butt
 
 Using this mechanism, you can control if the navigation request is carried out immediately or is deferred, pending an interaction with the user or some other asynchronous interaction (for example, as a result of a web service request). To enable navigation to proceed, you can simply call the continuation callback method, passing **true** to indicate that it can continue. Similarly, you can pass **false** to indicate that the navigation should be canceled.
 
-    void IConfirmNavigationRequest.ConfirmNavigationRequest(
-              NavigationContext navigationContext, Action<bool> continuationCallback)
-    {
-        continuationCallback(true);
-    }
+```cs
+void IConfirmNavigationRequest.ConfirmNavigationRequest(
+            NavigationContext navigationContext, Action<bool> continuationCallback)
+{
+    continuationCallback(true);
+}
+```
 
 If you want to defer navigation, you can store a reference to the continuation callback you can then call when the interaction with the user (or web service) completes. The navigation operation will be pending until you call the continuation callback.
 
@@ -379,60 +419,66 @@ If the user initiates another navigation operation in the meantime, the navigati
 
 The **NavigationContext** class provides access to the region navigation service, which is responsible for coordinating the sequence of operations during navigation within a region. It provides access to the region in which navigation is taking place, and to the navigation journal associated with that region. The region navigation service implements the **IRegionNavigationService**, which is defined as follows.
 
-    public interface IRegionNavigationService : INavigateAsync
-    {
-        IRegion Region {get; set;}
-        IRegionNavigationJournal Journal {get;}
-        event EventHandler<RegionNavigationEventArgs> Navigating;
-        event EventHandler<RegionNavigationEventArgs> Navigated;
-        event EventHandler<RegionNavigationFailedEventArgs> NavigationFailed;
-    }
+```cs
+public interface IRegionNavigationService : INavigateAsync
+{
+    IRegion Region {get; set;}
+    IRegionNavigationJournal Journal {get;}
+    event EventHandler<RegionNavigationEventArgs> Navigating;
+    event EventHandler<RegionNavigationEventArgs> Navigated;
+    event EventHandler<RegionNavigationFailedEventArgs> NavigationFailed;
+}
+```
 
 Because the region navigation service implements the **INavigateAsync** interface, you can initiate navigation within the parent region by calling its **RequestNavigate** method. The **Navigating** event is raised when a navigation operation is initiated. The **Navigated** event is raised when navigation within a region is completed. The **NavigationFailed** is raised if an error was encountered during navigation.
 
 The **Journal** property provides access to the navigation journal associated with the region. The navigation journal implements the **IRegionNavigationJournal** interface, which is defined as follows.
 
-    public interface IRegionNavigationJournal
-    {
-        bool CanGoBack { get; }
-        bool CanGoForward { get; }
-        IRegionNavigationJournalEntry CurrentEntry { get; }
-        INavigateAsync NavigationTarget { get; set; }
-        void Clear();
-        void GoBack();
-        void GoForward();
-        void RecordNavigation(IRegionNavigationJournalEntry entry);
-    }
+```cs
+public interface IRegionNavigationJournal
+{
+    bool CanGoBack { get; }
+    bool CanGoForward { get; }
+    IRegionNavigationJournalEntry CurrentEntry { get; }
+    INavigateAsync NavigationTarget { get; set; }
+    void Clear();
+    void GoBack();
+    void GoForward();
+    void RecordNavigation(IRegionNavigationJournalEntry entry);
+}
+```
 
 You can obtain and store a reference to the region navigation service within a view during navigation via the **OnNavigatedTo** method call. By default, Prism provides a simple stack-based journal that allows you to navigate forward or backward within a region.
 
 You can use the navigation journal to allow the user to navigate from within the view itself. In the following example, the view model implements a **GoBack** command, which uses the navigation journal within the host region. Therefore, the view can display a **Back** button that allows the user to easily navigate back to the previous view within the region. Similarly, you can implement a **GoForward** command to implement a wizard style workflow.
 
-    public class EmployeeDetailsViewModel : INavigationAware
+```cs
+public class EmployeeDetailsViewModel : INavigationAware
+{
+    ...
+    private IRegionNavigationService navigationService;
+
+    public void OnNavigatedTo(NavigationContext navigationContext)
     {
-        ...
-        private IRegionNavigationService navigationService;
-    
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        navigationService = navigationContext.NavigationService;
+    }
+
+    public DelegateCommand<object> GoBackCommand { get; private set; }
+
+    private void GoBack(object commandArg)
+    {
+        if (navigationService.Journal.CanGoBack)
         {
-            navigationService = navigationContext.NavigationService;
-        }
-    
-        public DelegateCommand<object> GoBackCommand { get; private set; }
-    
-        private void GoBack(object commandArg)
-        {
-            if (navigationService.Journal.CanGoBack)
-            {
-               navigationService.Journal.GoBack();
-            }
-        }
-    
-        private bool CanGoBack(object commandArg)
-        {
-            return navigationService.Journal.CanGoBack;
+            navigationService.Journal.GoBack();
         }
     }
+
+    private bool CanGoBack(object commandArg)
+    {
+        return navigationService.Journal.CanGoBack;
+    }
+}
+```
 
 You can implement a custom journal for a region if you need to implement a specific workflow pattern within that region.
 
@@ -440,7 +486,7 @@ You can implement a custom journal for a region if you need to implement a speci
 
 ### Using the WPF Navigation Framework
 
-Prism region navigation was designed to address a wide range of common scenarios and challenges that you may face when implementing navigation in a loosely-coupled, modular application that uses the MVVM pattern and a dependency injection container, such as Unity, or the Managed Extensibility Framework (MEF). It also was designed to support navigation confirmation and cancelation, navigation to existing views, navigation parameters and navigation journaling.
+Prism region navigation was designed to address a wide range of common scenarios and challenges that you may face when implementing navigation in a loosely-coupled, modular application that uses the MVVM pattern and a dependency injection container, such as Unity, or the Managed Extensibility Framework (MEF). It also was designed to support navigation confirmation and cancellation, navigation to existing views, navigation parameters and navigation journaling.
 
 By supporting navigation within Prism regions, it also supports navigation within a wide range of layout controls and supports the ability to change the layout of the application's UI without affecting its navigation structure. It also supports pseudo-synchronous navigation, which allows for rich user interaction during navigation.
 
@@ -454,7 +500,7 @@ The following illustration provides an overview of the sequence of operations du
 
 ![Prism region navigation sequence](images/Ch8NavigationFig6.png)
 
-# More Information
+## More Information
 
 For more information about Prism regions, see [Composing the User Interface](07-Composing-the-UI.md).
 

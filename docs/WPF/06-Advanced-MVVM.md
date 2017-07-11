@@ -1,4 +1,4 @@
-#Advanced MVVM Scenarios Using the Prism Library for WPF
+# Advanced MVVM Scenarios Using the Prism Library for WPF
 
 The previous topic described how to implement the basic elements of the Model-View-ViewModel (MVVM) pattern by separating your application's user interface (UI), presentation logic, and business logic into three separate classes (the view, view model, and model), implementing the interactions between those classes (through data binding, commands, and data validation interfaces), and by implementing a strategy to handle construction and wire-up. This topic describes some sophisticated scenarios and describes how the MVVM pattern can support them. The next section describes how commands can be chained together or associated with child views and how they can be extended to support custom requirements. The following sections then describe how to handle asynchronous data requests and subsequent UI interactions and how to handle interaction requests between the view and the view model.
 
@@ -30,7 +30,7 @@ The **CompositeCommand** class maintains a list of child commands (**DelegateCom
 
 Child commands are registered or unregistered using the **RegisterCommand** and **UnregisterCommand** methods. In the Stock Trader RI, for example, the **Submit** and **Cancel** commands for each buy/sell order are registered with the **SubmitAllOrders** and **CancelAllOrders** composite commands, as shown in the following code example (see the **OrdersController** class).
 
-```
+```cs
 // OrdersController.cs
 commandProxy.SubmitAllOrdersCommand.RegisterCommand(
                         orderCompositeViewModel.SubmitCommand );
@@ -77,7 +77,7 @@ Because the view model implements the **Delete** command, the challenge is to wi
 
 One approach to this problem is to bind the button in the data template to the command in the parent view using the **ElementName** binding property to ensure that the binding is relative to the parent control and not relative to the data template. The following XAML illustrates this technique.
 
-```
+```xml
 <Grid x:Name="root">
     <ListBox ItemsSource="{Binding Path=Items}">
         <ListBox.ItemTemplate>
@@ -97,7 +97,7 @@ The content of button control in the data template is bound to the **Name** prop
 
 An alternative approach to commands is to use Blend for Visual Studio 2013 interaction triggers and the **InvokeCommandAction** action.
 
-```
+```xml
 <Button Content="Submit" IsEnabled="{Binding CanSubmit}">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Click">
@@ -111,7 +111,7 @@ This approach can be used for any control to which you can attach an interaction
 
 The following shows how to use the Blend EventTrigger configured to listen to the ListBox’s **SelectionChanged** event. When this event occurs, the SelectedCommand is invoked by the **InvokeCommandAction**.
 
-```
+```xml
 <ListBox ItemsSource="{Binding Items}" SelectionMode="Single">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="SelectionChanged">
@@ -123,7 +123,7 @@ The following shows how to use the Blend EventTrigger configured to listen to th
 
 > **Command-Enabled Controls vs. Behaviors**
 
->WPF controls that support commands allow you to declaratively hook up a control to a command. These controls will invoke the specified command when the user interacts with the control in a specific way. For example, for a **Button** control, the command will be invoked when the user clicks the button. This event associated with the command is fixed and cannot be changed.
+> WPF controls that support commands allow you to declaratively hook up a control to a command. These controls will invoke the specified command when the user interacts with the control in a specific way. For example, for a **Button** control, the command will be invoked when the user clicks the button. This event associated with the command is fixed and cannot be changed.
 
 > Behaviors also allow you to hook up a control to a command in a declarative fashion. However, behaviors can be associated with a range of events raised by the control, and they can be used to conditionally invoke an associated command object or a command method in the view model. In other words, behaviors can address many of the same scenarios as command-enabled controls, and they may provide a greater degree of flexibility and control._
 
@@ -131,15 +131,15 @@ The following shows how to use the Blend EventTrigger configured to listen to th
 
 > If you only need to use command-enabled controls to invoke commands on the view model, and if you are happy with the default events to invoke the command, behaviors may not be required. Similarly, if your developers or UI designers will not be using Blend for Visual Studio 2013, you may favor command-enabled controls (or custom attached behaviors) because of the additional syntax required for Blend behaviors.
 
-#### Passing EventArgs Parameters to the Command
+### Passing EventArgs Parameters to the Command
 
 When you need to invoke a command in response to an event raised by a control located in the view, you can use Prism’s **InvokeCommandAction**. Prism’s **InvokeCommandAction** differs from the class of the same name in the Blend SDK in two ways. First, the Prism **InvokeCommandAction** updates the enabled state of the associated control based on the return value of the command’s **CanExecute** method. Second, the Prism **InvokeCommandAction** uses the **EventArgs** parameter passed to it from the parent trigger, passing it to the associated command if the **CommandParameter** is not set.
 
-Sometimes you need to pass a parameter to the command that comes from the parent trigger, such as the **EventArgs** from the **EventTrigger**. In that  scenario you cannot use Blend’s **InvokeCommandAction** action. 
+Sometimes you need to pass a parameter to the command that comes from the parent trigger, such as the **EventArgs** from the **EventTrigger**. In that  scenario you cannot use Blend’s **InvokeCommandAction** action.
 
 In the following code you can see that Prism’s **InvokeCommandAction** has a property called **TriggerParameterPath** that is used to specify the member (possibly nested) of the parameter passed as the command parameter. In the following example, the **AddedItems** property of the **SelectionChanged** EventArgs will be passed to the **SelectedCommand** command.
 
-```
+```xml
 <ListBox Grid.Row="1" Margin="5" ItemsSource="{Binding Items}" SelectionMode="Single">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="SelectionChanged">
@@ -162,7 +162,7 @@ When interacting with web services or other remote access technologies, you will
 
 To determine when to call **EndGetQuestionnaire**, you can either poll for completion or (preferably) specify a callback during the call to **BeginGetQuestionnaire**. With the callback approach, your callback method will be called when the execution of the target method is complete, allowing you to call **EndGetQuestionnaire** from there, as shown here.
 
-```
+```cs
 IAsyncResult asyncResult = this.service.BeginGetQuestionnaire(GetQuestionnaireCompleted, null // object state, not used in this example);
 
 private void GetQuestionnaireCompleted(IAsyncResult result)
@@ -184,7 +184,7 @@ Because the response usually is not on the UI thread, if you plan to modify anyt
 
 In the following code example, the **Questionnaire** object is retrieved asynchronously, and then it is set as the data context for the **QuestionnaireView**. You can use the **CheckAccess** method of the dispatcher to see whether you are on the UI thread. If you are not, you will need to use the **BeginInvoke** method to have the request carried out on the UI thread.
 
-```
+```cs
 var dispatcher = System.Windows.Deployment.Current.Dispatcher;
 if (dispatcher.CheckAccess())
 {
@@ -199,7 +199,7 @@ else
 
 The Model-View-ViewModel Reference Implementation (MVVM RI) shows an example of how to consume an **IAsyncResult**-based service interface similar to the preceding examples. It also wraps the service to provide a simpler callback mechanism for the consumer and handles the dispatch of the callback to the caller's thread. For example, the following code example shows retrieval of the questionnaire.
 
-```
+```cs
 this.questionnaireRepository.GetQuestionnaireAsync(
     (result) =>
     {
@@ -209,7 +209,7 @@ this.questionnaireRepository.GetQuestionnaireAsync(
 
 The **result** object returned wraps the result retrieved in addition to errors that may have occurred. The following code example shows how the errors could be evaluated.
 
-```
+```cs
 this.questionnaireRepository.GetQuestionnaireAsync(
     (result) =>
     {
@@ -245,7 +245,7 @@ After the view model has a reference to the interaction service, it can programm
 
 Modal interactions, such as where the user is presented with a **MessageBox** or modal pop-up window to obtain a specific response before execution can proceed, can be implemented in a synchronous way, using a blocking method call, as shown in the following code example.
 
-```
+```cs
 var result = interactionService.ShowMessageBox(
         "Are you sure you want to cancel this operation?",
         "Confirm",
@@ -258,7 +258,7 @@ if (result == MessageBoxResult.Yes)
 
 However, one of the disadvantages of this approach is that it forces a synchronous programming model. An alternative asynchronous implementation allows for the view model to provide a callback to execute on completion of the interaction. The following code illustrates this approach.
 
-```
+```cs
 interactionService.ShowMessageBox(
     "Are you sure you want to cancel this operation?",
     "Confirm",
@@ -290,7 +290,7 @@ This approach is the approach adopted by Prism. The Prism Library directly suppo
 
 The **InteractionRequest&lt;T&gt;** class coordinates the view model's interaction with the view during an interaction request. The **Raise** method allows the view model to initiate the interaction and to specify a context object (of type **T**) and a callback method that is called after the interaction completes. The context object allows the view model to pass data and state to the view for it to be used during the interaction with the user. If a callback method was specified, the context object will be passed back to the view model; this allows any changes the user made during the interaction to be passed back to the view model.
 
-```
+```cs
 public interface IInteractionRequest
 {
     event EventHandler<InteractionRequestedEventArgs> Raised;
@@ -327,7 +327,7 @@ The **IConfirmation** interface extends the **INotification** interface and adds
 
 To use the **InteractionRequest&lt;T&gt;** class, the view model class will create an instance of the **InteractionRequest&lt;T&gt;** class and define a read-only property to allow the view to data-bind against it. When the view model wants to initiate the request, it will call the **Raise** method, passing in the context object and, optionally, the callback delegate.
 
-```
+```cs
 public InteractionRequestViewModel()
 {
     this.ConfirmationRequest = new InteractionRequest<IConfirmation>();
@@ -363,7 +363,7 @@ _**Note:** By default, the specific type of pop-up window displayed by the **Pop
 
 The following example shows how the **InteractionRequestTrigger** and the **PopupWindowAction** are used to display a confirmation pop-up window to the user within the Interactivity QuickStart.
 
-```
+```xml
 <i:Interaction.Triggers>
     <prism:InteractionRequestTrigger SourceObject="{Binding ConfirmationRequest, Mode=OneWay}">
         <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True"/>
@@ -385,13 +385,13 @@ Choosing an appropriate strategy to manage this step is especially important if 
 
 Typically, you define the view model as a dependency of the view, so that when the view is constructed (using the container) it automatically instantiates the required view model. In turn, any components or services that the view model depends on will also be instantiated by the container. After the view model is successfully instantiated, the view then sets it as its data context.
 
-#### Creating the View and View Model Using MEF
+### Creating the View and View Model Using MEF
 
 Using MEF, you can specify the view's dependency on a view model using the **import** attribute, and you can specify the concrete view model type to be instantiated via an **export** attribute. You can either import the view model into the view via a property or as a constructor argument.
 
 For example, the **Shell** view in the StockTrader Reference Implementation declares a write-only property for the view model, together with an **import** attribute. When the view is instantiated, MEF creates an instance of the appropriate exported view model and sets the property value. The property setter assigns the view model as the view's data context, as shown here.
 
-```
+```cs
 [Import]
 ShellViewModel ViewModel
 {
@@ -401,7 +401,7 @@ ShellViewModel ViewModel
 
 The view model is defined and exported, as shown here.
 
-```
+```cs
 [Export]
 public class ShellViewModel : BindableBase
 {
@@ -411,7 +411,7 @@ public class ShellViewModel : BindableBase
 
 An alternative approach is to define an importing constructor on the view, as shown here.
 
-```
+```cs
 public Shell()
 {
     InitializeComponent();
@@ -434,8 +434,7 @@ Using Unity as your dependency injection container is similar to using MEF, and 
 
 Typically, you define an interface on the view model so the view model's specific concrete type can be decoupled from the view. For example, the view can define its dependency on the view model via a constructor argument, as shown here.
 
-
-```
+```cs
 public Shell()
 {
     InitializeComponent();
@@ -451,7 +450,7 @@ _**Note:** The default parameter-less constructor is necessary to allow the view
 
 Alternatively, you can define a write-only view model property on the view, as shown here. Unity will instantiate the required view model and call the property setter after the view is instantiated.
 
-```
+```cs
 public Shell()
 {
     InitializeComponent();
@@ -466,14 +465,14 @@ public ShellViewModel ViewModel
 
 The view model type is registered with the Unity container, as shown here.
 
-```
+```cs
 IUnityContainer container;
 container.RegisterType<ShellViewModel>();
 ```
 
 The view can then be instantiated through the container, as shown here.
 
-```
+```cs
 IUnityContainer container;
 var view = container.Resolve<Shell>();
 ```
@@ -486,7 +485,7 @@ This approach is particularly useful when implementing navigation in your applic
 
 For example, a service class can be used to build views using a container and show them in the main page. In this example, views are specified by view names. Navigation is initiated via a call to the **ShowView** method on the UI service, as shown in this simple example.
 
-```
+```cs
 private void NavigateToQuestionnaireList()
 {
     // Ask the UI service to go to the "questionnaire list" view.
@@ -496,7 +495,7 @@ private void NavigateToQuestionnaireList()
 
 The UI service is associated with a placeholder control in the UI of the application; it encapsulates the creation of the required view and coordinates its appearance in the UI. The **ShowView** of the **UIService** creates an instance of the view via the container (so that its view model and other dependencies can be fulfilled) and then displays it in the proper location, as shown here.
 
-```
+```cs
 public void ShowView(string viewName)
 {
     var view = this.ViewFactory.GetView(viewName);
@@ -518,7 +517,7 @@ Implementing the **INotifyPropertyChanged** interface allows views to react to c
 
 Properties that can be updated directly by the test code can be tested by attaching an event handler to the **PropertyChanged** event and checking whether the event is raised after setting a new value for the property. Helper classes, such as the **PropertyChangeTracker** class, can be used to attach a handler and collect the results; this avoids repetitive tasks when writing tests. The following code example shows a test using this type of helper class.
 
-```
+```cs
 var changeTracker = new PropertyChangeTracker(viewModel);
 
 viewModel.CurrentState = "newState";
@@ -532,7 +531,7 @@ Properties that are the result of a code-generation process that guarantees the 
 
 When properties cannot be set by test code—such as properties with non-public setters or read-only, calculated properties—the test code needs to stimulate the object under test cause the change in the property and its corresponding notification. However, the structure of the test is the same as that of the simpler cases, as shown in the following code example, where a change in a model objects causes a property in a view model to change.
 
-```
+```cs
 var changeTracker = new PropertyChangeTracker(viewModel);
 
 var question = viewModel.Questions.First() as OpenQuestionViewModel;
@@ -555,7 +554,7 @@ There are two aspects to testing **INotifyDataErrorInfo** implementations: testi
 
 Validation logic is usually simple to test, because it is typically a self-contained process where the output depends on the input. For each property with validation rules associated, there should be tests on the results of invoking the **GetErrors** method with the validated property name for valid values, invalid values, boundary values, and so on. If the validation logic is shared, like when expressing validation rules declaratively using the data annotation's validation attribute, the more exhaustive tests can be concentrated on the shared validation logic. On the other hand, custom validation rules must be thoroughly tested.
 
-```
+```cs
 // Invalid case
 var notifyErrorInfo = (INotifyDataErrorInfo)question;
 
@@ -585,7 +584,7 @@ Testing the interface requirements should involve at least the following verific
 
 When testing implementations for the **INotifyPropertyChanged** interface, helper classes, such as the **NotifyDataErrorInfoTestHelper** class in the MVVM sample projects, usually make writing tests for implementations of the **INotifyDataErrorInfo** interface easier by handling repetitive housekeeping operations and standard checks. They are particularly useful when the interface is implemented without relying on some kind of reusable errors manager. The following code example shows this type of helper class.
 
-```
+```cs
 var helper =
     new NotifyDataErrorInfoTestHelper<NumericQuestion, int?>(
         question,
@@ -594,19 +593,19 @@ var helper =
 helper.ValidatePropertyChange(
     6,
     NotifyDataErrorInfoBehavior.Nothing);
-    
+
 helper.ValidatePropertyChange(
     20,
     NotifyDataErrorInfoBehavior.FiresErrorsChanged
     | NotifyDataErrorInfoBehavior.HasErrors
     | NotifyDataErrorInfoBehavior.HasErrorsForProperty);
-    
+
 helper.ValidatePropertyChange(
     null,
     NotifyDataErrorInfoBehavior.FiresErrorsChanged
     | NotifyDataErrorInfoBehavior.HasErrors
     | NotifyDataErrorInfoBehavior.HasErrorsForProperty);
-    
+
 helper.ValidatePropertyChange(
     2,
     NotifyDataErrorInfoBehavior.FiresErrorsChanged);
@@ -624,7 +623,7 @@ The way services are mocked depends on the asynchronous event pattern used to im
 
 The following code example shows a test for the appropriate behavior on the successful completion of an asynchronous operation notified in the UI thread using mocks for services. In this example, the test code captures the callback supplied by the view model when it makes the asynchronous service call. The test then simulates the completion of that call later in the test by invoking the callback. This approach allows testing of a component that uses an asynchronous service without the complexity of making your tests asynchronous.
 
-```
+```cs
 questionnaireRepositoryMock
     .Setup(
         r =>

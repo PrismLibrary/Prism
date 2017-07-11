@@ -1,8 +1,8 @@
-#Initializing Applications Using the Prism Library for WPF
+# Initializing Applications Using the Prism Library for WPF
 
 This topic addresses what needs to happen to get a Prism for WPF application up and running. A Prism application requires registration and configuration during the application startup process—this is known as bootstrapping the application. The Prism bootstrapping process includes creating and configuring a module catalog, creating a dependency injection container such as Unity, configuring default region adapter for UI composition, creating and initializing the shell view, and initializing modules.
 
-# What Is a Bootstrapper?
+## What Is a Bootstrapper?
 
 A bootstrapper is a class that is responsible for the initialization of an application built using the Prism Library. By using a bootstrapper, you have more control of how the Prism Library components are wired up to your application.
 
@@ -14,34 +14,34 @@ Basic stages of the bootstrapping process.
 
 The Prism Library provides some additional base classes, derived from **Bootstrapper**, that have default implementations that are appropriate for most applications. The only stages left for your application bootstrapper to implement are creating and initializing the shell.
 
-# Dependency Injection
+## Dependency Injection
 
 Applications built with the Prism Library rely on dependency injection provided by a container. The library provides assemblies that work with the Unity Application Block (Unity) or Managed Extensibility Framework (MEF), and it allows you to use other dependency injection containers. Part of the bootstrapping process is to configure this container and register types with the container.
 
 The Prism Library includes the **UnityBootstrapper** and **MefBootstrapper** classes, which implement most of the functionality necessary to use either Unity or MEF as the dependency injection container in your application. In addition to the stages shown in the previous illustration, each bootstrapper adds some steps specific to its container.
 
-# Creating the Shell
+## Creating the Shell
 
 In a traditional Windows Presentation Foundation (WPF) application, a startup Uniform Resource Identifier (URI) is specified in the App.xaml file that launches the main window.
 
 In an application created with the Prism Library, it is the bootstrapper's responsibility to create the shell or the main window. This is because the shell relies on services, such as the Region Manager, that need to be registered before the shell can be displayed.
 
-# Key Decisions
+## Key Decisions
 
 After you decide to use the Prism Library in your application, there are a number of additional decisions that need to be made:
 
--  You will need to decide whether you are using MEF, Unity, or another container for your dependency injection container. This will determine which provided bootstrapper class you should use and whether you need to create a bootstrapper for another container.
--  You should think about the application-specific services you want in your application. These will need to be registered with the container.
--  Determine whether the built-in logging service is adequate for your needs or if you need to create another logging service.
--  Determine how modules will be discovered by the application: via explicit code declarations, code attributes on the modules discovered via directory scanning, configuration, or XAML.
+- You will need to decide whether you are using MEF, Unity, or another container for your dependency injection container. This will determine which provided bootstrapper class you should use and whether you need to create a bootstrapper for another container.
+- You should think about the application-specific services you want in your application. These will need to be registered with the container.
+- Determine whether the built-in logging service is adequate for your needs or if you need to create another logging service.
+- Determine how modules will be discovered by the application: via explicit code declarations, code attributes on the modules discovered via directory scanning, configuration, or XAML.
 
 The rest of this topic provides more details.
 
-# Core Scenarios
+## Core Scenarios
 
 Creating a startup sequence is an important part of building your Prism application. This section describes how to create a bootstrapper and customize it to create the shell, configure the dependency injection container, register application level services, and how to load and initialize the modules.
 
-# Creating a Bootstrapper for Your Application
+## Creating a Bootstrapper for Your Application
 
 If you choose to use either Unity or MEF as your dependency injection container, creating a simple bootstrapper for your application is easy. You will need to create a new class that derives from either **MefBootstrapper** or **UnityBootstrapper**. Then, implement the **CreateShell** method. Optionally, you may override the **InitializeShell** method for shell specific initialization.
 
@@ -51,7 +51,7 @@ The **CreateShell** method allows a developer to specify the top-level window fo
 
 An example of using the **ServiceLocator** to resolve the shell object is shown in the following code example.
 
-```
+```cs
 protected override DependencyObject CreateShell()
 {
     return ServiceLocator.Current.GetInstance<Shell>();
@@ -64,22 +64,23 @@ _**Note:** You will often see the **ServiceLocator** being used to resolve insta
 
 After you create a shell, you may need to run initialization steps to ensure that the shell is ready to be displayed. For WPF applications, you will create the shell application object and set it as the application's main window, as shown here (from the Modularity QuickStarts for WPF).
 
-```
+```cs
 protected override void InitializeShell()
 {
     Application.Current.MainWindow = Shell;
     Application.Current.MainWindow.Show();
 }
 ```
+
 The base implementation of **InitializeShell** does nothing. It is safe to not call the base class implementation. 
 
-# Creating and Configuring the Module Catalog
+## Creating and Configuring the Module Catalog
 
 If you are building a module application, you will need to create and configure a module catalog. Prism uses a concrete **IModuleCatalog** instance to keep track of what modules are available to the application, which modules may need to be downloaded, and where the modules reside.
 
 The **Bootstrapper** provides a protected **ModuleCatalog** property to reference the catalog as well as a base implementation of the virtual **CreateModuleCatalog** method. The base implementation returns a new **ModuleCatalog**; however, this method can be overridden to provide a different **IModuleCatalog** instance instead, as shown in the following code from the **QuickStartBootstrapper** in the Modularity with MEF for WPF QuickStart.
 
-```
+```cs
 protected override IModuleCatalog CreateModuleCatalog()
 {
     // When using MEF, the existing Prism ModuleCatalog is still
@@ -87,9 +88,10 @@ protected override IModuleCatalog CreateModuleCatalog()
     return new ConfigurationModuleCatalog()
 }
 ```
+
 In both the **UnityBootstrapper** and **MefBootstrapper** classes, the Run method calls the **CreateModuleCatalog** method and then sets the class's **ModuleCatalog** property using the returned value. If you override this method, it is not necessary to call the base class's implementation because you will replace the provided functionality. For more information about modularity, see "Modular Application Development."
 
-# Creating and Configuring the Container
+## Creating and Configuring the Container
 
 Containers play a key role in an application created with the Prism Library. Both the Prism Library and the applications built on top of it depend on a container for injecting required dependencies and services. During the container configuration phase, several core services are registered. In addition to these core services, you may have application-specific services that provide additional functionality as it relates to composition.
 
@@ -110,13 +112,14 @@ The following table lists the core non-application specific services in the Pris
 There are two Bootstrapper-derived classes available in Prism, the **UnityBootstrapper** and the **MefBootstrapper**. Creating and configuring the different containers involve similar concepts that are implemented differently.
 
 ### Creating and Configuring the Container in the UnityBootstrapper
+
 The **UnityBootstrapper** class's **CreateContainer** method simply creates and returns a new instance of a **UnityContainer**. In most cases, you will not need to change this functionality; however, the method is virtual, thereby allowing that flexibility.
 
 After the container is created, it probably needs to be configured for your application. The **ConfigureContainer** implementation in the **UnityBootstrapper** registers a number of core Prism services by default, as shown here. 
 
 _**Note:** An example of this is when a module registers module-level services in its **Initialize** method._
 
-```
+```cs
    // UnityBootstrapper.cs
 protected virtual void ConfigureContainer()
 {
@@ -147,7 +150,7 @@ _**Note:** If you turn off the default registration, you will need to manually r
 
 To extend the default behavior of **ConfigureContainer**, simply add an override to your application's bootstrapper and optionally call the base implementation, as shown in the following code from the **QuickStartBootstrapper** from the Modularity for WPF (with Unity) QuickStart. This implementation calls the base class's implementation, registers the **ModuleTracker** type as the concrete implementation of **IModuleTracker**, and registers the **callbackLogger** as a singleton instance of **CallbackLogger** with Unity.
 
-```
+```cs
 protected override void ConfigureContainer()
 {
     base.ConfigureContainer();
@@ -163,7 +166,7 @@ The **MefBootstrapper** class's **CreateContainer** method does several things. 
 
 After the container is created, it needs to be configured for your application. The **ConfigureContainer** implementation in the **MefBootstrapper** registers a number of core Prism services by default, as shown in the following code example. If you override this method, consider carefully whether you should invoke the base class's implementation to register the core Prism services, or if you will provide these services in your implementation.
 
-```
+```cs
 protected virtual void ConfigureContainer()
 {
     this.RegisterBootstrapperProvidedTypes();
@@ -184,7 +187,7 @@ In addition to providing the **CreateContainer** and **ConfigureContainer** meth
 
 The **ConfigureAggregateCatalog** method allows you to add type registrations to the **AggregateCatalog** imperatively. For example, the **QuickStartBootstrapper** from the Modularity with MEF QuickStart explicitly adds ModuleA and ModuleC to the **AggregateCatalog**, as shown here.
 
-```
+```cs
 protected override void ConfigureAggregateCatalog()
 {
     base.ConfigureAggregateCatalog();
@@ -207,8 +210,7 @@ protected override void ConfigureAggregateCatalog()
     this.AggregateCatalog.Catalogs.Add(catalog);
 }
 ```
+
 ### More Information
 
 For more information about MEF, **AggregateCatalog**, and **AssemblyCatalog**, see [Managed Extensibility Framework Overview](http://msdn.microsoft.com/en-us/library/dd460648.aspx) on MSDN.
-
-

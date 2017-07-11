@@ -52,7 +52,7 @@ namespace Prism.Unity.Forms.Tests.Mocks
             Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
             Container.RegisterType<ModuleMock>(new ContainerControlledLifetimeManager());
 
-            FormsDependencyService.Register<IDependencyServiceMock>(new DependencyServiceMock());
+            DependencyService.Register<IDependencyServiceMock, DependencyServiceMock>();
         }
 
         public INavigationService CreateNavigationServiceForPage(Page page)

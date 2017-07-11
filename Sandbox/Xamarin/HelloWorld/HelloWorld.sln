@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld", "HelloWorld\HelloWorld\HelloWorld.csproj", "{94318F08-2F60-4E7F-8C43-86B024BFF115}"
 EndProject
@@ -11,11 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Droid", "HelloWo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prism", "Prism", "{1FFDC467-1594-4138-A3DA-91ABC5D45BFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism", "..\..\..\Source\Prism\Prism.csproj", "{E6C50355-D01E-4CAA-884D-D7929861315C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism", "..\..\..\Source\Prism\Prism.csproj", "{E6C50355-D01E-4CAA-884D-D7929861315C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Forms", "..\..\..\Source\Xamarin\Prism.Forms\Prism.Forms.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Forms", "..\..\..\Source\Xamarin\Prism.Forms\Prism.Forms.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Unity.Forms", "..\..\..\Source\Xamarin\Prism.Unity.Forms\Prism.Unity.Forms.csproj", "{79EBB8F1-5D80-4EA1-9100-EBDC1EC51CB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Unity.Forms", "..\..\..\Source\Xamarin\Prism.Unity.Forms\Prism.Unity.Forms.csproj", "{79EBB8F1-5D80-4EA1-9100-EBDC1EC51CB7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unity", "Unity", "{1F38DE96-6945-4467-92C4-20D9DF20121E}"
 EndProject
