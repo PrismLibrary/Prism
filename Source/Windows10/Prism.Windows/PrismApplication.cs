@@ -520,28 +520,32 @@ namespace Prism.Windows
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
         private async void OnSuspending(object sender, SuspendingEventArgs e)
-        {
-            IsSuspending = true;
-            try
-            {
-                var deferral = e.SuspendingOperation.GetDeferral();
+		{
+			IsSuspending = true;
+			try
+			{
+				var deferral = e.SuspendingOperation.GetDeferral();
 
-                //Custom calls before suspending.
-                await OnSuspendingApplicationAsync();
+				//Custom calls before suspending.
+				await OnSuspendingApplicationAsync();
 
-                //Bootstrap inform navigation service that app is suspending.
-                NavigationService.Suspending();
+				//Bootstrap inform navigation service that app is suspending.
+				NavigationService?.Suspending();
 
-                // Save application state
-                await SessionStateService.SaveAsync();
+				// Save application state
+				var saveAsync = SessionStateService?.SaveAsync();
+				if (saveAsync != null)
+				{
+					await saveAsync;
+				}
 
-                deferral.Complete();
-            }
-            finally
-            {
-                IsSuspending = false;
-            }
-        }
+				deferral.Complete();
+			}
+			finally
+			{
+				IsSuspending = false;
+			}
+		}
 
         /// <summary>
         /// Invoked when the application resumes from a suspended state.
