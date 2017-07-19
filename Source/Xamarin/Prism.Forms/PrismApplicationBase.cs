@@ -9,7 +9,6 @@ namespace Prism
 {
     public abstract class PrismApplicationBase<T> : Application
     {
-        IPlatformInitializer<T> _platformInitializer = null;
         Page _previousPage = null;
 
         /// <summary>
@@ -30,6 +29,11 @@ namespace Prism
         protected IModuleCatalog ModuleCatalog { get; set; }
 
         /// <summary>
+        /// Get the Platform Initializer
+        /// </summary>
+        protected IPlatformInitializer<T> PlatformInitializer { get; }
+
+        /// <summary>
         /// Gets the <see cref="INavigationService"/> for the application.
         /// </summary>
         protected INavigationService NavigationService { get; set; }
@@ -39,12 +43,12 @@ namespace Prism
             base.ModalPopping += PrismApplicationBase_ModalPopping;
             base.ModalPopped += PrismApplicationBase_ModalPopped;
 
-            _platformInitializer = initializer;
+            PlatformInitializer = initializer;
             InitializeInternal();
         }
 
         /// <summary>
-        /// Run the intialization process.
+        /// Run the initialization process.
         /// </summary>
         void InitializeInternal()
         {
@@ -69,7 +73,7 @@ namespace Prism
 
             RegisterTypes();
 
-            _platformInitializer?.RegisterTypes(Container);
+            PlatformInitializer?.RegisterTypes(Container);
             
             NavigationService = CreateNavigationService();
 

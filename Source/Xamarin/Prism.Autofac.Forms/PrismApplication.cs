@@ -40,11 +40,35 @@ namespace Prism.Autofac
         {
         }
 
+        protected ContainerBuilder Builder { get; private set; }
+
+        protected virtual ContainerBuilder CreateBuilder() => 
+            new ContainerBuilder();
+
+        /// <summary>
+        /// Run the bootstrapper process.
+        /// </summary>
         public override void Initialize()
         {
-            base.Initialize();
+            Logger = CreateLogger();
 
+            ModuleCatalog = CreateModuleCatalog();
+            ConfigureModuleCatalog();
+
+            Builder = CreateBuilder();
+
+            ConfigureContainer();
+
+            RegisterTypes();
+
+            PlatformInitializer?.RegisterTypes(Builder);
+            
             FinishContainerConfiguration();
+            Container = CreateContainer();
+            
+            NavigationService = CreateNavigationService();
+
+            InitializeModules();
         }
 
         protected override void ConfigureViewModelLocator()
@@ -66,10 +90,8 @@ namespace Prism.Autofac
         /// Create a default instance of <see cref="IContainer" />
         /// </summary>
         /// <returns>An instance of <see cref="IContainer" /></returns>
-        protected override IContainer CreateContainer()
-        {
-            return new ContainerBuilder().Build();
-        }
+        protected override IContainer CreateContainer() => 
+            Builder.Build();
 
         protected override IModuleManager CreateModuleManager()
         {
@@ -99,22 +121,18 @@ namespace Prism.Autofac
 
         protected override void ConfigureContainer()
         {
-            var builder = new ContainerBuilder();
+            Builder.RegisterInstance(Logger).As<ILoggerFacade>().SingleInstance();
+            Builder.RegisterInstance(ModuleCatalog).As<IModuleCatalog>().SingleInstance();
 
-            builder.RegisterInstance(Logger).As<ILoggerFacade>().SingleInstance();
-            builder.RegisterInstance(ModuleCatalog).As<IModuleCatalog>().SingleInstance();
-
-            builder.Register(ctx => new ApplicationProvider()).As<IApplicationProvider>().SingleInstance();
-            builder.Register(ctx => new ApplicationStore()).As<IApplicationStore>().SingleInstance();
-            builder.Register(ctx => new AutofacPageNavigationService(Container, Container.Resolve<IApplicationProvider>(), Container.Resolve<ILoggerFacade>())).Named<INavigationService>(_navigationServiceName);
-            builder.Register(ctx => new ModuleManager(Container.Resolve<IModuleInitializer>(), Container.Resolve<IModuleCatalog>())).As<IModuleManager>().SingleInstance();
-            builder.Register(ctx => new AutofacModuleInitializer(Container)).As<IModuleInitializer>().SingleInstance();
-            builder.Register(ctx => new EventAggregator()).As<IEventAggregator>().SingleInstance();
-            builder.Register(ctx => new DependencyService()).As<IDependencyService>().SingleInstance();
-            builder.Register(ctx => new PageDialogService(ctx.Resolve<IApplicationProvider>())).As<IPageDialogService>().SingleInstance();
-            builder.Register(ctx => new DeviceService()).As<IDeviceService>().SingleInstance();
-
-            builder.Update(Container);
+            Builder.RegisterType<ApplicationProvider>().As<IApplicationProvider>().SingleInstance();
+            Builder.RegisterType<ApplicationStore>().As<IApplicationStore>().SingleInstance();
+            Builder.RegisterType<AutofacPageNavigationService>().Named<INavigationService>(_navigationServiceName);
+            Builder.RegisterType<ModuleManager>().As<IModuleManager>().SingleInstance();
+            Builder.RegisterType<AutofacModuleInitializer>().As<IModuleInitializer>().SingleInstance();
+            Builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+            Builder.RegisterType<DependencyService>().As<IDependencyService>().SingleInstance();
+            Builder.RegisterType<PageDialogService>().As<IPageDialogService>().SingleInstance();
+            Builder.RegisterType<DeviceService>().As<IDeviceService>().SingleInstance();
         }
 
         /// <summary>
@@ -122,11 +140,8 @@ namespace Prism.Autofac
         /// </summary>
         private void FinishContainerConfiguration()
         {
-            var containerUpdater = new ContainerBuilder();
-
             // Make sure any not specifically registered concrete type can resolve.
-            containerUpdater.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
-            containerUpdater.Update(Container);
+            Builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
         }
     }
 }
