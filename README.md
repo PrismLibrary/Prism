@@ -133,9 +133,9 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [StructureMapWpfNuGet]: https://www.nuget.org/packages/Prism.StructureMap/
 [UnityWpfNuGet]: https://www.nuget.org/packages/Prism.Unity/
 
-[AutofacUWPNuGet]: https://www.nuget.org/packages/Prism.Autofac.Windows/
-[SimpleInjectorUWPNuGet]: https://www.nuget.org/packages/Prism.SimpleInjector.Windows/
-[UnityUWPNuGet]: https://www.nuget.org/pacakges/Prism.Unity.Windows/
+[AutofacUWPNuGet]: https://www.nuget.org/packages/Prism.Autofac/
+[SimpleInjectorUWPNuGet]: https://www.nuget.org/packages/Prism.SimpleInjector/
+[UnityUWPNuGet]: https://www.nuget.org/packages/Prism.Unity/
 
 [UnityFormsNuGet]: https://www.nuget.org/packages/Prism.Unity.Forms/
 [NinjectFormsNuGet]: https://www.nuget.org/packages/Prism.Ninject.Forms/
@@ -155,9 +155,9 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [StructureMapWpfNuGetShield]: https://img.shields.io/nuget/vpre/Prism.StructureMap.svg
 [UnityWpfNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.svg
 
-[AutofacUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Autofac.Windows.svg
-[SimpleInjectorUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.SimpleInjector.Windows.svg
-[UnityUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Windows.svg
+[AutofacUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Autofac.svg
+[SimpleInjectorUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.SimpleInjector.svg
+[UnityUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.svg
 
 [AutofacFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Autofac.Forms.svg
 [DryIocFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Forms.svg
@@ -178,9 +178,9 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [StructureMapWpfMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.StructureMap.svg
 [UnityWpfMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Unity.svg
 
-[AutofacUWPMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Autofac.Windows.svg
-[SimpleInjectorUWPMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.SimpleInjector.Windows.svg
-[UnityUWPMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Unity.Windows.svg
+[AutofacUWPMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Autofac.svg
+[SimpleInjectorUWPMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.SimpleInjector.svg
+[UnityUWPMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Unity.svg
 
 [AutofacFormsMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Autofac.Forms.svg
 [DryIocFormsMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.DryIoc.Forms.svg
