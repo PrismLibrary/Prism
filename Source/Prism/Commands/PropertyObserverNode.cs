@@ -19,32 +19,35 @@ namespace Prism.Commands
         public PropertyObserverNode(string propertyName, Action action)
         {
             PropertyName = propertyName;
-            _action = action;
+            _action = () =>
+            {
+                action?.Invoke();
+                if (Next == null) return;
+                Next.UnsubscribeListener();
+                GenerateNextNode();
+            };
         }
 
-        public void GenerateNode(INotifyPropertyChanged inpcObject)
+        public void SubscribeListenerFor(INotifyPropertyChanged inpcObject)
         {
             _inpcObject = inpcObject;
             _inpcObject.PropertyChanged += OnPropertyChanged;
 
-            GenerateNextNode();
+            if (Next != null) GenerateNextNode();
         }
 
         private void GenerateNextNode()
         {
-            // TODO: To cache, if the step consume significant performance. Note: The type of _inpcObject may become its base type or derived type.
-            var propertyInfo = _inpcObject.GetType().GetRuntimeProperty(PropertyName); 
+            var propertyInfo = _inpcObject.GetType().GetRuntimeProperty(PropertyName); // TODO: To cache, if the step consume significant performance. Note: The type of _inpcObject may become its base type or derived type.
             var nextProperty = propertyInfo.GetValue(_inpcObject);
             if (nextProperty == null) return;
             if (!(nextProperty is INotifyPropertyChanged nextInpcObject))
-                if (Next != null)
-                    throw new InvalidOperationException("Trying to subscribe PropertyChanged listener in object that " +
-                                                        $"owns '{Next.PropertyName}' property, but the object does not implements INotifyPropertyChanged.");
-                else
-                    return;
+                throw new InvalidOperationException("Trying to subscribe PropertyChanged listener in object that " +
+                                                    $"owns '{Next.PropertyName}' property, but the object does not implements INotifyPropertyChanged.");
 
-            Next?.GenerateNode(nextInpcObject);
+            Next.SubscribeListenerFor(nextInpcObject);
         }
+
         private void UnsubscribeListener()
         {
             if (_inpcObject != null)
@@ -52,6 +55,7 @@ namespace Prism.Commands
 
             Next?.UnsubscribeListener();
         }
+
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Invoke action when e.PropertyName == null in order to satisfy:
@@ -60,11 +64,6 @@ namespace Prism.Commands
             if (e?.PropertyName == PropertyName || e?.PropertyName == null)
             {
                 _action?.Invoke();
-                if (Next != null)
-                {
-                    Next.UnsubscribeListener();
-                    GenerateNextNode();
-                }
             }
         }
     }

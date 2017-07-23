@@ -22,10 +22,10 @@ namespace Prism.Commands
         private void SubscribeListeners(Expression propertyExpression)
         {
             var propNameStack = new Stack<string>();
-            while (propertyExpression is MemberExpression temp) // Gets the root of the prop chain.
+            while (propertyExpression is MemberExpression temp) // Gets the root of the property chain.
             {
                 propertyExpression = temp.Expression;
-                propNameStack.Push(temp.Member.Name); // Records the name of each prop.
+                propNameStack.Push(temp.Member.Name); // Records the name of each property.
             }
 
             if (!(propertyExpression is ConstantExpression constantExpression))
@@ -34,7 +34,7 @@ namespace Prism.Commands
 
             var propObserverNodeRoot = new PropertyObserverNode(propNameStack.Pop(), _action);
             PropertyObserverNode previousNode = propObserverNodeRoot;
-            foreach (var propName in propNameStack) 
+            foreach (var propName in propNameStack) // Create a node chain that corresponds to the property chain.
             {
                 var currentNode = new PropertyObserverNode(propName, _action);
                 previousNode.Next = currentNode;
@@ -47,7 +47,7 @@ namespace Prism.Commands
                 throw new InvalidOperationException("Trying to subscribe PropertyChanged listener in object that " +
                                                     $"owns '{propObserverNodeRoot.PropertyName}' property, but the object does not implements INotifyPropertyChanged.");
 
-            propObserverNodeRoot.GenerateNode(inpcObject);
+            propObserverNodeRoot.SubscribeListenerFor(inpcObject);
         }
 
         /// <summary>
