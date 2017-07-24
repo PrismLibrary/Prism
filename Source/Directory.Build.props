@@ -19,7 +19,7 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
-    <PackageOutputPath>$(MSBuildThisFileDirectory)/Artifacts</PackageOutputPath>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)Artifacts</PackageOutputPath>
     <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
     <IsCoreProject Condition=" '$(IsCoreProject)' == '' ">False</IsCoreProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
