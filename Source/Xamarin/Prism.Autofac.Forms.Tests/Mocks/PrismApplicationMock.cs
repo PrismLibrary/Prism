@@ -41,21 +41,17 @@ namespace Prism.Autofac.Forms.Tests.Mocks
 
         protected override void RegisterTypes()
         {
-            var builder = new ContainerBuilder();
+            Builder.RegisterType<ServiceMock>().As<IServiceMock>();
+            Builder.RegisterType<AutowireViewModel>();
+            Builder.RegisterType<ViewModelAMock>();
+            Builder.RegisterType<ViewModelBMock>().Named<ViewModelBMock>(ViewModelBMock.Key);
+            Builder.RegisterType<ConstructorArgumentViewModel>();
+            Builder.RegisterType<ModuleMock>().SingleInstance();
 
-            builder.RegisterType<ServiceMock>().As<IServiceMock>();
-            builder.RegisterType<AutowireViewModel>();
-            builder.RegisterType<ViewModelAMock>();
-            builder.Register(ctx => new ViewModelBMock()).Named<ViewModelBMock>(ViewModelBMock.Key);
-            builder.RegisterType<ConstructorArgumentViewModel>();
-            builder.RegisterType<ModuleMock>().SingleInstance();
-
-            builder.Update(Container);
-
-            Container.RegisterTypeForNavigation<ViewMock>("view");
-            Container.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
-            Container.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
-            Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
+            Builder.RegisterTypeForNavigation<ViewMock>("view");
+            Builder.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
+            Builder.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
+            Builder.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
 
             DependencyService.Register<IDependencyServiceMock, DependencyServiceMock>();
         }

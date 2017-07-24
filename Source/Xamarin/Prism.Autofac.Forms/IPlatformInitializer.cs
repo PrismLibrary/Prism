@@ -2,8 +2,7 @@
 
 namespace Prism.Autofac
 {
-    public interface IPlatformInitializer : IPlatformInitializer<IContainer>
+    public interface IPlatformInitializer : IPlatformInitializer<ContainerBuilder>
     {
-        void RegisterTypes(ContainerBuilder builder);
     }
 }

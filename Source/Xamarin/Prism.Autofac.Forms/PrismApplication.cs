@@ -19,7 +19,7 @@ namespace Prism.Autofac
     /// <summary>
     /// Application base class using Autofac
     /// </summary>
-    public abstract class PrismApplication : PrismApplicationBase<IContainer>
+    public abstract class PrismApplication : PrismApplicationBase<ContainerBuilder>
     {
         /// <summary>
         /// Service key used when registering the <see cref="AutofacPageNavigationService"/> with the container
@@ -31,16 +31,32 @@ namespace Prism.Autofac
         /// </summary>
         /// <param name="platformInitializer">Class to initialize platform instances</param>
         /// <remarks>
-        /// The method <see cref="IPlatformInitializer.RegisterTypes(IContainer)"/> will be called after <see cref="PrismApplication.RegisterTypes()"/> 
+        /// The method <see cref="M:IPlatformInitializer.RegisterTypes(ContainerBuilder)"/> will be called after <see cref="M:PrismApplication.RegisterTypes()"/> 
         /// to allow for registering platform specific instances.
         /// </remarks>
-        protected PrismApplication(IPlatformInitializer initializer = null)
-            : base(initializer)
+        protected PrismApplication(IPlatformInitializer platformInitializer = null)
+            : base(platformInitializer)
         {
         }
 
-        protected ContainerBuilder Builder { get; private set; }
+        /// <summary>
+        ///  Gets or Sets the Autofac Container Builder
+        /// </summary>
+        protected ContainerBuilder Builder
+        {
+            get => base.Container;
+            set => base.Container = value;
+        }
 
+        /// <summary>
+        /// Gets or Sets the Autofac IContainer
+        /// </summary>
+        public new IContainer Container { get; set; }
+
+        /// <summary>
+        /// Creates the Container Builder
+        /// </summary>
+        /// <returns></returns>
         protected virtual ContainerBuilder CreateBuilder() => 
             new ContainerBuilder();
 
@@ -61,15 +77,19 @@ namespace Prism.Autofac
             RegisterTypes();
 
             PlatformInitializer?.RegisterTypes(Builder);
-            
+
             FinishContainerConfiguration();
-            Container = CreateContainer();
-            
+            Container = Builder.Build();
+
             NavigationService = CreateNavigationService();
 
             InitializeModules();
         }
 
+        /// <summary>
+        /// Configures the ViewModel Locator to resolve the ViewModel type and ensure the correct
+        /// instance of <see cref="INavigationService"/> is properly injected into the ViewModel.
+        /// </summary>
         protected override void ConfigureViewModelLocator()
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
@@ -86,12 +106,18 @@ namespace Prism.Autofac
         }
 
         /// <summary>
-        /// Create a default instance of <see cref="IContainer" />
+        /// This is not used for Autofac and will throw a <see cref="System.NotImplementedException"/>
         /// </summary>
-        /// <returns>An instance of <see cref="IContainer" /></returns>
-        protected override IContainer CreateContainer() => 
-            Builder.Build();
+        /// <returns></returns>
+        protected override ContainerBuilder CreateContainer()
+        {
+            throw new System.NotImplementedException();
+        }
 
+        /// <summary>
+        /// Creates the <see cref="IModuleManager"/> from the container.
+        /// </summary>
+        /// <returns></returns>
         protected override IModuleManager CreateModuleManager()
         {
             return Container.Resolve<IModuleManager>();
@@ -101,7 +127,7 @@ namespace Prism.Autofac
         /// Create instance of <see cref="INavigationService"/>
         /// </summary>
         /// <remarks>
-        /// The <see cref="_navigationServiceKey"/> is used as service key when resolving
+        /// The Autofac Navigation Service Name is used when resolving
         /// </remarks>
         /// <returns>Instance of <see cref="INavigationService"/></returns>
         protected override INavigationService CreateNavigationService()
@@ -109,6 +135,9 @@ namespace Prism.Autofac
             return Container.ResolveNamed<INavigationService>(_navigationServiceName);
         }
 
+        /// <summary>
+        /// Initializes any Modules found in the Module Catalog
+        /// </summary>
         protected override void InitializeModules()
         {
             if (ModuleCatalog.Modules.Any())
@@ -118,12 +147,15 @@ namespace Prism.Autofac
             }
         }
 
+        /// <summary>
+        /// Registers all of the base Prism Services.
+        /// </summary>
         protected override void ConfigureContainer()
         {
             Builder.RegisterInstance(Logger).As<ILoggerFacade>().SingleInstance();
             Builder.RegisterInstance(ModuleCatalog).As<IModuleCatalog>().SingleInstance();
 
-            Builder.RegisterType<ApplicationProvider>().As<IApplicationProvider>().SingleInstance();
+            //Builder.RegisterType<ApplicationProvider>().As<IApplicationProvider>().SingleInstance();
             Builder.RegisterType<ApplicationStore>().As<IApplicationStore>().SingleInstance();
             Builder.RegisterType<AutofacPageNavigationService>().Named<INavigationService>(_navigationServiceName);
             Builder.RegisterType<ModuleManager>().As<IModuleManager>().SingleInstance();
@@ -137,7 +169,7 @@ namespace Prism.Autofac
         /// <summary>
         /// Finish the container's configuration after all other types are registered.
         /// </summary>
-        private void FinishContainerConfiguration()
+        protected virtual void FinishContainerConfiguration()
         {
             // Make sure any not specifically registered concrete type can resolve.
             Builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
