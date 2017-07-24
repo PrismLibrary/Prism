@@ -155,7 +155,7 @@ namespace Prism.Autofac
             Builder.RegisterInstance(Logger).As<ILoggerFacade>().SingleInstance();
             Builder.RegisterInstance(ModuleCatalog).As<IModuleCatalog>().SingleInstance();
 
-            //Builder.RegisterType<ApplicationProvider>().As<IApplicationProvider>().SingleInstance();
+            Builder.RegisterType<ApplicationProvider>().As<IApplicationProvider>().SingleInstance();
             Builder.RegisterType<ApplicationStore>().As<IApplicationStore>().SingleInstance();
             Builder.RegisterType<AutofacPageNavigationService>().Named<INavigationService>(_navigationServiceName);
             Builder.RegisterType<ModuleManager>().As<IModuleManager>().SingleInstance();
