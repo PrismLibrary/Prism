@@ -1,19 +1,18 @@
 ﻿using System.Linq;
-using Prism.Navigation;
-using Prism.Mvvm;
-using Prism.Common;
-using Xamarin.Forms;
-using Prism.Logging;
-using Prism.Events;
-using Prism.Services;
-using DependencyService = Prism.Services.DependencyService;
-using Prism.Modularity;
 using Autofac;
 using Autofac.Features.ResolveAnything;
-using Prism.Autofac.Forms.Modularity;
-using Prism.Autofac.Navigation;
-using Prism.Autofac.Forms;
 using Prism.AppModel;
+using Prism.Autofac.Modularity;
+using Prism.Autofac.Navigation;
+using Prism.Common;
+using Prism.Events;
+using Prism.Logging;
+using Prism.Modularity;
+using Prism.Mvvm;
+using Prism.Navigation;
+using Prism.Services;
+using Xamarin.Forms;
+using DependencyService = Prism.Services.DependencyService;
 
 namespace Prism.Autofac
 {

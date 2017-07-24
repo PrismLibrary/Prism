@@ -2,7 +2,7 @@
 using Prism.Modularity;
 using Autofac;
 
-namespace Prism.Autofac.Forms.Modularity
+namespace Prism.Autofac.Modularity
 {
     public class AutofacModuleInitializer : IModuleInitializer
     {

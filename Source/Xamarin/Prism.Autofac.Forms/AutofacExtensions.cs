@@ -4,7 +4,7 @@ using Prism.Mvvm;
 using Xamarin.Forms;
 using Prism.Navigation;
 
-namespace Prism.Autofac.Forms
+namespace Prism.Autofac
 {
     public static class AutofacExtensions
     {
