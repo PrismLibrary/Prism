@@ -10,7 +10,6 @@
     <PackageTags Condition=" '$(IsUwpProject)' == 'True' ">prism;mvvm;uwp;dependency injection;di</PackageTags>
     <PackageTags Condition=" '$(IsWpfProject)' == 'True' ">prism;mvvm;wpf;dependency injection;di</PackageTags>
     <PackageTags Condition=" '$(IsFormsProject)' == 'True' ">prism;mvvm;uwp;android;ios;xamarin;xamarin.forms;dependency injection;di</PackageTags>
-    <IsPackable>!$(IsTestProject)</IsPackable>
     <Authors>Brian Lagunas;Brian Noyes</Authors>
     <Owners>Brian Lagunas;Brian Noyes</Owners>
     <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
@@ -26,6 +25,7 @@
     <IsUwpProject>$(MSBuildProjectName.Contains('Windows'))</IsUwpProject>
     <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
     <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
+    <IsPackable>!$(IsTestProject)</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(PRISM_RELEASE)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">
