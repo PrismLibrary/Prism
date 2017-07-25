@@ -48,12 +48,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(IsCoreProject)' == 'True' Or '$(IsWpfProject)' == 'True' ">
+    <!-- Disables Signing on Mac -->
     <SignAssembly Condition=" '$(OS)' == 'Windows_NT' ">True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\prism.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(IsTestProject)' == 'true' And '$(IsWpfProject)' == 'false' ">
+  <ItemGroup Condition=" '$(IsTestProject)' == 'True' And '$(IsWpfProject)' == 'False' ">
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
     <PackageReference Include="xunit" Version="2.3.0-beta3-build3705" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta3-build3705" />
