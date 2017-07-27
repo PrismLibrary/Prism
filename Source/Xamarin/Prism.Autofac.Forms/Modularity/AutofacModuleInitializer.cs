@@ -9,7 +9,7 @@ namespace Prism.Autofac.Modularity
         readonly IComponentContext _context;
 
         /// <summary>
-        /// Create a new instance of <see cref="AutofacModuleInitializer"/> with <paramref name="container"/>
+        /// Create a new instance of <see cref="AutofacModuleInitializer"/> with <paramref name="context"/>
         /// </summary>
         /// <param name="context"></param>
         public AutofacModuleInitializer(IComponentContext context)
