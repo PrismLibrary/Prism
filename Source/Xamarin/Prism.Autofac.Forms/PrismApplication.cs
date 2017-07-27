@@ -118,10 +118,8 @@ namespace Prism.Autofac
         /// Creates the <see cref="IModuleManager"/> from the container.
         /// </summary>
         /// <returns></returns>
-        protected override IModuleManager CreateModuleManager()
-        {
-            return Container.Resolve<IModuleManager>();
-        }
+        protected override IModuleManager CreateModuleManager() =>
+            Container.Resolve<IModuleManager>();
 
         /// <summary>
         /// Create instance of <see cref="INavigationService"/>
@@ -133,18 +131,6 @@ namespace Prism.Autofac
         protected override INavigationService CreateNavigationService()
         {
             return Container.ResolveNamed<INavigationService>(_navigationServiceName);
-        }
-
-        /// <summary>
-        /// Initializes any Modules found in the Module Catalog
-        /// </summary>
-        protected override void InitializeModules()
-        {
-            if (ModuleCatalog.Modules.Any())
-            {
-                var manager = Container.Resolve<IModuleManager>();
-                manager.Run();
-            }
         }
 
         /// <summary>
