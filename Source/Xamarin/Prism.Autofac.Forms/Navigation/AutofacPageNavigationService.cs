@@ -12,31 +12,31 @@ namespace Prism.Autofac.Navigation
     /// </summary>
     public class AutofacPageNavigationService : PageNavigationService
     {
-        readonly IContainer _container;
+        readonly IComponentContext _context;
 
         /// <summary>
-        /// Create a new instance of <see cref="AutofacPageNavigationService"/> with <paramref name="container"/>
+        /// Create a new instance of <see cref="AutofacPageNavigationService"/> with <paramref name="context"/>
         /// </summary>
         /// <param name="applicationProvider">An instance of <see cref="IApplicationProvider"/></param>
-        /// <param name="container">An instance of <see cref="IContainer"/></param>
+        /// <param name="context">An instance of <see cref="IComponentContext"/></param>
         /// <param name="logger">An instance of <see cref="ILoggerFacade"/></param>
-        public AutofacPageNavigationService(IContainer container, IApplicationProvider applicationProvider, ILoggerFacade logger)
+        public AutofacPageNavigationService(IComponentContext context, IApplicationProvider applicationProvider, ILoggerFacade logger)
             : base(applicationProvider, logger)
         {
-            _container = container;
+            _context = context;
         }
 
         /// <summary>
-        /// Resolve a <see cref="Page"/> from <see cref="_container"/> for <paramref name="segmentName"/>
+        /// Resolve a <see cref="Page"/> from <see cref="_context"/> for <paramref name="segmentName"/>
         /// </summary>
         /// <param name="segmentName">Page to resolve</param>
         /// <returns>A <see cref="Page"/></returns>
-        protected override Page CreatePage(string name)
+        protected override Page CreatePage(string segmentName)
         {
-            if (!_container.IsRegisteredWithName<Page>(name))
-                throw new NullReferenceException($"The requested page '{name}' has not been registered.");
+            if (!_context.IsRegisteredWithName<Page>(segmentName))
+                throw new NullReferenceException($"The requested page '{segmentName}' has not been registered.");
 
-            return _container.ResolveNamed<Page>(name);
+            return _context.ResolveNamed<Page>(segmentName);
         }
     }
 }
