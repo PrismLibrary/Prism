@@ -20,7 +20,7 @@ namespace Prism.Modularity
         /// </summary>
         /// <param name="moduleInfo">The <see cref="ModuleInfo"/> to add.</param>
         /// <returns>The <see cref="ModuleCatalog"/> for easily adding multiple modules.</returns>
-        ModuleCatalog AddModule(ModuleInfo moduleInfo);
+        IModuleCatalog AddModule(ModuleInfo moduleInfo);
 
         /// <summary>
         /// Initializes the catalog, which may load and validate the modules.

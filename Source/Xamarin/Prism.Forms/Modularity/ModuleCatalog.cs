@@ -26,7 +26,7 @@ namespace Prism.Modularity
         /// </summary>
         /// <param name="moduleInfo">The <see cref="ModuleInfo"/> to add.</param>
         /// <returns>The <see cref="ModuleCatalog"/> for easily adding multiple modules.</returns>
-        public ModuleCatalog AddModule(ModuleInfo moduleInfo)
+        public IModuleCatalog AddModule(ModuleInfo moduleInfo)
         {
             _items.Add(moduleInfo);
             return this;
