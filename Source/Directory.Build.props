@@ -18,7 +18,11 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
+    <IncludeSymbols>True</IncludeSymbols>
+    <IncludeSource>True</IncludeSource>
     <PackageOutputPath>$(MSBuildThisFileDirectory)Artifacts</PackageOutputPath>
+    <PackageOutputPath Condition=" '$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != '' ">$(BUILD_ARTIFACTSTAGINGDIRECTORY)</PackageOutputPath>
+    <VersionSuffix Condition=" '$(PREVIEW_NUMBER)' != '' ">pre$(PREVIEW_NUMBER)</VersionSuffix>
     <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
     <IsCoreProject Condition=" '$(IsCoreProject)' == '' ">False</IsCoreProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
@@ -28,9 +32,17 @@
     <IsPackable>!$(IsTestProject)</IsPackable>
   </PropertyGroup>
 
+  <!-- AppVeyor -->
   <PropertyGroup Condition=" '$(PRISM_RELEASE)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">
     <!-- This will create CI builds as 7.0.0.1234-ci -->
     <VersionPrefix>$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</VersionPrefix>
+    <VersionSuffix >ci</VersionSuffix>
+  </PropertyGroup>
+
+  <!-- VSTS -->
+  <PropertyGroup Condition=" '$(PRISM_RELEASE)' == '' And '$(BUILD_BUILDNUMBER)' != '' ">
+    <!-- This will create CI builds as 7.0.0.1234-ci -->
+    <VersionPrefix>$(VersionPrefix).$(BUILD_BUILDNUMBER)</VersionPrefix>
     <VersionSuffix >ci</VersionSuffix>
   </PropertyGroup>
 
