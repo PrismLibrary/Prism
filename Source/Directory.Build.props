@@ -32,20 +32,6 @@
     <IsPackable>!$(IsTestProject)</IsPackable>
   </PropertyGroup>
 
-  <!-- AppVeyor -->
-  <PropertyGroup Condition=" '$(PRISM_RELEASE)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">
-    <!-- This will create CI builds as 7.0.0.1234-ci -->
-    <VersionPrefix>$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</VersionPrefix>
-    <VersionSuffix >ci</VersionSuffix>
-  </PropertyGroup>
-
-  <!-- VSTS -->
-  <PropertyGroup Condition=" '$(PRISM_RELEASE)' == '' And '$(BUILD_BUILDNUMBER)' != '' ">
-    <!-- This will create CI builds as 7.0.0.1234-ci -->
-    <VersionPrefix>$(VersionPrefix).$(BUILD_BUILDNUMBER)</VersionPrefix>
-    <VersionSuffix >ci</VersionSuffix>
-  </PropertyGroup>
-
   <PropertyGroup Condition=" '$(DIContainer)' != '' And '$(IsFormsProject)' == 'True' ">
     <Title>$(DIContainer) for Prism for Xamarin.Forms</Title>
     <!-- Summary is not actually supported at this time. Including the summary for future support. -->

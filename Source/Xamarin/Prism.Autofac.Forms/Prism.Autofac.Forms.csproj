@@ -8,6 +8,20 @@
     <RootNamespace>Prism.Autofac</RootNamespace>
   </PropertyGroup>
 
+  <!-- AppVeyor -->
+  <PropertyGroup Condition=" '$(PRISM_RELEASE)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">
+    <!-- This will create CI builds as 7.0.0.1234-ci -->
+    <VersionPrefix>$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</VersionPrefix>
+    <VersionSuffix >ci</VersionSuffix>
+  </PropertyGroup>
+
+  <!-- VSTS -->
+  <PropertyGroup Condition=" '$(PRISM_RELEASE)' == '' And '$(BUILD_BUILDNUMBER)' != '' ">
+    <!-- This will create CI builds as 7.0.0.1234-ci -->
+    <VersionPrefix>$(VersionPrefix).$(BUILD_BUILDNUMBER)</VersionPrefix>
+    <VersionSuffix >ci</VersionSuffix>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.0" />
   </ItemGroup>
