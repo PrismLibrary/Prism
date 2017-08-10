@@ -54,6 +54,16 @@ namespace Prism.Autofac
         public new IContainer Container { get; set; }
 
         /// <summary>
+        /// Gets or sets the Module Manager.
+        /// </summary>
+        protected IModuleManager ModuleManager { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Module Initializer.
+        /// </summary>
+        protected IModuleInitializer ModuleInitializer { get; set; }
+
+        /// <summary>
         /// Creates the Container Builder
         /// </summary>
         /// <returns></returns>
@@ -68,6 +78,8 @@ namespace Prism.Autofac
             Logger = CreateLogger();
 
             ModuleCatalog = CreateModuleCatalog();
+            ModuleInitializer = CreateModuleInitializer();
+            ModuleManager = CreateModuleManager();
             ConfigureModuleCatalog();
 
             Builder = CreateBuilder();
@@ -78,12 +90,13 @@ namespace Prism.Autofac
 
             PlatformInitializer?.RegisterTypes(Builder);
 
+            InitializeModules();
+
             FinishContainerConfiguration();
+
             Container = Builder.Build();
 
             NavigationService = CreateNavigationService();
-
-            InitializeModules();
         }
 
         /// <summary>
@@ -119,7 +132,14 @@ namespace Prism.Autofac
         /// </summary>
         /// <returns></returns>
         protected override IModuleManager CreateModuleManager() =>
-            Container.Resolve<IModuleManager>();
+            new AutofacModuleManager(ModuleInitializer, ModuleCatalog);
+
+        /// <summary>
+        /// Creates the Module Initializer.
+        /// </summary>
+        /// <returns>The <see cref="IModuleInitializer"/>.</returns>
+        protected virtual IModuleInitializer CreateModuleInitializer() =>
+            new AutofacModuleInitializer(Builder);
 
         /// <summary>
         /// Create instance of <see cref="INavigationService"/>
@@ -140,12 +160,12 @@ namespace Prism.Autofac
         {
             Builder.RegisterInstance(Logger).As<ILoggerFacade>().SingleInstance();
             Builder.RegisterInstance(ModuleCatalog).As<IModuleCatalog>().SingleInstance();
+            Builder.RegisterInstance(ModuleInitializer).As<IModuleInitializer>().SingleInstance();
+            Builder.RegisterInstance(ModuleManager).As<IModuleManager>().SingleInstance();
 
             Builder.RegisterType<ApplicationProvider>().As<IApplicationProvider>().SingleInstance();
             Builder.RegisterType<ApplicationStore>().As<IApplicationStore>().SingleInstance();
             Builder.RegisterType<AutofacPageNavigationService>().Named<INavigationService>(_navigationServiceName);
-            Builder.RegisterType<ModuleManager>().As<IModuleManager>().SingleInstance();
-            Builder.RegisterType<AutofacModuleInitializer>().As<IModuleInitializer>().SingleInstance();
             Builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             Builder.RegisterType<DependencyService>().As<IDependencyService>().SingleInstance();
             Builder.RegisterType<PageDialogService>().As<IPageDialogService>().SingleInstance();

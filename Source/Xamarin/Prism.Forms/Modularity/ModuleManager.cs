@@ -62,14 +62,21 @@ namespace Prism.Modularity
             LoadModules(modules);
         }
 
-        void LoadModulesWhenAvailable()
+        /// <summary>
+        /// Loads the <see cref="IModule"/>'s with <see cref="InitializationMode.WhenAvailable"/>
+        /// </summary>
+        protected void LoadModulesWhenAvailable()
         {
             var whenAvailableModules = ModuleCatalog.Modules.Where(m => m.InitializationMode == InitializationMode.WhenAvailable);
             if (whenAvailableModules != null)
                 LoadModules(whenAvailableModules);
         }
 
-        void LoadModules(IEnumerable<ModuleInfo> moduleInfos)
+        /// <summary>
+        /// Loads the specified modules.
+        /// </summary>
+        /// <param name="moduleInfos"><see cref="ModuleInfo"/>.</param>
+        protected virtual void LoadModules(IEnumerable<ModuleInfo> moduleInfos)
         {
             foreach (var moduleInfo in moduleInfos)
             {
