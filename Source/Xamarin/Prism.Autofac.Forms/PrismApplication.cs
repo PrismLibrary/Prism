@@ -94,14 +94,13 @@ namespace Prism.Autofac
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                NamedParameter parameter = null;
-                var page = view as Page;
-                if (page != null)
+                var navService = CreateNavigationService(view);
+                if (navService != null)
                 {
-                    parameter = new NamedParameter("navigationService", CreateNavigationService(page));
+                    return Container.Resolve(type, new NamedParameter("navigationService", navService));
                 }
 
-                return Container.Resolve(type, parameter);
+                return Container.Resolve(type);
             });
         }
 

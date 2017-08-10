@@ -27,18 +27,16 @@ namespace Prism.Ninject
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                IParameter[] overrides = null;
-
-                var page = view as Page;
-                if (page != null)
+                var navService = CreateNavigationService(view);
+                if (navService != null)
                 {
-                    overrides = new IParameter[]
+                    return Container.Get(type, new IParameter[]
                     {
-                        new ConstructorArgument("navigationService", CreateNavigationService(page))
-                    };
+                        new ConstructorArgument("navigationService", navService)
+                    });
                 }
 
-                return Container.Get(type, overrides);
+                return Container.Get(type);
             });
         }
 
