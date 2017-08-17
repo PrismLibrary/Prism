@@ -1,8 +1,9 @@
-﻿using Prism.Navigation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Mvvm;
+using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.Common
@@ -11,17 +12,19 @@ namespace Prism.Common
     {
         public static void InvokeViewAndViewModelAction<T>(object view, Action<T> action) where T : class
         {
-            T viewAsT = view as T;
-            if (viewAsT != null)
+            if(view is T viewAsT)
                 action(viewAsT);
 
-            var element = view as BindableObject;
-            if (element != null)
+            if(view is BindableObject bindable)
             {
-                var viewModelAsT = element.BindingContext as T;
-                if (viewModelAsT != null)
+                if(bindable.BindingContext is T viewModelAsT)
                 {
                     action(viewModelAsT);
+                }
+
+                foreach(Element child in ChildViewRegistry.GetChildViews(bindable))
+                {
+                    InvokeViewAndViewModelAction(child, action);
                 }
             }
         }

@@ -111,14 +111,14 @@ namespace Prism.DryIoc
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                var page = view as Page;
-                if(page != null)
+                var navService = CreateNavigationService(view);
+                if (navService != null)
                 {
-                    var navService = CreateNavigationService(page);
                     return Container.WithDependencies(
                     Parameters.Of.Type(_ => navService))
-                    .Resolve(type);
+                                    .Resolve(type);
                 }
+
                 return Container.Resolve(type);
             });
         }

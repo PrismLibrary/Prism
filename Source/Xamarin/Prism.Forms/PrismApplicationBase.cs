@@ -1,6 +1,7 @@
 ﻿using Prism.Common;
 using Prism.Logging;
 using Prism.Modularity;
+using Prism.Mvvm;
 using Prism.Navigation;
 using System.Linq;
 using Xamarin.Forms;
@@ -145,9 +146,42 @@ namespace Prism
         /// <returns>Instance of <see cref="INavigationService"/> with <see cref="IPageAware.Page"/> set</returns>
         protected INavigationService CreateNavigationService(Page page)
         {
-        	var navigationService = CreateNavigationService();
-        	((IPageAware)navigationService).Page = page;
-        	return navigationService;
+            var navigationService = CreateNavigationService();
+            ((IPageAware)navigationService).Page = page;
+            return navigationService;
+        }
+
+        protected INavigationService CreateNavigationService(object view)
+        {
+            switch(view)
+            {
+                case Page page:
+                    return CreateNavigationService(page);
+                case Element element:
+                    var parentPage = GetPageFromElement(element);
+                    if (parentPage == null)
+                    {
+                        Logger.Log($"No Parent Page could be found for the View: {view.GetType().Name}", Category.Debug, Priority.None);
+                        return null;
+                    }
+                    ChildViewRegistry.AddChildView(parentPage, element);
+                    return CreateNavigationService(parentPage);
+                default:
+                    return null;
+            }
+        }
+
+        protected Page GetPageFromElement(Element element)
+        {
+            switch(element.Parent)
+            {
+                case Page page:
+                    return page;
+                case null:
+                    return null;
+                default:
+                    return GetPageFromElement(element.Parent);
+            }
         }
 
         protected abstract void ConfigureContainer();
