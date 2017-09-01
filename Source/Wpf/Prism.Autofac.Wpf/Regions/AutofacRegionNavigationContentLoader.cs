@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Core;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Regions;
 using System;
