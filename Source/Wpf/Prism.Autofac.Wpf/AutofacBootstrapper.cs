@@ -10,6 +10,7 @@ using Prism.Logging;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
+using Prism.Unity.Regions;
 
 namespace Prism.Autofac
 {
@@ -176,7 +177,7 @@ namespace Prism.Autofac
                 RegisterTypeIfMissing<IRegionNavigationJournalEntry, RegionNavigationJournalEntry>(builder, false);
                 RegisterTypeIfMissing<IRegionNavigationJournal, RegionNavigationJournal>(builder, false);
                 RegisterTypeIfMissing<IRegionNavigationService, RegionNavigationService>(builder, false);
-                RegisterTypeIfMissing<IRegionNavigationContentLoader, RegionNavigationContentLoader>(builder, true);
+                RegisterTypeIfMissing<IRegionNavigationContentLoader, AutofacRegionNavigationContentLoader>(builder, true);
             }
         }
 
