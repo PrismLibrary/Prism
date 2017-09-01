@@ -11,21 +11,43 @@ namespace Prism.Commands
     /// </summary>
     internal class PropertyObserver
     {
-        private readonly Expression _propertyExpression;
         private readonly Action _action;
-        private HashSet<Tuple<INotifyPropertyChanged, PropertyChangedEventHandler>> _registeredListeners;
 
         private PropertyObserver(Expression propertyExpression, Action action)
         {
-            _propertyExpression = propertyExpression;
             _action = action;
-            _registeredListeners = new HashSet<Tuple<INotifyPropertyChanged, PropertyChangedEventHandler>>();
-            Start();
+            SubscribeListeners(propertyExpression);
         }
 
-        private void Start()
+        private void SubscribeListeners(Expression propertyExpression)
         {
-            PropertyObserverNode.Observes(_propertyExpression, _action, this);
+            var propNameStack = new Stack<string>();
+            while (propertyExpression is MemberExpression temp) // Gets the root of the property chain.
+            {
+                propertyExpression = temp.Expression;
+                propNameStack.Push(temp.Member.Name); // Records the name of each property.
+            }
+
+            if (!(propertyExpression is ConstantExpression constantExpression))
+                throw new NotSupportedException("Operation not supported for the given expression type. " +
+                                                "Only MemberExpression and ConstanteExpression are currently supported.");
+
+            var propObserverNodeRoot = new PropertyObserverNode(propNameStack.Pop(), _action);
+            PropertyObserverNode previousNode = propObserverNodeRoot;
+            foreach (var propName in propNameStack) // Create a node chain that corresponds to the property chain.
+            {
+                var currentNode = new PropertyObserverNode(propName, _action);
+                previousNode.Next = currentNode;
+                previousNode = currentNode;
+            }
+
+            object propOwnerObject = constantExpression.Value;
+
+            if (!(propOwnerObject is INotifyPropertyChanged inpcObject))
+                throw new InvalidOperationException("Trying to subscribe PropertyChanged listener in object that " +
+                                                    $"owns '{propObserverNodeRoot.PropertyName}' property, but the object does not implements INotifyPropertyChanged.");
+
+            propObserverNodeRoot.SubscribeListenerFor(inpcObject);
         }
 
         /// <summary>
@@ -37,33 +59,6 @@ namespace Prism.Commands
         internal static PropertyObserver Observes<T>(Expression<Func<T>> propertyExpression, Action action)
         {
             return new PropertyObserver(propertyExpression.Body, action);
-        }          
-
-        internal void RegisterListener(INotifyPropertyChanged inpcObject, PropertyChangedEventHandler onPropertyChanged)
-        {
-            var item = new Tuple<INotifyPropertyChanged, PropertyChangedEventHandler>(inpcObject, onPropertyChanged);
-            _registeredListeners.Add(item);
-            inpcObject.PropertyChanged += onPropertyChanged;
-        }
-
-        internal void Restart()
-        {
-            Stop();
-            Start();
-            _action?.Invoke();
-        }
-
-        /// <summary>
-        /// Stop listen by unsubscribing all INotifyPropertyChanged.PropertyChanged listeners.
-        /// </summary>
-        internal void Stop()
-        {
-            foreach(Tuple<INotifyPropertyChanged, PropertyChangedEventHandler> listener in _registeredListeners)
-            {
-                listener.Item1.PropertyChanged -= listener.Item2;
-            }
-
-            _registeredListeners.Clear();
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Prism.Commands
@@ -12,54 +11,49 @@ namespace Prism.Commands
     internal class PropertyObserverNode
     {
         private readonly Action _action;
-        private string _propertyName;
-        private PropertyObserver _propertyObserver;
+        private INotifyPropertyChanged _inpcObject;
 
-        private PropertyObserverNode(Expression propertyExpression, Action action, PropertyObserver propertyObserver)
+        public string PropertyName { get; }
+        public PropertyObserverNode Next { get; set; }
+
+        public PropertyObserverNode(string propertyName, Action action)
         {
-            _action = action;
-            _propertyObserver = propertyObserver;
-            SubscribeListeners(propertyExpression as MemberExpression);
+            PropertyName = propertyName;
+            _action = () =>
+            {
+                action?.Invoke();
+                if (Next == null) return;
+                Next.UnsubscribeListener();
+                GenerateNextNode();
+            };
         }
 
-        /// <summary>
-        /// Initiate PropertyObserverNode for a given property expression.
-        /// </summary>
-        /// <param name="propertyExpression">Expression representing property to be observed.</param>
-        /// <param name="action">Action to be invoked when PropertyChanged event occours.</param>
-        /// <param name="propertyObserver">PropertyObserver instance which owns registered event handlers.</param>
-        internal static void Observes(Expression propertyExpression, Action action, PropertyObserver propertyObserver)
+        public void SubscribeListenerFor(INotifyPropertyChanged inpcObject)
         {
-            new PropertyObserverNode(propertyExpression, action, propertyObserver);
+            _inpcObject = inpcObject;
+            _inpcObject.PropertyChanged += OnPropertyChanged;
+
+            if (Next != null) GenerateNextNode();
         }
 
-        private void SubscribeListeners(MemberExpression propertyExpression)
+        private void GenerateNextNode()
         {
+            var propertyInfo = _inpcObject.GetType().GetRuntimeProperty(PropertyName); // TODO: To cache, if the step consume significant performance. Note: The type of _inpcObject may become its base type or derived type.
+            var nextProperty = propertyInfo.GetValue(_inpcObject);
+            if (nextProperty == null) return;
+            if (!(nextProperty is INotifyPropertyChanged nextInpcObject))
+                throw new InvalidOperationException("Trying to subscribe PropertyChanged listener in object that " +
+                                                    $"owns '{Next.PropertyName}' property, but the object does not implements INotifyPropertyChanged.");
 
-            // Represents the object that property in propertyExpression belongs to. 
-            // It may be the ModelView object in case of property in propertyExpression belongs to it.
-            Expression propertyOwnerExpression = propertyExpression.Expression as Expression;
+            Next.SubscribeListenerFor(nextInpcObject);
+        }
 
-            _propertyName = propertyExpression.Member.Name;
-            object propertyOwnerObject = GetPropertyValue(propertyOwnerExpression);
+        private void UnsubscribeListener()
+        {
+            if (_inpcObject != null)
+                _inpcObject.PropertyChanged -= OnPropertyChanged;
 
-            if (propertyOwnerObject != null)
-            {
-                INotifyPropertyChanged inpcObject = propertyOwnerObject as INotifyPropertyChanged;
-
-                if (inpcObject == null)
-                {
-                    throw new InvalidOperationException("Trying to subscribe PropertyChanged listener in object that " +
-                        $"owns '{_propertyName}' property, but the object does not implements INotifyPropertyChanged.");
-                }
-
-                _propertyObserver.RegisterListener(inpcObject, OnPropertyChanged);
-            }
-
-            if (propertyOwnerExpression is MemberExpression)
-            {
-                Observes(propertyOwnerExpression, _propertyObserver.Restart, _propertyObserver);
-            }
+            Next?.UnsubscribeListener();
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -67,43 +61,10 @@ namespace Prism.Commands
             // Invoke action when e.PropertyName == null in order to satisfy:
             //  - DelegateCommandFixture.GenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName
             //  - DelegateCommandFixture.NonGenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName
-            if (e?.PropertyName == _propertyName || e?.PropertyName == null)
+            if (e?.PropertyName == PropertyName || e?.PropertyName == null)
             {
                 _action?.Invoke();
             }
-        }
-
-        private static object GetPropertyValue(Expression expression)
-        {
-            object result;
-
-            if (expression is MemberExpression)
-            {
-                MemberExpression memberExpression = expression as MemberExpression;
-                string propertyName = memberExpression.Member.Name;
-                object propertyOwnerObject = GetPropertyValue(memberExpression.Expression);
-
-                if (propertyOwnerObject == null)
-                {
-                    result = null;
-                }
-                else
-                {
-                    PropertyInfo propertyInfo = propertyOwnerObject.GetType().GetRuntimeProperty(propertyName);
-                    result = propertyInfo?.GetValue(propertyOwnerObject);
-                }
-            }
-            else if (expression is ConstantExpression)
-            {
-                result = (expression as ConstantExpression)?.Value;
-            }
-            else
-            {
-                throw new NotSupportedException("Operation not supported for the given expression type. " +
-                    "Only MemberExpression and ConstanteExpression are currently supported.");
-            }
-
-            return result;
         }
     }
 }
