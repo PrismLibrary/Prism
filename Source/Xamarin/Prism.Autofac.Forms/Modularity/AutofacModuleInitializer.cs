@@ -4,34 +4,35 @@ using Autofac;
 
 namespace Prism.Autofac.Modularity
 {
+    /// <summary>
+    /// Autofac Module Initializer.
+    /// </summary>
     public class AutofacModuleInitializer : IModuleInitializer
     {
-        readonly IComponentContext _context;
+        readonly ContainerBuilder _builder;
 
         /// <summary>
-        /// Create a new instance of <see cref="AutofacModuleInitializer"/> with <paramref name="context"/>
+        /// Create a new instance of <see cref="AutofacModuleInitializer"/> with <paramref name="builder"/>
         /// </summary>
-        /// <param name="context"></param>
-        public AutofacModuleInitializer(IComponentContext context)
+        /// <param name="builder"></param>
+        public AutofacModuleInitializer(ContainerBuilder builder)
         {
-            _context = context;
-        }
-
-        public void Initialize(ModuleInfo moduleInfo)
-        {
-            var module = (IModule)_context.Resolve(moduleInfo.ModuleType);
-            if (module != null)
-                module.Initialize();
+            _builder = builder;
         }
 
         /// <summary>
-        /// Create the <see cref="IModule"/> for <paramref name="moduleType"/> by resolving from <see cref="_context"/>
+        /// Initialize the specified Module.
+        /// </summary>
+        /// <param name="moduleInfo">Module info.</param>
+        public void Initialize(ModuleInfo moduleInfo) =>
+            CreateModule(moduleInfo.ModuleType)?.Initialize(_builder);
+
+        /// <summary>
+        /// Uses the <see cref="Activator"/> to create an instance of your <see cref="IAutofacModule"/> 
         /// </summary>
         /// <param name="moduleType">Type of module to create</param>
-        /// <returns>An isntance of <see cref="IModule"/> for <paramref name="moduleType"/> if exists; otherwise <see langword="null" /></returns>
-        protected virtual IModule CreateModule(Type moduleType)
-        {
-            return _context.Resolve(moduleType) as IModule;
-        }
+        /// <returns>An instance of <see cref="IAutofacModule"/> for <paramref name="moduleType"/></returns>
+        protected virtual IAutofacModule CreateModule(Type moduleType) =>
+            (IAutofacModule)Activator.CreateInstance(moduleType);
     }
 }

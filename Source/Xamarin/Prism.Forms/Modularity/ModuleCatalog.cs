@@ -28,24 +28,14 @@ namespace Prism.Modularity
         /// <returns>The <see cref="ModuleCatalog"/> for easily adding multiple modules.</returns>
         public IModuleCatalog AddModule(ModuleInfo moduleInfo)
         {
+            if(_items.Any(mi => mi.ModuleName == moduleInfo.ModuleName))
+                throw new Exception($"A duplicated module with name {moduleInfo.ModuleName} has already been added.");
+
+            if (_items.Any(mi => mi.ModuleType == moduleInfo.ModuleType))
+                throw new Exception($"A duplicate module of type {moduleInfo.ModuleType.Name} has already been added.");
+            
             _items.Add(moduleInfo);
             return this;
-        }
-
-        /// <summary>
-        /// Makes sure all modules have an Unique name. 
-        /// </summary>
-        /// <exception cref="Exception">
-        /// Thrown if the names of one or more modules are not unique. 
-        /// </exception>
-        protected virtual void ValidateUniqueModules()
-        {
-            List<string> moduleNames = this.Modules.Select(m => m.ModuleName).ToList();
-
-            string duplicateModule = moduleNames.FirstOrDefault(m => moduleNames.Count(m2 => m2 == m) > 1);
-
-            if (duplicateModule != null)
-                throw new Exception(String.Format("A duplicated module with name {0} has been found by the loader.", duplicateModule));
         }
 
         /// <summary>
@@ -53,7 +43,6 @@ namespace Prism.Modularity
         /// </summary>
         public virtual void Initialize()
         {
-            ValidateUniqueModules();
         }
     }
 }
