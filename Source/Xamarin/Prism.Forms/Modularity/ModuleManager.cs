@@ -10,15 +10,16 @@ namespace Prism.Modularity
     public class ModuleManager : IModuleManager
     {
         readonly IModuleCatalog _moduleCatalog;
-        readonly IModuleInitializer _moduleInitializer;
-
         /// <summary>
         /// The module catalog.
         /// </summary>
-        protected IModuleCatalog ModuleCatalog
-        {
-            get { return _moduleCatalog; }
-        }
+        protected IModuleCatalog ModuleCatalog => _moduleCatalog;
+
+        readonly IModuleInitializer _moduleInitializer;
+        /// <summary>
+        /// The module initializer.
+        /// </summary>
+        protected IModuleInitializer ModuleInitializer => _moduleInitializer;
 
         /// <summary>
         /// Initializes an instance of the <see cref="ModuleManager"/> class.
@@ -27,14 +28,8 @@ namespace Prism.Modularity
         /// <param name="moduleCatalog">Catalog that enumerates the modules to be loaded and initialized.</param>
         public ModuleManager(IModuleInitializer moduleInitializer, IModuleCatalog moduleCatalog)
         {
-            if (moduleInitializer == null)
-                throw new ArgumentNullException("moduleInitializer");
-
-            if (moduleCatalog == null)
-                throw new ArgumentNullException("moduleCatalog");
-
-            _moduleInitializer = moduleInitializer;
-            _moduleCatalog = moduleCatalog;
+            _moduleInitializer = moduleInitializer ?? throw new ArgumentNullException(nameof(moduleInitializer));
+            _moduleCatalog = moduleCatalog ?? throw new ArgumentNullException(nameof(moduleCatalog));
         }
 
         /// <summary>
@@ -54,26 +49,33 @@ namespace Prism.Modularity
         {
             var modules = ModuleCatalog.Modules.Where(m => m.ModuleName == moduleName);
             if (modules == null || modules.Count() == 0)
-                throw new Exception(String.Format("Module {0} was not found in the catalog.", moduleName));
+                throw new Exception($"Module {moduleName} was not found in the catalog.");
 
             if (modules.Count() != 1)
-                throw new Exception(String.Format("A duplicated module with name {0} has been found in the catalog.", moduleName));
+                throw new Exception($"A duplicated module with name {moduleName} has been found in the catalog.");
 
             LoadModules(modules);
         }
 
-        void LoadModulesWhenAvailable()
+        /// <summary>
+        /// Loads the <see cref="IModule"/>'s with <see cref="InitializationMode.WhenAvailable"/>
+        /// </summary>
+        protected void LoadModulesWhenAvailable()
         {
-            var whenAvailableModules = ModuleCatalog.Modules.Where(m => m.InitializationMode == InitializationMode.WhenAvailable);
+            var whenAvailableModules = ModuleCatalog.Modules.Where(m => m.InitializationMode == InitializationMode.WhenAvailable && m.State == ModuleState.NotStarted);
             if (whenAvailableModules != null)
                 LoadModules(whenAvailableModules);
         }
 
-        void LoadModules(IEnumerable<ModuleInfo> moduleInfos)
+        /// <summary>
+        /// Loads the specified modules.
+        /// </summary>
+        /// <param name="moduleInfos"><see cref="ModuleInfo"/>.</param>
+        protected virtual void LoadModules(IEnumerable<ModuleInfo> moduleInfos)
         {
             foreach (var moduleInfo in moduleInfos)
             {
-                if (moduleInfo.State != ModuleState.Initialized)
+                if (moduleInfo.State == ModuleState.NotStarted)
                 {
                     moduleInfo.State = ModuleState.Initializing;
                     _moduleInitializer.Initialize(moduleInfo);
