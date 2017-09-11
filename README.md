@@ -101,11 +101,13 @@ The Prism Template Pack is available on the [Visual Studio Gallery](https://visu
 
 ![Visual Studio Gallery](docs/images/prism-visual-studio-gallery.jpg)
 
-### Xamarin Studio Addin
+### Visual Studio for Mac Addin
 
-Installation is straightforward if you've installed Xamarin Add-ins before, just go to  Xamarin Studio -> Add-In Manager...  from the Menu and then search for  **Prism**  from the Gallery:
+Due to the deprecation of the Mono Addin site, Prism now offers a direct Addin feed for the Prism Template Pack. Simply go to `Visual Studio` -> `Extensions...` and add the Prism Addins feed, then you can simply search for **Prism** in the Gallery and install the Template Pack.
 
-![Xamarin Studio Addin Manager](docs/images/prism-xamarin-studio-addin-manager.jpg)
+![Visual Studio for Mac Addin Manager](docs/images/prism-vs4mac-addin-manager.png)
+
+![Visual Studio for Mac Addin Manager](docs/images/prism-vs4mac-addin-templatepack.png)
 
 ## Samples
 
