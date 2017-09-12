@@ -39,6 +39,25 @@ namespace Prism.Windows.Tests
         }
 
         [TestMethod]
+        public async Task Navigate_To_Valid_Page_by_Type()
+        {
+            await DispatcherHelper.ExecuteOnUIThread(() =>
+            {
+                var frame = new FrameFacadeAdapter(new Frame());
+                var sessionStateService = new MockSessionStateService();
+                sessionStateService.GetSessionStateForFrameDelegate = (currentFrame) => new Dictionary<string, object>();
+                var navigationService = new FrameNavigationService(frame, null, sessionStateService);
+
+                bool result = navigationService.Navigate(typeof(MockPage), 1);
+
+                Assert.IsTrue(result);
+                Assert.IsNotNull(frame.Content);
+                Assert.IsInstanceOfType(frame.Content, typeof(MockPage));
+                Assert.AreEqual(1, ((MockPage)frame.Content).PageParameter);
+            });
+        }
+
+        [TestMethod]
         public async Task Navigate_To_Invalid_Page()
         {
             await DispatcherHelper.ExecuteOnUIThread(() =>
