@@ -1,3 +1,5 @@
+using System;
+
 namespace Prism.Windows.Navigation
 {
     /// <summary>
@@ -14,6 +16,14 @@ namespace Prism.Windows.Navigation
         /// <param name="parameter">The parameter.</param>
         /// <returns>Returns <c>true</c> if navigation succeeds; otherwise, <c>false</c></returns>
         bool Navigate(string pageToken, object parameter);
+
+        /// <summary>
+        /// Navigates to the page with the specified page Type, passing the specified parameter
+        /// </summary>
+        /// <param name="pageType">The type of the page.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <returns></returns>
+        bool Navigate(Type pageType, object parameter);
 
         /// <summary>
         /// Goes to the previous page in the navigation stack.

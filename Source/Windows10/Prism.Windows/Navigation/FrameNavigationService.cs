@@ -56,20 +56,36 @@ namespace Prism.Windows.Navigation
                 var error = string.Format(CultureInfo.CurrentCulture, resourceLoader.GetString("FrameNavigationServiceUnableResolveMessage"), pageToken);
                 throw new ArgumentException(error, nameof(pageToken));
             }
+            else 
 
-            // Get the page type and parameter of the last navigation to check if we
-            // are trying to navigate to the exact same page that we are currently on
-            var lastNavigationParameter = _sessionStateService.SessionState.ContainsKey(LastNavigationParameterKey) ? _sessionStateService.SessionState[LastNavigationParameterKey] : null;
-            var lastPageTypeFullName = _sessionStateService.SessionState.ContainsKey(LastNavigationPageKey) ? _sessionStateService.SessionState[LastNavigationPageKey] as string : string.Empty;
+            return Navigate(pageType, parameter);
+        }
 
-            if (lastPageTypeFullName != pageType.FullName || !AreEquals(lastNavigationParameter, parameter))
+        /// <summary>
+        /// Navigates to the page with the specified type, passing the specified parameter.
+        /// </summary>
+        /// <param name="pageType">The page type.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <returns>Returns <c>true</c> if the navigation succeeds: otherwise, <c>false</c>.</returns>
+        public bool Navigate(Type pageType, object parameter)
+        {
+            if (pageType != null)
             {
-                return _frame.Navigate(pageType, parameter);
+                // Get the page type and parameter of the last navigation to check if we
+                // are trying to navigate to the exact same page that we are currently on
+                var lastNavigationParameter = _sessionStateService.SessionState.ContainsKey(LastNavigationParameterKey) ? _sessionStateService.SessionState[LastNavigationParameterKey] : null;
+                var lastPageTypeFullName = _sessionStateService.SessionState.ContainsKey(LastNavigationPageKey) ? _sessionStateService.SessionState[LastNavigationPageKey] as string : string.Empty;
+
+                if (lastPageTypeFullName != pageType.FullName || !AreEquals(lastNavigationParameter, parameter))
+                {
+                    return _frame.Navigate(pageType, parameter);
+                }
             }
+            else
+                throw new ArgumentException("parameter 'pageType' can't be null");
 
             return false;
         }
-
 
         /// <summary>
         /// Goes to the previous page in the navigation stack.
