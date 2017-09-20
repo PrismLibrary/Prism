@@ -3,21 +3,36 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
             prism:ViewModelLocator.AutowireViewModel="True"
+			xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
             xmlns:local="clr-namespace:ModuleA.Views;assembly=ModuleA"
             x:Class="ModuleA.Views.MyTabbedPage">
 
-  <TabbedPage.ToolbarItems>
-    <ToolbarItem Text="Save" Command="{Binding ApplicationCommands.SaveCommand}"/>
-    <ToolbarItem Text="Reset" Command="{Binding ApplicationCommands.ResetCommand}"/>
-  </TabbedPage.ToolbarItems>
+	<TabbedPage.ToolbarItems>
+		<ToolbarItem Text="Save" Command="{Binding ApplicationCommands.SaveCommand}"/>
+		<ToolbarItem Text="Reset" Command="{Binding ApplicationCommands.ResetCommand}"/>
+	</TabbedPage.ToolbarItems>
 
-  <!--<NavigationPage>
-    <x:Arguments>
-      <local:ViewA Title="View A" />
-    </x:Arguments>
-  </NavigationPage>-->
+	<NavigationPage Title="View A">
+		<NavigationPage.Behaviors>
+			<b:NavigationPageActiveAwareBehavior />
+		</NavigationPage.Behaviors>
+		<x:Arguments>
+			<local:ViewA Title="View A" />
+		</x:Arguments>
+	</NavigationPage>
 
-  <local:ViewA Title="View A" />
-  <local:ViewB Title="View B"/>
-  
+	<NavigationPage Title="View B">
+		<NavigationPage.Behaviors>
+			<b:NavigationPageActiveAwareBehavior />
+		</NavigationPage.Behaviors>
+		<x:Arguments>
+			<local:ViewB Title="View B" />
+		</x:Arguments>
+	</NavigationPage>
+
+	<local:ViewC Title="View C" />
+
+	<!--<local:ViewA Title="View A" />
+  <local:ViewB Title="View B"/>-->
+
 </TabbedPage>

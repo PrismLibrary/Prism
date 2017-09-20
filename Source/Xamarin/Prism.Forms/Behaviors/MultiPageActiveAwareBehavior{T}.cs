@@ -71,7 +71,9 @@ namespace Prism.Behaviors
 
         void SetIsActive(object view, bool isActive)
         {
-            PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(_lastSelectedPage, activeAware => activeAware.IsActive = isActive);
+            var pageToSetIsActive = view is NavigationPage ? ((NavigationPage)view).CurrentPage : view;
+
+            PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(pageToSetIsActive, activeAware => activeAware.IsActive = isActive);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace HelloWorld
 
         protected override void OnInitialized()
         {
-            NavigationService.NavigateAsync("MyMasterDetail/MyNavigationPage/MainPage", animated: false);
+            NavigationService.NavigateAsync("MyTabbedPage", animated: false);
             //44115 
             //NavigationService.NavigateAsync("MyNavigationPage/MainPage/ViewA/ViewB", animated: false);
         }
