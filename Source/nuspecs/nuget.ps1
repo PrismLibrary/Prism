@@ -6,6 +6,8 @@ $nugetFileName = 'nuget.exe'
 
 Write-Host "Packing $env:solution_name"
 
+New-Item -ItemType Directory -Force -Path $nugetOutputDirectory
+
 function Get-FileVersion
 {
     [OutputType([string])]

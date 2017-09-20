@@ -1,4 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project>
   <!-- Workaround for https://github.com/dotnet/sdk/pull/908 -->
   <Target Name="GetPackagingOutputs" />
+
+  <PropertyGroup>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageTags Condition=" '$(IsCoreProject)' == 'True' ">prism;wpf;xamarin;uwp;uap;xaml</PackageTags>
+    <PackageTags Condition=" '$(IsUwpProject)' == 'True' ">prism;mvvm;uwp;dependency injection;di</PackageTags>
+    <PackageTags Condition=" '$(IsWpfProject)' == 'True' ">prism;mvvm;wpf;dependency injection;di</PackageTags>
+    <PackageTags Condition=" '$(IsFormsProject)' == 'True' ">prism;mvvm;uwp;android;ios;xamarin;xamarin.forms;dependency injection;di</PackageTags>
+    <Authors>Brian Lagunas;Brian Noyes</Authors>
+    <Owners>Brian Lagunas;Brian Noyes</Owners>
+    <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/PrismLibrary/Prism</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
+    <IncludeSymbols>True</IncludeSymbols>
+    <IncludeSource>True</IncludeSource>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)Artifacts</PackageOutputPath>
+    <PackageOutputPath Condition=" '$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != '' ">$(BUILD_ARTIFACTSTAGINGDIRECTORY)</PackageOutputPath>
+    <VersionSuffix Condition=" '$(PREVIEW_NUMBER)' != '' ">pre$(PREVIEW_NUMBER)</VersionSuffix>
+    <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
+    <IsCoreProject Condition=" '$(IsCoreProject)' == '' ">False</IsCoreProject>
+    <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
+    <IsUwpProject>$(MSBuildProjectName.Contains('Windows'))</IsUwpProject>
+    <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
+    <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
+    <IsPackable>!$(IsTestProject)</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(DIContainer)' != '' And '$(IsFormsProject)' == 'True' ">
+    <Title>$(DIContainer) for Prism for Xamarin.Forms</Title>
+    <!-- Summary is not actually supported at this time. Including the summary for future support. -->
+    <!--<Summary>$(DIContainer) extensions for Prism for Xamarin.Forms.</Summary>-->
+    <Description>Use these extensions to build Xamarin.Forms applications with Prism and $(DIContainer).</Description>
+    <PackageTags>prism;xamarin;xamarin.forms;$(DIContainer.ToLower());dependency injection</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(IsCoreProject)' == 'True' ">
+  <!--<PropertyGroup Condition=" '$(IsCoreProject)' == 'True' Or '$(IsWpfProject)' == 'True' ">-->
+    <!-- Disables Signing on Mac -->
+    <SignAssembly Condition=" '$(OS)' == 'Windows_NT' ">True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\prism.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
+  </PropertyGroup>
+
 </Project>
