@@ -63,7 +63,7 @@ namespace ModuleA.ViewModels
         async void Navigate()
         {
             CanNavigate = false;
-            await _navigationService.GoBackAsync();
+            await _navigationService.NavigateAsync("ViewA");
             CanNavigate = true;
         }
 
