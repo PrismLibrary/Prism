@@ -33,7 +33,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DryIoc.dll" Version="2.10.7" />
+		<PackageReference Include="DryIoc.dll" Version="2.12.2" />
 	</ItemGroup>
 
 	<ItemGroup>
