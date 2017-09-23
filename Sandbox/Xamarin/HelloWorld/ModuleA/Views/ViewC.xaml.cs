@@ -9,8 +9,6 @@ namespace ModuleA.Views
         public ViewC()
         {
             InitializeComponent();
-            //42548
-            NavigationPage.SetHasBackButton(this, false);
         }
 
         public void Destroy()
