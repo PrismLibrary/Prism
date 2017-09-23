@@ -13,7 +13,7 @@ namespace HelloWorld.Views
 
         public bool ClearNavigationStackOnNavigation
         {
-            get { return false; }
+            get { return true; }
         }
 
         public void Destroy()

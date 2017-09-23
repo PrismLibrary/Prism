@@ -10,8 +10,8 @@
             <StackLayout>
                 <Button Text="MainPage" Command="{Binding NavigateCommand}" CommandParameter="MyNavigationPage/MainPage" />
                 <Button Text="ViewA" Command="{Binding NavigateCommand}" CommandParameter="MyNavigationPage/ViewA" />
-                <Button Text="ViewB" Command="{Binding NavigateCommand}" CommandParameter="MyNavigationPage/ViewB" />
-                <Button Text="ViewC" Command="{Binding NavigateCommand}" CommandParameter="MyNavigationPage/ViewC" />
+                <Button Text="ViewB" Command="{Binding NavigateCommand}" CommandParameter="MyNavigationPage/ViewB/ViewC/ViewA" />
+                <Button Text="ViewC" Command="{Binding NavigateCommand}" CommandParameter="MyNavigationPage/ViewC/ViewB" />
             </StackLayout>
         </ContentPage>
     </MasterDetailPage.Master>

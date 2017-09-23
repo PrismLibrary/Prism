@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Reflection;
 
 namespace Prism.Navigation
 {
@@ -187,10 +188,12 @@ namespace Prism.Navigation
 
         protected virtual async Task ProcessNavigationForContentPage(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            var nextPage = CreatePageFromSegment(nextSegment);
-            bool useReverse = UseReverseNavigation(currentPage, nextPage);
+            var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
+            bool useReverse = UseReverseNavigation(currentPage, nextPageType);
             if (!useReverse)
             {
+                var nextPage = CreatePageFromSegment(nextSegment);
+
                 await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
 
                 await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
@@ -205,13 +208,13 @@ namespace Prism.Navigation
         }
 
         protected virtual async Task ProcessNavigationForNavigationPage(NavigationPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
-        {        
+        {
             if (currentPage.Navigation.NavigationStack.Count == 0)
             {
                 await UseReverseNavigation(currentPage, nextSegment, segments, parameters, false, animated);
                 return;
             }
-            
+
             var clearNavigationStack = GetClearNavigationPageNavigationStack(currentPage);
             var isEmptyOfNavigationStack = currentPage.Navigation.NavigationStack.Count == 0;
 
@@ -232,26 +235,18 @@ namespace Prism.Navigation
             var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
             if (topPage?.GetType() == nextPageType)
             {
-                if(clearNavigationStack)
+                if (clearNavigationStack)
                     destroyPages.Remove(destroyPages.Last());
 
-                await ProcessNavigation(topPage, segments, parameters, false, animated);
+                await UseReverseNavigation(topPage, null, segments, parameters, false, animated);
                 await DoNavigateAction(topPage, nextSegment, topPage, parameters);
             }
             else
             {
-                // Replace RootPage of NavigationStack
-                var nextPage = CreatePageFromSegment(nextSegment);
-                await ProcessNavigation(nextPage, segments, parameters, false, animated);
-                await DoNavigateAction(topPage ?? currentPage, nextSegment, nextPage, parameters, async () =>
-                {
-                    var push = DoPush(currentPage, nextPage, false, animated);
+                await UseReverseNavigation(currentPage, nextSegment, segments, parameters, false, animated);
 
-                    if (clearNavigationStack && !isEmptyOfNavigationStack)
-                        currentPage.Navigation.RemovePage(topPage);
-
-                    await push;
-                });
+                if (clearNavigationStack && !isEmptyOfNavigationStack)
+                    currentPage.Navigation.RemovePage(topPage);
             }
 
             foreach (var destroyPage in destroyPages)
@@ -471,44 +466,48 @@ namespace Prism.Navigation
             return useModalNavigation;
         }
 
-        protected static bool UseReverseNavigation(Page currentPage, Page nextPage)
+        protected static bool UseReverseNavigation(Page currentPage, Type nextPageType)
         {
-            return currentPage?.Parent is NavigationPage && nextPage is ContentPage;
+            return currentPage?.Parent is NavigationPage && IsSameOrSubclassOf<ContentPage>(nextPageType);
+        }
+
+        public static bool IsSameOrSubclassOf<T>(Type potentialDescendant)
+        {
+            Type potentialBase = typeof(T);
+            return potentialDescendant.GetTypeInfo().IsSubclassOf(potentialBase)
+                   || potentialDescendant == potentialBase;
         }
 
         protected virtual async Task UseReverseNavigation(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             var navigationStack = new Stack<string>();
-            var nextPage = CreatePageFromSegment(nextSegment);
-            if (nextPage is NavigationPage)
-            {
-                await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
-                {
-                    await DoPush(currentPage, nextPage, useModalNavigation, animated, false);
-                });
-                currentPage = nextPage;
-            }
-            else
-            {
-                navigationStack.Push(nextSegment);
-            }
 
-            var newSegments = new Queue<string>();
+            if (!String.IsNullOrWhiteSpace(nextSegment))
+                navigationStack.Push(nextSegment);
+
+            var illegalSegments = new Queue<string>();
+
+            bool illegalPageFound = false;
             foreach (var item in segments)
             {
-                var page = CreatePageFromSegment(item);
-                if (page is ContentPage)
+                //if we run itno an illegal page, we need to create new navigation segments to properly handle the deep link
+                if (illegalPageFound)
                 {
-                    navigationStack.Push(item);
+                    illegalSegments.Enqueue(item);
+                    continue;
+                }
+
+                var pageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(item));
+                if (IsSameOrSubclassOf<MasterDetailPage>(pageType))
+                {
+                    illegalSegments.Enqueue(item);
+                    illegalPageFound = true;
                 }
                 else
                 {
-                    newSegments.Enqueue(item);
+                    navigationStack.Push(item);
                 }
             }
-
-            if (newSegments.Count > 0)
-                await ProcessNavigation(currentPage, newSegments, parameters, useModalNavigation, animated);
 
             var pageOffset = currentPage.Navigation.NavigationStack.Count;
             if (currentPage.Navigation.NavigationStack.Count > 2)
@@ -518,13 +517,17 @@ namespace Prism.Navigation
             while (navigationStack.Count > 0)
             {
                 var segment = navigationStack.Pop();
-                nextPage = CreatePageFromSegment(segment);
+                var nextPage = CreatePageFromSegment(segment);
                 await DoNavigateAction(currentPage, segment, nextPage, parameters, async () =>
                 {
                     await DoPush(currentPage, nextPage, useModalNavigation, animated, insertBefore, pageOffset);
                 });
                 insertBefore = true;
             }
+
+            //if an illegal page is found, we force a Modal navigation
+            if (illegalSegments.Count > 0)
+                await ProcessNavigation(currentPage.Navigation.NavigationStack.Last(), illegalSegments, parameters, true, animated);
         }
 
         protected virtual Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated, bool insertBeforeLast = false, int navigationOffset = 0)
