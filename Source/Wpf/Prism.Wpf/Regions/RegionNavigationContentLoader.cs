@@ -1,5 +1,3 @@
-
-
 using Microsoft.Practices.ServiceLocation;
 using Prism.Common;
 using Prism.Properties;

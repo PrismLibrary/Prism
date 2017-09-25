@@ -9,6 +9,7 @@ using Prism.Logging;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Ninject.Properties;
+using Prism.Ninject.Regions;
 using Prism.Regions;
 
 namespace Prism.Ninject
@@ -164,7 +165,7 @@ namespace Prism.Ninject
                 this.Kernel.RegisterTypeIfMissing<IRegionNavigationJournalEntry, RegionNavigationJournalEntry>(false);
                 this.Kernel.RegisterTypeIfMissing<IRegionNavigationJournal, RegionNavigationJournal>(false);
                 this.Kernel.RegisterTypeIfMissing<IRegionNavigationService, RegionNavigationService>(false);
-                this.Kernel.RegisterTypeIfMissing<IRegionNavigationContentLoader, RegionNavigationContentLoader>(true);
+                this.Kernel.RegisterTypeIfMissing<IRegionNavigationContentLoader, NinjectRegionNavigationContentLoader>(true);
             }
         }
 
