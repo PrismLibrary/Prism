@@ -23,8 +23,6 @@ namespace Prism.Unity.Wpf.Tests
 
             ConfigureMockServiceLocator(kernel);
 
-            // We cannot access the UnityRegionNavigationContentLoader directly so we need to call its
-            // GetCandidatesFromRegion method through a navigation request.
             IRegion testRegion = new Region();
 
             var view = new MockView();
@@ -43,13 +41,10 @@ namespace Prism.Unity.Wpf.Tests
         public void ShouldFindCandidateViewWithFriendlyNameInRegion()
         {
             IKernel kernel = new StandardKernel();
-            kernel.RegisterTypeForNavigation<MockView>("SomeView");
-         //   kernel.Bind<object, MockView>().To<MockView>().Named("SomeView");
+            kernel.Bind<object, MockView>().To<MockView>().Named("SomeView");
 
             ConfigureMockServiceLocator(kernel);
 
-            // We cannot access the UnityRegionNavigationContentLoader directly so we need to call its
-            // GetCandidatesFromRegion method through a navigation request.
             IRegion testRegion = new Region();
 
             var view = new MockView();
