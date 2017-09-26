@@ -1,20 +1,16 @@
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks.Views;
-using Prism.Ninject;
 using Prism.Ninject.Wpf.Tests.Mocks;
 using Prism.Regions;
 
-namespace Prism.Unity.Wpf.Tests
+namespace Prism.Ninject.Wpf.Tests
 {
     [TestClass]
     public class NinjectRegionNavigationContentLoaderFixture
     {
-        private MockServiceLocator mockServiceLocator;
-        private IKernel _kernel;
-
         [TestMethod]
         public void ShouldFindCandidateViewInRegion()
         {
