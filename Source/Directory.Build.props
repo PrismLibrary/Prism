@@ -9,8 +9,8 @@
     <PackageTags Condition=" '$(IsUwpProject)' == 'True' ">prism;mvvm;uwp;dependency injection;di</PackageTags>
     <PackageTags Condition=" '$(IsWpfProject)' == 'True' ">prism;mvvm;wpf;dependency injection;di</PackageTags>
     <PackageTags Condition=" '$(IsFormsProject)' == 'True' ">prism;mvvm;uwp;android;ios;xamarin;xamarin.forms;dependency injection;di</PackageTags>
-    <Authors>Brian Lagunas;Brian Noyes</Authors>
-    <Owners>Brian Lagunas;Brian Noyes</Owners>
+    <Authors>Brian Lagunas;Bart Lannoeye;Dan Siegel</Authors>
+    <Owners>Brian Lagunas;Bart Lannoeye;Dan Siegel</Owners>
     <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/PrismLibrary/Prism</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</PackageLicenseUrl>
