@@ -35,7 +35,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Unity" Version="4.0.1" />
+		<PackageReference Include="Unity" Version="5.0.0-beta" />
 	</ItemGroup>
 
 	<ItemGroup>

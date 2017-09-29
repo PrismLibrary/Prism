@@ -1,4 +1,4 @@
-﻿using Microsoft.Practices.Unity;
+﻿using Unity;
 using Prism.AppModel;
 using Prism.Common;
 using Prism.Events;

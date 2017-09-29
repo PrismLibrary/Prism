@@ -1,5 +1,5 @@
-﻿using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.ObjectBuilder;
+﻿using Unity;
+using Unity.ObjectBuilder;
 
 namespace Prism.Unity.Extensions
 {
