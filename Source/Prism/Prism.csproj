@@ -17,7 +17,6 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\prism.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

@@ -28,4 +28,9 @@
     <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
     <IsPackable>!$(IsTestProject)</IsPackable>
   </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <GenerateDocumentationFile>!$(IsTestProject)</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>!$(IsTestProject)</GeneratePackageOnBuild>
+  </PropertyGroup>
 </Project>
