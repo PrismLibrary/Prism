@@ -5,10 +5,6 @@
   <PropertyGroup>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageTags Condition=" '$(IsCoreProject)' == 'True' ">prism;wpf;xamarin;uwp;uap;xaml</PackageTags>
-    <PackageTags Condition=" '$(IsUwpProject)' == 'True' ">prism;mvvm;uwp;dependency injection;di</PackageTags>
-    <PackageTags Condition=" '$(IsWpfProject)' == 'True' ">prism;mvvm;wpf;dependency injection;di</PackageTags>
-    <PackageTags Condition=" '$(IsFormsProject)' == 'True' ">prism;mvvm;uwp;android;ios;xamarin;xamarin.forms;dependency injection;di</PackageTags>
     <Authors>Brian Lagunas;Bart Lannoeye;Dan Siegel</Authors>
     <Owners>Brian Lagunas;Bart Lannoeye;Dan Siegel</Owners>
     <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
@@ -27,6 +23,10 @@
     <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
     <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
     <IsPackable>!$(IsTestProject)</IsPackable>
+    <PackageTags Condition=" '$(IsCoreProject)' == 'True' ">prism;wpf;xamarin;uwp;uap;xaml</PackageTags>
+    <PackageTags Condition=" '$(IsUwpProject)' == 'True' ">prism;mvvm;uwp;dependency injection;di</PackageTags>
+    <PackageTags Condition=" '$(IsWpfProject)' == 'True' ">prism;mvvm;wpf;dependency injection;di</PackageTags>
+    <PackageTags Condition=" '$(IsFormsProject)' == 'True' ">prism;mvvm;uwp;android;ios;xamarin;xamarin.forms;dependency injection;di</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
