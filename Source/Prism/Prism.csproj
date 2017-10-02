@@ -14,6 +14,10 @@
     <!-- This will create CI builds as 7.0.0.1234-ci -->
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</VersionPrefix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">ci</VersionSuffix>
+    <!-- This will create CI builds as 7.0.0.1234-ci -->
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(BUILD_BUILDID)' != '' ">ci</VersionSuffix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\prism.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
