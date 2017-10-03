@@ -80,7 +80,7 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.NavigateAsync("ContentPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.ModalStack[0]);
         }
 
         [Fact]
@@ -93,7 +93,7 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.NavigateAsync("ContentPage", useModalNavigation: false);
 
             Assert.True(rootPage.Navigation.NavigationStack.Count == 1);
-            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.NavigationStack[0]);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.NavigationStack[0]);
         }
 
         [Fact]
@@ -106,7 +106,7 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.NavigateAsync(new Uri("ContentPage", UriKind.Relative));
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.ModalStack[0]);
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.NavigateAsync("/ContentPage");
 
             var navigatedPage = applicationProvider.MainPage;
-            Assert.IsType(typeof(ContentPageMock), navigatedPage);
+            Assert.IsType<ContentPageMock>(navigatedPage);
             Assert.NotEqual(rootPage, _applicationProvider.MainPage);
 
             var record = recorder.TakeFirst();
@@ -173,7 +173,7 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.NavigateAsync(new Uri("http://localhost/ContentPage", UriKind.Absolute));
 
             var navigatedPage = applicationProvider.MainPage;
-            Assert.IsType(typeof(ContentPageMock), navigatedPage);
+            Assert.IsType<ContentPageMock>(navigatedPage);
             Assert.NotEqual(rootPage, _applicationProvider.MainPage);
 
             var record = recorder.TakeFirst();
@@ -225,7 +225,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
             Assert.Equal(1, navigationPage.Navigation.NavigationStack.Count);
             var contentPage = navigationPage.Navigation.NavigationStack.Last();
-            Assert.IsType(typeof(ContentPageMock), contentPage);
+            Assert.IsType<ContentPageMock>(contentPage);
 
             var record = recorder.TakeFirst();
             Assert.Equal(contentPage, record.Sender);
@@ -551,7 +551,7 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.NavigateAsync("ContentPage", navParameters);
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.ModalStack[0]);
 
             var viewModel = rootPage.Navigation.ModalStack[0].BindingContext as ContentPageMockViewModel;
             Assert.NotNull(viewModel);
@@ -571,7 +571,7 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.NavigateAsync("ContentPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.ModalStack[0]);
 
             await navigationService.GoBackAsync();
 
@@ -587,12 +587,12 @@ namespace Prism.Forms.Tests.Navigation
 
             var rootPage = new NavigationPage(pageMock);
 
-            Assert.IsType(typeof(ContentPageMock), rootPage.CurrentPage);
+            Assert.IsType<ContentPageMock>(rootPage.CurrentPage);
 
             await navigationService.NavigateAsync("TabbedPage");
 
             Assert.True(rootPage.Navigation.NavigationStack.Count == 2);
-            Assert.IsType(typeof(TabbedPageMock), rootPage.CurrentPage);
+            Assert.IsType<TabbedPageMock>(rootPage.CurrentPage);
             var tabbedPageMock = rootPage.CurrentPage as TabbedPageMock;
             Assert.NotNull(tabbedPageMock);
             var viewModel = (ViewModelBase)tabbedPageMock.BindingContext;
@@ -600,7 +600,7 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.GoBackAsync();
 
             Assert.True(rootPage.Navigation.NavigationStack.Count == 1);
-            Assert.IsType(typeof(ContentPageMock), rootPage.CurrentPage);
+            Assert.IsType<ContentPageMock>(rootPage.CurrentPage);
             Assert.True(tabbedPageMock.DestroyCalled);
             Assert.Null(tabbedPageMock.BindingContext);
             Assert.True(viewModel.DestroyCalled);
@@ -616,7 +616,7 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.NavigateAsync("ContentPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ContentPageMock), rootPage.Navigation.ModalStack[0]);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.ModalStack[0]);
 
             var viewModel = rootPage.Navigation.ModalStack[0].BindingContext as ContentPageMockViewModel;
             Assert.NotNull(viewModel);
@@ -732,7 +732,7 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.NavigateAsync("NavigationPage");
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(NavigationPageMock), rootPage.Navigation.ModalStack[0]);
+            Assert.IsType<NavigationPageMock>(rootPage.Navigation.ModalStack[0]);
 
             var viewModel = rootPage.Navigation.ModalStack[0].BindingContext as NavigationPageMockViewModel;
             Assert.NotNull(viewModel);
@@ -1005,15 +1005,15 @@ namespace Prism.Forms.Tests.Navigation
             var rootPage = new MasterDetailPageMock();
             ((IPageAware)navigationService).Page = rootPage;
 
-            Assert.IsType(typeof(ContentPageMock), rootPage.Detail);
+            Assert.IsType<ContentPageMock>(rootPage.Detail);
 
             await navigationService.NavigateAsync("TabbedPage");
 
-            Assert.IsType(typeof(TabbedPageMock), rootPage.Detail);
+            Assert.IsType<TabbedPageMock>(rootPage.Detail);
 
             await navigationService.NavigateAsync("CarouselPage");
 
-            Assert.IsType(typeof(CarouselPageMock), rootPage.Detail);
+            Assert.IsType<CarouselPageMock>(rootPage.Detail);
         }
 
         [Fact]
@@ -1023,13 +1023,13 @@ namespace Prism.Forms.Tests.Navigation
             var rootPage = new MasterDetailPageMock();
             ((IPageAware)navigationService).Page = rootPage;
 
-            Assert.IsType(typeof(ContentPageMock), rootPage.Detail);
+            Assert.IsType<ContentPageMock>(rootPage.Detail);
 
             await navigationService.NavigateAsync("TabbedPage");
 
             var firstDetailPage = rootPage.Detail;
 
-            Assert.IsType(typeof(TabbedPageMock), firstDetailPage);
+            Assert.IsType<TabbedPageMock>(firstDetailPage);
 
             await navigationService.NavigateAsync("TabbedPage");
 
@@ -1051,7 +1051,7 @@ namespace Prism.Forms.Tests.Navigation
             var masterDetail = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
             Assert.NotNull(masterDetail);
             Assert.NotNull(masterDetail.Detail);
-            Assert.IsType(typeof(ContentPageMock), masterDetail.Detail);
+            Assert.IsType<ContentPageMock>(masterDetail.Detail);
         }
 
         [Fact]
@@ -1068,7 +1068,7 @@ namespace Prism.Forms.Tests.Navigation
             var masterDetail = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
             Assert.NotNull(masterDetail);
             Assert.NotNull(masterDetail.Detail);
-            Assert.IsType(typeof(ContentPageMock), masterDetail.Detail);
+            Assert.IsType<ContentPageMock>(masterDetail.Detail);
         }
 
         [Fact]
@@ -1089,7 +1089,7 @@ namespace Prism.Forms.Tests.Navigation
             var masterDetail = rootPage.Navigation.NavigationStack[1] as MasterDetailPageEmptyMock;
             Assert.NotNull(masterDetail);
             Assert.NotNull(masterDetail.Detail);
-            Assert.IsType(typeof(ContentPageMock), masterDetail.Detail);
+            Assert.IsType<ContentPageMock>(masterDetail.Detail);
         }
 
         [Fact]
@@ -1104,7 +1104,7 @@ namespace Prism.Forms.Tests.Navigation
             var masterDetail = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
             Assert.NotNull(masterDetail);
             Assert.NotNull(masterDetail.Detail);
-            Assert.IsType(typeof(NavigationPageMock), masterDetail.Detail);
+            Assert.IsType<NavigationPageMock>(masterDetail.Detail);
         }
 
         [Fact]
@@ -1157,7 +1157,7 @@ namespace Prism.Forms.Tests.Navigation
             var masterDetail = rootPage.Navigation.ModalStack[0] as MasterDetailPageMock;
             Assert.NotNull(masterDetail);
             Assert.NotNull(masterDetail.Detail);
-            Assert.IsType(typeof(TabbedPageMock), masterDetail.Detail);
+            Assert.IsType<TabbedPageMock>(masterDetail.Detail);
         }
 
         [Fact]
@@ -1172,7 +1172,7 @@ namespace Prism.Forms.Tests.Navigation
             var masterDetail = rootPage.Navigation.ModalStack[0] as MasterDetailPageMock;
             Assert.NotNull(masterDetail);
             Assert.NotNull(masterDetail.Detail);
-            Assert.IsType(typeof(ContentPageMock), masterDetail.Detail);
+            Assert.IsType<ContentPageMock>(masterDetail.Detail);
 
             var tabbedPage = masterDetail.Navigation.ModalStack[0] as TabbedPageMock;
             Assert.NotNull(tabbedPage);
@@ -1186,11 +1186,11 @@ namespace Prism.Forms.Tests.Navigation
             ((IPageAware)navigationService).Page = rootPage;
             rootPage.IsPresentedAfterNavigation = true;
 
-            Assert.IsType(typeof(ContentPageMock), rootPage.Detail);
+            Assert.IsType<ContentPageMock>(rootPage.Detail);
             Assert.False(rootPage.IsPresented);
 
             await navigationService.NavigateAsync("TabbedPage");
-            Assert.IsType(typeof(TabbedPageMock), rootPage.Detail);
+            Assert.IsType<TabbedPageMock>(rootPage.Detail);
 
             Assert.True(rootPage.IsPresented);
         }
@@ -1203,11 +1203,11 @@ namespace Prism.Forms.Tests.Navigation
             ((IPageAware)navigationService).Page = rootPage;
             rootPage.IsPresentedAfterNavigation = false;
 
-            Assert.IsType(typeof(ContentPageMock), rootPage.Detail);
+            Assert.IsType<ContentPageMock>(rootPage.Detail);
             Assert.False(rootPage.IsPresented);
 
             await navigationService.NavigateAsync("TabbedPage");
-            Assert.IsType(typeof(TabbedPageMock), rootPage.Detail);
+            Assert.IsType<TabbedPageMock>(rootPage.Detail);
 
             Assert.False(rootPage.IsPresented);
         }
@@ -1225,7 +1225,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.False(rootPage.IsPresented);
 
             await navigationService.NavigateAsync("TabbedPage");
-            Assert.IsType(typeof(TabbedPageMock), rootPage.Detail);
+            Assert.IsType<TabbedPageMock>(rootPage.Detail);
 
             Assert.True(rootPage.IsPresented);
         }
@@ -1243,7 +1243,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.False(rootPage.IsPresented);            
 
             await navigationService.NavigateAsync("TabbedPage");
-            Assert.IsType(typeof(TabbedPageMock), rootPage.Detail);
+            Assert.IsType<TabbedPageMock>(rootPage.Detail);
 
             Assert.False(rootPage.IsPresented);
         }
@@ -1260,7 +1260,7 @@ namespace Prism.Forms.Tests.Navigation
             var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
             Assert.NotNull(tabbedPage);
             Assert.NotNull(tabbedPage.CurrentPage);
-            Assert.IsType(typeof(PageMock), tabbedPage.CurrentPage);
+            Assert.IsType<PageMock>(tabbedPage.CurrentPage);
         }
 
         [Fact]
@@ -1278,7 +1278,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.NotNull(mdpPage);
             Assert.NotNull(navPage);
             Assert.NotNull(tabbedPage.CurrentPage);
-            Assert.IsType(typeof(PageMock), tabbedPage.CurrentPage);
+            Assert.IsType<PageMock>(tabbedPage.CurrentPage);
         }
 
         [Fact]
@@ -1297,7 +1297,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.NotNull(mdpPage);
             Assert.NotNull(navPage);
             Assert.NotNull(tabbedPage.CurrentPage);
-            Assert.IsType(typeof(PageMock), tabbedPage.CurrentPage);
+            Assert.IsType<PageMock>(tabbedPage.CurrentPage);
         }
 
         [Fact]
@@ -1312,7 +1312,7 @@ namespace Prism.Forms.Tests.Navigation
             var tabbedPage = rootPage.Navigation.ModalStack[0] as CarouselPageMock;
             Assert.NotNull(tabbedPage);
             Assert.NotNull(tabbedPage.CurrentPage);
-            Assert.IsType(typeof(ContentPageMock), tabbedPage.CurrentPage);
+            Assert.IsType<ContentPageMock>(tabbedPage.CurrentPage);
         }
 
         public void Dispose()
