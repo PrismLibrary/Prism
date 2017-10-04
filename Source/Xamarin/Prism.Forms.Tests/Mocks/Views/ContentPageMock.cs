@@ -26,10 +26,7 @@ namespace Prism.Forms.Tests.Mocks.Views
             ViewModelLocator.SetAutowireViewModel(this, true);
 
             PageNavigationEventRecorder = recorder;
-
-            var recordable = BindingContext as IPageNavigationEventRecordable;
-            if (recordable != null)
-                recordable.PageNavigationEventRecorder = recorder;
+            ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)

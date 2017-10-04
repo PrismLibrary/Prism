@@ -238,7 +238,11 @@ namespace Prism.Navigation
                 if (clearNavigationStack)
                     destroyPages.Remove(destroyPages.Last());
 
-                await UseReverseNavigation(topPage, null, segments, parameters, false, animated);
+                if (segments.Count > 0)
+                    await UseReverseNavigation(topPage, segments.Dequeue(), segments, parameters, false, animated);
+
+                //await ProcessNavigation(topPage, segments, parameters, false, animated);
+
                 await DoNavigateAction(topPage, nextSegment, topPage, parameters);
             }
             else
@@ -480,10 +484,31 @@ namespace Prism.Navigation
 
         protected virtual async Task UseReverseNavigation(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
+            if (String.IsNullOrWhiteSpace(nextSegment))
+                return;
+
             var navigationStack = new Stack<string>();
 
-            if (!String.IsNullOrWhiteSpace(nextSegment))
+            //TODO: fix this and add tests
+            var nextSegmentPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
+            if (IsSameOrSubclassOf<TabbedPage>(nextSegmentPageType))
+            {
+                var nextPage = CreatePageFromSegment(nextSegment);
+
+                await ProcessNavigationForTabbedPage((TabbedPage)nextPage, segments.Dequeue(), segments, parameters, useModalNavigation, animated);
+
+                await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
+                {
+                    await DoPush(currentPage, nextPage, useModalNavigation, animated, false);
+                });
+
+                currentPage = nextPage;
+            }
+            else
+            {
                 navigationStack.Push(nextSegment);
+            }
+
 
             var illegalSegments = new Queue<string>();
 

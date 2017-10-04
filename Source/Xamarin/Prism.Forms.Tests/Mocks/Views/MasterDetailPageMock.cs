@@ -21,7 +21,7 @@ namespace Prism.Forms.Tests.Mocks.Views
             ViewModelLocator.SetAutowireViewModel(this, true);
 
             PageNavigationEventRecorder = recorder;
-            SetRecorder(recorder);
+            ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
         }
 
         public MasterDetailPageMock(PageNavigationEventRecorder recorder, Page masterPage, Page detailPage)
@@ -32,20 +32,13 @@ namespace Prism.Forms.Tests.Mocks.Views
             ViewModelLocator.SetAutowireViewModel(this, true);
 
             PageNavigationEventRecorder = recorder;
-            SetRecorder(recorder);
+            ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
         }
 
         public bool IsPresentedAfterNavigation { get; set; }
         public void Destroy()
         {
             PageNavigationEventRecorder.Record(this, PageNavigationEvent.Destroy);
-        }
-
-        void SetRecorder(PageNavigationEventRecorder recorder)
-        {
-            var recordable = BindingContext as IPageNavigationEventRecordable;
-            if (recordable != null)
-                recordable.PageNavigationEventRecorder = recorder;
         }
     }
 

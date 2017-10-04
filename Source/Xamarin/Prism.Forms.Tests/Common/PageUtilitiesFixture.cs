@@ -5,16 +5,28 @@ using Prism.Forms.Tests.Mocks.ViewModels;
 using Prism.Forms.Tests.Mocks.Views;
 using Xamarin.Forms;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Prism.Forms.Tests.Common
 {
     public class PageUtilitiesFixture
     {
+        private readonly ITestOutputHelper _output;
+
+        public PageUtilitiesFixture(ITestOutputHelper output)
+        {
+            _output = output;
+        }
+
         [Fact]
         public void DestroyContentPage()
         {
             var recorder = new PageNavigationEventRecorder();
             var page = new ContentPageMock(recorder);
+
+            if (page.BindingContext != null)
+                _output.WriteLine(page.BindingContext.ToString());
+
             var viewModel = (ViewModelBase)page.BindingContext;
 
             PageUtilities.DestroyPage(page);
@@ -78,9 +90,9 @@ namespace Prism.Forms.Tests.Common
         public void DestoryMasterDetailPage()
         {
             var recorder = new PageNavigationEventRecorder();
-            var masterPage = new ContentPageMock(recorder) {Title = "Master"};
+            var masterPage = new ContentPageMock(recorder) { Title = "Master" };
             var masterPageViewModel = masterPage.BindingContext;
-            var detailPage = new ContentPageMock(recorder) {Title = "Detail"};
+            var detailPage = new ContentPageMock(recorder) { Title = "Detail" };
             var detailPageViewModel = detailPage.BindingContext;
             var masterDetailPage = new MasterDetailPageMock(recorder, masterPage, detailPage);
             var masterDetailPageViewModel = masterDetailPage.BindingContext;
@@ -138,7 +150,7 @@ namespace Prism.Forms.Tests.Common
 
             PageUtilities.DestroyPage(tabbedPage);
 
-            Assert.Equal(7, recorder.Records.Count);
+            Assert.Equal(6, recorder.Records.Count);
 
             // childPage3
             Assert.Equal(childPage3, recorder.Records[0].Sender);
@@ -149,27 +161,25 @@ namespace Prism.Forms.Tests.Common
             Assert.Equal(childPage3ViewModel, recorder.Records[1].Sender);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[1].Event);
 
-            // childPage2 : This page is PageMock.
-            Assert.Equal(childPage2ViewModel, recorder.Records[2].Sender);
-            Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[2].Event);
+            // childPage2 : PageMck has no binding context so it has no entries.
 
             // childPage1
-            Assert.Equal(childPage1, recorder.Records[3].Sender);
+            Assert.Equal(childPage1, recorder.Records[2].Sender);
             Assert.Null(childPage1.BindingContext);
             Assert.Equal(0, childPage1.Behaviors.Count);
+            Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[2].Event);
+
+            Assert.Equal(childPage1ViewModel, recorder.Records[3].Sender);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[3].Event);
 
-            Assert.Equal(childPage1ViewModel, recorder.Records[4].Sender);
-            Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[4].Event);
-
             // tabbedPage
-            Assert.Equal(tabbedPage, recorder.Records[5].Sender);
+            Assert.Equal(tabbedPage, recorder.Records[4].Sender);
             Assert.Null(tabbedPage.BindingContext);
             Assert.Equal(0, tabbedPage.Behaviors.Count);
-            Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[5].Event);
+            Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[4].Event);
 
-            Assert.Equal(tabbedPageViewModel, recorder.Records[6].Sender);
-            Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[6].Event);
+            Assert.Equal(tabbedPageViewModel, recorder.Records[5].Sender);
+            Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[5].Event);
         }
 
         [Fact]
@@ -222,7 +232,7 @@ namespace Prism.Forms.Tests.Common
             var viewModel2 = contentPage2.BindingContext;
             var contentPage3 = new ContentPageMock(recorder);
             var viewModel3 = contentPage3.BindingContext;
-            var modalStack = new List<Page> {contentPage2, contentPage3};
+            var modalStack = new List<Page> { contentPage2, contentPage3 };
 
             PageUtilities.DestroyWithModalStack(contentPage1, modalStack);
 
