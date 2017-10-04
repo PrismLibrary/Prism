@@ -478,7 +478,7 @@ namespace Prism.Navigation
         public static bool IsSameOrSubclassOf<T>(Type potentialDescendant)
         {
             if (potentialDescendant == null)
-                throw new ArgumentNullException(nameof(potentialDescendant));
+                return false;
 
             Type potentialBase = typeof(T);            
 
