@@ -477,10 +477,10 @@ namespace Prism.Navigation
 
         public static bool IsSameOrSubclassOf<T>(Type potentialDescendant)
         {
-            Type potentialBase = typeof(T);
-
             if (potentialDescendant == null)
-                return false;
+                throw new ArgumentNullException(nameof(potentialDescendant));
+
+            Type potentialBase = typeof(T);            
 
             return potentialDescendant.GetTypeInfo().IsSubclassOf(potentialBase)
                    || potentialDescendant == potentialBase;
@@ -519,7 +519,7 @@ namespace Prism.Navigation
             bool illegalPageFound = false;
             foreach (var item in segments)
             {
-                //if we run itno an illegal page, we need to create new navigation segments to properly handle the deep link
+                //if we run into an illegal page, we need to create new navigation segments to properly handle the deep link
                 if (illegalPageFound)
                 {
                     illegalSegments.Enqueue(item);
