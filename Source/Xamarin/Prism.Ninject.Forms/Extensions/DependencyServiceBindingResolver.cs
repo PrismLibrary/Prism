@@ -1,12 +1,12 @@
-﻿using Ninject.Planning.Bindings.Resolvers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Ninject.Activation;
-using Ninject.Planning.Bindings;
 using Ninject.Components;
-
+using Ninject.Infrastructure;
+using Ninject.Planning.Bindings;
+using Ninject.Planning.Bindings.Resolvers;
 using Binding = Ninject.Planning.Bindings.Binding;
 
 namespace Prism.Ninject.Extensions
@@ -17,7 +17,7 @@ namespace Prism.Ninject.Extensions
     public class DependencyServiceBindingResolver : NinjectComponent, IMissingBindingResolver
     {
         /// <inheritDoc />
-        public IEnumerable<IBinding> Resolve(IDictionary<Type, IEnumerable<IBinding>> bindings, IRequest request)
+        public IEnumerable<IBinding> Resolve(Multimap<Type, IBinding> bindings, IRequest request)
         {
             var service = request.Service;
             if (!service.GetTypeInfo().IsInterface)
@@ -37,5 +37,6 @@ namespace Prism.Ninject.Extensions
             var provider = new DependencyServiceProvider(targetType);
             return ctx => provider;
         }
+
     }
 }

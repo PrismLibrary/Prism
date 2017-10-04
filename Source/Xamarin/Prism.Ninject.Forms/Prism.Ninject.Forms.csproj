@@ -2,8 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!-- Targeting netstandard1.3 & netstandard1.5 to match Ninject -->
-    <TargetFrameworks>netstandard1.3;netstandard1.5;</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Title>Ninject for Prism for Xamarin.Forms</Title>
     <!-- Summary is not actually supported at this time. Including the summary for future support. -->
     <!--<Summary>Ninject extensions for Prism for Xamarin.Forms.</Summary>-->
@@ -22,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ninject" Version="4.0.0-beta-0134" />
+    <PackageReference Include="Ninject" Version="3.3.0" />
   </ItemGroup>
 
   <ItemGroup>
