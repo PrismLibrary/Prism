@@ -478,6 +478,10 @@ namespace Prism.Navigation
         public static bool IsSameOrSubclassOf<T>(Type potentialDescendant)
         {
             Type potentialBase = typeof(T);
+
+            if (potentialDescendant == null)
+                return false;
+
             return potentialDescendant.GetTypeInfo().IsSubclassOf(potentialBase)
                    || potentialDescendant == potentialBase;
         }
