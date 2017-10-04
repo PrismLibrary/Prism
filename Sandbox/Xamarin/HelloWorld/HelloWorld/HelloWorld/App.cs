@@ -22,8 +22,18 @@ namespace HelloWorld
             //NavigationService.NavigateAsync("NavigationPage/ViewA/MyTabbedPage", animated: false); //works
             //NavigationService.NavigateAsync("NavigationPage/ViewA/MyTabbedPage/ViewC", animated: false); //works
             //NavigationService.NavigateAsync("NavigationPage/ViewA/MyTabbedPage/ViewC/ViewA/ViewB", animated: false); //works
+            //NavigationService.NavigateAsync("MyMasterDetail/NavigationPage/MyTabbedPage/ViewC", animated: false); //works
 
-            NavigationService.NavigateAsync("MyMasterDetail/NavigationPage/MyTabbedPage/ViewC", animated: false); //
+            //NavigationService.NavigateAsync($"MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewA", animated: false); //works
+            //NavigationService.NavigateAsync($"NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC", animated: false); //works
+            //NavigationService.NavigateAsync($"NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC", animated: false); //works
+            //NavigationService.NavigateAsync($"NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC/ViewA", animated: false); //works
+            //NavigationService.NavigateAsync($"NavigationPage/ViewA/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC", animated: false); //works
+            //NavigationService.NavigateAsync($"NavigationPage/ViewA/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC", animated: false); //works
+            //NavigationService.NavigateAsync($"NavigationPage/ViewA/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC/ViewA/ViewB", animated: false); //works
+            //NavigationService.NavigateAsync($"MyMasterDetail/NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC", animated: false); //works
+
+            NavigationService.NavigateAsync($"MyTabbedPage?{KnownNavigationParameters.SelectedTab}=NavigationPage|ViewB/ViewA", animated: false);
         }
 
         protected override void RegisterTypes()

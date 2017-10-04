@@ -803,13 +803,13 @@ namespace Prism.Forms.Tests.Navigation
 
 
         [Fact]
-        public async Task DeepNavigate_ToNavigationPage_ToTabbedPage_ToContentPage()
+        public async Task DeepNavigate_ToNavigationPage_ToTabbedPage_SelectContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            await navigationService.NavigateAsync("NavigationPage/ContentPage/TabbedPage/PageMock");
+            await navigationService.NavigateAsync($"NavigationPage/ContentPage/TabbedPage?{KnownNavigationParameters.SelectedTab}=PageMock");
 
             var navPage = rootPage.Navigation.ModalStack[0] as NavigationPageMock;
             Assert.NotNull(navPage);
@@ -1024,14 +1024,15 @@ namespace Prism.Forms.Tests.Navigation
             Assert.True(rootPage.Navigation.ModalStack[0].Navigation.ModalStack.Count == 1);
         }
 
+
         [Fact]
-        public async void DeepNavigate_ToTabbedPage_ToPage()
+        public async void Navigate_ToTabbedPage_SelectedTab()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            await navigationService.NavigateAsync("TabbedPage/PageMock");
+            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=PageMock");
 
             var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
             Assert.NotNull(tabbedPage);
@@ -1309,13 +1310,13 @@ namespace Prism.Forms.Tests.Navigation
 
 
         [Fact]
-        public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToTabbedPage_ToPage()
+        public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToTabbedPage_SelectTab()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            await navigationService.NavigateAsync("MasterDetailPage-Empty/NavigationPage/TabbedPage/PageMock");
+            await navigationService.NavigateAsync($"MasterDetailPage-Empty/NavigationPage/TabbedPage?{KnownNavigationParameters.SelectedTab}=PageMock");
 
             var mdpPage = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
             var navPage = mdpPage.Detail as NavigationPageMock;
@@ -1327,13 +1328,13 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToContentPage_ToTabbedPage_ToPage()
+        public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToContentPage_ToTabbedPage_SelectTab()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            await navigationService.NavigateAsync("MasterDetailPage-Empty/NavigationPage/ContentPage/TabbedPage/PageMock");
+            await navigationService.NavigateAsync($"MasterDetailPage-Empty/NavigationPage/ContentPage/TabbedPage?{KnownNavigationParameters.SelectedTab}=PageMock");
 
             var mdpPage = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
             var navPage = mdpPage.Detail as NavigationPageMock;

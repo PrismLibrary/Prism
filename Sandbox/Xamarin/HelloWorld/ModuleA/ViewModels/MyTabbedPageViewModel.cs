@@ -1,8 +1,9 @@
 ﻿using Prism.Mvvm;
+using Prism.Navigation;
 
 namespace ModuleA.ViewModels
 {
-    public class MyTabbedPageViewModel : BindableBase
+    public class MyTabbedPageViewModel : BindableBase, INavigationAware
     {
         private IApplicationCommands _applicationCommands;
         public IApplicationCommands ApplicationCommands
@@ -14,6 +15,21 @@ namespace ModuleA.ViewModels
         public MyTabbedPageViewModel(IApplicationCommands applicationCommands)
         {
             _applicationCommands = applicationCommands;
+        }
+
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+            
+        }
+
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
+            
+        }
+
+        public void OnNavigatingTo(NavigationParameters parameters)
+        {
+            
         }
     }
 }
