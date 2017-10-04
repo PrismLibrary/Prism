@@ -480,7 +480,7 @@ namespace Prism.Navigation
             if (potentialDescendant == null)
                 return false;
 
-            Type potentialBase = typeof(T);            
+            Type potentialBase = typeof(T);
 
             return potentialDescendant.GetTypeInfo().IsSubclassOf(potentialBase)
                    || potentialDescendant == potentialBase;
@@ -492,21 +492,32 @@ namespace Prism.Navigation
                 return;
 
             var navigationStack = new Stack<string>();
-
-            //TODO: fix this and add tests
+            
             var nextSegmentPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
             if (IsSameOrSubclassOf<TabbedPage>(nextSegmentPageType))
             {
-                var nextPage = CreatePageFromSegment(nextSegment);
+                var tabbedPage = (TabbedPage)CreatePageFromSegment(nextSegment);
 
-                await ProcessNavigationForTabbedPage((TabbedPage)nextPage, segments.Dequeue(), segments, parameters, useModalNavigation, animated);
-
-                await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
+                if (segments.Count > 0)
                 {
-                    await DoPush(currentPage, nextPage, useModalNavigation, animated, false);
+                    nextSegment = segments.Dequeue();
+                    nextSegmentPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
+
+                    foreach (var child in tabbedPage.Children)
+                    {
+                        if (child.GetType() != nextSegmentPageType)
+                            continue;
+
+                        tabbedPage.CurrentPage = child;
+                    }
+                }                
+
+                await DoNavigateAction(currentPage, nextSegment, tabbedPage, parameters, async () =>
+                {
+                    await DoPush(currentPage, tabbedPage, useModalNavigation, animated, false);
                 });
 
-                currentPage = nextPage;
+                currentPage = tabbedPage;
             }
             else
             {
@@ -545,12 +556,48 @@ namespace Prism.Navigation
             bool insertBefore = false;
             while (navigationStack.Count > 0)
             {
+                Page nextPage = null;
                 var segment = navigationStack.Pop();
-                var nextPage = CreatePageFromSegment(segment);
+
+                if (navigationStack.Count > 0)
+                {
+                    //since we are building the stack backwards, check next segment to see if it's a tabbedpage
+                    var peekSegment = navigationStack.Peek();
+                    var peekSegmentType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(peekSegment));
+
+                    //if we have a TabbedPage we must see if the prior segment is a child so we can select the tab
+                    if (IsSameOrSubclassOf<TabbedPage>(peekSegmentType))
+                    {
+                        var tabbedPageSegment = navigationStack.Pop();
+                        var tabbedPage = (TabbedPage)CreatePageFromSegment(tabbedPageSegment);
+
+                        var childPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(segment));
+
+                        foreach (var child in tabbedPage.Children)
+                        {
+                            if (child.GetType() != childPageType)
+                                continue;
+
+                            await DoNavigateAction(null, segment, child, parameters, onNavigationActionCompleted: () =>
+                            {
+                                tabbedPage.CurrentPage = child;
+                            });
+                        }
+
+                        nextPage = tabbedPage;
+                    }
+                }  
+                
+                if (nextPage == null)
+                {
+                    nextPage = CreatePageFromSegment(segment);
+                }               
+
                 await DoNavigateAction(currentPage, segment, nextPage, parameters, async () =>
                 {
                     await DoPush(currentPage, nextPage, useModalNavigation, animated, insertBefore, pageOffset);
                 });
+
                 insertBefore = true;
             }
 

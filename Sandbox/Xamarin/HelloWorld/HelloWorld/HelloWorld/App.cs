@@ -16,12 +16,20 @@ namespace HelloWorld
 
         protected override void OnInitialized()
         {
-            NavigationService.NavigateAsync("MyMasterDetail/MyNavigationPage/MainPage", animated: false);
+            //NavigationService.NavigateAsync("NavigationPage/MyTabbedPage", animated: false); //works
+            //NavigationService.NavigateAsync("NavigationPage/MyTabbedPage/ViewC", animated: false); //works
+            //NavigationService.NavigateAsync("NavigationPage/MyTabbedPage/ViewC/ViewA", animated: false); //works
+            //NavigationService.NavigateAsync("NavigationPage/ViewA/MyTabbedPage", animated: false); //works
+            //NavigationService.NavigateAsync("NavigationPage/ViewA/MyTabbedPage/ViewC", animated: false); //works
+            //NavigationService.NavigateAsync("NavigationPage/ViewA/MyTabbedPage/ViewC/ViewA/ViewB", animated: false); //works
+
+            NavigationService.NavigateAsync("MyMasterDetail/NavigationPage/MyTabbedPage/ViewC", animated: false); //
         }
 
         protected override void RegisterTypes()
         {
             Container.RegisterTypeForNavigation<MainPage, SomeOtherViewModel>(); //override viewmodel convention
+            Container.RegisterTypeForNavigation<NavigationPage>();
             Container.RegisterTypeForNavigation<MyNavigationPage>();
             Container.RegisterTypeForNavigation<MyMasterDetail>();
         }
