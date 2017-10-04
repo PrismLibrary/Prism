@@ -12,6 +12,7 @@ using Xunit;
 
 namespace Prism.Forms.Tests.Navigation
 {
+    [Collection("Navigation")]
     public class PageNavigationServiceFixture : IDisposable
     {
         PageNavigationContainerMock _container;
