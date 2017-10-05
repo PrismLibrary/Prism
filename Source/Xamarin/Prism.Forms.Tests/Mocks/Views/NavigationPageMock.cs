@@ -29,7 +29,7 @@ namespace Prism.Forms.Tests.Mocks.Views
         public void Destroy()
         {
             DestroyCalled = true;
-            PageNavigationEventRecorder.Record(this, PageNavigationEvent.Destroy);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.Destroy);
         }
 
         public bool ClearNavigationStackOnNavigation { get; set; } = true;

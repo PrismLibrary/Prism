@@ -488,21 +488,13 @@ namespace Prism.Navigation
                     if (child is NavigationPage)
                     {
                         var childTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTabChildSegment));
-                        var navPage = (NavigationPage)child;
-                        if (navPage.CurrentPage.GetType() != childTabType)
+                        if (((NavigationPage)child).CurrentPage.GetType() != childTabType)
                             continue;
                     }
 
                     tabbedPage.CurrentPage = child;
                     break;
                 }
-
-                //TODO: figure out how to perform nested navigation without invoking the INavAware methods twice
-                //if (tabbedPage.CurrentPage is NavigationPage && selectedTabSegements.Count > 0)
-                //{
-                //    var nextSegment = selectedTabSegements.Dequeue();
-                //    await ProcessNavigationForNavigationPage((NavigationPage)tabbedPage.CurrentPage, nextSegment, selectedTabSegements, null, false, false, false);
-                //}
             }
         }
 
