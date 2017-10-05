@@ -33,7 +33,7 @@ namespace HelloWorld
             //NavigationService.NavigateAsync($"NavigationPage/ViewA/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC/ViewA/ViewB", animated: false); //works
             //NavigationService.NavigateAsync($"MyMasterDetail/NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC", animated: false); //works
 
-            NavigationService.NavigateAsync($"MyTabbedPage?{KnownNavigationParameters.SelectedTab}=NavigationPage|ViewB/ViewA", animated: false);
+            NavigationService.NavigateAsync($"MyTabbedPage?{KnownNavigationParameters.SelectedTab}=NavigationPage|ViewB", animated: false);
         }
 
         protected override void RegisterTypes()
@@ -45,8 +45,9 @@ namespace HelloWorld
         }
 
         protected override void ConfigureModuleCatalog()
-        {
-            ModuleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule)));
+        {            
+            ModuleCatalog.AddModule<ModuleA.ModuleAModule>();
+            //ModuleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule)));
             //ModuleCatalog.AddModule(new ModuleInfo("ModuleA", typeof(ModuleA.ModuleAModule), InitializationMode.OnDemand));
         }
     }

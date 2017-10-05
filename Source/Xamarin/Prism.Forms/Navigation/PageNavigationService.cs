@@ -259,12 +259,11 @@ namespace Prism.Navigation
 
         protected virtual async Task ProcessNavigationForTabbedPage(TabbedPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            //TODO: find a way to control how you navigate from the tab during deep link
             var nextPage = CreatePageFromSegment(nextSegment);
             await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
-            await DoNavigateAction(currentPage.CurrentPage, nextSegment, nextPage, parameters, async () => //not sure about the CurrentPage.
+            await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
             {
-                await DoPush(currentPage.CurrentPage, nextPage, useModalNavigation, animated);
+                await DoPush(currentPage, nextPage, useModalNavigation, animated);
             });
         }
 
@@ -451,13 +450,13 @@ namespace Prism.Navigation
                 if (page == null)
                     throw new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
 
+                SetAutowireViewModelOnPage(page);
+                ApplyPageBehaviors(page);
+
                 if (page is TabbedPage)
                 {
                     ConfigureTabbedPage((TabbedPage)page, segment);
                 }
-
-                SetAutowireViewModelOnPage(page);
-                ApplyPageBehaviors(page);
 
                 return page;
             }
@@ -470,14 +469,16 @@ namespace Prism.Navigation
 
         void ConfigureTabbedPage(TabbedPage tabbedPage, string segment)
         {
-            //TODO: handle adding dynamic tabs
-
             var selectedTab = UriParsingHelper.GetSegmentParameters(segment).GetValue<string>(KnownNavigationParameters.SelectedTab);
             if (!string.IsNullOrWhiteSpace(selectedTab))
             {
-                //selected tab can be a single view or a view nested in a navigationpage with the syntax "NavigationPage-View"
-                var selectedTabSegements = selectedTab.Split('|');    //we will have at least one, and no more than two            
-                var selectedTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTabSegements[0]));                
+                //selected tab can be a single view or a view nested in a navigationpage with the syntax "NavigationPage|View"
+                var selectedTabSegements = new Queue<string>(selectedTab.Split('|'));
+                var selectedTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTabSegements.Dequeue()));
+
+                string selectedTabChildSegment = string.Empty;
+                if (selectedTabSegements.Count > 0)
+                    selectedTabChildSegment = selectedTabSegements.Dequeue();
 
                 foreach (var child in tabbedPage.Children)
                 {
@@ -486,14 +487,22 @@ namespace Prism.Navigation
 
                     if (child is NavigationPage)
                     {
-                        var childTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTabSegements[1]));
+                        var childTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTabChildSegment));
                         var navPage = (NavigationPage)child;
                         if (navPage.CurrentPage.GetType() != childTabType)
                             continue;
                     }
 
                     tabbedPage.CurrentPage = child;
+                    break;
                 }
+
+                //TODO: figure out how to perform nested navigation without invoking the INavAware methods twice
+                //if (tabbedPage.CurrentPage is NavigationPage && selectedTabSegements.Count > 0)
+                //{
+                //    var nextSegment = selectedTabSegements.Dequeue();
+                //    await ProcessNavigationForNavigationPage((NavigationPage)tabbedPage.CurrentPage, nextSegment, selectedTabSegements, null, false, false, false);
+                //}
             }
         }
 
