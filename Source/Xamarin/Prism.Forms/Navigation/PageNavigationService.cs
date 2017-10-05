@@ -241,8 +241,6 @@ namespace Prism.Navigation
                 if (segments.Count > 0)
                     await UseReverseNavigation(topPage, segments.Dequeue(), segments, parameters, false, animated);
 
-                //await ProcessNavigation(topPage, segments, parameters, false, animated);
-
                 await DoNavigateAction(topPage, nextSegment, topPage, parameters);
             }
             else
@@ -261,20 +259,6 @@ namespace Prism.Navigation
 
         protected virtual async Task ProcessNavigationForTabbedPage(TabbedPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            var nextSegmentType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
-            foreach (var child in currentPage.Children)
-            {
-                if (child.GetType() != nextSegmentType)
-                    continue;
-
-                await ProcessNavigation(child, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, child, parameters, onNavigationActionCompleted: () =>
-                {
-                    currentPage.CurrentPage = child;
-                });
-                return;
-            }
-
             var nextPage = CreatePageFromSegment(nextSegment);
             await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
             await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
@@ -285,20 +269,6 @@ namespace Prism.Navigation
 
         protected virtual async Task ProcessNavigationForCarouselPage(CarouselPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            var nextSegmentType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
-            foreach (var child in currentPage.Children)
-            {
-                if (child.GetType() != nextSegmentType)
-                    continue;
-
-                await ProcessNavigation(child, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, child, parameters, onNavigationActionCompleted: () =>
-                {
-                    currentPage.CurrentPage = child;
-                });
-                return;
-            }
-
             var nextPage = CreatePageFromSegment(nextSegment);
             await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
             await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
@@ -395,17 +365,64 @@ namespace Prism.Navigation
             if (!canNavigate)
                 return;
 
-            PageUtilities.OnNavigatingTo(toPage, segmentParameters);
+            OnNavigatingTo(toPage, segmentParameters);
 
             if (navigationAction != null)
                 await navigationAction();
 
-            PageUtilities.OnNavigatedFrom(fromPage, segmentParameters);
+            OnNavigatedFrom(fromPage, segmentParameters);
 
             onNavigationActionCompleted?.Invoke();
 
-            PageUtilities.OnNavigatedTo(toPage, segmentParameters);
+            OnNavigatedTo(toPage, segmentParameters);
         }
+
+        static void OnNavigatingTo(Page toPage, NavigationParameters parameters)
+        {
+            PageUtilities.OnNavigatingTo(toPage, parameters);
+
+            if (toPage is TabbedPage)
+            {
+                var tabbedPage = (TabbedPage)toPage;
+                foreach (var child in tabbedPage.Children)
+                {
+                    if (child is NavigationPage)
+                    {
+                        var navigationPage = (NavigationPage)child;
+                        PageUtilities.OnNavigatingTo(navigationPage.CurrentPage, parameters);
+                    }
+                    else
+                    {
+                        PageUtilities.OnNavigatingTo(child, parameters);
+                    }
+                }
+            }
+        }
+
+        private static void OnNavigatedTo(Page toPage, NavigationParameters parameters)
+        {
+            PageUtilities.OnNavigatedTo(toPage, parameters);
+        }
+
+        private static void OnNavigatedFrom(Page fromPage, NavigationParameters parameters)
+        {
+            PageUtilities.OnNavigatedFrom(fromPage, parameters);
+
+            if (fromPage is TabbedPage)
+            {
+                var tabbedPage = (TabbedPage)fromPage;
+                if (tabbedPage.CurrentPage is NavigationPage)
+                {
+                    var navigationPage = (NavigationPage)tabbedPage.CurrentPage;
+                    PageUtilities.OnNavigatedFrom(navigationPage.CurrentPage, parameters);
+                }
+                else
+                {
+                    PageUtilities.OnNavigatedFrom(tabbedPage.CurrentPage, parameters);
+                }
+            }
+        }
+
 
         protected abstract Page CreatePage(string segmentName);
 
@@ -420,6 +437,7 @@ namespace Prism.Navigation
 
                 SetAutowireViewModelOnPage(page);
                 ApplyPageBehaviors(page);
+                ConfigurePages(page, segment);
 
                 return page;
             }
@@ -427,6 +445,67 @@ namespace Prism.Navigation
             {
                 _logger.Log(e.ToString(), Category.Exception, Priority.High);
                 throw;
+            }
+        }
+
+        void ConfigurePages(Page page, string segment)
+        {
+            if (page is TabbedPage)
+            {
+                ConfigureTabbedPage((TabbedPage)page, segment);
+            }
+            else if (page is CarouselPage)
+            {
+                ConfigureCarouselPage((CarouselPage)page, segment);
+            }
+        }
+
+        void ConfigureTabbedPage(TabbedPage tabbedPage, string segment)
+        {
+            var selectedTab = UriParsingHelper.GetSegmentParameters(segment).GetValue<string>(KnownNavigationParameters.SelectedTab);
+            if (!string.IsNullOrWhiteSpace(selectedTab))
+            {
+                //selected tab can be a single view or a view nested in a navigationpage with the syntax "NavigationPage|View"
+                var selectedTabSegements = new Queue<string>(selectedTab.Split('|'));
+                var selectedTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTabSegements.Dequeue()));
+
+                string selectedTabChildSegment = string.Empty;
+                if (selectedTabSegements.Count > 0)
+                    selectedTabChildSegment = selectedTabSegements.Dequeue();
+
+                foreach (var child in tabbedPage.Children)
+                {
+                    if (child.GetType() != selectedTabType)
+                        continue;
+
+                    if (child is NavigationPage)
+                    {
+                        var childTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTabChildSegment));
+                        if (((NavigationPage)child).CurrentPage.GetType() != childTabType)
+                            continue;
+                    }
+
+                    tabbedPage.CurrentPage = child;
+                    break;
+                }
+            }
+        }
+
+        void ConfigureCarouselPage(CarouselPage carouselPage, string segment)
+        {
+            var selectedTab = UriParsingHelper.GetSegmentParameters(segment).GetValue<string>(KnownNavigationParameters.SelectedTab);
+            if (!string.IsNullOrWhiteSpace(selectedTab))
+            {
+                var selectedTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTab));
+
+                foreach (var child in carouselPage.Children)
+                {
+                    if (child.GetType() != selectedTabType)
+                        continue;
+
+                    carouselPage.CurrentPage = child;
+                    break;
+                }
             }
         }
 
@@ -462,8 +541,11 @@ namespace Prism.Navigation
         {
             bool useModalNavigation = true;
 
+
             if (useModalNavigationDefault.HasValue)
                 useModalNavigation = useModalNavigationDefault.Value;
+            else if (currentPage is NavigationPage)
+                useModalNavigation = false;
             else
                 useModalNavigation = !HasNavigationPageParent(currentPage);
 
@@ -488,49 +570,17 @@ namespace Prism.Navigation
 
         protected virtual async Task UseReverseNavigation(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            if (String.IsNullOrWhiteSpace(nextSegment))
-                return;
-
             var navigationStack = new Stack<string>();
-            
-            var nextSegmentPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
-            if (IsSameOrSubclassOf<TabbedPage>(nextSegmentPageType))
-            {
-                var tabbedPage = (TabbedPage)CreatePageFromSegment(nextSegment);
 
-                if (segments.Count > 0)
-                {
-                    nextSegment = segments.Dequeue();
-                    nextSegmentPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
-
-                    foreach (var child in tabbedPage.Children)
-                    {
-                        if (child.GetType() != nextSegmentPageType)
-                            continue;
-
-                        tabbedPage.CurrentPage = child;
-                    }
-                }                
-
-                await DoNavigateAction(currentPage, nextSegment, tabbedPage, parameters, async () =>
-                {
-                    await DoPush(currentPage, tabbedPage, useModalNavigation, animated, false);
-                });
-
-                currentPage = tabbedPage;
-            }
-            else
-            {
+            if (!String.IsNullOrWhiteSpace(nextSegment))
                 navigationStack.Push(nextSegment);
-            }
-
 
             var illegalSegments = new Queue<string>();
 
             bool illegalPageFound = false;
             foreach (var item in segments)
             {
-                //if we run into an illegal page, we need to create new navigation segments to properly handle the deep link
+                //if we run itno an illegal page, we need to create new navigation segments to properly handle the deep link
                 if (illegalPageFound)
                 {
                     illegalSegments.Enqueue(item);
@@ -556,48 +606,12 @@ namespace Prism.Navigation
             bool insertBefore = false;
             while (navigationStack.Count > 0)
             {
-                Page nextPage = null;
                 var segment = navigationStack.Pop();
-
-                if (navigationStack.Count > 0)
-                {
-                    //since we are building the stack backwards, check next segment to see if it's a tabbedpage
-                    var peekSegment = navigationStack.Peek();
-                    var peekSegmentType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(peekSegment));
-
-                    //if we have a TabbedPage we must see if the prior segment is a child so we can select the tab
-                    if (IsSameOrSubclassOf<TabbedPage>(peekSegmentType))
-                    {
-                        var tabbedPageSegment = navigationStack.Pop();
-                        var tabbedPage = (TabbedPage)CreatePageFromSegment(tabbedPageSegment);
-
-                        var childPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(segment));
-
-                        foreach (var child in tabbedPage.Children)
-                        {
-                            if (child.GetType() != childPageType)
-                                continue;
-
-                            await DoNavigateAction(null, segment, child, parameters, onNavigationActionCompleted: () =>
-                            {
-                                tabbedPage.CurrentPage = child;
-                            });
-                        }
-
-                        nextPage = tabbedPage;
-                    }
-                }  
-                
-                if (nextPage == null)
-                {
-                    nextPage = CreatePageFromSegment(segment);
-                }               
-
+                var nextPage = CreatePageFromSegment(segment);
                 await DoNavigateAction(currentPage, segment, nextPage, parameters, async () =>
                 {
                     await DoPush(currentPage, nextPage, useModalNavigation, animated, insertBefore, pageOffset);
                 });
-
                 insertBefore = true;
             }
 

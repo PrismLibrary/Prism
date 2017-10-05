@@ -20,6 +20,8 @@ namespace Prism.Forms.Tests.Mocks.Views
             Children.Add(new ContentPageMock(recorder) { Title = "Page 1" });
             Children.Add(new PageMock() { Title = "Page 2", BindingContext = null });
             Children.Add(new ContentPageMock(recorder) { Title = "Page 3" });
+            Children.Add(new NavigationPageMock(recorder, new ContentPageMock(recorder)) { Title = "Page 4" });
+            Children.Add(new NavigationPageMock(recorder, new PageMock()) { Title = "Page 5" });
 
             PageNavigationEventRecorder = recorder;
 

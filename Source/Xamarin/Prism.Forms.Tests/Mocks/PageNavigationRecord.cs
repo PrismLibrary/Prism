@@ -10,5 +10,10 @@
             Sender = sender;
             Event = @event;
         }
+
+        public override string ToString()
+        {
+            return $"{Sender} - {Event}";
+        }
     }
 }

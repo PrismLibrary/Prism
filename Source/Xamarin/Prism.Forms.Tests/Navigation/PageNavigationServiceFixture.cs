@@ -198,7 +198,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.True(recorder.IsEmpty);
         }
 
-      
+
 
         [Fact]
         public async void Navigate_ToContentPage_ByName_WithNavigationParameters()
@@ -258,7 +258,7 @@ namespace Prism.Forms.Tests.Navigation
             var tabbedPageMock = rootPage.CurrentPage as TabbedPageMock;
             Assert.NotNull(tabbedPageMock);
             var viewModel = (ViewModelBase)tabbedPageMock.BindingContext;
-            
+
             await navigationService.GoBackAsync();
 
             Assert.True(rootPage.Navigation.NavigationStack.Count == 1);
@@ -803,13 +803,13 @@ namespace Prism.Forms.Tests.Navigation
 
 
         [Fact]
-        public async Task DeepNavigate_ToNavigationPage_ToTabbedPage_ToContentPage()
+        public async Task DeepNavigate_ToNavigationPage_ToTabbedPage_SelectContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            await navigationService.NavigateAsync("NavigationPage/ContentPage/TabbedPage/PageMock");
+            await navigationService.NavigateAsync($"NavigationPage/ContentPage/TabbedPage?{KnownNavigationParameters.SelectedTab}=PageMock");
 
             var navPage = rootPage.Navigation.ModalStack[0] as NavigationPageMock;
             Assert.NotNull(navPage);
@@ -1022,36 +1022,6 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
             Assert.True(rootPage.Navigation.ModalStack[0].Navigation.ModalStack.Count == 1);
-        }
-
-        [Fact]
-        public async void DeepNavigate_ToTabbedPage_ToPage()
-        {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
-            ((IPageAware)navigationService).Page = rootPage;
-
-            await navigationService.NavigateAsync("TabbedPage/PageMock");
-
-            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
-            Assert.NotNull(tabbedPage);
-            Assert.NotNull(tabbedPage.CurrentPage);
-            Assert.IsType<PageMock>(tabbedPage.CurrentPage);
-        }
-
-        [Fact]
-        public async void DeepNavigate_ToCarouselPage_ToContentPage()
-        {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
-            ((IPageAware)navigationService).Page = rootPage;
-
-            await navigationService.NavigateAsync("CarouselPage/ContentPage");
-
-            var tabbedPage = rootPage.Navigation.ModalStack[0] as CarouselPageMock;
-            Assert.NotNull(tabbedPage);
-            Assert.NotNull(tabbedPage.CurrentPage);
-            Assert.IsType<ContentPageMock>(tabbedPage.CurrentPage);
         }
 
         #region MasterDetailPage
@@ -1309,13 +1279,13 @@ namespace Prism.Forms.Tests.Navigation
 
 
         [Fact]
-        public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToTabbedPage_ToPage()
+        public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToTabbedPage_SelectTab()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            await navigationService.NavigateAsync("MasterDetailPage-Empty/NavigationPage/TabbedPage/PageMock");
+            await navigationService.NavigateAsync($"MasterDetailPage-Empty/NavigationPage/TabbedPage?{KnownNavigationParameters.SelectedTab}=PageMock");
 
             var mdpPage = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
             var navPage = mdpPage.Detail as NavigationPageMock;
@@ -1327,13 +1297,13 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToContentPage_ToTabbedPage_ToPage()
+        public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToContentPage_ToTabbedPage_SelectTab()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            await navigationService.NavigateAsync("MasterDetailPage-Empty/NavigationPage/ContentPage/TabbedPage/PageMock");
+            await navigationService.NavigateAsync($"MasterDetailPage-Empty/NavigationPage/ContentPage/TabbedPage?{KnownNavigationParameters.SelectedTab}=PageMock");
 
             var mdpPage = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
             var navPage = mdpPage.Detail as NavigationPageMock;
@@ -1346,6 +1316,268 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         #endregion
+
+        #region TabbedPage
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
+            Assert.NotNull(tabbedPage);
+        }
+
+        [Fact]
+        public async void Navigate_FromNavigationPage_ToTabbedPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.NavigationPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage");
+
+            Assert.True(rootPage.Navigation.NavigationStack.Count == 1);
+            Assert.IsType<TabbedPageMock>(rootPage.Navigation.NavigationStack[0]);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_ToContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage/ContentPage");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
+            Assert.NotNull(tabbedPage);
+
+            Assert.True(tabbedPage.Navigation.ModalStack.Count > 0);
+
+            Assert.IsType<ContentPageMock>(tabbedPage.Navigation.ModalStack[0]);
+        }
+
+        [Fact]
+        public async void Navigate_FromNavigationPage_ToTabbedPage_ToContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.NavigationPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage/ContentPage");
+
+            Assert.True(rootPage.Navigation.NavigationStack.Count == 2);
+            Assert.IsType<TabbedPageMock>(rootPage.Navigation.NavigationStack[0]);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.NavigationStack[1]);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=PageMock");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
+            Assert.NotNull(tabbedPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+            Assert.IsType<PageMock>(tabbedPage.CurrentPage);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab_NavigationPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=NavigationPage|ContentPage");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
+            Assert.NotNull(tabbedPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+
+            var navPage = tabbedPage.CurrentPage as NavigationPageMock;
+            Assert.NotNull(navPage);
+            Assert.IsType<ContentPageMock>(navPage.CurrentPage);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab_ToContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=PageMock/ContentPage");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
+            Assert.NotNull(tabbedPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+            Assert.IsType<PageMock>(tabbedPage.CurrentPage);
+
+            var contentPage = tabbedPage.Navigation.ModalStack[0] as ContentPageMock;
+            Assert.NotNull(contentPage);
+        }
+
+        [Fact]
+        public async void Navigate_FromNavigationPage_ToTabbedPage_SelectedTab_ToContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.NavigationPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=PageMock/ContentPage");
+
+            Assert.True(rootPage.Navigation.NavigationStack.Count == 2);
+
+            var tabbedPage = rootPage.Navigation.NavigationStack[0] as TabbedPageMock;
+            Assert.NotNull(tabbedPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+            Assert.IsType<PageMock>(tabbedPage.CurrentPage);
+
+            var contentPage = tabbedPage.Navigation.NavigationStack[1] as ContentPageMock;
+            Assert.NotNull(contentPage);
+        }
+
+        [Fact]
+        public async void Navigate_FromNavigationPage_ToTabbedPage_SelectedTab_NavigationPage_ToContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.NavigationPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=NavigationPage|ContentPage/ContentPage");
+
+            Assert.True(rootPage.Navigation.NavigationStack.Count == 2);
+
+            var tabbedPage = rootPage.Navigation.NavigationStack[0] as TabbedPageMock;
+            Assert.NotNull(tabbedPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+            Assert.IsType<NavigationPageMock>(tabbedPage.CurrentPage);
+
+            var navPage = tabbedPage.CurrentPage as NavigationPageMock;
+            Assert.NotNull(navPage);
+            Assert.IsType<ContentPageMock>(navPage.CurrentPage);
+
+            var contentPage = tabbedPage.Navigation.NavigationStack[1] as ContentPageMock;
+            Assert.NotNull(contentPage);            
+        }
+
+        [Fact]
+        public async void Navigate_FromMasterDetailPage_ToNavigationPage_ToTabbedPage_ToContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.MasterDetailPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"NavigationPage/TabbedPage/ContentPage");
+
+            Assert.IsType<NavigationPageMock>(rootPage.Detail);
+
+            Assert.True(rootPage.Detail.Navigation.NavigationStack.Count == 2);
+
+            Assert.IsType<TabbedPageMock>(rootPage.Detail.Navigation.NavigationStack[0]);
+            Assert.IsType<ContentPageMock>(rootPage.Detail.Navigation.NavigationStack[1]);
+        }
+
+        [Fact]
+        public async void Navigate_FromMasterDetailPage_ToNavigationPage_ToTabbedPage_SelectedTab()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.MasterDetailPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"NavigationPage/TabbedPage?{KnownNavigationParameters.SelectedTab}=PageMock");
+
+            Assert.IsType<NavigationPageMock>(rootPage.Detail);
+
+            Assert.True(rootPage.Detail.Navigation.NavigationStack.Count == 1);
+
+            var tabbedPage = rootPage.Detail.Navigation.NavigationStack[0] as TabbedPageMock;
+            Assert.NotNull(tabbedPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+            Assert.IsType<PageMock>(tabbedPage.CurrentPage);
+        }
+
+        [Fact]
+        public async void Navigate_FromMasterDetailPage_ToNavigationPage_ToTabbedPage_SelectedTab_ToContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.MasterDetailPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"NavigationPage/TabbedPage?{KnownNavigationParameters.SelectedTab}=PageMock/ContentPage");
+
+            Assert.IsType<NavigationPageMock>(rootPage.Detail);
+
+            Assert.True(rootPage.Detail.Navigation.NavigationStack.Count == 2);
+
+            Assert.IsType<TabbedPageMock>(rootPage.Detail.Navigation.NavigationStack[0]);            
+            Assert.IsType<PageMock>(((TabbedPageMock)rootPage.Detail.Navigation.NavigationStack[0]).CurrentPage);
+
+            Assert.IsType<ContentPageMock>(rootPage.Detail.Navigation.NavigationStack[1]);
+        }
+
+        #endregion
+
+        #region CarouselPage
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToCarouselPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("CarouselPage");
+
+            Assert.True(rootPage.Navigation.ModalStack.Count == 1);
+            Assert.IsType<CarouselPageMock>(rootPage.Navigation.ModalStack[0]);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToCarouselPage_ToContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("CarouselPage/ContentPage");
+
+            Assert.True(rootPage.Navigation.ModalStack.Count == 1);
+            Assert.IsType<CarouselPageMock>(rootPage.Navigation.ModalStack[0]);
+
+            var carouselPage = (CarouselPageMock)rootPage.Navigation.ModalStack[0];
+
+            Assert.True(carouselPage.Navigation.ModalStack.Count == 1);
+            Assert.IsType<ContentPageMock>(carouselPage.Navigation.ModalStack[0]);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToCarouselPage_SelectedPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"CarouselPage?{KnownNavigationParameters.SelectedTab}=ContentPage");
+
+            var carouselPage = rootPage.Navigation.ModalStack[0] as CarouselPageMock;
+            Assert.NotNull(carouselPage);
+            Assert.NotNull(carouselPage.CurrentPage);
+            Assert.IsType<ContentPageMock>(carouselPage.CurrentPage);
+        }
+
+        #endregion
+
 
         public void Dispose()
         {

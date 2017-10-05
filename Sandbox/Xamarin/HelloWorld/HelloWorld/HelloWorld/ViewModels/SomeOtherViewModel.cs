@@ -4,6 +4,7 @@ using Prism.Mvvm;
 using Prism.Modularity;
 using System;
 using Prism.Services;
+using Prism.Navigation;
 
 namespace HelloWorld.ViewModels
 {
@@ -29,6 +30,21 @@ namespace HelloWorld.ViewModels
         void ShowDialog()
         {
             _dialogService.DisplayAlertAsync("Hello from SomeOtherViewModel", "This is a message from an exception to the ViewModelLocator rules.", "Cool");
+        }
+
+        public override void OnNavigatedFrom(NavigationParameters parameters)
+        {
+            base.OnNavigatedFrom(parameters);
+        }
+
+        public override void OnNavigatedTo(NavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+        }
+
+        public override void OnNavigatingTo(NavigationParameters parameters)
+        {
+            base.OnNavigatingTo(parameters);
         }
     }
 }
