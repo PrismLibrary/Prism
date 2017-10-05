@@ -1024,21 +1024,6 @@ namespace Prism.Forms.Tests.Navigation
             Assert.True(rootPage.Navigation.ModalStack[0].Navigation.ModalStack.Count == 1);
         }
 
-        [Fact]
-        public async void DeepNavigate_ToCarouselPage_ToContentPage()
-        {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
-            ((IPageAware)navigationService).Page = rootPage;
-
-            await navigationService.NavigateAsync("CarouselPage/ContentPage");
-
-            var tabbedPage = rootPage.Navigation.ModalStack[0] as CarouselPageMock;
-            Assert.NotNull(tabbedPage);
-            Assert.NotNull(tabbedPage.CurrentPage);
-            Assert.IsType<ContentPageMock>(tabbedPage.CurrentPage);
-        }
-
         #region MasterDetailPage
 
         [Fact]
@@ -1539,6 +1524,56 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<PageMock>(((TabbedPageMock)rootPage.Detail.Navigation.NavigationStack[0]).CurrentPage);
 
             Assert.IsType<ContentPageMock>(rootPage.Detail.Navigation.NavigationStack[1]);
+        }
+
+        #endregion
+
+        #region CarouselPage
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToCarouselPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("CarouselPage");
+
+            Assert.True(rootPage.Navigation.ModalStack.Count == 1);
+            Assert.IsType<CarouselPageMock>(rootPage.Navigation.ModalStack[0]);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToCarouselPage_ToContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync("CarouselPage/ContentPage");
+
+            Assert.True(rootPage.Navigation.ModalStack.Count == 1);
+            Assert.IsType<CarouselPageMock>(rootPage.Navigation.ModalStack[0]);
+
+            var carouselPage = (CarouselPageMock)rootPage.Navigation.ModalStack[0];
+
+            Assert.True(carouselPage.Navigation.ModalStack.Count == 1);
+            Assert.IsType<ContentPageMock>(carouselPage.Navigation.ModalStack[0]);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToCarouselPage_SelectedPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"CarouselPage?{KnownNavigationParameters.SelectedTab}=ContentPage");
+
+            var carouselPage = rootPage.Navigation.ModalStack[0] as CarouselPageMock;
+            Assert.NotNull(carouselPage);
+            Assert.NotNull(carouselPage.CurrentPage);
+            Assert.IsType<ContentPageMock>(carouselPage.CurrentPage);
         }
 
         #endregion

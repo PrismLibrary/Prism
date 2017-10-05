@@ -269,21 +269,6 @@ namespace Prism.Navigation
 
         protected virtual async Task ProcessNavigationForCarouselPage(CarouselPage currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            //TODO: do the same thing we did for TabbedPage
-            var nextSegmentType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
-            foreach (var child in currentPage.Children)
-            {
-                if (child.GetType() != nextSegmentType)
-                    continue;
-
-                await ProcessNavigation(child, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, child, parameters, onNavigationActionCompleted: () =>
-                {
-                    currentPage.CurrentPage = child;
-                });
-                return;
-            }
-
             var nextPage = CreatePageFromSegment(nextSegment);
             await ProcessNavigation(nextPage, segments, parameters, useModalNavigation, animated);
             await DoNavigateAction(currentPage, nextSegment, nextPage, parameters, async () =>
@@ -452,11 +437,7 @@ namespace Prism.Navigation
 
                 SetAutowireViewModelOnPage(page);
                 ApplyPageBehaviors(page);
-
-                if (page is TabbedPage)
-                {
-                    ConfigureTabbedPage((TabbedPage)page, segment);
-                }
+                ConfigurePages(page, segment);
 
                 return page;
             }
@@ -464,6 +445,18 @@ namespace Prism.Navigation
             {
                 _logger.Log(e.ToString(), Category.Exception, Priority.High);
                 throw;
+            }
+        }
+
+        void ConfigurePages(Page page, string segment)
+        {
+            if (page is TabbedPage)
+            {
+                ConfigureTabbedPage((TabbedPage)page, segment);
+            }
+            else if (page is CarouselPage)
+            {
+                ConfigureCarouselPage((CarouselPage)page, segment);
             }
         }
 
@@ -493,6 +486,24 @@ namespace Prism.Navigation
                     }
 
                     tabbedPage.CurrentPage = child;
+                    break;
+                }
+            }
+        }
+
+        void ConfigureCarouselPage(CarouselPage carouselPage, string segment)
+        {
+            var selectedTab = UriParsingHelper.GetSegmentParameters(segment).GetValue<string>(KnownNavigationParameters.SelectedTab);
+            if (!string.IsNullOrWhiteSpace(selectedTab))
+            {
+                var selectedTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTab));
+
+                foreach (var child in carouselPage.Children)
+                {
+                    if (child.GetType() != selectedTabType)
+                        continue;
+
+                    carouselPage.CurrentPage = child;
                     break;
                 }
             }
