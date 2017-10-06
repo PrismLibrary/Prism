@@ -7,7 +7,7 @@ using Prism.AppModel;
 
 namespace ModuleA.ViewModels
 {
-    public class ViewAViewModel : BindableBase, INavigationAware, IActiveAware, IApplicationLifecycle
+    public class ViewAViewModel : BindableBase, INavigationAware, IActiveAware, IApplicationLifecycleAware
     {
         private readonly INavigationService _navigationService;
 
