@@ -218,7 +218,7 @@ namespace Prism.Windows.Navigation
             NavigateToCurrentViewModel(new NavigatedToEventArgs()
             {
                 NavigationMode = NavigationMode.Refresh,
-                Parameter = _sessionStateService.SessionState[LastNavigationParameterKey]
+                Parameter = _sessionStateService.SessionState.ContainsKey(LastNavigationParameterKey) ? _sessionStateService.SessionState[LastNavigationParameterKey] : null
             });
         }
 
