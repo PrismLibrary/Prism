@@ -303,7 +303,7 @@ namespace Prism.Interactivity
         /// </summary>
         /// <param name="notification">The INotification or IConfirmation parameter to show.</param>
         /// <returns></returns>
-        protected Window CreateDefaultWindow(INotification notification)
+        protected virtual Window CreateDefaultWindow(INotification notification)
         {
             Window window = null;
 
