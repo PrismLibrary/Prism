@@ -1,6 +1,6 @@
 ﻿namespace Prism.AppModel
 {
-    public interface IApplicationLifecycle
+    public interface IApplicationLifecycleAware
     {
         void OnResume();
 
