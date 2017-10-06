@@ -475,18 +475,21 @@ namespace Prism.Navigation
 
                 foreach (var child in tabbedPage.Children)
                 {
-                    if (child.GetType() != selectedTabType)
-                        continue;
+                    SetAutowireViewModelOnPage(child);
 
                     if (child is NavigationPage)
                     {
+                        child.Behaviors.Add(new Behaviors.NavigationPageActiveAwareBehavior());
+
                         var childTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTabChildSegment));
                         if (((NavigationPage)child).CurrentPage.GetType() != childTabType)
                             continue;
                     }
 
+                    if (child.GetType() != selectedTabType)
+                        continue;
+
                     tabbedPage.CurrentPage = child;
-                    break;
                 }
             }
         }
