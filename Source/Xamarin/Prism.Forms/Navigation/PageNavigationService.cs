@@ -465,29 +465,29 @@ namespace Prism.Navigation
             var selectedTab = UriParsingHelper.GetSegmentParameters(segment).GetValue<string>(KnownNavigationParameters.SelectedTab);
             if (!string.IsNullOrWhiteSpace(selectedTab))
             {
-                //selected tab can be a single view or a view nested in a navigationpage with the syntax "NavigationPage|View"
-                var selectedTabSegements = new Queue<string>(selectedTab.Split('|'));
-                var selectedTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTabSegements.Dequeue()));
+                var selectedTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTab));
 
-                string selectedTabChildSegment = string.Empty;
-                if (selectedTabSegements.Count > 0)
-                    selectedTabChildSegment = selectedTabSegements.Dequeue();
-
+                var childFound = false;
                 foreach (var child in tabbedPage.Children)
                 {
                     SetAutowireViewModelOnPage(child);
+
+                    if (!childFound && child.GetType() == selectedTabType)
+                    {
+                        tabbedPage.CurrentPage = child;
+                        childFound = true;
+                    }
 
                     if (child is NavigationPage)
                     {
                         ApplyPageBehaviors(child);
 
-                        var childTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTabChildSegment));
-                        if (((NavigationPage)child).CurrentPage.GetType() != childTabType)
-                            continue;
+                        if (!childFound && ((NavigationPage)child).CurrentPage.GetType() == selectedTabType)
+                        {
+                            tabbedPage.CurrentPage = child;
+                            childFound = true;
+                        }
                     }
-
-                    if (child.GetType() == selectedTabType)
-                        tabbedPage.CurrentPage = child;
                 }
             }
         }

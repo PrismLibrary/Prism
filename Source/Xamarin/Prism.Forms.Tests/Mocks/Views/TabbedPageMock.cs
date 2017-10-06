@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Forms.Tests.Navigation.Mocks.Views;
+using Prism.Mvvm;
 using Prism.Navigation;
 using Xamarin.Forms;
 
@@ -17,9 +18,9 @@ namespace Prism.Forms.Tests.Mocks.Views
         {
             ViewModelLocator.SetAutowireViewModel(this, true);
 
-            Children.Add(new ContentPageMock(recorder) { Title = "Page 1" });
-            Children.Add(new PageMock() { Title = "Page 2", BindingContext = null });
-            Children.Add(new ContentPageMock(recorder) { Title = "Page 3" });
+            Children.Add(new Tab1Mock(recorder) { Title = "Page 1" });
+            Children.Add(new Tab2Mock() { Title = "Page 2", BindingContext = null });
+            Children.Add(new Tab3Mock(recorder) { Title = "Page 3" });
             Children.Add(new NavigationPageMock(recorder, new ContentPageMock(recorder)) { Title = "Page 4" });
             Children.Add(new NavigationPageMock(recorder, new PageMock()) { Title = "Page 5" });
 
