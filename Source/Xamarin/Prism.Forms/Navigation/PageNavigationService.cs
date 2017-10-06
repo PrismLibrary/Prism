@@ -465,28 +465,29 @@ namespace Prism.Navigation
             var selectedTab = UriParsingHelper.GetSegmentParameters(segment).GetValue<string>(KnownNavigationParameters.SelectedTab);
             if (!string.IsNullOrWhiteSpace(selectedTab))
             {
-                //selected tab can be a single view or a view nested in a navigationpage with the syntax "NavigationPage|View"
-                var selectedTabSegements = new Queue<string>(selectedTab.Split('|'));
-                var selectedTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTabSegements.Dequeue()));
+                var selectedTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTab));
 
-                string selectedTabChildSegment = string.Empty;
-                if (selectedTabSegements.Count > 0)
-                    selectedTabChildSegment = selectedTabSegements.Dequeue();
-
+                var childFound = false;
                 foreach (var child in tabbedPage.Children)
                 {
-                    if (child.GetType() != selectedTabType)
-                        continue;
+                    SetAutowireViewModelOnPage(child);
+
+                    if (!childFound && child.GetType() == selectedTabType)
+                    {
+                        tabbedPage.CurrentPage = child;
+                        childFound = true;
+                    }
 
                     if (child is NavigationPage)
                     {
-                        var childTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTabChildSegment));
-                        if (((NavigationPage)child).CurrentPage.GetType() != childTabType)
-                            continue;
-                    }
+                        ApplyPageBehaviors(child);
 
-                    tabbedPage.CurrentPage = child;
-                    break;
+                        if (!childFound && ((NavigationPage)child).CurrentPage.GetType() == selectedTabType)
+                        {
+                            tabbedPage.CurrentPage = child;
+                            childFound = true;
+                        }
+                    }
                 }
             }
         }
@@ -500,11 +501,10 @@ namespace Prism.Navigation
 
                 foreach (var child in carouselPage.Children)
                 {
-                    if (child.GetType() != selectedTabType)
-                        continue;
+                    SetAutowireViewModelOnPage(child);
 
-                    carouselPage.CurrentPage = child;
-                    break;
+                    if (child.GetType() == selectedTabType)
+                        carouselPage.CurrentPage = child;
                 }
             }
         }
@@ -514,6 +514,7 @@ namespace Prism.Navigation
             if (page is NavigationPage)
             {
                 page.Behaviors.Add(new Behaviors.NavigationPageSystemGoBackBehavior());
+                page.Behaviors.Add(new Behaviors.NavigationPageActiveAwareBehavior());
             }
             else if (page is TabbedPage)
             {
