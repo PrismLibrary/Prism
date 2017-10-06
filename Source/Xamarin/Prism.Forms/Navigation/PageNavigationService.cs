@@ -479,17 +479,15 @@ namespace Prism.Navigation
 
                     if (child is NavigationPage)
                     {
-                        child.Behaviors.Add(new Behaviors.NavigationPageActiveAwareBehavior());
+                        ApplyPageBehaviors(child);
 
                         var childTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTabChildSegment));
                         if (((NavigationPage)child).CurrentPage.GetType() != childTabType)
                             continue;
                     }
 
-                    if (child.GetType() != selectedTabType)
-                        continue;
-
-                    tabbedPage.CurrentPage = child;
+                    if (child.GetType() == selectedTabType)
+                        tabbedPage.CurrentPage = child;
                 }
             }
         }
@@ -503,11 +501,10 @@ namespace Prism.Navigation
 
                 foreach (var child in carouselPage.Children)
                 {
-                    if (child.GetType() != selectedTabType)
-                        continue;
+                    SetAutowireViewModelOnPage(child);
 
-                    carouselPage.CurrentPage = child;
-                    break;
+                    if (child.GetType() == selectedTabType)
+                        carouselPage.CurrentPage = child;
                 }
             }
         }
@@ -517,6 +514,7 @@ namespace Prism.Navigation
             if (page is NavigationPage)
             {
                 page.Behaviors.Add(new Behaviors.NavigationPageSystemGoBackBehavior());
+                page.Behaviors.Add(new Behaviors.NavigationPageActiveAwareBehavior());
             }
             else if (page is TabbedPage)
             {
