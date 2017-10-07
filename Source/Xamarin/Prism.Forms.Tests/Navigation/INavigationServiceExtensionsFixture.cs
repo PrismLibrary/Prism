@@ -32,7 +32,7 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public async Task PopToRootAsync_PopsToRoot_Destroy()
+        public async Task PopToRootAsync_PopsToRoot_INavigationAware_Destroy()
         {
             var recorder = new PageNavigationEventRecorder();
             var navigationService = new PageNavigationServiceMock(null, null, null);
@@ -60,10 +60,27 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
             Assert.Equal(page1, rootPage.Navigation.NavigationStack[0]);
-            Assert.Equal(6, recorder.Records.Count);
+            Assert.Equal(16, recorder.Records.Count);
+
+            //root
+            var record = recorder.TakeFirst();
+            Assert.Equal(page1, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(page1.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
 
             //page 4
-            var record = recorder.TakeFirst();
+            record = recorder.TakeFirst();
+            Assert.Equal(page4, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(page4ViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
             Assert.Equal(page4, record.Sender);
             Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
@@ -72,6 +89,14 @@ namespace Prism.Forms.Tests.Navigation
             Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
             //page 3
+            record = recorder.TakeFirst();
+            Assert.Equal(page3, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(page3ViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
             record = recorder.TakeFirst();
             Assert.Equal(page3, record.Sender);
             Assert.Equal(PageNavigationEvent.Destroy, record.Event);
@@ -83,11 +108,28 @@ namespace Prism.Forms.Tests.Navigation
             //page 2
             record = recorder.TakeFirst();
             Assert.Equal(page2, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(page2ViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(page2, record.Sender);
             Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
             record = recorder.TakeFirst();
             Assert.Equal(page2ViewModel, record.Sender);
             Assert.Equal(PageNavigationEvent.Destroy, record.Event);
+
+            //root
+            record = recorder.TakeFirst();
+            Assert.Equal(page1, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(page1.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
         }
     }
 }
