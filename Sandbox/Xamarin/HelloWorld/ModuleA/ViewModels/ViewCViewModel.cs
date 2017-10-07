@@ -7,7 +7,7 @@ using System;
 
 namespace ModuleA.ViewModels
 {
-    public class ViewCViewModel : BindableBase, INavigationAware
+    public class ViewCViewModel : BindableBase, INavigationAware, IDestructible
     {
         private readonly INavigationService _navigationService;
 
@@ -24,17 +24,23 @@ namespace ModuleA.ViewModels
         {
             _navigationService = navigationService;
 
-            //NavigateCommand = new DelegateCommand(Navigate);
             NavigateCommand = new DelegateCommand(async () => await Navigate());
-
-            //NavigateCommand = DelegateCommand.FromAsyncHandler(Navigate);
         }
 
         async Task Navigate()
         {
-            await _navigationService.NavigateAsync("ViewB");
+            try
+            {
+                //await _navigationService.NavigateAsync("ViewB");
 
-            Debug.WriteLine("After _navigationService.NavigateAsync(ViewB) ...");
+                await _navigationService.PopToRootAsync();
+
+                Debug.WriteLine("After _navigationService.NavigateAsync(ViewB) ...");
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
@@ -48,6 +54,11 @@ namespace ModuleA.ViewModels
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)
+        {
+            
+        }
+
+        public void Destroy()
         {
             
         }

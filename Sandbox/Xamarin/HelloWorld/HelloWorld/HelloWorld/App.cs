@@ -33,12 +33,13 @@ namespace HelloWorld
             //NavigationService.NavigateAsync($"NavigationPage/ViewA/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC/ViewA/ViewB", animated: false); //works
             //NavigationService.NavigateAsync($"MyMasterDetail/NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC", animated: false); //works
 
-            NavigationService.NavigateAsync($"MyTabbedPage?{KnownNavigationParameters.SelectedTab}=NavigationPage|ViewB", animated: false);
+            NavigationService.NavigateAsync($"NavigationPage/MainPage/ViewA/ViewB/ViewC", animated: false);
         }
 
         protected override void RegisterTypes()
         {
-            Container.RegisterTypeForNavigation<MainPage, SomeOtherViewModel>(); //override viewmodel convention
+            Container.RegisterTypeForNavigation<MainPage>(); 
+            //Container.RegisterTypeForNavigation<MainPage, SomeOtherViewModel>(); //override viewmodel convention
             Container.RegisterTypeForNavigation<NavigationPage>();
             Container.RegisterTypeForNavigation<MyNavigationPage>();
             Container.RegisterTypeForNavigation<MyMasterDetail>();
