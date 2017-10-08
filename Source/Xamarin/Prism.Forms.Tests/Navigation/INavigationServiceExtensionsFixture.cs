@@ -10,7 +10,7 @@ namespace Prism.Forms.Tests.Navigation
     public class INavigationServiceExtensionsFixture
     {
         [Fact]
-        public async Task PopToRootAsync_PopsToRoot()
+        public async Task GoBackToRootAsync_PopsToRoot()
         {
             var navigationService = new PageNavigationServiceMock(null, null, null);
             var rootPage = new Xamarin.Forms.NavigationPage();
@@ -25,14 +25,14 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.True(rootPage.Navigation.NavigationStack.Count == 4);
 
-            await navigationService.PopToRootAsync();
+            await navigationService.GoBackToRootAsync();
 
             Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
             Assert.Equal(page1, rootPage.Navigation.NavigationStack[0]);
         }
 
         [Fact]
-        public async Task PopToRootAsync_PopsToRoot_INavigationAware_Destroy()
+        public async Task GoBackToRootAsync_PopsToRoot_INavigationAware_Destroy()
         {
             var recorder = new PageNavigationEventRecorder();
             var navigationService = new PageNavigationServiceMock(null, null, null);
@@ -56,7 +56,7 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.True(rootPage.Navigation.NavigationStack.Count == 4);
 
-            await navigationService.PopToRootAsync();
+            await navigationService.GoBackToRootAsync();
 
             Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
             Assert.Equal(page1, rootPage.Navigation.NavigationStack[0]);

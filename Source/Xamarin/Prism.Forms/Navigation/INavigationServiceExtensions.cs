@@ -15,7 +15,7 @@ namespace Prism.Navigation
         /// <param name="navigationService">The INavigatinService instance</param>
         /// <param name="parameters">The navigation parameters</param>
         /// <remarks>Only works when called from a View within a NavigationPage</remarks>
-        public static async Task PopToRootAsync(this INavigationService navigationService, NavigationParameters parameters = null)
+        public static async Task GoBackToRootAsync(this INavigationService navigationService, NavigationParameters parameters = null)
         {
 
             try
