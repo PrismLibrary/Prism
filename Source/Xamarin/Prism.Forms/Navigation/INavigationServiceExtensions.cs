@@ -51,7 +51,7 @@ namespace Prism.Navigation
             }
             catch(InvalidOperationException ex)
             {                
-                throw new InvalidOperationException("PopToRootAsync can only be called when the calling Page is within a NavigationPage.");
+                throw new InvalidOperationException("GoBackToRootAsync can only be called when the calling Page is within a NavigationPage.");
             }
             catch
             {

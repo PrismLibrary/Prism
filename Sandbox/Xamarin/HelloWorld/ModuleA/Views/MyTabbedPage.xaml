@@ -12,20 +12,14 @@
 		<ToolbarItem Text="Reset" Command="{Binding ApplicationCommands.ResetCommand}"/>
 	</TabbedPage.ToolbarItems>
 
-	<NavigationPage Title="View A">
-		<NavigationPage.Behaviors>
-			<b:NavigationPageActiveAwareBehavior />
-		</NavigationPage.Behaviors>
-		<x:Arguments>
+    <NavigationPage Title="View A">
+        <x:Arguments>
 			<local:ViewA Title="View A" />
 		</x:Arguments>
 	</NavigationPage>
 
-	<NavigationPage Title="View B">
-		<NavigationPage.Behaviors>
-			<b:NavigationPageActiveAwareBehavior />
-		</NavigationPage.Behaviors>
-		<x:Arguments>
+    <NavigationPage Title="View B">
+        <x:Arguments>
 			<local:ViewB Title="View B" />
 		</x:Arguments>
 	</NavigationPage>

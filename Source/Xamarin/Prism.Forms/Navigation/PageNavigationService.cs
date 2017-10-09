@@ -402,6 +402,20 @@ namespace Prism.Navigation
         private static void OnNavigatedTo(Page toPage, NavigationParameters parameters)
         {
             PageUtilities.OnNavigatedTo(toPage, parameters);
+
+            if (toPage is TabbedPage)
+            {
+                var tabbedPage = (TabbedPage)toPage;
+                if (tabbedPage.CurrentPage is NavigationPage)
+                {
+                    var navigationPage = (NavigationPage)tabbedPage.CurrentPage;
+                    PageUtilities.OnNavigatedTo(navigationPage.CurrentPage, parameters);
+                }
+                else
+                {
+                    PageUtilities.OnNavigatedTo(tabbedPage.CurrentPage, parameters);
+                }
+            }
         }
 
         private static void OnNavigatedFrom(Page fromPage, NavigationParameters parameters)
