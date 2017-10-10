@@ -26,7 +26,7 @@ Bind or declare a parameter that will be sent to the `ICommand.Execute(object)` 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="MyNamespace.ContentPage"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
-    <StackLayout>
+    <ListView>
         <ListView.Behaviors>
             <b:EventToCommandBehavior EventName="ItemTapped" 
                                       Command="{Binding ItemTappedCommand}"
