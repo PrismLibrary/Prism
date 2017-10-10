@@ -33,7 +33,7 @@ namespace HelloWorld
             //NavigationService.NavigateAsync($"NavigationPage/ViewA/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC/ViewA/ViewB", animated: false); //works
             //NavigationService.NavigateAsync($"MyMasterDetail/NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC", animated: false); //works
 
-            NavigationService.NavigateAsync($"MyTabbedPage?selectedTab=ViewB", animated: false);
+            NavigationService.NavigateAsync($"ViewA", animated: false);
         }
 
         protected override void RegisterTypes()

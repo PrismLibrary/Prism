@@ -476,7 +476,20 @@ namespace Prism.Navigation
 
         void ConfigureTabbedPage(TabbedPage tabbedPage, string segment)
         {
-            var selectedTab = UriParsingHelper.GetSegmentParameters(segment).GetValue<string>(KnownNavigationParameters.SelectedTab);
+            var parameters = UriParsingHelper.GetSegmentParameters(segment);
+
+            var tabsToCreate = parameters.GetValues<string>("createTab");
+            if (tabsToCreate.Count() > 0)
+            {
+                foreach (var tabToCreate in tabsToCreate)
+                {
+                    var tab = CreatePageFromSegment(tabToCreate);
+                    tabbedPage.Children.Add(tab);
+                }
+            }
+
+
+            var selectedTab = parameters.GetValue<string>(KnownNavigationParameters.SelectedTab);
             if (!string.IsNullOrWhiteSpace(selectedTab))
             {
                 var selectedTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTab));
