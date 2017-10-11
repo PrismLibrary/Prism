@@ -615,18 +615,19 @@ namespace Prism.Navigation
 
         protected virtual void ApplyPageBehaviors(Page page)
         {
-            if (page is NavigationPage)
+            switch(page)
             {
-                ApplyNavigationPageBehaviors(page);
+                case NavigationPage navPage:
+                    ApplyNavigationPageBehaviors(navPage);
+                    break;
+                case TabbedPage tabbed:
+                    page.Behaviors.Add(new Behaviors.TabbedPageActiveAwareBehavior());
+                    break;
+                case CarouselPage carousel:
+                    page.Behaviors.Add(new Behaviors.CarouselPageActiveAwareBehavior());
+                    break;
             }
-            else if (page is TabbedPage)
-            {
-                page.Behaviors.Add(new Behaviors.TabbedPageActiveAwareBehavior());
-            }
-            else if (page is CarouselPage)
-            {
-                page.Behaviors.Add(new Behaviors.CarouselPageActiveAwareBehavior());
-            }
+            page.Behaviors.Add(new Behaviors.PageLifeCycleAwareBehavior());
         }
 
         private static void ApplyNavigationPageBehaviors(Page page)
