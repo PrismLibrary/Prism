@@ -14,6 +14,10 @@ namespace Prism.Navigation
     /// </summary>
     public abstract class PageNavigationService : INavigationService, IPageAware
     {
+        internal const string RemovePageRelativePath = "../";
+        internal const string RemovePageInstruction = "__RemovePage/";
+        internal const string RemovePageSegment = "__RemovePage";
+
         //not sure I like this static property, think about this a little more
         protected internal static PageNavigationSource NavigationSource { get; protected set; } = PageNavigationSource.Device;
 
@@ -90,6 +94,9 @@ namespace Prism.Navigation
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         public virtual Task NavigateAsync(string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
+            if (name.StartsWith(RemovePageRelativePath))
+                name = name.Replace(RemovePageRelativePath, RemovePageInstruction);
+
             return NavigateAsync(UriParsingHelper.Parse(name), parameters, useModalNavigation, animated);
         }
 
@@ -135,6 +142,12 @@ namespace Prism.Navigation
 
             var nextSegment = segments.Dequeue();
 
+            if (nextSegment == RemovePageSegment)
+            {
+                await ProcessNavigationForRemovePageSegments(currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                return;
+            }
+
             if (currentPage == null)
             {
                 await ProcessNavigationForRootPage(nextSegment, segments, parameters, useModalNavigation, animated);
@@ -160,6 +173,35 @@ namespace Prism.Navigation
             else if (currentPage is MasterDetailPage)
             {
                 await ProcessNavigationForMasterDetailPage((MasterDetailPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+            }
+        }
+
+        protected virtual async Task ProcessNavigationForRemovePageSegments(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            if (!HasNavigationPageParent(currentPage))
+                throw new InvalidOperationException("Removing views using the relative '../' syntax while navigating is only supported within a NavigationPage");
+
+            List<Page> pagesToRemove = new List<Page>();
+            pagesToRemove.Add(currentPage);
+
+            var currentPageIndex = currentPage.Navigation.NavigationStack.Count;
+            if (currentPage.Navigation.NavigationStack.Count > 0)
+                currentPageIndex = currentPage.Navigation.NavigationStack.Count - 1;
+
+            while (segments.Peek() == RemovePageSegment)
+            {
+                currentPageIndex -= 1;
+                pagesToRemove.Add(currentPage.Navigation.NavigationStack[currentPageIndex]);
+                nextSegment = segments.Dequeue();
+            }
+
+            await ProcessNavigation(currentPage, segments, parameters, useModalNavigation, animated);
+
+            var navigationPage = (NavigationPage)currentPage.Parent;
+            foreach (var page in pagesToRemove)
+            {
+                navigationPage.Navigation.RemovePage(page);
+                PageUtilities.DestroyPage(page);
             }
         }
 
