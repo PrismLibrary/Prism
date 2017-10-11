@@ -178,12 +178,15 @@ namespace Prism.Navigation
 
         protected virtual async Task ProcessNavigationForRemovePageSegments(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
+            if (!HasNavigationPageParent(currentPage))
+                throw new InvalidOperationException("Removing views using the relative '../' syntax while navigating is only supported within a NavigationPage");
+
+            List<Page> pagesToRemove = new List<Page>();
+            pagesToRemove.Add(currentPage);
+
             var currentPageIndex = currentPage.Navigation.NavigationStack.Count;
             if (currentPage.Navigation.NavigationStack.Count > 0)
                 currentPageIndex = currentPage.Navigation.NavigationStack.Count - 1;
-
-            List<Page> pagesToRemove = new List<Page>();
-            pagesToRemove.Add(currentPage); //add current page to remove
 
             while (segments.Peek() == RemovePageSegment)
             {
@@ -191,10 +194,6 @@ namespace Prism.Navigation
                 pagesToRemove.Add(currentPage.Navigation.NavigationStack[currentPageIndex]);
                 nextSegment = segments.Dequeue();
             }
-
-            //this is only supported for views within NavigationPages
-            if (!HasNavigationPageParent(currentPage))
-                return;
 
             await ProcessNavigation(currentPage, segments, parameters, useModalNavigation, animated);
 
