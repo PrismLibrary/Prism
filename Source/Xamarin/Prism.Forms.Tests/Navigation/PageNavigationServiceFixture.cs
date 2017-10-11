@@ -42,6 +42,7 @@ namespace Prism.Forms.Tests.Navigation
 
 
             _container.Register("TabbedPage", typeof(TabbedPageMock));
+            _container.Register("TabbedPage-Empty", typeof(TabbedPageEmptyMock));
             _container.Register("Tab1", typeof(Tab1Mock));
             _container.Register("Tab2", typeof(Tab2Mock));
             _container.Register("Tab3", typeof(Tab3Mock));
@@ -1528,6 +1529,83 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<Tab2Mock>(((TabbedPageMock)rootPage.Detail.Navigation.NavigationStack[0]).CurrentPage);
 
             Assert.IsType<ContentPageMock>(rootPage.Detail.Navigation.NavigationStack[1]);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_CreateTabs()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage-Empty?{KnownNavigationParameters.CreateTab}=Tab1&{KnownNavigationParameters.CreateTab}=Tab2&{KnownNavigationParameters.CreateTab}=Tab3");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageEmptyMock;
+            Assert.NotNull(tabbedPage);
+            Assert.Equal(3, tabbedPage.Children.Count());
+            Assert.IsType<Tab1Mock>(tabbedPage.Children[0]);
+            Assert.IsType<Tab2Mock>(tabbedPage.Children[1]);
+            Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_CreateTabs_SelectTab()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage-Empty?{KnownNavigationParameters.CreateTab}=Tab1&{KnownNavigationParameters.CreateTab}=Tab2&{KnownNavigationParameters.CreateTab}=Tab3&{KnownNavigationParameters.SelectedTab}=Tab2");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageEmptyMock;
+            Assert.NotNull(tabbedPage);
+            Assert.Equal(3, tabbedPage.Children.Count());
+            Assert.IsType<Tab1Mock>(tabbedPage.Children[0]);
+            Assert.IsType<Tab2Mock>(tabbedPage.Children[1]);
+            Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
+            Assert.IsType<Tab2Mock>(tabbedPage.CurrentPage);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_CreateTabs_WithNavigationPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage-Empty?{KnownNavigationParameters.CreateTab}=NavigationPage|Tab1&{KnownNavigationParameters.CreateTab}=Tab2&{KnownNavigationParameters.CreateTab}=Tab3");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageEmptyMock;
+            Assert.NotNull(tabbedPage);
+            Assert.Equal(3, tabbedPage.Children.Count());
+
+            var navPage = tabbedPage.Children[0] as NavigationPageMock;
+            Assert.IsType<NavigationPageMock>(navPage);
+            Assert.IsType<Tab1Mock>(navPage.CurrentPage);
+            Assert.IsType<Tab2Mock>(tabbedPage.Children[1]);
+            Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_CreateTabs_WithNavigationPage_SelectTab()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage-Empty?{KnownNavigationParameters.CreateTab}=Tab1&{KnownNavigationParameters.CreateTab}=NavigationPage|Tab2&{KnownNavigationParameters.CreateTab}=Tab3&{KnownNavigationParameters.SelectedTab}=Tab2");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageEmptyMock;
+            Assert.NotNull(tabbedPage);
+            Assert.Equal(3, tabbedPage.Children.Count());
+
+            Assert.IsType<Tab1Mock>(tabbedPage.Children[0]);
+
+            var navPage = tabbedPage.Children[1] as NavigationPageMock;
+            Assert.IsType<NavigationPageMock>(navPage);
+            Assert.IsType<Tab2Mock>(navPage.CurrentPage);
+            
+            Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
         }
 
         #endregion
