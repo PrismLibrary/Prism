@@ -12,7 +12,7 @@
 		<ToolbarItem Text="Reset" Command="{Binding ApplicationCommands.ResetCommand}"/>
 	</TabbedPage.ToolbarItems>
 
-    <NavigationPage Title="View A">
+    <!--<NavigationPage Title="View A">
         <x:Arguments>
 			<local:ViewA Title="View A" />
 		</x:Arguments>
@@ -24,7 +24,7 @@
 		</x:Arguments>
 	</NavigationPage>
 
-	<local:ViewC Title="View C" />
+	<local:ViewC Title="View C" />-->
 
 	<!--<local:ViewA Title="View A" />
   <local:ViewB Title="View B"/>-->

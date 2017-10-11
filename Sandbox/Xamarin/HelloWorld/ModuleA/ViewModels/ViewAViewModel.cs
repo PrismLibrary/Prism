@@ -72,7 +72,7 @@ namespace ModuleA.ViewModels
         async void Navigate()
         {
             CanNavigate = false;
-            await _navigationService.NavigateAsync("ViewB/ViewC", useModalNavigation: false);
+            await _navigationService.NavigateAsync("MyTabbedPage?createTab=NavigationPage|ViewA&createTab=ViewB&createTab=ViewC&selectedTab=ViewB");
             CanNavigate = true;
         }
 

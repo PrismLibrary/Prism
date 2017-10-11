@@ -476,7 +476,56 @@ namespace Prism.Navigation
 
         void ConfigureTabbedPage(TabbedPage tabbedPage, string segment)
         {
-            var selectedTab = UriParsingHelper.GetSegmentParameters(segment).GetValue<string>(KnownNavigationParameters.SelectedTab);
+            foreach (var child in tabbedPage.Children)
+            {
+                SetAutowireViewModelOnPage(child);
+
+                if (child is NavigationPage)
+                {
+                    ApplyNavigationPageBehaviors(child);
+                    SetAutowireViewModelOnPage(((NavigationPage)child).CurrentPage);
+                }
+            }
+
+            var parameters = UriParsingHelper.GetSegmentParameters(segment);
+
+            var tabsToCreate = parameters.GetValues<string>(KnownNavigationParameters.CreateTab);
+            if (tabsToCreate.Count() > 0)
+            {
+                foreach (var tabToCreate in tabsToCreate)
+                {
+                    //created tab can be a single view or a view nested in a NavigationPage with the syntax "NavigationPage|ViewToCreate"
+                    var tabSegements = tabToCreate.Split('|');
+                    if (tabSegements.Length > 1)
+                    {
+                        var navigationPage = CreatePageFromSegment(tabSegements[0]) as NavigationPage;
+                        if (navigationPage != null)
+                        {
+                            var navigationPageChild = CreatePageFromSegment(tabSegements[1]);
+
+                            navigationPage.PushAsync(navigationPageChild);
+
+                            //when creating a NavigationPage w/ DI, a blank Page object is injected into the ctor. Let's remove it
+                            if (navigationPage.Navigation.NavigationStack.Count > 1)
+                                navigationPage.Navigation.RemovePage(navigationPage.Navigation.NavigationStack[0]);
+
+                            //set the title because Xamarin doesn't do this for us.
+                            navigationPage.Title = navigationPageChild.Title;
+                            navigationPage.Icon = navigationPageChild.Icon;
+
+                            tabbedPage.Children.Add(navigationPage);
+                        }
+                    }
+                    else
+                    {
+                        var tab = CreatePageFromSegment(tabToCreate);
+                        tabbedPage.Children.Add(tab);
+                    }
+                }
+            }
+
+
+            var selectedTab = parameters.GetValue<string>(KnownNavigationParameters.SelectedTab);
             if (!string.IsNullOrWhiteSpace(selectedTab))
             {
                 var selectedTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTab));
@@ -484,8 +533,6 @@ namespace Prism.Navigation
                 var childFound = false;
                 foreach (var child in tabbedPage.Children)
                 {
-                    SetAutowireViewModelOnPage(child);
-
                     if (!childFound && child.GetType() == selectedTabType)
                     {
                         tabbedPage.CurrentPage = child;
@@ -494,8 +541,6 @@ namespace Prism.Navigation
 
                     if (child is NavigationPage)
                     {
-                        ApplyPageBehaviors(child);
-
                         if (!childFound && ((NavigationPage)child).CurrentPage.GetType() == selectedTabType)
                         {
                             tabbedPage.CurrentPage = child;
@@ -508,6 +553,11 @@ namespace Prism.Navigation
 
         void ConfigureCarouselPage(CarouselPage carouselPage, string segment)
         {
+            foreach (var child in carouselPage.Children)
+            {
+                SetAutowireViewModelOnPage(child);
+            }
+
             var selectedTab = UriParsingHelper.GetSegmentParameters(segment).GetValue<string>(KnownNavigationParameters.SelectedTab);
             if (!string.IsNullOrWhiteSpace(selectedTab))
             {
@@ -515,8 +565,6 @@ namespace Prism.Navigation
 
                 foreach (var child in carouselPage.Children)
                 {
-                    SetAutowireViewModelOnPage(child);
-
                     if (child.GetType() == selectedTabType)
                         carouselPage.CurrentPage = child;
                 }
@@ -527,8 +575,7 @@ namespace Prism.Navigation
         {
             if (page is NavigationPage)
             {
-                page.Behaviors.Add(new Behaviors.NavigationPageSystemGoBackBehavior());
-                page.Behaviors.Add(new Behaviors.NavigationPageActiveAwareBehavior());
+                ApplyNavigationPageBehaviors(page);
             }
             else if (page is TabbedPage)
             {
@@ -538,6 +585,12 @@ namespace Prism.Navigation
             {
                 page.Behaviors.Add(new Behaviors.CarouselPageActiveAwareBehavior());
             }
+        }
+
+        private static void ApplyNavigationPageBehaviors(Page page)
+        {
+            page.Behaviors.Add(new Behaviors.NavigationPageSystemGoBackBehavior());
+            page.Behaviors.Add(new Behaviors.NavigationPageActiveAwareBehavior());
         }
 
         protected void SetAutowireViewModelOnPage(Page page)
