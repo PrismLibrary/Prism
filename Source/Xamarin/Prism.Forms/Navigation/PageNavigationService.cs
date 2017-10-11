@@ -483,8 +483,35 @@ namespace Prism.Navigation
             {
                 foreach (var tabToCreate in tabsToCreate)
                 {
-                    var tab = CreatePageFromSegment(tabToCreate);
-                    tabbedPage.Children.Add(tab);
+                    //created tab can be a single view or a view nested in a navigationpage with the syntax "NavigationPage|ViewToCreate"
+                    var tabSegements = tabToCreate.Split('|');
+                    if (tabSegements.Length > 1)
+                    {
+                        var navigationPage = CreatePageFromSegment(tabSegements[0]) as NavigationPage;
+                        if (navigationPage != null)
+                        {
+                            ApplyPageBehaviors(navigationPage);
+
+                            var navigationPageChild = CreatePageFromSegment(tabSegements[1]);
+
+                            navigationPage.PushAsync(navigationPageChild);
+
+                            //when creating a NavigationPage w/ DI, a blank Page object is injected into the ctor. Let's remove it
+                            if (navigationPage.Navigation.NavigationStack.Count > 1)
+                                navigationPage.Navigation.RemovePage(navigationPage.Navigation.NavigationStack[0]);
+
+                            //set the title because Xamarin doesn;t do this for us.
+                            navigationPage.Title = navigationPageChild.Title;
+                            navigationPage.Icon = navigationPageChild.Icon;
+
+                            tabbedPage.Children.Add(navigationPage);
+                        }
+                    }
+                    else
+                    {
+                        var tab = CreatePageFromSegment(tabToCreate);
+                        tabbedPage.Children.Add(tab);
+                    }
                 }
             }
 
