@@ -31,9 +31,7 @@ namespace ModuleA.ViewModels
         {
             try
             {
-                //await _navigationService.NavigateAsync("ViewB");
-
-                await _navigationService.GoBackToRootAsync();
+                await _navigationService.NavigateAsync("../../../MainPage");                
 
                 Debug.WriteLine("After _navigationService.NavigateAsync(ViewB) ...");
             }
