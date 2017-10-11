@@ -489,7 +489,7 @@ namespace Prism.Navigation
 
             var parameters = UriParsingHelper.GetSegmentParameters(segment);
 
-            var tabsToCreate = parameters.GetValues<string>("createTab");
+            var tabsToCreate = parameters.GetValues<string>(KnownNavigationParameters.CreateTab);
             if (tabsToCreate.Count() > 0)
             {
                 foreach (var tabToCreate in tabsToCreate)
