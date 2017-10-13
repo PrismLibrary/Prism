@@ -4,10 +4,11 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism;
 using Prism.AppModel;
+using System.Diagnostics;
 
 namespace ModuleA.ViewModels
 {
-    public class ViewAViewModel : BindableBase, INavigationAware, IActiveAware, IApplicationLifecycleAware
+    public class ViewAViewModel : BindableBase, INavigationAware, IActiveAware, IApplicationLifecycleAware, IPageLifecycleAware
     {
         private readonly INavigationService _navigationService;
 
@@ -108,6 +109,16 @@ namespace ModuleA.ViewModels
         public void OnSleep()
         {
             Title = "Aplpication went to sleep";
+        }
+
+        public void OnAppearing()
+        {
+            Debug.WriteLine("ViewA is appearing");
+        }
+
+        public void OnDisappearing()
+        {
+            Debug.WriteLine("ViewA is disappearing");
         }
     }
 }

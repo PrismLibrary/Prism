@@ -4,10 +4,11 @@ using Prism.Navigation;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System;
+using Prism.AppModel;
 
 namespace ModuleA.ViewModels
 {
-    public class ViewCViewModel : BindableBase, INavigationAware, IDestructible
+    public class ViewCViewModel : BindableBase, INavigationAware, IDestructible, IPageLifecycleAware
     {
         private readonly INavigationService _navigationService;
 
@@ -59,6 +60,16 @@ namespace ModuleA.ViewModels
         public void Destroy()
         {
             
+        }
+
+        public void OnAppearing()
+        {
+            Debug.WriteLine("ViewA is appearing");
+        }
+
+        public void OnDisappearing()
+        {
+            Debug.WriteLine("ViewA is disappearing");
         }
     }
 }
