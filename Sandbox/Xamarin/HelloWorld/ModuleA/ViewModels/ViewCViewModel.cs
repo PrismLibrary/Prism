@@ -64,12 +64,12 @@ namespace ModuleA.ViewModels
 
         public void OnAppearing()
         {
-            Debug.WriteLine("ViewA is appearing");
+            Debug.WriteLine("ViewC is appearing");
         }
 
         public void OnDisappearing()
         {
-            Debug.WriteLine("ViewA is disappearing");
+            Debug.WriteLine("ViewC is disappearing");
         }
     }
 }
