@@ -521,11 +521,11 @@ namespace Prism.Navigation
             foreach (var child in tabbedPage.Children)
             {
                 SetAutowireViewModelOnPage(child);
-
-                if (child is NavigationPage)
+                ApplyPageBehaviors(child);
+                if(child is NavigationPage navPage)
                 {
-                    ApplyNavigationPageBehaviors(child);
-                    SetAutowireViewModelOnPage(((NavigationPage)child).CurrentPage);
+                    SetAutowireViewModelOnPage(navPage.CurrentPage);
+                    ApplyPageBehaviors(navPage.CurrentPage);
                 }
             }
 
