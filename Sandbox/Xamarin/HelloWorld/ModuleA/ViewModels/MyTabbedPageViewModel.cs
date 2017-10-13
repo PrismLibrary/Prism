@@ -1,9 +1,11 @@
 ﻿using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.AppModel;
+using System.Diagnostics;
 
 namespace ModuleA.ViewModels
 {
-    public class MyTabbedPageViewModel : BindableBase, INavigationAware
+    public class MyTabbedPageViewModel : BindableBase, INavigationAware, IPageLifecycleAware
     {
         private IApplicationCommands _applicationCommands;
         public IApplicationCommands ApplicationCommands
@@ -30,6 +32,16 @@ namespace ModuleA.ViewModels
         public void OnNavigatingTo(NavigationParameters parameters)
         {
             
+        }
+
+        public void OnAppearing()
+        {
+            Debug.WriteLine("MyTabbedPage is appearing");
+        }
+
+        public void OnDisappearing()
+        {
+            Debug.WriteLine("MyTabbedPage is disappearing");
         }
     }
 }
