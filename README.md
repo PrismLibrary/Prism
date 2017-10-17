@@ -89,7 +89,7 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 ![NuGet package tree](docs/images/NuGetPackageTree.png)
 
-A detailed overview of each assembly per package is available [here](docs/DownloadandSetupPrism.md#overview-of-assemblies).
+A detailed overview of each assembly per package is available [here](docs/Download-and-Setup-Prism.md#overview-of-assemblies).
 
 ## Prism Template Pack
 
