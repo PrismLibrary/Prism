@@ -11,25 +11,25 @@ namespace Prism.Tests.Mvvm
             int value = 10;
             MockViewModel mockViewModel = new MockViewModel();
 
-            Assert.Equal(mockViewModel.MockProperty, 0);
+            Assert.Equal(0, mockViewModel.MockProperty);
 
             mockViewModel.MockProperty = value;
-            Assert.Equal(mockViewModel.MockProperty, value);
+            Assert.Equal(value, mockViewModel.MockProperty);
         }
 
         [Fact]
         public void SetPropertyMethodShouldNotSetTheNewValue()
         {
-            int value = 10;
+            int value = 10, newValue = 10;
             MockViewModel mockViewModel = new MockViewModel();
-            mockViewModel.MockProperty = 10;
+            mockViewModel.MockProperty = value;
 
             bool invoked = false;
             mockViewModel.PropertyChanged += (o, e) => { if (e.PropertyName.Equals("MockProperty")) invoked = true; };
-            mockViewModel.MockProperty = value;
+            mockViewModel.MockProperty = newValue;
 
             Assert.False(invoked);
-            Assert.Equal(mockViewModel.MockProperty, value);
+            Assert.Equal(value, mockViewModel.MockProperty);
         }
 
         [Fact]
