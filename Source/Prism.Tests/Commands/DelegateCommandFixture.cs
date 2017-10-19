@@ -78,7 +78,7 @@ namespace Prism.Tests.Commands
 
             bool retVal = command.CanExecute(null);
 
-            Assert.Equal(true, retVal);
+            Assert.True(retVal);
         }
 
         [Fact]
