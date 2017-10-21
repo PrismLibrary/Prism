@@ -41,10 +41,10 @@ namespace Prism.Tests.Events
 
             customEvent.Publish(payload);
 
-            Assert.Equal(1, received1.Length);
+            Assert.Single(received1);
             Assert.Same(received1[0], payload);
 
-            Assert.Equal(1, received2.Length);
+            Assert.Single(received2);
             Assert.Same(received2[0], payload);
         }
 

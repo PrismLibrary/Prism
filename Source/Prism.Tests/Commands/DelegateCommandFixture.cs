@@ -838,7 +838,7 @@ namespace Prism.Tests.Commands
             }
         }
 
-        public void DoNothing(object param)
+        internal void DoNothing(object param)
         { }
 
 
