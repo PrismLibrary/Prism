@@ -33,7 +33,7 @@ namespace Prism.Tests.Mvvm
             validation.SetErrors("property1", new[] { "message"});
 
             Assert.True(validation.HasErrors);
-            Assert.True(validation.GetErrors("property1").Contains("message"));
+            Assert.Contains("message", validation.GetErrors("property1"));
             Assert.Equal(new[] { "property1" }, validatedProperties);
         }
 
@@ -65,7 +65,7 @@ namespace Prism.Tests.Mvvm
             validation.SetErrors("property1", new[] { "message" });
 
             Assert.True(validation.HasErrors);
-            Assert.True(validation.GetErrors("property1").Contains("message"));
+            Assert.Contains("message", validation.GetErrors("property1"));
             Assert.Equal(new[] { "property1" }, validatedProperties);
         }
 
