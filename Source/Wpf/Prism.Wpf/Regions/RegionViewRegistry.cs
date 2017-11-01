@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Reflection;
 using Prism.Events;
 using Prism.Properties;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Common;
 
 namespace Prism.Regions
