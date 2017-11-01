@@ -3,7 +3,7 @@ using System.Globalization;
 using Autofac;
 using Autofac.Features.ResolveAnything;
 using AutofacCore = Autofac.Core;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Autofac.Properties;
 using Prism.Events;
 using Prism.Logging;

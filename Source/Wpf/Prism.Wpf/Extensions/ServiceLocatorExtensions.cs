@@ -1,5 +1,5 @@
 
-
+using CommonServiceLocator;
 using System;
 
 namespace Microsoft.Practices.ServiceLocation

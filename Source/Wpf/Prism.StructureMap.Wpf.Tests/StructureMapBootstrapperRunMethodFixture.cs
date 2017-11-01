@@ -31,7 +31,7 @@ namespace Prism.StructureMap.Wpf.Tests
             var bootstrapper = new DefaultStructureMapBootstrapper();
             bootstrapper.Run();
 
-            Assert.IsTrue(Microsoft.Practices.ServiceLocation.ServiceLocator.Current is StructureMapServiceLocatorAdapter);
+            Assert.IsTrue(CommonServiceLocator.ServiceLocator.Current is StructureMapServiceLocatorAdapter);
         }
 
         [TestMethod]

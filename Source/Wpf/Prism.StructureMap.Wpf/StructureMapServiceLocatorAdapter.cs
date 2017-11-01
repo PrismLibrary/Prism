@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using StructureMap;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 
 namespace Prism.StructureMap
 {

@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ninject;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks.Views;

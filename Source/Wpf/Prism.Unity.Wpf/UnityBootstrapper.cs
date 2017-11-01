@@ -7,7 +7,7 @@ using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Unity.Properties;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 using Prism.Unity.Regions;

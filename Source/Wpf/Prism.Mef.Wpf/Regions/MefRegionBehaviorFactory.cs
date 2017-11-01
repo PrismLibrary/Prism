@@ -2,7 +2,7 @@
 
 using System;
 using System.ComponentModel.Composition;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Regions;
 
 namespace Prism.Mef.Regions

@@ -6,7 +6,7 @@ using Prism.Interactivity.InteractionRequest;
 using System;
 using System.Windows;
 using System.Windows.Interactivity;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 
 namespace Prism.Interactivity
 {

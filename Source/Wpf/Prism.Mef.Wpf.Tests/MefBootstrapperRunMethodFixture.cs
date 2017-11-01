@@ -36,7 +36,7 @@ namespace Prism.Mef.Wpf.Tests
             var bootstrapper = new DefaultMefBootstrapper();
             bootstrapper.Run();
 
-            Assert.IsTrue(Microsoft.Practices.ServiceLocation.ServiceLocator.Current is MefServiceLocatorAdapter);
+            Assert.IsTrue(CommonServiceLocator.ServiceLocator.Current is MefServiceLocatorAdapter);
         }
 
         [TestMethod]

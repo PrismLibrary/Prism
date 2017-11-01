@@ -3,7 +3,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -37,7 +37,7 @@ namespace Prism.Unity.Wpf.Tests
             var bootstrapper = new DefaultUnityBootstrapper();
             bootstrapper.Run();
 
-            Assert.IsTrue(Microsoft.Practices.ServiceLocation.ServiceLocator.Current is UnityServiceLocatorAdapter);
+            Assert.IsTrue(CommonServiceLocator.ServiceLocator.Current is UnityServiceLocatorAdapter);
         }
 
         [TestMethod]

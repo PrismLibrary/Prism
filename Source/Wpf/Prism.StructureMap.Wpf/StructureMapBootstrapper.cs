@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using StructureMap;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.StructureMap.Properties;
 using Prism.Events;
 using Prism.Logging;

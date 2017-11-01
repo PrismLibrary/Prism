@@ -1,7 +1,7 @@
 
 
 using System.Windows;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Logging;

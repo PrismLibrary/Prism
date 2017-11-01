@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Reflection;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Ninject;
 using Prism;
 using Prism.Events;
