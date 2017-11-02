@@ -57,6 +57,8 @@ namespace Prism
         public void Run()
         {
             this.Run(true);
+
+            this.OnInitialized();
         }
 
         /// <summary>
@@ -192,5 +194,12 @@ namespace Prism
         /// Configures the LocatorProvider for the <see cref="Microsoft.Practices.ServiceLocation.ServiceLocator" />.
         /// </summary>
         protected abstract void ConfigureServiceLocator();
+
+        /// <summary>
+        /// Contains actions that should occur last.
+        /// </summary>
+        protected virtual void OnInitialized()
+        {
+        }
     }
 }
