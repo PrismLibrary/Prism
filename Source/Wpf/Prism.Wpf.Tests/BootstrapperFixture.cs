@@ -245,11 +245,22 @@ namespace Prism.Wpf.Tests
 
             Assert.IsTrue(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(RegionMemberLifetimeBehavior.BehaviorKey));
         }
+
+        [TestMethod]
+        public void OnInitializedShouldRunLast()
+        {
+            var bootstrapper = new DefaultBootstrapper();
+
+            bootstrapper.Run();
+
+            Assert.IsTrue(bootstrapper.ExtraInitialization);
+        }
     }
 
     internal class DefaultBootstrapper : Bootstrapper
     {
         public IRegionBehaviorFactory DefaultRegionBehaviorTypes;
+        public bool ExtraInitialization;
 
         public ILoggerFacade BaseLogger
         {
@@ -293,7 +304,12 @@ namespace Prism.Wpf.Tests
 
         public override void Run(bool runWithDefaultConfiguration)
         {
-            throw new NotImplementedException();
+            Assert.IsFalse(this.ExtraInitialization);
+        }
+
+        protected override void OnInitialized()
+        {
+            this.ExtraInitialization = true;
         }
 
         protected override DependencyObject CreateShell()
