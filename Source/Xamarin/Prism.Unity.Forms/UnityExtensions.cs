@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.Practices.Unity;
+using Unity;
 using Xamarin.Forms;
 using Prism.Mvvm;
 using Prism.Navigation;

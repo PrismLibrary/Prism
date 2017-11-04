@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity;
+using Unity;
+using Unity.Builder;
+using Unity.Builder.Strategy;
 using Xamarin.Forms;
 
 namespace Prism.Unity.Extensions
@@ -9,6 +10,7 @@ namespace Prism.Unity.Extensions
     internal class DependencyServiceStrategy : BuilderStrategy
     {
         private readonly IUnityContainer _container;
+        private IUnityContainer container;
 
         public DependencyServiceStrategy( IUnityContainer container )
         {

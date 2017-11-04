@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Common;
 using Prism.Unity.Forms.Tests.Mocks;
 using Prism.DI.Forms.Tests.Mocks.Modules;
