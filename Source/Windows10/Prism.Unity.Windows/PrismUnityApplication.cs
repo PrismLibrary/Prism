@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Globalization;
 using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Windows;
 using Prism.Windows.AppModel;
 using Prism.Windows.Navigation;
 using Windows.UI.Xaml;
+using Unity.Lifetime;
 
 namespace Prism.Unity.Windows
 {

@@ -1,4 +1,4 @@
-﻿using Microsoft.Practices.Unity;
+﻿using Unity;
 using Prism.Common;
 using Prism.Logging;
 using Prism.Navigation;

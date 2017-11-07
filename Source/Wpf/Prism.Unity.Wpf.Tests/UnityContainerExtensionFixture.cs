@@ -1,7 +1,7 @@
 
 
 using System.Collections.Generic;
-using Microsoft.Practices.Unity;
+using Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 

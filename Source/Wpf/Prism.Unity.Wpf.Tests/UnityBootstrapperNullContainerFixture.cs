@@ -2,7 +2,7 @@
 
 using System;
 using System.Windows;
-using Microsoft.Practices.Unity;
+using Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.IocContainer.Wpf.Tests.Support;
 
