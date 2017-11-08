@@ -1,4 +1,4 @@
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Common;
 using Prism.Properties;
 using System;

@@ -8,7 +8,7 @@ using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Mvvm;
 
 namespace Prism
@@ -94,7 +94,7 @@ namespace Prism
         protected virtual void RegisterFrameworkExceptionTypes()
         {
             ExceptionExtensions.RegisterFrameworkExceptionType(
-                typeof(Microsoft.Practices.ServiceLocation.ActivationException));
+                typeof(ActivationException));
         }
 
         /// <summary>

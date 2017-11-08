@@ -1,11 +1,11 @@
 ﻿using DryIoc;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using System;
 using System.Collections.Generic;
 
 namespace Prism.DryIoc
 {
-    class DryIocServiceLocatorAdapter : ServiceLocatorImplBase
+    public class DryIocServiceLocatorAdapter : ServiceLocatorImplBase
     {
         /// <summary>Exposes underlying Container for direct operation.</summary>
         public readonly IContainer _container;

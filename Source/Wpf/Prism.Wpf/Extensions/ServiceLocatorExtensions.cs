@@ -1,8 +1,6 @@
-
-
 using System;
 
-namespace Microsoft.Practices.ServiceLocation
+namespace CommonServiceLocator
 {
     /// <summary>
     /// Defines extension methods for the <see cref="ServiceLocator"/> class.

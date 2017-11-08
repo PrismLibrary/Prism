@@ -1,7 +1,7 @@
 
 
 using Prism.Regions;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Unity;
 using System;
 using System.Collections.Generic;

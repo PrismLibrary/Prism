@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Globalization;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Modularity;
