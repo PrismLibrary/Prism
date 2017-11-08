@@ -4,13 +4,14 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
+using Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
+using Unity.Lifetime;
 
 namespace Prism.Unity.Wpf.Tests
 {

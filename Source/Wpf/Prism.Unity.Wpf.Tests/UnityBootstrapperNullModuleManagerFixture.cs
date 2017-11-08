@@ -2,7 +2,7 @@
 
 using System.Windows;
 using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
+using Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Logging;
 using Prism.Regions;

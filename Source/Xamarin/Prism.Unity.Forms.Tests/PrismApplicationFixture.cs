@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.Practices.Unity;
+using Unity;
 using Prism.Common;
 using Prism.Unity.Forms.Tests.Mocks;
 using Prism.DI.Forms.Tests.Mocks.Modules;
@@ -102,7 +102,7 @@ namespace Prism.Unity.Forms.Tests
             await navigationService.NavigateAsync("view");
             var rootPage = ((IPageAware)navigationService).Page;
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ViewMock), rootPage.Navigation.ModalStack[0]);
+            Assert.IsType<ViewMock>(rootPage.Navigation.ModalStack[0]);
         }
 
         [Fact]
