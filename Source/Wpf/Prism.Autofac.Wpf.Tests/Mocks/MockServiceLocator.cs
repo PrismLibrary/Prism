@@ -1,7 +1,7 @@
 ﻿//using System;
 //using System.Collections.Generic;
 //using Autofac;
-//using Microsoft.Practices.ServiceLocation;
+//using CommonServiceLocator;
 //using Prism.Regions;
 
 //namespace Prism.Autofac.Tests.Mocks

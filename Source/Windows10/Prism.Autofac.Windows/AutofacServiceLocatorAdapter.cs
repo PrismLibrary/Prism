@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Autofac;
+using Microsoft.Practices.ServiceLocation;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Autofac;
-using CommonServiceLocator;
 
-namespace Prism.Autofac
+namespace Prism.Autofac.Windows
 {
     /// <summary>
     /// Defines a <see cref="IContainer"/> adapter for the <see cref="IServiceLocator"/> interface to be used by the Prism Library.
@@ -34,7 +34,7 @@ namespace Prism.Autofac
         /// <returns>The requested service instance.</returns>
         protected override object DoGetInstance(Type serviceType, string key)
         {
-            return key != null ? 
+            return key != null ?
                 _container.ResolveNamed(key, serviceType) :
                 _container.Resolve(serviceType);
         }

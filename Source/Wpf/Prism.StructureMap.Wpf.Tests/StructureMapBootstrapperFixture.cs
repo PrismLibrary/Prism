@@ -10,6 +10,7 @@ using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using StructureMap;
+using CommonServiceLocator;
 
 namespace Prism.StructureMap.Wpf.Tests
 {
@@ -127,7 +128,7 @@ namespace Prism.StructureMap.Wpf.Tests
             bootstrapper.CallRegisterFrameworkExceptionTypes();
 
             Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
-                typeof(Microsoft.Practices.ServiceLocation.ActivationException)));
+                typeof(ActivationException)));
         }
 
         [TestMethod]

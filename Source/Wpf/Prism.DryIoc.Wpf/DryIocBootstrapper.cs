@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Globalization;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Modularity;
@@ -9,7 +9,6 @@ using Prism.Regions;
 using Prism;
 using DryIoc;
 using Prism.DryIoc.Properties;
-using DryIoc.CommonServiceLocator;
 
 namespace Prism.DryIoc
 {
@@ -111,7 +110,7 @@ namespace Prism.DryIoc
         /// </summary>
         protected override void ConfigureServiceLocator()
         {
-            DryIocServiceLocator serviceLocator = new DryIocServiceLocator(Container);
+            DryIocServiceLocatorAdapter serviceLocator = new DryIocServiceLocatorAdapter(Container);
             ServiceLocator.SetLocatorProvider(() => serviceLocator);
 
             // register the locator in DryIoc as well
