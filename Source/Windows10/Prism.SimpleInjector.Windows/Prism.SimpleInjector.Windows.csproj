@@ -23,9 +23,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommonServiceLocator" Version="1.3.0" />
     <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.9" PrivateAssets="All" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1" />
-    <PackageReference Include="SimpleInjector" Version="3.3.2" />
+    <PackageReference Include="SimpleInjector" Version="4.0.12" />
   </ItemGroup>
 
   <ItemGroup>
