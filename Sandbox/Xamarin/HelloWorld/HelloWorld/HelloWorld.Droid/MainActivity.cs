@@ -7,10 +7,9 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Prism.Events;
-using Microsoft.Practices.ServiceLocation;
 using Prism;
 using Prism.Unity;
-using Microsoft.Practices.Unity;
+using Unity;
 
 namespace HelloWorld.Droid
 {

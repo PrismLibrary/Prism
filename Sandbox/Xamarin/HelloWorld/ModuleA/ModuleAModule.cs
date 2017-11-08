@@ -1,7 +1,8 @@
-﻿using Microsoft.Practices.Unity;
-using ModuleA.Views;
+﻿using ModuleA.Views;
 using Prism.Modularity;
 using Prism.Unity;
+using Unity;
+using Unity.Lifetime;
 using Xamarin.Forms;
 
 namespace ModuleA
