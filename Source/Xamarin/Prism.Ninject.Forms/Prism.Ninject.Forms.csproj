@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ninject" Version="3.3.0" />
+    <PackageReference Include="Ninject" Version="3.3.3" />
   </ItemGroup>
 
   <ItemGroup>
