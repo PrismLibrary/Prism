@@ -3,7 +3,7 @@
   <metadata>
     <id>Prism.StructureMap</id>
     <version>$version$</version>
-    <title>StructureMap for Prism 6</title>
+    <title>StructureMap for Prism 7</title>
     <authors>Brian Lagunas, Brian Noyes</authors>
     <owners>Brian Lagunas, Brian Noyes</owners>
     <licenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</licenseUrl>
@@ -17,8 +17,7 @@
     <tags>prism mvvm StuctureMap dependency injection di</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="StructureMap" version="4.4.0" />
-        <dependency id="CommonServiceLocator" version="1.3.0" />
+        <dependency id="StructureMap" version="4.5.2" />
         <dependency id="Prism.Wpf" version="$wpfVersion$" />
       </group>
     </dependencies>
