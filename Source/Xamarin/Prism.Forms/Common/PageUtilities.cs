@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -224,6 +225,29 @@ namespace Prism.Common
             OnNavigatedFrom(previousPage, parameters);
             OnNavigatedTo(GetOnNavigatedToTargetFromChild(currentPage), parameters);
             DestroyPage(previousPage);
+        }
+
+        internal static bool HasNavigationPageParent(Page page)
+        {
+            return page?.Parent != null && page?.Parent is NavigationPage;
+        }
+
+        internal static bool IsSameOrSubclassOf<T>(Type potentialDescendant)
+        {
+            if (potentialDescendant == null)
+                return false;
+
+            Type potentialBase = typeof(T);
+
+            return potentialDescendant.GetTypeInfo().IsSubclassOf(potentialBase)
+                   || potentialDescendant == potentialBase;
+        }
+
+        internal static void SetAutowireViewModelOnPage(Page page)
+        {
+            var vmlResult = Mvvm.ViewModelLocator.GetAutowireViewModel(page);
+            if (vmlResult == null)
+                Mvvm.ViewModelLocator.SetAutowireViewModel(page, true);
         }
     }
 }

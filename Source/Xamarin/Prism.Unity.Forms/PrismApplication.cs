@@ -14,6 +14,7 @@ using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
 using Unity.Lifetime;
 using Unity.Resolution;
+using Prism.Behaviors;
 
 namespace Prism.Unity
 {
@@ -73,6 +74,7 @@ namespace Prism.Unity
             Container.RegisterType<IDependencyService, DependencyService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IPageDialogService, PageDialogService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDeviceService, DeviceService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IPageBehaviorFactory, PageBehaviorFactory>(new ContainerControlledLifetimeManager());
         }
     }
 }

@@ -2,6 +2,7 @@
 using Ninject.Parameters;
 using Ninject.Planning.Bindings.Resolvers;
 using Prism.AppModel;
+using Prism.Behaviors;
 using Prism.Common;
 using Prism.Events;
 using Prism.Logging;
@@ -73,6 +74,7 @@ namespace Prism.Ninject
             Container.Bind<IDependencyService>().To<DependencyService>().InSingletonScope();
             Container.Bind<IPageDialogService>().To<PageDialogService>().InSingletonScope();
             Container.Bind<IDeviceService>().To<DeviceService>().InSingletonScope();
+            Container.Bind<IPageBehaviorFactory>().To<PageBehaviorFactory>().InSingletonScope();            
         }
     }
 }

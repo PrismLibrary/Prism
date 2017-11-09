@@ -1,4 +1,5 @@
 ﻿using Ninject;
+using Prism.Behaviors;
 using Prism.Common;
 using Prism.Logging;
 using Prism.Navigation;
@@ -10,8 +11,8 @@ namespace Prism.Ninject.Navigation
     {
         IKernel _kernel;
 
-        public NinjectPageNavigationService(IKernel kernel, IApplicationProvider applicationProvider, ILoggerFacade logger)
-            : base (applicationProvider, logger)
+        public NinjectPageNavigationService(IKernel kernel, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory, ILoggerFacade logger)
+            : base (applicationProvider, pageBehaviorFactory, logger)
         {
             _kernel = kernel;
         }

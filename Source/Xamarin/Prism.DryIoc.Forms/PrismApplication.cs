@@ -13,6 +13,7 @@ using Prism.Navigation;
 using Prism.Services;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
+using Prism.Behaviors;
 
 namespace Prism.DryIoc
 {
@@ -84,6 +85,7 @@ namespace Prism.DryIoc
             Container.Register<IDependencyService, DependencyService>(Reuse.Singleton);
             Container.Register<IPageDialogService, PageDialogService>(Reuse.Singleton);
             Container.Register<IDeviceService, DeviceService>(Reuse.Singleton);
+            Container.Register<IPageBehaviorFactory, PageBehaviorFactory>(Reuse.Singleton);            
         }
 
         protected override void InitializeModules()
