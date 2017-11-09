@@ -14,12 +14,15 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <PrismVersion>7.0.0</PrismVersion>
+    <PrismVersion Condition=" '$(PRISM_AUTOFAC_WPF_VERSION)' != '' ">$(PRISM_AUTOFAC_WPF_VERSION)</PrismVersion>
     <PrismFileVersion>$(PrismVersion).0</PrismFileVersion>
     <PrismFileVersion Condition=" '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(PrismVersion).$(APPVEYOR_BUILD_NUMBER)</PrismFileVersion>
     <PrismFileVersion Condition=" '$(BUILD_BUILDID)' != '' ">$(PrismVersion).$(BUILD_BUILDID)</PrismFileVersion>
+    <PrismFileVersion Condition=" '$(PRISM_AUTOFAC_WPF_FILEVERSION)' != '' ">$(PRISM_AUTOFAC_WPF_FILEVERSION)</PrismFileVersion>
     <PrismInformationalVersion>$(PrismFileVersion)-ci</PrismInformationalVersion>
     <PrismInformationalVersion Condition=" '$(IS_PREVIEW)' ">$(PrismFileVersion)-pre</PrismInformationalVersion>
     <PrismInformationalVersion Condition=" '$(IS_RELEASE)' ">$(PrismFileVersion)</PrismInformationalVersion>
+    <PrismInformationalVersion Condition=" '$(PRISM_AUTOFAC_WPF_INFOVERSION)' != '' ">$(PRISM_AUTOFAC_WPF_INFOVERSION)</PrismInformationalVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
