@@ -1,5 +1,13 @@
 <Project>
 
+    <Target Name="AssemblyVersion">
+        <AssemblyInfo CodeLanguage="CS"  
+                      OutputFile="$(MSBuildProjectDirectory)\Properties\VersionInfo.cs" 
+                      AssemblyVersion="$(PrismVersion)" 
+                      AssemblyFileVersion="$(PrismFileVersion)"
+                      AssemblyInformationalVersion="$(PrismInformationalVersion)" />
+    </Target>
+
     <Target Name="WpfPack" 
             BeforeTargets="AfterBuild"
             Condition=" '$(IsWpfProject)' And !'$(IsTestProject)' ">
