@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.9" PrivateAssets="All" />
+    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.1.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1" />
   </ItemGroup>
 

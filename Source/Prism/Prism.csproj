@@ -31,7 +31,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.9" PrivateAssets="All" />
+    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.1.0" PrivateAssets="All" />
     <PackageReference Condition=" '$(TargetFramework)' == 'netstandard1.0' " Include="System.Resources.ResourceManager" Version="4.3.0" />
     <PackageReference Condition=" '$(TargetFramework)' == 'uap10.0' " Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1" />
   </ItemGroup>
