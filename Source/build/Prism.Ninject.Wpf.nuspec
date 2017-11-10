@@ -4,8 +4,8 @@
     <id>Prism.Ninject</id>
     <version>$version$</version>
     <title>Ninject for Prism 7</title>
-    <authors>Brian Lagunas, Brian Noyes</authors>
-    <owners>Brian Lagunas, Brian Noyes</owners>
+    <authors>Brian Lagunas, Bart Lannoeye, Dan Siegel</authors>
+    <owners>Brian Lagunas, Bart Lannoeye, dansiegel</owners>
     <licenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://prismlibrary.com/</projectUrl>
     <iconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</iconUrl>

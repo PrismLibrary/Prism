@@ -4,8 +4,8 @@
     <id>Prism.Unity</id>
     <version>$version$</version>
     <title>Unity for Prism 7</title>
-    <authors>Brian Lagunas, Brian Noyes</authors>
-    <owners>Brian Lagunas, Brian Noyes</owners>
+    <authors>Brian Lagunas, Bart Lannoeye, Dan Siegel</authors>
+    <owners>Brian Lagunas, Bart Lannoeye, dansiegel</owners>
     <licenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://prismlibrary.com/</projectUrl>
     <iconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</iconUrl>
@@ -14,7 +14,7 @@
     <summary>Unity extensions for Prism.</summary>
     <releaseNotes>$releaseNotes$</releaseNotes>
     <language>en-US</language>
-    <tags>prism mvvm wpf uwp unity dependency injection di</tags>
+    <tags>prism mvvm wpf unity dependency injection di</tags>
     <dependencies>
       
       <group targetFramework=".NETFramework4.5">
