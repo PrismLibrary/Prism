@@ -227,9 +227,26 @@ namespace Prism.Common
             DestroyPage(previousPage);
         }
 
-        internal static bool HasNavigationPageParent(Page page)
+        internal static bool HasDirectNavigationPageParent(Page page)
         {
             return page?.Parent != null && page?.Parent is NavigationPage;
+        }
+
+        internal static bool HasNavigationPageParent(Page page)
+        {
+            if (page?.Parent != null)
+            {
+                if (page.Parent is NavigationPage)
+                {
+                    return true;
+                }
+                else if (page.Parent is TabbedPage || page.Parent is CarouselPage)
+                {
+                    return page.Parent.Parent != null && page.Parent.Parent is NavigationPage;
+                }
+            }
+
+            return false;
         }
 
         internal static bool IsSameOrSubclassOf<T>(Type potentialDescendant)
