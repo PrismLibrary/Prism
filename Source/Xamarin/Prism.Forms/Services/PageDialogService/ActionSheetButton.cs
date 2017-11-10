@@ -37,6 +37,7 @@ namespace Prism.Services
         /// <param name="command">Command to execute when button pressed</param>
         /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
         [Obsolete("IActionSheetButton is replacing Commands with Action's. Commands will be removed in a future release.")]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public static IActionSheetButton CreateCancelButton(string text, ICommand command)
         {
             return CreateButtonInternal(text, null, isCancel: true, command: command);
@@ -61,6 +62,7 @@ namespace Prism.Services
         /// <param name="parameter">Parameter to pass the command when the button is pressed</param>
         /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
         [Obsolete("IActionSheetButton is replacing Commands with Action's. Commands will be removed in a future release.")]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public static IActionSheetButton CreateCancelButton<T>(string text, ICommand command, T parameter)
         {
             return CreateButtonInternal(text, null, parameter, isCancel: true, command: command);
@@ -85,6 +87,7 @@ namespace Prism.Services
         /// <param name="command">Command to execute when button pressed</param>
         /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
         [Obsolete("IActionSheetButton is replacing Commands with Action's. Commands will be removed in a future release.")]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public static IActionSheetButton CreateDestroyButton(string text, ICommand command)
         {
             return CreateButtonInternal(text, null, isDestroy: true, command: command);
@@ -109,6 +112,7 @@ namespace Prism.Services
         /// <param name="parameter">Parameter to pass the command when the button is pressed</param>
         /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
         [Obsolete("IActionSheetButton is replacing Commands with Action's. Commands will be removed in a future release.")]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public static IActionSheetButton CreateDestroyButton<T>(string text, ICommand command, T parameter)
         {
             return CreateButtonInternal(text, null, parameter, isDestroy: true, command: command);
@@ -133,6 +137,7 @@ namespace Prism.Services
         /// <param name="command">Command to execute when button pressed</param>
         /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
         [Obsolete("IActionSheetButton is replacing Commands with Action's. Commands will be removed in a future release.")]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public static IActionSheetButton CreateButton(string text, ICommand command)
         {
             return CreateButtonInternal(text, null, command: command);
@@ -157,6 +162,7 @@ namespace Prism.Services
         /// <param name="parameter">The parameter to pass the command when the button is pressed</param>
         /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
         [Obsolete("IActionSheetButton is replacing Commands with Action's. Commands will be removed in a future release.")]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public static IActionSheetButton CreateButton<T>(string text, ICommand command, T parameter)
         {
             return CreateButtonInternal(text, null, parameter, command: command);

@@ -44,6 +44,7 @@ namespace Prism.Services
         /// </summary>
         /// <value>The command.</value>
         [Obsolete("IActionSheetButton is replacing Commands with Action's. Commands will be removed in a future release.")]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public ICommand Command
         {
             get { return _command; }

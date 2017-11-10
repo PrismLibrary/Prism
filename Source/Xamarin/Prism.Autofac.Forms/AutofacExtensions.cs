@@ -70,6 +70,7 @@ namespace Prism.Autofac
         /// <param name="winPhoneView">Windows Phone Specific View Type</param>
         /// <returns><see cref="ContainerBuilder"/></returns>
         [Obsolete("This signature of the RegisterTypeForNavigationOnPlatform method is obsolete due to Device.OnPlatform being deprecated. Use the new IPlatform[] overload instead.")]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public static ContainerBuilder RegisterTypeForNavigationOnPlatform<TView, TViewModel>(this ContainerBuilder builder, string name = null, Type androidView = null, Type iOSView = null, Type otherView = null, Type windowsView = null, Type winPhoneView = null)
             where TView : Page
             where TViewModel : class

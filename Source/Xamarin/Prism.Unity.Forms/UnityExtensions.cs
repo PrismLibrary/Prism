@@ -3,12 +3,10 @@ using Unity;
 using Xamarin.Forms;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Services;
-using Prism.AppModel;
 
 namespace Prism.Unity
 {
-	public static class UnityExtensions
+    public static class UnityExtensions
 	{
 		/// <summary>
 		/// Registers a Page for navigation.
@@ -67,6 +65,7 @@ namespace Prism.Unity
 		/// <param name="winPhoneView">Windows Phone Specific View Type</param>
 		/// <returns><see cref="IUnityContainer"/></returns>
 		[Obsolete("This signature of the RegisterTypeForNavigationOnPlatform method is obsolete due to Device.OnPlatform being deprecated. Use the new IPlatform[] overload instead.")]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
 		public static IUnityContainer RegisterTypeForNavigationOnPlatform<TView, TViewModel>(this IUnityContainer container, string name = null, Type androidView = null, Type iOSView = null, Type otherView = null, Type windowsView = null, Type winPhoneView = null)
 			where TView : Page
 			where TViewModel : class
