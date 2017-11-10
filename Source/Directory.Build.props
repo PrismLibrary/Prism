@@ -23,7 +23,15 @@
     <IsUwpProject>$(MSBuildProjectName.Contains('Windows'))</IsUwpProject>
     <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
     <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
+    <DisableCorePublish Condition=" '$(DisableCorePublish)' == '' ">false</DisableCorePublish>
+    <DisableUwpPublish Condition=" '$(DisableUwpPublish)' == '' ">false</DisableUwpPublish>
+    <DisableWpfPublish Condition=" '$(DisableUpfPublish)' == '' ">false</DisableWpfPublish>
+    <DisableFormsPublish Condition=" '$(DisableFormsPublish)' == '' ">false</DisableFormsPublish>
     <IsPackable>!$(IsTestProject)</IsPackable>
+    <IsPackable Condition=" '$(IsCoreProject)' And !'$(IsTestProject)' ">!$(DisableCorePublish)</IsPackable>
+    <IsPackable Condition=" '$(IsUwpProject)' And !'$(IsTestProject)' ">!$(DisableUwpPublish)</IsPackable>
+    <IsPackable Condition=" '$(IsWpfProject)' And !'$(IsTestProject)' ">!$(DisableWpfPublish)</IsPackable>
+    <IsPackable Condition=" '$(IsFormsProject)' And !'$(IsTestProject)' ">!$(DisableFormsPublish)</IsPackable>
     <PackageTags Condition=" '$(IsCoreProject)' == 'True' ">prism;wpf;xamarin;uwp;uap;xaml</PackageTags>
     <PackageTags Condition=" '$(IsUwpProject)' == 'True' ">prism;mvvm;uwp;dependency injection;di</PackageTags>
     <PackageTags Condition=" '$(IsWpfProject)' == 'True' ">prism;mvvm;wpf;dependency injection;di</PackageTags>
