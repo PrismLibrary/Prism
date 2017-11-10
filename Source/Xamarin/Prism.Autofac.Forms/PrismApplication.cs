@@ -13,6 +13,7 @@ using Prism.Navigation;
 using Prism.Services;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
+using Prism.Behaviors;
 
 namespace Prism.Autofac
 {
@@ -150,6 +151,7 @@ namespace Prism.Autofac
             Builder.RegisterType<DependencyService>().As<IDependencyService>().SingleInstance();
             Builder.RegisterType<PageDialogService>().As<IPageDialogService>().SingleInstance();
             Builder.RegisterType<DeviceService>().As<IDeviceService>().SingleInstance();
+            Builder.RegisterType<PageBehaviorFactory>().As<IPageBehaviorFactory>().SingleInstance();            
         }
 
         /// <summary>

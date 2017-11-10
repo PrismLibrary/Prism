@@ -1,4 +1,5 @@
 ﻿using DryIoc;
+using Prism.Behaviors;
 using Prism.Common;
 using Prism.Logging;
 using Prism.Navigation;
@@ -19,8 +20,8 @@ namespace Prism.DryIoc.Navigation
         /// <param name="applicationProvider">An instance of <see cref="IApplicationProvider"/></param>
         /// <param name="container">An instance of <see cref="IContainer"/></param>
         /// <param name="logger">An instance of <see cref="ILoggerFacade"/></param>
-        public DryIocPageNavigationService(IApplicationProvider applicationProvider, IContainer container, ILoggerFacade logger)
-            : base(applicationProvider, logger)
+        public DryIocPageNavigationService(IApplicationProvider applicationProvider, IContainer container, IPageBehaviorFactory pageBehaviorFactory, ILoggerFacade logger)
+            : base(applicationProvider, pageBehaviorFactory, logger)
         {
             _container = container;
         }

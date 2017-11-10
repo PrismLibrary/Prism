@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Reflection;
+using Prism.Behaviors;
 
 namespace Prism.Navigation
 {
@@ -21,8 +22,9 @@ namespace Prism.Navigation
         //not sure I like this static property, think about this a little more
         protected internal static PageNavigationSource NavigationSource { get; protected set; } = PageNavigationSource.Device;
 
-        protected IApplicationProvider _applicationProvider;
-        protected ILoggerFacade _logger;
+        protected readonly IApplicationProvider _applicationProvider;
+        protected readonly IPageBehaviorFactory _pageBehaviorFactory;
+        protected readonly ILoggerFacade _logger;
 
         protected Page _page;
         Page IPageAware.Page
@@ -31,9 +33,10 @@ namespace Prism.Navigation
             set { _page = value; }
         }
 
-        protected PageNavigationService(IApplicationProvider applicationProvider, ILoggerFacade logger)
+        protected PageNavigationService(IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory, ILoggerFacade logger)
         {
             _applicationProvider = applicationProvider;
+            _pageBehaviorFactory = pageBehaviorFactory;
             _logger = logger;
         }
 
@@ -178,7 +181,7 @@ namespace Prism.Navigation
 
         protected virtual async Task ProcessNavigationForRemovePageSegments(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            if (!HasNavigationPageParent(currentPage))
+            if (!PageUtilities.HasNavigationPageParent(currentPage))
                 throw new InvalidOperationException("Removing views using the relative '../' syntax while navigating is only supported within a NavigationPage");
 
             List<Page> pagesToRemove = new List<Page>();
@@ -491,8 +494,8 @@ namespace Prism.Navigation
                 if (page == null)
                     throw new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
 
-                SetAutowireViewModelOnPage(page);
-                ApplyPageBehaviors(page);
+                PageUtilities.SetAutowireViewModelOnPage(page);
+                _pageBehaviorFactory.ApplyPageBehaviors(page);
                 ConfigurePages(page, segment);
 
                 return page;
@@ -520,12 +523,12 @@ namespace Prism.Navigation
         {
             foreach (var child in tabbedPage.Children)
             {
-                SetAutowireViewModelOnPage(child);
-                ApplyPageBehaviors(child);
+                PageUtilities.SetAutowireViewModelOnPage(child);
+                _pageBehaviorFactory.ApplyPageBehaviors(child);
                 if(child is NavigationPage navPage)
                 {
-                    SetAutowireViewModelOnPage(navPage.CurrentPage);
-                    ApplyPageBehaviors(navPage.CurrentPage);
+                    PageUtilities.SetAutowireViewModelOnPage(navPage.CurrentPage);
+                    _pageBehaviorFactory.ApplyPageBehaviors(navPage.CurrentPage);
                 }
             }
 
@@ -566,7 +569,6 @@ namespace Prism.Navigation
                 }
             }
 
-
             var selectedTab = parameters.GetValue<string>(KnownNavigationParameters.SelectedTab);
             if (!string.IsNullOrWhiteSpace(selectedTab))
             {
@@ -597,7 +599,7 @@ namespace Prism.Navigation
         {
             foreach (var child in carouselPage.Children)
             {
-                SetAutowireViewModelOnPage(child);
+                PageUtilities.SetAutowireViewModelOnPage(child);
             }
 
             var selectedTab = UriParsingHelper.GetSegmentParameters(segment).GetValue<string>(KnownNavigationParameters.SelectedTab);
@@ -611,72 +613,6 @@ namespace Prism.Navigation
                         carouselPage.CurrentPage = child;
                 }
             }
-        }
-
-        protected virtual void ApplyPageBehaviors(Page page)
-        {
-            switch(page)
-            {
-                case NavigationPage navPage:
-                    ApplyNavigationPageBehaviors(navPage);
-                    break;
-                case TabbedPage tabbed:
-                    page.Behaviors.Add(new Behaviors.TabbedPageActiveAwareBehavior());
-                    break;
-                case CarouselPage carousel:
-                    page.Behaviors.Add(new Behaviors.CarouselPageActiveAwareBehavior());
-                    break;
-            }
-            page.Behaviors.Add(new Behaviors.PageLifeCycleAwareBehavior());
-        }
-
-        private static void ApplyNavigationPageBehaviors(Page page)
-        {
-            page.Behaviors.Add(new Behaviors.NavigationPageSystemGoBackBehavior());
-            page.Behaviors.Add(new Behaviors.NavigationPageActiveAwareBehavior());
-        }
-
-        protected void SetAutowireViewModelOnPage(Page page)
-        {
-            var vmlResult = Mvvm.ViewModelLocator.GetAutowireViewModel(page);
-            if (vmlResult == null)
-                Mvvm.ViewModelLocator.SetAutowireViewModel(page, true);
-        }
-
-        protected static bool HasNavigationPageParent(Page page)
-        {
-            return page?.Parent != null && page?.Parent is NavigationPage;
-        }
-
-        protected static bool UseModalNavigation(Page currentPage, bool? useModalNavigationDefault)
-        {
-            bool useModalNavigation = true;
-
-
-            if (useModalNavigationDefault.HasValue)
-                useModalNavigation = useModalNavigationDefault.Value;
-            else if (currentPage is NavigationPage)
-                useModalNavigation = false;
-            else
-                useModalNavigation = !HasNavigationPageParent(currentPage);
-
-            return useModalNavigation;
-        }
-
-        protected static bool UseReverseNavigation(Page currentPage, Type nextPageType)
-        {
-            return currentPage?.Parent is NavigationPage && IsSameOrSubclassOf<ContentPage>(nextPageType);
-        }
-
-        public static bool IsSameOrSubclassOf<T>(Type potentialDescendant)
-        {
-            if (potentialDescendant == null)
-                return false;
-
-            Type potentialBase = typeof(T);
-
-            return potentialDescendant.GetTypeInfo().IsSubclassOf(potentialBase)
-                   || potentialDescendant == potentialBase;
         }
 
         protected virtual async Task UseReverseNavigation(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -699,7 +635,7 @@ namespace Prism.Navigation
                 }
 
                 var pageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(item));
-                if (IsSameOrSubclassOf<MasterDetailPage>(pageType))
+                if (PageUtilities.IsSameOrSubclassOf<MasterDetailPage>(pageType))
                 {
                     illegalSegments.Enqueue(item);
                     illegalPageFound = true;
@@ -783,6 +719,26 @@ namespace Prism.Navigation
         protected virtual Page GetCurrentPage()
         {
             return _page != null ? _page : _applicationProvider.MainPage;
+        }
+
+        internal static bool UseModalNavigation(Page currentPage, bool? useModalNavigationDefault)
+        {
+            bool useModalNavigation = true;
+
+
+            if (useModalNavigationDefault.HasValue)
+                useModalNavigation = useModalNavigationDefault.Value;
+            else if (currentPage is NavigationPage)
+                useModalNavigation = false;
+            else
+                useModalNavigation = !PageUtilities.HasNavigationPageParent(currentPage);
+
+            return useModalNavigation;
+        }
+
+        internal static bool UseReverseNavigation(Page currentPage, Type nextPageType)
+        {
+            return currentPage?.Parent is NavigationPage && PageUtilities.IsSameOrSubclassOf<ContentPage>(nextPageType);
         }
     }
 }
