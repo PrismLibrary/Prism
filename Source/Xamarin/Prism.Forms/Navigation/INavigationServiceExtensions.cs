@@ -23,7 +23,7 @@ namespace Prism.Navigation
                 if (parameters == null)
                     parameters = new NavigationParameters();
 
-                parameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.Back);
+                parameters.InternalParameters.Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
 
                 IPageAware pageAware = (IPageAware)navigationService;
 
@@ -51,7 +51,7 @@ namespace Prism.Navigation
             }
             catch(InvalidOperationException ex)
             {                
-                throw new InvalidOperationException("GoBackToRootAsync can only be called when the calling Page is within a NavigationPage.");
+                throw new InvalidOperationException("GoBackToRootAsync can only be called when the calling Page is within a NavigationPage.", ex);
             }
             catch
             {
