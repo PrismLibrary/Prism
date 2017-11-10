@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" InitialTargets="AssemblyVersion" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,6 +11,18 @@
     <AssemblyName>Prism.Autofac.Wpf</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PrismVersion>7.0.0</PrismVersion>
+    <PrismVersion Condition=" '$(PRISM_AUTOFAC_WPF_VERSION)' != '' ">$(PRISM_AUTOFAC_WPF_VERSION)</PrismVersion>
+    <PrismFileVersion>$(PrismVersion).0</PrismFileVersion>
+    <PrismFileVersion Condition=" '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(PrismVersion).$(APPVEYOR_BUILD_NUMBER)</PrismFileVersion>
+    <PrismFileVersion Condition=" '$(BUILD_BUILDID)' != '' ">$(PrismVersion).$(BUILD_BUILDID)</PrismFileVersion>
+    <PrismFileVersion Condition=" '$(PRISM_AUTOFAC_WPF_FILEVERSION)' != '' ">$(PRISM_AUTOFAC_WPF_FILEVERSION)</PrismFileVersion>
+    <PrismInformationalVersion>$(PrismFileVersion)-ci</PrismInformationalVersion>
+    <PrismInformationalVersion Condition=" '$(IS_PREVIEW)' ">$(PrismFileVersion)-pre</PrismInformationalVersion>
+    <PrismInformationalVersion Condition=" '$(IS_RELEASE)' ">$(PrismFileVersion)</PrismInformationalVersion>
+    <PrismInformationalVersion Condition=" '$(PRISM_AUTOFAC_WPF_INFOVERSION)' != '' ">$(PRISM_AUTOFAC_WPF_INFOVERSION)</PrismInformationalVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -66,6 +78,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Regions\AutofacRegionNavigationContentLoader.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +102,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets" Condition="Exists('..\..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

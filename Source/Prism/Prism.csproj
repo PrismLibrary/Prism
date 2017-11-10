@@ -1,30 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0;netstandard2.0;net45;uap10.0</TargetFrameworks>
     <AssemblyName>Prism</AssemblyName>
     <PackageId>Prism.Core</PackageId>
+    <DebugType>pdbonly</DebugType>
     <!-- Summary is not actually supported at this time. Including the summary for future support. -->
     <!--<Summary>Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable applications.</Summary>-->
     <Description>Prism is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices.  Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms; WPF, Windows 10 UWP, and Xamarin Forms. Features that need to be platform specific are implemented in the respective libraries for the target platform.</Description>
     <PackageTags>prism;wpf;xamarin;mvvm;uwp;uap;xaml</PackageTags>
     <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
+    <Version Condition=" '$(PRISM_CORE_VERSION)' != '' ">$(PRISM_CORE_VERSION)</Version>
     <!-- Update this version when incrementing Library Versions i.e. 7.1.0, 7.2.0 -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' ">7.0.0</VersionPrefix>
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_CORE_VERSION)' == '' ">7.0.0</VersionPrefix>
     <!-- This will create CI builds as 7.0.0.1234-ci -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</VersionPrefix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">ci</VersionSuffix>
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_CORE_VERSION)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</VersionPrefix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_CORE_VERSION)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">ci</VersionSuffix>
     <!-- This will create CI builds as 7.0.0.1234-ci -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(BUILD_BUILDID)' != '' ">ci</VersionSuffix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_CORE_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_CORE_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_CORE_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\prism.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
+    <!-- Targeting Creators Update -->
+    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
+    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.1.0" PrivateAssets="All" />
+    <PackageReference Condition=" '$(TargetFramework)' == 'netstandard1.0' " Include="System.Resources.ResourceManager" Version="4.3.0" />
+    <PackageReference Condition=" '$(TargetFramework)' == 'uap10.0' " Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,4 +42,5 @@
     <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
   </ItemGroup>
 
+  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>
