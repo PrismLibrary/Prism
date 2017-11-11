@@ -77,6 +77,9 @@ namespace Prism.DryIoc
             Container.UseInstance(ModuleCatalog);
             Container.UseInstance(Container);
             Container.Register<INavigationService, DryIocPageNavigationService>(serviceKey: _navigationServiceKey);
+            Container.Register<INavigationService>(
+                made: Made.Of(() => SetPage(Arg.Of<INavigationService>(_navigationServiceKey), Arg.Of<Page>())),
+                setup: Setup.Decorator);
             Container.Register<IApplicationProvider, ApplicationProvider>(Reuse.Singleton);
             Container.Register<IApplicationStore, ApplicationStore>(Reuse.Singleton);
             Container.Register<IModuleManager, ModuleManager>(Reuse.Singleton);
@@ -113,16 +116,25 @@ namespace Prism.DryIoc
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                var page = view as Page;
-                if(page != null)
+                switch(view)
                 {
-                    var navService = CreateNavigationService(page);
-                    return Container.WithDependencies(
-                    Parameters.Of.Type(_ => navService))
-                    .Resolve(type);
+                    case Page page:
+                        var getVM = Container.Resolve<Func<Page, object>>(type);
+                        return getVM(page);
+                    default:
+                        return Container.Resolve(type);
                 }
-                return Container.Resolve(type);
             });
+        }
+
+        internal static INavigationService SetPage(INavigationService navigationService, Page page)
+        {
+            if(navigationService is IPageAware pageAware)
+            {
+                pageAware.Page = page;
+            }
+
+            return navigationService;
         }
     }
 }
