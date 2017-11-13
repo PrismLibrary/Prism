@@ -1,5 +1,5 @@
-﻿using Unity;
-using Prism.AppModel;
+﻿using Prism.AppModel;
+using Prism.Behaviors;
 using Prism.Common;
 using Prism.Events;
 using Prism.Logging;
@@ -7,14 +7,13 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using Prism.Unity.Extensions;
 using Prism.Unity.Modularity;
 using Prism.Unity.Navigation;
-using Xamarin.Forms;
-using DependencyService = Prism.Services.DependencyService;
+using Unity;
 using Unity.Lifetime;
 using Unity.Resolution;
-using Prism.Behaviors;
+using Xamarin.Forms;
+using DependencyService = Prism.Services.DependencyService;
 
 namespace Prism.Unity
 {
@@ -60,8 +59,6 @@ namespace Prism.Unity
 
         protected override void ConfigureContainer()
         {
-            Container.AddNewExtension<DependencyServiceExtension>();
-
             Container.RegisterInstance<ILoggerFacade>(Logger);
             Container.RegisterInstance<IModuleCatalog>(ModuleCatalog);
 

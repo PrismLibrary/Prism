@@ -2,8 +2,8 @@
 using System.Linq;
 using DryIoc;
 using Prism.AppModel;
+using Prism.Behaviors;
 using Prism.Common;
-using Prism.DryIoc.Extensions;
 using Prism.DryIoc.Modularity;
 using Prism.DryIoc.Navigation;
 using Prism.Events;
@@ -13,7 +13,6 @@ using Prism.Navigation;
 using Prism.Services;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
-using Prism.Behaviors;
 
 namespace Prism.DryIoc
 {
@@ -65,11 +64,8 @@ namespace Prism.DryIoc
         /// <see cref="Container" />
         /// </remarks>
         /// <returns>An instance of <see cref="Rules" /></returns>
-        protected virtual Rules CreateContainerRules()
-        {
-            return Rules.Default.WithAutoConcreteTypeResolution()
-                .WithUnknownServiceResolvers(request => UnknownServiceResolverRule.DependencyServiceResolverRule(request));
-        }
+        protected virtual Rules CreateContainerRules() => 
+            Rules.Default.WithAutoConcreteTypeResolution();
 
         protected override void ConfigureContainer()
         {
