@@ -11,6 +11,7 @@ using Prism.Navigation;
 using Xamarin.Forms;
 using Xunit;
 using Prism.DI.Forms.Tests;
+using Prism.Services;
 
 namespace Prism.DryIoc.Forms.Tests
 {
@@ -61,7 +62,9 @@ namespace Prism.DryIoc.Forms.Tests
         public void ResolveTypeRegisteredWithDependencyService()
         {
             var app = new PrismApplicationMock();
-            var service = app.Container.Resolve<IDependencyServiceMock>();
+            var dependencyService = app.Container.Resolve<IDependencyService>();
+            Assert.NotNull(dependencyService);
+            var service = dependencyService.Get<IDependencyServiceMock>();
             Assert.NotNull(service);
             Assert.IsType<DependencyServiceMock>(service);
         }

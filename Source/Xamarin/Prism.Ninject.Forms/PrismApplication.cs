@@ -9,7 +9,6 @@ using Prism.Logging;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Ninject.Extensions;
 using Prism.Ninject.Modularity;
 using Prism.Ninject.Navigation;
 using Prism.Services;
@@ -60,8 +59,6 @@ namespace Prism.Ninject
 
         protected override void ConfigureContainer()
         {
-            Container.Components.Add<IMissingBindingResolver, DependencyServiceBindingResolver>();
-
             Container.Bind<ILoggerFacade>().ToConstant(Logger).InSingletonScope();
             Container.Bind<IModuleCatalog>().ToConstant(ModuleCatalog).InSingletonScope();
 

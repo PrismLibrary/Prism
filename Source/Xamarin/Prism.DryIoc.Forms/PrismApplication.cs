@@ -2,8 +2,8 @@
 using System.Linq;
 using DryIoc;
 using Prism.AppModel;
+using Prism.Behaviors;
 using Prism.Common;
-using Prism.DryIoc.Extensions;
 using Prism.DryIoc.Modularity;
 using Prism.DryIoc.Navigation;
 using Prism.Events;
@@ -13,7 +13,6 @@ using Prism.Navigation;
 using Prism.Services;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
-using Prism.Behaviors;
 
 namespace Prism.DryIoc
 {
@@ -25,7 +24,6 @@ namespace Prism.DryIoc
         /// <summary>
         /// Service key used when registering the <see cref="DryIocPageNavigationService"/> with the container
         /// </summary>
-        private const string _navigationServiceKey = "DryIocPageNavigationService";
 
         /// <summary>
         /// Create a new instance of <see cref="PrismApplication"/>
@@ -65,20 +63,17 @@ namespace Prism.DryIoc
         /// <see cref="Container" />
         /// </remarks>
         /// <returns>An instance of <see cref="Rules" /></returns>
-        protected virtual Rules CreateContainerRules()
-        {
-            return Rules.Default.WithAutoConcreteTypeResolution()
-                .WithUnknownServiceResolvers(request => UnknownServiceResolverRule.DependencyServiceResolverRule(request));
-        }
+        protected virtual Rules CreateContainerRules() => 
+            Rules.Default.WithAutoConcreteTypeResolution();
 
         protected override void ConfigureContainer()
         {
             Container.UseInstance(Logger);
             Container.UseInstance(ModuleCatalog);
             Container.UseInstance(Container);
-            Container.Register<INavigationService, DryIocPageNavigationService>(serviceKey: _navigationServiceKey);
+            Container.Register<INavigationService, DryIocPageNavigationService>();
             Container.Register<INavigationService>(
-                made: Made.Of(() => SetPage(Arg.Of<INavigationService>(_navigationServiceKey), Arg.Of<Page>())),
+                made: Made.Of(() => SetPage(Arg.Of<INavigationService>(), Arg.Of<Page>())),
                 setup: Setup.Decorator);
             Container.Register<IApplicationProvider, ApplicationProvider>(Reuse.Singleton);
             Container.Register<IApplicationStore, ApplicationStore>(Reuse.Singleton);
@@ -109,7 +104,7 @@ namespace Prism.DryIoc
         /// <returns>Instance of <see cref="INavigationService"/></returns>
         protected override INavigationService CreateNavigationService()
         {
-            return Container.Resolve<INavigationService>(_navigationServiceKey);
+            return Container.Resolve<INavigationService>();
         }
 
         protected override void ConfigureViewModelLocator()
