@@ -24,7 +24,6 @@ namespace Prism.DryIoc
         /// <summary>
         /// Service key used when registering the <see cref="DryIocPageNavigationService"/> with the container
         /// </summary>
-        private const string _navigationServiceKey = "DryIocPageNavigationService";
 
         /// <summary>
         /// Create a new instance of <see cref="PrismApplication"/>
@@ -72,9 +71,9 @@ namespace Prism.DryIoc
             Container.UseInstance(Logger);
             Container.UseInstance(ModuleCatalog);
             Container.UseInstance(Container);
-            Container.Register<INavigationService, DryIocPageNavigationService>(serviceKey: _navigationServiceKey);
+            Container.Register<INavigationService, DryIocPageNavigationService>();
             Container.Register<INavigationService>(
-                made: Made.Of(() => SetPage(Arg.Of<INavigationService>(_navigationServiceKey), Arg.Of<Page>())),
+                made: Made.Of(() => SetPage(Arg.Of<INavigationService>(), Arg.Of<Page>())),
                 setup: Setup.Decorator);
             Container.Register<IApplicationProvider, ApplicationProvider>(Reuse.Singleton);
             Container.Register<IApplicationStore, ApplicationStore>(Reuse.Singleton);
@@ -105,7 +104,7 @@ namespace Prism.DryIoc
         /// <returns>Instance of <see cref="INavigationService"/></returns>
         protected override INavigationService CreateNavigationService()
         {
-            return Container.Resolve<INavigationService>(_navigationServiceKey);
+            return Container.Resolve<INavigationService>();
         }
 
         protected override void ConfigureViewModelLocator()
