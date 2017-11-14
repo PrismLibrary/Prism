@@ -48,7 +48,7 @@ namespace Prism.Wpf.Tests.Regions
             RegionNavigationJournalEntry entry = new RegionNavigationJournalEntry() { Uri = uri };
 
             // Act
-            target.RecordNavigation(entry);
+            target.RecordNavigation(entry, true);
 
             // Verify
             Assert.IsFalse(target.CanGoBack);
@@ -72,9 +72,9 @@ namespace Prism.Wpf.Tests.Regions
             RegionNavigationJournalEntry entry3 = new RegionNavigationJournalEntry() { Uri = uri3 };
 
             // Act
-            target.RecordNavigation(entry1);
-            target.RecordNavigation(entry2);
-            target.RecordNavigation(entry3);
+            target.RecordNavigation(entry1, true);
+            target.RecordNavigation(entry2, true);
+            target.RecordNavigation(entry3, true);
 
             // Verify
             Assert.IsTrue(target.CanGoBack);
@@ -97,9 +97,9 @@ namespace Prism.Wpf.Tests.Regions
             Uri uri3 = new Uri("Uri3", UriKind.Relative);
             RegionNavigationJournalEntry entry3 = new RegionNavigationJournalEntry() { Uri = uri3 };
 
-            target.RecordNavigation(entry1);
-            target.RecordNavigation(entry2);
-            target.RecordNavigation(entry3);
+            target.RecordNavigation(entry1, true);
+            target.RecordNavigation(entry2, true);
+            target.RecordNavigation(entry3, true);
 
             // Act
             target.Clear();
@@ -128,9 +128,9 @@ namespace Prism.Wpf.Tests.Regions
             Uri uri3 = new Uri("Uri3", UriKind.Relative);
             RegionNavigationJournalEntry entry3 = new RegionNavigationJournalEntry() { Uri = uri3 };
 
-            target.RecordNavigation(entry1);
-            target.RecordNavigation(entry2);
-            target.RecordNavigation(entry3);
+            target.RecordNavigation(entry1, true);
+            target.RecordNavigation(entry2, true);
+            target.RecordNavigation(entry3, true);
 
 
             mockNavigationTarget
@@ -174,9 +174,9 @@ namespace Prism.Wpf.Tests.Regions
             Uri uri3 = new Uri("Uri3", UriKind.Relative);
             RegionNavigationJournalEntry entry3 = new RegionNavigationJournalEntry() { Uri = uri3 };
 
-            target.RecordNavigation(entry1);
-            target.RecordNavigation(entry2);
-            target.RecordNavigation(entry3);
+            target.RecordNavigation(entry1, true);
+            target.RecordNavigation(entry2, true);
+            target.RecordNavigation(entry3, true);
 
 
             mockNavigationTarget
@@ -220,9 +220,9 @@ namespace Prism.Wpf.Tests.Regions
             Uri uri3 = new Uri("Uri3", UriKind.Relative);
             RegionNavigationJournalEntry entry3 = new RegionNavigationJournalEntry() { Uri = uri3 };
 
-            target.RecordNavigation(entry1);
-            target.RecordNavigation(entry2);
-            target.RecordNavigation(entry3);
+            target.RecordNavigation(entry1, true);
+            target.RecordNavigation(entry2, true);
+            target.RecordNavigation(entry3, true);
 
 
             mockNavigationTarget
@@ -267,9 +267,9 @@ namespace Prism.Wpf.Tests.Regions
             Uri uri3 = new Uri("Uri3", UriKind.Relative);
             RegionNavigationJournalEntry entry3 = new RegionNavigationJournalEntry() { Uri = uri3 };
 
-            target.RecordNavigation(entry1);
-            target.RecordNavigation(entry2);
-            target.RecordNavigation(entry3);
+            target.RecordNavigation(entry1, true);
+            target.RecordNavigation(entry2, true);
+            target.RecordNavigation(entry3, true);
 
             mockNavigationTarget
                 .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
@@ -315,9 +315,9 @@ namespace Prism.Wpf.Tests.Regions
             Uri uri3 = new Uri("Uri3", UriKind.Relative);
             RegionNavigationJournalEntry entry3 = new RegionNavigationJournalEntry() { Uri = uri3 };
 
-            target.RecordNavigation(entry1);
-            target.RecordNavigation(entry2);
-            target.RecordNavigation(entry3);
+            target.RecordNavigation(entry1, true);
+            target.RecordNavigation(entry2, true);
+            target.RecordNavigation(entry3, true);
 
             mockNavigationTarget
                 .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
@@ -362,9 +362,9 @@ namespace Prism.Wpf.Tests.Regions
             Uri uri3 = new Uri("Uri3", UriKind.Relative);
             RegionNavigationJournalEntry entry3 = new RegionNavigationJournalEntry() { Uri = uri3 };
 
-            target.RecordNavigation(entry1);
-            target.RecordNavigation(entry2);
-            target.RecordNavigation(entry3);
+            target.RecordNavigation(entry1, true);
+            target.RecordNavigation(entry2, true);
+            target.RecordNavigation(entry3, true);
 
             mockNavigationTarget
                 .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
@@ -411,9 +411,9 @@ namespace Prism.Wpf.Tests.Regions
             Uri uri3 = new Uri("Uri3", UriKind.Relative);
             RegionNavigationJournalEntry entry3 = new RegionNavigationJournalEntry() { Uri = uri3 };
 
-            target.RecordNavigation(entry1);
-            target.RecordNavigation(entry2);
-            target.RecordNavigation(entry3);
+            target.RecordNavigation(entry1, true);
+            target.RecordNavigation(entry2, true);
+            target.RecordNavigation(entry3, true);
 
             mockNavigationTarget
                 .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>()))
@@ -428,7 +428,7 @@ namespace Prism.Wpf.Tests.Regions
             target.GoBack();
 
             // Act
-            target.RecordNavigation(new RegionNavigationJournalEntry() { Uri = new Uri("Uri4", UriKind.Relative) });
+            target.RecordNavigation(new RegionNavigationJournalEntry() { Uri = new Uri("Uri4", UriKind.Relative) }, true);
 
 
             // Verify
