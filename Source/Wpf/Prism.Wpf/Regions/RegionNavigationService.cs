@@ -260,7 +260,16 @@ namespace Prism.Regions
                 IRegionNavigationJournalEntry journalEntry = this.serviceLocator.GetInstance<IRegionNavigationJournalEntry>();
                 journalEntry.Uri = navigationContext.Uri;
                 journalEntry.Parameters = navigationContext.Parameters;
-                this.journal.RecordNavigation(journalEntry);
+
+                bool savePrevious = true;
+
+                if (activeViews.Length > 0)
+                {
+
+                    MvvmHelpers.ViewAndViewModelAction<IJournalAware>(activeViews[0], ija => { savePrevious &= ija.PersistInHistory(); });
+                }
+
+                this.journal.RecordNavigation(journalEntry, savePrevious);
 
                 // The view can be informed of navigation
                 Action<INavigationAware> action = (n) => n.OnNavigatedTo(navigationContext);

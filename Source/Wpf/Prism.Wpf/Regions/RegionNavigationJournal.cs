@@ -112,11 +112,11 @@ namespace Prism.Regions
         /// Records the navigation to the entry..
         /// </summary>
         /// <param name="entry">The entry to record.</param>
-        public void RecordNavigation(IRegionNavigationJournalEntry entry)
+        public void RecordNavigation(IRegionNavigationJournalEntry entry, bool savePrevious)
         {
             if (!this.isNavigatingInternal)
             {
-                if (this.CurrentEntry != null)
+                if (this.CurrentEntry != null && savePrevious)
                 {
                     this.backStack.Push(this.CurrentEntry);
                 }
