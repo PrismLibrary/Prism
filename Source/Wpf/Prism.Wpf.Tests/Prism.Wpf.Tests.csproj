@@ -143,6 +143,7 @@
     <Compile Include="Regions\LocatorNavigationTargetHandlerFixture.cs" />
     <Compile Include="Regions\NavigationAsyncExtensionsFixture.cs" />
     <Compile Include="Regions\NavigationContextFixture.cs" />
+    <Compile Include="Regions\NavigationParametersFixture.cs" />
     <Compile Include="Regions\RegionManagerRequestNavigateFixture.cs" />
     <Compile Include="Regions\RegionNavigationServiceFixture.new.cs" />
     <Compile Include="Regions\RegionNavigationJournalFixture.cs" />
