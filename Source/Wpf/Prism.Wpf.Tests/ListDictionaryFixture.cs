@@ -59,7 +59,7 @@ namespace Prism.Wpf.Tests
         [TestMethod]
         public void ThrowsIfRemoveKeyNull()
         {
-            list.Remove(null, new object());
+            list.RemoveValue(null, new object());
         }
 
         [TestMethod]
@@ -68,7 +68,7 @@ namespace Prism.Wpf.Tests
             object value = new object();
 
             list.Add("foo", value);
-            list.Remove("foo", value);
+            list.RemoveValue("foo", value);
 
             Assert.AreEqual(0, list["foo"].Count);
         }
@@ -80,7 +80,7 @@ namespace Prism.Wpf.Tests
             list.Add("foo", value);
             list.Add("bar", value);
 
-            list.Remove(value);
+            list.RemoveValue(value);
 
             Assert.AreEqual(0, list.Values.Count);
         }
@@ -90,13 +90,13 @@ namespace Prism.Wpf.Tests
         {
             list.Add("foo", new object());
 
-            list.Remove("foo", new object());
+            list.RemoveValue("foo", new object());
         }
 
         [TestMethod]
         public void RemoveNonExistingKeyNoOp()
         {
-            list.Remove("foo", new object());
+            list.RemoveValue("foo", new object());
         }
 
         [ExpectedException(typeof(ArgumentNullException))]

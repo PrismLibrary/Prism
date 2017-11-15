@@ -157,7 +157,7 @@ namespace Prism.Common
         /// </summary>
         /// <param name="key">The key of the list where the value exists.</param>
         /// <param name="value">The value to remove.</param>
-        public void Remove(TKey key, TValue value)
+        public void RemoveValue(TKey key, TValue value)
         {
             if (key == null)
                 throw new ArgumentNullException(nameof(key));
@@ -179,11 +179,11 @@ namespace Prism.Common
         /// Removes a value from all lists where it may be found.
         /// </summary>
         /// <param name="value">The value to remove.</param>
-        public void Remove(TValue value)
+        public void RemoveValue(TValue value)
         {
             foreach (KeyValuePair<TKey, IList<TValue>> pair in innerValues)
             {
-                Remove(pair.Key, value);
+                RemoveValue(pair.Key, value);
             }
         }
 
