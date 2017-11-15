@@ -6,8 +6,11 @@
     [string]$NuGetExe
 )
 
-
-$releaseNotesUri = 'https://github.com/PrismLibrary/Prism/wiki/Release-Notes-7-pre4'
+$releaseNotesUri = $env:PackageReleaseNotes
+if(!$releaseNotesUri -and $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED)
+{
+    $releaseNotesUri = $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED
+}
 
 Write-Host "Packing $AssemblyName"
 
