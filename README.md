@@ -49,7 +49,7 @@ These are the base packages for each platform, together with the Prism's Core as
 | Platform | Assembly | Package | NuGet | MyGet |
 | -------- | -------- | ------- | ------- | ----- |
 | PCL | Prism.dll | [Prism.Core][CoreNuGet] | [![CoreNuGetShield]][CoreNuGet] | [![CoreMyGetShield]][CoreMyGet] |
-| WPF | Prism.Wpf.dll | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfMyGetShield]][WpfNuGet] |
+| WPF | Prism.Wpf.dll | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfMyGetShield]][WpfMyGet] |
 | Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][FormsNuGet] | [![FormsNuGetShield]][FormsNuGet] | [![FormsMyGetShield]][FormsMyGet] |
 | Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][UWPNuGet] | [![UWPNuGetShield]][UWPNuGet] | [![UWPMyGetShield]][UWPMyGet] |
 
@@ -63,12 +63,12 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 | Package | NuGet | MyGet |
 |---------|-------|-------|
-| [Prism.Autofac][AutofacWpfNuGet] | [![AutofacWpfNuGetShield]][AutofacWpfNuGet] | [![AutofacWpfMyGetShield]][AutofacWpfNuGet] |
-| [Prism.DryIoc][DryIocWpfNuGet] | [![DryIocWpfNuGetShield]][DryIocWpfNuGet] | [![DryIocWpfMyGetShield]][DryIocWpfNuGet] |
-| [Prism.Mef][MefWpfNuGet] | [![MefWpfNuGetShield]][MefWpfNuGet] | [![MefMyGetShield]][MefWpfNuGet] |
-| [Prism.Ninject][NinjectWpfNuGet] | [![NinjectWpfNuGetShield]][NinjectWpfNuGet] | [![NinjectWpfMyGetShield]][NinjectWpfNuGet] |
-| [Prism.StructureMap][StructureMapWpfNuGet] | [![StructureMapWpfNuGetShield]][StructureMapWpfNuGet] | [![StructureMapWpfMyGetShield]][StructureMapWpfNuGet] |
-| [Prism.Unity][UnityWpfNuGet] | [![UnityWpfNuGetShield]][UnityWpfNuGet] | [![UnityWpfMyGetShield]][UnityWpfNuGet] |
+| [Prism.Autofac][AutofacWpfNuGet] | [![AutofacWpfNuGetShield]][AutofacWpfNuGet] | [![AutofacWpfMyGetShield]][AutofacWpfMyGet] |
+| [Prism.DryIoc][DryIocWpfNuGet] | [![DryIocWpfNuGetShield]][DryIocWpfNuGet] | [![DryIocWpfMyGetShield]][DryIocWpfMyGet] |
+| [Prism.Mef][MefWpfNuGet] | [![MefWpfNuGetShield]][MefWpfNuGet] | [![MefMyGetShield]][MefWpfMyGet] |
+| [Prism.Ninject][NinjectWpfNuGet] | [![NinjectWpfNuGetShield]][NinjectWpfNuGet] | [![NinjectWpfMyGetShield]][NinjectWpfMyGet] |
+| [Prism.StructureMap][StructureMapWpfNuGet] | [![StructureMapWpfNuGetShield]][StructureMapWpfNuGet] | [![StructureMapWpfMyGetShield]][StructureMapWpfMyGet] |
+| [Prism.Unity][UnityWpfNuGet] | [![UnityWpfNuGetShield]][UnityWpfNuGet] | [![UnityWpfMyGetShield]][UnityWpfMyGet] |
 
 #### UWP
 
@@ -135,9 +135,9 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [StructureMapWpfNuGet]: https://www.nuget.org/packages/Prism.StructureMap/
 [UnityWpfNuGet]: https://www.nuget.org/packages/Prism.Unity/
 
-[AutofacUWPNuGet]: https://www.nuget.org/packages/Prism.Autofac/
-[SimpleInjectorUWPNuGet]: https://www.nuget.org/packages/Prism.SimpleInjector/
-[UnityUWPNuGet]: https://www.nuget.org/packages/Prism.Unity/
+[AutofacUWPNuGet]: https://www.nuget.org/packages/Prism.Autofac.Windows/
+[SimpleInjectorUWPNuGet]: https://www.nuget.org/packages/Prism.SimpleInjector.Windows/
+[UnityUWPNuGet]: https://www.nuget.org/packages/Prism.Unity.Windows/
 
 [UnityFormsNuGet]: https://www.nuget.org/packages/Prism.Unity.Forms/
 [NinjectFormsNuGet]: https://www.nuget.org/packages/Prism.Ninject.Forms/
@@ -157,9 +157,9 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [StructureMapWpfNuGetShield]: https://img.shields.io/nuget/vpre/Prism.StructureMap.svg
 [UnityWpfNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.svg
 
-[AutofacUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Autofac.svg
-[SimpleInjectorUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.SimpleInjector.svg
-[UnityUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.svg
+[AutofacUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Autofac.Windows.svg
+[SimpleInjectorUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.SimpleInjector.Windows.svg
+[UnityUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Windows.svg
 
 [AutofacFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Autofac.Forms.svg
 [DryIocFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Forms.svg
@@ -167,19 +167,26 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [UnityFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Forms.svg
 
 
-[CoreMyGet]: https://www.myget.org/feed/prism/package/nuget/Prism.Core
-[WpfMyGet]: https://www.myget.org/feed/prism/package/nuget/Prism.Wpf/
-[FormsMyGet]: https://www.myget.org/feed/prism/package/nuget/Prism.Forms/
-[UWPMyGet]: https://www.myget.org/feed/prism/package/nuget/Prism.Windows/
+[CoreMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Core
+[WpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Wpf/
+[FormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Forms/
+[UWPMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Windows/
 
-[AutofacUWPMyGet]: https://www.myget.org/feed/prism/package/nuget/Prism.Autofac.Windows/
-[SimpleInjectorUWPMyGet]: https://www.myget.org/feed/prism/package/nuget/Prism.SimpleInjector.Windows/
-[UnityUWPMyGet]: https://www.myget.org/feed/prism/package/nuget/Prism.Unity.Windows/
+[AutofacWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Autofac
+[DryIocWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.DryIoc/
+[MefWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Mef/
+[NinjectWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Ninject/
+[StructureMapWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.StructureMap/
+[UnityWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Unity/
 
-[UnityFormsMyGet]: https://www.myget.org/feed/prism/package/nuget/Prism.Unity.Forms/
-[NinjectFormsMyGet]: https://www.myget.org/feed/prism/package/nuget/Prism.Ninject.Forms/
-[AutofacFormsMyGet]: https://www.myget.org/feed/prism/package/nuget/Prism.Autofac.Forms/
-[DryIocFormsMyGet]: https://www.myget.org/feed/prism/package/nuget/Prism.DryIoc.Forms/
+[AutofacUWPMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Autofac.Windows/
+[SimpleInjectorUWPMyGet]: https://myget.org/feed/prism/package/nuget/Prism.SimpleInjector.Windows/
+[UnityUWPMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Unity.Windows/
+
+[UnityFormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Unity.Forms/
+[NinjectFormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Ninject.Forms/
+[AutofacFormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Autofac.Forms/
+[DryIocFormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.DryIoc.Forms/
 
 [CoreMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Core.svg
 [WpfMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Wpf.svg
