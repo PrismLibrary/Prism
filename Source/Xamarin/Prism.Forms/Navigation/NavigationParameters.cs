@@ -17,7 +17,8 @@ namespace Prism.Navigation
     {
         private readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();
 
-        internal Dictionary<string, object> InternalParameters { get; } = new Dictionary<string, object>();
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Dictionary<string, object> InternalParameters { get; } = new Dictionary<string, object>();
 
         /// <summary>
         /// Gets the number of parameters contained in the NavigationParameters
