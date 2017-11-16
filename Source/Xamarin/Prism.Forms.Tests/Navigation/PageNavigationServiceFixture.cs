@@ -21,6 +21,8 @@ namespace Prism.Forms.Tests.Navigation
 
         public PageNavigationServiceFixture()
         {
+            Xamarin.Forms.Mocks.MockForms.Init();
+
             _container = new PageNavigationContainerMock();
 
             _container.Register("PageMock", typeof(PageMock));
@@ -68,7 +70,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.ThrowsAsync<NullReferenceException>(async () =>
             {
                 var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-                var rootPage = new Xamarin.Forms.ContentPage();
+                var rootPage = new ContentPage();
                 ((IPageAware)navigationService).Page = rootPage;
 
                 await navigationService.NavigateAsync("UnregisteredPage");
@@ -81,7 +83,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_ToContentPage_ByName()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage");
@@ -94,7 +96,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_ToContentPage_ByRelativeUri()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync(new Uri("ContentPage", UriKind.Relative));
@@ -211,7 +213,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_ToContentPage_ByName_WithNavigationParameters()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             var navParameters = new NavigationParameters();
@@ -234,7 +236,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_ToContentPage_ThenGoBack()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage");
@@ -279,7 +281,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_ToContentPage_ViewModelHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage");
@@ -302,7 +304,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_ToContentPage_PageHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage");
@@ -359,7 +361,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_ToContentPage_ViewModelHasIConfirmNavigation_True()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage() { BindingContext = new ContentPageMockViewModel() };
+            var rootPage = new ContentPage() { BindingContext = new ContentPageMockViewModel() };
             ((IPageAware)navigationService).Page = rootPage;
 
             var viewModel = rootPage.BindingContext as ContentPageMockViewModel;
@@ -395,7 +397,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_ToNavigatonPage_ViewModelHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("NavigationPage");
@@ -412,7 +414,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_ToMasterDetailPage_ViewModelHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("MasterDetailPage");
@@ -431,7 +433,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_ToTabbedPage_ByName_ViewModelHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("TabbedPage");
@@ -450,7 +452,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_ToCarouselPage_ByName_ViewModelHasINavigationAware()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("CarouselPage");
@@ -813,7 +815,7 @@ namespace Prism.Forms.Tests.Navigation
         public async Task DeepNavigate_ToNavigationPage_ToTabbedPage_SelectContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync($"NavigationPage/ContentPage/TabbedPage?{KnownNavigationParameters.SelectedTab}=Tab2");
@@ -833,7 +835,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_From_ContentPage_To_ContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage/ContentPage");
@@ -846,7 +848,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_From_ContentPage_To_NavigationPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage/NavigationPage");
@@ -859,7 +861,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_From_ContentPage_To_NavigationPage_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage/NavigationPage/ContentPage");
@@ -872,7 +874,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_From_ContentPage_To_NavigationPage_ToContentPage_ByAbsoluteName()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("/NavigationPage/ContentPage");
@@ -888,7 +890,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_From_ContentPage_To_NavigationPage_ToContentPage_ByAbsoluteUri()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync(new Uri("http://localhost/NavigationPage/ContentPage", UriKind.Absolute));
@@ -904,7 +906,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_From_ContentPage_To_EmptyNavigationPage_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage/NavigationPage-Empty/ContentPage");
@@ -918,7 +920,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_From_ContentPage_To_EmptyNavigationPage_ToContentPage_toContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage/NavigationPage-Empty/ContentPage/ContentPage1");
@@ -937,7 +939,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_To_EmptyNavigationPage_ToContentPage_toContentPage_toContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("NavigationPage-Empty/ContentPage/ContentPage/ContentPage1");
@@ -952,7 +954,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_From_ContentPage_To_NavigationPageWithNavigationStack_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage/NavigationPageWithStack/ContentPage");
@@ -965,7 +967,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_From_ContentPage_To_NavigationPageWithNavigationStack_ToContentPage_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage/NavigationPageWithStack/ContentPage/ContentPage1");
@@ -983,7 +985,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_From_ContentPage_To_NavigationPageWithDifferentNavigationStack_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage/NavigationPageWithStackNoMatch/ContentPage");
@@ -996,7 +998,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_From_ContentPage_To_TabbedPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage/TabbedPage");
@@ -1009,7 +1011,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_From_ContentPage_To_CarouselPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage/CarouselPage");
@@ -1022,7 +1024,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_From_ContentPage_To_MasterDetailPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("ContentPage/MasterDetailPage");
@@ -1075,7 +1077,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_ToEmptyMasterDetailPage_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("MasterDetailPage-Empty/ContentPage");
@@ -1093,7 +1095,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_ToEmptyMasterDetailPage_ToContentPage_UseModalNavigation()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("MasterDetailPage-Empty/ContentPage", useModalNavigation: true);
@@ -1131,7 +1133,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_ToEmptyMasterDetailPage_ToNavigationPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("MasterDetailPage-Empty/NavigationPage");
@@ -1184,7 +1186,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_ToMasterDetailPage_ToDifferentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("MasterDetailPage/TabbedPage");
@@ -1199,7 +1201,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_ToMasterDetailPage_ToSamePage_ToTabbedPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("MasterDetailPage/ContentPage/TabbedPage");
@@ -1287,7 +1289,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToTabbedPage_SelectTab()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync($"MasterDetailPage-Empty/NavigationPage/TabbedPage?{KnownNavigationParameters.SelectedTab}=Tab2");
@@ -1305,7 +1307,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void DeepNavigate_ToMasterDetailPage_ToNavigationPage_ToContentPage_ToTabbedPage_SelectTab()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync($"MasterDetailPage-Empty/NavigationPage/ContentPage/TabbedPage?{KnownNavigationParameters.SelectedTab}=Tab2");
@@ -1328,7 +1330,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_FromContentPage_ToTabbedPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync($"TabbedPage");
@@ -1354,7 +1356,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_FromContentPage_ToTabbedPage_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync($"TabbedPage/ContentPage");
@@ -1385,7 +1387,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=Tab2");
@@ -1400,7 +1402,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab_NavigationPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=ContentPage");
@@ -1418,7 +1420,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=Tab2/ContentPage");
@@ -1535,7 +1537,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_FromContentPage_ToTabbedPage_CreateTabs()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync($"TabbedPage-Empty?{KnownNavigationParameters.CreateTab}=Tab1&{KnownNavigationParameters.CreateTab}=Tab2&{KnownNavigationParameters.CreateTab}=Tab3");
@@ -1552,7 +1554,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_FromContentPage_ToTabbedPage_CreateTabs_SelectTab()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync($"TabbedPage-Empty?{KnownNavigationParameters.CreateTab}=Tab1&{KnownNavigationParameters.CreateTab}=Tab2&{KnownNavigationParameters.CreateTab}=Tab3&{KnownNavigationParameters.SelectedTab}=Tab2");
@@ -1570,7 +1572,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_FromContentPage_ToTabbedPage_CreateTabs_WithNavigationPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync($"TabbedPage-Empty?{KnownNavigationParameters.CreateTab}=NavigationPage|Tab1&{KnownNavigationParameters.CreateTab}=Tab2&{KnownNavigationParameters.CreateTab}=Tab3");
@@ -1590,7 +1592,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_FromContentPage_ToTabbedPage_CreateTabs_WithNavigationPage_SelectTab()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync($"TabbedPage-Empty?{KnownNavigationParameters.CreateTab}=Tab1&{KnownNavigationParameters.CreateTab}=NavigationPage|Tab2&{KnownNavigationParameters.CreateTab}=Tab3&{KnownNavigationParameters.SelectedTab}=Tab2");
@@ -1616,7 +1618,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_FromContentPage_ToCarouselPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("CarouselPage");
@@ -1629,7 +1631,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_FromContentPage_ToCarouselPage_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("CarouselPage/ContentPage");
@@ -1647,7 +1649,7 @@ namespace Prism.Forms.Tests.Navigation
         public async void Navigate_FromContentPage_ToCarouselPage_SelectedPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
-            var rootPage = new Xamarin.Forms.ContentPage();
+            var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync($"CarouselPage?{KnownNavigationParameters.SelectedTab}=ContentPage");
