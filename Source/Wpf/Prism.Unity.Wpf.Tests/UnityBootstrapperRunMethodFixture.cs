@@ -333,21 +333,30 @@ namespace Prism.Unity.Wpf.Tests
             var serviceLocatorAdapter = new UnityServiceLocatorAdapter(container);
             var regionBehaviorFactory = new RegionBehaviorFactory(serviceLocatorAdapter);
 
-
             container.RegisterInstance<IServiceLocator>(serviceLocatorAdapter);
             container.RegisterInstance<UnityBootstrapperExtension>(new UnityBootstrapperExtension());
             container.RegisterInstance<IModuleCatalog>(new ModuleCatalog());
             container.RegisterInstance<IModuleInitializer>(mockedModuleInitializer.Object);
             container.RegisterInstance<IModuleManager>(mockedModuleManager.Object);
             container.RegisterInstance<RegionAdapterMappings>(regionAdapterMappings);
+            
+            container.RegisterSingleton(typeof(RegionAdapterMappings), typeof(RegionAdapterMappings));
+            container.RegisterSingleton(typeof(IRegionManager), typeof(RegionManager));
+            container.RegisterSingleton(typeof(IEventAggregator), typeof(EventAggregator));
+            container.RegisterSingleton(typeof(IRegionViewRegistry), typeof(RegionViewRegistry));
+            container.RegisterSingleton(typeof(IRegionBehaviorFactory), typeof(RegionBehaviorFactory));
+            container.RegisterSingleton(typeof(IRegionNavigationJournalEntry), typeof(RegionNavigationJournalEntry));
+            container.RegisterSingleton(typeof(IRegionNavigationJournal), typeof(RegionNavigationJournal));
+            container.RegisterSingleton(typeof(IRegionNavigationService), typeof(RegionNavigationService));
+            container.RegisterSingleton(typeof(IRegionNavigationContentLoader), typeof(Regions.UnityRegionNavigationContentLoader));
+
 
             container.RegisterInstance<SelectorRegionAdapter>(new SelectorRegionAdapter(regionBehaviorFactory));
             container.RegisterInstance<ItemsControlRegionAdapter>(new ItemsControlRegionAdapter(regionBehaviorFactory));
             container.RegisterInstance<ContentControlRegionAdapter>(new ContentControlRegionAdapter(regionBehaviorFactory));
 
             var bootstrapper = new MockedContainerBootstrapper(container);
-
-            bootstrapper.Run();
+            bootstrapper.Run(false);
 
             mockedModuleManager.Verify(mm => mm.Run(), Times.Once());
         }
