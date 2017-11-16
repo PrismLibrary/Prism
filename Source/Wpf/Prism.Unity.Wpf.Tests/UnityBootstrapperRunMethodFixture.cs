@@ -11,7 +11,6 @@ using Prism.Events;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
-using Unity;
 using Unity.Lifetime;
 
 namespace Prism.Unity.Wpf.Tests
