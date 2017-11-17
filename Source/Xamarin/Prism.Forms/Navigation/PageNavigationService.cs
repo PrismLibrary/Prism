@@ -188,9 +188,6 @@ namespace Prism.Navigation
             if (pageParameters.ContainsKey(KnownNavigationParameters.UseModalNavigation))
                 useModalNavigation = pageParameters.GetValue<bool>(KnownNavigationParameters.UseModalNavigation);
 
-            if (pageParameters.ContainsKey(KnownNavigationParameters.Animated))
-                animated = pageParameters.GetValue<bool>(KnownNavigationParameters.Animated);
-
             if (nextSegment == RemovePageSegment)
             {
                 await ProcessNavigationForRemovePageSegments(currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
