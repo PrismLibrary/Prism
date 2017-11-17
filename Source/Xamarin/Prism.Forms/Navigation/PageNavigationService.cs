@@ -42,10 +42,18 @@ namespace Prism.Navigation
         /// <summary>
         /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
         /// </summary>
-        /// <param name="parameters">The navigation parameters</param>
-        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-        public virtual async Task<bool> GoBackAsync(NavigationParameters parameters = null)
+        public virtual Task<bool> GoBackAsync()
+        {
+            return GoBackAsync(null);
+        }
+
+        /// <summary>
+        /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
+        /// </summary>
+        /// <param name="parameters">The navigation parameters</param>
+        /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
+        public virtual async Task<bool> GoBackAsync(NavigationParameters parameters)
         {
             try
             {
@@ -98,8 +106,17 @@ namespace Prism.Navigation
         /// Initiates navigation to the target specified by the <paramref name="name"/>.
         /// </summary>
         /// <param name="name">The name of the target to navigate to.</param>
+        public virtual Task NavigateAsync(string name)
+        {
+            return NavigateAsync(name, null);
+        }
+
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="name"/>.
+        /// </summary>
+        /// <param name="name">The name of the target to navigate to.</param>
         /// <param name="parameters">The navigation parameters</param>
-        public virtual Task NavigateAsync(string name, NavigationParameters parameters = null)
+        public virtual Task NavigateAsync(string name, NavigationParameters parameters)
         {
             if (name.StartsWith(RemovePageRelativePath))
                 name = name.Replace(RemovePageRelativePath, RemovePageInstruction);
@@ -111,12 +128,25 @@ namespace Prism.Navigation
         /// Initiates navigation to the target specified by the <paramref name="uri"/>.
         /// </summary>
         /// <param name="uri">The Uri to navigate to</param>
+        /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
+        /// <example>
+        /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
+        /// </example>
+        public virtual Task NavigateAsync(Uri uri)
+        {
+            return NavigateAsync(uri, null);
+        }
+
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="uri"/>.
+        /// </summary>
+        /// <param name="uri">The Uri to navigate to</param>
         /// <param name="parameters">The navigation parameters</param>
         /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
         /// <example>
         /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
         /// </example>
-        public virtual Task NavigateAsync(Uri uri, NavigationParameters parameters = null)
+        public virtual Task NavigateAsync(Uri uri, NavigationParameters parameters)
         {
             try
             {
