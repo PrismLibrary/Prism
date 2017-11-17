@@ -99,6 +99,47 @@ namespace Prism.Navigation
             return false;
         }
 
+        async Task INavigateInternal.GoBackToRootInternal(NavigationParameters parameters)
+        {
+            try
+            {
+                if (parameters == null)
+                    parameters = new NavigationParameters();
+
+                parameters.AddInternalParameter(KnownInternalParameters.NavigationMode, NavigationMode.Back);
+
+                var page = GetCurrentPage();
+                var canNavigate = await PageUtilities.CanNavigateAsync(page, parameters);
+                if (!canNavigate)
+                    return;
+
+                List<Page> pagesToDestroy = page.Navigation.NavigationStack.ToList(); // get all pages to destroy
+                pagesToDestroy.Reverse(); // destroy them in reverse order
+                var root = pagesToDestroy.Last();
+                pagesToDestroy.Remove(root); //don't destroy the root page
+
+                PageUtilities.OnNavigatingTo(root, parameters);
+
+                await page.Navigation.PopToRootAsync();
+
+                foreach (var destroyPage in pagesToDestroy)
+                {
+                    PageUtilities.OnNavigatedFrom(destroyPage, parameters);
+                    PageUtilities.DestroyPage(destroyPage);
+                }
+
+                PageUtilities.OnNavigatedTo(root, parameters);
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationException("GoBackToRootAsync can only be called when the calling Page is within a NavigationPage.", ex);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="name"/>.
         /// </summary>
