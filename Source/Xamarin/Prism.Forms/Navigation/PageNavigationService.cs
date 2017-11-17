@@ -61,7 +61,7 @@ namespace Prism.Navigation
 
                 var page = GetCurrentPage();
                 var segmentParameters = UriParsingHelper.GetSegmentParameters(null, parameters);
-                segmentParameters.InternalParameters.Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
+                segmentParameters.AddInternalParameter(KnownInternalParameters.NavigationMode, NavigationMode.Back);
 
                 var canNavigate = await PageUtilities.CanNavigateAsync(page, segmentParameters);
                 if (!canNavigate)
@@ -182,7 +182,7 @@ namespace Prism.Navigation
 
             var nextSegment = segments.Dequeue();
 
-            var pageParameters = UriParsingHelper.GetSegmentParameters(nextSegment);
+            var pageParameters = UriParsingHelper.GetSegmentParameters(nextSegment, parameters);
             if (pageParameters.ContainsKey(KnownNavigationParameters.UseModalNavigation))
                 useModalNavigation = pageParameters.GetValue<bool>(KnownNavigationParameters.UseModalNavigation);
 
@@ -448,7 +448,7 @@ namespace Prism.Navigation
         protected static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, NavigationParameters parameters, Func<Task> navigationAction = null, Action onNavigationActionCompleted = null)
         {
             var segmentParameters = UriParsingHelper.GetSegmentParameters(toSegment, parameters);
-            segmentParameters.InternalParameters.Add(KnownInternalParameters.NavigationMode, NavigationMode.New);
+            segmentParameters.AddInternalParameter(KnownInternalParameters.NavigationMode, NavigationMode.New);
 
             var canNavigate = await PageUtilities.CanNavigateAsync(fromPage, segmentParameters);
             if (!canNavigate)

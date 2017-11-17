@@ -18,12 +18,7 @@ namespace Prism.Navigation
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
         public static Task<bool> GoBackAsync(this INavigationService navigationService, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            if (parameters == null)
-                parameters = new NavigationParameters();
-
-            parameters.Add(KnownNavigationParameters.UseModalNavigation, useModalNavigation);
-            parameters.Add(KnownNavigationParameters.Animated, animated);
-
+            parameters = GetNavigationParmeters(parameters, useModalNavigation, animated);
             return navigationService.GoBackAsync(parameters);
         }
 
@@ -41,7 +36,7 @@ namespace Prism.Navigation
                 if (parameters == null)
                     parameters = new NavigationParameters();
 
-                parameters.InternalParameters.Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
+                parameters.AddInternalParameter(KnownInternalParameters.NavigationMode, NavigationMode.Back);
 
                 IPageAware pageAware = (IPageAware)navigationService;
 
@@ -86,12 +81,7 @@ namespace Prism.Navigation
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         public static Task NavigateAsync(this INavigationService navigationService, string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            if (parameters == null)
-                parameters = new NavigationParameters();
-
-            parameters.Add(KnownNavigationParameters.UseModalNavigation, useModalNavigation);
-            parameters.Add(KnownNavigationParameters.Animated, animated);
-
+            parameters = GetNavigationParmeters(parameters, useModalNavigation, animated);
             return navigationService.NavigateAsync(name, parameters);
         }
 
@@ -108,13 +98,24 @@ namespace Prism.Navigation
         /// </example>
         public static Task NavigateAsync(this INavigationService navigationService, Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
+            parameters = GetNavigationParmeters(parameters, useModalNavigation, animated);
+            return navigationService.NavigateAsync(uri, parameters);
+        }
+
+        private static NavigationParameters GetNavigationParmeters(NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
             if (parameters == null)
                 parameters = new NavigationParameters();
 
-            parameters.Add(KnownNavigationParameters.UseModalNavigation, useModalNavigation);
-            parameters.Add(KnownNavigationParameters.Animated, animated);
+            //default is null, only add if a value is provided
+            if (useModalNavigation.HasValue)
+                parameters.Add(KnownNavigationParameters.UseModalNavigation, useModalNavigation);
 
-            return navigationService.NavigateAsync(uri, parameters);
+            //default is true, so only add if the value is false
+            if (!animated)
+                parameters.Add(KnownNavigationParameters.Animated, animated);
+
+            return parameters;
         }
     }
 }
