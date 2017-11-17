@@ -45,10 +45,10 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-        public virtual async Task<bool> GoBackAsync(NavigationParameters parameters = null, bool animated = true)
+        public virtual async Task<bool> GoBackAsync(NavigationParameters parameters = null)
         {
             try
-            {                
+            {
                 NavigationSource = PageNavigationSource.NavigationService;
 
                 var page = GetCurrentPage();
@@ -61,10 +61,11 @@ namespace Prism.Navigation
 
                 bool? useModalNavigation = null;
                 if (segmentParameters.ContainsKey(KnownNavigationParameters.UseModalNavigation))
-                {
-                    if (segmentParameters.GetValue<bool>(KnownNavigationParameters.UseModalNavigation))
-                        useModalNavigation = true;
-                }
+                    useModalNavigation = segmentParameters.GetValue<bool>(KnownNavigationParameters.UseModalNavigation);
+
+                bool animated = true;
+                if (segmentParameters.ContainsKey(KnownNavigationParameters.Animated))
+                    animated = segmentParameters.GetValue<bool>(KnownNavigationParameters.Animated);
 
                 bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
                 Page previousPage = PageUtilities.GetOnNavigatedToTarget(page, _applicationProvider.MainPage, useModalForDoPop);
@@ -98,13 +99,12 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="name">The name of the target to navigate to.</param>
         /// <param name="parameters">The navigation parameters</param>
-        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public virtual Task NavigateAsync(string name, NavigationParameters parameters = null, bool animated = true)
+        public virtual Task NavigateAsync(string name, NavigationParameters parameters = null)
         {
             if (name.StartsWith(RemovePageRelativePath))
                 name = name.Replace(RemovePageRelativePath, RemovePageInstruction);
 
-            return NavigateAsync(UriParsingHelper.Parse(name), parameters, animated);
+            return NavigateAsync(UriParsingHelper.Parse(name), parameters);
         }
 
         /// <summary>
@@ -112,18 +112,22 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="uri">The Uri to navigate to</param>
         /// <param name="parameters">The navigation parameters</param>
-        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
         /// <example>
         /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
         /// </example>
-        public virtual Task NavigateAsync(Uri uri, NavigationParameters parameters = null, bool animated = true)
+        public virtual Task NavigateAsync(Uri uri, NavigationParameters parameters = null)
         {
             try
             {
                 NavigationSource = PageNavigationSource.NavigationService;
 
                 var navigationSegments = UriParsingHelper.GetUriSegments(uri);
+
+                //By default, we do not want to animate during a deep link.
+                bool animated = true;
+                if (navigationSegments.Count > 1)
+                    animated = false;
 
                 if (uri.IsAbsoluteUri)
                     return ProcessNavigationForAbsoulteUri(navigationSegments, parameters, null, animated);
@@ -150,10 +154,10 @@ namespace Prism.Navigation
 
             var pageParameters = UriParsingHelper.GetSegmentParameters(nextSegment);
             if (pageParameters.ContainsKey(KnownNavigationParameters.UseModalNavigation))
-            {
-                if (pageParameters.GetValue<bool>(KnownNavigationParameters.UseModalNavigation))
-                    useModalNavigation = true;
-            }
+                useModalNavigation = pageParameters.GetValue<bool>(KnownNavigationParameters.UseModalNavigation);
+
+            if (pageParameters.ContainsKey(KnownNavigationParameters.Animated))
+                animated = pageParameters.GetValue<bool>(KnownNavigationParameters.Animated);
 
             if (nextSegment == RemovePageSegment)
             {
@@ -535,7 +539,7 @@ namespace Prism.Navigation
             {
                 PageUtilities.SetAutowireViewModelOnPage(child);
                 _pageBehaviorFactory.ApplyPageBehaviors(child);
-                if(child is NavigationPage navPage)
+                if (child is NavigationPage navPage)
                 {
                     PageUtilities.SetAutowireViewModelOnPage(navPage.CurrentPage);
                     _pageBehaviorFactory.ApplyPageBehaviors(navPage.CurrentPage);

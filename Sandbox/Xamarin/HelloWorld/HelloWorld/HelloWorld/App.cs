@@ -16,26 +16,25 @@ namespace HelloWorld
 
         protected override void OnInitialized()
         {
-            //NavigationService.NavigateAsync("NavigationPage/MyTabbedPage", animated: false); //works
-            //NavigationService.NavigateAsync("NavigationPage/MyTabbedPage/ViewC", animated: false); //works
-            //NavigationService.NavigateAsync("NavigationPage/MyTabbedPage/ViewC/ViewA", animated: false); //works
-            //NavigationService.NavigateAsync("NavigationPage/ViewA/MyTabbedPage", animated: false); //works
-            //NavigationService.NavigateAsync("NavigationPage/ViewA/MyTabbedPage/ViewC", animated: false); //works
-            //NavigationService.NavigateAsync("NavigationPage/ViewA/MyTabbedPage/ViewC/ViewA/ViewB", animated: false); //works
-            //NavigationService.NavigateAsync("MyMasterDetail/NavigationPage/MyTabbedPage/ViewC", animated: false); //works
+            //NavigationService.NavigateAsync("NavigationPage/MyTabbedPage"); //works
+            //NavigationService.NavigateAsync("NavigationPage/MyTabbedPage/ViewC"); //works
+            //NavigationService.NavigateAsync("NavigationPage/MyTabbedPage/ViewC/ViewA"); //works
+            //NavigationService.NavigateAsync("NavigationPage/ViewA/MyTabbedPage"); //works
+            //NavigationService.NavigateAsync("NavigationPage/ViewA/MyTabbedPage/ViewC"); //works
+            //NavigationService.NavigateAsync("NavigationPage/ViewA/MyTabbedPage/ViewC/ViewA/ViewB"); //works
+            //NavigationService.NavigateAsync("MyMasterDetail/NavigationPage/MyTabbedPage/ViewC"); //works
 
-            //NavigationService.NavigateAsync($"MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewA", animated: false); //works --
-            //NavigationService.NavigateAsync($"NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC", animated: false); //works
-            //NavigationService.NavigateAsync($"NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC", animated: false); //works
-            //NavigationService.NavigateAsync($"NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC/ViewA", animated: false); //works
-            //NavigationService.NavigateAsync($"NavigationPage/ViewA/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC", animated: false); //works
-            //NavigationService.NavigateAsync($"NavigationPage/ViewA/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC", animated: false); //works
-            //NavigationService.NavigateAsync($"NavigationPage/ViewA/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC/ViewA/ViewB", animated: false); //works
-            //NavigationService.NavigateAsync($"MyMasterDetail/NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC", animated: false); //works
+            //NavigationService.NavigateAsync($"MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewA"); //works --
+            //NavigationService.NavigateAsync($"NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC"); //works
+            //NavigationService.NavigateAsync($"NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC"); //works
+            //NavigationService.NavigateAsync($"NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC/ViewA"); //works
+            //NavigationService.NavigateAsync($"NavigationPage/ViewA/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC"); //works
+            //NavigationService.NavigateAsync($"NavigationPage/ViewA/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC"); //works
+            //NavigationService.NavigateAsync($"NavigationPage/ViewA/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC/ViewA/ViewB"); //works
+            //NavigationService.NavigateAsync($"MyMasterDetail/NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC"); //works
 
             //NavigationService.NavigateAsync($"NavigationPage/ViewA/ViewB/ViewC?{KnownNavigationParameters.UseModalNavigation}=true");
-            //NavigationService.NavigateAsync($"MyMasterDetail/NavigationPage/MyTabbedPage/ViewC?{KnownNavigationParameters.UseModalNavigation}=true");
-            //NavigationService.NavigateAsync($"NavigationPage/ViewA/ViewB/NavigationPage?{KnownNavigationParameters.UseModalNavigation}=true/ViewB/ViewC");
+            NavigationService.NavigateAsync($"MyMasterDetail/NavigationPage/MyTabbedPage/ViewC?{KnownNavigationParameters.UseModalNavigation}=true");
         }
 
         protected override void RegisterTypes()
