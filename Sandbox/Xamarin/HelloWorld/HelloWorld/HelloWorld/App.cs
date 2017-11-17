@@ -34,7 +34,7 @@ namespace HelloWorld
             //NavigationService.NavigateAsync($"MyMasterDetail/NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC/ViewC"); //works
 
             //NavigationService.NavigateAsync($"NavigationPage/ViewA/ViewB/ViewC?{KnownNavigationParameters.UseModalNavigation}=true");
-            NavigationService.NavigateAsync($"MyMasterDetail/NavigationPage/MyTabbedPage/ViewC?{KnownNavigationParameters.UseModalNavigation}=true");
+            NavigationService.NavigateAsync($"MyMasterDetail/NavigationPage/MyTabbedPage/ViewC?{KnownNavigationParameters.UseModalNavigation}=true/ViewA");
         }
 
         protected override void RegisterTypes()
