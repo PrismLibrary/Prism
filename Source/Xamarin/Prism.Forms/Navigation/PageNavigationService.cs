@@ -43,13 +43,12 @@ namespace Prism.Navigation
         /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
         /// </summary>
         /// <param name="parameters">The navigation parameters</param>
-        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-        public virtual async Task<bool> GoBackAsync(NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public virtual async Task<bool> GoBackAsync(NavigationParameters parameters = null, bool animated = true)
         {
             try
-            {
+            {                
                 NavigationSource = PageNavigationSource.NavigationService;
 
                 var page = GetCurrentPage();
@@ -60,7 +59,12 @@ namespace Prism.Navigation
                 if (!canNavigate)
                     return false;
 
-
+                bool? useModalNavigation = null;
+                if (segmentParameters.ContainsKey(KnownNavigationParameters.UseModalNavigation))
+                {
+                    if (segmentParameters.GetValue<bool>(KnownNavigationParameters.UseModalNavigation))
+                        useModalNavigation = true;
+                }
 
                 bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
                 Page previousPage = PageUtilities.GetOnNavigatedToTarget(page, _applicationProvider.MainPage, useModalForDoPop);
@@ -94,7 +98,6 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="name">The name of the target to navigate to.</param>
         /// <param name="parameters">The navigation parameters</param>
-        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         public virtual Task NavigateAsync(string name, NavigationParameters parameters = null, bool animated = true)
         {
@@ -109,7 +112,6 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="uri">The Uri to navigate to</param>
         /// <param name="parameters">The navigation parameters</param>
-        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
         /// <example>
