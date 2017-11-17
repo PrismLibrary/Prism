@@ -4,5 +4,6 @@
     {
         public const string CreateTab = "createTab";
         public const string SelectedTab = "selectedTab";
+        public static string UseModalNavigation = "useModalNavigation";
     }
 }

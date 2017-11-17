@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using System.Reflection;
 using Prism.Behaviors;
 
 namespace Prism.Navigation
@@ -61,6 +60,8 @@ namespace Prism.Navigation
                 if (!canNavigate)
                     return false;
 
+
+
                 bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
                 Page previousPage = PageUtilities.GetOnNavigatedToTarget(page, _applicationProvider.MainPage, useModalForDoPop);
 
@@ -95,12 +96,12 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        public virtual Task NavigateAsync(string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public virtual Task NavigateAsync(string name, NavigationParameters parameters = null, bool animated = true)
         {
             if (name.StartsWith(RemovePageRelativePath))
                 name = name.Replace(RemovePageRelativePath, RemovePageInstruction);
 
-            return NavigateAsync(UriParsingHelper.Parse(name), parameters, useModalNavigation, animated);
+            return NavigateAsync(UriParsingHelper.Parse(name), parameters, animated);
         }
 
         /// <summary>
@@ -114,7 +115,7 @@ namespace Prism.Navigation
         /// <example>
         /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
         /// </example>
-        public virtual Task NavigateAsync(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public virtual Task NavigateAsync(Uri uri, NavigationParameters parameters = null, bool animated = true)
         {
             try
             {
@@ -123,9 +124,9 @@ namespace Prism.Navigation
                 var navigationSegments = UriParsingHelper.GetUriSegments(uri);
 
                 if (uri.IsAbsoluteUri)
-                    return ProcessNavigationForAbsoulteUri(navigationSegments, parameters, useModalNavigation, animated);
+                    return ProcessNavigationForAbsoulteUri(navigationSegments, parameters, null, animated);
                 else
-                    return ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, useModalNavigation, animated);
+                    return ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, null, animated);
             }
             catch (Exception e)
             {
@@ -144,6 +145,13 @@ namespace Prism.Navigation
                 return;
 
             var nextSegment = segments.Dequeue();
+
+            var pageParameters = UriParsingHelper.GetSegmentParameters(nextSegment);
+            if (pageParameters.ContainsKey(KnownNavigationParameters.UseModalNavigation))
+            {
+                if (pageParameters.GetValue<bool>(KnownNavigationParameters.UseModalNavigation))
+                    useModalNavigation = true;
+            }
 
             if (nextSegment == RemovePageSegment)
             {
@@ -234,7 +242,7 @@ namespace Prism.Navigation
         protected virtual async Task ProcessNavigationForContentPage(Page currentPage, string nextSegment, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
-            bool useReverse = UseReverseNavigation(currentPage, nextPageType);
+            bool useReverse = UseReverseNavigation(currentPage, nextPageType) && !(useModalNavigation.HasValue && useModalNavigation.Value);
             if (!useReverse)
             {
                 var nextPage = CreatePageFromSegment(nextSegment);
@@ -627,22 +635,35 @@ namespace Prism.Navigation
             bool illegalPageFound = false;
             foreach (var item in segments)
             {
-                //if we run itno an illegal page, we need to create new navigation segments to properly handle the deep link
+                //if we run into an illegal page, we need to create new navigation segments to properly handle the deep link
                 if (illegalPageFound)
                 {
                     illegalSegments.Enqueue(item);
                     continue;
                 }
 
-                var pageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(item));
-                if (PageUtilities.IsSameOrSubclassOf<MasterDetailPage>(pageType))
+                //if any page decide to go modal, we need to consider it and all pages after it an illegal page
+                var pageParameters = UriParsingHelper.GetSegmentParameters(item);
+                if (pageParameters.ContainsKey(KnownNavigationParameters.UseModalNavigation))
                 {
-                    illegalSegments.Enqueue(item);
-                    illegalPageFound = true;
+                    if (pageParameters.GetValue<bool>(KnownNavigationParameters.UseModalNavigation))
+                    {
+                        illegalSegments.Enqueue(item);
+                        illegalPageFound = true;
+                    }
                 }
                 else
                 {
-                    navigationStack.Push(item);
+                    var pageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(item));
+                    if (PageUtilities.IsSameOrSubclassOf<MasterDetailPage>(pageType))
+                    {
+                        illegalSegments.Enqueue(item);
+                        illegalPageFound = true;
+                    }
+                    else
+                    {
+                        navigationStack.Push(item);
+                    }
                 }
             }
 
@@ -725,7 +746,6 @@ namespace Prism.Navigation
         {
             bool useModalNavigation = true;
 
-
             if (useModalNavigationDefault.HasValue)
                 useModalNavigation = useModalNavigationDefault.Value;
             else if (currentPage is NavigationPage)
@@ -738,7 +758,7 @@ namespace Prism.Navigation
 
         internal static bool UseReverseNavigation(Page currentPage, Type nextPageType)
         {
-            return currentPage?.Parent is NavigationPage && PageUtilities.IsSameOrSubclassOf<ContentPage>(nextPageType);
+            return PageUtilities.HasNavigationPageParent(currentPage) && PageUtilities.IsSameOrSubclassOf<ContentPage>(nextPageType);
         }
     }
 }

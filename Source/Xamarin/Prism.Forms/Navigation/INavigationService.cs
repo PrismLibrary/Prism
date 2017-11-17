@@ -29,7 +29,7 @@ namespace Prism.Navigation
         /// <example>
         /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
         /// </example>
-        Task NavigateAsync(Uri uri, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true);
+        Task NavigateAsync(Uri uri, NavigationParameters parameters = null, bool animated = true);
 
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="name"/>.
@@ -38,6 +38,6 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        Task NavigateAsync(string name, NavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true);
+        Task NavigateAsync(string name, NavigationParameters parameters = null, bool animated = true);
     }
 }
