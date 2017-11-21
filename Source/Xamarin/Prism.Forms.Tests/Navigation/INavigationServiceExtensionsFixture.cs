@@ -1,19 +1,35 @@
 ﻿using Prism.Common;
 using Prism.Forms.Tests.Mocks;
 using Prism.Forms.Tests.Mocks.Views;
+using Prism.Forms.Tests.Navigation.Mocks.Views;
 using Prism.Navigation;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 using Xunit;
 
 namespace Prism.Forms.Tests.Navigation
 {
+    [Collection("PageNavigationRegistry")]
     public class INavigationServiceExtensionsFixture
     {
+        public INavigationServiceExtensionsFixture()
+        {
+            PageNavigationRegistryFixture.ResetPageNavigationRegistry();
+
+            PageNavigationRegistry.Register("NavigationPage", typeof(NavigationPage));
+            PageNavigationRegistry.Register("Page1", typeof(NavigationPathPageMock));
+            PageNavigationRegistry.Register("Page2", typeof(NavigationPathPageMock2));
+            PageNavigationRegistry.Register("Page3", typeof(NavigationPathPageMock3));
+            PageNavigationRegistry.Register("Page4", typeof(NavigationPathPageMock4));
+            PageNavigationRegistry.Register("TabbedPage1", typeof(NavigationPathTabbedPageMock));
+            PageNavigationRegistry.Register("MasterDetailPage", typeof(MasterDetailPage));
+        }
+
         [Fact]
         public async Task GoBackToRootAsync_PopsToRoot()
         {
             var navigationService = new PageNavigationServiceMock(null, null, null);
-            var rootPage = new Xamarin.Forms.NavigationPage();
+            var rootPage = new NavigationPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             var page1 = new ContentPageMock() { Title = "Page 1" };
@@ -36,7 +52,7 @@ namespace Prism.Forms.Tests.Navigation
         {
             var recorder = new PageNavigationEventRecorder();
             var navigationService = new PageNavigationServiceMock(null, null, null);
-            var rootPage = new Xamarin.Forms.NavigationPage();
+            var rootPage = new NavigationPage();
             ((IPageAware)navigationService).Page = rootPage;
 
             var page1 = new ContentPageMock(recorder) { Title = "Page 1" };
@@ -130,6 +146,93 @@ namespace Prism.Forms.Tests.Navigation
             record = recorder.TakeFirst();
             Assert.Equal(page1.BindingContext, record.Sender);
             Assert.Equal(PageNavigationEvent.OnNavigatedTo, record.Event);
+        }
+
+        [Fact]
+        public async Task GetNavigationUriPath()
+        {
+            var rootPage = new Xamarin.Forms.NavigationPage();
+
+            var page1 = new NavigationPathPageMock() { Title = "Page1" };
+            await rootPage.Navigation.PushAsync(page1);
+
+            var page2 = new NavigationPathPageMock2() { Title = "Page2" };
+            await rootPage.Navigation.PushAsync(page2);
+
+            var page3 = new NavigationPathPageMock3() { Title = "Page3" };
+            await rootPage.Navigation.PushAsync(page3);
+
+            var page4 = new NavigationPathPageMock4() { Title = "Page4" };
+            await rootPage.Navigation.PushAsync(page4);
+
+            var path = page3.ViewModel.NavigationService.GetNavigationUriPath();
+
+            Assert.Equal("/NavigationPage/Page1/Page2/Page3", path);
+        }
+
+        [Fact]
+        public async Task GetNavigationUriPath2()
+        {
+            var rootPage = new NavigationPage();
+
+            var page1 = new NavigationPathTabbedPageMock() { Title = "TabbedPage1" };
+            await rootPage.Navigation.PushAsync(page1);
+
+            var path = ((NavigationPathPageMock2)page1.Children[1]).ViewModel.NavigationService.GetNavigationUriPath();
+
+            Assert.Equal("/NavigationPage/TabbedPage1?selectedTab=Page2", path);
+        }
+
+        [Fact]
+        public void GetNavigationUriPath3()
+        {
+            var rootPage = new MasterDetailPage();
+            rootPage.Master = new ContentPage() { Title = "Master" };
+
+            var page1 = new NavigationPathPageMock() { Title = "Page1" };
+            rootPage.Detail = page1;
+
+            var path = page1.ViewModel.NavigationService.GetNavigationUriPath();
+
+            Assert.Equal("/MasterDetailPage/Page1", path);
+        }
+
+        [Fact]
+        public void GetNavigationUriPath4()
+        {
+            var rootPage = new MasterDetailPage();
+            rootPage.Master = new ContentPage() { Title = "Master" };
+
+            var page1 = new NavigationPathPageMock() { Title = "Page1" };
+            rootPage.Detail = new NavigationPage(page1);
+
+            var path = page1.ViewModel.NavigationService.GetNavigationUriPath();
+
+            Assert.Equal("/MasterDetailPage/NavigationPage/Page1", path);
+        }
+
+        [Fact]
+        public void GetNavigationUriPath5()
+        {
+            var rootPage = new MasterDetailPage();
+            rootPage.Master = new ContentPage() { Title = "Master" };
+
+            var tabbedpage = new NavigationPathTabbedPageMock() { Title = "Page1" };
+
+            var detail = new NavigationPage(tabbedpage); ;
+            rootPage.Detail = detail;
+
+            var page1 = new NavigationPathPageMock() { Title = "Page1" };
+            rootPage.Detail.Navigation.PushAsync(page1);
+
+            var path = page1.ViewModel.NavigationService.GetNavigationUriPath();
+            Assert.Equal("/MasterDetailPage/NavigationPage/TabbedPage1/Page1", path);
+            
+            path = tabbedpage.ViewModel.NavigationService.GetNavigationUriPath();
+            Assert.Equal("/MasterDetailPage/NavigationPage/TabbedPage1", path);
+
+            path = ((NavigationPathPageMock)tabbedpage.Children[0]).ViewModel.NavigationService.GetNavigationUriPath();
+            Assert.Equal("/MasterDetailPage/NavigationPage/TabbedPage1?selectedTab=Page1", path);
         }
     }
 }

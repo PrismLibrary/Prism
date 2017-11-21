@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Prism.Forms.Tests.Navigation
 {
+    [Collection("PageNavigationRegistry")]
     public class PageNavigationRegistryFixture
     {
         [Fact]
