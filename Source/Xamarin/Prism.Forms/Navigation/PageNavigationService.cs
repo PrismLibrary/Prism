@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Prism.Behaviors;
+using System.Text;
 
 namespace Prism.Navigation
 {
