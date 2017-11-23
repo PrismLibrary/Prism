@@ -34,7 +34,7 @@ namespace Prism.Navigation
             set { _page = value; }
         }
 
-        public PageNavigationService(IContainerProvider container, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory, ILoggerFacade logger)
+        public PageNavigationService(IContainerExtension container, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory, ILoggerFacade logger)
         {
             _container = container;
             _applicationProvider = applicationProvider;

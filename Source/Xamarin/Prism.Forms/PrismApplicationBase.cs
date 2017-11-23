@@ -82,7 +82,6 @@ namespace Prism
         protected virtual void ConfigureContainer(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterInstance<IContainerExtension>(_containerExtension);
-            containerRegistry.RegisterInstance<IContainerProvider>(Container);
             containerRegistry.RegisterSingleton<ILoggerFacade, EmptyLogger>();
             containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
             containerRegistry.RegisterSingleton<IApplicationProvider, ApplicationProvider>();
