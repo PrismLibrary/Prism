@@ -1,33 +1,27 @@
 ﻿using ModuleA.Views;
+using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Unity;
-using Unity;
-using Unity.Lifetime;
 using Xamarin.Forms;
 
 namespace ModuleA
 {
     public class ModuleAModule : IModule
     {
-        readonly IUnityContainer _container;
-
-        public ModuleAModule(IUnityContainer container)
-        {
-            _container = container;
-        }
-
         public void Initialize()
         {
-            _container.RegisterTypeForNavigation<MyTabbedPage>();
-            _container.RegisterTypeForNavigation<ViewA>();
-            _container.RegisterTypeForNavigation<ViewB>();
-            _container.RegisterTypeForNavigation<ViewC>();
-
-            _container.RegisterType<IApplicationCommands, ApplicationCommands>(new ContainerControlledLifetimeManager());
-
             //var masterDetail = PrismApplication.Current.MainPage as MasterDetailPage;
             //if (masterDetail != null)
             //    masterDetail.Master = new MasterNavigation();
+        }
+
+        public void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterTypeForNavigation<MyTabbedPage>();
+            containerRegistry.RegisterTypeForNavigation<ViewA>();
+            containerRegistry.RegisterTypeForNavigation<ViewB>();
+            containerRegistry.RegisterTypeForNavigation<ViewC>();
+
+            containerRegistry.RegisterSingleton<IApplicationCommands, ApplicationCommands>();
         }
     }
 }

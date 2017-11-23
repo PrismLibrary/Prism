@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Foundation;
+﻿using Foundation;
+using Prism;
+using Prism.Ioc;
 using UIKit;
-using Prism.Unity;
-using Microsoft.Practices.Unity;
 
 namespace HelloWorld.iOS
 {
@@ -33,9 +29,9 @@ namespace HelloWorld.iOS
 
     public class iOSInitializer : IPlatformInitializer
     {
-        public void RegisterTypes(IUnityContainer container)
+        public void RegisterTypes(IContainerRegistry container)
         {
-
+            
         }
     }
 }
