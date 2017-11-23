@@ -1,4 +1,5 @@
-﻿using Prism.Modularity;
+﻿using Prism.Ioc;
+using Prism.Modularity;
 
 namespace Prism.DI.Forms.Tests.Mocks.Modules
 {
@@ -6,7 +7,7 @@ namespace Prism.DI.Forms.Tests.Mocks.Modules
     {
         public bool Initialized { get; private set; }
 
-        public void Initialize()
+        public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             Initialized = true;
         }

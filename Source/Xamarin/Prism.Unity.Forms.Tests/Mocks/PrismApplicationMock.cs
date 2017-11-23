@@ -39,18 +39,18 @@ namespace Prism.Unity.Forms.Tests.Mocks
             });
         }
 
-        protected override void RegisterTypes()
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            Container.RegisterType<IServiceMock, ServiceMock>();
-            Container.RegisterTypeForNavigation<ViewMock>("view");
-            Container.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
-            Container.RegisterType<AutowireViewModel>();
-            Container.RegisterType<ViewModelAMock>();
-            Container.RegisterType<ViewModelBMock>(ViewModelBMock.Key);
-            Container.RegisterType<ConstructorArgumentViewModel>();
-            Container.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
-            Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
-            Container.RegisterSingleton<ModuleMock>();
+            containerRegistry.RegisterType<IServiceMock, ServiceMock>();
+            containerRegistry.RegisterTypeForNavigation<ViewMock>("view");
+            containerRegistry.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
+            containerRegistry.RegisterType<AutowireViewModel>();
+            containerRegistry.RegisterType<ViewModelAMock>();
+            containerRegistry.RegisterType<ViewModelBMock>(ViewModelBMock.Key);
+            containerRegistry.RegisterType<ConstructorArgumentViewModel>();
+            containerRegistry.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
+            containerRegistry.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
+            containerRegistry.RegisterSingleton<ModuleMock>();
 
             DependencyService.Register<IDependencyServiceMock, DependencyServiceMock>();
         }

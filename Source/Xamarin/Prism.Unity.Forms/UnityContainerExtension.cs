@@ -4,13 +4,13 @@ using Unity;
 
 namespace Prism.Unity
 {
-    public class UnityContainerExtension : IContainer
+    public class UnityContainerExtension : IContainerExtension<IUnityContainer>
     {
         private readonly IUnityContainer _container;
 
-        public UnityContainerExtension(IUnityContainer container) => _container = container;
+        public IUnityContainer Instance => _container;
 
-        public object Instance => _container;
+        public UnityContainerExtension(IUnityContainer container) => _container = container;
 
         public void RegisterInstance<TInterface>(TInterface instance)
         {

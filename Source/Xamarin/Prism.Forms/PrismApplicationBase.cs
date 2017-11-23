@@ -13,17 +13,18 @@ using DependencyService = Prism.Services.DependencyService;
 
 namespace Prism
 {
-    public abstract class PrismApplicationBase : Application
+    public abstract class PrismApplicationBase<TContainer> : Application
     {
         const string _navigationServiceName = "PageNavigationService";
+        IContainerExtension<TContainer> _containerExtension;
         IPlatformInitializer _platformInitializer;
         IModuleCatalog _moduleCatalog;
-        Page _previousPage = null;
+        Page _previousPage = null;        
 
         /// <summary>
         /// The dependency injection container used to resolve objects
         /// </summary>
-        public IContainer Container { get; protected set; }
+        public IContainerProvider<TContainer> Container => _containerExtension;
 
         /// <summary>
         /// Gets the <see cref="INavigationService"/> for the application.
@@ -59,10 +60,10 @@ namespace Prism
         /// </summary>
         public virtual void Initialize()
         {
-            Container = CreateContainer();
-            ConfigureContainer();
-            _platformInitializer?.RegisterTypes(Container);
-            RegisterTypes();
+            _containerExtension = CreateContainerExtension();
+            ConfigureContainer(_containerExtension);
+            _platformInitializer?.RegisterTypes(_containerExtension);
+            RegisterTypes(_containerExtension);
 
             _moduleCatalog = Container.Resolve<IModuleCatalog>();
             ConfigureModuleCatalog(_moduleCatalog);
@@ -76,29 +77,30 @@ namespace Prism
         /// Creates the container used by Prism.
         /// </summary>
         /// <returns>The container</returns>
-        protected abstract IContainer CreateContainer();
+        protected abstract IContainerExtension<TContainer> CreateContainerExtension();
 
-        protected virtual void ConfigureContainer()
+        protected virtual void ConfigureContainer(IContainerRegistry containerRegistry)
         {
-            Container.RegisterInstance<IContainer>(Container);
-            Container.RegisterSingleton<ILoggerFacade, EmptyLogger>();
-            Container.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
-            Container.RegisterSingleton<IApplicationProvider, ApplicationProvider>();
-            Container.RegisterSingleton<IApplicationStore, ApplicationStore>();
-            Container.RegisterSingleton<IModuleManager, ModuleManager>();
-            Container.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
-            Container.RegisterSingleton<IEventAggregator, EventAggregator>();
-            Container.RegisterSingleton<IDependencyService, DependencyService>();
-            Container.RegisterSingleton<IPageDialogService, PageDialogService>();
-            Container.RegisterSingleton<IDeviceService, DeviceService>();
-            Container.RegisterSingleton<IPageBehaviorFactory, PageBehaviorFactory>();
-            Container.RegisterType<INavigationService, PageNavigationService>(_navigationServiceName);
+            containerRegistry.RegisterInstance<IContainerExtension>(_containerExtension);
+            containerRegistry.RegisterInstance<IContainerProvider>(Container);
+            containerRegistry.RegisterSingleton<ILoggerFacade, EmptyLogger>();
+            containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
+            containerRegistry.RegisterSingleton<IApplicationProvider, ApplicationProvider>();
+            containerRegistry.RegisterSingleton<IApplicationStore, ApplicationStore>();
+            containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
+            containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
+            containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
+            containerRegistry.RegisterSingleton<IDependencyService, DependencyService>();
+            containerRegistry.RegisterSingleton<IPageDialogService, PageDialogService>();
+            containerRegistry.RegisterSingleton<IDeviceService, DeviceService>();
+            containerRegistry.RegisterSingleton<IPageBehaviorFactory, PageBehaviorFactory>();
+            containerRegistry.RegisterType<INavigationService, PageNavigationService>(_navigationServiceName);
         }
 
         /// <summary>
         /// Used to register types with the container that will be used by your application.
         /// </summary>
-        protected abstract void RegisterTypes();
+        protected abstract void RegisterTypes(IContainerRegistry containerRegistry);
 
         /// <summary>
         /// Configures the <see cref="IModuleCatalog"/> used by Prism.

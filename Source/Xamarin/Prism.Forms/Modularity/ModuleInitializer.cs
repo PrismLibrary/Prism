@@ -5,9 +5,9 @@ namespace Prism.Modularity
 {
     public class ModuleInitializer : IModuleInitializer
     {
-        readonly IContainer _container;
+        readonly IContainerExtension _container;
 
-        public ModuleInitializer(IContainer container)
+        public ModuleInitializer(IContainerExtension container)
         {
             _container = container;
         }
@@ -16,7 +16,10 @@ namespace Prism.Modularity
         {
             var module = CreateModule(moduleInfo.ModuleType);
             if (module != null)
+            {
                 module.Initialize();
+                module.RegisterTypes(_container);
+            }
         }
 
         protected virtual IModule CreateModule(Type moduleType)

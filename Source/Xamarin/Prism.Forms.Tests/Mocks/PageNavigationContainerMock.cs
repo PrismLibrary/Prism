@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Prism.Forms.Tests.Mocks
 {
-    public class PageNavigationContainerMock : IContainer, IDisposable
+    public class PageNavigationContainerMock : IContainerProvider, IDisposable
     {
         Dictionary<string, Type> _registeredPages = new Dictionary<string, Type>();
 

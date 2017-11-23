@@ -22,7 +22,7 @@ namespace Prism.Navigation
         //not sure I like this static property, think about this a little more
         protected internal static PageNavigationSource NavigationSource { get; protected set; } = PageNavigationSource.Device;
 
-        private readonly IContainer _container;
+        private readonly IContainerProvider _container;
         protected readonly IApplicationProvider _applicationProvider;
         protected readonly IPageBehaviorFactory _pageBehaviorFactory;
         protected readonly ILoggerFacade _logger;
@@ -34,7 +34,7 @@ namespace Prism.Navigation
             set { _page = value; }
         }
 
-        public PageNavigationService(IContainer container, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory, ILoggerFacade logger)
+        public PageNavigationService(IContainerProvider container, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory, ILoggerFacade logger)
         {
             _container = container;
             _applicationProvider = applicationProvider;
