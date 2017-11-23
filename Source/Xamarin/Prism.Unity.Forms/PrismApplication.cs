@@ -1,26 +1,13 @@
-﻿using Prism.AppModel;
-using Prism.Behaviors;
-using Prism.Common;
-using Prism.Events;
-using Prism.Logging;
-using Prism.Modularity;
+﻿using Prism.Ioc;
 using Prism.Mvvm;
-using Prism.Navigation;
-using Prism.Services;
-using Prism.Unity.Modularity;
-using Prism.Unity.Navigation;
 using Unity;
-using Unity.Lifetime;
 using Unity.Resolution;
 using Xamarin.Forms;
-using DependencyService = Prism.Services.DependencyService;
 
 namespace Prism.Unity
 {
-    public abstract class PrismApplication : PrismApplicationBase<IUnityContainer>
+    public abstract class PrismApplication : PrismApplicationBase
     {
-        const string _navigationServiceName = "UnityPageNavigationService";
-
         public PrismApplication(IPlatformInitializer initializer = null) : base (initializer) { }
 
         protected override void ConfigureViewModelLocator()
@@ -38,40 +25,13 @@ namespace Prism.Unity
                     };
                 }
 
-                return Container.Resolve(type, overrides);
+                return ((IUnityContainer)Container.Instance).Resolve(type, overrides);
             });
         }
 
-        protected override IUnityContainer CreateContainer()
+        protected override IContainer CreateContainer()
         {
-            return new UnityContainer();
-        }
-
-        protected override IModuleManager CreateModuleManager()
-        {
-            return Container.Resolve<IModuleManager>();
-        }
-
-        protected override INavigationService CreateNavigationService()
-        {
-            return Container.Resolve<INavigationService>(_navigationServiceName);
-        }
-
-        protected override void ConfigureContainer()
-        {
-            Container.RegisterInstance<ILoggerFacade>(Logger);
-            Container.RegisterInstance<IModuleCatalog>(ModuleCatalog);
-
-            Container.RegisterType<IApplicationProvider, ApplicationProvider>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IApplicationStore, ApplicationStore>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<INavigationService, UnityPageNavigationService>(_navigationServiceName);
-            Container.RegisterType<IModuleManager, ModuleManager>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IModuleInitializer, UnityModuleInitializer>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IDependencyService, DependencyService>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IPageDialogService, PageDialogService>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IDeviceService, DeviceService>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IPageBehaviorFactory, PageBehaviorFactory>(new ContainerControlledLifetimeManager());
+            return new UnityContainerExtension(new UnityContainer());
         }
     }
 }

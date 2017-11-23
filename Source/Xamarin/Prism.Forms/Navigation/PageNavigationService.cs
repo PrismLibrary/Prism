@@ -1,19 +1,19 @@
-﻿using Prism.Common;
+﻿using Prism.Behaviors;
+using Prism.Common;
+using Prism.Ioc;
 using Prism.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Prism.Behaviors;
-using System.Text;
 
 namespace Prism.Navigation
 {
     /// <summary>
     /// Provides page based navigation for ViewModels.
     /// </summary>
-    public abstract class PageNavigationService : INavigationService, INavigateInternal, IPageAware
+    public class PageNavigationService : INavigationService, INavigateInternal, IPageAware
     {
         internal const string RemovePageRelativePath = "../";
         internal const string RemovePageInstruction = "__RemovePage/";
@@ -22,6 +22,7 @@ namespace Prism.Navigation
         //not sure I like this static property, think about this a little more
         protected internal static PageNavigationSource NavigationSource { get; protected set; } = PageNavigationSource.Device;
 
+        private readonly IContainer _container;
         protected readonly IApplicationProvider _applicationProvider;
         protected readonly IPageBehaviorFactory _pageBehaviorFactory;
         protected readonly ILoggerFacade _logger;
@@ -33,8 +34,9 @@ namespace Prism.Navigation
             set { _page = value; }
         }
 
-        protected PageNavigationService(IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory, ILoggerFacade logger)
+        public PageNavigationService(IContainer container, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory, ILoggerFacade logger)
         {
+            _container = container;
             _applicationProvider = applicationProvider;
             _pageBehaviorFactory = pageBehaviorFactory;
             _logger = logger;
@@ -567,8 +569,10 @@ namespace Prism.Navigation
             }
         }
 
-
-        protected abstract Page CreatePage(string segmentName);
+        protected virtual Page CreatePage(string segmentName)
+        {
+            return _container.Resolve<object>(segmentName) as Page;
+        }
 
         protected virtual Page CreatePageFromSegment(string segment)
         {

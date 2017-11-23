@@ -1,12 +1,11 @@
-﻿using Unity;
-using Prism.DI.Forms.Tests.Mocks.Modules;
+﻿using Prism.DI.Forms.Tests.Mocks.Modules;
 using Prism.DI.Forms.Tests.Mocks.Services;
 using Prism.DI.Forms.Tests.Mocks.ViewModels;
 using Prism.DI.Forms.Tests.Mocks.Views;
 using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
-using Unity.Lifetime;
+using Prism.Ioc;
 
 namespace Prism.Unity.Forms.Tests.Mocks
 {
@@ -30,9 +29,9 @@ namespace Prism.Unity.Forms.Tests.Mocks
             Initialized = true;
         }
 
-        protected override void ConfigureModuleCatalog()
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            ModuleCatalog.AddModule(new ModuleInfo
+            moduleCatalog.AddModule(new ModuleInfo
             {
                 InitializationMode = InitializationMode.WhenAvailable,
                 ModuleName = "ModuleMock",
@@ -51,7 +50,7 @@ namespace Prism.Unity.Forms.Tests.Mocks
             Container.RegisterType<ConstructorArgumentViewModel>();
             Container.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
             Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
-            Container.RegisterType<ModuleMock>(new ContainerControlledLifetimeManager());
+            Container.RegisterSingleton<ModuleMock>();
 
             DependencyService.Register<IDependencyServiceMock, DependencyServiceMock>();
         }

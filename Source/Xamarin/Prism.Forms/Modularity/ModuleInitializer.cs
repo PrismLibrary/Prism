@@ -1,14 +1,13 @@
-﻿using Unity;
-using Prism.Modularity;
+﻿using Prism.Ioc;
 using System;
 
-namespace Prism.Unity.Modularity
+namespace Prism.Modularity
 {
-    public class UnityModuleInitializer : IModuleInitializer
+    public class ModuleInitializer : IModuleInitializer
     {
-        readonly IUnityContainer _container;
+        readonly IContainer _container;
 
-        public UnityModuleInitializer(IUnityContainer container)
+        public ModuleInitializer(IContainer container)
         {
             _container = container;
         }
