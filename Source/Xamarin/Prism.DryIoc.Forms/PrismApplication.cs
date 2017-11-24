@@ -4,9 +4,8 @@ using DryIoc;
 using Prism.AppModel;
 using Prism.Behaviors;
 using Prism.Common;
-using Prism.DryIoc.Modularity;
-using Prism.DryIoc.Navigation;
 using Prism.Events;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -22,15 +21,11 @@ namespace Prism.DryIoc
     public abstract class PrismApplication : PrismApplicationBase<IContainer>
     {
         /// <summary>
-        /// Service key used when registering the <see cref="DryIocPageNavigationService"/> with the container
-        /// </summary>
-
-        /// <summary>
         /// Create a new instance of <see cref="PrismApplication"/>
         /// </summary>
         /// <param name="platformInitializer">Class to initialize platform instances</param>
         /// <remarks>
-        /// The method <see cref="IPlatformInitializer.RegisterTypes(IContainer)"/> will be called after <see cref="PrismApplication.RegisterTypes()"/> 
+        /// The method <see cref="IPlatformInitializer.RegisterTypes(IContainerRegistry)"/> will be called after <see cref="PrismApplication.RegisterTypes()"/> 
         /// to allow for registering platform specific instances.
         /// </remarks>
         protected PrismApplication(IPlatformInitializer platformInitializer = null)
@@ -40,19 +35,12 @@ namespace Prism.DryIoc
         }
 
         /// <summary>
-        /// Create a default instance of <see cref="IContainer" /> with <see cref="Rules" /> created in
-        /// <see cref="CreateContainerRules" />
+        /// Creates the <see cref="IContainerExtension"/> for DryIoc
         /// </summary>
-        /// <returns>An instance of <see cref="IContainer" /></returns>
-        protected override IContainer CreateContainer()
+        /// <returns></returns>
+        protected override IContainerExtension<IContainer> CreateContainerExtension()
         {
-            var rules = CreateContainerRules();
-            return new Container(rules);
-        }
-
-        protected override IModuleManager CreateModuleManager()
-        {
-            return Container.Resolve<IModuleManager>();
+            return new DryIocContainerExtension(new Container(CreateContainerRules()));
         }
 
         /// <summary>
@@ -66,46 +54,19 @@ namespace Prism.DryIoc
         protected virtual Rules CreateContainerRules() => 
             Rules.Default.WithAutoConcreteTypeResolution();
 
-        protected override void ConfigureContainer()
+        /// <summary>
+        /// Configures the Container.
+        /// </summary>
+        /// <param name="containerRegistry"></param>
+        protected override void ConfigureContainer(IContainerRegistry containerRegistry)
         {
-            Container.UseInstance(Logger);
-            Container.UseInstance(ModuleCatalog);
-            Container.UseInstance(Container);
-            Container.Register<INavigationService, DryIocPageNavigationService>();
-            Container.Register<INavigationService>(
+            base.ConfigureContainer(containerRegistry);
+            Container.Instance.Register<INavigationService, PageNavigationService>();
+            Container.Instance.Register<INavigationService>(
                 made: Made.Of(() => SetPage(Arg.Of<INavigationService>(), Arg.Of<Page>())),
                 setup: Setup.Decorator);
-            Container.Register<IApplicationProvider, ApplicationProvider>(Reuse.Singleton);
-            Container.Register<IApplicationStore, ApplicationStore>(Reuse.Singleton);
-            Container.Register<IModuleManager, ModuleManager>(Reuse.Singleton);
-            Container.Register<IModuleInitializer, DryIocModuleInitializer>(Reuse.Singleton);
-            Container.Register<IEventAggregator, EventAggregator>(Reuse.Singleton);
-            Container.Register<IDependencyService, DependencyService>(Reuse.Singleton);
-            Container.Register<IPageDialogService, PageDialogService>(Reuse.Singleton);
-            Container.Register<IDeviceService, DeviceService>(Reuse.Singleton);
-            Container.Register<IPageBehaviorFactory, PageBehaviorFactory>(Reuse.Singleton);            
         }
 
-        protected override void InitializeModules()
-        {
-            if (ModuleCatalog.Modules.Any())
-            {
-                var manager = Container.Resolve<IModuleManager>();
-                manager.Run();
-            }
-        }
-
-        /// <summary>
-        /// Create instance of <see cref="INavigationService"/>
-        /// </summary>
-        /// <remarks>
-        /// The <see cref="_navigationServiceKey"/> is used as service key when resolving
-        /// </remarks>
-        /// <returns>Instance of <see cref="INavigationService"/></returns>
-        protected override INavigationService CreateNavigationService()
-        {
-            return Container.Resolve<INavigationService>();
-        }
 
         protected override void ConfigureViewModelLocator()
         {
@@ -114,7 +75,7 @@ namespace Prism.DryIoc
                 switch(view)
                 {
                     case Page page:
-                        var getVM = Container.Resolve<Func<Page, object>>(type);
+                        var getVM = Container.Instance.Resolve<Func<Page, object>>(type);
                         return getVM(page);
                     default:
                         return Container.Resolve(type);
