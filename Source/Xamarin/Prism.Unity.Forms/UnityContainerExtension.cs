@@ -4,7 +4,7 @@ using Unity;
 
 namespace Prism.Unity
 {
-    public class UnityContainerExtension : IContainerExtension<IUnityContainer>
+    public class UnityContainerExtension : IContainerExtension<IUnityContainer>, IContainerSupportsModularization
     {
         private readonly IUnityContainer _container;
 
