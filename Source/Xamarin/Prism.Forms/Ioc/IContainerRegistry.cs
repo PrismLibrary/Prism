@@ -4,22 +4,18 @@ namespace Prism.Ioc
 {
     public interface IContainerRegistry
     {
-        void RegisterInstance<TInterface>(TInterface instance);
+        void RegisterInstance(Type type, object instance);
 
-        void RegisterSingleton<T>(); //maybe
+        void RegisterSingleton(Type type);
 
-        void RegisterSingleton<TFrom, TTo>() where TTo : TFrom;
+        void RegisterSingleton(Type from, Type to);
+
+        void RegisterType(Type type);
+
+        void RegisterType(Type type, string name);
 
         void RegisterType(Type from, Type to);
 
         void RegisterType(Type from, Type to, string name);
-
-        void RegisterType<T>(); //maybe
-
-        void RegisterType<T>(string name); //maybe
-
-        void RegisterType<TFrom, TTo>() where TTo : TFrom;
-
-        void RegisterType<TFrom, TTo>(string name) where TTo : TFrom;
     }
 }

@@ -7,13 +7,48 @@ namespace Prism.Ioc
 {
     public static class IContainerRegistryExtensions
     {
+        public static void RegisterInstance<TInterface>(this IContainerRegistry containerRegistry, TInterface instance)
+        {
+            containerRegistry.RegisterInstance(typeof(TInterface), instance);
+        }
+
+        public static void RegisterSingleton<TFrom, TTo>(this IContainerRegistry containerRegistry) where TTo : TFrom
+        {
+            containerRegistry.RegisterSingleton(typeof(TFrom), typeof(TTo));
+        }
+
+        public static void RegisterSingleton<T>(this IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterSingleton(typeof(T));
+        }
+
+        public static void RegisterType<T>(this IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterType(typeof(T));
+        }
+
+        public static void RegisterType<T>(this IContainerRegistry containerRegistry, string name)
+        {
+            containerRegistry.RegisterType(typeof(T), name);
+        }
+
+        public static void RegisterType<TFrom, TTo>(this IContainerRegistry containerRegistry) where TTo : TFrom
+        {
+            containerRegistry.RegisterType(typeof(TFrom), typeof(TTo));
+        }
+
+        public static void RegisterType<TFrom, TTo>(this IContainerRegistry containerRegistry, string name) where TTo : TFrom
+        {
+            containerRegistry.RegisterType(typeof(TFrom), typeof(TTo), name);
+        }
+
         /// <summary>
-		/// Registers a Page for navigation.
-		/// </summary>
-		/// <typeparam name="TView">The Type of Page to register</typeparam>
-		/// <param name="containerRegistry"><see cref="IUnityContainer"/> used to register type for Navigation.</param>
-		/// <param name="name">The unique name to register with the Page</param>
-		public static void RegisterTypeForNavigation<TView>(this IContainerRegistry containerRegistry, string name = null) where TView : Page
+        /// Registers a Page for navigation.
+        /// </summary>
+        /// <typeparam name="TView">The Type of Page to register</typeparam>
+        /// <param name="containerRegistry"><see cref="IUnityContainer"/> used to register type for Navigation.</param>
+        /// <param name="name">The unique name to register with the Page</param>
+        public static void RegisterTypeForNavigation<TView>(this IContainerRegistry containerRegistry, string name = null) where TView : Page
         {
             var viewType = typeof(TView);
 

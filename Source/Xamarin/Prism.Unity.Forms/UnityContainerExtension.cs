@@ -12,19 +12,29 @@ namespace Prism.Unity
 
         public UnityContainerExtension(IUnityContainer container) => _container = container;
 
-        public void RegisterInstance<TInterface>(TInterface instance)
+        public void RegisterInstance(Type type, object instance)
         {
-            _container.RegisterInstance<TInterface>(instance);
+            _container.RegisterInstance(type, instance);
         }
 
-        public void RegisterSingleton<TFrom, TTo>() where TTo : TFrom
+        public void RegisterSingleton(Type type)
         {
-            _container.RegisterSingleton<TFrom, TTo>();
+            _container.RegisterSingleton(type);
         }
 
-        public void RegisterSingleton<T>()
+        public void RegisterSingleton(Type from, Type to)
         {
-            _container.RegisterSingleton<T>();
+            _container.RegisterSingleton(from, to);
+        }
+
+        public void RegisterType(Type type)
+        {
+            _container.RegisterType(type);
+        }
+
+        public void RegisterType(Type type, string name)
+        {
+            _container.RegisterType(type, name);
         }
 
         public void RegisterType(Type from, Type to)
@@ -37,26 +47,6 @@ namespace Prism.Unity
             _container.RegisterType(from, to, name);
         }
 
-        public void RegisterType<TFrom, TTo>() where TTo : TFrom
-        {
-            _container.RegisterType<TFrom, TTo>();
-        }
-
-        public void RegisterType<TFrom, TTo>(string name) where TTo : TFrom
-        {
-            _container.RegisterType<TFrom, TTo>(name);
-        }
-
-        public void RegisterType<T>()
-        {
-            _container.RegisterType<T>();
-        }
-
-        public void RegisterType<T>(string name)
-        {
-            _container.RegisterType<T>(name);
-        }
-
         public object Resolve(Type type)
         {
             return _container.Resolve(type);
@@ -65,16 +55,6 @@ namespace Prism.Unity
         public object Resolve(Type type, string name)
         {
             return _container.Resolve(type, name);
-        }
-
-        public T Resolve<T>()
-        {
-            return _container.Resolve<T>();
-        }
-
-        public T Resolve<T>(string name)
-        {
-            return _container.Resolve<T>(name);
         }
     }
 }

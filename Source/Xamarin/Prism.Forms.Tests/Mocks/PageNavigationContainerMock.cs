@@ -29,37 +29,12 @@ namespace Prism.Forms.Tests.Mocks
             }
         }
 
-        public void Dispose()
-        {
-            PageNavigationRegistryFixture.ResetPageNavigationRegistry();
-        }
-
         public object Resolve(Type type)
         {
             throw new NotImplementedException();
         }
 
         public object Resolve(Type type, string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T Resolve<T>()
-        {
-            throw new NotImplementedException();
-        }
-
-        public T Resolve<T>(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RegisterInstance<TInterface>(TInterface instance)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RegisterSingleton<TFrom, TTo>() where TTo : TFrom
         {
             throw new NotImplementedException();
         }
@@ -74,29 +49,34 @@ namespace Prism.Forms.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public void RegisterType<TFrom, TTo>() where TTo : TFrom
+        public void RegisterInstance(Type type, object instance)
         {
             throw new NotImplementedException();
         }
 
-        public void RegisterType<TFrom, TTo>(string name) where TTo : TFrom
+        public void RegisterSingleton(Type type)
         {
             throw new NotImplementedException();
         }
 
-        public void RegisterSingleton<T>()
+        public void RegisterSingleton(Type from, Type to)
         {
             throw new NotImplementedException();
         }
 
-        public void RegisterType<T>()
+        public void RegisterType(Type type)
         {
             throw new NotImplementedException();
         }
 
-        public void RegisterType<T>(string name)
+        public void RegisterType(Type type, string name)
         {
             throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            PageNavigationRegistryFixture.ResetPageNavigationRegistry();
         }
     }
 }
