@@ -7,6 +7,7 @@ using Prism.Logging;
 using Prism.Modularity;
 using Prism.Navigation;
 using Prism.Services;
+using System;
 using System.Linq;
 using Xamarin.Forms;
 using DependencyService = Prism.Services.DependencyService;
@@ -126,6 +127,9 @@ namespace Prism
         {
             if (_moduleCatalog.Modules.Count() > 0)
             {
+                if (!_containerExtension.SupportsModules)
+                    throw new InvalidOperationException("Container does not support the use of Modules.");
+
                 IModuleManager manager = Container.Resolve<IModuleManager>();
                 manager.Run();
             }

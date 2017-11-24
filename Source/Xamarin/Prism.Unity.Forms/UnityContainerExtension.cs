@@ -10,6 +10,8 @@ namespace Prism.Unity
 
         public IUnityContainer Instance => _container;
 
+        public bool SupportsModules => true;
+
         public UnityContainerExtension(IUnityContainer container) => _container = container;
 
         public void RegisterInstance(Type type, object instance)
