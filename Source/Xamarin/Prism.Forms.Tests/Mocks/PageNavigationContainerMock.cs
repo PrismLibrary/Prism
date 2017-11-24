@@ -12,6 +12,8 @@ namespace Prism.Forms.Tests.Mocks
 
         public object Instance => throw new NotImplementedException();
 
+        public bool SupportsModules => true;
+
         public object GetInstance(string key)
         {
             if (_registeredPages.ContainsKey(key))
