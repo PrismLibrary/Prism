@@ -14,17 +14,17 @@ using DependencyService = Prism.Services.DependencyService;
 
 namespace Prism
 {
-    public abstract class PrismApplicationBase<TContainer> : Application
+    public abstract class PrismApplicationBase : Application
     {
         const string _navigationServiceName = "PageNavigationService";
-        IContainerExtension<TContainer> _containerExtension;
+        IContainerExtension _containerExtension;
         IModuleCatalog _moduleCatalog;
         Page _previousPage = null;
 
         /// <summary>
         /// The dependency injection container used to resolve objects
         /// </summary>
-        public IContainerProvider<TContainer> Container => _containerExtension;
+        public IContainerProvider Container => _containerExtension;
 
         /// <summary>
         /// Gets the <see cref="INavigationService"/> for the application.
@@ -83,7 +83,7 @@ namespace Prism
         /// Creates the container used by Prism.
         /// </summary>
         /// <returns>The container</returns>
-        protected abstract IContainerExtension<TContainer> CreateContainerExtension();
+        protected abstract IContainerExtension CreateContainerExtension();
 
         /// <summary>
         /// Registers all required services with the container.

@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace Prism.Ninject
 {
-    public abstract class PrismApplication : PrismApplicationBase<IKernel>
+    public abstract class PrismApplication : PrismApplicationBase
     {
         public PrismApplication(IPlatformInitializer initializer = null) 
             : base(initializer) { }
@@ -25,11 +25,11 @@ namespace Prism.Ninject
                     };
                 }
 
-                return Container.Instance.Get(type, overrides);
+                return Container.GetContainer().Get(type, overrides);
             });
         }
 
-        protected override IContainerExtension<IKernel> CreateContainerExtension()
+        protected override IContainerExtension CreateContainerExtension()
         {
             return new NinjectContainerExtension(new StandardKernel());
         }

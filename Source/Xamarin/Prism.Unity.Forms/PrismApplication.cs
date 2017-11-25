@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace Prism.Unity
 {
-    public abstract class PrismApplication : PrismApplicationBase<IUnityContainer>
+    public abstract class PrismApplication : PrismApplicationBase
     {
         public PrismApplication(IPlatformInitializer initializer = null) 
             : base (initializer) { }
@@ -25,11 +25,11 @@ namespace Prism.Unity
                     };
                 }
 
-                return Container.Instance.Resolve(type, overrides);
+                return Container.GetContainer().Resolve(type, overrides);
             });
         }
 
-        protected override IContainerExtension<IUnityContainer> CreateContainerExtension()
+        protected override IContainerExtension CreateContainerExtension()
         {
             return new UnityContainerExtension(new UnityContainer());
         }

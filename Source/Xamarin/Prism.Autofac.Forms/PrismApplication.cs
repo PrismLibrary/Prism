@@ -8,7 +8,7 @@ namespace Prism.Autofac
     /// <summary>
     /// Application base class using Autofac
     /// </summary>
-    public abstract class PrismApplication : PrismApplicationBase<IContainer>
+    public abstract class PrismApplication : PrismApplicationBase
     {
         protected PrismApplication(IPlatformInitializer platformInitializer = null)
             : base(platformInitializer) { }
@@ -27,7 +27,7 @@ namespace Prism.Autofac
                     parameter = new NamedParameter("navigationService", CreateNavigationService(page));
                 }
 
-                return Container.Instance.Resolve(type, parameter);
+                return Container.GetContainer().Resolve(type, parameter);
             });
         }
 
@@ -35,7 +35,7 @@ namespace Prism.Autofac
         /// Creates the <see cref="IAutofacContainerExtension"/>
         /// </summary>
         /// <returns></returns>
-        protected override IContainerExtension<IContainer> CreateContainerExtension()
+        protected override IContainerExtension CreateContainerExtension()
         {
             return new AutofacContainerExtension(new ContainerBuilder());
         }

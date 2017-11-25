@@ -11,7 +11,7 @@ namespace Prism.DryIoc
     /// <summary>
     /// Application base class using DryIoc
     /// </summary>
-    public abstract class PrismApplication : PrismApplicationBase<IContainer>
+    public abstract class PrismApplication : PrismApplicationBase
     {
         protected PrismApplication(IPlatformInitializer platformInitializer = null)
             : base(platformInitializer) { }
@@ -20,7 +20,7 @@ namespace Prism.DryIoc
         /// Creates the <see cref="IContainerExtension"/> for DryIoc
         /// </summary>
         /// <returns></returns>
-        protected override IContainerExtension<IContainer> CreateContainerExtension()
+        protected override IContainerExtension CreateContainerExtension()
         {
             return new DryIocContainerExtension(new Container(CreateContainerRules()));
         }
@@ -38,8 +38,8 @@ namespace Prism.DryIoc
         protected override void ConfigureContainer(IContainerRegistry containerRegistry)
         {
             base.ConfigureContainer(containerRegistry);
-            Container.Instance.Register<INavigationService, PageNavigationService>();
-            Container.Instance.Register<INavigationService>(
+            Container.GetContainer().Register<INavigationService, PageNavigationService>();
+            Container.GetContainer().Register<INavigationService>(
                 made: Made.Of(() => SetPage(Arg.Of<INavigationService>(), Arg.Of<Page>())),
                 setup: Setup.Decorator);
         }
@@ -51,7 +51,7 @@ namespace Prism.DryIoc
                 switch (view)
                 {
                     case Page page:
-                        var getVM = Container.Instance.Resolve<Func<Page, object>>(type);
+                        var getVM = Container.GetContainer().Resolve<Func<Page, object>>(type);
                         return getVM(page);
                     default:
                         return Container.Resolve(type);
