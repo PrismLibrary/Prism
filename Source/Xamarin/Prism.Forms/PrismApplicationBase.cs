@@ -18,7 +18,6 @@ namespace Prism
     {
         const string _navigationServiceName = "PageNavigationService";
         IContainerExtension<TContainer> _containerExtension;
-        IPlatformInitializer _platformInitializer;
         IModuleCatalog _moduleCatalog;
         Page _previousPage = null;        
 
@@ -32,12 +31,17 @@ namespace Prism
         /// </summary>
         protected INavigationService NavigationService { get; set; }
 
+        /// <summary>
+        /// Get the Platform Initializer
+        /// </summary>
+        protected IPlatformInitializer PlatformInitializer { get; }
+
         protected PrismApplicationBase(IPlatformInitializer initializer = null)
         {
             base.ModalPopping += PrismApplicationBase_ModalPopping;
             base.ModalPopped += PrismApplicationBase_ModalPopped;
 
-            _platformInitializer = initializer;
+            PlatformInitializer = initializer;
             InitializeInternal();
         }
 
@@ -63,7 +67,7 @@ namespace Prism
         {
             _containerExtension = CreateContainerExtension();
             ConfigureContainer(_containerExtension);
-            _platformInitializer?.RegisterTypes(_containerExtension);
+            PlatformInitializer?.RegisterTypes(_containerExtension);
             RegisterTypes(_containerExtension);
 
             _moduleCatalog = Container.Resolve<IModuleCatalog>();
@@ -80,6 +84,10 @@ namespace Prism
         /// <returns>The container</returns>
         protected abstract IContainerExtension<TContainer> CreateContainerExtension();
 
+        /// <summary>
+        /// Registers all required services with the container.
+        /// </summary>
+        /// <param name="containerRegistry"></param>
         protected virtual void ConfigureContainer(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterInstance<IContainerExtension>(_containerExtension);

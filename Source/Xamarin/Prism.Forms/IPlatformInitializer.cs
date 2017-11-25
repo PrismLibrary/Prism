@@ -4,6 +4,6 @@ namespace Prism
 {
     public interface IPlatformInitializer
     {
-        void RegisterTypes(IContainerRegistry container);
+        void RegisterTypes(IContainerRegistry containerRegistry);
     }
 }
