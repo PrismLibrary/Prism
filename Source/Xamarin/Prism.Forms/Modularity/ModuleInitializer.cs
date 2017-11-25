@@ -18,7 +18,7 @@ namespace Prism.Modularity
             if (module != null)
             {
                 module.RegisterTypes(_container);
-                module.OnInitialize();
+                module.OnInitialized();
             }
         }
 

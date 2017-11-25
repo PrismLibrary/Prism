@@ -7,7 +7,7 @@ namespace ModuleA
 {
     public class ModuleAModule : IModule
     {
-        public void OnInitialize()
+        public void OnInitialized()
         {
             //var masterDetail = PrismApplication.Current.MainPage as MasterDetailPage;
             //if (masterDetail != null)

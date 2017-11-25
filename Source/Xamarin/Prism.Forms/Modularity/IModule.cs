@@ -15,6 +15,6 @@ namespace Prism.Modularity
         /// <summary>
         /// Notifies the module that it has be initialized.
         /// </summary>
-        void OnInitialize();
+        void OnInitialized();
     }
 }

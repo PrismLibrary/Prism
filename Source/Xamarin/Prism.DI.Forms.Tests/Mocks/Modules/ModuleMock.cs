@@ -8,7 +8,7 @@ namespace Prism.DI.Forms.Tests.Mocks.Modules
         public bool Initialized { get; private set; }
         public bool RegisterTypesCalled { get; private set; }
 
-        public void OnInitialize()
+        public void OnInitialized()
         {
             Initialized = true;
         }
