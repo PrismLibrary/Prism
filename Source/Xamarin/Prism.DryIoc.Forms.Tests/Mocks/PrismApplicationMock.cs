@@ -57,7 +57,7 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
 
         public INavigationService CreateNavigationServiceForPage(Page page)
         {
-            return CreateNavigationService(page);
+            return ((IContainerExtension)Container).CreateNavigationService(page);
         }
     }
 }

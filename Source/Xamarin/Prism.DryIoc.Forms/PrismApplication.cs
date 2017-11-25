@@ -1,9 +1,7 @@
 ﻿using DryIoc;
 using Prism.Common;
 using Prism.Ioc;
-using Prism.Mvvm;
 using Prism.Navigation;
-using System;
 using Xamarin.Forms;
 
 namespace Prism.DryIoc
@@ -42,21 +40,6 @@ namespace Prism.DryIoc
             Container.GetContainer().Register<INavigationService>(
                 made: Made.Of(() => SetPage(Arg.Of<INavigationService>(), Arg.Of<Page>())),
                 setup: Setup.Decorator);
-        }
-
-        protected override void ConfigureViewModelLocator()
-        {
-            ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
-            {
-                switch (view)
-                {
-                    case Page page:
-                        var getVM = Container.GetContainer().Resolve<Func<Page, object>>(type);
-                        return getVM(page);
-                    default:
-                        return Container.Resolve(type);
-                }
-            });
         }
 
         internal static INavigationService SetPage(INavigationService navigationService, Page page)

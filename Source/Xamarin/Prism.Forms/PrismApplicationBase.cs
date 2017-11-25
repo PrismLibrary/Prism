@@ -5,6 +5,7 @@ using Prism.Events;
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
+using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using System;
@@ -58,7 +59,13 @@ namespace Prism
         /// <summary>
         /// Configures the <see cref="Prism.Mvvm.ViewModelLocator"/> used by Prism.
         /// </summary>
-        protected abstract void ConfigureViewModelLocator();
+        protected virtual void ConfigureViewModelLocator()
+        {
+            ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
+            {
+                return _containerExtension.ResolveViewModelForView(view, type);
+            });
+        }
 
         /// <summary>
         /// Run the bootstrapper process.
@@ -74,7 +81,7 @@ namespace Prism
             _moduleCatalog = Container.Resolve<IModuleCatalog>();
             ConfigureModuleCatalog(_moduleCatalog);
 
-            NavigationService = CreateNavigationService(null);
+            NavigationService = _containerExtension.CreateNavigationService(null);
 
             InitializeModules();
         }
@@ -116,18 +123,6 @@ namespace Prism
         /// </summary>
         /// <param name="moduleCatalog">The ModuleCatalog to configure</param>
         protected virtual void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) { }
-
-        /// <summary>
-        /// Create instance of <see cref="INavigationService"/> and set the <see cref="IPageAware.Page"/> property to <paramref name="page"/>
-        /// </summary>
-        /// <param name="page">Active page</param>
-        /// <returns>Instance of <see cref="INavigationService"/> with <see cref="IPageAware.Page"/> set</returns>
-        protected INavigationService CreateNavigationService(Page page)
-        {
-            var navigationService = Container.Resolve<INavigationService>(_navigationServiceName);
-            ((IPageAware)navigationService).Page = page;
-            return navigationService;
-        }
 
         /// <summary>
         /// Initializes the modules.

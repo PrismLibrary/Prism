@@ -85,5 +85,10 @@ namespace Prism.Forms.Tests.Mocks
         {
             
         }
+
+        public object ResolveViewModelForView(object view, Type viewModelType)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

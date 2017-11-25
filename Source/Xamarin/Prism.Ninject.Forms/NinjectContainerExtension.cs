@@ -1,6 +1,10 @@
 ﻿using Ninject;
+using Ninject.Parameters;
+using Prism.Common;
 using Prism.Ioc;
+using Prism.Navigation;
 using System;
+using Xamarin.Forms;
 
 namespace Prism.Ninject
 {
@@ -22,24 +26,9 @@ namespace Prism.Ninject
             Instance.Bind(type).ToConstant(instance);
         }
 
-        public void RegisterSingleton(Type type)
-        {
-            Instance.Bind(type).To(type).InSingletonScope();
-        }
-
         public void RegisterSingleton(Type from, Type to)
         {
             Instance.Bind(to).To(from).InSingletonScope();
-        }
-
-        public void RegisterType(Type type)
-        {
-            Instance.Bind(type).To(type).InTransientScope();
-        }
-
-        public void RegisterType(Type type, string name)
-        {
-            Instance.Bind(type).To(type).Named(name);
         }
 
         public void RegisterType(Type from, Type to)
@@ -60,6 +49,21 @@ namespace Prism.Ninject
         public object Resolve(Type type, string name)
         {
             return Instance.Get(type, name);
+        }
+
+        public object ResolveViewModelForView(object view, Type viewModelType)
+        {
+            IParameter[] overrides = null;
+
+            if (view is Page page)
+            {
+                overrides = new IParameter[]
+                {
+                    new ConstructorArgument("navigationService", this.CreateNavigationService(page))
+                };
+            }
+
+            return Instance.Get(viewModelType, overrides);
         }
     }
 }

@@ -12,6 +12,11 @@ namespace Prism.Ioc
             containerRegistry.RegisterInstance(typeof(TInterface), instance);
         }
 
+        public static void RegisterSingleton(this IContainerRegistry containerRegistry, Type type)
+        {
+            containerRegistry.RegisterSingleton(type, type);
+        }
+
         public static void RegisterSingleton<TFrom, TTo>(this IContainerRegistry containerRegistry) where TTo : TFrom
         {
             containerRegistry.RegisterSingleton(typeof(TFrom), typeof(TTo));
@@ -22,9 +27,19 @@ namespace Prism.Ioc
             containerRegistry.RegisterSingleton(typeof(T));
         }
 
+        public static void RegisterType(this IContainerRegistry containerRegistry, Type type)
+        {
+            containerRegistry.RegisterType(type, type);
+        }
+
         public static void RegisterType<T>(this IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterType(typeof(T));
+        }
+
+        public static void RegisterType(this IContainerRegistry containerRegistry, Type type, string name)
+        {
+            containerRegistry.RegisterType(type, type, name);
         }
 
         public static void RegisterType<T>(this IContainerRegistry containerRegistry, string name)

@@ -1,6 +1,9 @@
-﻿using Prism.Ioc;
+﻿using Prism.Common;
+using Prism.Ioc;
+using Prism.Navigation;
 using System;
 using Unity;
+using Unity.Resolution;
 
 namespace Prism.Unity
 {
@@ -19,24 +22,9 @@ namespace Prism.Unity
             Instance.RegisterInstance(type, instance);
         }
 
-        public void RegisterSingleton(Type type)
-        {
-            Instance.RegisterSingleton(type);
-        }
-
         public void RegisterSingleton(Type from, Type to)
         {
             Instance.RegisterSingleton(from, to);
-        }
-
-        public void RegisterType(Type type)
-        {
-            Instance.RegisterType(type);
-        }
-
-        public void RegisterType(Type type, string name)
-        {
-            Instance.RegisterType(type, name);
         }
 
         public void RegisterType(Type from, Type to)
@@ -57,6 +45,21 @@ namespace Prism.Unity
         public object Resolve(Type type, string name)
         {
             return Instance.Resolve(type, name);
+        }
+
+        public object ResolveViewModelForView(object view, Type viewModelType)
+        {
+            ParameterOverrides overrides = null;
+
+            if (view is Xamarin.Forms.Page page)
+            {
+                overrides = new ParameterOverrides
+                    {
+                        { "navigationService", this.CreateNavigationService(page) }
+                    };
+            }
+
+            return Instance.Resolve(viewModelType, overrides);
         }
     }
 }

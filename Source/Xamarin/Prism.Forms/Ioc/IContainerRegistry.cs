@@ -6,13 +6,7 @@ namespace Prism.Ioc
     {
         void RegisterInstance(Type type, object instance);
 
-        void RegisterSingleton(Type type);
-
         void RegisterSingleton(Type from, Type to);
-
-        void RegisterType(Type type);
-
-        void RegisterType(Type type, string name);
 
         void RegisterType(Type from, Type to);
 

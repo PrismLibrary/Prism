@@ -1,7 +1,10 @@
-﻿using System;
-using Prism.Ioc;
-using Autofac;
+﻿using Autofac;
 using Autofac.Features.ResolveAnything;
+using Prism.Common;
+using Prism.Ioc;
+using Prism.Navigation;
+using System;
+using Xamarin.Forms;
 
 namespace Prism.Autofac
 {
@@ -30,11 +33,6 @@ namespace Prism.Autofac
             Builder.RegisterInstance(instance).As(type);
         }
 
-        public void RegisterSingleton(Type type)
-        {
-            Builder.RegisterType(type).As(type).SingleInstance();
-        }
-
         public void RegisterSingleton(Type from, Type to)
         {
             Builder.RegisterType(to).As(from).SingleInstance();
@@ -50,16 +48,6 @@ namespace Prism.Autofac
             Builder.RegisterType(to).Named(name, from);
         }
 
-        public void RegisterType(Type type)
-        {
-            Builder.RegisterType(type).As(type);
-        }
-
-        public void RegisterType(Type type, string name)
-        {
-            Builder.RegisterType(type).Named(name, type);
-        }
-
         public object Resolve(Type type)
         {
             return Instance.Resolve(type);
@@ -68,6 +56,17 @@ namespace Prism.Autofac
         public object Resolve(Type type, string name)
         {
             return Instance.ResolveNamed(name, type);
+        }
+
+        public object ResolveViewModelForView(object view, Type viewModelType)
+        {
+            NamedParameter parameter = null;
+            if (view is Page page)
+            {
+                parameter = new NamedParameter("navigationService", this.CreateNavigationService(page));
+            }
+
+            return Instance.Resolve(viewModelType, parameter);
         }
     }
 }

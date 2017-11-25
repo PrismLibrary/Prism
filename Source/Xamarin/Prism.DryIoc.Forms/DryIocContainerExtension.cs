@@ -1,6 +1,7 @@
 ﻿using Prism.Ioc;
 using DryIoc;
 using System;
+using Xamarin.Forms;
 
 namespace Prism.DryIoc
 {
@@ -22,11 +23,6 @@ namespace Prism.DryIoc
             Instance.UseInstance(type, instance);
         }
 
-        public void RegisterSingleton(Type type)
-        {
-            Instance.Register(type, Reuse.Singleton);
-        }
-
         public void RegisterSingleton(Type from, Type to)
         {
             Instance.Register(from, to, Reuse.Singleton);
@@ -42,16 +38,6 @@ namespace Prism.DryIoc
             Instance.Register(from, to, serviceKey: name);
         }
 
-        public void RegisterType(Type type)
-        {
-            Instance.Register(type);
-        }
-
-        public void RegisterType(Type type, string name)
-        {
-            Instance.Register(type, serviceKey: name);
-        }
-
         public object Resolve(Type type)
         {
             return Instance.Resolve(type);
@@ -60,6 +46,18 @@ namespace Prism.DryIoc
         public object Resolve(Type type, string name)
         {
             return Instance.Resolve(type, serviceKey: name);
+        }
+
+        public object ResolveViewModelForView(object view, Type viewModelType)
+        {
+            switch (view)
+            {
+                case Page page:
+                    var getVM = Instance.Resolve<Func<Page, object>>(viewModelType);
+                    return getVM(page);
+                default:
+                    return Instance.Resolve(viewModelType);
+            }
         }
     }
 }

@@ -1,7 +1,12 @@
-﻿namespace Prism.Ioc
+﻿using System;
+
+namespace Prism.Ioc
 {
     public interface IContainerExtension<TContainer> : IContainerExtension
     {
+        /// <summary>
+        /// The instance of the wrapped container
+        /// </summary>
         TContainer Instance { get; }
     }
 
@@ -17,5 +22,13 @@
         /// Used to perform any final steps for configuring the extension that may be required by the container.
         /// </summary>
         void FinalizeExtension();
+
+        /// <summary>
+        /// Used as the ViewModel resolver for ViewModelLocationProvider.SetDefaultViewModelFactory
+        /// </summary>
+        /// <param name="view">The view instance</param>
+        /// <param name="viewModelType">The ViewModel type to create</param>
+        /// <returns></returns>
+        object ResolveViewModelForView(object view, Type viewModelType);
     }
 }
