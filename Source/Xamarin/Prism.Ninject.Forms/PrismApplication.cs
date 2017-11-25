@@ -8,7 +8,6 @@ namespace Prism.Ninject
 {
     public abstract class PrismApplication : PrismApplicationBase<IKernel>
     {
-
         public PrismApplication(IPlatformInitializer initializer = null) 
             : base(initializer) { }
 
@@ -18,8 +17,7 @@ namespace Prism.Ninject
             {
                 IParameter[] overrides = null;
 
-                var page = view as Page;
-                if (page != null)
+                if (view is Page page)
                 {
                     overrides = new IParameter[]
                     {

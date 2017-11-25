@@ -80,5 +80,10 @@ namespace Prism.Forms.Tests.Mocks
         {
             PageNavigationRegistryFixture.ResetPageNavigationRegistry();
         }
+
+        public void FinalizeExtension()
+        {
+            
+        }
     }
 }

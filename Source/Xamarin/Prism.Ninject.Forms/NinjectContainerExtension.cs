@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Ninject;
+﻿using Ninject;
 using Prism.Ioc;
+using System;
 
 namespace Prism.Ninject
 {
     public class NinjectContainerExtension : IContainerExtension<IKernel>
     {
+        public IKernel Instance { get; }
+
+        public bool SupportsModules => true;
+
         public NinjectContainerExtension(IKernel kernel)
         {
             Instance = kernel;
         }
 
-        public IKernel Instance { get; }
-
-        public bool SupportsModules => true;
+        public void FinalizeExtension() { }
 
         public void RegisterInstance(Type type, object instance)
         {

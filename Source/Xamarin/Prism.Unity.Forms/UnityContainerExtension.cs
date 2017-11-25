@@ -6,57 +6,57 @@ namespace Prism.Unity
 {
     public class UnityContainerExtension : IContainerExtension<IUnityContainer>
     {
-        private readonly IUnityContainer _container;
-
-        public IUnityContainer Instance => _container;
+        public IUnityContainer Instance { get; }
 
         public bool SupportsModules => true;
 
-        public UnityContainerExtension(IUnityContainer container) => _container = container;
+        public UnityContainerExtension(IUnityContainer container) => Instance = container;
+
+        public void FinalizeExtension() { }
 
         public void RegisterInstance(Type type, object instance)
         {
-            _container.RegisterInstance(type, instance);
+            Instance.RegisterInstance(type, instance);
         }
 
         public void RegisterSingleton(Type type)
         {
-            _container.RegisterSingleton(type);
+            Instance.RegisterSingleton(type);
         }
 
         public void RegisterSingleton(Type from, Type to)
         {
-            _container.RegisterSingleton(from, to);
+            Instance.RegisterSingleton(from, to);
         }
 
         public void RegisterType(Type type)
         {
-            _container.RegisterType(type);
+            Instance.RegisterType(type);
         }
 
         public void RegisterType(Type type, string name)
         {
-            _container.RegisterType(type, name);
+            Instance.RegisterType(type, name);
         }
 
         public void RegisterType(Type from, Type to)
         {
-            _container.RegisterType(from, to);
+            Instance.RegisterType(from, to);
         }
 
         public void RegisterType(Type from, Type to, string name)
         {
-            _container.RegisterType(from, to, name);
+            Instance.RegisterType(from, to, name);
         }
 
         public object Resolve(Type type)
         {
-            return _container.Resolve(type);
+            return Instance.Resolve(type);
         }
 
         public object Resolve(Type type, string name)
         {
-            return _container.Resolve(type, name);
+            return Instance.Resolve(type, name);
         }
     }
 }

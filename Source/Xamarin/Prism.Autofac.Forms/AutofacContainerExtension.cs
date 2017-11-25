@@ -7,28 +7,22 @@ namespace Prism.Autofac
 {
     public class AutofacContainerExtension : IAutofacContainerExtension
     {
-        public AutofacContainerExtension(ContainerBuilder builder)
-        {
-            Builder = builder;
-        }
-
         public ContainerBuilder Builder { get; }
 
         public IContainer Instance { get; private set; }
 
         public bool SupportsModules => false;
 
-        public void Finalize()
+        public AutofacContainerExtension(ContainerBuilder builder)
+        {
+            Builder = builder;
+        }
+
+        public void FinalizeExtension()
         {
             // Make sure any not specifically registered concrete type can resolve.
             Builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
             Instance = Builder.Build();
-        }
-
-        public void RegisterInstance<TInterface>(TInterface instance)
-            where TInterface : class
-        {
-            Builder.RegisterInstance(instance).As<TInterface>().SingleInstance();
         }
 
         public void RegisterInstance(Type type, object instance)

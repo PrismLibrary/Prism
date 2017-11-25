@@ -1,18 +1,18 @@
-﻿using System;
-using System.Threading.Tasks;
-using Prism.Common;
+﻿using Autofac;
+using Autofac.Core.Registration;
 using Prism.Autofac.Forms.Tests.Mocks;
-using Prism.DI.Forms.Tests.Mocks.Modules;
+using Prism.Common;
+using Prism.DI.Forms.Tests;
 using Prism.DI.Forms.Tests.Mocks.Services;
 using Prism.DI.Forms.Tests.Mocks.ViewModels;
 using Prism.DI.Forms.Tests.Mocks.Views;
-using Prism.Autofac.Navigation;
+using Prism.Ioc;
 using Prism.Navigation;
+using Prism.Services;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;
-using Autofac;
-using Autofac.Core.Registration;
-using Prism.DI.Forms.Tests;
 
 namespace Prism.Autofac.Forms.Tests
 {
@@ -63,11 +63,11 @@ namespace Prism.Autofac.Forms.Tests
         public void ResolveTypeRegisteredWithDependencyService()
         {
             var app = new PrismApplicationMock();
-            //TODO: Autofac needs to be updated to support resolving unknown interfaces by using the DependencyService
-            Assert.Throws<ComponentNotRegisteredException>(() => app.Container.Resolve<IDependencyServiceMock>());
-            //var service = app.Container.Resolve<IDependencyServiceMock>();
-            //Assert.NotNull(service);
-            //Assert.IsType<DependencyServiceMock>(service);
+            var dependencyService = app.Container.Resolve<IDependencyService>();
+            Assert.NotNull(dependencyService);
+            var service = dependencyService.Get<IDependencyServiceMock>();
+            Assert.NotNull(service);
+            Assert.IsType<DependencyServiceMock>(service);
         }
 
         [Fact]
@@ -76,16 +76,7 @@ namespace Prism.Autofac.Forms.Tests
             var app = new PrismApplicationMock();
             var navigationService = app.NavigationService;
             Assert.NotNull(navigationService);
-            Assert.IsType<AutofacPageNavigationService>(navigationService);
-        }
-
-        [Fact]
-        public void Module_Initialize()
-        {
-            var app = new PrismApplicationMock();
-            var module = app.Container.Resolve<ModuleMock>();
-            Assert.NotNull(module);
-            Assert.True(module.Initialized);
+            Assert.IsType<PageNavigationService>(navigationService);
         }
 
         [Fact]
@@ -93,7 +84,7 @@ namespace Prism.Autofac.Forms.Tests
         {
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
-            var exception = await Assert.ThrowsAsync<NullReferenceException>(async () => await navigationService.NavigateAsync("missing"));
+            var exception = await Assert.ThrowsAsync<ComponentNotRegisteredException>(async () => await navigationService.NavigateAsync("missing"));
             Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
@@ -105,7 +96,7 @@ namespace Prism.Autofac.Forms.Tests
             await navigationService.NavigateAsync("view");
             var rootPage = ((IPageAware)navigationService).Page;
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ViewMock), rootPage.Navigation.ModalStack[0]);
+            Assert.IsType<ViewMock>(rootPage.Navigation.ModalStack[0]);
         }
 
         [Fact]
@@ -121,9 +112,18 @@ namespace Prism.Autofac.Forms.Tests
         public void Container_ResolveByKey()
         {
             var app = new PrismApplicationMock();
-            var viewModel = app.Container.ResolveNamed<ViewModelBMock>(ViewModelBMock.Key);
+            var viewModel = app.Container.Resolve<ViewModelBMock>(ViewModelBMock.Key);
             Assert.NotNull(viewModel);
             Assert.IsType<ViewModelBMock>(viewModel);
+        }
+
+        [Fact]
+        public void Container_DoesNotSupportModules()
+        {
+            Assert.Throws<NotSupportedException>(() =>
+            {
+                var app = new PrismApplicationModulesMock();
+            });
         }
 
         private static INavigationService ResolveAndSetRootPage(PrismApplicationMock app)

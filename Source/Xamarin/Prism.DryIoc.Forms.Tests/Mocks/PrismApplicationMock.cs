@@ -1,8 +1,8 @@
-using DryIoc;
 using Prism.DI.Forms.Tests.Mocks.Modules;
 using Prism.DI.Forms.Tests.Mocks.Services;
 using Prism.DI.Forms.Tests.Mocks.ViewModels;
 using Prism.DI.Forms.Tests.Mocks.Views;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
@@ -29,9 +29,9 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
             Initialized = true;
         }
 
-        protected override void ConfigureModuleCatalog()
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            ModuleCatalog.AddModule(new ModuleInfo
+            moduleCatalog.AddModule(new ModuleInfo
             {
                 InitializationMode = InitializationMode.WhenAvailable,
                 ModuleName = "ModuleMock",
@@ -39,18 +39,18 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
             });
         }
 
-        protected override void RegisterTypes()
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            Container.Register<IServiceMock, ServiceMock>();
-            Container.RegisterTypeForNavigation<ViewMock>("view");
-            Container.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
-            Container.Register<AutowireViewModel>();
-            Container.Register<ViewModelAMock>();
-            Container.Register<ViewModelBMock>(serviceKey: ViewModelBMock.Key);
-            Container.Register<ConstructorArgumentViewModel>();
-            Container.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
-            Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
-            Container.Register<ModuleMock>(Reuse.Singleton);
+            containerRegistry.RegisterType<IServiceMock, ServiceMock>();
+            containerRegistry.RegisterTypeForNavigation<ViewMock>("view");
+            containerRegistry.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
+            containerRegistry.RegisterType<AutowireViewModel>();
+            containerRegistry.RegisterType<ViewModelAMock>();
+            containerRegistry.RegisterType<ViewModelBMock>(ViewModelBMock.Key);
+            containerRegistry.RegisterType<ConstructorArgumentViewModel>();
+            containerRegistry.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
+            containerRegistry.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
+            containerRegistry.RegisterSingleton<ModuleMock>();
 
             DependencyService.Register<IDependencyServiceMock, DependencyServiceMock>();
         }

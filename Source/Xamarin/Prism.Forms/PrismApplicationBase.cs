@@ -69,16 +69,10 @@ namespace Prism
             ConfigureContainer(_containerExtension);
             PlatformInitializer?.RegisterTypes(_containerExtension);
             RegisterTypes(_containerExtension);
+            _containerExtension.FinalizeExtension();
 
-            if (_containerExtension is IContainerRequiresFinalization requiresFinalization)
-                requiresFinalization.Finalize();
-
-            if(_containerExtension.SupportsModules)
-            {
-                _moduleCatalog = Container.Resolve<IModuleCatalog>();
-
-                ConfigureModuleCatalog(_moduleCatalog);
-            }
+            _moduleCatalog = Container.Resolve<IModuleCatalog>();
+            ConfigureModuleCatalog(_moduleCatalog);
 
             NavigationService = CreateNavigationService(null);
 
@@ -106,14 +100,10 @@ namespace Prism
             containerRegistry.RegisterSingleton<IPageDialogService, PageDialogService>();
             containerRegistry.RegisterSingleton<IDeviceService, DeviceService>();
             containerRegistry.RegisterSingleton<IPageBehaviorFactory, PageBehaviorFactory>();
+            containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
+            containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
+            containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
             containerRegistry.RegisterType<INavigationService, PageNavigationService>(_navigationServiceName);
-
-            if(_containerExtension.SupportsModules)
-            {
-                containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
-                containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
-                containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
-            }
         }
 
         /// <summary>
@@ -147,7 +137,7 @@ namespace Prism
             if (_moduleCatalog.Modules.Count() > 0)
             {
                 if (!_containerExtension.SupportsModules)
-                    throw new InvalidOperationException("Container does not support the use of Modules.");
+                    throw new NotSupportedException("Container does not support the use of Modules.");
 
                 IModuleManager manager = Container.Resolve<IModuleManager>();
                 manager.Run();

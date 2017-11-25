@@ -6,14 +6,16 @@ namespace Prism.DryIoc
 {
     public class DryIocContainerExtension : IContainerExtension<IContainer>
     {
+        public IContainer Instance { get; }
+
+        public bool SupportsModules => true;
+
         public DryIocContainerExtension(IContainer container)
         {
             Instance = container;
         }
 
-        public IContainer Instance { get; }
-
-        public bool SupportsModules => true;
+        public void FinalizeExtension() { }
 
         public void RegisterInstance(Type type, object instance)
         {

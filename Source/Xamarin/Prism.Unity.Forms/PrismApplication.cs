@@ -8,7 +8,8 @@ namespace Prism.Unity
 {
     public abstract class PrismApplication : PrismApplicationBase<IUnityContainer>
     {
-        public PrismApplication(IPlatformInitializer initializer = null) : base (initializer) { }
+        public PrismApplication(IPlatformInitializer initializer = null) 
+            : base (initializer) { }
 
         protected override void ConfigureViewModelLocator()
         {
@@ -16,8 +17,7 @@ namespace Prism.Unity
             {
                 ParameterOverrides overrides = null;
 
-                var page = view as Page;
-                if (page != null)
+                if (view is Page page)
                 {
                     overrides = new ParameterOverrides
                     {
