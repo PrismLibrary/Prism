@@ -73,7 +73,7 @@ namespace Prism
             if (_containerExtension is IContainerRequiresFinalization requiresFinalization)
                 requiresFinalization.Finalize();
 
-            if(_containerExtension is IContainerSupportsModularization)
+            if(_containerExtension.SupportsModules)
             {
                 _moduleCatalog = Container.Resolve<IModuleCatalog>();
 
@@ -108,7 +108,7 @@ namespace Prism
             containerRegistry.RegisterSingleton<IPageBehaviorFactory, PageBehaviorFactory>();
             containerRegistry.RegisterType<INavigationService, PageNavigationService>(_navigationServiceName);
 
-            if(_containerExtension is IContainerSupportsModularization)
+            if(_containerExtension.SupportsModules)
             {
                 containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
                 containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();

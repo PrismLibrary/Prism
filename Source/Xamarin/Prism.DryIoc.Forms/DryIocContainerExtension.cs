@@ -4,7 +4,7 @@ using System;
 
 namespace Prism.DryIoc
 {
-    public class DryIocContainerExtension : IContainerExtension<IContainer>, IContainerSupportsModularization
+    public class DryIocContainerExtension : IContainerExtension<IContainer>
     {
         public DryIocContainerExtension(IContainer container)
         {
@@ -13,20 +13,21 @@ namespace Prism.DryIoc
 
         public IContainer Instance { get; }
 
-        public void RegisterInstance<TInterface>(TInterface instance) 
-            where TInterface : class
+        public bool SupportsModules => true;
+
+        public void RegisterInstance(Type type, object instance)
         {
-            Instance.UseInstance(instance);
+            Instance.UseInstance(type, instance);
         }
 
-        public void RegisterSingleton<T>()
+        public void RegisterSingleton(Type type)
         {
-            Instance.Register<T>(Reuse.Singleton);
+            Instance.Register(type, Reuse.Singleton);
         }
 
-        public void RegisterSingleton<TFrom, TTo>() where TTo : TFrom
+        public void RegisterSingleton(Type from, Type to)
         {
-            Instance.Register<TFrom, TTo>(Reuse.Singleton);
+            Instance.Register(from, to, Reuse.Singleton);
         }
 
         public void RegisterType(Type from, Type to)
@@ -39,26 +40,14 @@ namespace Prism.DryIoc
             Instance.Register(from, to, serviceKey: name);
         }
 
-        public void RegisterType<T>()
+        public void RegisterType(Type type)
         {
-            Instance.Register<T>();
+            Instance.Register(type);
         }
 
-        public void RegisterType<T>(string name)
+        public void RegisterType(Type type, string name)
         {
-            Instance.Register<T>(serviceKey: name);
-        }
-
-        public void RegisterType<TFrom, TTo>() 
-            where TTo : TFrom
-        {
-            Instance.Register<TFrom, TTo>();
-        }
-
-        public void RegisterType<TFrom, TTo>(string name) 
-            where TTo : TFrom
-        {
-            Instance.Register<TFrom, TTo>(serviceKey: name);
+            Instance.Register(type, serviceKey: name);
         }
 
         public object Resolve(Type type)
@@ -69,16 +58,6 @@ namespace Prism.DryIoc
         public object Resolve(Type type, string name)
         {
             return Instance.Resolve(type, serviceKey: name);
-        }
-
-        public T Resolve<T>()
-        {
-            return Instance.Resolve<T>();
-        }
-
-        public T Resolve<T>(string name)
-        {
-            return Instance.Resolve<T>(name);
         }
     }
 }

@@ -16,6 +16,8 @@ namespace Prism.Autofac
 
         public IContainer Instance { get; private set; }
 
+        public bool SupportsModules => false;
+
         public void Finalize()
         {
             // Make sure any not specifically registered concrete type can resolve.
@@ -29,14 +31,19 @@ namespace Prism.Autofac
             Builder.RegisterInstance(instance).As<TInterface>().SingleInstance();
         }
 
-        public void RegisterSingleton<T>()
+        public void RegisterInstance(Type type, object instance)
         {
-            Builder.RegisterType<T>().As<T>().SingleInstance();
+            Builder.RegisterInstance(instance).As(type);
         }
 
-        public void RegisterSingleton<TFrom, TTo>() where TTo : TFrom
+        public void RegisterSingleton(Type type)
         {
-            Builder.RegisterType<TTo>().As<TFrom>().SingleInstance();
+            Builder.RegisterType(type).As(type).SingleInstance();
+        }
+
+        public void RegisterSingleton(Type from, Type to)
+        {
+            Builder.RegisterType(to).As(from).SingleInstance();
         }
 
         public void RegisterType(Type from, Type to)
@@ -49,24 +56,14 @@ namespace Prism.Autofac
             Builder.RegisterType(to).Named(name, from);
         }
 
-        public void RegisterType<T>()
+        public void RegisterType(Type type)
         {
-            Builder.RegisterType<T>().As<T>();
+            Builder.RegisterType(type).As(type);
         }
 
-        public void RegisterType<T>(string name)
+        public void RegisterType(Type type, string name)
         {
-            Builder.RegisterType<T>().Named<T>(name);
-        }
-
-        public void RegisterType<TFrom, TTo>() where TTo : TFrom
-        {
-            Builder.RegisterType<TTo>().As<TFrom>();
-        }
-
-        public void RegisterType<TFrom, TTo>(string name) where TTo : TFrom
-        {
-            Builder.RegisterType<TTo>().Named<TFrom>(name);
+            Builder.RegisterType(type).Named(name, type);
         }
 
         public object Resolve(Type type)
@@ -77,16 +74,6 @@ namespace Prism.Autofac
         public object Resolve(Type type, string name)
         {
             return Instance.ResolveNamed(name, type);
-        }
-
-        public T Resolve<T>()
-        {
-            return Instance.Resolve<T>();
-        }
-
-        public T Resolve<T>(string name)
-        {
-            return Instance.ResolveNamed<T>(name);
         }
     }
 }
