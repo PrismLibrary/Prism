@@ -1,8 +1,6 @@
 ﻿using Autofac;
 using Autofac.Features.ResolveAnything;
-using Prism.Common;
 using Prism.Ioc;
-using Prism.Navigation;
 using System;
 using Xamarin.Forms;
 
@@ -63,7 +61,7 @@ namespace Prism.Autofac
             NamedParameter parameter = null;
             if (view is Page page)
             {
-                parameter = new NamedParameter("navigationService", this.CreateNavigationService(page));
+                parameter = new NamedParameter(PrismApplicationBase.NavigationServiceParameterName, this.CreateNavigationService(page));
             }
 
             return Instance.Resolve(viewModelType, parameter);

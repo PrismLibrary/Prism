@@ -17,7 +17,8 @@ namespace Prism
 {
     public abstract class PrismApplicationBase : Application
     {
-        const string _navigationServiceName = "PageNavigationService";
+        public const string NavigationServiceName = "PageNavigationService";
+        public const string NavigationServiceParameterName = "navigationService";
         IContainerExtension _containerExtension;
         IModuleCatalog _moduleCatalog;
         Page _previousPage = null;
@@ -110,7 +111,7 @@ namespace Prism
             containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
             containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
             containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
-            containerRegistry.RegisterType<INavigationService, PageNavigationService>(_navigationServiceName);
+            containerRegistry.RegisterType<INavigationService, PageNavigationService>(NavigationServiceName);
         }
 
         /// <summary>
@@ -147,13 +148,13 @@ namespace Prism
         protected override void OnResume()
         {
             var page = PageUtilities.GetCurrentPage(MainPage);
-            PageUtilities.InvokeViewAndViewModelAction<AppModel.IApplicationLifecycleAware>(page, x => x.OnResume());
+            PageUtilities.InvokeViewAndViewModelAction<IApplicationLifecycleAware>(page, x => x.OnResume());
         }
 
         protected override void OnSleep()
         {
             var page = PageUtilities.GetCurrentPage(MainPage);
-            PageUtilities.InvokeViewAndViewModelAction<AppModel.IApplicationLifecycleAware>(page, x => x.OnSleep());
+            PageUtilities.InvokeViewAndViewModelAction<IApplicationLifecycleAware>(page, x => x.OnSleep());
         }
 
         private void PrismApplicationBase_ModalPopping(object sender, ModalPoppingEventArgs e)

@@ -1,6 +1,4 @@
-﻿using Prism.Common;
-using Prism.Ioc;
-using Prism.Navigation;
+﻿using Prism.Ioc;
 using System;
 using Unity;
 using Unity.Resolution;
@@ -55,7 +53,7 @@ namespace Prism.Unity
             {
                 overrides = new ParameterOverrides
                     {
-                        { "navigationService", this.CreateNavigationService(page) }
+                        { PrismApplicationBase.NavigationServiceParameterName, this.CreateNavigationService(page) }
                     };
             }
 

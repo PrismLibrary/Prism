@@ -59,7 +59,7 @@ namespace Prism.Ninject
             {
                 overrides = new IParameter[]
                 {
-                    new ConstructorArgument("navigationService", this.CreateNavigationService(page))
+                    new ConstructorArgument(PrismApplicationBase.NavigationServiceParameterName, this.CreateNavigationService(page))
                 };
             }
 
