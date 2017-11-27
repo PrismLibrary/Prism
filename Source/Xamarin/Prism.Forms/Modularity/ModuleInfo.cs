@@ -27,24 +27,19 @@ namespace Prism.Modularity
         public Type ModuleType { get; set; }
 
         /// <summary>
-        /// Initializes a new empty instance of <see cref="ModuleInfo"/>.
-        /// </summary>
-        public ModuleInfo() { }
-
-        /// <summary>
         /// Initializes a new instance of <see cref="ModuleInfo"/>.
         /// </summary>
         /// <param name="moduleType">The module's type.</param>
         public ModuleInfo(Type moduleType)
-            : this(moduleType.Name, moduleType) { }
+            : this(moduleType, moduleType.Name) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ModuleInfo"/>.
         /// </summary>
         /// <param name="moduleName">The module's name.</param>
         /// <param name="moduleType">The module's type.</param>
-        public ModuleInfo(string moduleName, Type moduleType)
-            : this(moduleName, moduleType, InitializationMode.WhenAvailable) { }
+        public ModuleInfo(Type moduleType, string moduleName)
+            : this(moduleType, moduleName, InitializationMode.WhenAvailable) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ModuleInfo"/>.
@@ -52,10 +47,10 @@ namespace Prism.Modularity
         /// <param name="moduleName">The module's name.</param>
         /// <param name="moduleType">The module's type.</param>
         /// <param name="initializationMode">The module's <see cref="InitializationMode"/>.</param>
-        public ModuleInfo(string moduleName, Type moduleType, InitializationMode initializationMode)
+        public ModuleInfo(Type moduleType, string moduleName, InitializationMode initializationMode)
         {
-            ModuleName = moduleName;
             ModuleType = moduleType;
+            ModuleName = moduleName;
             InitializationMode = initializationMode;
         }
     }
