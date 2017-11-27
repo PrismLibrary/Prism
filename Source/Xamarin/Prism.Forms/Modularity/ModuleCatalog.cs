@@ -37,29 +37,5 @@ namespace Prism.Modularity
             _items.Add(moduleInfo);
             return this;
         }
-
-        /// <summary>
-        /// Makes sure all modules have an Unique name. 
-        /// </summary>
-        /// <exception cref="Exception">
-        /// Thrown if the names of one or more modules are not unique. 
-        /// </exception>
-        protected virtual void ValidateUniqueModules()
-        {
-            List<string> moduleNames = this.Modules.Select(m => m.ModuleName).ToList();
-
-            string duplicateModule = moduleNames.FirstOrDefault(m => moduleNames.Count(m2 => m2 == m) > 1);
-
-            if (duplicateModule != null)
-                throw new Exception(String.Format("A duplicated module with name {0} has been found by the loader.", duplicateModule));
-        }
-
-        /// <summary>
-        /// Initializes the catalog, which may load and validate the modules.
-        /// </summary>
-        public virtual void Initialize()
-        {
-            
-        }
     }
 }
