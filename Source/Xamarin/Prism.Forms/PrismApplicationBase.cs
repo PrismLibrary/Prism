@@ -74,7 +74,7 @@ namespace Prism
         public virtual void Initialize()
         {
             _containerExtension = CreateContainerExtension();
-            ConfigureContainer(_containerExtension);
+            RegisterRequiredTypes(_containerExtension);
             PlatformInitializer?.RegisterTypes(_containerExtension);
             RegisterTypes(_containerExtension);
             _containerExtension.FinalizeExtension();
@@ -94,10 +94,10 @@ namespace Prism
         protected abstract IContainerExtension CreateContainerExtension();
 
         /// <summary>
-        /// Registers all required services with the container.
+        /// Registers all types that are required by Prism to function with the container.
         /// </summary>
         /// <param name="containerRegistry"></param>
-        protected virtual void ConfigureContainer(IContainerRegistry containerRegistry)
+        protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterInstance<IContainerExtension>(_containerExtension);
             containerRegistry.RegisterSingleton<ILoggerFacade, EmptyLogger>();

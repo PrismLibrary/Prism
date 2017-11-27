@@ -33,9 +33,9 @@ namespace Prism.DryIoc
         /// Configures the Container.
         /// </summary>
         /// <param name="containerRegistry"></param>
-        protected override void ConfigureContainer(IContainerRegistry containerRegistry)
+        protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            base.ConfigureContainer(containerRegistry);
+            base.RegisterRequiredTypes(containerRegistry);
             Container.GetContainer().Register<INavigationService, PageNavigationService>();
             Container.GetContainer().Register<INavigationService>(
                 made: Made.Of(() => SetPage(Arg.Of<INavigationService>(), Arg.Of<Page>())),
