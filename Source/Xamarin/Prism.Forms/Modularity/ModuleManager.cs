@@ -37,7 +37,6 @@ namespace Prism.Modularity
         /// </summary>
         public void Run()
         {
-            _moduleCatalog.Initialize();
             LoadModulesWhenAvailable();
         }
 
