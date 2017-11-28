@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism", "Prism\Prism.csproj", "{E6C50355-D01E-4CAA-884D-D7929861315C}"
 EndProject
@@ -42,6 +42,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.DryIoc.Wpf.Tests", "Wpf\Prism.DryIoc.Wpf.Tests\Prism.DryIoc.Wpf.Tests.csproj", "{FCF3AC90-40B9-40D1-A2B7-754251DEFC1D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Ninject.Wpf.Tests", "Wpf\Prism.Ninject.Wpf.Tests\Prism.Ninject.Wpf.Tests.csproj", "{E20AAE94-4851-4BAB-A0D3-66FBBFFD6531}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Grace.Wpf", "Wpf\Prism.Grace.Wpf\Prism.Grace.Wpf.csproj", "{32B0BC69-A0F8-4140-ADEF-8679D83172AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Grace.Wpf.Tests", "Wpf\Prism.Grace.Wpf.Tests\Prism.Grace.Wpf.Tests.csproj", "{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -265,6 +269,38 @@ Global
 		{E20AAE94-4851-4BAB-A0D3-66FBBFFD6531}.Release|x64.Build.0 = Release|Any CPU
 		{E20AAE94-4851-4BAB-A0D3-66FBBFFD6531}.Release|x86.ActiveCfg = Release|Any CPU
 		{E20AAE94-4851-4BAB-A0D3-66FBBFFD6531}.Release|x86.Build.0 = Release|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Debug|ARM.Build.0 = Debug|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Debug|x64.Build.0 = Debug|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Debug|x86.Build.0 = Debug|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Release|ARM.ActiveCfg = Release|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Release|ARM.Build.0 = Release|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Release|x64.ActiveCfg = Release|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Release|x64.Build.0 = Release|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Release|x86.ActiveCfg = Release|Any CPU
+		{32B0BC69-A0F8-4140-ADEF-8679D83172AE}.Release|x86.Build.0 = Release|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Debug|ARM.Build.0 = Debug|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Debug|x64.Build.0 = Debug|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Debug|x86.Build.0 = Debug|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Release|ARM.Build.0 = Release|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Release|x64.ActiveCfg = Release|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Release|x64.Build.0 = Release|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -281,6 +317,7 @@ Global
 		{2823CA8B-DCBD-4694-B842-8A327DFCAA02} = {CF7424F7-8223-4A30-A7E8-5DD610A0D873}
 		{FCF3AC90-40B9-40D1-A2B7-754251DEFC1D} = {CF7424F7-8223-4A30-A7E8-5DD610A0D873}
 		{E20AAE94-4851-4BAB-A0D3-66FBBFFD6531} = {CF7424F7-8223-4A30-A7E8-5DD610A0D873}
+		{B0CA7B9B-6537-4DD7-BB12-14A4DD9872EE} = {CF7424F7-8223-4A30-A7E8-5DD610A0D873}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {58C2F5AB-357E-4DAE-B816-FBEA466333E6}
