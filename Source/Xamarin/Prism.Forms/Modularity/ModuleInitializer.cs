@@ -1,14 +1,13 @@
-﻿using Unity;
-using Prism.Modularity;
+﻿using Prism.Ioc;
 using System;
 
-namespace Prism.Unity.Modularity
+namespace Prism.Modularity
 {
-    public class UnityModuleInitializer : IModuleInitializer
+    public class ModuleInitializer : IModuleInitializer
     {
-        readonly IUnityContainer _container;
+        readonly IContainerExtension _container;
 
-        public UnityModuleInitializer(IUnityContainer container)
+        public ModuleInitializer(IContainerExtension container)
         {
             _container = container;
         }
@@ -17,7 +16,10 @@ namespace Prism.Unity.Modularity
         {
             var module = CreateModule(moduleInfo.ModuleType);
             if (module != null)
-                module.Initialize();
+            {
+                module.RegisterTypes(_container);
+                module.OnInitialized();
+            }
         }
 
         protected virtual IModule CreateModule(Type moduleType)

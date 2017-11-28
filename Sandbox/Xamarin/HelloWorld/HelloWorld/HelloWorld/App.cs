@@ -1,5 +1,6 @@
 ﻿using HelloWorld.ViewModels;
 using HelloWorld.Views;
+using Prism;
 using Prism.Common;
 using Prism.Modularity;
 using Prism.Mvvm;
@@ -7,6 +8,7 @@ using Prism.Navigation;
 using Prism.Unity;
 using System.Linq;
 using Xamarin.Forms;
+using Prism.Ioc;
 
 namespace HelloWorld
 {
@@ -46,20 +48,20 @@ namespace HelloWorld
             NavigationService.NavigateAsync($"ViewA/ViewB/MyMasterDetail/NavigationPage/ViewA/ViewB?{KnownNavigationParameters.UseModalNavigation}=true/ViewA/ViewC");
         }
 
-        protected override void RegisterTypes()
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            Container.RegisterTypeForNavigation<MainPage>(); 
-            //Container.RegisterTypeForNavigation<MainPage, SomeOtherViewModel>(); //override viewmodel convention
-            Container.RegisterTypeForNavigation<NavigationPage>();
-            Container.RegisterTypeForNavigation<MyNavigationPage>();
-            Container.RegisterTypeForNavigation<MyMasterDetail>();
+            containerRegistry.RegisterForNavigation<MainPage>();
+            //containerRegistry.RegisterForNavigation<MainPage, SomeOtherViewModel>(); //override viewmodel convention
+            containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<MyNavigationPage>();
+            containerRegistry.RegisterForNavigation<MyMasterDetail>();
         }
 
-        protected override void ConfigureModuleCatalog()
-        {            
-            ModuleCatalog.AddModule<ModuleA.ModuleAModule>();
-            //ModuleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule)));
-            //ModuleCatalog.AddModule(new ModuleInfo("ModuleA", typeof(ModuleA.ModuleAModule), InitializationMode.OnDemand));
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            moduleCatalog.AddModule<ModuleA.ModuleAModule>();
+            //moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule)));
+            //moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule), "ModuleA", InitializationMode.OnDemand));
         }
     }
 }

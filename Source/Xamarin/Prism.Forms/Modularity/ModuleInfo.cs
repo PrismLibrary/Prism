@@ -36,16 +36,16 @@ namespace Prism.Modularity
         /// <summary>
         /// Initializes a new instance of <see cref="ModuleInfo"/>.
         /// </summary>
-        /// <param name="moduleName">The module's name.</param>
         /// <param name="moduleType">The module's type.</param>
+        /// <param name="moduleName">The module's name.</param>
         public ModuleInfo(Type moduleType, string moduleName)
             : this(moduleType, moduleName, InitializationMode.WhenAvailable) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ModuleInfo"/>.
         /// </summary>
-        /// <param name="moduleName">The module's name.</param>
         /// <param name="moduleType">The module's type.</param>
+        /// <param name="moduleName">The module's name.</param>
         /// <param name="initializationMode">The module's <see cref="InitializationMode"/>.</param>
         public ModuleInfo(Type moduleType, string moduleName, InitializationMode initializationMode)
         {

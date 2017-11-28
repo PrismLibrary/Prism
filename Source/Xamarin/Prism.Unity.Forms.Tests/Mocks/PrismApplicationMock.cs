@@ -1,12 +1,11 @@
-﻿using Unity;
-using Prism.DI.Forms.Tests.Mocks.Modules;
+﻿using Prism.DI.Forms.Tests.Mocks.Modules;
 using Prism.DI.Forms.Tests.Mocks.Services;
 using Prism.DI.Forms.Tests.Mocks.ViewModels;
 using Prism.DI.Forms.Tests.Mocks.Views;
 using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
-using Unity.Lifetime;
+using Prism.Ioc;
 
 namespace Prism.Unity.Forms.Tests.Mocks
 {
@@ -30,34 +29,34 @@ namespace Prism.Unity.Forms.Tests.Mocks
             Initialized = true;
         }
 
-        protected override void ConfigureModuleCatalog()
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            ModuleCatalog.AddModule(new ModuleInfo(typeof(ModuleMock))
+            moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleMock))
             {
                 InitializationMode = InitializationMode.WhenAvailable,
                 ModuleName = "ModuleMock"
             });
         }
 
-        protected override void RegisterTypes()
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            Container.RegisterType<IServiceMock, ServiceMock>();
-            Container.RegisterTypeForNavigation<ViewMock>("view");
-            Container.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
-            Container.RegisterType<AutowireViewModel>();
-            Container.RegisterType<ViewModelAMock>();
-            Container.RegisterType<ViewModelBMock>(ViewModelBMock.Key);
-            Container.RegisterType<ConstructorArgumentViewModel>();
-            Container.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
-            Container.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
-            Container.RegisterType<ModuleMock>(new ContainerControlledLifetimeManager());
+            containerRegistry.Register<IServiceMock, ServiceMock>();
+            containerRegistry.RegisterForNavigation<ViewMock>("view");
+            containerRegistry.RegisterForNavigation<ViewAMock, ViewModelAMock>();
+            containerRegistry.Register<AutowireViewModel>();
+            containerRegistry.Register<ViewModelAMock>();
+            containerRegistry.Register<ViewModelBMock>(ViewModelBMock.Key);
+            containerRegistry.Register<ConstructorArgumentViewModel>();
+            containerRegistry.RegisterForNavigation<AutowireView, AutowireViewModel>();
+            containerRegistry.RegisterForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
+            containerRegistry.RegisterSingleton<ModuleMock>();
 
             DependencyService.Register<IDependencyServiceMock, DependencyServiceMock>();
         }
 
         public INavigationService CreateNavigationServiceForPage(Page page)
         {
-            return CreateNavigationService(page);
+            return ((IContainerExtension)Container).CreateNavigationService(page);
         }
     }
 }
