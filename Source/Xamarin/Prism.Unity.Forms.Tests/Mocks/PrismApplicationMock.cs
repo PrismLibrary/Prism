@@ -31,7 +31,7 @@ namespace Prism.Unity.Forms.Tests.Mocks
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            ModuleCatalog.AddModule(new ModuleInfo(typeof(ModuleMock))
+            moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleMock))
             {
                 InitializationMode = InitializationMode.WhenAvailable,
                 ModuleName = "ModuleMock"
