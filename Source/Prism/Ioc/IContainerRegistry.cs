@@ -8,8 +8,8 @@ namespace Prism.Ioc
 
         void RegisterSingleton(Type from, Type to);
 
-        void RegisterType(Type from, Type to);
+        void Register(Type from, Type to);
 
-        void RegisterType(Type from, Type to, string name);
+        void Register(Type from, Type to, string name);
     }
 }

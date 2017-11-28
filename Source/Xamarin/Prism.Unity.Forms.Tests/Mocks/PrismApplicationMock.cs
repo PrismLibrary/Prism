@@ -40,15 +40,15 @@ namespace Prism.Unity.Forms.Tests.Mocks
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterType<IServiceMock, ServiceMock>();
-            containerRegistry.RegisterTypeForNavigation<ViewMock>("view");
-            containerRegistry.RegisterTypeForNavigation<ViewAMock, ViewModelAMock>();
-            containerRegistry.RegisterType<AutowireViewModel>();
-            containerRegistry.RegisterType<ViewModelAMock>();
-            containerRegistry.RegisterType<ViewModelBMock>(ViewModelBMock.Key);
-            containerRegistry.RegisterType<ConstructorArgumentViewModel>();
-            containerRegistry.RegisterTypeForNavigation<AutowireView, AutowireViewModel>();
-            containerRegistry.RegisterTypeForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
+            containerRegistry.Register<IServiceMock, ServiceMock>();
+            containerRegistry.RegisterForNavigation<ViewMock>("view");
+            containerRegistry.RegisterForNavigation<ViewAMock, ViewModelAMock>();
+            containerRegistry.Register<AutowireViewModel>();
+            containerRegistry.Register<ViewModelAMock>();
+            containerRegistry.Register<ViewModelBMock>(ViewModelBMock.Key);
+            containerRegistry.Register<ConstructorArgumentViewModel>();
+            containerRegistry.RegisterForNavigation<AutowireView, AutowireViewModel>();
+            containerRegistry.RegisterForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
             containerRegistry.RegisterSingleton<ModuleMock>();
 
             DependencyService.Register<IDependencyServiceMock, DependencyServiceMock>();

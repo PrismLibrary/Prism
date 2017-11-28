@@ -28,12 +28,12 @@ namespace Prism.DryIoc
             Instance.Register(from, to, Reuse.Singleton);
         }
 
-        public void RegisterType(Type from, Type to)
+        public void Register(Type from, Type to)
         {
             Instance.Register(from, to);
         }
 
-        public void RegisterType(Type from, Type to, string name)
+        public void Register(Type from, Type to, string name)
         {
             Instance.Register(from, to, serviceKey: name);
         }

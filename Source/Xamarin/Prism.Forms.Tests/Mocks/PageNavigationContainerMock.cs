@@ -41,12 +41,12 @@ namespace Prism.Forms.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public void RegisterType(Type from, Type to)
+        public void Register(Type from, Type to)
         {
             throw new NotImplementedException();
         }
 
-        public void RegisterType(Type from, Type to, string name)
+        public void Register(Type from, Type to, string name)
         {
             throw new NotImplementedException();
         }

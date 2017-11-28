@@ -111,7 +111,7 @@ namespace Prism
             containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
             containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
             containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
-            containerRegistry.RegisterType<INavigationService, PageNavigationService>(NavigationServiceName);
+            containerRegistry.Register<INavigationService, PageNavigationService>(NavigationServiceName);
         }
 
         /// <summary>

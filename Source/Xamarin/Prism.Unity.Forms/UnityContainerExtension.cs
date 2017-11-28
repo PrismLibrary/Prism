@@ -25,12 +25,12 @@ namespace Prism.Unity
             Instance.RegisterSingleton(from, to);
         }
 
-        public void RegisterType(Type from, Type to)
+        public void Register(Type from, Type to)
         {
             Instance.RegisterType(from, to);
         }
 
-        public void RegisterType(Type from, Type to, string name)
+        public void Register(Type from, Type to, string name)
         {
             Instance.RegisterType(from, to, name);
         }

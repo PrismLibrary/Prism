@@ -24,34 +24,34 @@ namespace Prism.Ioc
             containerRegistry.RegisterSingleton(typeof(T));
         }
 
-        public static void RegisterType(this IContainerRegistry containerRegistry, Type type)
+        public static void Register(this IContainerRegistry containerRegistry, Type type)
         {
-            containerRegistry.RegisterType(type, type);
+            containerRegistry.Register(type, type);
         }
 
-        public static void RegisterType<T>(this IContainerRegistry containerRegistry)
+        public static void Register<T>(this IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterType(typeof(T));
+            containerRegistry.Register(typeof(T));
         }
 
-        public static void RegisterType(this IContainerRegistry containerRegistry, Type type, string name)
+        public static void Register(this IContainerRegistry containerRegistry, Type type, string name)
         {
-            containerRegistry.RegisterType(type, type, name);
+            containerRegistry.Register(type, type, name);
         }
 
-        public static void RegisterType<T>(this IContainerRegistry containerRegistry, string name)
+        public static void Register<T>(this IContainerRegistry containerRegistry, string name)
         {
-            containerRegistry.RegisterType(typeof(T), name);
+            containerRegistry.Register(typeof(T), name);
         }
 
-        public static void RegisterType<TFrom, TTo>(this IContainerRegistry containerRegistry) where TTo : TFrom
+        public static void Register<TFrom, TTo>(this IContainerRegistry containerRegistry) where TTo : TFrom
         {
-            containerRegistry.RegisterType(typeof(TFrom), typeof(TTo));
+            containerRegistry.Register(typeof(TFrom), typeof(TTo));
         }
 
-        public static void RegisterType<TFrom, TTo>(this IContainerRegistry containerRegistry, string name) where TTo : TFrom
+        public static void Register<TFrom, TTo>(this IContainerRegistry containerRegistry, string name) where TTo : TFrom
         {
-            containerRegistry.RegisterType(typeof(TFrom), typeof(TTo), name);
+            containerRegistry.Register(typeof(TFrom), typeof(TTo), name);
         }
     }
 }

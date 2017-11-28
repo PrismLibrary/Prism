@@ -1,8 +1,6 @@
 ﻿using Ninject;
 using Ninject.Parameters;
-using Prism.Common;
 using Prism.Ioc;
-using Prism.Navigation;
 using System;
 using Xamarin.Forms;
 
@@ -31,12 +29,12 @@ namespace Prism.Ninject
             Instance.Bind(to).To(from).InSingletonScope();
         }
 
-        public void RegisterType(Type from, Type to)
+        public void Register(Type from, Type to)
         {
             Instance.Bind(to).To(from).InTransientScope();
         }
 
-        public void RegisterType(Type from, Type to, string name)
+        public void Register(Type from, Type to, string name)
         {
             Instance.Bind(to).To(from).InTransientScope().Named(name);
         }

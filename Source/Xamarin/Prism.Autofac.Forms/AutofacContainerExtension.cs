@@ -36,12 +36,12 @@ namespace Prism.Autofac
             Builder.RegisterType(to).As(from).SingleInstance();
         }
 
-        public void RegisterType(Type from, Type to)
+        public void Register(Type from, Type to)
         {
             Builder.RegisterType(to).As(from);
         }
 
-        public void RegisterType(Type from, Type to, string name)
+        public void Register(Type from, Type to, string name)
         {
             Builder.RegisterType(to).Named(name, from);
         }

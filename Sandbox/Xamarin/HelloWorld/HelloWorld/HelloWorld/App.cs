@@ -50,18 +50,18 @@ namespace HelloWorld
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterTypeForNavigation<MainPage>();
-            //containerRegistry.RegisterTypeForNavigation<MainPage, SomeOtherViewModel>(); //override viewmodel convention
-            containerRegistry.RegisterTypeForNavigation<NavigationPage>();
-            containerRegistry.RegisterTypeForNavigation<MyNavigationPage>();
-            containerRegistry.RegisterTypeForNavigation<MyMasterDetail>();
+            containerRegistry.RegisterForNavigation<MainPage>();
+            //containerRegistry.RegisterForNavigation<MainPage, SomeOtherViewModel>(); //override viewmodel convention
+            containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<MyNavigationPage>();
+            containerRegistry.RegisterForNavigation<MyMasterDetail>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<ModuleA.ModuleAModule>();
             //moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule)));
-            //moduleCatalog.AddModule(new ModuleInfo("ModuleA", typeof(ModuleA.ModuleAModule), InitializationMode.OnDemand));
+            //moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule), "ModuleA", InitializationMode.OnDemand));
         }
     }
 }

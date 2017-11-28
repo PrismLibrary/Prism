@@ -16,10 +16,10 @@ namespace ModuleA
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterTypeForNavigation<MyTabbedPage>();
-            containerRegistry.RegisterTypeForNavigation<ViewA>();
-            containerRegistry.RegisterTypeForNavigation<ViewB>();
-            containerRegistry.RegisterTypeForNavigation<ViewC>();
+            containerRegistry.RegisterForNavigation<MyTabbedPage>();
+            containerRegistry.RegisterForNavigation<ViewA>();
+            containerRegistry.RegisterForNavigation<ViewB>();
+            containerRegistry.RegisterForNavigation<ViewC>();
 
             containerRegistry.RegisterSingleton<IApplicationCommands, ApplicationCommands>();
         }
