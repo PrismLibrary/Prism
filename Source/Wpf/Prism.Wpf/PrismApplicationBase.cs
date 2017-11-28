@@ -14,6 +14,12 @@ using System.Windows.Controls.Primitives;
 
 namespace Prism
 {
+    /// <summary>
+    /// Base application class that provides a basic initialization sequence
+    /// </summary>
+    /// <remarks>
+    /// This class must be overridden to provide application specific configuration.
+    /// </remarks>
     public abstract class PrismApplicationBase : Application
     {
         IContainerExtension _containerExtension;
@@ -50,6 +56,9 @@ namespace Prism
             });
         }
 
+        /// <summary>
+        /// Runs the initialization sequence to configure the Prism application.
+        /// </summary>
         public virtual void Initialize()
         {
             _containerExtension = CreateContainerExtension();
@@ -104,7 +113,7 @@ namespace Prism
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterInstance(_moduleCatalog);
-            containerRegistry.Register<ILoggerFacade, TextLogger>();
+            containerRegistry.RegisterSingleton<ILoggerFacade, TextLogger>();
             containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
             containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
             containerRegistry.RegisterSingleton<RegionAdapterMappings>();
