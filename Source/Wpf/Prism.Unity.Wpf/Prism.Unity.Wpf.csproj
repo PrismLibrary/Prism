@@ -84,6 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Ioc\PrismIocExtensions.cs" />
+    <Compile Include="Ioc\UnityContainerExtension.cs" />
+    <Compile Include="PrismApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -99,10 +102,10 @@
     </Compile>
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Regions\UnityRegionNavigationContentLoader.cs" />
-    <Compile Include="UnityBootstrapper.cs" />
-    <Compile Include="UnityBootstrapperExtension.cs" />
-    <Compile Include="UnityExtensions.cs" />
-    <Compile Include="UnityContainerHelper.cs" />
+    <Compile Include="Legacy\UnityBootstrapper.cs" />
+    <Compile Include="Legacy\UnityBootstrapperExtension.cs" />
+    <Compile Include="Legacy\UnityExtensions.cs" />
+    <Compile Include="Legacy\UnityContainerHelper.cs" />
     <Compile Include="UnityServiceLocatorAdapter.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

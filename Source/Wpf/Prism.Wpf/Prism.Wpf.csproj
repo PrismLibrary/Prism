@@ -95,6 +95,7 @@
     <Compile Include="Interactivity\InvokeCommandAction.cs" />
     <Compile Include="Interactivity\PopupWindowAction.cs" />
     <Compile Include="Common\ListDictionary.cs" />
+    <Compile Include="Ioc\IContainerRegistryExtensions.cs" />
     <Compile Include="Logging\TextLogger.cs" />
     <Compile Include="Logging\TraceLogger.cs" />
     <Compile Include="Modularity\AssemblyResolver.Desktop.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Modularity\ModuleTypeLoadingException.Desktop.cs" />
     <Compile Include="Mvvm\ViewModelLocator.cs" />
     <Compile Include="Common\ObservableObject.cs" />
+    <Compile Include="PrismApplicationBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
