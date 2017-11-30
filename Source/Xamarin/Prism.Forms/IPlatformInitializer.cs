@@ -1,7 +1,9 @@
-﻿namespace Prism
+﻿using Prism.Ioc;
+
+namespace Prism
 {
-    public interface IPlatformInitializer<T>
+    public interface IPlatformInitializer
     {
-        void RegisterTypes(T container);
+        void RegisterTypes(IContainerRegistry containerRegistry);
     }
 }

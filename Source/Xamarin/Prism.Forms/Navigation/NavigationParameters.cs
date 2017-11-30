@@ -16,9 +16,17 @@ namespace Prism.Navigation
     public class NavigationParameters : IEnumerable<KeyValuePair<string, object>>
     {
         private readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();
+        private readonly Dictionary<string, object> _internalParameters = new Dictionary<string, object>();
 
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Dictionary<string, object> InternalParameters { get; } = new Dictionary<string, object>();
+        public IReadOnlyDictionary<string, object> InternalParameters { get { return _internalParameters; } }
+
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public void AddInternalParameter(string key, object value)
+        {
+            if (!_internalParameters.ContainsKey(key))
+                _internalParameters.Add(key, value);
+        }
 
         /// <summary>
         /// Gets the number of parameters contained in the NavigationParameters

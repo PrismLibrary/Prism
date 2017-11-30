@@ -1,17 +1,18 @@
-﻿using System.Threading.Tasks;
-using DryIoc;
+﻿using DryIoc;
 using Prism.Common;
-using Prism.DryIoc.Forms.Tests.Mocks;
+using Prism.DI.Forms.Tests;
 using Prism.DI.Forms.Tests.Mocks.Modules;
 using Prism.DI.Forms.Tests.Mocks.Services;
 using Prism.DI.Forms.Tests.Mocks.ViewModels;
 using Prism.DI.Forms.Tests.Mocks.Views;
-using Prism.DryIoc.Navigation;
+using Prism.DryIoc.Forms.Tests.Mocks;
+using Prism.Ioc;
 using Prism.Navigation;
+using Prism.Services;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;
-using Prism.DI.Forms.Tests;
-using Prism.Services;
 
 namespace Prism.DryIoc.Forms.Tests
 {
@@ -75,7 +76,7 @@ namespace Prism.DryIoc.Forms.Tests
             var app = new PrismApplicationMock();
             var navigationService = app.NavigationService;
             Assert.NotNull(navigationService);
-            Assert.IsType<DryIocPageNavigationService>(navigationService);
+            Assert.IsType<PageNavigationService>(navigationService);
         }
 
         [Fact]
@@ -93,7 +94,7 @@ namespace Prism.DryIoc.Forms.Tests
             var app = new PrismApplicationMock();
             var navigationService = ResolveAndSetRootPage(app);
             var exception = await Assert.ThrowsAsync<ContainerException>(async () => await navigationService.NavigateAsync("missing"));
-            //Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
         [Fact]
@@ -104,7 +105,7 @@ namespace Prism.DryIoc.Forms.Tests
             await navigationService.NavigateAsync("view");
             var rootPage = ((IPageAware)navigationService).Page;
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
-            Assert.IsType(typeof(ViewMock), rootPage.Navigation.ModalStack[0]);
+            Assert.IsType<ViewMock>(rootPage.Navigation.ModalStack[0]);
         }
 
         [Fact]

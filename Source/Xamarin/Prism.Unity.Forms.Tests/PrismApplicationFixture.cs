@@ -1,18 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
-using Unity;
-using Prism.Common;
-using Prism.Unity.Forms.Tests.Mocks;
+﻿using Prism.Common;
+using Prism.DI.Forms.Tests;
 using Prism.DI.Forms.Tests.Mocks.Modules;
 using Prism.DI.Forms.Tests.Mocks.Services;
 using Prism.DI.Forms.Tests.Mocks.ViewModels;
 using Prism.DI.Forms.Tests.Mocks.Views;
-using Prism.Unity.Navigation;
+using Prism.Ioc;
 using Prism.Navigation;
+using Prism.Services;
+using Prism.Unity.Forms.Tests.Mocks;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;
-using Prism.DI.Forms.Tests;
-using Prism.Services;
 
 namespace Prism.Unity.Forms.Tests
 {
@@ -76,7 +75,7 @@ namespace Prism.Unity.Forms.Tests
             var app = new PrismApplicationMock();
             var navigationService = app.NavigationService;
             Assert.NotNull(navigationService);
-            Assert.IsType<UnityPageNavigationService>(navigationService);
+            Assert.IsType<PageNavigationService>(navigationService);
         }
 
         [Fact]

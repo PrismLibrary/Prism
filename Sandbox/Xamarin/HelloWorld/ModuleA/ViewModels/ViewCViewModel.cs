@@ -25,14 +25,14 @@ namespace ModuleA.ViewModels
         {
             _navigationService = navigationService;
 
-            NavigateCommand = new DelegateCommand(async () => await Navigate());
+            NavigateCommand = new DelegateCommand(Navigate);
         }
 
-        async Task Navigate()
+        void Navigate()
         {
             try
             {
-                await _navigationService.NavigateAsync("../../../MainPage");                
+                var uri = _navigationService.GetNavigationUriPath();
 
                 Debug.WriteLine("After _navigationService.NavigateAsync(ViewB) ...");
             }

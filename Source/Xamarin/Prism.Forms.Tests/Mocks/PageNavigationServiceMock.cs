@@ -12,7 +12,7 @@ namespace Prism.Forms.Tests.Mocks
         PageNavigationEventRecorder _recorder;
 
         public PageNavigationServiceMock(PageNavigationContainerMock containerMock, IApplicationProvider applicationProviderMock, ILoggerFacade loggerFacadeMock, PageNavigationEventRecorder recorder = null)
-            : base(applicationProviderMock, new PageBehaviorFactory(), loggerFacadeMock)
+            : base(containerMock, applicationProviderMock, new PageBehaviorFactory(), loggerFacadeMock)
         {
             _containerMock = containerMock;
             _recorder = recorder;

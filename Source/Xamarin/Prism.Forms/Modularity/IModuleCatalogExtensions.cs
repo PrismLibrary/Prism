@@ -28,7 +28,7 @@ namespace Prism.Modularity
         /// <typeparam name="T">The <see cref="IModule"/> type parameter.</typeparam>
         public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, string name, InitializationMode mode = InitializationMode.WhenAvailable)
             where T : IModule =>
-            catalog.AddModule(new ModuleInfo(name, typeof(T), mode));
+            catalog.AddModule(new ModuleInfo(typeof(T), name, mode));
 
         /// <summary>
         /// Checks to see if the <see cref="IModule"/> exists in the <see cref="IModuleCatalog.Modules"/>  
