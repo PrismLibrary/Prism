@@ -1,16 +1,17 @@
 ﻿using Autofac;
+using Prism.Autofac.Ioc;
 using Prism.Ioc;
 
-namespace Prism.Autofac.Ioc
+namespace Prism.Autofac
 {
     public static class PrismIocExtensions
     {
-        public static IContainer GetInstance(this IContainerProvider containerProvider)
+        public static IContainer GetContainer(this IContainerProvider containerProvider)
         {
             return ((IContainerExtension<IContainer>)containerProvider).Instance;
         }
 
-        public static IContainer GetInstance(this IContainerRegistry containerRegistry)
+        public static IContainer GetContainer(this IContainerRegistry containerRegistry)
         {
             return ((IContainerExtension<IContainer>)containerRegistry).Instance;
         }
