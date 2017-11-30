@@ -1,6 +1,6 @@
 using CommonServiceLocator;
 using Grace.DependencyInjection;
-using Prism.Grace.Wpf.Regions;
+using Prism.Grace.Regions;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;

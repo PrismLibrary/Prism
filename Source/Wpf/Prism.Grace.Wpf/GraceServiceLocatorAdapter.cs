@@ -4,16 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Prism.Grace.Wpf
+namespace Prism.Grace
 {
     /// <summary> 
     ///     Grace implementation of the Microsoft CommonServiceLocator. 
     /// </summary> 
-    public class GraceServiceLocator : ServiceLocatorImplBase
+    public class GraceServiceLocatorAdapter : ServiceLocatorImplBase
     {
         private readonly DependencyInjectionContainer container;
 
-        public GraceServiceLocator(DependencyInjectionContainer container)
+        public GraceServiceLocatorAdapter(DependencyInjectionContainer container)
         {
             this.container = container ?? throw new ArgumentNullException("container");
         }

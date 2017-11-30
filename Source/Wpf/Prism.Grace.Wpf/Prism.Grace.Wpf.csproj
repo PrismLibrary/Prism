@@ -37,6 +37,7 @@
     <Reference Include="Grace, Version=6.3.0.0, Culture=neutral, PublicKeyToken=b7d24c6367970497, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Grace.6.3.0\lib\net45\Grace.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -51,8 +52,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GraceBootstrapper.cs" />
-    <Compile Include="GraceServiceLocator.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Ioc\GraceContainerExtension.cs" />
+    <Compile Include="Ioc\PrismIocExtensions.cs" />
+    <Compile Include="Legacy\GraceBootstrapper.cs" />
+    <Compile Include="GraceServiceLocatorAdapter.cs" />
+    <Compile Include="PrismApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
@@ -60,7 +65,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Regions\GraceRegionNavigationContentLoader.cs" />
-    <Compile Include="GraceExtensions.cs" />
+    <Compile Include="Legacy\GraceExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Prism\Prism.csproj">
@@ -81,5 +86,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

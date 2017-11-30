@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Prism.Grace.Wpf.Regions
+namespace Prism.Grace.Regions
 {
     public class GraceRegionNavigationContentLoader : RegionNavigationContentLoader
     {

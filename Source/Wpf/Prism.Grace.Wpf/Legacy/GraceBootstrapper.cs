@@ -3,14 +3,14 @@ using Grace.DependencyInjection;
 using Grace.DependencyInjection.Exceptions;
 using Prism.Events;
 using Prism.Grace.Wpf.Properties;
-using Prism.Grace.Wpf.Regions;
+using Prism.Grace.Regions;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using System;
 using System.Globalization;
 
-namespace Prism.Grace.Wpf
+namespace Prism.Grace
 {
     public abstract class GraceBootstrapper : Bootstrapper
     {
@@ -131,7 +131,7 @@ namespace Prism.Grace.Wpf
 
             if (useDefaultConfiguration)
             {
-                this.RegisterTypeIfMissing(typeof(IServiceLocator), typeof(GraceServiceLocator), true);
+                this.RegisterTypeIfMissing(typeof(IServiceLocator), typeof(GraceServiceLocatorAdapter), true);
                 this.RegisterTypeIfMissing(typeof(IModuleInitializer), typeof(ModuleInitializer), true);
                 this.RegisterTypeIfMissing(typeof(IModuleManager), typeof(ModuleManager), true);
                 this.RegisterTypeIfMissing(typeof(RegionAdapterMappings), typeof(RegionAdapterMappings), true);

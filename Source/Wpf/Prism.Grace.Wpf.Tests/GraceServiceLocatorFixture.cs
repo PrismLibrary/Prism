@@ -16,7 +16,7 @@ namespace Prism.Grace.Wpf.Tests
             DependencyInjectionContainer container = new DependencyInjectionContainer();
             container.Configure(c => c.ExportInstance<object>(myInstance));
 
-            IServiceLocator containerAdapter = new GraceServiceLocator(container);
+            IServiceLocator containerAdapter = new GraceServiceLocatorAdapter(container);
 
             Assert.AreSame(myInstance, containerAdapter.GetInstance(typeof (object)));
         }

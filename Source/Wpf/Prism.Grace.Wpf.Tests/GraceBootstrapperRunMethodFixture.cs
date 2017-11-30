@@ -32,7 +32,7 @@ namespace Prism.Grace.Wpf.Tests
             var bootstrapper = new DefaultGraceBootstrapper();
             bootstrapper.Run();
 
-            Assert.IsTrue(ServiceLocator.Current is GraceServiceLocator);
+            Assert.IsTrue(ServiceLocator.Current is GraceServiceLocatorAdapter);
         }
 
         [TestMethod]
@@ -197,7 +197,7 @@ namespace Prism.Grace.Wpf.Tests
             var serviceLocator = bootstrapper.BaseContainer.Locate<IServiceLocator>();
             Assert.IsNotNull(serviceLocator);
             Assert.IsTrue(serviceLocator.GetType().IsClass);
-            Assert.AreEqual(typeof(GraceServiceLocator), serviceLocator.GetType());
+            Assert.AreEqual(typeof(GraceServiceLocatorAdapter), serviceLocator.GetType());
             Assert.IsTrue(serviceLocator.GetType().GetInterfaces().Contains(typeof(IServiceLocator)));
         }
 

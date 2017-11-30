@@ -34,7 +34,7 @@ namespace Prism.Grace.Wpf.Tests
                     c.ExportInstance<IModuleCatalog>(this.ModuleCatalog);
                 });
 
-                RegisterTypeIfMissing(typeof(IServiceLocator), typeof(GraceServiceLocator), true);
+                RegisterTypeIfMissing(typeof(IServiceLocator), typeof(GraceServiceLocatorAdapter), true);
             }
 
             protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
