@@ -10,6 +10,8 @@ using Unity;
 using Prism.Unity.Regions;
 using Unity.Exceptions;
 using Unity.Lifetime;
+using Prism.Ioc;
+using Prism.Unity.Ioc;
 
 namespace Prism.Unity
 {
@@ -66,6 +68,8 @@ namespace Prism.Unity
             {
                 throw new InvalidOperationException(Resources.NullUnityContainerException);
             }
+
+            _containerExtension = CreateContainerExtension();
 
             this.Logger.Log(Resources.ConfiguringUnityContainer, Category.Debug, Priority.Low);
             this.ConfigureContainer();
@@ -137,6 +141,7 @@ namespace Prism.Unity
             this.Logger.Log(Resources.AddingUnityBootstrapperExtensionToContainer, Category.Debug, Priority.Low);
             this.Container.AddNewExtension<UnityBootstrapperExtension>();
 
+            Container.RegisterInstance<IContainerExtension>(_containerExtension);
             Container.RegisterInstance<ILoggerFacade>(Logger);
 
             this.Container.RegisterInstance(this.ModuleCatalog);
@@ -189,6 +194,11 @@ namespace Prism.Unity
         protected virtual IUnityContainer CreateContainer()
         {
             return new UnityContainer();
+        }
+
+        protected override IContainerExtension CreateContainerExtension()
+        {
+            return new UnityContainerExtension(Container);
         }
 
         /// <summary>

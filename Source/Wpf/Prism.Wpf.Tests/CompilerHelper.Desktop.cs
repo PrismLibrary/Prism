@@ -9,6 +9,7 @@ using System.Text;
 using Microsoft.CSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Modularity;
+using Prism.Ioc;
 
 namespace Prism.Wpf.Tests
 {
@@ -16,6 +17,7 @@ namespace Prism.Wpf.Tests
     {
         private static string moduleTemplate =
             @"using System;
+            using Prism.Ioc;
             using Prism.Modularity;
 
             namespace TestModules
@@ -26,6 +28,16 @@ namespace Prism.Wpf.Tests
                     public void Initialize()
                     {
                        Console.WriteLine(""#className#.Start"");
+                    }
+
+                    public void OnInitialized()
+                    {
+                        
+                    }
+
+                    public void RegisterTypes(IContainerRegistry containerRegistry)
+                    {
+                        
                     }
                 }
             }";
@@ -43,6 +55,7 @@ namespace Prism.Wpf.Tests
 
             referencedAssemblies.AddRange(references);
             referencedAssemblies.Add("System.dll");
+            referencedAssemblies.Add(typeof(IContainerRegistry).Assembly.CodeBase.Replace(@"file:///", ""));
             referencedAssemblies.Add(typeof(IModule).Assembly.CodeBase.Replace(@"file:///", ""));
             referencedAssemblies.Add(typeof(ModuleAttribute).Assembly.CodeBase.Replace(@"file:///", ""));
 
@@ -96,6 +109,7 @@ namespace Prism.Wpf.Tests
             CreateOutput(output);
             List<string> referencedAssemblies = new List<string>();
             referencedAssemblies.Add("System.dll");
+            referencedAssemblies.Add(typeof(IContainerExtension).Assembly.CodeBase.Replace(@"file:///", ""));
             referencedAssemblies.Add(typeof(IModule).Assembly.CodeBase.Replace(@"file:///", ""));
             referencedAssemblies.Add(typeof(ModuleAttribute).Assembly.CodeBase.Replace(@"file:///", ""));
 

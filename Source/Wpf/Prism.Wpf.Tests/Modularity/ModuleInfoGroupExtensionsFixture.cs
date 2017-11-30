@@ -3,6 +3,7 @@
 using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Prism.Ioc;
 using Prism.Modularity;
 
 namespace Prism.Wpf.Tests.Modularity
@@ -72,6 +73,16 @@ namespace Prism.Wpf.Tests.Modularity
         {
             public void Initialize()
             {
+            }
+
+            public void OnInitialized()
+            {
+                
+            }
+
+            public void RegisterTypes(IContainerRegistry containerRegistry)
+            {
+                
             }
         }
     }

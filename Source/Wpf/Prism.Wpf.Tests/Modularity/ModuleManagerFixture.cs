@@ -1,10 +1,9 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Wpf.Tests.Mocks;
@@ -448,6 +447,16 @@ namespace Prism.Wpf.Tests.Modularity
         public void Initialize()
         {
             throw new System.NotImplementedException();
+        }
+
+        public void OnInitialized()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            throw new NotImplementedException();
         }
     }
 

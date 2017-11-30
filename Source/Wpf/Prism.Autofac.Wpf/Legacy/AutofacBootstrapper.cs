@@ -11,6 +11,8 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity.Regions;
+using Prism.Ioc;
+using Prism.Autofac.Ioc;
 
 namespace Prism.Autofac
 {
@@ -65,6 +67,8 @@ namespace Prism.Autofac
             {
                 throw new InvalidOperationException(Resources.NullAutofacContainerBuilderException);
             }
+
+            _containerExtension = CreateContainerExtension();
 
             Logger.Log(Resources.ConfiguringAutofacContainerBuilder, Category.Debug, Priority.Low);
             // Make sure any not specifically registered concrete type can resolve.
@@ -157,12 +161,18 @@ namespace Prism.Autofac
             return new ContainerBuilder();
         }
 
+        protected override IContainerExtension CreateContainerExtension()
+        {
+            return new AutofacContainerExtension(Container);
+        }
+
         /// <summary>
         /// Configures the <see cref="ContainerBuilder"/>.
         /// May be overwritten in a derived class to add specific type mappings required by the application.
         /// </summary>
         protected virtual void ConfigureContainerBuilder(ContainerBuilder builder)
         {
+            builder.RegisterInstance(_containerExtension).As<IContainerExtension>();
             builder.RegisterInstance(Logger).As<ILoggerFacade>();
             builder.RegisterInstance(ModuleCatalog);
 

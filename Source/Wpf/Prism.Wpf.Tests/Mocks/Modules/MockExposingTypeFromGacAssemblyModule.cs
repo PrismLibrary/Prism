@@ -1,5 +1,4 @@
-
-
+using Prism.Ioc;
 using System;
 using Prism.Modularity;
 
@@ -8,6 +7,16 @@ namespace Prism.Wpf.Tests.Mocks.Modules
     public class MockExposingTypeFromGacAssemblyModule : IModule
     {
         public void Initialize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnInitialized()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             throw new NotImplementedException();
         }
