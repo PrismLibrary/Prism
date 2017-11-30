@@ -111,6 +111,7 @@
     <Compile Include="Modularity\IConfigurationStore.Desktop.cs" />
     <Compile Include="Modularity\IModule.cs" />
     <Compile Include="Modularity\IModuleCatalog.cs" />
+    <Compile Include="Modularity\IModuleCatalogExtensions.cs" />
     <Compile Include="Modularity\IModuleCatalogItem.cs" />
     <Compile Include="Modularity\IModuleInitializer.cs" />
     <Compile Include="Modularity\IModuleManager.cs" />
