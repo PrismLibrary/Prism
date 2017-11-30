@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism", "Prism\Prism.csproj", "{E6C50355-D01E-4CAA-884D-D7929861315C}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Autofac.Windows", "Windows10\Prism.Autofac.Windows\Prism.Autofac.Windows.csproj", "{CCE23E5B-335F-4B62-A964-77E42482F49A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.SimpleInjector.Windows", "Windows10\Prism.SimpleInjector.Windows\Prism.SimpleInjector.Windows.csproj", "{E6F934A2-3962-46F2-A4B8-416394C351B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Grace.Windows", "Windows10\Prism.Grace.Windows\Prism.Grace.Windows.csproj", "{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,6 +154,22 @@ Global
 		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release|x64.Build.0 = Release|Any CPU
 		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release|x86.ActiveCfg = Release|Any CPU
 		{E6F934A2-3962-46F2-A4B8-416394C351B8}.Release|x86.Build.0 = Release|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Debug|ARM.Build.0 = Debug|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Debug|x64.Build.0 = Debug|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Debug|x86.Build.0 = Debug|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Release|ARM.ActiveCfg = Release|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Release|ARM.Build.0 = Release|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Release|x64.ActiveCfg = Release|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Release|x64.Build.0 = Release|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Release|x86.ActiveCfg = Release|Any CPU
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,6 +182,7 @@ Global
 		{2E737FE0-857A-41AF-BA0A-42B0CDCCAA27} = {ACFF5AEC-62BC-421B-B37E-A5703806901A}
 		{CCE23E5B-335F-4B62-A964-77E42482F49A} = {643425A5-9223-491A-84D9-DFCC6BDD7F9B}
 		{E6F934A2-3962-46F2-A4B8-416394C351B8} = {643425A5-9223-491A-84D9-DFCC6BDD7F9B}
+		{43C1F5AB-2ACB-491D-BC7A-26AB4D65487A} = {643425A5-9223-491A-84D9-DFCC6BDD7F9B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {23680635-D8C7-406F-97E5-46FD92C39166}
