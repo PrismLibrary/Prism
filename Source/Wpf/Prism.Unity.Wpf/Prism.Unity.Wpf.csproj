@@ -58,6 +58,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xaml" />
     <Reference Include="Unity.Abstractions, Version=2.2.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Unity.5.2.1\lib\net45\Unity.Abstractions.dll</HintPath>
     </Reference>
@@ -84,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Ioc\PrismIocExtensions.cs" />
+    <Compile Include="Ioc\UnityContainerExtension.cs" />
+    <Compile Include="PrismApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -99,10 +103,10 @@
     </Compile>
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Regions\UnityRegionNavigationContentLoader.cs" />
-    <Compile Include="UnityBootstrapper.cs" />
-    <Compile Include="UnityBootstrapperExtension.cs" />
-    <Compile Include="UnityExtensions.cs" />
-    <Compile Include="UnityContainerHelper.cs" />
+    <Compile Include="Legacy\UnityBootstrapper.cs" />
+    <Compile Include="Legacy\UnityBootstrapperExtension.cs" />
+    <Compile Include="Legacy\UnityExtensions.cs" />
+    <Compile Include="Legacy\UnityContainerHelper.cs" />
     <Compile Include="UnityServiceLocatorAdapter.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

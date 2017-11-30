@@ -22,6 +22,7 @@ namespace Prism.Unity
     /// This class must be overridden to provide application specific configuration.
     /// </remarks>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
+    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files. The Bootstrapper may be removed in a future release.", false)]
     public abstract class UnityBootstrapper : Bootstrapper
     {
         private bool useDefaultConfiguration = true;

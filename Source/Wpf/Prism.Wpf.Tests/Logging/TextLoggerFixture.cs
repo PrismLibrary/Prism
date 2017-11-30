@@ -12,17 +12,10 @@ namespace Prism.Wpf.Tests.Logging
     public class TextLoggerFixture
     {
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void NullTextWriterThrows()
-        {
-            ILoggerFacade logger = new TextLogger(null);
-        }
-
-        [TestMethod]
         public void ShouldWriteToTextWriter()
         {
             TextWriter writer = new StringWriter();
-            ILoggerFacade logger = new TextLogger(writer);
+            ILoggerFacade logger = new TextLogger() { Writer = writer };
 
             logger.Log("Test", Category.Debug, Priority.Low);
             StringAssert.Contains(writer.ToString(), "Test");
@@ -34,10 +27,10 @@ namespace Prism.Wpf.Tests.Logging
         public void ShouldDisposeWriterOnDispose()
         {
             MockWriter writer = new MockWriter();
-            IDisposable logger = new TextLogger(writer);
+            ILoggerFacade logger = new TextLogger() { Writer = writer };
 
             Assert.IsFalse(writer.DisposeCalled);
-            logger.Dispose();
+            writer.Dispose();
             Assert.IsTrue(writer.DisposeCalled);
         }
     }
