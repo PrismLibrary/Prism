@@ -52,11 +52,15 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StructureMapExtensions.cs" />
-    <Compile Include="StructureMapBootstrapper.cs" />
+    <Compile Include="Ioc\PrismIocExtensions.cs" />
+    <Compile Include="Ioc\StructureMapContainerExtension.cs" />
+    <Compile Include="Legacy\StructureMapExtensions.cs" />
+    <Compile Include="Legacy\StructureMapBootstrapper.cs" />
+    <Compile Include="PrismApplication.cs" />
     <Compile Include="StructureMapServiceLocatorAdapter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,6 +92,7 @@
       <Name>Prism.Wpf</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets" Condition="Exists('..\..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
