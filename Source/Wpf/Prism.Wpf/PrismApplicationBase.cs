@@ -30,8 +30,9 @@ namespace Prism
         /// </summary>
         public IContainerProvider Container => _containerExtension;
 
-        public PrismApplicationBase()
+        protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
             InitializeInternal();
         }
 
