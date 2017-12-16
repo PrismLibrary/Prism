@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism", "Prism\Prism.csproj", "{6D4EACA5-275A-495F-A042-BB91247FDE50}"
 EndProject
@@ -78,6 +78,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Unity.Forms.Tests", "Xamarin\Prism.Unity.Forms.Tests\Prism.Unity.Forms.Tests.csproj", "{CCE50109-7ED2-4D7D-948F-6CB36AD767DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Ninject.Wpf.Tests", "Wpf\Prism.Ninject.Wpf.Tests\Prism.Ninject.Wpf.Tests.csproj", "{E20AAE94-4851-4BAB-A0D3-66FBBFFD6531}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Ninject.Forms.Tests", "Xamarin\Prism.Ninject.Forms.Tests\Prism.Ninject.Forms.Tests.csproj", "{1A968DB5-AB5F-4324-BC99-F058507F14F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -506,6 +508,22 @@ Global
 		{E20AAE94-4851-4BAB-A0D3-66FBBFFD6531}.Release|x64.Build.0 = Release|Any CPU
 		{E20AAE94-4851-4BAB-A0D3-66FBBFFD6531}.Release|x86.ActiveCfg = Release|Any CPU
 		{E20AAE94-4851-4BAB-A0D3-66FBBFFD6531}.Release|x86.Build.0 = Release|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Debug|ARM.Build.0 = Debug|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Debug|x64.Build.0 = Debug|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Debug|x86.Build.0 = Debug|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Release|ARM.ActiveCfg = Release|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Release|ARM.Build.0 = Release|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Release|x64.ActiveCfg = Release|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Release|x64.Build.0 = Release|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Release|x86.ActiveCfg = Release|Any CPU
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -544,6 +562,7 @@ Global
 		{5DB3F17B-EF88-431D-A8FE-3DED63F0EB7F} = {2556BF50-B8A0-4F08-8309-FE53A1B9EFC6}
 		{CCE50109-7ED2-4D7D-948F-6CB36AD767DB} = {2556BF50-B8A0-4F08-8309-FE53A1B9EFC6}
 		{E20AAE94-4851-4BAB-A0D3-66FBBFFD6531} = {AD25EEBB-B23F-4238-BF4B-0E3199142E7F}
+		{1A968DB5-AB5F-4324-BC99-F058507F14F0} = {2556BF50-B8A0-4F08-8309-FE53A1B9EFC6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A6B5A49-790C-425F-BBF5-99D104959C33}

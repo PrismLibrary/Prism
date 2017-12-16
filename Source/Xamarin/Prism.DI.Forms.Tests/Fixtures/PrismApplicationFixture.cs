@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Autofac.Core.Registration;
 #elif DryIoc
 using DryIoc;
+#elif Ninject
+using Ninject;
 #endif
 using Prism.Common;
 using Prism.DI.Forms.Tests;
@@ -139,12 +141,11 @@ namespace Prism.Unity.Forms.Tests.Fixtures
 #elif DryIoc
             Assert.IsType<ContainerException>(exception);
 #elif Ninject
-            _testOutputHelper.WriteLine("Not Implemented");
-            Assert.True(false);
+            Assert.IsType<ActivationException>(exception);
 #elif Unity
             Assert.IsType<NullReferenceException>(exception);
 #endif
-            Assert.Contains("missing", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("missing", exception.ToString(), StringComparison.OrdinalIgnoreCase);
         }
 
         [Fact]
