@@ -6,6 +6,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Prism.DryIoc.Forms.Tests</RootNamespace>
     <AssemblyName>Prism.DryIoc.Forms.Tests</AssemblyName>
+    <DefineConstants>$(DefineConstants);DryIoc</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

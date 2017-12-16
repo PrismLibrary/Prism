@@ -2,21 +2,37 @@ using Prism.DI.Forms.Tests.Mocks.Modules;
 using Prism.DI.Forms.Tests.Mocks.Services;
 using Prism.DI.Forms.Tests.Mocks.ViewModels;
 using Prism.DI.Forms.Tests.Mocks.Views;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
+using Prism.Logging;
+using Prism.Forms.Tests.Mocks.Logging;
+#if Autofac
+using Prism.Autofac;
 using Autofac;
-using Prism.Ioc;
+#elif DryIoc
+using Prism.DryIoc;
+using DryIoc;
+#elif Ninject
+using Prism.Ninject;
+using Ninject;
+#elif Unity
+using Prism.Unity;
+using Unity;
+#endif
 
-namespace Prism.Autofac.Forms.Tests.Mocks
+namespace Prism.DI.Forms.Tests
 {
     public class PrismApplicationMock : PrismApplication
     {
-        public PrismApplicationMock()
+        public PrismApplicationMock(IPlatformInitializer platformInitializer)
+            : base(platformInitializer)
         {
         }
 
-        public PrismApplicationMock(Page startPage) : this()
+        public PrismApplicationMock(IPlatformInitializer platformInitializer, Page startPage) 
+            : this(platformInitializer)
         {
             Current.MainPage = startPage;
         }
@@ -38,7 +54,9 @@ namespace Prism.Autofac.Forms.Tests.Mocks
             containerRegistry.Register<ViewModelBMock>(ViewModelBMock.Key);
             containerRegistry.Register<ConstructorArgumentViewModel>();
             containerRegistry.RegisterSingleton<ModuleMock>();
-            
+            containerRegistry.RegisterSingleton<ILoggerFacade, XunitLogger>();
+
+            containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<ViewMock>("view");
             containerRegistry.RegisterForNavigation<ViewAMock, ViewModelAMock>();
             containerRegistry.RegisterForNavigation<AutowireView, AutowireViewModel>();
@@ -46,22 +64,17 @@ namespace Prism.Autofac.Forms.Tests.Mocks
 
             DependencyService.Register<IDependencyServiceMock, DependencyServiceMock>();
         }
-    }
-
-    public class PrismApplicationModulesMock : PrismApplicationMock
-    {
-        public PrismApplicationModulesMock()
-        {
-
-        }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleMock))
+            if(((IContainerExtension)Container).SupportsModules)
             {
-                InitializationMode = InitializationMode.WhenAvailable,
-                ModuleName = "ModuleMock"
-            });
+                moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleMock))
+                {
+                    InitializationMode = InitializationMode.WhenAvailable,
+                    ModuleName = "ModuleMock"
+                });
+            }
         }
     }
 }
