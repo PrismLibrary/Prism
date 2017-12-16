@@ -89,6 +89,14 @@ namespace Prism.DryIoc.Forms.Tests
         }
 
         [Fact]
+        public async Task Navigate_With_NavigationPage()
+        {
+            var app = new PrismApplicationMock();
+            var ex = await Record.ExceptionAsync(() => app.NavigationService.NavigateAsync("NavigationPage/ViewAMock"));
+            Assert.Null(ex);
+        }
+
+        [Fact]
         public async Task Navigate_UnregisteredView_ThrowContainerException()
         {
             var app = new PrismApplicationMock();

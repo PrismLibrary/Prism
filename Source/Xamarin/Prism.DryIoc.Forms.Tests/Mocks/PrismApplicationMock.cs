@@ -41,6 +41,7 @@ namespace Prism.DryIoc.Forms.Tests.Mocks
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<IServiceMock, ServiceMock>();
+            containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<ViewMock>("view");
             containerRegistry.RegisterForNavigation<ViewAMock, ViewModelAMock>();
             containerRegistry.Register<AutowireViewModel>();
