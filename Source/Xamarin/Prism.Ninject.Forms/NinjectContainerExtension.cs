@@ -2,6 +2,7 @@
 using Ninject.Parameters;
 using Prism.Ioc;
 using System;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace Prism.Ninject
@@ -21,22 +22,29 @@ namespace Prism.Ninject
 
         public void RegisterInstance(Type type, object instance)
         {
-            Instance.Bind(type).ToConstant(instance);
+            Instance.Rebind(type).ToConstant(instance);
         }
 
         public void RegisterSingleton(Type from, Type to)
         {
-            Instance.Bind(to).To(from).InSingletonScope();
+            Instance.Rebind(from).To(to).InSingletonScope();
         }
 
         public void Register(Type from, Type to)
         {
-            Instance.Bind(to).To(from).InTransientScope();
+            Instance.Rebind(from).To(to).InTransientScope();
         }
 
         public void Register(Type from, Type to, string name)
         {
-            Instance.Bind(to).To(from).InTransientScope().Named(name);
+            if(Instance.GetBindings(from).Any(b => b.Metadata.Name == name))
+            {
+                Instance.Rebind(from).To(to).InTransientScope().Named(name);
+            }
+            else
+            {
+                Instance.Bind(from).To(to).InTransientScope().Named(name);
+            }
         }
 
         public object Resolve(Type type)

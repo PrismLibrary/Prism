@@ -2,11 +2,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Prism.DryIoc.Forms.Tests</RootNamespace>
-    <AssemblyName>Prism.DryIoc.Forms.Tests</AssemblyName>
-    <DefineConstants>$(DefineConstants);DryIoc</DefineConstants>
+    <DefineConstants>$(DefineConstants);Ninject</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Prism.DryIoc.Forms\Prism.DryIoc.Forms.csproj" />
+    <ProjectReference Include="..\Prism.Ninject.Forms\Prism.Ninject.Forms.csproj" />
   </ItemGroup>
 
   <ItemGroup>

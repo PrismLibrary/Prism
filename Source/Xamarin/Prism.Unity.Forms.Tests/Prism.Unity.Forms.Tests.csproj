@@ -6,6 +6,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Prism.Unity.Forms.Tests</RootNamespace>
     <AssemblyName>Prism.Unity.Forms.Tests</AssemblyName>
+    <DefineConstants>$(DefineConstants);Unity</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
