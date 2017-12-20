@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
@@ -29,7 +30,7 @@ namespace Prism.Mvvm
 		/// desired value.</returns>
 		protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
 		{
-			if (Equals(storage, value)) return false;
+			if (EqualityComparer<T>.Default.Equals(storage, value)) return false;
 
 			storage = value;
 			RaisePropertyChanged(propertyName);
@@ -52,7 +53,7 @@ namespace Prism.Mvvm
 		/// desired value.</returns>
 		protected virtual bool SetProperty<T>(ref T storage, T value, Action onChanged, [CallerMemberName] string propertyName = null)
 		{
-			if (Equals(storage, value)) return false;
+			if (EqualityComparer<T>.Default.Equals(storage, value)) return false;
 
 			storage = value;
 			onChanged?.Invoke();
