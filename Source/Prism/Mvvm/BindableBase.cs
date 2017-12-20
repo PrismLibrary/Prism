@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 
 namespace Prism.Mvvm
 {
@@ -27,6 +28,7 @@ namespace Prism.Mvvm
 		/// support CallerMemberName.</param>
 		/// <returns>True if the value was changed, false if the existing value matched the
 		/// desired value.</returns>
+		[NotifyPropertyChangedInvocator]
 		protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
 		{
 			if (Equals(storage, value)) return false;
@@ -67,6 +69,7 @@ namespace Prism.Mvvm
 		/// <param name="propertyName">Name of the property used to notify listeners. This
 		/// value is optional and can be provided automatically when invoked from compilers
 		/// that support <see cref="CallerMemberNameAttribute"/>.</param>
+		[NotifyPropertyChangedInvocator]
 		protected void RaisePropertyChanged([CallerMemberName]string propertyName = null)
 		{
 			//TODO: when we remove the old OnPropertyChanged method we need to uncomment the below line
