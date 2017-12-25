@@ -596,7 +596,8 @@ namespace Prism.Navigation
                 }
                 else
                 {
-                    PageUtilities.OnNavigatedTo(tabbedPage.CurrentPage, parameters);
+                    if (tabbedPage.BindingContext != tabbedPage.CurrentPage.BindingContext)
+                        PageUtilities.OnNavigatedTo(tabbedPage.CurrentPage, parameters);
                 }
             }
         }
@@ -615,7 +616,8 @@ namespace Prism.Navigation
                 }
                 else
                 {
-                    PageUtilities.OnNavigatedFrom(tabbedPage.CurrentPage, parameters);
+                    if (tabbedPage.BindingContext != tabbedPage.CurrentPage.BindingContext)
+                        PageUtilities.OnNavigatedFrom(tabbedPage.CurrentPage, parameters);
                 }
             }
         }
