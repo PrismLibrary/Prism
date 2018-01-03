@@ -193,7 +193,7 @@ namespace Prism
         /// Contains actions that should occur last.
         /// </summary>
         protected virtual void OnInitialized()
-        {            
+        {
             MainWindow.Show();
         }
 
@@ -207,14 +207,11 @@ namespace Prism
         /// </summary>
         protected virtual void InitializeModules()
         {
-            if (_moduleCatalog.Modules.Count() > 0)
-            {
-                if (!_containerExtension.SupportsModules)
-                    throw new NotSupportedException("Container does not support the use of Modules.");
+            if (!_containerExtension.SupportsModules)
+                throw new NotSupportedException("Container does not support the use of Modules.");
 
-                IModuleManager manager = _containerExtension.Resolve<IModuleManager>();
-                manager.Run();
-            }
+            IModuleManager manager = _containerExtension.Resolve<IModuleManager>();
+            manager.Run();
         }
 
         /// <summary>
