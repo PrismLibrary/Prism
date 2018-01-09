@@ -10,14 +10,14 @@ using System.Linq;
 
 namespace Prism.Forms.Validation
 {
-    public class ValidateableBase : BindableBase, INotifyDataErrorInfo
+    public abstract class ValidateableBase : BindableBase, INotifyDataErrorInfo
     {
         private ErrorsContainer<string> _errorsContainer;
         public bool HasErrors => _errorsContainer.HasErrors;
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-        public ValidateableBase()
+        protected ValidateableBase()
         {
             _errorsContainer = new ErrorsContainer<string>(RaiseErrorsChanged);
             ErrorsChanged += OnErrorsChanged;
