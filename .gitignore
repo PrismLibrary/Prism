@@ -4,6 +4,8 @@
 # WPF Version Info
 VersionInfo.cs
 
+!Source/Wpf/System.Windows.Interactivity.dll
+
 # User-specific files
 *.suo
 *.user
