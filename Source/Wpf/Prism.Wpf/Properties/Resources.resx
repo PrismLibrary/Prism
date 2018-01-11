@@ -310,7 +310,4 @@ Error was: {1}.</value>
   <data name="ViewNotInRegionException" xml:space="preserve">
     <value>The region does not contain the specified view.</value>
   </data>
-  <data name="RegionTargetInvalidType" xml:space="preserve">
-    <value>The region target must be of type FrameworkElement or FrameworkContentElement</value>
-  </data>
 </root>

@@ -153,9 +153,6 @@ namespace Prism.Regions.Behaviors
                 fcElement.Loaded += this.ElementLoaded;
                 return;
             }
-
-            throw new ArgumentException(string.Format(CultureInfo.InvariantCulture,
-                                                  Resources.RegionTargetInvalidType));
         }
 
         private void UnWireTargetElement()
@@ -173,9 +170,6 @@ namespace Prism.Regions.Behaviors
                 fcElement.Loaded += this.ElementLoaded;
                 return;
             }
-
-            throw new ArgumentException(string.Format(CultureInfo.InvariantCulture,
-                                                  Resources.RegionTargetInvalidType));
         }
     }
 }

@@ -61,7 +61,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         [TestMethod]
         public void RegionGetsCreatedWhenAccessingRegions()
         {
-            var control = new MockFrameworkElement();
+            var control1 = new MockFrameworkElement();
             var control2 = new MockFrameworkContentElement();
 
             var accessor = new MockRegionManagerAccessor
@@ -69,15 +69,15 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
                                    GetRegionName = d => "myRegionName"
                                };
 
-            var behavior = this.GetBehavior(control, accessor);
-            behavior.Attach();
+            var behavior1 = this.GetBehavior(control1, accessor);
+            behavior1.Attach();
             var behavior2 = this.GetBehavior(control2, accessor);
             behavior2.Attach();
 
             accessor.UpdateRegions();
 
-            Assert.IsNotNull(RegionManager.GetObservableRegion(control).Value);
-            Assert.IsInstanceOfType(RegionManager.GetObservableRegion(control).Value, typeof(IRegion));
+            Assert.IsNotNull(RegionManager.GetObservableRegion(control1).Value);
+            Assert.IsInstanceOfType(RegionManager.GetObservableRegion(control1).Value, typeof(IRegion));
             Assert.IsNotNull(RegionManager.GetObservableRegion(control2).Value);
             Assert.IsInstanceOfType(RegionManager.GetObservableRegion(control2).Value, typeof(IRegion));
         }
@@ -190,20 +190,5 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
             Assert.IsFalse(behaviorWeakReference.IsAlive);
         }
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void InvalidControlThrowsDuringAttach()
-        {
-            var control = new DependencyObject();
-
-            var accessor = new MockRegionManagerAccessor
-            {
-                GetRegionName = d => "myRegionName"
-            };
-
-            var behavior = this.GetBehavior(control, accessor);
-            behavior.Attach();
-        }
-
     }
 }

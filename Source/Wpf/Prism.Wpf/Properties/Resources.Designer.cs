@@ -510,15 +510,6 @@ namespace Prism.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The region target must be of type FrameworkElement or FrameworkContentElement.
-        /// </summary>
-        internal static string RegionTargetInvalidType {
-            get {
-                return ResourceManager.GetString("RegionTargetInvalidType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to View already exists in region..
         /// </summary>
         internal static string RegionViewExistsException {
