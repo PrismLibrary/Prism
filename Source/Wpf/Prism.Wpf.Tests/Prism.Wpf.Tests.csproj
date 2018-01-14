@@ -137,6 +137,7 @@
     </Compile>
     <Compile Include="Mocks\MockDelegateReference.cs" />
     <Compile Include="Mocks\MockConfigurationStore.Desktop.cs" />
+    <Compile Include="Mocks\MockFrameworkContentElement.cs" />
     <Compile Include="Mocks\MockFrameworkElement.cs" />
     <Compile Include="Mocks\MockInteractionRequestAwareElement.cs" />
     <Compile Include="Mocks\MockSortableViews.cs" />
