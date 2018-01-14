@@ -10,10 +10,10 @@ At the current time, we have no plans to create new versions of the library for 
 
 |          | Status |
 | -------- | ------ |
-| Prism | <img src="https://ci.appveyor.com/api/projects/status/pn4fcaghmlwueu52/branch/master?svg=true"/> |
-| Prism.Wpf | <img src="https://ci.appveyor.com/api/projects/status/4lt3n2wf5m2efms7/branch/master?svg=true" /> |
-| Prism.Windows | <img src="https://ci.appveyor.com/api/projects/status/j04r6a45fi2f9pv4/branch/master?svg=true" /> |
-| Prism.Forms | <img src="https://ci.appveyor.com/api/projects/status/6ly53jgvwx62bm9u/branch/master?svg=true" /> |
+| Prism | [![AppVeyor](https://img.shields.io/appveyor/ci/brianlagunas/prism/master.svg?label=appveyor)](https://ci.appveyor.com/project/brianlagunas/prism/branch/master) |
+| Prism.Wpf | [![AppVeyor](https://img.shields.io/appveyor/ci/brianlagunas/prism-jy368/master.svg?label=appveyor)](https://ci.appveyor.com/project/brianlagunas/prism-jy368/branch/master) |
+| Prism.Windows | [![AppVeyor](https://img.shields.io/appveyor/ci/brianlagunas/prism-gv1t3/master.svg?label=appveyor)](https://ci.appveyor.com/project/brianlagunas/prism-gv1t3/branch/master) |
+| Prism.Forms | [![AppVeyor](https://img.shields.io/appveyor/ci/brianlagunas/prism-bvely/master.svg?label=appveyor)](https://ci.appveyor.com/project/brianlagunas/prism-bvely/branch/master) |
 
 ## Support
 
