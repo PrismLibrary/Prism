@@ -172,6 +172,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         public void ShouldCleanupBehaviorOnceRegionIsCreated()
         {
             var control = new MockFrameworkElement();
+            var control2 = new MockFrameworkContentElement();
 
             var accessor = new MockRegionManagerAccessor
             {
@@ -189,6 +190,18 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             GC.Collect();
 
             Assert.IsFalse(behaviorWeakReference.IsAlive);
+
+            var behavior2 = this.GetBehavior(control2, accessor);
+            WeakReference behaviorWeakReference2 = new WeakReference(behavior2);
+            behavior2.Attach();
+            accessor.UpdateRegions();
+            Assert.IsTrue(behaviorWeakReference2.IsAlive);
+            GC.KeepAlive(behavior2);
+
+            behavior2 = null;
+            GC.Collect();
+
+            Assert.IsFalse(behaviorWeakReference2.IsAlive);
         }
     }
 }

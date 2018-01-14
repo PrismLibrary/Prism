@@ -167,7 +167,7 @@ namespace Prism.Regions.Behaviors
             FrameworkContentElement fcElement = this.TargetElement as FrameworkContentElement;
             if (fcElement != null)
             {
-                fcElement.Loaded += this.ElementLoaded;
+                fcElement.Loaded -= this.ElementLoaded;
                 return;
             }
         }
