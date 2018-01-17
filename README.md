@@ -1,4 +1,4 @@
-# Prism
+﻿# Prism
 
 Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Windows 10 UWP, and Xamarin Forms. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for UWP and Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
 
@@ -18,7 +18,7 @@ At the current time, we have no plans to create new versions of the library for 
 ## Support
 
 - Join our Slack Channel [![Slack Status](https://prismslack.herokuapp.com/badge.svg)](https://prismslack.herokuapp.com/)
-- Documentation is maintained in this repo under /docs and can be found in a readable format on [Read the Docs](http://prismlibrary.readthedocs.io/en/latest/).
+- Documentation is maintained in [the Prism-Documentation repo](https://github.com/PrismLibrary/Prism-Documentation) under /docs and can be found in a readable format on [the website](http://prismlibrary.github.io/docs/).
 - For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism).
 - You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues).
 
