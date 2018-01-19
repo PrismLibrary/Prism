@@ -523,7 +523,6 @@ namespace Prism.Forms.Tests.Navigation
             Assert.True(recorder.IsEmpty);
         }
 
-        //TODO: reimplement test to check order of events when navigating in a navigationpage. because of reverse navigation, this no longer is valid.
         [Fact]
         public async Task NavigateAsync_From_ChildPageOfNavigationPage()
         {
@@ -1321,6 +1320,30 @@ namespace Prism.Forms.Tests.Navigation
             Assert.NotNull(navPage);
             Assert.NotNull(tabbedPage.CurrentPage);
             Assert.IsType<Tab2Mock>(tabbedPage.CurrentPage);
+        }
+
+        [Fact]
+        public async void DeepNavigate_FromMasterDetailPage_ToExistingNavigationPage_ToExistingTabbedPage_SelectTab()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new MasterDetailPageEmptyMock();
+            rootPage.Detail = new NavigationPageEmptyMock();
+            await rootPage.Detail.Navigation.PushAsync(new TabbedPageMock());
+            ((IPageAware)navigationService).Page = rootPage;
+
+            var navPage = rootPage.Detail as NavigationPageEmptyMock;
+            var tabbedPage = navPage.Navigation.NavigationStack[0] as TabbedPageMock;
+            Assert.NotNull(navPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+            Assert.IsType<Tab1Mock>(tabbedPage.CurrentPage);
+
+            await navigationService.NavigateAsync($"NavigationPage-Empty/TabbedPage?{KnownNavigationParameters.SelectedTab}=Tab3");
+
+            var existingNavPage = rootPage.Detail as NavigationPageEmptyMock;
+            var existingTabbedPage = navPage.Navigation.NavigationStack[0] as TabbedPageMock;
+            Assert.Equal(navPage, existingNavPage);
+            Assert.Equal(tabbedPage, existingTabbedPage);
+            Assert.IsType<Tab3Mock>(tabbedPage.CurrentPage);
         }
 
         #endregion
