@@ -25,14 +25,9 @@ namespace Prism.Wpf.Tests
                 #module#
 	            public class #className#Class : IModule
 	            {
-                    public void Initialize()
-                    {
-                       Console.WriteLine(""#className#.Start"");
-                    }
-
                     public void OnInitialized(IContainerProvider containerProvider)
                     {
-                        
+                        Console.WriteLine(""#className#.Start"");
                     }
 
                     public void RegisterTypes(IContainerRegistry containerRegistry)

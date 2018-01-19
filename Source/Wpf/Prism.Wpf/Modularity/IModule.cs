@@ -1,8 +1,4 @@
-
-
-
 using Prism.Ioc;
-using System;
 
 namespace Prism.Modularity
 {
@@ -11,12 +7,6 @@ namespace Prism.Modularity
     /// </summary>
     public interface IModule
     {
-        /// <summary>
-        /// Notifies the module that it is being initialized.
-        /// </summary>
-        [Obsolete("Please move all code into the OnInitialized method. This method will be removed.")]
-        void Initialize();
-
         /// <summary>
         /// Used to register types with the container that will be used by your application.
         /// </summary>

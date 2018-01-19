@@ -46,7 +46,6 @@ namespace Prism.Modularity
                 moduleInstance = this.CreateModule(moduleInfo);
                 if (moduleInstance != null)
                 {
-                    moduleInstance.Initialize();
                     moduleInstance.RegisterTypes(_containerExtension);
                     moduleInstance.OnInitialized(_containerExtension);
                 }

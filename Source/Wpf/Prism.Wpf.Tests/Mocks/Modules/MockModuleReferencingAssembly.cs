@@ -6,14 +6,9 @@ namespace Prism.Wpf.Tests.Mocks.Modules
 {
     public class MockModuleReferencingAssembly : IModule
     {
-        public void Initialize()
-        {
-            MockReferencedModule instance = new MockReferencedModule();
-        }
-
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            throw new NotImplementedException();
+            MockReferencedModule instance = new MockReferencedModule();
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

@@ -6,11 +6,6 @@ namespace Prism.Wpf.Tests.Mocks.Modules
 {
     public class MockExposingTypeFromGacAssemblyModule : IModule
     {
-        public void Initialize()
-        {
-            throw new NotImplementedException();
-        }
-
         public void OnInitialized(IContainerProvider containerProvider)
         {
             throw new NotImplementedException();

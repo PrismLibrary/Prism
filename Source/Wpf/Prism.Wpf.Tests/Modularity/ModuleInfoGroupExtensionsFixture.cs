@@ -71,10 +71,6 @@ namespace Prism.Wpf.Tests.Modularity
 
         public class MockModule : IModule
         {
-            public void Initialize()
-            {
-            }
-
             public void OnInitialized(IContainerProvider containerProvider)
             {
                 

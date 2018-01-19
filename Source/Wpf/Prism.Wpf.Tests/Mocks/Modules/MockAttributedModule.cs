@@ -7,11 +7,6 @@ namespace Prism.Wpf.Tests.Mocks.Modules
     [Module(ModuleName = "TestModule", OnDemand = true)]
     public class MockAttributedModule : IModule
     {
-        public void Initialize()
-        {
-            throw new NotImplementedException();
-        }
-
         public void OnInitialized(IContainerProvider containerProvider)
         {
             throw new NotImplementedException();

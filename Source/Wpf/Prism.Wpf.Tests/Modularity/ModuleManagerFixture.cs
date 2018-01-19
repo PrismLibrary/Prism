@@ -444,11 +444,6 @@ namespace Prism.Wpf.Tests.Modularity
 
     internal class MockModule : IModule
     {
-        public void Initialize()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void OnInitialized(IContainerProvider containerProvider)
         {
             throw new NotImplementedException();
