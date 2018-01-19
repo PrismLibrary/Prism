@@ -132,7 +132,7 @@ namespace Prism.Wpf.Tests.Modularity
                 ModuleLoadTracker.ModuleLoadStack.Push(GetType());
             }
 
-            public void OnInitialized()
+            public void OnInitialized(IContainerProvider containerProvider)
             {
                 
             }
@@ -154,7 +154,7 @@ namespace Prism.Wpf.Tests.Modularity
                 ModuleLoadTracker.ModuleLoadStack.Push(GetType());
             }
 
-            public void OnInitialized()
+            public void OnInitialized(IContainerProvider containerProvider)
             {
                 throw new NotImplementedException();
             }
@@ -175,7 +175,7 @@ namespace Prism.Wpf.Tests.Modularity
                 ModuleLoadTracker.ModuleLoadStack.Push(GetType());
             }
 
-            public void OnInitialized()
+            public void OnInitialized(IContainerProvider containerProvider)
             {
                 throw new NotImplementedException();
             }
@@ -197,7 +197,7 @@ namespace Prism.Wpf.Tests.Modularity
                 ModuleLoadTracker.ModuleLoadStack.Push(GetType());
             }
 
-            public void OnInitialized()
+            public void OnInitialized(IContainerProvider containerProvider)
             {
                 throw new NotImplementedException();
             }
@@ -218,7 +218,7 @@ namespace Prism.Wpf.Tests.Modularity
                 throw new InvalidOperationException("Intialization can't be performed");
             }
 
-            public void OnInitialized()
+            public void OnInitialized(IContainerProvider containerProvider)
             {
                 throw new NotImplementedException();
             }
@@ -249,25 +249,25 @@ namespace Prism.Wpf.Tests.Modularity
         public class Module1 : IModule
         {
             void IModule.Initialize() { }
-            void IModule.OnInitialized() { }
+            void IModule.OnInitialized(IContainerProvider containerProvider) { }
             void IModule.RegisterTypes(IContainerRegistry containerRegistry) { }
         }
         public class Module2 : IModule
         {
             void IModule.Initialize() { }
-            void IModule.OnInitialized() { }
+            void IModule.OnInitialized(IContainerProvider containerProvider) { }
             void IModule.RegisterTypes(IContainerRegistry containerRegistry) { }
         }
         public class Module3 : IModule
         {
             void IModule.Initialize() { }
-            void IModule.OnInitialized() { }
+            void IModule.OnInitialized(IContainerProvider containerProvider) { }
             void IModule.RegisterTypes(IContainerRegistry containerRegistry) { }
         }
         public class Module4 : IModule
         {
             void IModule.Initialize() { }
-            void IModule.OnInitialized() { }
+            void IModule.OnInitialized(IContainerProvider containerProvider) { }
             void IModule.RegisterTypes(IContainerRegistry containerRegistry) { }
         }
     }

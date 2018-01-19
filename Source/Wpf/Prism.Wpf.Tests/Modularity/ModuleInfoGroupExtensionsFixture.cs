@@ -75,7 +75,7 @@ namespace Prism.Wpf.Tests.Modularity
             {
             }
 
-            public void OnInitialized()
+            public void OnInitialized(IContainerProvider containerProvider)
             {
                 
             }

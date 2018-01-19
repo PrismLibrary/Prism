@@ -10,7 +10,7 @@ namespace Prism.Wpf.Tests.Mocks.Modules
         {
         }
 
-        public void OnInitialized()
+        public void OnInitialized(IContainerProvider containerProvider)
         {
             
         }

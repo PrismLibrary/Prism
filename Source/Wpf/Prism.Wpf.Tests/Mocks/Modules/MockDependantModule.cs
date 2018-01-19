@@ -13,7 +13,7 @@ namespace Prism.Wpf.Tests.Mocks.Modules
             throw new NotImplementedException();
         }
 
-        public void OnInitialized()
+        public void OnInitialized(IContainerProvider containerProvider)
         {
             throw new NotImplementedException();
         }

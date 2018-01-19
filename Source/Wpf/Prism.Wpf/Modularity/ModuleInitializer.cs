@@ -1,6 +1,3 @@
-
-
-using CommonServiceLocator;
 using Prism.Ioc;
 using Prism.Logging;
 using System;
@@ -51,7 +48,7 @@ namespace Prism.Modularity
                 {
                     moduleInstance.Initialize();
                     moduleInstance.RegisterTypes(_containerExtension);
-                    moduleInstance.OnInitialized();
+                    moduleInstance.OnInitialized(_containerExtension);
                 }
             }
             catch (Exception ex)

@@ -11,7 +11,7 @@ namespace Prism.Wpf.Tests.Mocks.Modules
             MockReferencedModule instance = new MockReferencedModule();
         }
 
-        public void OnInitialized()
+        public void OnInitialized(IContainerProvider containerProvider)
         {
             throw new NotImplementedException();
         }

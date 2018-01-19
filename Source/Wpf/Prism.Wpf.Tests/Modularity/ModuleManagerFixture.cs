@@ -449,7 +449,7 @@ namespace Prism.Wpf.Tests.Modularity
             throw new System.NotImplementedException();
         }
 
-        public void OnInitialized()
+        public void OnInitialized(IContainerProvider containerProvider)
         {
             throw new NotImplementedException();
         }

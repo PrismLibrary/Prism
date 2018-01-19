@@ -30,7 +30,7 @@ namespace Prism.Wpf.Tests
                        Console.WriteLine(""#className#.Start"");
                     }
 
-                    public void OnInitialized()
+                    public void OnInitialized(IContainerProvider containerProvider)
                     {
                         
                     }
