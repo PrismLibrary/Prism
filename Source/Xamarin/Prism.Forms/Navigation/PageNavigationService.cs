@@ -424,7 +424,14 @@ namespace Prism.Navigation
                 if (segments.Count > 0)
                     await UseReverseNavigation(topPage, segments.Dequeue(), segments, parameters, false, animated);
 
-                await DoNavigateAction(topPage, nextSegment, topPage, parameters);
+                await DoNavigateAction(topPage, nextSegment, topPage, parameters, onNavigationActionCompleted: () =>
+                {
+                    if (nextSegment.Contains(KnownNavigationParameters.SelectedTab))
+                    {
+                        var segmentParams = UriParsingHelper.GetSegmentParameters(nextSegment);
+                        SelectPageTab(topPage, segmentParams);
+                    }
+                });
             }
             else
             {
@@ -711,7 +718,36 @@ namespace Prism.Navigation
                 }
             }
 
-            var selectedTab = parameters.GetValue<string>(KnownNavigationParameters.SelectedTab);
+            TabbedPageSelectTab(tabbedPage, parameters);
+        }
+
+        void ConfigureCarouselPage(CarouselPage carouselPage, string segment)
+        {
+            foreach (var child in carouselPage.Children)
+            {
+                PageUtilities.SetAutowireViewModelOnPage(child);
+            }
+
+            var parameters = UriParsingHelper.GetSegmentParameters(segment);
+
+            CarouselPageSelectTab(carouselPage, parameters);
+        }
+
+        private static void SelectPageTab(Page page, NavigationParameters parameters)
+        {
+            if (page is TabbedPage tabbedPage)
+            {
+                TabbedPageSelectTab(tabbedPage, parameters);
+            }
+            else if (page is CarouselPage carouselPage)
+            {
+                CarouselPageSelectTab(carouselPage, parameters);
+            }
+        }
+
+        private static void TabbedPageSelectTab(TabbedPage tabbedPage, NavigationParameters parameters)
+        {
+            var selectedTab = parameters?.GetValue<string>(KnownNavigationParameters.SelectedTab);
             if (!string.IsNullOrWhiteSpace(selectedTab))
             {
                 var selectedTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTab));
@@ -737,14 +773,9 @@ namespace Prism.Navigation
             }
         }
 
-        void ConfigureCarouselPage(CarouselPage carouselPage, string segment)
+        private static void CarouselPageSelectTab(CarouselPage carouselPage, NavigationParameters parameters)
         {
-            foreach (var child in carouselPage.Children)
-            {
-                PageUtilities.SetAutowireViewModelOnPage(child);
-            }
-
-            var selectedTab = UriParsingHelper.GetSegmentParameters(segment).GetValue<string>(KnownNavigationParameters.SelectedTab);
+            var selectedTab = parameters?.GetValue<string>(KnownNavigationParameters.SelectedTab);
             if (!string.IsNullOrWhiteSpace(selectedTab))
             {
                 var selectedTabType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(selectedTab));
