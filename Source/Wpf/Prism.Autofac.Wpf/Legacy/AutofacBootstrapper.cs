@@ -11,6 +11,8 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity.Regions;
+using Prism.Ioc;
+using Prism.Autofac.Ioc;
 
 namespace Prism.Autofac
 {
@@ -22,7 +24,7 @@ namespace Prism.Autofac
     /// <remarks>
     /// This class must be overridden to provide application specific configuration.
     /// </remarks>
-    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files. The Bootstrapper may be removed in a future release.", false)]
+    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files.", false)]
     public abstract class AutofacBootstrapper : Bootstrapper
     {
         private bool _useDefaultConfiguration = true;
@@ -65,6 +67,8 @@ namespace Prism.Autofac
             {
                 throw new InvalidOperationException(Resources.NullAutofacContainerBuilderException);
             }
+
+            _containerExtension = CreateContainerExtension();
 
             Logger.Log(Resources.ConfiguringAutofacContainerBuilder, Category.Debug, Priority.Low);
             // Make sure any not specifically registered concrete type can resolve.
@@ -157,12 +161,18 @@ namespace Prism.Autofac
             return new ContainerBuilder();
         }
 
+        protected override IContainerExtension CreateContainerExtension()
+        {
+            return new AutofacContainerExtension(Container);
+        }
+
         /// <summary>
         /// Configures the <see cref="ContainerBuilder"/>.
         /// May be overwritten in a derived class to add specific type mappings required by the application.
         /// </summary>
         protected virtual void ConfigureContainerBuilder(ContainerBuilder builder)
         {
+            builder.RegisterInstance(_containerExtension).As<IContainerExtension>();
             builder.RegisterInstance(Logger).As<ILoggerFacade>();
             builder.RegisterInstance(ModuleCatalog);
 

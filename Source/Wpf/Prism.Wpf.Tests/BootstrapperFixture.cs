@@ -15,6 +15,7 @@ using Prism.Regions.Behaviors;
 using Prism.Mvvm;
 using Prism.Wpf.Tests.Mocks.Views;
 using Prism.Wpf.Tests.Mocks.ViewModels;
+using Prism.Ioc;
 
 namespace Prism.Wpf.Tests
 {
@@ -336,6 +337,11 @@ namespace Prism.Wpf.Tests
         {
             this.DefaultRegionBehaviorTypes = base.ConfigureDefaultRegionBehaviors();
             return this.DefaultRegionBehaviorTypes;
+        }
+
+        protected override IContainerExtension CreateContainerExtension()
+        {
+            return null;
         }
     }
 

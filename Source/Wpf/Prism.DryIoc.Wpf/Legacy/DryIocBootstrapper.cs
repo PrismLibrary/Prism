@@ -9,6 +9,8 @@ using Prism.Regions;
 using Prism;
 using DryIoc;
 using Prism.DryIoc.Properties;
+using Prism.Ioc;
+using Prism.DryIoc.Ioc;
 
 namespace Prism.DryIoc
 {
@@ -20,7 +22,7 @@ namespace Prism.DryIoc
     /// <remarks>
     /// This class must be overridden to provide application specific configuration.
     /// </remarks>
-    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files. The Bootstrapper may be removed in a future release.", false)]
+    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files.", false)]
     public abstract class DryIocBootstrapper : Bootstrapper
     {
         private bool _useDefaultConfiguration = true;
@@ -64,9 +66,10 @@ namespace Prism.DryIoc
                 throw new InvalidOperationException(Resources.NullDryIocContainerException);
             }
 
+            _containerExtension = CreateContainerExtension();
+
             Logger.Log(Resources.ConfiguringDryIocContainer, Category.Debug, Priority.Low);
             ConfigureContainer();
-
 
             Logger.Log(Resources.ConfiguringServiceLocatorSingleton, Category.Debug, Priority.Low);
             ConfigureServiceLocator();
@@ -143,6 +146,7 @@ namespace Prism.DryIoc
         /// </summary>
         protected virtual void ConfigureContainer()
         {
+            Container.UseInstance<IContainerExtension>(_containerExtension);
             Container.UseInstance<ILoggerFacade>(Logger);
             Container.UseInstance<IModuleCatalog>(ModuleCatalog);
 
@@ -169,6 +173,11 @@ namespace Prism.DryIoc
         protected virtual IContainer CreateContainer()
         {
             return new Container(Rules.Default.WithAutoConcreteTypeResolution());
+        }
+
+        protected override IContainerExtension CreateContainerExtension()
+        {
+            return new DryIocContainerExtension(Container);
         }
 
         /// <summary>

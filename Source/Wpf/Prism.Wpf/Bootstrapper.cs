@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +8,7 @@ using Prism.Regions;
 using Prism.Regions.Behaviors;
 using CommonServiceLocator;
 using Prism.Mvvm;
+using Prism.Ioc;
 
 namespace Prism
 {
@@ -20,9 +19,10 @@ namespace Prism
     /// <remarks>
     /// This class must be overridden to provide application specific configuration.
     /// </remarks>
-    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files. The Bootstrapper may be removed in a future release.")]
+    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files.")]
     public abstract class Bootstrapper
     {
+        protected IContainerExtension _containerExtension;
         /// <summary>
         /// Gets the <see cref="ILoggerFacade"/> for the application.
         /// </summary>
@@ -40,6 +40,12 @@ namespace Prism
         /// </summary>
         /// <value>The shell user interface.</value>
         protected DependencyObject Shell { get; set; }
+
+        /// <summary>
+        /// Creates the container extension used by Prism.
+        /// </summary>
+        /// <returns>The container extension</returns>
+        protected abstract IContainerExtension CreateContainerExtension();
 
         /// <summary>
         /// Create the <see cref="ILoggerFacade" /> used by the bootstrapper.

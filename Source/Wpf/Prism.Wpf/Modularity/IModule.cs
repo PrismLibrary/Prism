@@ -1,5 +1,4 @@
-
-
+using Prism.Ioc;
 
 namespace Prism.Modularity
 {
@@ -9,8 +8,13 @@ namespace Prism.Modularity
     public interface IModule
     {
         /// <summary>
+        /// Used to register types with the container that will be used by your application.
+        /// </summary>
+        void RegisterTypes(IContainerRegistry containerRegistry);
+
+        /// <summary>
         /// Notifies the module that it has be initialized.
         /// </summary>
-        void Initialize();
+        void OnInitialized(IContainerProvider containerProvider);
     }
 }

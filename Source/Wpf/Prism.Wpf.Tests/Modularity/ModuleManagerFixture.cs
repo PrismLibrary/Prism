@@ -1,10 +1,9 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Wpf.Tests.Mocks;
@@ -445,9 +444,14 @@ namespace Prism.Wpf.Tests.Modularity
 
     internal class MockModule : IModule
     {
-        public void Initialize()
+        public void OnInitialized(IContainerProvider containerProvider)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            throw new NotImplementedException();
         }
     }
 

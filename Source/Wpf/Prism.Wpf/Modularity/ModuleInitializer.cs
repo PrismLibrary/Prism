@@ -1,6 +1,4 @@
-
-
-using CommonServiceLocator;
+using Prism.Ioc;
 using Prism.Logging;
 using System;
 using System.Globalization;
@@ -12,24 +10,24 @@ namespace Prism.Modularity
     /// </summary>
     public class ModuleInitializer : IModuleInitializer
     {
-        private readonly IServiceLocator serviceLocator;
-        private readonly ILoggerFacade loggerFacade;
+        private readonly IContainerExtension _containerExtension;
+        private readonly ILoggerFacade _loggerFacade;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ModuleInitializer"/>.
         /// </summary>
-        /// <param name="serviceLocator">The container that will be used to resolve the modules by specifying its type.</param>
+        /// <param name="containerExtension">The container that will be used to resolve the modules by specifying its type.</param>
         /// <param name="loggerFacade">The logger to use.</param>
-        public ModuleInitializer(IServiceLocator serviceLocator, ILoggerFacade loggerFacade)
+        public ModuleInitializer(IContainerExtension containerExtension, ILoggerFacade loggerFacade)
         {
-            if (serviceLocator == null)
-                throw new ArgumentNullException(nameof(serviceLocator));
+            if (containerExtension == null)
+                throw new ArgumentNullException(nameof(containerExtension));
 
             if (loggerFacade == null)
                 throw new ArgumentNullException(nameof(loggerFacade));
 
-            this.serviceLocator = serviceLocator;
-            this.loggerFacade = loggerFacade;
+            this._containerExtension = containerExtension;
+            this._loggerFacade = loggerFacade;
         }
 
         /// <summary>
@@ -47,7 +45,10 @@ namespace Prism.Modularity
             {
                 moduleInstance = this.CreateModule(moduleInfo);
                 if (moduleInstance != null)
-                    moduleInstance.Initialize();
+                {
+                    moduleInstance.RegisterTypes(_containerExtension);
+                    moduleInstance.OnInitialized(_containerExtension);
+                }
             }
             catch (Exception ex)
             {
@@ -93,7 +94,7 @@ namespace Prism.Modularity
                 }
             }
 
-            this.loggerFacade.Log(moduleException.ToString(), Category.Exception, Priority.High);
+            this._loggerFacade.Log(moduleException.ToString(), Category.Exception, Priority.High);
 
             throw moduleException;
         }
@@ -124,7 +125,7 @@ namespace Prism.Modularity
                 throw new ModuleInitializeException(string.Format(CultureInfo.CurrentCulture, Properties.Resources.FailedToGetType, typeName));
             }
 
-            return (IModule)this.serviceLocator.GetInstance(moduleType);
+            return (IModule)_containerExtension.Resolve(moduleType);
         }
     }
 }

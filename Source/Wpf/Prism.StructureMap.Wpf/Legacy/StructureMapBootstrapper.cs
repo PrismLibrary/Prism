@@ -8,6 +8,8 @@ using Prism.Logging;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
+using Prism.Ioc;
+using Prism.StructureMap.Ioc;
 
 namespace Prism.StructureMap
 {
@@ -19,7 +21,7 @@ namespace Prism.StructureMap
     /// <remarks>
     /// This class must be overridden to provide application specific configuration.
     /// </remarks>
-    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files. The Bootstrapper may be removed in a future release.", false)]
+    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files.", false)]
     public abstract class StructureMapBootstrapper : Bootstrapper
     {
         private bool _useDefaultConfiguration = true;
@@ -62,6 +64,8 @@ namespace Prism.StructureMap
             {
                 throw new InvalidOperationException(Resources.NullStructureMapContainerException);
             }
+
+            _containerExtension = CreateContainerExtension();
 
             Logger.Log(Resources.ConfiguringStructureMapContainer, Category.Debug, Priority.Low);
             ConfigureContainer();
@@ -142,6 +146,11 @@ namespace Prism.StructureMap
             return new Container();
         }
 
+        protected override IContainerExtension CreateContainerExtension()
+        {
+            return new StructureMapContainerExtension(Container);
+        }
+
         /// <summary>
         /// Configures the <see cref="IContainer"/>. 
         /// May be overwritten in a derived class to add specific type mappings required by the application.
@@ -152,6 +161,7 @@ namespace Prism.StructureMap
                 {
                     config.For<ILoggerFacade>().Use(Logger);
                     config.For<IModuleCatalog>().Use(ModuleCatalog);
+                    config.For<IContainerExtension>().Use(_containerExtension);
                 });
 
             if (_useDefaultConfiguration)

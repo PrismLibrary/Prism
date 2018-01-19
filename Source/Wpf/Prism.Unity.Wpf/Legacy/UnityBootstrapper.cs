@@ -10,6 +10,8 @@ using Unity;
 using Prism.Unity.Regions;
 using Unity.Exceptions;
 using Unity.Lifetime;
+using Prism.Ioc;
+using Prism.Unity.Ioc;
 
 namespace Prism.Unity
 {
@@ -22,7 +24,7 @@ namespace Prism.Unity
     /// This class must be overridden to provide application specific configuration.
     /// </remarks>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
-    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files. The Bootstrapper may be removed in a future release.", false)]
+    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files.", false)]
     public abstract class UnityBootstrapper : Bootstrapper
     {
         private bool useDefaultConfiguration = true;
@@ -66,6 +68,8 @@ namespace Prism.Unity
             {
                 throw new InvalidOperationException(Resources.NullUnityContainerException);
             }
+
+            _containerExtension = CreateContainerExtension();
 
             this.Logger.Log(Resources.ConfiguringUnityContainer, Category.Debug, Priority.Low);
             this.ConfigureContainer();
@@ -137,6 +141,7 @@ namespace Prism.Unity
             this.Logger.Log(Resources.AddingUnityBootstrapperExtensionToContainer, Category.Debug, Priority.Low);
             this.Container.AddNewExtension<UnityBootstrapperExtension>();
 
+            Container.RegisterInstance<IContainerExtension>(_containerExtension);
             Container.RegisterInstance<ILoggerFacade>(Logger);
 
             this.Container.RegisterInstance(this.ModuleCatalog);
@@ -189,6 +194,11 @@ namespace Prism.Unity
         protected virtual IUnityContainer CreateContainer()
         {
             return new UnityContainer();
+        }
+
+        protected override IContainerExtension CreateContainerExtension()
+        {
+            return new UnityContainerExtension(Container);
         }
 
         /// <summary>

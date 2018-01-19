@@ -15,6 +15,11 @@ namespace Prism.Autofac.Ioc
         public AutofacContainerExtension()
             : this(new ContainerBuilder()) { }
 
+        public AutofacContainerExtension(IContainer container)
+        {
+            Instance = container;
+        }
+
         public AutofacContainerExtension(ContainerBuilder builder)
         {
             Builder = builder;
@@ -22,6 +27,9 @@ namespace Prism.Autofac.Ioc
 
         public void FinalizeExtension()
         {
+            if (Instance != null)
+                return;
+
             // Make sure any not specifically registered concrete type can resolve.
             Builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
             Instance = Builder.Build();
