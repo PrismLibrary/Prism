@@ -17,7 +17,7 @@
     <tags>prism mvvm StuctureMap dependency injection di</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="StructureMap" version="4.5.2" />
+        <dependency id="StructureMap" version="4.5.3" />
         <dependency id="Prism.Wpf" version="$wpfVersion$" />
       </group>
     </dependencies>

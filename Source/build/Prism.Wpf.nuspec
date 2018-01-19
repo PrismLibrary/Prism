@@ -19,7 +19,7 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
     <tags>prism mvvm xamarin xaml wpf</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="CommonServiceLocator" version="2.0.1" />
+        <dependency id="CommonServiceLocator" version="2.0.2" />
         <dependency id="Prism.Core" version="$coreVersion$" />
       </group>
     </dependencies>
