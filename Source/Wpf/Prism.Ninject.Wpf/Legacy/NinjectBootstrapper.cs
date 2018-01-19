@@ -24,7 +24,7 @@ namespace Prism.Ninject
     /// <remarks>
     /// This class must be overridden to provide application specific configuration.
     /// </remarks>
-    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files. The Bootstrapper may be removed in a future release.", false)]
+    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files.", false)]
     public abstract class NinjectBootstrapper : Bootstrapper
     {
         private bool useDefaultConfiguration = true;
