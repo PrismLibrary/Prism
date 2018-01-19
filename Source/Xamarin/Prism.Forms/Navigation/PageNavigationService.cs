@@ -58,10 +58,17 @@ namespace Prism.Navigation
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
         public virtual Task<bool> GoBackAsync(NavigationParameters parameters)
         {
-            return ((INavigateInternal)this).GoBackInternal(parameters, null, true);
+            return GoBackInternal(parameters, null, true);
         }
 
-        async Task<bool> INavigateInternal.GoBackInternal(NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        /// <summary>
+        /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
+        /// </summary>
+        /// <param name="parameters">The navigation parameters</param>
+        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
+        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
+        /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
+        protected async virtual Task<bool> GoBackInternal(NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             try
             {
@@ -102,7 +109,13 @@ namespace Prism.Navigation
             return false;
         }
 
-        async Task INavigateInternal.GoBackToRootInternal(NavigationParameters parameters)
+        /// <summary>
+        /// When navigating inside a NavigationPage: Pops all but the root Page off the navigation stack
+        /// </summary>
+        /// <param name="navigationService">The INavigatinService instance</param>
+        /// <param name="parameters">The navigation parameters</param>
+        /// <remarks>Only works when called from a View within a NavigationPage</remarks>
+        protected async virtual Task GoBackToRootInternal(NavigationParameters parameters)
         {
             try
             {
@@ -143,6 +156,16 @@ namespace Prism.Navigation
             }
         }
 
+        Task<bool> INavigateInternal.GoBackInternal(NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            return GoBackInternal(parameters, useModalNavigation, animated);
+        }
+
+        Task INavigateInternal.GoBackToRootInternal(NavigationParameters parameters)
+        {
+            return GoBackToRootInternal(parameters);
+        }
+
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="name"/>.
         /// </summary>
@@ -159,15 +182,27 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         public virtual Task NavigateAsync(string name, NavigationParameters parameters)
         {
-            return ((INavigateInternal)this).NavigateInternal(name, parameters, null, true);
+            return NavigateInternal(name, parameters, null, true);
         }
 
-        Task INavigateInternal.NavigateInternal(string name, NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="name"/>.
+        /// </summary>
+        /// <param name="name">The name of the target to navigate to.</param>
+        /// <param name="parameters">The navigation parameters</param>
+        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
+        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
+        protected virtual Task NavigateInternal(string name, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             if (name.StartsWith(RemovePageRelativePath))
                 name = name.Replace(RemovePageRelativePath, RemovePageInstruction);
 
-            return ((INavigateInternal)this).NavigateInternal(UriParsingHelper.Parse(name), parameters, useModalNavigation, animated);
+            return NavigateInternal(UriParsingHelper.Parse(name), parameters, useModalNavigation, animated);
+        }
+
+        Task INavigateInternal.NavigateInternal(string name, NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            return NavigateInternal(name, parameters, useModalNavigation, animated);
         }
 
         /// <summary>
@@ -194,10 +229,21 @@ namespace Prism.Navigation
         /// </example>
         public virtual Task NavigateAsync(Uri uri, NavigationParameters parameters)
         {
-            return ((INavigateInternal)this).NavigateInternal(uri, parameters, null, true);
+            return NavigateInternal(uri, parameters, null, true);
         }
 
-        Task INavigateInternal.NavigateInternal(Uri uri, NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="uri"/>.
+        /// </summary>
+        /// <param name="uri">The Uri to navigate to</param>
+        /// <param name="parameters">The navigation parameters</param>
+        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
+        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
+        /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
+        /// <example>
+        /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
+        /// </example>
+        protected virtual Task NavigateInternal(Uri uri, NavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             try
             {
@@ -219,6 +265,11 @@ namespace Prism.Navigation
             {
                 NavigationSource = PageNavigationSource.Device;
             }
+        }
+
+        Task INavigateInternal.NavigateInternal(Uri uri, NavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            return NavigateInternal(uri, parameters, useModalNavigation, animated);
         }
 
         protected virtual async Task ProcessNavigation(Page currentPage, Queue<string> segments, NavigationParameters parameters, bool? useModalNavigation, bool animated)
@@ -545,7 +596,8 @@ namespace Prism.Navigation
                 }
                 else
                 {
-                    PageUtilities.OnNavigatedTo(tabbedPage.CurrentPage, parameters);
+                    if (tabbedPage.BindingContext != tabbedPage.CurrentPage.BindingContext)
+                        PageUtilities.OnNavigatedTo(tabbedPage.CurrentPage, parameters);
                 }
             }
         }
@@ -564,7 +616,8 @@ namespace Prism.Navigation
                 }
                 else
                 {
-                    PageUtilities.OnNavigatedFrom(tabbedPage.CurrentPage, parameters);
+                    if (tabbedPage.BindingContext != tabbedPage.CurrentPage.BindingContext)
+                        PageUtilities.OnNavigatedFrom(tabbedPage.CurrentPage, parameters);
                 }
             }
         }

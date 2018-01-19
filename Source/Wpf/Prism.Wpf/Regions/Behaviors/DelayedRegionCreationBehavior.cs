@@ -144,6 +144,14 @@ namespace Prism.Regions.Behaviors
             if (element != null)
             {
                 element.Loaded += this.ElementLoaded;
+                return;
+            }
+
+            FrameworkContentElement fcElement = this.TargetElement as FrameworkContentElement;
+            if (fcElement != null)
+            {
+                fcElement.Loaded += this.ElementLoaded;
+                return;
             }
         }
 
@@ -153,6 +161,14 @@ namespace Prism.Regions.Behaviors
             if (element != null)
             {
                 element.Loaded -= this.ElementLoaded;
+                return;
+            }
+
+            FrameworkContentElement fcElement = this.TargetElement as FrameworkContentElement;
+            if (fcElement != null)
+            {
+                fcElement.Loaded -= this.ElementLoaded;
+                return;
             }
         }
     }

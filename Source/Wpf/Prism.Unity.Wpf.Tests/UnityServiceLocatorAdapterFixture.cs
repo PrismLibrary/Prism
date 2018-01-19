@@ -109,6 +109,11 @@ namespace Prism.Unity.Wpf.Tests
                 return ResolveMethod();
             }
 
+            public bool IsRegistered(Type type, string name)
+            {
+                throw new NotImplementedException();
+            }
+
             #endregion
         }
     }

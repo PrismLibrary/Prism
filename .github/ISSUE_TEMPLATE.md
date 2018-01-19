@@ -1,15 +1,27 @@
-*Use GitHub issues for __bugs in Prism and feature requests only__. If you have a question how to implement something using Prism or a bug in your app that might be related to Prism, please post your question on [StackOverflow](http://stackoverflow.com/tags/prism) (which we monitor as well).*
+﻿### Description
 
-Please provide as much detail as possible (and feel free to remove unused properties):
+### Steps to Reproduce
 
-### Package info
+1. 
+2. 
+3. 
 
-- Platform:
-- Prism version:
-- Xamarin version (if applicable):
-- Windows 10 SDK version (if applicable):
-- Other version info:
+### Expected Behavior
 
-### Repro steps
+### Actual Behavior
 
-Please describe the issue/request in detail.
+### Basic Information
+
+- Version with issue:
+- Last known good version:
+- Xamarin.Forms version:
+- IDE:
+
+### Screenshots
+
+<!-- If the issue is a visual issue, please include screenshots showing the problem if possible -->
+
+### Reproduction Link
+
+<!-- Please upload or provide a link to a reproduction case -->
+

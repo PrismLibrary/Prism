@@ -6,6 +6,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Prism.Autofac.Forms.Tests</RootNamespace>
     <AssemblyName>Prism.Autofac.Forms.Tests</AssemblyName>
+    <DefineConstants>$(DefineConstants);Autofac</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
