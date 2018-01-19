@@ -51,7 +51,7 @@ namespace Prism.Modularity
                 var assemblies = (
                                      from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
                                      where !(assembly is System.Reflection.Emit.AssemblyBuilder)
-										&& assembly.GetType().FullName != "System.Reflection.Emit.InternalAssemblyBuilder"
+                                        && assembly.GetType().FullName != "System.Reflection.Emit.InternalAssemblyBuilder"
                                         && !String.IsNullOrEmpty(assembly.Location)
                                      select assembly.Location
                                  );
@@ -66,7 +66,9 @@ namespace Prism.Modularity
                         (InnerModuleInfoLoader)
                         childDomain.CreateInstanceFrom(loaderType.Assembly.Location, loaderType.FullName).Unwrap();
                     loader.LoadAssemblies(loadedAssemblies);
-                    this.Items.AddRange(loader.GetModuleInfos(this.ModulePath));
+
+                    var directory = new DirectoryInfo(this.ModulePath);
+                    this.Items.AddRange(loader.GetModuleInfos(directory.FullName, GetFileInfos(directory)));
                 }
             }
             finally
@@ -75,6 +77,15 @@ namespace Prism.Modularity
             }
         }
 
+        /// <summary>
+        /// Returns the FileInfo objects of the assemblies to load in the given directory.
+        /// </summary>
+        /// <param name="directory">The directory to search for assemblies.</param>
+        /// <returns>An array of FileInfo objects.</returns>
+        protected virtual FileInfo[] GetFileInfos(DirectoryInfo directory)
+        {
+            return directory.GetFiles("*.dll");
+        }
 
         /// <summary>
         /// Creates a new child domain and copies the evidence from a parent domain.
@@ -104,12 +115,10 @@ namespace Prism.Modularity
         private class InnerModuleInfoLoader : MarshalByRefObject
         {
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-            internal ModuleInfo[] GetModuleInfos(string path)
+            internal ModuleInfo[] GetModuleInfos(string path, FileInfo[] files)
             {
-                DirectoryInfo directory = new DirectoryInfo(path);
-
                 ResolveEventHandler resolveEventHandler =
-                    delegate(object sender, ResolveEventArgs args) { return OnReflectionOnlyResolve(args, directory); };
+                    delegate(object sender, ResolveEventArgs args) { return OnReflectionOnlyResolve(args, path); };
 
                 AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += resolveEventHandler;
 
@@ -118,19 +127,19 @@ namespace Prism.Modularity
                         asm => asm.FullName == typeof(IModule).Assembly.FullName);
                 Type IModuleType = moduleReflectionOnlyAssembly.GetType(typeof(IModule).FullName);
 
-                IEnumerable<ModuleInfo> modules = GetNotAllreadyLoadedModuleInfos(directory, IModuleType);
+                IEnumerable<ModuleInfo> modules = GetNotAlreadyLoadedModuleInfos(files, IModuleType);
 
                 var array = modules.ToArray();
                 AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve -= resolveEventHandler;
                 return array;
             }
 
-            private static IEnumerable<ModuleInfo> GetNotAllreadyLoadedModuleInfos(DirectoryInfo directory, Type IModuleType)
+            private static IEnumerable<ModuleInfo> GetNotAlreadyLoadedModuleInfos(FileInfo[] allFileInfos, Type IModuleType)
             {
                 List<FileInfo> validAssemblies = new List<FileInfo>();
                 Assembly[] alreadyLoadedAssemblies = AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies();
 
-                var fileInfos = directory.GetFiles("*.dll")
+                var fileInfos = allFileInfos
                     .Where(file => alreadyLoadedAssemblies
                                        .FirstOrDefault(
                                        assembly =>
@@ -158,7 +167,7 @@ namespace Prism.Modularity
                                             .Select(type => CreateModuleInfo(type)));
             }
 
-            private static Assembly OnReflectionOnlyResolve(ResolveEventArgs args, DirectoryInfo directory)
+            private static Assembly OnReflectionOnlyResolve(ResolveEventArgs args, string path)
             {
                 Assembly loadedAssembly = AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies().FirstOrDefault(
                     asm => string.Equals(asm.FullName, args.Name, StringComparison.OrdinalIgnoreCase));
@@ -167,7 +176,7 @@ namespace Prism.Modularity
                     return loadedAssembly;
                 }
                 AssemblyName assemblyName = new AssemblyName(args.Name);
-                string dependentAssemblyFilename = Path.Combine(directory.FullName, assemblyName.Name + ".dll");
+                string dependentAssemblyFilename = Path.Combine(path, assemblyName.Name + ".dll");
                 if (File.Exists(dependentAssemblyFilename))
                 {
                     return Assembly.ReflectionOnlyLoadFrom(dependentAssemblyFilename);
