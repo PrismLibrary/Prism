@@ -13,16 +13,14 @@ namespace Prism.Navigation
     /// <remarks>
     /// This class can be used to to pass object parameters during Navigation. 
     /// </remarks>
-    public class NavigationParameters : IEnumerable<KeyValuePair<string, object>>
+    public class NavigationParameters : INavigationParameters, IInternalNavigationParameters
     {
         private readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();
         private readonly Dictionary<string, object> _internalParameters = new Dictionary<string, object>();
 
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public IReadOnlyDictionary<string, object> InternalParameters { get { return _internalParameters; } }
+        IReadOnlyDictionary<string, object> IInternalNavigationParameters.InternalParameters { get { return _internalParameters; } }
 
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public void AddInternalParameter(string key, object value)
+        void IInternalNavigationParameters.AddInternalParameter(string key, object value)
         {
             if (!_internalParameters.ContainsKey(key))
                 _internalParameters.Add(key, value);

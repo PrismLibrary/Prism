@@ -87,7 +87,7 @@ namespace Prism.Common
         }
 
 
-        public static Task<bool> CanNavigateAsync(object page, NavigationParameters parameters)
+        public static Task<bool> CanNavigateAsync(object page, INavigationParameters parameters)
         {
             var confirmNavigationItem = page as IConfirmNavigationAsync;
             if (confirmNavigationItem != null)
@@ -104,7 +104,7 @@ namespace Prism.Common
             return Task.FromResult(CanNavigate(page, parameters));
         }
 
-        public static bool CanNavigate(object page, NavigationParameters parameters)
+        public static bool CanNavigate(object page, INavigationParameters parameters)
         {
             var confirmNavigationItem = page as IConfirmNavigation;
             if (confirmNavigationItem != null)
@@ -121,19 +121,19 @@ namespace Prism.Common
             return true;
         }
 
-        public static void OnNavigatedFrom(object page, NavigationParameters parameters)
+        public static void OnNavigatedFrom(object page, INavigationParameters parameters)
         {
             if (page != null)
                 InvokeViewAndViewModelAction<INavigatedAware>(page, v => v.OnNavigatedFrom(parameters));
         }
 
-        public static void OnNavigatingTo(object page, NavigationParameters parameters)
+        public static void OnNavigatingTo(object page, INavigationParameters parameters)
         {
             if (page != null)
                 InvokeViewAndViewModelAction<INavigatingAware>(page, v => v.OnNavigatingTo(parameters));
         }
 
-        public static void OnNavigatedTo(object page, NavigationParameters parameters)
+        public static void OnNavigatedTo(object page, INavigationParameters parameters)
         {
             if (page != null)
                 InvokeViewAndViewModelAction<INavigatedAware>(page, v => v.OnNavigatedTo(parameters));
@@ -221,7 +221,7 @@ namespace Prism.Common
         public static void HandleSystemGoBack(Page previousPage, Page currentPage)
         {
             var parameters = new NavigationParameters();
-            parameters.AddInternalParameter(KnownInternalParameters.NavigationMode, NavigationMode.Back);
+            parameters.GetInternalNavigationParameters().AddInternalParameter(KnownInternalParameters.NavigationMode, NavigationMode.Back);
             OnNavigatedFrom(previousPage, parameters);
             OnNavigatedTo(GetOnNavigatedToTargetFromChild(currentPage), parameters);
             DestroyPage(previousPage);

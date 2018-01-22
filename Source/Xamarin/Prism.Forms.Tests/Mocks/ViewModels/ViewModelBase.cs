@@ -6,8 +6,8 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
 {
     public class ViewModelBase : BindableBase, INavigationAware, IDestructible, IPageNavigationEventRecordable
     {
-        public NavigationParameters NavigatedToParameters { get; private set; }
-        public NavigationParameters NavigatedFromParameters { get; private set; }
+        public INavigationParameters NavigatedToParameters { get; private set; }
+        public INavigationParameters NavigatedFromParameters { get; private set; }
         public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
 
         public bool OnNavigatedToCalled { get; private set; } = false;
@@ -18,21 +18,21 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
 
         public bool DestroyCalled { get; private set; } = false;
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public void OnNavigatedFrom(INavigationParameters parameters)
         {
             OnNavigatedFromCalled = true;
             NavigatedFromParameters = parameters;
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedFrom);
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             OnNavigatedToCalled = true;
             NavigatedToParameters = parameters;
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
         }
 
-        public void OnNavigatingTo(NavigationParameters parameters)
+        public void OnNavigatingTo(INavigationParameters parameters)
         {
             OnNavigatingdToCalled = true;
             NavigatedToParameters = parameters;

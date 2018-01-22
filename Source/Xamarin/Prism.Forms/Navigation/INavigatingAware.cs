@@ -10,6 +10,6 @@
         /// </summary>
         /// <param name="parameters">The navigation parameters.</param>
         /// <remarks>Not called when using device hardware or software back buttons</remarks>
-        void OnNavigatingTo(NavigationParameters parameters);
+        void OnNavigatingTo(INavigationParameters parameters);
     }
 }

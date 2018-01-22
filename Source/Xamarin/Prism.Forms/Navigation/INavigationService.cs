@@ -20,7 +20,7 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="parameters">The navigation parameters</param>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-        Task<bool> GoBackAsync(NavigationParameters parameters);
+        Task<bool> GoBackAsync(INavigationParameters parameters);
 
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="uri"/>.
@@ -41,7 +41,7 @@ namespace Prism.Navigation
         /// <example>
         /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
         /// </example>
-        Task NavigateAsync(Uri uri, NavigationParameters parameters);
+        Task NavigateAsync(Uri uri, INavigationParameters parameters);
 
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="name"/>.
@@ -54,6 +54,6 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="name">The name of the target to navigate to.</param>
         /// <param name="parameters">The navigation parameters</param>
-        Task NavigateAsync(string name, NavigationParameters parameters);
+        Task NavigateAsync(string name, INavigationParameters parameters);
     }
 }
