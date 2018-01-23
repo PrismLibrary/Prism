@@ -221,7 +221,7 @@ namespace Prism.Common
         public static void HandleSystemGoBack(Page previousPage, Page currentPage)
         {
             var parameters = new NavigationParameters();
-            parameters.GetInternalNavigationParameters().AddInternalParameter(KnownInternalParameters.NavigationMode, NavigationMode.Back);
+            parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
             OnNavigatedFrom(previousPage, parameters);
             OnNavigatedTo(GetOnNavigatedToTargetFromChild(currentPage), parameters);
             DestroyPage(previousPage);

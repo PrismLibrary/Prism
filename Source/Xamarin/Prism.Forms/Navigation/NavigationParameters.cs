@@ -13,18 +13,10 @@ namespace Prism.Navigation
     /// <remarks>
     /// This class can be used to to pass object parameters during Navigation. 
     /// </remarks>
-    public class NavigationParameters : INavigationParameters, IInternalNavigationParameters
+    public class NavigationParameters : INavigationParameters, INavigationParametersInternal
     {
         private readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();
         private readonly Dictionary<string, object> _internalParameters = new Dictionary<string, object>();
-
-        IReadOnlyDictionary<string, object> IInternalNavigationParameters.InternalParameters { get { return _internalParameters; } }
-
-        void IInternalNavigationParameters.AddInternalParameter(string key, object value)
-        {
-            if (!_internalParameters.ContainsKey(key))
-                _internalParameters.Add(key, value);
-        }
 
         /// <summary>
         /// Gets the number of parameters contained in the NavigationParameters
@@ -169,7 +161,12 @@ namespace Prism.Navigation
         /// <returns>The value.</returns>
         public T GetValue<T>(string key)
         {
-            foreach (var kvp in _entries)
+            return GetValue<T>(key, _entries);
+        }
+
+        T GetValue<T>(string key, IEnumerable<KeyValuePair<string, object>> parameters)
+        {
+            foreach (var kvp in parameters)
             {
                 if (string.Compare(kvp.Key, key, StringComparison.Ordinal) == 0)
                 {
@@ -277,5 +274,22 @@ namespace Prism.Navigation
 
             return queryBuilder.ToString();
         }
+
+        #region INavigationParametersInternal
+        void INavigationParametersInternal.Add(string key, object value)
+        {
+            _internalParameters.Add(key, value);
+        }
+
+        bool INavigationParametersInternal.ContainsKey(string key)
+        {
+            return _internalParameters.ContainsKey(key);
+        }
+
+        T INavigationParametersInternal.GetValue<T>(string key)
+        {
+            return GetValue<T>(key, _internalParameters);
+        }
+        #endregion
     }
 }
