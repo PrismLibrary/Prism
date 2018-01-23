@@ -5,9 +5,9 @@ namespace Prism.Navigation
 {
     internal interface INavigateInternal
     {
-        Task<bool> GoBackInternal(INavigationParameters parameters, bool? useModalNavigation, bool animated);
+        Task<INavigationResult> GoBackInternal(INavigationParameters parameters, bool? useModalNavigation, bool animated);
 
-        Task GoBackToRootInternal(INavigationParameters parameters);
+        Task<INavigationResult> GoBackToRootInternal(INavigationParameters parameters);
 
         Task NavigateInternal(string name, INavigationParameters parameters, bool? useModalNavigation, bool animated);
 

@@ -13,14 +13,14 @@ namespace Prism.Navigation
         /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
         /// </summary>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-        Task<bool> GoBackAsync();
+        Task<INavigationResult> GoBackAsync();
 
         /// <summary>
         /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
         /// </summary>
         /// <param name="parameters">The navigation parameters</param>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-        Task<bool> GoBackAsync(INavigationParameters parameters);
+        Task<INavigationResult> GoBackAsync(INavigationParameters parameters);
 
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="uri"/>.

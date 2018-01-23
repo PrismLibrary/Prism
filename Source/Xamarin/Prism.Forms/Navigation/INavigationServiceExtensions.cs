@@ -17,7 +17,7 @@ namespace Prism.Navigation
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-        public static Task<bool> GoBackAsync(this INavigationService navigationService, INavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        public static Task<INavigationResult> GoBackAsync(this INavigationService navigationService, INavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
             return ((INavigateInternal)navigationService).GoBackInternal(parameters, useModalNavigation, animated);
         }
@@ -28,7 +28,7 @@ namespace Prism.Navigation
         /// <param name="navigationService">The INavigatinService instance</param>
         /// <param name="parameters">The navigation parameters</param>
         /// <remarks>Only works when called from a View within a NavigationPage</remarks>
-        public static Task GoBackToRootAsync(this INavigationService navigationService, INavigationParameters parameters = null)
+        public static Task<INavigationResult> GoBackToRootAsync(this INavigationService navigationService, INavigationParameters parameters = null)
         {
             return ((INavigateInternal)navigationService).GoBackToRootInternal(parameters);
         }

@@ -46,7 +46,7 @@ namespace Prism.Navigation
         /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
         /// </summary>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-        public virtual Task<bool> GoBackAsync()
+        public virtual Task<INavigationResult> GoBackAsync()
         {
             return GoBackAsync(null);
         }
@@ -56,7 +56,7 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="parameters">The navigation parameters</param>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-        public virtual Task<bool> GoBackAsync(INavigationParameters parameters)
+        public virtual Task<INavigationResult> GoBackAsync(INavigationParameters parameters)
         {
             return GoBackInternal(parameters, null, true);
         }
@@ -68,8 +68,10 @@ namespace Prism.Navigation
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-        protected async virtual Task<bool> GoBackInternal(INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        protected async virtual Task<INavigationResult> GoBackInternal(INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
+            var result = new NavigationResult();
+
             try
             {
                 NavigationSource = PageNavigationSource.NavigationService;
@@ -80,7 +82,10 @@ namespace Prism.Navigation
 
                 var canNavigate = await PageUtilities.CanNavigateAsync(page, segmentParameters);
                 if (!canNavigate)
-                    return false;
+                {
+                    result.Exception = new Exception($"IConfirmNavigation for {page} returned false");
+                    return result;
+                }
 
                 bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
                 Page previousPage = PageUtilities.GetOnNavigatedToTarget(page, _applicationProvider.MainPage, useModalForDoPop);
@@ -93,20 +98,24 @@ namespace Prism.Navigation
                     PageUtilities.OnNavigatedFrom(page, segmentParameters);
                     PageUtilities.OnNavigatedTo(previousPage, segmentParameters);
                     PageUtilities.DestroyPage(poppedPage);
-                    return true;
+
+                    result.Success = true;
+                    return result;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                _logger.Log(e.ToString(), Category.Exception, Priority.High);
-                return false;
+                _logger.Log(ex.ToString(), Category.Exception, Priority.High);
+                result.Exception = ex;
+                return result;
             }
             finally
             {
                 NavigationSource = PageNavigationSource.Device;
             }
 
-            return false;
+            result.Exception = new Exception("Unknown error occured.");
+            return result;
         }
 
         /// <summary>
@@ -115,8 +124,9 @@ namespace Prism.Navigation
         /// <param name="navigationService">The INavigatinService instance</param>
         /// <param name="parameters">The navigation parameters</param>
         /// <remarks>Only works when called from a View within a NavigationPage</remarks>
-        protected async virtual Task GoBackToRootInternal(INavigationParameters parameters)
+        protected async virtual Task<INavigationResult> GoBackToRootInternal(INavigationParameters parameters)
         {
+            var result = new NavigationResult();
             try
             {
                 if (parameters == null)
@@ -127,7 +137,10 @@ namespace Prism.Navigation
                 var page = GetCurrentPage();
                 var canNavigate = await PageUtilities.CanNavigateAsync(page, parameters);
                 if (!canNavigate)
-                    return;
+                {
+                    result.Exception = new Exception($"IConfirmNavigation for {page} returned false");
+                    return result;
+                }
 
                 List<Page> pagesToDestroy = page.Navigation.NavigationStack.ToList(); // get all pages to destroy
                 pagesToDestroy.Reverse(); // destroy them in reverse order
@@ -148,20 +161,25 @@ namespace Prism.Navigation
             }
             catch (InvalidOperationException ex)
             {
-                throw new InvalidOperationException("GoBackToRootAsync can only be called when the calling Page is within a NavigationPage.", ex);
+                result.Exception = new Exception("GoBackToRootAsync can only be called when the calling Page is within a NavigationPage.", ex);
+                return result;
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                result.Exception = ex;
+                return result;
             }
+
+            result.Exception = new Exception("Unknown error occured.");
+            return result;
         }
 
-        Task<bool> INavigateInternal.GoBackInternal(INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        Task<INavigationResult> INavigateInternal.GoBackInternal(INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             return GoBackInternal(parameters, useModalNavigation, animated);
         }
 
-        Task INavigateInternal.GoBackToRootInternal(INavigationParameters parameters)
+        Task<INavigationResult> INavigateInternal.GoBackToRootInternal(INavigationParameters parameters)
         {
             return GoBackToRootInternal(parameters);
         }
