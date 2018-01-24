@@ -20,7 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="../Prism.DI.Forms.Tests/**/*.cs" />
+    <None Include="..\..\xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+    <Compile Include="..\Prism.DI.Forms.Tests\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>

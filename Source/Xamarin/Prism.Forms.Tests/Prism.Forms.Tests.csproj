@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
     <Compile Include="..\Prism.DI.Forms.Tests\MockForms.cs" Link="MockForms.cs" />
   </ItemGroup>
 

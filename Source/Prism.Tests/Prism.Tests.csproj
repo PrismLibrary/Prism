@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
     <ProjectReference Include="..\Prism\Prism.csproj" />
   </ItemGroup>
 
