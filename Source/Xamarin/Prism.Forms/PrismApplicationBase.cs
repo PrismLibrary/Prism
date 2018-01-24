@@ -17,6 +17,7 @@ namespace Prism
 {
     public abstract class PrismApplicationBase : Application
     {
+        public new static PrismApplicationBase Current => (PrismApplicationBase) Application.Current;
         public const string NavigationServiceName = "PageNavigationService";
         public const string NavigationServiceParameterName = "navigationService";
         IContainerExtension _containerExtension;
