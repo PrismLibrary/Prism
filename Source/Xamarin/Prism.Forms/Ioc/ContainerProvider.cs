@@ -54,6 +54,7 @@
         public static implicit operator T(ContainerProvider<T> containerProvider)
         {
             var container = PrismApplicationBase.Current.Container;
+            if (container == null) return default(T);
             if (string.IsNullOrWhiteSpace(containerProvider.Name))
             {
                 return container.Resolve<T>();

@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="Xamarin.Forms" Version="2.5.0.122203" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
@@ -22,6 +23,8 @@
   <ItemGroup>
     <None Include="..\..\xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
     <Compile Include="..\Prism.DI.Forms.Tests\**\*.cs" />
+    <Compile Update="..\Prism.DI.Forms.Tests\**\*.xaml.cs" DependentUpon="%(Filename)" />
+    <EmbeddedResource Include="..\Prism.DI.Forms.Tests\**\*.xaml" SubType="Designer" Generator="MSBuild:UpdateDesignTimeXaml" />
   </ItemGroup>
 
   <ItemGroup>
