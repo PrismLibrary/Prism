@@ -2,12 +2,18 @@
 {
     public static class NavigationParametersExtensions
     {
-        public static NavigationMode GetNavigationMode(this NavigationParameters parameters)
+        public static NavigationMode GetNavigationMode(this INavigationParameters parameters)
         {
-            if (parameters.InternalParameters.ContainsKey(KnownInternalParameters.NavigationMode))
-                return (NavigationMode)parameters.InternalParameters[KnownInternalParameters.NavigationMode];
+            var internalParams = (INavigationParametersInternal)parameters;
+            if (internalParams.ContainsKey(KnownInternalParameters.NavigationMode))
+                return internalParams.GetValue<NavigationMode>(KnownInternalParameters.NavigationMode);
 
             throw new System.ArgumentNullException("NavigationMode is not available");
+        }
+
+        internal static INavigationParametersInternal GetNavigationParametersInternal(this INavigationParameters parameters)
+        {
+            return (INavigationParametersInternal)parameters;
         }
     }
 }

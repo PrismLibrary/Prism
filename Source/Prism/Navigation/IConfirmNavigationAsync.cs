@@ -12,6 +12,6 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="parameters">The navigation parameters.</param>
         /// <returns><c>True</c> if navigation can continue, <c>False</c> if navigation is not allowed to continue</returns>
-        Task<bool> CanNavigateAsync(NavigationParameters parameters);
+        Task<bool> CanNavigateAsync(INavigationParameters parameters);
     }
 }

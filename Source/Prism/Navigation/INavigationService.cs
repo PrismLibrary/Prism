@@ -13,14 +13,14 @@ namespace Prism.Navigation
         /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
         /// </summary>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-        Task<bool> GoBackAsync();
+        Task<INavigationResult> GoBackAsync();
 
         /// <summary>
         /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
         /// </summary>
         /// <param name="parameters">The navigation parameters</param>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-        Task<bool> GoBackAsync(NavigationParameters parameters);
+        Task<INavigationResult> GoBackAsync(INavigationParameters parameters);
 
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="uri"/>.
@@ -30,7 +30,7 @@ namespace Prism.Navigation
         /// <example>
         /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
         /// </example>
-        Task NavigateAsync(Uri uri);
+        Task<INavigationResult> NavigateAsync(Uri uri);
 
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="uri"/>.
@@ -41,19 +41,19 @@ namespace Prism.Navigation
         /// <example>
         /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
         /// </example>
-        Task NavigateAsync(Uri uri, NavigationParameters parameters);
+        Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters);
 
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="name"/>.
         /// </summary>
         /// <param name="name">The name of the target to navigate to.</param>
-        Task NavigateAsync(string name);
+        Task<INavigationResult> NavigateAsync(string name);
 
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="name"/>.
         /// </summary>
         /// <param name="name">The name of the target to navigate to.</param>
         /// <param name="parameters">The navigation parameters</param>
-        Task NavigateAsync(string name, NavigationParameters parameters);
+        Task<INavigationResult> NavigateAsync(string name, INavigationParameters parameters);
     }
 }

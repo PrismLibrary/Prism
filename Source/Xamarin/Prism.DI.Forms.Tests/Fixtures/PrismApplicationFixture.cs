@@ -134,18 +134,21 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         {
             var app = CreateMockApplication();
             var navigationService = ResolveAndSetRootPage(app);
-            var exception = await Record.ExceptionAsync(() => navigationService.NavigateAsync("missing"));
-            Assert.NotNull(exception);
+
+            var result = await navigationService.NavigateAsync("missing");
+
+            Assert.False(result.Success);
+            Assert.NotNull(result.Exception);
 #if Autofac
-            Assert.IsType<ComponentNotRegisteredException>(exception);
+            Assert.IsType<ComponentNotRegisteredException>(result.Exception);
 #elif DryIoc
-            Assert.IsType<ContainerException>(exception);
+            Assert.IsType<ContainerException>(result.Exception);
 #elif Ninject
-            Assert.IsType<ActivationException>(exception);
+            Assert.IsType<ActivationException>(result.Exception);
 #elif Unity
-            Assert.IsType<NullReferenceException>(exception);
+            Assert.IsType<NullReferenceException>(result.Exception);
 #endif
-            Assert.Contains("missing", exception.ToString(), StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("missing", result.Exception.ToString(), StringComparison.OrdinalIgnoreCase);
         }
 
         [Fact]
