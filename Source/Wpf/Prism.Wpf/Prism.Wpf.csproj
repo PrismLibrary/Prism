@@ -111,14 +111,12 @@
     <Compile Include="Modularity\FileModuleTypeLoader.Desktop.cs" />
     <Compile Include="Modularity\IAssemblyResolver.Desktop.cs" />
     <Compile Include="Modularity\IConfigurationStore.Desktop.cs" />
-    <Compile Include="Modularity\IModule.cs" />
     <Compile Include="Modularity\IModuleCatalog.cs" />
     <Compile Include="Modularity\IModuleCatalogExtensions.cs" />
     <Compile Include="Modularity\IModuleCatalogItem.cs" />
     <Compile Include="Modularity\IModuleInitializer.cs" />
     <Compile Include="Modularity\IModuleManager.cs" />
     <Compile Include="Modularity\IModuleTypeLoader.cs" />
-    <Compile Include="Modularity\InitializationMode.cs" />
     <Compile Include="Modularity\LoadModuleCompletedEventArgs.cs" />
     <Compile Include="Modularity\ModularityException.cs" />
     <Compile Include="Modularity\ModularityException.Desktop.cs" />
@@ -143,7 +141,6 @@
     <Compile Include="Modularity\ModuleNotFoundException.cs" />
     <Compile Include="Modularity\ModuleNotFoundException.Desktop.cs" />
     <Compile Include="Modularity\ModulesConfigurationSection.Desktop.cs" />
-    <Compile Include="Modularity\ModuleState.cs" />
     <Compile Include="Modularity\ModuleTypeLoaderNotFoundException.cs" />
     <Compile Include="Modularity\ModuleTypeLoaderNotFoundException.Desktop.cs" />
     <Compile Include="Modularity\ModuleTypeLoadingException.cs" />
