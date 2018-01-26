@@ -1,4 +1,4 @@
-﻿namespace Prism.Modularity
+namespace Prism.Modularity
 {
     /// <summary>
     /// Specifies on which stage the Module group will be initialized.
