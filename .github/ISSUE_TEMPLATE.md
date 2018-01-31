@@ -1,4 +1,4 @@
-﻿### Description
+REQUIRED﻿### Description
 
 ### Steps to Reproduce
 
@@ -23,5 +23,5 @@
 
 ### Reproduction Link
 
-<!-- Please upload or provide a link to a reproduction case -->
+<!-- REQUIRED - Please upload or provide a link to a reproduction case. If no reproduction sample is included, this issue may be closed or ignored until a sample has been provided -->
 
