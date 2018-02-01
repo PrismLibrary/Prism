@@ -38,12 +38,16 @@
     <Compile Include="ApplicationCommands.cs" />
     <Compile Include="ModuleAModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\MyCarouselPageViewModel.cs" />
     <Compile Include="ViewModels\MyTabbedPageViewModel.cs" />
     <Compile Include="ViewModels\ViewAViewModel.cs" />
     <Compile Include="ViewModels\ViewBViewModel.cs" />
     <Compile Include="ViewModels\ViewCViewModel.cs" />
     <Compile Include="Views\MasterNavigation.xaml.cs">
       <DependentUpon>MasterNavigation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MyCarouselPage.xaml.cs">
+      <DependentUpon>MyCarouselPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MyTabbedPage.xaml.cs">
       <DependentUpon>MyTabbedPage.xaml</DependentUpon>
@@ -118,6 +122,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\MyTabbedPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\MyCarouselPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -167,7 +167,7 @@ namespace Prism.Navigation
                 result.Exception = new Exception("GoBackToRootAsync can only be called when the calling Page is within a NavigationPage.", ex);
                 return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.Exception = ex;
                 return result;
@@ -275,14 +275,14 @@ namespace Prism.Navigation
                     await ProcessNavigationForAbsoulteUri(navigationSegments, parameters, useModalNavigation, animated);
                     result.Success = true;
                     return result;
-                }                    
+                }
                 else
                 {
                     await ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, useModalNavigation, animated);
                     result.Success = true;
                     return result;
                 }
-                    
+
             }
             catch (Exception ex)
             {
@@ -600,14 +600,12 @@ namespace Prism.Navigation
         {
             PageUtilities.OnNavigatingTo(toPage, parameters);
 
-            if (toPage is TabbedPage)
+            if (toPage is TabbedPage tabbedPage)
             {
-                var tabbedPage = (TabbedPage)toPage;
                 foreach (var child in tabbedPage.Children)
                 {
-                    if (child is NavigationPage)
+                    if (child is NavigationPage navigationPage)
                     {
-                        var navigationPage = (NavigationPage)child;
                         PageUtilities.OnNavigatingTo(navigationPage.CurrentPage, parameters);
                     }
                     else
@@ -616,18 +614,23 @@ namespace Prism.Navigation
                     }
                 }
             }
+            else if (toPage is CarouselPage carouselPage)
+            {
+                foreach (var child in carouselPage.Children)
+                {
+                    PageUtilities.OnNavigatingTo(child, parameters);
+                }
+            }
         }
 
         private static void OnNavigatedTo(Page toPage, INavigationParameters parameters)
         {
             PageUtilities.OnNavigatedTo(toPage, parameters);
 
-            if (toPage is TabbedPage)
+            if (toPage is TabbedPage tabbedPage)
             {
-                var tabbedPage = (TabbedPage)toPage;
-                if (tabbedPage.CurrentPage is NavigationPage)
+                if (tabbedPage.CurrentPage is NavigationPage navigationPage)
                 {
-                    var navigationPage = (NavigationPage)tabbedPage.CurrentPage;
                     PageUtilities.OnNavigatedTo(navigationPage.CurrentPage, parameters);
                 }
                 else
@@ -636,18 +639,20 @@ namespace Prism.Navigation
                         PageUtilities.OnNavigatedTo(tabbedPage.CurrentPage, parameters);
                 }
             }
+            else if (toPage is CarouselPage carouselPage)
+            {
+                PageUtilities.OnNavigatedTo(carouselPage.CurrentPage, parameters);
+            }
         }
 
         private static void OnNavigatedFrom(Page fromPage, INavigationParameters parameters)
         {
             PageUtilities.OnNavigatedFrom(fromPage, parameters);
 
-            if (fromPage is TabbedPage)
+            if (fromPage is TabbedPage tabbedPage)
             {
-                var tabbedPage = (TabbedPage)fromPage;
-                if (tabbedPage.CurrentPage is NavigationPage)
+                if (tabbedPage.CurrentPage is NavigationPage navigationPage)
                 {
-                    var navigationPage = (NavigationPage)tabbedPage.CurrentPage;
                     PageUtilities.OnNavigatedFrom(navigationPage.CurrentPage, parameters);
                 }
                 else
@@ -655,6 +660,10 @@ namespace Prism.Navigation
                     if (tabbedPage.BindingContext != tabbedPage.CurrentPage.BindingContext)
                         PageUtilities.OnNavigatedFrom(tabbedPage.CurrentPage, parameters);
                 }
+            }
+            else if (fromPage is CarouselPage carouselPage)
+            {
+                PageUtilities.OnNavigatedFrom(carouselPage.CurrentPage, parameters);
             }
         }
 

@@ -25,6 +25,7 @@ namespace ModuleA
             containerRegistry.RegisterForNavigation<ViewA>();
             containerRegistry.RegisterForNavigation<ViewB>();
             containerRegistry.RegisterForNavigation<ViewC>();
+            containerRegistry.RegisterForNavigation<MyCarouselPage>();
 
             containerRegistry.RegisterSingleton<IApplicationCommands, ApplicationCommands>();
         }
