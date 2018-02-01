@@ -12,7 +12,7 @@ namespace ModuleA
             
         }
 
-        public void OnInitialized()
+        public void OnInitialized(IContainerProvider containerProvider)
         {
             //var masterDetail = PrismApplication.Current.MainPage as MasterDetailPage;
             //if (masterDetail != null)
