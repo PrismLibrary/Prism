@@ -78,17 +78,17 @@ namespace ModuleA.ViewModels
             SaveCommand.IsActive = IsActive;
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public void OnNavigatedFrom(INavigationParameters parameters)
         {
             
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             Debug.WriteLine("Navigated to ViewB");
         }
 
-        public void OnNavigatingTo(NavigationParameters parameters)
+        public void OnNavigatingTo(INavigationParameters parameters)
         {
             
         }

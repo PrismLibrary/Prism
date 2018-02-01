@@ -869,12 +869,16 @@ namespace Prism.Navigation
             if (currentPage.Navigation.NavigationStack.Count > 2)
                 pageOffset = currentPage.Navigation.NavigationStack.Count - 1;
 
+            var onNavigatedFromTarget = currentPage;
+            if (currentPage is NavigationPage navPage && navPage.CurrentPage != null)
+                onNavigatedFromTarget = navPage.CurrentPage;
+
             bool insertBefore = false;
             while (navigationStack.Count > 0)
             {
                 var segment = navigationStack.Pop();
                 var nextPage = CreatePageFromSegment(segment);
-                await DoNavigateAction(currentPage, segment, nextPage, parameters, async () =>
+                await DoNavigateAction(onNavigatedFromTarget, segment, nextPage, parameters, async () =>
                 {
                     await DoPush(currentPage, nextPage, useModalNavigation, animated, insertBefore, pageOffset);
                 });
