@@ -1,4 +1,6 @@
-REQUIRED﻿### Description
+### Description
+
+<!-- REQUIRED -->
 
 ### Steps to Reproduce
 
@@ -21,7 +23,7 @@ REQUIRED﻿### Description
 
 <!-- If the issue is a visual issue, please include screenshots showing the problem if possible -->
 
-REQUIRED﻿### Reproduction Link
+### Reproduction Link
 
-<!-- Please upload or provide a link to a reproduction case. If no reproduction sample is included, this issue may be closed or ignored until a sample has been provided -->
+<!-- REQUIRED - Please upload or provide a link to a reproduction case. If no reproduction sample is included, this issue may be closed or ignored until a sample has been provided -->
 
