@@ -10,6 +10,8 @@ namespace Prism.Autofac
 {
     public abstract class PrismApplication : PrismApplicationBase
     {
+        IServiceLocator _serviceLocator;
+
         /// <summary>
         /// Creates the <see cref="IAutofacContainerExtension"/>
         /// </summary>
@@ -23,7 +25,9 @@ namespace Prism.Autofac
         {
             base.RegisterRequiredTypes(containerRegistry);
             containerRegistry.RegisterSingleton<IRegionNavigationContentLoader, AutofacRegionNavigationContentLoader>();
-            containerRegistry.RegisterSingleton<IServiceLocator, AutofacServiceLocatorAdapter>();
+
+            _serviceLocator = new AutofacServiceLocatorAdapter(containerRegistry.GetContainer());
+            containerRegistry.RegisterInstance<IServiceLocator>(_serviceLocator);
         }
 
         protected override void RegisterFrameworkExceptionTypes()
@@ -31,6 +35,11 @@ namespace Prism.Autofac
             base.RegisterFrameworkExceptionTypes();
             ExceptionExtensions.RegisterFrameworkExceptionType(typeof(AutofacCore.DependencyResolutionException));
             ExceptionExtensions.RegisterFrameworkExceptionType(typeof(AutofacCore.Registration.ComponentNotRegisteredException));
+        }
+
+        protected override void ConfigureServiceLocator()
+        {
+            ServiceLocator.SetLocatorProvider(() => _serviceLocator);
         }
     }
 }
