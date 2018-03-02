@@ -14,6 +14,7 @@ using Prism.DI.Forms.Tests.Mocks.Modules;
 using Prism.DI.Forms.Tests.Mocks.Services;
 using Prism.DI.Forms.Tests.Mocks.ViewModels;
 using Prism.DI.Forms.Tests.Mocks.Views;
+using Prism.DI.Forms.Tests.Navigation;
 using Prism.Forms.Tests.Mocks.Logging;
 using Prism.Ioc;
 using Prism.Logging;
@@ -212,6 +213,27 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             {
                 _testOutputHelper.WriteLine("Container Supports Modules");
             }
+        }
+
+        [Fact]
+        public void CustomNavigation_Resolved_In_PrismApplication()
+        {
+            var app = new PrismApplicationCustomNavMock(new XunitPlatformInitializer(_testOutputHelper));
+            var navService = app.GetNavigationService();
+            Assert.NotNull(navService);
+            Assert.IsType<CustomNavigationServiceMock>(navService);
+        }
+
+        [Fact]
+        public void CustomNavigation_Resolved_In_ViewModel()
+        {
+            var app = new PrismApplicationCustomNavMock(new XunitPlatformInitializer(_testOutputHelper));
+            app.MainPage = new AutowireView();
+            var vm = app.MainPage.BindingContext as AutowireViewModel;
+
+            Assert.NotNull(vm);
+            Assert.NotNull(vm.NavigationService);
+            Assert.IsType<CustomNavigationServiceMock>(vm.NavigationService);
         }
 
         private static INavigationService ResolveAndSetRootPage(PrismApplicationMock app)
