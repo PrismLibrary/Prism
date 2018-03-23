@@ -1,7 +1,9 @@
 using Prism.Events;
+using Prism.Windows.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -42,8 +44,20 @@ namespace Prism.Windows.Navigation
         /// </returns>
         public object Content
         {
-            get { return _frame.Content; }
-            set { _frame.Content = value; }
+            get
+            {
+                if (_frame.Dispatcher.HasThreadAccess)
+                {
+                    return _frame.Content;
+                }
+
+                return GetContentFromUsingDispatcher().GetAwaiter().GetResult();
+            }
+
+            set
+            {
+                _frame.Content = value;
+            }
         }
 
         /// <summary>
@@ -238,7 +252,12 @@ namespace Prism.Windows.Navigation
         /// <param name="dependencyProperty">The <see cref="DependencyProperty"/> identifier of the property for which to retrieve the value.</param>
         public object GetValue(DependencyProperty dependencyProperty)
         {
-            return _frame.GetValue(dependencyProperty);
+            if (_frame.Dispatcher.HasThreadAccess)
+            {
+                return _frame.GetValue(dependencyProperty);
+            }
+
+            return GetValueFromDependencyPropertyUsingDispatcher(dependencyProperty).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -279,6 +298,16 @@ namespace Prism.Windows.Navigation
                 foreach (var handler in _navigatingFromEventHandlers)
                     handler(this, args);
             }
+        }
+
+        private async Task<object> GetContentFromUsingDispatcher()
+        {
+            return await _frame.Dispatcher.RunAsync(() => _frame.Content);
+        }
+
+        private async Task<object> GetValueFromDependencyPropertyUsingDispatcher(DependencyProperty dp)
+        {
+            return await _frame.Dispatcher.RunAsync(() => _frame.GetValue(dp));
         }
     }
 }
