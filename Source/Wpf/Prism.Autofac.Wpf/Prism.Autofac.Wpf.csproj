@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PrismVersion>7.0.0</PrismVersion>
+    <PrismVersion>7.1.0</PrismVersion>
     <PrismVersion Condition=" '$(PRISM_AUTOFAC_WPF_VERSION)' != '' ">$(PRISM_AUTOFAC_WPF_VERSION)</PrismVersion>
     <PrismFileVersion>$(PrismVersion).0</PrismFileVersion>
     <PrismFileVersion Condition=" '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(PrismVersion).$(APPVEYOR_BUILD_NUMBER)</PrismFileVersion>

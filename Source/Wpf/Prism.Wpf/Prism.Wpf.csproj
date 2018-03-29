@@ -16,7 +16,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PrismVersion>7.0.0</PrismVersion>
+    <PrismVersion>7.1.0</PrismVersion>
     <PrismVersion Condition=" '$(PRISM_WPF_VERSION)' != '' ">$(PRISM_WPF_VERSION)</PrismVersion>
     <PrismFileVersion>$(PrismVersion).0</PrismFileVersion>
     <PrismFileVersion Condition=" '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(PrismVersion).$(APPVEYOR_BUILD_NUMBER)</PrismFileVersion>
