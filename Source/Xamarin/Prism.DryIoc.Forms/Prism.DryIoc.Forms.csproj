@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DryIoc.dll" Version="2.12.6" />
+    <PackageReference Include="DryIoc.dll" Version="2.12.8" />
   </ItemGroup>
 
   <ItemGroup>

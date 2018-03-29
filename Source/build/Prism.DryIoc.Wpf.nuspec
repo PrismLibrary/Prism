@@ -18,7 +18,7 @@
     <dependencies>
       
       <group targetFramework=".NETFramework4.5">
-        <dependency id="DryIoc.dll" version="2.12.6" />
+        <dependency id="DryIoc.dll" version="2.12.8" />
         <dependency id="Prism.Wpf" version="$wpfVersion$" />
       </group>
       
