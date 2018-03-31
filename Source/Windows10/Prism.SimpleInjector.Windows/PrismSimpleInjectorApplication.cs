@@ -84,7 +84,7 @@ namespace Prism.SimpleInjector.Windows
         protected virtual void ConfigureContainer()
         {
             Logger.Log("Registering Prism services with container", Category.Debug, Priority.Low);
-            Container.RegisterSingleton(Logger);
+            Container.RegisterInstance(Logger);
         }
 
         /// <summary>
@@ -101,10 +101,10 @@ namespace Prism.SimpleInjector.Windows
         /// <param name="args">The <see cref="IActivatedEventArgs" /> instance containing the event data.</param>
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
-            Container.RegisterSingleton(SessionStateService);
-            Container.RegisterSingleton(DeviceGestureService);
-            Container.RegisterSingleton(NavigationService);
-            Container.RegisterSingleton(EventAggregator);
+            Container.RegisterInstance(SessionStateService);
+            Container.RegisterInstance(DeviceGestureService);
+            Container.RegisterInstance(NavigationService);
+            Container.RegisterInstance(EventAggregator);
 
             return Task.CompletedTask;
         }
