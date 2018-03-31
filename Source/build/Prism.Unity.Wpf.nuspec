@@ -18,7 +18,7 @@
     <dependencies>
       
       <group targetFramework=".NETFramework4.5">
-        <dependency id="Unity" version="5.8.1" />
+        <dependency id="Unity.Container" version="5.8.3" />
         <dependency id="Prism.Wpf" version="$wpfVersion$" />
       </group>
 
