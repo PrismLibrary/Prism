@@ -14,7 +14,7 @@
     <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
     <Version Condition=" '$(PRISM_SIMPLEINJECTOR_WINDOWS_VERSION)' != '' ">$(PRISM_SIMPLEINJECTOR_WINDOWS_VERSION)</Version>
     <!-- Update this version when incrementing Library Versions i.e. 7.1.0, 7.2.0 -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_SIMPLEINJECTOR_WINDOWS_VERSION)' == '' ">7.0.0</VersionPrefix>
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_SIMPLEINJECTOR_WINDOWS_VERSION)' == '' ">7.1.0</VersionPrefix>
     <!-- This will create CI builds as 7.0.0.1234-ci -->
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_SIMPLEINJECTOR_WINDOWS_VERSION)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</VersionPrefix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_SIMPLEINJECTOR_WINDOWS_VERSION)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">ci</VersionSuffix>
@@ -26,9 +26,9 @@
 
   <ItemGroup>
     <PackageReference Include="CommonServiceLocator" Version="1.3.0" />
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.2.0" PrivateAssets="All" />
+    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.3.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.6" />
-    <PackageReference Include="SimpleInjector" Version="4.0.12" />
+    <PackageReference Include="SimpleInjector" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>

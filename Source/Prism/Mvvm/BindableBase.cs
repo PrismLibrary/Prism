@@ -70,10 +70,12 @@ namespace Prism.Mvvm
 		/// that support <see cref="CallerMemberNameAttribute"/>.</param>
 		protected void RaisePropertyChanged([CallerMemberName]string propertyName = null)
 		{
-			//TODO: when we remove the old OnPropertyChanged method we need to uncomment the below line
-			//OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
-			OnPropertyChanged(propertyName);
-		}
+            //TODO: when we remove the old OnPropertyChanged method we need to uncomment the below line
+            //OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+#pragma warning disable CS0618 // Type or member is obsolete
+            OnPropertyChanged(propertyName);
+#pragma warning restore CS0618 // Type or member is obsolete
+        }
 
 		/// <summary>
 		/// Notifies listeners that a property value has changed.

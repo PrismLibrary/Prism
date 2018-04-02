@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Unity" Version="5.5.5" />
+    <PackageReference Include="Unity.Container" Version="5.8.3" />
   </ItemGroup>
 
   <ItemGroup>
