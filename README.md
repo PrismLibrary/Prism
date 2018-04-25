@@ -103,7 +103,7 @@ Each supported IoC container has its own package assisting in the setup and usag
 | [Prism.Ninject.Forms][NinjectFormsNuGet] | [![NinjectFormsNuGetShield]][NinjectFormsNuGet] | [![NinjectFormsMyGetShield]][NinjectFormsMyGet] |
 | [Prism.Unity.Forms][UnityFormsNuGet] | [![UnityFormsNuGetShield]][UnityFormsNuGet] | [![UnityFormsMyGetShield]][UnityFormsMyGet] |
 
-![NuGet package tree](docs/images/NuGetPackageTree.png)
+![NuGet package tree](images/NuGetPackageTree.png)
 
 A detailed overview of each assembly per package is available [here](docs/Download-and-Setup-Prism.md#overview-of-assemblies).
 
@@ -115,15 +115,15 @@ Prism now integrates with Visual Studio and Xamarin Studio to enable a highly pr
 
 The Prism Template Pack is available on the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/e7b6bde2-ba59-43dd-9d14-58409940ffa0).  To install, just go to Visual Studio -> Tools -> Extensions and Updates... then search for **Prism** in the online gallery:
 
-![Visual Studio Gallery](docs/images/prism-visual-studio-gallery.jpg)
+![Visual Studio Gallery](images/prism-visual-studio-gallery.jpg)
 
 ### Visual Studio for Mac Addin
 
 Due to the deprecation of the Mono Addin site, Prism now offers a direct Addin feed for the Prism Template Pack. Simply go to `Visual Studio` -> `Extensions...` and add the Prism Addins feed, then you can simply search for **Prism** in the Gallery and install the Template Pack.
 
-![Visual Studio for Mac Addin Manager](docs/images/prism-vs4mac-addin-manager.png)
+![Visual Studio for Mac Addin Manager](images/prism-vs4mac-addin-manager.png)
 
-![Visual Studio for Mac Addin Manager](docs/images/prism-vs4mac-addin-templatepack.png)
+![Visual Studio for Mac Addin Manager](images/prism-vs4mac-addin-templatepack.png)
 
 ## Samples
 
