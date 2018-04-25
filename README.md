@@ -17,16 +17,32 @@ At the current time, we have no plans to create new versions of the library for 
 
 ## Support
 
-- Join our Slack Channel [![Slack Status](https://prismslack.herokuapp.com/badge.svg)](https://prismslack.herokuapp.com/)
 - Documentation is maintained in [the Prism-Documentation repo](https://github.com/PrismLibrary/Prism-Documentation) under /docs and can be found in a readable format on [the website](http://prismlibrary.github.io/docs/).
 - For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism).
 - You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues).
 
 ## Help Support Prism
 
-As most of you know, it takes a lot of time and effort for our small team to manage and maintain Prism in our spare time.  Even though Prism is open source and hosted on GitHub, there are a number of costs associated with maintaining a project such as Prism.  If you would like to help support us, the easiest thing you can do is watch our Pluralsight courses on Prism.  By watching our courses, not only do you help support the project financially, but you might also learn something along the way.  We believe this is a win-win for everyone.
+As most of you know, it takes a lot of time and effort for our small team to manage and maintain Prism in our spare time.  Even though Prism is open source and hosted on GitHub, there are a number of costs associated with maintaining a project such as Prism.  If you would like to help support us, the easiest thing you can do is become a Patron and watch our Pluralsight courses on Prism.
 
-- [Building Windows Store Business Apps with Prism](https://app.pluralsight.com/library/courses/building-windows-store-business-applications-prism/table-of-contents)
+By becoming a [Patron and subscribing](https://www.patreon.com/prismlibrary) to the Prism Library, you will receive a number of benefits depending on your level of support.
+
+**Basic** - $1+ per month
+- Receive all Prism Library news and announcements, such as new release information and blogs posts. 
+- Gives you access to our community Slack channel where you can ask questions and get help from the community and the Prism Library project maintainers (when available).
+
+**Premium** - $5+ per month
+- Gives you access to members only video tutorials.
+- A Prism sticker
+
+**Platinum** - $10+ per month
+- Early access to Visual Studio productivity tools.
+- Early access to video tutorials
+- Receive priority response on all GitHub issues.
+- Gives you access to a private Slack channel where you can ask questions and get help directly from Prism Library project maintainers.
+
+By watching our courses, not only do you help support the project financially, but you might also learn something along the way.  We believe this is a win-win for everyone.
+
 - [Introduction to Prism](https://app.pluralsight.com/library/courses/prism-introduction/table-of-contents)
 - [What's New in Prism 5.0](https://app.pluralsight.com/library/courses/prism-50-whats-new/table-of-contents)
 - [Prism Problems & Solutions: Showing Multiple Shells](https://app.pluralsight.com/library/courses/prism-showing-multiple-shells/table-of-contents)
