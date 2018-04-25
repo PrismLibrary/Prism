@@ -121,8 +121,6 @@ The Prism Template Pack is available on the [Visual Studio Gallery](https://visu
 
 Due to the deprecation of the Mono Addin site, Prism now offers a direct Addin feed for the Prism Template Pack. Simply go to `Visual Studio` -> `Extensions...` and add the Prism Addins feed, then you can simply search for **Prism** in the Gallery and install the Template Pack.
 
-![Visual Studio for Mac Addin Manager](images/prism-vs4mac-addin-manager.png)
-
 ![Visual Studio for Mac Addin Manager](images/prism-vs4mac-addin-templatepack.png)
 
 ## Samples
