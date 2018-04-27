@@ -28,13 +28,19 @@ namespace ModuleA.ViewModels
             NavigateCommand = new DelegateCommand(Navigate);
         }
 
-        void Navigate()
+        async void Navigate()
         {
             try
             {
-                var uri = _navigationService.GetNavigationUriPath();
+                //var uri = _navigationService.GetNavigationUriPath();
 
-                Debug.WriteLine("After _navigationService.NavigateAsync(ViewB) ...");
+                //Debug.WriteLine("After _navigationService.NavigateAsync(ViewB) ...");
+
+                var result = await _navigationService.NavigateAsync("../../");
+                if (!result.Success)
+                {
+
+                }
             }
             catch(Exception ex)
             {

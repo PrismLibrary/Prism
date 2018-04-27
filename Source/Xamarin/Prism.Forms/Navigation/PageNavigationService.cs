@@ -346,11 +346,47 @@ namespace Prism.Navigation
             }
         }
 
-        protected virtual async Task ProcessNavigationForRemovePageSegments(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        protected virtual Task ProcessNavigationForRemovePageSegments(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             if (!PageUtilities.HasDirectNavigationPageParent(currentPage))
                 throw new InvalidOperationException("Removing views using the relative '../' syntax while navigating is only supported within a NavigationPage");
 
+            if (CanRemoveAndPush(segments))
+                return RemoveAndPush(currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+            else
+                return RemoveAndGoBack(currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+        }
+
+        bool CanRemoveAndPush(Queue<string> segments)
+        {
+            if (segments.All(x => x == RemovePageSegment))
+                return false;
+            else
+                return true;
+        }
+
+        Task RemoveAndGoBack(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            List<Page> pagesToRemove = new List<Page>();
+
+            var currentPageIndex = currentPage.Navigation.NavigationStack.Count;
+            if (currentPage.Navigation.NavigationStack.Count > 0)
+                currentPageIndex = currentPage.Navigation.NavigationStack.Count - 1;
+
+            while (segments.Count != 0)
+            {
+                currentPageIndex -= 1;
+                pagesToRemove.Add(currentPage.Navigation.NavigationStack[currentPageIndex]);
+                nextSegment = segments.Dequeue();
+            }
+
+            RemovePagesFromNavigationPage(currentPage, pagesToRemove);
+
+            return GoBackAsync();
+        }
+
+        async Task RemoveAndPush(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
             List<Page> pagesToRemove = new List<Page>();
             pagesToRemove.Add(currentPage);
 
@@ -367,6 +403,11 @@ namespace Prism.Navigation
 
             await ProcessNavigation(currentPage, segments, parameters, useModalNavigation, animated);
 
+            RemovePagesFromNavigationPage(currentPage, pagesToRemove);
+        }
+
+        private static void RemovePagesFromNavigationPage(Page currentPage, List<Page> pagesToRemove)
+        {
             var navigationPage = (NavigationPage)currentPage.Parent;
             foreach (var page in pagesToRemove)
             {
