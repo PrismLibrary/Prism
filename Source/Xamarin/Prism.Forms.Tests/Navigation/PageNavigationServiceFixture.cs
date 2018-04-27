@@ -1780,6 +1780,76 @@ namespace Prism.Forms.Tests.Navigation
 
         #endregion
 
+        #region Remove and GoBack - "../"
+
+        [Fact]
+        public async Task RemoveAndGoBack_OneLevel()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.NavigationPage();
+
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 1" });
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 2" });
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 3" });
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 4" });
+
+            Assert.Equal(4, rootPage.Navigation.NavigationStack.Count);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.NavigationStack.Last());
+
+            ((IPageAware)navigationService).Page = rootPage.Navigation.NavigationStack.Last();
+
+            await navigationService.NavigateAsync("../");
+
+            Assert.Equal(3, rootPage.Navigation.NavigationStack.Count);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.NavigationStack.Last());
+        }
+
+        [Fact]
+        public async Task RemoveAndGoBack_TwoLevels()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.NavigationPage();
+
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 1" });
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 2" });
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 3" });
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 4" });
+
+            Assert.Equal(4, rootPage.Navigation.NavigationStack.Count);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.NavigationStack.Last());
+
+            ((IPageAware)navigationService).Page = rootPage.Navigation.NavigationStack.Last();
+
+            await navigationService.NavigateAsync("../../");
+
+            Assert.Equal(2, rootPage.Navigation.NavigationStack.Count);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.NavigationStack.Last());
+        }
+
+        [Fact]
+        public async Task RemoveAndGoBack_ThreeLevels()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.NavigationPage();
+
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 1" });
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 2" });
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 3" });
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 4" });
+
+            Assert.Equal(4, rootPage.Navigation.NavigationStack.Count);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.NavigationStack.Last());
+
+            ((IPageAware)navigationService).Page = rootPage.Navigation.NavigationStack.Last();
+
+            await navigationService.NavigateAsync("../../../");
+
+            Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.NavigationStack.Last());
+        }
+
+        #endregion
+
 
         public void Dispose()
         {
