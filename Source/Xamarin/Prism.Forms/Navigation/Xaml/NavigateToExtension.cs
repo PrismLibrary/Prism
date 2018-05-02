@@ -1,10 +1,10 @@
 ﻿using Prism.Navigation;
 using Xamarin.Forms;
 
-namespace Prism.Forms.Navigation.Xaml.Prism
+namespace Prism.Forms.Navigation.Xaml
 {
     [ContentProperty(nameof(Name))]
-    public class NavigateTo : Navigation
+    public class NavigateToExtension : Navigation
     {
         public bool Animated { get; set; } = true;
         public string Name { get; set; }

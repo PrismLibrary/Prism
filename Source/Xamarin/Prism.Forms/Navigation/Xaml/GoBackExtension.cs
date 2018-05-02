@@ -1,10 +1,10 @@
 ﻿using Prism.Navigation;
 using Xamarin.Forms;
 
-namespace Prism.Forms.Navigation.Xaml.Prism
+namespace Prism.Forms.Navigation.Xaml
 {
     [ContentProperty(nameof(GoBackType))]
-    public class GoBack : Navigation
+    public class GoBackExtension : Navigation
     {
         public bool Animated { get; set; } = true;
         public GoBackType GoBackType { get; set; } = GoBackType.Default;

@@ -1,17 +1,17 @@
 ﻿using Xamarin.Forms;
 
-namespace Prism.Forms.Navigation.Xaml.Prism
+namespace Prism.Forms.Navigation.Xaml
 {
-    public class XamlNavigationParameter : BindableObject
+    public class NavigationParameter : BindableObject
     {
         public string Key { get; set; }
 
         public static readonly BindableProperty ValueProperty = BindableProperty.Create(nameof(Value),
             typeof(object),
-            typeof(XamlNavigationParameter));
+            typeof(NavigationParameter));
 
         /// <summary>
-        /// Value summary. This is a bindable property.
+        /// Navigation Parameter Value. This is a bindable property.
         /// </summary>
         public object Value
         {

@@ -16,5 +16,10 @@
         /// Used to control the navigation stack. If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync.
         /// </summary>
         public const string UseModalNavigation = "useModalNavigation";
+
+        /// <summary>
+        /// Used to define a navigation parameter that is bound directly to a CommandParameter via <code>{Binding .}</code>.
+        /// </summary>
+        public const string XamlParam = "xamlParam";
     }
 }
