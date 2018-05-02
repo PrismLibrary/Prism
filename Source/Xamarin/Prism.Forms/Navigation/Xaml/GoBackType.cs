@@ -1,4 +1,4 @@
-﻿namespace Prism.Forms.Navigation.Xaml
+﻿namespace Prism.Navigation.Xaml
 {
     public enum GoBackType
     {

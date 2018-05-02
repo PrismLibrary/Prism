@@ -5,11 +5,10 @@ using System.Reflection;
 using System.Windows.Input;
 using Prism.Common;
 using Prism.Ioc;
-using Prism.Navigation;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Prism.Forms.Navigation.Xaml
+namespace Prism.Navigation.Xaml
 {
     public abstract class Navigation : IMarkupExtension, ICommand
     {

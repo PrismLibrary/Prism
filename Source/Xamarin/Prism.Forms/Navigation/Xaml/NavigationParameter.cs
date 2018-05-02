@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace Prism.Forms.Navigation.Xaml
+namespace Prism.Navigation.Xaml
 {
     public class NavigationParameter : BindableObject
     {

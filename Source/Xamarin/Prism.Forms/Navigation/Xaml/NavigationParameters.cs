@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
-namespace Prism.Forms.Navigation.Xaml
+namespace Prism.Navigation.Xaml
 {
     public class NavigationParameters : BindableObject, IList<NavigationParameter>
     {

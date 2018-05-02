@@ -1,7 +1,6 @@
-﻿using Prism.Navigation;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
-namespace Prism.Forms.Navigation.Xaml
+namespace Prism.Navigation.Xaml
 {
     [ContentProperty(nameof(GoBackType))]
     public class GoBackExtension : Navigation

@@ -1,8 +1,8 @@
 ﻿using Xamarin.Forms;
-using XamlNavParams =  Prism.Forms.Navigation.Xaml.NavigationParameters;
+using XamlNavParams =  Prism.Navigation.Xaml.NavigationParameters;
 using NavParams =  Prism.Navigation.NavigationParameters;
 
-namespace Prism.Forms.Navigation.Xaml
+namespace Prism.Navigation.Xaml
 {
     internal static class NavigationParameterExtensions
     {
@@ -19,7 +19,7 @@ namespace Prism.Forms.Navigation.Xaml
                 case XamlNavParams xamlParameters:
                     return xamlParameters.ToNavigationParameters(parent);
                 default:
-                    return new NavParams { { Prism.Navigation.KnownNavigationParameters.XamlParam, parameter } };
+                    return new NavParams { { KnownNavigationParameters.XamlParam, parameter } };
             }
         }
     }
