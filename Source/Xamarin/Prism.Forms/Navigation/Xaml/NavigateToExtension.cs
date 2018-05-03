@@ -1,26 +1,30 @@
-﻿using Xamarin.Forms;
+﻿using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Prism.Navigation.Xaml
 {
     [ContentProperty(nameof(Name))]
-    public class NavigateToExtension : Navigation
+    public class NavigateToExtension : NavigationExtensionBase
     {
-        public bool Animated { get; set; } = true;
         public string Name { get; set; }
-        public bool? UseModalNavigation { get; set; } = null;
 
         public override async void Execute(object parameter)
         {
             var parameters = parameter.ToNavigationParameters(Bindable);
-             
+
             IsNavigating = true;
             RaiseCanExecuteChanged();
-            
-            var navigationService = GetNavigationService(Page);
-            await navigationService.NavigateAsync(Name, parameters, UseModalNavigation, Animated);
+
+            var navigationService = GetNavigationService(SourcePage);
+            await HandleNavigation(parameters, navigationService);
 
             IsNavigating = false;
             RaiseCanExecuteChanged();
+        }
+
+        protected override async Task HandleNavigation(INavigationParameters parameters, INavigationService navigationService)
+        {
+            await navigationService.NavigateAsync(Name, parameters);
         }
     }
 }

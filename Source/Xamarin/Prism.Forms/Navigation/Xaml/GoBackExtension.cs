@@ -1,13 +1,12 @@
-﻿using Xamarin.Forms;
+﻿using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Prism.Navigation.Xaml
 {
     [ContentProperty(nameof(GoBackType))]
-    public class GoBackExtension : Navigation
+    public class GoBackExtension : NavigationExtensionBase
     {
-        public bool Animated { get; set; } = true;
         public GoBackType GoBackType { get; set; } = GoBackType.Default;
-        public bool? UseModalNavigation { get; set; } = null;
 
         public override async void Execute(object parameter)
         {
@@ -16,15 +15,19 @@ namespace Prism.Navigation.Xaml
             IsNavigating = true;
             RaiseCanExecuteChanged();
 
-            var navigationService = GetNavigationService(Page);
-
-            if (GoBackType == GoBackType.ToRoot)
-                await navigationService.GoBackToRootAsync(parameters);
-            else
-                await navigationService.GoBackAsync(parameters, UseModalNavigation, Animated);
+            var navigationService = GetNavigationService(SourcePage);
+            await HandleNavigation(parameters, navigationService);
 
             IsNavigating = false;
             RaiseCanExecuteChanged();
+        }
+
+        protected override async Task HandleNavigation(INavigationParameters parameters, INavigationService navigationService)
+        {
+            if (GoBackType == GoBackType.ToRoot)
+                await navigationService.GoBackToRootAsync(parameters);
+            else
+                await navigationService.GoBackAsync(parameters);
         }
     }
 }
