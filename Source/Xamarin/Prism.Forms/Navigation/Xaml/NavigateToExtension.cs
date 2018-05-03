@@ -8,20 +8,6 @@ namespace Prism.Navigation.Xaml
     {
         public string Name { get; set; }
 
-        public override async void Execute(object parameter)
-        {
-            var parameters = parameter.ToNavigationParameters(Bindable);
-
-            IsNavigating = true;
-            RaiseCanExecuteChanged();
-
-            var navigationService = GetNavigationService(SourcePage);
-            await HandleNavigation(parameters, navigationService);
-
-            IsNavigating = false;
-            RaiseCanExecuteChanged();
-        }
-
         protected override async Task HandleNavigation(INavigationParameters parameters, INavigationService navigationService)
         {
             await navigationService.NavigateAsync(Name, parameters);

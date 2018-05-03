@@ -39,7 +39,20 @@ namespace Prism.Navigation.Xaml
         }
 
         public event EventHandler CanExecuteChanged;
-        public abstract void Execute(object parameter);
+
+        public async void Execute(object parameter)
+        {
+            var parameters = parameter.ToNavigationParameters(Bindable);
+
+            IsNavigating = true;
+            RaiseCanExecuteChanged();
+
+            var navigationService = GetNavigationService(SourcePage);
+            await HandleNavigation(parameters, navigationService);
+
+            IsNavigating = false;
+            RaiseCanExecuteChanged();
+        }
 
         public object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -49,8 +62,7 @@ namespace Prism.Navigation.Xaml
             Initialize(valueTargetProvider, rootObjectProvider);
             return this;
         }
-
-
+        
         protected static INavigationService GetNavigationService(Page page)
         {
             var navigationService = (INavigationService) page.GetValue(NavigationServiceProperty);
