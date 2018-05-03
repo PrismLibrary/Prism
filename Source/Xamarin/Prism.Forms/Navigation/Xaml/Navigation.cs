@@ -19,8 +19,7 @@ namespace Prism.Navigation.Xaml
                 typeof(NavigationExtensionBase),
                 true,
                 propertyChanged: OnCanNavigatePropertyChanged);
-
-
+        
         internal static readonly BindableProperty RaiseCanExecuteChangedInternalProperty =
             BindableProperty.CreateAttached("RaiseCanExecuteChangedInternal",
                 typeof(Action),
