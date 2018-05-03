@@ -4,8 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Prism.Common;
-using Prism.Ioc;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,13 +11,6 @@ namespace Prism.Navigation.Xaml
 {
     public abstract class NavigationExtensionBase : IMarkupExtension, ICommand
     {
-        protected internal static readonly BindableProperty NavigationServiceProperty =
-            BindableProperty.CreateAttached("NavigationService",
-                typeof(INavigationService),
-                typeof(NavigationExtensionBase),
-                default(INavigationService));
-
-
         protected BindableObject Bindable;
         protected IEnumerable<BindableObject> BindableTree;
         protected bool IsNavigating;
@@ -47,7 +38,7 @@ namespace Prism.Navigation.Xaml
             IsNavigating = true;
             RaiseCanExecuteChanged();
 
-            var navigationService = GetNavigationService(SourcePage);
+            var navigationService = Navigation.GetNavigationService(SourcePage);
             await HandleNavigation(parameters, navigationService);
 
             IsNavigating = false;
@@ -62,26 +53,10 @@ namespace Prism.Navigation.Xaml
             Initialize(valueTargetProvider, rootObjectProvider);
             return this;
         }
-        
-        protected static INavigationService GetNavigationService(Page page)
-        {
-            var navigationService = (INavigationService) page.GetValue(NavigationServiceProperty);
-            if (navigationService == null) page.SetValue(NavigationServiceProperty, navigationService = CreateNavigationService(page));
-
-            return navigationService;
-        }
 
         protected abstract Task HandleNavigation(INavigationParameters parameters, INavigationService navigationService);
 
         protected void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-
-        private static INavigationService CreateNavigationService(Page view)
-        {
-            var context = (PrismApplicationBase) Application.Current;
-            var navigationService = context.Container.Resolve<INavigationService>("PageNavigationService");
-            if (navigationService is IPageAware pageAware) pageAware.Page = view;
-            return navigationService;
-        }
 
         private void Initialize(IProvideValueTarget valueTargetProvider, IRootObjectProvider rootObjectProvider)
         {
