@@ -11,6 +11,7 @@ using Prism.Services;
 using System;
 using System.Linq;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using DependencyService = Prism.Services.DependencyService;
 
 namespace Prism
@@ -79,6 +80,7 @@ namespace Prism
             PlatformInitializer?.RegisterTypes(_containerExtension);
             RegisterTypes(_containerExtension);
             _containerExtension.FinalizeExtension();
+            SetDependencyResolver(_containerExtension);
 
             _moduleCatalog = Container.Resolve<IModuleCatalog>();
             ConfigureModuleCatalog(_moduleCatalog);
@@ -87,6 +89,13 @@ namespace Prism
 
             InitializeModules();
         }
+
+        /// <summary>
+        /// Sets the <see cref="DependencyResolver" /> to use the App Container for resolving types
+        /// </summary>
+        protected virtual void SetDependencyResolver(IContainerProvider containerProvider) =>
+            DependencyResolver.ResolveUsing(type => containerProvider.Resolve(type));
+
 
         /// <summary>
         /// Creates the container used by Prism.
