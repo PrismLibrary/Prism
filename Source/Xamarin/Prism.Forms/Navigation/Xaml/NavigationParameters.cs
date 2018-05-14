@@ -54,7 +54,7 @@ namespace Prism.Navigation.Xaml
 
         public void RemoveAt(int index) => _list.RemoveAt(index);
 
-        public Prism.Navigation.NavigationParameters ToNavigationParameters(BindableObject parent)
+        public INavigationParameters ToNavigationParameters(BindableObject parent)
         {
             Parent = Parent ?? parent;
             var parameters = new Prism.Navigation.NavigationParameters();
