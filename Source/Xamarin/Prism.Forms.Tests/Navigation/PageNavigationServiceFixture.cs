@@ -1848,6 +1848,35 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<ContentPageMock>(rootPage.Navigation.NavigationStack.Last());
         }
 
+        [Fact]
+        public async void RemoveAndGoBack_WithNavigationParameters()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new Xamarin.Forms.NavigationPage();
+
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 1" });
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 2" });
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 3" });
+            await rootPage.Navigation.PushAsync(new ContentPageMock() { Title = "Page 4" });
+
+            Assert.Equal(4, rootPage.Navigation.NavigationStack.Count);
+            Assert.IsType<ContentPageMock>(rootPage.Navigation.NavigationStack.Last());
+
+            ((IPageAware)navigationService).Page = rootPage.Navigation.NavigationStack.Last();
+
+            var navParameters = new NavigationParameters();
+            navParameters.Add("id", 3);
+
+            await navigationService.NavigateAsync("../", navParameters);
+
+            var viewModel = rootPage.Navigation.NavigationStack.Last().BindingContext as ContentPageMockViewModel;
+            Assert.NotNull(viewModel);
+
+            Assert.NotNull(viewModel.NavigatedToParameters);
+            Assert.True(viewModel.NavigatedToParameters.Count > 0);
+            Assert.Equal(3, viewModel.NavigatedToParameters["id"]);
+        }
+
         #endregion
 
 
