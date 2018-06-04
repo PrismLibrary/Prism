@@ -382,7 +382,7 @@ namespace Prism.Navigation
 
             RemovePagesFromNavigationPage(currentPage, pagesToRemove);
 
-            return GoBackAsync();
+            return GoBackAsync(parameters);
         }
 
         async Task RemoveAndPush(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
