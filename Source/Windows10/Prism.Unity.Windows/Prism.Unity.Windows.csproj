@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <PackageReference Include="CommonServiceLocator" Version="1.3.0" />
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.3.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.6" />
     <PackageReference Include="Unity.Container" Version="5.8.3" />
   </ItemGroup>
@@ -48,5 +47,4 @@
     </SDKReference>
   </ItemGroup>
 
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>
