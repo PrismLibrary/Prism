@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0;netstandard2.0;MonoAndroid71</TargetFrameworks>
     <Title>DryIoc for Prism for Xamarin.Forms</Title>
     <!-- Summary is not actually supported at this time. Including the summary for future support. -->
     <!--<Summary>DryIoc extensions for Prism for Xamarin.Forms.</Summary>-->
