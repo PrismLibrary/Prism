@@ -18,7 +18,7 @@
     <dependencies>
 
       <group targetFramework=".NETFramework4.5">
-        <dependency id="Autofac" version="4.6.2" />
+        <dependency id="Autofac" version="4.8.1" />
         <dependency id="Prism.Wpf" version="$wpfVersion$" />
       </group>
 
