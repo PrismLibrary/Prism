@@ -27,7 +27,9 @@ namespace Prism.DryIoc
         /// Create <see cref="Rules" /> to alter behavior of <see cref="IContainer" />
         /// </summary>
         /// <returns>An instance of <see cref="Rules" /></returns>
-        protected virtual Rules CreateContainerRules() => Rules.Default.WithAutoConcreteTypeResolution();
+        protected virtual Rules CreateContainerRules() => Rules.Default.WithAutoConcreteTypeResolution()
+                                                                       .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
+                                                                       .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
 
         /// <summary>
         /// Configures the Container.
