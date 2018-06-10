@@ -20,29 +20,22 @@ namespace Prism.DryIoc
 
         public void RegisterInstance(Type type, object instance)
         {
-            Instance.UseInstance(type, instance, IfAlreadyRegistered.Replace);
+            Instance.UseInstance(type, instance);
         }
 
         public void RegisterSingleton(Type from, Type to)
         {
-            Instance.Register(from, to, Reuse.Singleton,
-                              made: Made.Of(FactoryMethod.ConstructorWithResolvableArguments),
-                              ifAlreadyRegistered: IfAlreadyRegistered.Replace);
+            Instance.Register(from, to, Reuse.Singleton);
         }
 
         public void Register(Type from, Type to)
         {
-            Instance.Register(from, to,
-                              made: Made.Of(FactoryMethod.ConstructorWithResolvableArguments),
-                              ifAlreadyRegistered: IfAlreadyRegistered.Replace);
+            Instance.Register(from, to);
         }
 
         public void Register(Type from, Type to, string name)
         {
-            Instance.Register(from, to,
-                              made: Made.Of(FactoryMethod.ConstructorWithResolvableArguments),
-                              ifAlreadyRegistered: IfAlreadyRegistered.Replace,
-                              serviceKey: name);
+            Instance.Register(from, to, serviceKey: name);
         }
 
         public object Resolve(Type type)
