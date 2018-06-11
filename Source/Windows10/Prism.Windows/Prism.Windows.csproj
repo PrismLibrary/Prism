@@ -29,4 +29,13 @@
     <ProjectReference Include="..\..\Prism\Prism.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <SDKReference Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=$(TargetPlatformVersion)">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+
 </Project>
