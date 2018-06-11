@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Xunit;
+using System.Threading.Tasks;
 using Prism.Events;
+using Xunit;
 
 namespace Prism.Tests.Events
 {
@@ -293,7 +294,7 @@ namespace Prism.Tests.Events
         }
 
         [Fact]
-        public void ShouldNotExecuteOnGarbageCollectedDelegateReferenceWhenNotKeepAlive()
+        public async Task ShouldNotExecuteOnGarbageCollectedDelegateReferenceWhenNotKeepAlive()
         {
             var PubSubEvent = new TestablePubSubEvent<string>();
 
@@ -305,6 +306,7 @@ namespace Prism.Tests.Events
 
             WeakReference actionEventReference = new WeakReference(externalAction);
             externalAction = null;
+            await Task.Delay(100);
             GC.Collect();
             Assert.False(actionEventReference.IsAlive);
 
@@ -312,7 +314,7 @@ namespace Prism.Tests.Events
         }
 
         [Fact]
-        public void ShouldNotExecuteOnGarbageCollectedDelegateReferenceWhenNotKeepAliveNonGeneric()
+        public async Task ShouldNotExecuteOnGarbageCollectedDelegateReferenceWhenNotKeepAliveNonGeneric()
         {
             var pubSubEvent = new TestablePubSubEvent();
 
@@ -324,6 +326,7 @@ namespace Prism.Tests.Events
 
             var actionEventReference = new WeakReference(externalAction);
             externalAction = null;
+            await Task.Delay(100);
             GC.Collect();
             Assert.False(actionEventReference.IsAlive);
 
@@ -331,7 +334,7 @@ namespace Prism.Tests.Events
         }
 
         [Fact]
-        public void ShouldNotExecuteOnGarbageCollectedFilterReferenceWhenNotKeepAlive()
+        public async Task ShouldNotExecuteOnGarbageCollectedFilterReferenceWhenNotKeepAlive()
         {
             var PubSubEvent = new TestablePubSubEvent<string>();
 
@@ -347,6 +350,7 @@ namespace Prism.Tests.Events
             wasCalled = false;
             WeakReference filterReference = new WeakReference(filter);
             filter = null;
+            await Task.Delay(100);
             GC.Collect();
             Assert.False(filterReference.IsAlive);
 
