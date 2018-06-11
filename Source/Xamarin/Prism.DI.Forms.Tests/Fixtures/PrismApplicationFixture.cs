@@ -236,6 +236,16 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             Assert.IsType<CustomNavigationServiceMock>(vm.NavigationService);
         }
 
+        [Fact]
+        public void CustomNamedNavigationService_Resolved_In_ViewModel()
+        {
+            var app = CreateMockApplication(new CustomNamedNavService());
+            var vm = app.MainPage.BindingContext as CustomNamedNavServiceViewModel;
+
+            Assert.NotNull(vm);
+            Assert.NotNull(vm.NavigationService);
+        }
+
         private static INavigationService ResolveAndSetRootPage(PrismApplicationMock app)
         {
             var navigationService = app.NavigationService;
