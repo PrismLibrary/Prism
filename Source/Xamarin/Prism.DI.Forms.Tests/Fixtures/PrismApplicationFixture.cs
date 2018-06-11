@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 #if Autofac
 using Autofac.Core.Registration;
@@ -244,6 +245,60 @@ namespace Prism.Unity.Forms.Tests.Fixtures
 
             Assert.NotNull(vm);
             Assert.NotNull(vm.NavigationService);
+        }
+
+        [Fact]
+        public async Task XamlNavigation_NaviateTo()
+        {
+            var app = CreateMockApplication();
+            await app.NavigationService.NavigateAsync("NavigationPage/XamlViewMockA");
+            var navigationPage = (NavigationPage)app.MainPage ;
+
+            Assert.IsType<XamlViewMockA>(navigationPage.CurrentPage);
+            var mockA =  navigationPage.CurrentPage as XamlViewMockA;
+            mockA.TestButton.SendClicked();
+            
+            Assert.IsType<XamlViewMockA>(navigationPage.RootPage);
+            Assert.IsType<XamlViewMockB>(navigationPage.CurrentPage);
+            Assert.True(navigationPage.Pages.Count()==2);
+        }
+
+        [Fact]
+        public async Task XamlNavigation_GoBack()
+        {
+            var app = CreateMockApplication();
+            await app.NavigationService.NavigateAsync("NavigationPage/XamlViewMockA/XamlViewMockB");
+            var navigationPage = (NavigationPage)app.MainPage ;
+
+            Assert.IsType<XamlViewMockB>(navigationPage.CurrentPage);
+            var mockB =  navigationPage.CurrentPage as XamlViewMockB;
+            mockB.TestButton.SendClicked();
+            
+            Assert.IsType<XamlViewMockA>(navigationPage.RootPage);
+            Assert.IsType<XamlViewMockA>(navigationPage.CurrentPage);
+            Assert.True(navigationPage.Pages.Count()==1);
+        }
+
+        [Fact]
+        public async Task XamlNavigation_BasicNavigation()
+        {
+            var app = CreateMockApplication();
+            await app.NavigationService.NavigateAsync("NavigationPage/XamlViewMockA");
+            var navigationPage = (NavigationPage)app.MainPage ;
+
+            Assert.IsType<XamlViewMockA>(navigationPage.CurrentPage);
+            var mockA =  navigationPage.CurrentPage as XamlViewMockA;
+            mockA.TestButton.SendClicked();
+            
+            Assert.IsType<XamlViewMockA>(navigationPage.RootPage);
+            Assert.IsType<XamlViewMockB>(navigationPage.CurrentPage);
+            Assert.True(navigationPage.Pages.Count()==2);
+
+            var mockB =  navigationPage.CurrentPage as XamlViewMockB;
+            mockB.TestButton.SendClicked();
+            
+            Assert.IsType<XamlViewMockA>(navigationPage.RootPage);
+            Assert.IsType<XamlViewMockA>(navigationPage.CurrentPage);
         }
 
         private static INavigationService ResolveAndSetRootPage(PrismApplicationMock app)

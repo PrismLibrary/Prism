@@ -62,6 +62,8 @@ namespace Prism.DI.Forms.Tests
             containerRegistry.RegisterForNavigation<AutowireView, AutowireViewModel>();
             containerRegistry.RegisterForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
             containerRegistry.RegisterForNavigation<XamlViewMock>();
+            containerRegistry.RegisterForNavigation<XamlViewMockB,XamlViewMockBViewModel>();
+            containerRegistry.RegisterForNavigation<XamlViewMockA,XamlViewMockAViewModel>();
 
             DependencyService.Register<IDependencyServiceMock, DependencyServiceMock>();
         }
