@@ -27,7 +27,7 @@ namespace Prism.DI.Forms.Tests
     public class PrismApplicationMock : PrismApplication
     {
         public PrismApplicationMock(IPlatformInitializer platformInitializer)
-            : base(platformInitializer)
+            : base(platformInitializer, true)
         {
         }
 
