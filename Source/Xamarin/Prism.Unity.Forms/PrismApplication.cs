@@ -1,5 +1,6 @@
 ﻿using Prism.Ioc;
 using Unity;
+using System.Collections.Generic;
 #if __ANDROID__
 using System;
 using Prism.Logging;
@@ -45,26 +46,22 @@ namespace Prism.Unity
             DependencyResolver.ResolveUsing((Type type, object[] dependencies) =>
             {
                 var container = containerProvider.GetContainer();
-                ParameterOverrides overrides = null;
+                List<ResolverOverride> overrides = new List<ResolverOverride>();
 
                 foreach(var dependency in dependencies)
                 {
-                    if(dependency is Android.Content.Context context)
+                    if (dependency is Android.Content.Context context)
                     {
-                        if (overrides != null)
-                            container.Resolve<ILoggerFacade>().Log($"An Android.Content.Context has already been provided to resolve {type.Name}", Category.Warn, Priority.High);
-                        overrides = new ParameterOverrides()
-                        {
-                            { "context", context }
-                        };
+                        overrides.Add(new DependencyOverride(typeof(Android.Content.Context), context));
                     }
                     else
                     {
                         container.Resolve<ILoggerFacade>().Log($"Resolving an unknown type {dependency.GetType().Name}", Category.Warn, Priority.High);
+                        overrides.Add(new DependencyOverride(dependency.GetType(), dependency));
                     }
                 }
 
-                return container.Resolve(type, overrides);
+                return container.Resolve(type, overrides.ToArray());
             });
         }
 #endif
