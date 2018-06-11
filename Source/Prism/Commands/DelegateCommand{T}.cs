@@ -2,11 +2,12 @@
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Windows.Input;
 
 namespace Prism.Commands
 {
     /// <summary>
-    /// An <see cref="ICommand"/> whose delegates can be attached for <see cref="Execute"/> and <see cref="CanExecute"/>.
+    /// An <see cref="ICommand"/> whose delegates can be attached for <see cref="Execute(T)"/> and <see cref="CanExecute(T)"/>.
     /// </summary>
     /// <typeparam name="T">Parameter type.</typeparam>
     /// <remarks>
@@ -38,7 +39,7 @@ namespace Prism.Commands
         /// Initializes a new instance of <see cref="DelegateCommand{T}"/>.
         /// </summary>
         /// <param name="executeMethod">Delegate to execute when Execute is called on the command. This can be null to just hook up a CanExecute delegate.</param>
-        /// <remarks><see cref="CanExecute"/> will always return true.</remarks>
+        /// <remarks><see cref="CanExecute(T)"/> will always return true.</remarks>
         public DelegateCommand(Action<T> executeMethod)
             : this(executeMethod, (o) => true)
         {
@@ -93,11 +94,20 @@ namespace Prism.Commands
             return _canExecuteMethod(parameter);
         }
 
+        /// <summary>
+        /// Handle the internal invocation of <see cref="ICommand.Execute(object)"/>
+        /// </summary>
+        /// <param name="parameter">Command Parameter</param>
         protected override void Execute(object parameter)
         {
             Execute((T)parameter);
         }
 
+        /// <summary>
+        /// Handle the internal invocation of <see cref="ICommand.CanExecute(object)"/>
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns><see langword="true"/> if the Command Can Execute, otherwise <see langword="false" /></returns>
         protected override bool CanExecute(object parameter)
         {
             return CanExecute((T)parameter);
