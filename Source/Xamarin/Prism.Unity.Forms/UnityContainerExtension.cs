@@ -47,14 +47,17 @@ namespace Prism.Unity
 
         public object ResolveViewModelForView(object view, Type viewModelType)
         {
-            ParameterOverrides overrides = null;
+            ResolverOverride[] overrides = null;
 
-            if (view is Xamarin.Forms.Page page)
+            if(view is Xamarin.Forms.Page page)
             {
-                overrides = new ParameterOverrides
-                    {
-                        { PrismApplicationBase.NavigationServiceParameterName, this.CreateNavigationService(page) }
-                    };
+                overrides = new ResolverOverride[]
+                {
+                    new DependencyOverride(
+                        typeof(Navigation.INavigationService),
+                        this.CreateNavigationService(page)
+                    )
+                };
             }
 
             return Instance.Resolve(viewModelType, overrides);
