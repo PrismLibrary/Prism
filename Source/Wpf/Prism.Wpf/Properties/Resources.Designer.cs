@@ -118,15 +118,6 @@ namespace Prism.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to At least one cyclic dependency has been found in the module catalog. Cycles in the module dependencies must be avoided..
-        /// </summary>
-        internal static string CyclicDependencyFound {
-            get {
-                return ResourceManager.GetString("CyclicDependencyFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Deactivation is not possible in this type of region..
         /// </summary>
         internal static string DeactiveNotPossibleException {
@@ -163,24 +154,6 @@ namespace Prism.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot add dependency for unknown module {0}.
-        /// </summary>
-        internal static string DependencyForUnknownModule {
-            get {
-                return ResourceManager.GetString("DependencyForUnknownModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A module declared a dependency on another module which is not declared to be loaded. Missing module(s): {0}.
-        /// </summary>
-        internal static string DependencyOnMissingModule {
-            get {
-                return ResourceManager.GetString("DependencyOnMissingModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Directory {0} was not found..
         /// </summary>
         internal static string DirectoryNotFound {
@@ -190,65 +163,11 @@ namespace Prism.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A duplicated module with name {0} has been found by the loader..
-        /// </summary>
-        internal static string DuplicatedModule {
-            get {
-                return ResourceManager.GetString("DuplicatedModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to A duplicated module group with name {0} has been found by the loader..
         /// </summary>
         internal static string DuplicatedModuleGroup {
             get {
                 return ResourceManager.GetString("DuplicatedModuleGroup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to retrieve the module type {0} from the loaded assemblies.  You may need to specify a more fully-qualified type name..
-        /// </summary>
-        internal static string FailedToGetType {
-            get {
-                return ResourceManager.GetString("FailedToGetType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An exception occurred while initializing module &apos;{0}&apos;. 
-        ///    - The exception message was: {2}
-        ///    - The Assembly that the module was trying to be loaded from was:{1}
-        ///    Check the InnerException property of the exception for more information. If the exception occurred while creating an object in a DI container, you can exception.GetRootException() to help locate the root cause of the problem. 
-        ///  .
-        /// </summary>
-        internal static string FailedToLoadModule {
-            get {
-                return ResourceManager.GetString("FailedToLoadModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An exception occurred while initializing module &apos;{0}&apos;. 
-        ///    - The exception message was: {1}
-        ///    Check the InnerException property of the exception for more information. If the exception occurred 
-        ///    while creating an object in a DI container, you can exception.GetRootException() to help locate the 
-        ///    root cause of the problem. .
-        /// </summary>
-        internal static string FailedToLoadModuleNoAssemblyInfo {
-            get {
-                return ResourceManager.GetString("FailedToLoadModuleNoAssemblyInfo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to load type for module {0}. 
-        ///Error was: {1}..
-        /// </summary>
-        internal static string FailedToRetrieveModule {
-            get {
-                return ResourceManager.GetString("FailedToRetrieveModule", resourceCulture);
             }
         }
         
@@ -289,15 +208,6 @@ namespace Prism.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The argument must be a valid absolute Uri to an assembly file..
-        /// </summary>
-        internal static string InvalidArgumentAssemblyUri {
-            get {
-                return ResourceManager.GetString("InvalidArgumentAssemblyUri", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The Target of the IDelegateReference should be of type {0}..
         /// </summary>
         internal static string InvalidDelegateRerefenceTypeException {
@@ -324,24 +234,6 @@ namespace Prism.Properties {
         internal static string MappingExistsException {
             get {
                 return ResourceManager.GetString("MappingExistsException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Module {0} depends on other modules that don&apos;t belong to the same group..
-        /// </summary>
-        internal static string ModuleDependenciesNotMetInGroup {
-            get {
-                return ResourceManager.GetString("ModuleDependenciesNotMetInGroup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Module {0} was not found in the catalog..
-        /// </summary>
-        internal static string ModuleNotFound {
-            get {
-                return ResourceManager.GetString("ModuleNotFound", resourceCulture);
             }
         }
         
@@ -387,15 +279,6 @@ namespace Prism.Properties {
         internal static string NoRegionAdapterException {
             get {
                 return ResourceManager.GetString("NoRegionAdapterException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There is currently no moduleTypeLoader in the ModuleManager that can retrieve the specified module..
-        /// </summary>
-        internal static string NoRetrieverCanRetrieveModule {
-            get {
-                return ResourceManager.GetString("NoRetrieverCanRetrieveModule", resourceCulture);
             }
         }
         
@@ -571,15 +454,6 @@ namespace Prism.Properties {
         internal static string UpdateRegionException {
             get {
                 return ResourceManager.GetString("UpdateRegionException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The value must be of type ModuleInfo..
-        /// </summary>
-        internal static string ValueMustBeOfTypeModuleInfo {
-            get {
-                return ResourceManager.GetString("ValueMustBeOfTypeModuleInfo", resourceCulture);
             }
         }
         
