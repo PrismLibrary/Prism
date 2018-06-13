@@ -1,6 +1,4 @@
 <Project>
-  <!-- Workaround for https://github.com/dotnet/sdk/pull/908 -->
-  <Target Name="GetPackagingOutputs" />
 
   <PropertyGroup>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
@@ -49,4 +47,16 @@
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Nuget source link -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-62925-02" PrivateAssets="All" />
+  </ItemGroup>
+
 </Project>
