@@ -22,6 +22,9 @@
     <IsUwpProject>$(MSBuildProjectName.Contains('Windows'))</IsUwpProject>
     <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
     <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
+    <SignAssembly Condition=" '$(IsCoreProject)' Or '$(IsWpfProject)' ">True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)prism.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
     <DisableCorePublish Condition=" '$(DisableCorePublish)' == '' ">false</DisableCorePublish>
     <DisableUwpPublish Condition=" '$(DisableUwpPublish)' == '' ">false</DisableUwpPublish>
     <DisableWpfPublish Condition=" '$(DisableUpfPublish)' == '' ">false</DisableWpfPublish>
