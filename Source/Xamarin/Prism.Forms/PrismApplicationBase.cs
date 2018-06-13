@@ -24,6 +24,7 @@ namespace Prism
         IContainerExtension _containerExtension;
         IModuleCatalog _moduleCatalog;
         Page _previousPage = null;
+        bool _setFormsDependencyResolver { get; }
 
         /// <summary>
         /// The dependency injection container used to resolve objects
@@ -40,12 +41,36 @@ namespace Prism
         /// </summary>
         protected IPlatformInitializer PlatformInitializer { get; }
 
-        protected PrismApplicationBase(IPlatformInitializer initializer = null)
+        /// <summary>
+        /// Initializes a new instance of <see cref="PrismApplicationBase" /> using the default constructor
+        /// </summary>
+        protected PrismApplicationBase() : this(null, false)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="PrismApplicationBase" /> with a <see cref="IPlatformInitializer" />.
+        /// Used when there are specific types that need to be registered on the platform.
+        /// </summary>
+        /// <param name="platformInitializer">The <see cref="IPlatformInitializer"/>.</param>
+        protected PrismApplicationBase(IPlatformInitializer platformInitializer) : this(platformInitializer, false)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="PrismApplicationBase" /> with a <see cref="IPlatformInitializer" />.
+        /// Used when there are specific types that need to be registered on the platform.
+        /// Also determines whether to set the <see cref="DependencyResolver" /> for resolving Renderers and Platform Effects.
+        /// </summary>
+        /// <param name="platformInitializer">The <see cref="IPlatformInitializer"/>.</param>
+        /// <param name="setFormsDependencyResolver">Should <see cref="PrismApplication" /> set the <see cref="DependencyResolver" />.</param>
+        protected PrismApplicationBase(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver)
         {
             base.ModalPopping += PrismApplicationBase_ModalPopping;
             base.ModalPopped += PrismApplicationBase_ModalPopped;
+            _setFormsDependencyResolver = setFormsDependencyResolver;
 
-            PlatformInitializer = initializer;
+            PlatformInitializer = platformInitializer;
             InitializeInternal();
         }
 
@@ -80,7 +105,9 @@ namespace Prism
             PlatformInitializer?.RegisterTypes(_containerExtension);
             RegisterTypes(_containerExtension);
             _containerExtension.FinalizeExtension();
-            SetDependencyResolver(_containerExtension);
+
+            if(_setFormsDependencyResolver)
+                SetDependencyResolver(_containerExtension);
 
             _moduleCatalog = Container.Resolve<IModuleCatalog>();
             ConfigureModuleCatalog(_moduleCatalog);

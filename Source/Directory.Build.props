@@ -45,4 +45,8 @@
     <GenerateDocumentationFile>!$(IsTestProject)</GenerateDocumentationFile>
     <GeneratePackageOnBuild>!$(IsTestProject)</GeneratePackageOnBuild>
   </PropertyGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+    <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
+  </PropertyGroup>
 </Project>

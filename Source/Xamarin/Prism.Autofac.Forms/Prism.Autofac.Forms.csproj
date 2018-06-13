@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-   <TargetFrameworks>netstandard1.1;netstandard2.0</TargetFrameworks>
+   <TargetFrameworks>netstandard1.1;netstandard2.0;MonoAndroid71</TargetFrameworks>
    <Title>Autofac for Prism for Xamarin.Forms</Title>
     <!-- Summary is not actually supported at this time. Including the summary for future support. -->
     <!--<Summary>Autofac extensions for Prism for Xamarin.Forms.</Summary>-->
@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.0" />
+    <PackageReference Include="Autofac" Version="4.8.1" />
   </ItemGroup>
 
   <ItemGroup>
