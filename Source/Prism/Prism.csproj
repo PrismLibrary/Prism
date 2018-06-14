@@ -21,9 +21,6 @@
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_CORE_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_CORE_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_CORE_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\prism.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>False</DelaySign>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,6 +1,4 @@
 <Project>
-  <!-- Workaround for https://github.com/dotnet/sdk/pull/908 -->
-  <Target Name="GetPackagingOutputs" />
 
   <PropertyGroup>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
@@ -24,6 +22,9 @@
     <IsUwpProject>$(MSBuildProjectName.Contains('Windows'))</IsUwpProject>
     <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
     <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
+    <SignAssembly Condition=" ('$(IsCoreProject)' Or '$(IsWpfProject)') And !$(IsTestProject) And !$(MSBuildProjectName.Contains('DryIoc')) And !$(MSBuildProjectName.Contains('StructureMap')) ">True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)prism.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
     <DisableCorePublish Condition=" '$(DisableCorePublish)' == '' ">false</DisableCorePublish>
     <DisableUwpPublish Condition=" '$(DisableUwpPublish)' == '' ">false</DisableUwpPublish>
     <DisableWpfPublish Condition=" '$(DisableUpfPublish)' == '' ">false</DisableWpfPublish>
@@ -49,4 +50,16 @@
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Nuget source link -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" !$(IsTestProject) ">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-62925-02" PrivateAssets="All" />
+  </ItemGroup>
+
 </Project>
