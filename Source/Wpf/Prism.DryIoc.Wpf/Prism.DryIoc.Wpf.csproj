@@ -4,6 +4,7 @@
   <PropertyGroup>
     <RootNamespace>Prism.DryIoc</RootNamespace>
     <TargetFramework>net4.5</TargetFramework>
+    <SignAssembly>false</SignAssembly>
     <!--<Summary>DryIoc extensions for Prism.</Summary>-->
     <Description>Use these extensions to build Prism applications based on DryIoc.</Description>
     <PackageTags>prism;dryioc;mvvm;wpf;xaml</PackageTags>

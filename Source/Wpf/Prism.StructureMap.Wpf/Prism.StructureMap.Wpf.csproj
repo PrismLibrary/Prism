@@ -4,6 +4,7 @@
   <PropertyGroup>
     <RootNamespace>Prism.StructureMap</RootNamespace>
     <TargetFramework>net4.5</TargetFramework>
+    <SignAssembly>false</SignAssembly>
     <!--<Summary>StructureMap extensions for Prism.</Summary>-->
     <Description>Use these extensions to build Prism applications based on StructureMap.</Description>
     <PackageTags>prism;structuremap;mvvm;wpf;xaml</PackageTags>

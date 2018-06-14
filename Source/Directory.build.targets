@@ -1,13 +1,5 @@
 <Project>
 
-    <Target Name="AssemblyVersion">
-        <AssemblyInfo CodeLanguage="CS"  
-                      OutputFile="$(MSBuildProjectDirectory)\Properties\VersionInfo.cs" 
-                      AssemblyVersion="$(PrismVersion)" 
-                      AssemblyFileVersion="$(PrismFileVersion)"
-                      AssemblyInformationalVersion="$(PrismInformationalVersion)" />
-    </Target>
-
     <Target Name="_ReleaseBinaryCopy"
             Condition=" !'$(IsTestProject)' And '$(IsPackable)' "
             BeforeTargets="AfterBuild;WpfPack">
@@ -33,27 +25,6 @@
               DestinationFolder="$(ArtifactStaging)"
               Condition=" Exists('$(OutputPath)$(AssemblyName).pri') " />
 
-    </Target>
-
-    <Target Name="WpfPack" 
-            BeforeTargets="AfterBuild"
-            Condition=" '$(IsWpfProject)' And '$(IsPackable)' ">
-
-        <PropertyGroup>
-            <PowerShellExe>powershell.exe</PowerShellExe>
-            <NuGetRoot>$([System.IO.Path]::Combine('$(MSBuildThisFileDirectory)', 'build'))</NuGetRoot>
-            <NuGetPackScript>$([System.IO.Path]::Combine('$(NuGetRoot)', 'nuget.ps1'))</NuGetPackScript>
-            <NuspecPath>$([System.IO.Path]::Combine('$(NuGetRoot)', '$(AssemblyName).nuspec'))</NuspecPath>
-            <NuGetExe>$([System.IO.Path]::Combine('$(NuGetRoot)', 'nuget.exe'))</NuGetExe>
-        </PropertyGroup>
-
-        <Message Text="Executing WPF Pack..." />
-        <Message Text="NuGetRoot: $(NuGetRoot)" />
-        <Message Text="NuGetPackScript: $(NuGetPackScript)" />
-        <Message Text="NuspecPath: $(NuspecPath)" />
-
-        <Exec Command="$(PowerShellExe) -NonInteractive -ExecutionPolicy Unrestricted -Command &quot;&amp; { &amp;$(NuGetPackScript) -AssembliesPath &apos;$(OutputPath)&apos; -AssemblyName &apos;$(AssemblyName)&apos; -NuspecPath &apos;$(NuspecPath)&apos; -NugetOutputDirectory &apos;$(PackageOutputPath)&apos; -NuGetExe &apos;$(NuGetExe)&apos; }&quot;" />
-  
     </Target>
 
 </Project>
