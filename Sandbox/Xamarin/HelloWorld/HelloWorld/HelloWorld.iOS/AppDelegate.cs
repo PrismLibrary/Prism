@@ -1,6 +1,8 @@
-﻿using Foundation;
-using Prism;
-using Prism.Ioc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Foundation;
 using UIKit;
 
 namespace HelloWorld.iOS
@@ -24,14 +26,6 @@ namespace HelloWorld.iOS
             LoadApplication(new App(new iOSInitializer()));
 
             return base.FinishedLaunching(app, options);
-        }
-    }
-
-    public class iOSInitializer : IPlatformInitializer
-    {
-        public void RegisterTypes(IContainerRegistry container)
-        {
-            
         }
     }
 }
