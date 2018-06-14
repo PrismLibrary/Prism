@@ -14,7 +14,7 @@ namespace Prism.Modularity
 
         public void Initialize(ModuleInfo moduleInfo)
         {
-            var module = CreateModule(Type.GetType(moduleInfo.ModuleType));
+            var module = CreateModule(Type.GetType(moduleInfo.ModuleType, true));
             if (module != null)
             {
                 module.RegisterTypes(_container);

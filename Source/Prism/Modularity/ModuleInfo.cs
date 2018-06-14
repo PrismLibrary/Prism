@@ -70,7 +70,7 @@ namespace Prism.Modularity
         /// <param name="moduleName">The module's name.</param>
         /// <param name="initializationMode">The module's <see cref="InitializationMode"/>.</param>
         public ModuleInfo(Type moduleType, string moduleName, InitializationMode initializationMode)
-            : this(moduleName, moduleType.FullName)
+            : this(moduleName, moduleType.AssemblyQualifiedName)
         {
             InitializationMode = initializationMode;
         }
