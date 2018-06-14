@@ -38,7 +38,7 @@ namespace Prism.Modularity
         /// <typeparam name="T">The <see cref="IModule"/> to check for.</typeparam>
         public static bool Exists<T>(this IModuleCatalog catalog)
             where T : IModule =>
-            catalog.Modules.Any(mi => mi.ModuleType == typeof(T));
+            catalog.Modules.Any(mi => mi.ModuleType == typeof(T).FullName);
 
         /// <summary>
         /// Exists the specified catalog and name.
@@ -57,7 +57,7 @@ namespace Prism.Modularity
         /// <typeparam name="T">The <see cref="IModule"/> to check.</typeparam>
         public static bool IsInitialized<T>(this IModuleCatalog catalog)
             where T : IModule =>
-            catalog.Modules.FirstOrDefault(mi => mi.ModuleType == typeof(T))?.State == ModuleState.Initialized;
+            catalog.Modules.FirstOrDefault(mi => mi.ModuleType == typeof(T).FullName)?.State == ModuleState.Initialized;
 
         /// <summary>
         /// Checks to see if the <see cref="IModule"/> is already initialized. 

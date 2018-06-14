@@ -135,6 +135,23 @@
   <data name="EventAggregatorNotConstructedOnUIThread" xml:space="preserve">
     <value>To use the UIThread option for subscribing, the EventAggregator must be constructed on the UI thread.</value>
   </data>
+  <data name="FailedToLoadModule" xml:space="preserve">
+    <value>An exception occurred while initializing module '{0}'. 
+    - The exception message was: {2}
+    - The Assembly that the module was trying to be loaded from was:{1}
+    Check the InnerException property of the exception for more information. If the exception occurred while creating an object in a DI container, you can exception.GetRootException() to help locate the root cause of the problem.</value>
+  </data>
+  <data name="FailedToLoadModuleNoAssemblyInfo" xml:space="preserve">
+    <value>An exception occurred while initializing module '{0}'. 
+    - The exception message was: {1}
+    Check the InnerException property of the exception for more information. If the exception occurred 
+    while creating an object in a DI container, you can exception.GetRootException() to help locate the 
+    root cause of the problem.</value>
+  </data>
+  <data name="FailedToRetrieveModule" xml:space="preserve">
+    <value>Failed to load type for module {0}. 
+Error was: {1}.</value>
+  </data>
   <data name="InvalidDelegateRerefenceTypeException" xml:space="preserve">
     <value>Invalid Delegate Reference Type Exception</value>
   </data>

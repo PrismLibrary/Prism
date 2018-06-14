@@ -32,7 +32,7 @@ namespace Prism.Modularity
                 throw new Exception($"A duplicated module with name {moduleInfo.ModuleName} has already been added.");
 
             if (_items.Any(mi => mi.ModuleType == moduleInfo.ModuleType))
-                throw new Exception($"A duplicate module of type {moduleInfo.ModuleType.Name} has already been added.");
+                throw new Exception($"A duplicate module of type {moduleInfo.ModuleType} has already been added.");
 
             _items.Add(moduleInfo);
             return this;

@@ -9,17 +9,20 @@ namespace Prism.Modularity
     /// </summary>
     public class ModuleManager : IModuleManager
     {
-        readonly IModuleCatalog _moduleCatalog;
         /// <summary>
         /// The module catalog.
         /// </summary>
-        protected IModuleCatalog ModuleCatalog => _moduleCatalog;
+        protected IModuleCatalog ModuleCatalog { get; }
 
-        readonly IModuleInitializer _moduleInitializer;
+        /// <summary>
+        /// Raised when a module is loaded or fails to load.
+        /// </summary>
+        public event EventHandler<LoadModuleCompletedEventArgs> LoadModuleCompleted;
+
         /// <summary>
         /// The module initializer.
         /// </summary>
-        protected IModuleInitializer ModuleInitializer => _moduleInitializer;
+        protected IModuleInitializer ModuleInitializer { get; }
 
         /// <summary>
         /// Initializes an instance of the <see cref="ModuleManager"/> class.
@@ -28,8 +31,8 @@ namespace Prism.Modularity
         /// <param name="moduleCatalog">Catalog that enumerates the modules to be loaded and initialized.</param>
         public ModuleManager(IModuleInitializer moduleInitializer, IModuleCatalog moduleCatalog)
         {
-            _moduleInitializer = moduleInitializer ?? throw new ArgumentNullException(nameof(moduleInitializer));
-            _moduleCatalog = moduleCatalog ?? throw new ArgumentNullException(nameof(moduleCatalog));
+            ModuleInitializer = moduleInitializer ?? throw new ArgumentNullException(nameof(moduleInitializer));
+            ModuleCatalog = moduleCatalog ?? throw new ArgumentNullException(nameof(moduleCatalog));
         }
 
         /// <summary>
@@ -76,9 +79,18 @@ namespace Prism.Modularity
             {
                 if (moduleInfo.State == ModuleState.NotStarted)
                 {
-                    moduleInfo.State = ModuleState.Initializing;
-                    _moduleInitializer.Initialize(moduleInfo);
-                    moduleInfo.State = ModuleState.Initialized;
+                    try
+                    {
+                        moduleInfo.State = ModuleState.Initializing;
+                        ModuleInitializer.Initialize(moduleInfo);
+                        moduleInfo.State = ModuleState.Initialized;
+                        LoadModuleCompleted?.Invoke(this, new LoadModuleCompletedEventArgs(moduleInfo, null));
+                    }
+                    catch (Exception ex)
+                    {
+                        LoadModuleCompleted?.Invoke(this, new LoadModuleCompletedEventArgs(moduleInfo, ex));
+                    }
+                    
                 }
             }
         }
