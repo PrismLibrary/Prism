@@ -10,10 +10,10 @@ At the current time, we have no plans to create new versions of the library for 
 
 There are certain things that cannot be added directly into Prism for various reasons. To handle these common tasks such as supporting PopupPage's in Xamarin Forms, there are Prism Plugins. You can find a number of Plugins available on NuGet from our maintainer @DanJSiegel.
 
-- [Prism.Plugin.Popups](/dansiegel/Prism.Plugin.Popups) (Forms Only)
-- [Prism.Plugin.Logging](/dansiegel/Prism.Plugin.Logging) (Works on all Platforms)
+- [Prism.Plugin.Popups](https://github.com/dansiegel/Prism.Plugin.Popups) (Forms Only)
+- [Prism.Plugin.Logging](https://github.com/dansiegel/Prism.Plugin.Logging) (Works on all Platforms)
   - Adds support for Syslog, Loggly, and Graylog
-- [Prism.Plugin.PageDialogs](/dansiegel/Prism.Plugin.PageDialogs) (Forms Only)
+- [Prism.Plugin.PageDialogs](https://github.com/dansiegel/Prism.Plugin.PageDialogs) (Forms Only)
 - [Prism.MFractor.Config](https://nuget.org/packages/Prism.MFractor.Config)
   - Configures MFractor in Visual Studio for Mac to follow Prism Conventions
 
