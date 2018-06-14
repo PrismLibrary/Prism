@@ -1,6 +1,9 @@
 ### Description
 
 <!-- REQUIRED -->
+<!-- Issues reporting a bug, but lacking a Reproduction will be closed!
+     Please ask questions on StackOverflow or on Slack. Issues opened
+     that are questions will be closed without comment.  -->
 
 ### Steps to Reproduce
 
