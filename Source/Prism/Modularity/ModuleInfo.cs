@@ -49,6 +49,33 @@ namespace Prism.Modularity
         }
 
         /// <summary>
+        /// Initializes a new instance of <see cref="ModuleInfo"/>.
+        /// </summary>
+        /// <param name="moduleType">The module's type.</param>
+        public ModuleInfo(Type moduleType)
+            : this(moduleType, moduleType.Name) { }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="ModuleInfo"/>.
+        /// </summary>
+        /// <param name="moduleType">The module's type.</param>
+        /// <param name="moduleName">The module's name.</param>
+        public ModuleInfo(Type moduleType, string moduleName)
+            : this(moduleType, moduleName, InitializationMode.WhenAvailable) { }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="ModuleInfo"/>.
+        /// </summary>
+        /// <param name="moduleType">The module's type.</param>
+        /// <param name="moduleName">The module's name.</param>
+        /// <param name="initializationMode">The module's <see cref="InitializationMode"/>.</param>
+        public ModuleInfo(Type moduleType, string moduleName, InitializationMode initializationMode)
+            : this(moduleName, moduleType.AssemblyQualifiedName)
+        {
+            InitializationMode = initializationMode;
+        }
+
+        /// <summary>
         /// Gets or sets the name of the module.
         /// </summary>
         /// <value>The name of the module.</value>

@@ -27,6 +27,11 @@
     <PackageReference Condition=" '$(TargetFramework)' == 'netstandard1.0' " Include="System.Resources.ResourceManager" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.0' Or $(TargetFramework.StartsWith('uap10.0')) ">
+    <Compile Remove="**\*.Desktop.cs" />
+    <None Include="**\*.Desktop.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <Compile Condition=" '$(TargetFramework)' == 'net45' " Remove="Navigation/**" />
     <Compile Update="Properties\Resources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Resources.resx" />
