@@ -2,8 +2,9 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <RootNamespace>Prism.Unity</RootNamespace>
     <TargetFramework>net4.5</TargetFramework>
+    <RootNamespace>Prism.Unity</RootNamespace>
+    <PackageId>Prism.Unity</PackageId>
     <!--<Summary>Unity extensions for Prism.</Summary>-->
     <Description>Use these extensions to build Prism applications based on Unity.</Description>
     <PackageTags>prism;unity;mvvm;wpf;xaml</PackageTags>

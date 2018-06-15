@@ -2,8 +2,9 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <RootNamespace>Prism.Ninject</RootNamespace>
     <TargetFramework>net4.5</TargetFramework>
+    <PackageId>Prism.Ninject</PackageId>
+    <RootNamespace>Prism.Ninject</RootNamespace>
     <!--<Summary>Ninject extensions for Prism.</Summary>-->
     <Description>Use these extensions to build Prism applications based on Ninject.</Description>
     <PackageTags>prism;ninject;mvvm;wpf;xaml</PackageTags>

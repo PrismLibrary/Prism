@@ -2,8 +2,9 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <RootNamespace>Prism.StructureMap</RootNamespace>
     <TargetFramework>net4.5</TargetFramework>
+    <RootNamespace>Prism.StructureMap</RootNamespace>
+    <PackageId>Prism.StructureMap</PackageId>
     <SignAssembly>false</SignAssembly>
     <!--<Summary>StructureMap extensions for Prism.</Summary>-->
     <Description>Use these extensions to build Prism applications based on StructureMap.</Description>

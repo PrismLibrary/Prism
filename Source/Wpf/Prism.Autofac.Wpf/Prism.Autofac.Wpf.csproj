@@ -2,9 +2,10 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
+    <TargetFramework>net4.5</TargetFramework>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Prism.Autofac</RootNamespace>
-    <TargetFramework>net4.5</TargetFramework>
+    <PackageId>Prism.Autofac</PackageId>
     <!--<Summary>Autofac extensions for Prism.</Summary>-->
     <Description>Use these extensions to build Prism applications based on Autofac.</Description>
     <PackageTags>prism;autofac;mvvm;wpf;xaml</PackageTags>
