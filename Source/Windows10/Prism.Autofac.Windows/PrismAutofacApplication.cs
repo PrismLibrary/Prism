@@ -3,7 +3,7 @@ using System.Globalization;
 using Windows.UI.Xaml;
 using Autofac;
 using Autofac.Features.ResolveAnything;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Windows;
