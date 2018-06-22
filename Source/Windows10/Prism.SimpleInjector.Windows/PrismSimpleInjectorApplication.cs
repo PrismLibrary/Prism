@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Logging;
 using Prism.Windows;
 using SimpleInjector;

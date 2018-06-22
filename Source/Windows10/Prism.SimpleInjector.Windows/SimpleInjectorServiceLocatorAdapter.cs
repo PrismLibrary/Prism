@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using SimpleInjector;
 
 namespace Prism.SimpleInjector.Windows

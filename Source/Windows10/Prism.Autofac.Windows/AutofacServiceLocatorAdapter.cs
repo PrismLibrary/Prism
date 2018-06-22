@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,9 +21,7 @@ namespace Prism.Autofac.Windows
         /// by the <see cref="DoGetInstance"/> and <see cref="DoGetAllInstances"/> methods.</param>
         public AutofacServiceLocatorAdapter(IContainer container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
-            _container = container;
+            _container = container ?? throw new ArgumentNullException(nameof(container));
         }
 
         /// <summary>
