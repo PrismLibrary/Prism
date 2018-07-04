@@ -2,8 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp2.0;netstandard2.0</TargetFrameworks>
     <RootNamespace>Prism.DryIoc.Forms.Tests</RootNamespace>
     <AssemblyName>Prism.DryIoc.Forms.Tests</AssemblyName>
     <DefineConstants>$(DefineConstants);DryIoc</DefineConstants>
@@ -13,6 +12,9 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.561732-pre4" />
     <PackageReference Include="xunit" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0'">
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
 
