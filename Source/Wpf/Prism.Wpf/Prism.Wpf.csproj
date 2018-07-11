@@ -25,7 +25,7 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
 
   <ItemGroup>
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Windows.Interactivity" Pack="true">
+    <Reference Include="System.Windows.Interactivity">
       <HintPath>..\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <PackageReference Include="CommonServiceLocator" Version="2.0.3" />
@@ -33,6 +33,10 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
 
   <ItemGroup>
     <ProjectReference Include="..\..\Prism\Prism.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="..\System.Windows.Interactivity.dll" Pack="true" PackagePath="lib\net45" />
   </ItemGroup>
 
 </Project>
