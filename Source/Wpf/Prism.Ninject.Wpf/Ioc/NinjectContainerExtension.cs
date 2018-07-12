@@ -27,17 +27,17 @@ namespace Prism.Ninject.Ioc
 
         public void RegisterSingleton(Type from, Type to)
         {
-            Instance.Bind(to).To(from).InSingletonScope();
+            Instance.Bind(from).To(to).InSingletonScope();
         }
 
         public void Register(Type from, Type to)
         {
-            Instance.Bind(to).To(from).InTransientScope();
+            Instance.Bind(from).To(to).InTransientScope();
         }
 
         public void Register(Type from, Type to, string name)
         {
-            Instance.Bind(to).To(from).InTransientScope().Named(name);
+            Instance.Bind(from).To(to).InTransientScope().Named(name);
         }
 
         public object Resolve(Type type)

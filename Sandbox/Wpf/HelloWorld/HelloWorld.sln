@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Wpf", "..\..\..\Sourc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Autofac.Wpf", "..\..\..\Source\Wpf\Prism.Autofac.Wpf\Prism.Autofac.Wpf.csproj", "{67921788-5D0F-4EC9-82C5-FDB5E2481E0C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Ninject.Wpf", "..\..\..\Source\Wpf\Prism.Ninject.Wpf\Prism.Ninject.Wpf.csproj", "{5263604A-39EC-4E7B-82DD-8F52C838A77A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{67921788-5D0F-4EC9-82C5-FDB5E2481E0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67921788-5D0F-4EC9-82C5-FDB5E2481E0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67921788-5D0F-4EC9-82C5-FDB5E2481E0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5263604A-39EC-4E7B-82DD-8F52C838A77A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5263604A-39EC-4E7B-82DD-8F52C838A77A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5263604A-39EC-4E7B-82DD-8F52C838A77A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5263604A-39EC-4E7B-82DD-8F52C838A77A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{457AA668-72BB-4701-9A4E-FA86B0C412DE} = {15CF1FE1-D78E-4E3D-A9F8-FA0FCC56A83A}
 		{AA8ED3D6-A708-4187-8FAC-00F56E063AD7} = {15CF1FE1-D78E-4E3D-A9F8-FA0FCC56A83A}
 		{67921788-5D0F-4EC9-82C5-FDB5E2481E0C} = {15CF1FE1-D78E-4E3D-A9F8-FA0FCC56A83A}
+		{5263604A-39EC-4E7B-82DD-8F52C838A77A} = {15CF1FE1-D78E-4E3D-A9F8-FA0FCC56A83A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D877B086-37FD-4AA5-8AB3-CF7E87E27425}

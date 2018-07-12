@@ -1,5 +1,5 @@
 ﻿using HelloWorld.Views;
-using Prism.Autofac;
+using Prism.Ninject;
 using Prism.Ioc;
 using System;
 using System.Collections.Generic;

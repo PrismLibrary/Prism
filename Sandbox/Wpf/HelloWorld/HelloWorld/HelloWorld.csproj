@@ -102,9 +102,9 @@
       <Project>{457aa668-72bb-4701-9a4e-fa86b0c412de}</Project>
       <Name>Prism</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Source\Wpf\Prism.Autofac.Wpf\Prism.Autofac.Wpf.csproj">
-      <Project>{67921788-5d0f-4ec9-82c5-fdb5e2481e0c}</Project>
-      <Name>Prism.Autofac.Wpf</Name>
+    <ProjectReference Include="..\..\..\..\Source\Wpf\Prism.Ninject.Wpf\Prism.Ninject.Wpf.csproj">
+      <Project>{5263604a-39ec-4e7b-82dd-8f52c838a77a}</Project>
+      <Name>Prism.Ninject.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Source\Wpf\Prism.Wpf\Prism.Wpf.csproj">
       <Project>{aa8ed3d6-a708-4187-8fac-00f56e063ad7}</Project>
