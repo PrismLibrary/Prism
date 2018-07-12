@@ -26,7 +26,7 @@ namespace Prism.Autofac
             base.RegisterRequiredTypes(containerRegistry);
             containerRegistry.RegisterSingleton<IRegionNavigationContentLoader, AutofacRegionNavigationContentLoader>();
 
-            _serviceLocator = new AutofacServiceLocatorAdapter(containerRegistry.GetContainer());
+            _serviceLocator = new AutofacServiceLocatorAdapter();
             containerRegistry.RegisterInstance<IServiceLocator>(_serviceLocator);
         }
 
@@ -39,6 +39,8 @@ namespace Prism.Autofac
 
         protected override void ConfigureServiceLocator()
         {
+            ((AutofacServiceLocatorAdapter)_serviceLocator).Container = Container.GetContainer();
+
             ServiceLocator.SetLocatorProvider(() => _serviceLocator);
         }
     }
