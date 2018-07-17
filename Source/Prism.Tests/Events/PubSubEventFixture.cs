@@ -11,6 +11,41 @@ namespace Prism.Tests.Events
     public class PubSubEventFixture
     {
         [Fact]
+        public void EnsureSubscriptionListIsEmptyAfterPublishingAMessage()
+        {
+            var pubSubEvent = new TestablePubSubEvent<string>();
+            SubscribeExternalActionWithoutReference(pubSubEvent);
+            GC.Collect();
+            pubSubEvent.Publish("testPayload");
+            Assert.True(pubSubEvent.BaseSubscriptions.Count == 0, "Subscriptionlist is not empty");
+        }
+
+        [Fact]
+        public void EnsureSubscriptionListIsNotEmptyWithoutPublishOrSubscribe()
+        {
+            var pubSubEvent = new TestablePubSubEvent<string>();
+            SubscribeExternalActionWithoutReference(pubSubEvent);
+            GC.Collect();
+            Assert.True(pubSubEvent.BaseSubscriptions.Count == 1, "Subscriptionlist is empty");
+        }
+
+        [Fact]
+        public void EnsureSubscriptionListIsEmptyAfterSubscribeAgainAMessage()
+        {
+            var pubSubEvent = new TestablePubSubEvent<string>();
+            SubscribeExternalActionWithoutReference(pubSubEvent);
+            GC.Collect();
+            SubscribeExternalActionWithoutReference(pubSubEvent);
+            Assert.True(pubSubEvent.BaseSubscriptions.Count == 1, "Subscriptionlist is empty");
+        }
+
+        private static void SubscribeExternalActionWithoutReference(TestablePubSubEvent<string> pubSubEvent)
+        {
+            pubSubEvent.Subscribe(new ExternalAction().ExecuteAction);
+        }
+
+
+        [Fact]
         public void CanSubscribeAndRaiseEvent()
         {
             TestablePubSubEvent<string> pubSubEvent = new TestablePubSubEvent<string>();
