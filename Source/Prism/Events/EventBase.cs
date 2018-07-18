@@ -45,6 +45,7 @@ namespace Prism.Events
 
             lock (Subscriptions)
             {
+                Prune();
                 Subscriptions.Add(eventSubscription);
             }
             return eventSubscription.SubscriptionToken;
@@ -96,30 +97,27 @@ namespace Prism.Events
             }
         }
 
-        private List<Action<object[]>> PruneAndReturnStrategies()
+        private void Prune()
         {
-            List<Action<object[]>> returnList = new List<Action<object[]>>();
-
             lock (Subscriptions)
             {
                 for (var i = Subscriptions.Count - 1; i >= 0; i--)
                 {
-                    Action<object[]> listItem =
-                        _subscriptions[i].GetExecutionStrategy();
-
-                    if (listItem == null)
+                    if (_subscriptions[i].GetExecutionStrategy() == null)
                     {
-                        // Prune from main list. Log?
                         _subscriptions.RemoveAt(i);
-                    }
-                    else
-                    {
-                        returnList.Add(listItem);
                     }
                 }
             }
+        }
 
-            return returnList;
+        private List<Action<object[]>> PruneAndReturnStrategies()
+        {
+            lock (Subscriptions)
+            {
+                Prune();
+                return _subscriptions.Select(x => x.GetExecutionStrategy()).ToList();
+            }
         }
     }
 }
