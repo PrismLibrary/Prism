@@ -41,17 +41,14 @@ namespace Prism.Modularity
         /// </summary>
         public event EventHandler<ModuleDownloadProgressChangedEventArgs> ModuleDownloadProgressChanged;
 
-        private void RaiseModuleDownloadProgressChanged(ModuleInfo moduleInfo, long bytesReceived, long totalBytesToReceive)
+        private void RaiseModuleDownloadProgressChanged(IModuleInfo moduleInfo, long bytesReceived, long totalBytesToReceive)
         {
             this.RaiseModuleDownloadProgressChanged(new ModuleDownloadProgressChangedEventArgs(moduleInfo, bytesReceived, totalBytesToReceive));
         }
 
         private void RaiseModuleDownloadProgressChanged(ModuleDownloadProgressChangedEventArgs e)
         {
-            if (this.ModuleDownloadProgressChanged != null)
-            {
-                this.ModuleDownloadProgressChanged(this, e);
-            }
+            ModuleDownloadProgressChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -59,17 +56,14 @@ namespace Prism.Modularity
         /// </summary>
         public event EventHandler<LoadModuleCompletedEventArgs> LoadModuleCompleted;
 
-        private void RaiseLoadModuleCompleted(ModuleInfo moduleInfo, Exception error)
+        private void RaiseLoadModuleCompleted(IModuleInfo moduleInfo, Exception error)
         {
             this.RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(moduleInfo, error));
         }
 
         private void RaiseLoadModuleCompleted(LoadModuleCompletedEventArgs e)
         {
-            if (this.LoadModuleCompleted != null)
-            {
-                this.LoadModuleCompleted(this, e);
-            }
+            this.LoadModuleCompleted?.Invoke(this, e);
         }
 
         /// <summary>

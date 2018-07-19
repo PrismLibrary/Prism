@@ -215,7 +215,7 @@ namespace Prism.Wpf.Tests.Modularity
             {
             }
 
-            public override void HandleModuleInitializationError(ModuleInfo moduleInfo, string assemblyName, Exception exception)
+            public override void HandleModuleInitializationError(IModuleInfo moduleInfo, string assemblyName, Exception exception)
             {
                 HandleModuleInitializerrorCalled = true;
             }

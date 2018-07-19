@@ -14,7 +14,7 @@ namespace Prism.Modularity
         /// </summary>
         /// <param name="moduleInfo">The module info.</param>
         /// <param name="error">Any error that occurred during the call.</param>
-        public LoadModuleCompletedEventArgs(ModuleInfo moduleInfo, Exception error)
+        public LoadModuleCompletedEventArgs(IModuleInfo moduleInfo, Exception error)
         {
             if (moduleInfo == null)
             {
@@ -29,7 +29,7 @@ namespace Prism.Modularity
         /// Gets the module info.
         /// </summary>
         /// <value>The module info.</value>
-        public ModuleInfo ModuleInfo { get; private set; }
+        public IModuleInfo ModuleInfo { get; private set; }
 
         /// <summary>
         /// Gets any error that occurred

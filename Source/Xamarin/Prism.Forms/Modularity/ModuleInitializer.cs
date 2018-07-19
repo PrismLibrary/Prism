@@ -12,7 +12,7 @@ namespace Prism.Modularity
             _container = container;
         }
 
-        public void Initialize(ModuleInfo moduleInfo)
+        public void Initialize(IModuleInfo moduleInfo)
         {
             var module = CreateModule(Type.GetType(moduleInfo.ModuleType, true));
             if (module != null)

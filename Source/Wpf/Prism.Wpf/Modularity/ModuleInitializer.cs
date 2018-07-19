@@ -20,14 +20,8 @@ namespace Prism.Modularity
         /// <param name="loggerFacade">The logger to use.</param>
         public ModuleInitializer(IContainerExtension containerExtension, ILoggerFacade loggerFacade)
         {
-            if (containerExtension == null)
-                throw new ArgumentNullException(nameof(containerExtension));
-
-            if (loggerFacade == null)
-                throw new ArgumentNullException(nameof(loggerFacade));
-
-            this._containerExtension = containerExtension;
-            this._loggerFacade = loggerFacade;
+            this._containerExtension = containerExtension ?? throw new ArgumentNullException(nameof(containerExtension));
+            this._loggerFacade = loggerFacade ?? throw new ArgumentNullException(nameof(loggerFacade));
         }
 
         /// <summary>
@@ -35,7 +29,7 @@ namespace Prism.Modularity
         /// </summary>
         /// <param name="moduleInfo">The module to initialize</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Catches Exception to handle any exception thrown during the initialization process with the HandleModuleInitializationError method.")]
-        public void Initialize(ModuleInfo moduleInfo)
+        public void Initialize(IModuleInfo moduleInfo)
         {
             if (moduleInfo == null)
                 throw new ArgumentNullException(nameof(moduleInfo));
@@ -54,7 +48,7 @@ namespace Prism.Modularity
             {
                 this.HandleModuleInitializationError(
                     moduleInfo,
-                    moduleInstance != null ? moduleInstance.GetType().Assembly.FullName : null,
+                    moduleInstance?.GetType().Assembly.FullName,
                     ex);
             }
         }
@@ -68,7 +62,7 @@ namespace Prism.Modularity
         /// <param name="assemblyName">The assembly name.</param>
         /// <param name="exception">The exception thrown that is the cause of the current error.</param>
         /// <exception cref="ModuleInitializeException"></exception>
-        public virtual void HandleModuleInitializationError(ModuleInfo moduleInfo, string assemblyName, Exception exception)
+        public virtual void HandleModuleInitializationError(IModuleInfo moduleInfo, string assemblyName, Exception exception)
         {
             if (moduleInfo == null)
                 throw new ArgumentNullException(nameof(moduleInfo));
@@ -104,7 +98,7 @@ namespace Prism.Modularity
         /// </summary>
         /// <param name="moduleInfo">The module to create.</param>
         /// <returns>A new instance of the module specified by <paramref name="moduleInfo"/>.</returns>
-        protected virtual IModule CreateModule(ModuleInfo moduleInfo)
+        protected virtual IModule CreateModule(IModuleInfo moduleInfo)
         {
             if (moduleInfo == null)
                 throw new ArgumentNullException(nameof(moduleInfo));

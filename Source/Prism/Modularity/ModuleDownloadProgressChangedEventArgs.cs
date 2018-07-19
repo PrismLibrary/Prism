@@ -16,7 +16,7 @@ namespace Prism.Modularity
         /// <param name="moduleInfo">The module info.</param>
         /// <param name="bytesReceived">The bytes received.</param>
         /// <param name="totalBytesToReceive">The total bytes to receive.</param>
-        public ModuleDownloadProgressChangedEventArgs(ModuleInfo moduleInfo, long bytesReceived, long totalBytesToReceive)
+        public ModuleDownloadProgressChangedEventArgs(IModuleInfo moduleInfo, long bytesReceived, long totalBytesToReceive)
             : base(CalculateProgressPercentage(bytesReceived, totalBytesToReceive), null)
         {
             if (moduleInfo == null)
@@ -31,7 +31,7 @@ namespace Prism.Modularity
         /// Getsthe module info.
         /// </summary>
         /// <value>The module info.</value>
-        public ModuleInfo ModuleInfo { get; private set; }
+        public IModuleInfo ModuleInfo { get; private set; }
 
         /// <summary>
         /// Gets the bytes received.

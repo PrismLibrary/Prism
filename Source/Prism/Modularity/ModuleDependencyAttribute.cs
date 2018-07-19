@@ -1,5 +1,3 @@
-
-
 using System;
 
 namespace Prism.Modularity
@@ -10,7 +8,6 @@ namespace Prism.Modularity
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public sealed class ModuleDependencyAttribute : Attribute
     {
-        private readonly string _moduleName;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ModuleDependencyAttribute"/>.
@@ -18,16 +15,13 @@ namespace Prism.Modularity
         /// <param name="moduleName">The name of the module that this module is dependant upon.</param>
         public ModuleDependencyAttribute(string moduleName)
         {
-            _moduleName = moduleName;
+            ModuleName = moduleName;
         }
 
         /// <summary>
         /// Gets the name of the module that this module is dependant upon.
         /// </summary>
         /// <value>The name of the module that this module is dependant upon.</value>
-        public string ModuleName
-        {
-            get { return _moduleName; }
-        }
+        public string ModuleName { get; }
     }
 }

@@ -11,6 +11,6 @@ namespace Prism.Modularity
         /// Initializes the specified module.
         /// </summary>
         /// <param name="moduleInfo">The module to initialize</param>
-        void Initialize(ModuleInfo moduleInfo);
+        void Initialize(IModuleInfo moduleInfo);
     }
 }

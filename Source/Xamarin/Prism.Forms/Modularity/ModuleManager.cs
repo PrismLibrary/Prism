@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Prism.Modularity
 {
@@ -51,10 +52,10 @@ namespace Prism.Modularity
         {
             var modules = ModuleCatalog.Modules.Where(m => m.ModuleName == moduleName);
             if (modules == null || modules.Count() == 0)
-                throw new Exception($"Module {moduleName} was not found in the catalog.");
+                throw new ModuleNotFoundException($"Module {moduleName} was not found in the catalog.");
 
             if (modules.Count() != 1)
-                throw new Exception($"A duplicated module with name {moduleName} has been found in the catalog.");
+                throw new DuplicateModuleException($"A duplicated module with name {moduleName} has been found in the catalog.");
 
             LoadModules(modules);
         }
@@ -82,6 +83,7 @@ namespace Prism.Modularity
                     try
                     {
                         moduleInfo.State = ModuleState.Initializing;
+                        LoadDependentModules(moduleInfo);
                         ModuleInitializer.Initialize(moduleInfo);
                         moduleInfo.State = ModuleState.Initialized;
                         LoadModuleCompleted?.Invoke(this, new LoadModuleCompletedEventArgs(moduleInfo, null));
@@ -93,6 +95,21 @@ namespace Prism.Modularity
                     
                 }
             }
+        }
+
+        private void LoadDependentModules(IModuleInfo moduleInfo)
+        {
+            if (!moduleInfo.DependsOn.Any()) return;
+
+            var dependencies = ModuleCatalog.Modules.Where(m => moduleInfo.DependsOn.Contains(m.ModuleName));
+
+            if (moduleInfo.InitializationMode == InitializationMode.WhenAvailable && dependencies.Any(m => m.InitializationMode != InitializationMode.WhenAvailable))
+                throw new ModuleInitializeException(moduleInfo.ModuleName, Type.GetType(moduleInfo.ModuleType).GetTypeInfo().Assembly.FullName, $"Error loading '{moduleInfo.ModuleName}'. A startup module cannot have dependencies with an InitializationMode of OnDemand");
+
+            if (dependencies.Count() != moduleInfo.DependsOn.Count)
+                throw new ModuleInitializeException(moduleInfo.ModuleName, Type.GetType(moduleInfo.ModuleType).GetTypeInfo().Assembly.FullName, $"Error loading '{moduleInfo.ModuleName}'. One or more module dependencies could not be located.");
+
+            LoadModules(dependencies);
         }
     }
 }
