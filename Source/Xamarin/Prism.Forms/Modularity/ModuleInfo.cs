@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Reflection;
 
 namespace Prism.Modularity
 {
@@ -25,15 +26,21 @@ namespace Prism.Modularity
         /// <exception cref="ArgumentNullException">An <see cref="ArgumentNullException"/> is thrown if <paramref name="dependsOn"/> is <see langword="null"/>.</exception>
         public ModuleInfo(string name, string type, params string[] dependsOn)
         {
+            if (Type.GetType(type) == null)
+                throw new ArgumentNullException(nameof(type));
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
             if (dependsOn == null)
                 throw new ArgumentNullException(nameof(dependsOn));
 
-            this.ModuleName = name;
-            this.ModuleType = type;
-            this.DependsOn = new Collection<string>();
+            ModuleName = name;
+            ModuleType = type;
             foreach (string dependency in dependsOn)
             {
-                this.DependsOn.Add(dependency);
+                if (!DependsOn.Contains(dependency))
+                {
+                    DependsOn.Add(dependency);
+                }
             }
         }
 
@@ -85,12 +92,29 @@ namespace Prism.Modularity
         /// <value>The type of the module.</value>
         public string ModuleType { get; set; }
 
+        private Collection<string> _dependsOn;
         /// <summary>
         /// Gets or sets the list of modules that this module depends upon.
         /// </summary>
         /// <value>The list of modules that this module depends upon.</value>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "The setter is here to work around a Silverlight issue with setting properties from within Xaml.")]
-        public Collection<string> DependsOn { get; set; }
+        public Collection<string> DependsOn
+        {
+            get
+            {
+                if(_dependsOn == null)
+                {
+                    _dependsOn = new Collection<string>();
+                    var moduleType = Type.GetType(ModuleType);
+                    foreach(var dependencyAttribute in moduleType.GetTypeInfo().GetCustomAttributes<ModuleDependencyAttribute>())
+                    {
+                        _dependsOn.Add(dependencyAttribute.ModuleName);
+                    }
+                }
+
+                return _dependsOn;
+            }
+            set => _dependsOn = value;
+        }
 
         /// <summary>
         /// Specifies on which stage the Module will be initialized.
