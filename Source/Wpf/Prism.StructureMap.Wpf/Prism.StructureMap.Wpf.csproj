@@ -23,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="StructureMap" Version="4.6.1" />
+    <PackageReference Include="StructureMap" Version="4.7.0" />
     
     <!-- <Reference Include="PresentationFramework" />
     <Reference Include="System" />
