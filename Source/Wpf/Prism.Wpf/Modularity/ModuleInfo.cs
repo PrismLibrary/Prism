@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Collections.ObjectModel;
 
@@ -8,7 +6,7 @@ namespace Prism.Modularity
     /// <summary>
     /// Defines the metadata that describes a module.
     /// </summary>
-    public partial class ModuleInfo : IModuleCatalogItem
+    public partial class ModuleInfo : IModuleInfo
     {
         /// <summary>
         /// Initializes a new empty instance of <see cref="ModuleInfo"/>.

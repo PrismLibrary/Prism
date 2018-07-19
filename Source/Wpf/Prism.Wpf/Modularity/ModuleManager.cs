@@ -239,7 +239,7 @@ namespace Prism.Modularity
                 // If the error is not handled then I log it and raise an exception.
                 if (!e.IsErrorHandled)
                 {
-                    this.HandleModuleTypeLoadingError(e.ModuleInfo, e.Error);
+                    this.HandleModuleTypeLoadingError((ModuleInfo)e.ModuleInfo, e.Error);
                 }
             }
         }

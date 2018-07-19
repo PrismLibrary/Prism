@@ -501,9 +501,9 @@ namespace Prism.Wpf.Tests.Modularity
     internal class MockModuleInitializer : IModuleInitializer
     {
         public bool InitializeCalled;
-        public List<ModuleInfo> InitializedModules = new List<ModuleInfo>();
+        public List<IModuleInfo> InitializedModules = new List<IModuleInfo>();
 
-        public void Initialize(ModuleInfo moduleInfo)
+        public void Initialize(IModuleInfo moduleInfo)
         {
             InitializeCalled = true;            
             this.InitializedModules.Add(moduleInfo);
@@ -514,9 +514,9 @@ namespace Prism.Wpf.Tests.Modularity
     {
         public Action<ModuleInfo> Initialize;
 
-        void IModuleInitializer.Initialize(ModuleInfo moduleInfo)
+        void IModuleInitializer.Initialize(IModuleInfo moduleInfo)
         {
-            this.Initialize(moduleInfo);
+            this.Initialize((ModuleInfo)moduleInfo);
         }
     }
 
@@ -524,9 +524,9 @@ namespace Prism.Wpf.Tests.Modularity
     {
         public Action<ModuleInfo> LoadBody;
 
-        public void Initialize(ModuleInfo moduleInfo)
+        public void Initialize(IModuleInfo moduleInfo)
         {
-            LoadBody(moduleInfo);
+            LoadBody((ModuleInfo)moduleInfo);
         }
     }
 }
