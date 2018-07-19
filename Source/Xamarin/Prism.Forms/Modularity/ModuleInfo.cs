@@ -7,7 +7,7 @@ namespace Prism.Modularity
     /// <summary>
     /// Defines the metadata that describes a module.
     /// </summary>
-    public partial class ModuleInfo : IModuleCatalogItem, IModuleInfo
+    public partial class ModuleInfo : IModuleInfo
     {
         /// <summary>
         /// Initializes a new empty instance of <see cref="ModuleInfo"/>.
