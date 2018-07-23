@@ -10,12 +10,12 @@ namespace Prism.Modularity
     public interface IModuleManager
     {
         /// <summary>
-        /// Initializes the modules marked as <see cref="InitializationMode.WhenAvailable"/> on the <see cref="ModuleCatalog"/>.
+        /// Initializes the modules marked as <see cref="InitializationMode.WhenAvailable"/> on the <see cref="IModuleCatalog"/>.
         /// </summary>
         void Run();
 
         /// <summary>
-        /// Loads and initializes the module on the <see cref="ModuleCatalog"/> with the name <paramref name="moduleName"/>.
+        /// Loads and initializes the module on the <see cref="IModuleCatalog"/> with the name <paramref name="moduleName"/>.
         /// </summary>
         /// <param name="moduleName">Name of the module requested for initialization.</param>
         void LoadModule(string moduleName);

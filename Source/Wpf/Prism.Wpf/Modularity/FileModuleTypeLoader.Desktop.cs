@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -67,8 +65,8 @@ namespace Prism.Modularity
         }
 
         /// <summary>
-        /// Evaluates the <see cref="ModuleInfo.Ref"/> property to see if the current typeloader will be able to retrieve the <paramref name="moduleInfo"/>.
-        /// Returns true if the <see cref="ModuleInfo.Ref"/> property starts with "file://", because this indicates that the file
+        /// Evaluates the <see cref="IModuleInfo.Ref"/> property to see if the current typeloader will be able to retrieve the <paramref name="moduleInfo"/>.
+        /// Returns true if the <see cref="IModuleInfo.Ref"/> property starts with "file://", because this indicates that the file
         /// is a local file.
         /// </summary>
         /// <param name="moduleInfo">Module that should have it's type loaded.</param>
@@ -76,7 +74,7 @@ namespace Prism.Modularity
         /// 	<see langword="true"/> if the current typeloader is able to retrieve the module, otherwise <see langword="false"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException">An <see cref="ArgumentNullException"/> is thrown if <paramref name="moduleInfo"/> is null.</exception>
-        public bool CanLoadModuleType(ModuleInfo moduleInfo)
+        public bool CanLoadModuleType(IModuleInfo moduleInfo)
         {
             if (moduleInfo == null)
             {
@@ -92,7 +90,7 @@ namespace Prism.Modularity
         /// </summary>
         /// <param name="moduleInfo">Module that should have it's type loaded.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exception is rethrown as part of a completion event")]
-        public void LoadModuleType(ModuleInfo moduleInfo)
+        public void LoadModuleType(IModuleInfo moduleInfo)
         {
             if (moduleInfo == null)
             {
@@ -174,8 +172,7 @@ namespace Prism.Modularity
         /// <param name="disposing">When <see langword="true"/>, it is being called from the Dispose method.</param>
         protected virtual void Dispose(bool disposing)
         {
-            IDisposable disposableResolver = this.assemblyResolver as IDisposable;
-            if (disposableResolver != null)
+            if (this.assemblyResolver is IDisposable disposableResolver)
             {
                 disposableResolver.Dispose();
             }

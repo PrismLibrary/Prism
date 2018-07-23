@@ -80,6 +80,15 @@ namespace Prism.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to At least one cyclic dependency has been found in the module catalog. Cycles in the module dependencies must be avoided..
+        /// </summary>
+        internal static string CyclicDependencyFound {
+            get {
+                return ResourceManager.GetString("CyclicDependencyFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {1}: {2}. Priority: {3}. Timestamp:{0:u}..
         /// </summary>
         internal static string DefaultDebugLoggerPattern {
@@ -103,6 +112,33 @@ namespace Prism.Properties {
         internal static string DelegateCommandInvalidGenericPayloadType {
             get {
                 return ResourceManager.GetString("DelegateCommandInvalidGenericPayloadType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot add dependency for unknown module {0}.
+        /// </summary>
+        internal static string DependencyForUnknownModule {
+            get {
+                return ResourceManager.GetString("DependencyForUnknownModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A module declared a dependency on another module which is not declared to be loaded. Missing module(s): {0}.
+        /// </summary>
+        internal static string DependencyOnMissingModule {
+            get {
+                return ResourceManager.GetString("DependencyOnMissingModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A duplicated module with name {0} has been found by the loader..
+        /// </summary>
+        internal static string DuplicatedModule {
+            get {
+                return ResourceManager.GetString("DuplicatedModule", resourceCulture);
             }
         }
         
@@ -169,6 +205,15 @@ namespace Prism.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Module {0} depends on other modules that don&apos;t belong to the same group..
+        /// </summary>
+        internal static string ModuleDependenciesNotMetInGroup {
+            get {
+                return ResourceManager.GetString("ModuleDependenciesNotMetInGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The member access expression does not access a property..
         /// </summary>
         internal static string PropertySupport_ExpressionNotProperty_Exception {
@@ -192,6 +237,24 @@ namespace Prism.Properties {
         internal static string PropertySupport_StaticExpression_Exception {
             get {
                 return ResourceManager.GetString("PropertySupport_StaticExpression_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Module {0} is marked for automatic initialization when the application starts, but it depends on modules that are marked as OnDemand initialization. To fix this error, mark the dependency modules for InitializationMode=WhenAvailable, or remove this validation by extending the ModuleCatalog class..
+        /// </summary>
+        internal static string StartupModuleDependsOnAnOnDemandModule {
+            get {
+                return ResourceManager.GetString("StartupModuleDependsOnAnOnDemandModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The provided String argument {0} must not be null or empty..
+        /// </summary>
+        internal static string StringCannotBeNullOrEmpty {
+            get {
+                return ResourceManager.GetString("StringCannotBeNullOrEmpty", resourceCulture);
             }
         }
     }

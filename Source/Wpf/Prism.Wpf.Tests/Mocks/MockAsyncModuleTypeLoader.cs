@@ -19,12 +19,12 @@ namespace Prism.Wpf.Tests.Mocks
 
         public Exception CallbackArgumentError { get; set; }
 
-        public bool CanLoadModuleType(ModuleInfo moduleInfo)
+        public bool CanLoadModuleType(IModuleInfo moduleInfo)
         {
             return true;
         }
 
-        public void LoadModuleType(ModuleInfo moduleInfo)
+        public void LoadModuleType(IModuleInfo moduleInfo)
         {
             Thread retrieverThread = new Thread(() =>
             {
@@ -41,20 +41,14 @@ namespace Prism.Wpf.Tests.Mocks
 
         private void RaiseLoadModuleProgressChanged(ModuleDownloadProgressChangedEventArgs e)
         {
-            if (this.ModuleDownloadProgressChanged != null)
-            {
-                this.ModuleDownloadProgressChanged(this, e);
-            }
+            this.ModuleDownloadProgressChanged?.Invoke(this, e);
         }
 
         public event EventHandler<LoadModuleCompletedEventArgs> LoadModuleCompleted;
 
         private void RaiseLoadModuleCompleted(LoadModuleCompletedEventArgs e)
         {
-            if (this.LoadModuleCompleted != null)
-            {
-                this.LoadModuleCompleted(this, e);
-            }
+            this.LoadModuleCompleted?.Invoke(this, e);
         }
     }
 }
