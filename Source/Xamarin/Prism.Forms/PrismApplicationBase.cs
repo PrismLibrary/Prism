@@ -63,7 +63,7 @@ namespace Prism
         /// Also determines whether to set the <see cref="DependencyResolver" /> for resolving Renderers and Platform Effects.
         /// </summary>
         /// <param name="platformInitializer">The <see cref="IPlatformInitializer"/>.</param>
-        /// <param name="setFormsDependencyResolver">Should <see cref="PrismApplication" /> set the <see cref="DependencyResolver" />.</param>
+        /// <param name="setFormsDependencyResolver">Should <see cref="PrismApplicationBase" /> set the <see cref="DependencyResolver" />.</param>
         protected PrismApplicationBase(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver)
         {
             base.ModalPopping += PrismApplicationBase_ModalPopping;
@@ -85,7 +85,7 @@ namespace Prism
         }
 
         /// <summary>
-        /// Configures the <see cref="Prism.Mvvm.ViewModelLocator"/> used by Prism.
+        /// Configures the <see cref="ViewModelLocator"/> used by Prism.
         /// </summary>
         protected virtual void ConfigureViewModelLocator()
         {
