@@ -23,7 +23,7 @@ namespace Prism.Modularity
     /// The <see cref="ModuleCatalog"/> also serves as a baseclass for more specialized Catalogs .
     /// </summary>
     [ContentProperty("Items")]
-    public class ModuleCatalog : ModuleCatalogBase
+    public class ModuleCatalog : ModuleCatalogBase, IModuleGroupsCatalog
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModuleCatalog"/> class.
@@ -72,35 +72,5 @@ namespace Prism.Modularity
 
             return null;
         }
-
-        /// <summary>
-        /// Creates and adds a <see cref="ModuleInfoGroup"/> to the catalog.
-        /// </summary>
-        /// <param name="initializationMode">Stage on which the module group to be added will be initialized.</param>
-        /// <param name="refValue">Reference to the location of the module group to be added.</param>
-        /// <param name="moduleInfos">Collection of <see cref="ModuleInfo"/> included in the group.</param>
-        /// <returns><see cref="ModuleCatalog"/> with the added module group.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Infos")]
-        public virtual ModuleCatalog AddGroup(InitializationMode initializationMode, string refValue, params ModuleInfo[] moduleInfos)
-        {
-            if (moduleInfos == null)
-                throw new ArgumentNullException(nameof(moduleInfos));
-
-            ModuleInfoGroup newGroup = new ModuleInfoGroup
-            {
-                InitializationMode = initializationMode,
-                Ref = refValue
-            };
-
-            foreach (var info in moduleInfos)
-            {
-                newGroup.Add(info);
-            }
-
-            Items.Add(newGroup);
-
-            return this;
-        }
-
     }
 }

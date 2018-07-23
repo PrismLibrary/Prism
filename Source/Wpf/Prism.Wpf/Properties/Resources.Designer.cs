@@ -283,6 +283,15 @@ namespace Prism.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The ModuleCatalog must implement IModuleGroupCatalog to add groups.
+        /// </summary>
+        internal static string MustBeModuleGroupCatalog {
+            get {
+                return ResourceManager.GetString("MustBeModuleGroupCatalog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Navigation is already in progress on region with name &apos;{0}&apos;..
         /// </summary>
         internal static string NavigationInProgress {

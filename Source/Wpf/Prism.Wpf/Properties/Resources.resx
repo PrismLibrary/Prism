@@ -274,4 +274,7 @@
   <data name="ViewNotInRegionException" xml:space="preserve">
     <value>The region does not contain the specified view.</value>
   </data>
+  <data name="MustBeModuleGroupCatalog" xml:space="preserve">
+    <value>The ModuleCatalog must implement IModuleGroupCatalog to add groups</value>
+  </data>
 </root>
