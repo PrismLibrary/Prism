@@ -12,20 +12,6 @@ namespace Prism.Modularity
     [ContentProperty(nameof(Items))]
     public class ModuleCatalog : ModuleCatalogBase
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ModuleCatalog"/> class.
-        /// </summary>
-        public ModuleCatalog() : base()
-        {
-        }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ModuleCatalog"/> class while providing an
-        /// initial list of <see cref="ModuleInfo"/>s.
-        /// </summary>
-        /// <param name="modules">The initial list of modules.</param>
-        public ModuleCatalog(IEnumerable<ModuleInfo> modules) : base(modules)
-        {
-        }
     }
 }
