@@ -13,7 +13,6 @@ namespace Prism.Modularity
         /// Initializes a new empty instance of <see cref="ModuleInfo"/>.
         /// </summary>
         public ModuleInfo()
-            : this(null, null, new string[0])
         {
         }
 
@@ -26,15 +25,13 @@ namespace Prism.Modularity
         /// <exception cref="ArgumentNullException">An <see cref="ArgumentNullException"/> is thrown if <paramref name="dependsOn"/> is <see langword="null"/>.</exception>
         public ModuleInfo(string name, string type, params string[] dependsOn)
         {
-            if (Type.GetType(type) == null)
-                throw new ArgumentNullException(nameof(type));
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
             if (dependsOn == null)
                 throw new ArgumentNullException(nameof(dependsOn));
 
             ModuleName = name;
-            ModuleType = type;
+            ModuleType = Type.GetType(type) ?? throw new ArgumentNullException(nameof(type));
             foreach (string dependency in dependsOn)
             {
                 if (!DependsOn.Contains(dependency))
@@ -86,11 +83,17 @@ namespace Prism.Modularity
         /// <value>The name of the module.</value>
         public string ModuleName { get; set; }
 
+        string IModuleInfo.ModuleType
+        {
+            get => ModuleType.AssemblyQualifiedName;
+            set => ModuleType = Type.GetType(value);
+        }
+
         /// <summary>
         /// Gets or sets the module <see cref="Type"/>'s AssemblyQualifiedName.
         /// </summary>
         /// <value>The type of the module.</value>
-        public string ModuleType { get; set; }
+        public Type ModuleType { get; set; }
 
         private Collection<string> _dependsOn;
         /// <summary>
@@ -104,7 +107,7 @@ namespace Prism.Modularity
                 if(_dependsOn == null)
                 {
                     _dependsOn = new Collection<string>();
-                    var moduleType = Type.GetType(ModuleType);
+                    var moduleType = ModuleType;
                     foreach(var dependencyAttribute in moduleType.GetTypeInfo().GetCustomAttributes<ModuleDependencyAttribute>())
                     {
                         _dependsOn.Add(dependencyAttribute.ModuleName);
@@ -122,12 +125,13 @@ namespace Prism.Modularity
         public InitializationMode InitializationMode { get; set; }
 
         /// <summary>
-        /// Reference to the location of the module assembly.
-        /// <example>The following are examples of valid <see cref="ModuleInfo.Ref"/> values:
-        /// file://c:/MyProject/Modules/MyModule.dll for a loose DLL in WPF.
-        /// </example>
+        /// Reference to the location of the module assembly. Not Supported by Xamarin.Forms
         /// </summary>
-        public string Ref { get; set; }
+        public string Ref
+        {
+            get => throw new NotSupportedException("Module Reference Location is not supported in Xamarin.Forms");
+            set { }
+        }
 
         /// <summary>
         /// Gets or sets the state of the <see cref="ModuleInfo"/> with regards to the module loading and initialization process.
