@@ -5,13 +5,6 @@ using Windows.UI.Xaml;
 
 namespace Prism
 {
-    public interface IPrismApplicationEvents
-    {
-        event EnteredBackgroundEventHandler EnteredBackground;
-        event LeavingBackgroundEventHandler LeavingBackground;
-        event TypedEventHandler<PrismApplicationBase, WindowCreatedEventArgs> WindowCreated;
-    }
-
     public abstract partial class PrismApplicationBase : IPrismApplicationEvents
     {
 #pragma warning disable CS0067 // unused events
