@@ -60,7 +60,12 @@ namespace Prism
         private void InternalInitialize()
         {
             // don't forget there is no logger yet
+#if UAP10_0_15063
+            Debug.WriteLine($"{nameof(PrismApplicationBase)}.{nameof(InternalInitialize)}");
+#else
             Console.WriteLine($"{nameof(PrismApplicationBase)}.{nameof(InternalInitialize)}");
+#endif
+
 
             // dependecy injection
             _containerExtension = CreateContainer();
@@ -77,7 +82,12 @@ namespace Prism
         private async Task InternalStartAsync(StartArgs startArgs)
         {
             await _startSemaphore.WaitAsync();
+#if UAP10_0_15063
             Debug.WriteLine($"{nameof(PrismApplicationBase)}.{nameof(InternalStartAsync)}({startArgs})");
+#else
+            Console.WriteLine($"{nameof(PrismApplicationBase)}.{nameof(InternalStartAsync)}({startArgs})");
+#endif
+
             try
             {
                 TestResuming(startArgs);
@@ -87,8 +97,11 @@ namespace Prism
             }
             catch (Exception ex)
             {
+#if UAP10_0_15063
                 Debug.WriteLine($"ERROR {ex.Message}");
-                Debugger.Break();
+#else
+                Console.WriteLine($"ERROR {ex.Message}");
+#endif
             }
             finally
             {
@@ -108,7 +121,7 @@ namespace Prism
             }
         }
 
-        #region overrides
+#region overrides
 
         public virtual void OnSuspending() { /* empty */ }
 
@@ -147,6 +160,6 @@ namespace Prism
             container.RegisterSingleton<IEventAggregator, EventAggregator>();
         }
 
-        #endregion
+#endregion
     }
 }

@@ -48,7 +48,9 @@ namespace Prism
                     case IDevicePairingActivatedEventArgs d: return StartCauses.DevicePairing;
                     case IContactPanelActivatedEventArgs c: return StartCauses.ContactPanel;
                     // https://blogs.windows.com/buildingapps/2017/07/28/restart-app-programmatically/#1sGJmiirzC2MtROE.97
+#if !UAP10_0_15063
                     case ICommandLineActivatedEventArgs c: return StartCauses.CommandLine;
+#endif
                     case IActivatedEventArgs r when (r != null && r.Kind == ActivationKind.Launch && r.PreviousExecutionState == ApplicationExecutionState.Terminated): return StartCauses.Restart;
                     case null: return StartCauses.Undetermined;
                     default: return StartCauses.Undetermined;
