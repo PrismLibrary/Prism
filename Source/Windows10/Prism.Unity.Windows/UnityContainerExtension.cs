@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Prism.Unity
 {
-    public class UnityContainerExtension : IContainerExtension<IUnityContainer>
+    public sealed class UnityContainerExtension : IContainerExtension<IUnityContainer>
     {
         public IUnityContainer Instance { get; }
 
