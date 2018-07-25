@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using DryIoc;
 using Prism.Ioc;
+using Prism.Navigation;
+using Windows.UI.Xaml.Controls;
 
 namespace Prism.DryIoc
 {
@@ -53,14 +55,12 @@ namespace Prism.DryIoc
 
         public object ResolveViewModelForView(object view, Type viewModelType)
         {
-            //switch (view)
-            //{
-            //    case Page page:
-            //        var getVM = Instance.Resolve<Func<Page, object>>(viewModelType);
-            //        return getVM(page);
-            //    default:
-                   return Instance.Resolve(viewModelType);
-            //}
+            if (view is Page page)
+            {
+                var service = NavigationService.Instances[page.Frame];
+                return Instance.Resolve(viewModelType, new[] { service });
+            }
+            return Instance.Resolve(viewModelType);
         }
     }
 }

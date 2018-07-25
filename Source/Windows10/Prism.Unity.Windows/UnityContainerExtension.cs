@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Prism.Ioc;
 using Prism.Navigation;
 using Unity;
@@ -53,7 +52,16 @@ namespace Prism.Unity
             if (view is Page page)
             {
                 var service = NavigationService.Instances[page.Frame];
-                return this.Resolve(viewModelType, (PrismApplicationBase.NavigationServiceParameterName, service));
+                ResolverOverride[] overrides = null;
+
+                overrides = new ResolverOverride[]
+                {
+                    new DependencyOverride(
+                        typeof(INavigationService),
+                        service
+                    )
+                };
+                return Instance.Resolve(viewModelType);
             }
             else
             {

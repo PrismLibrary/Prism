@@ -21,7 +21,7 @@ namespace Prism
     {
         public new static PrismApplicationBase Current => (PrismApplicationBase)Application.Current;
         private static SemaphoreSlim _startSemaphore = new SemaphoreSlim(1, 1);
-        public const string NavigationServiceParameterName = "navigationService";
+        public const string NavigationServiceName = "PageNavigationService";
 
         public PrismApplicationBase()
         {
@@ -54,13 +54,13 @@ namespace Prism
             };
         }
 
-        IContainerExtension _containerExtension;
+        private IContainerExtension _containerExtension;
         public IContainerProvider Container => _containerExtension;
 
         private void InternalInitialize()
         {
             // don't forget there is no logger yet
-            Debug.WriteLine($"{nameof(PrismApplicationBase)}.{nameof(InternalInitialize)}");
+            Console.WriteLine($"{nameof(PrismApplicationBase)}.{nameof(InternalInitialize)}");
 
             // dependecy injection
             _containerExtension = CreateContainer();
@@ -139,7 +139,7 @@ namespace Prism
         {
             // required for view-models
 
-            container.Register<INavigationService, NavigationService>(NavigationServiceParameterName);
+            container.Register<INavigationService, NavigationService>(NavigationServiceName);
 
             // standard prism services
 

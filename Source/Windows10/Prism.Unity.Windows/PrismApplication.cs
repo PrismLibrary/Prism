@@ -1,8 +1,4 @@
-﻿
-using Prism.Events;
-using Prism.Ioc;
-using Prism.Logging;
-using Prism.Navigation;
+﻿using Prism.Ioc;
 using Unity;
 
 namespace Prism.Unity

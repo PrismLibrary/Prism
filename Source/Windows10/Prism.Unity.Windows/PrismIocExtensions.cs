@@ -1,5 +1,5 @@
-﻿using Prism.Ioc;
-using System;
+﻿using System;
+using Prism.Ioc;
 using Unity;
 using Unity.Resolution;
 

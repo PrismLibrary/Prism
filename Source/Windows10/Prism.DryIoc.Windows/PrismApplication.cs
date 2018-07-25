@@ -1,11 +1,5 @@
-using System;
-using System.Linq;
-using System.Reflection;
 using DryIoc;
-using Prism.Common;
 using Prism.Ioc;
-using Prism.Logging;
-using Prism.Navigation;
 
 namespace Prism.DryIoc
 {
@@ -18,7 +12,7 @@ namespace Prism.DryIoc
         /// Creates the <see cref="IContainerExtension"/> for DryIoc
         /// </summary>
         /// <returns></returns>
-        protected override IContainerExtension CreateContainerExtension()
+        public virtual IContainerExtension CreateContainerExtension()
         {
             return new DryIocContainerExtension(new Container(CreateContainerRules()));
         }
