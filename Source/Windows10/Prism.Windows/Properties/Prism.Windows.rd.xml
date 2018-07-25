@@ -22,10 +22,10 @@
         types or methods decorated with an attribute.
 
     For more information on writing Runtime Directives for libraries, please visit
-    http://go.microsoft.com/fwlink/?LinkId=613100
+    https://go.microsoft.com/fwlink/?LinkID=391919
 -->
 <Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
-  <Library Name="Prism.Windows">
+  <Library Name="Prism">
 
   	<!-- add directives for your library here -->
 

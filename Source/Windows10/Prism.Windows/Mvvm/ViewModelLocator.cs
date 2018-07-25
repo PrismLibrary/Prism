@@ -1,34 +1,37 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Utilities;
+using System;
+using System.Linq;
+using System.Reflection;
 using Windows.UI.Xaml;
 
-namespace Prism.Windows.Mvvm
+namespace Prism.Mvvm
 {
     public class ViewModelLocator
     {
-        public static readonly DependencyProperty AutoWireViewModelProperty =
-            DependencyProperty.RegisterAttached("AutoWireViewModel", typeof(bool), typeof(ViewModelLocator), new PropertyMetadata(false, OnAutoWireViewModelChanged));
-
-        public static bool GetAutoWireViewModel(DependencyObject obj)
+        public static bool? GetAutowireViewModel(DependencyObject obj)
         {
-            return (bool)obj.GetValue(AutoWireViewModelProperty);
+            return (bool?)obj.GetValue(AutowireViewModelProperty);
         }
-
-        public static void SetAutoWireViewModel(DependencyObject obj, bool value)
+        public static void SetAutowireViewModel(DependencyObject obj, bool? value)
         {
-            obj.SetValue(AutoWireViewModelProperty, value);
+            obj.SetValue(AutowireViewModelProperty, value);
         }
-
-        private static void OnAutoWireViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static readonly DependencyProperty AutowireViewModelProperty =
+            DependencyProperty.RegisterAttached("AutowireViewModel", typeof(bool?),
+                typeof(ViewModelLocator), new PropertyMetadata(null, AutowireViewModelChanged));
+        private static void AutowireViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if ((bool)e.NewValue)
-                ViewModelLocationProvider.AutoWireViewModelChanged(d, Bind);
+            if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                if (((bool?)e.NewValue) == true)
+                {
+                    ViewModelLocationProvider.AutoWireViewModelChanged(d, Bind);
+                }
+            }
         }
-
-        private static void Bind(object view, object viewModel)
+        private static void Bind(object view, object viewmodel)
         {
-            var element = view as FrameworkElement;
-            if (element != null)
-                element.DataContext = viewModel;
+            (view as FrameworkElement).DataContext = viewmodel;
         }
     }
 }
