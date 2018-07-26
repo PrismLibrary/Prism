@@ -184,5 +184,22 @@ namespace Prism.Mvvm
         {
             _typeFactories[viewTypeName] = viewModelType;
         }
+
+        public static object GetViewModelForKey(string viewKey, object view)
+        {
+            if (_typeFactories.TryGetValue(viewKey, out var viewModelType))
+            {
+                return GetViewModelForType(viewModelType, view);
+            }
+
+            return null;
+        }
+
+        private static object GetViewModelForType(Type viewModelType, object view)
+        {
+            return _defaultViewModelFactoryWithViewParameter != null ?
+                _defaultViewModelFactoryWithViewParameter(view, viewModelType) : 
+                _defaultViewModelFactory(viewModelType);
+        }
     }
 }
