@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Mvvm;
 using Xamarin.Forms;
 
 namespace Prism.Navigation
@@ -722,7 +723,12 @@ namespace Prism.Navigation
                 if (page == null)
                     throw new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
 
-                PageUtilities.SetAutowireViewModelOnPage(page);
+                var viewModel = ViewModelLocationProvider.GetViewModelForKey(segment, page);
+                if (viewModel != null)
+                    page.BindingContext = viewModel;
+                else
+                    PageUtilities.SetAutowireViewModelOnPage(page);
+
                 _pageBehaviorFactory.ApplyPageBehaviors(page);
                 ConfigurePages(page, segment);
 
