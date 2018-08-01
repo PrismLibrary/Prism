@@ -2,6 +2,7 @@
 using Autofac.Core;
 using Autofac.Features.ResolveAnything;
 using Prism.Ioc;
+using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using Xamarin.Forms;
@@ -61,9 +62,18 @@ namespace Prism.Autofac
         public object ResolveViewModelForView(object view, Type viewModelType)
         {
             Parameter parameter = null;
-            if (view is Page page)
+            switch(view)
             {
-                parameter = new TypedParameter(typeof(INavigationService), this.CreateNavigationService(page));
+                case Page page:
+                    parameter = new TypedParameter(typeof(INavigationService), this.CreateNavigationService(page));
+                    break;
+                case BindableObject bindable:
+                    var attachedPage = bindable.GetValue(ViewModelLocator.AutowirePartialViewProperty) as Page;
+                    if(attachedPage != null)
+                    {
+                        parameter = new TypedParameter(typeof(INavigationService), this.CreateNavigationService(attachedPage));
+                    }
+                    break;
             }
 
             return Instance.Resolve(viewModelType, parameter);

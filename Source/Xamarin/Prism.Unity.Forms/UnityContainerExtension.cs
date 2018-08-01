@@ -1,7 +1,9 @@
 ﻿using Prism.Ioc;
+using Prism.Mvvm;
 using System;
 using Unity;
 using Unity.Resolution;
+using Xamarin.Forms;
 
 namespace Prism.Unity
 {
@@ -49,15 +51,30 @@ namespace Prism.Unity
         {
             ResolverOverride[] overrides = null;
 
-            if(view is Xamarin.Forms.Page page)
+            switch (view)
             {
-                overrides = new ResolverOverride[]
-                {
-                    new DependencyOverride(
-                        typeof(Navigation.INavigationService),
-                        this.CreateNavigationService(page)
-                    )
-                };
+                case Page page:
+                    overrides = new ResolverOverride[]
+                    {
+                        new DependencyOverride(
+                            typeof(Navigation.INavigationService),
+                            this.CreateNavigationService(page)
+                        )
+                    };
+                    break;
+                case BindableObject bindable:
+                    var attachedPage = bindable.GetValue(ViewModelLocator.AutowirePartialViewProperty) as Page;
+                    if (attachedPage != null)
+                    {
+                        overrides = new ResolverOverride[]
+                        {
+                            new DependencyOverride(
+                                typeof(Navigation.INavigationService),
+                                this.CreateNavigationService(attachedPage)
+                            )
+                        };
+                    }
+                    break;
             }
 
             return Instance.Resolve(viewModelType, overrides);

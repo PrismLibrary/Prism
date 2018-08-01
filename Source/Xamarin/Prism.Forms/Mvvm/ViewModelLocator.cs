@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Collections.Generic;
+using Xamarin.Forms;
 
 namespace Prism.Mvvm
 {
@@ -12,6 +13,12 @@ namespace Prism.Mvvm
         /// </summary>
         public static readonly BindableProperty AutowireViewModelProperty =
             BindableProperty.CreateAttached("AutowireViewModel", typeof(bool?), typeof(ViewModelLocator), null, propertyChanged: OnAutowireViewModelChanged);
+
+        public static readonly BindableProperty AutowirePartialViewProperty =
+            BindableProperty.CreateAttached("AutowirePartialView", typeof(Page), typeof(ViewModelLocator), null, propertyChanged: OnAutowirePartialViewChanged);
+
+        internal static readonly BindableProperty PartialViewsProperty =
+            BindableProperty.CreateAttached("PrismPartialViews", typeof(List<BindableObject>), typeof(ViewModelLocator), new List<Page>());
 
         /// <summary>
         /// Gets the AutowireViewModel property value.
@@ -40,15 +47,29 @@ namespace Prism.Mvvm
                 ViewModelLocationProvider.AutoWireViewModelChanged(bindable, Bind);
         }
 
+        private static void OnAutowirePartialViewChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            if (oldValue == newValue)
+                return;
+
+            if(newValue != null && newValue is Page page)
+            {
+                // Add View to Views Collection for Page.
+                var partialViews = page.GetValue(PartialViewsProperty) as List<BindableObject>;
+                partialViews.Add(bindable);
+                // Set Autowire Property
+                bindable.SetValue(AutowireViewModelProperty, true);
+            }
+        }
+
         /// <summary>
         /// Sets the <see cref="Xamarin.Forms.BindableObject.BindingContext"/> of a View
         /// </summary>
         /// <param name="view">The View to set the <see cref="Xamarin.Forms.BindableObject.BindingContext"/> on</param>
         /// <param name="viewModel">The object to use as the <see cref="Xamarin.Forms.BindableObject.BindingContext"/> for the View</param>
-        static void Bind(object view, object viewModel)
+        private static void Bind(object view, object viewModel)
         {
-            BindableObject element = view as BindableObject;
-            if (element != null)
+            if (view is BindableObject element)
                 element.BindingContext = viewModel;
         }
     }
