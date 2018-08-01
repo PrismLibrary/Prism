@@ -24,10 +24,10 @@ namespace Prism.Common
                 }
             }
 
-            if(view is Page page && 
-              (page.GetValue(ViewModelLocator.AutowirePartialViewProperty) as List<BindableObject>).Any())
+            if(view is Page page)
             {
-                foreach(var partial in (page.GetValue(ViewModelLocator.AutowirePartialViewProperty) as List<BindableObject>))
+                var partials = (List<BindableObject>)page.GetValue(ViewModelLocator.PartialViewsProperty);
+                foreach(var partial in partials)
                 {
                     InvokeViewAndViewModelAction(partial, action);
                 }

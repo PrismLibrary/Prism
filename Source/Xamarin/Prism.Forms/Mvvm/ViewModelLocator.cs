@@ -18,7 +18,7 @@ namespace Prism.Mvvm
             BindableProperty.CreateAttached("AutowirePartialView", typeof(Page), typeof(ViewModelLocator), null, propertyChanged: OnAutowirePartialViewChanged);
 
         internal static readonly BindableProperty PartialViewsProperty =
-            BindableProperty.CreateAttached("PrismPartialViews", typeof(List<BindableObject>), typeof(ViewModelLocator), new List<Page>());
+            BindableProperty.CreateAttached("PrismPartialViews", typeof(List<BindableObject>), typeof(ViewModelLocator), new List<BindableObject>());
 
         /// <summary>
         /// Gets the AutowireViewModel property value.
