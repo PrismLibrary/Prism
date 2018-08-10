@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Prism.Properties;
 
 namespace Prism.Modularity
 {
@@ -52,12 +54,17 @@ namespace Prism.Modularity
         {
             var modules = ModuleCatalog.Modules.Where(m => m.ModuleName == moduleName);
             if (modules == null || modules.Count() == 0)
-                throw new ModuleNotFoundException($"Module {moduleName} was not found in the catalog.");
+            {
+                throw new ModuleNotFoundException(moduleName, string.Format(CultureInfo.CurrentCulture, Resources.ModuleNotFound, moduleName));
+            }
+            else if(modules.Count() > 1)
+            {
+                throw new DuplicateModuleException(moduleName, string.Format(CultureInfo.CurrentCulture, Resources.DuplicatedModuleInCatalog, moduleName));
+            }
 
-            if (modules.Count() != 1)
-                throw new DuplicateModuleException($"A duplicated module with name {moduleName} has been found in the catalog.");
+            var modulesToLoad = ModuleCatalog.CompleteListWithDependencies(modules);
 
-            LoadModules(modules);
+            LoadModules(modulesToLoad);
         }
 
         /// <summary>
@@ -73,8 +80,8 @@ namespace Prism.Modularity
         /// <summary>
         /// Loads the specified modules.
         /// </summary>
-        /// <param name="moduleInfos"><see cref="ModuleInfo"/>.</param>
-        protected virtual void LoadModules(IEnumerable<ModuleInfo> moduleInfos)
+        /// <param name="moduleInfos"><see cref="IModuleInfo"/>.</param>
+        protected virtual void LoadModules(IEnumerable<IModuleInfo> moduleInfos)
         {
             foreach (var moduleInfo in moduleInfos)
             {
@@ -83,33 +90,27 @@ namespace Prism.Modularity
                     try
                     {
                         moduleInfo.State = ModuleState.Initializing;
-                        LoadDependentModules(moduleInfo);
                         ModuleInitializer.Initialize(moduleInfo);
                         moduleInfo.State = ModuleState.Initialized;
-                        LoadModuleCompleted?.Invoke(this, new LoadModuleCompletedEventArgs(moduleInfo, null));
+                        RaiseLoadModuleCompleted(moduleInfo);
                     }
                     catch (Exception ex)
                     {
-                        LoadModuleCompleted?.Invoke(this, new LoadModuleCompletedEventArgs(moduleInfo, ex));
+                        RaiseLoadModuleCompleted(moduleInfo, ex);
                     }
                     
                 }
             }
         }
 
-        private void LoadDependentModules(IModuleInfo moduleInfo)
+        /// <summary>
+        /// Raises the <see cref="LoadModuleCompleted"/> event.
+        /// </summary>
+        /// <param name="moduleInfo">The <see cref="IModuleInfo"/> that was just loaded.</param>
+        /// <param name="ex">An <see cref="Exception"/> if any that was thrown during the loading of the <see cref="IModule"/></param>
+        protected void RaiseLoadModuleCompleted(IModuleInfo moduleInfo, Exception ex = null)
         {
-            if (!moduleInfo.DependsOn.Any()) return;
-
-            var dependencies = ModuleCatalog.Modules.Where(m => moduleInfo.DependsOn.Contains(m.ModuleName));
-
-            if (moduleInfo.InitializationMode == InitializationMode.WhenAvailable && dependencies.Any(m => m.InitializationMode != InitializationMode.WhenAvailable))
-                throw new ModuleInitializeException(moduleInfo.ModuleName, Type.GetType(moduleInfo.ModuleType).GetTypeInfo().Assembly.FullName, $"Error loading '{moduleInfo.ModuleName}'. A startup module cannot have dependencies with an InitializationMode of OnDemand");
-
-            if (dependencies.Count() != moduleInfo.DependsOn.Count)
-                throw new ModuleInitializeException(moduleInfo.ModuleName, Type.GetType(moduleInfo.ModuleType).GetTypeInfo().Assembly.FullName, $"Error loading '{moduleInfo.ModuleName}'. One or more module dependencies could not be located.");
-
-            LoadModules(dependencies);
+            LoadModuleCompleted?.Invoke(this, new LoadModuleCompletedEventArgs(moduleInfo, ex));
         }
     }
 }

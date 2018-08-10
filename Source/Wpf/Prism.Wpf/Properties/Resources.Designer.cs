@@ -118,15 +118,6 @@ namespace Prism.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to At least one cyclic dependency has been found in the module catalog. Cycles in the module dependencies must be avoided..
-        /// </summary>
-        internal static string CyclicDependencyFound {
-            get {
-                return ResourceManager.GetString("CyclicDependencyFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Deactivation is not possible in this type of region..
         /// </summary>
         internal static string DeactiveNotPossibleException {
@@ -163,38 +154,11 @@ namespace Prism.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot add dependency for unknown module {0}.
-        /// </summary>
-        internal static string DependencyForUnknownModule {
-            get {
-                return ResourceManager.GetString("DependencyForUnknownModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A module declared a dependency on another module which is not declared to be loaded. Missing module(s): {0}.
-        /// </summary>
-        internal static string DependencyOnMissingModule {
-            get {
-                return ResourceManager.GetString("DependencyOnMissingModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Directory {0} was not found..
         /// </summary>
         internal static string DirectoryNotFound {
             get {
                 return ResourceManager.GetString("DirectoryNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A duplicated module with name {0} has been found by the loader..
-        /// </summary>
-        internal static string DuplicatedModule {
-            get {
-                return ResourceManager.GetString("DuplicatedModule", resourceCulture);
             }
         }
         
@@ -292,15 +256,6 @@ namespace Prism.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Module {0} depends on other modules that don&apos;t belong to the same group..
-        /// </summary>
-        internal static string ModuleDependenciesNotMetInGroup {
-            get {
-                return ResourceManager.GetString("ModuleDependenciesNotMetInGroup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Module {0} was not found in the catalog..
         /// </summary>
         internal static string ModuleNotFound {
@@ -324,6 +279,15 @@ namespace Prism.Properties {
         internal static string ModuleTypeNotFound {
             get {
                 return ResourceManager.GetString("ModuleTypeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The ModuleCatalog must implement IModuleGroupCatalog to add groups.
+        /// </summary>
+        internal static string MustBeModuleGroupCatalog {
+            get {
+                return ResourceManager.GetString("MustBeModuleGroupCatalog", resourceCulture);
             }
         }
         
@@ -488,15 +452,6 @@ namespace Prism.Properties {
         internal static string RegionViewNameExistsException {
             get {
                 return ResourceManager.GetString("RegionViewNameExistsException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Module {0} is marked for automatic initialization when the application starts, but it depends on modules that are marked as OnDemand initialization. To fix this error, mark the dependency modules for InitializationMode=WhenAvailable, or remove this validation by extending the ModuleCatalog class..
-        /// </summary>
-        internal static string StartupModuleDependsOnAnOnDemandModule {
-            get {
-                return ResourceManager.GetString("StartupModuleDependsOnAnOnDemandModule", resourceCulture);
             }
         }
         
