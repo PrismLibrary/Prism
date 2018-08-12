@@ -1,10 +1,9 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Wpf.Tests.Mocks;
@@ -96,7 +95,7 @@ namespace Prism.Wpf.Tests.Modularity
         {
             var loader = new MockModuleInitializer();
 
-            var catalog = new MockModuleCatalog { Modules = new List<ModuleInfo> { CreateModuleInfo("Missing", InitializationMode.OnDemand) } };
+            var catalog = new MockModuleCatalog { Modules = new List<IModuleInfo> { CreateModuleInfo("Missing", InitializationMode.OnDemand) } };
 
             ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
             var moduleTypeLoader = new MockModuleTypeLoader();
@@ -232,7 +231,7 @@ namespace Prism.Wpf.Tests.Modularity
             var dependantModuleInfo = CreateModuleInfo("ModuleThatNeedsRetrieval2", InitializationMode.WhenAvailable, "RequiredModule");
 
             var catalog = new MockModuleCatalog { Modules = { requiredModule, dependantModuleInfo } };
-            catalog.GetDependentModules = delegate(ModuleInfo module)
+            catalog.GetDependentModules = delegate(IModuleInfo module)
                                               {
                                                   if (module == dependantModuleInfo)
                                                       return new[] { requiredModule };
@@ -287,8 +286,10 @@ namespace Prism.Wpf.Tests.Modularity
         {
             var loader = new MockModuleInitializer();
             var catalog = new MockModuleCatalog { Modules = { CreateModuleInfo("ModuleThatNeedsRetrieval", InitializationMode.WhenAvailable) } };
-            ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
-            manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { new MockModuleTypeLoader() { canLoadModuleTypeReturnValue = false } };
+            ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger())
+            {
+                ModuleTypeLoaders = new List<IModuleTypeLoader> { new MockModuleTypeLoader() { canLoadModuleTypeReturnValue = false } }
+            };
             manager.Run();
         }
 
@@ -300,8 +301,10 @@ namespace Prism.Wpf.Tests.Modularity
             var catalog = new MockModuleCatalog { Modules = { moduleInfo } };
             var logger = new MockLogger();
             ModuleManager manager = new ModuleManager(loader, catalog, logger);
-            var moduleTypeLoader = new MockModuleTypeLoader();
-            moduleTypeLoader.LoadCompletedError = new Exception();
+            var moduleTypeLoader = new MockModuleTypeLoader
+            {
+                LoadCompletedError = new Exception()
+            };
             manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };
 
             try
@@ -428,16 +431,20 @@ namespace Prism.Wpf.Tests.Modularity
         }
         private static ModuleInfo CreateModuleInfo(string name, InitializationMode initializationMode, params string[] dependsOn)
         {
-            ModuleInfo moduleInfo = new ModuleInfo(name, name);
-            moduleInfo.InitializationMode = initializationMode;
+            ModuleInfo moduleInfo = new ModuleInfo(name, name)
+            {
+                InitializationMode = initializationMode
+            };
             moduleInfo.DependsOn.AddRange(dependsOn);
             return moduleInfo;
         }
 
         private static ModuleInfo CreateModuleInfo(Type type, InitializationMode initializationMode, params string[] dependsOn)
         {
-            ModuleInfo moduleInfo = new ModuleInfo(type.Name, type.AssemblyQualifiedName);
-            moduleInfo.InitializationMode = initializationMode;
+            ModuleInfo moduleInfo = new ModuleInfo(type.Name, type.AssemblyQualifiedName)
+            {
+                InitializationMode = initializationMode
+            };
             moduleInfo.DependsOn.AddRange(dependsOn);
             return moduleInfo;
         }
@@ -445,42 +452,41 @@ namespace Prism.Wpf.Tests.Modularity
 
     internal class MockModule : IModule
     {
-        public void Initialize()
+        public void OnInitialized(IContainerProvider containerProvider)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            throw new NotImplementedException();
         }
     }
 
     internal class MockModuleCatalog : IModuleCatalog
     {
-        public List<ModuleInfo> Modules = new List<ModuleInfo>();
-        public Func<ModuleInfo, IEnumerable<ModuleInfo>> GetDependentModules;
+        public List<IModuleInfo> Modules = new List<IModuleInfo>();
+        public Func<IModuleInfo, IEnumerable<IModuleInfo>> GetDependentModules;
 
-        public Func<IEnumerable<ModuleInfo>, IEnumerable<ModuleInfo>> CompleteListWithDependencies;
+        public Func<IEnumerable<IModuleInfo>, IEnumerable<IModuleInfo>> CompleteListWithDependencies;
         public Action ValidateCatalog;
 
         public void Initialize()
         {
-            if (this.ValidateCatalog != null)
-            {
-                this.ValidateCatalog();
-            }
+            this.ValidateCatalog?.Invoke();
         }
 
-        IEnumerable<ModuleInfo> IModuleCatalog.Modules
-        {
-            get { return this.Modules; }
-        }
+        IEnumerable<IModuleInfo> IModuleCatalog.Modules => Modules;
 
-        IEnumerable<ModuleInfo> IModuleCatalog.GetDependentModules(ModuleInfo moduleInfo)
+        IEnumerable<IModuleInfo> IModuleCatalog.GetDependentModules(IModuleInfo moduleInfo)
         {
             if (GetDependentModules == null)
-                return new List<ModuleInfo>();
+                return new List<IModuleInfo>();
 
             return GetDependentModules(moduleInfo);
         }
 
-        IEnumerable<ModuleInfo> IModuleCatalog.CompleteListWithDependencies(IEnumerable<ModuleInfo> modules)
+        IEnumerable<IModuleInfo> IModuleCatalog.CompleteListWithDependencies(IEnumerable<IModuleInfo> modules)
         {
             if (CompleteListWithDependencies != null)
                 return CompleteListWithDependencies(modules);
@@ -488,18 +494,19 @@ namespace Prism.Wpf.Tests.Modularity
         }
 
 
-        public void AddModule(ModuleInfo moduleInfo)
+        public IModuleCatalog AddModule(IModuleInfo moduleInfo)
         {
             this.Modules.Add(moduleInfo);
+            return this;
         }
     }
 
     internal class MockModuleInitializer : IModuleInitializer
     {
         public bool InitializeCalled;
-        public List<ModuleInfo> InitializedModules = new List<ModuleInfo>();
+        public List<IModuleInfo> InitializedModules = new List<IModuleInfo>();
 
-        public void Initialize(ModuleInfo moduleInfo)
+        public void Initialize(IModuleInfo moduleInfo)
         {
             InitializeCalled = true;            
             this.InitializedModules.Add(moduleInfo);
@@ -510,9 +517,9 @@ namespace Prism.Wpf.Tests.Modularity
     {
         public Action<ModuleInfo> Initialize;
 
-        void IModuleInitializer.Initialize(ModuleInfo moduleInfo)
+        void IModuleInitializer.Initialize(IModuleInfo moduleInfo)
         {
-            this.Initialize(moduleInfo);
+            this.Initialize((ModuleInfo)moduleInfo);
         }
     }
 
@@ -520,9 +527,9 @@ namespace Prism.Wpf.Tests.Modularity
     {
         public Action<ModuleInfo> LoadBody;
 
-        public void Initialize(ModuleInfo moduleInfo)
+        public void Initialize(IModuleInfo moduleInfo)
         {
-            LoadBody(moduleInfo);
+            LoadBody((ModuleInfo)moduleInfo);
         }
     }
 }

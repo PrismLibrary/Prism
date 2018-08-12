@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Autofac;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Events;
 using Prism.Logging;

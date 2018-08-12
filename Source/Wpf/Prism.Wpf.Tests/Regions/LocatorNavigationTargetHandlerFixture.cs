@@ -2,7 +2,7 @@
 
 using System;
 using System.Windows;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Prism.Regions;

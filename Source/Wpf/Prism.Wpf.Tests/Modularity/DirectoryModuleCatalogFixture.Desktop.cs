@@ -51,8 +51,10 @@ namespace Prism.Wpf.Tests.Modularity
         [ExpectedException(typeof(InvalidOperationException))]
         public void EmptyPathThrows()
         {
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = string.Empty;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = string.Empty
+            };
             catalog.Load();
         }
 
@@ -60,8 +62,10 @@ namespace Prism.Wpf.Tests.Modularity
         [ExpectedException(typeof(InvalidOperationException))]
         public void NonExistentPathThrows()
         {
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = "NonExistentPath";
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = "NonExistentPath"
+            };
             catalog.Load();
         }
 
@@ -72,11 +76,13 @@ namespace Prism.Wpf.Tests.Modularity
                                        ModulesDirectory1 + @"\MockModuleA.dll");
 
 
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory1;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory1
+            };
             catalog.Load();
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
 
             Assert.IsNotNull(modules);
             Assert.AreEqual(1, modules.Length);
@@ -94,19 +100,21 @@ namespace Prism.Wpf.Tests.Modularity
             CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs", assemblyPath);
             string fullAssemblyPath = Path.GetFullPath(assemblyPath);
 
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory6;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory6
+            };
             catalog.Load();
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
 
             Assert.IsNotNull(modules);
             Assert.AreEqual(1, modules.Length);
             Assert.IsNotNull(modules[0].Ref);
 
             string moduleRef = modules[0].Ref;
-            Uri moduleUri; // = new Uri(moduleRef);
-            Assert.IsTrue(Uri.TryCreate(moduleRef, UriKind.Absolute, out moduleUri));
+            // = new Uri(moduleRef);
+            Assert.IsTrue(Uri.TryCreate(moduleRef, UriKind.Absolute, out Uri moduleUri));
 
             Assert.AreEqual(fullAssemblyPath, moduleUri.LocalPath);
         }
@@ -115,8 +123,10 @@ namespace Prism.Wpf.Tests.Modularity
         [DeploymentItem(@"Modularity\NotAValidDotNetDll.txt.dll", @".\Modularity")]
         public void ShouldNotThrowWithNonValidDotNetAssembly()
         {
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = InvalidModulesDirectory;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = InvalidModulesDirectory
+            };
             try
             {
                 catalog.Load();
@@ -126,7 +136,7 @@ namespace Prism.Wpf.Tests.Modularity
                 Assert.Fail("Should not have thrown.");
             }
             
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
             Assert.IsNotNull(modules);
             Assert.AreEqual(0, modules.Length);
         }
@@ -138,8 +148,10 @@ namespace Prism.Wpf.Tests.Modularity
             CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
                                        InvalidModulesDirectory + @"\MockModuleA.dll");
 
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = InvalidModulesDirectory;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = InvalidModulesDirectory
+            };
             try
             {
                 catalog.Load();
@@ -149,7 +161,7 @@ namespace Prism.Wpf.Tests.Modularity
                 Assert.Fail("Should not have thrown.");
             }
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
 
             Assert.IsNotNull(modules);
             Assert.AreEqual(1, modules.Length);
@@ -183,8 +195,7 @@ namespace Prism.Wpf.Tests.Modularity
 
                 remoteEnum.LoadAssembliesByByte(@".\CompileOutput\MockModuleA.dll");
 
-                ModuleInfo[] infos = remoteEnum.DoEnumeration(path);
-
+                var infos = remoteEnum.DoEnumeration(path);
 
                 Assert.IsNotNull(
                     infos.FirstOrDefault(x => x.ModuleType.IndexOf("Prism.Wpf.Tests.Mocks.Modules.MockAttributedModule") >= 0)
@@ -204,11 +215,13 @@ namespace Prism.Wpf.Tests.Modularity
                                        ModulesDirectory2 + @"\MockAttributedModule.dll");
 
 
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory2;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory2
+            };
             catalog.Load();
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
 
             Assert.AreEqual(1, modules.Length);
             Assert.AreEqual("TestModule", modules[0].ModuleName);
@@ -223,11 +236,13 @@ namespace Prism.Wpf.Tests.Modularity
             CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockDependantModule.cs",
                                        ModulesDirectory3 + @"\DependantModule.dll");
 
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory3;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory3
+            };
             catalog.Load();
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
 
             Assert.AreEqual(2, modules.Length);
             var dependantModule = modules.First(module => module.ModuleName == "DependantModule");
@@ -245,11 +260,13 @@ namespace Prism.Wpf.Tests.Modularity
             CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
                                        ModulesDirectory1 + @"\MockModuleA.dll");
 
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory1;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory1
+            };
             catalog.Load();
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
 
             Assert.IsNotNull(modules);
             Assert.AreEqual("MockModuleA", modules[0].ModuleName);
@@ -261,11 +278,13 @@ namespace Prism.Wpf.Tests.Modularity
             CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
                                        ModulesDirectory1 + @"\MockModuleA.dll");
 
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory1;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory1
+            };
             catalog.Load();
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
 
             Assert.IsNotNull(modules);
             Assert.AreEqual(InitializationMode.WhenAvailable, modules[0].InitializationMode);
@@ -277,11 +296,13 @@ namespace Prism.Wpf.Tests.Modularity
             CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockAttributedModule.cs",
                                        ModulesDirectory3 + @"\MockAttributedModule.dll");
 
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory3;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory3
+            };
             catalog.Load();
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
 
             Assert.AreEqual(1, modules.Length);
             Assert.AreEqual(InitializationMode.OnDemand, modules[0].InitializationMode);
@@ -294,11 +315,13 @@ namespace Prism.Wpf.Tests.Modularity
             CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
                                        ModulesDirectory4 + @"\MockModuleA.dll");
 
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory4;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory4
+            };
             catalog.Load();
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
 
             // filtering out dynamic assemblies due to using a dynamic mocking framework.
             Assembly loadedAssembly = AppDomain.CurrentDomain.GetAssemblies().Where(assembly => !assembly.IsDynamic)
@@ -311,11 +334,13 @@ namespace Prism.Wpf.Tests.Modularity
         public void ShouldNotGetModuleInfoForAnAssemblyAlreadyLoadedInTheMainDomain()
         {
             var assemblyPath = Assembly.GetCallingAssembly().Location;
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory5;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory5
+            };
             catalog.Load();
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
 
             Assert.AreEqual(0, modules.Length);
         }
@@ -329,11 +354,13 @@ namespace Prism.Wpf.Tests.Modularity
             CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleReferencingOtherModule.cs",
                                        ModulesDirectory4 + @"\MockModuleReferencingOtherModule.dll", ModulesDirectory4 + @"\MockModuleZZZ.dll");
 
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory4;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory4
+            };
             catalog.Load();
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
 
             Assert.AreEqual(2, modules.Count());
         }
@@ -345,12 +372,16 @@ namespace Prism.Wpf.Tests.Modularity
         [TestMethod]
         public void CreateChildAppDomainHasParentEvidenceAndSetup()
         {
-            TestableDirectoryModuleCatalog catalog = new TestableDirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory4;
+            TestableDirectoryModuleCatalog catalog = new TestableDirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory4
+            };
             catalog.Load();
             Evidence parentEvidence = new Evidence();
-            AppDomainSetup parentSetup = new AppDomainSetup();
-            parentSetup.ApplicationName = "Test Parent";
+            AppDomainSetup parentSetup = new AppDomainSetup
+            {
+                ApplicationName = "Test Parent"
+            };
             AppDomain parentAppDomain = AppDomain.CreateDomain("Parent", parentEvidence, parentSetup);
             AppDomain childDomain = catalog.BuildChildDomain(parentAppDomain);
 
@@ -379,7 +410,7 @@ namespace Prism.Wpf.Tests.Modularity
 
                 remoteEnum.LoadDynamicEmittedModule();
 
-                ModuleInfo[] infos = remoteEnum.DoEnumeration(path);
+                var infos = remoteEnum.DoEnumeration(path);
 
                 Assert.IsNotNull(
                     infos.FirstOrDefault(x => x.ModuleType.IndexOf("Prism.Wpf.Tests.Mocks.Modules.MockAttributedModule") >= 0)
@@ -398,11 +429,13 @@ namespace Prism.Wpf.Tests.Modularity
             CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockExposingTypeFromGacAssemblyModule.cs",
                                        ModulesDirectory4 + @"\MockExposingTypeFromGacAssemblyModule.dll", @"System.Transactions.dll");
 
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory4;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory4
+            };
             catalog.Load();
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
 
             Assert.AreEqual(1, modules.Count());
         }
@@ -417,11 +450,13 @@ namespace Prism.Wpf.Tests.Modularity
             string destinationFileName = Path.Combine(ModulesDirectory1, Path.GetFileName(filename));
             File.Copy(filename, destinationFileName);
 
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory1;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory1
+            };
             catalog.Load();
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
             Assert.AreEqual(1, modules.Length);
         }
 
@@ -436,11 +471,13 @@ namespace Prism.Wpf.Tests.Modularity
             string destinationFileName = Path.Combine(ModulesDirectory1, Path.GetFileName(filename));
             File.Copy(filename, destinationFileName);
 
-            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-            catalog.ModulePath = ModulesDirectory1;
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory1
+            };
             catalog.Load();
 
-            ModuleInfo[] modules = catalog.Modules.ToArray();
+            var modules = catalog.Modules.ToArray();
             Assert.AreEqual(1, modules.Length);
             Assert.AreEqual("MockInheritingModule", modules[0].ModuleName);
 
@@ -486,10 +523,12 @@ namespace Prism.Wpf.Tests.Modularity
                 AppDomain.CurrentDomain.Load(assemblyBytes);
             }
 
-            public ModuleInfo[] DoEnumeration(string path)
+            public IModuleInfo[] DoEnumeration(string path)
             {
-                DirectoryModuleCatalog catalog = new DirectoryModuleCatalog();
-                catalog.ModulePath = path;
+                DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+                {
+                    ModulePath = path
+                };
                 catalog.Load();
                 return catalog.Modules.ToArray();
             }
@@ -497,8 +536,10 @@ namespace Prism.Wpf.Tests.Modularity
             public void LoadDynamicEmittedModule()
             {
                 // create a dynamic assembly and module 
-                AssemblyName assemblyName = new AssemblyName();
-                assemblyName.Name = "DynamicBuiltAssembly";
+                AssemblyName assemblyName = new AssemblyName
+                {
+                    Name = "DynamicBuiltAssembly"
+                };
                 AssemblyBuilder assemblyBuilder = Thread.GetDomain().DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndSave);
                 ModuleBuilder module = assemblyBuilder.DefineDynamicModule("DynamicBuiltAssembly.dll");
 

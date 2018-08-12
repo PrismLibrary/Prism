@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks;

@@ -58,7 +58,7 @@ namespace Prism.Regions
         /// Records the navigation to the entry..
         /// </summary>
         /// <param name="entry">The entry to record.</param>
-        void RecordNavigation(IRegionNavigationJournalEntry entry);
+        void RecordNavigation(IRegionNavigationJournalEntry entry, bool persistInHistory);
 
         /// <summary>
         /// Clears the journal of current, back, and forward navigation histories.

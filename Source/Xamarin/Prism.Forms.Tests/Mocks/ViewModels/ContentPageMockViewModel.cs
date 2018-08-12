@@ -8,7 +8,7 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
     {
         public bool OnConfirmNavigationCalled { get; private set; } = false;
 
-        public bool CanNavigate(NavigationParameters parameters)
+        public bool CanNavigate(INavigationParameters parameters)
         {
             OnConfirmNavigationCalled = true;
 

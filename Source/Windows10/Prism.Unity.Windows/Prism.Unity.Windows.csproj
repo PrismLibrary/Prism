@@ -1,148 +1,37 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B4060AD6-7A34-479C-B5EB-4C542A681F42}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Prism.Unity.Windows</RootNamespace>
-    <AssemblyName>Prism.Unity.Windows</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
-    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <TargetFramework>uap10.0.15063</TargetFramework>
+    <Title>Unity for Prism for UWP</Title>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <GenerateLibraryLayout>true</GenerateLibraryLayout>
-    <DocumentationFile>bin\Release\Prism.Unity.Windows.xml</DocumentationFile>
+    <!-- Summary is not actually supported at this time. Including the summary for future support. -->
+    <!--<Summary>Prism for Xamarin.Forms helps you more easily design and build rich, flexible, and easy to maintain Xamarin.Forms applications.</Summary>-->
+    <Description>Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms; WPF, Windows 10 UWP, and Xamarin Forms. Features that need to be platform specific are implemented in the respective libraries for the target platform. Prism for UWP helps you more easily design and build rich, flexible, and easy to maintain UWP applications.</Description>
+    <PackageTags>prism;win10;mvvm;uwp;unity;</PackageTags>
+    <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
+    <Version Condition=" '$(PRISM_UNITY_WINDOWS_VERSION)' != '' ">$(PRISM_UNITY_WINDOWS_VERSION)</Version>
+    <!-- Update this version when incrementing Library Versions i.e. 7.1.0, 7.2.0 -->
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_UNITY_WINDOWS_VERSION)' == '' ">7.1.0</VersionPrefix>
+    <!-- This will create CI builds as 7.0.0.1234-ci -->
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_UNITY_WINDOWS_VERSION)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</VersionPrefix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_UNITY_WINDOWS_VERSION)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">ci</VersionSuffix>
+    <!-- This will create CI builds as 7.0.0.1234-ci -->
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_UNITY_WINDOWS_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_UNITY_WINDOWS_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_UNITY_WINDOWS_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
-    <PlatformTarget>ARM</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
-    <PlatformTarget>ARM</PlatformTarget>
-    <OutputPath>bin\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <PlatformTarget>x86</PlatformTarget>
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <GenerateLibraryLayout>true</GenerateLibraryLayout>
-    <DocumentationFile>bin\x86\Release\Prism.Unity.Windows.XML</DocumentationFile>
-  </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="project.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PrismUnityApplication.cs" />
-    <Compile Include="PrismUnityExtension.cs" />
-    <Compile Include="UnityContainerHelper.cs" />
-    <Compile Include="UnityServiceLocatorAdapter.cs" />
+
+  <!-- <ItemGroup>
     <EmbeddedResource Include="Properties\Prism.Unity.Windows.rd.xml" />
-  </ItemGroup>
+  </ItemGroup> -->
+
   <ItemGroup>
-    <ProjectReference Include="..\..\Prism\Prism.csproj">
-      <Project>{e6c50355-d01e-4caa-884d-d7929861315c}</Project>
-      <Name>Prism</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Prism.Windows\Prism.Windows.csproj">
-      <Project>{e9fe3493-adde-4e8c-b5f0-5ac1b663a27b}</Project>
-      <Name>Prism.Windows</Name>
-    </ProjectReference>
+    <PackageReference Include="CommonServiceLocator" Version="1.3.0" />
+    <PackageReference Include="Unity.Container" Version="5.8.6" />
   </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
-    <VisualStudioVersion>14.0</VisualStudioVersion>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+  <ItemGroup>
+    <ProjectReference Include="..\Prism.Windows\Prism.Windows.csproj" />
+  </ItemGroup>
+
 </Project>

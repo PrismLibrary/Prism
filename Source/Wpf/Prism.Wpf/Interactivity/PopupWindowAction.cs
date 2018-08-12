@@ -6,7 +6,7 @@ using Prism.Interactivity.InteractionRequest;
 using System;
 using System.Windows;
 using System.Windows.Interactivity;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 
 namespace Prism.Interactivity
 {
@@ -303,7 +303,7 @@ namespace Prism.Interactivity
         /// </summary>
         /// <param name="notification">The INotification or IConfirmation parameter to show.</param>
         /// <returns></returns>
-        protected Window CreateDefaultWindow(INotification notification)
+        protected virtual Window CreateDefaultWindow(INotification notification)
         {
             Window window = null;
 

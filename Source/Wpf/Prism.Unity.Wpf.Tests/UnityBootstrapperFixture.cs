@@ -5,13 +5,15 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Practices.Unity;
+using Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
+using Unity.Exceptions;
+using CommonServiceLocator;
 
 namespace Prism.Unity.Wpf.Tests
 {
@@ -129,7 +131,7 @@ namespace Prism.Unity.Wpf.Tests
             bootstrapper.CallRegisterFrameworkExceptionTypes();
 
             Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
-                typeof(Microsoft.Practices.ServiceLocation.ActivationException)));
+                typeof(ActivationException)));
         }
 
         [TestMethod]
@@ -140,7 +142,7 @@ namespace Prism.Unity.Wpf.Tests
             bootstrapper.CallRegisterFrameworkExceptionTypes();
 
             Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
-                typeof(Microsoft.Practices.Unity.ResolutionFailedException)));
+                typeof(ResolutionFailedException)));
         }
     }
 

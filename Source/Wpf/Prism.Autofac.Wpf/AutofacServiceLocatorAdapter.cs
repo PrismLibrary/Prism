@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 
 namespace Prism.Autofac
 {
@@ -12,7 +12,12 @@ namespace Prism.Autofac
     /// </summary>
     public class AutofacServiceLocatorAdapter : ServiceLocatorImplBase
     {
-        private readonly IContainer _container;
+        internal IContainer Container { get; set; }
+
+        internal AutofacServiceLocatorAdapter()
+        {
+
+        }
 
         /// <summary>
         /// Initializes a new instance of <see cref="AutofacServiceLocatorAdapter"/>.
@@ -23,7 +28,7 @@ namespace Prism.Autofac
         {
             if (container == null)
                 throw new ArgumentNullException(nameof(container));
-            _container = container;
+            Container = container;
         }
 
         /// <summary>
@@ -34,9 +39,9 @@ namespace Prism.Autofac
         /// <returns>The requested service instance.</returns>
         protected override object DoGetInstance(Type serviceType, string key)
         {
-            return key != null ? 
-                _container.ResolveNamed(key, serviceType) :
-                _container.Resolve(serviceType);
+            return key != null ?
+                Container.ResolveNamed(key, serviceType) :
+                Container.Resolve(serviceType);
         }
 
         /// <summary>
@@ -48,7 +53,7 @@ namespace Prism.Autofac
         {
             var enumerableType = typeof(IEnumerable<>).MakeGenericType(serviceType);
 
-            object instance = _container.Resolve(enumerableType);
+            object instance = Container.Resolve(enumerableType);
             return ((IEnumerable)instance).Cast<object>();
         }
     }

@@ -77,7 +77,7 @@ namespace Prism.Forms.Tests.Navigation
         public void ParametersHaveNoKeysWhenEmpty()
         {
             var parameters = new NavigationParameters();
-            Assert.Equal(0, parameters.Keys.Count());
+            Assert.Empty(parameters.Keys);
         }
 
         [Fact]
@@ -106,9 +106,8 @@ namespace Prism.Forms.Tests.Navigation
         public void TryGetValueReturnsDefaultWhenGivenInvalidKey()
         {
             var parameters = new NavigationParameters();
-            int value;
-            var result = parameters.TryGetValue("id", out value);
-            Assert.Equal(false, result);
+            var result = parameters.TryGetValue("id", out int value);
+            Assert.False(result);
             Assert.Equal(default(int), value);
         }
 
@@ -126,9 +125,8 @@ namespace Prism.Forms.Tests.Navigation
         {
             var parameters = new NavigationParameters();
             parameters.Add("value", null);
-            int value;
-            var result = parameters.TryGetValue("value", out value);
-            Assert.Equal(true, result);
+            var result = parameters.TryGetValue("value", out int value);
+            Assert.True(result);
             Assert.Equal(0, value);
         }
 
@@ -147,7 +145,7 @@ namespace Prism.Forms.Tests.Navigation
             var parameters = new NavigationParameters(_uri);
             int value;
             var result = parameters.TryGetValue("id", out value);
-            Assert.Equal(true, result);
+            Assert.True(result);
             Assert.Equal(3, value);
         }
 
@@ -165,7 +163,7 @@ namespace Prism.Forms.Tests.Navigation
         {
             var parameters = new NavigationParameters();
             var result = parameters.GetValues<object>(null);
-            Assert.Equal(0, result.Count());
+            Assert.Empty(result);
         }
 
         [Fact]
@@ -173,7 +171,7 @@ namespace Prism.Forms.Tests.Navigation
         {
             var parameters = new NavigationParameters();
             var result = parameters.GetValues<object>(string.Empty);
-            Assert.Equal(0, result.Count());
+            Assert.Empty(result);
         }
 
         [Fact]
@@ -181,7 +179,7 @@ namespace Prism.Forms.Tests.Navigation
         {
             var parameters = new NavigationParameters(_uriWithArray);
             var result = parameters.GetValues<object>("id");
-            Assert.Equal(0, result.Count());
+            Assert.Empty(result);
         }
 
         [Fact]
@@ -190,9 +188,9 @@ namespace Prism.Forms.Tests.Navigation
             var parameters = new NavigationParameters(_uriWithArray);
             var result = parameters.GetValues<object>("color");
             Assert.Equal(3, result.Count());
-            Assert.True(result.Contains("red"));
-            Assert.True(result.Contains("white"));
-            Assert.True(result.Contains("blue"));
+            Assert.Contains("red", result);
+            Assert.Contains("white", result);
+            Assert.Contains("blue", result);
         }
 
         [Fact]

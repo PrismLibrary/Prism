@@ -58,9 +58,11 @@ namespace Prism.Forms.Tests.Common
         [Fact]
         public void ParametersParsedFromNavigationParametersInRelativeUri()
         {
-            var navParameters = new NavigationParameters();
-            navParameters.Add("id", 3);
-            navParameters.Add("name", "brian");
+            var navParameters = new NavigationParameters
+            {
+                { "id", 3 },
+                { "name", "brian" }
+            };
 
             var parameters = UriParsingHelper.GetSegmentParameters("MainPage" + navParameters.ToString());
 
@@ -76,9 +78,11 @@ namespace Prism.Forms.Tests.Common
         [Fact]
         public void ParametersParsedFromNavigationParametersInAbsoluteUri()
         {
-            var navParameters = new NavigationParameters();
-            navParameters.Add("id", 3);
-            navParameters.Add("name", "brian");
+            var navParameters = new NavigationParameters
+            {
+                { "id", 3 },
+                { "name", "brian" }
+            };
 
             var parameters = UriParsingHelper.GetSegmentParameters("http://www.brianlagunas.com/MainPage" + navParameters.ToString());
 
@@ -102,45 +106,45 @@ namespace Prism.Forms.Tests.Common
         public void SegmentsParsedFromDeepLinkUri()
         {
             var target = UriParsingHelper.GetUriSegments(new Uri(_deepLinkAbsoluteUri));
-            Assert.Equal(target.Count, 4);
+            Assert.Equal(4, target.Count);
         }
 
         [Fact]
         public void ParametersParsedFromDeepLinkAbsoluteUri()
         {
             var target = UriParsingHelper.GetUriSegments(new Uri(_deepLinkAbsoluteUri));
-            Assert.Equal(target.Count, 4);
+            Assert.Equal(4, target.Count);
 
             var p1 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
-            Assert.Equal(p1["id"], "1");
+            Assert.Equal("1", p1["id"]);
 
             var p2 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
-            Assert.Equal(p2["id"], "2");
+            Assert.Equal("2", p2["id"]);
 
             var p3 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
-            Assert.Equal(p3["id"], "3");
+            Assert.Equal("3", p3["id"]);
 
             var p4 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
-            Assert.Equal(p4["id"], "4");
+            Assert.Equal("4", p4["id"]);
         }
 
         [Fact]
         public void ParametersParsedFromDeepLinkRelativeUri()
         {
             var target = UriParsingHelper.GetUriSegments(new Uri(_deepLinkRelativeUri, UriKind.Relative));
-            Assert.Equal(target.Count, 4);
+            Assert.Equal(4, target.Count);
 
             var p1 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
-            Assert.Equal(p1["id"], "1");
+            Assert.Equal("1", p1["id"]);
 
             var p2 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
-            Assert.Equal(p2["id"], "2");
+            Assert.Equal("2", p2["id"]);
 
             var p3 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
-            Assert.Equal(p3["id"], "3");
+            Assert.Equal("3", p3["id"]);
 
             var p4 = UriParsingHelper.GetSegmentParameters(target.Dequeue());
-            Assert.Equal(p4["id"], "4");
+            Assert.Equal("4", p4["id"]);
         }
 
         [Fact]

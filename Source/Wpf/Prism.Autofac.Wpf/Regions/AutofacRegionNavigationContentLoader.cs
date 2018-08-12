@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Autofac.Core;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;

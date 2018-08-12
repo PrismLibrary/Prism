@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Prism.Regions;
@@ -271,7 +271,7 @@ namespace Prism.Wpf.Tests.Regions
             RegionNavigationContentLoader contentLoader = new RegionNavigationContentLoader(serviceLocator);
 
             var journalMock = new Mock<IRegionNavigationJournal>();
-            journalMock.Setup(x => x.RecordNavigation(journalEntry)).Verifiable();
+            journalMock.Setup(x => x.RecordNavigation(journalEntry, true)).Verifiable();
 
             IRegionNavigationJournal journal = journalMock.Object;
 

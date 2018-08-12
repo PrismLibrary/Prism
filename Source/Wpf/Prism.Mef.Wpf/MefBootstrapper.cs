@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Linq;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Logging;
 using Prism.Mef.Properties;
 using Prism.Modularity;

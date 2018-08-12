@@ -1,291 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="MSBuild.Sdk.Extras">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7DB8E74D-214F-4840-B294-58372D369958}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Prism.Wpf.Tests</RootNamespace>
-    <AssemblyName>Prism.Wpf.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <TargetFramework>net45</TargetFramework>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRules>
-    </CodeAnalysisRules>
-    <NoWarn>0067, 0649, 0219</NoWarn>
-    <CodeAnalysisRuleSet>..\..\Prism.TestProjects.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <NoWarn>0067, 0649, 0219</NoWarn>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRules>
-    </CodeAnalysisRules>
-    <CodeAnalysisRuleSet>..\..\Prism.TestProjects.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Moq, Version=4.7.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Moq.4.7.0\lib\net45\Moq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BootstrapperFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CollectionChangedTracker.cs" />
-    <Compile Include="CollectionExtensionsFixture.cs" />
-    <Compile Include="CompilerHelper.Desktop.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ExceptionAssert.cs" />
-    <Compile Include="ExceptionExtensionsFixture.cs" />
-    <Compile Include="Interactivity\CommandBehaviorBaseFixture.cs" />
-    <Compile Include="Interactivity\InteractionRequestFixture.cs" />
-    <Compile Include="Interactivity\InteractionRequestTriggerFixture.cs" />
-    <Compile Include="Interactivity\InvokeCommandActionFixture.cs" />
-    <Compile Include="Interactivity\PopupWindowActionFixture.cs" />
-    <Compile Include="ListDictionaryFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Logging\TextLoggerFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Logging\TraceLoggerFixture.Desktop.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockAsyncModuleTypeLoader.cs" />
-    <Compile Include="Mocks\MockClickableObject.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockCommand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockContainerAdapter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockDelegateReference.cs" />
-    <Compile Include="Mocks\MockConfigurationStore.Desktop.cs" />
-    <Compile Include="Mocks\MockFrameworkElement.cs" />
-    <Compile Include="Mocks\MockInteractionRequestAwareElement.cs" />
-    <Compile Include="Mocks\MockSortableViews.cs" />
-    <Compile Include="Mocks\ViewModels\MockViewModel.cs" />
-    <Compile Include="Mocks\Views\Mock.cs" />
-    <Compile Include="Mvvm\ViewModelLocatorFixture.cs" />
-    <Compile Include="Mocks\Views\MockView.cs" />
-    <Compile Include="Regions\Behaviors\ClearChildViewsRegionBehaviorFixture.cs" />
-    <Compile Include="Regions\Behaviors\RegionMemberLifetimeBehaviorFixture.cs" />
-    <Compile Include="Regions\LocatorNavigationTargetHandlerFixture.cs" />
-    <Compile Include="Regions\NavigationAsyncExtensionsFixture.cs" />
-    <Compile Include="Regions\NavigationContextFixture.cs" />
-    <Compile Include="Regions\RegionManagerRequestNavigateFixture.cs" />
-    <Compile Include="Regions\RegionNavigationServiceFixture.new.cs" />
-    <Compile Include="Regions\RegionNavigationJournalFixture.cs" />
-    <EmbeddedResource Include="Mocks\Modules\MockAttributedModule.cs" />
-    <EmbeddedResource Include="Mocks\Modules\MockDependantModule.cs" />
-    <EmbeddedResource Include="Mocks\Modules\MockDependencyModule.cs" />
-    <EmbeddedResource Include="Mocks\Modules\MockModuleA.cs" />
-    <EmbeddedResource Include="Mocks\Modules\MockModuleReferencedAssembly.cs" />
-    <EmbeddedResource Include="Mocks\Modules\MockModuleReferencingAssembly.cs" />
-    <EmbeddedResource Include="Mocks\Modules\MockModuleReferencingOtherModule.cs" />
-    <EmbeddedResource Include="Mocks\Modules\MockModuleThrowingException.cs" />
-    <EmbeddedResource Include="Mocks\Modules\MockExposingTypeFromGacAssemblyModule.cs" />
-    <Compile Include="Mocks\MockDependencyObject.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockHostAwareRegionBehavior.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockLogger.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockModuleTypeLoader.cs" />
-    <Compile Include="Mocks\MockPresentationRegion.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockRegion.cs" />
-    <Compile Include="Mocks\MockRegionAdapter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockRegionBehavior.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockRegionBehaviorCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockRegionManager.cs" />
-    <Compile Include="Mocks\MockRegionManagerAccessor.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Mocks\MockServiceLocator.cs" />
-    <Compile Include="Mocks\MockViewsCollection.cs" />
-    <EmbeddedResource Include="Mocks\Modules\MockAbstractModule.cs" />
-    <Compile Include="Modularity\AssemblyResolverFixture.Desktop.cs" />
-    <Compile Include="Modularity\ConfigurationModuleCatalogFixture.Desktop.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Modularity\ConfigurationStoreFixture.Desktop.cs" />
-    <Compile Include="Modularity\DirectoryModuleCatalogFixture.Desktop.cs" />
-    <Compile Include="Modularity\FileModuleTypeLoaderFixture.Desktop.cs" />
-    <Compile Include="Modularity\ModuleCatalogFixture.cs" />
-    <Compile Include="Modularity\ModuleInfoGroupExtensionsFixture.cs" />
-    <Compile Include="Modularity\ModuleInfoGroupFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Modularity\ModuleManagerFixture.cs" />
-    <Compile Include="Modularity\ModuleAttributeFixture.Desktop.cs" />
-    <Compile Include="Modularity\ModuleDependencySolverFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Modularity\ModuleInitializerFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Regions\AllActiveRegionFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\Behaviors\AutoPopulateRegionBehaviorFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\Behaviors\BindRegionContextToDependencyObjectBehaviorFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\Behaviors\DelayedRegionCreationBehaviorFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\Behaviors\RegionActiveAwareBehaviorFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\Behaviors\RegionManagerRegistrationBehaviorFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\Behaviors\SelectorItemsSourceSyncRegionBehaviorFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\Behaviors\SyncRegionContextWithHostBehaviorFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\ContentControlRegionAdapterFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\ItemsControlRegionAdapterFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\RegionAdapterBaseFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\RegionAdapterMappingsFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\RegionBehaviorCollectionFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\RegionBehaviorFactoryFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\RegionBehaviorFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\RegionFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\RegionManagerFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\RegionViewRegistryFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\SelectorRegionAdapterFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\SingleActiveRegionFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Regions\ViewsCollectionFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ServiceLocatorExtensionsFixture.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Modularity\ModuleCatalogXaml\SimpleModuleCatalog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
@@ -309,32 +28,28 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Modularity\NotAValidDotNetDll.txt.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="Moq" Version="4.9.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.1" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\..\Prism\Prism.csproj">
-      <Project>{e6c50355-d01e-4caa-884d-d7929861315c}</Project>
-      <Name>Prism</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Prism.Wpf\Prism.Wpf.csproj">
-      <Project>{5912ff03-c72b-4f56-baa1-8642fdbfbc26}</Project>
-      <Name>Prism.Wpf</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\Prism.Wpf\Prism.Wpf.csproj" />
+    <ProjectReference Include="..\Prism.IocContainer.Wpf.Tests.Support\Prism.IocContainer.Wpf.Tests.Support.csproj" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties Notes="&lt;Notes Project=&quot;7db8e74d-214f-4840-b294-58372d369958&quot; xmlns=&quot;clr-namespace:StickyNotes.Model;assembly=StickyNotes&quot;&gt;&lt;Notes.StickyNotes&gt;&lt;Note FilePath=&quot;&quot; Content=&quot;&quot; Date=&quot;2009-01-06T07:49:56.1759488-08:00&quot; /&gt;&lt;/Notes.StickyNotes&gt;&lt;/Notes&gt;" />
-    </VisualStudio>
-  </ProjectExtensions>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Mocks\Modules\*.cs" />
+    <EmbeddedResource Include="Modularity\ModuleCatalogXaml\SimpleModuleCatalog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

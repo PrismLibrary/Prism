@@ -138,9 +138,6 @@
     If you did not explicitly set the control's Content property, 
     this exception may be caused by a change in the value of the inherited RegionManager attached property.</value>
   </data>
-  <data name="CyclicDependencyFound" xml:space="preserve">
-    <value>At least one cyclic dependency has been found in the module catalog. Cycles in the module dependencies must be avoided.</value>
-  </data>
   <data name="DeactiveNotPossibleException" xml:space="preserve">
     <value>Deactivation is not possible in this type of region.</value>
   </data>
@@ -153,41 +150,14 @@
   <data name="DelegateCommandInvalidGenericPayloadType" xml:space="preserve">
     <value>T for DelegateCommand&lt;T&gt; is not an object nor Nullable.</value>
   </data>
-  <data name="DependencyForUnknownModule" xml:space="preserve">
-    <value>Cannot add dependency for unknown module {0}</value>
-  </data>
-  <data name="DependencyOnMissingModule" xml:space="preserve">
-    <value>A module declared a dependency on another module which is not declared to be loaded. Missing module(s): {0}</value>
-  </data>
   <data name="DirectoryNotFound" xml:space="preserve">
     <value>Directory {0} was not found.</value>
-  </data>
-  <data name="DuplicatedModule" xml:space="preserve">
-    <value>A duplicated module with name {0} has been found by the loader.</value>
   </data>
   <data name="DuplicatedModuleGroup" xml:space="preserve">
     <value>A duplicated module group with name {0} has been found by the loader.</value>
   </data>
   <data name="FailedToGetType" xml:space="preserve">
     <value>Unable to retrieve the module type {0} from the loaded assemblies.  You may need to specify a more fully-qualified type name.</value>
-  </data>
-  <data name="FailedToLoadModule" xml:space="preserve">
-    <value>An exception occurred while initializing module '{0}'. 
-    - The exception message was: {2}
-    - The Assembly that the module was trying to be loaded from was:{1}
-    Check the InnerException property of the exception for more information. If the exception occurred while creating an object in a DI container, you can exception.GetRootException() to help locate the root cause of the problem. 
-  </value>
-  </data>
-  <data name="FailedToLoadModuleNoAssemblyInfo" xml:space="preserve">
-    <value>An exception occurred while initializing module '{0}'. 
-    - The exception message was: {1}
-    Check the InnerException property of the exception for more information. If the exception occurred 
-    while creating an object in a DI container, you can exception.GetRootException() to help locate the 
-    root cause of the problem. </value>
-  </data>
-  <data name="FailedToRetrieveModule" xml:space="preserve">
-    <value>Failed to load type for module {0}. 
-Error was: {1}.</value>
   </data>
   <data name="HostControlCannotBeNull" xml:space="preserve">
     <value>HostControl cannot have null value when behavior attaches. </value>
@@ -215,9 +185,6 @@ Error was: {1}.</value>
   </data>
   <data name="MappingExistsException" xml:space="preserve">
     <value>Mapping with the given type is already registered: {0}.</value>
-  </data>
-  <data name="ModuleDependenciesNotMetInGroup" xml:space="preserve">
-    <value>Module {0} depends on other modules that don't belong to the same group.</value>
   </data>
   <data name="ModuleNotFound" xml:space="preserve">
     <value>Module {0} was not found in the catalog.</value>
@@ -284,9 +251,6 @@ Error was: {1}.</value>
   <data name="RegionViewNameExistsException" xml:space="preserve">
     <value>View with name '{0}' already exists in the region.</value>
   </data>
-  <data name="StartupModuleDependsOnAnOnDemandModule" xml:space="preserve">
-    <value>Module {0} is marked for automatic initialization when the application starts, but it depends on modules that are marked as OnDemand initialization. To fix this error, mark the dependency modules for InitializationMode=WhenAvailable, or remove this validation by extending the ModuleCatalog class.</value>
-  </data>
   <data name="StringCannotBeNullOrEmpty" xml:space="preserve">
     <value>The provided String argument {0} must not be null or empty.</value>
   </data>
@@ -309,5 +273,8 @@ Error was: {1}.</value>
   </data>
   <data name="ViewNotInRegionException" xml:space="preserve">
     <value>The region does not contain the specified view.</value>
+  </data>
+  <data name="MustBeModuleGroupCatalog" xml:space="preserve">
+    <value>The ModuleCatalog must implement IModuleGroupCatalog to add groups</value>
   </data>
 </root>

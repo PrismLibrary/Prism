@@ -1,43 +1,31 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
-	<PropertyGroup>
-		<TargetFrameworks>netstandard1.1;</TargetFrameworks>
-		<AssemblyName>Prism.Autofac.Forms</AssemblyName>
-		<PackageId>Prism.Autofac.Forms</PackageId>
-		<Title>Autofac for Prism for Xamarin.Forms</Title>
-		<NeutralLanguage>en-US</NeutralLanguage>
-		<!-- Summary is not actually supported at this time. Including the summary for future support. -->
-		<!--<Summary>Autofac extensions for Prism for Xamarin.Forms.</Summary>-->
-		<Description>Use these extensions to build Xamarin.Forms applications with Prism and Autofac.</Description>
-		<PackageTags>prism;xamarin;xamarin.forms;autofac;dependency injection</PackageTags>
-		<Authors>Brian Lagunas;Brian Noyes</Authors>
-		<Owners>Brian Lagunas;Brian Noyes</Owners>
-		<PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
-		<PackageProjectUrl>https://github.com/PrismLibrary/Prism</PackageProjectUrl>
-		<PackageLicenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</PackageLicenseUrl>
-		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
-		<PackageOutputPath>../../Build</PackageOutputPath>
-		<Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
-		<!-- Update this version when incrementing Library Versions i.e. 7.1.0, 7.2.0 -->
-		<VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' ">7.0.0</VersionPrefix>
+  <PropertyGroup>
+   <TargetFrameworks>netstandard1.1;netstandard2.0;MonoAndroid71</TargetFrameworks>
+   <Title>Autofac for Prism for Xamarin.Forms</Title>
+    <!-- Summary is not actually supported at this time. Including the summary for future support. -->
+    <!--<Summary>Autofac extensions for Prism for Xamarin.Forms.</Summary>-->
+    <Description>Use these extensions to build Xamarin.Forms applications with Prism and Autofac.</Description>
+    <PackageTags>prism;xamarin;xamarin.forms;autofac;dependency injection</PackageTags>
+    <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
+    <Version Condition=" '$(PRISM_AUTOFAC_FORMS_VERSION)' != '' ">$(PRISM_AUTOFAC_FORMS_VERSION)</Version>
+    <!-- Update this version when incrementing Library Versions i.e. 7.1.0, 7.2.0 -->
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_AUTOFAC_FORMS_VERSION)' == '' ">7.1.0</VersionPrefix>
     <!-- This will create CI builds as 7.0.0.1234-ci -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</VersionPrefix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">ci</VersionSuffix>
-	</PropertyGroup>
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_AUTOFAC_FORMS_VERSION)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</VersionPrefix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_AUTOFAC_FORMS_VERSION)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">ci</VersionSuffix>
+    <!-- This will create CI builds as 7.0.0.1234-ci -->
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_AUTOFAC_FORMS_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_AUTOFAC_FORMS_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_AUTOFAC_FORMS_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
+  </PropertyGroup>
 
-	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	</PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Autofac" Version="4.6.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="../Prism.Forms/Prism.Forms.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Prism.Forms/Prism.Forms.csproj" />
+  </ItemGroup>
 
 </Project>

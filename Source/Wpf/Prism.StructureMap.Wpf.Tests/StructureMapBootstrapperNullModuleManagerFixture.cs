@@ -1,5 +1,5 @@
 using System.Windows;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Logging;
 using Prism.Regions;

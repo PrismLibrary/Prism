@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Prism.Logging;
@@ -15,6 +15,7 @@ using Prism.Regions.Behaviors;
 using Prism.Mvvm;
 using Prism.Wpf.Tests.Mocks.Views;
 using Prism.Wpf.Tests.Mocks.ViewModels;
+using Prism.Ioc;
 
 namespace Prism.Wpf.Tests
 {
@@ -99,7 +100,7 @@ namespace Prism.Wpf.Tests
             bootstrapper.CallRegisterFrameworkExceptionTypes();
 
             Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
-                typeof(Microsoft.Practices.ServiceLocation.ActivationException)));
+                typeof(ActivationException)));
         }
 
         [TestMethod]
@@ -245,11 +246,22 @@ namespace Prism.Wpf.Tests
 
             Assert.IsTrue(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(RegionMemberLifetimeBehavior.BehaviorKey));
         }
+
+        [TestMethod]
+        public void OnInitializedShouldRunLast()
+        {
+            var bootstrapper = new DefaultBootstrapper();
+
+            bootstrapper.Run();
+
+            Assert.IsTrue(bootstrapper.ExtraInitialization);
+        }
     }
 
     internal class DefaultBootstrapper : Bootstrapper
     {
         public IRegionBehaviorFactory DefaultRegionBehaviorTypes;
+        public bool ExtraInitialization;
 
         public ILoggerFacade BaseLogger
         {
@@ -293,7 +305,12 @@ namespace Prism.Wpf.Tests
 
         public override void Run(bool runWithDefaultConfiguration)
         {
-            throw new NotImplementedException();
+            Assert.IsFalse(this.ExtraInitialization);
+        }
+
+        protected override void OnInitialized()
+        {
+            this.ExtraInitialization = true;
         }
 
         protected override DependencyObject CreateShell()
@@ -320,6 +337,11 @@ namespace Prism.Wpf.Tests
         {
             this.DefaultRegionBehaviorTypes = base.ConfigureDefaultRegionBehaviors();
             return this.DefaultRegionBehaviorTypes;
+        }
+
+        protected override IContainerExtension CreateContainerExtension()
+        {
+            return null;
         }
     }
 

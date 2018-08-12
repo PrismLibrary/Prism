@@ -2,8 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
+using CommonServiceLocator;
+using Unity;
 
 namespace Prism.Unity
 {

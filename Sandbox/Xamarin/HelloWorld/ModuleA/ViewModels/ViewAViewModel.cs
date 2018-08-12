@@ -4,10 +4,11 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism;
 using Prism.AppModel;
+using System.Diagnostics;
 
 namespace ModuleA.ViewModels
 {
-    public class ViewAViewModel : BindableBase, INavigationAware, IActiveAware, IApplicationLifecycle
+    public class ViewAViewModel : BindableBase, INavigationAware, IActiveAware, IApplicationLifecycleAware, IPageLifecycleAware
     {
         private readonly INavigationService _navigationService;
 
@@ -72,7 +73,7 @@ namespace ModuleA.ViewModels
         async void Navigate()
         {
             CanNavigate = false;
-            await _navigationService.NavigateAsync("ViewB/ViewC", useModalNavigation: false);
+            await _navigationService.NavigateAsync($"ViewB/ViewC");
             CanNavigate = true;
         }
 
@@ -81,12 +82,12 @@ namespace ModuleA.ViewModels
             SaveCommand.IsActive = IsActive;
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public void OnNavigatedFrom(INavigationParameters parameters)
         {
 
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             var navigationMode = parameters.GetNavigationMode();
             if (navigationMode == NavigationMode.Back)
@@ -95,7 +96,7 @@ namespace ModuleA.ViewModels
                 Title = "Went to New Page";
         }
 
-        public void OnNavigatingTo(NavigationParameters parameters)
+        public void OnNavigatingTo(INavigationParameters parameters)
         {
 
         }
@@ -108,6 +109,16 @@ namespace ModuleA.ViewModels
         public void OnSleep()
         {
             Title = "Aplpication went to sleep";
+        }
+
+        public void OnAppearing()
+        {
+            Debug.WriteLine("ViewA is appearing");
+        }
+
+        public void OnDisappearing()
+        {
+            Debug.WriteLine("ViewA is disappearing");
         }
     }
 }

@@ -1,7 +1,7 @@
 
 
 using System;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 
 namespace Prism.Wpf.Tests.Mocks
 {

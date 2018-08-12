@@ -1,10 +1,12 @@
-
-
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
+using CommonServiceLocator;
+using Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Unity.Resolution;
+using Unity.Extension;
+using Unity.Registration;
+using Unity.Lifetime;
 
 namespace Prism.Unity.Wpf.Tests
 {
@@ -37,7 +39,7 @@ namespace Prism.Unity.Wpf.Tests
 
             IUnityContainer container = new MockUnityContainer()
             {
-                ResolveAllMethod = delegate
+                ResolveMethod = delegate
                 {
                     return list;
                 }
@@ -52,8 +54,6 @@ namespace Prism.Unity.Wpf.Tests
         {
             public Func<object> ResolveMethod { get; set; }
 
-			public Func<IEnumerable<object>> ResolveAllMethod { get; set; }
-
             #region Implementation of IDisposable
 
             public void Dispose()
@@ -65,37 +65,16 @@ namespace Prism.Unity.Wpf.Tests
 
             #region Implementation of IUnityContainer
 
-        	public IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
-        	{
-        		throw new NotImplementedException();
-        	}
+            public IUnityContainer Parent => throw new NotImplementedException();
 
-        	public IUnityContainer RegisterInstance(Type t, string name, object instance, LifetimeManager lifetime)
-            {
-                throw new NotImplementedException();
-            }
-
-        	public object Resolve(Type t, string name, params ResolverOverride[] resolverOverrides)
-        	{
-        		return ResolveMethod();
-        	}
-
-        	public IEnumerable<object> ResolveAll(Type t, params ResolverOverride[] resolverOverrides)
-        	{
-        		return ResolveAllMethod();
-        	}
-
-        	public object BuildUp(Type t, object existing, string name, params ResolverOverride[] resolverOverrides)
-        	{
-        		throw new NotImplementedException();
-        	}
-
-            public void Teardown(object o)
-            {
-                throw new NotImplementedException();
-            }
+            public IEnumerable<IContainerRegistration> Registrations => throw new NotImplementedException();
 
             public IUnityContainer AddExtension(UnityContainerExtension extension)
+            {
+                throw new NotImplementedException();
+            }
+
+            public object BuildUp(Type type, object existing, string name, params ResolverOverride[] resolverOverrides)
             {
                 throw new NotImplementedException();
             }
@@ -105,25 +84,35 @@ namespace Prism.Unity.Wpf.Tests
                 throw new NotImplementedException();
             }
 
-            public IUnityContainer RemoveAllExtensions()
-            {
-                throw new NotImplementedException();
-            }
-
             public IUnityContainer CreateChildContainer()
             {
                 throw new NotImplementedException();
             }
 
-            public IUnityContainer Parent
+            public IUnityContainer RegisterInstance(Type type, string name, object instance, LifetimeManager lifetime)
             {
-                get { throw new NotImplementedException(); }
+                throw new NotImplementedException();
             }
 
-        	public IEnumerable<ContainerRegistration> Registrations
-        	{
-        		get { throw new NotImplementedException(); }
-        	}
+            public IUnityContainer RegisterType(Type typeFrom, Type typeTo, string name, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
+            {
+                throw new NotImplementedException();
+            }
+
+            public IUnityContainer RemoveAllExtensions()
+            {
+                throw new NotImplementedException();
+            }
+
+            public object Resolve(Type type, string name, params ResolverOverride[] resolverOverrides)
+            {
+                return ResolveMethod();
+            }
+
+            public bool IsRegistered(Type type, string name)
+            {
+                throw new NotImplementedException();
+            }
 
             #endregion
         }

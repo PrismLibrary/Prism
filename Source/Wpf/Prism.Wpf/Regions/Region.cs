@@ -1,6 +1,6 @@
 
 
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Properties;
 using System;
 using System.Collections.ObjectModel;

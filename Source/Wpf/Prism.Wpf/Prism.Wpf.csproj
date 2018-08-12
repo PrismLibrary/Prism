@@ -1,256 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="MSBuild.Sdk.Extras">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5912FF03-C72B-4F56-BAA1-8642FDBFBC26}</ProjectGuid>
-    <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Prism</RootNamespace>
-    <AssemblyName>Prism.Wpf</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <TargetFramework>net4.5</TargetFramework>
+    <!--<Summary>Prism libraries related to user interface composition, regions, and modularity for WPF.</Summary>-->
+    <Description>Prism is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices.  Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms; WPF, Windows 10 UWP, and Xamarin Forms. Features that need to be platform specific are implemented in the respective libraries for the target platform.
+
+Prism.Wpf helps you more easily design and build rich, flexible, and easy to maintain Windows Presentation Foundation (WPF) desktop applications. This library provides user interface composition as well as modularity support.</Description>
+    <PackageTags>prism;mvvm;xaml;wpf</PackageTags>
+    <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
+    <Version Condition=" '$(PRISM_WPF_VERSION)' != '' ">$(PRISM_WPF_VERSION)</Version>
+    <!-- Update this version when incrementing Library Versions i.e. 7.1.0, 7.2.0 -->
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' ">7.1.0</VersionPrefix>
+    <!-- This will create CI builds as 7.0.0.1234-ci -->
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</VersionPrefix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">ci</VersionSuffix>
+    <!-- This will create CI builds as 7.0.0.1234-ci -->
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Prism.Wpf.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\prism.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\System.Windows.Interactivity.dll</HintPath>
     </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
+    <PackageReference Include="CommonServiceLocator" Version="2.0.3" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Common\MvvmHelpers.cs" />
-    <Compile Include="Extensions\CollectionExtensions.cs" />
-    <Compile Include="Events\WeakDelegatesManager.cs" />
-    <Compile Include="Extensions\ExceptionExtensions.cs" />
-    <Compile Include="Interactivity\CommandBehaviorBase.cs" />
-    <Compile Include="Interactivity\DefaultPopupWindows\DefaultConfirmationWindow.xaml.cs">
-      <DependentUpon>DefaultConfirmationWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interactivity\DefaultPopupWindows\DefaultNotificationWindow.xaml.cs">
-      <DependentUpon>DefaultNotificationWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interactivity\DefaultPopupWindows\DefaultWindow.xaml.cs">
-      <DependentUpon>DefaultWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Interactivity\InteractionRequest\Confirmation.cs" />
-    <Compile Include="Interactivity\InteractionRequest\IConfirmation.cs" />
-    <Compile Include="Interactivity\InteractionRequest\IInteractionRequest.cs" />
-    <Compile Include="Interactivity\InteractionRequest\IInteractionRequestAware.cs" />
-    <Compile Include="Interactivity\InteractionRequest\INotification.cs" />
-    <Compile Include="Interactivity\InteractionRequest\InteractionRequest.cs" />
-    <Compile Include="Interactivity\InteractionRequest\InteractionRequestedEventArgs.cs" />
-    <Compile Include="Interactivity\InteractionRequest\InteractionRequestTrigger.cs" />
-    <Compile Include="Interactivity\InteractionRequest\Notification.cs" />
-    <Compile Include="Interactivity\InvokeCommandAction.cs" />
-    <Compile Include="Interactivity\PopupWindowAction.cs" />
-    <Compile Include="Common\ListDictionary.cs" />
-    <Compile Include="Logging\TextLogger.cs" />
-    <Compile Include="Logging\TraceLogger.cs" />
-    <Compile Include="Modularity\AssemblyResolver.Desktop.cs" />
-    <Compile Include="Modularity\ConfigurationModuleCatalog.Desktop.cs" />
-    <Compile Include="Modularity\ConfigurationStore.Desktop.cs" />
-    <Compile Include="Modularity\CyclicDependencyFoundException.cs" />
-    <Compile Include="Modularity\CyclicDependencyFoundException.Desktop.cs" />
-    <Compile Include="Modularity\DirectoryModuleCatalog.Desktop.cs" />
-    <Compile Include="Modularity\DuplicateModuleException.cs" />
-    <Compile Include="Modularity\DuplicateModuleException.Desktop.cs" />
-    <Compile Include="Modularity\FileModuleTypeLoader.Desktop.cs" />
-    <Compile Include="Modularity\IAssemblyResolver.Desktop.cs" />
-    <Compile Include="Modularity\IConfigurationStore.Desktop.cs" />
-    <Compile Include="Modularity\IModule.cs" />
-    <Compile Include="Modularity\IModuleCatalog.cs" />
-    <Compile Include="Modularity\IModuleCatalogItem.cs" />
-    <Compile Include="Modularity\IModuleInitializer.cs" />
-    <Compile Include="Modularity\IModuleManager.cs" />
-    <Compile Include="Modularity\IModuleTypeLoader.cs" />
-    <Compile Include="Modularity\InitializationMode.cs" />
-    <Compile Include="Modularity\LoadModuleCompletedEventArgs.cs" />
-    <Compile Include="Modularity\ModularityException.cs" />
-    <Compile Include="Modularity\ModularityException.Desktop.cs" />
-    <Compile Include="Modularity\ModuleAttribute.Desktop.cs" />
-    <Compile Include="Modularity\ModuleCatalog.cs" />
-    <Compile Include="Modularity\ModuleConfigurationElement.Desktop.cs" />
-    <Compile Include="Modularity\ModuleConfigurationElementCollection.Desktop.cs" />
-    <Compile Include="Modularity\ModuleDependencyAttribute.Desktop.cs" />
-    <Compile Include="Modularity\ModuleDependencyCollection.Desktop.cs" />
-    <Compile Include="Modularity\ModuleDependencyConfigurationElement.Desktop.cs" />
-    <Compile Include="Modularity\ModuleDependencySolver.cs" />
-    <Compile Include="Modularity\ModuleDownloadProgressChangedEventArgs.cs" />
-    <Compile Include="Modularity\ModuleInfo.cs" />
-    <Compile Include="Modularity\ModuleInfo.Desktop.cs" />
-    <Compile Include="Modularity\ModuleInfoGroup.cs" />
-    <Compile Include="Modularity\ModuleInfoGroupExtensions.cs" />
-    <Compile Include="Modularity\ModuleInitializeException.cs" />
-    <Compile Include="Modularity\ModuleInitializeException.Desktop.cs" />
-    <Compile Include="Modularity\ModuleInitializer.cs" />
-    <Compile Include="Modularity\ModuleManager.cs" />
-    <Compile Include="Modularity\ModuleManager.Desktop.cs" />
-    <Compile Include="Modularity\ModuleNotFoundException.cs" />
-    <Compile Include="Modularity\ModuleNotFoundException.Desktop.cs" />
-    <Compile Include="Modularity\ModulesConfigurationSection.Desktop.cs" />
-    <Compile Include="Modularity\ModuleState.cs" />
-    <Compile Include="Modularity\ModuleTypeLoaderNotFoundException.cs" />
-    <Compile Include="Modularity\ModuleTypeLoaderNotFoundException.Desktop.cs" />
-    <Compile Include="Modularity\ModuleTypeLoadingException.cs" />
-    <Compile Include="Modularity\ModuleTypeLoadingException.Desktop.cs" />
-    <Compile Include="Mvvm\ViewModelLocator.cs" />
-    <Compile Include="Common\ObservableObject.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Regions\AllActiveRegion.cs" />
-    <Compile Include="Regions\Behaviors\AutoPopulateRegionBehavior.cs" />
-    <Compile Include="Regions\Behaviors\BindRegionContextToDependencyObjectBehavior.cs" />
-    <Compile Include="Regions\Behaviors\ClearChildViewsRegionBehavior.cs" />
-    <Compile Include="Regions\Behaviors\DelayedRegionCreationBehavior.cs" />
-    <Compile Include="Regions\Behaviors\IHostAwareRegionBehavior.cs" />
-    <Compile Include="Regions\Behaviors\RegionActiveAwareBehavior.cs" />
-    <Compile Include="Regions\Behaviors\RegionCreationException.cs" />
-    <Compile Include="Regions\Behaviors\RegionCreationException.Desktop.cs" />
-    <Compile Include="Regions\Behaviors\RegionManagerRegistrationBehavior.cs" />
-    <Compile Include="Regions\Behaviors\RegionMemberLifetimeBehavior.cs" />
-    <Compile Include="Regions\Behaviors\SelectorItemsSourceSyncBehavior.cs" />
-    <Compile Include="Regions\Behaviors\SyncRegionContextWithHostBehavior.cs" />
-    <Compile Include="Regions\ContentControlRegionAdapter.cs" />
-    <Compile Include="Regions\DefaultRegionManagerAccessor.cs" />
-    <Compile Include="Regions\IConfirmNavigationRequest.cs" />
-    <Compile Include="Regions\INavigateAsync.cs" />
-    <Compile Include="Regions\INavigationAware.cs" />
-    <Compile Include="Regions\IRegion.cs" />
-    <Compile Include="Regions\IRegionAdapter.cs" />
-    <Compile Include="Regions\IRegionBehavior.cs" />
-    <Compile Include="Regions\IRegionBehaviorCollection.cs" />
-    <Compile Include="Regions\IRegionBehaviorFactory.cs" />
-    <Compile Include="Regions\IRegionCollection.cs" />
-    <Compile Include="Regions\IRegionManager.cs" />
-    <Compile Include="Regions\IRegionManagerAccessor.cs" />
-    <Compile Include="Regions\IRegionMemberLifetime.cs" />
-    <Compile Include="Regions\IRegionNavigationContentLoader.cs" />
-    <Compile Include="Regions\IRegionNavigationJournal.cs" />
-    <Compile Include="Regions\IRegionNavigationJournalEntry.cs" />
-    <Compile Include="Regions\IRegionNavigationService.cs" />
-    <Compile Include="Regions\IRegionViewRegistry.cs" />
-    <Compile Include="Regions\ItemMetadata.cs" />
-    <Compile Include="Regions\ItemsControlRegionAdapter.cs" />
-    <Compile Include="Regions\IViewsCollection.cs" />
-    <Compile Include="Regions\NavigationAsyncExtensions.cs" />
-    <Compile Include="Regions\NavigationContext.cs" />
-    <Compile Include="Regions\NavigationParameters.cs" />
-    <Compile Include="Regions\NavigationResult.cs" />
-    <Compile Include="Regions\Region.cs" />
-    <Compile Include="Regions\RegionAdapterBase.cs" />
-    <Compile Include="Regions\RegionAdapterMappings.cs" />
-    <Compile Include="Regions\RegionBehavior.cs" />
-    <Compile Include="Regions\RegionBehaviorCollection.cs" />
-    <Compile Include="Regions\RegionBehaviorFactory.cs" />
-    <Compile Include="Regions\RegionContext.cs" />
-    <Compile Include="Regions\RegionManager.cs" />
-    <Compile Include="Regions\RegionMemberLifetimeAttribute.cs" />
-    <Compile Include="Regions\RegionNavigationContentLoader.cs" />
-    <Compile Include="Regions\RegionNavigationEventArgs.cs" />
-    <Compile Include="Regions\RegionNavigationFailedEventArgs.cs" />
-    <Compile Include="Regions\RegionNavigationJournal.cs" />
-    <Compile Include="Regions\RegionNavigationJournalEntry.cs" />
-    <Compile Include="Regions\RegionNavigationService.cs" />
-    <Compile Include="Regions\RegionViewRegistry.cs" />
-    <Compile Include="Regions\SelectorRegionAdapter.cs" />
-    <Compile Include="Regions\SingleActiveRegion.cs" />
-    <Compile Include="Regions\SyncActiveStateAttribute.cs" />
-    <Compile Include="Regions\UpdateRegionsException.cs" />
-    <Compile Include="Regions\UpdateRegionsException.Desktop.cs" />
-    <Compile Include="Regions\ViewRegisteredEventArgs.cs" />
-    <Compile Include="Regions\ViewRegistrationException.cs" />
-    <Compile Include="Regions\ViewRegistrationException.Desktop.cs" />
-    <Compile Include="Regions\ViewsCollection.cs" />
-    <Compile Include="Regions\ViewSortHintAttribute.cs" />
-    <Compile Include="Extensions\ServiceLocatorExtensions.cs" />
-    <Compile Include="Common\UriParsingHelper.cs" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <AppDesigner Include="Properties\" />
+    <ProjectReference Include="..\..\Prism\Prism.csproj" />
   </ItemGroup>
+  
   <ItemGroup>
-    <Page Include="Interactivity\DefaultPopupWindows\DefaultConfirmationWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Interactivity\DefaultPopupWindows\DefaultNotificationWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Interactivity\DefaultPopupWindows\DefaultWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Content Include="..\System.Windows.Interactivity.dll" Pack="true" PackagePath="lib\net45" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Prism\Prism.csproj">
-      <Project>{e6c50355-d01e-4caa-884d-d7929861315c}</Project>
-      <Name>Prism</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

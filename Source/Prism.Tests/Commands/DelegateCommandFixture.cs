@@ -78,7 +78,7 @@ namespace Prism.Tests.Commands
 
             bool retVal = command.CanExecute(null);
 
-            Assert.Equal(true, retVal);
+            Assert.True(retVal);
         }
 
         [Fact]
@@ -501,7 +501,7 @@ namespace Prism.Tests.Commands
             ComplexProperty.InnerComplexProperty.InnerComplexProperty.IntProperty = 2;
             ComplexProperty.InnerComplexProperty.IntProperty = 2;
 
-            Assert.Equal(canExecuteChangedRaiseCount, 3);
+            Assert.Equal(3, canExecuteChangedRaiseCount);
 
             var innerInnerComplexProp = ComplexProperty.InnerComplexProperty.InnerComplexProperty;
             var innerComplexProp = ComplexProperty.InnerComplexProperty;
@@ -515,9 +515,9 @@ namespace Prism.Tests.Commands
                 }
             };
 
-            Assert.Equal(innerInnerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
-            Assert.Equal(innerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
-            Assert.Equal(complexProp.GetPropertyChangedSubscribledLenght(), 0);
+            Assert.Equal(0, innerInnerComplexProp.GetPropertyChangedSubscribledLenght());
+            Assert.Equal(0, innerComplexProp.GetPropertyChangedSubscribledLenght());
+            Assert.Equal(0, complexProp.GetPropertyChangedSubscribledLenght());
 
             innerInnerComplexProp = ComplexProperty.InnerComplexProperty.InnerComplexProperty;
             innerComplexProp = ComplexProperty.InnerComplexProperty;
@@ -525,9 +525,9 @@ namespace Prism.Tests.Commands
 
             ComplexProperty = null;
 
-            Assert.Equal(innerInnerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
-            Assert.Equal(innerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
-            Assert.Equal(complexProp.GetPropertyChangedSubscribledLenght(), 0);
+            Assert.Equal(0, innerInnerComplexProp.GetPropertyChangedSubscribledLenght());
+            Assert.Equal(0, innerComplexProp.GetPropertyChangedSubscribledLenght());
+            Assert.Equal(0, complexProp.GetPropertyChangedSubscribledLenght());
         }
 
         [Fact]
@@ -762,7 +762,7 @@ namespace Prism.Tests.Commands
             ComplexProperty.InnerComplexProperty.InnerComplexProperty.IntProperty = 2;
             ComplexProperty.InnerComplexProperty.IntProperty = 2;
 
-            Assert.Equal(canExecuteChangedRaiseCount, 3);
+            Assert.Equal(3, canExecuteChangedRaiseCount);
 
             var innerInnerComplexProp = ComplexProperty.InnerComplexProperty.InnerComplexProperty;
             var innerComplexProp = ComplexProperty.InnerComplexProperty;
@@ -776,9 +776,9 @@ namespace Prism.Tests.Commands
                 }
             };
 
-            Assert.Equal(innerInnerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
-            Assert.Equal(innerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
-            Assert.Equal(complexProp.GetPropertyChangedSubscribledLenght(), 0);
+            Assert.Equal(0, innerInnerComplexProp.GetPropertyChangedSubscribledLenght());
+            Assert.Equal(0, innerComplexProp.GetPropertyChangedSubscribledLenght());
+            Assert.Equal(0, complexProp.GetPropertyChangedSubscribledLenght());
 
             innerInnerComplexProp = ComplexProperty.InnerComplexProperty.InnerComplexProperty;
             innerComplexProp = ComplexProperty.InnerComplexProperty;
@@ -786,9 +786,9 @@ namespace Prism.Tests.Commands
 
             ComplexProperty = null;
 
-            Assert.Equal(innerInnerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
-            Assert.Equal(innerComplexProp.GetPropertyChangedSubscribledLenght(), 0);
-            Assert.Equal(complexProp.GetPropertyChangedSubscribledLenght(), 0);
+            Assert.Equal(0, innerInnerComplexProp.GetPropertyChangedSubscribledLenght());
+            Assert.Equal(0, innerComplexProp.GetPropertyChangedSubscribledLenght());
+            Assert.Equal(0, complexProp.GetPropertyChangedSubscribledLenght());
         }
 
         public class ComplexType : TestPurposeBindableBase
@@ -838,7 +838,7 @@ namespace Prism.Tests.Commands
             }
         }
 
-        public void DoNothing(object param)
+        internal void DoNothing(object param)
         { }
 
 

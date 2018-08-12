@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Prism.Modularity
 {
@@ -18,6 +20,10 @@ namespace Prism.Modularity
             where T : IModule =>
             catalog.AddModule<T>(typeof(T).Name, mode);
 
+        public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, string name)
+            where T : IModule =>
+            catalog.AddModule<T>(name, InitializationMode.WhenAvailable);
+
         /// <summary>
         /// Adds the module.
         /// </summary>
@@ -26,46 +32,61 @@ namespace Prism.Modularity
         /// <param name="name">Name.</param>
         /// <param name="mode"><see cref="IModule"/>.</param>
         /// <typeparam name="T">The <see cref="IModule"/> type parameter.</typeparam>
-        public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, string name, InitializationMode mode = InitializationMode.WhenAvailable)
+        public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, string name, InitializationMode mode)
             where T : IModule =>
-            catalog.AddModule(new ModuleInfo(name, typeof(T), mode));
+            catalog.AddModule(new ModuleInfo(typeof(T), name, mode));
 
         /// <summary>
-        /// Checks to see if the <see cref="IModule"/> exists in the <see cref="IModuleCatalog.Modules"/>  
+        /// Adds the <see cref="IModule"/>
         /// </summary>
-        /// <returns><c>true</c> if the Module exists.</returns>
-        /// <param name="catalog">Catalog.</param>
-        /// <typeparam name="T">The <see cref="IModule"/> to check for.</typeparam>
-        public static bool Exists<T>(this IModuleCatalog catalog)
+        /// <typeparam name="T">Type of <see cref="IModule"/></typeparam>
+        /// <param name="catalog">The <see cref="IModuleCatalog"/> to add the <see cref="IModule"/> to.</param>
+        /// <param name="dependsOn">The names of the <see cref="IModule"/>'s that should be loaded when this <see cref="IModule"/> is loaded.</param>
+        /// <returns>The <see cref="IModuleCatalog"/></returns>
+        public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, params string[] dependsOn)
+            where T : IModule => catalog.AddModule<T>(InitializationMode.WhenAvailable, dependsOn);
+
+        /// <summary>
+        /// Adds the <see cref="IModule"/>
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="IModule"/></typeparam>
+        /// <param name="catalog">The <see cref="IModuleCatalog"/> to add the <see cref="IModule"/> to.</param>
+        /// <param name="name">The name of the <see cref="IModule"/></param>
+        /// <param name="dependsOn">The names of the <see cref="IModule"/>'s that should be loaded when this <see cref="IModule"/> is loaded.</param>
+        /// <returns>The <see cref="IModuleCatalog"/></returns>
+        public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, string name, params string[] dependsOn)
             where T : IModule =>
-            catalog.Modules.Any(mi => mi.ModuleType == typeof(T));
+            catalog.AddModule<T>(name, InitializationMode.WhenAvailable, dependsOn);
 
         /// <summary>
-        /// Exists the specified catalog and name.
+        /// Adds the <see cref="IModule"/>
         /// </summary>
-        /// <returns><c>true</c> if the Module exists.</returns>
-        /// <param name="catalog">Catalog.</param>
-        /// <param name="name">Name.</param>
-        public static bool Exists(this IModuleCatalog catalog, string name) =>
-            catalog.Modules.Any(module => module.ModuleName == name);
-
-        /// <summary>
-        /// Checks to see if the <see cref="IModule"/> is already initialized. 
-        /// </summary>
-        /// <returns><c>true</c>, if initialized, <c>false</c> otherwise.</returns>
-        /// <param name="catalog">Catalog.</param>
-        /// <typeparam name="T">The <see cref="IModule"/> to check.</typeparam>
-        public static bool IsInitialized<T>(this IModuleCatalog catalog)
+        /// <typeparam name="T">Type of <see cref="IModule"/></typeparam>
+        /// <param name="catalog">The <see cref="IModuleCatalog"/> to add the <see cref="IModule"/> to.</param>
+        /// <param name="mode"></param>
+        /// <param name="dependsOn">The names of the <see cref="IModule"/>'s that should be loaded when this <see cref="IModule"/> is loaded.</param>
+        /// <returns>The <see cref="IModuleCatalog"/></returns>
+        public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, InitializationMode mode, params string[] dependsOn)
             where T : IModule =>
-            catalog.Modules.FirstOrDefault(mi => mi.ModuleType == typeof(T))?.State == ModuleState.Initialized;
+            catalog.AddModule<T>(typeof(T).Name, mode, dependsOn);
 
         /// <summary>
-        /// Checks to see if the <see cref="IModule"/> is already initialized. 
+        /// Adds the <see cref="IModule"/>
         /// </summary>
-        /// <returns><c>true</c>, if initialized, <c>false</c> otherwise.</returns>
-        /// <param name="catalog">Catalog.</param>
-        /// <param name="name">Name.</param>
-        public static bool IsInitialized(this IModuleCatalog catalog, string name) =>
-            catalog.Modules.FirstOrDefault(module => module.ModuleName == name)?.State == ModuleState.Initialized;
+        /// <typeparam name="T">Type of <see cref="IModule"/></typeparam>
+        /// <param name="catalog">The <see cref="IModuleCatalog"/> to add the <see cref="IModule"/> to.</param>
+        /// <param name="name">The name of the <see cref="IModule"/></param>
+        /// <param name="mode">The <see cref="InitializationMode"/></param>
+        /// <param name="dependsOn">The names of the <see cref="IModule"/>'s that should be loaded when this <see cref="IModule"/> is loaded.</param>
+        /// <returns>The <see cref="IModuleCatalog"/></returns>
+        public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, string name, InitializationMode mode, params string[] dependsOn)
+            where T : IModule
+        {
+            var moduleInfo = new ModuleInfo(name, typeof(T).AssemblyQualifiedName, dependsOn)
+            {
+                InitializationMode = mode
+            };
+            return catalog.AddModule(moduleInfo);
+        }
     }
 }

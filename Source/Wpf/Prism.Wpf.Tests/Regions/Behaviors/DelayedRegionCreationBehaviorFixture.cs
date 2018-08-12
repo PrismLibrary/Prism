@@ -61,20 +61,25 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         [TestMethod]
         public void RegionGetsCreatedWhenAccessingRegions()
         {
-            var control = new MockFrameworkElement();
+            var control1 = new MockFrameworkElement();
+            var control2 = new MockFrameworkContentElement();
 
             var accessor = new MockRegionManagerAccessor
                                {
                                    GetRegionName = d => "myRegionName"
                                };
 
-            var behavior = this.GetBehavior(control, accessor);
-            behavior.Attach();
+            var behavior1 = this.GetBehavior(control1, accessor);
+            behavior1.Attach();
+            var behavior2 = this.GetBehavior(control2, accessor);
+            behavior2.Attach();
 
             accessor.UpdateRegions();
 
-            Assert.IsNotNull(RegionManager.GetObservableRegion(control).Value);
-            Assert.IsInstanceOfType(RegionManager.GetObservableRegion(control).Value, typeof(IRegion));
+            Assert.IsNotNull(RegionManager.GetObservableRegion(control1).Value);
+            Assert.IsInstanceOfType(RegionManager.GetObservableRegion(control1).Value, typeof(IRegion));
+            Assert.IsNotNull(RegionManager.GetObservableRegion(control2).Value);
+            Assert.IsInstanceOfType(RegionManager.GetObservableRegion(control2).Value, typeof(IRegion));
         }
 
         [TestMethod]
@@ -167,6 +172,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         public void ShouldCleanupBehaviorOnceRegionIsCreated()
         {
             var control = new MockFrameworkElement();
+            var control2 = new MockFrameworkContentElement();
 
             var accessor = new MockRegionManagerAccessor
             {
@@ -184,6 +190,18 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             GC.Collect();
 
             Assert.IsFalse(behaviorWeakReference.IsAlive);
+
+            var behavior2 = this.GetBehavior(control2, accessor);
+            WeakReference behaviorWeakReference2 = new WeakReference(behavior2);
+            behavior2.Attach();
+            accessor.UpdateRegions();
+            Assert.IsTrue(behaviorWeakReference2.IsAlive);
+            GC.KeepAlive(behavior2);
+
+            behavior2 = null;
+            GC.Collect();
+
+            Assert.IsFalse(behaviorWeakReference2.IsAlive);
         }
     }
 }

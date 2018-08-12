@@ -3,7 +3,7 @@
 using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Prism.Events;

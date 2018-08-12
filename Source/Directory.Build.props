@@ -1,4 +1,66 @@
 <Project>
-  <!-- Workaround for https://github.com/dotnet/sdk/pull/908 -->
-  <Target Name="GetPackagingOutputs" />
+
+  <PropertyGroup>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Authors>Brian Lagunas;Bart Lannoeye;Dan Siegel</Authors>
+    <Owners>Brian Lagunas;Bart Lannoeye;Dan Siegel</Owners>
+    <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/PrismLibrary/Prism</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes Condition=" '$(APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED)' != '' And '$(PackageReleaseNotes)' == '' ">$(APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED)</PackageReleaseNotes>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
+    <IncludeSymbols>True</IncludeSymbols>
+    <IncludeSource>True</IncludeSource>
+    <ArtifactStagingRoot>$(MSBuildThisFileDirectory)Artifacts</ArtifactStagingRoot>
+    <ArtifactStagingRoot Condition=" '$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != '' ">$(BUILD_ARTIFACTSTAGINGDIRECTORY)</ArtifactStagingRoot>
+    <PackageOutputPath>$([System.IO.Path]::Combine('$(ArtifactStagingRoot)', 'NuGet'))</PackageOutputPath>
+    <IsCoreProject>$(MSBuildProjectName.Equals('Prism'))</IsCoreProject>
+    <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
+    <IsUwpProject>$(MSBuildProjectName.Contains('Windows'))</IsUwpProject>
+    <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
+    <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
+    <SignAssembly Condition=" ('$(IsCoreProject)' Or '$(IsWpfProject)') And !$(IsTestProject) And !$(MSBuildProjectName.Contains('DryIoc')) And !$(MSBuildProjectName.Contains('StructureMap')) ">True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)prism.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
+    <DisableCorePublish Condition=" '$(DisableCorePublish)' == '' ">false</DisableCorePublish>
+    <DisableUwpPublish Condition=" '$(DisableUwpPublish)' == '' ">false</DisableUwpPublish>
+    <DisableWpfPublish Condition=" '$(DisableUpfPublish)' == '' ">false</DisableWpfPublish>
+    <DisableFormsPublish Condition=" '$(DisableFormsPublish)' == '' ">false</DisableFormsPublish>
+    <IsPackable>!$(IsTestProject)</IsPackable>
+    <IsPackable Condition=" '$(IsCoreProject)' And !'$(IsTestProject)' ">!$(DisableCorePublish)</IsPackable>
+    <IsPackable Condition=" '$(IsUwpProject)' And !'$(IsTestProject)' ">!$(DisableUwpPublish)</IsPackable>
+    <IsPackable Condition=" '$(IsWpfProject)' And !'$(IsTestProject)' ">!$(DisableWpfPublish)</IsPackable>
+    <IsPackable Condition=" '$(IsFormsProject)' And !'$(IsTestProject)' ">!$(DisableFormsPublish)</IsPackable>
+    <PackageTags Condition=" '$(IsCoreProject)' == 'True' ">prism;wpf;xamarin;uwp;uap;xaml</PackageTags>
+    <PackageTags Condition=" '$(IsUwpProject)' == 'True' ">prism;mvvm;uwp;dependency injection;di</PackageTags>
+    <PackageTags Condition=" '$(IsWpfProject)' == 'True' ">prism;mvvm;wpf;dependency injection;di</PackageTags>
+    <PackageTags Condition=" '$(IsFormsProject)' == 'True' ">prism;mvvm;uwp;android;ios;xamarin;xamarin.forms;dependency injection;di</PackageTags>
+    <IS_PREVIEW Condition=" '$(IS_PREVIEW)' == '' ">false</IS_PREVIEW>
+    <IS_RELEASE Condition=" '$(IS_RELEASE)' == '' ">false</IS_RELEASE>
+    <ExtrasEnableWpfProjectSetup>$(IsWpfProject)</ExtrasEnableWpfProjectSetup>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <GenerateDocumentationFile>!$(IsTestProject)</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>!$(IsTestProject)</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+    <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Nuget source link -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" !$(IsTestProject) ">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-62925-02" PrivateAssets="All" />
+  </ItemGroup>
+
 </Project>

@@ -4,10 +4,11 @@ using Prism.Navigation;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System;
+using Prism.AppModel;
 
 namespace ModuleA.ViewModels
 {
-    public class ViewCViewModel : BindableBase, INavigationAware
+    public class ViewCViewModel : BindableBase, INavigationAware, IDestructible, IPageLifecycleAware
     {
         private readonly INavigationService _navigationService;
 
@@ -24,32 +25,57 @@ namespace ModuleA.ViewModels
         {
             _navigationService = navigationService;
 
-            //NavigateCommand = new DelegateCommand(Navigate);
-            NavigateCommand = new DelegateCommand(async () => await Navigate());
-
-            //NavigateCommand = DelegateCommand.FromAsyncHandler(Navigate);
+            NavigateCommand = new DelegateCommand(Navigate);
         }
 
-        async Task Navigate()
+        async void Navigate()
         {
-            await _navigationService.NavigateAsync("ViewB");
+            try
+            {
+                //var uri = _navigationService.GetNavigationUriPath();
 
-            Debug.WriteLine("After _navigationService.NavigateAsync(ViewB) ...");
+                //Debug.WriteLine("After _navigationService.NavigateAsync(ViewB) ...");
+
+                var result = await _navigationService.NavigateAsync("../../");
+                if (!result.Success)
+                {
+
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public void OnNavigatedFrom(INavigationParameters parameters)
         {
             Debug.WriteLine("OnNavigatedFrom ViewC ...");
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
 
         }
 
-        public void OnNavigatingTo(NavigationParameters parameters)
+        public void OnNavigatingTo(INavigationParameters parameters)
         {
             
+        }
+
+        public void Destroy()
+        {
+            
+        }
+
+        public void OnAppearing()
+        {
+            Debug.WriteLine("ViewC is appearing");
+        }
+
+        public void OnDisappearing()
+        {
+            Debug.WriteLine("ViewC is disappearing");
         }
     }
 }

@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,8 +6,9 @@ using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Mvvm;
+using Prism.Ioc;
 
 namespace Prism
 {
@@ -20,8 +19,10 @@ namespace Prism
     /// <remarks>
     /// This class must be overridden to provide application specific configuration.
     /// </remarks>
+    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files.")]
     public abstract class Bootstrapper
     {
+        protected IContainerExtension _containerExtension;
         /// <summary>
         /// Gets the <see cref="ILoggerFacade"/> for the application.
         /// </summary>
@@ -41,6 +42,12 @@ namespace Prism
         protected DependencyObject Shell { get; set; }
 
         /// <summary>
+        /// Creates the container extension used by Prism.
+        /// </summary>
+        /// <returns>The container extension</returns>
+        protected abstract IContainerExtension CreateContainerExtension();
+
+        /// <summary>
         /// Create the <see cref="ILoggerFacade" /> used by the bootstrapper.
         /// </summary>
         /// <remarks>
@@ -57,6 +64,8 @@ namespace Prism
         public void Run()
         {
             this.Run(true);
+
+            this.OnInitialized();
         }
 
         /// <summary>
@@ -92,7 +101,7 @@ namespace Prism
         protected virtual void RegisterFrameworkExceptionTypes()
         {
             ExceptionExtensions.RegisterFrameworkExceptionType(
-                typeof(Microsoft.Practices.ServiceLocation.ActivationException));
+                typeof(ActivationException));
         }
 
         /// <summary>
@@ -192,5 +201,12 @@ namespace Prism
         /// Configures the LocatorProvider for the <see cref="Microsoft.Practices.ServiceLocation.ServiceLocator" />.
         /// </summary>
         protected abstract void ConfigureServiceLocator();
+
+        /// <summary>
+        /// Contains actions that should occur last.
+        /// </summary>
+        protected virtual void OnInitialized()
+        {
+        }
     }
 }

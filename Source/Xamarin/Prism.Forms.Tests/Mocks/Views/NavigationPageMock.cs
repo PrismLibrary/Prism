@@ -29,21 +29,21 @@ namespace Prism.Forms.Tests.Mocks.Views
         public void Destroy()
         {
             DestroyCalled = true;
-            PageNavigationEventRecorder.Record(this, PageNavigationEvent.Destroy);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.Destroy);
         }
 
         public bool ClearNavigationStackOnNavigation { get; set; } = true;
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public void OnNavigatedFrom(INavigationParameters parameters)
         {
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedFrom);
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
         }
 
-        public void OnNavigatingTo(NavigationParameters parameters)
+        public void OnNavigatingTo(INavigationParameters parameters)
         {
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatingTo);
         }
@@ -65,22 +65,22 @@ namespace Prism.Forms.Tests.Mocks.Views
             ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public void OnNavigatedFrom(INavigationParameters parameters)
         {
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedFrom);
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
         }
 
-        public void OnNavigatingTo(NavigationParameters parameters)
+        public void OnNavigatingTo(INavigationParameters parameters)
         {
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatingTo);
         }
 
-        public Task<bool> CanNavigateAsync(NavigationParameters parameters)
+        public Task<bool> CanNavigateAsync(INavigationParameters parameters)
         {
             return Task.Run(() =>
             {

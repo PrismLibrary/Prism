@@ -123,6 +123,9 @@
   <data name="CannotRegisterSameCommandTwice" xml:space="preserve">
     <value>Cannot register the same command twice in the same CompositeCommand.</value>
   </data>
+  <data name="CyclicDependencyFound" xml:space="preserve">
+    <value>At least one cyclic dependency has been found in the module catalog. Cycles in the module dependencies must be avoided.</value>
+  </data>
   <data name="DefaultDebugLoggerPattern" xml:space="preserve">
     <value>{1}: {2}. Priority: {3}. Timestamp:{0:u}.</value>
   </data>
@@ -132,14 +135,43 @@
   <data name="DelegateCommandInvalidGenericPayloadType" xml:space="preserve">
     <value>T for DelegateCommand&lt;T&gt; is not an object nor Nullable.</value>
   </data>
+  <data name="DependencyForUnknownModule" xml:space="preserve">
+    <value>Cannot add dependency for unknown module {0}</value>
+  </data>
+  <data name="DependencyOnMissingModule" xml:space="preserve">
+    <value>A module declared a dependency on another module which is not declared to be loaded. Missing module(s): {0}</value>
+  </data>
+  <data name="DuplicatedModule" xml:space="preserve">
+    <value>A duplicated module with name {0} has been found by the loader.</value>
+  </data>
   <data name="EventAggregatorNotConstructedOnUIThread" xml:space="preserve">
     <value>To use the UIThread option for subscribing, the EventAggregator must be constructed on the UI thread.</value>
+  </data>
+  <data name="FailedToLoadModule" xml:space="preserve">
+    <value>An exception occurred while initializing module '{0}'. 
+    - The exception message was: {2}
+    - The Assembly that the module was trying to be loaded from was:{1}
+    Check the InnerException property of the exception for more information. If the exception occurred while creating an object in a DI container, you can exception.GetRootException() to help locate the root cause of the problem.</value>
+  </data>
+  <data name="FailedToLoadModuleNoAssemblyInfo" xml:space="preserve">
+    <value>An exception occurred while initializing module '{0}'. 
+    - The exception message was: {1}
+    Check the InnerException property of the exception for more information. If the exception occurred 
+    while creating an object in a DI container, you can exception.GetRootException() to help locate the 
+    root cause of the problem.</value>
+  </data>
+  <data name="FailedToRetrieveModule" xml:space="preserve">
+    <value>Failed to load type for module {0}. 
+Error was: {1}.</value>
   </data>
   <data name="InvalidDelegateRerefenceTypeException" xml:space="preserve">
     <value>Invalid Delegate Reference Type Exception</value>
   </data>
   <data name="InvalidPropertyNameException" xml:space="preserve">
     <value>The entity does not contain a property with that name</value>
+  </data>
+  <data name="ModuleDependenciesNotMetInGroup" xml:space="preserve">
+    <value>Module {0} depends on other modules that don't belong to the same group.</value>
   </data>
   <data name="PropertySupport_ExpressionNotProperty_Exception" xml:space="preserve">
     <value>The member access expression does not access a property.</value>
@@ -149,5 +181,11 @@
   </data>
   <data name="PropertySupport_StaticExpression_Exception" xml:space="preserve">
     <value>The referenced property is a static property.</value>
+  </data>
+  <data name="StartupModuleDependsOnAnOnDemandModule" xml:space="preserve">
+    <value>Module {0} is marked for automatic initialization when the application starts, but it depends on modules that are marked as OnDemand initialization. To fix this error, mark the dependency modules for InitializationMode=WhenAvailable, or remove this validation by extending the ModuleCatalog class.</value>
+  </data>
+  <data name="StringCannotBeNullOrEmpty" xml:space="preserve">
+    <value>The provided String argument {0} must not be null or empty.</value>
   </data>
 </root>

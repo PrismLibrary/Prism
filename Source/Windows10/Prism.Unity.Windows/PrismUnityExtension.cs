@@ -1,6 +1,8 @@
 using System;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity;
+using Unity;
+using Unity.Builder;
+using Unity.Extension;
+using Unity.Policy;
 
 namespace Prism.Unity.Windows
 {

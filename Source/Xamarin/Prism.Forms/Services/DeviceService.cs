@@ -30,7 +30,8 @@ namespace Prism.Services
 		/// Gets the Platform (OS) that Xamarin.Forms is working on.
 		/// </summary>
 		[Obsolete("Platform is obsolete. Use RuntimePlatform instead.")]
-		public TargetPlatform Platform
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public TargetPlatform Platform
 		{
 			get { return Device.OS; }
 		}
@@ -89,7 +90,8 @@ namespace Prism.Services
 		/// <param name="winPhone">Action to execute when running on WinPhone</param>
 		/// <param name="defaultAction">Action to execute if no Action was provided for the current Platform (OS)</param>
 		[Obsolete("OnPlatform is obsolete. Use switch(RuntimePlatform) instead.")]
-		public void OnPlatform(Action iOS = null, Action android = null, Action winPhone = null, Action defaultAction = null)
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public void OnPlatform(Action iOS = null, Action android = null, Action winPhone = null, Action defaultAction = null)
 		{
 			Device.OnPlatform(iOS, android, winPhone, defaultAction);
 		}
@@ -103,7 +105,8 @@ namespace Prism.Services
 		/// <param name="winPhone">The value for WinPhone</param>
 		/// <returns>The value for the current Platform (OS)</returns>
 		[Obsolete("OnPlatform is obsolete. Use switch(RuntimePlatform) instead.")]
-		public T OnPlatform<T>(T iOS, T android, T winPhone)
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public T OnPlatform<T>(T iOS, T android, T winPhone)
 		{
 			return Device.OnPlatform<T>(iOS, android, winPhone);
 		}

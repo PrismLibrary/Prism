@@ -30,7 +30,7 @@ namespace Prism.Commands
 
             if (!(propertyExpression is ConstantExpression constantExpression))
                 throw new NotSupportedException("Operation not supported for the given expression type. " +
-                                                "Only MemberExpression and ConstanteExpression are currently supported.");
+                                                "Only MemberExpression and ConstantExpression are currently supported.");
 
             var propObserverNodeRoot = new PropertyObserverNode(propNameStack.Pop(), _action);
             PropertyObserverNode previousNode = propObserverNodeRoot;

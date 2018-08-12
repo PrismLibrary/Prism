@@ -1,6 +1,6 @@
 
 
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Prism.Common;
 using Prism.Properties;
 using System;
@@ -260,7 +260,10 @@ namespace Prism.Regions
                 IRegionNavigationJournalEntry journalEntry = this.serviceLocator.GetInstance<IRegionNavigationJournalEntry>();
                 journalEntry.Uri = navigationContext.Uri;
                 journalEntry.Parameters = navigationContext.Parameters;
-                this.journal.RecordNavigation(journalEntry);
+
+                bool persistInHistory = PersistInHistory(activeViews);
+
+                this.journal.RecordNavigation(journalEntry, persistInHistory);
 
                 // The view can be informed of navigation
                 Action<INavigationAware> action = (n) => n.OnNavigatedTo(navigationContext);
@@ -275,6 +278,16 @@ namespace Prism.Regions
             {
                 this.NotifyNavigationFailed(navigationContext, navigationCallback, e);
             }
+        }
+
+        private static bool PersistInHistory(object[] activeViews)
+        {
+            bool persist = true;
+            if (activeViews.Length > 0)
+            {
+                MvvmHelpers.ViewAndViewModelAction<IJournalAware>(activeViews[0], ija => { persist &= ija.PersistInHistory(); });
+            }
+            return persist;
         }
 
         private void NotifyNavigationFailed(NavigationContext navigationContext, Action<NavigationResult> navigationCallback, Exception e)

@@ -25,6 +25,17 @@ namespace Prism.Navigation
             return null;
         }
 
+        public static PageNavigationInfo GetPageNavigationInfo(Type pageType)
+        {
+            foreach (var item in _pageRegistrationCache)
+            {
+                if (item.Value.Type == pageType)
+                    return item.Value;
+            }
+
+            return null;
+        }
+
         public static Type GetPageType(string name)
         {
             return GetPageNavigationInfo(name)?.Type;

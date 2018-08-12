@@ -34,7 +34,7 @@ namespace Prism.Common
             return segment.Split('?')[0];
         }
 
-        public static NavigationParameters GetSegmentParameters(string segment)
+        public static INavigationParameters GetSegmentParameters(string segment)
         {
             string query = string.Empty;
 
@@ -50,7 +50,7 @@ namespace Prism.Common
             return new NavigationParameters(query);
         }
 
-        public static NavigationParameters GetSegmentParameters(string uriSegment, NavigationParameters parameters)
+        public static INavigationParameters GetSegmentParameters(string uriSegment, INavigationParameters parameters)
         {
             var navParameters = UriParsingHelper.GetSegmentParameters(uriSegment);
 

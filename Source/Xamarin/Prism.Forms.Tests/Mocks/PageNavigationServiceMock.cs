@@ -1,4 +1,5 @@
-﻿using Prism.Common;
+﻿using Prism.Behaviors;
+using Prism.Common;
 using Prism.Logging;
 using Prism.Navigation;
 using Xamarin.Forms;
@@ -11,7 +12,7 @@ namespace Prism.Forms.Tests.Mocks
         PageNavigationEventRecorder _recorder;
 
         public PageNavigationServiceMock(PageNavigationContainerMock containerMock, IApplicationProvider applicationProviderMock, ILoggerFacade loggerFacadeMock, PageNavigationEventRecorder recorder = null)
-            : base(applicationProviderMock, loggerFacadeMock)
+            : base(containerMock, applicationProviderMock, new PageBehaviorFactory(), loggerFacadeMock)
         {
             _containerMock = containerMock;
             _recorder = recorder;

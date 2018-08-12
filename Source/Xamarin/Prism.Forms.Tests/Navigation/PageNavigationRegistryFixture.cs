@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Prism.Forms.Tests.Navigation
 {
+    [Collection("PageNavigationRegistry")]
     public class PageNavigationRegistryFixture
     {
         [Fact]
@@ -53,7 +54,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.Null(infoType);
         }
 
-        public static void ResetPageNavigationRegistry()
+        internal static void ResetPageNavigationRegistry()
         {
             TypeInfo staticType = typeof(PageNavigationRegistry).GetTypeInfo();
 

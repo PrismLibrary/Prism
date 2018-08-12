@@ -1,0 +1,30 @@
+<Project>
+
+    <Target Name="_ReleaseBinaryCopy"
+            Condition=" !'$(IsTestProject)' And '$(IsPackable)' "
+            BeforeTargets="AfterBuild;WpfPack">
+
+        <PropertyGroup>
+            <BinariesFolderName Condition=" '$(IsCoreProject)' ">Core</BinariesFolderName>
+            <BinariesFolderName Condition=" '$(IsFormsProject)' ">Forms</BinariesFolderName>
+            <BinariesFolderName Condition=" '$(IsUwpProject)' ">UWP</BinariesFolderName>
+            <BinariesFolderName Condition=" '$(IsWpfProject)' ">WPF</BinariesFolderName>
+            <ArtifactStaging>$([System.IO.Path]::Combine('$(ArtifactStagingRoot)', $(Configuration), '$(BinariesFolderName)', '$(TargetFramework)'))</ArtifactStaging>
+        </PropertyGroup>
+
+        <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll"
+              DestinationFolder="$(ArtifactStaging)"
+              Condition=" Exists('$(OutputPath)$(AssemblyName).dll') " />
+        <Copy SourceFiles="$(OutputPath)$(AssemblyName).xml"
+              DestinationFolder="$(ArtifactStaging)"
+              Condition=" Exists('$(OutputPath)$(AssemblyName).xml') " />
+        <Copy SourceFiles="$(OutputPath)$(AssemblyName).pdb"
+              DestinationFolder="$(ArtifactStaging)"
+              Condition=" Exists('$(OutputPath)$(AssemblyName).pdb') " />
+        <Copy SourceFiles="$(OutputPath)$(AssemblyName).pri"
+              DestinationFolder="$(ArtifactStaging)"
+              Condition=" Exists('$(OutputPath)$(AssemblyName).pri') " />
+
+    </Target>
+
+</Project>

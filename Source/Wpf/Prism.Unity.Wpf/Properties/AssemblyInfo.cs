@@ -4,18 +4,8 @@ using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Markup;
 
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-[assembly: AssemblyTitle("Prism.Unity.Wpf")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Prism")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -42,7 +32,5 @@ using System.Windows;
                                       // app, or any theme specific resource dictionaries)
 )]
 
+[assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Unity")]
 
-[assembly: AssemblyVersion("7.0")]
-[assembly: AssemblyFileVersion("7.0.0")]
-[assembly: AssemblyInformationalVersion("7.0.0")]

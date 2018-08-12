@@ -1,4 +1,4 @@
-# Prism
+﻿# Prism
 
 Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Windows 10 UWP, and Xamarin Forms. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for UWP and Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
 
@@ -6,27 +6,54 @@ Prism 6 is a fully open source version of the Prism guidance [originally produce
 
 At the current time, we have no plans to create new versions of the library for Silverlight or for Windows 8/8.1/WP8.1. For those you can still use the previous releases from Microsoft P&amp;P [here](https://msdn.microsoft.com/en-us/library/Gg430869%28v=PandP.40%29.aspx) and [here](http://prismwindowsruntime.codeplex.com/). If there is enough interest and contributors to do the work, we can consider it, but it is not on our roadmap for now.
 
+## Plugins
+
+There are certain things that cannot be added directly into Prism for various reasons. To handle these common tasks such as supporting PopupPage's in Xamarin Forms, there are Prism Plugins. You can find a number of Plugins available on NuGet from our maintainer @DanJSiegel.
+
+- [Prism.Plugin.Popups](https://github.com/dansiegel/Prism.Plugin.Popups) (Forms Only)
+- [Prism.Plugin.Logging](https://github.com/dansiegel/Prism.Plugin.Logging) (Works on all Platforms)
+  - Adds support for Syslog, Loggly, and Graylog
+- [Prism.Plugin.PageDialogs](https://github.com/dansiegel/Prism.Plugin.PageDialogs) (Forms Only)
+- [Prism.MFractor.Config](https://nuget.org/packages/Prism.MFractor.Config)
+  - Configures MFractor in Visual Studio for Mac to follow Prism Conventions
+
 ## Build Status
 
 |          | Status |
 | -------- | ------ |
-| Prism | <img src="https://ci.appveyor.com/api/projects/status/pn4fcaghmlwueu52/branch/master?svg=true"/> |
-| Prism.Wpf | <img src="https://ci.appveyor.com/api/projects/status/4lt3n2wf5m2efms7/branch/master?svg=true" /> |
-| Prism.Windows | <img src="https://ci.appveyor.com/api/projects/status/j04r6a45fi2f9pv4/branch/master?svg=true" /> |
-| Prism.Forms | <img src="https://ci.appveyor.com/api/projects/status/6ly53jgvwx62bm9u/branch/master?svg=true" /> |
+| Prism | [![AppVeyor](https://img.shields.io/appveyor/ci/brianlagunas/prism/master.svg?label=appveyor)](https://ci.appveyor.com/project/brianlagunas/prism/branch/master) |
+| Prism.Wpf | [![AppVeyor](https://img.shields.io/appveyor/ci/brianlagunas/prism-jy368/master.svg?label=appveyor)](https://ci.appveyor.com/project/brianlagunas/prism-jy368/branch/master) |
+| Prism.Windows | [![AppVeyor](https://img.shields.io/appveyor/ci/brianlagunas/prism-gv1t3/master.svg?label=appveyor)](https://ci.appveyor.com/project/brianlagunas/prism-gv1t3/branch/master) |
+| Prism.Forms | [![AppVeyor](https://img.shields.io/appveyor/ci/brianlagunas/prism-bvely/master.svg?label=appveyor)](https://ci.appveyor.com/project/brianlagunas/prism-bvely/branch/master) |
 
 ## Support
 
-- Join our Slack Channel [![Slack Status](https://prismslack.herokuapp.com/badge.svg)](https://prismslack.herokuapp.com/)
-- Documentation is maintained in this repo under /docs and can be found in a readable format on [Read the Docs](http://prismlibrary.readthedocs.io/en/latest/).
+- Documentation is maintained in [the Prism-Documentation repo](https://github.com/PrismLibrary/Prism-Documentation) under /docs and can be found in a readable format on [the website](http://prismlibrary.github.io/docs/).
 - For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism).
 - You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues).
 
 ## Help Support Prism
 
-As most of you know, it takes a lot of time and effort for our small team to manage and maintain Prism in our spare time.  Even though Prism is open source and hosted on GitHub, there are a number of costs associated with maintaining a project such as Prism.  If you would like to help support us, the easiest thing you can do is watch our Pluralsight courses on Prism.  By watching our courses, not only do you help support the project financially, but you might also learn something along the way.  We believe this is a win-win for everyone.
+As most of you know, it takes a lot of time and effort for our small team to manage and maintain Prism in our spare time.  Even though Prism is open source and hosted on GitHub, there are a number of costs associated with maintaining a project such as Prism.  If you would like to help support us, the easiest thing you can do is become a Patron and watch our Pluralsight courses on Prism.
 
-- [Building Windows Store Business Apps with Prism](https://app.pluralsight.com/library/courses/building-windows-store-business-applications-prism/table-of-contents)
+By becoming a [Patron and subscribing](https://www.patreon.com/prismlibrary) to the Prism Library, you will receive a number of benefits depending on your level of support.
+
+**Basic** - $1+ per month
+- Receive all Prism Library news and announcements, such as new release information and blogs posts. 
+- Gives you access to our community Slack channel where you can ask questions and get help from the community and the Prism Library project maintainers (when available).
+
+**Premium** - $5+ per month
+- Gives you access to members only video tutorials.
+- A Prism sticker
+
+**Platinum** - $10+ per month
+- Early access to Visual Studio productivity tools.
+- Early access to video tutorials
+- Receive priority response on all GitHub issues.
+- Gives you access to a private Slack channel where you can ask questions and get help directly from Prism Library project maintainers.
+
+By watching our courses, not only do you help support the project financially, but you might also learn something along the way.  We believe this is a win-win for everyone.
+
 - [Introduction to Prism](https://app.pluralsight.com/library/courses/prism-introduction/table-of-contents)
 - [What's New in Prism 5.0](https://app.pluralsight.com/library/courses/prism-50-whats-new/table-of-contents)
 - [Prism Problems & Solutions: Showing Multiple Shells](https://app.pluralsight.com/library/courses/prism-showing-multiple-shells/table-of-contents)
@@ -48,10 +75,10 @@ These are the base packages for each platform, together with the Prism's Core as
 
 | Platform | Assembly | Package | NuGet | MyGet |
 | -------- | -------- | ------- | ------- | ----- |
-| PCL | Prism.dll | [Prism.Core][CoreNuGet] | [![CoreNuGetShield]][CoreNuGet] | [![CoreMyGetShield]][CoreNuGet] |
-| WPF | Prism.Wpf.dll | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfMyGetShield]][WpfNuGet] |
-| Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][FormsNuGet] | [![FormsNuGetShield]][FormsNuGet] | [![FormsMyGetShield]][FormsNuGet] |
-| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][UWPNuGet] | [![UWPNuGetShield]][UWPNuGet] | [![UWPMyGetShield]][UWPNuGet] |
+| PCL | Prism.dll | [Prism.Core][CoreNuGet] | [![CoreNuGetShield]][CoreNuGet] | [![CoreMyGetShield]][CoreMyGet] |
+| WPF | Prism.Wpf.dll | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfMyGetShield]][WpfMyGet] |
+| Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][FormsNuGet] | [![FormsNuGetShield]][FormsNuGet] | [![FormsMyGetShield]][FormsMyGet] |
+| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][UWPNuGet] | [![UWPNuGetShield]][UWPNuGet] | [![UWPMyGetShield]][UWPMyGet] |
 
 ### Container-specific packages
 
@@ -63,33 +90,33 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 | Package | NuGet | MyGet |
 |---------|-------|-------|
-| [Prism.Autofac][AutofacWpfNuGet] | [![AutofacWpfNuGetShield]][AutofacWpfNuGet] | [![AutofacUWPMyGetShield]][AutofacWpfNuGet] |
-| [Prism.DryIoc][DryIocWpfNuGet] | [![DryIocWpfNuGetShield]][DryIocWpfNuGet] | [![DryIocWpfMyGetShield]][DryIocWpfNuGet] |
-| [Prism.Mef][MefWpfNuGet] | [![MefWpfNuGetShield]][MefWpfNuGet] | [![MefMyGetShield]][MefWpfNuGet] |
-| [Prism.Ninject][NinjectWpfNuGet] | [![NinjectWpfNuGetShield]][NinjectWpfNuGet] | [![NinjectWpfMyGetShield]][NinjectWpfNuGet] |
-| [Prism.StructureMap][StructureMapWpfNuGet] | [![StructureMapWpfNuGetShield]][StructureMapWpfNuGet] | [![StructureMapWpfMyGetShield]][StructureMapWpfNuGet] |
-| [Prism.Unity][UnityWpfNuGet] | [![UnityWpfNuGetShield]][UnityWpfNuGet] | [![UnityWpfMyGetShield]][UnityWpfNuGet] |
+| [Prism.Autofac][AutofacWpfNuGet] | [![AutofacWpfNuGetShield]][AutofacWpfNuGet] | [![AutofacWpfMyGetShield]][AutofacWpfMyGet] |
+| [Prism.DryIoc][DryIocWpfNuGet] | [![DryIocWpfNuGetShield]][DryIocWpfNuGet] | [![DryIocWpfMyGetShield]][DryIocWpfMyGet] |
+| [Prism.Mef][MefWpfNuGet] | [![MefWpfNuGetShield]][MefWpfNuGet] | [![MefMyGetShield]][MefWpfMyGet] |
+| [Prism.Ninject][NinjectWpfNuGet] | [![NinjectWpfNuGetShield]][NinjectWpfNuGet] | [![NinjectWpfMyGetShield]][NinjectWpfMyGet] |
+| [Prism.StructureMap][StructureMapWpfNuGet] | [![StructureMapWpfNuGetShield]][StructureMapWpfNuGet] | [![StructureMapWpfMyGetShield]][StructureMapWpfMyGet] |
+| [Prism.Unity][UnityWpfNuGet] | [![UnityWpfNuGetShield]][UnityWpfNuGet] | [![UnityWpfMyGetShield]][UnityWpfMyGet] |
 
 #### UWP
 
 | Package | NuGet | MyGet |
 |---------|-------|-------|
-| [Prism.Autofac.Windows][AutofacUWPNuGet] | [![AutofacUWPNuGetShield]][AutofacUWPNuGet] | [![AutofacUWPMyGetShield]][AutofacUWPNuGet] |
-| [Prism.SimpleInjector.Windows][SimpleInjectorUWPNuGet] | [![SimpleInjectorUWPNuGetShield]][SimpleInjectorUWPNuGet] | [![SimpleInjectorUWPMyGetShield]][SimpleInjectorUWPNuGet] |
-| [Prism.Unity.Windows][UnityUWPNuGet] | [![UnityUWPNuGetShield]][UnityUWPNuGet] | [![UnityUWPMyGetShield]][UnityUWPNuGet] |
+| [Prism.Autofac.Windows][AutofacUWPNuGet] | [![AutofacUWPNuGetShield]][AutofacUWPNuGet] | [![AutofacUWPMyGetShield]][AutofacUWPMyGet] |
+| [Prism.SimpleInjector.Windows][SimpleInjectorUWPNuGet] | [![SimpleInjectorUWPNuGetShield]][SimpleInjectorUWPNuGet] | [![SimpleInjectorUWPMyGetShield]][SimpleInjectorUWPMyGet] |
+| [Prism.Unity.Windows][UnityUWPNuGet] | [![UnityUWPNuGetShield]][UnityUWPNuGet] | [![UnityUWPMyGetShield]][UnityUWPMyGet] |
 
 #### Xamarin Forms
 
 | Package | NuGet | MyGet |
 |---------|-------|-------|
-| [Prism.Autofac.Forms][AutofacFormsNuGet] | [![AutofacFormsNuGetShield]][AutofacFormsNuGet] | [![AutofacFormsMyGetShield]][AutofacFormsNuGet] |
-| [Prism.DryIoc.Forms][DryIocFormsNuGet] | [![DryIocFormsNuGetShield]][DryIocFormsNuGet] | [![DryIocFormsMyGetShield]][DryIocFormsNuGet] |
-| [Prism.Ninject.Forms][NinjectFormsNuGet] | [![NinjectFormsNuGetShield]][NinjectFormsNuGet] | [![NinjectFormsMyGetShield]][NinjectFormsNuGet] |
-| [Prism.Unity.Forms][UnityFormsNuGet] | [![UnityFormsNuGetShield]][UnityFormsNuGet] | [![UnityFormsMyGetShield]][UnityFormsNuGet] |
+| [Prism.Autofac.Forms][AutofacFormsNuGet] | [![AutofacFormsNuGetShield]][AutofacFormsNuGet] | [![AutofacFormsMyGetShield]][AutofacFormsMyGet] |
+| [Prism.DryIoc.Forms][DryIocFormsNuGet] | [![DryIocFormsNuGetShield]][DryIocFormsNuGet] | [![DryIocFormsMyGetShield]][DryIocFormsMyGet] |
+| [Prism.Ninject.Forms][NinjectFormsNuGet] | [![NinjectFormsNuGetShield]][NinjectFormsNuGet] | [![NinjectFormsMyGetShield]][NinjectFormsMyGet] |
+| [Prism.Unity.Forms][UnityFormsNuGet] | [![UnityFormsNuGetShield]][UnityFormsNuGet] | [![UnityFormsMyGetShield]][UnityFormsMyGet] |
 
-![NuGet package tree](docs/images/NuGetPackageTree.png)
+![NuGet package tree](images/NuGetPackageTree.png)
 
-A detailed overview of each assembly per package is available [here](docs/DownloadandSetupPrism.md#overview-of-assemblies).
+A detailed overview of each assembly per package is available [here](docs/Download-and-Setup-Prism.md#overview-of-assemblies).
 
 ## Prism Template Pack
 
@@ -99,15 +126,13 @@ Prism now integrates with Visual Studio and Xamarin Studio to enable a highly pr
 
 The Prism Template Pack is available on the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/e7b6bde2-ba59-43dd-9d14-58409940ffa0).  To install, just go to Visual Studio -> Tools -> Extensions and Updates... then search for **Prism** in the online gallery:
 
-![Visual Studio Gallery](docs/images/prism-visual-studio-gallery.jpg)
+![Visual Studio Gallery](images/prism-visual-studio-gallery.jpg)
 
 ### Visual Studio for Mac Addin
 
 Due to the deprecation of the Mono Addin site, Prism now offers a direct Addin feed for the Prism Template Pack. Simply go to `Visual Studio` -> `Extensions...` and add the Prism Addins feed, then you can simply search for **Prism** in the Gallery and install the Template Pack.
 
-![Visual Studio for Mac Addin Manager](docs/images/prism-vs4mac-addin-manager.png)
-
-![Visual Studio for Mac Addin Manager](docs/images/prism-vs4mac-addin-templatepack.png)
+![Visual Studio for Mac Addin Manager](images/prism-vs4mac-addin-templatepack.png)
 
 ## Samples
 
@@ -135,9 +160,9 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [StructureMapWpfNuGet]: https://www.nuget.org/packages/Prism.StructureMap/
 [UnityWpfNuGet]: https://www.nuget.org/packages/Prism.Unity/
 
-[AutofacUWPNuGet]: https://www.nuget.org/packages/Prism.Autofac/
-[SimpleInjectorUWPNuGet]: https://www.nuget.org/packages/Prism.SimpleInjector/
-[UnityUWPNuGet]: https://www.nuget.org/packages/Prism.Unity/
+[AutofacUWPNuGet]: https://www.nuget.org/packages/Prism.Autofac.Windows/
+[SimpleInjectorUWPNuGet]: https://www.nuget.org/packages/Prism.SimpleInjector.Windows/
+[UnityUWPNuGet]: https://www.nuget.org/packages/Prism.Unity.Windows/
 
 [UnityFormsNuGet]: https://www.nuget.org/packages/Prism.Unity.Forms/
 [NinjectFormsNuGet]: https://www.nuget.org/packages/Prism.Ninject.Forms/
@@ -157,9 +182,9 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [StructureMapWpfNuGetShield]: https://img.shields.io/nuget/vpre/Prism.StructureMap.svg
 [UnityWpfNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.svg
 
-[AutofacUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Autofac.svg
-[SimpleInjectorUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.SimpleInjector.svg
-[UnityUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.svg
+[AutofacUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Autofac.Windows.svg
+[SimpleInjectorUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.SimpleInjector.Windows.svg
+[UnityUWPNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Windows.svg
 
 [AutofacFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Autofac.Forms.svg
 [DryIocFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Forms.svg
@@ -167,6 +192,26 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [UnityFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Forms.svg
 
 
+[CoreMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Core
+[WpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Wpf/
+[FormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Forms/
+[UWPMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Windows/
+
+[AutofacWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Autofac
+[DryIocWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.DryIoc/
+[MefWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Mef/
+[NinjectWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Ninject/
+[StructureMapWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.StructureMap/
+[UnityWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Unity/
+
+[AutofacUWPMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Autofac.Windows/
+[SimpleInjectorUWPMyGet]: https://myget.org/feed/prism/package/nuget/Prism.SimpleInjector.Windows/
+[UnityUWPMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Unity.Windows/
+
+[UnityFormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Unity.Forms/
+[NinjectFormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Ninject.Forms/
+[AutofacFormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Autofac.Forms/
+[DryIocFormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.DryIoc.Forms/
 
 [CoreMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Core.svg
 [WpfMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Wpf.svg
@@ -180,9 +225,9 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [StructureMapWpfMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.StructureMap.svg
 [UnityWpfMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Unity.svg
 
-[AutofacUWPMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Autofac.svg
-[SimpleInjectorUWPMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.SimpleInjector.svg
-[UnityUWPMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Unity.svg
+[AutofacUWPMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Autofac.Windows.svg
+[SimpleInjectorUWPMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.SimpleInjector.Windows.svg
+[UnityUWPMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Unity.Windows.svg
 
 [AutofacFormsMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Autofac.Forms.svg
 [DryIocFormsMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.DryIoc.Forms.svg

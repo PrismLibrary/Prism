@@ -4,10 +4,11 @@ using Prism.Navigation;
 using System.Diagnostics;
 using System;
 using Prism;
+using Prism.AppModel;
 
 namespace ModuleA.ViewModels
 {
-    public class ViewBViewModel : BindableBase, INavigationAware, IActiveAware
+    public class ViewBViewModel : BindableBase, INavigationAware, IActiveAware, IPageLifecycleAware
     {
         private readonly INavigationService _navigationService;
 
@@ -77,19 +78,29 @@ namespace ModuleA.ViewModels
             SaveCommand.IsActive = IsActive;
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public void OnNavigatedFrom(INavigationParameters parameters)
         {
             
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             Debug.WriteLine("Navigated to ViewB");
         }
 
-        public void OnNavigatingTo(NavigationParameters parameters)
+        public void OnNavigatingTo(INavigationParameters parameters)
         {
             
+        }
+
+        public void OnAppearing()
+        {
+            Debug.WriteLine("ViewB is appearing");
+        }
+
+        public void OnDisappearing()
+        {
+            Debug.WriteLine("ViewB is disappearing");
         }
     }
 }

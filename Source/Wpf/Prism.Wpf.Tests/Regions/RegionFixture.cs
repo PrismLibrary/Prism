@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Linq;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Prism.Regions;

@@ -1,12 +1,11 @@
 ﻿using System.Linq;
 using DryIoc;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
-using DryIoc.CommonServiceLocator;
 
 namespace Prism.DryIoc.Wpf.Tests
 {
@@ -33,7 +32,7 @@ namespace Prism.DryIoc.Wpf.Tests
             var bootstrapper = new DefaultDryIocBootstrapper();
             bootstrapper.Run();
 
-            Assert.IsTrue(ServiceLocator.Current is DryIocServiceLocator);
+            Assert.IsTrue(ServiceLocator.Current is DryIocServiceLocatorAdapter);
         }
 
         [TestMethod]
@@ -200,7 +199,7 @@ namespace Prism.DryIoc.Wpf.Tests
             var serviceLocator = bootstrapper.BaseContainer.Resolve<IServiceLocator>();
             Assert.IsNotNull(serviceLocator);
             Assert.IsTrue(serviceLocator.GetType().IsClass);
-            Assert.AreEqual(typeof(DryIocServiceLocator), serviceLocator.GetType());
+            Assert.AreEqual(typeof(DryIocServiceLocatorAdapter), serviceLocator.GetType());
             Assert.IsTrue(serviceLocator.GetType().GetInterfaces().Contains(typeof(IServiceLocator)));
         }
 

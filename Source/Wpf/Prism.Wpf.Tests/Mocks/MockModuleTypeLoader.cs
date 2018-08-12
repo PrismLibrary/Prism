@@ -8,16 +8,16 @@ namespace Prism.Wpf.Tests.Mocks
 {
     public class MockModuleTypeLoader : IModuleTypeLoader
     {        
-        public List<ModuleInfo> LoadedModules = new List<ModuleInfo>();
+        public List<IModuleInfo> LoadedModules = new List<IModuleInfo>();
         public bool canLoadModuleTypeReturnValue = true;
         public Exception LoadCompletedError;
 
-        public bool CanLoadModuleType(ModuleInfo moduleInfo)
+        public bool CanLoadModuleType(IModuleInfo moduleInfo)
         {
             return canLoadModuleTypeReturnValue;
         }
 
-        public void LoadModuleType(ModuleInfo moduleInfo)
+        public void LoadModuleType(IModuleInfo moduleInfo)
         {
             this.LoadedModules.Add(moduleInfo);
             this.RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(moduleInfo, this.LoadCompletedError));
@@ -27,10 +27,7 @@ namespace Prism.Wpf.Tests.Mocks
 
         public void RaiseLoadModuleProgressChanged(ModuleDownloadProgressChangedEventArgs e)
         {
-            if (this.ModuleDownloadProgressChanged != null)
-            {
-                this.ModuleDownloadProgressChanged(this, e);
-            }
+            this.ModuleDownloadProgressChanged?.Invoke(this, e);
         }
 
         public event EventHandler<LoadModuleCompletedEventArgs> LoadModuleCompleted;
@@ -42,10 +39,7 @@ namespace Prism.Wpf.Tests.Mocks
 
         public void RaiseLoadModuleCompleted(LoadModuleCompletedEventArgs e)
         {
-            if (this.LoadModuleCompleted != null)
-            {                
-                this.LoadModuleCompleted(this, e);
-            }
+            this.LoadModuleCompleted?.Invoke(this, e);
         }
     }
 }

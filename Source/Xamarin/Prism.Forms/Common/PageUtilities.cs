@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -86,7 +87,7 @@ namespace Prism.Common
         }
 
 
-        public static Task<bool> CanNavigateAsync(object page, NavigationParameters parameters)
+        public static Task<bool> CanNavigateAsync(object page, INavigationParameters parameters)
         {
             var confirmNavigationItem = page as IConfirmNavigationAsync;
             if (confirmNavigationItem != null)
@@ -103,7 +104,7 @@ namespace Prism.Common
             return Task.FromResult(CanNavigate(page, parameters));
         }
 
-        public static bool CanNavigate(object page, NavigationParameters parameters)
+        public static bool CanNavigate(object page, INavigationParameters parameters)
         {
             var confirmNavigationItem = page as IConfirmNavigation;
             if (confirmNavigationItem != null)
@@ -120,19 +121,19 @@ namespace Prism.Common
             return true;
         }
 
-        public static void OnNavigatedFrom(object page, NavigationParameters parameters)
+        public static void OnNavigatedFrom(object page, INavigationParameters parameters)
         {
             if (page != null)
                 InvokeViewAndViewModelAction<INavigatedAware>(page, v => v.OnNavigatedFrom(parameters));
         }
 
-        public static void OnNavigatingTo(object page, NavigationParameters parameters)
+        public static void OnNavigatingTo(object page, INavigationParameters parameters)
         {
             if (page != null)
                 InvokeViewAndViewModelAction<INavigatingAware>(page, v => v.OnNavigatingTo(parameters));
         }
 
-        public static void OnNavigatedTo(object page, NavigationParameters parameters)
+        public static void OnNavigatedTo(object page, INavigationParameters parameters)
         {
             if (page != null)
                 InvokeViewAndViewModelAction<INavigatedAware>(page, v => v.OnNavigatedTo(parameters));
@@ -220,10 +221,50 @@ namespace Prism.Common
         public static void HandleSystemGoBack(Page previousPage, Page currentPage)
         {
             var parameters = new NavigationParameters();
-            parameters.Add(KnownNavigationParameters.NavigationMode, NavigationMode.Back);
+            parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
             OnNavigatedFrom(previousPage, parameters);
             OnNavigatedTo(GetOnNavigatedToTargetFromChild(currentPage), parameters);
             DestroyPage(previousPage);
+        }
+
+        internal static bool HasDirectNavigationPageParent(Page page)
+        {
+            return page?.Parent != null && page?.Parent is NavigationPage;
+        }
+
+        internal static bool HasNavigationPageParent(Page page)
+        {
+            if (page?.Parent != null)
+            {
+                if (page.Parent is NavigationPage)
+                {
+                    return true;
+                }
+                else if (page.Parent is TabbedPage || page.Parent is CarouselPage)
+                {
+                    return page.Parent.Parent != null && page.Parent.Parent is NavigationPage;
+                }
+            }
+
+            return false;
+        }
+
+        internal static bool IsSameOrSubclassOf<T>(Type potentialDescendant)
+        {
+            if (potentialDescendant == null)
+                return false;
+
+            Type potentialBase = typeof(T);
+
+            return potentialDescendant.GetTypeInfo().IsSubclassOf(potentialBase)
+                   || potentialDescendant == potentialBase;
+        }
+
+        internal static void SetAutowireViewModelOnPage(Page page)
+        {
+            var vmlResult = Mvvm.ViewModelLocator.GetAutowireViewModel(page);
+            if (vmlResult == null)
+                Mvvm.ViewModelLocator.SetAutowireViewModel(page, true);
         }
     }
 }

@@ -1,164 +1,80 @@
-﻿using System.Linq;
-using Autofac;
-using Autofac.Features.ResolveAnything;
-using Prism.AppModel;
-using Prism.Autofac.Modularity;
-using Prism.Autofac.Navigation;
-using Prism.Common;
-using Prism.Events;
+﻿using Autofac;
+using Prism.Ioc;
+#if __ANDROID__
+using Autofac.Core;
 using Prism.Logging;
-using Prism.Modularity;
-using Prism.Mvvm;
-using Prism.Navigation;
-using Prism.Services;
-using Xamarin.Forms;
-using DependencyService = Prism.Services.DependencyService;
+using System;
+using System.Collections.Generic;
+using Xamarin.Forms.Internals;
+#endif
 
 namespace Prism.Autofac
 {
     /// <summary>
     /// Application base class using Autofac
     /// </summary>
-    public abstract class PrismApplication : PrismApplicationBase<ContainerBuilder>
+    public abstract class PrismApplication : PrismApplicationBase
     {
         /// <summary>
-        /// Service key used when registering the <see cref="AutofacPageNavigationService"/> with the container
+        /// Initializes a new instance of <see cref="PrismApplication" /> using the default constructor
         /// </summary>
-        const string _navigationServiceName = "AutofacPageNavigationService";
+        protected PrismApplication() 
+            : base() { }
 
         /// <summary>
-        /// Create a new instance of <see cref="PrismApplication"/>
+        /// Initializes a new instance of <see cref="PrismApplication" /> with a <see cref="IPlatformInitializer" />.
+        /// Used when there are specific types that need to be registered on the platform.
         /// </summary>
-        /// <param name="platformInitializer">Class to initialize platform instances</param>
-        /// <remarks>
-        /// The method <see cref="M:IPlatformInitializer.RegisterTypes(ContainerBuilder)"/> will be called after <see cref="M:PrismApplication.RegisterTypes()"/> 
-        /// to allow for registering platform specific instances.
-        /// </remarks>
-        protected PrismApplication(IPlatformInitializer platformInitializer = null)
-            : base(platformInitializer)
+        /// <param name="platformInitializer">The <see cref="IPlatformInitializer"/>.</param>
+        protected PrismApplication(IPlatformInitializer platformInitializer)
+            : base(platformInitializer) { }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="PrismApplication" /> with a <see cref="IPlatformInitializer" />.
+        /// Used when there are specific types that need to be registered on the platform.
+        /// Also determines whether to set the <see cref="DependencyResolver" /> for resolving Renderers and Platform Effects.
+        /// </summary>
+        /// <param name="platformInitializer">The <see cref="IPlatformInitializer"/>.</param>
+        /// <param name="setFormsDependencyResolver">Should <see cref="PrismApplication" /> set the <see cref="DependencyResolver" />.</param>
+        protected PrismApplication(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver)
+            : base(platformInitializer, setFormsDependencyResolver) { }
+
+#if __ANDROID__
+        /// <summary>
+        /// Sets the <see cref="DependencyResolver" /> to use the App Container for resolving types
+        /// </summary>
+        protected override void SetDependencyResolver(IContainerProvider containerProvider)
         {
-        }
-
-        /// <summary>
-        ///  Gets or Sets the Autofac Container Builder
-        /// </summary>
-        protected ContainerBuilder Builder
-        {
-            get => base.Container;
-            set => base.Container = value;
-        }
-
-        /// <summary>
-        /// Gets or Sets the Autofac IContainer
-        /// </summary>
-        public new IContainer Container { get; set; }
-
-        /// <summary>
-        /// Creates the Container Builder
-        /// </summary>
-        /// <returns></returns>
-        protected virtual ContainerBuilder CreateBuilder() => 
-            new ContainerBuilder();
-
-        /// <summary>
-        /// Run the bootstrapper process.
-        /// </summary>
-        public override void Initialize()
-        {
-            Logger = CreateLogger();
-
-            ModuleCatalog = CreateModuleCatalog();
-            ConfigureModuleCatalog();
-
-            Builder = CreateBuilder();
-
-            ConfigureContainer();
-
-            RegisterTypes();
-
-            PlatformInitializer?.RegisterTypes(Builder);
-
-            FinishContainerConfiguration();
-            Container = Builder.Build();
-
-            NavigationService = CreateNavigationService();
-
-            InitializeModules();
-        }
-
-        /// <summary>
-        /// Configures the ViewModel Locator to resolve the ViewModel type and ensure the correct
-        /// instance of <see cref="INavigationService"/> is properly injected into the ViewModel.
-        /// </summary>
-        protected override void ConfigureViewModelLocator()
-        {
-            ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
+            base.SetDependencyResolver(containerProvider);
+            DependencyResolver.ResolveUsing((Type type, object[] dependencies) =>
             {
-                NamedParameter parameter = null;
-                var page = view as Page;
-                if (page != null)
+                var container = containerProvider.GetContainer();
+                var parameters = new List<Parameter>();
+                foreach(var dependency in dependencies)
                 {
-                    parameter = new NamedParameter("navigationService", CreateNavigationService(page));
+                    if(dependency is Android.Content.Context context)
+                    {
+                        parameters.Add(new TypedParameter(typeof(Android.Content.Context), context));
+                    }
+                    else
+                    {
+                        container.Resolve<ILoggerFacade>().Log($"Resolving an unknown type {dependency.GetType().Name}", Category.Warn, Priority.High);
+                        parameters.Add(new TypedParameter(dependency.GetType(), dependency));
+                    }
                 }
 
-                return Container.Resolve(type, parameter);
+                return container.Resolve(type, parameters.ToArray());
             });
         }
+#endif
 
-        /// <summary>
-        /// This is not used for Autofac and will throw a <see cref="System.NotImplementedException"/>
-        /// </summary>
-        /// <returns></returns>
-        protected override ContainerBuilder CreateContainer()
+    /// <summary>
+    /// Creates the <see cref="IAutofacContainerExtension"/>
+    /// </summary>
+    /// <returns></returns>
+    protected override IContainerExtension CreateContainerExtension()
         {
-            throw new System.NotImplementedException();
-        }
-
-        /// <summary>
-        /// Creates the <see cref="IModuleManager"/> from the container.
-        /// </summary>
-        /// <returns></returns>
-        protected override IModuleManager CreateModuleManager() =>
-            Container.Resolve<IModuleManager>();
-
-        /// <summary>
-        /// Create instance of <see cref="INavigationService"/>
-        /// </summary>
-        /// <remarks>
-        /// The Autofac Navigation Service Name is used when resolving
-        /// </remarks>
-        /// <returns>Instance of <see cref="INavigationService"/></returns>
-        protected override INavigationService CreateNavigationService()
-        {
-            return Container.ResolveNamed<INavigationService>(_navigationServiceName);
-        }
-
-        /// <summary>
-        /// Registers all of the base Prism Services.
-        /// </summary>
-        protected override void ConfigureContainer()
-        {
-            Builder.RegisterInstance(Logger).As<ILoggerFacade>().SingleInstance();
-            Builder.RegisterInstance(ModuleCatalog).As<IModuleCatalog>().SingleInstance();
-
-            Builder.RegisterType<ApplicationProvider>().As<IApplicationProvider>().SingleInstance();
-            Builder.RegisterType<ApplicationStore>().As<IApplicationStore>().SingleInstance();
-            Builder.RegisterType<AutofacPageNavigationService>().Named<INavigationService>(_navigationServiceName);
-            Builder.RegisterType<ModuleManager>().As<IModuleManager>().SingleInstance();
-            Builder.RegisterType<AutofacModuleInitializer>().As<IModuleInitializer>().SingleInstance();
-            Builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
-            Builder.RegisterType<DependencyService>().As<IDependencyService>().SingleInstance();
-            Builder.RegisterType<PageDialogService>().As<IPageDialogService>().SingleInstance();
-            Builder.RegisterType<DeviceService>().As<IDeviceService>().SingleInstance();
-        }
-
-        /// <summary>
-        /// Finish the container's configuration after all other types are registered.
-        /// </summary>
-        protected virtual void FinishContainerConfiguration()
-        {
-            // Make sure any not specifically registered concrete type can resolve.
-            Builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
+            return new AutofacContainerExtension(new ContainerBuilder());
         }
     }
 }

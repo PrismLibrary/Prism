@@ -21,7 +21,7 @@ namespace Prism.Forms.Tests.Mocks.Views
             Children.Add(new ContentPage() { Title = "Page 3" });
 
             PageNavigationEventRecorder = recorder;
-            ((IPageNavigationEventRecordable) BindingContext).PageNavigationEventRecorder = recorder;
+            ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
         }
 
         public void Destroy()

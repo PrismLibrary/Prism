@@ -42,7 +42,7 @@ namespace Prism.Modularity
 
             if (!File.Exists(assemblyUri.LocalPath))
             {
-                throw new FileNotFoundException();
+                throw new FileNotFoundException(null, assemblyUri.LocalPath);
             }
 
             AssemblyName assemblyName = AssemblyName.GetAssemblyName(assemblyUri.LocalPath);

@@ -1,7 +1,7 @@
 ﻿<Modularity:ModuleCatalog xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:sys="clr-namespace:System;assembly=mscorlib"
-               xmlns:Modularity="clr-namespace:Prism.Modularity;assembly=Prism.Wpf">
+                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                          xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                          xmlns:Modularity="clr-namespace:Prism.Modularity;assembly=Prism.Wpf">
     <Modularity:ModuleInfoGroup Ref="ModuleGroup1" InitializationMode="OnDemand">
         <Modularity:ModuleInfo ModuleName="Module1" ModuleType="Module1Type" />
     </Modularity:ModuleInfoGroup>

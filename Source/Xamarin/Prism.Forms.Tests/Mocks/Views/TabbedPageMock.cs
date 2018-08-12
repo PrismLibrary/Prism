@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Forms.Tests.Navigation.Mocks.Views;
+using Prism.Mvvm;
 using Prism.Navigation;
 using Xamarin.Forms;
 
@@ -17,12 +18,17 @@ namespace Prism.Forms.Tests.Mocks.Views
         {
             ViewModelLocator.SetAutowireViewModel(this, true);
 
-            Children.Add(new ContentPageMock(recorder) { Title = "Page 1" });
-            Children.Add(new PageMock() { Title = "Page 2" });
-            Children.Add(new ContentPageMock(recorder) { Title = "Page 3" });
+            Children.Add(new Tab1Mock(recorder) { Title = "Page 1" });
+            Children.Add(new Tab2Mock() { Title = "Page 2", BindingContext = null });
+            Children.Add(new Tab3Mock(recorder) { Title = "Page 3" });
+            Children.Add(new NavigationPageMock(recorder, new ContentPageMock(recorder)) { Title = "Page 4" });
+            Children.Add(new NavigationPageMock(recorder, new PageMock()) { Title = "Page 5" });
 
             PageNavigationEventRecorder = recorder;
-            ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
+
+            var recordable = BindingContext as IPageNavigationEventRecordable;
+            if (recordable != null)
+                recordable.PageNavigationEventRecorder = recorder;
         }
 
 
@@ -32,17 +38,17 @@ namespace Prism.Forms.Tests.Mocks.Views
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.Destroy);
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public void OnNavigatedFrom(INavigationParameters parameters)
         {
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedFrom);
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
         }
 
-        public void OnNavigatingTo(NavigationParameters parameters)
+        public void OnNavigatingTo(INavigationParameters parameters)
         {
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatingTo);
         }

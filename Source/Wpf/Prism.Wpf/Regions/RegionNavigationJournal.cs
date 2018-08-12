@@ -112,11 +112,12 @@ namespace Prism.Regions
         /// Records the navigation to the entry..
         /// </summary>
         /// <param name="entry">The entry to record.</param>
-        public void RecordNavigation(IRegionNavigationJournalEntry entry)
+        /// <param name="persistInHistory">Determine if the view is added to the back stack or excluded from the history.</param>
+        public void RecordNavigation(IRegionNavigationJournalEntry entry, bool persistInHistory)
         {
             if (!this.isNavigatingInternal)
             {
-                if (this.CurrentEntry != null)
+                if (this.CurrentEntry != null && persistInHistory)
                 {
                     this.backStack.Push(this.CurrentEntry);
                 }

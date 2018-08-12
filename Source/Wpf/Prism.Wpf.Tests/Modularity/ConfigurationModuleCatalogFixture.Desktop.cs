@@ -17,8 +17,10 @@ namespace Prism.Wpf.Tests.Modularity
         public void CanInitConfigModuleEnumerator()
         {
             MockConfigurationStore store = new MockConfigurationStore();
-            ConfigurationModuleCatalog catalog = new ConfigurationModuleCatalog();
-            catalog.Store = store;
+            ConfigurationModuleCatalog catalog = new ConfigurationModuleCatalog
+            {
+                Store = store
+            };
             Assert.IsNotNull(catalog);
         }
 
@@ -33,13 +35,15 @@ namespace Prism.Wpf.Tests.Modularity
         [TestMethod]
         public void ShouldReturnAListOfModuleInfo()
         {
-            MockConfigurationStore store = new MockConfigurationStore();
-            store.Modules = new[] { new ModuleConfigurationElement(@"MocksModules\MockModuleA.dll", "TestModules.MockModuleAClass", "MockModuleA", false) };
+            MockConfigurationStore store = new MockConfigurationStore
+            {
+                Modules = new[] { new ModuleConfigurationElement(@"MocksModules\MockModuleA.dll", "TestModules.MockModuleAClass", "MockModuleA", false) }
+            };
 
             ConfigurationModuleCatalog catalog = new ConfigurationModuleCatalog(){Store = store};
             catalog.Load();
 
-            IEnumerable<ModuleInfo> modules = catalog.Modules;
+            var modules = catalog.Modules;
 
             Assert.IsNotNull(modules);
             Assert.AreEqual(1, modules.Count());
@@ -66,13 +70,17 @@ namespace Prism.Wpf.Tests.Modularity
         public void EnumeratesThreeModulesWithDependencies()
         {
             var store = new MockConfigurationStore();
-            var module1 = new ModuleConfigurationElement("Module1.dll", "Test.Module1", "Module1", false);
-            module1.Dependencies = new ModuleDependencyCollection(
-                new[] { new ModuleDependencyConfigurationElement("Module2") });
+            var module1 = new ModuleConfigurationElement("Module1.dll", "Test.Module1", "Module1", false)
+            {
+                Dependencies = new ModuleDependencyCollection(
+                new[] { new ModuleDependencyConfigurationElement("Module2") })
+            };
 
-            var module2 = new ModuleConfigurationElement("Module2.dll", "Test.Module2", "Module2", false);
-            module2.Dependencies = new ModuleDependencyCollection(
-                new[] { new ModuleDependencyConfigurationElement("Module3") });
+            var module2 = new ModuleConfigurationElement("Module2.dll", "Test.Module2", "Module2", false)
+            {
+                Dependencies = new ModuleDependencyCollection(
+                new[] { new ModuleDependencyConfigurationElement("Module3") })
+            };
 
             var module3 = new ModuleConfigurationElement("Module3.dll", "Test.Module3", "Module3", false);
             store.Modules = new[] { module3, module2, module1 };
