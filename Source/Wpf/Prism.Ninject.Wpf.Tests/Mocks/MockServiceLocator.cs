@@ -11,9 +11,9 @@ namespace Prism.Ninject.Wpf.Tests.Mocks
     {
         private readonly IKernel _kernel;
 
-        public MockServiceLocator(IKernel container)
+        public MockServiceLocator(IKernel kernel)
         {
-            _kernel = container;
+            _kernel = kernel;
         }
 
         protected override IEnumerable<object> DoGetAllInstances(Type serviceType)
@@ -25,7 +25,7 @@ namespace Prism.Ninject.Wpf.Tests.Mocks
         {
             if (serviceType == typeof(IRegionNavigationService))
             {
-                NinjectRegionNavigationContentLoader loader = new NinjectRegionNavigationContentLoader(this, _kernel);
+                var loader = new NinjectRegionNavigationContentLoader(this, _kernel);
                 return new RegionNavigationService(this, loader, new RegionNavigationJournal());
             }
 
