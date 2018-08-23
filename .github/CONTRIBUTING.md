@@ -20,7 +20,7 @@ When you submit a __pull request__, there are a few things we would like you to 
 
 ## Contribution License Agreement
 
-You must sign a [.NET Foundation Contribution License Agreement (CLA)](http://cla2.dotnetfoundation.org) before your PR will be merged. This a one-time requirement for projects in the .NET Foundation. You can read more about [Contribution License Agreements (CLA)](http://en.wikipedia.org/wiki/Contributor_License_Agreement) on wikipedia.
+You must sign a [.NET Foundation Contribution License Agreement (CLA)](http://cla.dotnetfoundation.org) before your PR will be merged. This a one-time requirement for projects in the .NET Foundation. You can read more about [Contribution License Agreements (CLA)](http://en.wikipedia.org/wiki/Contributor_License_Agreement) on wikipedia.
 
 However, you don't have to do this up-front. You can simply clone, fork, and submit your pull-request as usual.
 
