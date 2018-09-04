@@ -22,7 +22,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Unity.Container" Version="5.8.6" />
+    <PackageReference Include="Unity.Container" Version="5.8.11" />
 
     <!-- <Reference Include="PresentationFramework" />
     <Reference Include="System" />
