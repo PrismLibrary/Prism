@@ -56,7 +56,7 @@ namespace Prism.Ninject.Wpf.Tests
 
         public void ConfigureMockServiceLocator(IKernel kernel)
         {
-            MockServiceLocator serviceLocator = new MockServiceLocator(kernel);
+            var serviceLocator = new MockServiceLocator(kernel);
             ServiceLocator.SetLocatorProvider(() => serviceLocator);
         }
     }
