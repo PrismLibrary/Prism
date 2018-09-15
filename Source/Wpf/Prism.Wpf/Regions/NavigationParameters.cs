@@ -262,7 +262,7 @@ namespace Prism.Regions
 
                     queryBuilder.Append(Uri.EscapeDataString(kvp.Key));
                     queryBuilder.Append('=');
-                    queryBuilder.Append(Uri.EscapeDataString(kvp.Value.ToString()));
+                    queryBuilder.Append(Uri.EscapeDataString(kvp.Value != null ? kvp.Value.ToString() : ""));
                 }
             }
 
