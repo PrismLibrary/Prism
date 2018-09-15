@@ -265,6 +265,19 @@ namespace Prism.Forms.Tests.Navigation
             Assert.NotNull(result[1]);
             Assert.NotNull(result[2]);
         }
+
+        [Fact]
+        public void ToStringWorksWithNullParameterValues()
+        {
+            var parameters = new NavigationParameters();
+            parameters.Add("id1", 1);
+            parameters.Add("id2", null);
+            parameters.Add("id3", 3);
+
+            var result = parameters.ToString();
+
+            Assert.Equal("?id1=1&id2=&id3=3", result);
+        }
     }
 
     public class Person
