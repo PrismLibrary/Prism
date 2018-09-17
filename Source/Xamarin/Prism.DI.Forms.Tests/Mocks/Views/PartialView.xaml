@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Prism.DI.Forms.Tests.Mocks.Views.PartialView">
+    <StackLayout>
+        <Label Text="{Binding SomeText}" />
+        <Button Command="{Binding NavigateCommand}"
+                x:Name="navigateButton" />
+    </StackLayout>
+</ContentView>

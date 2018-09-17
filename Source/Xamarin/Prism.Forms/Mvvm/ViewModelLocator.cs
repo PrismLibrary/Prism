@@ -14,6 +14,9 @@ namespace Prism.Mvvm
         public static readonly BindableProperty AutowireViewModelProperty =
             BindableProperty.CreateAttached("AutowireViewModel", typeof(bool?), typeof(ViewModelLocator), null, propertyChanged: OnAutowireViewModelChanged);
 
+        /// <summary>
+        /// Instructs Prism to use a given page as the parent for a Partial View
+        /// </summary>
         public static readonly BindableProperty AutowirePartialViewProperty =
             BindableProperty.CreateAttached("AutowirePartialView", typeof(Page), typeof(ViewModelLocator), null, propertyChanged: OnAutowirePartialViewChanged);
 
@@ -38,6 +41,16 @@ namespace Prism.Mvvm
         public static void SetAutowireViewModel(BindableObject bindable, bool? value)
         {
             bindable.SetValue(ViewModelLocator.AutowireViewModelProperty, value);
+        }
+
+        public static Page GetAutowirePartialView(BindableObject bindable)
+        {
+            return (Page)bindable.GetValue(AutowirePartialViewProperty);
+        }
+
+        public static void SetAutowirePartialView(BindableObject bindable, Page page)
+        {
+            bindable.SetValue(AutowirePartialViewProperty, page);
         }
 
         private static void OnAutowireViewModelChanged(BindableObject bindable, object oldValue, object newValue)

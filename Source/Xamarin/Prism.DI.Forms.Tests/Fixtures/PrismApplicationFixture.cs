@@ -301,6 +301,27 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             Assert.IsType<XamlViewMockA>(navigationPage.CurrentPage);
         }
 
+        [Fact]
+        public async Task PartialViewSupport()
+        {
+            var app = CreateMockApplication();
+            await app.NavigationService.NavigateAsync("/XamlViewMock?text=Test");
+            Assert.NotNull(app.MainPage);
+            Assert.IsType<XamlViewMock>(app.MainPage);
+            var page = (XamlViewMock)app.MainPage;
+            var layout = (StackLayout)page.Content;
+            Assert.NotNull(layout);
+            var partialView = (PartialView)layout.Children.FirstOrDefault(c => c is PartialView);
+            Assert.NotNull(partialView);
+            Assert.NotNull(partialView.BindingContext);
+
+            var vm = (PartialViewModel)partialView.BindingContext;
+            Assert.True(vm.OnNavigatingToCalled);
+            Assert.True(vm.OnNavigatedToCalled);
+            Assert.False(vm.OnNavigatedFromCalled);
+            Assert.Equal("Test", vm.SomeText);
+        }
+
         private static INavigationService ResolveAndSetRootPage(PrismApplicationMock app)
         {
             var navigationService = app.NavigationService;
