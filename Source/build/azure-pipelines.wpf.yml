@@ -1,0 +1,26 @@
+trigger:
+- master
+
+name: $(Build.BuildId)
+
+pool:
+  vmImage: vs2017-win2016
+
+variables:
+  BuildPlatform: 'Any CPU'
+  BuildConfiguration: 'Release'
+
+steps:
+- template: steps/build.yml
+  parameters:
+    solution: Source/PrismLibrary_Wpf.sln
+    solutionName: Build Prism.WPF
+
+- template: steps/vstest.yml
+  parameters:
+    displayName: Test Prism.WPF
+    projectName: Prism.WPF
+    projectsPath: |
+     $(System.DefaultWorkingDirectory)\Source\Wpf\**\*test*.dll
+     !**/obj/*
+

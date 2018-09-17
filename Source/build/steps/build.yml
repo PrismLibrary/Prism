@@ -1,0 +1,22 @@
+parameters:
+  solution: '**/*.sln'
+  solutionName: 'Build Solution'
+
+steps:
+- task: NuGetToolInstaller@0
+  displayName: Use NuGet 4.7.1
+  inputs:
+    versionSpec: 4.7.1
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: ${{ parameters.solution }}
+    noCache: true
+
+- task: MSBuild@1
+  displayName: ${{ parameters.solutionName }}
+  inputs:
+    solution: ${{ parameters.solution }}
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'

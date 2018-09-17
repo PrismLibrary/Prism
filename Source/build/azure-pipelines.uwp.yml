@@ -1,0 +1,17 @@
+trigger:
+- master
+
+name: $(Build.BuildId)
+
+pool:
+  vmImage: vs2017-win2016
+
+variables:
+  BuildPlatform: 'Any CPU'
+  BuildConfiguration: 'Release'
+
+steps:
+- template: steps/build.yml
+  parameters:
+    solution: Source/PrismLibrary_Win10.sln
+    solutionName: Build Prism UWP
