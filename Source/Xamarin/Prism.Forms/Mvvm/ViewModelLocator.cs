@@ -86,7 +86,10 @@ namespace Prism.Mvvm
 
                 partialViews.Add(bindable);
                 // Set Autowire Property
-                bindable.SetValue(AutowireViewModelProperty, true);
+                if(bindable.GetValue(AutowireViewModelProperty) == null)
+                {
+                    bindable.SetValue(AutowireViewModelProperty, true);
+                }
             }
         }
 
