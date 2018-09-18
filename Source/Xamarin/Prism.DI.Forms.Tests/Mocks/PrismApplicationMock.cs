@@ -8,6 +8,7 @@ using Prism.Navigation;
 using Xamarin.Forms;
 using Prism.Logging;
 using Prism.Forms.Tests.Mocks.Logging;
+using Prism.Mvvm;
 #if Autofac
 using Prism.Autofac;
 using Autofac;
@@ -66,6 +67,7 @@ namespace Prism.DI.Forms.Tests
             containerRegistry.RegisterForNavigation<XamlViewMockA,XamlViewMockAViewModel>();
 
             DependencyService.Register<IDependencyServiceMock, DependencyServiceMock>();
+            ViewModelLocationProvider.Register<PartialView, PartialViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

@@ -23,11 +23,11 @@ namespace Prism.DI.Forms.Tests.Mocks.ViewModels
 
         public DelegateCommand NavigateCommand { get; }
 
-        public bool OnNavigatingToCalled { get; private set; }
+        public int OnNavigatingToCalled { get; private set; }
 
-        public bool OnNavigatedToCalled { get; private set; }
+        public int OnNavigatedToCalled { get; private set; }
 
-        public bool OnNavigatedFromCalled { get; private set; }
+        public int OnNavigatedFromCalled { get; private set; }
 
         private async void OnNavigateCommandExecuted()
         {
@@ -37,17 +37,17 @@ namespace Prism.DI.Forms.Tests.Mocks.ViewModels
         public void OnNavigatingTo(INavigationParameters parameters)
         {
             SomeText = parameters.GetValue<string>("text");
-            OnNavigatingToCalled = true;
+            OnNavigatingToCalled++;
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            OnNavigatedToCalled = true;
+            OnNavigatedToCalled++;
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
-            OnNavigatedFromCalled = true;
+            OnNavigatedFromCalled++;
         }
     }
 }

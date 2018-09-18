@@ -26,7 +26,7 @@ namespace Prism.Common
 
             if(view is Page page)
             {
-                var partials = (List<BindableObject>)page.GetValue(ViewModelLocator.PartialViewsProperty);
+                var partials = (List<BindableObject>)page.GetValue(ViewModelLocator.PartialViewsProperty) ?? new List<BindableObject>();
                 foreach(var partial in partials)
                 {
                     InvokeViewAndViewModelAction(partial, action);
