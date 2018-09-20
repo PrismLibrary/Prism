@@ -1,0 +1,25 @@
+trigger:
+- master
+
+name: $(Build.BuildId)
+
+pool:
+  vmImage: vs2017-win2016
+
+variables:
+  BuildPlatform: 'Any CPU'
+  BuildConfiguration: 'Release'
+
+steps:
+- template: steps/build.yml
+  parameters:
+    solution: Source/PrismLibrary_XF.sln
+    solutionName: Build Prism.Forms
+
+- template: steps/core-test.yml
+  parameters:
+    displayName: Test Prism.Forms
+    projectName: Prism.Forms
+    projectsPath: |
+     Source/Xamarin/**/*.Tests.csproj
+     !**/*Ninject*.csproj

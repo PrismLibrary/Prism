@@ -21,10 +21,10 @@ There are certain things that cannot be added directly into Prism for various re
 
 |          | Status |
 | -------- | ------ |
-| Prism | [![AppVeyor](https://img.shields.io/appveyor/ci/brianlagunas/prism/master.svg?label=appveyor)](https://ci.appveyor.com/project/brianlagunas/prism/branch/master) |
-| Prism.Wpf | [![AppVeyor](https://img.shields.io/appveyor/ci/brianlagunas/prism-jy368/master.svg?label=appveyor)](https://ci.appveyor.com/project/brianlagunas/prism-jy368/branch/master) |
-| Prism.Windows | [![AppVeyor](https://img.shields.io/appveyor/ci/brianlagunas/prism-gv1t3/master.svg?label=appveyor)](https://ci.appveyor.com/project/brianlagunas/prism-gv1t3/branch/master) |
-| Prism.Forms | [![AppVeyor](https://img.shields.io/appveyor/ci/brianlagunas/prism-bvely/master.svg?label=appveyor)](https://ci.appveyor.com/project/brianlagunas/prism-bvely/branch/master) |
+| Prism.Core | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism.Core-CI)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=10) |
+| Prism.Wpf | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism.WPF-CI)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=12) |
+| Prism.Windows | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism.UWP-CI)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=13) |
+| Prism.Forms | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism.Forms-CI)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=11) |
 
 ## Support
 
@@ -39,7 +39,7 @@ As most of you know, it takes a lot of time and effort for our small team to man
 By becoming a [Patron and subscribing](https://www.patreon.com/prismlibrary) to the Prism Library, you will receive a number of benefits depending on your level of support.
 
 **Basic** - $1+ per month
-- Receive all Prism Library news and announcements, such as new release information and blogs posts. 
+- Receive all Prism Library news and announcements, such as new release information and blogs posts.
 - Gives you access to our community Slack channel where you can ask questions and get help from the community and the Prism Library project maintainers (when available).
 
 **Premium** - $5+ per month
@@ -130,9 +130,7 @@ The Prism Template Pack is available on the [Visual Studio Gallery](https://visu
 
 ### Visual Studio for Mac Addin
 
-Due to the deprecation of the Mono Addin site, Prism now offers a direct Addin feed for the Prism Template Pack. Simply go to `Visual Studio` -> `Extensions...` and add the Prism Addins feed, then you can simply search for **Prism** in the Gallery and install the Template Pack.
-
-![Visual Studio for Mac Addin Manager](images/prism-vs4mac-addin-templatepack.png)
+The Prism Template Studio and Developer Toolkit is available from the Visual Studio Mac Extensions Gallery.
 
 ## Samples
 
