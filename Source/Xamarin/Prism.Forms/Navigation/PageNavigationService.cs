@@ -568,16 +568,30 @@ namespace Prism.Navigation
 
             var nextSegmentType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
 
+            //we must recreate the NavigationPage everytime or the transitions on iOS will not work properly, unless we meet the two scenarios below
             bool detailIsNavPage = false;
             bool reuseNavPage = false;
             if (detail is NavigationPage navPage)
             {
                 detailIsNavPage = true;
+
+                //first we check to see if we are being forced to reuse the NavPage by checking the interface
                 reuseNavPage = !GetClearNavigationPageNavigationStack(navPage);
+
+                if (!reuseNavPage)
+                {
+                    //if we weren't forced to reuse the NavPage, then let's check the NavPage.CurrentPage against the next segment type as we don't want to recreate the entire nav stack
+                    //just in case the user is trying to navigate to the same page which may be nested in a NavPage
+                    var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(segments.Peek()));
+                    var currentPageType = navPage.CurrentPage.GetType();
+
+                    if (nextPageType == currentPageType)
+                    {
+                        reuseNavPage = true;
+                    }
+                }
             }
 
-            //we must recreate the NavigationPage everytime or the transitions on iOS will not work properly, but if the user
-            //TODO: reuse NavPage only if the next page matches the NavPag's currentpage, other wise create a new NavPage
             if ((detailIsNavPage && reuseNavPage) || (!detailIsNavPage && detail.GetType() == nextSegmentType))
             {
                 await ProcessNavigation(detail, segments, parameters, useModalNavigation, animated);
