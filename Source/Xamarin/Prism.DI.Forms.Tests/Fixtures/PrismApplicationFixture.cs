@@ -11,6 +11,7 @@ using Ninject;
 #endif
 using Prism.Common;
 using Prism.DI.Forms.Tests;
+using Prism.DI.Forms.Tests.Fixtures;
 using Prism.DI.Forms.Tests.Mocks;
 using Prism.DI.Forms.Tests.Mocks.Modules;
 using Prism.DI.Forms.Tests.Mocks.Services;
@@ -37,20 +38,11 @@ namespace Prism.Ninject.Forms.Tests.Fixtures
 namespace Prism.Unity.Forms.Tests.Fixtures
 #endif
 {
-    public class PrismApplicationFixture
+    public class PrismApplicationFixture : FixtureBase
     {
-        ITestOutputHelper _testOutputHelper { get; }
-
         public PrismApplicationFixture(ITestOutputHelper testOutputHelper)
+            : base(testOutputHelper)
         {
-            _testOutputHelper = testOutputHelper;
-            Xamarin.Forms.Mocks.MockForms.Init();
-        }
-
-        private PrismApplicationMock CreateMockApplication(Page view = null)
-        {
-            var initializer = new XunitPlatformInitializer(_testOutputHelper);
-            return view == null ? new PrismApplicationMock(initializer) : new PrismApplicationMock(initializer, view);
         }
 
         [Fact]
@@ -303,85 +295,7 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             Assert.IsType<XamlViewMockA>(navigationPage.CurrentPage);
         }
 
-        [Fact]
-        public async Task PartialView_LocatesViewModel()
-        {
-            var app = CreateMockApplication();
-            await app.NavigationService.NavigateAsync("/XamlViewMock?text=Test");
-            Assert.NotNull(app.MainPage);
-            Assert.IsType<XamlViewMock>(app.MainPage);
-            var page = (XamlViewMock)app.MainPage;
-            var layout = (StackLayout)page.Content;
-            Assert.NotNull(layout);
-            var partialView = (PartialView)layout.Children.FirstOrDefault(c => c is PartialView);
-            Assert.NotNull(partialView);
-            Assert.NotNull(partialView.BindingContext);
-            Assert.True(ViewModelLocator.GetAutowireViewModel(partialView));
-            Assert.IsType<PartialViewModel>(partialView.BindingContext);
-        }
-
-        [Fact]
-        public async Task PartialView_AddedToPageRegistry()
-        {
-            var app = CreateMockApplication();
-            await app.NavigationService.NavigateAsync("/XamlViewMock?text=Test");
-            var page = (XamlViewMock)app.MainPage;
-            var partialViews = (List<BindableObject>)page.GetValue(ViewModelLocator.PartialViewsProperty);
-
-            Assert.Single(partialViews);
-        }
-
-        [Fact]
-        public async Task PartialViewSupportsINavigationAwareInterfaces()
-        {
-            var app = CreateMockApplication();
-            await app.NavigationService.NavigateAsync("/XamlViewMock?text=Test");
-            var page = (XamlViewMock)app.MainPage;
-            var layout = (StackLayout)page.Content;
-            var partialView = (PartialView)layout.Children.FirstOrDefault(c => c is PartialView);
-            var vm = (PartialViewModel)partialView.BindingContext;
-            Assert.Equal(1, vm.OnNavigatingToCalled);
-            Assert.Equal(1, vm.OnNavigatedToCalled);
-            Assert.Equal(0, vm.OnNavigatedFromCalled);
-            Assert.Equal("Test", vm.SomeText);
-
-            var partialViews = (List<BindableObject>)page.GetValue(ViewModelLocator.PartialViewsProperty);
-            Assert.Single(partialViews);
-
-            partialView.Navigate();
-
-            Assert.Equal(1, vm.OnNavigatedFromCalled);
-        }
-
-        [Fact]
-        public async Task PartialViewModel_InjectsINavigationService()
-        {
-            var app = CreateMockApplication();
-            await app.NavigationService.NavigateAsync("/XamlViewMock?text=Test");
-            var page = (XamlViewMock)app.MainPage;
-            var layout = (StackLayout)page.Content;
-            var partialView = (PartialView)layout.Children.FirstOrDefault(c => c is PartialView);
-            var vm = (PartialViewModel)partialView.BindingContext;
-
-            partialView.Navigate();
-            Assert.IsType<AutowireView>(app.MainPage);
-        }
-
-        [Fact]
-        public async Task PartialView_DoesNotResultInMemoryLeak()
-        {
-            var app = CreateMockApplication();
-            await app.NavigationService.NavigateAsync("NavigationPage/XamlViewMock?text=Test");
-            var navPage = (NavigationPage)app.MainPage;
-            Assert.Single((List<BindableObject>)navPage.CurrentPage.GetValue(ViewModelLocator.PartialViewsProperty));
-
-            await app.NavigationService.NavigateAsync("/AutowireView");
-
-            Assert.Null(app.MainPage.GetValue(ViewModelLocator.PartialViewsProperty));
-
-            await app.NavigationService.NavigateAsync("/XamlViewMock");
-            Assert.Single((List<BindableObject>)app.MainPage.GetValue(ViewModelLocator.PartialViewsProperty));
-        }
+        
 
         private static INavigationService ResolveAndSetRootPage(PrismApplicationMock app)
         {
