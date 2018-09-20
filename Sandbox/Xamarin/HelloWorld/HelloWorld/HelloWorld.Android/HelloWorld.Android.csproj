@@ -105,6 +105,10 @@
       <Project>{152da85c-13f4-4427-850c-052cbbcdd4b0}</Project>
       <Name>Prism.Forms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ModuleA\ModuleA.csproj">
+      <Project>{f0d7441b-d48a-4f58-91fb-45fa441b0434}</Project>
+      <Name>ModuleA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HelloWorld\HelloWorld.csproj">
       <Project>{DCC0DE3D-297A-4CE1-A002-81AEE3CA0AE4}</Project>
       <Name>HelloWorld</Name>

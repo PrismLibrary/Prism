@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ModuleA.Views.PartialViewB">
+    <Label Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" />
+    <Label Text="{Binding IsActive}" />
+    <Button Command="{Binding NavigateCommand}" Text="Navigate" />
+</StackLayout>

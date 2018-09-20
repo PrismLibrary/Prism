@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 #if Autofac
@@ -10,6 +11,7 @@ using Ninject;
 #endif
 using Prism.Common;
 using Prism.DI.Forms.Tests;
+using Prism.DI.Forms.Tests.Fixtures;
 using Prism.DI.Forms.Tests.Mocks;
 using Prism.DI.Forms.Tests.Mocks.Modules;
 using Prism.DI.Forms.Tests.Mocks.Services;
@@ -19,6 +21,7 @@ using Prism.DI.Forms.Tests.Navigation;
 using Prism.Forms.Tests.Mocks.Logging;
 using Prism.Ioc;
 using Prism.Logging;
+using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using Xamarin.Forms;
@@ -35,20 +38,11 @@ namespace Prism.Ninject.Forms.Tests.Fixtures
 namespace Prism.Unity.Forms.Tests.Fixtures
 #endif
 {
-    public class PrismApplicationFixture
+    public class PrismApplicationFixture : FixtureBase
     {
-        ITestOutputHelper _testOutputHelper { get; }
-
         public PrismApplicationFixture(ITestOutputHelper testOutputHelper)
+            : base(testOutputHelper)
         {
-            _testOutputHelper = testOutputHelper;
-            Xamarin.Forms.Mocks.MockForms.Init();
-        }
-
-        private PrismApplicationMock CreateMockApplication(Page view = null)
-        {
-            var initializer = new XunitPlatformInitializer(_testOutputHelper);
-            return view == null ? new PrismApplicationMock(initializer) : new PrismApplicationMock(initializer, view);
         }
 
         [Fact]
@@ -300,6 +294,8 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             Assert.IsType<XamlViewMockA>(navigationPage.RootPage);
             Assert.IsType<XamlViewMockA>(navigationPage.CurrentPage);
         }
+
+        
 
         private static INavigationService ResolveAndSetRootPage(PrismApplicationMock app)
         {

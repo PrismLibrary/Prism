@@ -1,7 +1,6 @@
 using System;
 using HelloWorld.Views;
 using Prism;
-using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
 using Xamarin.Forms;
@@ -10,7 +9,7 @@ using Xamarin.Forms.Xaml;
 [assembly: XamlCompilation (XamlCompilationOptions.Compile)]
 namespace HelloWorld
 {
-    public partial class App : PrismApplication
+    public sealed partial class App
     {
         public App() 
             : this(null)
@@ -87,11 +86,17 @@ namespace HelloWorld
 
         protected override void OnSleep ()
         {
+            // Support IApplicationLifecycleAware
+            base.OnSleep();
+
             // Handle when your app sleeps
         }
 
         protected override void OnResume ()
         {
+            // Support IApplicationLifecycleAware
+            base.OnResume();
+
             // Handle when your app resumes
         }
     }

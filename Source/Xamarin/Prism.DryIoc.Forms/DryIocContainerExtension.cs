@@ -2,6 +2,7 @@
 using DryIoc;
 using System;
 using Xamarin.Forms;
+using Prism.Mvvm;
 
 namespace Prism.DryIoc
 {
@@ -55,9 +56,17 @@ namespace Prism.DryIoc
                 case Page page:
                     var getVM = Instance.Resolve<Func<Page, object>>(viewModelType);
                     return getVM(page);
-                default:
-                    return Instance.Resolve(viewModelType);
+                case BindableObject bindable:
+                    var attachedPage = bindable.GetValue(ViewModelLocator.AutowirePartialViewProperty) as Page;
+                    if (attachedPage != null)
+                    {
+                        var getVMForPartial = Instance.Resolve<Func<Page, object>>(viewModelType);
+                        return getVMForPartial(attachedPage);
+                    }
+                    break;
             }
+
+            return Instance.Resolve(viewModelType);
         }
     }
 }
