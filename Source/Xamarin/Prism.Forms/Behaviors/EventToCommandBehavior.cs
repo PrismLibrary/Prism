@@ -183,7 +183,10 @@ namespace Prism.Behaviors
                 object propertyValue = eventArgs;
                 foreach (var propertyPathPart in propertyPathParts)
                 {
-                    var propInfo = propertyValue.GetType().GetTypeInfo().GetDeclaredProperty(propertyPathPart);
+                    var propInfo = propertyValue.GetType().GetRuntimeProperty(propertyPathPart);
+                    if (propInfo == null)
+                        throw new MissingMemberException($"Unable to find {EventArgsParameterPath}");
+
                     propertyValue = propInfo.GetValue(propertyValue);
                     if (propertyValue == null)
                     {
