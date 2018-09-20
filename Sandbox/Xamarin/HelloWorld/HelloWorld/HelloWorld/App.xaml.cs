@@ -60,7 +60,7 @@ namespace HelloWorld
             //NavigationService.NavigateAsync($"ViewA/ViewB/MyMasterDetail/NavigationPage/ViewA/ViewB?{KnownNavigationParameters.UseModalNavigation}=true/ViewA/ViewC");
             //NavigationService.NavigateAsync($"MyMasterDetail/NavigationPage/MyTabbedPage?{KnownNavigationParameters.SelectedTab}=ViewC");            
 
-            NavigationService.NavigateAsync($"NavigationPage/ViewA/ViewB/ViewC");
+            NavigationService.NavigateAsync($"MyMasterDetail/MyNavigationPage/ViewA");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

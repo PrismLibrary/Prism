@@ -36,6 +36,7 @@ namespace Prism.Forms.Tests.Navigation
 
             _container.Register("NavigationPage", typeof(NavigationPageMock));
             _container.Register("NavigationPage-Empty", typeof(NavigationPageEmptyMock));
+            _container.Register("NavigationPage-Empty-Reused", typeof(NavigationPageEmptyMock_Reused));
             _container.Register("NavigationPageWithStack", typeof(NavigationPageWithStackMock));
             _container.Register("NavigationPageWithStackNoMatch", typeof(NavigationPageWithStackNoMatchMock));
 
@@ -1329,7 +1330,7 @@ namespace Prism.Forms.Tests.Navigation
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new MasterDetailPageEmptyMock();
-            rootPage.Detail = new NavigationPageEmptyMock();
+            rootPage.Detail = new NavigationPageEmptyMock_Reused();
             await rootPage.Detail.Navigation.PushAsync(new TabbedPageMock());
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -1339,9 +1340,9 @@ namespace Prism.Forms.Tests.Navigation
             Assert.NotNull(tabbedPage.CurrentPage);
             Assert.IsType<Tab1Mock>(tabbedPage.CurrentPage);
 
-            await navigationService.NavigateAsync($"NavigationPage-Empty/TabbedPage?{KnownNavigationParameters.SelectedTab}=Tab3");
+            await navigationService.NavigateAsync($"NavigationPage-Empty-Reused/TabbedPage?{KnownNavigationParameters.SelectedTab}=Tab3");
 
-            var existingNavPage = rootPage.Detail as NavigationPageEmptyMock;
+            var existingNavPage = rootPage.Detail as NavigationPageEmptyMock_Reused;
             var existingTabbedPage = navPage.Navigation.NavigationStack[0] as TabbedPageMock;
             Assert.Equal(navPage, existingNavPage);
             Assert.Equal(tabbedPage, existingTabbedPage);
