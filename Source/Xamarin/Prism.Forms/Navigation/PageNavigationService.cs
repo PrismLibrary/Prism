@@ -567,7 +567,8 @@ namespace Prism.Navigation
             }
 
             var nextSegmentType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(nextSegment));
-            if (detail.GetType() == nextSegmentType)
+            //we must recreate the NavigationPage everytime or the transitions on iOS will not work properly
+            if (!(detail is NavigationPage) && detail.GetType() == nextSegmentType)
             {
                 await ProcessNavigation(detail, segments, parameters, useModalNavigation, animated);
                 await DoNavigateAction(null, nextSegment, detail, parameters, onNavigationActionCompleted: () =>
