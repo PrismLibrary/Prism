@@ -7,7 +7,7 @@ namespace Prism.Navigation
         int Index { get; }
         string Key { get; }
         Type View { get; }
-        NavigationParameters Parameters { get; }
+        INavigationParameters Parameters { get; }
         string QueryString { get; }
         Type ViewModel { get; }
 

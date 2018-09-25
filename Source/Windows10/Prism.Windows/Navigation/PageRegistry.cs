@@ -1,14 +1,6 @@
-﻿using Prism.Ioc;
-using Prism.Navigation;
-using Prism.Mvvm;
-using Prism.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
-using Windows.Foundation;
 
 namespace Prism.Navigation
 {

@@ -1,13 +1,6 @@
-﻿using Prism.Navigation;
-using Prism.Ioc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Prism.Mvvm;
 
 namespace Prism.Navigation
 {

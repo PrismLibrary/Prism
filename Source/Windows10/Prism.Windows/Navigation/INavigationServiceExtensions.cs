@@ -1,18 +1,12 @@
-﻿using Prism.Ioc;
-using Prism.Navigation;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
 
 namespace Prism.Navigation
 {
-    public static partial class Extensions
+    public static class INavigationServiceExtensions
     {
         internal static Frame GetXamlFrame(this INavigationService service)
         {
@@ -59,37 +53,25 @@ namespace Prism.Navigation
             return await service.NavigateAsync(PathBuilder.Create(path, parameters).ToString(), null, infoOverride);
         }
 
-        public static bool TryGetParameter<T>(this NavigationEventArgs args, string name, out T value)
-        {
-            try
-            {
-                var www = new WwwFormUrlDecoder(args.Parameter.ToString());
-                var result = www.GetFirstValueByName(name);
-                value = (T)Convert.ChangeType(result, typeof(T));
-                return true;
-            }
-            catch
-            {
-                value = default(T);
-                return false;
-            }
-        }
+        public static Task RefreshAsync(this INavigationService service)
+            => (service as IPlatformNavigationService).RefreshAsync();
 
-        public static bool TryGetParameters<T>(this NavigationEventArgs args, string name, out IEnumerable<T> values)
-        {
-            try
-            {
-                var www = new WwwFormUrlDecoder(args.Parameter.ToString());
-                values = www
-                    .Where(x => x.Name == name)
-                    .Select(x => (T)Convert.ChangeType(x.Value, typeof(T)));
-                return true;
-            }
-            catch
-            {
-                values = default(IEnumerable<T>);
-                return false;
-            }
-        }
+        public static bool CanGoBack(this INavigationService service)
+            => (service as IPlatformNavigationService).CanGoBack();
+
+        public static Task GoBackAsync(this INavigationService service, INavigationParameters parameters, NavigationTransitionInfo infoOverride)
+            => (service as IPlatformNavigationService).RefreshAsync();
+
+        public static bool CanGoForward(this INavigationService service)
+            => (service as IPlatformNavigationService).CanGoForward();
+
+        public static Task GoForwardAsync(this INavigationService service, INavigationParameters parameter)
+            => (service as IPlatformNavigationService).GoForwardAsync(parameter);
+
+        public static Task<INavigationResult> NavigateAsync(this INavigationService service, string path, INavigationParameters parameter, NavigationTransitionInfo infoOverride)
+            => (service as IPlatformNavigationService).NavigateAsync(path, parameter, infoOverride);
+
+        public static Task<INavigationResult> NavigateAsync(this INavigationService service, Uri path, INavigationParameters parameter, NavigationTransitionInfo infoOverride)
+            => (service as IPlatformNavigationService).NavigateAsync(path, parameter, infoOverride);
     }
 }

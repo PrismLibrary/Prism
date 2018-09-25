@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Prism.Events;
+using Prism.Ioc;
+using Prism.Logging;
+using Prism.Navigation;
+using Prism.Mvvm;
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using Prism.Events;
-using Prism.Ioc;
-using Prism.Logging;
-using Prism.Mvvm;
-using Prism.Navigation;
+using Windows.UI.Xaml;
 using Prism.Services;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Prism
 {
@@ -67,9 +68,17 @@ namespace Prism
             // dependecy injection
             _containerExtension = CreateContainer();
             RegisterRequiredTypes(_containerExtension as IContainerRegistry);
-            _logger.Log("[App.RegisterTypes()]", Category.Debug, Priority.None);
+#if !UAP10_0_15063
+            Console.WriteLine("[App.RegisterTypes()]");
+#else
+            Debug.WriteLine("[App.RegisterTypes()]");
+#endif
             RegisterTypes(_containerExtension as IContainerRegistry);
-            _logger.Log("Dependency container has just been finalized.", Category.Debug, Priority.None);
+#if !UAP10_0_15063
+            Console.WriteLine("Dependency container has just been finalized.");
+#else
+            Debug.WriteLine("Dependency container has just been finalized.");
+#endif
             _containerExtension.FinalizeExtension();
 
             // now we can start logging instead of debug/write
@@ -159,7 +168,7 @@ namespace Prism
             set => ApplicationData.Current.LocalSettings.Values["Suspend_Data"] = value;
         }
 
-        #region overrides
+#region overrides
 
         public virtual void OnSuspending() { /* empty */ }
 
@@ -201,6 +210,6 @@ namespace Prism
             container.RegisterSingleton<IEventAggregator, EventAggregator>();
         }
 
-        #endregion
+#endregion
     }
 }

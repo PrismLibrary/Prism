@@ -66,7 +66,7 @@ namespace Prism.Navigation
 
         public int Index { get; }
 
-        public NavigationParameters Parameters { get; } = new NavigationParameters();
+        public INavigationParameters Parameters { get; } = new NavigationParameters();
 
         public string Key { get; }
 

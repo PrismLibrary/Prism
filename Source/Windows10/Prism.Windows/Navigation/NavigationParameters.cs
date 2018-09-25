@@ -1,5 +1,4 @@
-﻿using Prism.Navigation;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,14 +90,24 @@ namespace Prism.Navigation
 
         T INavigationParametersInternal.GetValue<T>(string key)
         {
-            if (_internal.TryGetValue(key, out var result))
+            try
             {
-                return (T)Convert.ChangeType(result, typeof(T));
+                if (_internal.TryGetValue(key, out var result))
+                {
+                    if (result is T resultAsT)
+                    {
+                        return resultAsT;
+                    }
+
+                    return (T)Convert.ChangeType(result, typeof(T));
+                }
             }
-            else
+            catch
             {
-                return default(T);
+                // ignore and return default
             }
+
+            return default(T);
         }
     }
 

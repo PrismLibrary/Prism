@@ -4,12 +4,6 @@ using Windows.Storage;
 
 namespace Prism
 {
-    public interface IResumeArgs
-    {
-        ApplicationExecutionState PreviousExecutionState { get; set; }
-        ActivationKind Kind { get; set; }
-        DateTime SuspensionDate { get; set; }
-    }
 
     public class ResumeArgs : IResumeArgs, IActivatedEventArgs
     {
