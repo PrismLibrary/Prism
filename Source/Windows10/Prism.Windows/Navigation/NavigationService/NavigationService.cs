@@ -1,11 +1,11 @@
-﻿using Prism.Navigation;
-using Prism.Services;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Prism.Ioc;
+using Prism.Logging;
+using Prism.Services;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -13,20 +13,59 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace Prism.Navigation
 {
-    public enum Gestures { Back, Forward, Refresh }
-
     public class NavigationService : IPlatformNavigationService, IPlatformNavigationService2
     {
         IFrameFacade IPlatformNavigationService2.FrameFacade => _frame;
 
+        public void SetAsWindowContent(Window window, bool activate)
+        {
+            window.Content = this.GetXamlFrame();
+            if (activate)
+            {
+                window.Activate();
+            }
+        }
+
         public static Dictionary<Frame, INavigationService> Instances { get; } = new Dictionary<Frame, INavigationService>();
 
-        public static INavigationService Create(Frame frame, params Gestures[] gestures)
+        /// <summary>
+        /// Creates a navigation service
+        /// </summary>
+        /// <param name="gestures">Optional default getures tied to this Frame</param>
+        /// <returns>IPlatformNavigationService</returns>
+        public static IPlatformNavigationService Create(params Gestures[] gestures)
+        {
+            return Create(new Frame(), Window.Current.CoreWindow, gestures);
+        }
+
+        /// <summary>
+        /// Creates a navigation service
+        /// </summary>
+        /// <param name="frame">Required XAML Frame</param>
+        /// <param name="gestures">Optional default getures tied to this Frame</param>
+        /// <returns>IPlatformNavigationService</returns>
+        public static IPlatformNavigationService Create(Frame frame, params Gestures[] gestures)
         {
             return Create(frame, Window.Current.CoreWindow, gestures);
         }
 
-        public static INavigationService Create(Frame frame, CoreWindow window, params Gestures[] gestures)
+        /// <summary>
+        /// Creates a navigation service
+        /// </summary>
+        /// <param name="gestures">Optional default getures tied to this Frame</param>
+        /// <returns>IPlatformNavigationService</returns>
+        public static IPlatformNavigationService Create(CoreWindow window, params Gestures[] gestures)
+        {
+            return Create(new Frame(), window, gestures);
+        }
+
+        /// <summary>
+        /// Creates a navigation service
+        /// </summary>
+        /// <param name="frame">Required XAML Frame</param>
+        /// <param name="gestures">Optional default getures tied to this Frame</param>
+        /// <returns>IPlatformNavigationService</returns>
+        public static IPlatformNavigationService Create(Frame frame, CoreWindow window, params Gestures[] gestures)
         {
             frame = frame ?? new Frame();
             var gesture_service = GestureService.GetForCurrentView(window);
@@ -55,6 +94,7 @@ namespace Prism.Navigation
         }
 
         private readonly IFrameFacade _frame;
+        private readonly ILoggerFacade _logger;
 
         private NavigationService(Frame frame)
         {
@@ -64,6 +104,7 @@ namespace Prism.Navigation
             _frame.CanGoForwardChanged += (s, e) =>
                 CanGoForwardChanged?.Invoke(this, EventArgs.Empty);
             Instances.Add(frame, this);
+            _logger = PrismApplicationBase.Current.Container.Resolve<ILoggerFacade>();
         }
 
         public async Task RefreshAsync()
@@ -84,7 +125,7 @@ namespace Prism.Navigation
         {
             if (parameters == null && (_frame as IFrameFacade2).Frame.ForwardStack.Any())
             {
-                var previous = (_frame as IFrameFacade2).Frame.ForwardStack.First().Parameter?.ToString();
+                var previous = (_frame as IFrameFacade2).Frame.ForwardStack.Last().Parameter?.ToString();
                 parameters = new NavigationParameters(previous);
             }
 
@@ -106,7 +147,7 @@ namespace Prism.Navigation
 
         public async Task<INavigationResult> GoBackAsync(INavigationParameters parameters)
             => await GoBackAsync(
-                parameters: default(INavigationParameters),
+                parameters: parameters,
                 infoOverride: default(NavigationTransitionInfo));
 
         public async Task<INavigationResult> GoBackAsync(INavigationParameters parameters = null, NavigationTransitionInfo infoOverride = null)
@@ -114,7 +155,14 @@ namespace Prism.Navigation
             if (parameters == null && (_frame as IFrameFacade2).Frame.BackStack.Any())
             {
                 var previous = (_frame as IFrameFacade2).Frame.BackStack.Last().Parameter?.ToString();
-                parameters = new NavigationParameters(previous);
+                if (previous is null)
+                {
+                    parameters = new NavigationParameters();
+                }
+                else
+                {
+                    parameters = new NavigationParameters(previous);
+                }
             }
 
             return await _frame.GoBackAsync(
@@ -158,11 +206,21 @@ namespace Prism.Navigation
 
         public async Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameter, NavigationTransitionInfo infoOverride)
         {
-            System.Diagnostics.Debug.WriteLine($"{nameof(NavigationService)}.{nameof(NavigateAsync)}({uri})");
-            return await _frame.NavigateAsync(
-                uri: uri,
-                parameter: parameter,
-                infoOverride: infoOverride);
+            _logger.Log($"{nameof(NavigationService)}.{nameof(NavigateAsync)}(uri:{uri} parameter:{parameter} info:{infoOverride})", Category.Info, Priority.None);
+
+            try
+            {
+                return await _frame.NavigateAsync(
+                    uri: uri,
+                    parameter: parameter,
+                    infoOverride: infoOverride);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log($"Navigation error: {ex.Message}", Category.Exception, Priority.High);
+                Debugger.Break();
+                throw;
+            }
         }
     }
 }

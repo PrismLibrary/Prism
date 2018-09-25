@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Prism.Logging;
+using Prism.Ioc;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -52,6 +54,7 @@ namespace Prism.Services
             window.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
             window.PointerPressed += CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested += GestureService_BackRequested;
+            _logger = PrismApplicationBase.Current.Container.Resolve<ILoggerFacade>();
         }
 
         public event EventHandler MenuRequested;
@@ -64,6 +67,8 @@ namespace Prism.Services
         #region Barrier
 
         List<GestureBarrier> _barriers = new List<GestureBarrier>();
+        private readonly ILoggerFacade _logger;
+
         public GestureBarrier CreateBarrier(Gesture gesture)
         {
             GestureBarrier barrier = null;
@@ -107,9 +112,12 @@ namespace Prism.Services
         {
             var properties = e.CurrentPoint.Properties;
             // Ignore button chords with the left, right, and middle buttons
-            if (properties.IsLeftButtonPressed || properties.IsRightButtonPressed ||
-                properties.IsMiddleButtonPressed)
+            if (properties.IsLeftButtonPressed
+                || properties.IsRightButtonPressed
+                || properties.IsMiddleButtonPressed)
+            {
                 return;
+            }
             TestForNavigateRequested(e, properties);
         }
 
@@ -135,7 +143,7 @@ namespace Prism.Services
                 || (e.OnlyAlt && e.VirtualKey == VirtualKey.Back)
                 || (e.OnlyAlt && e.VirtualKey == VirtualKey.Left))
             {
-                Debug.WriteLine($"{nameof(GestureService)}.{nameof(BackRequested)}");
+                _logger.Log($"{nameof(GestureService)}.{nameof(BackRequested)}", Category.Info, Priority.None);
                 RaiseBackRequested();
             }
             else if ((e.VirtualKey == VirtualKey.GoForward)
@@ -143,19 +151,19 @@ namespace Prism.Services
                 || (e.VirtualKey == VirtualKey.GamepadRightShoulder)
                 || (e.OnlyAlt && e.VirtualKey == VirtualKey.Right))
             {
-                Debug.WriteLine($"{nameof(GestureService)}.{nameof(ForwardRequested)}");
+                _logger.Log($"{nameof(GestureService)}.{nameof(ForwardRequested)}", Category.Info, Priority.None);
                 RaiseForwardRequested();
             }
             else if ((e.VirtualKey == VirtualKey.Refresh)
                 || (e.VirtualKey == VirtualKey.F5))
             {
-                Debug.WriteLine($"{nameof(GestureService)}.{nameof(RefreshRequested)}");
+                _logger.Log($"{nameof(GestureService)}.{nameof(RefreshRequested)}", Category.Info, Priority.None);
                 RaiseRefreshRequested();
             }
             // this is still a preliminary value?
             else if ((e.VirtualKey == VirtualKey.M) && e.OnlyAlt)
             {
-                Debug.WriteLine($"{nameof(GestureService)}.{nameof(MenuRequested)}");
+                _logger.Log($"{nameof(GestureService)}.{nameof(MenuRequested)}", Category.Info, Priority.None);
                 RaiseMenuRequested();
             }
         }
@@ -170,12 +178,12 @@ namespace Prism.Services
                 e.Handled = true;
                 if (backPressed)
                 {
-                    Debug.WriteLine($"{nameof(GestureService)}.{nameof(BackRequested)}");
+                    _logger.Log($"{nameof(GestureService)}.{nameof(BackRequested)}", Category.Info, Priority.None);
                     RaiseBackRequested();
                 }
                 else if (forwardPressed)
                 {
-                    Debug.WriteLine($"{nameof(GestureService)}.{nameof(ForwardRequested)}");
+                    _logger.Log($"{nameof(GestureService)}.{nameof(ForwardRequested)}", Category.Info, Priority.None);
                     RaiseForwardRequested();
                 }
             }
@@ -185,7 +193,7 @@ namespace Prism.Services
         {
             if (args.VirtualKey == VirtualKey.GamepadMenu)
             {
-                Debug.WriteLine($"{nameof(GestureService)}.{nameof(MenuRequested)}");
+                _logger.Log($"{nameof(GestureService)}.{nameof(MenuRequested)}", Category.Info, Priority.None);
                 RaiseMenuRequested();
             }
         }
@@ -194,7 +202,7 @@ namespace Prism.Services
         {
             if (args.OnlyControl && args.Character.ToString().ToLower().Equals("e"))
             {
-                Debug.WriteLine($"{nameof(GestureService)}.{nameof(SearchRequested)}");
+                _logger.Log($"{nameof(GestureService)}.{nameof(SearchRequested)}", Category.Info, Priority.None);
                 RaiseSearchRequested();
             }
         }

@@ -33,7 +33,7 @@ namespace Prism
                 switch (Arguments)
                 {
                     case IToastNotificationActivatedEventArgs t: return StartCauses.Toast;
-                    case ILaunchActivatedEventArgs p when (p?.TileId == "App" && string.IsNullOrEmpty(p?.Arguments)): return StartCauses.Primary;
+                    case ILaunchActivatedEventArgs p when (p?.TileId == "App" && string.IsNullOrEmpty(p?.Arguments)): return StartCauses.PrimaryTile;
                     case ILaunchActivatedEventArgs j when (j?.TileId == "App" && !string.IsNullOrEmpty(j?.Arguments)): return StartCauses.JumpListItem;
                     case ILaunchActivatedEventArgs s when (!string.IsNullOrEmpty(s?.TileId) && s?.TileId != "App"): return StartCauses.SecondaryTile;
                     case IBackgroundActivatedEventArgs b: return StartCauses.BackgroundTrigger;

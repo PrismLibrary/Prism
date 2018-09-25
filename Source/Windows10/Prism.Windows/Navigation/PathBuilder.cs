@@ -64,7 +64,7 @@ namespace Prism.Navigation
             }
             else
             {
-                var value = $"/{page}";
+                var value = $"{prefix}{page}";
                 return value;
             }
         }

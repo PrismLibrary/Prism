@@ -8,18 +8,31 @@ namespace Prism.Navigation
 {
     public class NavigationParameters : INavigationParameters, INavigationParametersInternal
     {
-        public NavigationParameters(params (string Name, object Value)[] parameters)
+        public NavigationParameters()
         {
-            foreach (var item in parameters)
+            // empty
+        }
+
+        public NavigationParameters(params (string Name, object Value)[] parameters)
+            : this()
+        {
+            foreach (var (Name, Value) in parameters)
             {
-                _external.Add(item.Name, item.Value);
+                _external.Add(Name, Value);
             }
         }
 
         public NavigationParameters(string query)
-            : this(new Windows.Foundation.WwwFormUrlDecoder(query).Select(x => (x.Name, (object)x.Value)).ToArray())
+            : this(string.IsNullOrWhiteSpace(query) ? Array.Empty<(string key, object value)>() : new Windows.Foundation.WwwFormUrlDecoder(query).Select(x => (x.Name, (object)x.Value)).ToArray())
         {
             // empty
+        }
+
+        public override string ToString()
+        {
+            var i = string.Join(",", _internal.Select(x => $"({x.Key}:{x.Value})"));
+            var e = string.Join(",", _external.Select(x => $"({x.Key}:{x.Value})"));
+            return $"{{internal:{i} external:{e}}}";
         }
 
         Dictionary<string, object> _external = new Dictionary<string, object>();
@@ -45,7 +58,7 @@ namespace Prism.Navigation
 
         public T GetValue<T>(string key)
         {
-            return (T)Convert.ChangeType(_internal[key], typeof(T));
+            return (T)Convert.ChangeType(_external[key], typeof(T));
         }
 
         public IEnumerable<T> GetValues<T>(string key)

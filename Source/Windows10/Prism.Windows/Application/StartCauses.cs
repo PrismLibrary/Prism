@@ -2,7 +2,7 @@
 {
     public enum StartCauses
     {
-        Primary,
+        PrimaryTile,
         Toast,
         SecondaryTile,
         Undetermined,

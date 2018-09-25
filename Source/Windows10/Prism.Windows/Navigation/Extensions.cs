@@ -6,25 +6,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace Prism.Navigation
 {
     public static partial class Extensions
     {
+        internal static Frame GetXamlFrame(this INavigationService service)
+        {
+            return ((service as IPlatformNavigationService2).FrameFacade as IFrameFacade2).Frame;
+        }
+
         public static string GetNavigationPath(this INavigationService service, bool includeParameters)
         {
             var nav = service as IPlatformNavigationService2;
             var facade = nav.FrameFacade as IFrameFacade2;
             var sb = new List<string>();
-            sb.Add(facade.CurrentNavigationPath);
             foreach (var item in facade.Frame.BackStack)
             {
                 if (PageRegistry.TryGetRegistration(item.SourcePageType, out var info))
                 {
-                    if (includeParameters)
+                    if (item.Parameter != null)
                     {
-                        sb.Add($"{info.Key}?{item.Parameter}");
+                        if (includeParameters)
+                        {
+                            sb.Add($"{info.Key}?{item.Parameter}");
+                        }
+                        else
+                        {
+                            sb.Add(info.Key);
+                        }
                     }
                     else
                     {
@@ -32,12 +45,18 @@ namespace Prism.Navigation
                     }
                 }
             }
+            sb.Add(facade.CurrentNavigationPath);
             return $"/{string.Join("/", sb.ToArray())}";
         }
 
         public static async Task<INavigationResult> NavigateAsync(this INavigationService service, string path, params (string Name, string Value)[] parameters)
         {
             return await service.NavigateAsync(PathBuilder.Create(path, parameters).ToString());
+        }
+
+        public static async Task<INavigationResult> NavigateAsync(this INavigationService service, string path, NavigationTransitionInfo infoOverride = null, params (string Name, string Value)[] parameters)
+        {
+            return await service.NavigateAsync(PathBuilder.Create(path, parameters).ToString(), null, infoOverride);
         }
 
         public static bool TryGetParameter<T>(this NavigationEventArgs args, string name, out T value)

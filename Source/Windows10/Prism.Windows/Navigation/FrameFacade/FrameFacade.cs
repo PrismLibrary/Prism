@@ -1,45 +1,37 @@
-﻿using Prism.Navigation;
-using Prism.Ioc;
-using System;
-using System.Diagnostics;
-using System.Linq;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using Prism.Ioc;
+using Prism.Logging;
+using Prism.Utilities;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using System.ComponentModel;
-using Prism.Utilities;
-using System.Threading;
-using Windows.UI.Xaml;
 
 namespace Prism.Navigation
 {
-    public class FrameFacadeProps : DependencyObject
-    {
-        public static string GetCurrentNavigationPath(Frame obj)
-            => (string)obj.GetValue(CurrentNavigationPathProperty);
-        public static void SetCurrentNavigationPath(Frame obj, string value)
-            => obj.SetValue(CurrentNavigationPathProperty, value);
-        public static readonly DependencyProperty CurrentNavigationPathProperty =
-            DependencyProperty.RegisterAttached("CurrentNavigationPath", typeof(string),
-                typeof(FrameFacadeProps), new PropertyMetadata(string.Empty));
-    }
-
     public class FrameFacade : IFrameFacade, IFrameFacade2
     {
+        private readonly bool _logStartingEvents = false;
+
         private readonly Frame _frame;
         private readonly CoreDispatcher _dispatcher;
         private readonly SynchronizationContext _syncContext;
         private readonly IPlatformNavigationService _navigationService;
+        private readonly ILoggerFacade _logger;
+
         public event EventHandler CanGoBackChanged;
         public event EventHandler CanGoForwardChanged;
 
         internal FrameFacade(Frame frame, IPlatformNavigationService navigationService)
         {
             _frame = frame;
-            _frame.ContentTransitions = new TransitionCollection();
-            _frame.ContentTransitions.Add(new NavigationThemeTransition());
+            _frame.ContentTransitions = new TransitionCollection
+            {
+                new NavigationThemeTransition()
+            };
             _frame.RegisterPropertyChangedCallback(Frame.CanGoBackProperty, (s, p)
                 => CanGoBackChanged?.Invoke(this, EventArgs.Empty));
             _frame.RegisterPropertyChangedCallback(Frame.CanGoForwardProperty, (s, p)
@@ -48,6 +40,7 @@ namespace Prism.Navigation
             _dispatcher = frame.Dispatcher;
             _syncContext = SynchronizationContext.Current;
             _navigationService = navigationService;
+            _logger = PrismApplicationBase.Current.Container.Resolve<ILoggerFacade>();
         }
 
         Frame IFrameFacade2.Frame
@@ -68,14 +61,16 @@ namespace Prism.Navigation
         public async Task<INavigationResult> GoBackAsync(INavigationParameters parameters,
             NavigationTransitionInfo infoOverride)
         {
+            _logger.Log("FrameFacade.GoBackAsync()", Category.Info, Priority.Low);
+
             if (!CanGoBack())
             {
-                return this.Failure($"{nameof(CanGoBack)} is false.");
+                return this.NavigationFailure($"{nameof(CanGoBack)} is false; exiting GoBackAsync().");
             }
 
             return await OrchestrateAsync(
               parameters: parameters,
-              mode: Prism.Navigation.NavigationMode.Back,
+              mode: NavigationMode.Back,
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
               navigate: async () =>
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -87,14 +82,16 @@ namespace Prism.Navigation
 
         public async Task<INavigationResult> GoForwardAsync(INavigationParameters parameters)
         {
+            _logger.Log("FrameFacade.GoForwardAsync()", Category.Info, Priority.Low);
+
             if (!CanGoForward())
             {
-                return this.Failure($"{nameof(CanGoForward)} is false.");
+                return this.NavigationFailure($"{nameof(CanGoForward)} is false.");
             }
 
             return await OrchestrateAsync(
                 parameters: parameters,
-                mode: Prism.Navigation.NavigationMode.Forward,
+                mode: NavigationMode.Forward,
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
                 navigate: async () =>
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -106,9 +103,11 @@ namespace Prism.Navigation
 
         public async Task<INavigationResult> RefreshAsync()
         {
+            _logger.Log("FrameFacade.RefreshAsync()", Category.Info, Priority.Low);
+
             return await OrchestrateAsync(
                 parameters: null,
-                mode: Prism.Navigation.NavigationMode.Refresh,
+                mode: NavigationMode.Refresh,
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
                 navigate: async () =>
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -144,7 +143,7 @@ namespace Prism.Navigation
             NavigationQueue queue,
             NavigationTransitionInfo infoOverride)
         {
-            Debug.WriteLine($"{nameof(FrameFacade)}.{nameof(NavigateAsync)}({queue})");
+            _logger.Log($"{nameof(FrameFacade)}.{nameof(NavigateAsync)}({queue})", Category.Info, Priority.None);
 
             // clear stack, if requested
 
@@ -177,14 +176,14 @@ namespace Prism.Navigation
 
             // finally
 
-            return this.Successful();
+            return this.NavigationSuccess();
         }
 
         private async Task<INavigationResult> NavigateAsync(
             INavigationPath pageNavInfo,
             NavigationTransitionInfo infoOverride)
         {
-            Debug.WriteLine($"{nameof(FrameFacade)}.{nameof(NavigateAsync)}({pageNavInfo})");
+            _logger.Log($"{nameof(FrameFacade)}.{nameof(NavigateAsync)}({pageNavInfo})", Category.Info, Priority.Low);
 
             return await OrchestrateAsync(
                 parameters: pageNavInfo.Parameters,
@@ -225,32 +224,33 @@ namespace Prism.Navigation
             // pre-events
 
             var old_vm = (_frame.Content as Page)?.DataContext;
-            if (old_vm == null)
+            if (old_vm is null)
             {
-                Debug.WriteLine($"[From]View-Model is null.");
+                _logger.Log($"No view-model is set for source page; this is okay; skipping all the [from] overrides including CanNavigate/Async.", Category.Info, Priority.None);
             }
             else if (!await CanNavigateAsync(parameters, old_vm))
             {
-                return this.Failure($"[From]{old_vm}.CanNavigateAsync returned false.");
+                return this.NavigationFailure($"[From]{old_vm}.CanNavigateAsync returned false; this is okay; FrameFacade orchestration will stop here.");
             }
             else if (!CanNavigate(parameters, old_vm))
             {
-                return this.Failure($"[From]{old_vm}.CanNavigate returned false.");
+                return this.NavigationFailure($"[From]{old_vm}.CanNavigate returned false; this is okay; FrameFacade orchestration will stop here.");
             }
 
             // navigate
 
             var success = await NavigateFrameAsync(navigate);
-            Debug.WriteLine($"{nameof(FrameFacade)}.{nameof(OrchestrateAsync)}.NavigateFrameAsync() returned {success}.");
+            _logger.Log($"{nameof(FrameFacade)}.{nameof(OrchestrateAsync)}.NavigateFrameAsync() returned {success}.", Category.Info, Priority.None);
             if (!success)
             {
-                return this.Failure("NavigateFrameAsync() returned false.");
+                return this.NavigationFailure("NavigateFrameAsync() returned false; this is very unusual, but possibly okay; FrameFacade orchestration will stop here.");
             }
 
-            var new_page = _frame.Content as Page;
-            if (new_page == null)
+            if (!(_frame.Content is Page new_page))
             {
-                throw new Exception("There is no new page in Frame after Navigate.");
+                var message = "There is no new page in FrameFacade after NavigateFrameAsync; this is a critical failure. Check the page constructor, maybe?";
+                _logger.Log(message, Category.Exception, Priority.High);
+                throw new Exception(message);
             }
 
             // post-events
@@ -261,23 +261,25 @@ namespace Prism.Navigation
             }
 
             var new_vm = new_page?.DataContext;
-            if (new_vm == null)
+            if (new_vm is null)
             {
-                if (Mvvm.ViewModelLocator.GetAutowireViewModel(new_page) == null)
+                if (Mvvm.ViewModelLocator.GetAutowireViewModel(new_page) is null)
                 {
                     // developer didn't set autowire, and did't set datacontext manually
+                    _logger.Log("No view-model is set for target page, we will attempt to find view-model declared using RegisterForNavigation<P, VM>().", Category.Info, Priority.None);
 
                     // set the autowire & see if we can find it for them
                     Mvvm.ViewModelLocator.SetAutowireViewModel(new_page, true);
 
                     // TODO: I wonder if I need to delay for a second?
+
                     new_vm = new_page.DataContext;
                 }
             }
 
-            if (new_vm == null)
+            if (new_vm is null)
             {
-                Debug.WriteLine($"[To]View-Model is null.");
+                _logger.Log($"View-Model for source page not found; this is okay, skipping all the [to] overides.", Category.Info, Priority.None);
             }
             else
             {
@@ -292,97 +294,121 @@ namespace Prism.Navigation
 
             // finally
 
-            return this.Successful();
+            return this.NavigationSuccess();
         }
 
-        private static async Task<bool> CanNavigateAsync(INavigationParameters parameters, object vm)
+        private async Task<bool> CanNavigateAsync(INavigationParameters parameters, object vm)
         {
-            Debug.WriteLine($"Calling {nameof(CanNavigateAsync)}");
+            if (_logStartingEvents)
+            {
+                _logger.Log($"STARTING {nameof(CanNavigateAsync)} parameters:{parameters}", Category.Info, Priority.None);
+            }
+
             var confirm = true;
             if (vm is IConfirmNavigationAsync old_vm_confirma)
             {
                 confirm = await old_vm_confirma.CanNavigateAsync(parameters);
-                Debug.WriteLine($"[From]{old_vm_confirma}.{nameof(IConfirmNavigationAsync)} is {confirm}.");
+                _logger.Log($"[From]{old_vm_confirma}.{nameof(IConfirmNavigationAsync)} returned {confirm}.", Category.Info, Priority.None);
             }
             else
             {
-                Debug.WriteLine($"[From]{nameof(IConfirmNavigationAsync)} not implemented.");
+                _logger.Log($"[From]{nameof(IConfirmNavigationAsync)} not implemented; this is okay; we'll move on to next step in FrameFacade orchestration.", Category.Info, Priority.None);
             }
             return confirm;
         }
 
-        private static bool CanNavigate(INavigationParameters parameters, object vm)
+        private bool CanNavigate(INavigationParameters parameters, object vm)
         {
-            Debug.WriteLine($"Calling {nameof(CanNavigate)}");
+            if (_logStartingEvents)
+            {
+                _logger.Log($"STARTING {nameof(CanNavigate)} parameters:{parameters}", Category.Info, Priority.None);
+            }
+
             var confirm = true;
             if (vm is IConfirmNavigation old_vm_confirms)
             {
                 confirm = old_vm_confirms.CanNavigate(parameters);
-                Debug.WriteLine($"[From]{old_vm_confirms}.{nameof(IConfirmNavigation)} is {confirm}.");
+                _logger.Log($"[From]{old_vm_confirms}.{nameof(IConfirmNavigation)} is {confirm}.", Category.Info, Priority.None);
             }
             else
             {
-                Debug.WriteLine($"[From]{nameof(IConfirmNavigation)} not implemented.");
+                _logger.Log($"[From]{nameof(IConfirmNavigation)} not implemented; this is okay; we'll move on to next step in FrameFacade orchestration.", Category.Info, Priority.None);
             }
             return confirm;
         }
 
-        private static void OnNavigatedFrom(INavigationParameters parameters, object vm)
+        private void OnNavigatedFrom(INavigationParameters parameters, object vm)
         {
-            Debug.WriteLine($"Calling {nameof(OnNavigatedFrom)}");
+            if (_logStartingEvents)
+            {
+                _logger.Log($"STARTING {nameof(OnNavigatedFrom)} parameters:{parameters}", Category.Info, Priority.None);
+            }
+
             if (vm != null)
             {
                 if (vm is INavigatedAware old_vm_ed)
                 {
                     old_vm_ed.OnNavigatedFrom(parameters);
-                    Debug.WriteLine($"{nameof(INavigatedAware)}.OnNavigatedFrom() called.");
+                    _logger.Log($"{nameof(INavigatedAware)}.OnNavigatedFrom() called.", Category.Info, Priority.None);
                 }
                 else
                 {
-                    Debug.WriteLine($"{nameof(INavigatedAware)} not implemented.");
+                    _logger.Log($"{nameof(INavigatedAware)} not implemented; this is okay; we'll move on to next step in FrameFacade orchestration.", Category.Info, Priority.None);
                 }
             }
         }
 
-        private static void OnNavigatingTo(INavigationParameters parameters, object vm)
+        private void OnNavigatingTo(INavigationParameters parameters, object vm)
         {
-            Debug.WriteLine($"Calling {nameof(OnNavigatingTo)}");
+            if (_logStartingEvents)
+            {
+                _logger.Log($"STARTING {nameof(OnNavigatingTo)} parameters:{parameters}", Category.Info, Priority.None);
+            }
+
             if (vm is INavigatingAware new_vm_ing)
             {
                 new_vm_ing.OnNavigatingTo(parameters);
-                Debug.WriteLine($"{nameof(INavigatingAware)}.OnNavigatingTo() called.");
+                _logger.Log($"{nameof(INavigatingAware)}.OnNavigatingTo() called.", Category.Info, Priority.None);
             }
             else
             {
-                Debug.WriteLine($"{nameof(INavigatingAware)} not implemented.");
+                _logger.Log($"{nameof(INavigatingAware)} not implemented; this is okay; we'll move on to next step in FrameFacade orchestration.", Category.Info, Priority.None);
             }
         }
 
-        private static async Task OnNavigatedToAsync(INavigationParameters parameters, object vm)
+        private async Task OnNavigatedToAsync(INavigationParameters parameters, object vm)
         {
-            Debug.WriteLine($"Calling {nameof(OnNavigatedToAsync)}");
+            if (_logStartingEvents)
+            {
+                _logger.Log($"STARTING {nameof(OnNavigatedToAsync)} parameters:{parameters}", Category.Info, Priority.None);
+            }
+
             if (vm is INavigatedAwareAsync new_vm_ed)
             {
                 await new_vm_ed.OnNavigatedToAsync(parameters);
-                Debug.WriteLine($"{nameof(INavigatedAwareAsync)}.OnNavigatedToAsync() called.");
+                _logger.Log($"{nameof(INavigatedAwareAsync)}.OnNavigatedToAsync() called.", Category.Info, Priority.None);
             }
             else
             {
-                Debug.WriteLine($"{nameof(INavigatedAwareAsync)} not implemented.");
+                _logger.Log($"{nameof(INavigatedAwareAsync)} not implemented; this is okay; we'll move on to next step in FrameFacade orchestration.", Category.Info, Priority.None);
             }
         }
 
-        private static void OnNavigatedTo(INavigationParameters parameters, object vm)
+        private void OnNavigatedTo(INavigationParameters parameters, object vm)
         {
-            Debug.WriteLine($"Calling {nameof(OnNavigatedTo)}");
+            if (_logStartingEvents)
+            {
+                _logger.Log($"STARTING {nameof(OnNavigatedTo)} parameters:{parameters}", Category.Info, Priority.None);
+            }
+
             if (vm is INavigatedAware new_vm_ed)
             {
                 new_vm_ed.OnNavigatedTo(parameters);
-                Debug.WriteLine($"{nameof(INavigatedAware)}.OnNavigatedTo() called.");
+                _logger.Log($"{nameof(INavigatedAware)}.OnNavigatedTo() called.", Category.Info, Priority.None);
             }
             else
             {
-                Debug.WriteLine($"{nameof(INavigatedAware)} not implemented.");
+                _logger.Log($"{nameof(INavigatedAware)} not implemented; this is okay; we'll move on to next step in FrameFacade orchestration.", Category.Info, Priority.None);
             }
         }
 
@@ -397,12 +423,17 @@ namespace Prism.Navigation
 
         private async Task<bool> NavigateFrameAsync(Func<Task<bool>> navigate)
         {
-            Debug.WriteLine($"{nameof(FrameFacade)}.{nameof(NavigateFrameAsync)} HasThreadAccess: {_dispatcher.HasThreadAccess}");
+            if (_logStartingEvents)
+            {
+                _logger.Log($"STARTING {nameof(FrameFacade)}.{nameof(NavigateFrameAsync)} HasThreadAccess: {_dispatcher.HasThreadAccess}", Category.Info, Priority.None);
+            }
 
             void failedHandler(object s, NavigationFailedEventArgs e)
             {
+                _logger.Log($"Frame.NavigationFailed raised. {e.SourcePageType}:{e.Exception.Message}", Category.Exception, Priority.High);
                 throw e.Exception;
             }
+
             try
             {
                 _frame.NavigationFailed += failedHandler;
@@ -423,6 +454,7 @@ namespace Prism.Navigation
             }
             catch (Exception ex)
             {
+                _logger.Log($"Exception in FrameFacade.NavigateFrameAsync() {ex}", Category.Exception, Priority.None);
                 throw new Exception("Exception in FrameFacade.NavigateFrameAsync().", ex);
             }
             finally
