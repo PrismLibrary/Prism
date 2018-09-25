@@ -1,35 +1,59 @@
-﻿using System.Threading.Tasks;
+﻿using Prism;
+using Prism.Ioc;
+using Prism.Navigation;
+using Prism.Unity;
+using Sample.ViewModels;
+using Sample.Views;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using HelloWorld.Services;
-using Prism.Unity.Windows;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
-namespace HelloWorld
+namespace Sample
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
-    sealed partial class App : PrismUnityApplication
+    sealed partial class App : PrismApplication
     {
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
+        public static IPlatformNavigationService NavigationService { get; private set; }
+
         public App()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
-        protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
+        public override void RegisterTypes(IContainerRegistry container)
         {
-            NavigationService.Navigate("Main", null);
-            return Task.FromResult<object>(null);
+            container.RegisterForNavigation<MainPage, MainPageViewModel>(nameof(MainPage));
+            container.RegisterForNavigation<ItemPage, ItemPageViewModel>(nameof(ItemPage));
         }
 
-        protected override void ConfigureContainer()
+        public override void OnInitialized()
         {
-            base.ConfigureContainer();
+            NavigationService = Prism.Navigation.NavigationService.Create(Gestures.Back, Gestures.Forward, Gestures.Refresh);
+            NavigationService.SetAsWindowContent(Window.Current, true);
+        }
 
-            RegisterTypeIfMissing(typeof(IDataRepository), typeof(DataRepository), true);
+        public override void OnStart(StartArgs args)
+        {
+            if (args.StartKind == StartKinds.Launch)
+            {
+                NavigationService.NavigateAsync(nameof(MainPage));
+            }
+            else
+            {
+                // TODO
+            }
         }
     }
 }
