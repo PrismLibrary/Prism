@@ -1,7 +1,7 @@
-
-
 using Prism.Properties;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
 
@@ -21,6 +21,9 @@ namespace Prism.Regions.Behaviors
         private readonly RegionAdapterMappings regionAdapterMappings;
         private WeakReference elementWeakReference;
         private bool regionCreated;
+
+        private static ICollection<DelayedRegionCreationBehavior> _instanceTracker = new Collection<DelayedRegionCreationBehavior>();
+        private object _trackerLock = new object();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DelayedRegionCreationBehavior"/> class.
@@ -153,6 +156,16 @@ namespace Prism.Regions.Behaviors
                 fcElement.Loaded += this.ElementLoaded;
                 return;
             }
+
+            //if the element is a dependency object, and not a FrameworkElement, nothing is holding onto the reference after the DelayedRegionCreationBehavior
+            //is instantiated inside RegionManager.CreateRegion(DependencyObject element). If the GC runs before RegionManager.UpdateRegions is called, the region will
+            //never get registered because it is gone from the updatingRegionsListeners list inside RegionManager. So we need to hold on to it. This should be rare.
+            DependencyObject depObj = this.TargetElement as DependencyObject;
+            if (depObj != null)
+            {
+                Track();
+                return;
+            }
         }
 
         private void UnWireTargetElement()
@@ -170,6 +183,40 @@ namespace Prism.Regions.Behaviors
                 fcElement.Loaded -= this.ElementLoaded;
                 return;
             }
+
+            DependencyObject depObj = this.TargetElement as DependencyObject;
+            if (depObj != null)
+            {
+                Untrack();
+                return;
+            }
+        }
+
+
+        /// <summary>
+        /// Add the instance of this class to <see cref="_instanceTracker"/> to keep it alive
+        /// </summary>
+        private void Track()
+        {
+            lock(_trackerLock)
+            {
+                if (!_instanceTracker.Contains(this))
+                {
+                    _instanceTracker.Add(this);
+                }
+            }
+        }
+  
+        /// <summary>
+        /// Remove the instance of this class from <see cref="_instanceTracker"/>
+        /// so it can eventually be garbage collected
+        /// </summary>
+        private void Untrack()
+        {
+            lock(_trackerLock)
+            {
+                _instanceTracker.Remove(this);
+            } 
         }
     }
 }
