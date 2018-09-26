@@ -66,7 +66,7 @@ namespace Prism
             }
 
             // dependecy injection
-            _containerExtension = CreateContainer();
+            _containerExtension = CreateContainerExtension();
             RegisterRequiredTypes(_containerExtension as IContainerRegistry);
 #if !UAP10_0_15063
             Console.WriteLine("[App.RegisterTypes()]");
@@ -190,10 +190,7 @@ namespace Prism
             });
         }
 
-        public virtual IContainerExtension CreateContainer()
-        {
-            return new DefaultContainerExtension();
-        }
+        public abstract IContainerExtension CreateContainerExtension();
 
         protected virtual void RegisterRequiredTypes(IContainerRegistry container)
         {
