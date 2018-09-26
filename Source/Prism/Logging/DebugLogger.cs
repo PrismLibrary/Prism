@@ -20,7 +20,7 @@ namespace Prism.Logging
         /// <param name="priority">The priority of the entry.</param>
         public void Log(string message, Category category, Priority priority)
         {
-            string messageToLog = String.Format(CultureInfo.InvariantCulture, Resources.DefaultDebugLoggerPattern, DateTime.Now,
+            string messageToLog = string.Format(CultureInfo.InvariantCulture, Resources.DefaultDebugLoggerPattern, DateTime.Now,
                                                 category.ToString().ToUpper(), message, priority);
 
             Debug.WriteLine(messageToLog);
