@@ -13,36 +13,6 @@ namespace Prism.Navigation
             return ((service as IPlatformNavigationService2).FrameFacade as IFrameFacade2).Frame;
         }
 
-        public static string GetNavigationPath(this INavigationService service, bool includeParameters)
-        {
-            var nav = service as IPlatformNavigationService2;
-            var facade = nav.FrameFacade as IFrameFacade2;
-            var sb = new List<string>();
-            foreach (var item in facade.Frame.BackStack)
-            {
-                if (PageRegistry.TryGetRegistration(item.SourcePageType, out var info))
-                {
-                    if (item.Parameter != null)
-                    {
-                        if (includeParameters)
-                        {
-                            sb.Add($"{info.Key}?{item.Parameter}");
-                        }
-                        else
-                        {
-                            sb.Add(info.Key);
-                        }
-                    }
-                    else
-                    {
-                        sb.Add(info.Key);
-                    }
-                }
-            }
-            sb.Add(facade.CurrentNavigationPath);
-            return $"/{string.Join("/", sb.ToArray())}";
-        }
-
         public static async Task<INavigationResult> NavigateAsync(this INavigationService service, string path, params (string Name, string Value)[] parameters)
         {
             return await service.NavigateAsync(PathBuilder.Create(path, parameters).ToString());

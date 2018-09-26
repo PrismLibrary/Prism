@@ -45,12 +45,6 @@ namespace Prism.Navigation
         Frame IFrameFacade2.Frame
             => _frame;
 
-        string IFrameFacade2.CurrentNavigationPath
-        {
-            get => FrameFacadeProps.GetCurrentNavigationPath(_frame);
-            set => FrameFacadeProps.SetCurrentNavigationPath(_frame, value);
-        }
-
         public bool CanGoBack()
             => _frame.CanGoBack;
 
@@ -163,11 +157,7 @@ namespace Prism.Navigation
 
                 // do not continue on failure
 
-                if (result.Success)
-                {
-                    (this as IFrameFacade2).CurrentNavigationPath = pageNavinfo.ToString();
-                }
-                else
+                if (!result.Success)
                 {
                     return result;
                 }
