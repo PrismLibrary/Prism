@@ -129,7 +129,7 @@ namespace Prism.Modularity
         /// </summary>
         public string Ref
         {
-            get => throw new NotSupportedException("Module Reference Location is not supported in Xamarin.Forms");
+            get => throw new NotSupportedException("Module Reference Location is not supported in UWP Applications");
             set { }
         }
 
