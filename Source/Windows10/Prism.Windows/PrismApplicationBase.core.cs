@@ -4,6 +4,7 @@ using Prism.Logging;
 using Prism.Navigation;
 using Prism.Mvvm;
 using System;
+using System.Linq;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ using Windows.UI.Xaml;
 using Prism.Services;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using Windows.UI.Xaml.Controls;
+using Prism.Modularity;
 
 namespace Prism
 {
@@ -66,7 +67,7 @@ namespace Prism
             }
 
             // dependecy injection
-            _containerExtension = CreateContainer();
+            _containerExtension = CreateContainerExtension();
             RegisterRequiredTypes(_containerExtension as IContainerRegistry);
 #if !UAP10_0_15063
             Console.WriteLine("[App.RegisterTypes()]");
@@ -86,6 +87,9 @@ namespace Prism
 
             // finalize the application
             ConfigureViewModelLocator();
+
+            ConfigureModuleCatalog(Container.Resolve<IModuleCatalog>());
+            InitializeModules();
         }
 
         static int _initialized = 0;
@@ -190,24 +194,38 @@ namespace Prism
             });
         }
 
-        public virtual IContainerExtension CreateContainer()
+        public virtual void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) { /* empty */ }
+
+        protected void InitializeModules()
         {
-            return new DefaultContainerExtension();
+            if (Container.Resolve<IModuleCatalog>().Modules.Any())
+            {
+                if (!_containerExtension.SupportsModules)
+                    throw new NotSupportedException("Container does not support the use of Modules.");
+
+                IModuleManager manager = Container.Resolve<IModuleManager>();
+                manager.Run();
+            }
         }
 
-        protected virtual void RegisterRequiredTypes(IContainerRegistry container)
+        public abstract IContainerExtension CreateContainerExtension();
+
+        protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
             // don't forget there is no logger yet
             Debug.WriteLine($"{nameof(PrismApplicationBase)}.{nameof(RegisterRequiredTypes)}()");
 
             // required for view-models
 
-            container.Register<INavigationService, NavigationService>(NavigationServiceParameterName);
+            containerRegistry.Register<INavigationService, NavigationService>(NavigationServiceParameterName);
 
             // standard prism services
 
-            container.RegisterSingleton<ILoggerFacade, DebugLogger>();
-            container.RegisterSingleton<IEventAggregator, EventAggregator>();
+            containerRegistry.RegisterSingleton<ILoggerFacade, DebugLogger>();
+            containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
+            containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
+            containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
+            containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
         }
 
 #endregion
