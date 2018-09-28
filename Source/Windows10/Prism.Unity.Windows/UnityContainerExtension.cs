@@ -61,7 +61,7 @@ namespace Prism.Unity
                         service
                     )
                 };
-                return Instance.Resolve(viewModelType);
+                return Instance.Resolve(viewModelType, overrides);
             }
             else
             {
