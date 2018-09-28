@@ -29,14 +29,14 @@ namespace Prism.Navigation
             return (parameters as INavigationParametersInternal).GetValue<NavigationMode>(nameof(NavigationMode));
         }
 
-        public static IPlatformNavigationService GetNavigationService(this INavigationParameters parameters)
+        public static INavigationService GetNavigationService(this INavigationParameters parameters)
         {
             if (!(parameters as INavigationParametersInternal).ContainsKey(nameof(NavigationService)))
             {
                 return null;
             }
 
-            return (parameters as INavigationParametersInternal).GetValue<IPlatformNavigationService>(nameof(NavigationService));
+            return (parameters as INavigationParametersInternal).GetValue<INavigationService>(nameof(NavigationService));
         }
 
         public static SynchronizationContext GetSynchronizationContext(this INavigationParameters parameters)
