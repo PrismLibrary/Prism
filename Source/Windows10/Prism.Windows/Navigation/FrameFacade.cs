@@ -272,8 +272,8 @@ namespace Prism.Navigation
             }
             else
             {
-                await OnNavigatedToAsync(parameters, new_vm);
                 OnNavigatingTo(parameters, new_vm);
+                await OnNavigatedToAsync(parameters, new_vm);
                 OnNavigatedTo(parameters, new_vm);
             }
 

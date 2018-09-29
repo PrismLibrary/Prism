@@ -69,17 +69,11 @@ namespace Prism
             // dependecy injection
             _containerExtension = CreateContainerExtension();
             RegisterRequiredTypes(_containerExtension as IContainerRegistry);
-#if !UAP10_0_15063
-            Console.WriteLine("[App.RegisterTypes()]");
-#else
+
             Debug.WriteLine("[App.RegisterTypes()]");
-#endif
             RegisterTypes(_containerExtension as IContainerRegistry);
-#if !UAP10_0_15063
-            Console.WriteLine("Dependency container has just been finalized.");
-#else
+
             Debug.WriteLine("Dependency container has just been finalized.");
-#endif
             _containerExtension.FinalizeExtension();
 
             // now we can start logging instead of debug/write

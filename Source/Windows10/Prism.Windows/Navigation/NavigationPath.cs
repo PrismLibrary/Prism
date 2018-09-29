@@ -7,7 +7,7 @@ namespace Prism.Navigation
 {
     public class NavigationPath : INavigationPath
     {
-        private string _originalString;
+        private readonly string _originalString;
 
         public string QueryString { get; }
 
