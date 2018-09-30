@@ -263,6 +263,10 @@ namespace Prism.Navigation
                     // TODO: I wonder if I need to delay for a second?
 
                     new_vm = new_page.DataContext;
+
+                    if (new_vm != null) {
+                        _logger.Log($"View-Model: {new_vm} found for target View: {new_page}.", Category.Info, Priority.None);
+                    }
                 }
             }
 
