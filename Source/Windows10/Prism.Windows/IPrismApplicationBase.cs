@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Prism.Ioc;
+using Prism.Modularity;
 
 namespace Prism
 {
@@ -32,10 +33,11 @@ namespace Prism
 
         IContainerProvider Container { get; }
         void ConfigureViewModelLocator();
-        IContainerExtension CreateContainer();
+        IContainerExtension CreateContainerExtension();
         void OnInitialized();
         void OnStart(StartArgs args);
         Task OnStartAsync(StartArgs args);
         void RegisterTypes(IContainerRegistry container);
+        void ConfigureModuleCatalog(IModuleCatalog moduleCatalog);
     }
 }
