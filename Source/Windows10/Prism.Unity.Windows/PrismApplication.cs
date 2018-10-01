@@ -1,5 +1,8 @@
 ﻿using Prism.Ioc;
+using Prism.Navigation;
 using Unity;
+using Unity.Resolution;
+using Windows.UI.Xaml.Controls;
 
 namespace Prism.Unity
 {

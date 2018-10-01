@@ -1,5 +1,7 @@
 using DryIoc;
 using Prism.Ioc;
+using Prism.Navigation;
+using Windows.UI.Xaml.Controls;
 
 namespace Prism.DryIoc
 {

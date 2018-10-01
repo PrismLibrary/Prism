@@ -2,7 +2,7 @@
 
 namespace Prism.Navigation
 {
-    public interface IFrameFacade2
+    public interface IFrameProvider
     {
         Frame Frame { get; }
     }
