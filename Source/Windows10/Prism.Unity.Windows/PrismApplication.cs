@@ -5,7 +5,7 @@ namespace Prism.Unity
 {
     public abstract class PrismApplication : PrismApplicationBase
     {
-        public sealed override IContainerExtension CreateContainer()
+        public override IContainerExtension CreateContainerExtension()
         {
             return new UnityContainerExtension(new UnityContainer());
         }
