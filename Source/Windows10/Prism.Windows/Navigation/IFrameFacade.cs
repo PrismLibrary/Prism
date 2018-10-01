@@ -17,5 +17,7 @@ namespace Prism.Navigation
         Task<INavigationResult> RefreshAsync();
 
         Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameter, NavigationTransitionInfo infoOverride);
+
+        INavigationParameters CurrentParameters { get; }
     }
 }

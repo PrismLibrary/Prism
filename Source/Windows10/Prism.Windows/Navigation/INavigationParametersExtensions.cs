@@ -6,16 +6,28 @@ namespace Prism.Navigation
     {
         internal static void SetNavigationMode(this INavigationParameters parameters, NavigationMode mode)
         {
+            if ((parameters as INavigationParametersInternal).ContainsKey(nameof(NavigationMode)))
+            {
+                (parameters as INavigationParametersInternal).Remove(nameof(NavigationMode));
+            }
             (parameters as INavigationParametersInternal).Add(nameof(NavigationMode), mode);
         }
 
         internal static void SetNavigationService(this INavigationParameters parameters, IPlatformNavigationService service)
         {
+            if ((parameters as INavigationParametersInternal).ContainsKey(nameof(NavigationService)))
+            {
+                (parameters as INavigationParametersInternal).Remove(nameof(NavigationService));
+            }
             (parameters as INavigationParametersInternal).Add(nameof(NavigationService), service);
         }
 
         internal static void SetSyncronizationContext(this INavigationParameters parameters, SynchronizationContext context)
         {
+            if ((parameters as INavigationParametersInternal).ContainsKey(nameof(SynchronizationContext)))
+            {
+                (parameters as INavigationParametersInternal).Remove(nameof(SynchronizationContext));
+            }
             (parameters as INavigationParametersInternal).Add(nameof(SynchronizationContext), context);
         }
 

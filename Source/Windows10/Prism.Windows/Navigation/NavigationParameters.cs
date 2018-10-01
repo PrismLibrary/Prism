@@ -82,6 +82,9 @@ namespace Prism.Navigation
 
         // internal
 
+        void INavigationParametersInternal.Remove(string key)
+            => _internal.Remove(key);
+
         void INavigationParametersInternal.Add(string key, object value)
             => _internal.Add(key, value);
 
