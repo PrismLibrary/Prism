@@ -10,7 +10,7 @@ namespace Prism.Navigation
     {
         internal static Frame GetXamlFrame(this INavigationService service)
         {
-            return ((service as IPlatformNavigationService2).FrameFacade as IFrameFacade2).Frame;
+            return ((service as IFrameFacadeProvider).FrameFacade as IFrameProvider).Frame;
         }
 
         public static async Task<INavigationResult> NavigateAsync(this INavigationService service, string path, params (string Name, string Value)[] parameters)

@@ -25,8 +25,6 @@ namespace Sample
 {
     sealed partial class App : PrismApplication
     {
-        public static IPlatformNavigationService NavigationService { get; private set; }
-
         public App()
         {
             InitializeComponent();
@@ -40,8 +38,8 @@ namespace Sample
 
         public override void OnInitialized()
         {
-            NavigationService = Prism.Navigation.NavigationService.Create(Gestures.Back, Gestures.Forward, Gestures.Refresh);
-            NavigationService.SetAsWindowContent(Window.Current, true);
+            //NavigationService = Prism.Navigation.NavigationService.Create(Gestures.Back, Gestures.Forward, Gestures.Refresh);
+            //NavigationService.SetAsWindowContent(Window.Current, true);
         }
 
         public override void OnStart(StartArgs args)

@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Prism.DryIoc
 {
-    public sealed class DryIocContainerExtension : IContainerExtension<IContainer>
+    public sealed class DryIocContainerExtension : IContainerExtension<IContainer>, IDependencyResolver
     {
         public IContainer Instance { get; }
 
@@ -57,10 +57,15 @@ namespace Prism.DryIoc
         {
             if (view is Page page)
             {
-                var service = NavigationService.Instances[page.Frame];
-                return Instance.Resolve(viewModelType, new[] { service });
+                var service = NavigationServiceLocator.GetNavigationService(page);
+                return Resolve(viewModelType, (typeof(Page), page));
             }
-            return Instance.Resolve(viewModelType);
+            return Resolve(viewModelType);
+        }
+
+        public object Resolve(Type serviceType, params (Type resolvingType, object instance)[] args)
+        {
+            return Instance.Resolve(serviceType, args.Select(a => a.instance).ToArray());
         }
     }
 }

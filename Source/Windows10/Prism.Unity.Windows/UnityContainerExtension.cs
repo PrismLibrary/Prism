@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Prism.Ioc;
 using Prism.Navigation;
 using Unity;
@@ -7,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Prism.Unity
 {
-    public sealed class UnityContainerExtension : IContainerExtension<IUnityContainer>
+    public sealed class UnityContainerExtension : IContainerExtension<IUnityContainer>, IDependencyResolver
     {
         public IUnityContainer Instance { get; }
 
@@ -51,22 +52,19 @@ namespace Prism.Unity
         {
             if (view is Page page)
             {
-                var service = NavigationService.Instances[page.Frame];
-                ResolverOverride[] overrides = null;
-
-                overrides = new ResolverOverride[]
-                {
-                    new DependencyOverride(
-                        typeof(INavigationService),
-                        service
-                    )
-                };
-                return Instance.Resolve(viewModelType, overrides);
+                var service = NavigationServiceLocator.GetNavigationService(page);
+                return Resolve(viewModelType, (typeof(INavigationService), service));
             }
             else
             {
-                return Instance.Resolve(viewModelType);
+                return Resolve(viewModelType);
             }
+        }
+
+        public object Resolve(Type serviceType, params (Type resolvingType, object instance)[] args)
+        {
+            return Instance.Resolve(serviceType,
+                args.Select(a => new DependencyOverride(a.resolvingType, a.instance)).ToArray());
         }
     }
 }

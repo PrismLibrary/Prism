@@ -13,9 +13,9 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace Prism.Navigation
 {
-    public class NavigationService : IPlatformNavigationService, IPlatformNavigationService2
+    public class NavigationService : IPlatformNavigationService, IFrameFacadeProvider
     {
-        IFrameFacade IPlatformNavigationService2.FrameFacade => _frame;
+        IFrameFacade IFrameFacadeProvider.FrameFacade => _frame;
 
         public void SetAsWindowContent(Window window, bool activate)
         {
@@ -26,85 +26,17 @@ namespace Prism.Navigation
             }
         }
 
-        public static Dictionary<Frame, INavigationService> Instances { get; } = new Dictionary<Frame, INavigationService>();
+        private IFrameFacade _frame { get; }
+        private ILoggerFacade _logger { get; }
 
-        /// <summary>
-        /// Creates a navigation service
-        /// </summary>
-        /// <param name="gestures">Optional default getures tied to this Frame</param>
-        /// <returns>IPlatformNavigationService</returns>
-        public static IPlatformNavigationService Create(params Gestures[] gestures)
+        public NavigationService(Frame frame, ILoggerFacade logger)
         {
-            return Create(new Frame(), Window.Current.CoreWindow, gestures);
-        }
-
-        /// <summary>
-        /// Creates a navigation service
-        /// </summary>
-        /// <param name="frame">Required XAML Frame</param>
-        /// <param name="gestures">Optional default getures tied to this Frame</param>
-        /// <returns>IPlatformNavigationService</returns>
-        public static IPlatformNavigationService Create(Frame frame, params Gestures[] gestures)
-        {
-            return Create(frame, Window.Current.CoreWindow, gestures);
-        }
-
-        /// <summary>
-        /// Creates a navigation service
-        /// </summary>
-        /// <param name="gestures">Optional default getures tied to this Frame</param>
-        /// <returns>IPlatformNavigationService</returns>
-        public static IPlatformNavigationService Create(CoreWindow window, params Gestures[] gestures)
-        {
-            return Create(new Frame(), window, gestures);
-        }
-
-        /// <summary>
-        /// Creates a navigation service
-        /// </summary>
-        /// <param name="frame">Required XAML Frame</param>
-        /// <param name="gestures">Optional default getures tied to this Frame</param>
-        /// <returns>IPlatformNavigationService</returns>
-        public static IPlatformNavigationService Create(Frame frame, CoreWindow window, params Gestures[] gestures)
-        {
-            frame = frame ?? new Frame();
-            var gesture_service = GestureService.GetForCurrentView(window);
-            var navigation_service = new NavigationService(frame);
-            foreach (var gesture in gestures)
-            {
-                switch (gesture)
-                {
-                    case Gestures.Back:
-                        gesture_service.BackRequested += async (s, e) => await navigation_service.GoBackAsync();
-                        break;
-                    case Gestures.Forward:
-                        gesture_service.ForwardRequested += async (s, e) => await navigation_service.GoForwardAsync();
-                        break;
-                    case Gestures.Refresh:
-                        gesture_service.RefreshRequested += async (s, e) => await navigation_service.RefreshAsync();
-                        break;
-                }
-            }
-            return navigation_service;
-        }
-
-        public static INavigationService Create(Frame frame)
-        {
-            return new NavigationService(frame);
-        }
-
-        private readonly IFrameFacade _frame;
-        private readonly ILoggerFacade _logger;
-
-        private NavigationService(Frame frame)
-        {
-            _frame = new FrameFacade(frame, this);
+            _frame = new FrameFacade(frame, this, logger);
             _frame.CanGoBackChanged += (s, e) =>
                 CanGoBackChanged?.Invoke(this, EventArgs.Empty);
             _frame.CanGoForwardChanged += (s, e) =>
                 CanGoForwardChanged?.Invoke(this, EventArgs.Empty);
-            Instances.Add(frame, this);
-            _logger = PrismApplicationBase.Current.Container.Resolve<ILoggerFacade>();
+            _logger = logger;
         }
 
         public async Task RefreshAsync()
@@ -123,9 +55,9 @@ namespace Prism.Navigation
 
         public async Task<INavigationResult> GoForwardAsync(INavigationParameters parameters)
         {
-            if (parameters == null && (_frame as IFrameFacade2).Frame.ForwardStack.Any())
+            if (parameters == null && (_frame as IFrameProvider).Frame.ForwardStack.Any())
             {
-                var previous = (_frame as IFrameFacade2).Frame.ForwardStack.Last().Parameter?.ToString();
+                var previous = (_frame as IFrameProvider).Frame.ForwardStack.Last().Parameter?.ToString();
                 parameters = new NavigationParameters(previous);
             }
 
@@ -152,9 +84,9 @@ namespace Prism.Navigation
 
         public async Task<INavigationResult> GoBackAsync(INavigationParameters parameters = null, NavigationTransitionInfo infoOverride = null)
         {
-            if (parameters == null && (_frame as IFrameFacade2).Frame.BackStack.Any())
+            if (parameters == null && (_frame as IFrameProvider).Frame.BackStack.Any())
             {
-                var previous = (_frame as IFrameFacade2).Frame.BackStack.Last().Parameter?.ToString();
+                var previous = (_frame as IFrameProvider).Frame.BackStack.Last().Parameter?.ToString();
                 if (previous is null)
                 {
                     parameters = new NavigationParameters();
@@ -219,7 +151,7 @@ namespace Prism.Navigation
             {
                 _logger.Log($"Navigation error: {ex.Message}", Category.Exception, Priority.High);
                 Debugger.Break();
-                throw;
+                return new NavigationResult { Success = false, Exception = ex };
             }
         }
     }

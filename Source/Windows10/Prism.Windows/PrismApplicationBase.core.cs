@@ -9,19 +9,22 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Prism.Services;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Prism.Modularity;
+using Windows.UI.Core;
 
 namespace Prism
 {
     public abstract partial class PrismApplicationBase : IPrismApplicationBase
     {
-        public new static PrismApplicationBase Current => (PrismApplicationBase)Application.Current;
+        //public new static PrismApplicationBase Current => (PrismApplicationBase)Application.Current;
         private static SemaphoreSlim _startSemaphore = new SemaphoreSlim(1, 1);
-        public const string NavigationServiceParameterName = "navigationService";
-        private readonly bool _logStartingEvents = false;
+        //public const string NavigationServiceParameterName = "navigationService";
+
+        protected INavigationService NavigationService { get; set; }
 
         public PrismApplicationBase()
         {
@@ -29,7 +32,7 @@ namespace Prism
             _logger.Log("[App.Constructor()]", Category.Info, Priority.None);
             (this as IPrismApplicationEvents).WindowCreated += (s, e) =>
             {
-                GestureService.SetupForCurrentView(e.Window.CoreWindow);
+                GestureServiceLocator.GetGestureService(e.Window.CoreWindow);
             };
             base.Suspending += async (s, e) =>
             {
@@ -60,12 +63,6 @@ namespace Prism
 
         private void InternalInitialize()
         {
-            // don't forget there is no logger yet
-            if (_logStartingEvents)
-            {
-                _logger.Log($"{nameof(PrismApplicationBase)}.{nameof(InternalInitialize)}", Category.Info, Priority.None);
-            }
-
             // dependecy injection
             _containerExtension = CreateContainerExtension();
             RegisterRequiredTypes(_containerExtension as IContainerRegistry);
@@ -75,12 +72,14 @@ namespace Prism
 
             Debug.WriteLine("Dependency container has just been finalized.");
             _containerExtension.FinalizeExtension();
+            NavigationServiceLocator.RegisterNavigationDelegate(CreateNavigationService);
 
             // now we can start logging instead of debug/write
             _logger = Container.Resolve<ILoggerFacade>();
 
             // finalize the application
             ConfigureViewModelLocator();
+            GestureServiceLocator.SetDefaultFactory(CreateGestureService);
 
             ConfigureModuleCatalog(Container.Resolve<IModuleCatalog>());
             InitializeModules();
@@ -91,15 +90,10 @@ namespace Prism
 
         private void CallOnInitializedOnce()
         {
-            // don't forget there is no logger yet
-            if (_logStartingEvents)
-            {
-                _logger.Log($"{nameof(PrismApplicationBase)}.{nameof(CallOnInitializedOnce)}", Category.Info, Priority.None);
-            }
-
             // once and only once, ever
             if (Interlocked.Increment(ref _initialized) == 1)
             {
+                NavigationService = CreateNavigationService(null, CoreWindow.GetForCurrentThread());
                 _logger.Log("[App.OnInitialize()]", Category.Info, Priority.None);
                 OnInitialized();
             }
@@ -108,10 +102,6 @@ namespace Prism
         private async Task InternalStartAsync(StartArgs startArgs)
         {
             await _startSemaphore.WaitAsync();
-            if (_logStartingEvents)
-            {
-                _logger.Log($"{nameof(PrismApplicationBase)}.{nameof(InternalStartAsync)}({startArgs})", Category.Info, Priority.None);
-            }
 
             try
             {
@@ -166,6 +156,20 @@ namespace Prism
             set => ApplicationData.Current.LocalSettings.Values["Suspend_Data"] = value;
         }
 
+        private INavigationService CreateNavigationService(Frame frame, CoreWindow window)
+        {
+            var resolver = Container as IDependencyResolver;
+            var navigationService = resolver.Resolve<IPlatformNavigationService>(
+                (typeof(Frame), frame));
+
+            var gestureService = GestureServiceLocator.GetGestureService(window);
+            gestureService.BackRequested += async (s, e) => await navigationService.GoBackAsync();
+            gestureService.ForwardRequested += async (s, e) => await navigationService.GoForwardAsync();
+            gestureService.RefreshRequested += async (s, e) => await navigationService.RefreshAsync();
+
+            return navigationService;
+        }
+
 #region overrides
 
         public virtual void OnSuspending() { /* empty */ }
@@ -187,6 +191,9 @@ namespace Prism
                 return _containerExtension.ResolveViewModelForView(view, type);
             });
         }
+
+        private IGestureService CreateGestureService(CoreWindow window) =>
+            ((IDependencyResolver)Container).Resolve<IGestureService>((typeof(CoreWindow), window));
 
         public virtual void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) { /* empty */ }
 
@@ -210,8 +217,8 @@ namespace Prism
             Debug.WriteLine($"{nameof(PrismApplicationBase)}.{nameof(RegisterRequiredTypes)}()");
 
             // required for view-models
-
-            containerRegistry.Register<INavigationService, NavigationService>(NavigationServiceParameterName);
+            containerRegistry.RegisterInstance<IDependencyResolver>(containerRegistry as IDependencyResolver);
+            containerRegistry.Register<IPlatformNavigationService, NavigationService>();
 
             // standard prism services
 
