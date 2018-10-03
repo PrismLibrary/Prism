@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Prism.Navigation
 {
@@ -9,9 +10,11 @@ namespace Prism.Navigation
 
         public static void Register(string name, Type pageType)
         {
-            var info = new PageNavigationInfo();
-            info.Name = name;
-            info.Type = pageType;
+            var info = new PageNavigationInfo
+            {
+                Name = name,
+                Type = pageType
+            };
 
             if (!_pageRegistrationCache.ContainsKey(name))
                 _pageRegistrationCache.Add(name, info);
@@ -39,6 +42,12 @@ namespace Prism.Navigation
         public static Type GetPageType(string name)
         {
             return GetPageNavigationInfo(name)?.Type;
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void ClearRegistrationCache()
+        {
+            _pageRegistrationCache.Clear();
         }
     }
 }
