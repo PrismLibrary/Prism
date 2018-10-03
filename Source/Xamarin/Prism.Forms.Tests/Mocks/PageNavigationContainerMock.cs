@@ -78,7 +78,7 @@ namespace Prism.Forms.Tests.Mocks
 
         public void Dispose()
         {
-            PageNavigationRegistryFixture.ResetPageNavigationRegistry();
+            PageNavigationRegistry.ClearRegistrationCache();
         }
 
         public void FinalizeExtension()

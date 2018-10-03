@@ -11,7 +11,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public void RegisterPageForNavigation()
         {
-            ResetPageNavigationRegistry();
+            PageNavigationRegistry.ClearRegistrationCache();
 
             var name = "MainPage";
             var type = typeof(PageMock);
@@ -34,7 +34,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public void GetPageType()
         {
-            ResetPageNavigationRegistry();
+            PageNavigationRegistry.ClearRegistrationCache();
 
             var name = "MainPage";
             var type = typeof(PageMock);
@@ -52,22 +52,6 @@ namespace Prism.Forms.Tests.Navigation
             var infoType = PageNavigationRegistry.GetPageType(name);
 
             Assert.Null(infoType);
-        }
-
-        internal static void ResetPageNavigationRegistry()
-        {
-            TypeInfo staticType = typeof(PageNavigationRegistry).GetTypeInfo();
-
-            ConstructorInfo ci = null;
-
-            foreach (var ctor in staticType.DeclaredConstructors)
-            {
-                ci = ctor;
-                continue;
-            }
-
-            object[] parameters = new object[0];
-            ci.Invoke(null, parameters);
         }
     }
 }

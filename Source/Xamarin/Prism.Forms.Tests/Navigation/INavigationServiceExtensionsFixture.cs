@@ -14,7 +14,7 @@ namespace Prism.Forms.Tests.Navigation
     {
         public INavigationServiceExtensionsFixture()
         {
-            PageNavigationRegistryFixture.ResetPageNavigationRegistry();
+            PageNavigationRegistry.ClearRegistrationCache();
 
             PageNavigationRegistry.Register("NavigationPage", typeof(NavigationPage));
             PageNavigationRegistry.Register("Page1", typeof(NavigationPathPageMock));
