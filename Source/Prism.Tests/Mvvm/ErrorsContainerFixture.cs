@@ -141,7 +141,7 @@ namespace Prism.Tests.Mvvm
             validation.SetErrors("property1", new[] { "message" });
             validation.SetErrors("property2", new[] { "message" });
 
-            var errors = validation.GetAllErrors();
+            var errors = validation.GetErrors();
 
             Assert.True(errors.Any());
             Assert.True(errors.Count == 2);
