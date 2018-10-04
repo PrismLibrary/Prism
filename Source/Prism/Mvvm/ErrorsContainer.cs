@@ -47,6 +47,15 @@ namespace Prism.Mvvm
         }
 
         /// <summary>
+        /// Returns all the errors in the container
+        /// </summary>
+        /// <returns>The dictionary of errors per property.</returns>
+        public Dictionary<string, List<T>> GetErrors()
+        {
+            return validationResults;
+        }
+
+        /// <summary>
         /// Gets the validation errors for a specified property.
         /// </summary>
         /// <param name="propertyName">The name of the property.</param>

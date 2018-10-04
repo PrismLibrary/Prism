@@ -132,6 +132,24 @@ namespace Prism.Tests.Mvvm
         }
 
         [Fact]
+        public void WhenGettingErrors_ThenErrorsPerPropertyReturnd()
+        {
+            List<string> validatedProperties = new List<string>();
+
+            var validation = new ErrorsContainer<string>(pn => validatedProperties.Add(pn));
+
+            validation.SetErrors("property1", new[] { "message" });
+            validation.SetErrors("property2", new[] { "message" });
+
+            var errors = validation.GetErrors();
+
+            Assert.True(errors.Any());
+            Assert.True(errors.Count == 2);
+            Assert.Contains(errors, e => e.Key.Equals("property1"));
+            Assert.Contains(errors, e => e.Key.Equals("property2"));
+        }
+
+        [Fact]
         public void WhenGettingErrorsWithPropertyName_ThenErrorsReturned()
         {
             List<string> validatedProperties = new List<string>();
