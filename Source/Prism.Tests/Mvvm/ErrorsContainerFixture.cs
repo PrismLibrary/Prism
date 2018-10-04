@@ -132,7 +132,7 @@ namespace Prism.Tests.Mvvm
         }
 
         [Fact]
-        public void WhenGettingAllErrors_ThenErrorsPerPropertyReturnd()
+        public void WhenGettingErrors_ThenErrorsPerPropertyReturnd()
         {
             List<string> validatedProperties = new List<string>();
 

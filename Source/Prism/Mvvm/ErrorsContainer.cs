@@ -50,7 +50,7 @@ namespace Prism.Mvvm
         /// Returns all the errors in the container
         /// </summary>
         /// <returns>The dictionary of errors per property.</returns>
-        public Dictionary<string, List<T>> GetAllErrors()
+        public Dictionary<string, List<T>> GetErrors()
         {
             return validationResults;
         }
