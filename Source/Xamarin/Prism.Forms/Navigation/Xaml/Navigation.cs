@@ -32,6 +32,8 @@ namespace Prism.Navigation.Xaml
 
         internal static INavigationService GetNavigationService(Page page)
         {
+            if(page == null) throw new ArgumentNullException(nameof(page));
+
             var navigationService = (INavigationService) page.GetValue(NavigationServiceProperty);
             if (navigationService == null) page.SetValue(NavigationServiceProperty, navigationService = CreateNavigationService(page));
 
