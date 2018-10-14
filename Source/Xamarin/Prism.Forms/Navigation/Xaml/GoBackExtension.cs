@@ -10,10 +10,14 @@ namespace Prism.Navigation.Xaml
 
         protected override async Task HandleNavigation(INavigationParameters parameters, INavigationService navigationService)
         {
-            if (GoBackType == GoBackType.ToRoot)
-                await navigationService.GoBackToRootAsync(parameters);
-            else
+            var result = GoBackType == GoBackType.ToRoot ?
+                await navigationService.GoBackToRootAsync(parameters) :
                 await navigationService.GoBackAsync(parameters);
+
+            if (result.Exception != null)
+            {
+                Log(result.Exception);
+            }
         }
     }
 }
