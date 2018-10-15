@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -13,18 +14,18 @@ namespace Prism.Navigation.Xaml
     {
         private IServiceProvider ServiceProvider;
 
-        private BindableObject bindable;
-        protected BindableObject Bindable
+        private Element targetElement;
+        protected Element TargetElement
         {
             get
             {
-                if (bindable == null)
+                if (targetElement == null)
                 {
                     Initialize();
                 }
-                return bindable;
+                return targetElement;
             }
-            set => bindable = value;
+            set => targetElement = value;
         }
 
         protected internal bool IsNavigating;
@@ -50,7 +51,7 @@ namespace Prism.Navigation.Xaml
 
         public async void Execute(object parameter)
         {
-            var parameters = parameter.ToNavigationParameters(Bindable);
+            var parameters = parameter.ToNavigationParameters(TargetElement);
 
             IsNavigating = true;
             try
@@ -99,35 +100,43 @@ namespace Prism.Navigation.Xaml
             if (valueTargetProvider == null)
                 throw new ArgumentException("The ServiceProvider did not provide a 'IProvideValueTarget'");
 
-            var propertyInfo = valueTargetProvider.GetType()
-                                        .GetRuntimeProperties()
-                                        .FirstOrDefault(p => p.Name.EndsWith("ParentObjects"));
+            TargetElement = valueTargetProvider.TargetObject as Element;
 
-            if (propertyInfo == null) throw new ArgumentNullException("ParentObjects");
-            var parentObjects = ((IEnumerable)propertyInfo.GetValue(valueTargetProvider))
-                                                          .Cast<BindableObject>();
+            if (TargetElement is null)
+                throw new ArgumentNullException(nameof(TargetElement));
 
-            var parentObject = parentObjects.FirstOrDefault(pO => pO.GetType()
-                                                                    .GetTypeInfo()
-                                                                    .IsSubclassOf(typeof(Page)));
+            Navigation.SetRaiseCanExecuteChangedInternal(TargetElement, RaiseCanExecuteChanged);
 
-            Bindable = parentObjects.FirstOrDefault();
+            var parentPage = (Page)GetBindableStack().FirstOrDefault(p => p.GetType()
+                                                                       .GetTypeInfo()
+                                                                       .IsSubclassOf(typeof(Page)));
 
-            if (parentObject == null)
-                throw new ArgumentNullException(nameof(parentObject));
-
-            Navigation.SetRaiseCanExecuteChangedInternal(Bindable, RaiseCanExecuteChanged);
-
-            if (sourcePage == null && parentObject is Page providedPage)
+            if (sourcePage is null && parentPage != null)
             {
-                SourcePage = providedPage;
+                SourcePage = parentPage;
 
-                if(providedPage.Parent is MasterDetailPage mdp 
-                    && mdp.Master == providedPage)
+                if(parentPage.Parent is MasterDetailPage mdp 
+                    && mdp.Master == parentPage)
                 {
                     SourcePage = mdp;
                 }
             }
+        }
+
+        private IEnumerable<Element> GetBindableStack()
+        {
+            var stack = new List<Element>();
+            if (TargetElement is Element element)
+            {
+                stack.Add(element);
+                while (element.Parent != null)
+                {
+                    element = element.Parent;
+                    stack.Add(element);
+                }
+            }
+
+            return stack;
         }
     }
 }

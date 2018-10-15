@@ -134,5 +134,37 @@ namespace Prism.Unity.Forms.Tests.Fixtures
 
             Assert.IsType<NavigationPage>(app.MainPage);
         }
+
+        [Fact]
+        public void UsesMasterDetailPage_WhenParentIsMaster()
+        {
+            var app = CreateMockApplication();
+
+            var layout = new Button();
+            var serviceProvider = new XamlServiceProvider();
+            serviceProvider.Add(typeof(IProvideValueTarget), new XamlValueTargetProvider(layout, "Command"));
+
+            var navigateExtension = new NavigateToExtension()
+            {
+                Name = "SomeOtherView"
+            };
+            navigateExtension.ProvideValue(serviceProvider);
+
+            app.MainPage = new MasterDetailPage
+            {
+                Master = new ContentPage
+                {
+                    Title = "Test",
+                    Content = layout
+                },
+                Detail = new NavigationPage(new ContentPage())
+            };
+
+            Assert.NotNull(layout.Parent);
+            Assert.IsType<ContentPage>(layout.Parent);
+
+            Assert.NotNull(navigateExtension.SourcePage);
+            Assert.IsType<MasterDetailPage>(navigateExtension.SourcePage);
+        }
     }
 }
