@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,35 +13,35 @@ namespace Prism.Navigation.Xaml
     {
         private IServiceProvider ServiceProvider;
 
-        private Element targetElement;
+        private Element _targetElement;
         protected Element TargetElement
         {
             get
             {
-                if (targetElement == null)
+                if (_targetElement == null)
                 {
                     Initialize();
                 }
-                return targetElement;
+                return _targetElement;
             }
-            set => targetElement = value;
+            set => _targetElement = value;
         }
 
         protected internal bool IsNavigating;
 
-        private Page sourcePage;
+        private Page _sourcePage;
         public Page SourcePage
         {
             protected internal get
             {
-                if(sourcePage == null)
+                if(_sourcePage == null)
                 {
                     Initialize();
                 }
 
-                return sourcePage;
+                return _sourcePage;
             }
-            set => sourcePage = value;
+            set => _sourcePage = value;
         }
 
         public bool CanExecute(object parameter) => !IsNavigating;
@@ -111,7 +110,7 @@ namespace Prism.Navigation.Xaml
                                                                        .GetTypeInfo()
                                                                        .IsSubclassOf(typeof(Page)));
 
-            if (sourcePage is null && parentPage != null)
+            if (_sourcePage is null && parentPage != null)
             {
                 SourcePage = parentPage;
 
