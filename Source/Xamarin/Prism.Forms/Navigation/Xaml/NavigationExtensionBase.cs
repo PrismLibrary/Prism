@@ -9,86 +9,133 @@ using Xamarin.Forms.Xaml;
 
 namespace Prism.Navigation.Xaml
 {
-    public abstract class NavigationExtensionBase : IMarkupExtension, ICommand
+    public abstract class NavigationExtensionBase : IMarkupExtension<ICommand>, ICommand
     {
-        protected BindableObject Bindable;
-        protected IEnumerable<BindableObject> BindableTree;
-        protected bool IsNavigating;
+        private IServiceProvider ServiceProvider;
 
-        public Page SourcePage { protected get; set; }
-
-        public bool CanExecute(object parameter)
+        private Element _targetElement;
+        protected Element TargetElement
         {
-            var canNavigate = true;
-            foreach (var bindableObject in BindableTree)
+            get
             {
-                canNavigate = Navigation.GetCanNavigate(bindableObject);
-                if (!canNavigate) break;
+                if (_targetElement == null)
+                {
+                    Initialize();
+                }
+                return _targetElement;
             }
-
-            return canNavigate && !IsNavigating;
+            set => _targetElement = value;
         }
+
+        protected internal bool IsNavigating;
+
+        private Page _sourcePage;
+        public Page SourcePage
+        {
+            protected internal get
+            {
+                if(_sourcePage == null)
+                {
+                    Initialize();
+                }
+
+                return _sourcePage;
+            }
+            set => _sourcePage = value;
+        }
+
+        public bool CanExecute(object parameter) => !IsNavigating;
 
         public event EventHandler CanExecuteChanged;
 
         public async void Execute(object parameter)
         {
-            var parameters = parameter.ToNavigationParameters(Bindable);
+            var parameters = parameter.ToNavigationParameters(TargetElement);
 
             IsNavigating = true;
-            RaiseCanExecuteChanged();
+            try
+            {
+                RaiseCanExecuteChanged();
 
-            var navigationService = Navigation.GetNavigationService(SourcePage);
-            await HandleNavigation(parameters, navigationService);
-
-            IsNavigating = false;
-            RaiseCanExecuteChanged();
+                var navigationService = Navigation.GetNavigationService(SourcePage);
+                await HandleNavigation(parameters, navigationService);
+            }
+            catch(Exception ex)
+            {
+                Log(ex);
+            }
+            finally
+            {
+                IsNavigating = false;
+                RaiseCanExecuteChanged();
+            }
         }
 
-        public object ProvideValue(IServiceProvider serviceProvider)
+        object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
         {
-            if (serviceProvider == null) throw new ArgumentNullException(nameof(serviceProvider));
-            var valueTargetProvider = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-            var rootObjectProvider = serviceProvider.GetService(typeof(IRootObjectProvider)) as IRootObjectProvider;
-            Initialize(valueTargetProvider, rootObjectProvider);
+            return ProvideValue(serviceProvider);
+        }
+
+        public ICommand ProvideValue(IServiceProvider serviceProvider)
+        {
+            ServiceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             return this;
+        }
+
+        protected virtual void Log(Exception ex)
+        {
+            Xamarin.Forms.Internals.Log.Warning("Warning", $"{GetType().Name} threw an exception");
+            Xamarin.Forms.Internals.Log.Warning("Exception", ex.ToString());
         }
 
         protected abstract Task HandleNavigation(INavigationParameters parameters, INavigationService navigationService);
 
         protected void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
-        private void Initialize(IProvideValueTarget valueTargetProvider, IRootObjectProvider rootObjectProvider)
+        private void Initialize()
         {
-            // if XamlCompilation is active, IRootObjectProvider is not available, but SimpleValueTargetProvider is available
-            // if XamlCompilation is inactive, IRootObjectProvider is available, but SimpleValueTargetProvider is not available
-            object rootObject;
-            //object bindable;
+            var valueTargetProvider = ServiceProvider.GetService<IProvideValueTarget>();
 
-            var propertyInfo = valueTargetProvider.GetType().GetTypeInfo().DeclaredProperties.FirstOrDefault(dp => dp.Name.Contains("ParentObjects"));
-            if (propertyInfo == null) throw new ArgumentNullException("ParentObjects");
-            var parentObjects = (propertyInfo.GetValue(valueTargetProvider) as IEnumerable<object>).ToList();
-            BindableTree = parentObjects.Cast<BindableObject>();
+            if (valueTargetProvider == null)
+                throw new ArgumentException("The ServiceProvider did not provide a 'IProvideValueTarget'");
 
-            if (rootObjectProvider == null && valueTargetProvider == null)
-                throw new ArgumentException("serviceProvider does not provide an IRootObjectProvider or SimpleValueTargetProvider");
-            if (rootObjectProvider == null)
+            TargetElement = valueTargetProvider.TargetObject as Element;
+
+            if (TargetElement is null)
+                throw new ArgumentNullException(nameof(TargetElement));
+
+            Navigation.SetRaiseCanExecuteChangedInternal(TargetElement, RaiseCanExecuteChanged);
+
+            var parentPage = (Page)GetBindableStack().FirstOrDefault(p => p.GetType()
+                                                                       .GetTypeInfo()
+                                                                       .IsSubclassOf(typeof(Page)));
+
+            if (_sourcePage is null && parentPage != null)
             {
-                var parentObject = parentObjects.FirstOrDefault(pO => pO.GetType().GetTypeInfo().IsSubclassOf(typeof(Page)));
+                SourcePage = parentPage;
 
-                Bindable = (BindableObject) parentObjects.FirstOrDefault();
-                rootObject = parentObject ?? throw new ArgumentNullException("parentObject");
+                if(parentPage.Parent is MasterDetailPage mdp 
+                    && mdp.Master == parentPage)
+                {
+                    SourcePage = mdp;
+                }
             }
-            else
+        }
+
+        private IEnumerable<Element> GetBindableStack()
+        {
+            var stack = new List<Element>();
+            if (TargetElement is Element element)
             {
-                rootObject = rootObjectProvider.RootObject;
-                Bindable = (BindableObject) valueTargetProvider.TargetObject;
+                stack.Add(element);
+                while (element.Parent != null)
+                {
+                    element = element.Parent;
+                    stack.Add(element);
+                }
             }
 
-            Navigation.SetRaiseCanExecuteChangedInternal(Bindable, RaiseCanExecuteChanged);
-
-            if (rootObject is Page providedPage)
-                SourcePage = SourcePage ?? providedPage; // allow the user's defined page to take precedence
+            return stack;
         }
     }
 }
