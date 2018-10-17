@@ -31,12 +31,23 @@ namespace Prism.Modularity
         public string ModulePath { get; set; }
 
         /// <summary>
+        /// Search pattern to find DLLs to load.
+        /// </summary>
+        public string SearchPattern { get; set; }
+
+        /// <summary>
         /// Drives the main logic of building the child domain and searching for the assemblies.
         /// </summary>
         protected override void InnerLoad()
         {
             if (string.IsNullOrEmpty(this.ModulePath))
                 throw new InvalidOperationException(Resources.ModulePathCannotBeNullOrEmpty);
+
+            if (string.IsNullOrEmpty(this.SearchPattern))
+                this.SearchPattern = "*.dll";
+
+            if(!this.SearchPattern.EndsWith(".dll"))
+                throw new InvalidOperationException(Resources.SearchPatternMustEndWithDll);
 
             if (!Directory.Exists(this.ModulePath))
                 throw new InvalidOperationException(
@@ -51,7 +62,7 @@ namespace Prism.Modularity
                 var assemblies = (
                                      from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
                                      where !(assembly is System.Reflection.Emit.AssemblyBuilder)
-										&& assembly.GetType().FullName != "System.Reflection.Emit.InternalAssemblyBuilder"
+                                        && assembly.GetType().FullName != "System.Reflection.Emit.InternalAssemblyBuilder"
                                         && !String.IsNullOrEmpty(assembly.Location)
                                      select assembly.Location
                                  );
@@ -66,7 +77,7 @@ namespace Prism.Modularity
                         (InnerModuleInfoLoader)
                         childDomain.CreateInstanceFrom(loaderType.Assembly.Location, loaderType.FullName).Unwrap();
                     loader.LoadAssemblies(loadedAssemblies);
-                    this.Items.AddRange(loader.GetModuleInfos(this.ModulePath));
+                    this.Items.AddRange(loader.GetModuleInfos(this.ModulePath, this.SearchPattern));
                 }
             }
             finally
@@ -104,7 +115,7 @@ namespace Prism.Modularity
         private class InnerModuleInfoLoader : MarshalByRefObject
         {
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-            internal ModuleInfo[] GetModuleInfos(string path)
+            internal ModuleInfo[] GetModuleInfos(string path, string searchPattern)
             {
                 DirectoryInfo directory = new DirectoryInfo(path);
 
@@ -118,19 +129,19 @@ namespace Prism.Modularity
                         asm => asm.FullName == typeof(IModule).Assembly.FullName);
                 Type IModuleType = moduleReflectionOnlyAssembly.GetType(typeof(IModule).FullName);
 
-                IEnumerable<ModuleInfo> modules = GetNotAllreadyLoadedModuleInfos(directory, IModuleType);
+                IEnumerable<ModuleInfo> modules = GetNotAllreadyLoadedModuleInfos(directory, searchPattern, IModuleType);
 
                 var array = modules.ToArray();
                 AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve -= resolveEventHandler;
                 return array;
             }
 
-            private static IEnumerable<ModuleInfo> GetNotAllreadyLoadedModuleInfos(DirectoryInfo directory, Type IModuleType)
+            private static IEnumerable<ModuleInfo> GetNotAllreadyLoadedModuleInfos(DirectoryInfo directory, string searchPattern, Type IModuleType)
             {
                 List<FileInfo> validAssemblies = new List<FileInfo>();
                 Assembly[] alreadyLoadedAssemblies = AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies();
 
-                var fileInfos = directory.GetFiles("*.dll")
+                var fileInfos = directory.GetFiles(searchPattern)
                     .Where(file => alreadyLoadedAssemblies
                                        .FirstOrDefault(
                                        assembly =>

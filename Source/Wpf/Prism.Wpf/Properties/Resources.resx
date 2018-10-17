@@ -254,9 +254,6 @@
   <data name="StringCannotBeNullOrEmpty" xml:space="preserve">
     <value>The provided String argument {0} must not be null or empty.</value>
   </data>
-  <data name="StringCannotBeNullOrEmpty1" xml:space="preserve">
-    <value>The provided String argument {0} must not be null or empty.</value>
-  </data>
   <data name="TypeWithKeyNotRegistered" xml:space="preserve">
     <value>No BehaviorType with key '{0}' was registered.</value>
   </data>
@@ -276,5 +273,8 @@
   </data>
   <data name="MustBeModuleGroupCatalog" xml:space="preserve">
     <value>The ModuleCatalog must implement IModuleGroupCatalog to add groups</value>
+  </data>
+  <data name="SearchPatternMustEndWithDll" xml:space="preserve">
+    <value>The Search Pattern must end with .dll</value>
   </data>
 </root>

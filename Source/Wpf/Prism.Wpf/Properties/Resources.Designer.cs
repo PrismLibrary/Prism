@@ -456,20 +456,19 @@ namespace Prism.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The provided String argument {0} must not be null or empty..
+        ///   Looks up a localized string similar to The Search Pattern must end with .dll.
         /// </summary>
-        internal static string StringCannotBeNullOrEmpty {
+        internal static string SearchPatternMustEndWithDll {
             get {
-                return ResourceManager.GetString("StringCannotBeNullOrEmpty", resourceCulture);
+                return ResourceManager.GetString("SearchPatternMustEndWithDll", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The provided String argument {0} must not be null or empty..
         /// </summary>
-        internal static string StringCannotBeNullOrEmpty1 {
+        internal static string StringCannotBeNullOrEmpty {
             get {
-                return ResourceManager.GetString("StringCannotBeNullOrEmpty1", resourceCulture);
             }
         }
         

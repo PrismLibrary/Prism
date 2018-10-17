@@ -70,6 +70,30 @@ namespace Prism.Wpf.Tests.Modularity
         }
 
         [TestMethod]
+        public void NonExistentSearchPathDefaults()
+        {
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory1
+            };
+            catalog.Load();
+
+            Assert.AreEqual("*.dll", catalog.SearchPattern);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void IncorrectSearchPathSuffixThrows()
+        {
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory1,
+                SearchPattern = "*.dl"
+            };
+            catalog.Load();
+        }
+
+        [TestMethod]
         public void ShouldReturnAListOfModuleInfo()
         {
             CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
