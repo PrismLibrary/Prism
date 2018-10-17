@@ -469,6 +469,7 @@ namespace Prism.Properties {
         /// </summary>
         internal static string StringCannotBeNullOrEmpty {
             get {
+                return ResourceManager.GetString("StringCannotBeNullOrEmpty", resourceCulture);
             }
         }
         
