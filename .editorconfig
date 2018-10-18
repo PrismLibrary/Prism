@@ -9,6 +9,12 @@ end_of_line = CRLF
 [*.cs]
 indent_style = space
 indent_size = 4
+csharp_style_expression_bodied_methods = false
+csharp_style_expression_bodied_constructors = false
+csharp_style_expression_bodied_operators = false
+csharp_style_expression_bodied_properties = false
+csharp_style_expression_bodied_indexers = false
+csharp_style_expression_bodied_accessors = false
 
 [*.csproj]
 indent_style = space
