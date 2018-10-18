@@ -3,13 +3,13 @@ using Prism.Tests.Mocks.ViewModels;
 
 namespace Prism.Tests.Mvvm
 {
-    public class BindableBaseFixture
+    public class ChangingBindableBaseFixture
     {
         [Fact]
         public void SetPropertyMethodShouldSetTheNewValue()
         {
             int value = 10;
-            MockViewModel mockViewModel = new MockViewModel();
+            MockChangingViewModel mockViewModel = new MockChangingViewModel();
 
             Assert.Equal(0, mockViewModel.MockProperty);
 
@@ -22,10 +22,10 @@ namespace Prism.Tests.Mvvm
         {
             bool invoked = false;
             int value = 10, newValue = 10;
-            MockViewModel mockViewModel = new MockViewModel();
+            MockChangingViewModel mockViewModel = new MockChangingViewModel();
             mockViewModel.MockProperty = value;
 
-            mockViewModel.PropertyChanged += (o, e) => { if (e.PropertyName.Equals("MockProperty")) invoked = true; };
+            mockViewModel.PropertyChanging += (o, e) => { if (e.PropertyName.Equals("MockProperty")) invoked = true; };
             mockViewModel.MockProperty = newValue;
 
             Assert.False(invoked);
@@ -33,12 +33,12 @@ namespace Prism.Tests.Mvvm
         }
 
         [Fact]
-        public void SetPropertyMethodShouldRaisePropertyChanged()
+        public void SetPropertyMethodShouldRaisePropertyChanging()
         {
             bool invoked = false;
-            MockViewModel mockViewModel = new MockViewModel();
+            MockChangingViewModel mockViewModel = new MockChangingViewModel();
 
-            mockViewModel.PropertyChanged += (o, e) => { if (e.PropertyName.Equals("MockProperty")) invoked = true; };
+            mockViewModel.PropertyChanging += (o, e) => { if (e.PropertyName.Equals("MockProperty")) invoked = true; };
             mockViewModel.MockProperty = 10;
 
             Assert.True(invoked);
@@ -48,10 +48,10 @@ namespace Prism.Tests.Mvvm
         public void OnPropertyChangedShouldExtractPropertyNameCorrectly()
         {
             bool invoked = false;
-            MockViewModel mockViewModel = new MockViewModel();
+            MockChangingViewModel mockViewModel = new MockChangingViewModel();
 
-            mockViewModel.PropertyChanged += (o, e) => { if (e.PropertyName.Equals("MockProperty")) invoked = true; };
-            mockViewModel.InvokeOnPropertyChanged();
+            mockViewModel.PropertyChanging += (o, e) => { if (e.PropertyName.Equals("MockProperty")) invoked = true; };
+            mockViewModel.InvokeOnPropertyChanging();
 
             Assert.True(invoked);
         }

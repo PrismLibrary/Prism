@@ -1,10 +1,10 @@
-
+﻿
 
 using Prism.Mvvm;
 
 namespace Prism.Tests.Mocks.ViewModels
 {
-    public class MockViewModel : BindableBase
+    public class MockChangingViewModel : ChangingBindableBase
     {
         private int mockProperty;
 
@@ -21,9 +21,9 @@ namespace Prism.Tests.Mocks.ViewModels
             }
         }
 
-        internal void InvokeOnPropertyChanged()
+        internal void InvokeOnPropertyChanging()
         {
-			RaisePropertyChanged(nameof(MockProperty));
+            RaisePropertyChanging(nameof(MockProperty));
         }
     }
 }

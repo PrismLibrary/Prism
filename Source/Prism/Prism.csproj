@@ -32,6 +32,11 @@
     <None Include="**\*.Desktop.cs" />
   </ItemGroup>
 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.0' ">
+    <Compile Remove="**\ChangingBindableBase.cs" />
+    <None Include="**\ChangingBindableBase.cs" />
+  </ItemGroup>
+  
   <ItemGroup>
     <Compile Condition=" '$(TargetFramework)' == 'net45' " Remove="Navigation/**" />
     <Compile Update="Properties\Resources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Resources.resx" />
