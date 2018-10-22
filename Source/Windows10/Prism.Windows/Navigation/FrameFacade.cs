@@ -94,19 +94,22 @@ namespace Prism.Navigation
                 });
         }
 
+        public INavigationParameters CurrentParameters { get; private set; }
+
         public async Task<INavigationResult> RefreshAsync()
         {
             _logger.Log("FrameFacade.RefreshAsync()", Category.Info, Priority.Low);
 
+            var original = _frame.BackStackDepth;
+            var state = _frame.GetNavigationState();
+
             return await OrchestrateAsync(
-                parameters: null,
+                parameters: CurrentParameters,
                 mode: NavigationMode.Refresh,
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
                 navigate: async () =>
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
                 {
-                    var original = _frame.BackStackDepth;
-                    var state = _frame.GetNavigationState();
                     _frame.SetNavigationState(state);
                     return Equals(_frame.BackStackDepth, original);
                 });
@@ -208,7 +211,8 @@ namespace Prism.Navigation
         {
             // setup default parameters
 
-            parameters = CreateDefaultParameters(parameters, mode);
+            CurrentParameters = parameters;
+            parameters = UpdateInternalParameters(parameters, mode);
 
             // pre-events
 
@@ -263,6 +267,11 @@ namespace Prism.Navigation
                     // TODO: I wonder if I need to delay for a second?
 
                     new_vm = new_page.DataContext;
+
+                    if (new_vm != null)
+                    {
+                        _logger.Log($"View-Model: {new_vm} found for target View: {new_page}.", Category.Info, Priority.None);
+                    }
                 }
             }
 
@@ -401,7 +410,7 @@ namespace Prism.Navigation
             }
         }
 
-        private INavigationParameters CreateDefaultParameters(INavigationParameters parameters, Prism.Navigation.NavigationMode mode)
+        private INavigationParameters UpdateInternalParameters(INavigationParameters parameters, Prism.Navigation.NavigationMode mode)
         {
             parameters = parameters ?? new NavigationParameters();
             parameters.SetNavigationMode(mode);

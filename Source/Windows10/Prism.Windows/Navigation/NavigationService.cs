@@ -33,7 +33,7 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="gestures">Optional default getures tied to this Frame</param>
         /// <returns>IPlatformNavigationService</returns>
-        public static IPlatformNavigationService Create(params Gestures[] gestures)
+        public static IPlatformNavigationService Create(params Gesture[] gestures)
         {
             return Create(new Frame(), Window.Current.CoreWindow, gestures);
         }
@@ -44,7 +44,7 @@ namespace Prism.Navigation
         /// <param name="frame">Required XAML Frame</param>
         /// <param name="gestures">Optional default getures tied to this Frame</param>
         /// <returns>IPlatformNavigationService</returns>
-        public static IPlatformNavigationService Create(Frame frame, params Gestures[] gestures)
+        public static IPlatformNavigationService Create(Frame frame, params Gesture[] gestures)
         {
             return Create(frame, Window.Current.CoreWindow, gestures);
         }
@@ -54,7 +54,7 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="gestures">Optional default getures tied to this Frame</param>
         /// <returns>IPlatformNavigationService</returns>
-        public static IPlatformNavigationService Create(CoreWindow window, params Gestures[] gestures)
+        public static IPlatformNavigationService Create(CoreWindow window, params Gesture[] gestures)
         {
             return Create(new Frame(), window, gestures);
         }
@@ -65,7 +65,7 @@ namespace Prism.Navigation
         /// <param name="frame">Required XAML Frame</param>
         /// <param name="gestures">Optional default getures tied to this Frame</param>
         /// <returns>IPlatformNavigationService</returns>
-        public static IPlatformNavigationService Create(Frame frame, CoreWindow window, params Gestures[] gestures)
+        public static IPlatformNavigationService Create(Frame frame, CoreWindow window, params Gesture[] gestures)
         {
             frame = frame ?? new Frame();
             var gesture_service = GestureService.GetForCurrentView(window);
@@ -74,13 +74,13 @@ namespace Prism.Navigation
             {
                 switch (gesture)
                 {
-                    case Gestures.Back:
+                    case Gesture.Back:
                         gesture_service.BackRequested += async (s, e) => await navigation_service.GoBackAsync();
                         break;
-                    case Gestures.Forward:
+                    case Gesture.Forward:
                         gesture_service.ForwardRequested += async (s, e) => await navigation_service.GoForwardAsync();
                         break;
-                    case Gestures.Refresh:
+                    case Gesture.Refresh:
                         gesture_service.RefreshRequested += async (s, e) => await navigation_service.RefreshAsync();
                         break;
                 }

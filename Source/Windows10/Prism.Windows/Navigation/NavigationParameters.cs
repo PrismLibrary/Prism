@@ -35,7 +35,7 @@ namespace Prism.Navigation
         }
 
         Dictionary<string, object> _external = new Dictionary<string, object>();
-        Dictionary<string, object> _internal = new Dictionary<string, object>();
+        internal Dictionary<string, object> _internal = new Dictionary<string, object>();
 
         public object this[string key]
              => _external[key];
@@ -110,5 +110,4 @@ namespace Prism.Navigation
             return default(T);
         }
     }
-
 }
