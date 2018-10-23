@@ -607,6 +607,9 @@ namespace Prism.Navigation
                 await ProcessNavigation(newDetail, segments, parameters, newDetail is NavigationPage ? false : true, animated);
                 await DoNavigateAction(detail, nextSegment, newDetail, parameters, onNavigationActionCompleted: () =>
                 {
+                    if (detailIsNavPage)
+                        OnNavigatedFrom(((NavigationPage)detail).CurrentPage, parameters);
+
                     currentPage.IsPresented = isPresented;
                     currentPage.Detail = newDetail;
                     PageUtilities.DestroyPage(detail);
