@@ -14,13 +14,14 @@ namespace Prism.Navigation
             return ((service as IPlatformNavigationService2).FrameFacade as IFrameFacade2).Frame;
         }
 
-        public static void SetAsWindowContent(this INavigationService service, Window window, bool activate)
+        public static INavigationService SetAsWindowContent(this INavigationService service, Window window, bool activate)
         {
             window.Content = service.GetXamlFrame();
             if (activate)
             {
                 window.Activate();
             }
+            return service;
         }
 
         public static async Task<INavigationResult> NavigateAsync(this INavigationService service, string path, params (string Name, string Value)[] parameters)
