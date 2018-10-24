@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -11,6 +12,16 @@ namespace Prism.Navigation
         internal static Frame GetXamlFrame(this INavigationService service)
         {
             return ((service as IPlatformNavigationService2).FrameFacade as IFrameFacade2).Frame;
+        }
+
+        public static INavigationService SetAsWindowContent(this INavigationService service, Window window, bool activate)
+        {
+            window.Content = service.GetXamlFrame();
+            if (activate)
+            {
+                window.Activate();
+            }
+            return service;
         }
 
         public static async Task<INavigationResult> NavigateAsync(this INavigationService service, string path, params (string Name, string Value)[] parameters)
