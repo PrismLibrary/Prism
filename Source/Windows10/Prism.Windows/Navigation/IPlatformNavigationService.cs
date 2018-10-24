@@ -20,7 +20,5 @@ namespace Prism.Navigation
 
         Task<INavigationResult> NavigateAsync(string path, INavigationParameters parameter, NavigationTransitionInfo infoOverride);
         Task<INavigationResult> NavigateAsync(Uri path, INavigationParameters parameter, NavigationTransitionInfo infoOverride);
-
-        void SetAsWindowContent(Window window, bool activate);
     }
 }
