@@ -88,7 +88,7 @@ namespace Prism.Navigation
             return navigation_service;
         }
 
-        public static INavigationService Create(Frame frame)
+        public static IPlatformNavigationService Create(Frame frame)
         {
             return new NavigationService(frame);
         }
