@@ -2,13 +2,11 @@
 using Prism.Ioc;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Input;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
 namespace Prism.Services

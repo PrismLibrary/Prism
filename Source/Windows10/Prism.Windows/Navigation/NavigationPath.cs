@@ -1,5 +1,4 @@
-﻿using Prism.Navigation;
-using System;
+﻿using System;
 using System.Linq;
 using Windows.Foundation;
 

@@ -1,7 +1,4 @@
-﻿using System;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.UI.Core;
+﻿using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 
 namespace Prism

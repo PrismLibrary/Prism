@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Windows.UI.Xaml.Markup;
+﻿using Windows.UI.Xaml.Markup;
 
 namespace Prism.Modularity
 {
