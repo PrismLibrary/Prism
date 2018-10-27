@@ -2,7 +2,7 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.15063;uap10.0.16299</TargetFrameworks>
+    <TargetFrameworks>uap10.0.16299;uap10.0.17134;uap10.0.17763</TargetFrameworks>
     <Title>Unity for Prism for UWP</Title>
     <DebugType>pdbonly</DebugType>
     <!-- Summary is not actually supported at this time. Including the summary for future support. -->
