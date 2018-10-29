@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Prism.Modularity
+﻿namespace Prism.Modularity
 {
     /// <summary>
     /// <see cref="IModuleCatalog"/>  extensions.

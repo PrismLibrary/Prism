@@ -1,10 +1,6 @@
 ﻿using Prism.Mvvm;
 using Prism.Navigation;
 using System;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.UI.Core;
-using Windows.UI.Xaml.Navigation;
 
 namespace Prism.Ioc
 {
@@ -28,6 +24,5 @@ namespace Prism.Ioc
             => Register(registry, typeof(TView).Name, typeof(TView), null);
         public static void RegisterForNavigation<TView>(this IContainerRegistry registry, string key)
             => Register(registry, key, typeof(TView), null);
-       
     }
 }

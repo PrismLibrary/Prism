@@ -1,10 +1,4 @@
-﻿using Prism;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Prism.Ioc
+﻿namespace Prism.Ioc
 {
     /// <summary>
     /// Provides Types and Services registered with the Container

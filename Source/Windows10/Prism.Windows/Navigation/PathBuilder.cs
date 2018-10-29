@@ -1,8 +1,6 @@
-﻿using Prism.Navigation;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 
 namespace Prism.Navigation
 {
