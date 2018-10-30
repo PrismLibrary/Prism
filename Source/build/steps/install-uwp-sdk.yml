@@ -1,0 +1,3 @@
+steps:
+- powershell: .\Source\build\Install-WindowsSdkISO.ps1 17763
+  displayName: Insider SDK

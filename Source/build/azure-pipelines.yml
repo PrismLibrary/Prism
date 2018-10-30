@@ -1,7 +1,6 @@
 trigger:
 - master
 - rel/*
-- devops
 
 name: $(Build.BuildId)
 
@@ -13,6 +12,8 @@ variables:
   BuildConfiguration: 'Release'
 
 steps:
+- template: steps/install-uwp-sdk.yml
+
 - template: steps/build.yml
   parameters:
     solution: Source/PrismLibrary.sln
