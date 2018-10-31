@@ -195,7 +195,7 @@ namespace Prism
         /// </summary>
         protected virtual void OnInitialized()
         {
-            MainWindow.Show();
+            MainWindow?.Show();
         }
 
         /// <summary>
