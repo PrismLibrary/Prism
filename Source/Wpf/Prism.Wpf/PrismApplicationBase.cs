@@ -86,8 +86,9 @@ namespace Prism
                 RegionManager.SetRegionManager(shell, _containerExtension.Resolve<IRegionManager>());
                 RegionManager.UpdateRegions();
                 InitializeShell(shell);
-                InitializeModules();
             }
+			
+            InitializeModules();
         }
 
         /// <summary>
