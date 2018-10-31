@@ -86,8 +86,9 @@ namespace Prism
                 RegionManager.SetRegionManager(shell, _containerExtension.Resolve<IRegionManager>());
                 RegionManager.UpdateRegions();
                 InitializeShell(shell);
-                InitializeModules();
             }
+			
+            InitializeModules();
         }
 
         /// <summary>
@@ -195,7 +196,7 @@ namespace Prism
         /// </summary>
         protected virtual void OnInitialized()
         {
-            MainWindow.Show();
+            MainWindow?.Show();
         }
 
         /// <summary>
