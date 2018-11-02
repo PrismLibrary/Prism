@@ -9,7 +9,6 @@ using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Modularity
 {
-
     public class ConfigurationModuleCatalogFixture
     {
         [Fact]

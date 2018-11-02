@@ -2,7 +2,7 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>net4.5</TargetFramework>
+    <TargetFramework>net45</TargetFramework>
     <RootNamespace>Prism.StructureMap</RootNamespace>
     <PackageId>Prism.StructureMap</PackageId>
     <SignAssembly>false</SignAssembly>

@@ -7,7 +7,7 @@ using Prism.Mvvm;
 
 namespace Prism.Unity.Wpf.Tests
 {
-    
+    [Collection("ServiceLocator")]
     public class UnityViewModelLocatorFixture
     {
         [StaFact]

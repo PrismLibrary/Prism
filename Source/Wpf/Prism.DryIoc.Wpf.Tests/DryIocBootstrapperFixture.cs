@@ -15,7 +15,7 @@ using Prism.DryIoc;
 
 namespace Prism.DryIoc.Wpf.Tests
 {
-    
+    [Collection("ServiceLocator")]
     public class DryIocBootstrapperFixture : BootstrapperFixtureBase
     {
         [StaFact]

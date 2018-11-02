@@ -17,7 +17,7 @@ using CommonServiceLocator;
 
 namespace Prism.Unity.Wpf.Tests
 {
-    
+    [Collection("ServiceLocator")]
     public class UnityBootstrapperFixture: BootstrapperFixtureBase
     {
         [StaFact]

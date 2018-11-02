@@ -14,7 +14,7 @@ using CommonServiceLocator;
 
 namespace Prism.StructureMap.Wpf.Tests
 {
-    
+    [Collection("ServiceLocator")]
     public class StructureMapBootstrapperFixture: BootstrapperFixtureBase
     {
         [StaFact]

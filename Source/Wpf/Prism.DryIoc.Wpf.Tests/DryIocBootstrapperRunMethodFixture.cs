@@ -9,7 +9,7 @@ using Prism.Regions;
 
 namespace Prism.DryIoc.Wpf.Tests
 {
-    
+    [Collection("ServiceLocator")]
     public class DryIocBootstrapperRunMethodFixture
     {
         [StaFact]

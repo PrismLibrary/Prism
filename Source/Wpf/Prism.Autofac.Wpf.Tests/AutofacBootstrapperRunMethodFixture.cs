@@ -9,7 +9,7 @@ using Prism.Regions;
 
 namespace Prism.Autofac.Wpf.Tests
 {
-    
+    [Collection("ServiceLocator")]
     public class AutofacBootstrapperRunMethodFixture
     {
         [StaFact]

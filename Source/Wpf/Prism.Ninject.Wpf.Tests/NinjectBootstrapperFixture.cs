@@ -9,7 +9,7 @@ using Prism.Regions;
 
 namespace Prism.Ninject.Wpf.Tests
 {
-    
+    [Collection("ServiceLocator")]
     public class NinjectBootstrapperFixture : BootstrapperFixtureBase
     {
         [StaFact]

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Prism</RootNamespace>
-    <TargetFramework>net4.5</TargetFramework>
+    <TargetFramework>net45</TargetFramework>
     <!--<Summary>Prism libraries related to user interface composition, regions, and modularity for WPF.</Summary>-->
     <Description>Prism is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices.  Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms; WPF, Windows 10 UWP, and Xamarin Forms. Features that need to be platform specific are implemented in the respective libraries for the target platform.
 
@@ -37,6 +37,18 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
   
   <ItemGroup>
     <Content Include="..\System.Windows.Interactivity.dll" Pack="true" PackagePath="lib\net45" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="Interactivity\DefaultPopupWindows\DefaultConfirmationWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Interactivity\DefaultPopupWindows\DefaultNotificationWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Interactivity\DefaultPopupWindows\DefaultWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
 
 </Project>

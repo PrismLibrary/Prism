@@ -15,7 +15,7 @@ using Unity.Lifetime;
 
 namespace Prism.Unity.Wpf.Tests
 {
-    
+    [Collection("ServiceLocator")]
     public class UnityBootstrapperRunMethodFixture
     {
         [StaFact]

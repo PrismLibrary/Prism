@@ -12,7 +12,6 @@ using Prism.Modularity;
 
 namespace Prism.Wpf.Tests.Modularity
 {
-    
     public class DirectoryModuleCatalogFixture : IDisposable
     {
         private const string ModulesDirectory1 = @".\DynamicModules\MocksModules1";

@@ -8,7 +8,7 @@ using Prism.Events;
 
 namespace Prism.StructureMap.Wpf.Tests
 {
-    
+    [Collection("ServiceLocator")]
     public class StructureMapBootstrapperRunMethodFixture
     {
         [StaFact]
