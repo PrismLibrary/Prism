@@ -3,16 +3,16 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    [TestClass]
+    
     public class RegionAdapterMappingsFixture
     {
-        [TestMethod]
+        [Fact]
         public void ShouldGetRegisteredMapping()
         {
             var regionAdapterMappings = new RegionAdapterMappings();
@@ -22,11 +22,11 @@ namespace Prism.Wpf.Tests.Regions
             regionAdapterMappings.RegisterMapping(registeredType, regionAdapter);
             var returnedAdapter = regionAdapterMappings.GetMapping(registeredType);
 
-            Assert.IsNotNull(returnedAdapter);
-            Assert.AreSame(regionAdapter, returnedAdapter);
+            Assert.NotNull(returnedAdapter);
+            Assert.Same(regionAdapter, returnedAdapter);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldGetMappingForDerivedTypesThanTheRegisteredOnes()
         {
             var regionAdapterMappings = new RegionAdapterMappings();
@@ -35,19 +35,22 @@ namespace Prism.Wpf.Tests.Regions
             regionAdapterMappings.RegisterMapping(typeof(ItemsControl), regionAdapter);
             var returnedAdapter = regionAdapterMappings.GetMapping(typeof(ItemsControlDescendant));
 
-            Assert.IsNotNull(returnedAdapter);
-            Assert.AreSame(regionAdapter, returnedAdapter);
+            Assert.NotNull(returnedAdapter);
+            Assert.Same(regionAdapter, returnedAdapter);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(KeyNotFoundException))]
+        [Fact]
         public void GetMappingOfUnregisteredTypeThrows()
         {
-            var regionAdapterMappings = new RegionAdapterMappings();
-            regionAdapterMappings.GetMapping(typeof(object));
+            var ex = Assert.Throws<KeyNotFoundException>(() =>
+            {
+                var regionAdapterMappings = new RegionAdapterMappings();
+                regionAdapterMappings.GetMapping(typeof(object));
+            });
+
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldGetTheMostSpecializedMapping()
         {
             var regionAdapterMappings = new RegionAdapterMappings();
@@ -58,38 +61,47 @@ namespace Prism.Wpf.Tests.Regions
             regionAdapterMappings.RegisterMapping(typeof(ItemsControlDescendant), specializedAdapter);
             var returnedAdapter = regionAdapterMappings.GetMapping(typeof(ItemsControlDescendant));
 
-            Assert.IsNotNull(returnedAdapter);
-            Assert.AreSame(specializedAdapter, returnedAdapter);
+            Assert.NotNull(returnedAdapter);
+            Assert.Same(specializedAdapter, returnedAdapter);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Fact]
         public void RegisterAMappingThatAlreadyExistsThrows()
         {
-            var regionAdapterMappings = new RegionAdapterMappings();
-            var regionAdapter = new MockRegionAdapter();
+            var ex = Assert.Throws<InvalidOperationException>(() =>
+            {
+                var regionAdapterMappings = new RegionAdapterMappings();
+                var regionAdapter = new MockRegionAdapter();
 
-            regionAdapterMappings.RegisterMapping(typeof(ItemsControl), regionAdapter);
-            regionAdapterMappings.RegisterMapping(typeof(ItemsControl), regionAdapter);
+                regionAdapterMappings.RegisterMapping(typeof(ItemsControl), regionAdapter);
+                regionAdapterMappings.RegisterMapping(typeof(ItemsControl), regionAdapter);
+            });
+
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NullControlThrows()
         {
-            var regionAdapterMappings = new RegionAdapterMappings();
-            var regionAdapter = new MockRegionAdapter();
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                var regionAdapterMappings = new RegionAdapterMappings();
+                var regionAdapter = new MockRegionAdapter();
 
-            regionAdapterMappings.RegisterMapping(null, regionAdapter);
+                regionAdapterMappings.RegisterMapping(null, regionAdapter);
+            });
+
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NullAdapterThrows()
         {
-            var regionAdapterMappings = new RegionAdapterMappings();
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                var regionAdapterMappings = new RegionAdapterMappings();
 
-            regionAdapterMappings.RegisterMapping(typeof(ItemsControl), null);
+                regionAdapterMappings.RegisterMapping(typeof(ItemsControl), null);
+            });
+
         }
 
         class ItemsControlDescendant : ItemsControl { }

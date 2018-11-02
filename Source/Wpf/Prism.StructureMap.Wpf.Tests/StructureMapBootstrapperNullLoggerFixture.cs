@@ -1,15 +1,15 @@
 using System;
 using System.Windows;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.Logging;
 
 namespace Prism.StructureMap.Wpf.Tests
 {
-    [TestClass]
+    
     public class StructureMapBootstrapperNullLoggerFixture : BootstrapperFixtureBase
     {
-        [TestMethod]
+        [Fact]
         public void NullLoggerThrows()
         {
             var bootstrapper = new NullLoggerBootstrapper();

@@ -1,24 +1,24 @@
 
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Modularity;
 
 namespace Prism.Wpf.Tests.Modularity
 {
-    [TestClass]
+    
     public class ModuleInfoGroupFixture
     {
-        [TestMethod]
+        [Fact]
         public void ShouldForwardValuesToModuleInfo()
         {
             ModuleInfoGroup group = new ModuleInfoGroup();
             group.Ref = "MyCustomGroupRef";
             ModuleInfo moduleInfo = new ModuleInfo();
-            Assert.IsNull(moduleInfo.Ref);
+            Assert.Null(moduleInfo.Ref);
 
             group.Add(moduleInfo);
 
-            Assert.AreEqual(group.Ref, moduleInfo.Ref);
+            Assert.Equal(group.Ref, moduleInfo.Ref);
         }
     }
 }

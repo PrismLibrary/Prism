@@ -3,7 +3,7 @@
 using System.Linq;
 using CommonServiceLocator;
 using Unity;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks.Views;
 using Prism.Regions;
@@ -11,10 +11,10 @@ using Prism.Unity.Wpf.Tests.Mocks;
 
 namespace Prism.Unity.Wpf.Tests
 {
-    [TestClass]
+    
     public class UnityRegionNavigationContentLoaderFixture
     {
-        [TestMethod]
+        [Fact]
         public void ShouldFindCandidateViewInRegion()
         {
             IUnityContainer container = new UnityContainer();
@@ -32,13 +32,13 @@ namespace Prism.Unity.Wpf.Tests
 
             testRegion.RequestNavigate("MockView");
 
-            Assert.IsTrue(testRegion.Views.Contains(view));
-            Assert.IsTrue(testRegion.Views.Count() == 1);
-            Assert.IsTrue(testRegion.ActiveViews.Count() == 1);
-            Assert.IsTrue(testRegion.ActiveViews.Contains(view));
+            Assert.True(testRegion.Views.Contains(view));
+            Assert.True(testRegion.Views.Count() == 1);
+            Assert.True(testRegion.ActiveViews.Count() == 1);
+            Assert.True(testRegion.ActiveViews.Contains(view));
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldFindCandidateViewWithFriendlyNameInRegion()
         {
             IUnityContainer container = new UnityContainer();
@@ -56,9 +56,9 @@ namespace Prism.Unity.Wpf.Tests
 
             testRegion.RequestNavigate("SomeView");
 
-            Assert.IsTrue(testRegion.Views.Contains(view));
-            Assert.IsTrue(testRegion.ActiveViews.Count() == 1);
-            Assert.IsTrue(testRegion.ActiveViews.Contains(view));
+            Assert.True(testRegion.Views.Contains(view));
+            Assert.True(testRegion.ActiveViews.Count() == 1);
+            Assert.True(testRegion.ActiveViews.Contains(view));
         }
 
         public void ConfigureMockServiceLocator(IUnityContainer container)

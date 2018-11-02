@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 using Prism.Regions;
 using System.Linq;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    [TestClass]
+    
     public class NavigationParametersFixture
     {
         const string _uri = "?id=3&name=brian";
@@ -12,191 +12,191 @@ namespace Prism.Wpf.Tests.Regions
         const string _uriWithArray = "color=red&color=white&color=blue";
         const string _uriWithJQueryArray = "color[]=red&color[]=white&color[]=blue";
 
-        [TestMethod]
+        [Fact]
         public void ParametersParsedFromQuery()
         {
             var parameters = new NavigationParameters(_uri);
-            Assert.AreEqual(2, parameters.Count);
-            Assert.IsTrue(parameters.ContainsKey("id"));
-            Assert.AreEqual("3", parameters["id"]);
-            Assert.IsTrue(parameters.ContainsKey("name"));
-            Assert.AreEqual("brian", parameters["name"]);
+            Assert.Equal(2, parameters.Count);
+            Assert.True(parameters.ContainsKey("id"));
+            Assert.Equal("3", parameters["id"]);
+            Assert.True(parameters.ContainsKey("name"));
+            Assert.Equal("brian", parameters["name"]);
         }
 
-        [TestMethod]
+        [Fact]
         public void ParametersParsedFromQueryWithNoQuestionMarkDelimiter()
         {
             var parameters = new NavigationParameters(_uriWithNoQuestionMarkDelimiter);
-            Assert.AreEqual(2, parameters.Count);
-            Assert.IsTrue(parameters.ContainsKey("id"));
-            Assert.AreEqual("3", parameters["id"]);
-            Assert.IsTrue(parameters.ContainsKey("name"));
-            Assert.AreEqual("brian", parameters["name"]);
+            Assert.Equal(2, parameters.Count);
+            Assert.True(parameters.ContainsKey("id"));
+            Assert.Equal("3", parameters["id"]);
+            Assert.True(parameters.ContainsKey("name"));
+            Assert.Equal("brian", parameters["name"]);
         }
 
-        [TestMethod]
+        [Fact]
         public void ParametersParsedFromQueryWithArray()
         {
             var parameters = new NavigationParameters(_uriWithArray);
-            Assert.AreEqual(3, parameters.Count);
-            CollectionAssert.Contains(parameters.Keys.ToArray(), "color");
+            Assert.Equal(3, parameters.Count);
+            Assert.Contains("color", parameters.Keys.ToArray());
         }
 
-        [TestMethod]
+        [Fact]
         public void ParametersParsedFromQueryWithJQueryArray()
         {
             var parameters = new NavigationParameters(_uriWithJQueryArray);
-            Assert.AreEqual(3, parameters.Count);
-            CollectionAssert.Contains(parameters.Keys.ToArray(), "color[]");
+            Assert.Equal(3, parameters.Count);
+            Assert.Contains( "color[]", parameters.Keys.ToArray());
         }
 
-        [TestMethod]
+        [Fact]
         public void EmptyNavigationParametersWhenGivenNull()
         {
             var parameters = new NavigationParameters(null);
-            Assert.IsNotNull(parameters);
-            Assert.AreEqual(0, parameters.Count);
+            Assert.NotNull(parameters);
+            Assert.Equal(0, parameters.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void EmptyNavigationParametersWhenGivenSpace()
         {
             var parameters = new NavigationParameters(" ");
-            Assert.IsNotNull(parameters);
-            Assert.AreEqual(0, parameters.Count);
+            Assert.NotNull(parameters);
+            Assert.Equal(0, parameters.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void EmptyNavigationParametersWhenGivenNoValue()
         {
             var parameters = new NavigationParameters("id");
-            Assert.IsNotNull(parameters);
-            Assert.AreEqual(0, parameters.Count);
+            Assert.NotNull(parameters);
+            Assert.Equal(0, parameters.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void ParametersHaveNoKeysWhenEmpty()
         {
             var parameters = new NavigationParameters();
-            Assert.AreEqual(0, parameters.Keys.Count());
+            Assert.Empty(parameters.Keys);
         }
 
-        [TestMethod]
+        [Fact]
         public void CountIsZeroWhenParametersAreEmpty()
         {
             var parameters = new NavigationParameters();
-            Assert.AreEqual(0, parameters.Count);
+            Assert.Equal(0, parameters.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void CountReturnsNumberOfParameters()
         {
             var parameters = new NavigationParameters($"{_uri}&{_uriWithArray}");
-            Assert.AreEqual(5, parameters.Count);
+            Assert.Equal(5, parameters.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValueReturnsDefaultWhenGivenInvalidKey()
         {
             var parameters = new NavigationParameters();
             var result = parameters.GetValue<int>("id");
-            Assert.AreEqual(default(int), result);
+            Assert.Equal(default(int), result);
         }
 
-        [TestMethod]
+        [Fact]
         public void TryGetValueReturnsDefaultWhenGivenInvalidKey()
         {
             var parameters = new NavigationParameters();
             int value;
             var result = parameters.TryGetValue("id", out value);
-            Assert.AreEqual(false, result);
-            Assert.AreEqual(default(int), value);
+            Assert.False(result);
+            Assert.Equal(default(int), value);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValueReturnsDefaultWhenParameterValueIsNull()
         {
             var parameters = new NavigationParameters();
             parameters.Add("value", null);
             var result = parameters.GetValue<int>("value");
-            Assert.AreEqual(0, result);
+            Assert.Equal(0, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void TryGetValueReturnsDefaultWhenParameterValueIsNull()
         {
             var parameters = new NavigationParameters();
             parameters.Add("value", null);
             int value;
             var result = parameters.TryGetValue("value", out value);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(0, value);
+            Assert.True(result);
+            Assert.Equal(0, value);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValueReturnsTypedParameterWhenParametersParsedFromQuery()
         {
             var parameters = new NavigationParameters(_uri);
             var result = parameters.GetValue<int>("id");
-            Assert.IsInstanceOfType(result, typeof(int));
-            Assert.AreEqual(3, result);
+            Assert.IsType<int>(result);
+            Assert.Equal(3, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void TryGetValueReturnsTypedParameterWhenParametersParsedFromQuery()
         {
             var parameters = new NavigationParameters(_uri);
             int value;
             var result = parameters.TryGetValue("id", out value);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(3, value);
+            Assert.True(result);
+            Assert.Equal(3, value);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValueReturnsNullWhenParameterValueIsNull()
         {
             var parameters = new NavigationParameters();
             parameters.Add("value", null);
             var result = parameters.GetValue<object>("value");
-            Assert.IsNull(result);
+            Assert.Null(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValuesReturnsEmptyArrayWhenGivenNoKey()
         {
             var parameters = new NavigationParameters();
             var result = parameters.GetValues<object>(null);
-            Assert.AreEqual(0, result.Count());
+            Assert.Empty(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValuesReturnsEmptyArrayWhenGivenEmptyKey()
         {
             var parameters = new NavigationParameters();
             var result = parameters.GetValues<object>(string.Empty);
-            Assert.AreEqual(0, result.Count());
+            Assert.Empty(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValuesReturnsEmptyArrayWhenParametersParsedFromQueryWithInvalidKey()
         {
             var parameters = new NavigationParameters(_uriWithArray);
             var result = parameters.GetValues<object>("id");
-            Assert.AreEqual(0, result.Count());
+            Assert.Empty(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValuesReturnsArrayWhenParametersParsedFromQuery()
         {
             var parameters = new NavigationParameters(_uriWithArray);
             var result = parameters.GetValues<object>("color");
-            Assert.AreEqual(3, result.Count());
-            Assert.IsTrue(result.Contains("red"));
-            Assert.IsTrue(result.Contains("white"));
-            Assert.IsTrue(result.Contains("blue"));
+            Assert.Equal(3, result.Count());
+            Assert.Contains("red", result);
+            Assert.Contains("white", result);
+            Assert.Contains("blue", result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValuesReturnsArrayWhenNotUsingQuery()
         {
             var parameters = new NavigationParameters();
@@ -204,45 +204,45 @@ namespace Prism.Wpf.Tests.Regions
             parameters.Add("id", new Person());
             parameters.Add("id", null);
             var result = parameters.GetValues<Person>("id").ToArray();
-            Assert.AreEqual(3, result.Count());
-            Assert.IsInstanceOfType(result[0], typeof(Person));
-            Assert.IsInstanceOfType(result[1], typeof(Person));
-            Assert.IsNull(result[2]);
+            Assert.Equal(3, result.Count());
+            Assert.IsType<Person>(result[0]);
+            Assert.IsType<Person>(result[1]);
+            Assert.Null(result[2]);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValuesConvertsValuesToStringWhenGivenUriQuery()
         {
             var parameters = new NavigationParameters(_uriWithArray);
             var result = parameters.GetValues<string>("color").ToArray();
-            Assert.AreEqual(3, result.Count());
+            Assert.Equal(3, result.Count());
 
-            Assert.IsInstanceOfType(result[0], typeof(string));
-            Assert.IsInstanceOfType(result[1], typeof(string));
-            Assert.IsInstanceOfType(result[2], typeof(string));
+            Assert.IsType<string>(result[0]);
+            Assert.IsType<string>(result[1]);
+            Assert.IsType<string>(result[2]);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValuesConvertsValuesToIntWhenGivenUriQuery()
         {
             var parameters = new NavigationParameters("id=1&id=2&id=3");
             var result = parameters.GetValues<int>("id").ToArray();
-            Assert.AreEqual(3, result.Count());
-            Assert.IsInstanceOfType(result[0], typeof(int));
-            Assert.IsInstanceOfType(result[1], typeof(int));
-            Assert.IsInstanceOfType(result[2], typeof(int));
+            Assert.Equal(3, result.Count());
+            Assert.IsType<int>(result[0]);
+            Assert.IsType<int>(result[1]);
+            Assert.IsType<int>(result[2]);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValueUseParentClassAsTypeParameter()
         {
             var parameters = new NavigationParameters();
             parameters.Add("id", new Child());
 
-            Assert.IsNotNull(parameters.GetValue<Person>("id"));
+            Assert.NotNull(parameters.GetValue<Person>("id"));
         }
 
-        [TestMethod]
+        [Fact]
         public void TryGetValueUseParentClassAsTypeParameter()
         {
             var parameters = new NavigationParameters();
@@ -250,11 +250,11 @@ namespace Prism.Wpf.Tests.Regions
 
             Person value;
             var result = parameters.TryGetValue<Person>("id", out value);
-            Assert.IsTrue(result);
-            Assert.IsInstanceOfType(value, typeof(Child));
+            Assert.True(result);
+            Assert.IsType<Child>(value);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValuesUseParentClassAsTypeParameter()
         {
             var parameters = new NavigationParameters();
@@ -264,13 +264,13 @@ namespace Prism.Wpf.Tests.Regions
 
             var result = parameters.GetValues<Person>("id").ToArray();
 
-            Assert.AreEqual(3, result.Count());
-            Assert.IsNotNull(result[0]);
-            Assert.IsNotNull(result[1]);
-            Assert.IsNotNull(result[2]);
+            Assert.Equal(3, result.Count());
+            Assert.NotNull(result[0]);
+            Assert.NotNull(result[1]);
+            Assert.NotNull(result[2]);
         }
 
-        [TestMethod]
+        [Fact]
         public void ToStringWorksWithNullParameterValues()
         {
             var parameters = new NavigationParameters();
@@ -280,7 +280,7 @@ namespace Prism.Wpf.Tests.Regions
 
             var result = parameters.ToString();
 
-            Assert.AreEqual("?id1=1&id2=&id3=3", result);
+            Assert.Equal("?id1=1&id2=&id3=3", result);
         }
     }
 

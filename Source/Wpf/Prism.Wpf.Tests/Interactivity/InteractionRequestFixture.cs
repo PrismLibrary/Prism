@@ -1,15 +1,15 @@
 
 
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Interactivity.InteractionRequest;
 
 namespace Prism.Wpf.Tests.Interactivity
 {
-    [TestClass]
+    
     public class InteractionRequestFixture
     {
-        [TestMethod]
+        [Fact]
         public void WhenANotificationIsRequested_ThenTheEventIsRaisedWithTheSuppliedContext()
         {
             var request = new InteractionRequest<Notification>();
@@ -20,10 +20,10 @@ namespace Prism.Wpf.Tests.Interactivity
 
             request.Raise(context, c => { });
 
-            Assert.AreSame(context, suppliedContext);
+            Assert.Same(context, suppliedContext);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenTheEventCallbackIsExecuted_ThenTheNotifyCallbackIsInvokedWithTheSuppliedContext()
         {
             var request = new InteractionRequest<Notification>();
@@ -37,7 +37,7 @@ namespace Prism.Wpf.Tests.Interactivity
 
             eventCallback();
 
-            Assert.AreSame(context, suppliedContext);
+            Assert.Same(context, suppliedContext);
         }
     }
 }

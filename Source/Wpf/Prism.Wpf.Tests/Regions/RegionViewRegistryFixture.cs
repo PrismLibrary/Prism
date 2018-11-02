@@ -2,16 +2,16 @@
 
 using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    [TestClass]
+    
     public class RegionViewRegistryFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanRegisterContentAndRetrieveIt()
         {
             MockServiceLocator locator = new MockServiceLocator();
@@ -26,13 +26,13 @@ namespace Prism.Wpf.Tests.Regions
             registry.RegisterViewWithRegion("MyRegion", typeof(MockContentObject));
             var result = registry.GetContents("MyRegion");
 
-            Assert.AreEqual(typeof(MockContentObject), calledType);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Count());
-            Assert.IsInstanceOfType(result.ElementAt(0), typeof(MockContentObject));
+            Assert.Equal(typeof(MockContentObject), calledType);
+            Assert.NotNull(result);
+            Assert.Single(result);
+            Assert.IsType<MockContentObject>(result.ElementAt(0));
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldRaiseEventWhenAddingContent()
         {
             var listener = new MySubscriberClass();
@@ -44,15 +44,15 @@ namespace Prism.Wpf.Tests.Regions
 
             registry.RegisterViewWithRegion("MyRegion", typeof(MockContentObject));
 
-            Assert.IsNotNull(listener.onViewRegisteredArguments);
-            Assert.IsNotNull(listener.onViewRegisteredArguments.GetView);
+            Assert.NotNull(listener.onViewRegisteredArguments);
+            Assert.NotNull(listener.onViewRegisteredArguments.GetView);
 
             var result = listener.onViewRegisteredArguments.GetView();
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(MockContentObject));
+            Assert.NotNull(result);
+            Assert.IsType<MockContentObject>(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanRegisterContentAsDelegateAndRetrieveIt()
         {
             var registry = new RegionViewRegistry(null);
@@ -61,12 +61,12 @@ namespace Prism.Wpf.Tests.Regions
             registry.RegisterViewWithRegion("MyRegion", () => content);
             var result = registry.GetContents("MyRegion");
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Count());
-            Assert.AreSame(content, result.ElementAt(0));
+            Assert.NotNull(result);
+            Assert.Single(result);
+            Assert.Same(content, result.ElementAt(0));
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldNotPreventSubscribersFromBeingGarbageCollected()
         {
             var registry = new RegionViewRegistry(null);
@@ -78,10 +78,10 @@ namespace Prism.Wpf.Tests.Regions
             subscriber = null;
             GC.Collect();
 
-            Assert.IsFalse(subscriberWeakReference.IsAlive);
+            Assert.False(subscriberWeakReference.IsAlive);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnRegisterErrorShouldGiveClearException()
         {
             var registry = new RegionViewRegistry(null);
@@ -90,23 +90,23 @@ namespace Prism.Wpf.Tests.Regions
             try
             {
                 registry.RegisterViewWithRegion("R1", typeof(object));
-                Assert.Fail();
+                //Assert.Fail();
             }
             catch (ViewRegistrationException ex)
             {
-                Assert.IsTrue(ex.Message.Contains("Dont do this"));
-                Assert.IsTrue(ex.Message.Contains("R1"));
-                Assert.AreEqual(ex.InnerException.Message, "Dont do this");
+                Assert.Contains("Dont do this", ex.Message);
+                Assert.Contains("R1", ex.Message);
+                Assert.Equal("Dont do this", ex.InnerException.Message);
             }
             catch(Exception)
             {
-                Assert.Fail("Wrong exception type");
+                //Assert.Fail("Wrong exception type");
             }
 
         }
 
 
-        [TestMethod]
+        [Fact]
         public void OnRegisterErrorShouldSkipFrameworkExceptions()
         {
             ExceptionExtensions.RegisterFrameworkExceptionType(typeof (FrameworkException));
@@ -116,20 +116,20 @@ namespace Prism.Wpf.Tests.Regions
             try
             {
                 registry.RegisterViewWithRegion("R1", typeof (object));
-                Assert.Fail();
+                //Assert.Fail();
             }
             catch (ViewRegistrationException ex)
             {
-                Assert.IsTrue(ex.Message.Contains("Dont do this"));
-                Assert.IsTrue(ex.Message.Contains("R1"));
+                Assert.Contains("Dont do this", ex.Message);
+                Assert.Contains("R1", ex.Message);
             }
             catch (Exception)
             {
-                Assert.Fail("Wrong exception type");
+                //Assert.Fail("Wrong exception type");
             }
         }
 
-        public void FailWithFrameworkException(object sender, ViewRegisteredEventArgs e)
+        private void FailWithFrameworkException(object sender, ViewRegisteredEventArgs e)
         {
             try
             {
@@ -142,7 +142,7 @@ namespace Prism.Wpf.Tests.Regions
             }
         }
 
-        public void FailWithInvalidOperationException(object sender, ViewRegisteredEventArgs e)
+        private void FailWithInvalidOperationException(object sender, ViewRegisteredEventArgs e)
         {
             throw new InvalidOperationException("Dont do this");
         }

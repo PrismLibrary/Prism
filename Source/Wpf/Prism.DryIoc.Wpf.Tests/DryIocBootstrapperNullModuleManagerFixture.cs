@@ -1,22 +1,22 @@
 ﻿using System.Windows;
 using DryIoc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Logging;
 using Prism.Regions;
 
 namespace Prism.DryIoc.Wpf.Tests
 {
-    [TestClass]
+    
     public class DryIocBootstrapperNullModuleManagerFixture
     {
-        [TestMethod]
+        [Fact]
         public void RunShouldNotCallInitializeModulesWhenModuleManagerNotFound()
         {
             var bootstrapper = new NullModuleManagerBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsFalse(bootstrapper.InitializeModulesCalled);
+            Assert.False(bootstrapper.InitializeModulesCalled);
         }
 
         private class NullModuleManagerBootstrapper : DryIocBootstrapper

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Windows;
 using Autofac;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support;
 
 namespace Prism.Autofac.Wpf.Tests
 {
-    [TestClass]
+    
     public class AutofacBootstrapperNullContainerFixture : BootstrapperFixtureBase
     {
-        [TestMethod]
+        [Fact]
         public void RunThrowsWhenNullContainerBuilderCreated()
         {
             var bootstrapper = new NullContainerBuilderBootstrapper();
@@ -17,7 +17,7 @@ namespace Prism.Autofac.Wpf.Tests
             AssertExceptionThrownOnRun(bootstrapper, typeof(InvalidOperationException), "ContainerBuilder");
         }
 
-        [TestMethod]
+        [Fact]
         public void RunThrowsWhenNullContainerCreated()
         {
             var bootstrapper = new NullContainerBootstrapper();

@@ -1,16 +1,16 @@
 
 
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Prism.Regions;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    [TestClass]
+    
     public class NavigationAsyncExtensionsFixture
     {
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingWithANullThis_ThenThrows()
         {
             INavigateAsync navigate = null;
@@ -23,7 +23,7 @@ namespace Prism.Wpf.Tests.Regions
                 });
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingWithANullStringTarget_ThenThrows()
         {
             INavigateAsync navigate = new Mock<INavigateAsync>().Object;
@@ -36,7 +36,7 @@ namespace Prism.Wpf.Tests.Regions
                 });
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingWithARelativeStringTarget_ThenNavigatesToRelativeUri()
         {
             var navigateMock = new Mock<INavigateAsync>();
@@ -54,7 +54,7 @@ namespace Prism.Wpf.Tests.Regions
             navigateMock.VerifyAll();
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingWithAnAbsoluteStringTarget_ThenNavigatesToAbsoluteUri()
         {
             var navigateMock = new Mock<INavigateAsync>();
@@ -72,7 +72,7 @@ namespace Prism.Wpf.Tests.Regions
             navigateMock.VerifyAll();
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingWithANullThisAndAUri_ThenThrows()
         {
             INavigateAsync navigate = null;
@@ -85,7 +85,7 @@ namespace Prism.Wpf.Tests.Regions
                 });
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingWithAUri_ThenNavigatesToUriWithCallback()
         {
             Uri target = new Uri("relative", UriKind.Relative);

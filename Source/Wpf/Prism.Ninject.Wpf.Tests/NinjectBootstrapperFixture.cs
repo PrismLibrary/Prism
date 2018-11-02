@@ -1,5 +1,5 @@
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Ninject;
 using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.Logging;
@@ -9,57 +9,57 @@ using Prism.Regions;
 
 namespace Prism.Ninject.Wpf.Tests
 {
-    [TestClass]
+    
     public class NinjectBootstrapperFixture : BootstrapperFixtureBase
     {
-        [TestMethod]
+        [Fact]
         public void KernelDefaultsToNull()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
             var kernel = bootstrapper.Kernel;
 
-            Assert.IsNull(kernel);
+            Assert.Null(kernel);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanCreateConcreteBootstrapper()
         {
             new DefaultNinjectBootstrapper();
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateKernelShouldInitializeKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             IKernel kernel = bootstrapper.CallCreateKernel();
 
-            Assert.IsNotNull(kernel);
-            Assert.IsInstanceOfType(kernel, typeof(IKernel));
+            Assert.NotNull(kernel);
+            Assert.IsAssignableFrom<IKernel>(kernel);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureKernelAddsModuleCatalogToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
             bootstrapper.Run();
 
             var returnedCatalog = bootstrapper.Kernel.Get<IModuleCatalog>();
-            Assert.IsNotNull(returnedCatalog);
-            Assert.IsTrue(returnedCatalog is ModuleCatalog);
+            Assert.NotNull(returnedCatalog);
+            Assert.True(returnedCatalog is ModuleCatalog);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureKernelAddsLoggerFacadeToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
             bootstrapper.Run();
 
             var returnedCatalog = bootstrapper.Kernel.Get<ILoggerFacade>();
-            Assert.IsNotNull(returnedCatalog);
+            Assert.NotNull(returnedCatalog);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureKernelAddsRegionNavigationJournalEntryToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -68,12 +68,12 @@ namespace Prism.Ninject.Wpf.Tests
             var actual1 = bootstrapper.Kernel.Get<IRegionNavigationJournalEntry>();
             var actual2 = bootstrapper.Kernel.Get<IRegionNavigationJournalEntry>();
 
-            Assert.IsNotNull(actual1);
-            Assert.IsNotNull(actual2);
-            Assert.AreNotSame(actual1, actual2);
+            Assert.NotNull(actual1);
+            Assert.NotNull(actual2);
+            Assert.NotSame(actual1, actual2);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureKernelAddsRegionNavigationJournalToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -82,12 +82,12 @@ namespace Prism.Ninject.Wpf.Tests
             var actual1 = bootstrapper.Kernel.Get<IRegionNavigationJournal>();
             var actual2 = bootstrapper.Kernel.Get<IRegionNavigationJournal>();
 
-            Assert.IsNotNull(actual1);
-            Assert.IsNotNull(actual2);
-            Assert.AreNotSame(actual1, actual2);
+            Assert.NotNull(actual1);
+            Assert.NotNull(actual2);
+            Assert.NotSame(actual1, actual2);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureKernelAddsRegionNavigationServiceToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -96,12 +96,12 @@ namespace Prism.Ninject.Wpf.Tests
             var actual1 = bootstrapper.Kernel.Get<IRegionNavigationService>();
             var actual2 = bootstrapper.Kernel.Get<IRegionNavigationService>();
 
-            Assert.IsNotNull(actual1);
-            Assert.IsNotNull(actual2);
-            Assert.AreNotSame(actual1, actual2);
+            Assert.NotNull(actual1);
+            Assert.NotNull(actual2);
+            Assert.NotSame(actual1, actual2);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureKernelAddsNavigationTargetHandlerToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -110,19 +110,19 @@ namespace Prism.Ninject.Wpf.Tests
             var actual1 = bootstrapper.Kernel.Get<IRegionNavigationContentLoader>();
             var actual2 = bootstrapper.Kernel.Get<IRegionNavigationContentLoader>();
 
-            Assert.IsNotNull(actual1);
-            Assert.IsNotNull(actual2);
-            Assert.AreSame(actual1, actual2);
+            Assert.NotNull(actual1);
+            Assert.NotNull(actual2);
+            Assert.Same(actual1, actual2);
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisterFrameworkExceptionTypesShouldRegisterActivationException()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             bootstrapper.CallRegisterFrameworkExceptionTypes();
 
-            Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
+            Assert.True(ExceptionExtensions.IsFrameworkExceptionRegistered(
                 typeof(ActivationException)));
         }
     }

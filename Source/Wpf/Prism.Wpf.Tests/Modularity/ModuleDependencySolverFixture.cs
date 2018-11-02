@@ -2,87 +2,98 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Modularity;
 
 namespace Prism.Wpf.Tests.Modularity
 {
-    [TestClass]
+    
     public class ModuleDependencySolverFixture
     {
         private ModuleDependencySolver solver;
 
-        [TestInitialize]
-        public void Setup()
+        public ModuleDependencySolverFixture()
         {
             solver = new ModuleDependencySolver();
         }
 
-        [TestMethod]
+        [Fact]
         public void ModuleDependencySolverIsAvailable()
         {
-            Assert.IsNotNull(solver);
+            Assert.NotNull(solver);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanAddModuleName()
         {
             solver.AddModule("ModuleA");
-            Assert.AreEqual(1, solver.ModuleCount);
+            Assert.Equal(1, solver.ModuleCount);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void CannotAddNullModuleName()
         {
-            solver.AddModule(null);
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                solver.AddModule(null);
+            });
+            
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void CannotAddEmptyModuleName()
         {
-            solver.AddModule(String.Empty);
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                solver.AddModule(String.Empty);
+            });
+            
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void CannotAddDependencyWithoutAddingModule()
         {
-            solver.AddDependency("ModuleA", "ModuleB");
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                solver.AddDependency("ModuleA", "ModuleB");
+            });
+            
         }
 
-        [TestMethod]
+        [Fact]
         public void CanAddModuleDepedency()
         {
             solver.AddModule("ModuleA");
             solver.AddModule("ModuleB");
             solver.AddDependency("ModuleB", "ModuleA");
-            Assert.AreEqual(2, solver.ModuleCount);
+            Assert.Equal(2, solver.ModuleCount);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanSolveAcyclicDependencies()
         {
             solver.AddModule("ModuleA");
             solver.AddModule("ModuleB");
             solver.AddDependency("ModuleB", "ModuleA");
             string[] result = solver.Solve();
-            Assert.AreEqual(2, result.Length);
-            Assert.AreEqual("ModuleA", result[0]);
-            Assert.AreEqual("ModuleB", result[1]);
+            Assert.Equal(2, result.Length);
+            Assert.Equal("ModuleA", result[0]);
+            Assert.Equal("ModuleB", result[1]);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(CyclicDependencyFoundException))]
+        [Fact]
         public void FailsWithSimpleCycle()
         {
-            solver.AddModule("ModuleB");
-            solver.AddDependency("ModuleB", "ModuleB");
-            string[] result = solver.Solve();
+            var ex = Assert.Throws<CyclicDependencyFoundException>(() =>
+            {
+                solver.AddModule("ModuleB");
+                solver.AddDependency("ModuleB", "ModuleB");
+                string[] result = solver.Solve();
+            });
+
         }
 
-        [TestMethod]
+        [Fact]
         public void CanSolveForest()
         {
             solver.AddModule("ModuleA");
@@ -95,40 +106,46 @@ namespace Prism.Wpf.Tests.Modularity
             solver.AddDependency("ModuleB", "ModuleA");
             solver.AddDependency("ModuleE", "ModuleD");
             string[] result = solver.Solve();
-            Assert.AreEqual(6, result.Length);
+            Assert.Equal(6, result.Length);
             List<string> test = new List<string>(result);
-            Assert.IsTrue(test.IndexOf("ModuleA") < test.IndexOf("ModuleB"));
-            Assert.IsTrue(test.IndexOf("ModuleB") < test.IndexOf("ModuleC"));
-            Assert.IsTrue(test.IndexOf("ModuleD") < test.IndexOf("ModuleE"));
+            Assert.True(test.IndexOf("ModuleA") < test.IndexOf("ModuleB"));
+            Assert.True(test.IndexOf("ModuleB") < test.IndexOf("ModuleC"));
+            Assert.True(test.IndexOf("ModuleD") < test.IndexOf("ModuleE"));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(CyclicDependencyFoundException))]
+        [Fact]
         public void FailsWithComplexCycle()
         {
-            solver.AddModule("ModuleA");
-            solver.AddModule("ModuleB");
-            solver.AddModule("ModuleC");
-            solver.AddModule("ModuleD");
-            solver.AddModule("ModuleE");
-            solver.AddModule("ModuleF");
-            solver.AddDependency("ModuleC", "ModuleB");
-            solver.AddDependency("ModuleB", "ModuleA");
-            solver.AddDependency("ModuleE", "ModuleD");
-            solver.AddDependency("ModuleE", "ModuleC");
-            solver.AddDependency("ModuleF", "ModuleE");
-            solver.AddDependency("ModuleD", "ModuleF");
-            solver.AddDependency("ModuleB", "ModuleD");
-            solver.Solve();
+            var ex = Assert.Throws<CyclicDependencyFoundException>(() =>
+            {
+                solver.AddModule("ModuleA");
+                solver.AddModule("ModuleB");
+                solver.AddModule("ModuleC");
+                solver.AddModule("ModuleD");
+                solver.AddModule("ModuleE");
+                solver.AddModule("ModuleF");
+                solver.AddDependency("ModuleC", "ModuleB");
+                solver.AddDependency("ModuleB", "ModuleA");
+                solver.AddDependency("ModuleE", "ModuleD");
+                solver.AddDependency("ModuleE", "ModuleC");
+                solver.AddDependency("ModuleF", "ModuleE");
+                solver.AddDependency("ModuleD", "ModuleF");
+                solver.AddDependency("ModuleB", "ModuleD");
+                solver.Solve();
+            });
+
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ModularityException))]
+        [Fact]
         public void FailsWithMissingModule()
         {
-            solver.AddModule("ModuleA");
-            solver.AddDependency("ModuleA", "ModuleB");
-            solver.Solve();
+            var ex = Assert.Throws<ModularityException>(() =>
+            {
+                solver.AddModule("ModuleA");
+                solver.AddDependency("ModuleA", "ModuleB");
+                solver.Solve();
+            });
+
         }
     }
 }

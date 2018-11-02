@@ -1,15 +1,15 @@
 using System;
 using System.Windows;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Ninject;
 using Prism.IocContainer.Wpf.Tests.Support;
 
 namespace Prism.Ninject.Wpf.Tests
 {
-    [TestClass]
+    
     public class NinjectBootstrapperNullKernelFixture : BootstrapperFixtureBase
     {
-        [TestMethod]
+        [Fact]
         public void RunThrowsWhenNullKernelCreated()
         {
             var bootstrapper = new NullKernelBootstrapper();

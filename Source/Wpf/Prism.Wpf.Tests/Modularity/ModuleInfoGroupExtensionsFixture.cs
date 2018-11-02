@@ -2,7 +2,7 @@
 
 using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Ioc;
 using Prism.Modularity;
 
@@ -11,39 +11,42 @@ namespace Prism.Wpf.Tests.Modularity
     /// <summary>
     /// Summary description for ModuleInfoGroupExtensionsFixture
     /// </summary>
-    [TestClass]
+    
     public class ModuleInfoGroupExtensionsFixture
     {
-        [TestMethod]
+        [Fact]
         public void ShouldAddModuleToModuleInfoGroup()
         {
             string moduleName = "MockModule";
             ModuleInfoGroup groupInfo = new ModuleInfoGroup();
             groupInfo.AddModule(moduleName, typeof(MockModule));
 
-            Assert.AreEqual<int>(1, groupInfo.Count);
-            Assert.AreEqual<string>(moduleName, groupInfo.ElementAt(0).ModuleName);
+            Assert.Single(groupInfo);
+            Assert.Equal(moduleName, groupInfo.ElementAt(0).ModuleName);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldSetModuleTypeCorrectly()
         {
             ModuleInfoGroup groupInfo = new ModuleInfoGroup();
             groupInfo.AddModule("MockModule", typeof(MockModule));
 
-            Assert.AreEqual<int>(1, groupInfo.Count);
-            Assert.AreEqual<string>(typeof(MockModule).AssemblyQualifiedName, groupInfo.ElementAt(0).ModuleType);
+            Assert.Single(groupInfo);
+            Assert.Equal(typeof(MockModule).AssemblyQualifiedName, groupInfo.ElementAt(0).ModuleType);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NullTypeThrows()
         {
-            ModuleInfoGroup groupInfo = new ModuleInfoGroup();
-            groupInfo.AddModule("NullModule", null);
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                ModuleInfoGroup groupInfo = new ModuleInfoGroup();
+                groupInfo.AddModule("NullModule", null);
+            });
+
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldSetDependencies()
         {
             string dependency1 = "ModuleA";
@@ -52,20 +55,20 @@ namespace Prism.Wpf.Tests.Modularity
             ModuleInfoGroup groupInfo = new ModuleInfoGroup();
             groupInfo.AddModule("MockModule", typeof(MockModule), dependency1, dependency2);
 
-            Assert.IsNotNull(groupInfo.ElementAt(0).DependsOn);
-            Assert.AreEqual(2, groupInfo.ElementAt(0).DependsOn.Count);
-            Assert.IsTrue(groupInfo.ElementAt(0).DependsOn.Contains(dependency1));
-            Assert.IsTrue(groupInfo.ElementAt(0).DependsOn.Contains(dependency2));
+            Assert.NotNull(groupInfo.ElementAt(0).DependsOn);
+            Assert.Equal(2, groupInfo.ElementAt(0).DependsOn.Count);
+            Assert.Contains(dependency1, groupInfo.ElementAt(0).DependsOn);
+            Assert.Contains(dependency2, groupInfo.ElementAt(0).DependsOn);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldUseTypeNameIfNoNameSpecified()
         {
             ModuleInfoGroup groupInfo = new ModuleInfoGroup();
             groupInfo.AddModule(typeof(MockModule));
 
-            Assert.AreEqual<int>(1, groupInfo.Count);
-            Assert.AreEqual<string>(typeof(MockModule).Name, groupInfo.ElementAt(0).ModuleName);
+            Assert.Single(groupInfo);
+            Assert.Equal(typeof(MockModule).Name, groupInfo.ElementAt(0).ModuleName);
         }
 
 

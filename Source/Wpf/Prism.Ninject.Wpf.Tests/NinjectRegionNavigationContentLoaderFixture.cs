@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using CommonServiceLocator;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Ninject;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks.Views;
 using Prism.Ninject.Wpf.Tests.Mocks;
@@ -8,10 +8,10 @@ using Prism.Regions;
 
 namespace Prism.Ninject.Wpf.Tests
 {
-    [TestClass]
+    
     public class NinjectRegionNavigationContentLoaderFixture
     {
-        [TestMethod]
+        [Fact]
         public void ShouldFindCandidateViewInRegion()
         {
             IKernel kernel = new StandardKernel();
@@ -27,13 +27,13 @@ namespace Prism.Ninject.Wpf.Tests
 
             testRegion.RequestNavigate("MockView");
 
-            Assert.IsTrue(testRegion.Views.Contains(view));
-            Assert.IsTrue(testRegion.Views.Count() == 1);
-            Assert.IsTrue(testRegion.ActiveViews.Count() == 1);
-            Assert.IsTrue(testRegion.ActiveViews.Contains(view));
+            Assert.True(testRegion.Views.Contains(view));
+            Assert.True(testRegion.Views.Count() == 1);
+            Assert.True(testRegion.ActiveViews.Count() == 1);
+            Assert.True(testRegion.ActiveViews.Contains(view));
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldFindCandidateViewWithFriendlyNameInRegion()
         {
             IKernel kernel = new StandardKernel();
@@ -49,9 +49,9 @@ namespace Prism.Ninject.Wpf.Tests
 
             testRegion.RequestNavigate("SomeView");
 
-            Assert.IsTrue(testRegion.Views.Contains(view));
-            Assert.IsTrue(testRegion.ActiveViews.Count() == 1);
-            Assert.IsTrue(testRegion.ActiveViews.Contains(view));
+            Assert.True(testRegion.Views.Contains(view));
+            Assert.True(testRegion.ActiveViews.Count() == 1);
+            Assert.True(testRegion.ActiveViews.Contains(view));
         }
 
         public void ConfigureMockServiceLocator(IKernel kernel)

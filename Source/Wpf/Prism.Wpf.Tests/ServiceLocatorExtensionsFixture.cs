@@ -3,41 +3,41 @@
 using System;
 using System.Collections.Generic;
 using CommonServiceLocator;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Prism.Wpf.Tests
 {
-    [TestClass]
+    
     public class ServiceLocatorExtensionsFixture
     {
-        [TestMethod]
+        [Fact]
         public void TryResolveShouldReturnNullIfNotFound()
         {
             IServiceLocator sl = new MockServiceLocator(() => null);
 
             object value = sl.TryResolve(typeof(ServiceLocatorExtensionsFixture));
 
-            Assert.IsNull(value);
+            Assert.Null(value);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldResolveFoundtypes()
         {
             IServiceLocator sl = new MockServiceLocator(() => new ServiceLocatorExtensionsFixture());
 
             object value = sl.TryResolve(typeof(ServiceLocatorExtensionsFixture));
 
-            Assert.IsNotNull(value);
+            Assert.NotNull(value);
         }
 
-        [TestMethod]
+        [Fact]
         public void GenericTryResolveShouldReturn()
         {
             IServiceLocator sl = new MockServiceLocator(() => new ServiceLocatorExtensionsFixture());
 
             ServiceLocatorExtensionsFixture value = sl.TryResolve<ServiceLocatorExtensionsFixture>();
 
-            Assert.IsNotNull(value);
+            Assert.NotNull(value);
         }
 
         internal class MockServiceLocator : ServiceLocatorImplBase
