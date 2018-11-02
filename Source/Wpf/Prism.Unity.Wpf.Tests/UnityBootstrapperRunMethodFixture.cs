@@ -18,21 +18,21 @@ namespace Prism.Unity.Wpf.Tests
     
     public class UnityBootstrapperRunMethodFixture
     {
-        [Fact]
+        [StaFact]
         public void CanRunBootstrapper()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
             bootstrapper.Run();
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldNotFailIfReturnedNullShell()
         {
             var bootstrapper = new DefaultUnityBootstrapper { ShellObject = null };
             bootstrapper.Run();
         }
 
-        [Fact]
+        [StaFact]
         public void RunConfiguresServiceLocatorProvider()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -41,7 +41,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(CommonServiceLocator.ServiceLocator.Current is UnityServiceLocatorAdapter);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldInitializeContainer()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -57,7 +57,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.IsType<UnityContainer>(container);
         }
 
-        [Fact]
+        [StaFact]
         public void RunAddsCompositionContainerToContainer()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -68,7 +68,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.Equal(typeof(UnityContainer), returnedContainer.GetType());
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallInitializeModules()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -77,7 +77,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(bootstrapper.InitializeModulesCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureDefaultRegionBehaviors()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -87,7 +87,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(bootstrapper.ConfigureDefaultRegionBehaviorsCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureRegionAdapterMappings()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -97,7 +97,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(bootstrapper.ConfigureRegionAdapterMappingsCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldAssignRegionManagerToReturnedShell()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -107,7 +107,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.NotNull(RegionManager.GetRegionManager(bootstrapper.BaseShell));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateLogger()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -117,7 +117,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(bootstrapper.CreateLoggerCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateModuleCatalog()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -127,7 +127,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(bootstrapper.CreateModuleCatalogCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureModuleCatalog()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -137,7 +137,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(bootstrapper.ConfigureModuleCatalogCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateContainer()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -147,7 +147,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(bootstrapper.CreateContainerCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateShell()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -157,7 +157,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(bootstrapper.CreateShellCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureContainer()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -167,7 +167,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(bootstrapper.ConfigureContainerCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureServiceLocator()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -177,7 +177,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(bootstrapper.ConfigureServiceLocatorCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureViewModelLocator()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -187,7 +187,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(bootstrapper.ConfigureViewModelLocatorCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersInstanceOfILoggerFacade()
         {
             var mockedContainer = new Mock<IUnityContainer>();
@@ -201,7 +201,7 @@ namespace Prism.Unity.Wpf.Tests
             mockedContainer.Verify(c => c.RegisterInstance(typeof(ILoggerFacade), null, bootstrapper.BaseLogger, It.IsAny<LifetimeManager>()), Times.Once());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersInstanceOfIModuleCatalog()
         {
             var mockedContainer = new Mock<IUnityContainer>();
@@ -214,7 +214,7 @@ namespace Prism.Unity.Wpf.Tests
             mockedContainer.Verify(c => c.RegisterInstance(typeof(IModuleCatalog), null, It.IsAny<object>(), It.IsAny<LifetimeManager>()), Times.Once());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIServiceLocator()
         {
             var mockedContainer = new Mock<IUnityContainer>();
@@ -227,7 +227,7 @@ namespace Prism.Unity.Wpf.Tests
             mockedContainer.Verify(c => c.RegisterType(typeof(IServiceLocator), typeof(UnityServiceLocatorAdapter), null, It.IsAny<LifetimeManager>()), Times.Once());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIModuleInitializer()
         {
             var mockedContainer = new Mock<IUnityContainer>();
@@ -240,7 +240,7 @@ namespace Prism.Unity.Wpf.Tests
             mockedContainer.Verify(c => c.RegisterType(typeof(IModuleInitializer), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Once());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIRegionManager()
         {
             var mockedContainer = new Mock<IUnityContainer>();
@@ -253,7 +253,7 @@ namespace Prism.Unity.Wpf.Tests
             mockedContainer.Verify(c => c.RegisterType(typeof(IRegionManager), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Once());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForRegionAdapterMappings()
         {
             var mockedContainer = new Mock<IUnityContainer>();
@@ -266,7 +266,7 @@ namespace Prism.Unity.Wpf.Tests
             mockedContainer.Verify(c => c.RegisterType(typeof(RegionAdapterMappings), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Once());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIRegionViewRegistry()
         {
             var mockedContainer = new Mock<IUnityContainer>();
@@ -279,7 +279,7 @@ namespace Prism.Unity.Wpf.Tests
             mockedContainer.Verify(c => c.RegisterType(typeof(IRegionViewRegistry), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Once());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIRegionBehaviorFactory()
         {
             var mockedContainer = new Mock<IUnityContainer>();
@@ -292,7 +292,7 @@ namespace Prism.Unity.Wpf.Tests
             mockedContainer.Verify(c => c.RegisterType(typeof(IRegionBehaviorFactory), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Once());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIEventAggregator()
         {
             var mockedContainer = new Mock<IUnityContainer>();
@@ -305,7 +305,7 @@ namespace Prism.Unity.Wpf.Tests
             mockedContainer.Verify(c => c.RegisterType(typeof(IEventAggregator), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Once());
         }
 
-        [Fact]
+        [StaFact]
         public void RunFalseShouldNotRegisterDefaultServicesAndTypes()
         {
             var mockedContainer = new Mock<IUnityContainer>();
@@ -321,7 +321,7 @@ namespace Prism.Unity.Wpf.Tests
             mockedContainer.Verify(c => c.RegisterType(typeof(IModuleInitializer), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Never());
         }
 
-        [Fact]
+        [StaFact]
         public void ModuleManagerRunCalled()
         {
             // Have to use a non-mocked container because of IsRegistered<> extension method, Registrations property,and ContainerRegistration
@@ -361,7 +361,7 @@ namespace Prism.Unity.Wpf.Tests
             mockedModuleManager.Verify(mm => mm.Run(), Times.Once());
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallTheMethodsInOrder()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -382,7 +382,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.Equal("InitializeModules", bootstrapper.MethodCalls[12]);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogBootstrapperSteps()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -408,7 +408,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.Contains("Bootstrapper sequence completed.", messages[16]);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogLoggerCreationSuccess()
         {
             const string expectedMessageText = "Logger was created successfully.";
@@ -418,7 +418,7 @@ namespace Prism.Unity.Wpf.Tests
 
             Assert.True(messages.Contains(expectedMessageText));
         }
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutModuleCatalogCreation()
         {
             const string expectedMessageText = "Creating module catalog.";
@@ -429,7 +429,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringModuleCatalog()
         {
             const string expectedMessageText = "Configuring module catalog.";
@@ -440,7 +440,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutCreatingTheContainer()
         {
             const string expectedMessageText = "Creating Unity container.";
@@ -451,7 +451,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringContainer()
         {
             const string expectedMessageText = "Configuring the Unity container.";
@@ -462,7 +462,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringViewModelLocator()
         {
             const string expectedMessageText = "Configuring the ViewModelLocator to use Unity.";
@@ -473,7 +473,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringRegionAdapters()
         {
             const string expectedMessageText = "Configuring region adapters.";
@@ -484,7 +484,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringRegionBehaviors()
         {
             const string expectedMessageText = "Configuring default region behaviors.";
@@ -495,7 +495,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutRegisteringFrameworkExceptionTypes()
         {
             const string expectedMessageText = "Registering Framework Exception Types.";
@@ -506,7 +506,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutCreatingTheShell()
         {
             const string expectedMessageText = "Creating the shell.";
@@ -517,7 +517,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutInitializingTheShellIfShellCreated()
         {
             const string expectedMessageText = "Initializing the shell.";
@@ -529,7 +529,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldNotLogAboutInitializingTheShellIfShellIsNotCreated()
         {
             const string expectedMessageText = "Initializing shell";
@@ -541,7 +541,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.False(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutInitializingModules()
         {
             const string expectedMessageText = "Initializing modules.";
@@ -552,7 +552,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutRunCompleting()
         {
             const string expectedMessageText = "Bootstrapper sequence completed.";

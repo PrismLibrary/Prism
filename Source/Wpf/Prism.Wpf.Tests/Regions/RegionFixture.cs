@@ -585,7 +585,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.Same(view1, region.Views.ElementAt(2));
         }
 
-        [Fact]
+        [StaFact]
         public void WhenViewHasBeenRemovedAndRegionManagerPropertyCleared_ThenItCanBeAddedAgainToARegion()
         {
             IRegion region = new Region { RegionManager = new MockRegionManager() };

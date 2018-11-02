@@ -149,7 +149,7 @@ namespace Prism.Wpf.Tests.Regions
         }
 
 
-        [Fact]
+        [StaFact]
         public void ShouldSetObservableRegionContextWhenRegionContextChanges()
         {
             var region = new MockPresentationRegion();

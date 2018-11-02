@@ -9,21 +9,21 @@ namespace Prism.Ninject.Wpf.Tests
     
     public class NinjectBootstrapperRunMethodFixture
     {
-        [Fact]
+        [StaFact]
         public void CanRunBootstrapper()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
             bootstrapper.Run();
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldNotFailIfReturnedNullShell()
         {
             var bootstrapper = new DefaultNinjectBootstrapper {ShellObject = null};
             bootstrapper.Run();
         }
 
-        [Fact]
+        [StaFact]
         public void RunConfiguresServiceLocatorProvider()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -32,7 +32,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(ServiceLocator.Current is NinjectServiceLocatorAdapter);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldInitializeKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -48,7 +48,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.IsAssignableFrom<IKernel>(kernel);
         }
 
-        [Fact]
+        [StaFact]
         public void RunAddsCompositionKernelToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -59,7 +59,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.Equal(typeof(StandardKernel), returnedKernel.GetType());
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallInitializeModules()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -68,7 +68,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(bootstrapper.InitializeModulesCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureDefaultRegionBehaviors()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -78,7 +78,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(bootstrapper.ConfigureDefaultRegionBehaviorsCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureRegionAdapterMappings()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -88,7 +88,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(bootstrapper.ConfigureRegionAdapterMappingsCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldAssignRegionManagerToReturnedShell()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -98,7 +98,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.NotNull(RegionManager.GetRegionManager(bootstrapper.BaseShell));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateLogger()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -108,7 +108,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(bootstrapper.CreateLoggerCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateModuleCatalog()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -118,7 +118,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(bootstrapper.CreateModuleCatalogCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureModuleCatalog()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -128,7 +128,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(bootstrapper.ConfigureModuleCatalogCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -138,7 +138,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(bootstrapper.CreateKernelCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateShell()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -148,7 +148,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(bootstrapper.CreateShellCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -158,7 +158,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(bootstrapper.ConfigureKernelCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureServiceLocator()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -168,7 +168,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(bootstrapper.ConfigureServiceLocatorCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureViewModelLocator()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -178,7 +178,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(bootstrapper.ConfigureViewModelLocatorCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallTheMethodsInOrder()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -199,7 +199,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.Equal("InitializeModules", bootstrapper.MethodCalls[12]);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogBootstrapperSteps()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -224,7 +224,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.Contains("Bootstrapper sequence completed.", messages[15]);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogLoggerCreationSuccess()
         {
             const string expectedMessageText = "Logger was created successfully.";
@@ -235,7 +235,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutModuleCatalogCreation()
         {
             const string expectedMessageText = "Creating module catalog.";
@@ -246,7 +246,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringModuleCatalog()
         {
             const string expectedMessageText = "Configuring module catalog.";
@@ -257,7 +257,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutCreatingTheKernel()
         {
             const string expectedMessageText = "Creating the Ninject kernel.";
@@ -268,7 +268,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringKernel()
         {
             const string expectedMessageText = "Configuring the Ninject kernel.";
@@ -279,7 +279,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringViewModelLocator()
         {
             const string expectedMessageText = "Configuring the ViewModelLocator to use Ninject.";
@@ -290,7 +290,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringRegionAdapters()
         {
             const string expectedMessageText = "Configuring region adapters.";
@@ -301,7 +301,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringRegionBehaviors()
         {
             const string expectedMessageText = "Configuring default region behaviors.";
@@ -312,7 +312,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutRegisteringFrameworkExceptionTypes()
         {
             const string expectedMessageText = "Registering Framework Exception Types.";
@@ -323,7 +323,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutCreatingTheShell()
         {
             const string expectedMessageText = "Creating the shell.";
@@ -334,7 +334,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutInitializingTheShellIfShellCreated()
         {
             const string expectedMessageText = "Initializing the shell.";
@@ -346,7 +346,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldNotLogAboutInitializingTheShellIfShellIsNotCreated()
         {
             const string expectedMessageText = "Initializing shell";
@@ -358,7 +358,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.False(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutInitializingModules()
         {
             const string expectedMessageText = "Initializing modules.";
@@ -369,7 +369,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutRunCompleting()
         {
             const string expectedMessageText = "Bootstrapper sequence completed.";

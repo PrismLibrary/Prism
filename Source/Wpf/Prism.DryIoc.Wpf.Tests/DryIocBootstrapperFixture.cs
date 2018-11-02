@@ -18,7 +18,7 @@ namespace Prism.DryIoc.Wpf.Tests
     
     public class DryIocBootstrapperFixture : BootstrapperFixtureBase
     {
-        [Fact]
+        [StaFact]
         public void ContainerDefaultsToNull()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -27,13 +27,13 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Null(container);
         }
 
-        [Fact]
+        [StaFact]
         public void CanCreateConcreteBootstrapper()
         {
             new DefaultDryIocBootstrapper();
         }
 
-        [Fact]
+        [StaFact]
         public void CreateContainerShouldInitializeContainer()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -44,7 +44,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.IsAssignableFrom<IContainer>(container);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsModuleCatalogToContainer()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -55,7 +55,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(returnedCatalog is ModuleCatalog);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsLoggerFacadeToContainer()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -65,7 +65,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.NotNull(returnedCatalog);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationJournalEntryToContainer()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -79,7 +79,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationJournalToContainer()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -93,7 +93,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationServiceToContainer()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -107,7 +107,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsNavigationTargetHandlerToContainer()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -121,7 +121,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Same(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterActivationException()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -132,7 +132,7 @@ namespace Prism.DryIoc.Wpf.Tests
                 typeof(ContainerException)));
         }
 
-        [Fact]
+        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterResolutionFailedException()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();

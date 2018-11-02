@@ -20,7 +20,7 @@ namespace Prism.Unity.Wpf.Tests
     
     public class UnityBootstrapperFixture: BootstrapperFixtureBase
     {
-        [Fact]
+        [StaFact]
         public void ContainerDefaultsToNull()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -29,13 +29,13 @@ namespace Prism.Unity.Wpf.Tests
             Assert.Null(container);
         }
 
-        [Fact]
+        [StaFact]
         public void CanCreateConcreteBootstrapper()
         {
             new DefaultUnityBootstrapper();
         }
 
-        [Fact]
+        [StaFact]
         public void CreateContainerShouldInitializeContainer()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -46,7 +46,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.IsAssignableFrom<IUnityContainer>(container);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsModuleCatalogToContainer()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -57,7 +57,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(returnedCatalog is ModuleCatalog);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsLoggerFacadeToContainer()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -67,7 +67,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.NotNull(returnedCatalog);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationJournalEntryToContainer()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -81,7 +81,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationJournalToContainer()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -95,7 +95,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationServiceToContainer()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -109,7 +109,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsNavigationTargetHandlerToContainer()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -123,7 +123,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.Same(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterActivationException()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -134,7 +134,7 @@ namespace Prism.Unity.Wpf.Tests
                 typeof(ActivationException)));
         }
 
-        [Fact]
+        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterResolutionFailedException()
         {
             var bootstrapper = new DefaultUnityBootstrapper();

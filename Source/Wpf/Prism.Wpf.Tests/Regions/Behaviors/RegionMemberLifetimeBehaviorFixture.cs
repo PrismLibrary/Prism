@@ -141,7 +141,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.False(Region.Views.Contains(secondMockItem.Object));
         }
 
-        [Fact]
+        [StaFact]
         public virtual void RemovesRegionItemIfDataContextReturnsKeepAliveFalse()
         {
             // Arrange
@@ -161,7 +161,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.False(Region.Views.Contains(regionItem));
         }
 
-        [Fact]
+        [StaFact]
         public virtual void RemovesOnlyDeactivatedItemsInRegionBasedOnDataContextKeepAlive()
         {
             // Arrange
@@ -222,7 +222,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.True(Region.Views.Contains((object)regionItem));
         }
 
-        [Fact]
+        [StaFact]
         public virtual void WillRemoveDeactivatedItemIfDataContextKeepAliveAttributeFalse()
         {
             // Arrange

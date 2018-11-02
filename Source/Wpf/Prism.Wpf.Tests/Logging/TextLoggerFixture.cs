@@ -18,9 +18,9 @@ namespace Prism.Wpf.Tests.Logging
             ILoggerFacade logger = new TextLogger() { Writer = writer };
 
             logger.Log("Test", Category.Debug, Priority.Low);
-            Assert.Contains(writer.ToString(), "Test");
-            Assert.Contains(writer.ToString(), "DEBUG");
-            Assert.Contains(writer.ToString(), "Low");
+            Assert.Contains("Test", writer.ToString());
+            Assert.Contains("DEBUG", writer.ToString());
+            Assert.Contains("Low", writer.ToString());
         }
 
         [Fact]

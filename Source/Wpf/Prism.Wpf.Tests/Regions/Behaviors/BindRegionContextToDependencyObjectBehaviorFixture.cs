@@ -10,7 +10,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
     
     public class BindRegionContextToDependencyObjectBehaviorFixture
     {
-        [Fact]
+        [StaFact]
         public void ShouldSetRegionContextOnAddedView()
         {
             var behavior = new BindRegionContextToDependencyObjectBehavior();
@@ -27,7 +27,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Equal("MyContext", context.Value);
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldSetRegionContextOnAlreadyAddedViews()
         {
             var behavior = new BindRegionContextToDependencyObjectBehavior();
@@ -44,7 +44,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Equal("MyContext", context.Value);
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldRemoveContextToViewRemovedFromRegion()
         {
             var behavior = new BindRegionContextToDependencyObjectBehavior();
@@ -61,7 +61,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Null(context.Value);
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldSetRegionContextOnContextChange()
         {
             var behavior = new BindRegionContextToDependencyObjectBehavior();
@@ -79,7 +79,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Equal("MyNewContext", RegionContext.GetObservableContext(view).Value);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenAViewIsRemovedFromARegion_ThenRegionContextIsNotClearedInRegion()
         {
             var behavior = new BindRegionContextToDependencyObjectBehavior();

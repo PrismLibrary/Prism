@@ -12,21 +12,21 @@ namespace Prism.DryIoc.Wpf.Tests
     
     public class DryIocBootstrapperRunMethodFixture
     {
-        [Fact]
+        [StaFact]
         public void CanRunBootstrapper()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
             bootstrapper.Run();
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldNotFailIfReturnedNullShell()
         {
             var bootstrapper = new DefaultDryIocBootstrapper { ShellObject = null };
             bootstrapper.Run();
         }
 
-        [Fact]
+        [StaFact]
         public void RunConfiguresServiceLocatorProvider()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -35,7 +35,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(ServiceLocator.Current is DryIocServiceLocatorAdapter);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldInitializeContainer()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -51,7 +51,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.IsAssignableFrom<IContainer>(container);
         }
 
-        [Fact]
+        [StaFact]
         public void RunAddsCompositionContainerToContainer()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -62,7 +62,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Contains(typeof(IContainer), returnedContainer.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallInitializeModules()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -71,7 +71,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(bootstrapper.InitializeModulesCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureDefaultRegionBehaviors()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -81,7 +81,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(bootstrapper.ConfigureDefaultRegionBehaviorsCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureRegionAdapterMappings()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -91,7 +91,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(bootstrapper.ConfigureRegionAdapterMappingsCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldAssignRegionManagerToReturnedShell()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -101,7 +101,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.NotNull(RegionManager.GetRegionManager(bootstrapper.BaseShell));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateLogger()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -111,7 +111,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(bootstrapper.CreateLoggerCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateModuleCatalog()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -121,7 +121,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(bootstrapper.CreateModuleCatalogCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureModuleCatalog()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -131,7 +131,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(bootstrapper.ConfigureModuleCatalogCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateContainer()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -141,7 +141,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(bootstrapper.CreateContainerCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateShell()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -151,7 +151,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(bootstrapper.CreateShellCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureContainer()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -163,7 +163,7 @@ namespace Prism.DryIoc.Wpf.Tests
 
         // unable to mock extension RegisterInstance/RegisterType methods
         // so registration is tested through checking the resolved type against interface
-        [Fact]
+        [StaFact]
         public void RunRegistersInstanceOfILoggerFacade()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -176,7 +176,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Contains(typeof(ILoggerFacade), logger.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersInstanceOfIModuleCatalog()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -189,7 +189,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Contains(typeof(IModuleCatalog), moduleCatalog.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIServiceLocator()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -203,7 +203,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Contains(typeof(IServiceLocator), serviceLocator.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIModuleInitializer()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -216,7 +216,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Contains(typeof(IModuleInitializer), moduleInitializer.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIRegionManager()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -229,7 +229,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Contains(typeof(IRegionManager), regionManager.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForRegionAdapterMappings()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -241,7 +241,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Equal(typeof(RegionAdapterMappings), regionAdapterMappings.GetType());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIRegionViewRegistry()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -254,7 +254,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Contains(typeof(IRegionViewRegistry), regionViewRegistry.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIRegionBehaviorFactory()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -267,7 +267,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Contains(typeof(IRegionBehaviorFactory), regionBehaviorFactory.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIEventAggregator()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -280,7 +280,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Contains(typeof(IEventAggregator), eventAggregator.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallTheMethodsInOrder()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -300,7 +300,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Equal("InitializeModules", bootstrapper.MethodCalls[11]);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogBootstrapperSteps()
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
@@ -325,7 +325,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Contains("Bootstrapper sequence completed.", messages[15]);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogLoggerCreationSuccess()
         {
             const string expectedMessageText = "Logger was created successfully.";
@@ -335,7 +335,7 @@ namespace Prism.DryIoc.Wpf.Tests
 
             Assert.True(messages.Contains(expectedMessageText));
         }
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutModuleCatalogCreation()
         {
             const string expectedMessageText = "Creating module catalog.";
@@ -346,7 +346,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringModuleCatalog()
         {
             const string expectedMessageText = "Configuring module catalog.";
@@ -357,7 +357,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutCreatingTheContainer()
         {
             const string expectedMessageText = "Creating DryIoc container.";
@@ -368,7 +368,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringContainerBuilder()
         {
             const string expectedMessageText = "Configuring the DryIoc container.";
@@ -379,7 +379,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringRegionAdapters()
         {
             const string expectedMessageText = "Configuring region adapters.";
@@ -391,7 +391,7 @@ namespace Prism.DryIoc.Wpf.Tests
         }
 
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringRegionBehaviors()
         {
             const string expectedMessageText = "Configuring default region behaviors.";
@@ -402,7 +402,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutRegisteringFrameworkExceptionTypes()
         {
             const string expectedMessageText = "Registering Framework Exception Types.";
@@ -413,7 +413,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutCreatingTheShell()
         {
             const string expectedMessageText = "Creating the shell.";
@@ -424,7 +424,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutInitializingTheShellIfShellCreated()
         {
             const string expectedMessageText = "Initializing the shell.";
@@ -436,7 +436,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldNotLogAboutInitializingTheShellIfShellIsNotCreated()
         {
             const string expectedMessageText = "Initializing shell";
@@ -448,7 +448,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.False(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutInitializingModules()
         {
             const string expectedMessageText = "Initializing modules.";
@@ -459,7 +459,7 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutRunCompleting()
         {
             const string expectedMessageText = "Bootstrapper sequence completed.";

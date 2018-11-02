@@ -29,7 +29,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             return GetBehavior(control, accessor, new MockRegionAdapter());
         }
 
-        [Fact]
+        [StaFact]
         public void RegionWillNotGetCreatedTwiceWhenThereAreMoreRegions()
         {
             var control1 = new MockFrameworkElement();
@@ -58,7 +58,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         }
 
 
-        [Fact]
+        [StaFact]
         public void RegionGetsCreatedWhenAccessingRegions()
         {
             var control1 = new MockFrameworkElement();
@@ -82,7 +82,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.IsAssignableFrom<IRegion>(RegionManager.GetObservableRegion(control2).Value);
         }
 
-        [Fact]
+        [StaFact]
         public void RegionDoesNotGetCreatedTwiceWhenUpdatingRegions()
         {
             var control = new MockFrameworkElement();
@@ -102,7 +102,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Same(region, RegionManager.GetObservableRegion(control).Value);
         }
 
-        [Fact]
+        [StaFact]
         public void BehaviorDoesNotPreventControlFromBeingGarbageCollected()
         {
             var control = new MockFrameworkElement();
@@ -125,7 +125,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.False(controlWeakReference.IsAlive);
         }
 
-        [Fact]
+        [StaFact]
         public void BehaviorDoesNotPreventControlFromBeingGarbageCollectedWhenRegionWasCreated()
         {
             var control = new MockFrameworkElement();
@@ -149,7 +149,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.False(controlWeakReference.IsAlive);
         }
 
-        [Fact]
+        [StaFact]
         public void BehaviorShouldUnhookEventWhenDetaching()
         {
             var control = new MockFrameworkElement();
@@ -168,7 +168,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Equal<int>(startingCount - 1, accessor.GetSubscribersCount());
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldCleanupBehaviorOnceRegionIsCreated()
         {
             var control = new MockFrameworkElement();

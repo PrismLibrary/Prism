@@ -18,7 +18,7 @@ namespace Prism.Autofac.Wpf.Tests
     
     public class AutofacBootstrapperFixture : BootstrapperFixtureBase
     {
-        [Fact]
+        [StaFact]
         public void ContainerDefaultsToNull()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -27,13 +27,13 @@ namespace Prism.Autofac.Wpf.Tests
             Assert.Null(container);
         }
 
-        [Fact]
+        [StaFact]
         public void CanCreateConcreteBootstrapper()
         {
             new DefaultAutofacBootstrapper();
         }
 
-        [Fact]
+        [StaFact]
         public void CreateContainerShouldInitializeContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -44,7 +44,7 @@ namespace Prism.Autofac.Wpf.Tests
             Assert.IsAssignableFrom<IContainer>(container);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsModuleCatalogToContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -55,7 +55,7 @@ namespace Prism.Autofac.Wpf.Tests
             Assert.True(returnedCatalog is ModuleCatalog);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsLoggerFacadeToContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -65,7 +65,7 @@ namespace Prism.Autofac.Wpf.Tests
             Assert.NotNull(returnedCatalog);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationJournalEntryToContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -79,7 +79,7 @@ namespace Prism.Autofac.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationJournalToContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -93,7 +93,7 @@ namespace Prism.Autofac.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationServiceToContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -107,7 +107,7 @@ namespace Prism.Autofac.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsNavigationTargetHandlerToContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -121,7 +121,7 @@ namespace Prism.Autofac.Wpf.Tests
             Assert.Same(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterActivationException()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -132,7 +132,7 @@ namespace Prism.Autofac.Wpf.Tests
                 typeof(ActivationException)));
         }
 
-        [Fact]
+        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterResolutionFailedException()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();

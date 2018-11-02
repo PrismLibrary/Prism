@@ -10,7 +10,7 @@ namespace Prism.Unity.Wpf.Tests
     
     public class UnityViewModelLocatorFixture
     {
-        [Fact]
+        [StaFact]
         public void ShouldLocateViewModelAndResolveWithContainer()
         {
             var bootstrapper = new DefaultUnityBootstrapper();

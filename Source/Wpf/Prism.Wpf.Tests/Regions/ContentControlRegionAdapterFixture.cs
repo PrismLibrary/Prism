@@ -13,7 +13,7 @@ namespace Prism.Wpf.Tests.Regions
     
     public class ContentControlRegionAdapterFixture
     {
-        [Fact]
+        [StaFact]
         public void AdapterAssociatesSelectorWithRegionActiveViews()
         {
             var control = new ContentControl();
@@ -39,7 +39,7 @@ namespace Prism.Wpf.Tests.Regions
         }
 
 
-        [Fact]
+        [StaFact]
         public void ControlWithExistingContentThrows()
         {
             var control = new ContentControl() { Content = new object() };
@@ -54,11 +54,11 @@ namespace Prism.Wpf.Tests.Regions
             catch (Exception ex)
             {
                 Assert.IsType<InvalidOperationException>(ex);
-                Assert.Contains(ex.Message, "ContentControl's Content property is not empty.");
+                Assert.Contains("ContentControl's Content property is not empty.", ex.Message);
             }
         }
 
-        [Fact]
+        [StaFact]
         public void ControlWithExistingBindingOnContentWithNullValueThrows()
         {
             var control = new ContentControl();
@@ -76,11 +76,11 @@ namespace Prism.Wpf.Tests.Regions
             catch (Exception ex)
             {
                 Assert.IsType<InvalidOperationException>(ex);
-                Assert.Contains(ex.Message, "ContentControl's Content property is not empty.");
+                Assert.Contains("ContentControl's Content property is not empty.", ex.Message);
             }
         }
 
-        [Fact]
+        [StaFact]
         public void AddedItemShouldBeActivated()
         {
             var control = new ContentControl();
@@ -95,7 +95,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.True(region.ActiveViews.Contains(mockView));
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldNotActivateAdditionalViewsAdded()
         {
             var control = new ContentControl();
@@ -111,7 +111,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.True(region.ActiveViews.Contains(mockView));
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldActivateAddedViewWhenNoneIsActive()
         {
             var control = new ContentControl();
@@ -130,7 +130,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.True(region.ActiveViews.Contains(mockView2));
         }
 
-        [Fact]
+        [StaFact]
         public void CanRemoveViewWhenNoneActive()
         {
             var control = new ContentControl();

@@ -10,7 +10,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
     
     public class ClearChildViewsRegionBehaviorFixture
     {
-        [Fact]
+        [StaFact]
         public void WhenClearChildViewsPropertyIsNotSet_ThenChildViewsRegionManagerIsNotCleared()
         {
             var regionManager = new MockRegionManager();
@@ -32,7 +32,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Equal(regionManager, childView.GetValue(RegionManager.RegionManagerProperty));
         }
 
-        [Fact]
+        [StaFact]
         public void WhenClearChildViewsPropertyIsTrue_ThenChildViewsRegionManagerIsCleared()
         {
             var regionManager = new MockRegionManager();
@@ -56,7 +56,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Null(childView.GetValue(RegionManager.RegionManagerProperty));
         }
 
-        [Fact]
+        [StaFact]
         public void WhenRegionManagerChangesToNotNullValue_ThenChildViewsRegionManagerIsNotCleared()
         {
             var regionManager = new MockRegionManager();

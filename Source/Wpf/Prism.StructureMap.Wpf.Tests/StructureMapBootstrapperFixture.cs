@@ -17,7 +17,7 @@ namespace Prism.StructureMap.Wpf.Tests
     
     public class StructureMapBootstrapperFixture: BootstrapperFixtureBase
     {
-        [Fact]
+        [StaFact]
         public void ContainerDefaultsToNull()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -26,13 +26,13 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.Null(container);
         }
 
-        [Fact]
+        [StaFact]
         public void CanCreateConcreteBootstrapper()
         {
             new DefaultStructureMapBootstrapper();
         }
 
-        [Fact]
+        [StaFact]
         public void CreateContainerShouldInitializeContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -43,7 +43,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.IsAssignableFrom<IContainer>(container);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsModuleCatalogToContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -54,7 +54,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(returnedCatalog is ModuleCatalog);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsLoggerFacadeToContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -64,7 +64,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.NotNull(returnedCatalog);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationJournalEntryToContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -78,7 +78,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationJournalToContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -92,7 +92,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationServiceToContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -106,7 +106,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureContainerAddsNavigationTargetHandlerToContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -120,7 +120,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.Same(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterActivationException()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -131,7 +131,7 @@ namespace Prism.StructureMap.Wpf.Tests
                 typeof(ActivationException)));
         }
 
-        [Fact]
+        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterResolutionFailedException()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();

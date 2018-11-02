@@ -11,7 +11,7 @@ namespace Prism.Ninject.Wpf.Tests
     
     public class NinjectRegionNavigationContentLoaderFixture
     {
-        [Fact]
+        [StaFact]
         public void ShouldFindCandidateViewInRegion()
         {
             IKernel kernel = new StandardKernel();
@@ -33,7 +33,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(testRegion.ActiveViews.Contains(view));
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldFindCandidateViewWithFriendlyNameInRegion()
         {
             IKernel kernel = new StandardKernel();

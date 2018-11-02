@@ -57,7 +57,7 @@ namespace Prism.Wpf.Tests
             Assert.IsType<TextLogger>(bootstrapper.BaseLogger);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureViewModelLocatorShouldUserServiceLocatorAsResolver()
         {
             var bootstrapper = new DefaultBootstrapper();

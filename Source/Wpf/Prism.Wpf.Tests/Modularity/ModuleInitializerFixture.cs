@@ -93,7 +93,7 @@ namespace Prism.Wpf.Tests.Modularity
             }
 
             Assert.NotNull(logger.LastMessage);
-            Assert.Contains(logger.LastMessage, "ExceptionThrowingModule");
+            Assert.Contains("ExceptionThrowingModule", logger.LastMessage);
         }
 
         [Fact]
@@ -110,7 +110,7 @@ namespace Prism.Wpf.Tests.Modularity
             }
             catch (ModuleInitializeException ex)
             {
-                Assert.Contains(ex.Message, "BadAssembly.BadType");
+                Assert.Contains("BadAssembly.BadType", ex.Message);
             }
             catch(Exception)
             {

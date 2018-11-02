@@ -1,20 +1,17 @@
-
-
 using System.Linq;
 using CommonServiceLocator;
 using Unity;
 using Xunit;
-using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks.Views;
 using Prism.Regions;
 using Prism.Unity.Wpf.Tests.Mocks;
 
 namespace Prism.Unity.Wpf.Tests
 {
-    
+
     public class UnityRegionNavigationContentLoaderFixture
     {
-        [Fact]
+        [StaFact]
         public void ShouldFindCandidateViewInRegion()
         {
             IUnityContainer container = new UnityContainer();
@@ -38,7 +35,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(testRegion.ActiveViews.Contains(view));
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldFindCandidateViewWithFriendlyNameInRegion()
         {
             IUnityContainer container = new UnityContainer();
@@ -61,7 +58,7 @@ namespace Prism.Unity.Wpf.Tests
             Assert.True(testRegion.ActiveViews.Contains(view));
         }
 
-        public void ConfigureMockServiceLocator(IUnityContainer container)
+        private void ConfigureMockServiceLocator(IUnityContainer container)
         {
             MockServiceLocator serviceLocator = new MockServiceLocator(container);
             ServiceLocator.SetLocatorProvider(() => serviceLocator);

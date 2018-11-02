@@ -21,11 +21,11 @@ namespace Prism.Wpf.Tests.Regions
             var originalCollection = new ObservableCollection<ItemMetadata>();
             IViewsCollection viewsCollection = new ViewsCollection(originalCollection, x => true);
 
-            Assert.Equal(0, viewsCollection.Count());
+            Assert.Empty(viewsCollection);
 
             var item = new object();
             originalCollection.Add(new ItemMetadata(item));
-            Assert.Equal(1, viewsCollection.Count());
+            Assert.Single(viewsCollection);
             Assert.Same(item, viewsCollection.First());
         }
 
@@ -37,11 +37,11 @@ namespace Prism.Wpf.Tests.Regions
 
             originalCollection.Add(new ItemMetadata(new object()));
 
-            Assert.Equal(0, viewsCollection.Count());
+            Assert.Empty(viewsCollection);
 
             var item = new object();
             originalCollection.Add(new ItemMetadata(item) {Name = "Possible"});
-            Assert.Equal(1, viewsCollection.Count());
+            Assert.Single(viewsCollection);
 
             Assert.Same(item, viewsCollection.First());
         }
@@ -178,16 +178,16 @@ namespace Prism.Wpf.Tests.Regions
 
             originalCollection[0].IsActive = false;
 
-            Assert.Equal(0, viewsCollection.Count());
+            Assert.Empty(viewsCollection);
             Assert.True(removedFromCollection);
             Assert.False(addedToCollection);
-            Assert.Equal(0, viewsCollection.Count());
+            Assert.Empty(viewsCollection);
             addedToCollection = false;
             removedFromCollection = false;
 
             originalCollection[0].IsActive = true;
 
-            Assert.Equal(1, viewsCollection.Count());
+            Assert.Single(viewsCollection);
             Assert.True(addedToCollection);
             Assert.False(removedFromCollection);
         }
@@ -202,7 +202,7 @@ namespace Prism.Wpf.Tests.Regions
 
             originalCollection.Add(new ItemMetadata(new object()));
 
-            Assert.True(eventTracker.ActionsFired.Contains(NotifyCollectionChangedAction.Add));
+            Assert.Contains(NotifyCollectionChangedAction.Add, eventTracker.ActionsFired);
         }
 
         [Fact]
@@ -217,7 +217,7 @@ namespace Prism.Wpf.Tests.Regions
 
             originalCollection.Add(new ItemMetadata(new object()));
 
-            Assert.True(eventTracker.ActionsFired.Contains(NotifyCollectionChangedAction.Add));
+            Assert.Contains(NotifyCollectionChangedAction.Add, eventTracker.ActionsFired);
             Assert.Equal(
                 1,
                 eventTracker.ActionsFired.Count(a => a == NotifyCollectionChangedAction.Reset));
@@ -284,14 +284,14 @@ namespace Prism.Wpf.Tests.Regions
             CollectionViewSource cvs = new CollectionViewSource {Source = viewsCollection};
 
             var view = cvs.View;
-            try
-            {
+            //try
+            //{
                 originalCollection.RemoveAt(1);
-            }
-            catch (Exception ex)
-            {
+            //}
+            //catch (Exception ex)
+            //{
                 //Assert.Fail(ex.Message);
-            }
+            //}
         }
 
         [Fact]

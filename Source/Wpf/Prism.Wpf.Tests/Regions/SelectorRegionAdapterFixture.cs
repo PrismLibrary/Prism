@@ -11,7 +11,7 @@ namespace Prism.Wpf.Tests.Regions
     
     public class SelectorRegionAdapterFixture
     {
-        [Fact]
+        [StaFact]
         public void AdapterAddsSelectorItemsSourceSyncBehavior()
         {
             var control = new ListBox();
@@ -25,7 +25,7 @@ namespace Prism.Wpf.Tests.Regions
         }
 
 
-        [Fact]
+        [StaFact]
         public void AdapterDoesNotPreventRegionFromBeingGarbageCollected()
         {
             var selector = new ListBox();
@@ -49,7 +49,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.False(controlWeakReference.IsAlive);
         }
 
-        [Fact]
+        [StaFact]
         public void ActivatingTheViewShouldUpdateTheSelectedItem()
         {
             var selector = new ListBox();
@@ -73,7 +73,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.Equal(view2, selector.SelectedItem);
         }
 
-        [Fact]
+        [StaFact]
         public void DeactivatingTheSelectedViewShouldUpdateTheSelectedItem()
         {
             var selector = new ListBox();

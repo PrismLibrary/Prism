@@ -10,7 +10,7 @@ namespace Prism.Ninject.Wpf.Tests
     
     public class NinjectViewModelLocatorFixture
     {
-        [Fact]
+        [StaFact]
         public void ShouldLocateViewModelAndResolveWithKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();

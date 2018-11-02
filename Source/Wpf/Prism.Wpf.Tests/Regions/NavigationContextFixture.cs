@@ -25,7 +25,7 @@ namespace Prism.Wpf.Tests.Regions
 
             Assert.Same(navigationServiceMock.Object, context.NavigationService);
             Assert.Equal(uri, context.Uri);
-            Assert.Equal(1, context.Parameters.Count());
+            Assert.Single(context.Parameters);
             Assert.Equal("value", context.Parameters["name"]);
         }
 
@@ -43,7 +43,7 @@ namespace Prism.Wpf.Tests.Regions
 
             Assert.Same(navigationServiceMock.Object, context.NavigationService);
             Assert.Equal(uri, context.Uri);
-            Assert.Equal(0, context.Parameters.Count());
+            Assert.Empty(context.Parameters);
         }
     }
 }

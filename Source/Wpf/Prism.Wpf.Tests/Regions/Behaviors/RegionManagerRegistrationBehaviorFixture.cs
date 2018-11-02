@@ -14,7 +14,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
     
     public class RegionManagerRegistrationBehaviorFixture
     {
-        [Fact]
+        [StaFact]
         public void ShouldRegisterRegionIfRegionManagerIsSet()
         {
             var control = new ItemsControl();
@@ -37,7 +37,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Same(region, regionManager.MockRegionCollection.AddArgument);
         }
 
-        [Fact]
+        [StaFact]
         public void DoesNotFailIfRegionManagerIsNotSet()
         {
             var control = new ItemsControl();
@@ -52,7 +52,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             behavior.Attach();
         }
 
-        [Fact]
+        [StaFact]
         public void RegionGetsAddedInRegionManagerWhenAddedIntoAScopeAndAccessingRegions()
         {
             var regionManager = new MockRegionManager();
@@ -80,7 +80,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.True(regionManager.MockRegionCollection.AddCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RegionDoesNotGetAddedTwiceWhenUpdatingRegions()
         {
             var regionManager = new MockRegionManager();
@@ -112,7 +112,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.False(regionManager.MockRegionCollection.AddCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RegionGetsRemovedFromRegionManagerWhenRemovedFromScope()
         {
             var regionManager = new MockRegionManager();
@@ -143,7 +143,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.True(regionManager.MockRegionCollection.RemoveCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void CanAttachBeforeSettingName()
         {
             var control = new ItemsControl();
@@ -169,7 +169,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Same(region, regionManager.MockRegionCollection.AddArgument);
         }
 
-        [Fact]
+        [StaFact]
         public void HostControlSetAfterAttachThrows()
         {
             var ex = Assert.Throws<InvalidOperationException>(() =>
@@ -184,7 +184,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
         }
 
-        [Fact]
+        [StaFact]
         public void BehaviorDoesNotPreventRegionManagerFromBeingGarbageCollected()
         {
             var control = new MockFrameworkElement();

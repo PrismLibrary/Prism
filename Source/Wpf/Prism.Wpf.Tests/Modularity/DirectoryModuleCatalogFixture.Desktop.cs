@@ -93,10 +93,10 @@ namespace Prism.Wpf.Tests.Modularity
             Assert.NotNull(modules);
             Assert.Single(modules);
             Assert.NotNull(modules[0].Ref);
-            Assert.StartsWith(modules[0].Ref, "file://");
+            Assert.StartsWith("file://", modules[0].Ref);
             Assert.Contains(@"MockModuleA.dll", modules[0].Ref);
             Assert.NotNull(modules[0].ModuleType);
-            Assert.Contains(modules[0].ModuleType, "Prism.Wpf.Tests.Mocks.Modules.MockModuleA");
+            Assert.Contains("Prism.Wpf.Tests.Mocks.Modules.MockModuleA", modules[0].ModuleType);
         }
 
         [Fact]

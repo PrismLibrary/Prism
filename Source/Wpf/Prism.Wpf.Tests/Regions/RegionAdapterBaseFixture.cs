@@ -15,10 +15,9 @@ namespace Prism.Wpf.Tests.Regions
         {
             var ex = Assert.Throws<InvalidOperationException>(() =>
             {
-
+                IRegionAdapter adapter = new TestableRegionAdapterBase();
+                adapter.Initialize(new MockDependencyObject(), "Region1");
             });
-            IRegionAdapter adapter = new TestableRegionAdapterBase();
-            adapter.Initialize(new MockDependencyObject(), "Region1");
         }
 
         [Fact]

@@ -45,7 +45,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.True(target.AutoEnable);
         }
 
-        [Fact]
+        [StaFact]
         public void CommandBehaviorBaseEnablesUIElement()
         {
             var targetUIElement = new UIElement();
@@ -59,7 +59,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.True(targetUIElement.IsEnabled);
         }
 
-        [Fact]
+        [StaFact]
         public void CommandBehaviorBaseDisablesUIElement()
         {
             var targetUIElement = new UIElement();
@@ -74,7 +74,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.False(targetUIElement.IsEnabled);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenAutoEnableIsFalse_ThenDisabledUIElementRemainsDisabled()
         {
             var targetUIElement = new UIElement();
@@ -89,7 +89,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.False(targetUIElement.IsEnabled);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenAutoEnableIsUpdated_ThenDisabledUIElementIsEnabled()
         {
             var targetUIElement = new UIElement();
@@ -108,7 +108,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.True(targetUIElement.IsEnabled);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenAutoEnableIsUpdated_ThenEnabledUIElementIsDisabled()
         {
             var targetUIElement = new UIElement();

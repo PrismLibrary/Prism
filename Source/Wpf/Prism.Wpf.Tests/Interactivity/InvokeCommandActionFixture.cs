@@ -11,7 +11,7 @@ namespace Prism.Wpf.Tests.Interactivity
     
     public class InvokeCommandActionFixture
     {
-        [Fact]
+        [StaFact]
         public void WhenCommandPropertyIsSet_ThenHooksUpCommandBehavior()
         {
             var someControl = new TextBox();
@@ -28,7 +28,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.Same(command, commandAction.GetValue(InvokeCommandAction.CommandProperty));
         }
 
-        [Fact]
+        [StaFact]
         public void WhenAttachedAfterCommandPropertyIsSetAndInvoked_ThenInvokesCommand()
         {
             var someControl = new TextBox();
@@ -45,7 +45,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.Same(command, commandAction.GetValue(InvokeCommandAction.CommandProperty));
         }
 
-        [Fact]
+        [StaFact]
         public void WhenChangingProperty_ThenUpdatesCommand()
         {
             var someControl = new TextBox();
@@ -61,7 +61,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.False(oldCommand.ExecuteCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenInvokedWithCommandParameter_ThenPassesCommandParaeterToExecute()
         {
             var someControl = new TextBox();
@@ -81,7 +81,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.Same(parameter, command.ExecuteParameter);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenCommandParameterChanged_ThenUpdatesIsEnabledState()
         {
             var someControl = new TextBox();
@@ -102,7 +102,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.False(someControl.IsEnabled);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenCanExecuteChanged_ThenUpdatesIsEnabledState()
         {
             var someControl = new TextBox();
@@ -123,7 +123,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.False(someControl.IsEnabled);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenDetatched_ThenSetsCommandAndCommandParameterToNull()
         {
             var someControl = new TextBox();
@@ -143,7 +143,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.Null(commandAction.CommandParameter);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenCommandIsSetAndThenBehaviorIsAttached_ThenCommandsCanExecuteIsCalledOnce()
         {
             var someControl = new TextBox();
@@ -155,7 +155,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.Equal(1, command.CanExecuteTimesCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenCommandAndCommandParameterAreSetPriorToBehaviorBeingAttached_ThenCommandIsExecutedCorrectlyOnInvoke()
         {
             var someControl = new TextBox();
@@ -171,7 +171,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.True(command.ExecuteCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenCommandParameterNotSet_ThenEventArgsPassed()
         {
             var eventArgs = new TestEventArgs(null);
@@ -187,7 +187,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.IsType<TestEventArgs>(command.ExecuteParameter);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenCommandParameterNotSetAndEventArgsParameterPathSet_ThenPathedValuePassed()
         {
             var eventArgs = new TestEventArgs("testname");
@@ -204,7 +204,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.Equal("testname", command.ExecuteParameter);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenAttachedAndCanExecuteReturnsTrue_ThenDisabledUIElementIsEnabled()
         {
             var someControl = new TextBox();
@@ -219,7 +219,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.True(someControl.IsEnabled);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenAttachedAndCanExecuteReturnsFalse_ThenEnabledUIElementIsDisabled()
         {
             var someControl = new TextBox();
@@ -234,7 +234,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.False(someControl.IsEnabled);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenAutoEnableIsFalse_ThenDisabledUIElementRemainsDisabled()
         {
             var someControl = new TextBox();
@@ -250,7 +250,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.False(someControl.IsEnabled);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenAutoEnableIsFalse_ThenEnabledUIElementRemainsEnabled()
         {
             var someControl = new TextBox();
@@ -266,7 +266,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.True(someControl.IsEnabled);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenAutoEnableIsUpdated_ThenDisabledUIElementIsEnabled()
         {
             var someControl = new TextBox();
@@ -285,7 +285,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.True(someControl.IsEnabled);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenAutoEnableIsUpdated_ThenEnabledUIElementIsDisabled()
         {
             var someControl = new TextBox();

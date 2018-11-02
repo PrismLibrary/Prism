@@ -13,7 +13,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
     
     public class SyncRegionContextWithHostBehaviorFixture
     {
-        [Fact]
+        [StaFact]
         public void ShouldForwardRegionContextValueToHostControl()
         {
             MockPresentationRegion region = new MockPresentationRegion();
@@ -31,7 +31,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldUpdateHostControlRegionContextValueWhenContextOfRegionChanges()
         {
             MockPresentationRegion region = new MockPresentationRegion();
@@ -51,7 +51,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldGetInitialValueFromHostAndSetOnRegion()
         {
             MockPresentationRegion region = new MockPresentationRegion();
@@ -69,7 +69,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
         }
 
-        [Fact]
+        [StaFact]
         public void AttachShouldNotThrowWhenHostControlNull()
         {
             MockPresentationRegion region = new MockPresentationRegion();
@@ -79,7 +79,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             behavior.Attach();
         }
 
-        [Fact]
+        [StaFact]
         public void AttachShouldNotThrowWhenHostControlNullAndRegionContextSet()
         {
             MockPresentationRegion region = new MockPresentationRegion();
@@ -90,7 +90,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             region.Context = "Changed";
         }
 
-        [Fact]
+        [StaFact]
         public void ChangingRegionContextObservableObjectValueShouldAlsoChangeRegionContextDependencyProperty()
         {
             MockPresentationRegion region = new MockPresentationRegion();
@@ -108,7 +108,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Equal("NewValue", RegionManager.GetRegionContext(hostControl));
         }
 
-        [Fact]
+        [StaFact]
         public void AttachShouldChangeRegionContextDependencyProperty()
         {
             MockPresentationRegion region = new MockPresentationRegion();
@@ -125,7 +125,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Equal("NewValue", RegionManager.GetRegionContext(hostControl));  
         }
 
-        [Fact]
+        [StaFact]
         public void SettingHostControlAfterAttachThrows()
         {
             var ex = Assert.Throws<InvalidOperationException>(() =>

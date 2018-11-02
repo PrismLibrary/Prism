@@ -16,7 +16,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
     
     public class SelectorItemsSourceSyncRegionBehaviorFixture
     {
-        [Fact]
+        [StaFact]
         public void CanAttachToSelector()
         {
             SelectorItemsSourceSyncBehavior behavior = CreateBehavior();
@@ -25,7 +25,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.True(behavior.IsAttached);
         }
 
-        [Fact]
+        [StaFact]
         public void AttachSetsItemsSourceOfSelector()
         {
             SelectorItemsSourceSyncBehavior behavior = CreateBehavior();
@@ -41,7 +41,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Equal(2, (behavior.HostControl as Selector).Items.Count);
         }
 
-        [Fact]
+        [StaFact]
         public void IfViewsHaveSortHintThenViewsAreProperlySorted()
         {
             SelectorItemsSourceSyncBehavior behavior = CreateBehavior();
@@ -63,7 +63,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         }
 
 
-        [Fact]
+        [StaFact]
         public void SelectionChangedShouldChangeActiveViews()
         {
             SelectorItemsSourceSyncBehavior behavior = CreateBehavior();
@@ -88,7 +88,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Equal(v2, activeViews.First());
         }
 
-        [Fact]
+        [StaFact]
         public void ActiveViewChangedShouldChangeSelectedItem()
         {
             SelectorItemsSourceSyncBehavior behavior = CreateBehavior();
@@ -108,7 +108,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.Equal(v2, (behavior.HostControl as Selector).SelectedItem);
         }
 
-        [Fact]
+        [StaFact]
         public void ItemsSourceSetThrows()
         {
             var ex = Assert.Throws<InvalidOperationException>(() =>
@@ -122,7 +122,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
         }
 
-        [Fact]
+        [StaFact]
         public void ControlWithExistingBindingOnItemsSourceWithNullValueThrows()
         {
             var behavor = CreateBehavior();
@@ -139,11 +139,11 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             catch (Exception ex)
             {
                 Assert.IsType<InvalidOperationException>(ex);
-                Assert.Contains(ex.Message, "ItemsControl's ItemsSource property is not empty.");
+                Assert.Contains("ItemsControl's ItemsSource property is not empty.", ex.Message);
             }
         }
 
-        [Fact]
+        [StaFact]
         public void AddingViewToTwoRegionsThrows()
         {
             var ex = Assert.Throws<InvalidOperationException>(() =>
@@ -161,7 +161,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
         }
 
-        [Fact]
+        [StaFact]
         public void ReactivatingViewAddsViewToTab()
         {
             var behavior1 = CreateBehavior();
@@ -183,7 +183,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Assert.True(behavior1.Region.ActiveViews.First() == v1);
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldAllowMultipleSelectedItemsForListBox()
         {
             var behavior1 = CreateBehavior();

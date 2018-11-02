@@ -12,7 +12,7 @@ namespace Prism.Ninject.Wpf.Tests
     
     public class NinjectBootstrapperFixture : BootstrapperFixtureBase
     {
-        [Fact]
+        [StaFact]
         public void KernelDefaultsToNull()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -21,13 +21,13 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.Null(kernel);
         }
 
-        [Fact]
+        [StaFact]
         public void CanCreateConcreteBootstrapper()
         {
             new DefaultNinjectBootstrapper();
         }
 
-        [Fact]
+        [StaFact]
         public void CreateKernelShouldInitializeKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -38,7 +38,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.IsAssignableFrom<IKernel>(kernel);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureKernelAddsModuleCatalogToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -49,7 +49,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.True(returnedCatalog is ModuleCatalog);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureKernelAddsLoggerFacadeToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -59,7 +59,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.NotNull(returnedCatalog);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureKernelAddsRegionNavigationJournalEntryToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -73,7 +73,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureKernelAddsRegionNavigationJournalToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -87,7 +87,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureKernelAddsRegionNavigationServiceToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -101,7 +101,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.NotSame(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void ConfigureKernelAddsNavigationTargetHandlerToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -115,7 +115,7 @@ namespace Prism.Ninject.Wpf.Tests
             Assert.Same(actual1, actual2);
         }
 
-        [Fact]
+        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterActivationException()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();

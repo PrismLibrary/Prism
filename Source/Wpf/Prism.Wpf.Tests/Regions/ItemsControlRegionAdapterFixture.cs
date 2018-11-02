@@ -15,7 +15,7 @@ namespace Prism.Wpf.Tests.Regions
     
     public class ItemsControlRegionAdapterFixture
     {
-        [Fact]
+        [StaFact]
         public void AdapterAssociatesItemsControlWithRegion()
         {
             var control = new ItemsControl();
@@ -27,7 +27,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.Same(control.ItemsSource, region.Views);
         }
 
-        [Fact]
+        [StaFact]
         public void AdapterAssignsARegionThatHasAllViewsActive()
         {
             var control = new ItemsControl();
@@ -39,7 +39,7 @@ namespace Prism.Wpf.Tests.Regions
         }
 
 
-        [Fact]
+        [StaFact]
         public void ShouldMoveAlreadyExistingContentInControlToRegion()
         {
             var control = new ItemsControl();
@@ -54,7 +54,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.Same(view, control.Items[0]);
         }
 
-        [Fact]
+        [StaFact]
         public void ControlWithExistingItemSourceThrows()
         {
             var control = new ItemsControl() { ItemsSource = new List<string>() };
@@ -69,11 +69,11 @@ namespace Prism.Wpf.Tests.Regions
             catch (Exception ex)
             {
                 Assert.IsType<InvalidOperationException>(ex);
-                Assert.Contains(ex.Message, "ItemsControl's ItemsSource property is not empty.");
+                Assert.Contains("ItemsControl's ItemsSource property is not empty.", ex.Message);
             }
         }
 
-        [Fact]
+        [StaFact]
         public void ControlWithExistingBindingOnItemsSourceWithNullValueThrows()
         {
             var control = new ItemsControl();
@@ -91,7 +91,7 @@ namespace Prism.Wpf.Tests.Regions
             catch (Exception ex)
             {
                 Assert.IsType<InvalidOperationException>(ex);
-                Assert.Contains(ex.Message, "ItemsControl's ItemsSource property is not empty.");
+                Assert.Contains("ItemsControl's ItemsSource property is not empty.", ex.Message);
             }
         }
 

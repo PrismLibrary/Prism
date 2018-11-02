@@ -12,7 +12,7 @@ namespace Prism.Wpf.Tests.Interactivity
     
     public class PopupWindowActionFixture
     {
-        [Fact]
+        [StaFact]
         public void WhenWindowContentIsNotSet_ShouldUseDefaultWindowForNotifications()
         {
             TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
@@ -33,7 +33,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.Same(defaultWindow.Notification, notification);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenWindowContentIsNotSet_ShouldUseDefaultWindowForConfirmations()
         {
             TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
@@ -54,7 +54,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.Same(defaultWindow.Confirmation, notification);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenWindowContentIsSet_ShouldWrapContentInCommonWindow()
         {
             MockFrameworkElement element = new MockFrameworkElement();
@@ -71,7 +71,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.IsType<DefaultWindow>(window);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenWindowContentImplementsIInteractionRequestAware_ShouldSetUpProperties()
         {
             MockInteractionRequestAwareElement element = new MockInteractionRequestAwareElement();
@@ -88,7 +88,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.NotNull(element.FinishInteraction);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenDataContextOfWindowContentImplementsIInteractionRequestAware_ShouldSetUpProperties()
         {
             MockInteractionRequestAwareElement dataContext = new MockInteractionRequestAwareElement();
@@ -107,7 +107,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.NotNull(dataContext.FinishInteraction);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenStyleForWindowIsSet_WindowShouldHaveTheStyle()
         {
             TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
@@ -123,7 +123,7 @@ namespace Prism.Wpf.Tests.Interactivity
             Assert.Same(window.Style, style);
         }
 
-        [Fact]      
+        [StaFact]      
         public void WhenStyleIsNotForWindowIsSet_InvalidOperationExceptionIsThrown()
         {
             var ex = Assert.Throws<InvalidOperationException>(() =>
@@ -141,7 +141,7 @@ namespace Prism.Wpf.Tests.Interactivity
 
         }
 
-        [Fact]
+        [StaFact]
         public void WhenStartupLocationForWindowIsSet_ChildWindowHasProperty()
         {
             TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();

@@ -177,7 +177,7 @@ namespace Prism.Wpf.Tests.Regions
             viewMock.Verify(v => v.OnNavigatedTo(It.Is<NavigationContext>(nc => nc.Uri == navigationUri && nc.NavigationService == target)));
         }
 
-        [Fact]
+        [StaFact]
         public void WhenNavigatingAndDataContextImplementsINavigationAware_ThenNavigatedIsInvokesOnNavigation()
         {
             // Prepare
@@ -210,7 +210,7 @@ namespace Prism.Wpf.Tests.Regions
             mockINavigationAwareDataContext.Verify(v => v.OnNavigatedTo(It.Is<NavigationContext>(nc => nc.Uri == navigationUri)));
         }
 
-        [Fact]
+        [StaFact]
         public void WhenNavigatingAndBothViewAndDataContextImplementINavigationAware_ThenNavigatedIsInvokesOnNavigation()
         {
             // Prepare
@@ -467,7 +467,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.Equal(new object[] { view1 }, region.ActiveViews.ToArray());
         }
 
-        [Fact]
+        [StaFact]
         public void WhenNavigatingAndDataContextOnCurrentlyActiveViewImplementsINavigateWithVeto_ThenNavigationRequestQueriesForVeto()
         {
             // Prepare
@@ -505,7 +505,7 @@ namespace Prism.Wpf.Tests.Regions
             viewModelMock.VerifyAll();
         }
 
-        [Fact]
+        [StaFact]
         public void WhenRequestNavigateAwayOnDataContextAcceptsThroughCallback_ThenNavigationProceeds()
         {
             // Prepare
@@ -550,7 +550,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.Equal(new object[] { view1, view2 }, region.ActiveViews.ToArray());
         }
 
-        [Fact]
+        [StaFact]
         public void WhenRequestNavigateAwayOnDataContextRejectsThroughCallback_ThenNavigationDoesNotProceed()
         {
             // Prepare
@@ -645,7 +645,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.True(secondNavigation);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenViewModelAcceptsNavigationOutAfterNewIncomingRequestIsReceived_ThenOriginalRequestIsIgnored()
         {
             var region = new Region();
@@ -893,7 +893,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.False(navigationFromInvoked);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenNavigatingFromActiveViewWithNavigatinAwareDataConext_NotifiesContextOfNavigatingFrom()
         {
             // Arrange
@@ -1087,7 +1087,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.Null(eventArgs.Error);
         }
 
-        [Fact]
+        [StaFact]
         public void WhenNavigationFailsBecauseDataContextForActiveViewRejectsIt_ThenNavigationFailedIsRaised()
         {
             // Prepare

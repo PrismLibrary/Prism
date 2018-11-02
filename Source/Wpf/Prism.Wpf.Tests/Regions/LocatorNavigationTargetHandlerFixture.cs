@@ -133,7 +133,7 @@ namespace Prism.Wpf.Tests.Regions
             viewMock.VerifyAll();
         }
 
-        [Fact]
+        [StaFact]
         public void WhenViewExistsAndHasDataContextThatImplementsINavigationAware_ThenDataContextIsQueriedForNavigationAndIsReturnedIfAcceptsIt()
         {
             // Arrange
@@ -239,7 +239,7 @@ namespace Prism.Wpf.Tests.Regions
             viewMock.VerifyAll();
         }
 
-        [Fact]
+        [StaFact]
         public void WhenViewExistsAndHasDataContextThatImplementsINavigationAware_ThenDataContextIsQueriedForNavigationAndNewInstanceIsCreatedIfItRejectsIt()
         {
             // Arrange

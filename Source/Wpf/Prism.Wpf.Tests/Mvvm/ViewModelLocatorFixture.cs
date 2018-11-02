@@ -10,7 +10,7 @@ namespace Prism.Wpf.Tests.Mvvm
     
     public class ViewModelLocatorFixture
     {
-        [Fact]
+        [StaFact]
         public void ShouldLocateViewModelWithDefaultSettings()
         {
             ResetViewModelLocationProvider();
@@ -23,7 +23,7 @@ namespace Prism.Wpf.Tests.Mvvm
             Assert.IsType<MockViewModel>(view.DataContext);
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldLocateViewModelWithDefaultSettingsForViewsThatEndWithView()
         {
             ResetViewModelLocationProvider();
@@ -36,7 +36,7 @@ namespace Prism.Wpf.Tests.Mvvm
             Assert.IsType<MockViewModel>(view.DataContext);
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldUseCustomDefaultViewModelFactoryWhenSet()
         {
             ResetViewModelLocationProvider();
@@ -52,7 +52,7 @@ namespace Prism.Wpf.Tests.Mvvm
             ReferenceEquals(view.DataContext, mockObject);
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldUseCustomDefaultViewTypeToViewModelTypeResolverWhenSet()
         {
             ResetViewModelLocationProvider();
@@ -67,7 +67,7 @@ namespace Prism.Wpf.Tests.Mvvm
             Assert.IsType<ViewModelLocatorFixture>(view.DataContext);
         }
 
-        [Fact]
+        [StaFact]
         public void ShouldUseCustomFactoryWhenSet()
         {
             ResetViewModelLocationProvider();

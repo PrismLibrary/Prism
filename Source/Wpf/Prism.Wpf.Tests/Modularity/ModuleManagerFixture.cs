@@ -289,7 +289,7 @@ namespace Prism.Wpf.Tests.Modularity
             {
                 Assert.IsType<ModuleTypeLoadingException>(ex);
                 Assert.Equal(moduleInfo.ModuleName, ((ModularityException)ex).ModuleName);
-                Assert.Contains(ex.Message, moduleInfo.ModuleName);
+                Assert.Contains(moduleInfo.ModuleName, ex.Message);
                 Assert.Same(retrieverException, ex.InnerException);
                 return;
             }
@@ -338,7 +338,7 @@ namespace Prism.Wpf.Tests.Modularity
             }
 
             Assert.NotNull(logger.LastMessage);
-            Assert.Contains(logger.LastMessage, "ModuleThatNeedsRetrieval");
+            Assert.Contains("ModuleThatNeedsRetrieval", logger.LastMessage);
             Assert.Equal<Category>(Category.Exception, logger.LastMessageCategory);
         }
 

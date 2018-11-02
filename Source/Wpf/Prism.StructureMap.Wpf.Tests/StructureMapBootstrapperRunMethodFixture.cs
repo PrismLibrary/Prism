@@ -11,21 +11,21 @@ namespace Prism.StructureMap.Wpf.Tests
     
     public class StructureMapBootstrapperRunMethodFixture
     {
-        [Fact]
+        [StaFact]
         public void CanRunBootstrapper()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
             bootstrapper.Run();
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldNotFailIfReturnedNullShell()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper { ShellObject = null };
             bootstrapper.Run();
         }
 
-        [Fact]
+        [StaFact]
         public void RunConfiguresServiceLocatorProvider()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -34,7 +34,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(CommonServiceLocator.ServiceLocator.Current is StructureMapServiceLocatorAdapter);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldInitializeContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -50,7 +50,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.IsType<Container>(container);
         }
 
-        [Fact]
+        [StaFact]
         public void RunAddsCompositionContainerToContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -61,7 +61,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.Equal(typeof(Container), returnedContainer.GetType());
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallInitializeModules()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -70,7 +70,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(bootstrapper.InitializeModulesCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureDefaultRegionBehaviors()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -80,7 +80,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(bootstrapper.ConfigureDefaultRegionBehaviorsCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureRegionAdapterMappings()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -90,7 +90,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(bootstrapper.ConfigureRegionAdapterMappingsCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldAssignRegionManagerToReturnedShell()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -100,7 +100,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.NotNull(RegionManager.GetRegionManager(bootstrapper.BaseShell));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateLogger()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -110,7 +110,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(bootstrapper.CreateLoggerCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateModuleCatalog()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -120,7 +120,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(bootstrapper.CreateModuleCatalogCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureModuleCatalog()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -130,7 +130,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(bootstrapper.ConfigureModuleCatalogCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -140,7 +140,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(bootstrapper.CreateContainerCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallCreateShell()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -150,7 +150,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(bootstrapper.CreateShellCalled);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallConfigureContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -163,7 +163,7 @@ namespace Prism.StructureMap.Wpf.Tests
 
         // unable to mock Configure methods
         // so registration is tested through checking the resolved type against interface
-        [Fact]
+        [StaFact]
         public void RunRegistersInstanceOfILoggerFacade()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -176,7 +176,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.Contains(typeof(ILoggerFacade), logger.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersInstanceOfIModuleCatalog()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -189,7 +189,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.Contains(typeof(IModuleCatalog), moduleCatalog.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIModuleInitializer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -202,7 +202,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.Contains(typeof(IModuleInitializer), moduleInitializer.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIRegionManager()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -215,7 +215,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.Contains(typeof(IRegionManager), regionManager.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForRegionAdapterMappings()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -227,7 +227,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.Equal(typeof(RegionAdapterMappings), regionAdapterMappings.GetType());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIRegionViewRegistry()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -240,7 +240,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.Contains(typeof(IRegionViewRegistry), regionViewRegistry.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIRegionBehaviorFactory()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -253,7 +253,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.Contains(typeof(IRegionBehaviorFactory), regionBehaviorFactory.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunRegistersTypeForIEventAggregator()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -266,7 +266,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.Contains(typeof(IEventAggregator), eventAggregator.GetType().GetInterfaces());
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldCallTheMethodsInOrder()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -286,7 +286,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.Equal("InitializeModules", bootstrapper.MethodCalls[11]);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogBootstrapperSteps()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -311,7 +311,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.Contains("Bootstrapper sequence completed.", messages[15]);
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogLoggerCreationSuccess()
         {
             const string expectedMessageText = "Logger was created successfully.";
@@ -321,7 +321,7 @@ namespace Prism.StructureMap.Wpf.Tests
 
             Assert.True(messages.Contains(expectedMessageText));
         }
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutModuleCatalogCreation()
         {
             const string expectedMessageText = "Creating module catalog.";
@@ -332,7 +332,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringModuleCatalog()
         {
             const string expectedMessageText = "Configuring module catalog.";
@@ -343,7 +343,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutCreatingTheContainer()
         {
             const string expectedMessageText = "Creating StructureMap container.";
@@ -354,7 +354,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringContainer()
         {
             const string expectedMessageText = "Configuring the StructureMap container.";
@@ -365,7 +365,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringRegionAdapters()
         {
             const string expectedMessageText = "Configuring region adapters.";
@@ -377,7 +377,7 @@ namespace Prism.StructureMap.Wpf.Tests
         }
 
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutConfiguringRegionBehaviors()
         {
             const string expectedMessageText = "Configuring default region behaviors.";
@@ -388,7 +388,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutRegisteringFrameworkExceptionTypes()
         {
             const string expectedMessageText = "Registering Framework Exception Types.";
@@ -399,7 +399,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutCreatingTheShell()
         {
             const string expectedMessageText = "Creating the shell.";
@@ -410,7 +410,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutInitializingTheShellIfShellCreated()
         {
             const string expectedMessageText = "Initializing the shell.";
@@ -422,7 +422,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldNotLogAboutInitializingTheShellIfShellIsNotCreated()
         {
             const string expectedMessageText = "Initializing shell";
@@ -434,7 +434,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.False(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutInitializingModules()
         {
             const string expectedMessageText = "Initializing modules.";
@@ -445,7 +445,7 @@ namespace Prism.StructureMap.Wpf.Tests
             Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [Fact]
+        [StaFact]
         public void RunShouldLogAboutRunCompleting()
         {
             const string expectedMessageText = "Bootstrapper sequence completed.";
