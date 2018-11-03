@@ -7,7 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using Microsoft.CSharp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Modularity;
 using Prism.Ioc;
 
@@ -163,7 +163,7 @@ namespace Prism.Wpf.Tests
                 {
                     sb.AppendLine(error.ToString());
                 }
-                Assert.IsFalse(results.Errors.HasErrors, sb.ToString());
+                Assert.False(results.Errors.HasErrors, sb.ToString());
             }
         }
 

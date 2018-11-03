@@ -1,24 +1,24 @@
 using System.Linq;
 using System.Windows;
 using CommonServiceLocator;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 
 namespace Prism.Ninject.Wpf.Tests
 {
-    [TestClass]
+    
     public class NinjectBootstrapperNullModuleManagerFixture
     {
-        [TestMethod]
+        [Fact]
         public void RunShouldNotCallInitializeModulesWhenModuleManagerNotFound()
         {
             var bootstrapper = new NullModuleManagerBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsFalse(bootstrapper.InitializeModulesCalled);
+            Assert.False(bootstrapper.InitializeModulesCalled);
         }
 
         private class NullModuleManagerBootstrapper : NinjectBootstrapper

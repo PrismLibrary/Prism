@@ -1,15 +1,15 @@
 using System;
 using System.Windows;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.Modularity;
 
 namespace Prism.Ninject.Wpf.Tests
 {
-    [TestClass]
+    
     public class NinjectBootstrapperNullModuleCatalogFixture : BootstrapperFixtureBase
     {
-        [TestMethod]
+        [Fact]
         public void NullModuleCatalogThrowsOnDefaultModuleInitialization()
         {
             var bootstrapper = new NullModuleCatalogBootstrapper();

@@ -4,42 +4,42 @@ using System;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    [TestClass]
+    
     public class ContentControlRegionAdapterFixture
     {
-        [TestMethod]
+        [StaFact]
         public void AdapterAssociatesSelectorWithRegionActiveViews()
         {
             var control = new ContentControl();
             IRegionAdapter adapter = new TestableContentControlRegionAdapter();
 
             MockPresentationRegion region = (MockPresentationRegion)adapter.Initialize(control, "Region1");
-            Assert.IsNotNull(region);
+            Assert.NotNull(region);
 
-            Assert.IsNull(control.Content);
+            Assert.Null(control.Content);
             region.MockActiveViews.Items.Add(new object());
 
-            Assert.IsNotNull(control.Content);
-            Assert.AreSame(control.Content, region.ActiveViews.ElementAt(0));
+            Assert.NotNull(control.Content);
+            Assert.Same(control.Content, region.ActiveViews.ElementAt(0));
 
             region.MockActiveViews.Items.Add(new object());
-            Assert.AreSame(control.Content, region.ActiveViews.ElementAt(0));
+            Assert.Same(control.Content, region.ActiveViews.ElementAt(0));
 
             region.MockActiveViews.Items.RemoveAt(0);
-            Assert.AreSame(control.Content, region.ActiveViews.ElementAt(0));
+            Assert.Same(control.Content, region.ActiveViews.ElementAt(0));
 
             region.MockActiveViews.Items.RemoveAt(0);
-            Assert.IsNull(control.Content);
+            Assert.Null(control.Content);
         }
 
 
-        [TestMethod]
+        [StaFact]
         public void ControlWithExistingContentThrows()
         {
             var control = new ContentControl() { Content = new object() };
@@ -49,16 +49,16 @@ namespace Prism.Wpf.Tests.Regions
             try
             {
                 var region = (MockPresentationRegion)adapter.Initialize(control, "Region1");
-                Assert.Fail();
+                //Assert.Fail();
             }
             catch (Exception ex)
             {
-                Assert.IsInstanceOfType(ex, typeof(InvalidOperationException));
-                StringAssert.Contains(ex.Message, "ContentControl's Content property is not empty.");
+                Assert.IsType<InvalidOperationException>(ex);
+                Assert.Contains("ContentControl's Content property is not empty.", ex.Message);
             }
         }
 
-        [TestMethod]
+        [StaFact]
         public void ControlWithExistingBindingOnContentWithNullValueThrows()
         {
             var control = new ContentControl();
@@ -71,16 +71,16 @@ namespace Prism.Wpf.Tests.Regions
             try
             {
                 var region = (MockPresentationRegion)adapter.Initialize(control, "Region1");
-                Assert.Fail();
+                //Assert.Fail();
             }
             catch (Exception ex)
             {
-                Assert.IsInstanceOfType(ex, typeof(InvalidOperationException));
-                StringAssert.Contains(ex.Message, "ContentControl's Content property is not empty.");
+                Assert.IsType<InvalidOperationException>(ex);
+                Assert.Contains("ContentControl's Content property is not empty.", ex.Message);
             }
         }
 
-        [TestMethod]
+        [StaFact]
         public void AddedItemShouldBeActivated()
         {
             var control = new ContentControl();
@@ -91,11 +91,11 @@ namespace Prism.Wpf.Tests.Regions
             var mockView = new object();
             region.Add(mockView);
 
-            Assert.AreEqual(1, region.ActiveViews.Count());
-            Assert.IsTrue(region.ActiveViews.Contains(mockView));
+            Assert.Single(region.ActiveViews);
+            Assert.True(region.ActiveViews.Contains(mockView));
         }
 
-        [TestMethod]
+        [StaFact]
         public void ShouldNotActivateAdditionalViewsAdded()
         {
             var control = new ContentControl();
@@ -107,11 +107,11 @@ namespace Prism.Wpf.Tests.Regions
             region.Add(mockView);
             region.Add(new object());
 
-            Assert.AreEqual(1, region.ActiveViews.Count());
-            Assert.IsTrue(region.ActiveViews.Contains(mockView));
+            Assert.Single(region.ActiveViews);
+            Assert.True(region.ActiveViews.Contains(mockView));
         }
 
-        [TestMethod]
+        [StaFact]
         public void ShouldActivateAddedViewWhenNoneIsActive()
         {
             var control = new ContentControl();
@@ -126,11 +126,11 @@ namespace Prism.Wpf.Tests.Regions
             var mockView2 = new object();
             region.Add(mockView2);
 
-            Assert.AreEqual(1, region.ActiveViews.Count());
-            Assert.IsTrue(region.ActiveViews.Contains(mockView2));
+            Assert.Single(region.ActiveViews);
+            Assert.True(region.ActiveViews.Contains(mockView2));
         }
 
-        [TestMethod]
+        [StaFact]
         public void CanRemoveViewWhenNoneActive()
         {
             var control = new ContentControl();
@@ -142,7 +142,7 @@ namespace Prism.Wpf.Tests.Regions
             region.Add(mockView1);
             region.Deactivate(mockView1);
             region.Remove(mockView1);
-            Assert.AreEqual(0, region.ActiveViews.Count());
+            Assert.Empty(region.ActiveViews);
         }
 
         class SimpleModel

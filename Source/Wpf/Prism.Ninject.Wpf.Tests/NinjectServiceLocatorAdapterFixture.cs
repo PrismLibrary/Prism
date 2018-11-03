@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using CommonServiceLocator;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Ninject;
 using Ninject.Activation;
 using Ninject.Activation.Blocks;
@@ -14,10 +14,10 @@ using Ninject.Syntax;
 
 namespace Prism.Ninject.Wpf.Tests
 {
-    [TestClass]
+    
     public class NinjectServiceLocatorAdapterFixture
     {
-        [TestMethod]
+        [Fact]
         public void ShouldForwardResolveToInnerKernel()
         {
             var myInstance = new object();
@@ -29,10 +29,10 @@ namespace Prism.Ninject.Wpf.Tests
 
             IServiceLocator kernelAdapter = new NinjectServiceLocatorAdapter(kernel);
 
-            Assert.AreSame(myInstance, kernelAdapter.GetInstance(typeof(object)));
+            Assert.Same(myInstance, kernelAdapter.GetInstance(typeof(object)));
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldForwardResolveAllToInnerKernel()
         {
             IEnumerable<object> list = new List<object> {new object(), new object()};
@@ -44,7 +44,7 @@ namespace Prism.Ninject.Wpf.Tests
 
             IServiceLocator kernelAdapter = new NinjectServiceLocatorAdapter(kernel);
 
-            Assert.AreSame(list, kernelAdapter.GetAllInstances(typeof(object)));
+            Assert.Same(list, kernelAdapter.GetAllInstances(typeof(object)));
         }
 
         private class MockNinjectKernel : IKernel

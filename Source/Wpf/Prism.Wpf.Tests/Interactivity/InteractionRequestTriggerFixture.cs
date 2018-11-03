@@ -2,19 +2,19 @@
 
 using System;
 using System.Windows;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Wpf.Tests.Mocks;
 using System.Threading.Tasks;
 
 namespace Prism.Wpf.Tests.Interactivity
 {
-    [TestClass]
+    
     public class InteractionRequestTriggerFixture
     {
         public InteractionRequest<INotification> SourceProperty { get; set; }
 
-        [TestMethod]
+        [Fact]
         public void WhenSourceObjectIsSet_ShouldSubscribeToRaisedEvent()
         {
             InteractionRequest<INotification> request = new InteractionRequest<INotification>();
@@ -24,13 +24,13 @@ namespace Prism.Wpf.Tests.Interactivity
             trigger.Attach(associatedObject);
             trigger.SourceObject = request;
 
-            Assert.IsTrue(trigger.ExecutionCount == 0);
+            Assert.True(trigger.ExecutionCount == 0);
 
             request.Raise(new Notification());
-            Assert.IsTrue(trigger.ExecutionCount == 1);
+            Assert.True(trigger.ExecutionCount == 1);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenEventIsRaised_ShouldExecuteTriggerActions()
         {
             InteractionRequest<INotification> request = new InteractionRequest<INotification>();
@@ -42,10 +42,10 @@ namespace Prism.Wpf.Tests.Interactivity
             trigger.Attach(associatedObject);
             trigger.SourceObject = request;
 
-            Assert.IsTrue(action.ExecutionCount == 0);
+            Assert.True(action.ExecutionCount == 0);
 
             request.Raise(new Notification());
-            Assert.IsTrue(action.ExecutionCount == 1);
+            Assert.True(action.ExecutionCount == 1);
         }
     }
 

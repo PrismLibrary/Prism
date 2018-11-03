@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using CommonServiceLocator;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Prism.Logging;
 using Prism.Modularity;
@@ -19,45 +19,45 @@ using Prism.Ioc;
 
 namespace Prism.Wpf.Tests
 {
-    [TestClass]
+    
     public class BootstrapperFixture
     {
-        [TestMethod]
+        [Fact]
         public void LoggerDefaultsToNull()
         {
             var bootstrapper = new DefaultBootstrapper();
 
-            Assert.IsNull(bootstrapper.BaseLogger);
+            Assert.Null(bootstrapper.BaseLogger);
         }
 
-        [TestMethod]
+        [Fact]
         public void ModuleCatalogDefaultsToNull()
         {
             var bootstrapper = new DefaultBootstrapper();
 
-            Assert.IsNull(bootstrapper.BaseModuleCatalog);
+            Assert.Null(bootstrapper.BaseModuleCatalog);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShellDefaultsToNull()
         {
             var bootstrapper = new DefaultBootstrapper();
 
-            Assert.IsNull(bootstrapper.BaseShell);
+            Assert.Null(bootstrapper.BaseShell);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateLoggerInitializesLogger()
         {
             var bootstrapper = new DefaultBootstrapper();
             bootstrapper.CallCreateLogger();
 
-            Assert.IsNotNull(bootstrapper.BaseLogger);
+            Assert.NotNull(bootstrapper.BaseLogger);
 
-            Assert.IsInstanceOfType(bootstrapper.BaseLogger, typeof(TextLogger));
+            Assert.IsType<TextLogger>(bootstrapper.BaseLogger);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ConfigureViewModelLocatorShouldUserServiceLocatorAsResolver()
         {
             var bootstrapper = new DefaultBootstrapper();
@@ -70,9 +70,9 @@ namespace Prism.Wpf.Tests
 
             ViewModelLocationProvider.AutoWireViewModelChanged(view, (v, vm) =>
                 {
-                    Assert.IsNotNull(v);
-                    Assert.IsNotNull(vm);
-                    Assert.IsInstanceOfType(vm, typeof(MockViewModel));
+                    Assert.NotNull(v);
+                    Assert.NotNull(vm);
+                    Assert.IsType<MockViewModel>(vm);
                 });
         }
 
@@ -82,28 +82,28 @@ namespace Prism.Wpf.Tests
             ServiceLocator.SetLocatorProvider(() => serviceLocator);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateModuleCatalogShouldInitializeModuleCatalog()
         {
             var bootstrapper = new DefaultBootstrapper();
 
             bootstrapper.CallCreateModuleCatalog();
 
-            Assert.IsNotNull(bootstrapper.BaseModuleCatalog);
+            Assert.NotNull(bootstrapper.BaseModuleCatalog);
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisterFrameworkExceptionTypesShouldRegisterActivationException()
         {
             var bootstrapper = new DefaultBootstrapper();
 
             bootstrapper.CallRegisterFrameworkExceptionTypes();
 
-            Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
+            Assert.True(ExceptionExtensions.IsFrameworkExceptionRegistered(
                 typeof(ActivationException)));
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureRegionAdapterMappingsShouldRegisterItemsControlMapping()
         {
             var bootstrapper = new DefaultBootstrapper();
@@ -112,11 +112,11 @@ namespace Prism.Wpf.Tests
 
             var regionAdapterMappings = bootstrapper.CallConfigureRegionAdapterMappings();
 
-            Assert.IsNotNull(regionAdapterMappings);
-            Assert.IsNotNull(regionAdapterMappings.GetMapping(typeof(ItemsControl)));
+            Assert.NotNull(regionAdapterMappings);
+            Assert.NotNull(regionAdapterMappings.GetMapping(typeof(ItemsControl)));
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureRegionAdapterMappingsShouldRegisterContentControlMapping()
         {
             var bootstrapper = new DefaultBootstrapper();
@@ -125,11 +125,11 @@ namespace Prism.Wpf.Tests
 
             var regionAdapterMappings = bootstrapper.CallConfigureRegionAdapterMappings();
 
-            Assert.IsNotNull(regionAdapterMappings);
-            Assert.IsNotNull(regionAdapterMappings.GetMapping(typeof(ContentControl)));
+            Assert.NotNull(regionAdapterMappings);
+            Assert.NotNull(regionAdapterMappings.GetMapping(typeof(ContentControl)));
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureRegionAdapterMappingsShouldRegisterSelectorMapping()
         {
             var bootstrapper = new DefaultBootstrapper();
@@ -138,8 +138,8 @@ namespace Prism.Wpf.Tests
 
             var regionAdapterMappings = bootstrapper.CallConfigureRegionAdapterMappings();
 
-            Assert.IsNotNull(regionAdapterMappings);
-            Assert.IsNotNull(regionAdapterMappings.GetMapping(typeof(Selector)));
+            Assert.NotNull(regionAdapterMappings);
+            Assert.NotNull(regionAdapterMappings.GetMapping(typeof(Selector)));
         }
 
         private static void CreateAndConfigureServiceLocatorWithRegionAdapters()
@@ -154,7 +154,7 @@ namespace Prism.Wpf.Tests
             ServiceLocator.SetLocatorProvider(() => serviceLocator.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureDefaultRegionBehaviorsShouldAddSevenDefaultBehaviors()
         {
             var bootstrapper = new DefaultBootstrapper();
@@ -163,7 +163,7 @@ namespace Prism.Wpf.Tests
 
             bootstrapper.CallConfigureDefaultRegionBehaviors();
 
-            Assert.AreEqual(7, bootstrapper.DefaultRegionBehaviorTypes.Count());
+            Assert.Equal(7, bootstrapper.DefaultRegionBehaviorTypes.Count());
         }
 
         private static void CreateAndConfigureServiceLocatorWithDefaultRegionBehaviors()
@@ -175,7 +175,7 @@ namespace Prism.Wpf.Tests
             ServiceLocator.SetLocatorProvider(() => serviceLocator.Object);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureDefaultRegionBehaviorsShouldAddAutoPopulateRegionBehavior()
         {
             var bootstrapper = new DefaultBootstrapper();
@@ -184,10 +184,10 @@ namespace Prism.Wpf.Tests
 
             bootstrapper.CallConfigureDefaultRegionBehaviors();
 
-            Assert.IsTrue(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(AutoPopulateRegionBehavior.BehaviorKey));
+            Assert.True(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(AutoPopulateRegionBehavior.BehaviorKey));
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureDefaultRegionBehaviorsShouldBindRegionContextToDependencyObjectBehavior()
         {
             var bootstrapper = new DefaultBootstrapper();
@@ -196,10 +196,10 @@ namespace Prism.Wpf.Tests
 
             bootstrapper.CallConfigureDefaultRegionBehaviors();
 
-            Assert.IsTrue(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(BindRegionContextToDependencyObjectBehavior.BehaviorKey));
+            Assert.True(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(BindRegionContextToDependencyObjectBehavior.BehaviorKey));
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureDefaultRegionBehaviorsShouldAddRegionActiveAwareBehavior()
         {
             var bootstrapper = new DefaultBootstrapper();
@@ -208,10 +208,10 @@ namespace Prism.Wpf.Tests
 
             bootstrapper.CallConfigureDefaultRegionBehaviors();
 
-            Assert.IsTrue(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(RegionActiveAwareBehavior.BehaviorKey));
+            Assert.True(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(RegionActiveAwareBehavior.BehaviorKey));
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureDefaultRegionBehaviorsShouldAddSyncRegionContextWithHostBehavior()
         {
             var bootstrapper = new DefaultBootstrapper();
@@ -220,10 +220,10 @@ namespace Prism.Wpf.Tests
 
             bootstrapper.CallConfigureDefaultRegionBehaviors();
 
-            Assert.IsTrue(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(SyncRegionContextWithHostBehavior.BehaviorKey));
+            Assert.True(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(SyncRegionContextWithHostBehavior.BehaviorKey));
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureDefaultRegionBehaviorsShouldAddRegionManagerRegistrationBehavior()
         {
             var bootstrapper = new DefaultBootstrapper();
@@ -232,10 +232,10 @@ namespace Prism.Wpf.Tests
 
             bootstrapper.CallConfigureDefaultRegionBehaviors();
 
-            Assert.IsTrue(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(RegionManagerRegistrationBehavior.BehaviorKey));
+            Assert.True(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(RegionManagerRegistrationBehavior.BehaviorKey));
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfigureDefaultRegionBehaviorsShouldAddRegionLifetimeBehavior()
         {
             var bootstrapper = new DefaultBootstrapper();
@@ -244,17 +244,17 @@ namespace Prism.Wpf.Tests
 
             bootstrapper.CallConfigureDefaultRegionBehaviors();
 
-            Assert.IsTrue(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(RegionMemberLifetimeBehavior.BehaviorKey));
+            Assert.True(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(RegionMemberLifetimeBehavior.BehaviorKey));
         }
 
-        [TestMethod]
+        [Fact]
         public void OnInitializedShouldRunLast()
         {
             var bootstrapper = new DefaultBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.ExtraInitialization);
+            Assert.True(bootstrapper.ExtraInitialization);
         }
     }
 
@@ -305,7 +305,7 @@ namespace Prism.Wpf.Tests
 
         public override void Run(bool runWithDefaultConfiguration)
         {
-            Assert.IsFalse(this.ExtraInitialization);
+            Assert.False(this.ExtraInitialization);
         }
 
         protected override void OnInitialized()

@@ -2,30 +2,30 @@
 
 using System;
 using System.Windows.Controls;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    [TestClass]
+    
     public class SelectorRegionAdapterFixture
     {
-        [TestMethod]
+        [StaFact]
         public void AdapterAddsSelectorItemsSourceSyncBehavior()
         {
             var control = new ListBox();
             IRegionAdapter adapter = new TestableSelectorRegionAdapter();
 
             IRegion region = adapter.Initialize(control, "Region1");
-            Assert.IsNotNull(region);
+            Assert.NotNull(region);
 
-            Assert.IsInstanceOfType(region.Behaviors["SelectorItemsSourceSyncBehavior"], typeof(SelectorItemsSourceSyncBehavior));
+            Assert.IsType<SelectorItemsSourceSyncBehavior>(region.Behaviors["SelectorItemsSourceSyncBehavior"]);
             
         }
 
 
-        [TestMethod]
+        [StaFact]
         public void AdapterDoesNotPreventRegionFromBeingGarbageCollected()
         {
             var selector = new ListBox();
@@ -37,19 +37,19 @@ namespace Prism.Wpf.Tests.Regions
 
             WeakReference regionWeakReference = new WeakReference(region);
             WeakReference controlWeakReference = new WeakReference(selector);
-            Assert.IsTrue(regionWeakReference.IsAlive);
-            Assert.IsTrue(controlWeakReference.IsAlive);
+            Assert.True(regionWeakReference.IsAlive);
+            Assert.True(controlWeakReference.IsAlive);
 
             region = null;
             selector = null;
             GC.Collect();
             GC.Collect();
 
-            Assert.IsFalse(regionWeakReference.IsAlive);
-            Assert.IsFalse(controlWeakReference.IsAlive);
+            Assert.False(regionWeakReference.IsAlive);
+            Assert.False(controlWeakReference.IsAlive);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ActivatingTheViewShouldUpdateTheSelectedItem()
         {
             var selector = new ListBox();
@@ -62,18 +62,18 @@ namespace Prism.Wpf.Tests.Regions
             region.Add(view1);
             region.Add(view2);
 
-            Assert.AreNotEqual(view1, selector.SelectedItem);
+            Assert.NotEqual(view1, selector.SelectedItem);
 
             region.Activate(view1);
 
-            Assert.AreEqual(view1, selector.SelectedItem);
+            Assert.Equal(view1, selector.SelectedItem);
 
             region.Activate(view2);
 
-            Assert.AreEqual(view2, selector.SelectedItem);
+            Assert.Equal(view2, selector.SelectedItem);
         }
 
-        [TestMethod]
+        [StaFact]
         public void DeactivatingTheSelectedViewShouldUpdateTheSelectedItem()
         {
             var selector = new ListBox();
@@ -84,11 +84,11 @@ namespace Prism.Wpf.Tests.Regions
 
             region.Activate(view1);
 
-            Assert.AreEqual(view1, selector.SelectedItem);
+            Assert.Equal(view1, selector.SelectedItem);
 
             region.Deactivate(view1);
 
-            Assert.AreNotEqual(view1, selector.SelectedItem);
+            Assert.NotEqual(view1, selector.SelectedItem);
         }
 
 

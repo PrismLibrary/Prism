@@ -1,16 +1,16 @@
 
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {
-    [TestClass]
+    
     public class ClearChildViewsRegionBehaviorFixture
     {
-        [TestMethod]
+        [StaFact]
         public void WhenClearChildViewsPropertyIsNotSet_ThenChildViewsRegionManagerIsNotCleared()
         {
             var regionManager = new MockRegionManager();
@@ -25,14 +25,14 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             var childView = new MockFrameworkElement();
             region.Add(childView);
 
-            Assert.AreEqual(regionManager, childView.GetValue(RegionManager.RegionManagerProperty));
+            Assert.Equal(regionManager, childView.GetValue(RegionManager.RegionManagerProperty));
 
             region.RegionManager = null;
 
-            Assert.AreEqual(regionManager, childView.GetValue(RegionManager.RegionManagerProperty));
+            Assert.Equal(regionManager, childView.GetValue(RegionManager.RegionManagerProperty));
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenClearChildViewsPropertyIsTrue_ThenChildViewsRegionManagerIsCleared()
         {
             var regionManager = new MockRegionManager();
@@ -49,14 +49,14 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
             ClearChildViewsRegionBehavior.SetClearChildViews(childView, true);
 
-            Assert.AreEqual(regionManager, childView.GetValue(RegionManager.RegionManagerProperty));
+            Assert.Equal(regionManager, childView.GetValue(RegionManager.RegionManagerProperty));
 
             region.RegionManager = null;
 
-            Assert.IsNull(childView.GetValue(RegionManager.RegionManagerProperty));
+            Assert.Null(childView.GetValue(RegionManager.RegionManagerProperty));
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenRegionManagerChangesToNotNullValue_ThenChildViewsRegionManagerIsNotCleared()
         {
             var regionManager = new MockRegionManager();
@@ -73,11 +73,11 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
             childView.SetValue(ClearChildViewsRegionBehavior.ClearChildViewsProperty, true);
 
-            Assert.AreEqual(regionManager, childView.GetValue(RegionManager.RegionManagerProperty));
+            Assert.Equal(regionManager, childView.GetValue(RegionManager.RegionManagerProperty));
 
             region.RegionManager = new MockRegionManager();
 
-            Assert.IsNotNull(childView.GetValue(RegionManager.RegionManagerProperty));
+            Assert.NotNull(childView.GetValue(RegionManager.RegionManagerProperty));
         }
     }
 }

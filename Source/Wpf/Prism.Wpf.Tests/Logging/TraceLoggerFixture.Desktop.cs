@@ -1,31 +1,25 @@
 
 
 using System.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Logging;
+using System;
 
 namespace Prism.Wpf.Tests.Logging
 {
-    [TestClass]
-    public class TraceLoggerFixture
+    
+    public class TraceLoggerFixture: IDisposable
     {
         TraceListener[] existingListeners;
 
-        [TestInitialize]
-        public void RemoveExisitingListeners()
+        public TraceLoggerFixture()
         {
             existingListeners = new TraceListener[Trace.Listeners.Count];
             Trace.Listeners.CopyTo(existingListeners, 0);
             Trace.Listeners.Clear();
         }
 
-        [TestCleanup]
-        public void ReAttachExistingListeners()
-        {
-            Trace.Listeners.AddRange(existingListeners);
-        }
-
-        [TestMethod]
+        [Fact]
         public void ShouldWriteToTraceWriter()
         {
             var listener = new MockTraceListener();
@@ -34,13 +28,13 @@ namespace Prism.Wpf.Tests.Logging
             var traceLogger = new TraceLogger();
             traceLogger.Log("Test debug message", Category.Debug, Priority.Low);
 
-            Assert.AreEqual<string>("Test debug message", listener.LogMessage);
+            Assert.Equal("Test debug message", listener.LogMessage);
 
             Trace.Listeners.Remove(listener);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ShouldTraceErrorException()
         {
             var listener = new MockTraceListener();
@@ -49,9 +43,14 @@ namespace Prism.Wpf.Tests.Logging
             var traceLogger = new TraceLogger();
             traceLogger.Log("Test exception message", Category.Exception, Priority.Low);
 
-            Assert.AreEqual<string>("Test exception message", listener.ErrorMessage);
+            Assert.Equal("Test exception message", listener.ErrorMessage);
 
             Trace.Listeners.Remove(listener);
+        }
+
+        public void Dispose()
+        {
+            Trace.Listeners.AddRange(existingListeners);
         }
     }
 

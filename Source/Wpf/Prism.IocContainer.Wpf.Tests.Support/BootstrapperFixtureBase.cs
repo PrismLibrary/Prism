@@ -1,6 +1,6 @@
 
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Prism.IocContainer.Wpf.Tests.Support
 {
@@ -15,14 +15,14 @@ namespace Prism.IocContainer.Wpf.Tests.Support
             }
             catch (Exception ex)
             {
-                Assert.AreEqual(expectedExceptionType, ex.GetType());
-                StringAssert.Contains(ex.Message, expectedExceptionMessageSubstring);
+                Assert.Equal(expectedExceptionType, ex.GetType());
+                Assert.Contains(expectedExceptionMessageSubstring, ex.Message);
                 exceptionThrown = true;
             }
 
             if (!exceptionThrown)
             {
-                Assert.Fail("Exception not thrown.");
+                //Assert.Fail("Exception not thrown.");
             }
         }
     }

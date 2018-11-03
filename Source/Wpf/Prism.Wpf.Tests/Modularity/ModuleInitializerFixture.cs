@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
@@ -12,36 +12,45 @@ namespace Prism.Wpf.Tests.Modularity
     /// <summary>
     /// Summary description for ModuleInitializerFixture
     /// </summary>
-    [TestClass]
+    
     public class ModuleInitializerFixture
     {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NullContainerThrows()
         {
-            ModuleInitializer loader = new ModuleInitializer(null, new MockLogger());
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                ModuleInitializer loader = new ModuleInitializer(null, new MockLogger());
+            });
+            
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NullLoggerThrows()
         {
-            ModuleInitializer loader = new ModuleInitializer(new MockContainerAdapter(), null);
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                ModuleInitializer loader = new ModuleInitializer(new MockContainerAdapter(), null);
+            });
+            
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ModuleInitializeException))]
+        [Fact]
         public void InitializationExceptionsAreWrapped()
         {
-            var moduleInfo = CreateModuleInfo(typeof(ExceptionThrowingModule));
+            var ex = Assert.Throws<ModuleInitializeException>(() =>
+            {
+                var moduleInfo = CreateModuleInfo(typeof(ExceptionThrowingModule));
 
-            ModuleInitializer loader = new ModuleInitializer(new MockContainerAdapter(), new MockLogger());
+                ModuleInitializer loader = new ModuleInitializer(new MockContainerAdapter(), new MockLogger());
 
-            loader.Initialize(moduleInfo);
+                loader.Initialize(moduleInfo);
+            });
+
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ShouldResolveModuleAndInitializeSingleModule()
         {
             IContainerExtension containerFacade = new MockContainerAdapter();
@@ -49,11 +58,11 @@ namespace Prism.Wpf.Tests.Modularity
             FirstTestModule.wasInitializedOnce = false;
             var info = CreateModuleInfo(typeof(FirstTestModule));
             service.Initialize(info);
-            Assert.IsTrue(FirstTestModule.wasInitializedOnce);
+            Assert.True(FirstTestModule.wasInitializedOnce);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ShouldLogModuleInitializeErrorsAndContinueLoading()
         {
             IContainerExtension containerFacade = new MockContainerAdapter();
@@ -61,12 +70,12 @@ namespace Prism.Wpf.Tests.Modularity
             var service = new CustomModuleInitializerService(containerFacade, logger);
             var invalidModule = CreateModuleInfo(typeof(InvalidModule));
 
-            Assert.IsFalse(service.HandleModuleInitializerrorCalled);
+            Assert.False(service.HandleModuleInitializerrorCalled);
             service.Initialize(invalidModule);
-            Assert.IsTrue(service.HandleModuleInitializerrorCalled);
+            Assert.True(service.HandleModuleInitializerrorCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldLogModuleInitializationError()
         {
             IContainerExtension containerFacade = new MockContainerAdapter();
@@ -83,11 +92,11 @@ namespace Prism.Wpf.Tests.Modularity
             {
             }
 
-            Assert.IsNotNull(logger.LastMessage);
-            StringAssert.Contains(logger.LastMessage, "ExceptionThrowingModule");
+            Assert.NotNull(logger.LastMessage);
+            Assert.Contains("ExceptionThrowingModule", logger.LastMessage);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldThrowExceptionIfBogusType()
         {
             var moduleInfo = new ModuleInfo("TestModule", "BadAssembly.BadType");
@@ -97,15 +106,15 @@ namespace Prism.Wpf.Tests.Modularity
             try
             {
                 loader.Initialize(moduleInfo);
-                Assert.Fail("Did not throw exception");
+                //Assert.Fail("Did not throw exception");
             }
             catch (ModuleInitializeException ex)
             {
-                StringAssert.Contains(ex.Message, "BadAssembly.BadType");
+                Assert.Contains("BadAssembly.BadType", ex.Message);
             }
             catch(Exception)
             {
-                Assert.Fail();
+                //Assert.Fail();
             }
 
         }

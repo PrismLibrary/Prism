@@ -1,6 +1,6 @@
 using System.Windows;
 using CommonServiceLocator;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Logging;
 using Prism.Regions;
 using StructureMap;
@@ -8,17 +8,17 @@ using Prism.Modularity;
 
 namespace Prism.StructureMap.Wpf.Tests
 {
-    [TestClass]
+    
     public class StructureMapBootstrapperNullModuleManagerFixture
     {
-        [TestMethod]
+        [Fact]
         public void RunShouldNotCallInitializeModulesWhenModuleManagerNotFound()
         {
             var bootstrapper = new NullModuleManagerBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsFalse(bootstrapper.InitializeModulesCalled);
+            Assert.False(bootstrapper.InitializeModulesCalled);
         }
 
         private class NullModuleManagerBootstrapper : StructureMapBootstrapper

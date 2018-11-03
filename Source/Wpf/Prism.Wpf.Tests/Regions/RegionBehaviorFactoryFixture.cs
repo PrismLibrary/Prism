@@ -2,16 +2,16 @@
 
 using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    [TestClass]
+    
     public class RegionBehaviorFactoryFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanRegisterType()
         {
             RegionBehaviorFactory factory = new RegionBehaviorFactory(null);
@@ -19,12 +19,12 @@ namespace Prism.Wpf.Tests.Regions
             factory.AddIfMissing("key1", typeof(MockRegionBehavior));
             factory.AddIfMissing("key2", typeof(MockRegionBehavior));
 
-            Assert.AreEqual(2, factory.Count());
-            Assert.IsTrue(factory.ContainsKey("key1"));
+            Assert.Equal(2, factory.Count());
+            Assert.True(factory.ContainsKey("key1"));
             
         }
 
-        [TestMethod]
+        [Fact]
         public void WillNotAddTypesWithDuplicateKeys()
         {
             RegionBehaviorFactory factory = new RegionBehaviorFactory(null);
@@ -32,19 +32,22 @@ namespace Prism.Wpf.Tests.Regions
             factory.AddIfMissing("key1", typeof(MockRegionBehavior));
             factory.AddIfMissing("key1", typeof(MockRegionBehavior));
 
-            Assert.AreEqual(1, factory.Count());
+            Assert.Single(factory);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void AddTypeThatDoesNotInheritFromIRegionBehaviorThrows()
         {
-            RegionBehaviorFactory factory = new RegionBehaviorFactory(null);
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                RegionBehaviorFactory factory = new RegionBehaviorFactory(null);
 
-            factory.AddIfMissing("key1", typeof(object));
+                factory.AddIfMissing("key1", typeof(object));
+            });
+
         }
 
-        [TestMethod]
+        [Fact]
         public void CanCreateRegisteredType()
         {
             var expectedBehavior = new MockRegionBehavior();
@@ -54,16 +57,19 @@ namespace Prism.Wpf.Tests.Regions
             factory.AddIfMissing("key1", typeof(MockRegionBehavior));
             var behavior = factory.CreateFromKey("key1");
 
-            Assert.AreSame(expectedBehavior, behavior);
+            Assert.Same(expectedBehavior, behavior);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void CreateWithUnknownKeyThrows()
         {
-            RegionBehaviorFactory factory = new RegionBehaviorFactory(null);
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                RegionBehaviorFactory factory = new RegionBehaviorFactory(null);
 
-            factory.CreateFromKey("Key1");
+                factory.CreateFromKey("Key1");
+            });
+
         }
 
     }

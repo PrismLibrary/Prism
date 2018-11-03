@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.Logging;
@@ -14,57 +14,57 @@ using CommonServiceLocator;
 
 namespace Prism.StructureMap.Wpf.Tests
 {
-    [TestClass]
+    [Collection("ServiceLocator")]
     public class StructureMapBootstrapperFixture: BootstrapperFixtureBase
     {
-        [TestMethod]
+        [StaFact]
         public void ContainerDefaultsToNull()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
             var container = bootstrapper.BaseContainer;
 
-            Assert.IsNull(container);
+            Assert.Null(container);
         }
 
-        [TestMethod]
+        [StaFact]
         public void CanCreateConcreteBootstrapper()
         {
             new DefaultStructureMapBootstrapper();
         }
 
-        [TestMethod]
+        [StaFact]
         public void CreateContainerShouldInitializeContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
 
             IContainer container = bootstrapper.CallCreateContainer();
 
-            Assert.IsNotNull(container);
-            Assert.IsInstanceOfType(container, typeof(IContainer));
+            Assert.NotNull(container);
+            Assert.IsAssignableFrom<IContainer>(container);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ConfigureContainerAddsModuleCatalogToContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
             bootstrapper.Run();
 
             var returnedCatalog = bootstrapper.BaseContainer.GetInstance<IModuleCatalog>();
-            Assert.IsNotNull(returnedCatalog);
-            Assert.IsTrue(returnedCatalog is ModuleCatalog);
+            Assert.NotNull(returnedCatalog);
+            Assert.True(returnedCatalog is ModuleCatalog);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ConfigureContainerAddsLoggerFacadeToContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
             bootstrapper.Run();
 
             var returnedCatalog = bootstrapper.BaseContainer.GetInstance<ILoggerFacade>();
-            Assert.IsNotNull(returnedCatalog);
+            Assert.NotNull(returnedCatalog);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationJournalEntryToContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -73,12 +73,12 @@ namespace Prism.StructureMap.Wpf.Tests
             var actual1 = bootstrapper.BaseContainer.GetInstance<IRegionNavigationJournalEntry>();
             var actual2 = bootstrapper.BaseContainer.GetInstance<IRegionNavigationJournalEntry>();
 
-            Assert.IsNotNull(actual1);
-            Assert.IsNotNull(actual2);
-            Assert.AreNotSame(actual1, actual2);
+            Assert.NotNull(actual1);
+            Assert.NotNull(actual2);
+            Assert.NotSame(actual1, actual2);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationJournalToContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -87,12 +87,12 @@ namespace Prism.StructureMap.Wpf.Tests
             var actual1 = bootstrapper.BaseContainer.GetInstance<IRegionNavigationJournal>();
             var actual2 = bootstrapper.BaseContainer.GetInstance<IRegionNavigationJournal>();
 
-            Assert.IsNotNull(actual1);
-            Assert.IsNotNull(actual2);
-            Assert.AreNotSame(actual1, actual2);
+            Assert.NotNull(actual1);
+            Assert.NotNull(actual2);
+            Assert.NotSame(actual1, actual2);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationServiceToContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -101,12 +101,12 @@ namespace Prism.StructureMap.Wpf.Tests
             var actual1 = bootstrapper.BaseContainer.GetInstance<IRegionNavigationService>();
             var actual2 = bootstrapper.BaseContainer.GetInstance<IRegionNavigationService>();
 
-            Assert.IsNotNull(actual1);
-            Assert.IsNotNull(actual2);
-            Assert.AreNotSame(actual1, actual2);
+            Assert.NotNull(actual1);
+            Assert.NotNull(actual2);
+            Assert.NotSame(actual1, actual2);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ConfigureContainerAddsNavigationTargetHandlerToContainer()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
@@ -115,34 +115,34 @@ namespace Prism.StructureMap.Wpf.Tests
             var actual1 = bootstrapper.BaseContainer.GetInstance<IRegionNavigationContentLoader>();
             var actual2 = bootstrapper.BaseContainer.GetInstance<IRegionNavigationContentLoader>();
 
-            Assert.IsNotNull(actual1);
-            Assert.IsNotNull(actual2);
-            Assert.AreSame(actual1, actual2);
+            Assert.NotNull(actual1);
+            Assert.NotNull(actual2);
+            Assert.Same(actual1, actual2);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterActivationException()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
 
             bootstrapper.CallRegisterFrameworkExceptionTypes();
 
-            Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
+            Assert.True(ExceptionExtensions.IsFrameworkExceptionRegistered(
                 typeof(ActivationException)));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterResolutionFailedException()
         {
             var bootstrapper = new DefaultStructureMapBootstrapper();
 
             bootstrapper.CallRegisterFrameworkExceptionTypes();
 
-            Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
+            Assert.True(ExceptionExtensions.IsFrameworkExceptionRegistered(
                 typeof(StructureMapBuildPlanException)));
-            Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
+            Assert.True(ExceptionExtensions.IsFrameworkExceptionRegistered(
                 typeof(StructureMapConfigurationException)));
-            Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
+            Assert.True(ExceptionExtensions.IsFrameworkExceptionRegistered(
                 typeof(StructureMapException)));
         }
     }

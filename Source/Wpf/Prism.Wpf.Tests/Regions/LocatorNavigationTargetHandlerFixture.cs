@@ -3,16 +3,16 @@
 using System;
 using System.Windows;
 using CommonServiceLocator;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Prism.Regions;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    [TestClass]
+    
     public class LocatorNavigationTargetHandlerFixture
     {
-        [TestMethod]
+        [Fact]
         public void WhenViewExistsAndDoesNotImplementINavigationAware_ThenReturnsView()
         {
             // Arrange
@@ -37,10 +37,10 @@ namespace Prism.Wpf.Tests.Regions
 
             // Assert
 
-            Assert.AreSame(view, returnedView);
+            Assert.Same(view, returnedView);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenRegionHasMultipleViews_ThenViewsWithMatchingTypeNameAreConsidered()
         {
             // Arrange
@@ -67,10 +67,10 @@ namespace Prism.Wpf.Tests.Regions
 
             // Assert
 
-            Assert.AreSame(view2, returnedView);
+            Assert.Same(view2, returnedView);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenRegionHasMultipleViews_ThenViewsWithMatchingFullTypeNameAreConsidered()
         {
             // Arrange
@@ -97,10 +97,10 @@ namespace Prism.Wpf.Tests.Regions
 
             // Assert
 
-            Assert.AreSame(view2, returnedView);
+            Assert.Same(view2, returnedView);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenViewExistsAndImplementsINavigationAware_ThenViewIsQueriedForNavigationAndIsReturnedIfAcceptsIt()
         {
             // Arrange
@@ -129,11 +129,11 @@ namespace Prism.Wpf.Tests.Regions
 
             // Assert
 
-            Assert.AreSame(viewMock.Object, returnedView);
+            Assert.Same(viewMock.Object, returnedView);
             viewMock.VerifyAll();
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenViewExistsAndHasDataContextThatImplementsINavigationAware_ThenDataContextIsQueriedForNavigationAndIsReturnedIfAcceptsIt()
         {
             // Arrange
@@ -164,11 +164,11 @@ namespace Prism.Wpf.Tests.Regions
 
             // Assert
 
-            Assert.AreSame(viewMock.Object, returnedView);
+            Assert.Same(viewMock.Object, returnedView);
             dataContextMock.VerifyAll();
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNoCurrentMatchingViewExists_ThenReturnsNewlyCreatedInstanceWithServiceLocatorAddedToTheRegion()
         {
             // Arrange
@@ -195,11 +195,11 @@ namespace Prism.Wpf.Tests.Regions
 
             // Assert
 
-            Assert.AreSame(view, returnedView);
-            Assert.IsTrue(region.Views.Contains(view));
+            Assert.Same(view, returnedView);
+            Assert.True(region.Views.Contains(view));
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenViewExistsAndImplementsINavigationAware_ThenViewIsQueriedForNavigationAndNewInstanceIsCreatedIfItRejectsIt()
         {
             // Arrange
@@ -234,12 +234,12 @@ namespace Prism.Wpf.Tests.Regions
 
             // Assert
 
-            Assert.AreSame(newView, returnedView);
-            Assert.IsTrue(region.Views.Contains(newView));
+            Assert.Same(newView, returnedView);
+            Assert.True(region.Views.Contains(newView));
             viewMock.VerifyAll();
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenViewExistsAndHasDataContextThatImplementsINavigationAware_ThenDataContextIsQueriedForNavigationAndNewInstanceIsCreatedIfItRejectsIt()
         {
             // Arrange
@@ -276,12 +276,12 @@ namespace Prism.Wpf.Tests.Regions
 
             // Assert
 
-            Assert.AreSame(newView, returnedView);
-            Assert.IsTrue(region.Views.Contains(newView));
+            Assert.Same(newView, returnedView);
+            Assert.True(region.Views.Contains(newView));
             dataContextMock.VerifyAll();
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenViewCannotBeCreated_ThenThrowsAnException()
         {
             var serviceLocatorMock = new Mock<IServiceLocator>();
@@ -306,7 +306,7 @@ namespace Prism.Wpf.Tests.Regions
                 });
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenViewAddedByHandlerDoesNotImplementINavigationAware_ThenReturnsView()
         {
             // Arrange
@@ -334,12 +334,12 @@ namespace Prism.Wpf.Tests.Regions
 
             // Assert
 
-            Assert.AreSame(view, firstReturnedView);
-            Assert.AreSame(view, secondReturnedView);
+            Assert.Same(view, firstReturnedView);
+            Assert.Same(view, secondReturnedView);
             serviceLocatorMock.Verify(sl => sl.GetInstance<object>(view.GetType().Name), Times.Once());
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenRequestingContentForNullRegion_ThenThrows()
         {
             var serviceLocatorMock = new Mock<IServiceLocator>();
@@ -357,7 +357,7 @@ namespace Prism.Wpf.Tests.Regions
                 });
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenRequestingContentForNullContext_ThenThrows()
         {
             var serviceLocatorMock = new Mock<IServiceLocator>();

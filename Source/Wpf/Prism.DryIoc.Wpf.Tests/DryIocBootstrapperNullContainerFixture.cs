@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Windows;
 using DryIoc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support;
 
 namespace Prism.DryIoc.Wpf.Tests
 {
-    [TestClass]
+    
     public class DryIocBootstrapperNullContainerFixture : BootstrapperFixtureBase
     {
-        [TestMethod]
+        [Fact]
         public void RunThrowsWhenNullContainerCreated()
         {
             var bootstrapper = new NullContainerBootstrapper();

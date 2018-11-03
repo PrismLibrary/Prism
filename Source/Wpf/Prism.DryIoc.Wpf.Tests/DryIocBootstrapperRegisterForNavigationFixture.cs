@@ -1,6 +1,6 @@
 ﻿using DryIoc;
 using CommonServiceLocator;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support;
 using System;
 using System.Collections.Generic;
@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace Prism.DryIoc.Wpf.Tests
 {
-    [TestClass]
+    
     public class DryIocBootstrapperRegisterForNavigationFixture : BootstrapperFixtureBase
     {
-        [TestMethod]
+        [Fact]
         public void RunCheckIfViewRegisteredForNavigationCanBeResolvedTroughServiceLocatorWithObjectServiceType()
         {
             var bootstrapper = new RegisterForNavigationBootstrapper();
@@ -21,8 +21,8 @@ namespace Prism.DryIoc.Wpf.Tests
             IServiceLocator serviceLocator = bootstrapper.Container.Resolve<IServiceLocator>();
             object viewInstance = serviceLocator.GetInstance<object>(nameof(NavigateView));
 
-            Assert.IsNotNull(viewInstance);
-            Assert.IsInstanceOfType(viewInstance, typeof(NavigateView));
+            Assert.NotNull(viewInstance);
+            Assert.IsType<NavigateView>(viewInstance);
         }
 
         private class RegisterForNavigationBootstrapper : DryIocBootstrapper

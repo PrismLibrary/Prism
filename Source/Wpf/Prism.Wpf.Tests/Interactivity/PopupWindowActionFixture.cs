@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Interactivity;
 using Prism.Interactivity.DefaultPopupWindows;
 using Prism.Interactivity.InteractionRequest;
@@ -9,10 +9,10 @@ using System.Windows.Controls;
 
 namespace Prism.Wpf.Tests.Interactivity
 {
-    [TestClass]
+    
     public class PopupWindowActionFixture
     {
-        [TestMethod]
+        [StaFact]
         public void WhenWindowContentIsNotSet_ShouldUseDefaultWindowForNotifications()
         {
             TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
@@ -23,17 +23,17 @@ namespace Prism.Wpf.Tests.Interactivity
             notification.Title = "Title";
             notification.Content = "Content";
 
-            Assert.AreEqual(popupWindowAction.IsModal, true);
-            Assert.AreEqual(popupWindowAction.CenterOverAssociatedObject, true);
+            Assert.True(popupWindowAction.IsModal);
+            Assert.True(popupWindowAction.CenterOverAssociatedObject);
 
             Window window = popupWindowAction.GetWindow(notification);
-            Assert.IsInstanceOfType(window, typeof(DefaultNotificationWindow));
+            Assert.IsType<DefaultNotificationWindow>(window);
 
             DefaultNotificationWindow defaultWindow = window as DefaultNotificationWindow;
-            Assert.ReferenceEquals(defaultWindow.Notification, notification);
+            Assert.Same(defaultWindow.Notification, notification);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenWindowContentIsNotSet_ShouldUseDefaultWindowForConfirmations()
         {
             TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
@@ -44,17 +44,17 @@ namespace Prism.Wpf.Tests.Interactivity
             notification.Title = "Title";
             notification.Content = "Content";
 
-            Assert.AreEqual(popupWindowAction.IsModal, true);
-            Assert.AreEqual(popupWindowAction.CenterOverAssociatedObject, true);
+            Assert.True(popupWindowAction.IsModal);
+            Assert.True(popupWindowAction.CenterOverAssociatedObject);
 
             Window window = popupWindowAction.GetWindow(notification);
-            Assert.IsInstanceOfType(window, typeof(DefaultConfirmationWindow));
+            Assert.IsType<DefaultConfirmationWindow>(window);
 
             DefaultConfirmationWindow defaultWindow = window as DefaultConfirmationWindow;
-            Assert.ReferenceEquals(defaultWindow.Confirmation, notification);
+            Assert.Same(defaultWindow.Confirmation, notification);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenWindowContentIsSet_ShouldWrapContentInCommonWindow()
         {
             MockFrameworkElement element = new MockFrameworkElement();
@@ -66,12 +66,12 @@ namespace Prism.Wpf.Tests.Interactivity
             notification.Content = "Content";
 
             Window window = popupWindowAction.GetWindow(notification);
-            Assert.IsNotInstanceOfType(window, typeof(DefaultNotificationWindow));
-            Assert.IsNotInstanceOfType(window, typeof(DefaultConfirmationWindow));
-            Assert.IsInstanceOfType(window, typeof(Window));
+            Assert.IsNotType<DefaultNotificationWindow>(window);
+            Assert.IsNotType<DefaultConfirmationWindow>(window);
+            Assert.IsType<DefaultWindow>(window);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenWindowContentImplementsIInteractionRequestAware_ShouldSetUpProperties()
         {
             MockInteractionRequestAwareElement element = new MockInteractionRequestAwareElement();
@@ -83,12 +83,12 @@ namespace Prism.Wpf.Tests.Interactivity
             notification.Content = "Content";
 
             Window window = popupWindowAction.GetWindow(notification);
-            Assert.IsNotNull(element.Notification);
-            Assert.ReferenceEquals(element.Notification, notification);
-            Assert.IsNotNull(element.FinishInteraction);
+            Assert.NotNull(element.Notification);
+            Assert.Same(element.Notification, notification);
+            Assert.NotNull(element.FinishInteraction);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenDataContextOfWindowContentImplementsIInteractionRequestAware_ShouldSetUpProperties()
         {
             MockInteractionRequestAwareElement dataContext = new MockInteractionRequestAwareElement();
@@ -102,12 +102,12 @@ namespace Prism.Wpf.Tests.Interactivity
             notification.Content = "Content";
 
             Window window = popupWindowAction.GetWindow(notification);
-            Assert.IsNotNull(dataContext.Notification);
-            Assert.ReferenceEquals(dataContext.Notification, notification);
-            Assert.IsNotNull(dataContext.FinishInteraction);
+            Assert.NotNull(dataContext.Notification);
+            Assert.Same(dataContext.Notification, notification);
+            Assert.NotNull(dataContext.FinishInteraction);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenStyleForWindowIsSet_WindowShouldHaveTheStyle()
         {
             TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
@@ -120,25 +120,28 @@ namespace Prism.Wpf.Tests.Interactivity
 
             Window window = popupWindowAction.GetWindow(notification);
 
-            Assert.AreSame(window.Style, style);
+            Assert.Same(window.Style, style);
         }
 
-        [TestMethod]      
-        [ExpectedException(typeof(InvalidOperationException))]  
+        [StaFact]      
         public void WhenStyleIsNotForWindowIsSet_InvalidOperationExceptionIsThrown()
         {
-            TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
-            Style style = new Style(typeof(StackPanel));
-            popupWindowAction.WindowStyle = style;
+            var ex = Assert.Throws<InvalidOperationException>(() =>
+            {
+                TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
+                Style style = new Style(typeof(StackPanel));
+                popupWindowAction.WindowStyle = style;
 
-            INotification notification = new Notification();
-            notification.Title = "Title";
-            notification.Content = "Content";
+                INotification notification = new Notification();
+                notification.Title = "Title";
+                notification.Content = "Content";
 
-            Window window = popupWindowAction.GetWindow(notification);
+                Window window = popupWindowAction.GetWindow(notification);
+            });
+
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenStartupLocationForWindowIsSet_ChildWindowHasProperty()
         {
             TestablePopupWindowAction popupWindowAction = new TestablePopupWindowAction();
@@ -150,7 +153,7 @@ namespace Prism.Wpf.Tests.Interactivity
 
             Window window = popupWindowAction.GetWindow(notification);
 
-            Assert.AreEqual(window.WindowStartupLocation, WindowStartupLocation.CenterScreen);
+            Assert.Equal(WindowStartupLocation.CenterScreen, window.WindowStartupLocation);
         }
 
     }

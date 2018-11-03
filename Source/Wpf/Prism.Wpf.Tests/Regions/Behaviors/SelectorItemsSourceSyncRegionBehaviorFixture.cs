@@ -6,26 +6,26 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {
-    [TestClass]
+    
     public class SelectorItemsSourceSyncRegionBehaviorFixture
     {
-        [TestMethod]
+        [StaFact]
         public void CanAttachToSelector()
         {
             SelectorItemsSourceSyncBehavior behavior = CreateBehavior();
             behavior.Attach();
 
-            Assert.IsTrue(behavior.IsAttached);
+            Assert.True(behavior.IsAttached);
         }
 
-        [TestMethod]
+        [StaFact]
         public void AttachSetsItemsSourceOfSelector()
         {
             SelectorItemsSourceSyncBehavior behavior = CreateBehavior();
@@ -38,10 +38,10 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
             behavior.Attach();
 
-            Assert.AreEqual(2, (behavior.HostControl as Selector).Items.Count);
+            Assert.Equal(2, (behavior.HostControl as Selector).Items.Count);
         }
 
-        [TestMethod]
+        [StaFact]
         public void IfViewsHaveSortHintThenViewsAreProperlySorted()
         {
             SelectorItemsSourceSyncBehavior behavior = CreateBehavior();
@@ -55,15 +55,15 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             behavior.Region.Add(v2);
             behavior.Region.Add(v1);
             
-            Assert.AreEqual(3, (behavior.HostControl as Selector).Items.Count);
+            Assert.Equal(3, (behavior.HostControl as Selector).Items.Count);
 
-            Assert.AreSame(v1, (behavior.HostControl as Selector).Items[0]);
-            Assert.AreSame(v2, (behavior.HostControl as Selector).Items[1]);
-            Assert.AreSame(v3, (behavior.HostControl as Selector).Items[2]);
+            Assert.Same(v1, (behavior.HostControl as Selector).Items[0]);
+            Assert.Same(v2, (behavior.HostControl as Selector).Items[1]);
+            Assert.Same(v3, (behavior.HostControl as Selector).Items[2]);
         }
 
 
-        [TestMethod]
+        [StaFact]
         public void SelectionChangedShouldChangeActiveViews()
         {
             SelectorItemsSourceSyncBehavior behavior = CreateBehavior();
@@ -79,16 +79,16 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             (behavior.HostControl as Selector).SelectedItem = v1;
             var activeViews = behavior.Region.ActiveViews;
 
-            Assert.AreEqual(1, activeViews.Count());
-            Assert.AreEqual(v1, activeViews.First());
+            Assert.Single(activeViews);
+            Assert.Equal(v1, activeViews.First());
 
             (behavior.HostControl as Selector).SelectedItem = v2;
 
-            Assert.AreEqual(1, activeViews.Count());
-            Assert.AreEqual(v2, activeViews.First());
+            Assert.Single(activeViews);
+            Assert.Equal(v2, activeViews.First());
         }
 
-        [TestMethod]
+        [StaFact]
         public void ActiveViewChangedShouldChangeSelectedItem()
         {
             SelectorItemsSourceSyncBehavior behavior = CreateBehavior();
@@ -102,24 +102,27 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             behavior.Attach();
 
             behavior.Region.Activate(v1);
-            Assert.AreEqual(v1, (behavior.HostControl as Selector).SelectedItem);
+            Assert.Equal(v1, (behavior.HostControl as Selector).SelectedItem);
 
             behavior.Region.Activate(v2);
-            Assert.AreEqual(v2, (behavior.HostControl as Selector).SelectedItem);
+            Assert.Equal(v2, (behavior.HostControl as Selector).SelectedItem);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [StaFact]
         public void ItemsSourceSetThrows()
         {
-            SelectorItemsSourceSyncBehavior behavior = CreateBehavior();
+            var ex = Assert.Throws<InvalidOperationException>(() =>
+            {
+                SelectorItemsSourceSyncBehavior behavior = CreateBehavior();
 
-            (behavior.HostControl as Selector).ItemsSource = new[] {new Button()};
+                (behavior.HostControl as Selector).ItemsSource = new[] { new Button() };
 
-            behavior.Attach();
+                behavior.Attach();
+            });
+
         }
 
-        [TestMethod]
+        [StaFact]
         public void ControlWithExistingBindingOnItemsSourceWithNullValueThrows()
         {
             var behavor = CreateBehavior();
@@ -135,27 +138,30 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             }
             catch (Exception ex)
             {
-                Assert.IsInstanceOfType(ex, typeof(InvalidOperationException));
-                StringAssert.Contains(ex.Message, "ItemsControl's ItemsSource property is not empty.");
+                Assert.IsType<InvalidOperationException>(ex);
+                Assert.Contains("ItemsControl's ItemsSource property is not empty.", ex.Message);
             }
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [StaFact]
         public void AddingViewToTwoRegionsThrows()
         {
-            var behavior1 = CreateBehavior();
-            var behavior2 = CreateBehavior();
+            var ex = Assert.Throws<InvalidOperationException>(() =>
+            {
+                var behavior1 = CreateBehavior();
+                var behavior2 = CreateBehavior();
 
-            behavior1.Attach();
-            behavior2.Attach();
-            var v1 = new Button();
+                behavior1.Attach();
+                behavior2.Attach();
+                var v1 = new Button();
 
-            behavior1.Region.Add(v1);
-            behavior2.Region.Add(v1);
+                behavior1.Region.Add(v1);
+                behavior2.Region.Add(v1);
+            });
+
         }
 
-        [TestMethod]
+        [StaFact]
         public void ReactivatingViewAddsViewToTab()
         {
             var behavior1 = CreateBehavior();
@@ -168,16 +174,16 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             behavior1.Region.Add(v2);
 
             behavior1.Region.Activate(v1);
-            Assert.IsTrue(behavior1.Region.ActiveViews.First() == v1);
+            Assert.True(behavior1.Region.ActiveViews.First() == v1);
 
             behavior1.Region.Activate(v2);
-            Assert.IsTrue(behavior1.Region.ActiveViews.First() == v2);
+            Assert.True(behavior1.Region.ActiveViews.First() == v2);
 
             behavior1.Region.Activate(v1);
-            Assert.IsTrue(behavior1.Region.ActiveViews.First() == v1);
+            Assert.True(behavior1.Region.ActiveViews.First() == v1);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ShouldAllowMultipleSelectedItemsForListBox()
         {
             var behavior1 = CreateBehavior();
@@ -195,8 +201,8 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             listBox.SelectedItems.Add(v1);
             listBox.SelectedItems.Add(v2);
 
-            Assert.IsTrue(behavior1.Region.ActiveViews.Contains(v1));
-            Assert.IsTrue(behavior1.Region.ActiveViews.Contains(v2));
+            Assert.True(behavior1.Region.ActiveViews.Contains(v1));
+            Assert.True(behavior1.Region.ActiveViews.Contains(v2));
 
         }
 

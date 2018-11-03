@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using CommonServiceLocator;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Prism.Regions;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    [TestClass]
+    
     public class RegionNavigationServiceFixture
     {
-        [TestMethod]
+        [Fact]
         public void WhenNavigating_ViewIsActivated()
         {
             // Prepare
@@ -43,12 +43,12 @@ namespace Prism.Wpf.Tests.Regions
             target.RequestNavigate(viewUri, nr => isNavigationSuccessful = nr.Result == true);
 
             // Verify
-            Assert.IsTrue(isNavigationSuccessful);
+            Assert.True(isNavigationSuccessful);
             bool isViewActive = region.ActiveViews.Contains(view);
-            Assert.IsTrue(isViewActive);
+            Assert.True(isViewActive);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingWithQueryString_ViewIsActivated()
         {
             // Prepare
@@ -77,12 +77,12 @@ namespace Prism.Wpf.Tests.Regions
             target.RequestNavigate(viewUri, nr => isNavigationSuccessful = nr.Result == true);
 
             // Verify
-            Assert.IsTrue(isNavigationSuccessful);
+            Assert.True(isNavigationSuccessful);
             bool isViewActive = region.ActiveViews.Contains(view);
-            Assert.IsTrue(isViewActive);
+            Assert.True(isViewActive);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingAndViewCannotBeAcquired_ThenNavigationResultHasError()
         {
             // Prepare             
@@ -117,11 +117,11 @@ namespace Prism.Wpf.Tests.Regions
 
             // Verify
             bool isViewActive = region.ActiveViews.Contains(view);
-            Assert.IsFalse(isViewActive);
-            Assert.IsInstanceOfType(error, typeof(ArgumentException));
+            Assert.False(isViewActive);
+            Assert.IsType<ArgumentException>(error);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingWithNullUri_Throws()
         {
             // Prepare
@@ -142,12 +142,12 @@ namespace Prism.Wpf.Tests.Regions
             target.RequestNavigate((Uri)null, nr => navigationResult = nr);
 
             // Verify
-            Assert.IsFalse(navigationResult.Result.Value);
-            Assert.IsNotNull(navigationResult.Error);
-            Assert.IsInstanceOfType(navigationResult.Error, typeof(ArgumentNullException));
+            Assert.False(navigationResult.Result.Value);
+            Assert.NotNull(navigationResult.Error);
+            Assert.IsType<ArgumentNullException>(navigationResult.Error);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingAndViewImplementsINavigationAware_ThenNavigatedIsInvokedOnNavigation()
         {
             // Prepare
@@ -177,7 +177,7 @@ namespace Prism.Wpf.Tests.Regions
             viewMock.Verify(v => v.OnNavigatedTo(It.Is<NavigationContext>(nc => nc.Uri == navigationUri && nc.NavigationService == target)));
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenNavigatingAndDataContextImplementsINavigationAware_ThenNavigatedIsInvokesOnNavigation()
         {
             // Prepare
@@ -210,7 +210,7 @@ namespace Prism.Wpf.Tests.Regions
             mockINavigationAwareDataContext.Verify(v => v.OnNavigatedTo(It.Is<NavigationContext>(nc => nc.Uri == navigationUri)));
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenNavigatingAndBothViewAndDataContextImplementINavigationAware_ThenNavigatedIsInvokesOnNavigation()
         {
             // Prepare
@@ -247,7 +247,7 @@ namespace Prism.Wpf.Tests.Regions
             mockINavigationAwareDataContext.Verify(v => v.OnNavigatedTo(It.Is<NavigationContext>(nc => nc.Uri == navigationUri)));
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigating_NavigationIsRecordedInJournal()
         {
             // Prepare
@@ -283,12 +283,12 @@ namespace Prism.Wpf.Tests.Regions
             target.RequestNavigate(viewUri, nr => { });
 
             // Verify
-            Assert.IsNotNull(journalEntry);
-            Assert.AreEqual(viewUri, journalEntry.Uri);
+            Assert.NotNull(journalEntry);
+            Assert.Equal(viewUri, journalEntry.Uri);
             journalMock.VerifyAll();
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingAndCurrentlyActiveViewImplementsINavigateWithVeto_ThenNavigationRequestQueriesForVeto()
         {
             // Prepare
@@ -322,7 +322,7 @@ namespace Prism.Wpf.Tests.Regions
             viewMock.VerifyAll();
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigating_ThenNavigationRequestQueriesForVetoOnAllActiveViewsIfAllSucceed()
         {
             // Prepare
@@ -381,7 +381,7 @@ namespace Prism.Wpf.Tests.Regions
             view4Mock.VerifyAll();
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenRequestNavigateAwayAcceptsThroughCallback_ThenNavigationProceeds()
         {
             // Prepare
@@ -420,11 +420,11 @@ namespace Prism.Wpf.Tests.Regions
 
             // Verify
             view1Mock.VerifyAll();
-            Assert.IsTrue(navigationSucceeded);
-            CollectionAssert.AreEqual(new object[] { view1, view2 }, region.ActiveViews.ToArray());
+            Assert.True(navigationSucceeded);
+            Assert.Equal(new object[] { view1, view2 }, region.ActiveViews.ToArray());
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenRequestNavigateAwayRejectsThroughCallback_ThenNavigationDoesNotProceed()
         {
             // Prepare
@@ -463,11 +463,11 @@ namespace Prism.Wpf.Tests.Regions
 
             // Verify
             view1Mock.VerifyAll();
-            Assert.IsTrue(navigationFailed);
-            CollectionAssert.AreEqual(new object[] { view1 }, region.ActiveViews.ToArray());
+            Assert.True(navigationFailed);
+            Assert.Equal(new object[] { view1 }, region.ActiveViews.ToArray());
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenNavigatingAndDataContextOnCurrentlyActiveViewImplementsINavigateWithVeto_ThenNavigationRequestQueriesForVeto()
         {
             // Prepare
@@ -505,7 +505,7 @@ namespace Prism.Wpf.Tests.Regions
             viewModelMock.VerifyAll();
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenRequestNavigateAwayOnDataContextAcceptsThroughCallback_ThenNavigationProceeds()
         {
             // Prepare
@@ -546,11 +546,11 @@ namespace Prism.Wpf.Tests.Regions
 
             // Verify
             view1DataContextMock.VerifyAll();
-            Assert.IsTrue(navigationSucceeded);
-            CollectionAssert.AreEqual(new object[] { view1, view2 }, region.ActiveViews.ToArray());
+            Assert.True(navigationSucceeded);
+            Assert.Equal(new object[] { view1, view2 }, region.ActiveViews.ToArray());
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenRequestNavigateAwayOnDataContextRejectsThroughCallback_ThenNavigationDoesNotProceed()
         {
             // Prepare
@@ -591,11 +591,11 @@ namespace Prism.Wpf.Tests.Regions
 
             // Verify
             view1DataContextMock.VerifyAll();
-            Assert.IsTrue(navigationFailed);
-            CollectionAssert.AreEqual(new object[] { view1 }, region.ActiveViews.ToArray());
+            Assert.True(navigationFailed);
+            Assert.Equal(new object[] { view1 }, region.ActiveViews.ToArray());
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenViewAcceptsNavigationOutAfterNewIncomingRequestIsReceived_ThenOriginalRequestIsIgnored()
         {
             var region = new Region();
@@ -636,16 +636,16 @@ namespace Prism.Wpf.Tests.Regions
             target.RequestNavigate(navigationUri, nr => firstNavigation = nr.Result.Value);
             target.RequestNavigate(navigationUri, nr => secondNavigation = nr.Result.Value);
 
-            Assert.AreEqual(2, confirmationRequests.Count);
+            Assert.Equal(2, confirmationRequests.Count);
 
             confirmationRequests[0](true);
             confirmationRequests[1](true);
 
-            Assert.IsFalse(firstNavigation);
-            Assert.IsTrue(secondNavigation);
+            Assert.False(firstNavigation);
+            Assert.True(secondNavigation);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenViewModelAcceptsNavigationOutAfterNewIncomingRequestIsReceived_ThenOriginalRequestIsIgnored()
         {
             var region = new Region();
@@ -689,16 +689,16 @@ namespace Prism.Wpf.Tests.Regions
             target.RequestNavigate(navigationUri, nr => firstNavigation = nr.Result.Value);
             target.RequestNavigate(navigationUri, nr => secondNavigation = nr.Result.Value);
 
-            Assert.AreEqual(2, confirmationRequests.Count);
+            Assert.Equal(2, confirmationRequests.Count);
 
             confirmationRequests[0](true);
             confirmationRequests[1](true);
 
-            Assert.IsFalse(firstNavigation);
-            Assert.IsTrue(secondNavigation);
+            Assert.False(firstNavigation);
+            Assert.True(secondNavigation);
         }
 
-        [TestMethod]
+        [Fact]
         public void BeforeNavigating_NavigatingEventIsRaised()
         {
             // Prepare
@@ -737,12 +737,12 @@ namespace Prism.Wpf.Tests.Regions
             target.RequestNavigate(viewUri, nr => isNavigationSuccessful = nr.Result == true);
 
             // Verify
-            Assert.IsTrue(isNavigationSuccessful);
-            Assert.IsTrue(isNavigatingRaised);
+            Assert.True(isNavigationSuccessful);
+            Assert.True(isNavigatingRaised);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigationSucceeds_NavigatedIsRaised()
         {
             // Prepare
@@ -781,12 +781,12 @@ namespace Prism.Wpf.Tests.Regions
             target.RequestNavigate(viewUri, nr => isNavigationSuccessful = nr.Result == true);
 
             // Verify
-            Assert.IsTrue(isNavigationSuccessful);
-            Assert.IsTrue(isNavigatedRaised);
+            Assert.True(isNavigationSuccessful);
+            Assert.True(isNavigatedRaised);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenTargetViewCreationThrowsWithAsyncConfirmation_ThenExceptionIsProvidedToNavigationCallback()
         {
             var serviceLocatorMock = new Mock<IServiceLocator>();
@@ -816,11 +816,11 @@ namespace Prism.Wpf.Tests.Regions
             target.RequestNavigate(new Uri("", UriKind.Relative), nr => result = nr);
             navigationCallback(true);
 
-            Assert.IsNotNull(result);
-            Assert.AreSame(targetException, result.Error);
+            Assert.NotNull(result);
+            Assert.Same(targetException, result.Error);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingFromViewThatIsNavigationAware_ThenNotifiesActiveViewNavigatingFrom()
         {
             // Arrange
@@ -852,7 +852,7 @@ namespace Prism.Wpf.Tests.Regions
             viewMock.Verify(v => v.OnNavigatedFrom(It.Is<NavigationContext>(ctx => ctx.Uri == navigationUri && ctx.Parameters.Count() == 0)));
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigationFromViewThatIsNavigationAware_OnlyNotifiesOnNavigateFromForActiveViews()
         {
             // Arrange
@@ -890,10 +890,10 @@ namespace Prism.Wpf.Tests.Regions
             target.RequestNavigate(navigationUri, nr => { });
 
             // Verify
-            Assert.IsFalse(navigationFromInvoked);
+            Assert.False(navigationFromInvoked);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenNavigatingFromActiveViewWithNavigatinAwareDataConext_NotifiesContextOfNavigatingFrom()
         {
             // Arrange
@@ -930,7 +930,7 @@ namespace Prism.Wpf.Tests.Regions
             mockDataContext.Verify(v => v.OnNavigatedFrom(It.Is<NavigationContext>(ctx => ctx.Uri == navigationUri && ctx.Parameters.Count() == 0)));
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingWithNullCallback_ThenThrows()
         {
             var region = new Region();
@@ -950,7 +950,7 @@ namespace Prism.Wpf.Tests.Regions
                 });
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingWithNoRegionSet_ThenMarshallExceptionToCallback()
         {
             var navigationUri = new Uri("/", UriKind.Relative);
@@ -963,11 +963,11 @@ namespace Prism.Wpf.Tests.Regions
             Exception error = null;
             target.RequestNavigate(navigationUri, nr => error = nr.Error);
 
-            Assert.IsNotNull(error);
-            Assert.IsInstanceOfType(error, typeof(InvalidOperationException));
+            Assert.NotNull(error);
+            Assert.IsType<InvalidOperationException>(error);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigatingWithNullUri_ThenMarshallExceptionToCallback()
         {
             IServiceLocator serviceLocator = new Mock<IServiceLocator>().Object;
@@ -980,12 +980,12 @@ namespace Prism.Wpf.Tests.Regions
             Exception error = null;
             target.RequestNavigate(null, nr => error = nr.Error);
 
-            Assert.IsNotNull(error);
-            Assert.IsInstanceOfType(error, typeof(ArgumentNullException));
+            Assert.NotNull(error);
+            Assert.IsType<ArgumentNullException>(error);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigationFailsBecauseTheContentViewCannotBeRetrieved_ThenNavigationFailedIsRaised()
         {
             // Prepare
@@ -1022,12 +1022,12 @@ namespace Prism.Wpf.Tests.Regions
             target.RequestNavigate(new Uri("invalid", UriKind.Relative), nr => isNavigationSuccessful = nr.Result);
 
             // Verify
-            Assert.IsFalse(isNavigationSuccessful.Value);
-            Assert.IsNotNull(eventArgs);
-            Assert.IsNotNull(eventArgs.Error);
+            Assert.False(isNavigationSuccessful.Value);
+            Assert.NotNull(eventArgs);
+            Assert.NotNull(eventArgs.Error);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenNavigationFailsBecauseActiveViewRejectsIt_ThenNavigationFailedIsRaised()
         {
             // Prepare
@@ -1082,12 +1082,12 @@ namespace Prism.Wpf.Tests.Regions
 
             // Verify
             view1Mock.VerifyAll();
-            Assert.IsFalse(isNavigationSuccessful.Value);
-            Assert.IsNotNull(eventArgs);
-            Assert.IsNull(eventArgs.Error);
+            Assert.False(isNavigationSuccessful.Value);
+            Assert.NotNull(eventArgs);
+            Assert.Null(eventArgs.Error);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenNavigationFailsBecauseDataContextForActiveViewRejectsIt_ThenNavigationFailedIsRaised()
         {
             // Prepare
@@ -1145,9 +1145,9 @@ namespace Prism.Wpf.Tests.Regions
 
             // Verify
             viewModel1Mock.VerifyAll();
-            Assert.IsFalse(isNavigationSuccessful.Value);
-            Assert.IsNotNull(eventArgs);
-            Assert.IsNull(eventArgs.Error);
+            Assert.False(isNavigationSuccessful.Value);
+            Assert.NotNull(eventArgs);
+            Assert.Null(eventArgs.Error);
         }
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Prism.Ioc;
 using Prism.Logging;
@@ -10,31 +10,40 @@ using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Modularity
 {
-    [TestClass]
+    
     public class ModuleManagerFixture
     {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NullLoaderThrows()
         {
-            new ModuleManager(null, new MockModuleCatalog(), new MockLogger());
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                new ModuleManager(null, new MockModuleCatalog(), new MockLogger());
+            });
+            
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NullCatalogThrows()
         {
-            new ModuleManager(new MockModuleInitializer(), null, new MockLogger());
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                new ModuleManager(new MockModuleInitializer(), null, new MockLogger());
+            });
+            
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NullLoggerThrows()
         {
-            new ModuleManager(new MockModuleInitializer(), new MockModuleCatalog(), null);
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                new ModuleManager(new MockModuleInitializer(), new MockModuleCatalog(), null);
+            });
+            
         }       
 
-        [TestMethod]
+        [Fact]
         public void ShouldInvokeRetrieverForModules()
         {
             var loader = new MockModuleInitializer();
@@ -46,10 +55,10 @@ namespace Prism.Wpf.Tests.Modularity
 
             manager.Run();
 
-            Assert.IsTrue(moduleTypeLoader.LoadedModules.Contains(moduleInfo));
+            Assert.Contains(moduleInfo, moduleTypeLoader.LoadedModules);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldInitializeModulesOnRetrievalCompleted()
         {
             var loader = new MockModuleInitializer();
@@ -58,16 +67,16 @@ namespace Prism.Wpf.Tests.Modularity
             ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
             var moduleTypeLoader = new MockModuleTypeLoader();
             manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };            
-            Assert.IsFalse(loader.InitializeCalled);
+            Assert.False(loader.InitializeCalled);
 
             manager.Run();
 
-            Assert.IsTrue(loader.InitializeCalled);
-            Assert.AreEqual(1, loader.InitializedModules.Count);
-            Assert.AreEqual(backgroungModuleInfo, loader.InitializedModules[0]);
+            Assert.True(loader.InitializeCalled);
+            Assert.Single(loader.InitializedModules);
+            Assert.Equal(backgroungModuleInfo, loader.InitializedModules[0]);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldInitializeModuleOnDemand()
         {
             var loader = new MockModuleInitializer();
@@ -78,50 +87,58 @@ namespace Prism.Wpf.Tests.Modularity
             manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleRetriever };
             manager.Run();
 
-            Assert.IsFalse(loader.InitializeCalled);
-            Assert.AreEqual(0, moduleRetriever.LoadedModules.Count);
+            Assert.False(loader.InitializeCalled);
+            Assert.Empty(moduleRetriever.LoadedModules);
 
             manager.LoadModule("NeedsRetrieval");
 
-            Assert.AreEqual(1, moduleRetriever.LoadedModules.Count);
-            Assert.IsTrue(loader.InitializeCalled);
-            Assert.AreEqual(1, loader.InitializedModules.Count);
-            Assert.AreEqual(onDemandModule, loader.InitializedModules[0]);
+            Assert.Single(moduleRetriever.LoadedModules);
+            Assert.True(loader.InitializeCalled);
+            Assert.Single(loader.InitializedModules);
+            Assert.Equal(onDemandModule, loader.InitializedModules[0]);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ModuleNotFoundException))]
+        [Fact]
         public void InvalidOnDemandModuleNameThrows()
         {
-            var loader = new MockModuleInitializer();
+            var ex = Assert.Throws<ModuleNotFoundException>(() =>
+            {
+                var loader = new MockModuleInitializer();
 
-            var catalog = new MockModuleCatalog { Modules = new List<IModuleInfo> { CreateModuleInfo("Missing", InitializationMode.OnDemand) } };
+                var catalog = new MockModuleCatalog { Modules = new List<IModuleInfo> { CreateModuleInfo("Missing", InitializationMode.OnDemand) } };
 
-            ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
-            var moduleTypeLoader = new MockModuleTypeLoader();
+                ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
+                var moduleTypeLoader = new MockModuleTypeLoader();
 
-            manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };
-            manager.Run();
+                manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };
+                manager.Run();
 
-            manager.LoadModule("NonExistent");
+                manager.LoadModule("NonExistent");
+            });
+
+
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ModuleNotFoundException))]
+        [Fact]
         public void EmptyOnDemandModuleReturnedThrows()
         {
-            var loader = new MockModuleInitializer();
+            var ex = Assert.Throws<ModuleNotFoundException>(() =>
+            {
+                var loader = new MockModuleInitializer();
 
-            var catalog = new MockModuleCatalog { CompleteListWithDependencies = modules => new List<ModuleInfo>() };
-            ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
-            var moduleRetriever = new MockModuleTypeLoader();
-            manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleRetriever };
-            manager.Run();
+                var catalog = new MockModuleCatalog { CompleteListWithDependencies = modules => new List<ModuleInfo>() };
+                ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
+                var moduleRetriever = new MockModuleTypeLoader();
+                manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleRetriever };
+                manager.Run();
 
-            manager.LoadModule("NullModule");
+                manager.LoadModule("NullModule");
+            });
+
+
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldNotLoadTypeIfModuleInitialized()
         {
             var loader = new MockModuleInitializer();
@@ -134,13 +151,13 @@ namespace Prism.Wpf.Tests.Modularity
 
             manager.Run();
 
-            Assert.IsFalse(moduleTypeLoader.LoadedModules.Contains(alreadyPresentModule));
-            Assert.IsTrue(loader.InitializeCalled);
-            Assert.AreEqual(1, loader.InitializedModules.Count);
-            Assert.AreEqual(alreadyPresentModule, loader.InitializedModules[0]);
+            Assert.DoesNotContain(alreadyPresentModule, moduleTypeLoader.LoadedModules);
+            Assert.True(loader.InitializeCalled);
+            Assert.Single(loader.InitializedModules);
+            Assert.Equal(alreadyPresentModule, loader.InitializedModules[0]);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldNotLoadSameModuleTwice()
         {
             var loader = new MockModuleInitializer();
@@ -152,10 +169,10 @@ namespace Prism.Wpf.Tests.Modularity
             loader.InitializeCalled = false;
             manager.LoadModule("MockModule");
 
-            Assert.IsFalse(loader.InitializeCalled);
+            Assert.False(loader.InitializeCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldNotLoadModuleThatNeedsRetrievalTwice()
         {
             var loader = new MockModuleInitializer();
@@ -171,10 +188,10 @@ namespace Prism.Wpf.Tests.Modularity
 
             manager.LoadModule("ModuleThatNeedsRetrieval");
 
-            Assert.IsFalse(loader.InitializeCalled);
+            Assert.False(loader.InitializeCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldCallValidateCatalogBeforeGettingGroupsFromCatalog()
         {
             var loader = new MockModuleInitializer();
@@ -195,11 +212,11 @@ namespace Prism.Wpf.Tests.Modularity
                                                      };
             manager.Run();
 
-            Assert.IsTrue(validateCatalogCalled);
-            Assert.IsFalse(getModulesCalledBeforeValidate);
+            Assert.True(validateCatalogCalled);
+            Assert.False(getModulesCalledBeforeValidate);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldNotInitializeIfDependenciesAreNotMet()
         {
             var loader = new MockModuleInitializer();
@@ -218,11 +235,11 @@ namespace Prism.Wpf.Tests.Modularity
 
             moduleTypeLoader.RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(dependantModuleInfo, null));            
 
-            Assert.IsFalse(loader.InitializeCalled);
-            Assert.AreEqual(0, loader.InitializedModules.Count);
+            Assert.False(loader.InitializeCalled);
+            Assert.Empty(loader.InitializedModules);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldInitializeIfDependenciesAreMet()
         {
             var initializer = new MockModuleInitializer();
@@ -245,11 +262,11 @@ namespace Prism.Wpf.Tests.Modularity
 
             manager.Run();
 
-            Assert.IsTrue(initializer.InitializeCalled);
-            Assert.AreEqual(2, initializer.InitializedModules.Count);
+            Assert.True(initializer.InitializeCalled);
+            Assert.Equal(2, initializer.InitializedModules.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldThrowOnRetrieverErrorAndWrapException()
         {
             var loader = new MockModuleInitializer();
@@ -262,7 +279,7 @@ namespace Prism.Wpf.Tests.Modularity
             moduleTypeLoader.LoadCompletedError = retrieverException;
 
             manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };            
-            Assert.IsFalse(loader.InitializeCalled);
+            Assert.False(loader.InitializeCalled);
 
             try
             {
@@ -270,30 +287,34 @@ namespace Prism.Wpf.Tests.Modularity
             }
             catch (Exception ex)
             {
-                Assert.IsInstanceOfType(ex, typeof(ModuleTypeLoadingException));
-                Assert.AreEqual(moduleInfo.ModuleName, ((ModularityException)ex).ModuleName);
-                StringAssert.Contains(ex.Message, moduleInfo.ModuleName);
-                Assert.AreSame(retrieverException, ex.InnerException);
+                Assert.IsType<ModuleTypeLoadingException>(ex);
+                Assert.Equal(moduleInfo.ModuleName, ((ModularityException)ex).ModuleName);
+                Assert.Contains(moduleInfo.ModuleName, ex.Message);
+                Assert.Same(retrieverException, ex.InnerException);
                 return;
             }
 
-            Assert.Fail("Exception not thrown.");
+            //Assert.Fail("Exception not thrown.");
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ModuleTypeLoaderNotFoundException))]
+        [Fact]
         public void ShouldThrowIfNoRetrieverCanRetrieveModule()
         {
-            var loader = new MockModuleInitializer();
-            var catalog = new MockModuleCatalog { Modules = { CreateModuleInfo("ModuleThatNeedsRetrieval", InitializationMode.WhenAvailable) } };
-            ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger())
+            var ex = Assert.Throws<ModuleTypeLoaderNotFoundException>(() =>
             {
-                ModuleTypeLoaders = new List<IModuleTypeLoader> { new MockModuleTypeLoader() { canLoadModuleTypeReturnValue = false } }
-            };
-            manager.Run();
+
+                var loader = new MockModuleInitializer();
+                var catalog = new MockModuleCatalog { Modules = { CreateModuleInfo("ModuleThatNeedsRetrieval", InitializationMode.WhenAvailable) } };
+                ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger())
+                {
+                    ModuleTypeLoaders = new List<IModuleTypeLoader> { new MockModuleTypeLoader() { canLoadModuleTypeReturnValue = false } }
+                };
+                manager.Run();
+            });
+
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldLogMessageOnModuleRetrievalError()
         {
             var loader = new MockModuleInitializer();
@@ -316,12 +337,12 @@ namespace Prism.Wpf.Tests.Modularity
                 // Ignore all errors to make sure logger is called even if errors thrown.
             }
 
-            Assert.IsNotNull(logger.LastMessage);
-            StringAssert.Contains(logger.LastMessage, "ModuleThatNeedsRetrieval");
-            Assert.AreEqual<Category>(Category.Exception, logger.LastMessageCategory);
+            Assert.NotNull(logger.LastMessage);
+            Assert.Contains("ModuleThatNeedsRetrieval", logger.LastMessage);
+            Assert.Equal<Category>(Category.Exception, logger.LastMessageCategory);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldWorkIfModuleLoadsAnotherOnDemandModuleWhenInitializing()
         {
             var initializer = new StubModuleInitializer();
@@ -346,11 +367,11 @@ namespace Prism.Wpf.Tests.Modularity
 
             manager.Run();
 
-            Assert.IsTrue(onDemandModuleWasInitialized);
+            Assert.True(onDemandModuleWasInitialized);
         }
 
         
-        [TestMethod]
+        [Fact]
         public void ModuleManagerIsDisposable()
         {
             Mock<IModuleInitializer> mockInit = new Mock<IModuleInitializer>(); 
@@ -359,10 +380,10 @@ namespace Prism.Wpf.Tests.Modularity
             ModuleManager manager = new ModuleManager(mockInit.Object, catalog.Object, new MockLogger());
 
             IDisposable disposableManager = manager as IDisposable;
-            Assert.IsNotNull(disposableManager);
+            Assert.NotNull(disposableManager);
         }
         
-        [TestMethod]
+        [Fact]
         public void DisposeDoesNotThrowWithNonDisposableTypeLoaders()
         {
             Mock<IModuleInitializer> mockInit = new Mock<IModuleInitializer>();
@@ -379,11 +400,11 @@ namespace Prism.Wpf.Tests.Modularity
             }
             catch(Exception)
             {
-                Assert.Fail();
+                //Assert.Fail();
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void DisposeCleansUpDisposableTypeLoaders()
         {
             Mock<IModuleInitializer> mockInit = new Mock<IModuleInitializer>();
@@ -402,7 +423,7 @@ namespace Prism.Wpf.Tests.Modularity
             disposableMockTypeLoader.Verify(loader => loader.Dispose(), Times.Once());
         }
 
-        [TestMethod]
+        [Fact]
         public void DisposeDoesNotThrowWithMixedTypeLoaders()
         {
             Mock<IModuleInitializer> mockInit = new Mock<IModuleInitializer>();
@@ -424,7 +445,7 @@ namespace Prism.Wpf.Tests.Modularity
             }
             catch (Exception)
             {
-                Assert.Fail();
+                //Assert.Fail();
             }
 
             disposableMockTypeLoader.Verify(loader => loader.Dispose(), Times.Once());

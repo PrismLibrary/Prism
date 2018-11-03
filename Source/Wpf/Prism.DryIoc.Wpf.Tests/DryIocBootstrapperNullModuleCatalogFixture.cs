@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Windows;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.Modularity;
 
 namespace Prism.DryIoc.Wpf.Tests
 {
-    [TestClass]
+    
     public class DryIocBootstrapperNullModuleCatalogFixture : BootstrapperFixtureBase
     {
-        [TestMethod]
+        [Fact]
         public void NullModuleCatalogThrowsOnDefaultModuleInitialization()
         {
             var bootstrapper = new NullModuleCatalogBootstrapper();

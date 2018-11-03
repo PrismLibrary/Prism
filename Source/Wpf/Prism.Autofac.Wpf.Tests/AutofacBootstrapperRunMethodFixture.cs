@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Autofac;
 using CommonServiceLocator;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Modularity;
@@ -9,171 +9,171 @@ using Prism.Regions;
 
 namespace Prism.Autofac.Wpf.Tests
 {
-    [TestClass]
+    [Collection("ServiceLocator")]
     public class AutofacBootstrapperRunMethodFixture
     {
-        [TestMethod]
+        [StaFact]
         public void CanRunBootstrapper()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
             bootstrapper.Run();
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldNotFailIfReturnedNullShell()
         {
             var bootstrapper = new DefaultAutofacBootstrapper { ShellObject = null };
             bootstrapper.Run();
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunConfiguresServiceLocatorProvider()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
             bootstrapper.Run();
 
-            Assert.IsTrue(ServiceLocator.Current is AutofacServiceLocatorAdapter);
+            Assert.True(ServiceLocator.Current is AutofacServiceLocatorAdapter);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldInitializeContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
             var container = bootstrapper.BaseContainer;
 
-            Assert.IsNull(container);
+            Assert.Null(container);
 
             bootstrapper.Run();
 
             container = bootstrapper.BaseContainer;
 
-            Assert.IsNotNull(container);
-            Assert.IsInstanceOfType(container, typeof(IContainer));
+            Assert.NotNull(container);
+            Assert.IsAssignableFrom<IContainer>(container);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunAddsCompositionContainerToContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             var createdContainer = bootstrapper.CallCreateContainer();
             var returnedContainer = createdContainer.Resolve<IContainer>();
-            Assert.IsNotNull(returnedContainer);
-            Assert.IsTrue(returnedContainer.GetType().GetInterfaces().Contains(typeof(IContainer)));
+            Assert.NotNull(returnedContainer);
+            Assert.Contains(typeof(IContainer), returnedContainer.GetType().GetInterfaces());
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallInitializeModules()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.InitializeModulesCalled);
+            Assert.True(bootstrapper.InitializeModulesCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallConfigureDefaultRegionBehaviors()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.ConfigureDefaultRegionBehaviorsCalled);
+            Assert.True(bootstrapper.ConfigureDefaultRegionBehaviorsCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallConfigureRegionAdapterMappings()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.ConfigureRegionAdapterMappingsCalled);
+            Assert.True(bootstrapper.ConfigureRegionAdapterMappingsCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldAssignRegionManagerToReturnedShell()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsNotNull(RegionManager.GetRegionManager(bootstrapper.BaseShell));
+            Assert.NotNull(RegionManager.GetRegionManager(bootstrapper.BaseShell));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallCreateLogger()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.CreateLoggerCalled);
+            Assert.True(bootstrapper.CreateLoggerCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallCreateModuleCatalog()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.CreateModuleCatalogCalled);
+            Assert.True(bootstrapper.CreateModuleCatalogCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallConfigureModuleCatalog()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.ConfigureModuleCatalogCalled);
+            Assert.True(bootstrapper.ConfigureModuleCatalogCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallCreateContainerBuilder()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.CreateContainerBuilderCalled);
+            Assert.True(bootstrapper.CreateContainerBuilderCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallCreateContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.CreateContainerCalled);
+            Assert.True(bootstrapper.CreateContainerCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallCreateShell()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.CreateShellCalled);
+            Assert.True(bootstrapper.CreateShellCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallConfigureContainerBuilder()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.ConfigureContainerBuilderCalled);
+            Assert.True(bootstrapper.ConfigureContainerBuilderCalled);
         }
 
         // unable to mock extension RegisterInstance/RegisterType methods
         // so registration is tested through checking the resolved type against interface
-        [TestMethod]
+        [StaFact]
         public void RunRegistersInstanceOfILoggerFacade()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -181,12 +181,12 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
 
             var logger = bootstrapper.BaseContainer.Resolve<ILoggerFacade>();
-            Assert.IsNotNull(logger);
-            Assert.IsTrue(logger.GetType().IsClass);
-            Assert.IsTrue(logger.GetType().GetInterfaces().Contains(typeof(ILoggerFacade)));
+            Assert.NotNull(logger);
+            Assert.True(logger.GetType().IsClass);
+            Assert.Contains(typeof(ILoggerFacade), logger.GetType().GetInterfaces());
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunRegistersInstanceOfIModuleCatalog()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -194,12 +194,12 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
 
             var moduleCatalog = bootstrapper.BaseContainer.Resolve<IModuleCatalog>();
-            Assert.IsNotNull(moduleCatalog);
-            Assert.IsTrue(moduleCatalog.GetType().IsClass);
-            Assert.IsTrue(moduleCatalog.GetType().GetInterfaces().Contains(typeof(IModuleCatalog)));
+            Assert.NotNull(moduleCatalog);
+            Assert.True(moduleCatalog.GetType().IsClass);
+            Assert.Contains(typeof(IModuleCatalog), moduleCatalog.GetType().GetInterfaces());
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunRegistersTypeForIServiceLocator()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -207,13 +207,13 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
 
             var serviceLocator = bootstrapper.BaseContainer.Resolve<IServiceLocator>();
-            Assert.IsNotNull(serviceLocator);
-            Assert.IsTrue(serviceLocator.GetType().IsClass);
-            Assert.AreEqual(typeof(AutofacServiceLocatorAdapter), serviceLocator.GetType());
-            Assert.IsTrue(serviceLocator.GetType().GetInterfaces().Contains(typeof(IServiceLocator)));
+            Assert.NotNull(serviceLocator);
+            Assert.True(serviceLocator.GetType().IsClass);
+            Assert.Equal(typeof(AutofacServiceLocatorAdapter), serviceLocator.GetType());
+            Assert.Contains(typeof(IServiceLocator), serviceLocator.GetType().GetInterfaces());
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunRegistersTypeForIModuleInitializer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -221,12 +221,12 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
 
             var moduleInitializer = bootstrapper.BaseContainer.Resolve<IModuleInitializer>();
-            Assert.IsNotNull(moduleInitializer);
-            Assert.IsTrue(moduleInitializer.GetType().IsClass);
-            Assert.IsTrue(moduleInitializer.GetType().GetInterfaces().Contains(typeof(IModuleInitializer)));
+            Assert.NotNull(moduleInitializer);
+            Assert.True(moduleInitializer.GetType().IsClass);
+            Assert.Contains(typeof(IModuleInitializer), moduleInitializer.GetType().GetInterfaces());
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunRegistersTypeForIRegionManager()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -234,12 +234,12 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
 
             var regionManager = bootstrapper.BaseContainer.Resolve<IRegionManager>();
-            Assert.IsNotNull(regionManager);
-            Assert.IsTrue(regionManager.GetType().IsClass);
-            Assert.IsTrue(regionManager.GetType().GetInterfaces().Contains(typeof(IRegionManager)));
+            Assert.NotNull(regionManager);
+            Assert.True(regionManager.GetType().IsClass);
+            Assert.Contains(typeof(IRegionManager), regionManager.GetType().GetInterfaces());
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunRegistersTypeForRegionAdapterMappings()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -247,11 +247,11 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
 
             var regionAdapterMappings = bootstrapper.BaseContainer.Resolve<RegionAdapterMappings>();
-            Assert.IsNotNull(regionAdapterMappings);
-            Assert.AreEqual(typeof(RegionAdapterMappings), regionAdapterMappings.GetType());
+            Assert.NotNull(regionAdapterMappings);
+            Assert.Equal(typeof(RegionAdapterMappings), regionAdapterMappings.GetType());
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunRegistersTypeForIRegionViewRegistry()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -259,12 +259,12 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
 
             var regionViewRegistry = bootstrapper.BaseContainer.Resolve<IRegionViewRegistry>();
-            Assert.IsNotNull(regionViewRegistry);
-            Assert.IsTrue(regionViewRegistry.GetType().IsClass);
-            Assert.IsTrue(regionViewRegistry.GetType().GetInterfaces().Contains(typeof(IRegionViewRegistry)));
+            Assert.NotNull(regionViewRegistry);
+            Assert.True(regionViewRegistry.GetType().IsClass);
+            Assert.Contains(typeof(IRegionViewRegistry), regionViewRegistry.GetType().GetInterfaces());
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunRegistersTypeForIRegionBehaviorFactory()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -272,12 +272,12 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
 
             var regionBehaviorFactory = bootstrapper.BaseContainer.Resolve<IRegionBehaviorFactory>();
-            Assert.IsNotNull(regionBehaviorFactory);
-            Assert.IsTrue(regionBehaviorFactory.GetType().IsClass);
-            Assert.IsTrue(regionBehaviorFactory.GetType().GetInterfaces().Contains(typeof(IRegionBehaviorFactory)));
+            Assert.NotNull(regionBehaviorFactory);
+            Assert.True(regionBehaviorFactory.GetType().IsClass);
+            Assert.Contains(typeof(IRegionBehaviorFactory), regionBehaviorFactory.GetType().GetInterfaces());
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunRegistersTypeForIEventAggregator()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -285,60 +285,60 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
 
             var eventAggregator = bootstrapper.BaseContainer.Resolve<IEventAggregator>();
-            Assert.IsNotNull(eventAggregator);
-            Assert.IsTrue(eventAggregator.GetType().IsClass);
-            Assert.IsTrue(eventAggregator.GetType().GetInterfaces().Contains(typeof(IEventAggregator)));
+            Assert.NotNull(eventAggregator);
+            Assert.True(eventAggregator.GetType().IsClass);
+            Assert.Contains(typeof(IEventAggregator), eventAggregator.GetType().GetInterfaces());
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallTheMethodsInOrder()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
             bootstrapper.Run();
 
-            Assert.AreEqual("CreateLogger", bootstrapper.MethodCalls[0]);
-            Assert.AreEqual("CreateModuleCatalog", bootstrapper.MethodCalls[1]);
-            Assert.AreEqual("ConfigureModuleCatalog", bootstrapper.MethodCalls[2]);
-            Assert.AreEqual("CreateContainerBuilder", bootstrapper.MethodCalls[3]);
-            Assert.AreEqual("ConfigureContainerBuilder", bootstrapper.MethodCalls[4]);
-            Assert.AreEqual("CreateContainer", bootstrapper.MethodCalls[5]);
-            Assert.AreEqual("ConfigureServiceLocator", bootstrapper.MethodCalls[6]);
-            Assert.AreEqual("CreateContainerBuilder", bootstrapper.MethodCalls[7]); // update container
-            Assert.AreEqual("ConfigureRegionAdapterMappings", bootstrapper.MethodCalls[8]);
-            Assert.AreEqual("ConfigureDefaultRegionBehaviors", bootstrapper.MethodCalls[9]);
-            Assert.AreEqual("RegisterFrameworkExceptionTypes", bootstrapper.MethodCalls[10]);
-            Assert.AreEqual("CreateShell", bootstrapper.MethodCalls[11]);
-            Assert.AreEqual("InitializeShell", bootstrapper.MethodCalls[12]);
-            Assert.AreEqual("InitializeModules", bootstrapper.MethodCalls[13]);
+            Assert.Equal("CreateLogger", bootstrapper.MethodCalls[0]);
+            Assert.Equal("CreateModuleCatalog", bootstrapper.MethodCalls[1]);
+            Assert.Equal("ConfigureModuleCatalog", bootstrapper.MethodCalls[2]);
+            Assert.Equal("CreateContainerBuilder", bootstrapper.MethodCalls[3]);
+            Assert.Equal("ConfigureContainerBuilder", bootstrapper.MethodCalls[4]);
+            Assert.Equal("CreateContainer", bootstrapper.MethodCalls[5]);
+            Assert.Equal("ConfigureServiceLocator", bootstrapper.MethodCalls[6]);
+            Assert.Equal("CreateContainerBuilder", bootstrapper.MethodCalls[7]); // update container
+            Assert.Equal("ConfigureRegionAdapterMappings", bootstrapper.MethodCalls[8]);
+            Assert.Equal("ConfigureDefaultRegionBehaviors", bootstrapper.MethodCalls[9]);
+            Assert.Equal("RegisterFrameworkExceptionTypes", bootstrapper.MethodCalls[10]);
+            Assert.Equal("CreateShell", bootstrapper.MethodCalls[11]);
+            Assert.Equal("InitializeShell", bootstrapper.MethodCalls[12]);
+            Assert.Equal("InitializeModules", bootstrapper.MethodCalls[13]);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogBootstrapperSteps()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages[0].Contains("Logger was created successfully."));
-            Assert.IsTrue(messages[1].Contains("Creating module catalog."));
-            Assert.IsTrue(messages[2].Contains("Configuring module catalog."));
-            Assert.IsTrue(messages[3].Contains("Creating Autofac container builder."));
-            Assert.IsTrue(messages[4].Contains("Configuring the Autofac container builder."));
-            Assert.IsTrue(messages[5].Contains("Creating Autofac container."));
-            Assert.IsTrue(messages[6].Contains("Configuring ServiceLocator singleton."));
-            Assert.IsTrue(messages[7].Contains("Configuring the ViewModelLocator to use Autofac."));
-            Assert.IsTrue(messages[8].Contains("Configuring region adapters."));
-            Assert.IsTrue(messages[9].Contains("Configuring default region behaviors."));
-            Assert.IsTrue(messages[10].Contains("Registering Framework Exception Types."));
-            Assert.IsTrue(messages[11].Contains("Creating the shell."));
-            Assert.IsTrue(messages[12].Contains("Setting the RegionManager."));
-            Assert.IsTrue(messages[13].Contains("Updating Regions."));
-            Assert.IsTrue(messages[14].Contains("Initializing the shell."));
-            Assert.IsTrue(messages[15].Contains("Initializing modules."));
-            Assert.IsTrue(messages[16].Contains("Bootstrapper sequence completed."));
+            Assert.Contains("Logger was created successfully.", messages[0]);
+            Assert.Contains("Creating module catalog.", messages[1]);
+            Assert.Contains("Configuring module catalog.", messages[2]);
+            Assert.Contains("Creating Autofac container builder.", messages[3]);
+            Assert.Contains("Configuring the Autofac container builder.", messages[4]);
+            Assert.Contains("Creating Autofac container.", messages[5]);
+            Assert.Contains("Configuring ServiceLocator singleton.", messages[6]);
+            Assert.Contains("Configuring the ViewModelLocator to use Autofac.", messages[7]);
+            Assert.Contains("Configuring region adapters.", messages[8]);
+            Assert.Contains("Configuring default region behaviors.", messages[9]);
+            Assert.Contains("Registering Framework Exception Types.", messages[10]);
+            Assert.Contains("Creating the shell.", messages[11]);
+            Assert.Contains("Setting the RegionManager.", messages[12]);
+            Assert.Contains("Updating Regions.", messages[13]);
+            Assert.Contains("Initializing the shell.", messages[14]);
+            Assert.Contains("Initializing modules.", messages[15]);
+            Assert.Contains("Bootstrapper sequence completed.", messages[16]);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogLoggerCreationSuccess()
         {
             const string expectedMessageText = "Logger was created successfully.";
@@ -346,9 +346,9 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutModuleCatalogCreation()
         {
             const string expectedMessageText = "Creating module catalog.";
@@ -356,10 +356,10 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutConfiguringModuleCatalog()
         {
             const string expectedMessageText = "Configuring module catalog.";
@@ -367,10 +367,10 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutCreatingTheContainerBuilder()
         {
             const string expectedMessageText = "Creating Autofac container builder.";
@@ -378,10 +378,10 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutCreatingTheContainer()
         {
             const string expectedMessageText = "Creating Autofac container.";
@@ -389,10 +389,10 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutConfiguringContainerBuilder()
         {
             const string expectedMessageText = "Configuring the Autofac container builder.";
@@ -400,10 +400,10 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutConfiguringRegionAdapters()
         {
             const string expectedMessageText = "Configuring region adapters.";
@@ -411,11 +411,11 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutConfiguringRegionBehaviors()
         {
             const string expectedMessageText = "Configuring default region behaviors.";
@@ -423,10 +423,10 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutRegisteringFrameworkExceptionTypes()
         {
             const string expectedMessageText = "Registering Framework Exception Types.";
@@ -434,10 +434,10 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutCreatingTheShell()
         {
             const string expectedMessageText = "Creating the shell.";
@@ -445,10 +445,10 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutInitializingTheShellIfShellCreated()
         {
             const string expectedMessageText = "Initializing the shell.";
@@ -457,10 +457,10 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldNotLogAboutInitializingTheShellIfShellIsNotCreated()
         {
             const string expectedMessageText = "Initializing shell";
@@ -469,10 +469,10 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsFalse(messages.Contains(expectedMessageText));
+            Assert.False(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutInitializingModules()
         {
             const string expectedMessageText = "Initializing modules.";
@@ -480,10 +480,10 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutRunCompleting()
         {
             const string expectedMessageText = "Bootstrapper sequence completed.";
@@ -491,7 +491,7 @@ namespace Prism.Autofac.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
     }
 }

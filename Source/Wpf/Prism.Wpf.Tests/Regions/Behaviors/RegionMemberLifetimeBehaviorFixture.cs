@@ -1,6 +1,6 @@
 
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
@@ -8,14 +8,13 @@ using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {
-    [TestClass]
+    
     public class RegionMemberLifetimeBehaviorFixture 
     {
         protected Region Region { get; set; }
         protected RegionMemberLifetimeBehavior Behavior { get; set; }
 
-        [TestInitialize]
-        public void TestInitialize()
+        public RegionMemberLifetimeBehaviorFixture()
         {
             Arrange();
         }
@@ -28,13 +27,13 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             this.Behavior.Attach();
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenBehaviorAttachedThenReportsIsAttached()
         {
-            Assert.IsTrue(Behavior.IsAttached);
+            Assert.True(Behavior.IsAttached);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenIRegionMemberLifetimeItemReturnsKeepAliveFalseRemovesWhenInactive()
         {
             // Arrange
@@ -48,10 +47,10 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Region.Deactivate(regionItemMock.Object);
 
             // Assert
-            Assert.IsFalse(Region.Views.Contains(regionItemMock.Object));
+            Assert.False(Region.Views.Contains(regionItemMock.Object));
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenIRegionMemberLifetimeItemReturnsKeepAliveTrueDoesNotRemoveOnDeactivation()
         {
             // Arrange
@@ -65,11 +64,11 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Region.Deactivate(regionItemMock.Object);
 
             // Assert
-            Assert.IsTrue(Region.Views.Contains(regionItemMock.Object));
+            Assert.True(Region.Views.Contains(regionItemMock.Object));
 
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenIRegionMemberLifetimeItemReturnsKeepAliveFalseCanRemoveFromRegion()
         {
             // Arrange
@@ -83,19 +82,19 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
             // The presence of the following two lines is essential for the test:
             // we want to access both ActiveView and Views in that order
-            Assert.IsTrue(Region.ActiveViews.Contains(view));
-            Assert.IsTrue(Region.Views.Contains(view));
+            Assert.True(Region.ActiveViews.Contains(view));
+            Assert.True(Region.Views.Contains(view));
 
             // Act
             // This may throw
             Region.Remove(view);
 
             // Assert
-            Assert.IsFalse(Region.Views.Contains(view));
-            Assert.IsFalse(Region.ActiveViews.Contains(view));
+            Assert.False(Region.Views.Contains(view));
+            Assert.False(Region.ActiveViews.Contains(view));
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenRegionContainsMultipleMembers_OnlyRemovesThoseDeactivated()
         {
             // Arrange
@@ -115,11 +114,11 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Region.Deactivate(secondMockItem.Object);
 
             // Assert
-            Assert.IsTrue(Region.Views.Contains(firstMockItem.Object));
-            Assert.IsFalse(Region.Views.Contains(secondMockItem.Object));
+            Assert.True(Region.Views.Contains(firstMockItem.Object));
+            Assert.False(Region.Views.Contains(secondMockItem.Object));
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenMemberNeverActivatedThenIsNotRemovedOnAnothersDeactivation()
         {
             // Arrange
@@ -138,11 +137,11 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Region.Deactivate(secondMockItem.Object);
 
             // Assert
-            Assert.IsTrue(Region.Views.Contains(firstMockItem.Object));
-            Assert.IsFalse(Region.Views.Contains(secondMockItem.Object));
+            Assert.True(Region.Views.Contains(firstMockItem.Object));
+            Assert.False(Region.Views.Contains(secondMockItem.Object));
         }
 
-        [TestMethod]
+        [StaFact]
         public virtual void RemovesRegionItemIfDataContextReturnsKeepAliveFalse()
         {
             // Arrange
@@ -159,10 +158,10 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Region.Deactivate(regionItem);
 
             // Assert
-            Assert.IsFalse(Region.Views.Contains(regionItem));
+            Assert.False(Region.Views.Contains(regionItem));
         }
 
-        [TestMethod]
+        [StaFact]
         public virtual void RemovesOnlyDeactivatedItemsInRegionBasedOnDataContextKeepAlive()
         {
             // Arrange
@@ -187,11 +186,11 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Region.Deactivate(regionItem);
 
             // Assert
-            Assert.IsFalse(Region.Views.Contains(regionItem));
-            Assert.IsTrue(Region.Views.Contains(regionItemToKeepAlive));
+            Assert.False(Region.Views.Contains(regionItem));
+            Assert.True(Region.Views.Contains(regionItemToKeepAlive));
         }
 
-        [TestMethod]
+        [Fact]
         public virtual void WillRemoveDeactivatedItemIfKeepAliveAttributeFalse()
         {
             // Arrange
@@ -204,10 +203,10 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Region.Deactivate(regionItem);
 
             // Assert
-            Assert.IsFalse(Region.Views.Contains((object)regionItem));
+            Assert.False(Region.Views.Contains((object)regionItem));
         }
 
-        [TestMethod]
+        [Fact]
         public virtual void WillNotRemoveDeactivatedItemIfKeepAliveAttributeTrue()
         {
             // Arrange
@@ -220,10 +219,10 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Region.Deactivate(regionItem);
 
             // Assert
-            Assert.IsTrue(Region.Views.Contains((object)regionItem));
+            Assert.True(Region.Views.Contains((object)regionItem));
         }
 
-        [TestMethod]
+        [StaFact]
         public virtual void WillRemoveDeactivatedItemIfDataContextKeepAliveAttributeFalse()
         {
             // Arrange
@@ -236,7 +235,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             Region.Deactivate(regionItem);
 
             // Assert
-            Assert.IsFalse(Region.Views.Contains(regionItem));
+            Assert.False(Region.Views.Contains(regionItem));
         }
 
         [RegionMemberLifetime(KeepAlive = false)]
@@ -252,7 +251,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         
     }
 
-    [TestClass]
+    
     public class RegionMemberLifetimeBehaviorAgainstSingleActiveRegionFixture
                 : RegionMemberLifetimeBehaviorFixture
     {

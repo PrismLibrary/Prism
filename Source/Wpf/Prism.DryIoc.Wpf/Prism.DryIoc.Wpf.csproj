@@ -2,7 +2,7 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>net4.5</TargetFramework>
+    <TargetFramework>net45</TargetFramework>
     <RootNamespace>Prism.DryIoc</RootNamespace>
     <PackageId>Prism.DryIoc</PackageId>
     <SignAssembly>false</SignAssembly>

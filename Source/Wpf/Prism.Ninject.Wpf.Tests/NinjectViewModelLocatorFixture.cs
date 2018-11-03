@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks.ViewModels;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks.Views;
@@ -7,10 +7,10 @@ using Prism.Ninject.Wpf.Tests.Mocks;
 
 namespace Prism.Ninject.Wpf.Tests
 {
-    [TestClass]
+    [Collection("ServiceLocator")]
     public class NinjectViewModelLocatorFixture
     {
-        [TestMethod]
+        [StaFact]
         public void ShouldLocateViewModelAndResolveWithKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
@@ -19,13 +19,13 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Kernel.Bind<IService>().To<MockService>();
 
             var view = new MockView();
-            Assert.IsNull(view.DataContext);
+            Assert.Null(view.DataContext);
 
             ViewModelLocator.SetAutoWireViewModel(view, true);
-            Assert.IsNotNull(view.DataContext);
-            Assert.IsInstanceOfType(view.DataContext, typeof(MockViewModel));
+            Assert.NotNull(view.DataContext);
+            Assert.IsType<MockViewModel>(view.DataContext);
 
-            Assert.IsNotNull(((MockViewModel) view.DataContext).MockService);
+            Assert.NotNull(((MockViewModel) view.DataContext).MockService);
         }
     }
 }

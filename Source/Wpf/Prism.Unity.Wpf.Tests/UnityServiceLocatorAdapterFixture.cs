@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using CommonServiceLocator;
 using Unity;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Unity.Resolution;
 using Unity.Extension;
 using Unity.Registration;
@@ -10,10 +10,10 @@ using Unity.Lifetime;
 
 namespace Prism.Unity.Wpf.Tests
 {
-    [TestClass]
+    
     public class UnityServiceLocatorAdapterFixture
     {
-        [TestMethod]
+        [Fact]
         public void ShouldForwardResolveToInnerContainer()
         {
             object myInstance = new object();
@@ -28,11 +28,11 @@ namespace Prism.Unity.Wpf.Tests
 
             IServiceLocator containerAdapter = new UnityServiceLocatorAdapter(container);
 
-            Assert.AreSame(myInstance, containerAdapter.GetInstance(typeof (object)));
+            Assert.Same(myInstance, containerAdapter.GetInstance(typeof (object)));
 
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldForwardResolveAllToInnerContainer()
         {
             IEnumerable<object> list = new List<object> {new object(), new object()};
@@ -47,7 +47,7 @@ namespace Prism.Unity.Wpf.Tests
 
             IServiceLocator containerAdapter = new UnityServiceLocatorAdapter(container);
 
-            Assert.AreSame(list, containerAdapter.GetAllInstances(typeof (object)));
+            Assert.Same(list, containerAdapter.GetAllInstances(typeof (object)));
         }
 
         private class MockUnityContainer : IUnityContainer

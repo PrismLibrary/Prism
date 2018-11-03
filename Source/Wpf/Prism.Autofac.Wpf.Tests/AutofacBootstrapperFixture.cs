@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using Autofac;
 using Autofac.Core.Registration;
 using CommonServiceLocator;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.Logging;
@@ -15,57 +15,57 @@ using Prism.Regions;
 
 namespace Prism.Autofac.Wpf.Tests
 {
-    [TestClass]
+    [Collection("ServiceLocator")]
     public class AutofacBootstrapperFixture : BootstrapperFixtureBase
     {
-        [TestMethod]
+        [StaFact]
         public void ContainerDefaultsToNull()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
             var container = bootstrapper.BaseContainer;
 
-            Assert.IsNull(container);
+            Assert.Null(container);
         }
 
-        [TestMethod]
+        [StaFact]
         public void CanCreateConcreteBootstrapper()
         {
             new DefaultAutofacBootstrapper();
         }
 
-        [TestMethod]
+        [StaFact]
         public void CreateContainerShouldInitializeContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             IContainer container = bootstrapper.CallCreateContainer();
 
-            Assert.IsNotNull(container);
-            Assert.IsInstanceOfType(container, typeof(IContainer));
+            Assert.NotNull(container);
+            Assert.IsAssignableFrom<IContainer>(container);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ConfigureContainerAddsModuleCatalogToContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
             bootstrapper.Run();
 
             var returnedCatalog = bootstrapper.BaseContainer.Resolve<IModuleCatalog>();
-            Assert.IsNotNull(returnedCatalog);
-            Assert.IsTrue(returnedCatalog is ModuleCatalog);
+            Assert.NotNull(returnedCatalog);
+            Assert.True(returnedCatalog is ModuleCatalog);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ConfigureContainerAddsLoggerFacadeToContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
             bootstrapper.Run();
 
             var returnedCatalog = bootstrapper.BaseContainer.Resolve<ILoggerFacade>();
-            Assert.IsNotNull(returnedCatalog);
+            Assert.NotNull(returnedCatalog);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationJournalEntryToContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -74,12 +74,12 @@ namespace Prism.Autofac.Wpf.Tests
             var actual1 = bootstrapper.BaseContainer.Resolve<IRegionNavigationJournalEntry>();
             var actual2 = bootstrapper.BaseContainer.Resolve<IRegionNavigationJournalEntry>();
 
-            Assert.IsNotNull(actual1);
-            Assert.IsNotNull(actual2);
-            Assert.AreNotSame(actual1, actual2);
+            Assert.NotNull(actual1);
+            Assert.NotNull(actual2);
+            Assert.NotSame(actual1, actual2);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationJournalToContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -88,12 +88,12 @@ namespace Prism.Autofac.Wpf.Tests
             var actual1 = bootstrapper.BaseContainer.Resolve<IRegionNavigationJournal>();
             var actual2 = bootstrapper.BaseContainer.Resolve<IRegionNavigationJournal>();
 
-            Assert.IsNotNull(actual1);
-            Assert.IsNotNull(actual2);
-            Assert.AreNotSame(actual1, actual2);
+            Assert.NotNull(actual1);
+            Assert.NotNull(actual2);
+            Assert.NotSame(actual1, actual2);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ConfigureContainerAddsRegionNavigationServiceToContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -102,12 +102,12 @@ namespace Prism.Autofac.Wpf.Tests
             var actual1 = bootstrapper.BaseContainer.Resolve<IRegionNavigationService>();
             var actual2 = bootstrapper.BaseContainer.Resolve<IRegionNavigationService>();
 
-            Assert.IsNotNull(actual1);
-            Assert.IsNotNull(actual2);
-            Assert.AreNotSame(actual1, actual2);
+            Assert.NotNull(actual1);
+            Assert.NotNull(actual2);
+            Assert.NotSame(actual1, actual2);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ConfigureContainerAddsNavigationTargetHandlerToContainer()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
@@ -116,32 +116,32 @@ namespace Prism.Autofac.Wpf.Tests
             var actual1 = bootstrapper.BaseContainer.Resolve<IRegionNavigationContentLoader>();
             var actual2 = bootstrapper.BaseContainer.Resolve<IRegionNavigationContentLoader>();
 
-            Assert.IsNotNull(actual1);
-            Assert.IsNotNull(actual2);
-            Assert.AreSame(actual1, actual2);
+            Assert.NotNull(actual1);
+            Assert.NotNull(actual2);
+            Assert.Same(actual1, actual2);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterActivationException()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             bootstrapper.CallRegisterFrameworkExceptionTypes();
 
-            Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
+            Assert.True(ExceptionExtensions.IsFrameworkExceptionRegistered(
                 typeof(ActivationException)));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterResolutionFailedException()
         {
             var bootstrapper = new DefaultAutofacBootstrapper();
 
             bootstrapper.CallRegisterFrameworkExceptionTypes();
 
-            Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
+            Assert.True(ExceptionExtensions.IsFrameworkExceptionRegistered(
                 typeof(global::Autofac.Core.DependencyResolutionException)));
-            Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(
+            Assert.True(ExceptionExtensions.IsFrameworkExceptionRegistered(
                 typeof(ComponentNotRegisteredException)));
         }
     }

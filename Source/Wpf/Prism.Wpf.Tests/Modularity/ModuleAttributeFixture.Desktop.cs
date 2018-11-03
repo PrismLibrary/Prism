@@ -1,38 +1,38 @@
 
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Modularity;
 
 namespace Prism.Wpf.Tests.Modularity
 {
-    [TestClass]
+    
     public class ModuleAttributeFixture
     {
-        [TestMethod]
+        [Fact]
         public void StartupLoadedDefaultsToTrue()
         {
             var moduleAttribute = new ModuleAttribute();
 
-            Assert.AreEqual(false, moduleAttribute.OnDemand);
+            Assert.Equal(false, moduleAttribute.OnDemand);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetAndSetProperties()
         {
             var moduleAttribute = new ModuleAttribute();
             moduleAttribute.ModuleName = "Test";
             moduleAttribute.OnDemand = true;
 
-            Assert.AreEqual("Test", moduleAttribute.ModuleName);
-            Assert.AreEqual(true, moduleAttribute.OnDemand);
+            Assert.Equal("Test", moduleAttribute.ModuleName);
+            Assert.Equal(true, moduleAttribute.OnDemand);
         }
 
-        [TestMethod]
+        [Fact]
         public void ModuleDependencyAttributeStoresModuleName()
         {
             var moduleDependencyAttribute = new ModuleDependencyAttribute("Test");
 
-            Assert.AreEqual("Test", moduleDependencyAttribute.ModuleName);
+            Assert.Equal("Test", moduleDependencyAttribute.ModuleName);
         }
     }
 }

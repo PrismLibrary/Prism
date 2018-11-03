@@ -2,37 +2,42 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Common;
 
 namespace Prism.Wpf.Tests
 {
-    [TestClass]
+    
     public class ListDictionaryFixture
     {
         static ListDictionary<string, object> list;
 
-        [TestInitialize]
-        public void SetUp()
+        public ListDictionaryFixture()
         {
             list = new ListDictionary<string, object>();
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void AddThrowsIfKeyNull()
         {
-            list.Add(null, new object());
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                list.Add(null, new object());
+            });
+            
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void AddThrowsIfValueNull()
         {
-            list.Add("", null);
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                list.Add("", null);
+            });
+            
         }
 
-        [TestMethod]
+        [Fact]
         public void CanAddValue()
         {
             object value1 = new object();
@@ -41,28 +46,31 @@ namespace Prism.Wpf.Tests
             list.Add("foo", value1);
             list.Add("foo", value2);
 
-            Assert.AreEqual(2, list["foo"].Count);
-            Assert.AreSame(value1, list["foo"][0]);
-            Assert.AreSame(value2, list["foo"][1]);
+            Assert.Equal(2, list["foo"].Count);
+            Assert.Same(value1, list["foo"][0]);
+            Assert.Same(value2, list["foo"][1]);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanIndexValuesByKey()
         {
             list.Add("foo", new object());
             list.Add("foo", new object());
 
-            Assert.AreEqual(2, list["foo"].Count);
+            Assert.Equal(2, list["foo"].Count);
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void ThrowsIfRemoveKeyNull()
         {
-            list.RemoveValue(null, new object());
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                list.RemoveValue(null, new object());
+            });
+            
         }
 
-        [TestMethod]
+        [Fact]
         public void CanRemoveValue()
         {
             object value = new object();
@@ -70,10 +78,10 @@ namespace Prism.Wpf.Tests
             list.Add("foo", value);
             list.RemoveValue("foo", value);
 
-            Assert.AreEqual(0, list["foo"].Count);
+            Assert.Equal(0, list["foo"].Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanRemoveValueFromAllLists()
         {
             object value = new object();
@@ -82,10 +90,10 @@ namespace Prism.Wpf.Tests
 
             list.RemoveValue(value);
 
-            Assert.AreEqual(0, list.Values.Count);
+            Assert.Equal(0, list.Values.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void RemoveNonExistingValueNoOp()
         {
             list.Add("foo", new object());
@@ -93,20 +101,22 @@ namespace Prism.Wpf.Tests
             list.RemoveValue("foo", new object());
         }
 
-        [TestMethod]
+        [Fact]
         public void RemoveNonExistingKeyNoOp()
         {
             list.RemoveValue("foo", new object());
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void ThrowsIfRemoveListKeyNull()
         {
-            list.Remove(null);
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                list.Remove(null);
+            });            
         }
 
-        [TestMethod]
+        [Fact]
         public void CanRemoveList()
         {
             list.Add("foo", new object());
@@ -114,11 +124,11 @@ namespace Prism.Wpf.Tests
 
             bool removed = list.Remove("foo");
 
-            Assert.IsTrue(removed);
-            Assert.AreEqual(0, list.Keys.Count);
+            Assert.True(removed);
+            Assert.Equal(0, list.Keys.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanSetList()
         {
             List<object> values = new List<object>();
@@ -128,10 +138,10 @@ namespace Prism.Wpf.Tests
 
             list["foo"] = values;
 
-            Assert.AreEqual(1, list["foo"].Count);
+            Assert.Equal(1, list["foo"].Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanEnumerateKeyValueList()
         {
             int count = 0;
@@ -144,13 +154,13 @@ namespace Prism.Wpf.Tests
                 {
                     count++;
                 }
-                Assert.AreEqual("foo", pair.Key);
+                Assert.Equal("foo", pair.Key);
             }
 
-            Assert.AreEqual(2, count);
+            Assert.Equal(2, count);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetFlatListOfValues()
         {
             list.Add("foo", new object());
@@ -159,32 +169,33 @@ namespace Prism.Wpf.Tests
 
             IList<object> values = list.Values;
 
-            Assert.AreEqual(3, values.Count);
+            Assert.Equal(3, values.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void IndexerAccessAlwaysSucceeds()
         {
             IList<object> values = list["foo"];
 
-            Assert.IsNotNull(values);
+            Assert.NotNull(values);
         }
 
-
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void ThrowsIfContainsKeyNull()
         {
-            list.ContainsKey(null);
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                list.ContainsKey(null);
+            });            
         }
 
-        [TestMethod]
+        [Fact]
         public void CanAskContainsKey()
         {
-            Assert.IsFalse(list.ContainsKey("foo"));
+            Assert.False(list.ContainsKey("foo"));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanAskContainsValueInAnyList()
         {
             object obj = new object();
@@ -194,10 +205,10 @@ namespace Prism.Wpf.Tests
 
             bool contains = list.ContainsValue(obj);
 
-            Assert.IsTrue(contains);
+            Assert.True(contains);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanClearDictionary()
         {
             list.Add("foo", new object());
@@ -206,10 +217,10 @@ namespace Prism.Wpf.Tests
 
             list.Clear();
 
-            Assert.AreEqual(0, list.Count);
+            Assert.Empty(list);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetFilteredValuesByKeys()
         {
             list.Add("foo", new object());
@@ -227,10 +238,10 @@ namespace Prism.Wpf.Tests
                 count++;
             }
 
-            Assert.AreEqual(2, count);
+            Assert.Equal(2, count);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetFilteredValues()
         {
             list.Add("foo", DateTime.Now);
@@ -247,7 +258,7 @@ namespace Prism.Wpf.Tests
                 count++;
             }
 
-            Assert.AreEqual(2, count);
+            Assert.Equal(2, count);
         }
     }
 }

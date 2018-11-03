@@ -1,15 +1,15 @@
 using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Prism.Regions;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    [TestClass]
+    
     public class NavigationContextFixture
     {
-        [TestMethod]
+        [Fact]
         public void WhenCreatingANewContextForAUriWithAQuery_ThenNewContextInitializesPropertiesAndExtractsTheQuery()
         {
             var uri = new Uri("test?name=value", UriKind.Relative);
@@ -23,13 +23,13 @@ namespace Prism.Wpf.Tests.Regions
 
             var context = new NavigationContext(navigationServiceMock.Object, uri);
 
-            Assert.AreSame(navigationServiceMock.Object, context.NavigationService);
-            Assert.AreEqual(uri, context.Uri);
-            Assert.AreEqual(1, context.Parameters.Count());
-            Assert.AreEqual("value", context.Parameters["name"]);
+            Assert.Same(navigationServiceMock.Object, context.NavigationService);
+            Assert.Equal(uri, context.Uri);
+            Assert.Single(context.Parameters);
+            Assert.Equal("value", context.Parameters["name"]);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenCreatingANewContextForAUriWithNoQuery_ThenNewContextInitializesPropertiesGetsEmptyQuery()
         {
             var uri = new Uri("test", UriKind.Relative);
@@ -41,9 +41,9 @@ namespace Prism.Wpf.Tests.Regions
 
             var context = new NavigationContext(navigationServiceMock.Object, uri);
 
-            Assert.AreSame(navigationServiceMock.Object, context.NavigationService);
-            Assert.AreEqual(uri, context.Uri);
-            Assert.AreEqual(0, context.Parameters.Count());
+            Assert.Same(navigationServiceMock.Object, context.NavigationService);
+            Assert.Equal(uri, context.Uri);
+            Assert.Empty(context.Parameters);
         }
     }
 }

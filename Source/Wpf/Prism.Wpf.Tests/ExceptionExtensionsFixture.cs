@@ -1,26 +1,26 @@
 
 
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Prism.Wpf.Tests
 {
-    [TestClass]
+    
     public class ExceptionExtensionsFixture
     {
-        [TestMethod]
+        [Fact]
         // Note, this test cannot be run twice in the same test run, because the registeration is static 
         // and we're not supplying an 'Unregister' method
         public void CanRegisterFrameworkExceptionTypes()
         {
-            Assert.IsFalse(ExceptionExtensions.IsFrameworkExceptionRegistered(typeof(MockException)));
+            Assert.False(ExceptionExtensions.IsFrameworkExceptionRegistered(typeof(MockException)));
 
             ExceptionExtensions.RegisterFrameworkExceptionType(typeof(MockException));
 
-            Assert.IsTrue(ExceptionExtensions.IsFrameworkExceptionRegistered(typeof(MockException)));
+            Assert.True(ExceptionExtensions.IsFrameworkExceptionRegistered(typeof(MockException)));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetRootException()
         {
             Exception caughtException = null;
@@ -42,14 +42,14 @@ namespace Prism.Wpf.Tests
                 caughtException = ex;
             }
 
-            Assert.IsNotNull(caughtException);
+            Assert.NotNull(caughtException);
 
             Exception exception = caughtException.GetRootException();
 
-            Assert.IsInstanceOfType(exception, typeof(RootException));
+            Assert.IsType<RootException>(exception);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanCompensateForInnerFrameworkExceptionType()
         {
             Exception caughtException = null;
@@ -79,13 +79,13 @@ namespace Prism.Wpf.Tests
                 caughtException = ex;
             }
 
-            Assert.IsNotNull(caughtException);
+            Assert.NotNull(caughtException);
 
             Exception exception = caughtException.GetRootException();
-            Assert.IsInstanceOfType(exception, typeof(RootException));
+            Assert.IsType<RootException>(exception);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetRootExceptionReturnsTopExceptionWhenNoUserExceptionFound()
         {
             Exception caughtException = null;
@@ -108,10 +108,10 @@ namespace Prism.Wpf.Tests
                 caughtException = ex;
             }
 
-            Assert.IsNotNull(caughtException);
+            Assert.NotNull(caughtException);
 
             Exception exception = caughtException.GetRootException();
-            Assert.IsInstanceOfType(exception, typeof(FrameworkException2));
+            Assert.IsType<FrameworkException2>(exception);
         }
             
         private class MockException : Exception

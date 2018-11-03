@@ -1,230 +1,230 @@
 using CommonServiceLocator;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Ninject;
 using Prism.Ninject.Wpf.Tests.Mocks;
 using Prism.Regions;
 
 namespace Prism.Ninject.Wpf.Tests
 {
-    [TestClass]
+    [Collection("ServiceLocator")]
     public class NinjectBootstrapperRunMethodFixture
     {
-        [TestMethod]
+        [StaFact]
         public void CanRunBootstrapper()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
             bootstrapper.Run();
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldNotFailIfReturnedNullShell()
         {
             var bootstrapper = new DefaultNinjectBootstrapper {ShellObject = null};
             bootstrapper.Run();
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunConfiguresServiceLocatorProvider()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
             bootstrapper.Run();
 
-            Assert.IsTrue(ServiceLocator.Current is NinjectServiceLocatorAdapter);
+            Assert.True(ServiceLocator.Current is NinjectServiceLocatorAdapter);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldInitializeKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
             var kernel = bootstrapper.Kernel;
 
-            Assert.IsNull(kernel);
+            Assert.Null(kernel);
 
             bootstrapper.Run();
 
             kernel = bootstrapper.Kernel;
 
-            Assert.IsNotNull(kernel);
-            Assert.IsInstanceOfType(kernel, typeof(IKernel));
+            Assert.NotNull(kernel);
+            Assert.IsAssignableFrom<IKernel>(kernel);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunAddsCompositionKernelToKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             var createdKernel = bootstrapper.CallCreateKernel();
             var returnedKernel = createdKernel.Get<IKernel>();
-            Assert.IsNotNull(returnedKernel);
-            Assert.AreEqual(typeof(StandardKernel), returnedKernel.GetType());
+            Assert.NotNull(returnedKernel);
+            Assert.Equal(typeof(StandardKernel), returnedKernel.GetType());
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallInitializeModules()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.InitializeModulesCalled);
+            Assert.True(bootstrapper.InitializeModulesCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallConfigureDefaultRegionBehaviors()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.ConfigureDefaultRegionBehaviorsCalled);
+            Assert.True(bootstrapper.ConfigureDefaultRegionBehaviorsCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallConfigureRegionAdapterMappings()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.ConfigureRegionAdapterMappingsCalled);
+            Assert.True(bootstrapper.ConfigureRegionAdapterMappingsCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldAssignRegionManagerToReturnedShell()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsNotNull(RegionManager.GetRegionManager(bootstrapper.BaseShell));
+            Assert.NotNull(RegionManager.GetRegionManager(bootstrapper.BaseShell));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallCreateLogger()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.CreateLoggerCalled);
+            Assert.True(bootstrapper.CreateLoggerCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallCreateModuleCatalog()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.CreateModuleCatalogCalled);
+            Assert.True(bootstrapper.CreateModuleCatalogCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallConfigureModuleCatalog()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.ConfigureModuleCatalogCalled);
+            Assert.True(bootstrapper.ConfigureModuleCatalogCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallCreateKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.CreateKernelCalled);
+            Assert.True(bootstrapper.CreateKernelCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallCreateShell()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.CreateShellCalled);
+            Assert.True(bootstrapper.CreateShellCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallConfigureKernel()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.ConfigureKernelCalled);
+            Assert.True(bootstrapper.ConfigureKernelCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallConfigureServiceLocator()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.ConfigureServiceLocatorCalled);
+            Assert.True(bootstrapper.ConfigureServiceLocatorCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallConfigureViewModelLocator()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
 
             bootstrapper.Run();
 
-            Assert.IsTrue(bootstrapper.ConfigureViewModelLocatorCalled);
+            Assert.True(bootstrapper.ConfigureViewModelLocatorCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldCallTheMethodsInOrder()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
             bootstrapper.Run();
 
-            Assert.AreEqual("CreateLogger", bootstrapper.MethodCalls[0]);
-            Assert.AreEqual("CreateModuleCatalog", bootstrapper.MethodCalls[1]);
-            Assert.AreEqual("ConfigureModuleCatalog", bootstrapper.MethodCalls[2]);
-            Assert.AreEqual("CreateKernel", bootstrapper.MethodCalls[3]);
-            Assert.AreEqual("ConfigureKernel", bootstrapper.MethodCalls[4]);
-            Assert.AreEqual("ConfigureServiceLocator", bootstrapper.MethodCalls[5]);
-            Assert.AreEqual("ConfigureViewModelLocator", bootstrapper.MethodCalls[6]);
-            Assert.AreEqual("ConfigureRegionAdapterMappings", bootstrapper.MethodCalls[7]);
-            Assert.AreEqual("ConfigureDefaultRegionBehaviors", bootstrapper.MethodCalls[8]);
-            Assert.AreEqual("RegisterFrameworkExceptionTypes", bootstrapper.MethodCalls[9]);
-            Assert.AreEqual("CreateShell", bootstrapper.MethodCalls[10]);
-            Assert.AreEqual("InitializeShell", bootstrapper.MethodCalls[11]);
-            Assert.AreEqual("InitializeModules", bootstrapper.MethodCalls[12]);
+            Assert.Equal("CreateLogger", bootstrapper.MethodCalls[0]);
+            Assert.Equal("CreateModuleCatalog", bootstrapper.MethodCalls[1]);
+            Assert.Equal("ConfigureModuleCatalog", bootstrapper.MethodCalls[2]);
+            Assert.Equal("CreateKernel", bootstrapper.MethodCalls[3]);
+            Assert.Equal("ConfigureKernel", bootstrapper.MethodCalls[4]);
+            Assert.Equal("ConfigureServiceLocator", bootstrapper.MethodCalls[5]);
+            Assert.Equal("ConfigureViewModelLocator", bootstrapper.MethodCalls[6]);
+            Assert.Equal("ConfigureRegionAdapterMappings", bootstrapper.MethodCalls[7]);
+            Assert.Equal("ConfigureDefaultRegionBehaviors", bootstrapper.MethodCalls[8]);
+            Assert.Equal("RegisterFrameworkExceptionTypes", bootstrapper.MethodCalls[9]);
+            Assert.Equal("CreateShell", bootstrapper.MethodCalls[10]);
+            Assert.Equal("InitializeShell", bootstrapper.MethodCalls[11]);
+            Assert.Equal("InitializeModules", bootstrapper.MethodCalls[12]);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogBootstrapperSteps()
         {
             var bootstrapper = new DefaultNinjectBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages[0].Contains("Logger was created successfully."));
-            Assert.IsTrue(messages[1].Contains("Creating module catalog."));
-            Assert.IsTrue(messages[2].Contains("Configuring module catalog."));
-            Assert.IsTrue(messages[3].Contains("Creating the Ninject kernel."));
-            Assert.IsTrue(messages[4].Contains("Configuring the Ninject kernel."));
-            Assert.IsTrue(messages[5].Contains("Configuring ServiceLocator singleton."));
-            Assert.IsTrue(messages[6].Contains("Configuring the ViewModelLocator to use Ninject."));
-            Assert.IsTrue(messages[7].Contains("Configuring region adapters."));
-            Assert.IsTrue(messages[8].Contains("Configuring default region behaviors."));
-            Assert.IsTrue(messages[9].Contains("Registering Framework Exception Types."));
-            Assert.IsTrue(messages[10].Contains("Creating the shell."));
-            Assert.IsTrue(messages[11].Contains("Setting the RegionManager."));
-            Assert.IsTrue(messages[12].Contains("Updating Regions."));
-            Assert.IsTrue(messages[13].Contains("Initializing the shell."));
-            Assert.IsTrue(messages[14].Contains("Initializing modules."));
-            Assert.IsTrue(messages[15].Contains("Bootstrapper sequence completed."));
+            Assert.Contains("Logger was created successfully.", messages[0]);
+            Assert.Contains("Creating module catalog.", messages[1]);
+            Assert.Contains("Configuring module catalog.", messages[2]);
+            Assert.Contains("Creating the Ninject kernel.", messages[3]);
+            Assert.Contains("Configuring the Ninject kernel.", messages[4]);
+            Assert.Contains("Configuring ServiceLocator singleton.", messages[5]);
+            Assert.Contains("Configuring the ViewModelLocator to use Ninject.", messages[6]);
+            Assert.Contains("Configuring region adapters.", messages[7]);
+            Assert.Contains("Configuring default region behaviors.", messages[8]);
+            Assert.Contains("Registering Framework Exception Types.", messages[9]);
+            Assert.Contains("Creating the shell.", messages[10]);
+            Assert.Contains("Setting the RegionManager.", messages[11]);
+            Assert.Contains("Updating Regions.", messages[12]);
+            Assert.Contains("Initializing the shell.", messages[13]);
+            Assert.Contains("Initializing modules.", messages[14]);
+            Assert.Contains("Bootstrapper sequence completed.", messages[15]);
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogLoggerCreationSuccess()
         {
             const string expectedMessageText = "Logger was created successfully.";
@@ -232,10 +232,10 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutModuleCatalogCreation()
         {
             const string expectedMessageText = "Creating module catalog.";
@@ -243,10 +243,10 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutConfiguringModuleCatalog()
         {
             const string expectedMessageText = "Configuring module catalog.";
@@ -254,10 +254,10 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutCreatingTheKernel()
         {
             const string expectedMessageText = "Creating the Ninject kernel.";
@@ -265,10 +265,10 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutConfiguringKernel()
         {
             const string expectedMessageText = "Configuring the Ninject kernel.";
@@ -276,10 +276,10 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutConfiguringViewModelLocator()
         {
             const string expectedMessageText = "Configuring the ViewModelLocator to use Ninject.";
@@ -287,10 +287,10 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutConfiguringRegionAdapters()
         {
             const string expectedMessageText = "Configuring region adapters.";
@@ -298,10 +298,10 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutConfiguringRegionBehaviors()
         {
             const string expectedMessageText = "Configuring default region behaviors.";
@@ -309,10 +309,10 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutRegisteringFrameworkExceptionTypes()
         {
             const string expectedMessageText = "Registering Framework Exception Types.";
@@ -320,10 +320,10 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutCreatingTheShell()
         {
             const string expectedMessageText = "Creating the shell.";
@@ -331,10 +331,10 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutInitializingTheShellIfShellCreated()
         {
             const string expectedMessageText = "Initializing the shell.";
@@ -343,10 +343,10 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldNotLogAboutInitializingTheShellIfShellIsNotCreated()
         {
             const string expectedMessageText = "Initializing shell";
@@ -355,10 +355,10 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsFalse(messages.Contains(expectedMessageText));
+            Assert.False(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutInitializingModules()
         {
             const string expectedMessageText = "Initializing modules.";
@@ -366,10 +366,10 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
 
-        [TestMethod]
+        [StaFact]
         public void RunShouldLogAboutRunCompleting()
         {
             const string expectedMessageText = "Bootstrapper sequence completed.";
@@ -377,7 +377,7 @@ namespace Prism.Ninject.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.IsTrue(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(expectedMessageText));
         }
     }
 }

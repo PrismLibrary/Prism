@@ -2,17 +2,17 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {
-    [TestClass]
+    
     public class AutoPopulateRegionBehaviorFixture
     {
-        [TestMethod]
+        [Fact]
         public void ShouldGetViewsFromRegistryOnAttach()
         {
             var region = new MockPresentationRegion() { Name = "MyRegion" };
@@ -26,12 +26,12 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
             behavior.Attach();
 
-            Assert.AreEqual("MyRegion", viewFactory.GetContentsArgumentRegionName);
-            Assert.AreEqual(1, region.MockViews.Items.Count);
-            Assert.AreEqual(view, region.MockViews.Items[0]);
+            Assert.Equal("MyRegion", viewFactory.GetContentsArgumentRegionName);
+            Assert.Single(region.MockViews.Items);
+            Assert.Equal(view, region.MockViews.Items[0]);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldGetViewsFromRegistryWhenRegisteringItAfterAttach()
         {
             var region = new MockPresentationRegion() { Name = "MyRegion" };
@@ -46,21 +46,24 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             viewFactory.GetContentsReturnValue.Add(view);
             viewFactory.RaiseContentRegistered("MyRegion", view);
 
-            Assert.AreEqual("MyRegion", viewFactory.GetContentsArgumentRegionName);
-            Assert.AreEqual(1, region.MockViews.Items.Count);
-            Assert.AreEqual(view, region.MockViews.Items[0]);
+            Assert.Equal("MyRegion", viewFactory.GetContentsArgumentRegionName);
+            Assert.Single(region.MockViews.Items);
+            Assert.Equal(view, region.MockViews.Items[0]);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Fact]
         public void NullRegionThrows()
         {
-            var behavior = new AutoPopulateRegionBehavior(new MockRegionContentRegistry());
+            var ex = Assert.Throws<InvalidOperationException>(() =>
+            {
+                var behavior = new AutoPopulateRegionBehavior(new MockRegionContentRegistry());
 
-            behavior.Attach();
+                behavior.Attach();
+            });
+
         }
 
-        [TestMethod]
+        [Fact]
         public void CanAttachBeforeSettingName()
         {
             var region = new MockPresentationRegion() { Name = null };
@@ -73,14 +76,14 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             };
 
             behavior.Attach();
-            Assert.IsFalse(viewFactory.GetContentsCalled);
+            Assert.False(viewFactory.GetContentsCalled);
 
             region.Name = "MyRegion";
 
-            Assert.IsTrue(viewFactory.GetContentsCalled);
-            Assert.AreEqual("MyRegion", viewFactory.GetContentsArgumentRegionName);
-            Assert.AreEqual(1, region.MockViews.Items.Count);
-            Assert.AreEqual(view, region.MockViews.Items[0]);
+            Assert.True(viewFactory.GetContentsCalled);
+            Assert.Equal("MyRegion", viewFactory.GetContentsArgumentRegionName);
+            Assert.Single(region.MockViews.Items);
+            Assert.Equal(view, region.MockViews.Items[0]);
         }
 
         private class MockRegionContentRegistry : IRegionViewRegistry

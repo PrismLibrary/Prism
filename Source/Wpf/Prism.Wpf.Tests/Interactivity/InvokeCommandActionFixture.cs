@@ -2,16 +2,16 @@
 
 using System;
 using System.Windows.Controls;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Interactivity;
 using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Interactivity
 {
-    [TestClass]
+    
     public class InvokeCommandActionFixture
     {
-        [TestMethod]
+        [StaFact]
         public void WhenCommandPropertyIsSet_ThenHooksUpCommandBehavior()
         {
             var someControl = new TextBox();
@@ -20,15 +20,15 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Attach(someControl);
             commandAction.Command = command;
 
-            Assert.IsFalse(command.ExecuteCalled);
+            Assert.False(command.ExecuteCalled);
 
             commandAction.InvokeAction(null);
 
-            Assert.IsTrue(command.ExecuteCalled);
-            Assert.AreSame(command, commandAction.GetValue(InvokeCommandAction.CommandProperty));
+            Assert.True(command.ExecuteCalled);
+            Assert.Same(command, commandAction.GetValue(InvokeCommandAction.CommandProperty));
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenAttachedAfterCommandPropertyIsSetAndInvoked_ThenInvokesCommand()
         {
             var someControl = new TextBox();
@@ -37,15 +37,15 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Command = command;
             commandAction.Attach(someControl);
 
-            Assert.IsFalse(command.ExecuteCalled);
+            Assert.False(command.ExecuteCalled);
 
             commandAction.InvokeAction(null);
 
-            Assert.IsTrue(command.ExecuteCalled);
-            Assert.AreSame(command, commandAction.GetValue(InvokeCommandAction.CommandProperty));
+            Assert.True(command.ExecuteCalled);
+            Assert.Same(command, commandAction.GetValue(InvokeCommandAction.CommandProperty));
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenChangingProperty_ThenUpdatesCommand()
         {
             var someControl = new TextBox();
@@ -57,11 +57,11 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Command = newCommand;
             commandAction.InvokeAction(null);
 
-            Assert.IsTrue(newCommand.ExecuteCalled);
-            Assert.IsFalse(oldCommand.ExecuteCalled);
+            Assert.True(newCommand.ExecuteCalled);
+            Assert.False(oldCommand.ExecuteCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenInvokedWithCommandParameter_ThenPassesCommandParaeterToExecute()
         {
             var someControl = new TextBox();
@@ -72,16 +72,16 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Command = command;
             commandAction.CommandParameter = parameter;
 
-            Assert.IsNull(command.ExecuteParameter);
+            Assert.Null(command.ExecuteParameter);
 
             commandAction.InvokeAction(null);
 
-            Assert.IsTrue(command.ExecuteCalled);
-            Assert.IsNotNull(command.ExecuteParameter);
-            Assert.AreSame(parameter, command.ExecuteParameter);
+            Assert.True(command.ExecuteCalled);
+            Assert.NotNull(command.ExecuteParameter);
+            Assert.Same(parameter, command.ExecuteParameter);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenCommandParameterChanged_ThenUpdatesIsEnabledState()
         {
             var someControl = new TextBox();
@@ -91,18 +91,18 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Attach(someControl);
             commandAction.Command = command;
 
-            Assert.IsNull(command.CanExecuteParameter);
-            Assert.IsTrue(someControl.IsEnabled);
+            Assert.Null(command.CanExecuteParameter);
+            Assert.True(someControl.IsEnabled);
 
             command.CanExecuteReturnValue = false;
             commandAction.CommandParameter = parameter;
 
-            Assert.IsNotNull(command.CanExecuteParameter);
-            Assert.AreSame(parameter, command.CanExecuteParameter);
-            Assert.IsFalse(someControl.IsEnabled);
+            Assert.NotNull(command.CanExecuteParameter);
+            Assert.Same(parameter, command.CanExecuteParameter);
+            Assert.False(someControl.IsEnabled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenCanExecuteChanged_ThenUpdatesIsEnabledState()
         {
             var someControl = new TextBox();
@@ -113,17 +113,17 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Command = command;
             commandAction.CommandParameter = parameter;
 
-            Assert.IsTrue(someControl.IsEnabled);
+            Assert.True(someControl.IsEnabled);
 
             command.CanExecuteReturnValue = false;
             command.RaiseCanExecuteChanged();
 
-            Assert.IsNotNull(command.CanExecuteParameter);
-            Assert.AreSame(parameter, command.CanExecuteParameter);
-            Assert.IsFalse(someControl.IsEnabled);
+            Assert.NotNull(command.CanExecuteParameter);
+            Assert.Same(parameter, command.CanExecuteParameter);
+            Assert.False(someControl.IsEnabled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenDetatched_ThenSetsCommandAndCommandParameterToNull()
         {
             var someControl = new TextBox();
@@ -134,16 +134,16 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Command = command;
             commandAction.CommandParameter = parameter;
 
-            Assert.IsNotNull(commandAction.Command);
-            Assert.IsNotNull(commandAction.CommandParameter);
+            Assert.NotNull(commandAction.Command);
+            Assert.NotNull(commandAction.CommandParameter);
 
             commandAction.Detach();
 
-            Assert.IsNull(commandAction.Command);
-            Assert.IsNull(commandAction.CommandParameter);
+            Assert.Null(commandAction.Command);
+            Assert.Null(commandAction.CommandParameter);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenCommandIsSetAndThenBehaviorIsAttached_ThenCommandsCanExecuteIsCalledOnce()
         {
             var someControl = new TextBox();
@@ -152,10 +152,10 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Command = command;
             commandAction.Attach(someControl);
 
-            Assert.AreEqual(1, command.CanExecuteTimesCalled);
+            Assert.Equal(1, command.CanExecuteTimesCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenCommandAndCommandParameterAreSetPriorToBehaviorBeingAttached_ThenCommandIsExecutedCorrectlyOnInvoke()
         {
             var someControl = new TextBox();
@@ -168,10 +168,10 @@ namespace Prism.Wpf.Tests.Interactivity
 
             commandAction.InvokeAction(null);
            
-            Assert.IsTrue(command.ExecuteCalled);
+            Assert.True(command.ExecuteCalled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenCommandParameterNotSet_ThenEventArgsPassed()
         {
             var eventArgs = new TestEventArgs(null);
@@ -184,10 +184,10 @@ namespace Prism.Wpf.Tests.Interactivity
 
             commandAction.InvokeAction(eventArgs);
 
-            Assert.IsInstanceOfType(command.ExecuteParameter, typeof(TestEventArgs));
+            Assert.IsType<TestEventArgs>(command.ExecuteParameter);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenCommandParameterNotSetAndEventArgsParameterPathSet_ThenPathedValuePassed()
         {
             var eventArgs = new TestEventArgs("testname");
@@ -201,10 +201,10 @@ namespace Prism.Wpf.Tests.Interactivity
 
             commandAction.InvokeAction(eventArgs);
 
-            Assert.AreEqual("testname", command.ExecuteParameter);
+            Assert.Equal("testname", command.ExecuteParameter);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenAttachedAndCanExecuteReturnsTrue_ThenDisabledUIElementIsEnabled()
         {
             var someControl = new TextBox();
@@ -216,10 +216,10 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Command = command;
             commandAction.Attach(someControl);
 
-            Assert.IsTrue(someControl.IsEnabled);
+            Assert.True(someControl.IsEnabled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenAttachedAndCanExecuteReturnsFalse_ThenEnabledUIElementIsDisabled()
         {
             var someControl = new TextBox();
@@ -231,10 +231,10 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Command = command;
             commandAction.Attach(someControl);
 
-            Assert.IsFalse(someControl.IsEnabled);
+            Assert.False(someControl.IsEnabled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenAutoEnableIsFalse_ThenDisabledUIElementRemainsDisabled()
         {
             var someControl = new TextBox();
@@ -247,10 +247,10 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Command = command;
             commandAction.Attach(someControl);
 
-            Assert.IsFalse(someControl.IsEnabled);
+            Assert.False(someControl.IsEnabled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenAutoEnableIsFalse_ThenEnabledUIElementRemainsEnabled()
         {
             var someControl = new TextBox();
@@ -263,10 +263,10 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Command = command;
             commandAction.Attach(someControl);
 
-            Assert.IsTrue(someControl.IsEnabled);
+            Assert.True(someControl.IsEnabled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenAutoEnableIsUpdated_ThenDisabledUIElementIsEnabled()
         {
             var someControl = new TextBox();
@@ -278,14 +278,14 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Command = command;
             commandAction.Attach(someControl);
 
-            Assert.IsFalse(someControl.IsEnabled);
+            Assert.False(someControl.IsEnabled);
 
             commandAction.AutoEnable = true;
 
-            Assert.IsTrue(someControl.IsEnabled);
+            Assert.True(someControl.IsEnabled);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenAutoEnableIsUpdated_ThenEnabledUIElementIsDisabled()
         {
             var someControl = new TextBox();
@@ -298,11 +298,11 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Command = command;
             commandAction.Attach(someControl);
 
-            Assert.IsTrue(someControl.IsEnabled);
+            Assert.True(someControl.IsEnabled);
 
             commandAction.AutoEnable = true;
 
-            Assert.IsFalse(someControl.IsEnabled);
+            Assert.False(someControl.IsEnabled);
         }
     }
 

@@ -2,7 +2,7 @@
 
 using System;
 using System.Windows;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
@@ -10,10 +10,10 @@ using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {
-    [TestClass]
+    
     public class RegionActiveAwareBehaviorFixture
     {
-        [TestMethod]
+        [StaFact]
         public void SetsIsActivePropertyOnIActiveAwareObjects()
         {
             var region = new MockPresentationRegion();
@@ -24,16 +24,16 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
             ActiveAwareFrameworkElement activeAwareObject = new ActiveAwareFrameworkElement();
 
-            Assert.IsFalse(activeAwareObject.IsActive);
+            Assert.False(activeAwareObject.IsActive);
             collection.Add(activeAwareObject);
 
-            Assert.IsTrue(activeAwareObject.IsActive);
+            Assert.True(activeAwareObject.IsActive);
 
             collection.Remove(activeAwareObject);
-            Assert.IsFalse(activeAwareObject.IsActive);
+            Assert.False(activeAwareObject.IsActive);
         }
 
-        [TestMethod]
+        [StaFact]
         public void SetsIsActivePropertyOnIActiveAwareDataContexts()
         {
             var region = new MockPresentationRegion();
@@ -47,16 +47,16 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             var frameworkElement = frameworkElementMock.Object;
             frameworkElement.DataContext = activeAwareObject;
 
-            Assert.IsFalse(activeAwareObject.IsActive);
+            Assert.False(activeAwareObject.IsActive);
             collection.Add(frameworkElement);
 
-            Assert.IsTrue(activeAwareObject.IsActive);
+            Assert.True(activeAwareObject.IsActive);
 
             collection.Remove(frameworkElement);
-            Assert.IsFalse(activeAwareObject.IsActive);
+            Assert.False(activeAwareObject.IsActive);
         }
 
-        [TestMethod]
+        [StaFact]
         public void SetsIsActivePropertyOnBothIActiveAwareViewAndDataContext()
         {
             var region = new MockPresentationRegion();
@@ -73,19 +73,19 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             var frameworkElement = frameworkElementMock.Object;
             frameworkElement.DataContext = activeAwareObject;
 
-            Assert.IsFalse(((IActiveAware)frameworkElement).IsActive);
-            Assert.IsFalse(activeAwareObject.IsActive);
+            Assert.False(((IActiveAware)frameworkElement).IsActive);
+            Assert.False(activeAwareObject.IsActive);
             collection.Add(frameworkElement);
 
-            Assert.IsTrue(((IActiveAware)frameworkElement).IsActive);
-            Assert.IsTrue(activeAwareObject.IsActive);
+            Assert.True(((IActiveAware)frameworkElement).IsActive);
+            Assert.True(activeAwareObject.IsActive);
 
             collection.Remove(frameworkElement);
-            Assert.IsFalse(((IActiveAware)frameworkElement).IsActive);
-            Assert.IsFalse(activeAwareObject.IsActive);
+            Assert.False(((IActiveAware)frameworkElement).IsActive);
+            Assert.False(activeAwareObject.IsActive);
         }
 
-        [TestMethod]
+        [StaFact]
         public void DetachStopsListeningForChanges()
         {
             var region = new MockPresentationRegion();
@@ -97,10 +97,10 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
             collection.Add(activeAwareObject);
 
-            Assert.IsFalse(activeAwareObject.IsActive);
+            Assert.False(activeAwareObject.IsActive);
         }
 
-        [TestMethod]
+        [StaFact]
         public void DoesNotThrowWhenAddingNonActiveAwareObjects()
         {
             var region = new MockPresentationRegion();
@@ -111,7 +111,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             collection.Add(new object());
         }
 
-        [TestMethod]
+        [StaFact]
         public void DoesNotThrowWhenAddingNonActiveAwareDataContexts()
         {
             var region = new MockPresentationRegion();
@@ -127,7 +127,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             collection.Add(frameworkElement);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenParentViewGetsActivatedOrDeactivated_ThenChildViewIsNotUpdated()
         {
             var scopedRegionManager = new RegionManager();
@@ -149,14 +149,14 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             scopedRegion.Add(childActiveAwareView);
             scopedRegion.Activate(childActiveAwareView);
 
-            Assert.IsTrue(childActiveAwareView.IsActive);
+            Assert.True(childActiveAwareView.IsActive);
 
             region.Deactivate(view);
 
-            Assert.IsTrue(childActiveAwareView.IsActive);
+            Assert.True(childActiveAwareView.IsActive);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenParentViewGetsActivatedOrDeactivated_ThenSyncedChildViewIsUpdated()
         {
             var scopedRegionManager = new RegionManager();
@@ -178,14 +178,14 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             scopedRegion.Add(childActiveAwareView);
             scopedRegion.Activate(childActiveAwareView);
 
-            Assert.IsTrue(childActiveAwareView.IsActive);
+            Assert.True(childActiveAwareView.IsActive);
 
             region.Deactivate(view);
 
-            Assert.IsFalse(childActiveAwareView.IsActive);
+            Assert.False(childActiveAwareView.IsActive);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenParentViewGetsActivatedOrDeactivated_ThenSyncedChildViewWithAttributeInVMIsUpdated()
         {
             var scopedRegionManager = new RegionManager();
@@ -208,14 +208,14 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             scopedRegion.Add(childActiveAwareView);
             scopedRegion.Activate(childActiveAwareView);
 
-            Assert.IsTrue(childActiveAwareView.IsActive);
+            Assert.True(childActiveAwareView.IsActive);
 
             region.Deactivate(view);
 
-            Assert.IsFalse(childActiveAwareView.IsActive);
+            Assert.False(childActiveAwareView.IsActive);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenParentViewGetsActivatedOrDeactivated_ThenSyncedChildViewModelThatIsNotAFrameworkElementIsNotUpdated()
         {
             var scopedRegionManager = new RegionManager();
@@ -237,14 +237,14 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             scopedRegion.Add(childActiveAwareView);
             scopedRegion.Activate(childActiveAwareView);
 
-            Assert.IsTrue(childActiveAwareView.IsActive);
+            Assert.True(childActiveAwareView.IsActive);
 
             region.Deactivate(view);
 
-            Assert.IsTrue(childActiveAwareView.IsActive);
+            Assert.True(childActiveAwareView.IsActive);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenParentViewGetsActivatedOrDeactivated_ThenSyncedChildViewNotInActiveViewsIsNotUpdated()
         {
             var scopedRegionManager = new RegionManager();
@@ -266,18 +266,18 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             scopedRegion.Add(childActiveAwareView);
             scopedRegion.Deactivate(childActiveAwareView);
 
-            Assert.IsFalse(childActiveAwareView.IsActive);
+            Assert.False(childActiveAwareView.IsActive);
 
             region.Deactivate(view);
 
-            Assert.IsFalse(childActiveAwareView.IsActive);
+            Assert.False(childActiveAwareView.IsActive);
 
             region.Activate(view);
 
-            Assert.IsFalse(childActiveAwareView.IsActive);
+            Assert.False(childActiveAwareView.IsActive);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WhenParentViewWithoutScopedRegionGetsActivatedOrDeactivated_ThenSyncedChildViewIsNotUpdated()
         {
             var commonRegionManager = new RegionManager();
@@ -299,11 +299,11 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             nonScopedRegion.Add(childActiveAwareView);
             nonScopedRegion.Activate(childActiveAwareView);
 
-            Assert.IsTrue(childActiveAwareView.IsActive);
+            Assert.True(childActiveAwareView.IsActive);
 
             region.Deactivate(view);
 
-            Assert.IsTrue(childActiveAwareView.IsActive);
+            Assert.True(childActiveAwareView.IsActive);
         }
 
         class ActiveAwareObject : IActiveAware

@@ -2,14 +2,14 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Prism.Wpf.Tests
 {
-    [TestClass]
+    
     public class CollectionExtensionsFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanAddRangeToCollection()
         {
             Collection<object> col = new Collection<object>();
@@ -17,9 +17,9 @@ namespace Prism.Wpf.Tests
 
             col.AddRange(itemsToAdd);
 
-            Assert.AreEqual(2, col.Count);
-            Assert.AreEqual("1", col[0]);
-            Assert.AreEqual("2", col[1]);
+            Assert.Equal(2, col.Count);
+            Assert.Equal("1", col[0]);
+            Assert.Equal("2", col[1]);
         }
     }
 }

@@ -1,49 +1,57 @@
 
 
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    [TestClass]
+    
     public class RegionAdapterBaseFixture
     {
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Fact]
         public void IncorrectTypeThrows()
         {
-            IRegionAdapter adapter = new TestableRegionAdapterBase();
-            adapter.Initialize(new MockDependencyObject(), "Region1");
+            var ex = Assert.Throws<InvalidOperationException>(() =>
+            {
+                IRegionAdapter adapter = new TestableRegionAdapterBase();
+                adapter.Initialize(new MockDependencyObject(), "Region1");
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public void InitializeSetsRegionName()
         {
             IRegionAdapter adapter = new TestableRegionAdapterBase();
             var region = adapter.Initialize(new MockRegionTarget(), "Region1");
-            Assert.AreEqual("Region1", region.Name);
+            Assert.Equal("Region1", region.Name);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NullRegionNameThrows()
         {
-            IRegionAdapter adapter = new TestableRegionAdapterBase();
-            var region = adapter.Initialize(new MockRegionTarget(), null);
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                IRegionAdapter adapter = new TestableRegionAdapterBase();
+                var region = adapter.Initialize(new MockRegionTarget(), null);
+            });
+
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NullObjectThrows()
         {
-            IRegionAdapter adapter = new TestableRegionAdapterBase();
-            adapter.Initialize(null, "Region1");
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+            {
+                IRegionAdapter adapter = new TestableRegionAdapterBase();
+                adapter.Initialize(null, "Region1");
+            });
+
         }
 
 
-        [TestMethod]
+        [Fact]
         public void CreateRegionReturnValueIsPassedToAdapt()
         {
             var regionTarget = new MockRegionTarget();
@@ -51,11 +59,11 @@ namespace Prism.Wpf.Tests.Regions
 
             adapter.Initialize(regionTarget, "Region1");
 
-            Assert.AreSame(adapter.CreateRegionReturnValue, adapter.AdaptArgumentRegion);
-            Assert.AreSame(regionTarget, adapter.adaptArgumentRegionTarget);
+            Assert.Same(adapter.CreateRegionReturnValue, adapter.AdaptArgumentRegion);
+            Assert.Same(regionTarget, adapter.adaptArgumentRegionTarget);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateRegionReturnValueIsPassedToAttachBehaviors()
         {
             var regionTarget = new MockRegionTarget();
@@ -63,8 +71,8 @@ namespace Prism.Wpf.Tests.Regions
 
             var region = adapter.Initialize(regionTarget, "Region1");
 
-            Assert.AreSame(adapter.CreateRegionReturnValue, adapter.AttachBehaviorsArgumentRegion);
-            Assert.AreSame(regionTarget, adapter.attachBehaviorsArgumentTargetToAdapt);
+            Assert.Same(adapter.CreateRegionReturnValue, adapter.AttachBehaviorsArgumentRegion);
+            Assert.Same(regionTarget, adapter.attachBehaviorsArgumentTargetToAdapt);
         }
 
         class TestableRegionAdapterBase : RegionAdapterBase<MockRegionTarget>

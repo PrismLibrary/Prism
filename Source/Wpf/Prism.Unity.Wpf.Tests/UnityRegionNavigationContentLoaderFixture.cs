@@ -1,26 +1,29 @@
-
-
 using System.Linq;
 using CommonServiceLocator;
 using Unity;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Prism.IocContainer.Wpf.Tests.Support.Mocks;
+using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks.Views;
 using Prism.Regions;
 using Prism.Unity.Wpf.Tests.Mocks;
 
 namespace Prism.Unity.Wpf.Tests
 {
-    [TestClass]
+    [Collection("ServiceLocator")]
     public class UnityRegionNavigationContentLoaderFixture
     {
-        [TestMethod]
+        IUnityContainer _container;
+
+        public UnityRegionNavigationContentLoaderFixture()
+        {
+            _container = new UnityContainer();
+            MockServiceLocator serviceLocator = new MockServiceLocator(_container);
+            ServiceLocator.SetLocatorProvider(() => serviceLocator);
+        }
+
+        [StaFact]
         public void ShouldFindCandidateViewInRegion()
         {
-            IUnityContainer container = new UnityContainer();
-            container.RegisterType<object, MockView>("MockView");
-
-            this.ConfigureMockServiceLocator(container);
+            _container.RegisterType<object, MockView>("MockView");
 
             // We cannot access the UnityRegionNavigationContentLoader directly so we need to call its
             // GetCandidatesFromRegion method through a navigation request.
@@ -32,19 +35,16 @@ namespace Prism.Unity.Wpf.Tests
 
             testRegion.RequestNavigate("MockView");
 
-            Assert.IsTrue(testRegion.Views.Contains(view));
-            Assert.IsTrue(testRegion.Views.Count() == 1);
-            Assert.IsTrue(testRegion.ActiveViews.Count() == 1);
-            Assert.IsTrue(testRegion.ActiveViews.Contains(view));
+            Assert.True(testRegion.Views.Contains(view));
+            Assert.True(testRegion.Views.Count() == 1);
+            Assert.True(testRegion.ActiveViews.Count() == 1);
+            Assert.True(testRegion.ActiveViews.Contains(view));
         }
 
-        [TestMethod]
+        [StaFact]
         public void ShouldFindCandidateViewWithFriendlyNameInRegion()
         {
-            IUnityContainer container = new UnityContainer();
-            container.RegisterType<MockView>("SomeView");
-
-            this.ConfigureMockServiceLocator(container);
+            _container.RegisterType<object, MockView>("SomeView");
 
             // We cannot access the UnityRegionNavigationContentLoader directly so we need to call its
             // GetCandidatesFromRegion method through a navigation request.
@@ -56,15 +56,9 @@ namespace Prism.Unity.Wpf.Tests
 
             testRegion.RequestNavigate("SomeView");
 
-            Assert.IsTrue(testRegion.Views.Contains(view));
-            Assert.IsTrue(testRegion.ActiveViews.Count() == 1);
-            Assert.IsTrue(testRegion.ActiveViews.Contains(view));
-        }
-
-        public void ConfigureMockServiceLocator(IUnityContainer container)
-        {
-            MockServiceLocator serviceLocator = new MockServiceLocator(container);
-            ServiceLocator.SetLocatorProvider(() => serviceLocator);
+            Assert.True(testRegion.Views.Contains(view));
+            Assert.True(testRegion.ActiveViews.Count() == 1);
+            Assert.True(testRegion.ActiveViews.Contains(view));
         }
     }
 }

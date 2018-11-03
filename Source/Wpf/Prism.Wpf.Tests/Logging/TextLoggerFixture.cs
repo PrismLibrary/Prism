@@ -3,35 +3,35 @@
 using System;
 using System.IO;
 using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Logging;
 
 namespace Prism.Wpf.Tests.Logging
 {
-    [TestClass]
+    
     public class TextLoggerFixture
     {
-        [TestMethod]
+        [Fact]
         public void ShouldWriteToTextWriter()
         {
             TextWriter writer = new StringWriter();
             ILoggerFacade logger = new TextLogger() { Writer = writer };
 
             logger.Log("Test", Category.Debug, Priority.Low);
-            StringAssert.Contains(writer.ToString(), "Test");
-            StringAssert.Contains(writer.ToString(), "DEBUG");
-            StringAssert.Contains(writer.ToString(), "Low");
+            Assert.Contains("Test", writer.ToString());
+            Assert.Contains("DEBUG", writer.ToString());
+            Assert.Contains("Low", writer.ToString());
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldDisposeWriterOnDispose()
         {
             MockWriter writer = new MockWriter();
             ILoggerFacade logger = new TextLogger() { Writer = writer };
 
-            Assert.IsFalse(writer.DisposeCalled);
+            Assert.False(writer.DisposeCalled);
             writer.Dispose();
-            Assert.IsTrue(writer.DisposeCalled);
+            Assert.True(writer.DisposeCalled);
         }
     }
 

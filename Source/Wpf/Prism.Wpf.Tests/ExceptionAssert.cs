@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Prism.Wpf.Tests
 {
@@ -19,11 +19,11 @@ namespace Prism.Wpf.Tests
             }
             catch (Exception ex)
             {
-                Assert.IsInstanceOfType(ex, expectedExceptionType);
+                Assert.IsType(expectedExceptionType, ex);
                 return;
             }
 
-            Assert.Fail("No exception thrown.  Expected exception type of {0}.", expectedExceptionType.Name);
+            //Assert.Fail("No exception thrown.  Expected exception type of {0}.", expectedExceptionType.Name);
         }
     }
 }

@@ -2,24 +2,27 @@
 
 using System;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Modularity;
 
 namespace Prism.Wpf.Tests.Modularity
 {
-    [TestClass]
-    public class AssemblyResolverFixture
+    
+    public class AssemblyResolverFixture : IDisposable
     {
         private const string ModulesDirectory1 = @".\DynamicModules\MocksModulesAssemblyResolve";
 
-        [TestInitialize]
-        [TestCleanup]
-        public void CleanUpDirectories()
+        public AssemblyResolverFixture()
+        {
+            CleanUpDirectories();
+        }
+
+        private void CleanUpDirectories()
         {
             CompilerHelper.CleanUpDirectory(ModulesDirectory1);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldThrowOnInvalidAssemblyFilePath()
         {
             bool exceptionThrown = false;
@@ -34,7 +37,7 @@ namespace Prism.Wpf.Tests.Modularity
                     exceptionThrown = true;
                 }
 
-                Assert.IsTrue(exceptionThrown);
+                Assert.True(exceptionThrown);
 
 
                 try
@@ -47,7 +50,7 @@ namespace Prism.Wpf.Tests.Modularity
                     exceptionThrown = true;
                 }
 
-                Assert.IsTrue(exceptionThrown);
+                Assert.True(exceptionThrown);
 
 
                 try
@@ -60,11 +63,11 @@ namespace Prism.Wpf.Tests.Modularity
                     exceptionThrown = true;
                 }
 
-                Assert.IsTrue(exceptionThrown);
+                Assert.True(exceptionThrown);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldResolveTypeFromAbsoluteUriToAssembly()
         {
             string assemblyPath = CompilerHelper.GenerateDynamicModule("ModuleInLoadedFromContext1", "Module", ModulesDirectory1 + @"\ModuleInLoadedFromContext1.dll");
@@ -80,18 +83,18 @@ namespace Prism.Wpf.Tests.Modularity
                 Type resolvedType =
                     Type.GetType(
                         "TestModules.ModuleInLoadedFromContext1Class, ModuleInLoadedFromContext1, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
-                Assert.IsNull(resolvedType);
+                Assert.Null(resolvedType);
 
                 resolver.LoadAssemblyFrom(assemblyUri.ToString());
 
                 resolvedType =
                     Type.GetType(
                         "TestModules.ModuleInLoadedFromContext1Class, ModuleInLoadedFromContext1, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
-                Assert.IsNotNull(resolvedType);
+                Assert.NotNull(resolvedType);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldResolvePartialAssemblyName()
         {
             string assemblyPath = CompilerHelper.GenerateDynamicModule("ModuleInLoadedFromContext2", "Module", ModulesDirectory1 + @"\ModuleInLoadedFromContext2.dll");
@@ -109,18 +112,23 @@ namespace Prism.Wpf.Tests.Modularity
                 Type resolvedType =
                     Type.GetType("TestModules.ModuleInLoadedFromContext2Class, ModuleInLoadedFromContext2");
 
-                Assert.IsNotNull(resolvedType);
+                Assert.NotNull(resolvedType);
 
                 resolvedType =
                     Type.GetType("TestModules.ModuleInLoadedFromContext2Class, ModuleInLoadedFromContext2, Version=0.0.0.0");
                 
-                Assert.IsNotNull(resolvedType);
+                Assert.NotNull(resolvedType);
 
                 resolvedType =
                     Type.GetType("TestModules.ModuleInLoadedFromContext2Class, ModuleInLoadedFromContext2, Version=0.0.0.0, Culture=neutral");
 
-                Assert.IsNotNull(resolvedType);
+                Assert.NotNull(resolvedType);
             }
+        }
+
+        public void Dispose()
+        {
+            CleanUpDirectories();
         }
     }
 }

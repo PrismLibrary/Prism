@@ -6,40 +6,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    [TestClass]
+    
     public class ItemsControlRegionAdapterFixture
     {
-        [TestMethod]
+        [StaFact]
         public void AdapterAssociatesItemsControlWithRegion()
         {
             var control = new ItemsControl();
             IRegionAdapter adapter = new TestableItemsControlRegionAdapter();
 
             IRegion region = adapter.Initialize(control, "Region1");
-            Assert.IsNotNull(region);
+            Assert.NotNull(region);
 
-            Assert.AreSame(control.ItemsSource, region.Views);
+            Assert.Same(control.ItemsSource, region.Views);
         }
 
-        [TestMethod]
+        [StaFact]
         public void AdapterAssignsARegionThatHasAllViewsActive()
         {
             var control = new ItemsControl();
             IRegionAdapter adapter = new ItemsControlRegionAdapter(null);
 
             IRegion region = adapter.Initialize(control, "Region1");
-            Assert.IsNotNull(region);
-            Assert.IsInstanceOfType(region, typeof(AllActiveRegion));
+            Assert.NotNull(region);
+            Assert.IsType<AllActiveRegion>(region);
         }
 
 
-        [TestMethod]
+        [StaFact]
         public void ShouldMoveAlreadyExistingContentInControlToRegion()
         {
             var control = new ItemsControl();
@@ -49,12 +49,12 @@ namespace Prism.Wpf.Tests.Regions
 
             var region = (MockPresentationRegion)adapter.Initialize(control, "Region1");
 
-            Assert.AreEqual(1, region.MockViews.Count());
-            Assert.AreSame(view, region.MockViews.ElementAt(0));
-            Assert.AreSame(view, control.Items[0]);
+            Assert.Single(region.MockViews);
+            Assert.Same(view, region.MockViews.ElementAt(0));
+            Assert.Same(view, control.Items[0]);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ControlWithExistingItemSourceThrows()
         {
             var control = new ItemsControl() { ItemsSource = new List<string>() };
@@ -64,16 +64,16 @@ namespace Prism.Wpf.Tests.Regions
             try
             {
                 var region = (MockPresentationRegion)adapter.Initialize(control, "Region1");
-                Assert.Fail();
+                //Assert.Fail();
             }
             catch (Exception ex)
             {
-                Assert.IsInstanceOfType(ex, typeof(InvalidOperationException));
-                StringAssert.Contains(ex.Message, "ItemsControl's ItemsSource property is not empty.");
+                Assert.IsType<InvalidOperationException>(ex);
+                Assert.Contains("ItemsControl's ItemsSource property is not empty.", ex.Message);
             }
         }
 
-        [TestMethod]
+        [StaFact]
         public void ControlWithExistingBindingOnItemsSourceWithNullValueThrows()
         {
             var control = new ItemsControl();
@@ -86,12 +86,12 @@ namespace Prism.Wpf.Tests.Regions
             try
             {
                 var region = (MockPresentationRegion)adapter.Initialize(control, "Region1");
-                Assert.Fail();
+                //Assert.Fail();
             }
             catch (Exception ex)
             {
-                Assert.IsInstanceOfType(ex, typeof(InvalidOperationException));
-                StringAssert.Contains(ex.Message, "ItemsControl's ItemsSource property is not empty.");
+                Assert.IsType<InvalidOperationException>(ex);
+                Assert.Contains("ItemsControl's ItemsSource property is not empty.", ex.Message);
             }
         }
 
