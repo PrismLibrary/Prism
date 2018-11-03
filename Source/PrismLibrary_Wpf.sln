@@ -5,37 +5,33 @@ VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism", "Prism\Prism.csproj", "{E6C50355-D01E-4CAA-884D-D7929861315C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Wpf", "Wpf\Prism.Wpf\Prism.Wpf.csproj", "{5912FF03-C72B-4F56-BAA1-8642FDBFBC26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Wpf", "Wpf\Prism.Wpf\Prism.Wpf.csproj", "{5912FF03-C72B-4F56-BAA1-8642FDBFBC26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Unity.Wpf", "Wpf\Prism.Unity.Wpf\Prism.Unity.Wpf.csproj", "{C1CE34C7-6AC9-4D54-BAD0-8467E9F9F38D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Unity.Wpf", "Wpf\Prism.Unity.Wpf\Prism.Unity.Wpf.csproj", "{C1CE34C7-6AC9-4D54-BAD0-8467E9F9F38D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Tests", "Prism.Tests\Prism.Tests.csproj", "{B6E74918-D92B-4690-BEC9-0BB199A6E933}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Unity.Wpf.Tests", "Wpf\Prism.Unity.Wpf.Tests\Prism.Unity.Wpf.Tests.csproj", "{75511F4B-2602-4623-945C-AF8156B51F4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Unity.Wpf.Tests", "Wpf\Prism.Unity.Wpf.Tests\Prism.Unity.Wpf.Tests.csproj", "{75511F4B-2602-4623-945C-AF8156B51F4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Wpf.Tests", "Wpf\Prism.Wpf.Tests\Prism.Wpf.Tests.csproj", "{7DB8E74D-214F-4840-B294-58372D369958}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Wpf.Tests", "Wpf\Prism.Wpf.Tests\Prism.Wpf.Tests.csproj", "{7DB8E74D-214F-4840-B294-58372D369958}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Autofac.Wpf", "Wpf\Prism.Autofac.Wpf\Prism.Autofac.Wpf.csproj", "{A47FA62E-8C9A-4C9F-9F65-A58B9AD7E8E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Ninject.Wpf", "Wpf\Prism.Ninject.Wpf\Prism.Ninject.Wpf.csproj", "{A4E80E69-EED3-440A-A50C-F64BBFC0103C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Autofac.Wpf.Tests", "Wpf\Prism.Autofac.Wpf.Tests\Prism.Autofac.Wpf.Tests.csproj", "{2F5019EA-2692-4B43-B73A-A65BEA2EB2F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.IocContainer.Wpf.Tests.Support", "Wpf\Prism.IocContainer.Wpf.Tests.Support\Prism.IocContainer.Wpf.Tests.Support.csproj", "{FF6F1B2C-BECC-4477-B918-B75615BAA3A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Ninject.Wpf", "Wpf\Prism.Ninject.Wpf\Prism.Ninject.Wpf.csproj", "{A4E80E69-EED3-440A-A50C-F64BBFC0103C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.StructureMap.Wpf", "Wpf\Prism.StructureMap.Wpf\Prism.StructureMap.Wpf.csproj", "{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.IocContainer.Wpf.Tests.Support", "Wpf\Prism.IocContainer.Wpf.Tests.Support\Prism.IocContainer.Wpf.Tests.Support.csproj", "{FF6F1B2C-BECC-4477-B918-B75615BAA3A5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.StructureMap.Wpf", "Wpf\Prism.StructureMap.Wpf\Prism.StructureMap.Wpf.csproj", "{70268CD7-BCA4-4B6E-9EDC-BBC5950E0AB9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.StructureMap.Wpf.Tests", "Wpf\Prism.StructureMap.Wpf.Tests\Prism.StructureMap.Wpf.Tests.csproj", "{2823CA8B-DCBD-4694-B842-8A327DFCAA02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.StructureMap.Wpf.Tests", "Wpf\Prism.StructureMap.Wpf.Tests\Prism.StructureMap.Wpf.Tests.csproj", "{2823CA8B-DCBD-4694-B842-8A327DFCAA02}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{0C63693A-B167-49DE-BDBE-D3689DE289CB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CF7424F7-8223-4A30-A7E8-5DD610A0D873}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.DryIoc.Wpf", "Wpf\Prism.DryIoc.Wpf\Prism.DryIoc.Wpf.csproj", "{8ACF42B5-7765-44D0-BA22-D320F7ABC911}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Wpf", "Wpf\Prism.DryIoc.Wpf\Prism.DryIoc.Wpf.csproj", "{8ACF42B5-7765-44D0-BA22-D320F7ABC911}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.DryIoc.Wpf.Tests", "Wpf\Prism.DryIoc.Wpf.Tests\Prism.DryIoc.Wpf.Tests.csproj", "{FCF3AC90-40B9-40D1-A2B7-754251DEFC1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Wpf.Tests", "Wpf\Prism.DryIoc.Wpf.Tests\Prism.DryIoc.Wpf.Tests.csproj", "{FCF3AC90-40B9-40D1-A2B7-754251DEFC1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Ninject.Wpf.Tests", "Wpf\Prism.Ninject.Wpf.Tests\Prism.Ninject.Wpf.Tests.csproj", "{E20AAE94-4851-4BAB-A0D3-66FBBFFD6531}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Ninject.Wpf.Tests", "Wpf\Prism.Ninject.Wpf.Tests\Prism.Ninject.Wpf.Tests.csproj", "{E20AAE94-4851-4BAB-A0D3-66FBBFFD6531}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,26 +105,6 @@ Global
 		{7DB8E74D-214F-4840-B294-58372D369958}.Release|ARM.ActiveCfg = Release|Any CPU
 		{7DB8E74D-214F-4840-B294-58372D369958}.Release|x64.ActiveCfg = Release|Any CPU
 		{7DB8E74D-214F-4840-B294-58372D369958}.Release|x86.ActiveCfg = Release|Any CPU
-		{A47FA62E-8C9A-4C9F-9F65-A58B9AD7E8E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A47FA62E-8C9A-4C9F-9F65-A58B9AD7E8E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A47FA62E-8C9A-4C9F-9F65-A58B9AD7E8E0}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{A47FA62E-8C9A-4C9F-9F65-A58B9AD7E8E0}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{A47FA62E-8C9A-4C9F-9F65-A58B9AD7E8E0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A47FA62E-8C9A-4C9F-9F65-A58B9AD7E8E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A47FA62E-8C9A-4C9F-9F65-A58B9AD7E8E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A47FA62E-8C9A-4C9F-9F65-A58B9AD7E8E0}.Release|ARM.ActiveCfg = Release|Any CPU
-		{A47FA62E-8C9A-4C9F-9F65-A58B9AD7E8E0}.Release|x64.ActiveCfg = Release|Any CPU
-		{A47FA62E-8C9A-4C9F-9F65-A58B9AD7E8E0}.Release|x86.ActiveCfg = Release|Any CPU
-		{2F5019EA-2692-4B43-B73A-A65BEA2EB2F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F5019EA-2692-4B43-B73A-A65BEA2EB2F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F5019EA-2692-4B43-B73A-A65BEA2EB2F7}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{2F5019EA-2692-4B43-B73A-A65BEA2EB2F7}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2F5019EA-2692-4B43-B73A-A65BEA2EB2F7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2F5019EA-2692-4B43-B73A-A65BEA2EB2F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F5019EA-2692-4B43-B73A-A65BEA2EB2F7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F5019EA-2692-4B43-B73A-A65BEA2EB2F7}.Release|ARM.ActiveCfg = Release|Any CPU
-		{2F5019EA-2692-4B43-B73A-A65BEA2EB2F7}.Release|x64.ActiveCfg = Release|Any CPU
-		{2F5019EA-2692-4B43-B73A-A65BEA2EB2F7}.Release|x86.ActiveCfg = Release|Any CPU
 		{A4E80E69-EED3-440A-A50C-F64BBFC0103C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4E80E69-EED3-440A-A50C-F64BBFC0103C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4E80E69-EED3-440A-A50C-F64BBFC0103C}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -238,7 +214,6 @@ Global
 		{B6E74918-D92B-4690-BEC9-0BB199A6E933} = {0C63693A-B167-49DE-BDBE-D3689DE289CB}
 		{75511F4B-2602-4623-945C-AF8156B51F4E} = {CF7424F7-8223-4A30-A7E8-5DD610A0D873}
 		{7DB8E74D-214F-4840-B294-58372D369958} = {CF7424F7-8223-4A30-A7E8-5DD610A0D873}
-		{2F5019EA-2692-4B43-B73A-A65BEA2EB2F7} = {CF7424F7-8223-4A30-A7E8-5DD610A0D873}
 		{FF6F1B2C-BECC-4477-B918-B75615BAA3A5} = {CF7424F7-8223-4A30-A7E8-5DD610A0D873}
 		{2823CA8B-DCBD-4694-B842-8A327DFCAA02} = {CF7424F7-8223-4A30-A7E8-5DD610A0D873}
 		{FCF3AC90-40B9-40D1-A2B7-754251DEFC1D} = {CF7424F7-8223-4A30-A7E8-5DD610A0D873}
