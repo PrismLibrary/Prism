@@ -66,7 +66,7 @@ namespace Prism.DryIoc
                 throw new InvalidOperationException(Resources.NullDryIocContainerException);
             }
 
-            _containerExtension = CreateContainerExtension();
+            ContainerExtension = CreateContainerExtension();
 
             Logger.Log(Resources.ConfiguringDryIocContainer, Category.Debug, Priority.Low);
             ConfigureContainer();
@@ -146,7 +146,7 @@ namespace Prism.DryIoc
         /// </summary>
         protected virtual void ConfigureContainer()
         {
-            Container.UseInstance<IContainerExtension>(_containerExtension);
+            Container.UseInstance<IContainerExtension>(ContainerExtension);
             Container.UseInstance<ILoggerFacade>(Logger);
             Container.UseInstance<IModuleCatalog>(ModuleCatalog);
 

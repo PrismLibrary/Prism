@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras;Microsoft.NET.Sdk.Wpf">
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFrameworks>net45;netcoreapp3.0</TargetFrameworks>
     <RootNamespace>Prism.DryIoc</RootNamespace>
     <PackageId>Prism.DryIoc</PackageId>
     <SignAssembly>false</SignAssembly>
@@ -24,18 +24,10 @@
 
   <ItemGroup>
     <PackageReference Include="DryIoc.dll" Version="3.0.2" />
-    <!-- <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" /> -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Condition=" '$(TargetFramework)' == 'netcoreapp3.0' " Include="Microsoft.DesktopUI" />
   </ItemGroup>
 
   <ItemGroup>

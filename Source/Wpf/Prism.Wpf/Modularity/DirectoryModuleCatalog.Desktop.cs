@@ -41,8 +41,11 @@ namespace Prism.Modularity
             if (!Directory.Exists(this.ModulePath))
                 throw new InvalidOperationException(
                     string.Format(CultureInfo.CurrentCulture, Resources.DirectoryNotFound, this.ModulePath));
-
+#if NETCOREAPP3_0
+            AppDomain childDomain = AppDomain.CurrentDomain;
+#else
             AppDomain childDomain = this.BuildChildDomain(AppDomain.CurrentDomain);
+#endif
 
             try
             {
@@ -75,7 +78,7 @@ namespace Prism.Modularity
             }
         }
 
-
+#if NET45
         /// <summary>
         /// Creates a new child domain and copies the evidence from a parent domain.
         /// </summary>
@@ -100,6 +103,7 @@ namespace Prism.Modularity
             AppDomainSetup setup = parentDomain.SetupInformation;
             return AppDomain.CreateDomain("DiscoveryRegion", evidence, setup);
         }
+#endif
 
         private class InnerModuleInfoLoader : MarshalByRefObject
         {

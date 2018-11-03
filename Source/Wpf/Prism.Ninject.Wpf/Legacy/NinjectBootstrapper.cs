@@ -68,7 +68,7 @@ namespace Prism.Ninject
                 throw new InvalidOperationException(Resources.NullNinjectKernelException);
             }
 
-            _containerExtension = CreateContainerExtension();
+            ContainerExtension = CreateContainerExtension();
 
             this.Logger.Log(Resources.ConfiguringNinjectKernel, Category.Debug, Priority.Low);
             this.ConfigureKernel();
@@ -159,7 +159,7 @@ namespace Prism.Ninject
         /// </summary>
         protected virtual void ConfigureKernel()
         {
-            this.Kernel.Bind<IContainerExtension>().ToConstant(this._containerExtension).InSingletonScope();
+            this.Kernel.Bind<IContainerExtension>().ToConstant(this.ContainerExtension).InSingletonScope();
             this.Kernel.Bind<ILoggerFacade>().ToConstant(this.Logger).InSingletonScope();
             this.Kernel.Bind<IModuleCatalog>().ToConstant(this.ModuleCatalog).InSingletonScope();
 
