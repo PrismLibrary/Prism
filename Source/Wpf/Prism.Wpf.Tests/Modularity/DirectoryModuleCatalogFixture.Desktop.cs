@@ -1,4 +1,4 @@
-
+#if DEBUG
 
 using System;
 using System.IO;
@@ -564,3 +564,4 @@ namespace Prism.Wpf.Tests.Modularity
         }
     }
 }
+#endif
