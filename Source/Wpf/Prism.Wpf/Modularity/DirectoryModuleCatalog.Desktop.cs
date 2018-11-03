@@ -36,6 +36,11 @@ namespace Prism.Modularity
         public string SearchPattern { get; set; }
 
         /// <summary>
+        /// Files to exclude from loading.
+        /// </summary>
+        public string[] ExcludedFiles { get; set; } = new string[0];
+
+        /// <summary>
         /// Drives the main logic of building the child domain and searching for the assemblies.
         /// </summary>
         protected override void InnerLoad()
@@ -77,7 +82,7 @@ namespace Prism.Modularity
                         (InnerModuleInfoLoader)
                         childDomain.CreateInstanceFrom(loaderType.Assembly.Location, loaderType.FullName).Unwrap();
                     loader.LoadAssemblies(loadedAssemblies);
-                    this.Items.AddRange(loader.GetModuleInfos(this.ModulePath, this.SearchPattern));
+                    this.Items.AddRange(loader.GetModuleInfos(this.ModulePath, this.SearchPattern, this.ExcludedFiles));
                 }
             }
             finally
@@ -115,7 +120,7 @@ namespace Prism.Modularity
         private class InnerModuleInfoLoader : MarshalByRefObject
         {
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-            internal ModuleInfo[] GetModuleInfos(string path, string searchPattern)
+            internal ModuleInfo[] GetModuleInfos(string path, string searchPattern, string[] excludedFiles)
             {
                 DirectoryInfo directory = new DirectoryInfo(path);
 
@@ -129,20 +134,21 @@ namespace Prism.Modularity
                         asm => asm.FullName == typeof(IModule).Assembly.FullName);
                 Type IModuleType = moduleReflectionOnlyAssembly.GetType(typeof(IModule).FullName);
 
-                IEnumerable<ModuleInfo> modules = GetNotAllreadyLoadedModuleInfos(directory, searchPattern, IModuleType);
+                IEnumerable<ModuleInfo> modules = GetNotAllreadyLoadedModuleInfos(directory, searchPattern, excludedFiles, IModuleType);
 
                 var array = modules.ToArray();
                 AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve -= resolveEventHandler;
                 return array;
             }
 
-            private static IEnumerable<ModuleInfo> GetNotAllreadyLoadedModuleInfos(DirectoryInfo directory, string searchPattern, Type IModuleType)
+            private static IEnumerable<ModuleInfo> GetNotAllreadyLoadedModuleInfos(DirectoryInfo directory, string searchPattern, string[] excludedFiles, Type IModuleType)
             {
                 List<FileInfo> validAssemblies = new List<FileInfo>();
                 Assembly[] alreadyLoadedAssemblies = AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies();
 
                 var fileInfos = directory.GetFiles(searchPattern)
-                    .Where(file => alreadyLoadedAssemblies
+                    .Where(file => !excludedFiles.Any(excludedFile=> excludedFile.StartsWith(file.Name)) && 
+                                   alreadyLoadedAssemblies
                                        .FirstOrDefault(
                                        assembly =>
                                        String.Compare(Path.GetFileName(assembly.Location), file.Name,
