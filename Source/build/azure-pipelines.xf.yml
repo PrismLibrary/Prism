@@ -22,4 +22,5 @@ steps:
     projectName: Prism.Forms
     projectsPath: |
      Source/Xamarin/**/*.Tests.csproj
+     !**/*Autofac*.csproj
      !**/*Ninject*.csproj
