@@ -3,8 +3,7 @@
   <PropertyGroup>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <NeutralLanguage>en</NeutralLanguage>
-    <Authors>Brian Lagunas;Bart Lannoeye;Dan Siegel</Authors>
-    <Owners>Brian Lagunas;Bart Lannoeye;Dan Siegel</Owners>
+    <Authors>Brian Lagunas;Dan Siegel</Authors>
     <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/PrismLibrary/Prism</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</PackageLicenseUrl>
@@ -50,6 +49,10 @@
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(IsUwpProject) ">
+    <Authors>$(Authors);Jerry Nixon</Authors>
   </PropertyGroup>
 
   <PropertyGroup>
