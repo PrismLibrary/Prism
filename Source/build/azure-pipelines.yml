@@ -54,6 +54,7 @@ steps:
     projectName: Prism.Forms
     projectsPath: |
      Source/Xamarin/**/*.Tests.csproj
+     !**/*Autofac*.csproj
      !**/*Ninject*.csproj
 
 - template: steps/vstest.yml
