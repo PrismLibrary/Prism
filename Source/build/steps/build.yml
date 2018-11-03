@@ -3,6 +3,20 @@ parameters:
   solutionName: 'Build Solution'
 
 steps:
+- powershell: |
+   $latestInstallerUri = "https://dotnetcli.blob.core.windows.net/dotnet/Sdk/master/dotnet-sdk-latest-win-x64.exe"
+   $dotnetInstaller = Join-Path -Path $Env:TEMP -ChildPath "dotnet-sdk.exe"
+
+   Write-Output "Downloading Latest .NET Core 3.0 SDK..."
+   Invoke-WebRequest -Uri $latestInstallerUri -OutFile $dotnetInstaller
+
+   Write-Output "Installing .NET Core 3.0 SDK..."
+   Start-Process $dotnetInstaller -ArgumentList "-q" -Wait
+
+   Write-Output "Finished Installing..."
+   dotnet --version
+  displayName: 'Install .NET Core SDK 3.0 Preview'
+
 - task: NuGetToolInstaller@0
   displayName: Use NuGet 4.7.1
   inputs:

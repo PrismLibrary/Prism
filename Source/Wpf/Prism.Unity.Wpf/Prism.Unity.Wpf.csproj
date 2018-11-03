@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras;Microsoft.NET.Sdk.Wpf">
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFrameworks>net45;netcoreapp3.0</TargetFrameworks>
     <RootNamespace>Prism.Unity</RootNamespace>
     <PackageId>Prism.Unity</PackageId>
     <!--<Summary>Unity extensions for Prism.</Summary>-->
@@ -23,14 +23,10 @@
 
   <ItemGroup>
     <PackageReference Include="Unity.Container" Version="5.8.11" />
+  </ItemGroup>
 
-    <!-- <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Xaml" />
-
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" /> -->
+  <ItemGroup>
+    <FrameworkReference Condition=" '$(TargetFramework)' == 'netcoreapp3.0' " Include="Microsoft.DesktopUI" />
   </ItemGroup>
 
   <ItemGroup>

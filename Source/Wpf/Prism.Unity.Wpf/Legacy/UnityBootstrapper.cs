@@ -69,7 +69,7 @@ namespace Prism.Unity
                 throw new InvalidOperationException(Resources.NullUnityContainerException);
             }
 
-            _containerExtension = CreateContainerExtension();
+            ContainerExtension = CreateContainerExtension();
 
             this.Logger.Log(Resources.ConfiguringUnityContainer, Category.Debug, Priority.Low);
             this.ConfigureContainer();
@@ -141,7 +141,7 @@ namespace Prism.Unity
             this.Logger.Log(Resources.AddingUnityBootstrapperExtensionToContainer, Category.Debug, Priority.Low);
             this.Container.AddNewExtension<UnityBootstrapperExtension>();
 
-            Container.RegisterInstance<IContainerExtension>(_containerExtension);
+            Container.RegisterInstance<IContainerExtension>(ContainerExtension);
             Container.RegisterInstance<ILoggerFacade>(Logger);
 
             this.Container.RegisterInstance(this.ModuleCatalog);

@@ -65,7 +65,7 @@ namespace Prism.StructureMap
                 throw new InvalidOperationException(Resources.NullStructureMapContainerException);
             }
 
-            _containerExtension = CreateContainerExtension();
+            ContainerExtension = CreateContainerExtension();
 
             Logger.Log(Resources.ConfiguringStructureMapContainer, Category.Debug, Priority.Low);
             ConfigureContainer();
@@ -161,7 +161,7 @@ namespace Prism.StructureMap
                 {
                     config.For<ILoggerFacade>().Use(Logger);
                     config.For<IModuleCatalog>().Use(ModuleCatalog);
-                    config.For<IContainerExtension>().Use(_containerExtension);
+                    config.For<IContainerExtension>().Use(ContainerExtension);
                 });
 
             if (_useDefaultConfiguration)

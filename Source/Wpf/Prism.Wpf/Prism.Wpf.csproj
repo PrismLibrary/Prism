@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras;Microsoft.NET.Sdk.Wpf">
 
   <PropertyGroup>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Prism</RootNamespace>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFrameworks>net45;netcoreapp3.0</TargetFrameworks>
     <!--<Summary>Prism libraries related to user interface composition, regions, and modularity for WPF.</Summary>-->
     <Description>Prism is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices.  Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms; WPF, Windows 10 UWP, and Xamarin Forms. Features that need to be platform specific are implemented in the respective libraries for the target platform.
 
@@ -21,13 +21,22 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
+
+    <!-- Enable MSBuild.Sdks.Extras globbing of WPF items for all target frameworks 
+         By default, MSBuild.Sdks.Extras won't glob page items unless targeting desktop. -->
+    <ExtrasEnableDefaultWpfItems>true</ExtrasEnableDefaultWpfItems>
+    <ExtrasEnableDefaultXamlItems>true</ExtrasEnableDefaultXamlItems>
+    
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="System.Configuration" />
+    <Reference Condition=" '$(TargetFramework)' == 'net45' " Include="System.Configuration" />
     <Reference Include="System.Windows.Interactivity">
       <HintPath>..\System.Windows.Interactivity.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommonServiceLocator" Version="2.0.4" />
   </ItemGroup>
 
@@ -36,19 +45,24 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\System.Windows.Interactivity.dll" Pack="true" PackagePath="lib\net45" />
+    <FrameworkReference Condition=" '$(TargetFramework)' == 'netcoreapp3.0' " Include="Microsoft.DesktopUI" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <None Update="Interactivity\DefaultPopupWindows\DefaultConfirmationWindow.xaml">
+    <Content Include="..\System.Windows.Interactivity.dll" Pack="true" PackagePath="lib\net45" />
+    <Content Include="..\System.Windows.Interactivity.dll" Pack="true" PackagePath="lib\netcoreapp3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Interactivity\DefaultPopupWindows\DefaultConfirmationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Interactivity\DefaultPopupWindows\DefaultNotificationWindow.xaml">
+    </Page>
+    <Page Update="Interactivity\DefaultPopupWindows\DefaultNotificationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Interactivity\DefaultPopupWindows\DefaultWindow.xaml">
+    </Page>
+    <Page Update="Interactivity\DefaultPopupWindows\DefaultWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </None>
+    </Page>
   </ItemGroup>
 
 </Project>
