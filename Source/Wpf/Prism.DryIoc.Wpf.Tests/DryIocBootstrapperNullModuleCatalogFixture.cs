@@ -6,7 +6,7 @@ using Prism.Modularity;
 
 namespace Prism.DryIoc.Wpf.Tests
 {
-    
+    [Collection("ServiceLocator")]
     public class DryIocBootstrapperNullModuleCatalogFixture : BootstrapperFixtureBase
     {
         [Fact]

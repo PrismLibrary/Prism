@@ -6,7 +6,7 @@ using Prism.Logging;
 
 namespace Prism.DryIoc.Wpf.Tests
 {
-    
+    [Collection("ServiceLocator")]
     public class DryIocBootstrapperNullLoggerFixture : BootstrapperFixtureBase
     {
         [Fact]

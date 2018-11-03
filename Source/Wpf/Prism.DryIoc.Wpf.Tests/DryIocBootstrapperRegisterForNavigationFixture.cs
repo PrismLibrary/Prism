@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Prism.DryIoc.Wpf.Tests
 {
-    
+    [Collection("ServiceLocator")]
     public class DryIocBootstrapperRegisterForNavigationFixture : BootstrapperFixtureBase
     {
         [Fact]

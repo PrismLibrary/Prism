@@ -6,7 +6,7 @@ using Prism.IocContainer.Wpf.Tests.Support;
 
 namespace Prism.DryIoc.Wpf.Tests
 {
-    
+    [Collection("ServiceLocator")]
     public class DryIocBootstrapperNullContainerFixture : BootstrapperFixtureBase
     {
         [Fact]
