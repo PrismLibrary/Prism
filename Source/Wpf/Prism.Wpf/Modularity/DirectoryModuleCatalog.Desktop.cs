@@ -147,7 +147,7 @@ namespace Prism.Modularity
                 Assembly[] alreadyLoadedAssemblies = AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies();
 
                 var fileInfos = directory.GetFiles(searchPattern)
-                    .Where(file => !excludedFiles.Any(excludedFile=> excludedFile.StartsWith(file.Name)) && 
+                    .Where(file => !excludedFiles.Any(excludedFile=> file.Name.StartsWith(excludedFile)) && 
                                    alreadyLoadedAssemblies
                                        .FirstOrDefault(
                                        assembly =>

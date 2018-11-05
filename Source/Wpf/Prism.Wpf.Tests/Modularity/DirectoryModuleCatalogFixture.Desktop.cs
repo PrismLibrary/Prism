@@ -118,6 +118,91 @@ namespace Prism.Wpf.Tests.Modularity
         }
 
         [TestMethod]
+        public void ShouldReturnAListOfModuleInfoAfterExclusionList()
+        {
+            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
+                ModulesDirectory1 + @"\MockModuleA.dll");
+
+            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockDependencyModule.cs",
+                ModulesDirectory1 + @"\MockDependencyModule.dll");
+
+
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory1,
+                ExcludedFiles = new[] { "MockDependencyModule.dll" }
+            };
+            catalog.Load();
+
+            var modules = catalog.Modules.ToArray();
+
+            Assert.IsNotNull(modules);
+            Assert.AreEqual(1, modules.Length);
+            Assert.IsNotNull(modules[0].Ref);
+            StringAssert.StartsWith(modules[0].Ref, "file://");
+            Assert.IsTrue(modules[0].Ref.Contains(@"MockModuleA.dll"));
+            Assert.IsNotNull(modules[0].ModuleType);
+            StringAssert.Contains(modules[0].ModuleType, "Prism.Wpf.Tests.Mocks.Modules.MockModuleA");
+        }
+
+        [TestMethod]
+        public void ShouldReturnAListOfModuleInfoAfterSearchString()
+        {
+            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
+                ModulesDirectory1 + @"\MockModuleA.dll");
+
+            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockDependencyModule.cs",
+                ModulesDirectory1 + @"\MockDependencyModule.dll");
+
+
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory1,
+                SearchPattern = "*ModuleA.dll"
+            };
+            catalog.Load();
+
+            var modules = catalog.Modules.ToArray();
+
+            Assert.IsNotNull(modules);
+            Assert.AreEqual(1, modules.Length);
+            Assert.IsNotNull(modules[0].Ref);
+            StringAssert.StartsWith(modules[0].Ref, "file://");
+            Assert.IsTrue(modules[0].Ref.Contains(@"MockModuleA.dll"));
+            Assert.IsNotNull(modules[0].ModuleType);
+            StringAssert.Contains(modules[0].ModuleType, "Prism.Wpf.Tests.Mocks.Modules.MockModuleA");
+        }
+
+        [TestMethod]
+        public void ShouldReturnAListOfModuleInfoAfterSearchStringAndExclustionList()
+        {
+            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
+                ModulesDirectory1 + @"\MockModuleA.dll");
+
+            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockDependencyModule.cs",
+                ModulesDirectory1 + @"\MockDependencyModule.dll");
+
+
+            DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
+            {
+                ModulePath = ModulesDirectory1,
+                SearchPattern = "Mock*.dll",
+                ExcludedFiles = new[] { "MockDependencyModule.dll" }
+            };
+            catalog.Load();
+
+            var modules = catalog.Modules.ToArray();
+
+            Assert.IsNotNull(modules);
+            Assert.AreEqual(1, modules.Length);
+            Assert.IsNotNull(modules[0].Ref);
+            StringAssert.StartsWith(modules[0].Ref, "file://");
+            Assert.IsTrue(modules[0].Ref.Contains(@"MockModuleA.dll"));
+            Assert.IsNotNull(modules[0].ModuleType);
+            StringAssert.Contains(modules[0].ModuleType, "Prism.Wpf.Tests.Mocks.Modules.MockModuleA");
+        }
+
+        [TestMethod]
         public void ShouldCorrectlyEscapeRef()
         {
             string assemblyPath = ModulesDirectory6 + @"\Mock Module #.dll";
