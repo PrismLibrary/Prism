@@ -13,11 +13,11 @@
         </OnPlatform>
     </ContentPage.Padding>
 
-    <local:PartialViewB prism:ViewModelLocator.AutowirePartialView="{x:Reference viewB}" />
-    <!--<StackLayout>
+    <!--<local:PartialViewB prism:ViewModelLocator.AutowirePartialView="{x:Reference viewB}" />-->
+    <StackLayout>
         <Label Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" />
         <Label Text="{Binding IsActive}" />
         <Button Command="{Binding NavigateCommand}" Text="Navigate" />
-    </StackLayout>-->
+    </StackLayout>
 
 </ContentPage>

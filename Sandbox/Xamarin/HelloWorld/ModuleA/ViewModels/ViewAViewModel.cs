@@ -5,6 +5,7 @@ using Prism.Navigation;
 using Prism;
 using Prism.AppModel;
 using System.Diagnostics;
+using Prism.Navigation.TabbedPages;
 
 namespace ModuleA.ViewModels
 {
@@ -73,7 +74,7 @@ namespace ModuleA.ViewModels
         async void Navigate()
         {
             CanNavigate = false;
-            await _navigationService.NavigateAsync($"ViewB/ViewC");
+            await _navigationService.SelectTab("ViewC");
             CanNavigate = true;
         }
 
