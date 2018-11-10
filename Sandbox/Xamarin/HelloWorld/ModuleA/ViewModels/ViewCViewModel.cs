@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System;
 using Prism.AppModel;
+using Prism.Navigation.TabbedPages;
 
 namespace ModuleA.ViewModels
 {
@@ -36,11 +37,13 @@ namespace ModuleA.ViewModels
 
                 //Debug.WriteLine("After _navigationService.NavigateAsync(ViewB) ...");
 
-                var result = await _navigationService.NavigateAsync("../../");
-                if (!result.Success)
-                {
+                //var result = await _navigationService.NavigateAsync("../../");
+                //if (!result.Success)
+                //{
 
-                }
+                //}
+
+                await _navigationService.SelectTab("ViewB?id=3");
             }
             catch(Exception ex)
             {
