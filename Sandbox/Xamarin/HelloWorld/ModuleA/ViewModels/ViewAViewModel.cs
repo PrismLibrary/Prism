@@ -74,7 +74,7 @@ namespace ModuleA.ViewModels
         async void Navigate()
         {
             CanNavigate = false;
-            await _navigationService.SelectTab("ViewC");
+            await _navigationService.SelectTabAsync("ViewC");
             CanNavigate = true;
         }
 

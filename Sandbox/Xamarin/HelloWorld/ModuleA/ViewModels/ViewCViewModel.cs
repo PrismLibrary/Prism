@@ -43,7 +43,7 @@ namespace ModuleA.ViewModels
 
                 //}
 
-                await _navigationService.SelectTab("ViewB?id=3");
+                await _navigationService.SelectTabAsync("ViewB?id=3");
             }
             catch(Exception ex)
             {
