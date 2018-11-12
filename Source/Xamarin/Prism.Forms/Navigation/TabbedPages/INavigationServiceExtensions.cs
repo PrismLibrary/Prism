@@ -54,14 +54,9 @@ namespace Prism.Navigation.TabbedPages
 
                     if (child is NavigationPage childNavPage)
                     {
-                        if (childNavPage.CurrentPage.GetType() == tabToSelectedType)
+                        if (childNavPage.CurrentPage.GetType() == tabToSelectedType || 
+                            childNavPage.RootPage.GetType() == tabToSelectedType)
                         {
-                            target = child;
-                            break;
-                        }
-                        else if(childNavPage.RootPage.GetType() == tabToSelectedType)
-                        {
-                            await childNavPage.PopToRootAsync();
                             target = child;
                             break;
                         }
