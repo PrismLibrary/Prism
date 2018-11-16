@@ -143,6 +143,7 @@ namespace Prism
             containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
             containerRegistry.RegisterSingleton<IDependencyService, DependencyService>();
             containerRegistry.RegisterSingleton<IPageDialogService, PageDialogService>();
+            containerRegistry.RegisterSingleton<IAppLinkService, AppLinkService>();
             containerRegistry.RegisterSingleton<IDeviceService, DeviceService>();
             containerRegistry.RegisterSingleton<IPageBehaviorFactory, PageBehaviorFactory>();
             containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
