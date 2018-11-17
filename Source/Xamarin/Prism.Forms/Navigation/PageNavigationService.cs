@@ -575,19 +575,22 @@ namespace Prism.Navigation
             {
                 detailIsNavPage = true;
 
-                //first we check to see if we are being forced to reuse the NavPage by checking the interface
-                reuseNavPage = !GetClearNavigationPageNavigationStack(navPage);
-
-                if (!reuseNavPage)
+                //we only care if we the next segment is also a NavigationPage.
+                if (PageUtilities.IsSameOrSubclassOf<NavigationPage>(nextSegmentType))
                 {
-                    //if we weren't forced to reuse the NavPage, then let's check the NavPage.CurrentPage against the next segment type as we don't want to recreate the entire nav stack
-                    //just in case the user is trying to navigate to the same page which may be nested in a NavPage
-                    var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(segments.Peek()));
-                    var currentPageType = navPage.CurrentPage.GetType();
+                    //first we check to see if we are being forced to reuse the NavPage by checking the interface
+                    reuseNavPage = !GetClearNavigationPageNavigationStack(navPage);
 
-                    if (nextPageType == currentPageType)
+                    if (!reuseNavPage)
                     {
-                        reuseNavPage = true;
+                        //if we weren't forced to reuse the NavPage, then let's check the NavPage.CurrentPage against the next segment type as we don't want to recreate the entire nav stack
+                        //just in case the user is trying to navigate to the same page which may be nested in a NavPage
+                        var nextPageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(segments.Peek()));
+                        var currentPageType = navPage.CurrentPage.GetType();
+                        if (nextPageType == currentPageType)
+                        {
+                            reuseNavPage = true;
+                        }
                     }
                 }
             }
@@ -597,6 +600,12 @@ namespace Prism.Navigation
                 await ProcessNavigation(detail, segments, parameters, useModalNavigation, animated);
                 await DoNavigateAction(null, nextSegment, detail, parameters, onNavigationActionCompleted: () =>
                  {
+                     if (detail is TabbedPage && nextSegment.Contains(KnownNavigationParameters.SelectedTab))
+                     {
+                         var segmentParams = UriParsingHelper.GetSegmentParameters(nextSegment);
+                         SelectPageTab(detail, segmentParams);
+                     }
+
                      currentPage.IsPresented = isPresented;
                  });
                 return;

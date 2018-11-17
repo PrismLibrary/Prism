@@ -20,9 +20,13 @@ namespace HelloWorld.ViewModels
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
 
-        private void Navigate(string name)
+        private async void Navigate(string name)
         {
-            _navigationService.NavigateAsync(name);
+            var result = await _navigationService.NavigateAsync(name);
+            if (!result.Success)
+            {
+
+            }
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
