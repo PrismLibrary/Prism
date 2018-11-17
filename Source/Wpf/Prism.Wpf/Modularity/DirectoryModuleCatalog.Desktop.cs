@@ -74,7 +74,9 @@ namespace Prism.Modularity
             }
             finally
             {
+#if NET45
                 AppDomain.Unload(childDomain);
+#endif
             }
         }
 
