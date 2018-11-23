@@ -51,7 +51,7 @@ namespace Prism.DryIoc
 
         public object ResolveViewModelForView(object view, Type viewModelType)
         {
-            if (view is Page page)
+            if (view is Page page && page.Frame != null)
             {
                 var service = NavigationService.Instances[page.Frame];
                 return Instance.Resolve(viewModelType, new[] { service });
