@@ -70,6 +70,11 @@ namespace Xamarin.Forms.Mocks
                 return 14;
             }
 
+            public SizeRequest GetNativeSize(VisualElement view, double widthConstraint, double heightConstraint)
+            {
+                throw new NotImplementedException();
+            }
+
             public Task<Stream> GetStreamAsync(Uri uri, CancellationToken cancellationToken)
             {
                 throw new NotImplementedException();
