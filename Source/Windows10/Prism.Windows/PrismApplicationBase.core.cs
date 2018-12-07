@@ -214,7 +214,7 @@ namespace Prism
             containerRegistry.Register<INavigationService, NavigationService>(NavigationServiceParameterName);
 
             // standard prism services
-
+            containerRegistry.RegisterInstance<IContainerExtension>(_containerExtension);
             containerRegistry.RegisterSingleton<ILoggerFacade, DebugLogger>();
             containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
             containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
