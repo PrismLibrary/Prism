@@ -1,5 +1,4 @@
-using System;
-using System.Windows.Interactivity;
+using Microsoft.Xaml.Behaviors;
 
 namespace Prism.Interactivity.InteractionRequest
 {

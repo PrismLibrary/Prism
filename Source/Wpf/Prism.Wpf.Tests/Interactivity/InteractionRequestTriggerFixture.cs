@@ -4,12 +4,10 @@ using System;
 using System.Windows;
 using Xunit;
 using Prism.Interactivity.InteractionRequest;
-using Prism.Wpf.Tests.Mocks;
-using System.Threading.Tasks;
 
 namespace Prism.Wpf.Tests.Interactivity
 {
-    
+
     public class InteractionRequestTriggerFixture
     {
         public InteractionRequest<INotification> SourceProperty { get; set; }
@@ -60,7 +58,7 @@ namespace Prism.Wpf.Tests.Interactivity
         }
     }
 
-    public class TestableTriggerAction : System.Windows.Interactivity.TriggerAction<DependencyObject>
+    public class TestableTriggerAction : Microsoft.Xaml.Behaviors.TriggerAction<DependencyObject>
     {
         public int ExecutionCount { get; set; }
 

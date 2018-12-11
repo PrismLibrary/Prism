@@ -5,7 +5,7 @@ using Prism.Interactivity.DefaultPopupWindows;
 using Prism.Interactivity.InteractionRequest;
 using System;
 using System.Windows;
-using System.Windows.Interactivity;
+using Microsoft.Xaml.Behaviors;
 using CommonServiceLocator;
 
 namespace Prism.Interactivity
