@@ -13,6 +13,7 @@ namespace Prism.Events
     ///</summary>
     public abstract class EventBase
     {
+        private DateTime? _lastPruneTime;
         private readonly List<IEventSubscription> _subscriptions = new List<IEventSubscription>();
 
         /// <summary>
@@ -28,6 +29,11 @@ namespace Prism.Events
         {
             get { return _subscriptions; }
         }
+
+        /// <summary>
+        /// Interval between prune the subscription list if someone is subscribing to the event (Default: 1 Minute).
+        /// </summary>
+        protected TimeSpan PruneInterval { get; set; } = TimeSpan.FromMinutes(1);
 
         /// <summary>
         /// Adds the specified <see cref="IEventSubscription"/> to the subscribers' collection.
@@ -48,6 +54,7 @@ namespace Prism.Events
                 Prune();
                 Subscriptions.Add(eventSubscription);
             }
+
             return eventSubscription.SubscriptionToken;
         }
 
@@ -99,6 +106,11 @@ namespace Prism.Events
 
         private void Prune()
         {
+            if (DateTime.Now - _lastPruneTime > PruneInterval)
+            {
+                return;
+            }
+
             lock (Subscriptions)
             {
                 for (var i = Subscriptions.Count - 1; i >= 0; i--)
@@ -108,6 +120,8 @@ namespace Prism.Events
                         _subscriptions.RemoveAt(i);
                     }
                 }
+
+                _lastPruneTime = DateTime.Now;
             }
         }
 
@@ -116,7 +130,7 @@ namespace Prism.Events
             lock (Subscriptions)
             {
                 Prune();
-                return _subscriptions.Select(x => x.GetExecutionStrategy()).ToList();
+                return _subscriptions.Select(x => x.GetExecutionStrategy()).Where(x => x != null).ToList();
             }
         }
     }
