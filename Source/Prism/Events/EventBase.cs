@@ -13,8 +13,7 @@ namespace Prism.Events
     ///</summary>
     public abstract class EventBase
     {
-        private DateTime? _lastPruneTime;
-        private readonly List<IEventSubscription> _subscriptions = new List<IEventSubscription>();
+        private readonly LinkedList<IEventSubscription> _subscriptions = new LinkedList<IEventSubscription>();
 
         /// <summary>
         /// Allows the SynchronizationContext to be set by the EventAggregator for UI Thread Dispatching
@@ -29,11 +28,6 @@ namespace Prism.Events
         {
             get { return _subscriptions; }
         }
-
-        /// <summary>
-        /// Interval between prune the subscription list if someone is subscribing to the event (Default: 1 Minute).
-        /// </summary>
-        protected TimeSpan PruneInterval { get; set; } = TimeSpan.FromMinutes(1);
 
         /// <summary>
         /// Adds the specified <see cref="IEventSubscription"/> to the subscribers' collection.
@@ -106,22 +100,19 @@ namespace Prism.Events
 
         private void Prune()
         {
-            if (DateTime.Now - _lastPruneTime > PruneInterval)
-            {
-                return;
-            }
-
             lock (Subscriptions)
             {
-                for (var i = Subscriptions.Count - 1; i >= 0; i--)
+                var node = _subscriptions.First;
+                while (node != null)
                 {
-                    if (_subscriptions[i].GetExecutionStrategy() == null)
+                    var next = node.Next;
+                    if (node.Value is EventSubscription subscription && !subscription.IsAlive ||
+                        node.Value.GetExecutionStrategy() == null)
                     {
-                        _subscriptions.RemoveAt(i);
+                        _subscriptions.Remove(node);
                     }
+                    node = next;
                 }
-
-                _lastPruneTime = DateTime.Now;
             }
         }
 
@@ -130,7 +121,7 @@ namespace Prism.Events
             lock (Subscriptions)
             {
                 Prune();
-                return _subscriptions.Select(x => x.GetExecutionStrategy()).Where(x => x != null).ToList();
+                return _subscriptions.Select(x => x.GetExecutionStrategy()).ToList();
             }
         }
     }

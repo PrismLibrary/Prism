@@ -60,6 +60,8 @@ namespace Prism.Events
             }
         }
 
+        public bool IsAlive => _delegate != null || _weakReference.IsAlive;
+
         private Delegate TryGetDelegate()
         {
             if (_method.IsStatic)

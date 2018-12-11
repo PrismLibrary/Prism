@@ -43,6 +43,8 @@ namespace Prism.Events
         /// <value>A token that identifies this <see cref="IEventSubscription"/>.</value>
         public SubscriptionToken SubscriptionToken { get; set; }
 
+        public bool IsAlive => _actionReference.IsAlive;
+
         /// <summary>
         /// Gets the execution strategy to publish this event.
         /// </summary>

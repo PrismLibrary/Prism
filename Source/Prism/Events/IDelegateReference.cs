@@ -15,5 +15,7 @@ namespace Prism.Events
         /// </summary>
         /// <value>A <see cref="Delegate"/> instance if the target is valid; otherwise <see langword="null"/>.</value>
         Delegate Target { get; }
+
+        bool IsAlive { get; }
     }
 }
