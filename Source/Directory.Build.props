@@ -40,6 +40,7 @@
     <IS_PREVIEW Condition=" '$(IS_PREVIEW)' == '' ">false</IS_PREVIEW>
     <IS_RELEASE Condition=" '$(IS_RELEASE)' == '' ">false</IS_RELEASE>
     <ExtrasEnableWpfProjectSetup>$(IsWpfProject)</ExtrasEnableWpfProjectSetup>
+    <PackageReleaseNotes>https://github.com/PrismLibrary/Prism/releases/tag/v$(Version)</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
