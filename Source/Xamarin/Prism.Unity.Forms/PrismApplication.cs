@@ -8,6 +8,9 @@ using Unity.Resolution;
 using Xamarin.Forms.Internals;
 #endif
 
+#if !NETSTANDARD1_0
+[assembly: Xamarin.Forms.XmlnsDefinition("http://prismlibrary.com", "Prism.Unity")]
+#endif
 namespace Prism.Unity
 {
     public abstract class PrismApplication : PrismApplicationBase

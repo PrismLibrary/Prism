@@ -9,6 +9,9 @@ using Prism.Navigation;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
+#if !NETSTANDARD1_0
+[assembly: Xamarin.Forms.XmlnsDefinition("http://prismlibrary.com", "Prism.DryIoc")]
+#endif
 namespace Prism.DryIoc
 {
     /// <summary>

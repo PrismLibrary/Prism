@@ -1,5 +1,24 @@
 trigger:
-- master
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - ReadMe.md
+    - Source/Windows10/**
+    - Source/Wpf/**
+    - Source/Xamarin/**
+
+pr:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - ReadMe.md
+    - Source/Windows10/**
+    - Source/Wpf/**
+    - Source/Xamarin/**
 
 name: $(Build.BuildId)
 
