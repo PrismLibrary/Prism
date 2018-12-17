@@ -101,7 +101,7 @@ namespace Prism.Navigation.Xaml
 
             TargetElement = valueTargetProvider.TargetObject as Element;
 
-            if (TargetElement is null)
+            if (_targetElement is null)
                 throw new ArgumentNullException(nameof(TargetElement));
 
             Navigation.SetRaiseCanExecuteChangedInternal(TargetElement, RaiseCanExecuteChanged);
