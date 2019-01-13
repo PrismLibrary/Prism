@@ -1,6 +1,3 @@
-
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +42,6 @@ namespace Prism.Events
 
             lock (Subscriptions)
             {
-                Prune();
                 Subscriptions.Add(eventSubscription);
             }
             return eventSubscription.SubscriptionToken;
@@ -97,7 +93,36 @@ namespace Prism.Events
             }
         }
 
-        private void Prune()
+        private List<Action<object[]>> PruneAndReturnStrategies()
+        {
+            List<Action<object[]>> returnList = new List<Action<object[]>>();
+
+            lock (Subscriptions)
+            {
+                for (var i = Subscriptions.Count - 1; i >= 0; i--)
+                {
+                    Action<object[]> listItem =
+                        _subscriptions[i].GetExecutionStrategy();
+
+                    if (listItem == null)
+                    {
+                        // Prune from main list. Log?
+                        _subscriptions.RemoveAt(i);
+                    }
+                    else
+                    {
+                        returnList.Add(listItem);
+                    }
+                }
+            }
+
+            return returnList;
+        }
+
+        /// <summary>
+        /// Forces the PubSubEvent to remove any subscriptions that no longer have an execution strategy.
+        /// </summary>
+        public void Prune()
         {
             lock (Subscriptions)
             {
@@ -108,15 +133,6 @@ namespace Prism.Events
                         _subscriptions.RemoveAt(i);
                     }
                 }
-            }
-        }
-
-        private List<Action<object[]>> PruneAndReturnStrategies()
-        {
-            lock (Subscriptions)
-            {
-                Prune();
-                return _subscriptions.Select(x => x.GetExecutionStrategy()).ToList();
             }
         }
     }
