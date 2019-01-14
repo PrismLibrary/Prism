@@ -36,6 +36,7 @@ namespace Prism.Tests.Events
             SubscribeExternalActionWithoutReference(pubSubEvent);
             GC.Collect();
             SubscribeExternalActionWithoutReference(pubSubEvent);
+            pubSubEvent.Prune();
             Assert.True(pubSubEvent.BaseSubscriptions.Count == 1, "Subscriptionlist is empty");
         }
 
