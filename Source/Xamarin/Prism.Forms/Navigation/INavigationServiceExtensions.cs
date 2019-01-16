@@ -19,7 +19,7 @@ namespace Prism.Navigation
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
         public static Task<INavigationResult> GoBackAsync(this INavigationService navigationService, INavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            return ((INavigateInternal)navigationService).GoBackInternal(parameters, useModalNavigation, animated);
+            return ((IPlatformNavigationService)navigationService).GoBackAsync(parameters, useModalNavigation, animated);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Prism.Navigation
         /// <remarks>Only works when called from a View within a NavigationPage</remarks>
         public static Task<INavigationResult> GoBackToRootAsync(this INavigationService navigationService, INavigationParameters parameters = null)
         {
-            return ((INavigateInternal)navigationService).GoBackToRootInternal(parameters);
+            return ((IPlatformNavigationService)navigationService).GoBackToRootAsync(parameters);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Prism.Navigation
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, string name, INavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            return ((INavigateInternal)navigationService).NavigateInternal(name, parameters, useModalNavigation, animated);
+            return ((IPlatformNavigationService)navigationService).NavigateAsync(name, parameters, useModalNavigation, animated);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Prism.Navigation
         /// </example>
         public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, Uri uri, INavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
-            return ((INavigateInternal)navigationService).NavigateInternal(uri, parameters, useModalNavigation, animated);
+            return ((IPlatformNavigationService)navigationService).NavigateAsync(uri, parameters, useModalNavigation, animated);
         }
 
         /// <summary>
