@@ -5,6 +5,17 @@ namespace Prism.Ioc
 {
     public static class IContainerRegistryExtensions
     {
+        public static void RegisterDialog<TView, TViewModel>(this IContainerRegistry containerRegistry, string name = null) where TViewModel : Services.Dialogs.IDialogAware
+        {
+            var viewType = typeof(TView);
+
+            if (string.IsNullOrWhiteSpace(name))
+                name = viewType.Name;
+
+            containerRegistry.Register(typeof(object), viewType, name);
+            ViewModelLocationProvider.Register<TView, TViewModel>();
+        }
+
         /// <summary>
         /// Registers an object for navigation
         /// </summary>

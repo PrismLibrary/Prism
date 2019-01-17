@@ -2,10 +2,6 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="{Binding Title}" Icon="{Binding IconSource}"
-        WindowStartupLocation="CenterOwner" MinWidth="300" MinHeight="150">
-    <Window.Style>
-        <Style TargetType="{x:Type Window}" >
-            <Setter Property="SizeToContent" Value="WidthAndHeight" />
-        </Style>
-    </Window.Style>
+        WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight">
+    
 </Window>

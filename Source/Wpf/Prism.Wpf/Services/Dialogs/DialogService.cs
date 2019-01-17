@@ -1,6 +1,5 @@
 ﻿using Prism.Common;
 using Prism.Ioc;
-using Prism.Mvvm;
 using Prism.Services.Dialogs.DefaultDialogs;
 using System;
 using System.ComponentModel;
@@ -9,6 +8,9 @@ using System.Windows;
 
 namespace Prism.Services.Dialogs
 {
+    //TODO: figure out how to control the parent (is this even neccessary? Should we assume the parent should be the active window?
+    //TODO: figure out how to control various properties of the window, maybe a WindowSettings object?
+    //TODO: create extension point to provide a custom Window
     public class DialogService : IDialogService
     {
         private readonly IContainerExtension _containerExtension;
@@ -16,43 +18,49 @@ namespace Prism.Services.Dialogs
         public DialogService(IContainerExtension containerExtension)
         {
             _containerExtension = containerExtension;
-
-            RegisterDialog<NotificationDialog, NotificationDialogViewModel>();
         }
 
-        public void ShowNotification(string title, string message, Action<IDialogResult> callback)
+        public void Show(string name, IDialogParameters parameters, Action<IDialogResult> callback)
         {
-            var parameters = new DialogParameters($"?title={title}&message={message}");
+            ShowDialogInternal(name, parameters, callback, false);
+        }
 
+        public void ShowDialog(string name, IDialogParameters parameters, Action<IDialogResult> callback)
+        {
+            ShowDialogInternal(name, parameters, callback, true);
+        }
+
+        void ShowDialogInternal(string name, IDialogParameters parameters, Action<IDialogResult> callback, bool isModal)
+        {
             IDialogWindow dialogWindow = CreateDialogWindow();
             ConfigureDialogWindowEvents(dialogWindow, callback);
-            ConfigureDialogWindowContent<NotificationDialog>(dialogWindow, parameters);
-
-            //TODO: figure out how to control the parent (is this even neccessary? Should we assume the parent should be the active window?
+            ConfigureDialogWindowContent(name, dialogWindow, parameters);
+            
             dialogWindow.Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-            //TODO: figure out how to control various properties of the window, maybe a WindowSettings object?
-            //TODO: handle modal/non-modal dialogs
-            dialogWindow.ShowDialog();
+
+            if (isModal)
+                dialogWindow.ShowDialog();
+            else
+                dialogWindow.Show();
         }
 
-        //TODO: create extension point to provide a custom Window
         IDialogWindow CreateDialogWindow()
         {
             return new DialogWindow();
         }
 
-        void ConfigureDialogWindowContent<T>(IDialogWindow window, IDialogParameters parameters)
+        void ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)
         {
-            var content = _containerExtension.Resolve<T>();
+            var content = _containerExtension.Resolve<object>(dialogName);
             var dialogContent = content as FrameworkElement;
             if (dialogContent == null)
                 throw new NullReferenceException("A dialog's content must be a FrameworkElement");
 
-            var viewModel = dialogContent.DataContext as IDialog;
+            var viewModel = dialogContent.DataContext as IDialogAware;
             if (viewModel == null)
                 throw new NullReferenceException("A dialog's ViewModel must implement the IDialog interface");
 
-            MvvmHelpers.ViewAndViewModelAction<IDialog>(viewModel, d => d.ProcessDialogParameters(parameters));
+            MvvmHelpers.ViewAndViewModelAction<IDialogAware>(viewModel, d => d.OnDialogOpened(parameters));
 
             window.Content = dialogContent;
             window.ViewModel = viewModel;
@@ -60,9 +68,10 @@ namespace Prism.Services.Dialogs
 
         void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, Action<IDialogResult> callback)
         {
-            Action requestCloseHandler = null;
-            requestCloseHandler = () =>
+            Action<IDialogResult> requestCloseHandler = null;
+            requestCloseHandler = (o) =>
             {
+                dialogWindow.Result = o;
                 dialogWindow.Close();
             };
 
@@ -89,19 +98,17 @@ namespace Prism.Services.Dialogs
                     dialogWindow.Closing -= closingHandler;
                     dialogWindow.ViewModel.RequestClose -= requestCloseHandler;
 
-                    //TODO: get dialog result from ViewModel
-                    callback?.Invoke(new DialogResult());
+                    dialogWindow.ViewModel.OnDialogClosed();
+
+                    if (dialogWindow.Result == null)
+                        dialogWindow.Result = new DialogResult();
+
+                    callback?.Invoke(dialogWindow.Result);
 
                     dialogWindow.ViewModel = null;
                     dialogWindow.Content = null;
                 };
             dialogWindow.Closed += closedHandler;
-        }
-
-        public void RegisterDialog<TView, TViewModel>() where TViewModel : IDialog
-        {
-            _containerExtension.Register<TView>();
-            ViewModelLocationProvider.Register<TView, TViewModel>();
         }
     }
 }

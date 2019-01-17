@@ -4,14 +4,8 @@ namespace Prism.Services.Dialogs
 {
     public interface IDialogService
     {
-        void ShowNotification(string title, string message, Action<IDialogResult> callback);
+        void Show(string name, IDialogParameters parameters, Action<IDialogResult> callback);
 
-        //ShowConfirmation
-
-        //ShowDialog - this is for custom dialogs
-
-        //RegisterDialog
-
-        //RegisterDialogWindow
+        void ShowDialog(string name, IDialogParameters parameters, Action<IDialogResult> callback);
     }
 }

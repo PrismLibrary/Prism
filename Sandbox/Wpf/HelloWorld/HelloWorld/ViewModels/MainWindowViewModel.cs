@@ -20,13 +20,47 @@ namespace HelloWorld.ViewModels
 
         public MainWindowViewModel(IDialogService dialogService)
         {
-            ShowDialogCommand = new DelegateCommand(ShowDialog);
             _dialogService = dialogService;
+            ShowDialogCommand = new DelegateCommand(ShowDialog);            
         }
 
         private void ShowDialog()
         {
-            _dialogService.ShowNotification("This is a title", "This is a message!", r => Title = "CallBack");
+            var message = "This is a message that should be shown in the dialog.";
+
+            //using the dialog service as-is
+            _dialogService.ShowDialog("NotificationDialog", new DialogParameters($"message={message}"), r =>
+            {
+                if (!r.Result.HasValue)
+                    Title = "Result is null";
+                else if (r.Result == true)
+                    Title = "Result is True";
+                else if (r.Result == false)
+                    Title = "Result is False";
+                else
+                    Title = "What the hell did you do?";
+            });
+
+            //using custom extenions methods to simplify the app's dialogs
+            _dialogService.ShowNotification(message, r =>
+            {
+                if (!r.Result.HasValue)
+                    Title = "Result is null";
+                else if (r.Result == true)
+                    Title = "Result is True";
+                else if (r.Result == false)
+                    Title = "Result is False";
+                else
+                    Title = "What the hell did you do?";
+            });
+        }
+    }
+
+    public static class DialogServiceEstensions
+    {
+        public static void ShowNotification(this IDialogService dialogService, string message, Action<IDialogResult> callBack)
+        {
+            dialogService.ShowDialog("NotificationDialog", new DialogParameters($"message={message}"), callBack);
         }
     }
 }

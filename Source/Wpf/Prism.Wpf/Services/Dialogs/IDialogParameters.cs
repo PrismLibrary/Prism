@@ -2,6 +2,7 @@
 
 namespace Prism.Services.Dialogs
 {
+    //TODO: this can eventually be replaced with INavigationParameters
     public interface IDialogParameters
     {
         void Add(string key, object value);

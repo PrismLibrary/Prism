@@ -1,13 +1,8 @@
 ﻿using HelloWorld.Views;
 using Prism.Ninject;
 using Prism.Ioc;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using HelloWorld.Dialogs;
 
 namespace HelloWorld
 {
@@ -23,7 +18,7 @@ namespace HelloWorld
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            
+            containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();
         }
     }
 }

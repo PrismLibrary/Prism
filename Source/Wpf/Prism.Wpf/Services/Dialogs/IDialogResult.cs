@@ -2,6 +2,8 @@
 {
     public interface IDialogResult
     {
-        //TODO: what should we return?
+        IDialogParameters Parameters { get; }
+
+        bool? Result { get; }        
     }
 }
