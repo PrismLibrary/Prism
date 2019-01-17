@@ -38,7 +38,7 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="name">The name of the target to navigate to.</param>
         /// <param name="parameters">The navigation parameters</param>
-        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
+        /// <param name="useModalNavigation">If <c>true</c> uses PushModalAsync, if <c>false</c> uses PushAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, string name, INavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
