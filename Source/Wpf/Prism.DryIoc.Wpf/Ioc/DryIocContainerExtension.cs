@@ -24,9 +24,19 @@ namespace Prism.DryIoc.Ioc
             Instance.UseInstance(type, instance);
         }
 
+        public void RegisterInstance(Type type, object instance, string name)
+        {
+            Instance.UseInstance(type, instance, serviceKey: name);
+        }
+
         public void RegisterSingleton(Type from, Type to)
         {
             Instance.Register(from, to, Reuse.Singleton);
+        }
+
+        public void RegisterSingleton(Type from, Type to, string name)
+        {
+            Instance.Register(from, to, Reuse.Singleton, serviceKey: name);
         }
 
         public void Register(Type from, Type to)

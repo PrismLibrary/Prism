@@ -40,12 +40,22 @@ namespace Prism.Wpf.Tests.Mocks
             throw new NotImplementedException();
         }
 
+        public void RegisterInstance(Type type, object instance, string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public void RegisterMany(Type implementingType)
         {
             throw new NotImplementedException();
         }
 
         public void RegisterSingleton(Type from, Type to)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RegisterSingleton(Type from, Type to, string name)
         {
             throw new NotImplementedException();
         }

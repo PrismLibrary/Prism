@@ -28,9 +28,19 @@ namespace Prism.Ninject.Ioc
             Instance.Bind(type).ToConstant(instance);
         }
 
+        public void RegisterInstance(Type type, object instance, string name)
+        {
+            Instance.Bind(type).ToConstant(instance).Named(name);
+        }
+
         public void RegisterSingleton(Type from, Type to)
         {
             Instance.Bind(from).To(to).InSingletonScope();
+        }
+
+        public void RegisterSingleton(Type from, Type to, string name)
+        {
+            Instance.Bind(from).To(to).InSingletonScope().Named(name);
         }
 
         public void Register(Type from, Type to)

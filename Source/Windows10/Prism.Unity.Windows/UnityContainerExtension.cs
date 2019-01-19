@@ -26,9 +26,19 @@ namespace Prism.Unity
             Instance.RegisterInstance(type, instance);
         }
 
+        public void RegisterInstance(Type type, object instance, string name)
+        {
+            Instance.RegisterInstance(type, name, instance);
+        }
+
         public void RegisterSingleton(Type from, Type to)
         {
             Instance.RegisterSingleton(from, to);
+        }
+
+        public void RegisterSingleton(Type from, Type to, string name)
+        {
+            Instance.RegisterSingleton(from, to, name);
         }
 
         public void Register(Type from, Type to)

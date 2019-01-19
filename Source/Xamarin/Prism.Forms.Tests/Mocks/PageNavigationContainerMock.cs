@@ -110,5 +110,15 @@ namespace Prism.Forms.Tests.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public void RegisterInstance(Type type, object instance, string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RegisterSingleton(Type from, Type to, string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
