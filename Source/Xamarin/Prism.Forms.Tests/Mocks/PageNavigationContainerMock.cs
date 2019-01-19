@@ -90,5 +90,25 @@ namespace Prism.Forms.Tests.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public object Resolve(Type type, IDictionary<Type, object> parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RegisterMany(Type implementingType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsRegistered(Type type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsRegistered(Type type, string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

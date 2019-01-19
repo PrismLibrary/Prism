@@ -1,7 +1,11 @@
-﻿using Prism.Ioc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Prism.Ioc;
 using Prism.Mvvm;
-using System;
 using Unity;
+using Unity.Injection;
 using Unity.Resolution;
 using Xamarin.Forms;
 
@@ -47,7 +51,7 @@ namespace Prism.Unity
             return Instance.Resolve(type, name);
         }
 
-        public object ResolveViewModelForView(object view, Type viewModelType)
+        public virtual object ResolveViewModelForView(object view, Type viewModelType)
         {
             ResolverOverride[] overrides = null;
 
@@ -63,8 +67,7 @@ namespace Prism.Unity
                     };
                     break;
                 case BindableObject bindable:
-                    var attachedPage = bindable.GetValue(ViewModelLocator.AutowirePartialViewProperty) as Page;
-                    if (attachedPage != null)
+                    if (bindable.GetValue(ViewModelLocator.AutowirePartialViewProperty) is Page attachedPage)
                     {
                         overrides = new ResolverOverride[]
                         {
@@ -78,6 +81,31 @@ namespace Prism.Unity
             }
 
             return Instance.Resolve(viewModelType, overrides);
+        }
+
+        public object Resolve(Type type, IDictionary<Type, object> parameters)
+        {
+            var overrides = parameters.Select(p => new DependencyOverride(p.Key, p.Value)).ToArray();
+            return Instance.Resolve(type, overrides);
+        }
+
+        public void RegisterMany(Type implementingType)
+        {
+            Instance.RegisterSingleton(implementingType);
+            foreach(var serviceType in implementingType.GetTypeInfo().ImplementedInterfaces)
+            {
+                Instance.RegisterType(serviceType, new InjectionFactory(x => x.Resolve(implementingType)));
+            }
+        }
+
+        public bool IsRegistered(Type type)
+        {
+            return Instance.IsRegistered(type);
+        }
+
+        public bool IsRegistered(Type type, string name)
+        {
+            return Instance.IsRegistered(type, name);
         }
     }
 }

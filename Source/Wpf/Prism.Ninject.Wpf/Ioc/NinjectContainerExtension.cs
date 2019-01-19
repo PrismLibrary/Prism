@@ -1,6 +1,9 @@
 ﻿using Ninject;
+using Ninject.Parameters;
 using Prism.Ioc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Prism.Ninject.Ioc
 {
@@ -53,6 +56,27 @@ namespace Prism.Ninject.Ioc
         public object ResolveViewModelForView(object view, Type viewModelType)
         {
             return Instance.Get(viewModelType);
+        }
+
+        public object Resolve(Type type, IDictionary<Type, object> parameters)
+        {
+            var overrides = parameters.Select(p => new TypeMatchingConstructorArgument(p.Key, (c,t) => p.Value)).ToArray();
+            return Instance.Get(type, overrides);
+        }
+
+        public void RegisterMany(Type implementingType)
+        {
+            Instance.Bind(implementingType.GetInterfaces().ToArray()).To(implementingType).InSingletonScope();
+        }
+
+        public bool IsRegistered(Type type)
+        {
+            return IsRegistered(type);
+        }
+
+        public bool IsRegistered(Type type, string name)
+        {
+            return Instance.IsRegistered(type);
         }
     }
 }

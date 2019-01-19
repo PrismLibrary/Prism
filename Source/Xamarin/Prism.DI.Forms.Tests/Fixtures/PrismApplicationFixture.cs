@@ -28,12 +28,8 @@ using Xamarin.Forms;
 using Xunit;
 using Xunit.Abstractions;
 
-#if Autofac
-namespace Prism.Autofac.Forms.Tests.Fixtures
-#elif DryIoc
+#if DryIoc
 namespace Prism.DryIoc.Forms.Tests.Fixtures
-#elif Ninject
-namespace Prism.Ninject.Forms.Tests.Fixtures
 #elif Unity
 namespace Prism.Unity.Forms.Tests.Fixtures
 #endif
@@ -294,8 +290,6 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             Assert.IsType<XamlViewMockA>(navigationPage.RootPage);
             Assert.IsType<XamlViewMockA>(navigationPage.CurrentPage);
         }
-
-        
 
         private static INavigationService ResolveAndSetRootPage(PrismApplicationMock app)
         {

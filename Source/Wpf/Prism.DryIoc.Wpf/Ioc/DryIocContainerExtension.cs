@@ -1,6 +1,8 @@
-﻿using DryIoc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using DryIoc;
 using Prism.Ioc;
-using System;
 
 namespace Prism.DryIoc.Ioc
 {
@@ -50,6 +52,26 @@ namespace Prism.DryIoc.Ioc
         public object ResolveViewModelForView(object view, Type viewModelType)
         {
             return Instance.Resolve(viewModelType);
+        }
+
+        public object Resolve(Type type, IDictionary<Type, object> parameters)
+        {
+            return Instance.Resolve(type, args: parameters.Select(p => p.Value).ToArray());
+        }
+
+        public void RegisterMany(Type implementingType)
+        {
+            Instance.RegisterMany(new Type[] { implementingType }, Reuse.Singleton, serviceTypeCondition: t => implementingType.ImplementsServiceType(t));
+        }
+
+        public bool IsRegistered(Type type)
+        {
+            return Instance.IsRegistered(type);
+        }
+
+        public bool IsRegistered(Type type, string name)
+        {
+            return Instance.IsRegistered(type, name);
         }
     }
 }

@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Prism.Ioc;
 using Prism.Navigation;
 using Unity;
+using Unity.Injection;
 using Unity.Resolution;
 using Windows.UI.Xaml.Controls;
 
@@ -67,6 +71,31 @@ namespace Prism.Unity
             {
                 return Instance.Resolve(viewModelType);
             }
+        }
+
+        public object Resolve(Type type, IDictionary<Type, object> parameters)
+        {
+            var overrides = parameters.Select(p => new DependencyOverride(p.Key, p.Value)).ToArray();
+            return Instance.Resolve(type, overrides);
+        }
+
+        public void RegisterMany(Type implementingType)
+        {
+            Instance.RegisterSingleton(implementingType);
+            foreach (var serviceType in implementingType.GetInterfaces())
+            {
+                Instance.RegisterType(serviceType, new InjectionFactory(x => x.Resolve(implementingType)));
+            }
+        }
+
+        public bool IsRegistered(Type type)
+        {
+            return Instance.IsRegistered(type);
+        }
+
+        public bool IsRegistered(Type type, string name)
+        {
+            return Instance.IsRegistered(type, name);
         }
     }
 }

@@ -53,5 +53,20 @@ namespace Prism.Ioc
         {
             containerRegistry.Register(typeof(TFrom), typeof(TTo), name);
         }
+
+        public static void RegisterMany<T>(this IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterMany(typeof(T));
+        }
+
+        public static bool IsRegistered<T>(this IContainerRegistry containerRegistry)
+        {
+            return containerRegistry.IsRegistered(typeof(T));
+        }
+
+        public static bool IsRegistered<T>(this IContainerRegistry containerRegistry, string name)
+        {
+            return containerRegistry.IsRegistered(typeof(T), name);
+        }
     }
 }
