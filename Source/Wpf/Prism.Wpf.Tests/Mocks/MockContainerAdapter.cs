@@ -81,6 +81,11 @@ namespace Prism.Wpf.Tests.Mocks
             throw new NotImplementedException();
         }
 
+        public object Resolve(Type type, IDictionary<Type, object> parameters)
+        {
+            throw new NotImplementedException();
+        }
+
         public object ResolveViewModelForView(object view, Type viewModelType)
         {
             throw new NotImplementedException();
