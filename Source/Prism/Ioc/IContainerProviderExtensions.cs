@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Prism.Ioc
 {
@@ -10,7 +9,7 @@ namespace Prism.Ioc
             return (T)provider.Resolve(typeof(T));
         }
 
-        public static T Resolve<T>(this IContainerProvider provider, IDictionary<Type, object> parameters)
+        public static T Resolve<T>(this IContainerProvider provider, params (Type Type, object Instance)[] parameters)
         {
             return (T)provider.Resolve(typeof(T), parameters);
         }

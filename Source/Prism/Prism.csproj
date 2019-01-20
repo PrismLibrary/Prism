@@ -23,6 +23,10 @@
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_CORE_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
   </PropertyGroup>
 
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) Or $(TargetFramework) == 'net45' Or $(TargetFramework.StartsWith('netstandard1')) ">
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Condition=" '$(TargetFramework)' == 'netstandard1.0' " Include="System.Resources.ResourceManager" Version="4.3.0" />
   </ItemGroup>

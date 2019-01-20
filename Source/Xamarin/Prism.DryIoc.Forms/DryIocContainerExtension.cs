@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using DryIoc;
 using Prism.Ioc;
-using Prism.Mvvm;
-using Xamarin.Forms;
 
 namespace Prism.DryIoc
 {
     public class DryIocContainerExtension : IContainerExtension<IContainer>
     {
         public IContainer Instance { get; }
-
-        public bool SupportsModules => true;
 
         public DryIocContainerExtension(IContainer container)
         {
@@ -61,33 +56,9 @@ namespace Prism.DryIoc
             return Instance.Resolve(type, serviceKey: name);
         }
 
-        public virtual object ResolveViewModelForView(object view, Type viewModelType)
+        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            switch (view)
-            {
-                case Page page:
-                    var getVM = Instance.Resolve<Func<Page, object>>(viewModelType);
-                    return getVM(page);
-                case BindableObject bindable:
-                    if (bindable.GetValue(ViewModelLocator.AutowirePartialViewProperty) is Page attachedPage)
-                    {
-                        var getVMForPartial = Instance.Resolve<Func<Page, object>>(viewModelType);
-                        return getVMForPartial(attachedPage);
-                    }
-                    break;
-            }
-
-            return Instance.Resolve(viewModelType);
-        }
-
-        public object Resolve(Type type, IDictionary<Type, object> parameters)
-        {
-            return Instance.Resolve(type, args: parameters.Select(p => p.Value).ToArray());
-        }
-
-        public void RegisterMany(Type implementingType)
-        {
-            Instance.RegisterMany(new Type[] { implementingType }, Reuse.Singleton, serviceTypeCondition: t => implementingType.ImplementsServiceType(t));
+            return Instance.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
         }
 
         public bool IsRegistered(Type type)

@@ -16,8 +16,6 @@ namespace Prism.Ioc
 
         void Register(Type from, Type to, string name);
 
-        void RegisterMany(Type implementingType);
-
         bool IsRegistered(Type type);
 
         bool IsRegistered(Type type, string name);

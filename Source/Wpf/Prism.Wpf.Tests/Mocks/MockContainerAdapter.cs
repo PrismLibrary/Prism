@@ -8,8 +8,6 @@ namespace Prism.Wpf.Tests.Mocks
     {
         public Dictionary<Type, object> ResolvedInstances = new Dictionary<Type, object>();
 
-        public bool SupportsModules => true;
-
         public void FinalizeExtension()
         {
             
@@ -45,11 +43,6 @@ namespace Prism.Wpf.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public void RegisterMany(Type implementingType)
-        {
-            throw new NotImplementedException();
-        }
-
         public void RegisterSingleton(Type from, Type to)
         {
             throw new NotImplementedException();
@@ -81,12 +74,7 @@ namespace Prism.Wpf.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public object Resolve(Type type, IDictionary<Type, object> parameters)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object ResolveViewModelForView(object view, Type viewModelType)
+        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
             throw new NotImplementedException();
         }

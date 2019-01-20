@@ -72,14 +72,11 @@ namespace Prism.DI.Forms.Tests
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            if(((IContainerExtension)Container).SupportsModules)
+            moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleMock))
             {
-                moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleMock))
-                {
-                    InitializationMode = InitializationMode.WhenAvailable,
-                    ModuleName = "ModuleMock"
-                });
-            }
+                InitializationMode = InitializationMode.WhenAvailable,
+                ModuleName = "ModuleMock"
+            });
         }
     }
 }

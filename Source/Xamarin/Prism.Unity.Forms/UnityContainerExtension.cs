@@ -1,21 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Prism.Ioc;
-using Prism.Mvvm;
 using Unity;
-using Unity.Injection;
 using Unity.Resolution;
-using Xamarin.Forms;
 
 namespace Prism.Unity
 {
     public class UnityContainerExtension : IContainerExtension<IUnityContainer>
     {
         public IUnityContainer Instance { get; }
-
-        public bool SupportsModules => true;
 
         public UnityContainerExtension(IUnityContainer container) => Instance = container;
 
@@ -61,51 +54,10 @@ namespace Prism.Unity
             return Instance.Resolve(type, name);
         }
 
-        public virtual object ResolveViewModelForView(object view, Type viewModelType)
+        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            ResolverOverride[] overrides = null;
-
-            switch (view)
-            {
-                case Page page:
-                    overrides = new ResolverOverride[]
-                    {
-                        new DependencyOverride(
-                            typeof(Navigation.INavigationService),
-                            this.CreateNavigationService(page)
-                        )
-                    };
-                    break;
-                case BindableObject bindable:
-                    if (bindable.GetValue(ViewModelLocator.AutowirePartialViewProperty) is Page attachedPage)
-                    {
-                        overrides = new ResolverOverride[]
-                        {
-                            new DependencyOverride(
-                                typeof(Navigation.INavigationService),
-                                this.CreateNavigationService(attachedPage)
-                            )
-                        };
-                    }
-                    break;
-            }
-
-            return Instance.Resolve(viewModelType, overrides);
-        }
-
-        public object Resolve(Type type, IDictionary<Type, object> parameters)
-        {
-            var overrides = parameters.Select(p => new DependencyOverride(p.Key, p.Value)).ToArray();
+            var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
             return Instance.Resolve(type, overrides);
-        }
-
-        public void RegisterMany(Type implementingType)
-        {
-            Instance.RegisterSingleton(implementingType);
-            foreach(var serviceType in implementingType.GetTypeInfo().ImplementedInterfaces)
-            {
-                Instance.RegisterType(serviceType, new InjectionFactory(x => x.Resolve(implementingType)));
-            }
         }
 
         public bool IsRegistered(Type type)

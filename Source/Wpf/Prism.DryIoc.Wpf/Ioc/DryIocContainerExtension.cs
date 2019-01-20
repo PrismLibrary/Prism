@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using DryIoc;
 using Prism.Ioc;
@@ -9,8 +8,6 @@ namespace Prism.DryIoc.Ioc
     public class DryIocContainerExtension : IContainerExtension<IContainer>
     {
         public IContainer Instance { get; }
-
-        public bool SupportsModules => true;
 
         public DryIocContainerExtension(IContainer container)
         {
@@ -59,19 +56,9 @@ namespace Prism.DryIoc.Ioc
             return Instance.Resolve(type, serviceKey: name);
         }
 
-        public object ResolveViewModelForView(object view, Type viewModelType)
+        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            return Instance.Resolve(viewModelType);
-        }
-
-        public object Resolve(Type type, IDictionary<Type, object> parameters)
-        {
-            return Instance.Resolve(type, args: parameters.Select(p => p.Value).ToArray());
-        }
-
-        public void RegisterMany(Type implementingType)
-        {
-            Instance.RegisterMany(new Type[] { implementingType }, Reuse.Singleton, serviceTypeCondition: t => implementingType.ImplementsServiceType(t));
+            return Instance.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
         }
 
         public bool IsRegistered(Type type)
