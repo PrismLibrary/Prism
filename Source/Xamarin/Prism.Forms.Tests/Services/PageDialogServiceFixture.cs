@@ -18,6 +18,22 @@ namespace Prism.Forms.Tests.Services
         }
 
         [Fact]
+        public void CancelActionSheetButton_WithNoAction_DoNotThrowException()
+        {
+            var cancel = ActionSheetButton.CreateCancelButton("Foo");
+            var ex = Record.Exception(() => cancel.PressButton());
+            Assert.Null(ex);
+        }
+
+        [Fact]
+        public void DestroyActionSheetButton_WithNoAction_DoNotThrowException()
+        {
+            var destroy = ActionSheetButton.CreateDestroyButton("Foo");
+            var ex = Record.Exception(() => destroy.PressButton());
+            Assert.Null(ex);
+        }
+
+        [Fact]
         public async Task DisplayActionSheetNoButtons_ShouldThrowException()
         {
             var service = new PageDialogServiceMock("cancel", _applicationProvider);
