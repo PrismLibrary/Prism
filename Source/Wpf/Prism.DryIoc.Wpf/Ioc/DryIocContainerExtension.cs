@@ -1,14 +1,13 @@
-﻿using DryIoc;
+﻿using System;
+using System.Linq;
+using DryIoc;
 using Prism.Ioc;
-using System;
 
 namespace Prism.DryIoc.Ioc
 {
     public class DryIocContainerExtension : IContainerExtension<IContainer>
     {
         public IContainer Instance { get; }
-
-        public bool SupportsModules => true;
 
         public DryIocContainerExtension(IContainer container)
         {
@@ -22,9 +21,19 @@ namespace Prism.DryIoc.Ioc
             Instance.UseInstance(type, instance);
         }
 
+        public void RegisterInstance(Type type, object instance, string name)
+        {
+            Instance.UseInstance(type, instance, serviceKey: name);
+        }
+
         public void RegisterSingleton(Type from, Type to)
         {
             Instance.Register(from, to, Reuse.Singleton);
+        }
+
+        public void RegisterSingleton(Type from, Type to, string name)
+        {
+            Instance.Register(from, to, Reuse.Singleton, serviceKey: name);
         }
 
         public void Register(Type from, Type to)
@@ -47,9 +56,19 @@ namespace Prism.DryIoc.Ioc
             return Instance.Resolve(type, serviceKey: name);
         }
 
-        public object ResolveViewModelForView(object view, Type viewModelType)
+        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            return Instance.Resolve(viewModelType);
+            return Instance.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
+        }
+
+        public bool IsRegistered(Type type)
+        {
+            return Instance.IsRegistered(type);
+        }
+
+        public bool IsRegistered(Type type, string name)
+        {
+            return Instance.IsRegistered(type, name);
         }
     }
 }

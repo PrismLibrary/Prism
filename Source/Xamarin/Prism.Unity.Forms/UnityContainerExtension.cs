@@ -1,17 +1,14 @@
-﻿using Prism.Ioc;
-using Prism.Mvvm;
-using System;
+﻿using System;
+using System.Linq;
+using Prism.Ioc;
 using Unity;
 using Unity.Resolution;
-using Xamarin.Forms;
 
 namespace Prism.Unity
 {
     public class UnityContainerExtension : IContainerExtension<IUnityContainer>
     {
         public IUnityContainer Instance { get; }
-
-        public bool SupportsModules => true;
 
         public UnityContainerExtension(IUnityContainer container) => Instance = container;
 
@@ -22,9 +19,19 @@ namespace Prism.Unity
             Instance.RegisterInstance(type, instance);
         }
 
+        public void RegisterInstance(Type type, object instance, string name)
+        {
+            Instance.RegisterInstance(type, name, instance);
+        }
+
         public void RegisterSingleton(Type from, Type to)
         {
             Instance.RegisterSingleton(from, to);
+        }
+
+        public void RegisterSingleton(Type from, Type to, string name)
+        {
+            Instance.RegisterSingleton(from, to, name);
         }
 
         public void Register(Type from, Type to)
@@ -47,37 +54,20 @@ namespace Prism.Unity
             return Instance.Resolve(type, name);
         }
 
-        public object ResolveViewModelForView(object view, Type viewModelType)
+        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            ResolverOverride[] overrides = null;
+            var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+            return Instance.Resolve(type, overrides);
+        }
 
-            switch (view)
-            {
-                case Page page:
-                    overrides = new ResolverOverride[]
-                    {
-                        new DependencyOverride(
-                            typeof(Navigation.INavigationService),
-                            this.CreateNavigationService(page)
-                        )
-                    };
-                    break;
-                case BindableObject bindable:
-                    var attachedPage = bindable.GetValue(ViewModelLocator.AutowirePartialViewProperty) as Page;
-                    if (attachedPage != null)
-                    {
-                        overrides = new ResolverOverride[]
-                        {
-                            new DependencyOverride(
-                                typeof(Navigation.INavigationService),
-                                this.CreateNavigationService(attachedPage)
-                            )
-                        };
-                    }
-                    break;
-            }
+        public bool IsRegistered(Type type)
+        {
+            return Instance.IsRegistered(type);
+        }
 
-            return Instance.Resolve(viewModelType, overrides);
+        public bool IsRegistered(Type type, string name)
+        {
+            return Instance.IsRegistered(type, name);
         }
     }
 }

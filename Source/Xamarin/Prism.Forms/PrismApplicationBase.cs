@@ -91,8 +91,33 @@ namespace Prism
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                return _containerExtension.ResolveViewModelForView(view, type);
+                INavigationService navigationService = null;
+                switch (view)
+                {
+                    case Page page:
+                        navigationService = CreateNavigationService(page);
+                        break;
+                    case BindableObject bindable:
+                        if (bindable.GetValue(ViewModelLocator.AutowirePartialViewProperty) is Page attachedPage)
+                        {
+                            navigationService = CreateNavigationService(attachedPage);
+                        }
+                        break;
+                }
+
+                return Container.Resolve(type, (typeof(INavigationService), navigationService));
             });
+        }
+
+        protected INavigationService CreateNavigationService(Page page)
+        {
+            var navService = Container.Resolve<INavigationService>(NavigationServiceName);
+            if(navService is IPageAware pa)
+            {
+                pa.Page = page;
+            }
+
+            return navService;
         }
 
         /// <summary>
@@ -167,11 +192,8 @@ namespace Prism
         /// </summary>
         protected virtual void InitializeModules()
         {
-            if (_moduleCatalog.Modules.Count() > 0)
+            if (_moduleCatalog.Modules.Any())
             {
-                if (!_containerExtension.SupportsModules)
-                    throw new NotSupportedException("Container does not support the use of Modules.");
-
                 IModuleManager manager = Container.Resolve<IModuleManager>();
                 manager.Run();
             }

@@ -12,8 +12,6 @@ namespace Prism.Forms.Tests.Mocks
 
         public object Instance => throw new NotImplementedException();
 
-        public bool SupportsModules => true;
-
         public object GetInstance(string key)
         {
             if (_registeredPages.ContainsKey(key))
@@ -86,7 +84,27 @@ namespace Prism.Forms.Tests.Mocks
             
         }
 
-        public object ResolveViewModelForView(object view, Type viewModelType)
+        public bool IsRegistered(Type type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsRegistered(Type type, string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RegisterInstance(Type type, object instance, string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RegisterSingleton(Type from, Type to, string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
             throw new NotImplementedException();
         }

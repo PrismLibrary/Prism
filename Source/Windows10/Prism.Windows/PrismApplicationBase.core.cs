@@ -13,6 +13,7 @@ using Prism.Services;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Prism.Modularity;
+using Windows.UI.Xaml.Controls;
 
 namespace Prism
 {
@@ -184,7 +185,14 @@ namespace Prism
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                return _containerExtension.ResolveViewModelForView(view, type);
+                INavigationService navigationService = null;
+
+                if (view is Page page && page.Frame != null)
+                {
+                    navigationService = NavigationService.Instances[page.Frame];
+                }
+
+                return Container.Resolve(type, (typeof(INavigationService), navigationService));
             });
         }
 
@@ -194,9 +202,6 @@ namespace Prism
         {
             if (Container.Resolve<IModuleCatalog>().Modules.Any())
             {
-                if (!_containerExtension.SupportsModules)
-                    throw new NotSupportedException("Container does not support the use of Modules.");
-
                 IModuleManager manager = Container.Resolve<IModuleManager>();
                 manager.Run();
             }

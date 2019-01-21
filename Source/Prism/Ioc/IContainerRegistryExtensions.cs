@@ -9,6 +9,11 @@ namespace Prism.Ioc
             containerRegistry.RegisterInstance(typeof(TInterface), instance);
         }
 
+        public static void RegisterInstance<TInterface>(this IContainerRegistry containerRegistry, TInterface instance, string name)
+        {
+            containerRegistry.RegisterInstance(typeof(TInterface), instance, name);
+        }
+
         public static void RegisterSingleton(this IContainerRegistry containerRegistry, Type type)
         {
             containerRegistry.RegisterSingleton(type, type);
@@ -17,6 +22,11 @@ namespace Prism.Ioc
         public static void RegisterSingleton<TFrom, TTo>(this IContainerRegistry containerRegistry) where TTo : TFrom
         {
             containerRegistry.RegisterSingleton(typeof(TFrom), typeof(TTo));
+        }
+
+        public static void RegisterSingleton<TFrom, TTo>(this IContainerRegistry containerRegistry, string name) where TTo : TFrom
+        {
+            containerRegistry.RegisterSingleton(typeof(TFrom), typeof(TTo), name);
         }
 
         public static void RegisterSingleton<T>(this IContainerRegistry containerRegistry)
@@ -52,6 +62,16 @@ namespace Prism.Ioc
         public static void Register<TFrom, TTo>(this IContainerRegistry containerRegistry, string name) where TTo : TFrom
         {
             containerRegistry.Register(typeof(TFrom), typeof(TTo), name);
+        }
+
+        public static bool IsRegistered<T>(this IContainerRegistry containerRegistry)
+        {
+            return containerRegistry.IsRegistered(typeof(T));
+        }
+
+        public static bool IsRegistered<T>(this IContainerRegistry containerRegistry, string name)
+        {
+            return containerRegistry.IsRegistered(typeof(T), name);
         }
     }
 }

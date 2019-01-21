@@ -1,16 +1,13 @@
-﻿using Prism.Ioc;
+﻿using System;
+using System.Linq;
 using DryIoc;
-using System;
-using Xamarin.Forms;
-using Prism.Mvvm;
+using Prism.Ioc;
 
 namespace Prism.DryIoc
 {
     public class DryIocContainerExtension : IContainerExtension<IContainer>
     {
         public IContainer Instance { get; }
-
-        public bool SupportsModules => true;
 
         public DryIocContainerExtension(IContainer container)
         {
@@ -24,9 +21,19 @@ namespace Prism.DryIoc
             Instance.UseInstance(type, instance);
         }
 
+        public void RegisterInstance(Type type, object instance, string name)
+        {
+            Instance.UseInstance(type, instance, serviceKey: name);
+        }
+
         public void RegisterSingleton(Type from, Type to)
         {
             Instance.Register(from, to, Reuse.Singleton);
+        }
+
+        public void RegisterSingleton(Type from, Type to, string name)
+        {
+            Instance.Register(from, to, Reuse.Singleton, serviceKey: name);
         }
 
         public void Register(Type from, Type to)
@@ -49,24 +56,19 @@ namespace Prism.DryIoc
             return Instance.Resolve(type, serviceKey: name);
         }
 
-        public object ResolveViewModelForView(object view, Type viewModelType)
+        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            switch (view)
-            {
-                case Page page:
-                    var getVM = Instance.Resolve<Func<Page, object>>(viewModelType);
-                    return getVM(page);
-                case BindableObject bindable:
-                    var attachedPage = bindable.GetValue(ViewModelLocator.AutowirePartialViewProperty) as Page;
-                    if (attachedPage != null)
-                    {
-                        var getVMForPartial = Instance.Resolve<Func<Page, object>>(viewModelType);
-                        return getVMForPartial(attachedPage);
-                    }
-                    break;
-            }
+            return Instance.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
+        }
 
-            return Instance.Resolve(viewModelType);
+        public bool IsRegistered(Type type)
+        {
+            return Instance.IsRegistered(type);
+        }
+
+        public bool IsRegistered(Type type, string name)
+        {
+            return Instance.IsRegistered(type, name);
         }
     }
 }

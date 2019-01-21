@@ -28,12 +28,8 @@ using Xamarin.Forms;
 using Xunit;
 using Xunit.Abstractions;
 
-#if Autofac
-namespace Prism.Autofac.Forms.Tests.Fixtures
-#elif DryIoc
+#if DryIoc
 namespace Prism.DryIoc.Forms.Tests.Fixtures
-#elif Ninject
-namespace Prism.Ninject.Forms.Tests.Fixtures
 #elif Unity
 namespace Prism.Unity.Forms.Tests.Fixtures
 #endif
@@ -180,34 +176,9 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         public void Module_Initialize()
         {
             var app = CreateMockApplication();
-            if(((IContainerExtension)app.Container).SupportsModules)
-            {
-                var module = app.Container.Resolve<ModuleMock>();
-                Assert.NotNull(module);
-                Assert.True(module.Initialized);
-            }
-            else
-            {
-                _testOutputHelper.WriteLine("Container Does Not Support Modules");
-            }
-        }
-
-        [Fact]
-        public void ThrowsException_If_Container_DoesNotSupportModules()
-        {
-            PrismApplicationMock app = null;
-            var exception = Record.Exception(() => app = new PrismApplicationModulesMock(new XunitPlatformInitializer(_testOutputHelper)));
-            // The app should always be null if we do not support Modules
-            if (app == null || !((IContainerExtension)app.Container).SupportsModules)
-            {
-                _testOutputHelper.WriteLine("Container Does Not Support Modules");
-                Assert.NotNull(exception);
-                Assert.IsType<NotSupportedException>(exception);
-            }
-            else
-            {
-                _testOutputHelper.WriteLine("Container Supports Modules");
-            }
+            var module = app.Container.Resolve<ModuleMock>();
+            Assert.NotNull(module);
+            Assert.True(module.Initialized);
         }
 
         [Fact]
@@ -222,8 +193,10 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         [Fact]
         public void CustomNavigation_Resolved_In_ViewModel()
         {
-            var app = new PrismApplicationCustomNavMock(new XunitPlatformInitializer(_testOutputHelper));
-            app.MainPage = new AutowireView();
+            var app = new PrismApplicationCustomNavMock(new XunitPlatformInitializer(_testOutputHelper))
+            {
+                MainPage = new AutowireView()
+            };
             var vm = app.MainPage.BindingContext as AutowireViewModel;
 
             Assert.NotNull(vm);
@@ -294,8 +267,6 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             Assert.IsType<XamlViewMockA>(navigationPage.RootPage);
             Assert.IsType<XamlViewMockA>(navigationPage.CurrentPage);
         }
-
-        
 
         private static INavigationService ResolveAndSetRootPage(PrismApplicationMock app)
         {

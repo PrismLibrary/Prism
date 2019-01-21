@@ -1,14 +1,14 @@
-﻿using Ninject;
+﻿using System;
+using System.Linq;
+using Ninject;
+using Ninject.Parameters;
 using Prism.Ioc;
-using System;
 
 namespace Prism.Ninject.Ioc
 {
     public class NinjectContainerExtension : IContainerExtension<IKernel>
     {
         public IKernel Instance { get; }
-
-        public bool SupportsModules => true;
 
         public NinjectContainerExtension()
             : this(new StandardKernel()) { }
@@ -25,9 +25,19 @@ namespace Prism.Ninject.Ioc
             Instance.Bind(type).ToConstant(instance);
         }
 
+        public void RegisterInstance(Type type, object instance, string name)
+        {
+            Instance.Bind(type).ToConstant(instance).Named(name);
+        }
+
         public void RegisterSingleton(Type from, Type to)
         {
             Instance.Bind(from).To(to).InSingletonScope();
+        }
+
+        public void RegisterSingleton(Type from, Type to, string name)
+        {
+            Instance.Bind(from).To(to).InSingletonScope().Named(name);
         }
 
         public void Register(Type from, Type to)
@@ -50,9 +60,20 @@ namespace Prism.Ninject.Ioc
             return Instance.Get(type, name);
         }
 
-        public object ResolveViewModelForView(object view, Type viewModelType)
+        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            return Instance.Get(viewModelType);
+            var overrides = parameters.Select(p => new TypeMatchingConstructorArgument(p.Type, (c,t) => p.Instance)).ToArray();
+            return Instance.Get(type, overrides);
+        }
+
+        public bool IsRegistered(Type type)
+        {
+            return IsRegistered(type);
+        }
+
+        public bool IsRegistered(Type type, string name)
+        {
+            return Instance.IsRegistered(type);
         }
     }
 }

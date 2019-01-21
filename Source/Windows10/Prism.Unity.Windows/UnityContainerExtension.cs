@@ -1,17 +1,14 @@
 ﻿using System;
+using System.Linq;
 using Prism.Ioc;
-using Prism.Navigation;
 using Unity;
 using Unity.Resolution;
-using Windows.UI.Xaml.Controls;
 
 namespace Prism.Unity
 {
     public sealed class UnityContainerExtension : IContainerExtension<IUnityContainer>
     {
         public IUnityContainer Instance { get; }
-
-        public bool SupportsModules => true;
 
         public UnityContainerExtension(IUnityContainer container) => Instance = container;
 
@@ -22,9 +19,19 @@ namespace Prism.Unity
             Instance.RegisterInstance(type, instance);
         }
 
+        public void RegisterInstance(Type type, object instance, string name)
+        {
+            Instance.RegisterInstance(type, name, instance);
+        }
+
         public void RegisterSingleton(Type from, Type to)
         {
             Instance.RegisterSingleton(from, to);
+        }
+
+        public void RegisterSingleton(Type from, Type to, string name)
+        {
+            Instance.RegisterSingleton(from, to, name);
         }
 
         public void Register(Type from, Type to)
@@ -47,26 +54,20 @@ namespace Prism.Unity
             return Instance.Resolve(type, name);
         }
 
-        public object ResolveViewModelForView(object view, Type viewModelType)
+        public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            if (view is Page page && page.Frame != null)
-            {
-                var service = NavigationService.Instances[page.Frame];
-                ResolverOverride[] overrides = null;
+            var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+            return Instance.Resolve(type, overrides);
+        }
 
-                overrides = new ResolverOverride[]
-                {
-                    new DependencyOverride(
-                        typeof(INavigationService),
-                        service
-                    )
-                };
-                return Instance.Resolve(viewModelType, overrides);
-            }
-            else
-            {
-                return Instance.Resolve(viewModelType);
-            }
+        public bool IsRegistered(Type type)
+        {
+            return Instance.IsRegistered(type);
+        }
+
+        public bool IsRegistered(Type type, string name)
+        {
+            return Instance.IsRegistered(type, name);
         }
     }
 }

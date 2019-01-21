@@ -53,7 +53,7 @@ namespace Prism
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                return _containerExtension.ResolveViewModelForView(view, type);
+                return Container.Resolve(type);
             });
         }
 
@@ -209,9 +209,6 @@ namespace Prism
         /// </summary>
         protected virtual void InitializeModules()
         {
-            if (!_containerExtension.SupportsModules)
-                throw new NotSupportedException("Container is immutable and does not support the use of Modules.");
-
             IModuleManager manager = _containerExtension.Resolve<IModuleManager>();
             manager.Run();
         }
