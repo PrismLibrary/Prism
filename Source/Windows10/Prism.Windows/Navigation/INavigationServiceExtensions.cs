@@ -53,5 +53,30 @@ namespace Prism.Navigation
 
         public static Task<INavigationResult> NavigateAsync(this INavigationService service, Uri path, INavigationParameters parameter, NavigationTransitionInfo infoOverride)
             => (service as IPlatformNavigationService).NavigateAsync(path, parameter, infoOverride);
+
+        public static Task<INavigationResult> GoBackAsync(this INavigationService navigationService, params (string Key, object Value)[] parameters)
+        {
+            return navigationService.GoBackAsync(GetNavigationParameters(parameters));
+        }
+
+        public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, string name, params (string Key, object Value)[] parameters)
+        {
+            return navigationService.NavigateAsync(name, GetNavigationParameters(parameters));
+        }
+
+        public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, Uri uri, params (string Key, object Value)[] parameters)
+        {
+            return navigationService.NavigateAsync(uri, GetNavigationParameters(parameters));
+        }
+
+        private static INavigationParameters GetNavigationParameters((string Key, object Value)[] parameters)
+        {
+            var navParams = new NavigationParameters();
+            foreach (var (Key, Value) in parameters)
+            {
+                navParams.Add(Key, Value);
+            }
+            return navParams;
+        }
     }
 }
