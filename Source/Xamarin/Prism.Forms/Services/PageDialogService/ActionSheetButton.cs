@@ -47,6 +47,13 @@ namespace Prism.Services
         /// Create a new instance of <see cref="ActionSheetButton"/> that display as "cancel button"
         /// </summary>
         /// <param name="text">Button text</param>
+        /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
+        public static IActionSheetButton CreateCancelButton(string text) => CreateCancelButton(text, default(Action));
+
+        /// <summary>
+        /// Create a new instance of <see cref="ActionSheetButton"/> that display as "cancel button"
+        /// </summary>
+        /// <param name="text">Button text</param>
         /// <param name="action">Action to execute when button pressed</param>
         /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
         public static IActionSheetButton CreateCancelButton(string text, Action action)
@@ -92,6 +99,13 @@ namespace Prism.Services
         {
             return CreateButtonInternal(text, null, isDestroy: true, command: command);
         }
+
+        /// <summary>
+        /// Create a new instance of <see cref="ActionSheetButton"/> that display as "destroy button"
+        /// </summary>
+        /// <param name="text">Button text</param>
+        /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
+        public static IActionSheetButton CreateDestroyButton(string text) => CreateDestroyButton(text, default(Action));
 
         /// <summary>
         /// Create a new instance of <see cref="ActionSheetButton"/> that display as "destroy button"
