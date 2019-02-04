@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Prism.Commands
 {
@@ -21,11 +22,11 @@ namespace Prism.Commands
 
         private void SubscribeListeners(Expression propertyExpression)
         {
-            var propNameStack = new Stack<string>();
+            var propNameStack = new Stack<PropertyInfo>();
             while (propertyExpression is MemberExpression temp) // Gets the root of the property chain.
             {
                 propertyExpression = temp.Expression;
-                propNameStack.Push(temp.Member.Name); // Records the name of each property.
+                propNameStack.Push(temp.Member as PropertyInfo); // Records the member info as property info
             }
 
             if (!(propertyExpression is ConstantExpression constantExpression))
@@ -45,7 +46,7 @@ namespace Prism.Commands
 
             if (!(propOwnerObject is INotifyPropertyChanged inpcObject))
                 throw new InvalidOperationException("Trying to subscribe PropertyChanged listener in object that " +
-                                                    $"owns '{propObserverNodeRoot.PropertyName}' property, but the object does not implements INotifyPropertyChanged.");
+                                                    $"owns '{propObserverNodeRoot.PropertyInfo.Name}' property, but the object does not implements INotifyPropertyChanged.");
 
             propObserverNodeRoot.SubscribeListenerFor(inpcObject);
         }

@@ -13,12 +13,12 @@ namespace Prism.Commands
         private readonly Action _action;
         private INotifyPropertyChanged _inpcObject;
 
-        public string PropertyName { get; }
+        public PropertyInfo PropertyInfo { get; }
         public PropertyObserverNode Next { get; set; }
 
-        public PropertyObserverNode(string propertyName, Action action)
+        public PropertyObserverNode(PropertyInfo propertyInfo, Action action)
         {
-            PropertyName = propertyName;
+            PropertyInfo = propertyInfo ?? throw new ArgumentNullException(nameof(propertyInfo));
             _action = () =>
             {
                 action?.Invoke();
@@ -38,12 +38,11 @@ namespace Prism.Commands
 
         private void GenerateNextNode()
         {
-            var propertyInfo = _inpcObject.GetType().GetRuntimeProperty(PropertyName); // TODO: To cache, if the step consume significant performance. Note: The type of _inpcObject may become its base type or derived type.
-            var nextProperty = propertyInfo.GetValue(_inpcObject);
+            var nextProperty = PropertyInfo.GetValue(_inpcObject);
             if (nextProperty == null) return;
             if (!(nextProperty is INotifyPropertyChanged nextInpcObject))
                 throw new InvalidOperationException("Trying to subscribe PropertyChanged listener in object that " +
-                                                    $"owns '{Next.PropertyName}' property, but the object does not implements INotifyPropertyChanged.");
+                                                    $"owns '{Next.PropertyInfo.Name}' property, but the object does not implements INotifyPropertyChanged.");
 
             Next.SubscribeListenerFor(nextInpcObject);
         }
@@ -61,7 +60,7 @@ namespace Prism.Commands
             // Invoke action when e.PropertyName == null in order to satisfy:
             //  - DelegateCommandFixture.GenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName
             //  - DelegateCommandFixture.NonGenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName
-            if (e?.PropertyName == PropertyName || e?.PropertyName == null)
+            if (e?.PropertyName == PropertyInfo.Name || e?.PropertyName == null)
             {
                 _action?.Invoke();
             }
