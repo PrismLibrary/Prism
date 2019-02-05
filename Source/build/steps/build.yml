@@ -18,6 +18,9 @@ steps:
     restoreSolution: ${{ parameters.solution }}
     noCache: true
 
+- powershell: Source/build/Set-ReleaseUrl.ps1
+  displayName: "Set Release Url"
+
 - task: MSBuild@1
   displayName: ${{ parameters.solutionName }}
   inputs:
