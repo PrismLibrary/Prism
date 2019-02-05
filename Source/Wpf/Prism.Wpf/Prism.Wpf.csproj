@@ -15,10 +15,11 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
     <Version Condition=" '$(PRISM_WPF_VERSION)' != '' ">$(PRISM_WPF_VERSION)</Version>
     <!-- Update this version when incrementing Library Versions i.e. 7.1.0, 7.2.0 -->
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' ">7.2.0</VersionPrefix>
+    <VersionSuffix>ci</VersionSuffix>
     <!-- This will create CI builds as 7.0.0.1234-ci -->
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>    
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(IS_RELEASE)' "></VersionSuffix>
   </PropertyGroup>
 
   <ItemGroup>
