@@ -5,15 +5,26 @@ namespace Prism.Ioc
 {
     public static class IContainerRegistryExtensions
     {
+        /// <summary>
+        /// Registers an object to be used as a dialog in the IDialogService.
+        /// </summary>
+        /// <typeparam name="TView">The Type of object to register as the dialog</typeparam>
+        /// <typeparam name="TViewModel">The ViewModel to use as the DataContext for the dialog</typeparam>
+        /// <param name="containerRegistry"></param>
+        /// <param name="name">The unique name to register with the dialog.</param>
         public static void RegisterDialog<TView, TViewModel>(this IContainerRegistry containerRegistry, string name = null) where TViewModel : Services.Dialogs.IDialogAware
         {
-            var viewType = typeof(TView);
+            containerRegistry.RegisterForNavigation<TView, TViewModel>(name);
+        }
 
-            if (string.IsNullOrWhiteSpace(name))
-                name = viewType.Name;
-
-            containerRegistry.Register(typeof(object), viewType, name);
-            ViewModelLocationProvider.Register<TView, TViewModel>();
+        /// <summary>
+        /// Registers an object that implements IDialogWindow to be used to host all dialogs in the IDialogService.
+        /// </summary>
+        /// <typeparam name="TWindow">The Type of the Window class that will be used to host dialogs in the IDialogService</typeparam>
+        /// <param name="containerRegistry"></param>
+        public static void RegisterDialogWindow<TWindow>(this IContainerRegistry containerRegistry) where TWindow : Services.Dialogs.IDialogWindow
+        {
+            containerRegistry.Register(typeof(Services.Dialogs.IDialogWindow), typeof(TWindow));
         }
 
         /// <summary>

@@ -12,17 +12,24 @@ namespace HelloWorld.Dialogs
             set { SetProperty(ref _message, value); }
         }
 
-        public DelegateCommand CloseDialogCommand { get; set; }
+        public DelegateCommand<string> CloseDialogCommand { get; set; }
 
         public NotificationDialogViewModel()
         {
             Title = "Notification";
-            CloseDialogCommand = new DelegateCommand(CloseDialog);
+            CloseDialogCommand = new DelegateCommand<string>(CloseDialog);
         }
 
-        private void CloseDialog()
+        private void CloseDialog(string parameter)
         {
-            RaiseRequestClose(new DialogResult(true));
+            bool? result = null;
+
+            if (parameter.ToLower() == "true")
+                result = true;
+            else if (parameter.ToLower() == "false")
+                result = false;
+
+            RaiseRequestClose(new DialogResult(result));
         }
 
         public override void OnDialogOpened(IDialogParameters parameters)

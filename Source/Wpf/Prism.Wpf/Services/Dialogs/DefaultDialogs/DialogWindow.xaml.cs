@@ -7,12 +7,6 @@ namespace Prism.Services.Dialogs.DefaultDialogs
     /// </summary>
     public partial class DialogWindow : Window, IDialogWindow
     {
-        public IDialogAware ViewModel
-        {
-            get { return (IDialogAware)DataContext; }
-            set { DataContext = value; }
-        }
-
         public IDialogResult Result { get; set; }
 
         public DialogWindow()

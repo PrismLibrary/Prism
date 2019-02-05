@@ -1,6 +1,5 @@
 ﻿using Prism.Common;
 using Prism.Ioc;
-using Prism.Services.Dialogs.DefaultDialogs;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -8,9 +7,6 @@ using System.Windows;
 
 namespace Prism.Services.Dialogs
 {
-    //TODO: figure out how to control the parent (is this even neccessary? Should we assume the parent should be the active window?
-    //TODO: figure out how to control various properties of the window, maybe a WindowSettings object?
-    //TODO: create extension point to provide a custom Window
     public class DialogService : IDialogService
     {
         private readonly IContainerExtension _containerExtension;
@@ -46,7 +42,7 @@ namespace Prism.Services.Dialogs
 
         IDialogWindow CreateDialogWindow()
         {
-            return new DialogWindow();
+            return _containerExtension.Resolve<IDialogWindow>();
         }
 
         void ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)
@@ -63,7 +59,7 @@ namespace Prism.Services.Dialogs
             MvvmHelpers.ViewAndViewModelAction<IDialogAware>(viewModel, d => d.OnDialogOpened(parameters));
 
             window.Content = dialogContent;
-            window.ViewModel = viewModel;
+            window.DataContext = viewModel; //we want the host window and the dialog to share the same data contex
         }
 
         void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, Action<IDialogResult> callback)
@@ -79,14 +75,14 @@ namespace Prism.Services.Dialogs
             loadedHandler = (o, e) =>
             {
                 dialogWindow.Loaded -= loadedHandler;
-                dialogWindow.ViewModel.RequestClose += requestCloseHandler;
+                dialogWindow.GetDialogViewModel().RequestClose += requestCloseHandler;
             };
             dialogWindow.Loaded += loadedHandler;
 
             CancelEventHandler closingHandler = null;
             closingHandler = (o, e) =>
             {
-                if (!dialogWindow.ViewModel.CanCloseDialog())
+                if (!dialogWindow.GetDialogViewModel().CanCloseDialog())
                     e.Cancel = true;
             };
             dialogWindow.Closing += closingHandler;
@@ -96,16 +92,16 @@ namespace Prism.Services.Dialogs
                 {
                     dialogWindow.Closed -= closedHandler;
                     dialogWindow.Closing -= closingHandler;
-                    dialogWindow.ViewModel.RequestClose -= requestCloseHandler;
+                    dialogWindow.GetDialogViewModel().RequestClose -= requestCloseHandler;
 
-                    dialogWindow.ViewModel.OnDialogClosed();
+                    dialogWindow.GetDialogViewModel().OnDialogClosed();
 
                     if (dialogWindow.Result == null)
                         dialogWindow.Result = new DialogResult();
 
                     callback?.Invoke(dialogWindow.Result);
 
-                    dialogWindow.ViewModel = null;
+                    dialogWindow.DataContext = null;
                     dialogWindow.Content = null;
                 };
             dialogWindow.Closed += closedHandler;

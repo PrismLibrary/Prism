@@ -18,8 +18,6 @@ namespace Prism.Services.Dialogs
 
         object DataContext { get; set; }
 
-        IDialogAware ViewModel { get; set; }
-
         event RoutedEventHandler Loaded;
 
         event EventHandler Closed;
