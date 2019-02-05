@@ -11,6 +11,7 @@ namespace Prism.Interactivity.InteractionRequest
     /// <summary>
     /// Basic implementation of <see cref="INotification"/>.
     /// </summary>
+    [Obsolete("Please use the new IDialogService for an improved dialog experience.")]
     public class Notification : INotification
     {
         /// <summary>

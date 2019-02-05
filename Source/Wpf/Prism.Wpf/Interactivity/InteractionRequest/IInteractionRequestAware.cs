@@ -11,6 +11,7 @@ namespace Prism.Interactivity.InteractionRequest
     /// it will be populated with the <see cref="INotification"/> data of the interaction request 
     /// as well as an <see cref="Action"/> to finish the request upon invocation.
     /// </summary>
+    [Obsolete("Please use the new IDialogService for an improved dialog experience.")]
     public interface IInteractionRequestAware
     {
         /// <summary>

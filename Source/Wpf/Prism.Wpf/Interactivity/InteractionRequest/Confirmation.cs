@@ -11,6 +11,7 @@ namespace Prism.Interactivity.InteractionRequest
     /// <summary>
     /// Basic implementation of <see cref="IConfirmation"/>.
     /// </summary>
+    [Obsolete("Please use the new IDialogService for an improved dialog experience.")]
     public class Confirmation : Notification, IConfirmation
     {
         /// <summary>
