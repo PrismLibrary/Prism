@@ -12,6 +12,7 @@ using Unity.Exceptions;
 using Unity.Lifetime;
 using Prism.Ioc;
 using Prism.Unity.Ioc;
+using Prism.Services.Dialogs;
 
 namespace Prism.Unity
 {
@@ -148,6 +149,9 @@ namespace Prism.Unity
 
             if (useDefaultConfiguration)
             {
+                RegisterTypeIfMissing(typeof(IDialogService), typeof(DialogService), true);
+                RegisterTypeIfMissing(typeof(IDialogWindow), typeof(Services.Dialogs.DefaultDialogs.DialogWindow), false);
+
                 RegisterTypeIfMissing(typeof(IServiceLocator), typeof(UnityServiceLocatorAdapter), true);
                 RegisterTypeIfMissing(typeof(IModuleInitializer), typeof(ModuleInitializer), true);
                 RegisterTypeIfMissing(typeof(IModuleManager), typeof(ModuleManager), true);

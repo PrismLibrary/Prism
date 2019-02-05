@@ -13,6 +13,7 @@ using Prism.Ninject.Regions;
 using Prism.Regions;
 using Prism.Ioc;
 using Prism.Ninject.Ioc;
+using Prism.Services.Dialogs;
 
 namespace Prism.Ninject
 {
@@ -165,6 +166,9 @@ namespace Prism.Ninject
 
             if (this.useDefaultConfiguration)
             {
+                this.Kernel.RegisterTypeIfMissing<IDialogService, DialogService>(true);
+                this.Kernel.RegisterTypeIfMissing<IDialogWindow, Services.Dialogs.DefaultDialogs.DialogWindow>(false);
+
                 this.Kernel.RegisterTypeIfMissing<IServiceLocator, NinjectServiceLocatorAdapter>(true);
                 this.Kernel.RegisterTypeIfMissing<IModuleInitializer, ModuleInitializer>(true);
                 this.Kernel.RegisterTypeIfMissing<IModuleManager, ModuleManager>(true);
