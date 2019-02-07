@@ -7,6 +7,7 @@ namespace Prism.Interactivity.InteractionRequest
     /// <summary>
     /// Event args for the <see cref="IInteractionRequest.Raised"/> event.
     /// </summary>
+    [Obsolete("Please use the new IDialogService for an improved dialog experience.")]
     public class InteractionRequestedEventArgs : EventArgs
     {
         /// <summary>

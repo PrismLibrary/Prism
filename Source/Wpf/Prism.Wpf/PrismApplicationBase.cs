@@ -6,6 +6,7 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
+using Prism.Services.Dialogs;
 using System;
 using System.Linq;
 using System.Windows;
@@ -117,6 +118,7 @@ namespace Prism
             containerRegistry.RegisterInstance(_containerExtension);
             containerRegistry.RegisterInstance(_moduleCatalog);
             containerRegistry.RegisterSingleton<ILoggerFacade, TextLogger>();
+            containerRegistry.RegisterSingleton<IDialogService, DialogService>();
             containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
             containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
             containerRegistry.RegisterSingleton<RegionAdapterMappings>();
@@ -127,6 +129,7 @@ namespace Prism
             containerRegistry.Register<IRegionNavigationJournalEntry, RegionNavigationJournalEntry>();
             containerRegistry.Register<IRegionNavigationJournal, RegionNavigationJournal>();
             containerRegistry.Register<IRegionNavigationService, RegionNavigationService>();
+            containerRegistry.Register<IDialogWindow, Services.Dialogs.DefaultDialogs.DialogWindow>(); //default dialog host
         }
 
         /// <summary>

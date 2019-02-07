@@ -12,6 +12,7 @@ namespace Prism.Interactivity.InteractionRequest
     /// is required so views associated with the view models can materialize the user interaction using an appropriate
     /// mechanism.
     /// </remarks>
+    [Obsolete("Please use the new IDialogService for an improved dialog experience.")]
     public interface IInteractionRequest
     {
         /// <summary>

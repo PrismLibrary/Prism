@@ -10,6 +10,7 @@ namespace Prism.Interactivity.InteractionRequest
     /// The standard <see cref="System.Windows.Interactivity.EventTrigger"/> class can be used instead, as long as the 'Raised' event 
     /// name is specified.
     /// </remarks>
+    [Obsolete("Please use the new IDialogService for an improved dialog experience.")]
     public class InteractionRequestTrigger : EventTrigger
     {
         /// <summary>

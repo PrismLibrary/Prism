@@ -9,6 +9,7 @@ namespace Prism.Interactivity.InteractionRequest
     /// <summary>
     /// Implementation of the <see cref="IInteractionRequest"/> interface.
     /// </summary>
+    [Obsolete("Please use the new IDialogService for an improved dialog experience.")]
     public class InteractionRequest<T> : IInteractionRequest
         where T : INotification
     {

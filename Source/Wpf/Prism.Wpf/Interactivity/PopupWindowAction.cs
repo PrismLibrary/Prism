@@ -13,6 +13,7 @@ namespace Prism.Interactivity
     /// <summary>
     /// Shows a popup window in response to an <see cref="InteractionRequest"/> being raised.
     /// </summary>
+    [Obsolete("Please use the new IDialogService for an improved dialog experience.")]
     public class PopupWindowAction : TriggerAction<FrameworkElement>
     {
         /// <summary>

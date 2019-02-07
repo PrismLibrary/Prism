@@ -11,6 +11,7 @@ using DryIoc;
 using Prism.DryIoc.Properties;
 using Prism.Ioc;
 using Prism.DryIoc.Ioc;
+using Prism.Services.Dialogs;
 
 namespace Prism.DryIoc
 {
@@ -152,6 +153,9 @@ namespace Prism.DryIoc
 
             if (_useDefaultConfiguration)
             {
+                RegisterTypeIfMissing<IDialogService, DialogService>(true);
+                RegisterTypeIfMissing<IDialogWindow, Services.Dialogs.DefaultDialogs.DialogWindow>(false);
+
                 RegisterTypeIfMissing<IModuleInitializer, ModuleInitializer>(true);
                 RegisterTypeIfMissing<IModuleManager, ModuleManager>(true);
                 RegisterTypeIfMissing<RegionAdapterMappings, RegionAdapterMappings>(true);

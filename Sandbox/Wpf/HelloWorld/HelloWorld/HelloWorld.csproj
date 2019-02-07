@@ -60,6 +60,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Dialogs\ConfirmationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\CustomDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\NotificationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -68,6 +80,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Dialogs\ConfirmationDialog.xaml.cs">
+      <DependentUpon>ConfirmationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ConfirmationDialogViewModel.cs" />
+    <Compile Include="Dialogs\CustomDialogWindow.xaml.cs">
+      <DependentUpon>CustomDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\NotificationDialog.xaml.cs">
+      <DependentUpon>NotificationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\NotificationDialogViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -102,9 +125,9 @@
       <Project>{457aa668-72bb-4701-9a4e-fa86b0c412de}</Project>
       <Name>Prism</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Source\Wpf\Prism.Ninject.Wpf\Prism.Ninject.Wpf.csproj">
-      <Project>{5263604a-39ec-4e7b-82dd-8f52c838a77a}</Project>
-      <Name>Prism.Ninject.Wpf</Name>
+    <ProjectReference Include="..\..\..\..\Source\Wpf\Prism.DryIoc.Wpf\Prism.DryIoc.Wpf.csproj">
+      <Project>{a0842858-bfd5-41ae-bde7-cbd870bc9900}</Project>
+      <Name>Prism.DryIoc.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Source\Wpf\Prism.Wpf\Prism.Wpf.csproj">
       <Project>{aa8ed3d6-a708-4187-8fac-00f56e063ad7}</Project>
