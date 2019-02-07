@@ -28,19 +28,47 @@ As most of you know, it takes a lot of time and effort for our small team to man
 
 By becoming a [Patron and subscribing](https://www.patreon.com/prismlibrary) to the Prism Library, you will receive a number of benefits depending on your level of support.
 
-**Basic** - $1+ per month
+**Supporter** - $5+ per month
 - Receive all Prism Library news and announcements, such as new release information and blogs posts.
 - Gives you access to our community Slack channel where you can ask questions and get help from the community and the Prism Library project maintainers (when available).
 
-**Premium** - $5+ per month
-- Gives you access to members only video tutorials.
+**Backer** - $10+ per month
+Everything in the Supporter plan plus:
 - A Prism sticker
 
-**Platinum** - $10+ per month
-- Early access to Visual Studio productivity tools.
-- Early access to video tutorials
-- Receive priority response on all GitHub issues.
-- Gives you access to a private Slack channel where you can ask questions and get help directly from Prism Library project maintainers.
+**Generous Backer** - $25+ per month
+Everything in the Backer plan plus:
+- Video Tutorial request priortiy (topic acceptance not guaranteed)
+- Bragging rights!
+
+**Bronze Sponsor** - $100+ per month
+Everything in the Generous Backer plan plus:
+- Your name or company logo (small) will be put in sponsors.md in the Prism repository.
+
+**Silver Sponsor** - $250+ per month
+Everything in the Generous Backer plan plus:
+- Your name or company logo (medium) will be put in the sponsors.md in the Prism repository.
+- Your name or company logo (medium) will be put on the repository ReadMe.md
+
+**Gold Sponsor** - $500+ per month
+Everything in the Generous Backer plan plus:
+- Your name or company logo (large) will be put in the sponsors.md in the Prism repository.
+- Your name or company logo (large) will be put on the repository ReadMe.md
+- Your name or company logo (large) on the homepage of PrismLibrary.com
+- 1 hour VIP support per month
+
+**Platinum Sponsor** - $1,000+ per month
+Everything in the Generous Backer plan plus:
+- Your name or company logo (large) will be put at the top of the sponsors.md in the Prism repository.
+- Your name or company logo (large) will be put on the repository ReadMe.md
+- Your name or company logo on the homepage of PrismLibrary.com
+- 1 Sponsored Video Tutorial per month
+- 2 hours VIP support per month
+
+**Corporate Sponsor** - $10,000+ per month
+Everything in the Platinum Sponsor plan plus:
+- 3 days onsite training for your company (every six months)
+- Dedicated VIP Support
 
 By watching our courses, not only do you help support the project financially, but you might also learn something along the way.  We believe this is a win-win for everyone.
 
@@ -74,17 +102,15 @@ These are the base packages for each platform, together with the Prism's Core as
 
 Each supported IoC container has its own package assisting in the setup and usage of that container together with Prism. The assembly is named using this convention: Prism.*Container.Platform*.dll, e.g. **Prism.Unity.Wpf.dll**. Starting with version 7.0, Prism is moving to separate packages for each platform. Be sure to install the package for the Container and the Platform of your choice.
 
-**NOTE:** MEF is supported with WPF for compatibility with previous versions. It will not be added to Windows 10 UWP or Xamarin Forms.
-
 #### WPF
 
 | Package | NuGet | MyGet |
 |---------|-------|-------|
-| [Prism.Autofac][AutofacWpfNuGet]* | [![AutofacWpfNuGetShield]][AutofacWpfNuGet] | [![AutofacWpfMyGetShield]][AutofacWpfMyGet] |
+| [Prism.Autofac][AutofacWpfNuGet]* | [![AutofacWpfNuGetShield]][AutofacWpfNuGet] | see notes |
 | [Prism.DryIoc][DryIocWpfNuGet] | [![DryIocWpfNuGetShield]][DryIocWpfNuGet] | [![DryIocWpfMyGetShield]][DryIocWpfMyGet] |
-| [Prism.Mef][MefWpfNuGet]* | [![MefWpfNuGetShield]][MefWpfNuGet] | N/A |
+| [Prism.Mef][MefWpfNuGet]* | [![MefWpfNuGetShield]][MefWpfNuGet] | see notes |
 | [Prism.Ninject][NinjectWpfNuGet] | [![NinjectWpfNuGetShield]][NinjectWpfNuGet] | [![NinjectWpfMyGetShield]][NinjectWpfMyGet] |
-| [Prism.StructureMap][StructureMapWpfNuGet] | [![StructureMapWpfNuGetShield]][StructureMapWpfNuGet] | [![StructureMapWpfMyGetShield]][StructureMapWpfMyGet] |
+| [Prism.StructureMap][StructureMapWpfNuGet] | [![StructureMapWpfNuGetShield]][StructureMapWpfNuGet] | see notes |
 | [Prism.Unity][UnityWpfNuGet] | [![UnityWpfNuGetShield]][UnityWpfNuGet] | [![UnityWpfMyGetShield]][UnityWpfMyGet] |
 
 #### UWP
@@ -98,9 +124,9 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 | Package | NuGet | MyGet |
 |---------|-------|-------|
-| [Prism.Autofac.Forms][AutofacFormsNuGet]* | [![AutofacFormsNuGetShield]][AutofacFormsNuGet] | [![AutofacFormsMyGetShield]][AutofacFormsMyGet] |
+| [Prism.Autofac.Forms][AutofacFormsNuGet]* | [![AutofacFormsNuGetShield]][AutofacFormsNuGet] | see notes |
 | [Prism.DryIoc.Forms][DryIocFormsNuGet] | [![DryIocFormsNuGetShield]][DryIocFormsNuGet] | [![DryIocFormsMyGetShield]][DryIocFormsMyGet] |
-| [Prism.Ninject.Forms][NinjectFormsNuGet]* | [![NinjectFormsNuGetShield]][NinjectFormsNuGet] | N/A |
+| [Prism.Ninject.Forms][NinjectFormsNuGet]* | [![NinjectFormsNuGetShield]][NinjectFormsNuGet] | see notes |
 | [Prism.Unity.Forms][UnityFormsNuGet] | [![UnityFormsNuGetShield]][UnityFormsNuGet] | [![UnityFormsMyGetShield]][UnityFormsMyGet] |
 
 #### Package Notices
@@ -108,6 +134,7 @@ Each supported IoC container has its own package assisting in the setup and usag
 - Autofac will be removed following the 7.1 release due to it's inability to support Prism Modularity.
 - MEF is no longer supported in Prism 7 as it is not truly a DI Container and lacks the performance that developers deserve.
 - Ninject for Xamarin Forms has been discontinued due in Prism 7 to an incompatibility of the container with Xamarin Targets.
+- StructureMap has reached EOL as a container. As a result the Prism team will no longer be continuing to provide updates to the StructureMap package moving forward.
 - For developers using Unity with Prism 6, take note that the new Unity maintainer has made major breaking changes. This includes changing namespaces and the package structure. These changes were NOT made by the Prism team nor do we have any control over it. When upgrading to Prism 7 you will need to uninstall the existing Unity package as we now reference the Unity.Container NuGet.
 
 ![NuGet package tree](images/NuGetPackageTree.png)

@@ -9,17 +9,7 @@
     <!--<Summary>Autofac extensions for Prism.</Summary>-->
     <Description>Use these extensions to build Prism applications based on Autofac.</Description>
     <PackageTags>prism;autofac;mvvm;wpf;xaml</PackageTags>
-    <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
     <Version Condition=" '$(PRISM_AUTOFAC_WPF_VERSION)' != '' ">$(PRISM_AUTOFAC_WPF_VERSION)</Version>
-    <!-- Update this version when incrementing Library Versions i.e. 7.1.0, 7.2.0 -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_AUTOFAC_WPF_VERSION)' == '' ">7.2.0</VersionPrefix>
-    <!-- This will create CI builds as 7.0.0.1234-ci -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_AUTOFAC_WPF_VERSION)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</VersionPrefix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_AUTOFAC_WPF_VERSION)' == '' And '$(APPVEYOR_BUILD_NUMBER)' != '' ">ci</VersionSuffix>
-    <!-- This will create CI builds as 7.0.0.1234-ci -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_AUTOFAC_WPF_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_AUTOFAC_WPF_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_AUTOFAC_WPF_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
   </PropertyGroup>
 
   <ItemGroup>

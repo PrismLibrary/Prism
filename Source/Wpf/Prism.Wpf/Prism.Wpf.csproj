@@ -11,14 +11,7 @@
 
 Prism.Wpf helps you more easily design and build rich, flexible, and easy to maintain Windows Presentation Foundation (WPF) desktop applications. This library provides user interface composition as well as modularity support.</Description>
     <PackageTags>prism;mvvm;xaml;wpf</PackageTags>
-    <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
     <Version Condition=" '$(PRISM_WPF_VERSION)' != '' ">$(PRISM_WPF_VERSION)</Version>
-    <!-- Update this version when incrementing Library Versions i.e. 7.1.0, 7.2.0 -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' ">7.2.0</VersionPrefix>
-    <!-- This will create CI builds as 7.0.0.1234-ci -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_WPF_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>    
   </PropertyGroup>
 
   <ItemGroup>
