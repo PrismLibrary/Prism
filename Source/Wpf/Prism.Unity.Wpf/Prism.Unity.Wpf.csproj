@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Unity.Container" Version="5.9.3" />
+    <PackageReference Include="Unity.Container" Version="5.8.13" />
   </ItemGroup>
 
   <ItemGroup>
