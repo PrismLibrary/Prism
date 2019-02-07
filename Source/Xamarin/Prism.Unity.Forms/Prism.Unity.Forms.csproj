@@ -8,15 +8,7 @@
     <!--<Summary>Unity extensions for Prism for Xamarin.Forms.</Summary>-->
     <Description>Use these extensions to build Xamarin.Forms applications with Prism and Unity.</Description>
     <PackageTags>prism;xamarin;xamarin.forms;ninject;dependency injection</PackageTags>
-    <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
     <Version Condition=" '$(PRISM_UNITY_FORMS_VERSION)' != '' ">$(PRISM_UNITY_FORMS_VERSION)</Version>
-    <!-- Update this version when incrementing Library Versions i.e. 7.1.0, 7.2.0 -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_UNITY_FORMS_VERSION)' == '' ">7.2.0</VersionPrefix>
-    <VersionSuffix>ci</VersionSuffix>
-    <!-- This will create CI builds as 7.0.0.1234-ci -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_UNITY_FORMS_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_UNITY_FORMS_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_UNITY_FORMS_VERSION)' == '' And '$(IS_RELEASE)' "></VersionSuffix>
   </PropertyGroup>
 
   <ItemGroup>
