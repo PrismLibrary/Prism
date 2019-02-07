@@ -1,10 +1,15 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using System;
 
 namespace Prism.Services.Dialogs
 {
     public class DialogViewModelBase : BindableBase, IDialogAware
     {
+        private DelegateCommand<string> _closeDialogCommand;
+        public DelegateCommand<string> CloseDialogCommand =>
+            _closeDialogCommand ?? (_closeDialogCommand = new DelegateCommand<string>(CloseDialog));
+
         private string _iconSource;
         public string IconSource
         {
@@ -20,6 +25,18 @@ namespace Prism.Services.Dialogs
         }
 
         public event Action<IDialogResult> RequestClose;
+
+        protected virtual void CloseDialog(string parameter)
+        {
+            bool? result = null;
+
+            if (parameter?.ToLower() == "true")
+                result = true;
+            else if (parameter?.ToLower() == "false")
+                result = false;
+
+            RaiseRequestClose(new DialogResult(result));
+        }
 
         public virtual void RaiseRequestClose(IDialogResult dialogResult)
         {
