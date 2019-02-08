@@ -44,6 +44,8 @@ namespace Prism.Navigation.Xaml
             set => _sourcePage = value;
         }
 
+        public bool Animated { get; set; } = true;
+
         public bool CanExecute(object parameter) => !IsNavigating;
 
         public event EventHandler CanExecuteChanged;
