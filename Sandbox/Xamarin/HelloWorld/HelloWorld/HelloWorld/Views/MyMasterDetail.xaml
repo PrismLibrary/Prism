@@ -15,6 +15,7 @@
                 <Button Text="ViewC" Command="{Binding NavigateCommand}" CommandParameter="MyTabbedPage?selectedTab=ViewC" />
                 <Button Text="XamlNav" Command="{nav:NavigateTo 'MyNavigationPage/ViewA'}" />
                 <Button Text="XamlNav wihout animation" Command="{nav:NavigateTo 'MyNavigationPage/ViewA', Animated=False}" />
+                <Button Text="XamlNav modal" Command="{nav:NavigateTo 'MyNavigationPage/ViewA', UseModalNavigation=True}" />
             </StackLayout>
         </ContentPage>
     </MasterDetailPage.Master>

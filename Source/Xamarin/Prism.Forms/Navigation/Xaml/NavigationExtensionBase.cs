@@ -46,6 +46,8 @@ namespace Prism.Navigation.Xaml
 
         public bool Animated { get; set; } = true;
 
+        public bool? UseModalNavigation { get; set; } 
+
         public bool CanExecute(object parameter) => !IsNavigating;
 
         public event EventHandler CanExecuteChanged;
