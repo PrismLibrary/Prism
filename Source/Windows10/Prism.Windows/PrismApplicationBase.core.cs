@@ -180,7 +180,10 @@ namespace Prism
 
         protected abstract void RegisterTypes(IContainerRegistry container);
 
-        protected virtual void OnInitialized() { /* empty */ }
+        protected virtual void OnInitialized()
+        {
+            NavigationService.SetAsWindowContent(Window.Current, true);
+        }
 
         protected virtual void OnStart(StartArgs args) {  /* empty */ }
 

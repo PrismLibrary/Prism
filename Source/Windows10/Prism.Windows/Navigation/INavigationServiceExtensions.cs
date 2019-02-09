@@ -39,9 +39,6 @@ namespace Prism.Navigation
         public static bool CanGoBack(this INavigationService service)
             => (service as IPlatformNavigationService).CanGoBack();
 
-        public static Task GoBackAsync(this INavigationService service, INavigationParameters parameters, NavigationTransitionInfo infoOverride)
-            => (service as IPlatformNavigationService).RefreshAsync();
-
         public static bool CanGoForward(this INavigationService service)
             => (service as IPlatformNavigationService).CanGoForward();
 
