@@ -1,106 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Prism.Ioc;
 using Prism.Logging;
-using Prism.Services;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Prism.Navigation
 {
-    public class NavigationService : IPlatformNavigationService, IPlatformNavigationService2
+    public class NavigationService : IPlatformNavigationService, IFrameFacadeProvider
     {
-        IFrameFacade IPlatformNavigationService2.FrameFacade => _frame;
+        IFrameFacade IFrameFacadeProvider.FrameFacade => _frame;
 
-        public static Dictionary<Frame, INavigationService> Instances { get; } = new Dictionary<Frame, INavigationService>();
+        private IFrameFacade _frame { get; }
+        private ILoggerFacade _logger { get; }
 
-        /// <summary>
-        /// Creates a navigation service
-        /// </summary>
-        /// <param name="gestures">Optional default getures tied to this Frame</param>
-        /// <returns>INavigationService</returns>
-        public static INavigationService Create(params Gesture[] gestures)
-        {
-            return Create(new Frame(), Window.Current.CoreWindow, gestures);
-        }
-
-        /// <summary>
-        /// Creates a navigation service
-        /// </summary>
-        /// <param name="frame">Required XAML Frame</param>
-        /// <param name="gestures">Optional default getures tied to this Frame</param>
-        /// <returns>INavigationService</returns>
-        public static INavigationService Create(Frame frame, params Gesture[] gestures)
-        {
-            return Create(frame, Window.Current.CoreWindow, gestures);
-        }
-
-        /// <summary>
-        /// Creates a navigation service
-        /// </summary>
-        /// <param name="gestures">Optional default getures tied to this Frame</param>
-        /// <returns>INavigationService</returns>
-        public static INavigationService Create(CoreWindow window, params Gesture[] gestures)
-        {
-            return Create(new Frame(), window, gestures);
-        }
-
-        /// <summary>
-        /// Creates a navigation service
-        /// </summary>
-        /// <param name="frame">Required XAML Frame</param>
-        /// <param name="gestures">Optional default getures tied to this Frame</param>
-        /// <returns>INavigationService</returns>
-        public static INavigationService Create(Frame frame, CoreWindow window, params Gesture[] gestures)
-        {
-            frame = frame ?? new Frame();
-            var gesture_service = GestureService.GetForCurrentView(window);
-            var navigation_service = new NavigationService(frame);
-            foreach (var gesture in gestures)
-            {
-                switch (gesture)
-                {
-                    case Gesture.Back:
-                        gesture_service.BackRequested += async (s, e) => await navigation_service.GoBackAsync();
-                        break;
-                    case Gesture.Forward:
-                        gesture_service.ForwardRequested += async (s, e) => await navigation_service.GoForwardAsync();
-                        break;
-                    case Gesture.Refresh:
-                        gesture_service.RefreshRequested += async (s, e) => await navigation_service.RefreshAsync();
-                        break;
-                }
-            }
-            return navigation_service;
-        }
-
-        /// <summary>
-        /// Creates navigation service
-        /// </summary>
-        /// <param name="frame">Pre-existing frame</param>
-        /// <returns>INavigationService</returns>
-        public static INavigationService Create(Frame frame)
-        {
-            return new NavigationService(frame);
-        }
-
-        private readonly IFrameFacade _frame;
-        private readonly ILoggerFacade _logger;
-
-        private NavigationService(Frame frame)
+        public NavigationService(Frame frame, ILoggerFacade logger)
         {
             _frame = new FrameFacade(frame, this);
             _frame.CanGoBackChanged += (s, e) =>
                 CanGoBackChanged?.Invoke(this, EventArgs.Empty);
             _frame.CanGoForwardChanged += (s, e) =>
                 CanGoForwardChanged?.Invoke(this, EventArgs.Empty);
-            Instances.Add(frame, this);
-            _logger = PrismApplicationBase.Current.Container.Resolve<ILoggerFacade>();
+            _logger = logger;
         }
 
         public async Task RefreshAsync()
@@ -119,9 +41,9 @@ namespace Prism.Navigation
 
         public async Task<INavigationResult> GoForwardAsync(INavigationParameters parameters)
         {
-            if (parameters == null && (_frame as IFrameFacade2).Frame.ForwardStack.Any())
+            if (parameters == null && (_frame as IFrameProvider).Frame.ForwardStack.Any())
             {
-                var previous = (_frame as IFrameFacade2).Frame.ForwardStack.Last().Parameter?.ToString();
+                var previous = (_frame as IFrameProvider).Frame.ForwardStack.Last().Parameter?.ToString();
                 parameters = new NavigationParameters(previous);
             }
 
@@ -148,9 +70,9 @@ namespace Prism.Navigation
 
         public async Task<INavigationResult> GoBackAsync(INavigationParameters parameters = null, NavigationTransitionInfo infoOverride = null)
         {
-            if (parameters == null && (_frame as IFrameFacade2).Frame.BackStack.Any())
+            if (parameters == null && (_frame as IFrameProvider).Frame.BackStack.Any())
             {
-                var previous = (_frame as IFrameFacade2).Frame.BackStack.Last().Parameter?.ToString();
+                var previous = (_frame as IFrameProvider).Frame.BackStack.Last().Parameter?.ToString();
                 if (previous is null)
                 {
                     parameters = new NavigationParameters();
@@ -165,8 +87,6 @@ namespace Prism.Navigation
                     parameters: parameters,
                     infoOverride: infoOverride);
         }
-
-        // navigate(string)
 
         public async Task<INavigationResult> NavigateAsync(string path)
             => await NavigateAsync(

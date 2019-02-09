@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Prism.Navigation
 {
-    public class FrameFacade : IFrameFacade, IFrameFacade2
+    public class FrameFacade : IFrameFacade, IFrameProvider
     {
         private readonly bool _logStartingEvents = false;
 
@@ -42,7 +42,7 @@ namespace Prism.Navigation
             _logger = PrismApplicationBase.Current.Container.Resolve<ILoggerFacade>();
         }
 
-        Frame IFrameFacade2.Frame
+        Frame IFrameProvider.Frame
             => _frame;
 
         public bool CanGoBack()

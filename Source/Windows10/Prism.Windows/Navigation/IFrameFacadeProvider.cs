@@ -1,6 +1,6 @@
 ﻿namespace Prism.Navigation
 {
-    public interface IPlatformNavigationService2
+    public interface IFrameFacadeProvider
     {
         IFrameFacade FrameFacade { get; }
     }
