@@ -66,6 +66,12 @@ namespace Prism.Ninject.Ioc
             return Instance.Get(type, overrides);
         }
 
+        public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
+        {
+            var overrides = parameters.Select(p => new TypeMatchingConstructorArgument(p.Type, (c, t) => p.Instance)).ToArray();
+            return Instance.Get(type, name, overrides);
+        }
+
         public bool IsRegistered(Type type)
         {
             return IsRegistered(type);

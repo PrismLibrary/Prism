@@ -60,6 +60,12 @@ namespace Prism.Unity
             return Instance.Resolve(type, overrides);
         }
 
+        public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
+        {
+            var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+            return Instance.Resolve(type, name, overrides);
+        }
+
         public bool IsRegistered(Type type)
         {
             return Instance.IsRegistered(type);

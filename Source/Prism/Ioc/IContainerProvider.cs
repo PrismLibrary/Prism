@@ -10,5 +10,7 @@ namespace Prism.Ioc
         object Resolve(Type type, params (Type Type, object Instance)[] parameters);
 
         object Resolve(Type type, string name);
+
+        object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters);
     }
 }
