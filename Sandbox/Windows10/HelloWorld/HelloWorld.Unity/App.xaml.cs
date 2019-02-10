@@ -36,11 +36,6 @@ namespace Sample
             container.RegisterForNavigation<ItemPage, ItemPageViewModel>();
         }
 
-        protected override void OnInitialized()
-        {
-            NavigationService.SetAsWindowContent(Window.Current, true);
-        }
-
         protected override void OnStart(StartArgs args)
         {
             if (args.StartKind == StartKinds.Launch)
