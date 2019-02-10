@@ -59,8 +59,7 @@ namespace Prism
         private IContainerExtension _containerExtension;
         public IContainerProvider Container => _containerExtension;
 
-        private INavigationService _navigationService;
-        protected INavigationService NavigationService => _navigationService;
+        protected INavigationService NavigationService { get; private set; }
 
         private void InternalInitialize()
         {
@@ -72,10 +71,10 @@ namespace Prism
 
             // dependecy injection
             _containerExtension = CreateContainerExtension();
-            RegisterRequiredTypes(_containerExtension as IContainerRegistry);
+            RegisterRequiredTypes(_containerExtension);
 
             Debug.WriteLine("[App.RegisterTypes()]");
-            RegisterTypes(_containerExtension as IContainerRegistry);
+            RegisterTypes(_containerExtension);
 
             Debug.WriteLine("Dependency container has just been finalized.");
             _containerExtension.FinalizeExtension();
@@ -104,7 +103,7 @@ namespace Prism
             // once and only once, ever
             if (Interlocked.Increment(ref _initialized) == 1)
             {
-                _navigationService = Container.CreateNavigationService(SupportedNavigationGestures());
+                NavigationService = Container.CreateNavigationService(SupportedNavigationGestures());
 
                 _logger.Log("[App.OnInitialize()]", Category.Info, Priority.None);
                 OnInitialized();
@@ -221,13 +220,9 @@ namespace Prism
 
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            // don't forget there is no logger yet
-            Debug.WriteLine($"{nameof(PrismApplicationBase)}.{nameof(RegisterRequiredTypes)}()");
-
-            // required for view-models
-
             containerRegistry.Register<IPlatformNavigationService, NavigationService>(NavigationServiceParameterName);
             containerRegistry.Register<IGestureService, GestureService>();
+            containerRegistry.Register<IFrameFacade, FrameFacade>();
 
             // standard prism services
             containerRegistry.RegisterInstance<IContainerExtension>(_containerExtension);

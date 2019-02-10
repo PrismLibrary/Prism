@@ -3,37 +3,36 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Prism.Logging;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Prism.Navigation
 {
     public class NavigationService : IPlatformNavigationService, IFrameFacadeProvider
     {
-        IFrameFacade IFrameFacadeProvider.FrameFacade => _frame;
+        IFrameFacade IFrameFacadeProvider.FrameFacade => _frameFacade;
 
-        private IFrameFacade _frame { get; }
+        private IFrameFacade _frameFacade { get; }
         private ILoggerFacade _logger { get; }
 
-        public NavigationService(Frame frame, ILoggerFacade logger)
+        public NavigationService(ILoggerFacade logger, IFrameFacade frameFacade)
         {
-            _frame = new FrameFacade(frame, this);
-            _frame.CanGoBackChanged += (s, e) =>
+            _frameFacade = frameFacade;
+            _frameFacade.CanGoBackChanged += (s, e) =>
                 CanGoBackChanged?.Invoke(this, EventArgs.Empty);
-            _frame.CanGoForwardChanged += (s, e) =>
+            _frameFacade.CanGoForwardChanged += (s, e) =>
                 CanGoForwardChanged?.Invoke(this, EventArgs.Empty);
             _logger = logger;
         }
 
         public async Task RefreshAsync()
-            => await _frame.RefreshAsync();
+            => await _frameFacade.RefreshAsync();
 
         // go forward
 
         public event EventHandler CanGoForwardChanged;
 
         public bool CanGoForward()
-            => _frame.CanGoForward();
+            => _frameFacade.CanGoForward();
 
         public async Task<INavigationResult> GoForwardAsync()
             => await GoForwardAsync(
@@ -41,13 +40,13 @@ namespace Prism.Navigation
 
         public async Task<INavigationResult> GoForwardAsync(INavigationParameters parameters)
         {
-            if (parameters == null && (_frame as IFrameProvider).Frame.ForwardStack.Any())
+            if (parameters == null && _frameFacade is IFrameProvider frameProvider && frameProvider.Frame.ForwardStack.Any())
             {
-                var previous = (_frame as IFrameProvider).Frame.ForwardStack.Last().Parameter?.ToString();
+                var previous = frameProvider.Frame.ForwardStack.Last().Parameter?.ToString();
                 parameters = new NavigationParameters(previous);
             }
 
-            return await _frame.GoForwardAsync(
+            return await _frameFacade.GoForwardAsync(
                   parameters: parameters);
         }
 
@@ -56,7 +55,7 @@ namespace Prism.Navigation
         public event EventHandler CanGoBackChanged;
 
         public bool CanGoBack()
-            => _frame.CanGoBack();
+            => _frameFacade.CanGoBack();
 
         public async Task<INavigationResult> GoBackAsync()
             => await GoBackAsync(
@@ -70,9 +69,9 @@ namespace Prism.Navigation
 
         public async Task<INavigationResult> GoBackAsync(INavigationParameters parameters = null, NavigationTransitionInfo infoOverride = null)
         {
-            if (parameters == null && (_frame as IFrameProvider).Frame.BackStack.Any())
+            if (parameters == null && _frameFacade is IFrameProvider frameProvider && frameProvider.Frame.BackStack.Any())
             {
-                var previous = (_frame as IFrameProvider).Frame.BackStack.Last().Parameter?.ToString();
+                var previous = frameProvider.Frame.BackStack.Last().Parameter?.ToString();
                 if (previous is null)
                 {
                     parameters = new NavigationParameters();
@@ -83,7 +82,7 @@ namespace Prism.Navigation
                 }
             }
 
-            return await _frame.GoBackAsync(
+            return await _frameFacade.GoBackAsync(
                     parameters: parameters,
                     infoOverride: infoOverride);
         }
@@ -126,7 +125,7 @@ namespace Prism.Navigation
 
             try
             {
-                return await _frame.NavigateAsync(
+                return await _frameFacade.NavigateAsync(
                     uri: uri,
                     parameter: parameter,
                     infoOverride: infoOverride);

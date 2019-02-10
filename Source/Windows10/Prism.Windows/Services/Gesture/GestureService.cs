@@ -14,12 +14,12 @@ namespace Prism.Services
 {
     public class GestureService : IGestureService, IDestructibleGestureService
     {
-        public GestureService(CoreWindow window)
+        public GestureService(CoreWindow window, ILoggerFacade logger)
         {
             window.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
             window.PointerPressed += CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested += GestureService_BackRequested;
-            _logger = PrismApplicationBase.Current.Container.Resolve<ILoggerFacade>();
+            _logger = logger;
         }
 
         public event EventHandler MenuRequested;
