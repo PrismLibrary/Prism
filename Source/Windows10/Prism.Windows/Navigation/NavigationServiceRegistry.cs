@@ -20,7 +20,7 @@ namespace Prism.Navigation
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static INavigationService CreateNavigationService(this IContainerProvider container, params Gesture[] gestures)
         {
-            return CreateNavigationService(container, new Frame(), Window.Current.CoreWindow, gestures);
+            return CreateNavigationService(container, null, Window.Current.CoreWindow, gestures);
         }
 
         /// <summary>
@@ -41,9 +41,9 @@ namespace Prism.Navigation
         /// <param name="gestures">Optional default getures tied to this Frame</param>
         /// <returns>INavigationService</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static INavigationService Create(this IContainerProvider container, CoreWindow window, params Gesture[] gestures)
+        public static INavigationService CreateNavigationService(this IContainerProvider container, CoreWindow window, params Gesture[] gestures)
         {
-            return CreateNavigationService(container, new Frame(), window, gestures);
+            return CreateNavigationService(container, null, window, gestures);
         }
 
         /// <summary>
@@ -55,7 +55,8 @@ namespace Prism.Navigation
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static INavigationService CreateNavigationService(this IContainerProvider container, Frame frame, CoreWindow window, params Gesture[] gestures)
         {
-            frame = frame ?? new Frame();
+            if (frame is null)
+                frame = new Frame();
 
             if (_instances.ContainsKey(frame))
                 return _instances[frame];

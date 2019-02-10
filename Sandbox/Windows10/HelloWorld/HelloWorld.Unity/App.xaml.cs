@@ -31,11 +31,11 @@ namespace Sample
             InitializeComponent();
         }
 
-        protected override void RegisterTypes(IContainerRegistry container)
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            container.RegisterSingleton<IDatabase, Database>();
-            container.RegisterForNavigation<MainPage, MainPageViewModel>();
-            container.RegisterForNavigation<ItemPage, ItemPageViewModel>();
+            containerRegistry.RegisterSingleton<IDatabase, Database>();
+            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<ItemPage, ItemPageViewModel>();
         }
 
         protected override void OnStart(StartArgs args)

@@ -104,7 +104,7 @@ namespace Prism
             // once and only once, ever
             if (Interlocked.Increment(ref _initialized) == 1)
             {
-                _navigationService = Container.CreateNavigationService(StartupNavigationGestures());
+                _navigationService = Container.CreateNavigationService(SupportedNavigationGestures());
 
                 _logger.Log("[App.OnInitialize()]", Category.Info, Priority.None);
                 OnInitialized();
@@ -178,7 +178,7 @@ namespace Prism
 
         protected virtual Task OnSuspendingAsync() => Task.CompletedTask;
 
-        protected abstract void RegisterTypes(IContainerRegistry container);
+        protected abstract void RegisterTypes(IContainerRegistry containerRegistry);
 
         protected virtual void OnInitialized()
         {
@@ -189,7 +189,7 @@ namespace Prism
 
         protected virtual Task OnStartAsync(StartArgs args) => Task.CompletedTask;
 
-        protected virtual Gesture[] StartupNavigationGestures() => new Gesture[] { Gesture.Back, Gesture.Forward, Gesture.Refresh };
+        protected virtual Gesture[] SupportedNavigationGestures() => new Gesture[] { Gesture.Back, Gesture.Forward, Gesture.Refresh };
 
         protected virtual void ConfigureViewModelLocator()
         {
@@ -199,7 +199,7 @@ namespace Prism
 
                 if (view is Page page && page.Frame != null)
                 {
-                    navigationService = Container.CreateNavigationService(page.Frame);
+                    navigationService = Container.CreateNavigationService(page.Frame, SupportedNavigationGestures());
                 }
 
                 return Container.Resolve(viewModelType, (typeof(INavigationService), navigationService));
