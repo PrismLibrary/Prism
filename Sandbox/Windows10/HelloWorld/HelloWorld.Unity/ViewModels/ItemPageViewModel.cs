@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Navigation;
 using SampleData.StarTrek;
 using Windows.UI.Xaml.Media.Animation;
@@ -7,25 +8,17 @@ namespace Sample.ViewModels
 {
     internal class ItemPageViewModel : BindableBase, INavigatedAware
     {
-        private INavigationService _nav;
+        private INavigationService _navigationService { get; }
 
-        public ItemPageViewModel()
+        public ItemPageViewModel(INavigationService navigationService)
         {
-            // empty
+            _navigationService = navigationService;
+            GoBackCommand = new DelegateCommand(OnGoBackCommandExecuted);
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            _nav = parameters.GetNavigationService();
-            if (parameters.TryGetValue<string>(nameof(Member), out var parameter))
-            {
-                if (Member.TryFromJson(parameter, out var member))
-                {
-                    Member = member;
-                }
-                else { /* invalid parameter */ }
-            }
-            else { /* missing parameter */ }
+            Member = parameters.GetValue<Member>("member");
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
@@ -40,9 +33,11 @@ namespace Sample.ViewModels
             set => SetProperty(ref _member, value);
         }
 
-        public async void GoBack()
+        public DelegateCommand GoBackCommand { get; }
+
+        private async void OnGoBackCommandExecuted()
         {
-            await _nav.GoBackAsync();
+            await _navigationService.GoBackAsync();
         }
     }
 }

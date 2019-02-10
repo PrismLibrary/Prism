@@ -8,7 +8,5 @@ namespace Sample.Views
         {
             InitializeComponent();
         }
-
-        ViewModels.ItemPageViewModel ViewModel => DataContext as ViewModels.ItemPageViewModel;
     }
 }

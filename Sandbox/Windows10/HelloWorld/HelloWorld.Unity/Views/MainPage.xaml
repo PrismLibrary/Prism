@@ -2,34 +2,47 @@
     x:Class="Sample.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Sample.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:models="using:SampleData.StarTrek"
-    xmlns:viewmodels="using:Sample.ViewModels"
+    xmlns:converter="using:HelloWorld.Converters"
     xmlns:controls="using:Sample.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <CollectionViewSource x:Name="cvs" IsSourceGrouped="True" Source="{x:Bind ViewModel.Members}" ItemsPath="Members" />
+        <CollectionViewSource x:Name="cvs" IsSourceGrouped="True" Source="{Binding Members}" ItemsPath="Members" />
+        <converter:ItemClickedConverter x:Name="itemClickedConverter" />
     </Page.Resources>
 
 <Page.TopAppBar>
     <CommandBar IsDynamicOverflowEnabled="False">
         <CommandBar.Content>
-            <TextBlock Text="Star Trek" VerticalAlignment="Center" Margin="16,8,0,0" 
-                        Style="{StaticResource TitleTextBlockStyle}" />
+            <TextBlock Text="Star Trek"
+                       VerticalAlignment="Center"
+                       Margin="16,8,0,0" 
+                       Style="{StaticResource TitleTextBlockStyle}" />
         </CommandBar.Content>
         <controls:AppBarLiteral>
-            <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search" Width="250" Margin="0,8,4,0"
-                            Text="{x:Bind ViewModel.SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <AutoSuggestBox QueryIcon="Find"
+                            PlaceholderText="Search"
+                            Width="250"
+                            Margin="0,8,4,0"
+                            Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </controls:AppBarLiteral>
         <AppBarButton Label="Info" Icon="World" AccessKey="i" />
     </CommandBar>
 </Page.TopAppBar>
 
-    <GridView ItemsSource="{Binding Source={StaticResource cvs}}" IsItemClickEnabled="True" ItemClick="{x:Bind ViewModel.ItemClick}">
+    <GridView ItemsSource="{Binding Source={StaticResource cvs}}" IsItemClickEnabled="True">
+        <i:Interaction.Behaviors>
+            <core:EventTriggerBehavior EventName="ItemClick">
+                <core:InvokeCommandAction Command="{Binding ItemSelectedCommand}"
+                                          InputConverter="{StaticResource itemClickedConverter}" />
+            </core:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
         <GridView.GroupStyle>
             <GroupStyle>
                 <GroupStyle.HeaderContainerStyle>

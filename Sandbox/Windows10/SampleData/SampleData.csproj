@@ -110,6 +110,7 @@
     <Compile Include="Email\Database.cs" />
     <Compile Include="Email\Message.cs" />
     <Compile Include="Email\Recipient.cs" />
+    <Compile Include="IDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StarTrek\Database.cs" />
     <Compile Include="StarTrek\Image.cs" />

@@ -4,6 +4,7 @@ using Prism.Navigation;
 using Prism.Unity;
 using Sample.ViewModels;
 using Sample.Views;
+using SampleData.StarTrek;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,6 +33,7 @@ namespace Sample
 
         protected override void RegisterTypes(IContainerRegistry container)
         {
+            container.RegisterSingleton<IDatabase, Database>();
             container.RegisterForNavigation<MainPage, MainPageViewModel>();
             container.RegisterForNavigation<ItemPage, ItemPageViewModel>();
         }
