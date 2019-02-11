@@ -12,7 +12,7 @@ namespace Prism.Navigation.Xaml
         {
             var result = GoBackType == GoBackType.ToRoot ?
                 await navigationService.GoBackToRootAsync(parameters) :
-                await navigationService.GoBackAsync(parameters);
+                await navigationService.GoBackAsync(parameters, animated: Animated, useModalNavigation: UseModalNavigation);
 
             if (result.Exception != null)
             {
