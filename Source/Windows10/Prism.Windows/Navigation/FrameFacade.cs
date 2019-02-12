@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Prism.Ioc;
 using Prism.Logging;
 using Prism.Utilities;
 using Windows.UI.Core;
@@ -11,20 +10,19 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Prism.Navigation
 {
-    public class FrameFacade : IFrameFacade, IFrameFacade2
+    public class FrameFacade : IFrameFacade, IFrameProvider
     {
         private readonly bool _logStartingEvents = false;
 
         private readonly Frame _frame;
         private readonly CoreDispatcher _dispatcher;
         private readonly SynchronizationContext _syncContext;
-        private readonly IPlatformNavigationService _navigationService;
         private readonly ILoggerFacade _logger;
 
         public event EventHandler CanGoBackChanged;
         public event EventHandler CanGoForwardChanged;
 
-        internal FrameFacade(Frame frame, IPlatformNavigationService navigationService)
+        public FrameFacade(Frame frame, ILoggerFacade logger)
         {
             _frame = frame;
             _frame.ContentTransitions = new TransitionCollection
@@ -38,11 +36,10 @@ namespace Prism.Navigation
 
             _dispatcher = frame.Dispatcher;
             _syncContext = SynchronizationContext.Current;
-            _navigationService = navigationService;
-            _logger = PrismApplicationBase.Current.Container.Resolve<ILoggerFacade>();
+            _logger = logger;
         }
 
-        Frame IFrameFacade2.Frame
+        Frame IFrameProvider.Frame
             => _frame;
 
         public bool CanGoBack()
@@ -414,7 +411,6 @@ namespace Prism.Navigation
         {
             parameters = parameters ?? new NavigationParameters();
             parameters.SetNavigationMode(mode);
-            parameters.SetNavigationService(_navigationService);
             parameters.SetSyncronizationContext(_syncContext);
             return parameters;
         }

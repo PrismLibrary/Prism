@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -10,9 +11,10 @@ namespace Prism.Navigation
     {
         internal static Frame GetXamlFrame(this INavigationService service)
         {
-            return ((service as IPlatformNavigationService2).FrameFacade as IFrameFacade2).Frame;
+            return ((service as IFrameFacadeProvider).FrameFacade as IFrameProvider).Frame;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static INavigationService SetAsWindowContent(this INavigationService service, Window window, bool activate)
         {
             window.Content = service.GetXamlFrame();
@@ -23,14 +25,14 @@ namespace Prism.Navigation
             return service;
         }
 
-        public static async Task<INavigationResult> NavigateAsync(this INavigationService service, string path, params (string Name, string Value)[] parameters)
+        public static async Task<INavigationResult> NavigateAsync(this INavigationService service, string path, params (string Name, object Value)[] parameters)
         {
-            return await service.NavigateAsync(PathBuilder.Create(path, parameters).ToString());
+            return await service.NavigateAsync(path, GetNavigationParameters(parameters));
         }
 
-        public static async Task<INavigationResult> NavigateAsync(this INavigationService service, string path, NavigationTransitionInfo infoOverride = null, params (string Name, string Value)[] parameters)
+        public static async Task<INavigationResult> NavigateAsync(this INavigationService service, string path, NavigationTransitionInfo infoOverride = null, params (string Name, object Value)[] parameters)
         {
-            return await service.NavigateAsync(PathBuilder.Create(path, parameters).ToString(), null, infoOverride);
+            return await service.NavigateAsync(path, GetNavigationParameters(parameters), infoOverride);
         }
 
         public static Task RefreshAsync(this INavigationService service)
@@ -38,9 +40,6 @@ namespace Prism.Navigation
 
         public static bool CanGoBack(this INavigationService service)
             => (service as IPlatformNavigationService).CanGoBack();
-
-        public static Task GoBackAsync(this INavigationService service, INavigationParameters parameters, NavigationTransitionInfo infoOverride)
-            => (service as IPlatformNavigationService).RefreshAsync();
 
         public static bool CanGoForward(this INavigationService service)
             => (service as IPlatformNavigationService).CanGoForward();
@@ -54,27 +53,22 @@ namespace Prism.Navigation
         public static Task<INavigationResult> NavigateAsync(this INavigationService service, Uri path, INavigationParameters parameter, NavigationTransitionInfo infoOverride)
             => (service as IPlatformNavigationService).NavigateAsync(path, parameter, infoOverride);
 
-        public static Task<INavigationResult> GoBackAsync(this INavigationService navigationService, params (string Key, object Value)[] parameters)
+        public static Task<INavigationResult> GoBackAsync(this INavigationService navigationService, params (string Name, object Value)[] parameters)
         {
             return navigationService.GoBackAsync(GetNavigationParameters(parameters));
         }
 
-        public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, string name, params (string Key, object Value)[] parameters)
-        {
-            return navigationService.NavigateAsync(name, GetNavigationParameters(parameters));
-        }
-
-        public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, Uri uri, params (string Key, object Value)[] parameters)
+        public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, Uri uri, params (string Name, object Value)[] parameters)
         {
             return navigationService.NavigateAsync(uri, GetNavigationParameters(parameters));
         }
 
-        private static INavigationParameters GetNavigationParameters((string Key, object Value)[] parameters)
+        private static INavigationParameters GetNavigationParameters((string Name, object Value)[] parameters)
         {
             var navParams = new NavigationParameters();
-            foreach (var (Key, Value) in parameters)
+            foreach (var (Name, Value) in parameters)
             {
-                navParams.Add(Key, Value);
+                navParams.Add(Name, Value);
             }
             return navParams;
         }

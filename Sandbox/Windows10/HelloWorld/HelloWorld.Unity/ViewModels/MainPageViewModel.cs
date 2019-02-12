@@ -1,40 +1,33 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Navigation;
 using Sample.Models;
 using SampleData.StarTrek;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Sample.ViewModels
 {
     class MainPageViewModel : BindableBase, INavigatedAwareAsync
     {
-        private static readonly Database _data;
+        private IDatabase _data { get; }
 
-        static MainPageViewModel()
+        private INavigationService _navigationService { get; }
+
+        public MainPageViewModel(IDatabase data, INavigationService navigationService)
         {
-            _data = new Database();
-        }
-
-        private INavigationService _nav;
-
-        public MainPageViewModel()
-        {
-            PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName.Equals(nameof(SearchString)))
-                {
-                    FillMembers();
-                }
-            };
+            _data = data;
+            _navigationService = navigationService;
+            ItemSelectedCommand = new DelegateCommand<Member>(OnItemSelectedCommandExecuted);
         }
 
         public async Task OnNavigatedToAsync(INavigationParameters parameters)
         {
-            _nav = parameters.GetNavigationService();
             await _data.OpenAsync();
             FillMembers();
         }
@@ -45,8 +38,10 @@ namespace Sample.ViewModels
         public string SearchString
         {
             get => _searchString;
-            set => SetProperty(ref _searchString, value);
+            set => SetProperty(ref _searchString, value, onChanged: FillMembers);
         }
+
+        public DelegateCommand<Member> ItemSelectedCommand { get; }
 
         private void FillMembers()
         {
@@ -71,12 +66,9 @@ namespace Sample.ViewModels
             }
         }
 
-        public async void ItemClick(object sender, Windows.UI.Xaml.Controls.ItemClickEventArgs e)
+        private async void OnItemSelectedCommandExecuted(Member member)
         {
-            if (e.ClickedItem is Member m)
-            {
-                await _nav.NavigateAsync(nameof(Views.ItemPage), new DrillInNavigationTransitionInfo(), (nameof(Member), m.ToJson()));
-            }
+            await _navigationService.NavigateAsync("ItemPage", new DrillInNavigationTransitionInfo(), ("member", member));
         }
     }
 }

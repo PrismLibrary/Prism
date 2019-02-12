@@ -9,7 +9,7 @@ using Windows.Storage;
 
 namespace SampleData.StarTrek
 {
-    public class Database
+    public class Database : IDatabase
     {
         public Member[] Members { get; private set; }
 

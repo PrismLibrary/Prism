@@ -14,6 +14,11 @@ namespace Prism.Ioc
             return (T)provider.Resolve(typeof(T), parameters);
         }
 
+        public static T Resolve<T>(this IContainerProvider provider, string name, params (Type Type, object Instance)[] parameters)
+        {
+            return (T)provider.Resolve(typeof(T), name, parameters);
+        }
+
         public static T Resolve<T>(this IContainerProvider provider, string name)
         {
             return (T)provider.Resolve(typeof(T), name);

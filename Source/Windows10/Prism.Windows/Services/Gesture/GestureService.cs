@@ -8,51 +8,18 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
+using System.ComponentModel;
 
 namespace Prism.Services
 {
-    public class GestureService : IGestureService
+    public class GestureService : IGestureService, IDestructibleGestureService
     {
-        private static Dictionary<CoreWindow, IGestureService> _cache
-            = new Dictionary<CoreWindow, IGestureService>();
-
-        public static IGestureService GetForCurrentView(CoreWindow window = null)
-        {
-            if (!_cache.ContainsKey(window ?? Window.Current.CoreWindow))
-            {
-                throw new Exception("Not setup for current view.");
-            }
-            return _cache[Window.Current.CoreWindow];
-        }
-
-        public static void SetupForCurrentView(CoreWindow window)
-        {
-            if (_cache.ContainsKey(window))
-            {
-                throw new Exception("Already setup for current view.");
-            }
-            _cache.Add(window, new GestureService(window));
-
-            // remove when closed
-
-            void Window_Closed(CoreWindow sender, CoreWindowEventArgs args)
-            {
-                window.Closed -= Window_Closed;
-                if (_cache.ContainsKey(window))
-                {
-                    (_cache[window] as GestureService).Dispose(window);
-                    _cache.Remove(window);
-                }
-            }
-            window.Closed += Window_Closed;
-        }
-
-        private GestureService(CoreWindow window)
+        public GestureService(CoreWindow window, ILoggerFacade logger)
         {
             window.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
             window.PointerPressed += CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested += GestureService_BackRequested;
-            _logger = PrismApplicationBase.Current.Container.Resolve<ILoggerFacade>();
+            _logger = logger;
         }
 
         public event EventHandler MenuRequested;
@@ -94,7 +61,7 @@ namespace Prism.Services
         public bool RaiseSearchRequested() => IfCanRaiseEvent(Gesture.Search, () => SearchRequested?.Invoke(this, EventArgs.Empty));
         public bool RaiseMenuRequested() => IfCanRaiseEvent(Gesture.Menu, () => MenuRequested?.Invoke(null, EventArgs.Empty));
 
-        private void Dispose(CoreWindow window)
+        public void Destroy(CoreWindow window)
         {
             window.Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
             window.PointerPressed -= CoreWindow_PointerPressed;

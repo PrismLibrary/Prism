@@ -61,6 +61,11 @@ namespace Prism.DryIoc
             return Instance.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
         }
 
+        public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
+        {
+            return Instance.Resolve(type, name, args: parameters.Select(p => p.Instance).ToArray());
+        }
+
         public bool IsRegistered(Type type)
         {
             return Instance.IsRegistered(type);

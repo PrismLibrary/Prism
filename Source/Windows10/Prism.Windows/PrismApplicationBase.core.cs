@@ -17,10 +17,10 @@ using Windows.UI.Xaml.Controls;
 
 namespace Prism
 {
-    public abstract partial class PrismApplicationBase : IPrismApplicationBase
+    public abstract partial class PrismApplicationBase
     {
         public new static PrismApplicationBase Current => (PrismApplicationBase)Application.Current;
-        private static SemaphoreSlim _startSemaphore = new SemaphoreSlim(1, 1);
+        private static readonly SemaphoreSlim _startSemaphore = new SemaphoreSlim(1, 1);
         public const string NavigationServiceParameterName = "navigationService";
         private readonly bool _logStartingEvents = false;
 
@@ -30,7 +30,7 @@ namespace Prism
             _logger.Log("[App.Constructor()]", Category.Info, Priority.None);
             (this as IPrismApplicationEvents).WindowCreated += (s, e) =>
             {
-                GestureService.SetupForCurrentView(e.Window.CoreWindow);
+                Container.SetupForCurrentView(e.Window.CoreWindow);
             };
             base.Suspending += async (s, e) =>
             {
@@ -56,8 +56,10 @@ namespace Prism
             };
         }
 
-        IContainerExtension _containerExtension;
+        private IContainerExtension _containerExtension;
         public IContainerProvider Container => _containerExtension;
+
+        protected INavigationService NavigationService { get; private set; }
 
         private void InternalInitialize()
         {
@@ -69,10 +71,10 @@ namespace Prism
 
             // dependecy injection
             _containerExtension = CreateContainerExtension();
-            RegisterRequiredTypes(_containerExtension as IContainerRegistry);
+            RegisterRequiredTypes(_containerExtension);
 
             Debug.WriteLine("[App.RegisterTypes()]");
-            RegisterTypes(_containerExtension as IContainerRegistry);
+            RegisterTypes(_containerExtension);
 
             Debug.WriteLine("Dependency container has just been finalized.");
             _containerExtension.FinalizeExtension();
@@ -101,6 +103,8 @@ namespace Prism
             // once and only once, ever
             if (Interlocked.Increment(ref _initialized) == 1)
             {
+                NavigationService = Container.CreateNavigationService(SupportedNavigationGestures());
+
                 _logger.Log("[App.OnInitialize()]", Category.Info, Priority.None);
                 OnInitialized();
             }
@@ -167,38 +171,43 @@ namespace Prism
             set => ApplicationData.Current.LocalSettings.Values["Suspend_Data"] = value;
         }
 
-#region overrides
+        #region overrides
 
-        public virtual void OnSuspending() { /* empty */ }
+        protected virtual void OnSuspending() { /* empty */ }
 
-        public virtual Task OnSuspendingAsync() => Task.CompletedTask;
+        protected virtual Task OnSuspendingAsync() => Task.CompletedTask;
 
-        public abstract void RegisterTypes(IContainerRegistry container);
+        protected abstract void RegisterTypes(IContainerRegistry containerRegistry);
 
-        public virtual void OnInitialized() { /* empty */ }
-
-        public virtual void OnStart(StartArgs args) {  /* empty */ }
-
-        public virtual Task OnStartAsync(StartArgs args) => Task.CompletedTask;
-
-        public virtual void ConfigureViewModelLocator()
+        protected virtual void OnInitialized()
         {
-            ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
+            NavigationService.SetAsWindowContent(Window.Current, true);
+        }
+
+        protected virtual void OnStart(StartArgs args) {  /* empty */ }
+
+        protected virtual Task OnStartAsync(StartArgs args) => Task.CompletedTask;
+
+        protected virtual Gesture[] SupportedNavigationGestures() => new Gesture[] { Gesture.Back, Gesture.Forward, Gesture.Refresh };
+
+        protected virtual void ConfigureViewModelLocator()
+        {
+            ViewModelLocationProvider.SetDefaultViewModelFactory((view, viewModelType) =>
             {
                 INavigationService navigationService = null;
 
                 if (view is Page page && page.Frame != null)
                 {
-                    navigationService = NavigationService.Instances[page.Frame];
+                    navigationService = Container.CreateNavigationService(page.Frame, SupportedNavigationGestures());
                 }
 
-                return Container.Resolve(type, (typeof(INavigationService), navigationService));
+                return Container.Resolve(viewModelType, (typeof(INavigationService), navigationService));
             });
         }
 
-        public virtual void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) { /* empty */ }
+        protected virtual void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) { /* empty */ }
 
-        protected void InitializeModules()
+        protected virtual void InitializeModules()
         {
             if (Container.Resolve<IModuleCatalog>().Modules.Any())
             {
@@ -207,16 +216,13 @@ namespace Prism
             }
         }
 
-        public abstract IContainerExtension CreateContainerExtension();
+        protected abstract IContainerExtension CreateContainerExtension();
 
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            // don't forget there is no logger yet
-            Debug.WriteLine($"{nameof(PrismApplicationBase)}.{nameof(RegisterRequiredTypes)}()");
-
-            // required for view-models
-
-            containerRegistry.Register<INavigationService, NavigationService>(NavigationServiceParameterName);
+            containerRegistry.Register<IPlatformNavigationService, NavigationService>(NavigationServiceParameterName);
+            containerRegistry.Register<IGestureService, GestureService>();
+            containerRegistry.Register<IFrameFacade, FrameFacade>();
 
             // standard prism services
             containerRegistry.RegisterInstance<IContainerExtension>(_containerExtension);

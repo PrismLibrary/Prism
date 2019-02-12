@@ -108,5 +108,10 @@ namespace Prism.Forms.Tests.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

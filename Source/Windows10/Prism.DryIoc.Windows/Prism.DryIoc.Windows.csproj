@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="DryIoc.dll" Version="3.0.2" />
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.9" />
   </ItemGroup>
 
   <ItemGroup>

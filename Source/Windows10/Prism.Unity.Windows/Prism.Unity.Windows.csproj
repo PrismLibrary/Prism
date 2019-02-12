@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="Unity.Container" Version="5.8.13" />
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.9" />
   </ItemGroup>
 
   <ItemGroup>
