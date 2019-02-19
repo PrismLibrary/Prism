@@ -4,7 +4,6 @@ using Windows.Storage;
 
 namespace Prism
 {
-
     public class ResumeArgs : IResumeArgs, IActivatedEventArgs
     {
         public ActivationKind Kind { get; set; }
