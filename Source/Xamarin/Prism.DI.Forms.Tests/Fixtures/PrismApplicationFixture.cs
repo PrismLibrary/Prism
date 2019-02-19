@@ -25,6 +25,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using Xamarin.Forms;
+using Xamarin.Forms.Mocks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -141,6 +142,40 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             Assert.IsType<NullReferenceException>(result.Exception);
 #endif
             Assert.Contains("missing", result.Exception.ToString(), StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Theory]
+        [InlineData(typeof(AutowireView), TargetIdiom.Unsupported)]
+        [InlineData(typeof(AutowireViewTablet), TargetIdiom.Tablet)]
+        public async Task NavigationUses_IdiomSpecificView(Type viewType, TargetIdiom idiom)
+        {
+            Device.SetIdiom(idiom);
+            var initializer = new XunitPlatformInitializer(_testOutputHelper);
+            var app = new PrismApplicationMockPlatformAware(initializer);
+
+            Assert.True(app.Initialized);
+            await app.NavigationService.NavigateAsync("AutowireView");
+            Assert.IsType(viewType, app.MainPage);
+            Assert.IsType<AutowireViewModel>(app.MainPage.BindingContext);
+
+            Device.SetIdiom(TargetIdiom.Unsupported);
+        }
+
+        [Theory]
+        [InlineData(typeof(ViewAMock), "Test")]
+        [InlineData(typeof(ViewAMockAndroid), Device.Android)]
+        public async Task NavigationUses_PlatformSpecificView(Type viewType, string runtimePlatform)
+        {
+            MockForms.UpdateRuntimePlatform(runtimePlatform);
+            var initializer = new XunitPlatformInitializer(_testOutputHelper);
+            var app = new PrismApplicationMockPlatformAware(initializer);
+
+            Assert.True(app.Initialized);
+            await app.NavigationService.NavigateAsync("ViewAMock");
+            Assert.IsType(viewType, app.MainPage);
+            Assert.IsType<ViewModelAMock>(app.MainPage.BindingContext);
+
+            MockForms.UpdateRuntimePlatform("Test");
         }
 
         [Fact]

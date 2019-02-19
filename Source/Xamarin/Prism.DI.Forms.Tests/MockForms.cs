@@ -27,6 +27,11 @@ namespace Xamarin.Forms.Mocks
             OpenUriAction = null;
         }
 
+        public static void UpdateRuntimePlatform(string runtimePlatform)
+        {
+            Device.PlatformServices = new PlatformServices(runtimePlatform);
+        }
+
         private class PlatformServices : IPlatformServices
         {
             public PlatformServices(string runtimePlatform)
