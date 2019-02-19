@@ -1,6 +1,7 @@
 ﻿using Prism.Mvvm;
 using Prism.Navigation;
 using System;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace Prism.Ioc
@@ -126,13 +127,15 @@ namespace Prism.Ioc
             if (string.IsNullOrWhiteSpace(name))
                 name = typeof(TView).Name;
 
-            foreach (var platform in platforms)
+            if(platforms.Any(x => x.RuntimePlatform.ToString() == Device.RuntimePlatform))
             {
-                if (Device.RuntimePlatform == platform.RuntimePlatform.ToString())
-                    containerRegistry.RegisterForNavigationWithViewModel<TViewModel>(platform.ViewType, name);
+                var platform = platforms.First(x => x.RuntimePlatform.ToString() == Device.RuntimePlatform);
+                containerRegistry.RegisterForNavigationWithViewModel<TViewModel>(platform.ViewType, name);
             }
-
-            containerRegistry.RegisterForNavigation<TView, TViewModel>(name);
+            else
+            {
+                containerRegistry.RegisterForNavigation<TView, TViewModel>(name);
+            }
         }
 
         /// <summary>
