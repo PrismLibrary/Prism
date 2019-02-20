@@ -48,7 +48,9 @@
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(IS_RELEASE)' "></VersionSuffix>
-    <PackageReleaseNotes>https://github.com/PrismLibrary/Prism/releases/tag/v$(Version)</PackageReleaseNotes>
+    <PackageReleaseNotes Condition=" '$(VersionSuffix)' == 'pre' ">https://github.com/PrismLibrary/Prism/releases/tag/v$(VersionPrefix)-pre</PackageReleaseNotes>
+    <PackageReleaseNotes Condition=" '$(VersionSuffix)' == '' ">https://github.com/PrismLibrary/Prism/releases/tag/v$(VersionPrefix)</PackageReleaseNotes>
+    <PackageReleaseNotes Condition=" '$(Version)' != '' ">https://github.com/PrismLibrary/Prism/releases/tag/v$(Version)</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
