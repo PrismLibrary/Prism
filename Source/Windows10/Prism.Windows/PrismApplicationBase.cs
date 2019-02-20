@@ -1,37 +1,36 @@
-﻿using Prism.Events;
-using Prism.Ioc;
-using Prism.Logging;
-using Prism.Navigation;
-using Prism.Mvvm;
-using System;
-using System.Linq;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
+using Prism.Events;
+using Prism.Ioc;
+using Prism.Logging;
+using Prism.Modularity;
+using Prism.Mvvm;
+using Prism.Navigation;
 using Prism.Services;
 using Windows.ApplicationModel.Activation;
+using Windows.Foundation;
 using Windows.Storage;
-using Prism.Modularity;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Prism
 {
-    public abstract partial class PrismApplicationBase
+    public abstract class PrismApplicationBase : Application, IPrismApplicationEvents
     {
+        static int _initialized = 0;
         public new static PrismApplicationBase Current => (PrismApplicationBase)Application.Current;
         private static readonly SemaphoreSlim _startSemaphore = new SemaphoreSlim(1, 1);
         public const string NavigationServiceParameterName = "navigationService";
-        private readonly bool _logStartingEvents = false;
 
         public PrismApplicationBase()
         {
             InternalInitialize();
-            _logger.Log("[App.Constructor()]", Category.Info, Priority.None);
-            (this as IPrismApplicationEvents).WindowCreated += (s, e) =>
-            {
-                Container.SetupForCurrentView(e.Window.CoreWindow);
-            };
+
             base.Suspending += async (s, e) =>
             {
                 if (ApplicationData.Current.LocalSettings.Values.ContainsKey("Suspend_Data"))
@@ -63,24 +62,13 @@ namespace Prism
 
         private void InternalInitialize()
         {
-            // don't forget there is no logger yet
-            if (_logStartingEvents)
-            {
-                _logger.Log($"{nameof(PrismApplicationBase)}.{nameof(InternalInitialize)}", Category.Info, Priority.None);
-            }
-
             // dependecy injection
             _containerExtension = CreateContainerExtension();
             RegisterRequiredTypes(_containerExtension);
 
-            Debug.WriteLine("[App.RegisterTypes()]");
             RegisterTypes(_containerExtension);
 
-            Debug.WriteLine("Dependency container has just been finalized.");
             _containerExtension.FinalizeExtension();
-
-            // now we can start logging instead of debug/write
-            _logger = Container.Resolve<ILoggerFacade>();
 
             // finalize the application
             ConfigureViewModelLocator();
@@ -89,23 +77,14 @@ namespace Prism
             InitializeModules();
         }
 
-        static int _initialized = 0;
-        private ILoggerFacade _logger;
 
         private void CallOnInitializedOnce()
         {
-            // don't forget there is no logger yet
-            if (_logStartingEvents)
-            {
-                _logger.Log($"{nameof(PrismApplicationBase)}.{nameof(CallOnInitializedOnce)}", Category.Info, Priority.None);
-            }
-
             // once and only once, ever
             if (Interlocked.Increment(ref _initialized) == 1)
             {
-                NavigationService = Container.CreateNavigationService(SupportedNavigationGestures());
+                NavigationService = CreateNavigationService(null, null, SupportedNavigationGestures());
 
-                _logger.Log("[App.OnInitialize()]", Category.Info, Priority.None);
                 OnInitialized();
             }
         }
@@ -113,25 +92,18 @@ namespace Prism
         private async Task InternalStartAsync(StartArgs startArgs)
         {
             await _startSemaphore.WaitAsync();
-            if (_logStartingEvents)
-            {
-                _logger.Log($"{nameof(PrismApplicationBase)}.{nameof(InternalStartAsync)}({startArgs})", Category.Info, Priority.None);
-            }
 
             try
             {
                 CallOnInitializedOnce();
                 TestResuming(startArgs);
-                _logger.Log($"[App.OnStart(startKind:{startArgs.StartKind}, startCause:{startArgs.StartCause})]", Category.Info, Priority.None);
                 OnStart(startArgs);
-                _logger.Log($"[App.OnStartAsync(startKind:{startArgs.StartKind}, startCause:{startArgs.StartCause})]", Category.Info, Priority.None);
                 await OnStartAsync(startArgs);
                 Window.Current.Activate();
             }
             catch (Exception ex)
             {
-                _logger.Log($"ERROR {ex.Message}", Category.Exception, Priority.High);
-                Debugger.Break();
+                Container.Resolve<ILoggerFacade>().Log(ex.ToString(), Category.Exception, Priority.High);
             }
             finally
             {
@@ -152,26 +124,6 @@ namespace Prism
                 }
             }
         }
-
-        private static DateTime? SuspendData
-        {
-            get
-            {
-                if (ApplicationData.Current.LocalSettings.Values.TryGetValue("Suspend_Data", out var value)
-                    && value != null
-                    && DateTime.TryParse(value.ToString(), out var date))
-                {
-                    return date;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            set => ApplicationData.Current.LocalSettings.Values["Suspend_Data"] = value;
-        }
-
-        #region overrides
 
         protected virtual void OnSuspending() { /* empty */ }
 
@@ -198,7 +150,7 @@ namespace Prism
 
                 if (view is Page page && page.Frame != null)
                 {
-                    navigationService = Container.CreateNavigationService(page.Frame, SupportedNavigationGestures());
+                    navigationService = CreateNavigationService(page.Frame, null, SupportedNavigationGestures());
                 }
 
                 return Container.Resolve(viewModelType, (typeof(INavigationService), navigationService));
@@ -231,6 +183,115 @@ namespace Prism
             containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
             containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
             containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
+        }
+
+        #region Factory Methods
+
+        private INavigationService CreateNavigationService(Frame frame, CoreWindow window, params Gesture[] gestures)
+        {
+            if (frame is null)
+                frame = new Frame();
+
+            if (window is null)
+                window = Window.Current.CoreWindow;
+
+            var gesture_service = CreateGestureServiceForWindow(window);
+            var navigation_service = Container.Resolve<IPlatformNavigationService>(NavigationServiceParameterName, (typeof(Frame), frame));
+            foreach (var gesture in gestures)
+            {
+                switch (gesture)
+                {
+                    case Gesture.Back:
+                        gesture_service.BackRequested += async (s, e) => await navigation_service.GoBackAsync();
+                        break;
+                    case Gesture.Forward:
+                        gesture_service.ForwardRequested += async (s, e) => await navigation_service.GoForwardAsync(default(INavigationParameters));
+                        break;
+                    case Gesture.Refresh:
+                        gesture_service.RefreshRequested += async (s, e) => await navigation_service.RefreshAsync();
+                        break;
+                }
+            }
+
+            return navigation_service;
+        }
+
+        IGestureService CreateGestureServiceForWindow(CoreWindow window)
+        {
+            var service = Container.Resolve<IGestureService>((typeof(CoreWindow), window));
+
+            // remove when closed
+            void Window_Closed(CoreWindow sender, CoreWindowEventArgs args)
+            {
+                window.Closed -= Window_Closed;
+                if (service is IDestructibleGestureService disposable)
+                {
+                    disposable.Destroy(window);
+                }
+            }
+            window.Closed += Window_Closed;
+
+            return service;
+        }
+
+        #endregion
+
+        #region Sealed Application Methods
+
+        protected override sealed async void OnActivated(IActivatedEventArgs e) => await InternalStartAsync(new StartArgs(e, StartKinds.Activate));
+        protected override sealed async void OnCachedFileUpdaterActivated(CachedFileUpdaterActivatedEventArgs e) => await InternalStartAsync(new StartArgs(e, StartKinds.Activate));
+        protected override sealed async void OnFileActivated(FileActivatedEventArgs e) => await InternalStartAsync(new StartArgs(e, StartKinds.Activate));
+        protected override sealed async void OnFileOpenPickerActivated(FileOpenPickerActivatedEventArgs e) => await InternalStartAsync(new StartArgs(e, StartKinds.Activate));
+        protected override sealed async void OnFileSavePickerActivated(FileSavePickerActivatedEventArgs e) => await InternalStartAsync(new StartArgs(e, StartKinds.Activate));
+        protected override sealed async void OnSearchActivated(SearchActivatedEventArgs e) => await InternalStartAsync(new StartArgs(e, StartKinds.Activate));
+        protected override sealed async void OnShareTargetActivated(ShareTargetActivatedEventArgs e) => await InternalStartAsync(new StartArgs(e, StartKinds.Activate));
+        protected override sealed async void OnLaunched(LaunchActivatedEventArgs e) => await InternalStartAsync(new StartArgs(e, StartKinds.Launch));
+        protected override sealed async void OnBackgroundActivated(BackgroundActivatedEventArgs e) => await InternalStartAsync(new StartArgs(e, StartKinds.Background));
+
+        protected override void OnWindowCreated(WindowCreatedEventArgs args)
+        {
+            base.OnWindowCreated(args);
+            _windowCreated?.Invoke(this, args);
+        }
+
+#endregion
+
+#region Prism Events
+
+#pragma warning disable CS0067 // unused events
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private new event EventHandler<object> Resuming;
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private new event SuspendingEventHandler Suspending;
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private new event EnteredBackgroundEventHandler EnteredBackground;
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private new event LeavingBackgroundEventHandler LeavingBackground;
+
+#pragma warning restore CS0067
+
+        EnteredBackgroundEventHandler _enteredBackground;
+        event EnteredBackgroundEventHandler IPrismApplicationEvents.EnteredBackground
+        {
+            add { _enteredBackground += value; }
+            remove { _enteredBackground -= value; }
+        }
+
+        LeavingBackgroundEventHandler _leavingBackground;
+        event LeavingBackgroundEventHandler IPrismApplicationEvents.LeavingBackground
+        {
+            add { _leavingBackground += value; }
+            remove { _leavingBackground -= value; }
+        }
+
+        TypedEventHandler<PrismApplicationBase, WindowCreatedEventArgs> _windowCreated;
+        event TypedEventHandler<PrismApplicationBase, WindowCreatedEventArgs> IPrismApplicationEvents.WindowCreated
+        {
+            add { _windowCreated += value; }
+            remove { _windowCreated -= value; }
         }
 
 #endregion
