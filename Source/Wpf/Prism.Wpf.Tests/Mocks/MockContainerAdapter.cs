@@ -23,32 +23,32 @@ namespace Prism.Wpf.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public void Register(Type from, Type to)
+        public IContainerRegistry Register(Type from, Type to)
         {
             throw new NotImplementedException();
         }
 
-        public void Register(Type from, Type to, string name)
+        public IContainerRegistry Register(Type from, Type to, string name)
         {
             throw new NotImplementedException();
         }
 
-        public void RegisterInstance(Type type, object instance)
+        public IContainerRegistry RegisterInstance(Type type, object instance)
         {
             throw new NotImplementedException();
         }
 
-        public void RegisterInstance(Type type, object instance, string name)
+        public IContainerRegistry RegisterInstance(Type type, object instance, string name)
         {
             throw new NotImplementedException();
         }
 
-        public void RegisterSingleton(Type from, Type to)
+        public IContainerRegistry RegisterSingleton(Type from, Type to)
         {
             throw new NotImplementedException();
         }
 
-        public void RegisterSingleton(Type from, Type to, string name)
+        public IContainerRegistry RegisterSingleton(Type from, Type to, string name)
         {
             throw new NotImplementedException();
         }
