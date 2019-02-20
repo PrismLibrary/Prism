@@ -9,8 +9,14 @@ using Xamarin.Forms.Xaml;
 
 namespace Prism.Navigation.Xaml
 {
-    public abstract class NavigationExtensionBase : IMarkupExtension<ICommand>, ICommand
+    public abstract class NavigationExtensionBase : BindableObject, IMarkupExtension<ICommand>, ICommand
     {
+        public static readonly BindableProperty AnimatedProperty =
+            BindableProperty.Create(nameof(Animated), typeof(bool), typeof(NavigationExtensionBase), true);
+
+        public static readonly BindableProperty UseModalNavigationProperty =
+            BindableProperty.Create(nameof(UseModalNavigation), typeof(bool?), typeof(NavigationExtensionBase), null);
+
         private IServiceProvider ServiceProvider;
 
         private Element _targetElement;
@@ -44,9 +50,17 @@ namespace Prism.Navigation.Xaml
             set => _sourcePage = value;
         }
 
-        public bool Animated { get; set; } = true;
+        public bool Animated
+        {
+            get => (bool)GetValue(AnimatedProperty);
+            set => SetValue(AnimatedProperty, value);
+        }
 
-        public bool? UseModalNavigation { get; set; } 
+        public bool? UseModalNavigation
+        {
+            get => (bool?)GetValue(UseModalNavigationProperty);
+            set => SetValue(UseModalNavigationProperty, value);
+        }
 
         public bool CanExecute(object parameter) => !IsNavigating;
 
@@ -66,7 +80,7 @@ namespace Prism.Navigation.Xaml
             }
             catch(Exception ex)
             {
-                Log(ex);
+                Log(ex, parameters);
             }
             finally
             {
@@ -86,7 +100,7 @@ namespace Prism.Navigation.Xaml
             return this;
         }
 
-        protected virtual void Log(Exception ex)
+        protected virtual void Log(Exception ex, INavigationParameters parameters)
         {
             Xamarin.Forms.Internals.Log.Warning("Warning", $"{GetType().Name} threw an exception");
             Xamarin.Forms.Internals.Log.Warning("Exception", ex.ToString());
