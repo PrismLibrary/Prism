@@ -20,34 +20,40 @@ namespace Prism.Ninject.Ioc
 
         public void FinalizeExtension() { }
 
-        public void RegisterInstance(Type type, object instance)
+        public IContainerRegistry RegisterInstance(Type type, object instance)
         {
             Instance.Bind(type).ToConstant(instance);
+            return this;
         }
 
-        public void RegisterInstance(Type type, object instance, string name)
+        public IContainerRegistry RegisterInstance(Type type, object instance, string name)
         {
             Instance.Bind(type).ToConstant(instance).Named(name);
+            return this;
         }
 
-        public void RegisterSingleton(Type from, Type to)
+        public IContainerRegistry RegisterSingleton(Type from, Type to)
         {
             Instance.Bind(from).To(to).InSingletonScope();
+            return this;
         }
 
-        public void RegisterSingleton(Type from, Type to, string name)
+        public IContainerRegistry RegisterSingleton(Type from, Type to, string name)
         {
             Instance.Bind(from).To(to).InSingletonScope().Named(name);
+            return this;
         }
 
-        public void Register(Type from, Type to)
+        public IContainerRegistry Register(Type from, Type to)
         {
             Instance.Bind(from).To(to).InTransientScope();
+            return this;
         }
 
-        public void Register(Type from, Type to, string name)
+        public IContainerRegistry Register(Type from, Type to, string name)
         {
             Instance.Bind(from).To(to).InTransientScope().Named(name);
+            return this;
         }
 
         public object Resolve(Type type)

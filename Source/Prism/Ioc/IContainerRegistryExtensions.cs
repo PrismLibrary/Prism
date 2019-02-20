@@ -4,64 +4,64 @@ namespace Prism.Ioc
 {
     public static class IContainerRegistryExtensions
     {
-        public static void RegisterInstance<TInterface>(this IContainerRegistry containerRegistry, TInterface instance)
+        public static IContainerRegistry RegisterInstance<TInterface>(this IContainerRegistry containerRegistry, TInterface instance)
         {
-            containerRegistry.RegisterInstance(typeof(TInterface), instance);
+            return containerRegistry.RegisterInstance(typeof(TInterface), instance);
         }
 
-        public static void RegisterInstance<TInterface>(this IContainerRegistry containerRegistry, TInterface instance, string name)
+        public static IContainerRegistry RegisterInstance<TInterface>(this IContainerRegistry containerRegistry, TInterface instance, string name)
         {
-            containerRegistry.RegisterInstance(typeof(TInterface), instance, name);
+            return containerRegistry.RegisterInstance(typeof(TInterface), instance, name);
         }
 
-        public static void RegisterSingleton(this IContainerRegistry containerRegistry, Type type)
+        public static IContainerRegistry RegisterSingleton(this IContainerRegistry containerRegistry, Type type)
         {
-            containerRegistry.RegisterSingleton(type, type);
+            return containerRegistry.RegisterSingleton(type, type);
         }
 
-        public static void RegisterSingleton<TFrom, TTo>(this IContainerRegistry containerRegistry) where TTo : TFrom
+        public static IContainerRegistry RegisterSingleton<TFrom, TTo>(this IContainerRegistry containerRegistry) where TTo : TFrom
         {
-            containerRegistry.RegisterSingleton(typeof(TFrom), typeof(TTo));
+            return containerRegistry.RegisterSingleton(typeof(TFrom), typeof(TTo));
         }
 
-        public static void RegisterSingleton<TFrom, TTo>(this IContainerRegistry containerRegistry, string name) where TTo : TFrom
+        public static IContainerRegistry RegisterSingleton<TFrom, TTo>(this IContainerRegistry containerRegistry, string name) where TTo : TFrom
         {
-            containerRegistry.RegisterSingleton(typeof(TFrom), typeof(TTo), name);
+            return containerRegistry.RegisterSingleton(typeof(TFrom), typeof(TTo), name);
         }
 
-        public static void RegisterSingleton<T>(this IContainerRegistry containerRegistry)
+        public static IContainerRegistry RegisterSingleton<T>(this IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton(typeof(T));
+            return containerRegistry.RegisterSingleton(typeof(T));
         }
 
-        public static void Register(this IContainerRegistry containerRegistry, Type type)
+        public static IContainerRegistry Register(this IContainerRegistry containerRegistry, Type type)
         {
-            containerRegistry.Register(type, type);
+            return containerRegistry.Register(type, type);
         }
 
-        public static void Register<T>(this IContainerRegistry containerRegistry)
+        public static IContainerRegistry Register<T>(this IContainerRegistry containerRegistry)
         {
-            containerRegistry.Register(typeof(T));
+            return containerRegistry.Register(typeof(T));
         }
 
-        public static void Register(this IContainerRegistry containerRegistry, Type type, string name)
+        public static IContainerRegistry Register(this IContainerRegistry containerRegistry, Type type, string name)
         {
-            containerRegistry.Register(type, type, name);
+            return containerRegistry.Register(type, type, name);
         }
 
-        public static void Register<T>(this IContainerRegistry containerRegistry, string name)
+        public static IContainerRegistry Register<T>(this IContainerRegistry containerRegistry, string name)
         {
-            containerRegistry.Register(typeof(T), name);
+            return containerRegistry.Register(typeof(T), name);
         }
 
-        public static void Register<TFrom, TTo>(this IContainerRegistry containerRegistry) where TTo : TFrom
+        public static IContainerRegistry Register<TFrom, TTo>(this IContainerRegistry containerRegistry) where TTo : TFrom
         {
-            containerRegistry.Register(typeof(TFrom), typeof(TTo));
+            return containerRegistry.Register(typeof(TFrom), typeof(TTo));
         }
 
-        public static void Register<TFrom, TTo>(this IContainerRegistry containerRegistry, string name) where TTo : TFrom
+        public static IContainerRegistry Register<TFrom, TTo>(this IContainerRegistry containerRegistry, string name) where TTo : TFrom
         {
-            containerRegistry.Register(typeof(TFrom), typeof(TTo), name);
+            return containerRegistry.Register(typeof(TFrom), typeof(TTo), name);
         }
 
         public static bool IsRegistered<T>(this IContainerRegistry containerRegistry)

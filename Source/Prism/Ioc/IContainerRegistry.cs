@@ -4,17 +4,17 @@ namespace Prism.Ioc
 {
     public interface IContainerRegistry
     {
-        void RegisterInstance(Type type, object instance);
+        IContainerRegistry RegisterInstance(Type type, object instance);
 
-        void RegisterInstance(Type type, object instance, string name);
+        IContainerRegistry RegisterInstance(Type type, object instance, string name);
 
-        void RegisterSingleton(Type from, Type to);
+        IContainerRegistry RegisterSingleton(Type from, Type to);
 
-        void RegisterSingleton(Type from, Type to, string name);
+        IContainerRegistry RegisterSingleton(Type from, Type to, string name);
 
-        void Register(Type from, Type to);
+        IContainerRegistry Register(Type from, Type to);
 
-        void Register(Type from, Type to, string name);
+        IContainerRegistry Register(Type from, Type to, string name);
 
         bool IsRegistered(Type type);
 

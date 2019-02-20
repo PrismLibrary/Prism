@@ -16,34 +16,40 @@ namespace Prism.Unity.Ioc
 
         public void FinalizeExtension() { }
 
-        public void RegisterInstance(Type type, object instance)
+        public IContainerRegistry RegisterInstance(Type type, object instance)
         {
             Instance.RegisterInstance(type, instance);
+            return this;
         }
 
-        public void RegisterInstance(Type type, object instance, string name)
+        public IContainerRegistry RegisterInstance(Type type, object instance, string name)
         {
             Instance.RegisterInstance(type, name, instance);
+            return this;
         }
 
-        public void RegisterSingleton(Type from, Type to)
+        public IContainerRegistry RegisterSingleton(Type from, Type to)
         {
             Instance.RegisterSingleton(from, to);
+            return this;
         }
 
-        public void RegisterSingleton(Type from, Type to, string name)
+        public IContainerRegistry RegisterSingleton(Type from, Type to, string name)
         {
             Instance.RegisterSingleton(from, to, name);
+            return this;
         }
 
-        public void Register(Type from, Type to)
+        public IContainerRegistry Register(Type from, Type to)
         {
             Instance.RegisterType(from, to);
+            return this;
         }
 
-        public void Register(Type from, Type to, string name)
+        public IContainerRegistry Register(Type from, Type to, string name)
         {
             Instance.RegisterType(from, to, name);
+            return this;
         }
 
         public object Resolve(Type type)
