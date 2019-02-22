@@ -163,7 +163,7 @@ namespace Prism.Wpf.Tests
 
             bootstrapper.CallConfigureDefaultRegionBehaviors();
 
-            Assert.Equal(7, bootstrapper.DefaultRegionBehaviorTypes.Count());
+            Assert.Equal(8, bootstrapper.DefaultRegionBehaviorTypes.Count());
         }
 
         private static void CreateAndConfigureServiceLocatorWithDefaultRegionBehaviors()
