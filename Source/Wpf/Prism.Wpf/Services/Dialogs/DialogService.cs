@@ -54,7 +54,7 @@ namespace Prism.Services.Dialogs
 
             var viewModel = dialogContent.DataContext as IDialogAware;
             if (viewModel == null)
-                throw new NullReferenceException("A dialog's ViewModel must implement the IDialog interface");
+                throw new NullReferenceException("A dialog's ViewModel must implement the IDialogAware interface");
 
             MvvmHelpers.ViewAndViewModelAction<IDialogAware>(viewModel, d => d.OnDialogOpened(parameters));
 
