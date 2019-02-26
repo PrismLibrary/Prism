@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Windows;
 using Prism.Regions;
 
-namespace Prism.Services.Dialogs
+namespace Prism.Regions.Behaviors
 {
     public class RegionManagerAwareBehavior : RegionBehavior
     {
