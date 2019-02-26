@@ -1,6 +1,4 @@
-﻿using Prism.Regions;
-
-namespace Prism.Services.Dialogs
+﻿namespace Prism.Regions
 {
     public interface IRegionManagerAware
     {
