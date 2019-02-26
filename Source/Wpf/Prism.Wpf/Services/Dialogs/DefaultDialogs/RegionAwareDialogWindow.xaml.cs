@@ -9,7 +9,7 @@ namespace Prism.Services.Dialogs.DefaultDialogs
     {
         public IDialogResult Result { get; set; }
 
-        public DialogWindow()
+        public RegionAwareDialogWindow()
         {
             InitializeComponent();
         }

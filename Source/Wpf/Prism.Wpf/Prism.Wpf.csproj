@@ -15,6 +15,10 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\Dialogs\DefaultDialogs\RegionAwareDialogWindow.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Condition=" '$(TargetFramework)' == 'net45' " Include="System.Configuration" />
     <Reference Include="System.Windows.Interactivity">
       <HintPath>..\System.Windows.Interactivity.dll</HintPath>
@@ -32,6 +36,15 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
   <ItemGroup>
     <Content Include="..\System.Windows.Interactivity.dll" Pack="true" PackagePath="lib\net45" />
     <Content Include="..\System.Windows.Interactivity.dll" Pack="true" PackagePath="lib\netcoreapp3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Services\Dialogs\DefaultDialogs\DialogWindow - Copy.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Services\Dialogs\DefaultDialogs\RegionAwareDialogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
 </Project>
