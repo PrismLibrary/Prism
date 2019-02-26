@@ -1,0 +1,9 @@
+<Window x:Class="Prism.Services.Dialogs.DefaultDialogs.RegionAwareDialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Title}" Icon="{Binding IconSource}"
+        xmlns:prism="http://prismlibrary.com/"
+        WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight"
+        prism:RegionManager.RegionName="DialogShellRegion">
+    
+</Window>

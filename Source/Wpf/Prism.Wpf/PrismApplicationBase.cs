@@ -119,6 +119,7 @@ namespace Prism
             containerRegistry.RegisterInstance(_moduleCatalog);
             containerRegistry.RegisterSingleton<ILoggerFacade, TextLogger>();
             containerRegistry.RegisterSingleton<IDialogService, DialogService>();
+            containerRegistry.RegisterSingleton<IRegionAwareDialogService,RegionAwareDialogService>();
             containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
             containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
             containerRegistry.RegisterSingleton<RegionAdapterMappings>();
@@ -130,6 +131,7 @@ namespace Prism
             containerRegistry.Register<IRegionNavigationJournal, RegionNavigationJournal>();
             containerRegistry.Register<IRegionNavigationService, RegionNavigationService>();
             containerRegistry.Register<IDialogWindow, Services.Dialogs.DefaultDialogs.DialogWindow>(); //default dialog host
+            containerRegistry.Register<IRegionAwareDialogWindow, Services.Dialogs.DefaultDialogs.RegionAwareDialogWindow>();
         }
 
         /// <summary>
