@@ -11,6 +11,19 @@ namespace Prism.Services.Dialogs
     {
         private readonly IContainerExtension _containerExtension;
 
+        public static readonly DependencyProperty DialogWindowStyleProperty =
+            DependencyProperty.RegisterAttached("DialogWindowStyle", typeof(Style), typeof(DialogService), new PropertyMetadata(null));
+
+        public static Style GetDialogWindowStyle(DependencyObject obj)
+        {
+            return (Style)obj.GetValue(DialogWindowStyleProperty);
+        }
+
+        public static void SetDialogWindowStyle(DependencyObject obj, Style value)
+        {
+            obj.SetValue(DialogWindowStyleProperty, value);
+        }
+
         public DialogService(IContainerExtension containerExtension)
         {
             _containerExtension = containerExtension;
@@ -31,8 +44,6 @@ namespace Prism.Services.Dialogs
             IDialogWindow dialogWindow = CreateDialogWindow();
             ConfigureDialogWindowEvents(dialogWindow, callback);
             ConfigureDialogWindowContent(name, dialogWindow, parameters);
-            
-            dialogWindow.Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
 
             if (isModal)
                 dialogWindow.ShowDialog();
@@ -56,10 +67,9 @@ namespace Prism.Services.Dialogs
             if (viewModel == null)
                 throw new NullReferenceException("A dialog's ViewModel must implement the IDialogAware interface");
 
-            MvvmHelpers.ViewAndViewModelAction<IDialogAware>(viewModel, d => d.OnDialogOpened(parameters));
+            ConfigureDialogWindowProperties(window, dialogContent, viewModel);
 
-            window.Content = dialogContent;
-            window.DataContext = viewModel; //we want the host window and the dialog to share the same data contex
+            MvvmHelpers.ViewAndViewModelAction<IDialogAware>(viewModel, d => d.OnDialogOpened(parameters));            
         }
 
         void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, Action<IDialogResult> callback)
@@ -105,6 +115,21 @@ namespace Prism.Services.Dialogs
                     dialogWindow.Content = null;
                 };
             dialogWindow.Closed += closedHandler;
+        }
+
+        void ConfigureDialogWindowProperties(IDialogWindow window, FrameworkElement dialogContent, IDialogAware viewModel)
+        {
+            var windowStyle = DialogService.GetDialogWindowStyle(dialogContent);
+            if (windowStyle != null)
+                window.Style = windowStyle;
+
+            window.Content = dialogContent;
+            window.DataContext = viewModel; //we want the host window and the dialog to share the same data contex
+
+            //TODO: is there a better way to set the owner
+            window.Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+
+            //TODO: is the a good way to control the WindowStartupPosition (not a dependency property and can't be set in a style)
         }
     }
 }
