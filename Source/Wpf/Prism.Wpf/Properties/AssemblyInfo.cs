@@ -23,5 +23,6 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Mvvm")]
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Interactivity")]
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Interactivity.InteractionRequest")]
+[assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Services.Dialogs")]
 
 

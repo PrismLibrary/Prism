@@ -21,7 +21,7 @@ namespace HelloWorld
             containerRegistry.RegisterDialog<ConfirmationDialog, ConfirmationDialogViewModel>();
 
             //register a custom window host
-            containerRegistry.RegisterDialogWindow<CustomDialogWindow>();
+            //containerRegistry.RegisterDialogWindow<CustomDialogWindow>();
         }
     }
 }

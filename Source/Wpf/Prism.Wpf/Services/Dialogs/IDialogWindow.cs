@@ -25,5 +25,7 @@ namespace Prism.Services.Dialogs
         event CancelEventHandler Closing;
 
         IDialogResult Result { get; set; }
+
+        Style Style { get; set; }
     }
 }
