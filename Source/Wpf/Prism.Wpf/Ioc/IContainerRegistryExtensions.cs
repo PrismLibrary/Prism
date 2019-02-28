@@ -9,6 +9,17 @@ namespace Prism.Ioc
         /// Registers an object to be used as a dialog in the IDialogService.
         /// </summary>
         /// <typeparam name="TView">The Type of object to register as the dialog</typeparam>
+        /// <param name="containerRegistry"></param>
+        /// <param name="name">The unique name to register with the dialog.</param>
+        public static void RegisterDialog<TView>(this IContainerRegistry containerRegistry, string name = null)
+        {
+            containerRegistry.RegisterForNavigation<TView>(name);
+        }
+
+        /// <summary>
+        /// Registers an object to be used as a dialog in the IDialogService.
+        /// </summary>
+        /// <typeparam name="TView">The Type of object to register as the dialog</typeparam>
         /// <typeparam name="TViewModel">The ViewModel to use as the DataContext for the dialog</typeparam>
         /// <param name="containerRegistry"></param>
         /// <param name="name">The unique name to register with the dialog.</param>
