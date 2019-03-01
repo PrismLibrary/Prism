@@ -10,13 +10,6 @@ namespace Prism.Services.Dialogs
         public DelegateCommand<string> CloseDialogCommand =>
             _closeDialogCommand ?? (_closeDialogCommand = new DelegateCommand<string>(CloseDialog));
 
-        private string _iconSource;
-        public string IconSource
-        {
-            get { return _iconSource; }
-            set { SetProperty(ref _iconSource, value); }
-        }
-
         private string _title;
         public string Title
         {

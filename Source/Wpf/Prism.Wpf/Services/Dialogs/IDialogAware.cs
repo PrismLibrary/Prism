@@ -11,11 +11,6 @@ namespace Prism.Services.Dialogs
         bool CanCloseDialog();
 
         /// <summary>
-        /// The path to the dialog icon that will show in the window title bar.
-        /// </summary>
-        string IconSource { get; set; }
-
-        /// <summary>
         /// Called when the dialog is closed.
         /// </summary>
         void OnDialogClosed();
