@@ -12,11 +12,11 @@
     <Version Condition=" '$(PRISM_CORE_VERSION)' != '' ">$(PRISM_CORE_VERSION)</Version>
   </PropertyGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) Or $(TargetFramework) == 'net45' Or $(TargetFramework.StartsWith('netstandard1')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) Or $(TargetFramework) == 'net45' ">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.0' Or $(TargetFramework.StartsWith('uap10.0')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
     <Compile Remove="**\*.Desktop.cs" />
     <None Include="**\*.Desktop.cs" />
   </ItemGroup>
