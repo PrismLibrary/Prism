@@ -109,6 +109,7 @@ namespace Prism
             });
         }
 
+
         protected INavigationService CreateNavigationService(Page page)
         {
             var navService = Container.Resolve<INavigationService>(NavigationServiceName);
@@ -145,8 +146,24 @@ namespace Prism
         /// <summary>
         /// Sets the <see cref="DependencyResolver" /> to use the App Container for resolving types
         /// </summary>
-        protected virtual void SetDependencyResolver(IContainerProvider containerProvider) =>
+        protected virtual void SetDependencyResolver(IContainerProvider containerProvider)
+        {
             DependencyResolver.ResolveUsing(type => containerProvider.Resolve(type));
+#if __ANDROID__
+            DependencyResolver.ResolveUsing((Type type, object[] dependencies) =>
+            {
+                foreach(var dependency in dependencies)
+                {
+                    if(dependency is Android.Content.Context context)
+                    {
+                        return containerProvider.Resolve(type, (typeof(Android.Content.Context), context));
+                    }
+                }
+                containerProvider.Resolve<ILoggerFacade>().Log($"Could not locate an Android.Content.Context to resolve {type.Name}", Category.Warn, Priority.High);
+                return containerProvider.Resolve(type);
+            });
+#endif
+        }
 
 
         /// <summary>
