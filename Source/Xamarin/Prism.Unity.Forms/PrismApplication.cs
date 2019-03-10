@@ -39,36 +39,6 @@ namespace Prism.Unity
         protected PrismApplication(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver)
             : base(platformInitializer, setFormsDependencyResolver) { }
 
-#if __ANDROID__
-        /// <summary>
-        /// Sets the <see cref="DependencyResolver" /> to use the App Container for resolving types
-        /// </summary>
-        protected override void SetDependencyResolver(IContainerProvider containerProvider)
-        {
-            base.SetDependencyResolver(containerProvider);
-            DependencyResolver.ResolveUsing((Type type, object[] dependencies) =>
-            {
-                var container = containerProvider.GetContainer();
-                List<ResolverOverride> overrides = new List<ResolverOverride>();
-
-                foreach(var dependency in dependencies)
-                {
-                    if (dependency is Android.Content.Context context)
-                    {
-                        overrides.Add(new DependencyOverride(typeof(Android.Content.Context), context));
-                    }
-                    else
-                    {
-                        container.Resolve<ILoggerFacade>().Log($"Resolving an unknown type {dependency.GetType().Name}", Category.Warn, Priority.High);
-                        overrides.Add(new DependencyOverride(dependency.GetType(), dependency));
-                    }
-                }
-
-                return container.Resolve(type, overrides.ToArray());
-            });
-        }
-#endif
-
         protected override IContainerExtension CreateContainerExtension()
         {
             return new UnityContainerExtension(new UnityContainer());
