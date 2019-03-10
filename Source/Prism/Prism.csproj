@@ -16,10 +16,6 @@
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Condition=" '$(TargetFramework)' == 'netstandard1.0' " Include="System.Resources.ResourceManager" Version="4.3.0" />
-  </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.0' Or $(TargetFramework.StartsWith('uap10.0')) ">
     <Compile Remove="**\*.Desktop.cs" />
     <None Include="**\*.Desktop.cs" />
