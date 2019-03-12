@@ -6,7 +6,7 @@ Prism 6 is a fully open source version of the Prism guidance [originally produce
 
 At the current time, we have no plans to create new versions of the library for Silverlight or for Windows 8/8.1/WP8.1. For those you can still use the previous releases from Microsoft P&amp;P [here](https://msdn.microsoft.com/en-us/library/Gg430869%28v=PandP.40%29.aspx) and [here](http://prismwindowsruntime.codeplex.com/). If there is enough interest and contributors to do the work, we can consider it, but it is not on our roadmap for now.
 
-## Build Status
+## Build Status 
 
 |          | Status |
 | -------- | ------ |
