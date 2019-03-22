@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.0;net45;uap10.0.15063;uap10.0.16299</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.0;net45</TargetFrameworks>
     <AssemblyName>Prism</AssemblyName>
     <PackageId>Prism.Core</PackageId>
     <DebugType>pdbonly</DebugType>

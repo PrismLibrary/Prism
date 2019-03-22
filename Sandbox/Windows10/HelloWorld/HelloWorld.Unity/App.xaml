@@ -1,7 +1,0 @@
-﻿<unity:PrismApplication
-    xmlns:unity="using:Prism.Unity"
-    x:Class="Sample.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
-</unity:PrismApplication>
