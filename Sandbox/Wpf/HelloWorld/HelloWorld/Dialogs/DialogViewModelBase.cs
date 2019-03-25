@@ -1,8 +1,9 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Services.Dialogs;
 using System;
 
-namespace Prism.Services.Dialogs
+namespace HelloWorld.Dialogs
 {
     public class DialogViewModelBase : BindableBase, IDialogAware
     {
@@ -28,12 +29,7 @@ namespace Prism.Services.Dialogs
             else if (parameter?.ToLower() == "false")
                 result = false;
 
-            RaiseRequestClose(new DialogResult(result));
-        }
-
-        public virtual void RaiseRequestClose(IDialogResult dialogResult)
-        {
-            RequestClose?.Invoke(dialogResult);
+            RequestClose?.Invoke(new DialogResult(result));
         }
 
         public virtual bool CanCloseDialog()
@@ -48,7 +44,7 @@ namespace Prism.Services.Dialogs
 
         public virtual void OnDialogOpened(IDialogParameters parameters)
         {
-            
+
         }
     }
 }
