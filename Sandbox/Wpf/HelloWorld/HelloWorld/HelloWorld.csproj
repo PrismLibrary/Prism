@@ -87,6 +87,7 @@
     <Compile Include="Dialogs\CustomDialogWindow.xaml.cs">
       <DependentUpon>CustomDialogWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\DialogViewModelBase.cs" />
     <Compile Include="Dialogs\NotificationDialog.xaml.cs">
       <DependentUpon>NotificationDialog.xaml</DependentUpon>
     </Compile>
