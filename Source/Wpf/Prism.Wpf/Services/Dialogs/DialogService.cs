@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using Prism.Extensions;
 
 namespace Prism.Services.Dialogs
 {
@@ -126,10 +127,14 @@ namespace Prism.Services.Dialogs
             window.Content = dialogContent;
             window.DataContext = viewModel; //we want the host window and the dialog to share the same data contex
 
-            //TODO: is there a better way to set the owner
-            window.Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+            window.Owner = Application.Current?.GetActiveWindow(); // Application may be null if IsInDesignMode.
 
-            //TODO: is the a good way to control the WindowStartupPosition (not a dependency property and can't be set in a style)
+            // We set windows's WindowStartupLocation CLR property by using the 
+            // WindowStartupLocationBehavior.WindowStartupLocationProperty attached property,
+            // which we set in DialogWindowStyle. 
+            // If owner is null, we user CenterScreen as fallback value.
+            if (window.Owner == null && window is Window win)
+                win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
     }
 }
