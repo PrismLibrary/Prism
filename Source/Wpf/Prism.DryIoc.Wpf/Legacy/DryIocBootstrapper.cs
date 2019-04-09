@@ -154,7 +154,7 @@ namespace Prism.DryIoc
             if (_useDefaultConfiguration)
             {
                 RegisterTypeIfMissing<IDialogService, DialogService>(true);
-                RegisterTypeIfMissing<IDialogWindow, Services.Dialogs.DefaultDialogs.DialogWindow>(false);
+                RegisterTypeIfMissing<IDialogWindow, DialogWindow>(false);
 
                 RegisterTypeIfMissing<IModuleInitializer, ModuleInitializer>(true);
                 RegisterTypeIfMissing<IModuleManager, ModuleManager>(true);

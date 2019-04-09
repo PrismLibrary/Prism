@@ -129,7 +129,7 @@ namespace Prism
             containerRegistry.Register<IRegionNavigationJournalEntry, RegionNavigationJournalEntry>();
             containerRegistry.Register<IRegionNavigationJournal, RegionNavigationJournal>();
             containerRegistry.Register<IRegionNavigationService, RegionNavigationService>();
-            containerRegistry.Register<IDialogWindow, Services.Dialogs.DefaultDialogs.DialogWindow>(); //default dialog host
+            containerRegistry.Register<IDialogWindow, DialogWindow>(); //default dialog host
         }
 
         /// <summary>
