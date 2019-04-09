@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Prism.Services.Dialogs.DefaultDialogs
+namespace Prism.Services.Dialogs
 {
     /// <summary>
     /// Interaction logic for DialogWindow.xaml
