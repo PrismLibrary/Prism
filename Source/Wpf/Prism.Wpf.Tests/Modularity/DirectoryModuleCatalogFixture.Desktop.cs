@@ -370,33 +370,6 @@ namespace Prism.Wpf.Tests.Modularity
 
             Assert.Equal(2, modules.Count());
         }
-        //Disabled Warning	
-        // 'System.Security.Policy.Evidence.Count' is obsolete: '
-        // "Evidence should not be treated as an ICollection. Please use GetHostEnumerator and GetAssemblyEnumerator to 
-        // iterate over the evidence to collect a count."'
-#pragma warning disable 0618
-        [Fact]
-        public void CreateChildAppDomainHasParentEvidenceAndSetup()
-        {
-            TestableDirectoryModuleCatalog catalog = new TestableDirectoryModuleCatalog
-            {
-                ModulePath = ModulesDirectory4
-            };
-            catalog.Load();
-            Evidence parentEvidence = new Evidence();
-            AppDomainSetup parentSetup = new AppDomainSetup
-            {
-                ApplicationName = "Test Parent"
-            };
-            AppDomain parentAppDomain = AppDomain.CreateDomain("Parent", parentEvidence, parentSetup);
-            AppDomain childDomain = catalog.BuildChildDomain(parentAppDomain);
-
-            Assert.Equal(parentEvidence.Count, childDomain.Evidence.Count);
-            Assert.Equal("Test Parent", childDomain.SetupInformation.ApplicationName);
-            Assert.NotEqual(AppDomain.CurrentDomain.Evidence.Count, childDomain.Evidence.Count);
-            Assert.NotEqual(AppDomain.CurrentDomain.SetupInformation.ApplicationName, childDomain.SetupInformation.ApplicationName);
-        }
-#pragma warning restore 0618
 
         [Fact]
         public void ShouldLoadFilesEvenIfDynamicAssemblyExists()
@@ -518,10 +491,6 @@ namespace Prism.Wpf.Tests.Modularity
 
         private class TestableDirectoryModuleCatalog : DirectoryModuleCatalog
         {
-            public new AppDomain BuildChildDomain(AppDomain currentDomain)
-            {
-                return base.BuildChildDomain(currentDomain);
-            }
         }
 
 

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Prism</RootNamespace>
-    <TargetFrameworks>net45;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp3.0</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <!--<Summary>Prism libraries related to user interface composition, regions, and modularity for WPF.</Summary>-->
     <Description>Prism is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices.  Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms; WPF, Windows 10 UWP, and Xamarin Forms. Features that need to be platform specific are implemented in the respective libraries for the target platform.
@@ -19,9 +19,15 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Condition=" '$(TargetFramework)' == 'net45' " Include="System.Configuration" />
+    <Reference Condition=" '$(TargetFramework)' == 'net461' " Include="System.Configuration" />
     <Reference Include="System.Windows.Interactivity">
       <HintPath>..\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Condition=" '$(TargetFramework)' == 'net461' " Include="System.Reflection.TypeLoader">
+      <HintPath>..\..\..\Libs\netstandard2.0\System.Reflection.TypeLoader.dll</HintPath>
+    </Reference>
+    <Reference Condition=" '$(TargetFramework)' == 'netcoreapp3.0' " Include="System.Reflection.TypeLoader">
+      <HintPath>..\..\..\Libs\netcoreapp3.0\System.Reflection.TypeLoader.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -32,9 +38,14 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
   <ItemGroup>
     <ProjectReference Include="..\..\Prism\Prism.csproj" />
   </ItemGroup>
+  
+  <ItemGroup Condition="$(TargetFramework) == 'net461' ">
+    <PackageReference Include="System.Memory" Version="4.5.2" />
+    <PackageReference Include="System.Reflection.Metadata" Version="1.6.0" />
+  </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\System.Windows.Interactivity.dll" Pack="true" PackagePath="lib\net45" />
+    <Content Include="..\System.Windows.Interactivity.dll" Pack="true" PackagePath="lib\net461" />
     <Content Include="..\System.Windows.Interactivity.dll" Pack="true" PackagePath="lib\netcoreapp3.0" />
   </ItemGroup>
 
