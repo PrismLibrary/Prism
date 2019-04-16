@@ -11,19 +11,6 @@ namespace Prism.Services.Dialogs
     {
         private readonly IContainerExtension _containerExtension;
 
-        public static readonly DependencyProperty DialogWindowStyleProperty =
-            DependencyProperty.RegisterAttached("DialogWindowStyle", typeof(Style), typeof(DialogService), new PropertyMetadata(null));
-
-        public static Style GetDialogWindowStyle(DependencyObject obj)
-        {
-            return (Style)obj.GetValue(DialogWindowStyleProperty);
-        }
-
-        public static void SetDialogWindowStyle(DependencyObject obj, Style value)
-        {
-            obj.SetValue(DialogWindowStyleProperty, value);
-        }
-
         public DialogService(IContainerExtension containerExtension)
         {
             _containerExtension = containerExtension;
@@ -119,7 +106,7 @@ namespace Prism.Services.Dialogs
 
         void ConfigureDialogWindowProperties(IDialogWindow window, FrameworkElement dialogContent, IDialogAware viewModel)
         {
-            var windowStyle = DialogService.GetDialogWindowStyle(dialogContent);
+            var windowStyle = Dialog.GetWindowStyle(dialogContent);
             if (windowStyle != null)
                 window.Style = windowStyle;
 
@@ -128,8 +115,6 @@ namespace Prism.Services.Dialogs
 
             //TODO: is there a better way to set the owner
             window.Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-
-            //TODO: is the a good way to control the WindowStartupPosition (not a dependency property and can't be set in a style)
         }
     }
 }

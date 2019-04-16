@@ -167,7 +167,7 @@ namespace Prism.Ninject
             if (this.useDefaultConfiguration)
             {
                 this.Kernel.RegisterTypeIfMissing<IDialogService, DialogService>(true);
-                this.Kernel.RegisterTypeIfMissing<IDialogWindow, Services.Dialogs.DefaultDialogs.DialogWindow>(false);
+                this.Kernel.RegisterTypeIfMissing<IDialogWindow, DialogWindow>(false);
 
                 this.Kernel.RegisterTypeIfMissing<IServiceLocator, NinjectServiceLocatorAdapter>(true);
                 this.Kernel.RegisterTypeIfMissing<IModuleInitializer, ModuleInitializer>(true);
