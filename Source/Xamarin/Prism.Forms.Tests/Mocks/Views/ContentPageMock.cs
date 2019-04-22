@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class ContentPageMock : ContentPage, INavigationAware, IConfirmNavigationAsync, IDestructible, IPageNavigationEventRecordable
+    public class ContentPageMock : ContentPage, IInitialize, IInitializeAsync, INavigationAware, IConfirmNavigationAsync, IDestructible, IPageNavigationEventRecordable
     {
         public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
         public bool OnNavigatedToCalled { get; private set; } = false;
         public bool OnNavigatedFromCalled { get; private set; } = false;
-        public bool OnNavigatingToCalled { get; private set; } = false;
+        public bool OnInitializedCalled { get; private set; } = false;
+        public bool OnInitializedAsyncCalled { get; private set; } = false;
 
         public bool OnConfirmNavigationCalled { get; private set; } = false;
 
@@ -41,10 +42,17 @@ namespace Prism.Forms.Tests.Mocks.Views
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
         }
 
-        public void OnNavigatingTo(INavigationParameters parameters)
+        public void OnInitialized(INavigationParameters parameters)
         {
-            OnNavigatingToCalled = true;
-            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatingTo);
+            OnInitializedCalled = true;
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnInitialized);
+        }
+
+        public Task OnInitializedAsync(INavigationParameters parameters)
+        {
+            OnInitializedAsyncCalled = true;
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnInitializedAsync);
+            return Task.CompletedTask;
         }
 
         public Task<bool> CanNavigateAsync(INavigationParameters parameters)

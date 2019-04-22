@@ -68,7 +68,6 @@ namespace Prism.Navigation.TabbedPages
 
                 var tabParameters = UriParsingHelper.GetSegmentParameters(name, parameters);
 
-                PageUtilities.OnNavigatingTo(target, tabParameters);
                 tabbedPage.CurrentPage = target;
                 PageUtilities.OnNavigatedFrom(currentPage, tabParameters);
                 PageUtilities.OnNavigatedTo(target, tabParameters);
