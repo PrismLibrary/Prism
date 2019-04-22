@@ -23,7 +23,7 @@ pr:
 name: $(Build.BuildId)
 
 pool:
-  vmImage: vs2017-win2016
+  vmImage: windows-2019
 
 variables:
   BuildPlatform: 'Any CPU'

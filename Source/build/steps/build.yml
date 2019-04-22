@@ -3,14 +3,10 @@ parameters:
   solutionName: 'Build Solution'
 
 steps:
-- task: DotNetCoreInstaller@0
-  inputs:
-    version: '3.0.100-preview-009812'
-
 - task: NuGetToolInstaller@0
-  displayName: Use NuGet 4.9.2
+  displayName: Use NuGet 4.9.4
   inputs:
-    versionSpec: 4.9.2
+    versionSpec: 4.9.4
 
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
