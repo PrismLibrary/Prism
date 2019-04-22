@@ -43,7 +43,7 @@ namespace Prism.Forms.Tests.Mocks.Views
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
         }
 
-        public void OnInitialized(INavigationParameters parameters)
+        public void Initialize(INavigationParameters parameters)
         {
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnInitialized);
         }

@@ -4,6 +4,6 @@ namespace Prism.Navigation
 {
     public interface IInitializeAsync
     {
-        Task InitializedAsync(INavigationParameters parameters);
+        Task InitializeAsync(INavigationParameters parameters);
     }
 }

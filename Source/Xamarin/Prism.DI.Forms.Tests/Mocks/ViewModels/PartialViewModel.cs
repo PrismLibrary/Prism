@@ -23,7 +23,7 @@ namespace Prism.DI.Forms.Tests.Mocks.ViewModels
 
         public DelegateCommand NavigateCommand { get; }
 
-        public int OnInitializedToCalled { get; private set; }
+        public int InitializeCalled { get; private set; }
 
         public int OnNavigatedToCalled { get; private set; }
 
@@ -34,10 +34,10 @@ namespace Prism.DI.Forms.Tests.Mocks.ViewModels
             await _navigationService.NavigateAsync("/AutowireView");
         }
 
-        public void OnInitialized(INavigationParameters parameters)
+        public void Initialize(INavigationParameters parameters)
         {
             SomeText = parameters.GetValue<string>("text");
-            OnInitializedToCalled++;
+            InitializeCalled++;
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)

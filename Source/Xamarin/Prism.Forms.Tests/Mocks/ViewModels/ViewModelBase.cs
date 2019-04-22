@@ -13,9 +13,9 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
 
         public bool OnNavigatedToCalled { get; private set; } = false;
 
-        public bool OnInitializedCalled { get; private set; } = false;
+        public bool InitializeCalled { get; private set; } = false;
 
-        public bool OnInitializedAsyncCalled { get; private set; } = false;
+        public bool InitializeAsyncCalled { get; private set; } = false;
 
         public bool OnNavigatedFromCalled { get; private set; } = false;
 
@@ -35,15 +35,15 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
         }
 
-        public void OnInitialized(INavigationParameters parameters)
+        public void Initialize(INavigationParameters parameters)
         {
-            OnInitializedCalled = true;
+            InitializeCalled = true;
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnInitialized);
         }
 
-        public Task OnInitializedAsync(INavigationParameters parameters)
+        public Task InitializeAsync(INavigationParameters parameters)
         {
-            OnInitializedAsyncCalled = true;
+            InitializeAsyncCalled = true;
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnInitializedAsync);
             return Task.CompletedTask;
         }

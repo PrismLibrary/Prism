@@ -153,7 +153,7 @@ namespace Prism.Common
 
             InvokeViewAndViewModelAction<IAbracadabra>(page, v => Abracadabra(v, parameters));
             InvokeViewAndViewModelAction<IInitialize>(page, v => v.Initialize(parameters));
-            await InvokeViewAndViewModelActionAsync<IInitializeAsync>(page, async v => await v.InitializedAsync(parameters));
+            await InvokeViewAndViewModelActionAsync<IInitializeAsync>(page, async v => await v.InitializeAsync(parameters));
         }
 
         private static void Abracadabra(object page, INavigationParameters parameters)
