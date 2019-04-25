@@ -3,7 +3,7 @@
 namespace Prism.Ioc
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class RegisterByConventionAttribute : Attribute
+    public class AutoRegisterForNavigationAttribute : Attribute
     {
         public bool Automatic { get; set; }
     }

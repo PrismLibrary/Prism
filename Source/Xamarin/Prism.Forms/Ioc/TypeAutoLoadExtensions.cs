@@ -11,9 +11,9 @@ namespace Prism.Ioc
     {
         public static void AutoRegisterViews(this Type type, IContainerRegistry containerRegistry)
         {
-            if (!type.GetCustomAttributes().Any(a => a is RegisterByConventionAttribute)) return;
+            if (!type.GetCustomAttributes().Any(a => a is AutoRegisterForNavigationAttribute)) return;
 
-            var regAttr = type.GetCustomAttribute<RegisterByConventionAttribute>();
+            var regAttr = type.GetCustomAttribute<AutoRegisterForNavigationAttribute>();
             var assembly = type.Assembly;
 
             if (regAttr.Automatic)
