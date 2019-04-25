@@ -76,19 +76,10 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
             Assert.Equal(page1, rootPage.Navigation.NavigationStack[0]);
-            Assert.Equal(16, recorder.Records.Count);
-
-            //root
-            var record = recorder.TakeFirst();
-            Assert.Equal(page1, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
-
-            record = recorder.TakeFirst();
-            Assert.Equal(page1.BindingContext, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            Assert.Equal(14, recorder.Records.Count);
 
             //page 4
-            record = recorder.TakeFirst();
+            var record = recorder.TakeFirst();
             Assert.Equal(page4, record.Sender);
             Assert.Equal(PageNavigationEvent.OnNavigatedFrom, record.Event);
 
@@ -186,8 +177,10 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public void GetNavigationUriPath3()
         {
-            var rootPage = new MasterDetailPage();
-            rootPage.Master = new ContentPage() { Title = "Master" };
+            var rootPage = new MasterDetailPage
+            {
+                Master = new ContentPage() { Title = "Master" }
+            };
 
             var page1 = new NavigationPathPageMock() { Title = "Page1" };
             rootPage.Detail = page1;
@@ -200,11 +193,12 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public void GetNavigationUriPath4()
         {
-            var rootPage = new MasterDetailPage();
-            rootPage.Master = new ContentPage() { Title = "Master" };
-
             var page1 = new NavigationPathPageMock() { Title = "Page1" };
-            rootPage.Detail = new NavigationPage(page1);
+            new MasterDetailPage
+            {
+                Master = new ContentPage() { Title = "Master" },
+                Detail = new NavigationPage(page1)
+            };
 
             var path = page1.ViewModel.NavigationService.GetNavigationUriPath();
 
@@ -214,8 +208,10 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public void GetNavigationUriPath5()
         {
-            var rootPage = new MasterDetailPage();
-            rootPage.Master = new ContentPage() { Title = "Master" };
+            var rootPage = new MasterDetailPage
+            {
+                Master = new ContentPage() { Title = "Master" }
+            };
 
             var tabbedpage = new NavigationPathTabbedPageMock() { Title = "Page1" };
 

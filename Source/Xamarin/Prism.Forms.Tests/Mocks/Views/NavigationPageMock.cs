@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class NavigationPageMock : NavigationPage, IDestructible, IPageNavigationEventRecordable, INavigationPageOptions, INavigationAware
+    public class NavigationPageMock : NavigationPage, IDestructible, IPageNavigationEventRecordable, INavigationPageOptions, IInitialize, INavigationAware
     {
         public bool DestroyCalled { get; private set; } = false;
         public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
@@ -43,9 +43,9 @@ namespace Prism.Forms.Tests.Mocks.Views
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
         }
 
-        public void OnNavigatingTo(INavigationParameters parameters)
+        public void Initialize(INavigationParameters parameters)
         {
-            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatingTo);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnInitialized);
         }
     }
 
@@ -77,7 +77,7 @@ namespace Prism.Forms.Tests.Mocks.Views
 
         public void OnNavigatingTo(INavigationParameters parameters)
         {
-            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatingTo);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnInitialized);
         }
 
         public Task<bool> CanNavigateAsync(INavigationParameters parameters)

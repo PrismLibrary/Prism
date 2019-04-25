@@ -4,7 +4,7 @@ using Prism.Navigation;
 
 namespace Prism.DI.Forms.Tests.Mocks.ViewModels
 {
-    public class PartialViewModel : BindableBase, INavigationAware
+    public class PartialViewModel : BindableBase, IInitialize, INavigationAware
     {
         private INavigationService _navigationService { get; }
 
@@ -23,7 +23,7 @@ namespace Prism.DI.Forms.Tests.Mocks.ViewModels
 
         public DelegateCommand NavigateCommand { get; }
 
-        public int OnNavigatingToCalled { get; private set; }
+        public int InitializeCalled { get; private set; }
 
         public int OnNavigatedToCalled { get; private set; }
 
@@ -34,10 +34,10 @@ namespace Prism.DI.Forms.Tests.Mocks.ViewModels
             await _navigationService.NavigateAsync("/AutowireView");
         }
 
-        public void OnNavigatingTo(INavigationParameters parameters)
+        public void Initialize(INavigationParameters parameters)
         {
             SomeText = parameters.GetValue<string>("text");
-            OnNavigatingToCalled++;
+            InitializeCalled++;
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)

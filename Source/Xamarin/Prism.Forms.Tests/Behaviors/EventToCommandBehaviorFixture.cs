@@ -54,7 +54,7 @@ namespace Prism.Forms.Tests.Behaviors
             };
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
-            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, commandParameter));
+            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, commandParameter, 0));
             Assert.True(executedCommand);
         }
 
@@ -76,7 +76,7 @@ namespace Prism.Forms.Tests.Behaviors
             };
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
-            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, item));
+            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, item, 0));
             Assert.True(executedCommand);
         }
 
@@ -99,7 +99,7 @@ namespace Prism.Forms.Tests.Behaviors
             };
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
-            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, null));
+            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, null, 0));
             Assert.True(executedCommand);
         }
 
@@ -121,7 +121,7 @@ namespace Prism.Forms.Tests.Behaviors
             };
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
-            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, null));
+            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, null, 0));
             Assert.True(executedCommand);
         }
 
@@ -143,7 +143,7 @@ namespace Prism.Forms.Tests.Behaviors
             };
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
-            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, item));
+            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, item, 0));
             Assert.True(executedCommand);
         }
 
@@ -189,7 +189,7 @@ namespace Prism.Forms.Tests.Behaviors
             };
             var listView = new ListView();
             listView.Behaviors.Add(behavior);
-            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, null));
+            behavior.RaiseEvent(listView, new ItemTappedEventArgs(listView, null, 0));
             Assert.True(executedCommand);
         }
 

@@ -95,8 +95,6 @@ namespace Prism.Navigation
                 bool useModalForDoPop = UseModalNavigation(page, useModalNavigation);
                 Page previousPage = PageUtilities.GetOnNavigatedToTarget(page, _applicationProvider.MainPage, useModalForDoPop);
 
-                PageUtilities.OnNavigatingTo(previousPage, segmentParameters);
-
                 var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
                 if (poppedPage != null)
                 {
@@ -156,8 +154,6 @@ namespace Prism.Navigation
                 pagesToDestroy.Reverse(); // destroy them in reverse order
                 var root = pagesToDestroy.Last();
                 pagesToDestroy.Remove(root); //don't destroy the root page
-
-                PageUtilities.OnNavigatingTo(root, parameters);
 
                 await page.Navigation.PopToRootAsync();
 
@@ -662,7 +658,7 @@ namespace Prism.Navigation
             if (!canNavigate)
                 return;
 
-            OnNavigatingTo(toPage, segmentParameters);
+            await OnInitializedAsync(toPage, segmentParameters);
 
             if (navigationAction != null)
                 await navigationAction();
@@ -674,9 +670,9 @@ namespace Prism.Navigation
             OnNavigatedTo(toPage, segmentParameters);
         }
 
-        static void OnNavigatingTo(Page toPage, INavigationParameters parameters)
+        static async Task OnInitializedAsync(Page toPage, INavigationParameters parameters)
         {
-            PageUtilities.OnNavigatingTo(toPage, parameters);
+            await PageUtilities.OnInitializedAsync(toPage, parameters);
 
             if (toPage is TabbedPage tabbedPage)
             {
@@ -684,11 +680,11 @@ namespace Prism.Navigation
                 {
                     if (child is NavigationPage navigationPage)
                     {
-                        PageUtilities.OnNavigatingTo(navigationPage.CurrentPage, parameters);
+                        await PageUtilities.OnInitializedAsync(navigationPage.CurrentPage, parameters);
                     }
                     else
                     {
-                        PageUtilities.OnNavigatingTo(child, parameters);
+                        await PageUtilities.OnInitializedAsync(child, parameters);
                     }
                 }
             }
@@ -696,7 +692,7 @@ namespace Prism.Navigation
             {
                 foreach (var child in carouselPage.Children)
                 {
-                    PageUtilities.OnNavigatingTo(child, parameters);
+                    await PageUtilities.OnInitializedAsync(child, parameters);
                 }
             }
         }
