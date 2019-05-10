@@ -104,6 +104,53 @@ namespace Prism.Tests.Events
             Assert.NotNull(action.Target);
         }
 
+        [Fact]
+        public void TargetEqualsActionShouldReturnTrue()
+        {
+            var classHandler = new SomeClassHandler();
+            Action<string> myAction = new Action<string>(classHandler.MyAction);
+
+            var weakAction = new DelegateReference(myAction, false);
+
+            Assert.True(weakAction.TargetEquals(new Action<string>(classHandler.MyAction)));
+        }
+
+        [Fact]
+        public void TargetEqualsNullShouldReturnTrueIfTargetNotAlive()
+        {
+            SomeClassHandler handler = new SomeClassHandler();
+            var weakHandlerRef = new WeakReference(handler);
+
+            var action = new DelegateReference((Action<string>)handler.DoEvent, false);
+
+            handler = null;
+            GC.Collect();
+            Assert.False(weakHandlerRef.IsAlive);
+
+            Assert.True(action.TargetEquals(null));
+        }
+
+        [Fact]
+        public void TargetEqualsNullShouldReturnFalseIfTargetAlive()
+        {
+            SomeClassHandler handler = new SomeClassHandler();
+            var weakHandlerRef = new WeakReference(handler);
+
+            var action = new DelegateReference((Action<string>)handler.DoEvent, false);
+
+            Assert.False(action.TargetEquals(null));
+            Assert.True(weakHandlerRef.IsAlive);
+            GC.KeepAlive(handler);
+        }
+        
+        [Fact]
+        public void TargetEqualsWorksWithStaticMethodDelegates()
+        {
+            var action = new DelegateReference((Action)SomeClassHandler.StaticMethod, false);
+
+            Assert.True(action.TargetEquals((Action)SomeClassHandler.StaticMethod));
+        }
+
         //todo: fix
         //[Fact]
         //public void NullDelegateThrows()
