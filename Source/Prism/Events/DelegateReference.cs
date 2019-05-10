@@ -74,9 +74,9 @@ namespace Prism.Events
             }
             if (@delegate == null)
             {
-                return !_method.IsStatic && !this._weakReference.IsAlive;
+                return !_method.IsStatic && !_weakReference.IsAlive;
             }
-            return _weakReference.Target == @delegate.Target && Equals(this._method, @delegate.GetMethodInfo());
+            return _weakReference.Target == @delegate.Target && Equals(_method, @delegate.GetMethodInfo());
         }
         
         private Delegate TryGetDelegate()
