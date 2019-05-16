@@ -14,7 +14,6 @@ namespace Prism.Unity.Wpf.Tests
         public void ExtensionReturnsTrueIfThereIsAPolicyForType()
         {
             UnityContainer container = new UnityContainer();
-            container.AddNewExtension<UnityBootstrapperExtension>();
 
             container.RegisterType<object, string>();
             Assert.True(container.IsTypeRegistered(typeof(object)));

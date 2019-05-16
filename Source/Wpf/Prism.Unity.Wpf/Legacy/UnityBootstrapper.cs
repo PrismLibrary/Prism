@@ -140,7 +140,6 @@ namespace Prism.Unity
         protected virtual void ConfigureContainer()
         {
             this.Logger.Log(Resources.AddingUnityBootstrapperExtensionToContainer, Category.Debug, Priority.Low);
-            this.Container.AddNewExtension<UnityBootstrapperExtension>();
 
             Container.RegisterInstance<IContainerExtension>(ContainerExtension);
             Container.RegisterInstance<ILoggerFacade>(Logger);
