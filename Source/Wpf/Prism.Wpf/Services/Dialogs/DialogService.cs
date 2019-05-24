@@ -1,5 +1,6 @@
 ﻿using Prism.Common;
 using Prism.Ioc;
+using Prism.Regions;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -10,10 +11,12 @@ namespace Prism.Services.Dialogs
     public class DialogService : IDialogService
     {
         private readonly IContainerExtension _containerExtension;
+        private readonly IRegionManager _regionManager;
 
-        public DialogService(IContainerExtension containerExtension)
+        public DialogService(IContainerExtension containerExtension, IRegionManager regionManager)
         {
             _containerExtension = containerExtension;
+            _regionManager = regionManager;
         }
 
         public void Show(string name, IDialogParameters parameters, Action<IDialogResult> callback)
@@ -29,6 +32,7 @@ namespace Prism.Services.Dialogs
         void ShowDialogInternal(string name, IDialogParameters parameters, Action<IDialogResult> callback, bool isModal)
         {
             IDialogWindow dialogWindow = CreateDialogWindow();
+            RegionManager.SetRegionManager((DependencyObject)dialogWindow, _regionManager);
             ConfigureDialogWindowEvents(dialogWindow, callback);
             ConfigureDialogWindowContent(name, dialogWindow, parameters);
 
@@ -56,7 +60,7 @@ namespace Prism.Services.Dialogs
 
             ConfigureDialogWindowProperties(window, dialogContent, viewModel);
 
-            MvvmHelpers.ViewAndViewModelAction<IDialogAware>(viewModel, d => d.OnDialogOpened(parameters));            
+            MvvmHelpers.ViewAndViewModelAction<IDialogAware>(viewModel, d => d.OnDialogOpened(parameters));
         }
 
         void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, Action<IDialogResult> callback)
