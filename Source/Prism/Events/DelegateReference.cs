@@ -40,7 +40,7 @@ namespace Prism.Events
                 _delegateType = @delegate.GetType();
             }
         }
-
+        
         /// <summary>
         /// Gets the <see cref="Delegate" /> (the target) referenced by the current <see cref="DelegateReference"/> object.
         /// </summary>
@@ -59,7 +59,26 @@ namespace Prism.Events
                 }
             }
         }
-
+        
+        /// <summary>
+        /// Checks if the <see cref="Delegate" /> (the target) referenced by the current <see cref="DelegateReference"/> object are equal to another <see cref="Delegate" />.
+        /// This is equivalent with comparing <see cref="Target"/> with <paramref name="delegate"/>, only more efficient.
+        /// </summary>
+        /// <param name="delegate">The other delegate to compare with.</param>
+        /// <returns>True if the target referenced by the current object are equal to <paramref name="delegate"/>.</returns>
+        public bool TargetEquals(Delegate @delegate)
+        {
+            if (_delegate != null)
+            {
+                return _delegate == @delegate;
+            }
+            if (@delegate == null)
+            {
+                return !_method.IsStatic && !_weakReference.IsAlive;
+            }
+            return _weakReference.Target == @delegate.Target && Equals(_method, @delegate.GetMethodInfo());
+        }
+        
         private Delegate TryGetDelegate()
         {
             if (_method.IsStatic)
