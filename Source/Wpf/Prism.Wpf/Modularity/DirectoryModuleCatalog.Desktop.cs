@@ -1,4 +1,4 @@
-
+#if NET45
 
 using Prism.Properties;
 using System;
@@ -41,11 +41,8 @@ namespace Prism.Modularity
             if (!Directory.Exists(this.ModulePath))
                 throw new InvalidOperationException(
                     string.Format(CultureInfo.CurrentCulture, Resources.DirectoryNotFound, this.ModulePath));
-#if NETCOREAPP3_0
-            AppDomain childDomain = AppDomain.CurrentDomain;
-#else
+
             AppDomain childDomain = this.BuildChildDomain(AppDomain.CurrentDomain);
-#endif
 
             try
             {
@@ -54,7 +51,7 @@ namespace Prism.Modularity
                 var assemblies = (
                                      from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
                                      where !(assembly is System.Reflection.Emit.AssemblyBuilder)
-										&& assembly.GetType().FullName != "System.Reflection.Emit.InternalAssemblyBuilder"
+                                        && assembly.GetType().FullName != "System.Reflection.Emit.InternalAssemblyBuilder"
                                         && !String.IsNullOrEmpty(assembly.Location)
                                      select assembly.Location
                                  );
@@ -74,13 +71,11 @@ namespace Prism.Modularity
             }
             finally
             {
-#if NET45
                 AppDomain.Unload(childDomain);
-#endif
             }
         }
 
-#if NET45
+
         /// <summary>
         /// Creates a new child domain and copies the evidence from a parent domain.
         /// </summary>
@@ -105,7 +100,6 @@ namespace Prism.Modularity
             AppDomainSetup setup = parentDomain.SetupInformation;
             return AppDomain.CreateDomain("DiscoveryRegion", evidence, setup);
         }
-#endif
 
         private class InnerModuleInfoLoader : MarshalByRefObject
         {
@@ -115,7 +109,7 @@ namespace Prism.Modularity
                 DirectoryInfo directory = new DirectoryInfo(path);
 
                 ResolveEventHandler resolveEventHandler =
-                    delegate(object sender, ResolveEventArgs args) { return OnReflectionOnlyResolve(args, directory); };
+                    delegate (object sender, ResolveEventArgs args) { return OnReflectionOnlyResolve(args, directory); };
 
                 AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += resolveEventHandler;
 
@@ -214,15 +208,15 @@ namespace Prism.Modularity
                         switch (argumentName)
                         {
                             case "ModuleName":
-                                moduleName = (string) argument.TypedValue.Value;
+                                moduleName = (string)argument.TypedValue.Value;
                                 break;
 
                             case "OnDemand":
-                                onDemand = (bool) argument.TypedValue.Value;
+                                onDemand = (bool)argument.TypedValue.Value;
                                 break;
 
                             case "StartupLoaded":
-                                onDemand = !((bool) argument.TypedValue.Value);
+                                onDemand = !((bool)argument.TypedValue.Value);
                                 break;
                         }
                     }
@@ -234,20 +228,21 @@ namespace Prism.Modularity
 
                 foreach (CustomAttributeData cad in moduleDependencyAttributes)
                 {
-                    dependsOn.Add((string) cad.ConstructorArguments[0].Value);
+                    dependsOn.Add((string)cad.ConstructorArguments[0].Value);
                 }
 
                 ModuleInfo moduleInfo = new ModuleInfo(moduleName, type.AssemblyQualifiedName)
-                                            {
-                                                InitializationMode =
+                {
+                    InitializationMode =
                                                     onDemand
                                                         ? InitializationMode.OnDemand
                                                         : InitializationMode.WhenAvailable,
-                                                Ref = type.Assembly.EscapedCodeBase,
-                                            };
+                    Ref = type.Assembly.EscapedCodeBase,
+                };
                 moduleInfo.DependsOn.AddRange(dependsOn);
                 return moduleInfo;
             }
         }
     }
 }
+#endif
