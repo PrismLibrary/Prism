@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="4.0.0.425677" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19270-01" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

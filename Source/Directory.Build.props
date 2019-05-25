@@ -8,7 +8,6 @@
     <PackageProjectUrl>https://github.com/PrismLibrary/Prism</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes Condition=" '$(APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED)' != '' And '$(PackageReleaseNotes)' == '' ">$(APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED)</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
     <IncludeSymbols>True</IncludeSymbols>
@@ -62,19 +61,12 @@
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" $(IsUwpProject) ">
-    <Authors>$(Authors);Jerry Nixon</Authors>
-  </PropertyGroup>
-
   <PropertyGroup>
     <!-- Nuget source link -->
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
-
-  <ItemGroup Condition=" !$(IsTestProject) ">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All" />
-  </ItemGroup>
 
 </Project>
