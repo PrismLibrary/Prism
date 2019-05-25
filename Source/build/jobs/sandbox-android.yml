@@ -1,0 +1,26 @@
+jobs:
+- job: sandboxAndroid
+  displayName: Sandbox Android App
+  condition: succeeded()
+  pool:
+    vmImage: $(MacImage)
+    demands:
+    - MSBuild
+    - Xamarin.Android
+    - JDK
+    - AndroidSDK
+  workspace:
+    clean: all
+  steps:
+  - template: ../steps/set-runtime.yml
+
+  - template: ../steps/prepare-build.yml
+    parameters:
+      solution: Sandbox/Xamarin/HelloWorld.sln
+
+  - task: XamarinAndroid@1
+    displayName: 'Build Xamarin.Android project HelloWorld.Android.csproj'
+    inputs:
+      projectFile: Sandbox/Xamarin/**/HelloWorld.Android.csproj
+      outputDirectory: '$(Build.BinariesDirectory)/$(BuildConfiguration)'
+      configuration: '$(BuildConfiguration)'

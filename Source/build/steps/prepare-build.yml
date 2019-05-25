@@ -1,0 +1,18 @@
+parameters:
+  solution: '**/*.sln'
+
+steps:
+- task: DotNetCoreInstaller@0
+  inputs:
+    version: '3.0.100-preview5-011568'
+
+- task: NuGetToolInstaller@0
+  displayName: Use NuGet 4.9.4
+  inputs:
+    versionSpec: 4.9.4
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: ${{ parameters.solution }}
+    noCache: true

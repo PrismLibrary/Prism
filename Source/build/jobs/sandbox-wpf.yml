@@ -1,0 +1,15 @@
+jobs:
+- job: sandboxWpf
+  displayName: Sandbox WPF App
+  condition: succeeded()
+  pool:
+    vmImage: $(VMImage)
+    demands:
+    - MSBuild
+  workspace:
+    clean: all
+  steps:
+  - template: ../steps/build.yml
+    parameters:
+      solution: Sandbox/Xamarin/HelloWorld.sln
+      solutionName: WPF Sandbox

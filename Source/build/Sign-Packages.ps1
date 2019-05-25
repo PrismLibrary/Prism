@@ -13,6 +13,14 @@ dotnet tool install --tool-path . SignClient
 $appSettings = "$currentDirectory\appsettings.json"
 $fileList = "$currentDirectory\filelist.txt"
 
+if (!(Test-Path $fileList))
+{
+   New-Item -path $currentDirectory -name filelist.txt -type "file" -value "**"
+}
+
+# Sanitize GitHub Repository Names
+$repoName = $env:BUILD_REPOSITORY_NAME -replace ".*/",""
+
 $azureAd = @{
     SignClient = @{
         AzureAd = @{
@@ -34,7 +42,7 @@ $nupkgs = Get-ChildItem $env:BUILD_ARTIFACTSTAGINGDIRECTORY\*.nupkg -recurse | S
 foreach ($nupkg in $nupkgs){
     Write-Host "Submitting $nupkg for signing"
 
-    .\SignClient 'sign' -c $appSettings -i $nupkg -f $fileList -r $env:SignClientUser -s $env:SignClientSecret -n 'Prism' -d 'Prism' -u 'https://github.com/PrismLibrary/Prism'
+    .\SignClient 'sign' -c $appSettings -i $nupkg -f $fileList -r $env:SignClientUser -s $env:SignClientSecret -n $repoName -d $repoName -u $env:BUILD_REPOSITORY_URI
 
     Write-Host "Finished signing $nupkg"
 }
