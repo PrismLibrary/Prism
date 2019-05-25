@@ -130,7 +130,8 @@ namespace Prism
             RegisterRequiredTypes(_containerExtension);
             PlatformInitializer?.RegisterTypes(_containerExtension);
             RegisterTypes(_containerExtension);
-            GetType().AutoRegisterViews(_containerExtension, GetNavigationSegmentNameFromType);
+            AutoRegistrationViewNameProvider.SetDefaultProvider(GetNavigationSegmentNameFromType);
+            GetType().AutoRegisterViews(_containerExtension);
             _containerExtension.FinalizeExtension();
 
             if(_setFormsDependencyResolver)

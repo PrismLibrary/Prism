@@ -8,7 +8,7 @@ namespace Prism.Ioc
 {
     internal static class IContainerRegistryAutoLoadExtensions
     {
-        public static void AutoRegisterViews(this Type type, IContainerRegistry containerRegistry, Func<Type, string> getNavigationSegmentName)
+        public static void AutoRegisterViews(this Type type, IContainerRegistry containerRegistry)
         {
             if (!type.GetCustomAttributes().Any(a => a is AutoRegisterForNavigationAttribute)) return;
 
@@ -16,23 +16,23 @@ namespace Prism.Ioc
             var assembly = type.Assembly;
 
             var viewTypes = assembly.ExportedTypes.Where(t => t.IsSubclassOf(typeof(Page)));
-            RegisterViewsAutomatically(containerRegistry, viewTypes, getNavigationSegmentName);
+            RegisterViewsAutomatically(containerRegistry, viewTypes);
         }
 
-        private static void RegisterViewsAutomatically(IContainerRegistry containerRegistry, IEnumerable<Type> viewTypes, Func<Type, string> getNavigationSegmentName)
+        private static void RegisterViewsAutomatically(IContainerRegistry containerRegistry, IEnumerable<Type> viewTypes)
         {
             foreach (var viewType in viewTypes)
             {
-                RegisterView(containerRegistry, viewType, getNavigationSegmentName);
+                RegisterView(containerRegistry, viewType);
             }
 
-            RegisterView(containerRegistry, typeof(NavigationPage), getNavigationSegmentName, true);
-            RegisterView(containerRegistry, typeof(TabbedPage), getNavigationSegmentName, true);
+            RegisterView(containerRegistry, typeof(NavigationPage), true);
+            RegisterView(containerRegistry, typeof(TabbedPage), true);
         }
 
-        private static void RegisterView(IContainerRegistry containerRegistry, Type viewType, Func<Type, string> getNavigationSegmentName, bool checkIfRegistered = false)
+        private static void RegisterView(IContainerRegistry containerRegistry, Type viewType, bool checkIfRegistered = false)
         {
-            var name = getNavigationSegmentName(viewType);
+            var name = AutoRegistrationViewNameProvider.GetNavigationSegmentName(viewType);
 
             if(!checkIfRegistered || containerRegistry.IsRegistered<object>(name))
             {
