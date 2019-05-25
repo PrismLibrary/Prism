@@ -124,13 +124,13 @@ namespace Prism
         /// <summary>
         /// Run the bootstrapper process.
         /// </summary>
-        public virtual void Initialize()
+        protected virtual void Initialize()
         {
             _containerExtension = CreateContainerExtension();
             RegisterRequiredTypes(_containerExtension);
             PlatformInitializer?.RegisterTypes(_containerExtension);
             RegisterTypes(_containerExtension);
-            GetType().AutoRegisterViews(_containerExtension);
+            GetType().AutoRegisterViews(_containerExtension, GetNavigationSegmentNameFromType);
             _containerExtension.FinalizeExtension();
 
             if(_setFormsDependencyResolver)
@@ -165,6 +165,9 @@ namespace Prism
             });
 #endif
         }
+
+        protected virtual string GetNavigationSegmentNameFromType(Type pageType) =>
+            pageType.Name;
 
 
         /// <summary>
