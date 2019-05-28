@@ -43,14 +43,14 @@ namespace Prism.Services.Dialogs
             return _containerExtension.Resolve<IDialogWindow>();
         }
         
-        protected virtual object CreateContent()
+        protected virtual object CreateContent(string dialogName)
         {
            return _containerExtension.Resolve<object>(dialogName);
         }
 
         void ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)
         {
-            var content = CreateContent();
+            var content = CreateContent(dialogName);
             var dialogContent = content as FrameworkElement;
             if (dialogContent == null)
                 throw new NullReferenceException("A dialog's content must be a FrameworkElement");
