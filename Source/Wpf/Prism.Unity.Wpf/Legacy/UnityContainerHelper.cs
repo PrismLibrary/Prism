@@ -21,7 +21,7 @@ namespace Prism.Unity
         /// </remarks>        
         public static bool IsTypeRegistered(this IUnityContainer container, Type type)
         {
-            return UnityBootstrapperExtension.IsTypeRegistered(container, type);
+            return container.IsRegistered(type);
         }
 
         /// <summary>

@@ -29,8 +29,6 @@ namespace Prism.Unity.Wpf.Tests
             protected override void ConfigureContainer()
             {
                 //base.RegisterDefaultTypesIfMissing();
-                
-                this.Container.AddNewExtension<UnityBootstrapperExtension>();
 
                 Container.RegisterInstance<ILoggerFacade>(Logger);
 

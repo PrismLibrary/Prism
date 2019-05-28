@@ -124,11 +124,19 @@ namespace Prism.Forms.Tests.Navigation
 
             var record = recorder.TakeFirst();
             Assert.Equal(navigatedPage, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            Assert.Equal(PageNavigationEvent.OnInitialized, record.Event);
 
             record = recorder.TakeFirst();
             Assert.Equal(navigatedPage.BindingContext, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            Assert.Equal(PageNavigationEvent.OnInitialized, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(navigatedPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnInitializedAsync, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(navigatedPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnInitializedAsync, record.Event);
 
             record = recorder.TakeFirst();
             Assert.Equal(rootPage, record.Sender);
@@ -175,11 +183,19 @@ namespace Prism.Forms.Tests.Navigation
 
             var record = recorder.TakeFirst();
             Assert.Equal(navigatedPage, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            Assert.Equal(PageNavigationEvent.OnInitialized, record.Event);
 
             record = recorder.TakeFirst();
             Assert.Equal(navigatedPage.BindingContext, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            Assert.Equal(PageNavigationEvent.OnInitialized, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(navigatedPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnInitializedAsync, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(navigatedPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnInitializedAsync, record.Event);
 
             record = recorder.TakeFirst();
             Assert.Equal(rootPage, record.Sender);
@@ -501,11 +517,19 @@ namespace Prism.Forms.Tests.Navigation
 
             var record = recorder.TakeFirst();
             Assert.Equal(contentPage, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            Assert.Equal(PageNavigationEvent.OnInitialized, record.Event);
 
             record = recorder.TakeFirst();
             Assert.Equal(contentPage.BindingContext, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            Assert.Equal(PageNavigationEvent.OnInitialized, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnInitializedAsync, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnInitializedAsync, record.Event);
 
             record = recorder.TakeFirst();
             Assert.Equal(navigationPage, record.Sender);
@@ -547,11 +571,19 @@ namespace Prism.Forms.Tests.Navigation
 
             var record = recorder.TakeFirst();
             Assert.Equal(pageMock, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            Assert.Equal(PageNavigationEvent.OnInitialized, record.Event);
 
             record = recorder.TakeFirst();
             Assert.Equal(pageMock.BindingContext, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            Assert.Equal(PageNavigationEvent.OnInitialized, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(pageMock, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnInitializedAsync, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(pageMock.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnInitializedAsync, record.Event);
 
             record = recorder.TakeFirst();
             Assert.Equal(contentPageMock, record.Sender);
@@ -602,11 +634,19 @@ namespace Prism.Forms.Tests.Navigation
 
             var record = recorder.TakeFirst();
             Assert.Equal(contentPageMock, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            Assert.Equal(PageNavigationEvent.OnInitialized, record.Event);
 
             record = recorder.TakeFirst();
             Assert.Equal(contentPageMockViewModel, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            Assert.Equal(PageNavigationEvent.OnInitialized, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPageMock, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnInitializedAsync, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(contentPageMockViewModel, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnInitializedAsync, record.Event);
 
             record = recorder.TakeFirst();
             Assert.Equal(contentPageMock, record.Sender);
@@ -787,11 +827,19 @@ namespace Prism.Forms.Tests.Navigation
 
             var record = recorder.TakeFirst();
             Assert.Equal(secondContentPage, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            Assert.Equal(PageNavigationEvent.OnInitialized, record.Event);
 
             record = recorder.TakeFirst();
             Assert.Equal(secondContentPage.BindingContext, record.Sender);
-            Assert.Equal(PageNavigationEvent.OnNavigatingTo, record.Event);
+            Assert.Equal(PageNavigationEvent.OnInitialized, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnInitializedAsync, record.Event);
+
+            record = recorder.TakeFirst();
+            Assert.Equal(secondContentPage.BindingContext, record.Sender);
+            Assert.Equal(PageNavigationEvent.OnInitializedAsync, record.Event);
 
             record = recorder.TakeFirst();
             Assert.Equal(secondContentPage, record.Sender);

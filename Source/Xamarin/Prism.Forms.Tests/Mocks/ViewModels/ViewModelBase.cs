@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Prism.Mvvm;
 using Prism.Navigation;
 
 namespace Prism.Forms.Tests.Mocks.ViewModels
 {
-    public class ViewModelBase : BindableBase, INavigationAware, IDestructible, IPageNavigationEventRecordable
+    public class ViewModelBase : BindableBase, IInitialize, IInitializeAsync, INavigationAware, IDestructible, IPageNavigationEventRecordable
     {
         public INavigationParameters NavigatedToParameters { get; private set; }
         public INavigationParameters NavigatedFromParameters { get; private set; }
@@ -12,7 +13,9 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
 
         public bool OnNavigatedToCalled { get; private set; } = false;
 
-        public bool OnNavigatingdToCalled { get; private set; } = false;
+        public bool InitializeCalled { get; private set; } = false;
+
+        public bool InitializeAsyncCalled { get; private set; } = false;
 
         public bool OnNavigatedFromCalled { get; private set; } = false;
 
@@ -32,11 +35,17 @@ namespace Prism.Forms.Tests.Mocks.ViewModels
             PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
         }
 
-        public void OnNavigatingTo(INavigationParameters parameters)
+        public void Initialize(INavigationParameters parameters)
         {
-            OnNavigatingdToCalled = true;
-            NavigatedToParameters = parameters;
-            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatingTo);
+            InitializeCalled = true;
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnInitialized);
+        }
+
+        public Task InitializeAsync(INavigationParameters parameters)
+        {
+            InitializeAsyncCalled = true;
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnInitializedAsync);
+            return Task.CompletedTask;
         }
 
         public void Destroy()

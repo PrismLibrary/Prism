@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.0;net45;uap10.0.15063;uap10.0.16299</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.0;net45</TargetFrameworks>
     <AssemblyName>Prism</AssemblyName>
     <PackageId>Prism.Core</PackageId>
     <DebugType>pdbonly</DebugType>
@@ -26,8 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Condition=" '$(TargetFramework)' == 'net45' or '$(TargetFramework)' == 'netcoreapp3.0' " Remove="Navigation/**" />
-    <Compile Include="Navigation/IDestructible.cs" />
     <Compile Update="Properties\Resources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Resources.resx" />
     <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
   </ItemGroup>

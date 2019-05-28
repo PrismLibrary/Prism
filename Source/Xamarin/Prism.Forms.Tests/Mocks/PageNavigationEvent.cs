@@ -2,7 +2,8 @@
 {
     public enum PageNavigationEvent
     {
-        OnNavigatingTo,
+        OnInitialized,
+        OnInitializedAsync,
         OnNavigatedFrom,
         OnNavigatedTo,
         Destroy

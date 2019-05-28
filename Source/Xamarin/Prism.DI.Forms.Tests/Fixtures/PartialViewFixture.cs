@@ -70,7 +70,7 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             var layout = (StackLayout)page.Content;
             var partialView = (PartialView)layout.Children.FirstOrDefault(c => c is PartialView);
             var vm = (PartialViewModel)partialView.BindingContext;
-            Assert.Equal(1, vm.OnNavigatingToCalled);
+            Assert.Equal(1, vm.InitializeCalled);
             Assert.Equal(1, vm.OnNavigatedToCalled);
             Assert.Equal(0, vm.OnNavigatedFromCalled);
             Assert.Equal("Test", vm.SomeText);

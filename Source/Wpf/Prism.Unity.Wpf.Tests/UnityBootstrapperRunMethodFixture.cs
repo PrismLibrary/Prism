@@ -198,7 +198,7 @@ namespace Prism.Unity.Wpf.Tests
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterInstance(typeof(ILoggerFacade), null, bootstrapper.BaseLogger, It.IsAny<LifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterInstance(typeof(ILoggerFacade), null, bootstrapper.BaseLogger, It.IsAny<IInstanceLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -211,7 +211,7 @@ namespace Prism.Unity.Wpf.Tests
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterInstance(typeof(IModuleCatalog), null, It.IsAny<object>(), It.IsAny<LifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterInstance(typeof(IModuleCatalog), null, It.IsAny<object>(), It.IsAny<IInstanceLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -224,7 +224,7 @@ namespace Prism.Unity.Wpf.Tests
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(IServiceLocator), typeof(UnityServiceLocatorAdapter), null, It.IsAny<LifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IServiceLocator), typeof(UnityServiceLocatorAdapter), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -237,7 +237,7 @@ namespace Prism.Unity.Wpf.Tests
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(IModuleInitializer), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IModuleInitializer), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -250,7 +250,7 @@ namespace Prism.Unity.Wpf.Tests
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionManager), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionManager), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -263,7 +263,7 @@ namespace Prism.Unity.Wpf.Tests
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(RegionAdapterMappings), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterType(typeof(RegionAdapterMappings), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -276,7 +276,7 @@ namespace Prism.Unity.Wpf.Tests
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionViewRegistry), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionViewRegistry), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -289,7 +289,7 @@ namespace Prism.Unity.Wpf.Tests
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionBehaviorFactory), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionBehaviorFactory), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -302,7 +302,7 @@ namespace Prism.Unity.Wpf.Tests
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(IEventAggregator), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IEventAggregator), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -314,11 +314,11 @@ namespace Prism.Unity.Wpf.Tests
             var bootstrapper = new MockedContainerBootstrapper(mockedContainer.Object);
             bootstrapper.Run(false);
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(IEventAggregator), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Never());
-            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionManager), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Never());
-            mockedContainer.Verify(c => c.RegisterType(typeof(RegionAdapterMappings), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Never());
-            mockedContainer.Verify(c => c.RegisterType(typeof(IServiceLocator), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Never());
-            mockedContainer.Verify(c => c.RegisterType(typeof(IModuleInitializer), It.IsAny<Type>(), null, It.IsAny<LifetimeManager>()), Times.Never());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IEventAggregator), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionManager), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
+            mockedContainer.Verify(c => c.RegisterType(typeof(RegionAdapterMappings), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IServiceLocator), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IModuleInitializer), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
         }
 
         [StaFact]
@@ -334,7 +334,6 @@ namespace Prism.Unity.Wpf.Tests
             var regionBehaviorFactory = new RegionBehaviorFactory(serviceLocatorAdapter);
 
             container.RegisterInstance<IServiceLocator>(serviceLocatorAdapter);
-            container.RegisterInstance<UnityBootstrapperExtension>(new UnityBootstrapperExtension());
             container.RegisterInstance<IModuleCatalog>(new ModuleCatalog());
             container.RegisterInstance<IModuleInitializer>(mockedModuleInitializer.Object);
             container.RegisterInstance<IModuleManager>(mockedModuleManager.Object);
@@ -573,10 +572,7 @@ namespace Prism.Unity.Wpf.Tests
 
             mockedContainer.Setup(c => c.Resolve(typeof(IServiceLocator), (string)null)).Returns(serviceLocatorAdapter);
 
-            mockedContainer.Setup(c => c.RegisterInstance(It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<LifetimeManager>()));
-
-            mockedContainer.Setup(c => c.Resolve(typeof(UnityBootstrapperExtension), (string)null)).Returns(
-                new UnityBootstrapperExtension());
+            mockedContainer.Setup(c => c.RegisterInstance(It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<IInstanceLifetimeManager>()));
 
             mockedContainer.Setup(c => c.Resolve(typeof(IModuleCatalog), (string)null)).Returns(
                 new ModuleCatalog());

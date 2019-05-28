@@ -15,6 +15,10 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Services\Dialogs\DialogWindow.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Condition=" '$(TargetFramework)' == 'net45' " Include="System.Configuration" />
     <Reference Include="System.Windows.Interactivity">
       <HintPath>..\System.Windows.Interactivity.dll</HintPath>
