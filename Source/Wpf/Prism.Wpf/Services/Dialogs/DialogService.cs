@@ -43,7 +43,7 @@ namespace Prism.Services.Dialogs
             return _containerExtension.Resolve<IDialogWindow>();
         }
         
-        protected virutal object CreateContent()
+        protected virtual object CreateContent()
         {
            return _containerExtension.Resolve<object>(dialogName);
         }
