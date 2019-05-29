@@ -17,7 +17,7 @@ Prism 7 is a fully open source version of the Prism guidance [originally produce
 
 - Documentation is maintained in [the Prism-Documentation repo](https://github.com/PrismLibrary/Prism-Documentation) under /docs and can be found in a readable format on [the website](http://prismlibrary.github.io/docs/).
 - For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism).
-- You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues).
+- You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues/new/choose).
 
 ## Help Support Prism
 
