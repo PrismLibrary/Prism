@@ -1,6 +1,6 @@
 jobs:
-- job: prismCore
-  displayName: Prism.Core
+- job: prismLibFull
+  displayName: Full Prism Library
   pool:
     vmImage: $(VMImage)
     demands:
