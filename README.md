@@ -8,10 +8,18 @@ Prism 7 is a fully open source version of the Prism guidance [originally produce
 
 |          | Status |
 | -------- | ------ |
-| Full Build | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9) |
-| Prism.Core | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism.Core-CI)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=10) |
-| Prism.Wpf | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism.WPF-CI)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=12) |
-| Prism.Forms | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism.Forms-CI)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=11) |
+| Full Build | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20Prism%20Library)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Prism.Core | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Core)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Prism.Wpf | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Forms)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Prism.Forms | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Forms)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+
+### Sandbox Build Status
+
+| Sandbox | Status |
+|---------|:------:|
+| WPF | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Sandbox&jobName=Sandbox%20WPF%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Xamarin iOS | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Sandbox&jobName=Sandbox%20iOS%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Xamarin Android | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Sandbox&jobName=Sandbox%20Android%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
 
 ## Support
 
