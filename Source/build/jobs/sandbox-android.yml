@@ -19,7 +19,7 @@ jobs:
 
   - template: ../steps/prepare-build.yml
     parameters:
-      solution: Sandbox/Xamarin/HelloWorld.sln
+      solution: Sandbox/Xamarin/HelloWorld/HelloWorld.sln
 
   - task: XamarinAndroid@1
     displayName: 'Build Xamarin.Android project HelloWorld.Android.csproj'

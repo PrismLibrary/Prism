@@ -27,7 +27,7 @@ jobs:
 
   - template: ../steps/prepare-build.yml
     parameters:
-      solution: Sandbox/Xamarin/HelloWorld.sln
+      solution: Sandbox/Xamarin/HelloWorld/HelloWorld.sln
 
   - task: XamariniOS@2
     displayName: 'Build Xamarin.iOS solution HelloWorld.iOS.csproj'
