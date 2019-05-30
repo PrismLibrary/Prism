@@ -4,7 +4,7 @@ parameters:
 jobs:
 - job: sandboxAndroid
   displayName: Sandbox Android App
-  condition: succeeded()
+  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.Reason'], 'PullRequest'))
   pool:
     vmImage: $(MacImage)
     demands:
