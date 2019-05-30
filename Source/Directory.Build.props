@@ -38,7 +38,7 @@
     <PackageTags Condition=" '$(IsFormsProject)' == 'True' ">prism;mvvm;uwp;android;ios;xamarin;xamarin.forms;dependency injection;di</PackageTags>
     <IS_PREVIEW Condition=" '$(IS_PREVIEW)' == '' ">false</IS_PREVIEW>
     <IS_RELEASE Condition=" '$(IS_RELEASE)' == '' ">false</IS_RELEASE>
-    <ExtrasEnableWpfProjectSetup>$(IsWpfProject)</ExtrasEnableWpfProjectSetup>
+    <UseWpf>$(IsWpfProject)</UseWpf>
     <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
     <!-- Update this version when incrementing Library Versions i.e. 7.1.0, 7.2.0 -->
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' ">7.2.0</VersionPrefix>
