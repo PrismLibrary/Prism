@@ -1,3 +1,6 @@
+parameters:
+  buildConfiguration: 'Debug'
+
 jobs:
 - job: sandboxIOS
   displayName: Sandbox iOS App
@@ -29,5 +32,5 @@ jobs:
   - task: XamariniOS@2
     displayName: 'Build Xamarin.iOS solution HelloWorld.iOS.csproj'
     inputs:
-      solutionFile: 'Sandbox/Xamarin/**/HelloWorld.iOS.csproj'
+      solutionFile: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/HelloWorld.iOS.csproj'
       configuration: ${{ parameters.buildConfiguration }}

@@ -1,3 +1,6 @@
+parameters:
+  buildConfiguration: 'Debug'
+
 jobs:
 - job: sandboxAndroid
   displayName: Sandbox Android App
@@ -21,6 +24,6 @@ jobs:
   - task: XamarinAndroid@1
     displayName: 'Build Xamarin.Android project HelloWorld.Android.csproj'
     inputs:
-      projectFile: Sandbox/Xamarin/**/HelloWorld.Android.csproj
-      outputDirectory: '$(Build.BinariesDirectory)/$(BuildConfiguration)'
-      configuration: '$(BuildConfiguration)'
+      projectFile: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.Android/HelloWorld.Android.csproj
+      outputDirectory: '$(Build.BinariesDirectory)/${{ parameters.buildConfiguration }}'
+      configuration: ${{ parameters.buildConfiguration }}

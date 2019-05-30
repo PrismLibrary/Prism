@@ -11,5 +11,5 @@ jobs:
   steps:
   - template: ../steps/build.yml
     parameters:
-      solution: Sandbox/Xamarin/HelloWorld.sln
+      solution: Sandbox/Wpf/HelloWorld/HelloWorld.sln
       solutionName: WPF Sandbox
