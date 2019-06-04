@@ -13,7 +13,7 @@ namespace Prism.Modularity
         void RegisterTypes(IContainerRegistry containerRegistry);
 
         /// <summary>
-        /// Notifies the module that it has be initialized.
+        /// Notifies the module that it has been initialized.
         /// </summary>
         void OnInitialized(IContainerProvider containerProvider);
     }
