@@ -113,8 +113,8 @@ namespace Prism.Services.Dialogs
             window.Content = dialogContent;
             window.DataContext = viewModel; //we want the host window and the dialog to share the same data contex
 
-            //TODO: is there a better way to set the owner
-            window.Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+            if (window.Owner == null)
+                window.Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
         }
     }
 }
