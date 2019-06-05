@@ -17,19 +17,15 @@ namespace Prism.Events
 
         public void RemoveListener(Delegate listener)
         {
-            this.listeners.RemoveAll(reference =>
-            {
-                //Remove the listener, and prune collected listeners
-                Delegate target = reference.Target;
-                return listener.Equals(target) || target == null;
-            });
+            //Remove the listener, and prune collected listeners
+            this.listeners.RemoveAll(reference => reference.TargetEquals(null) || reference.TargetEquals(listener));
         }
 
         public void Raise(params object[] args)
         {
-            this.listeners.RemoveAll(listener => listener.Target == null);
+            this.listeners.RemoveAll(listener => listener.TargetEquals(null));
 
-            foreach (Delegate handler in this.listeners.ToList().Select(listener => listener.Target).Where(listener => listener != null))
+            foreach (Delegate handler in this.listeners.Select(listener => listener.Target).Where(listener => listener != null).ToList())
             {
                 handler.DynamicInvoke(args);
             }

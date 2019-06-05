@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Prism.Ioc
+﻿namespace Prism.Ioc
 {
     public interface IContainerExtension<TContainer> : IContainerExtension
     {

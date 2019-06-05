@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Windows.Input;
-using Prism.Mvvm;
 using System.Threading;
 
 namespace Prism.Commands
@@ -51,8 +49,8 @@ namespace Prism.Commands
         /// <summary>
         /// Raises <see cref="CanExecuteChanged"/> so every command invoker
         /// can requery to check if the command can execute.
-        /// <remarks>Note that this will trigger the execution of <see cref="CanExecuteChanged"/> once for each invoker.</remarks>
         /// </summary>
+        /// <remarks>Note that this will trigger the execution of <see cref="CanExecuteChanged"/> once for each invoker.</remarks>
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate")]
         public void RaiseCanExecuteChanged()
         {

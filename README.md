@@ -1,26 +1,31 @@
 ﻿# Prism
 
-Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Windows 10 UWP, and Xamarin Forms. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for UWP and Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
+Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, and Xamarin Forms. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base in both a netstandard2.0 &amp; net45 Library. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
 
-Prism 6 is a fully open source version of the Prism guidance [originally produced by Microsoft patterns & practices](http://blogs.msdn.com/b/dotnet/archive/2015/03/19/prism-grows-up.aspx). The core team members were all part of the P&amp;P team that developed Prism 1 through 5, and the effort has now been turned over to the open source community to keep it alive and thriving to support the .NET community. There are thousands of companies who have adopted previous versions of Prism for WPF, Silverlight, and Windows Runtime, and we hope they will continue to move along with us as we continue to evolve and enhance the framework to keep pace with current platform capabilities and requirements.
-
-At the current time, we have no plans to create new versions of the library for Silverlight or for Windows 8/8.1/WP8.1. For those you can still use the previous releases from Microsoft P&amp;P [here](https://msdn.microsoft.com/en-us/library/Gg430869%28v=PandP.40%29.aspx) and [here](http://prismwindowsruntime.codeplex.com/). If there is enough interest and contributors to do the work, we can consider it, but it is not on our roadmap for now.
+Prism 7 is a fully open source version of the Prism guidance [originally produced by Microsoft patterns & practices](http://blogs.msdn.com/b/dotnet/archive/2015/03/19/prism-grows-up.aspx). The core team members were all part of the P&amp;P team that developed Prism 1 through 5, and the effort has now been turned over to the open source community to keep it alive and thriving to support the .NET community. There are thousands of companies who have adopted previous versions of Prism for WPF, Silverlight, and Windows Runtime, and we hope they will continue to move along with us as we continue to evolve and enhance the framework to keep pace with current platform capabilities and requirements.
 
 ## Build Status
 
 |          | Status |
 | -------- | ------ |
-| Full Build | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9) |
-| Prism.Core | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism.Core-CI)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=10) |
-| Prism.Wpf | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism.WPF-CI)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=12) |
-| Prism.Windows | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism.UWP-CI)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=13) |
-| Prism.Forms | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism.Forms-CI)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=11) |
+| Full Build | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20Prism%20Library)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Prism.Core | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Core)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Prism.Wpf | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Forms)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Prism.Forms | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Forms)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+
+### Sandbox Build Status
+
+| Sandbox | Status |
+|---------|:------:|
+| WPF | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Sandbox&jobName=Sandbox%20WPF%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Xamarin iOS | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Sandbox&jobName=Sandbox%20iOS%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Xamarin Android | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Sandbox&jobName=Sandbox%20Android%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
 
 ## Support
 
 - Documentation is maintained in [the Prism-Documentation repo](https://github.com/PrismLibrary/Prism-Documentation) under /docs and can be found in a readable format on [the website](http://prismlibrary.github.io/docs/).
 - For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism).
-- You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues).
+- You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues/new/choose).
 
 ## Help Support Prism
 
@@ -29,29 +34,35 @@ As most of you know, it takes a lot of time and effort for our small team to man
 By becoming a [Patron and subscribing](https://www.patreon.com/prismlibrary) to the Prism Library, you will receive a number of benefits depending on your level of support.
 
 **Supporter** - $5+ per month
+
 - Receive all Prism Library news and announcements, such as new release information and blogs posts.
 - Gives you access to our community Slack channel where you can ask questions and get help from the community and the Prism Library project maintainers (when available).
 
 **Backer** - $10+ per month
 Everything in the Supporter plan plus:
+
 - A Prism sticker
 
 **Generous Backer** - $25+ per month
 Everything in the Backer plan plus:
+
 - Video Tutorial request priortiy (topic acceptance not guaranteed)
 - Bragging rights!
 
 **Bronze Sponsor** - $100+ per month
 Everything in the Generous Backer plan plus:
+
 - Your name or company logo (small) will be put in sponsors.md in the Prism repository.
 
 **Silver Sponsor** - $250+ per month
 Everything in the Generous Backer plan plus:
+
 - Your name or company logo (medium) will be put in the sponsors.md in the Prism repository.
 - Your name or company logo (medium) will be put on the repository ReadMe.md
 
 **Gold Sponsor** - $500+ per month
 Everything in the Generous Backer plan plus:
+
 - Your name or company logo (large) will be put in the sponsors.md in the Prism repository.
 - Your name or company logo (large) will be put on the repository ReadMe.md
 - Your name or company logo (large) on the homepage of PrismLibrary.com
@@ -59,6 +70,7 @@ Everything in the Generous Backer plan plus:
 
 **Platinum Sponsor** - $1,000+ per month
 Everything in the Generous Backer plan plus:
+
 - Your name or company logo (large) will be put at the top of the sponsors.md in the Prism repository.
 - Your name or company logo (large) will be put on the repository ReadMe.md
 - Your name or company logo on the homepage of PrismLibrary.com
@@ -67,8 +79,11 @@ Everything in the Generous Backer plan plus:
 
 **Corporate Sponsor** - $10,000+ per month
 Everything in the Platinum Sponsor plan plus:
+
 - 3 days onsite training for your company (every six months)
 - Dedicated VIP Support
+
+## Videos &amp; Training
 
 By watching our courses, not only do you help support the project financially, but you might also learn something along the way.  We believe this is a win-win for everyone.
 
@@ -80,6 +95,13 @@ By watching our courses, not only do you help support the project financially, b
 - [Prism Problems & Solutions: Loading Dependent Views](https://app.pluralsight.com/library/courses/prism-problems-solutions/table-of-contents)
 
 We appreciate your support.
+
+### Twitch
+
+Both Brian and Dan are streaming live on a regular basis covering topics for WPF and Xamarin.Forms developers. Be sure to follow and subscribe to find out when they go live.
+
+- [Brian Lagunas](https://twitch.tv/brianlagunas)
+- [Dan Siegel](https://twitch.tv/dansiegel)
 
 ## NuGet Packages
 
@@ -96,7 +118,8 @@ These are the base packages for each platform, together with the Prism's Core as
 | PCL | Prism.dll | [Prism.Core][CoreNuGet] | [![CoreNuGetShield]][CoreNuGet] | [![CoreMyGetShield]][CoreMyGet] |
 | WPF | Prism.Wpf.dll | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfMyGetShield]][WpfMyGet] |
 | Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][FormsNuGet] | [![FormsNuGetShield]][FormsNuGet] | [![FormsMyGetShield]][FormsMyGet] |
-| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][UWPNuGet] | [![UWPNuGetShield]][UWPNuGet] | [![UWPMyGetShield]][UWPMyGet] |
+<!--
+| Windows 10 UWP | Prism.Windows.dll | [Prism.Windows][UWPNuGet] | [![UWPNuGetShield]][UWPNuGet] | [![UWPMyGetShield]][UWPMyGet] |-->
 
 ### Container-specific packages
 
@@ -113,12 +136,14 @@ Each supported IoC container has its own package assisting in the setup and usag
 | [Prism.StructureMap][StructureMapWpfNuGet] | [![StructureMapWpfNuGetShield]][StructureMapWpfNuGet] | see notes |
 | [Prism.Unity][UnityWpfNuGet] | [![UnityWpfNuGetShield]][UnityWpfNuGet] | [![UnityWpfMyGetShield]][UnityWpfMyGet] |
 
+<!--
 #### UWP
 
 | Package | NuGet | MyGet |
 |---------|-------|-------|
 | [Prism.DryIoc.Windows][DryIocUWPNuGet] | [![DryIocUWPNuGetShield]][DryIocUWPNuGet] | [![DryIocUWPMyGetShield]][DryIocUWPMyGet] |
 | [Prism.Unity.Windows][UnityUWPNuGet] | [![UnityUWPNuGetShield]][UnityUWPNuGet] | [![UnityUWPMyGetShield]][UnityUWPMyGet] |
+-->
 
 #### Xamarin Forms
 
@@ -126,14 +151,12 @@ Each supported IoC container has its own package assisting in the setup and usag
 |---------|-------|-------|
 | [Prism.Autofac.Forms][AutofacFormsNuGet]* | [![AutofacFormsNuGetShield]][AutofacFormsNuGet] | see notes |
 | [Prism.DryIoc.Forms][DryIocFormsNuGet] | [![DryIocFormsNuGetShield]][DryIocFormsNuGet] | [![DryIocFormsMyGetShield]][DryIocFormsMyGet] |
-| [Prism.Ninject.Forms][NinjectFormsNuGet]* | [![NinjectFormsNuGetShield]][NinjectFormsNuGet] | see notes |
 | [Prism.Unity.Forms][UnityFormsNuGet] | [![UnityFormsNuGetShield]][UnityFormsNuGet] | [![UnityFormsMyGetShield]][UnityFormsMyGet] |
 
 #### Package Notices
 
 - Autofac will be removed following the 7.1 release due to it's inability to support Prism Modularity.
 - MEF is no longer supported in Prism 7 as it is not truly a DI Container and lacks the performance that developers deserve.
-- Ninject for Xamarin Forms has been discontinued due in Prism 7 to an incompatibility of the container with Xamarin Targets.
 - StructureMap has reached EOL as a container. As a result the Prism team will no longer be continuing to provide updates to the StructureMap package moving forward.
 - For developers using Unity with Prism 6, take note that the new Unity maintainer has made major breaking changes. This includes changing namespaces and the package structure. These changes were NOT made by the Prism team nor do we have any control over it. When upgrading to Prism 7 you will need to uninstall the existing Unity package as we now reference the Unity.Container NuGet.
 
@@ -157,14 +180,16 @@ The Prism Template Studio and Developer Toolkit is available from the Visual Stu
 
 ## Plugins
 
-There are certain things that cannot be added directly into Prism for various reasons. To handle these common tasks such as supporting PopupPage's in Xamarin Forms, there are Prism Plugins. You can find a number of Plugins available on NuGet from our maintainer @DanJSiegel.
+There are certain things that cannot be added directly into Prism for various reasons. To handle these common tasks such as supporting PopupPage's in Xamarin Forms, there are Prism Plugins. You can find a number of Plugins available on NuGet from our maintainer [@DanJSiegel](https://twitter.com/DanJSiegel).
 
 - [Prism.Plugin.Popups](https://github.com/dansiegel/Prism.Plugin.Popups) (Forms Only)
 - [Prism.Plugin.Logging](https://github.com/dansiegel/Prism.Plugin.Logging) (Works on all Platforms)
-  - Adds support for Syslog, Loggly, and Graylog
+  - Adds support for Syslog, Loggly, Graylog, Application Insights, &amp; App Center
 - [Prism.Plugin.PageDialogs](https://github.com/dansiegel/Prism.Plugin.PageDialogs) (Forms Only)
-- [Prism.MFractor.Config](https://nuget.org/packages/Prism.MFractor.Config)
-  - Configures MFractor in Visual Studio for Mac to follow Prism Conventions
+- [Prism.Container.Extensions](https://github.com/dansiegel/Prism.Container.Extensions)
+  - Adds advanced Container Registration abstractions
+  - Adds DryIoc ContainerExtension with support for Microsoft.DependencyInjection.Extensions &amp; Splat. Uses a singleton pattern to allow initialization from a native platform
+  - Provides an extended PrismApplication with additional error handling and platform specifics support for Prism.Forms
 
 ## Samples
 

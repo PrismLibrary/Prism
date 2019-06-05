@@ -1,0 +1,79 @@
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - ReadMe.md
+
+pr:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - ReadMe.md
+
+name: $(Build.BuildId)
+
+pool:
+  vmImage: vs2017-win2016
+
+variables:
+  BuildPlatform: 'Any CPU'
+  BuildConfiguration: 'Release'
+
+steps:
+- template: steps/build.yml
+  parameters:
+    solution: Source/PrismLibrary.sln
+    solutionName: Build full Prism Library
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Assembly Artifacts'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)/$(BuildConfiguration)'
+    ArtifactName: '$(BuildConfiguration)'
+  condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
+
+- powershell: ./Sign-Packages.ps1
+  workingDirectory: Source/build
+  displayName: 'Authenticode Sign Artifacts'
+  env:
+    SignClientUser: $(SignClientUser)
+    SignClientSecret: $(SignClientSecret)
+    SignClientClientId: $(SignClientClientId)
+    SignClientTenantId: $(SignClientTenantId)
+    SignServiceResourceId: $(SignServiceResourceId)
+  condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Package Artifacts'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)/NuGet'
+    ArtifactName: NuGet
+  condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
+
+- template: steps/core-test.yml
+  parameters:
+    displayName: Test Prism.Core
+    projectName: Prism.Core
+    projectsPath: Source/Prism.Tests/Prism.Tests.csproj
+
+- template: steps/core-test.yml
+  parameters:
+    displayName: Test Prism.Forms
+    projectName: Prism.Forms
+    projectsPath: |
+     Source/Xamarin/**/*.Tests.csproj
+     !**/*Autofac*.csproj
+     !**/*Ninject*.csproj
+
+- template: steps/vstest.yml
+  parameters:
+    displayName: Test Prism.WPF
+    projectName: Prism.WPF
+    projectsPath: |
+     $(System.DefaultWorkingDirectory)\Source\Wpf\**\*test*.dll
+     !**/obj/*
+

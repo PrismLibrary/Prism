@@ -1,25 +1,14 @@
 parameters:
   solution: '**/*.sln'
-  solutionName: 'Build Solution'
+  solutionName: 'Solution'
 
 steps:
-- task: DotNetCoreInstaller@0
-  inputs:
-    version: '3.0.100-preview-009812'
-
-- task: NuGetToolInstaller@0
-  displayName: Use NuGet 4.9.2
-  inputs:
-    versionSpec: 4.9.2
-
-- task: NuGetCommand@2
-  displayName: 'NuGet restore'
-  inputs:
-    restoreSolution: ${{ parameters.solution }}
-    noCache: true
+- template: prepare-build.yml
+  parameters:
+    solution: ${{ parameters.solution }}
 
 - task: MSBuild@1
-  displayName: ${{ parameters.solutionName }}
+  displayName: Build ${{ parameters.solutionName }}
   inputs:
     solution: ${{ parameters.solution }}
     platform: '$(BuildPlatform)'

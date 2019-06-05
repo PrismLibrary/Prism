@@ -1,0 +1,18 @@
+jobs:
+- job: sandboxWpf
+  displayName: Sandbox WPF App
+  condition: succeeded()
+  pool:
+    vmImage: $(VMImage)
+    demands:
+    - MSBuild
+  workspace:
+    clean: all
+  steps:
+  - powershell: Copy-Item -Path .\Source\global.json -Destination .\Sandbox\Wpf\HelloWorld\
+    displayName: Copy global.json to Sandbox directory
+
+  - template: ../steps/build.yml
+    parameters:
+      solution: Sandbox/Wpf/HelloWorld/HelloWorld.sln
+      solutionName: WPF Sandbox

@@ -1,0 +1,29 @@
+parameters:
+  buildConfiguration: 'Debug'
+
+jobs:
+- job: sandboxAndroid
+  displayName: Sandbox Android App
+  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.Reason'], 'PullRequest'))
+  pool:
+    vmImage: $(MacImage)
+    demands:
+    - MSBuild
+    - Xamarin.Android
+    - JDK
+    - AndroidSDK
+  workspace:
+    clean: all
+  steps:
+  - template: ../steps/set-runtime.yml
+
+  - template: ../steps/prepare-build.yml
+    parameters:
+      solution: Sandbox/Xamarin/HelloWorld/HelloWorld.sln
+
+  - task: XamarinAndroid@1
+    displayName: 'Build Xamarin.Android project HelloWorld.Android.csproj'
+    inputs:
+      projectFile: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.Android/HelloWorld.Android.csproj
+      outputDirectory: '$(Build.BinariesDirectory)/${{ parameters.buildConfiguration }}'
+      configuration: ${{ parameters.buildConfiguration }}
