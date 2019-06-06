@@ -1,9 +1,10 @@
-﻿using Prism.Navigation;
+﻿using System;
 
 namespace Prism.Services.Dialogs
 {
-    public interface IDialogResult : INavigationResult
+    public interface IDialogResult
     {
+        Exception Exception { get; }
         IDialogParameters Parameters { get; }
     }
 }

@@ -51,7 +51,7 @@ namespace Prism.Services.Dialogs.Xaml
 
         protected virtual void OnDialogClosed(IDialogResult result)
         {
-            if (!result.Success)
+            if (result.Exception != null)
             {
                 Log.Warning("Warning", $"Dialog '{Name}' closed with an error:\n{result.Exception}");
             }

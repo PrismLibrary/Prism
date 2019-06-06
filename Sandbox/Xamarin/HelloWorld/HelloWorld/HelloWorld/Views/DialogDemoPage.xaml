@@ -12,7 +12,7 @@
         <StackLayout>
             <Label Text="{x:Static i18n:Resources.LoremIpsum}" />
             <Button Text="Show Demo Dialog"
-                    Command="{prism:ShowDialog 'DemoDialog?message=Hello%20From%20Prism%20DialogService!'}"
+                    Command="{prism:ShowDialog 'DemoDialog?message=Hello%20From%20Prism%20DialogService!&amp;closeOnBackgroundTapped=true'}"
                     HorizontalOptions="Center" />
             <Button Text="Show User Alert"
                     Command="{Binding ShowUserAlertCommand}"

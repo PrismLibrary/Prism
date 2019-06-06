@@ -133,7 +133,6 @@ namespace Prism.Services.Dialogs
 
                 return new DialogResult
                 {
-                    Success = true,
                     Parameters = parameters
                 };
             }
@@ -250,7 +249,7 @@ namespace Prism.Services.Dialogs
 
             if (hideOnBackgroundTapped)
             {
-                var dismissCommand = new Command(() => CloseDialog(new DialogParameters(), currentPage));
+                var dismissCommand = new Command(() => callback(new DialogParameters()));
                 mask.GestureRecognizers.Add(new TapGestureRecognizer
                 {
                     Command = dismissCommand
