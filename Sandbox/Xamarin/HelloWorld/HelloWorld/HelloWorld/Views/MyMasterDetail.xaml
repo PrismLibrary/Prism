@@ -21,6 +21,8 @@
                 </Button>
                 <Button Text="XamlNav wihout animation" Command="{prism:NavigateTo 'MyNavigationPage/ViewA', Animated=False}" />
                 <Button Text="XamlNav modal" Command="{prism:NavigateTo 'MyNavigationPage/ViewA', UseModalNavigation=True}" />
+                <Button Text="Dialog Demo"
+                        Command="{prism:NavigateTo 'MyNavigationPage/DialogDemoPage'}" />
             </StackLayout>
         </ContentPage>
     </MasterDetailPage.Master>
