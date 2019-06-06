@@ -58,7 +58,7 @@ stages:
 
 - stage: deploy
   displayName: Deploy Artifacts
-  condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   jobs:
   - deployment: MyGet
     displayName: MyGet.org
