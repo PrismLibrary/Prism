@@ -238,12 +238,18 @@ namespace Prism.Services.Dialogs
 
         private void InsertPopupViewInCurrentPage(ContentPage currentPage, View popupView, bool hideOnBackgroundTapped, Action<IDialogParameters> callback)
         {
-            Style overlayStyle = GetOverlayStyle(popupView);
+            View mask = DialogLayout.GetMask(popupView);
 
-            var mask = new BoxView
+            if(mask is null)
             {
-                Style = overlayStyle
-            };
+                Style overlayStyle = GetOverlayStyle(popupView);
+
+                mask = new BoxView
+                {
+                    Style = overlayStyle
+                };
+            }
+
             mask.SetBinding(VisualElement.WidthRequestProperty, new Binding { Path = "Width", Source = currentPage });
             mask.SetBinding(VisualElement.HeightRequestProperty, new Binding { Path = "Height", Source = currentPage });
 

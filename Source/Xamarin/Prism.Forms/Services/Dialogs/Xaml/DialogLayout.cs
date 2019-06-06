@@ -42,5 +42,15 @@ namespace Prism.Services.Dialogs.Xaml
 
         public static void SetMaskStyle(BindableObject bindable, Style value) =>
             bindable.SetValue(MaskStyleProperty, value);
+
+        public static readonly BindableProperty MaskProperty =
+            BindableProperty.CreateAttached("Mask", typeof(View), typeof(DialogLayout), null);
+
+        public static View GetMask(BindableObject bindable) =>
+            (View)bindable.GetValue(MaskProperty);
+
+        public static void SetMask(BindableObject bindable, View value) =>
+            bindable.SetValue(MaskProperty, value);
+
     }
 }
