@@ -22,12 +22,12 @@ namespace HelloWorld.Dialogs
 
         protected virtual void CloseDialog(string parameter)
         {
-            bool? result = null;
+            ButtonResult result = ButtonResult.None;
 
             if (parameter?.ToLower() == "true")
-                result = true;
+                result = ButtonResult.OK;
             else if (parameter?.ToLower() == "false")
-                result = false;
+                result = ButtonResult.Cancel;
 
             RequestClose?.Invoke(new DialogResult(result));
         }

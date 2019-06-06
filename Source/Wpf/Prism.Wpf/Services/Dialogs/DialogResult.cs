@@ -4,16 +4,16 @@
     {
         public IDialogParameters Parameters { get; private set; } = new DialogParameters();
 
-        public bool? Result { get; private set; }
+        public ButtonResult Result { get; private set; } = ButtonResult.None;
 
         public DialogResult() { }
 
-        public DialogResult(bool? result)
+        public DialogResult(ButtonResult result)
         {
             Result = result;
         }
 
-        public DialogResult(bool? result, IDialogParameters parameters)
+        public DialogResult(ButtonResult result, IDialogParameters parameters)
         {
             Result = result;
             Parameters = parameters;

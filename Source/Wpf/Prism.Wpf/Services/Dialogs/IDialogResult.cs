@@ -10,6 +10,6 @@
         /// <summary>
         /// The result of the dialog.
         /// </summary>
-        bool? Result { get; }        
+        ButtonResult Result { get; }        
     }
 }
