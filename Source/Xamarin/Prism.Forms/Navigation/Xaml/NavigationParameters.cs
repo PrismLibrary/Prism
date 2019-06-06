@@ -81,11 +81,15 @@ namespace Prism.Navigation.Xaml
             void BindingContextChanged(object parentObject, EventArgs args)
             {
                 var parent = (BindableObject) parentObject;
-                for (var index = 0; index < self._list.Count; index++)
-                {
-                    var parameter = self._list[index];
-                    parameter.BindingContext = parent.BindingContext;
-                }
+                self.BindingContext = parent?.BindingContext;
+            }
+        }
+
+        protected override void OnBindingContextChanged()
+        {
+            foreach(var param in this)
+            {
+                param.BindingContext = BindingContext;
             }
         }
     }

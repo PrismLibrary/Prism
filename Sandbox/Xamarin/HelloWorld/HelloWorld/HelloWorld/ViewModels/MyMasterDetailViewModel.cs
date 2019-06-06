@@ -13,6 +13,10 @@ namespace HelloWorld.ViewModels
     {
         INavigationService _navigationService;
 
+        public string NavigatePath => "MyNavigationPage/ViewA";
+
+        public string Message => "Hello from MyMasterDetailViewModel";
+
         public DelegateCommand<string> NavigateCommand { get; set; }
         public MyMasterDetailViewModel(INavigationService navigationService)
         {
