@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-                  xmlns:nav="clr-namespace:Prism.Navigation.Xaml;assembly=Prism.Forms"
+                  xmlns:prism="http://prismlibrary.com"
                   prism:ViewModelLocator.AutowireViewModel="True"
                   x:Class="HelloWorld.Views.MyMasterDetail">
 
@@ -13,9 +12,15 @@
                 <Button Text="ViewA" Command="{Binding NavigateCommand}" CommandParameter="MyTabbedPage?selectedTab=ViewA" />
                 <Button Text="ViewB" Command="{Binding NavigateCommand}" CommandParameter="MyTabbedPage?selectedTab=ViewB" />
                 <Button Text="ViewC" Command="{Binding NavigateCommand}" CommandParameter="MyTabbedPage?selectedTab=ViewC" />
-                <Button Text="XamlNav" Command="{nav:NavigateTo 'MyNavigationPage/ViewA'}" />
-                <Button Text="XamlNav wihout animation" Command="{nav:NavigateTo 'MyNavigationPage/ViewA', Animated=False}" />
-                <Button Text="XamlNav modal" Command="{nav:NavigateTo 'MyNavigationPage/ViewA', UseModalNavigation=True}" />
+                <Button Text="XamlNav" Command="{prism:NavigateTo Name={Binding NavigatePath}}">
+                    <Button.CommandParameter>
+                        <prism:NavigationParameters>
+                            <prism:NavigationParameter Key="message" Value="{Binding Message}" />
+                        </prism:NavigationParameters>
+                    </Button.CommandParameter>
+                </Button>
+                <Button Text="XamlNav wihout animation" Command="{prism:NavigateTo 'MyNavigationPage/ViewA', Animated=False}" />
+                <Button Text="XamlNav modal" Command="{prism:NavigateTo 'MyNavigationPage/ViewA', UseModalNavigation=True}" />
             </StackLayout>
         </ContentPage>
     </MasterDetailPage.Master>

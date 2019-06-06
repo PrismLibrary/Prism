@@ -9,7 +9,7 @@ using Prism.Navigation.TabbedPages;
 
 namespace ModuleA.ViewModels
 {
-    public class ViewAViewModel : BindableBase, INavigationAware, IActiveAware, IApplicationLifecycleAware, IPageLifecycleAware
+    public class ViewAViewModel : BindableBase, IAutoInitialize, INavigationAware, IActiveAware, IApplicationLifecycleAware, IPageLifecycleAware
     {
         private readonly INavigationService _navigationService;
 
@@ -22,6 +22,12 @@ namespace ModuleA.ViewModels
 
         private bool _canNavigate = true;
 
+        string _message = "No Message Set.";
+        public string Message
+        {
+            get => _message;
+            set => SetProperty(ref _message, value);
+        }
 
 
         public bool CanNavigate

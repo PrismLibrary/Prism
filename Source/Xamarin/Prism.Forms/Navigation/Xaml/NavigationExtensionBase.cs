@@ -132,12 +132,14 @@ namespace Prism.Navigation.Xaml
             {
                 SourcePage = parentPage;
 
-                if(parentPage.Parent is MasterDetailPage mdp 
+                if(parentPage.Parent is MasterDetailPage mdp
                     && mdp.Master == parentPage)
                 {
                     SourcePage = mdp;
                 }
             }
+
+            BindingContext = SourcePage.BindingContext;
         }
 
         private IEnumerable<Element> GetBindableStack()

@@ -17,6 +17,7 @@ namespace Prism.Navigation.Xaml
                     xamlParameter.BindingContext = xamlParameter.BindingContext ?? parent.BindingContext;
                     return new PrismNavParameters { { xamlParameter.Key, xamlParameter.Value } };
                 case XamlNavParams xamlParameters:
+                    xamlParameters.BindingContext = parent.BindingContext;
                     return xamlParameters.ToNavigationParameters(parent);
                 default:
                     return new PrismNavParameters { { KnownNavigationParameters.XamlParam, parameter } };

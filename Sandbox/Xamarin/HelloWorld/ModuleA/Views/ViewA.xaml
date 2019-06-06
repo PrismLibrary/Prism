@@ -4,17 +4,25 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ModuleA.Views.ViewA"
+             Padding="{OnPlatform iOS='0,20,0,0'}"
              Title="View A">
-    <ContentPage.Padding>
-        <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="0,20,0,0" />
-        </OnPlatform>
-    </ContentPage.Padding>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-	<StackLayout>
-		<Label Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" />
-		<Label Text="{Binding IsActive}" />
-		<Button Command="{Binding NavigateCommand}" Text="Navigate" />
-	</StackLayout>
+    <StackLayout VerticalOptions="Center"
+                 HorizontalOptions="Center">
+        <Label Text="{Binding Title}" />
+        <Label Text="{Binding Message}" />
+        <Label Text="{Binding IsActive, StringFormat='IsActive: {0}'}" />
+        <Button Command="{Binding NavigateCommand}" Text="Navigate" />
+    </StackLayout>
 
 </ContentPage>
