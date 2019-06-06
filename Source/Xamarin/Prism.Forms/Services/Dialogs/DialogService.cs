@@ -126,6 +126,7 @@ namespace Prism.Services.Dialogs
                 var pageContainer = (DialogContainer)hostView.Children.First(x => x is DialogContainer dc && dc.IsPageContent);
                 contentPage.Content = pageContainer.Content;
                 contentPage.Padding = pageContainer.Padding;
+                contentPage.SetValue(IsPopupHostProperty, false);
 
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(view, aa => aa.IsActive = false);
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(currentPage, aa => aa.IsActive = true);
