@@ -31,44 +31,44 @@ namespace HelloWorld.ViewModels
             //using the dialog service as-is
             //_dialogService.ShowDialog("NotificationDialog", new DialogParameters($"message={message}"), r =>
             //{
-            //    if (!r.Result.HasValue)
-            //        Title = "Result is null";
-            //    else if (r.Result == true)
-            //        Title = "Result is True";
-            //    else if (r.Result == false)
-            //        Title = "Result is False";
+            //    if (r.Result == ButtonResult.None)
+            //        Title = "Result is None";
+            //    else if (r.Result == ButtonResult.OK)
+            //        Title = "Result is OK";
+            //    else if (r.Result == ButtonResult.Cancel)
+            //        Title = "Result is Cancel";
             //    else
-            //        Title = "What the hell did you do?";
+            //        Title = "I Don't know what you did!?";
             //});
 
             //using custom extenions methods to simplify the app's dialogs
             //_dialogService.ShowNotification(message, r =>
             //{
-            //    if (!r.Result.HasValue)
-            //        Title = "Result is null";
-            //    else if (r.Result == true)
-            //        Title = "Result is True";
-            //    else if (r.Result == false)
-            //        Title = "Result is False";
+            //    if (r.Result == ButtonResult.None)
+            //        Title = "Result is None";
+            //    else if (r.Result == ButtonResult.OK)
+            //        Title = "Result is OK";
+            //    else if (r.Result == ButtonResult.Cancel)
+            //        Title = "Result is Cancel";
             //    else
-            //        Title = "What the hell did you do?";
+            //        Title = "I Don't know what you did!?";
             //});
 
             _dialogService.ShowConfirmation(message, r =>
             {
-                if (!r.Result.HasValue)
-                    Title = "Result is null";
-                else if (r.Result == true)
-                    Title = "Result is True";
-                else if (r.Result == false)
-                    Title = "Result is False";
+                if (r.Result == ButtonResult.None)
+                    Title = "Result is None";
+                else if (r.Result == ButtonResult.OK)
+                    Title = "Result is OK";
+                else if (r.Result == ButtonResult.Cancel)
+                    Title = "Result is Cancel";
                 else
-                    Title = "What the hell did you do?";
+                    Title = "I Don't know what you did!?";
             });
         }
     }
 
-    public static class DialogServiceEstensions
+    public static class DialogServiceExtensions
     {
         public static void ShowNotification(this IDialogService dialogService, string message, Action<IDialogResult> callBack)
         {

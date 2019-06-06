@@ -22,9 +22,9 @@ namespace Prism.Services.Dialogs
         void OnDialogOpened(IDialogParameters parameters);
 
         /// <summary>
-        /// The title of the dialog that wil show in the Window title bar.
+        /// The title of the dialog that will show in the Window title bar.
         /// </summary>
-        string Title { get; set; }
+        string Title { get; }
 
         /// <summary>
         /// Instructs the IDialogWindow to close the dialog.
