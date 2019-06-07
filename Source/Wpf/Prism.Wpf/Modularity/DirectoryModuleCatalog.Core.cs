@@ -1,5 +1,4 @@
-#if NET45
-
+﻿#if NETCOREAPP3_0
 using Prism.Properties;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Policy;
 
 namespace Prism.Modularity
 {
@@ -42,7 +40,7 @@ namespace Prism.Modularity
                 throw new InvalidOperationException(
                     string.Format(CultureInfo.CurrentCulture, Resources.DirectoryNotFound, this.ModulePath));
 
-            AppDomain childDomain = this.BuildChildDomain(AppDomain.CurrentDomain);
+            AppDomain childDomain = AppDomain.CurrentDomain;
 
             try
             {
@@ -65,40 +63,14 @@ namespace Prism.Modularity
                     var loader =
                         (InnerModuleInfoLoader)
                         childDomain.CreateInstanceFrom(loaderType.Assembly.Location, loaderType.FullName).Unwrap();
-                    loader.LoadAssemblies(loadedAssemblies);
+
                     this.Items.AddRange(loader.GetModuleInfos(this.ModulePath));
                 }
             }
-            finally
+            catch (Exception ex)
             {
-                AppDomain.Unload(childDomain);
+                throw new Exception("There was an error loading assemblies.", ex);
             }
-        }
-
-
-        /// <summary>
-        /// Creates a new child domain and copies the evidence from a parent domain.
-        /// </summary>
-        /// <param name="parentDomain">The parent domain.</param>
-        /// <returns>The new child domain.</returns>
-        /// <remarks>
-        /// Grabs the <paramref name="parentDomain"/> evidence and uses it to construct the new
-        /// <see cref="AppDomain"/> because in a ClickOnce execution environment, creating an
-        /// <see cref="AppDomain"/> will by default pick up the partial trust environment of
-        /// the AppLaunch.exe, which was the root executable. The AppLaunch.exe does a
-        /// create domain and applies the evidence from the ClickOnce manifests to
-        /// create the domain that the application is actually executing in. This will
-        /// need to be Full Trust for Prism applications.
-        /// </remarks>
-        /// <exception cref="ArgumentNullException">An <see cref="ArgumentNullException"/> is thrown if <paramref name="parentDomain"/> is null.</exception>
-        protected virtual AppDomain BuildChildDomain(AppDomain parentDomain)
-        {
-            if (parentDomain == null)
-                throw new ArgumentNullException(nameof(parentDomain));
-
-            Evidence evidence = new Evidence(parentDomain.Evidence);
-            AppDomainSetup setup = parentDomain.SetupInformation;
-            return AppDomain.CreateDomain("DiscoveryRegion", evidence, setup);
         }
 
         private class InnerModuleInfoLoader : MarshalByRefObject
@@ -113,9 +85,7 @@ namespace Prism.Modularity
 
                 AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += resolveEventHandler;
 
-                Assembly moduleReflectionOnlyAssembly =
-                    AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies().First(
-                        asm => asm.FullName == typeof(IModule).Assembly.FullName);
+                Assembly moduleReflectionOnlyAssembly = AppDomain.CurrentDomain.GetAssemblies().First(asm => asm.FullName == typeof(IModule).Assembly.FullName);
                 Type IModuleType = moduleReflectionOnlyAssembly.GetType(typeof(IModule).FullName);
 
                 IEnumerable<ModuleInfo> modules = GetNotAllreadyLoadedModuleInfos(directory, IModuleType);
@@ -127,22 +97,19 @@ namespace Prism.Modularity
 
             private static IEnumerable<ModuleInfo> GetNotAllreadyLoadedModuleInfos(DirectoryInfo directory, Type IModuleType)
             {
-                List<FileInfo> validAssemblies = new List<FileInfo>();
-                Assembly[] alreadyLoadedAssemblies = AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies();
+                List<Assembly> validAssemblies = new List<Assembly>();
+                Assembly[] alreadyLoadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(p => !p.IsDynamic).ToArray();
 
                 var fileInfos = directory.GetFiles("*.dll")
-                    .Where(file => alreadyLoadedAssemblies
-                                       .FirstOrDefault(
-                                       assembly =>
-                                       String.Compare(Path.GetFileName(assembly.Location), file.Name,
-                                                      StringComparison.OrdinalIgnoreCase) == 0) == null);
+                    .Where(file => alreadyLoadedAssemblies.FirstOrDefault(
+                        assembly => String.Compare(Path.GetFileName(assembly.Location),
+                        file.Name, StringComparison.OrdinalIgnoreCase) == 0) == null).ToList();
 
                 foreach (FileInfo fileInfo in fileInfos)
                 {
                     try
                     {
-                        Assembly.ReflectionOnlyLoadFrom(fileInfo.FullName);
-                        validAssemblies.Add(fileInfo);
+                        validAssemblies.Add(Assembly.LoadFrom(fileInfo.FullName));
                     }
                     catch (BadImageFormatException)
                     {
@@ -150,12 +117,12 @@ namespace Prism.Modularity
                     }
                 }
 
-                return validAssemblies.SelectMany(file => Assembly.ReflectionOnlyLoadFrom(file.FullName)
-                                            .GetExportedTypes()
-                                            .Where(IModuleType.IsAssignableFrom)
-                                            .Where(t => t != IModuleType)
-                                            .Where(t => !t.IsAbstract)
-                                            .Select(type => CreateModuleInfo(type)));
+                return validAssemblies.SelectMany(assembly => assembly
+                            .GetExportedTypes()
+                            .Where(IModuleType.IsAssignableFrom)
+                            .Where(t => t != IModuleType)
+                            .Where(t => !t.IsAbstract)
+                            .Select(type => CreateModuleInfo(type)));
             }
 
             private static Assembly OnReflectionOnlyResolve(ResolveEventArgs args, DirectoryInfo directory)
@@ -233,10 +200,7 @@ namespace Prism.Modularity
 
                 ModuleInfo moduleInfo = new ModuleInfo(moduleName, type.AssemblyQualifiedName)
                 {
-                    InitializationMode =
-                                                    onDemand
-                                                        ? InitializationMode.OnDemand
-                                                        : InitializationMode.WhenAvailable,
+                    InitializationMode = onDemand ? InitializationMode.OnDemand : InitializationMode.WhenAvailable,
                     Ref = type.Assembly.EscapedCodeBase,
                 };
                 moduleInfo.DependsOn.AddRange(dependsOn);
