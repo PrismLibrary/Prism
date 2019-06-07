@@ -1,19 +1,17 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
+﻿using Prism.AppModel;
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Mvvm;
-using Prism.Navigation;
 using Prism.Services.Dialogs.Xaml;
+using System;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace Prism.Services.Dialogs
 {
     public sealed class DialogService : IDialogService
     {
-        private const string PopupOverlayStyle = "PrismDialogMaskStyle";
+        public const string PopupOverlayStyle = "PrismDialogMaskStyle";
 
         private IContainerProvider _containerExtension { get; }
         private IApplicationProvider _applicationProvider { get; }
@@ -28,7 +26,7 @@ namespace Prism.Services.Dialogs
         {
             try
             {
-                parameters = GetDialogParameters(name, parameters, NavigationMode.New);
+                parameters = UriParsingHelper.GetSegmentParameters(name, parameters);
 
                 var view = CreateViewFor(UriParsingHelper.GetSegmentName(name));
 
@@ -85,12 +83,6 @@ namespace Prism.Services.Dialogs
             }
         }
 
-        private static IDialogParameters GetDialogParameters(string uri, IDialogParameters parameters, NavigationMode mode)
-        {
-            var navParameters = UriParsingHelper.GetSegmentParameters(uri, parameters);
-            return new DialogParameters(navParameters, mode);
-        }
-
         private IDialogResult CloseDialog(IDialogParameters parameters, ContentPage currentPage)
         {
             try
@@ -99,8 +91,6 @@ namespace Prism.Services.Dialogs
                 {
                     parameters = new DialogParameters();
                 }
-
-                parameters.AddNavigationMode(NavigationMode.Back);
 
                 if (!(currentPage is ContentPage contentPage))
                 {
@@ -189,31 +179,10 @@ namespace Prism.Services.Dialogs
 
             if(dialog is IAbracadabra)
             {
-                Abracadabra(dialog, parameters);
+                PageUtilities.Abracadabra(dialog, parameters);
             }
 
             return dialog;
-        }
-
-        private static void Abracadabra(object page, IDialogParameters parameters)
-        {
-            var props = page.GetType()
-                            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                            .Where(x => x.CanWrite);
-
-            foreach (var prop in props)
-            {
-                (var name, var isRequired) = prop.GetAutoInitializeProperty();
-
-                if (!parameters.HasKey(name, out var key))
-                {
-                    if (isRequired)
-                        throw new ArgumentNullException(name);
-                    continue;
-                }
-
-                prop.SetValue(page, parameters[key]);
-            }
         }
 
         private ContentPage GetCurrentPage(Page page = null)
@@ -341,40 +310,5 @@ namespace Prism.Services.Dialogs
 
         private static readonly BindableProperty IsPopupHostProperty =
             BindableProperty.CreateAttached("IsPopupHost", typeof(bool), typeof(DialogService), false);
-    }
-
-    internal class RelativeContentSizeConverter : IValueConverter
-    {
-        private double relativeSize;
-        public double RelativeSize
-        {
-            get => relativeSize;
-            set
-            {
-                if (value == 0)
-                {
-                    relativeSize = 1;
-                }
-                else if (value > 1)
-                {
-                    relativeSize = value / 100;
-                }
-                else
-                {
-                    relativeSize = value;
-                }
-            }
-        }
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var pageSize = double.Parse(value.ToString());
-            return RelativeSize * pageSize;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

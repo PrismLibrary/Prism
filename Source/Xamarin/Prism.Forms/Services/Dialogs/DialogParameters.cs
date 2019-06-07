@@ -1,24 +1,16 @@
-﻿using Prism.Navigation;
+﻿using Prism.Common;
 
 namespace Prism.Services.Dialogs
 {
-    public class DialogParameters : NavigationParameters, IDialogParameters
+    public class DialogParameters : ParametersBase, IDialogParameters
     {
         public DialogParameters()
         {
         }
 
-        public DialogParameters(string query) : base(query)
+        public DialogParameters(string query)
+            : base(query)
         {
-        }
-
-        internal DialogParameters(INavigationParameters parameters, NavigationMode mode)
-        {
-            foreach(var param in parameters)
-            {
-                Add(param.Key, param.Value);
-            }
-            this.AddNavigationMode(mode);
         }
     }
 }

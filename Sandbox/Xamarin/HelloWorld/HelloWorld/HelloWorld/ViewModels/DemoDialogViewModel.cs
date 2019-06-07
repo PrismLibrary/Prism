@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Prism.Services.Dialogs;
 using Prism.Navigation;
+using Prism.AppModel;
 
 namespace HelloWorld.ViewModels
 {
@@ -23,7 +24,7 @@ namespace HelloWorld.ViewModels
         }
 
         private string message;
-        [DialogParameter(true)]
+        [AutoInitialize(true)]
         public string Message
         {
             get => message;
