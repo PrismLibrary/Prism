@@ -7,12 +7,33 @@ namespace Prism.Navigation.Xaml
 {
     public class NavigationParameters : BindableObject, IList<NavigationParameter>
     {
+        public static readonly BindableProperty ItemsSourceProperty =
+            BindableProperty.Create(nameof(ItemsSource), typeof(IDictionary), typeof(NavigationParameters), null, propertyChanged: OnItemsSourceChanged);
+
+        private static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            if(bindable is NavigationParameters parameters)
+            {
+                parameters.Clear();
+                foreach(KeyValuePair<string, object> item in parameters.ItemsSource)
+                {
+                    parameters.Add(new NavigationParameter { Key = item.Key, Value = item.Value });
+                }
+            }
+        }
+
         public static readonly BindableProperty ParentProperty = BindableProperty.Create(nameof(Parent),
             typeof(BindableObject),
             typeof(NavigationParameters),
             default(BindableObject), propertyChanged: OnParentPropertyChanged);
 
         private readonly IList<NavigationParameter> _list = new List<NavigationParameter>();
+
+        public IDictionary ItemsSource
+        {
+            get => (IDictionary)GetValue(ItemsSourceProperty);
+            set => SetValue(ItemsSourceProperty, value);
+        }
 
         /// <summary>
         ///     Navigation Parameter Parent. This is a bindable property.
