@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Prism.Ioc;
+using Prism.Xaml;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
@@ -8,7 +9,7 @@ using Xamarin.Forms.Xaml;
 namespace Prism.Services.Dialogs.Xaml
 {
     [ContentProperty(nameof(Name))]
-    public class ShowDialogExtension : ICommand, IMarkupExtension<ICommand>
+    public class ShowDialogExtension : Prism.Xaml.ParentPageAwareExtension<ICommand>, ICommand
     {
         public static Lazy<IDialogService> LazyDialogService = new Lazy<IDialogService>(() =>
         {
@@ -31,7 +32,7 @@ namespace Prism.Services.Dialogs.Xaml
 
             try
             {
-                var parameters = parameter.ToNavigationParameters();
+                var parameters = parameter.ToDialogParameters(TargetElement);
                 var dialogService = LazyDialogService.Value;
                 dialogService.ShowDialog(Name, parameters, DialogClosedCallback);
             }
@@ -57,10 +58,7 @@ namespace Prism.Services.Dialogs.Xaml
             }
         }
 
-        public ICommand ProvideValue(IServiceProvider serviceProvider) =>
+        protected override ICommand ProvideValue() =>
             this;
-
-        object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) =>
-            ProvideValue(serviceProvider);
     }
 }

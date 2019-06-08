@@ -11,21 +11,25 @@
     <ScrollView>
         <StackLayout>
             <Label Text="{x:Static i18n:Resources.LoremIpsum}" />
-            <Button Text="Show Bound Demo Dialog (Single Param)"
+          <Button Text="XAML Extension Param"
+                  Command="{prism:ShowDialog 'DemoDialog'}"
+                  CommandParameter="{prism:Parameter Key=Message, Value={Binding TestMessage}}"
+                  HorizontalOptions="Center" />
+            <Button Text="Single Param"
                     Command="{prism:ShowDialog 'DemoDialog'}"
                     HorizontalOptions="Center">
                 <Button.CommandParameter>
-                  <prism:DialogParameter Key="Message" Value="{Binding TestMessage}" />
+                  <prism:Parameter Key="Message" Value="{Binding TestMessage}" />
                 </Button.CommandParameter>
             </Button>
-            <Button Text="Show Bound Demo Dialog (Multi Param)"
+            <Button Text="Multi Param"
                     Command="{prism:ShowDialog 'DemoDialog'}"
                     HorizontalOptions="Center">
                 <Button.CommandParameter>
-                    <prism:DialogParameters>
-                        <prism:DialogParameter Key="Title" Parameter="Success" />
-                        <prism:DialogParameter Key="Message" Parameter="Test Message" />
-                    </prism:DialogParameters>
+                    <prism:Parameters>
+                        <prism:Parameter Key="Title" Value="Success" />
+                        <prism:Parameter Key="Message" Value="{Binding TestMessage}" />
+                    </prism:Parameters>
                 </Button.CommandParameter>
             </Button>
             <Button Text="Show Demo Dialog (Querystring)"

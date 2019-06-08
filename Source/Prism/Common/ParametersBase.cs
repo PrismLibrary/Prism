@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -114,5 +115,9 @@ namespace Prism.Common
 
             return queryBuilder.ToString();
         }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void FromParameters(IEnumerable<KeyValuePair<string, object>> parameters) =>
+            _entries.AddRange(parameters);
     }
 }
