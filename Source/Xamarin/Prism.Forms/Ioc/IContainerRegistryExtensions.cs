@@ -183,5 +183,18 @@ namespace Prism.Ioc
 
             containerRegistry.RegisterForNavigation(viewType, name);
         }
+
+        public static IContainerRegistry RegisterDialog<TView>(this IContainerRegistry containerRegistry, string name = null)
+            where TView : View
+        {
+            return containerRegistry.Register<object, TView>(name ?? typeof(TView).Name);
+        }
+
+        public static IContainerRegistry RegisterDialog<TView, TViewModel>(this IContainerRegistry containerRegistry, string name = null)
+            where TView : View
+        {
+            ViewModelLocationProvider.Register<TView, TViewModel>();
+            return containerRegistry.RegisterDialog<TView>(name);
+        }
     }
 }

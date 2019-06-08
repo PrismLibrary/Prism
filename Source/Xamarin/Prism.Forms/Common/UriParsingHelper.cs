@@ -1,4 +1,5 @@
 ﻿using Prism.Navigation;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 
@@ -63,6 +64,37 @@ namespace Prism.Common
             }
 
             return navParameters;
+        }
+
+        public static IDialogParameters GetSegmentDialogParameters(string segment)
+        {
+            string query = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(segment))
+            {
+                return new DialogParameters(query);
+            }
+
+            var indexOfQuery = segment.IndexOf('?');
+            if (indexOfQuery > 0)
+                query = segment.Substring(indexOfQuery);
+
+            return new DialogParameters(query);
+        }
+
+        public static IDialogParameters GetSegmentParameters(string uriSegment, IDialogParameters parameters)
+        {
+            var dialogParameters = UriParsingHelper.GetSegmentDialogParameters(uriSegment);
+
+            if (parameters != null)
+            {
+                foreach (KeyValuePair<string, object> navigationParameter in parameters)
+                {
+                    dialogParameters.Add(navigationParameter.Key, navigationParameter.Value);
+                }
+            }
+
+            return dialogParameters;
         }
 
         public static Uri EnsureAbsolute(Uri uri)

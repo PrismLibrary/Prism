@@ -1,4 +1,4 @@
-﻿namespace Prism.Navigation
+﻿namespace Prism.AppModel
 {
     public interface IAutoInitialize : IAbracadabra { }
 

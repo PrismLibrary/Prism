@@ -1,22 +1,11 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 
 namespace Prism.Navigation.Xaml
 {
-    public class NavigationParameter : BindableObject
+    // TODO: remove in 7.4
+    [Obsolete("Use the generic Parameter class")]
+    public class NavigationParameter : Prism.Xaml.Parameter
     {
-        public string Key { get; set; }
-
-        public static readonly BindableProperty ValueProperty = BindableProperty.Create(nameof(Value),
-            typeof(object),
-            typeof(NavigationParameter));
-
-        /// <summary>
-        /// Navigation Parameter Value. This is a bindable property.
-        /// </summary>
-        public object Value
-        {
-            get => GetValue(ValueProperty);
-            set => SetValue(ValueProperty, value);
-        }
     }
 }

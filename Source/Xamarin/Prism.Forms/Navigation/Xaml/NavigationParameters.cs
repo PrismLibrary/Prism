@@ -5,92 +5,115 @@ using Xamarin.Forms;
 
 namespace Prism.Navigation.Xaml
 {
-    public class NavigationParameters : BindableObject, IList<NavigationParameter>
+    // TODO: Remove in 7.4+
+    [Obsolete("Use the new Parameters class")]
+    public class NavigationParameters : Prism.Xaml.Parameters
     {
-        public static readonly BindableProperty ParentProperty = BindableProperty.Create(nameof(Parent),
-            typeof(BindableObject),
-            typeof(NavigationParameters),
-            default(BindableObject), propertyChanged: OnParentPropertyChanged);
+        //public static readonly BindableProperty ItemsSourceProperty =
+        //    BindableProperty.Create(nameof(ItemsSource), typeof(IDictionary), typeof(NavigationParameters), null, propertyChanged: OnItemsSourceChanged);
 
-        private readonly IList<NavigationParameter> _list = new List<NavigationParameter>();
+        //private static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
+        //{
+        //    if(bindable is NavigationParameters parameters)
+        //    {
+        //        parameters.Clear();
+        //        foreach(KeyValuePair<string, object> item in parameters.ItemsSource)
+        //        {
+        //            parameters.Add(new NavigationParameter { Key = item.Key, Value = item.Value });
+        //        }
+        //    }
+        //}
 
-        /// <summary>
-        ///     Navigation Parameter Parent. This is a bindable property.
-        /// </summary>
-        /// <remarks>This is used to set the BindingContext of the CommandParameters to the BindingContext of it's parent.</remarks>
-        public BindableObject Parent
-        {
-            get => (BindableObject) GetValue(ParentProperty);
-            set => SetValue(ParentProperty, value);
-        }
+        //public static readonly BindableProperty ParentProperty = BindableProperty.Create(nameof(Parent),
+        //    typeof(BindableObject),
+        //    typeof(NavigationParameters),
+        //    default(BindableObject), propertyChanged: OnParentPropertyChanged);
 
-        public void Add(NavigationParameter item) => _list.Add(item);
+        //private readonly IList<NavigationParameter> _list = new List<NavigationParameter>();
 
-        public void Clear() => _list.Clear();
+        //public IDictionary ItemsSource
+        //{
+        //    get => (IDictionary)GetValue(ItemsSourceProperty);
+        //    set => SetValue(ItemsSourceProperty, value);
+        //}
 
-        public bool Contains(NavigationParameter item) => _list.Contains(item);
+        ///// <summary>
+        /////     Navigation Parameter Parent. This is a bindable property.
+        ///// </summary>
+        ///// <remarks>This is used to set the BindingContext of the CommandParameters to the BindingContext of it's parent.</remarks>
+        //public BindableObject Parent
+        //{
+        //    get => (BindableObject) GetValue(ParentProperty);
+        //    set => SetValue(ParentProperty, value);
+        //}
 
-        public void CopyTo(NavigationParameter[] array, int arrayIndex) => _list.CopyTo(array, arrayIndex);
+        //public void Add(NavigationParameter item) => _list.Add(item);
 
-        public int Count => _list.Count;
+        //public void Clear() => _list.Clear();
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        //public bool Contains(NavigationParameter item) => _list.Contains(item);
 
-        public IEnumerator<NavigationParameter> GetEnumerator() => _list.GetEnumerator();
+        //public void CopyTo(NavigationParameter[] array, int arrayIndex) => _list.CopyTo(array, arrayIndex);
 
-        public int IndexOf(NavigationParameter item) => _list.IndexOf(item);
+        //public int Count => _list.Count;
 
-        public void Insert(int index, NavigationParameter item) => _list.Insert(index, item);
+        //IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public bool IsReadOnly => _list.IsReadOnly;
+        //public IEnumerator<NavigationParameter> GetEnumerator() => _list.GetEnumerator();
 
-        public NavigationParameter this[int index]
-        {
-            get => _list[index];
-            set => _list[index] = value;
-        }
+        //public int IndexOf(NavigationParameter item) => _list.IndexOf(item);
 
-        public bool Remove(NavigationParameter item) => _list.Remove(item);
+        //public void Insert(int index, NavigationParameter item) => _list.Insert(index, item);
 
-        public void RemoveAt(int index) => _list.RemoveAt(index);
+        //public bool IsReadOnly => _list.IsReadOnly;
 
-        public INavigationParameters ToNavigationParameters(BindableObject parent)
-        {
-            Parent = Parent ?? parent;
-            var parameters = new Prism.Navigation.NavigationParameters();
-            for (var index = 0; index < _list.Count; index++)
-            {
-                var parameter = _list[index];
-                parameters.Add(parameter.Key, parameter.Value);
-            }
+        //public NavigationParameter this[int index]
+        //{
+        //    get => _list[index];
+        //    set => _list[index] = value;
+        //}
 
-            return parameters;
-        }
+        //public bool Remove(NavigationParameter item) => _list.Remove(item);
 
-        private static void OnParentPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
-        {
-            if (oldvalue == newvalue) return;
+        //public void RemoveAt(int index) => _list.RemoveAt(index);
 
-            var self = (NavigationParameters) bindable;
-            if (oldvalue is BindableObject oldParent)
-                oldParent.BindingContextChanged -= BindingContextChanged;
+        //public INavigationParameters ToNavigationParameters(BindableObject parent)
+        //{
+        //    Parent = Parent ?? parent;
+        //    var parameters = new Prism.Navigation.NavigationParameters();
+        //    for (var index = 0; index < _list.Count; index++)
+        //    {
+        //        var parameter = _list[index];
+        //        parameters.Add(parameter.Key, parameter.Value);
+        //    }
 
-            if (newvalue is BindableObject newParent)
-                newParent.BindingContextChanged += BindingContextChanged;
+        //    return parameters;
+        //}
 
-            void BindingContextChanged(object parentObject, EventArgs args)
-            {
-                var parent = (BindableObject) parentObject;
-                self.BindingContext = parent?.BindingContext;
-            }
-        }
+        //private static void OnParentPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+        //{
+        //    if (oldvalue == newvalue) return;
 
-        protected override void OnBindingContextChanged()
-        {
-            foreach(var param in this)
-            {
-                param.BindingContext = BindingContext;
-            }
-        }
+        //    var self = (NavigationParameters) bindable;
+        //    if (oldvalue is BindableObject oldParent)
+        //        oldParent.BindingContextChanged -= BindingContextChanged;
+
+        //    if (newvalue is BindableObject newParent)
+        //        newParent.BindingContextChanged += BindingContextChanged;
+
+        //    void BindingContextChanged(object parentObject, EventArgs args)
+        //    {
+        //        var parent = (BindableObject) parentObject;
+        //        self.BindingContext = parent?.BindingContext;
+        //    }
+        //}
+
+        //protected override void OnBindingContextChanged()
+        //{
+        //    foreach(var param in this)
+        //    {
+        //        param.BindingContext = BindingContext;
+        //    }
+        //}
     }
 }

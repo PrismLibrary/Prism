@@ -41,10 +41,5 @@ namespace HelloWorld.ViewModels
         {
             base.OnNavigatedTo(parameters);
         }
-
-        public override void OnNavigatingTo(INavigationParameters parameters)
-        {
-            base.OnNavigatingTo(parameters);
-        }
     }
 }

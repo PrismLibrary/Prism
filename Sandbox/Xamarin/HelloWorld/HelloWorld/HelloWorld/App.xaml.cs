@@ -1,4 +1,5 @@
 using System;
+using HelloWorld.ViewModels;
 using HelloWorld.Views;
 using Prism;
 using Prism.Ioc;
@@ -70,6 +71,9 @@ namespace HelloWorld
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MyNavigationPage>();
             containerRegistry.RegisterForNavigation<MyMasterDetail>();
+            containerRegistry.RegisterForNavigation<DialogDemoPage, DialogDemoPageViewModel>();
+            containerRegistry.RegisterDialog<DemoDialog, DemoDialogViewModel>();
+            containerRegistry.RegisterDialog<UserAlert, UserAlertViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
