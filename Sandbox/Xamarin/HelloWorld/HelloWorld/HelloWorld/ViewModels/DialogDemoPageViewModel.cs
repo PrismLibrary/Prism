@@ -18,6 +18,8 @@ namespace HelloWorld.ViewModels
             ShowUserAlertCommand = new DelegateCommand(() => dialogService.ShowDialog("UserAlert", OnAlertClosed));
         }
 
+        public string TestMessage => "This is a sample message from a binding in the ViewModel";
+
         public DelegateCommand ShowUserAlertCommand { get; }
 
         private async void OnAlertClosed(IDialogResult result)

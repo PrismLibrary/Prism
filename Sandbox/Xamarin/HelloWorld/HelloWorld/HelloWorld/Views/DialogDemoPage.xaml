@@ -11,7 +11,24 @@
     <ScrollView>
         <StackLayout>
             <Label Text="{x:Static i18n:Resources.LoremIpsum}" />
-            <Button Text="Show Demo Dialog"
+            <Button Text="Show Bound Demo Dialog (Single Param)"
+                    Command="{prism:ShowDialog 'DemoDialog'}"
+                    HorizontalOptions="Center">
+                <Button.CommandParameter>
+                  <prism:DialogParameter Key="Message" Value="{Binding TestMessage}" />
+                </Button.CommandParameter>
+            </Button>
+            <Button Text="Show Bound Demo Dialog (Multi Param)"
+                    Command="{prism:ShowDialog 'DemoDialog'}"
+                    HorizontalOptions="Center">
+                <Button.CommandParameter>
+                    <prism:DialogParameters>
+                        <prism:DialogParameter Key="Title" Parameter="Success" />
+                        <prism:DialogParameter Key="Message" Parameter="Test Message" />
+                    </prism:DialogParameters>
+                </Button.CommandParameter>
+            </Button>
+            <Button Text="Show Demo Dialog (Querystring)"
                     Command="{prism:ShowDialog 'DemoDialog?message=Hello%20From%20Prism%20DialogService!&amp;closeOnBackgroundTapped=true'}"
                     HorizontalOptions="Center" />
             <Button Text="Show User Alert"

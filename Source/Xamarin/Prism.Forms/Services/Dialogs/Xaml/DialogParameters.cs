@@ -71,21 +71,17 @@ namespace Prism.Services.Dialogs.Xaml
         {
             if (oldvalue == newvalue) return;
 
-            var self = (DialogParameters)bindable;
-            if (oldvalue is BindableObject oldParent)
-                oldParent.BindingContextChanged -= BindingContextChanged;
-
-            if (newvalue is BindableObject newParent)
-                newParent.BindingContextChanged += BindingContextChanged;
-
-            void BindingContextChanged(object parentObject, EventArgs args)
+            if(bindable is DialogParameters self && self != null)
             {
-                var parent = (BindableObject)parentObject;
-                for (var index = 0; index < self._list.Count; index++)
-                {
-                    var parameter = self._list[index];
-                    parameter.BindingContext = parent.BindingContext;
-                }
+                self.BindingContext = self.Parent?.BindingContext;
+            }
+        }
+
+        protected override void OnBindingContextChanged()
+        {
+            foreach(var prop in this)
+            {
+                prop.BindingContext = BindingContext;
             }
         }
     }
