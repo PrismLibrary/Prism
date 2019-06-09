@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ModuleA.Views.ViewA"
              Padding="{OnPlatform iOS='0,20,0,0'}"
@@ -23,6 +23,8 @@
         <Label Text="{Binding Message}" />
         <Label Text="{Binding IsActive, StringFormat='IsActive: {0}'}" />
         <Button Command="{Binding NavigateCommand}" Text="Navigate" />
+        <Button Text="Select Tab C"
+                Command="{prism:SelectTab ViewC}" />
     </StackLayout>
 
 </ContentPage>
