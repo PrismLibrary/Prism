@@ -2,22 +2,24 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ModuleA.Views"
-             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ModuleA.Views.ViewB"
              x:Name="viewB"
+             Padding="{OnPlatform iOS='0,20,0,0'}"
              Title="View B">
-    <ContentPage.Padding>
-        <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="0,20,0,0" />
-        </OnPlatform>
-    </ContentPage.Padding>
 
     <!--<local:PartialViewB prism:ViewModelLocator.AutowirePartialView="{x:Reference viewB}" />-->
     <StackLayout>
         <Label Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" />
         <Label Text="{Binding IsActive}" />
         <Button Command="{Binding NavigateCommand}" Text="Navigate" />
+        <Button Text="View C"
+                Command="{prism:NavigateTo ViewC}" />
+        <Button Text="Select Tab C"
+                Command="{prism:SelectTab ViewC}" />
+        <Button Text="Go Back"
+                Command="{prism:GoBack}" />
     </StackLayout>
 
 </ContentPage>

@@ -14,7 +14,7 @@ namespace Prism.Navigation.Xaml
         public static readonly BindableProperty UseModalNavigationProperty =
             BindableProperty.Create(nameof(UseModalNavigation), typeof(bool?), typeof(NavigationExtensionBase), null);
 
-        protected internal bool IsNavigating;
+        protected internal bool IsNavigating { get; private set; }
 
         public bool Animated
         {

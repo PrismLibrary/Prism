@@ -29,7 +29,6 @@ namespace ModuleA.ViewModels
             set => SetProperty(ref _message, value);
         }
 
-
         public bool CanNavigate
         {
             get { return _canNavigate; }

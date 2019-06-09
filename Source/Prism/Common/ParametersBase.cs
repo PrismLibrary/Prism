@@ -58,8 +58,21 @@ namespace Prism.Common
             }
         }
 
-        public object this[string key] =>
-            _entries.FirstOrDefault(x => string.Compare(x.Key, key, StringComparison.Ordinal) == 0);
+        public object this[string key]
+        {
+            get
+            {
+                foreach(var entry in _entries)
+                {
+                    if(string.Compare(entry.Key, key, StringComparison.Ordinal) == 0)
+                    {
+                        return entry.Value;
+                    }
+                }
+
+                return null;
+            }
+        }
 
         public int Count => _entries.Count;
 
