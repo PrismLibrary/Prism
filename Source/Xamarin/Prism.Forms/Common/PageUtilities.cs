@@ -293,20 +293,26 @@ namespace Prism.Common
             return page?.Parent != null && page?.Parent is NavigationPage;
         }
 
-        internal static bool HasNavigationPageParent(Page page)
+        internal static bool HasNavigationPageParent(Page page) =>
+            HasNavigationPageParent(page, out var _);
+
+        internal static bool HasNavigationPageParent(Page page, out NavigationPage navigationPage)
         {
             if (page?.Parent != null)
             {
-                if (page.Parent is NavigationPage)
+                if (page.Parent is NavigationPage navParent)
                 {
+                    navigationPage = navParent;
                     return true;
                 }
-                else if (page.Parent is TabbedPage || page.Parent is CarouselPage)
+                else if ((page.Parent is TabbedPage || page.Parent is CarouselPage) && page.Parent?.Parent is NavigationPage navigationParent)
                 {
-                    return page.Parent.Parent != null && page.Parent.Parent is NavigationPage;
+                    navigationPage = navigationParent;
+                    return true;
                 }
             }
 
+            navigationPage = null;
             return false;
         }
 

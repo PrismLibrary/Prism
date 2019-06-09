@@ -23,8 +23,12 @@
         <Label Text="{Binding Message}" />
         <Label Text="{Binding IsActive, StringFormat='IsActive: {0}'}" />
         <Button Command="{Binding NavigateCommand}" Text="Navigate" />
+        <Button Text="View B"
+                Command="{prism:NavigateTo ViewB}" />
         <Button Text="Select Tab C"
                 Command="{prism:SelectTab ViewC}" />
+        <Button Text="Go Back"
+                Command="{prism:GoBack}" />
     </StackLayout>
 
 </ContentPage>
