@@ -794,12 +794,16 @@ namespace Prism.Navigation
 
         protected virtual Page CreatePageFromSegment(string segment)
         {
+            string segmentName = null;
             try
             {
-                var segmentName = UriParsingHelper.GetSegmentName(segment);
+                segmentName = UriParsingHelper.GetSegmentName(segment);
                 var page = CreatePage(segmentName);
                 if (page == null)
-                    throw new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
+                {
+                    var innerException = new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
+                    throw new NavigationException(NavigationException.NoPageIsRegistered, _page, innerException);
+                }
 
                 PageUtilities.SetAutowireViewModelOnPage(page);
                 _pageBehaviorFactory.ApplyPageBehaviors(page);

@@ -132,16 +132,14 @@ namespace Prism.Unity.Forms.Tests.Fixtures
 
             Assert.False(result.Success);
             Assert.NotNull(result.Exception);
-#if Autofac
-            Assert.IsType<ComponentNotRegisteredException>(result.Exception);
-#elif DryIoc
-            Assert.IsType<ContainerException>(result.Exception);
-#elif Ninject
-            Assert.IsType<ActivationException>(result.Exception);
+            Assert.IsType<NavigationException>(result.Exception);
+            Assert.Equal(NavigationException.NoPageIsRegistered, result.Exception.Message);
+#if DryIoc
+            Assert.IsType<ContainerException>(result.Exception.InnerException);
 #elif Unity
-            Assert.IsType<NullReferenceException>(result.Exception);
+            Assert.IsType<NullReferenceException>(result.Exception.InnerException);
 #endif
-            Assert.Contains("missing", result.Exception.ToString(), StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("missing", result.Exception.InnerException.ToString(), StringComparison.OrdinalIgnoreCase);
         }
 
         [Theory]
