@@ -122,7 +122,6 @@ stages:
                 exit 1
               }
             displayName: Process Artifacts for Release
-            workingDirectory: $(System.DefaultWorkingDirectory)/Source/build
             env:
               searchDirectory: $(Pipeline.Workspace)/NuGet
 
