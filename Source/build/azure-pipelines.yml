@@ -99,6 +99,7 @@ stages:
                 $VersionName = $Matches[2]
                 $IsPreview = $VersionName -match '-pre$'
                 $ReleaseDisplayName = $VersionName
+                $artifacts = "$env:PIPELINE_WORKSPACE/Release"
 
                 if($null -eq $env:IS_PREVIEW)
                 {
@@ -113,9 +114,12 @@ stages:
 
                 Write-Host "Version Name - $VersionName"
                 Write-Host "Release Display Name - $ReleaseDisplayName"
+                Write-Host "DLL Artifacts - $artifacts"
 
                 Write-Output ("##vso[task.setvariable variable=VersionName;]$VersionName")
                 Write-Output ("##vso[task.setvariable variable=ReleaseDisplayName;]$ReleaseDisplayName")
+                Write-Output ("##vso[task.setvariable variable=DLLArtifactsPath;]$artifacts")
+                Write-Output ("##vso[task.setvariable variable=DLLArtifactsZip;]$artifacts.zip")
               }
               catch {
                 Write-Error  $_
