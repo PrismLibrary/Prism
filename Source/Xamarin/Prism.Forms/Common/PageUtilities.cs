@@ -25,10 +25,9 @@ namespace Prism.Common
                 }
             }
 
-            if(view is Page page)
+            if (view is Page page && page.GetPartialViews() is List<BindableObject> partials)
             {
-                var partials = (List<BindableObject>)page.GetValue(ViewModelLocator.PartialViewsProperty) ?? new List<BindableObject>();
-                foreach(var partial in partials)
+                foreach (var partial in partials)
                 {
                     InvokeViewAndViewModelAction(partial, action);
                 }
@@ -48,9 +47,8 @@ namespace Prism.Common
                 }
             }
 
-            if (view is Page page)
+            if (view is Page page && page.GetPartialViews() is List<BindableObject> partials)
             {
-                var partials = (List<BindableObject>)page.GetValue(ViewModelLocator.PartialViewsProperty) ?? new List<BindableObject>();
                 foreach (var partial in partials)
                 {
                     await InvokeViewAndViewModelActionAsync(partial, action);
