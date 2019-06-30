@@ -52,5 +52,13 @@ namespace Prism.Services.Dialogs.Xaml
         public static void SetMask(BindableObject bindable, View value) =>
             bindable.SetValue(MaskProperty, value);
 
+        public static readonly BindableProperty CloseOnBackgroundTappedProperty =
+            BindableProperty.CreateAttached("CloseOnBackgroundTapped", typeof(bool?), typeof(DialogLayout), null);
+
+        public static bool? GetCloseOnBackgroundTapped(BindableObject bindable) =>
+            (bool?)bindable.GetValue(CloseOnBackgroundTappedProperty);
+
+        public static void SetCloseOnBackgroundTapped(BindableObject bindable, bool? value) =>
+            bindable.SetValue(CloseOnBackgroundTappedProperty, value);
     }
 }

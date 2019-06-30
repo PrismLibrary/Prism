@@ -70,8 +70,16 @@ namespace Prism.Services.Dialogs
                     }
                 }
 
-                parameters.TryGetValue<bool>(KnownDialogParameters.CloseOnBackgroundTapped, out var hideOnBackgroundTapped);
-                InsertPopupViewInCurrentPage(currentPage as ContentPage, view, hideOnBackgroundTapped, DialogAware_RequestClose);
+                if(!parameters.TryGetValue<bool>(KnownDialogParameters.CloseOnBackgroundTapped, out var closeOnBackgroundTapped))
+                {
+                    var dialogLayoutCloseOnBackgroundTapped = DialogLayout.GetCloseOnBackgroundTapped(view);
+                    if(dialogLayoutCloseOnBackgroundTapped.HasValue)
+                    {
+                        closeOnBackgroundTapped = dialogLayoutCloseOnBackgroundTapped.Value;
+                    }
+                }
+
+                InsertPopupViewInCurrentPage(currentPage as ContentPage, view, closeOnBackgroundTapped, DialogAware_RequestClose);
 
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(currentPage, aa => aa.IsActive = false);
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(view, aa => aa.IsActive = true);
