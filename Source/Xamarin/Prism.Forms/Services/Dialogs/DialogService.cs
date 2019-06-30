@@ -204,12 +204,24 @@ namespace Prism.Services.Dialogs
                 case NavigationPage np:
                     return GetCurrentPage(np.CurrentPage);
                 case CarouselPage carouselPage:
-                    return carouselPage.CurrentPage;
+                    return GetCurrentPage(carouselPage.CurrentPage);
                 case MasterDetailPage mdp:
+                    mdp.IsPresented = false;
                     return GetCurrentPage(mdp.Detail);
                 default:
+                    // If we get some random Page Type
+                    if(page != null)
+                    {
+                        Xamarin.Forms.Internals.Log.Warning("Warning", $"An Unknown Page type {page.GetType()} was found walk walking the Navigation Stack. This is not supported by the DialogService");
+                        return null;
+                    }
+
                     var mainPage = _applicationProvider.MainPage;
-                    if (mainPage is null) return null;
+                    if (mainPage is null)
+                    {
+                        return null;
+                    }
+
                     return GetCurrentPage(mainPage);
             }
         }
@@ -286,7 +298,12 @@ namespace Prism.Services.Dialogs
             var popupBounds = DialogLayout.GetLayoutBounds(popupView);
             AbsoluteLayout.SetLayoutBounds(popupContainer, popupBounds);
             overlay.Children.Add(content);
-            overlay.Children.Add(mask);
+
+            if(DialogLayout.GetUseMask(popupContainer) ?? true)
+            {
+                overlay.Children.Add(mask);
+            }
+
             overlay.Children.Add(popupContainer);
             currentPage.Content = overlay;
 
