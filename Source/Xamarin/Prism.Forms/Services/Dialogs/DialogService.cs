@@ -242,12 +242,12 @@ namespace Prism.Services.Dialogs
 
             var overlay = new AbsoluteLayout();
             overlay.SetValue(IsPopupHostProperty, true);
+            var existingContent = currentPage.Content;
             var content = new DialogContainer
             {
                 Padding = currentPage.Padding,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.FillAndExpand,
-                Content = currentPage.Content,
                 IsPageContent = true
             };
             currentPage.Padding = new Thickness(0);
@@ -289,6 +289,9 @@ namespace Prism.Services.Dialogs
             overlay.Children.Add(mask);
             overlay.Children.Add(popupContainer);
             currentPage.Content = overlay;
+
+            // The original content needs to be reparented after the Page Content has been reset.
+            content.Content = existingContent;
         }
 
         private static Style GetOverlayStyle(View popupView)
