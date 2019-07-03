@@ -23,6 +23,8 @@
                 <Button Text="XamlNav modal" Command="{prism:NavigateTo 'MyNavigationPage/ViewA', UseModalNavigation=True}" />
                 <Button Text="Dialog Demo"
                         Command="{prism:NavigateTo 'MyNavigationPage/DialogDemoPage'}" />
+                <Button Text="Show Dialog"
+                        Command="{prism:ShowDialog 'DemoDialog?message=Hello%20From%20Prism%20DialogService!&amp;closeOnBackgroundTapped=true'}" />
             </StackLayout>
         </ContentPage>
     </MasterDetailPage.Master>

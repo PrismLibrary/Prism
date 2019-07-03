@@ -13,3 +13,4 @@ steps:
     solution: ${{ parameters.solution }}
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
+    msbuildArguments: '/p:JavaSdkDirectory="$(JAVA_HOME)"'
