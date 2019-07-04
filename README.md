@@ -46,7 +46,7 @@ Everything in the Supporter plan plus:
 **Generous Backer** - $25+ per month
 Everything in the Backer plan plus:
 
-- Video Tutorial request priortiy (topic acceptance not guaranteed)
+- Video Tutorial request priority (topic acceptance not guaranteed)
 - Bragging rights!
 
 **Bronze Sponsor** - $100+ per month
