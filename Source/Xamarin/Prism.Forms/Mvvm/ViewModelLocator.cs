@@ -53,6 +53,11 @@ namespace Prism.Mvvm
             bindable.SetValue(AutowirePartialViewProperty, page);
         }
 
+        internal static List<BindableObject> GetPartialViews(this Page page)
+        {
+            return (List<BindableObject>)page.GetValue(PartialViewsProperty);
+        }
+
         private static void OnAutowireViewModelChanged(BindableObject bindable, object oldValue, object newValue)
         {
             bool? bNewValue = (bool?)newValue;
@@ -65,20 +70,17 @@ namespace Prism.Mvvm
             if (oldValue == newValue)
                 return;
 
-            if(oldValue is Page oldPage)
+            if (oldValue is Page oldPage)
             {
-                var oldPartials = (List<BindableObject>)oldPage.GetValue(PartialViewsProperty);
-                oldPartials?.Clear();
-                oldPage.SetValue(PartialViewsProperty, null);
+                List<BindableObject> oldPartials = oldPage.GetPartialViews();
+                oldPartials.Remove(bindable);
             }
 
-            List<BindableObject> partialViews = null;
-            if (newValue != null && newValue is Page page)
+            if (newValue is Page page)
             {
                 // Add View to Views Collection for Page.
-                partialViews = page.GetValue(PartialViewsProperty) as List<BindableObject>;
-
-                if(partialViews == null)
+                List<BindableObject> partialViews = page.GetPartialViews();
+                if (partialViews == null)
                 {
                     partialViews = new List<BindableObject>();
                     page.SetValue(PartialViewsProperty, partialViews);
@@ -86,7 +88,7 @@ namespace Prism.Mvvm
 
                 partialViews.Add(bindable);
                 // Set Autowire Property
-                if(bindable.GetValue(AutowireViewModelProperty) == null)
+                if (bindable.GetValue(AutowireViewModelProperty) == null)
                 {
                     bindable.SetValue(AutowireViewModelProperty, true);
                 }
