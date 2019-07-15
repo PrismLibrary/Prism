@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace Prism.Mvvm
@@ -62,13 +63,50 @@ namespace Prism.Mvvm
 			return true;
 		}
 
-		/// <summary>
-		/// Raises this object's PropertyChanged event.
-		/// </summary>
-		/// <param name="propertyName">Name of the property used to notify listeners. This
-		/// value is optional and can be provided automatically when invoked from compilers
-		/// that support <see cref="CallerMemberNameAttribute"/>.</param>
-		protected void RaisePropertyChanged([CallerMemberName]string propertyName = null)
+        /// <summary>
+        /// Checks if the property on the given object already matches a desired value. Sets the property and
+        /// notifies listeners only when necessary.
+        /// </summary>
+        /// <typeparam name="TObject">Type of the nested object.</typeparam>
+        /// <typeparam name="TProperty">Type of the property.</typeparam>
+        /// <param name="objectWithProperty">Reference to a nested object on which the property shall be set.</param>
+        /// <param name="propertyName">The name of the property. The object must have a property with this name
+        /// otherwise an <see cref="ArgumentNullException"/> will be thrown. By default it is expected that
+        /// the name of the ViewModel-property matches the name of the nested property</param>
+        /// <param name="value">Desired value for the property.</param>
+        /// <returns>True if the value was changed, false if the existing value matched the
+        /// desired value.</returns>
+        protected virtual bool SetNestedProperty<TObject, TProperty>(TObject objectWithProperty, TProperty value, [CallerMemberName]string propertyName = null)
+        {
+            if (objectWithProperty == null)
+                throw new ArgumentNullException("objectWithProperty");
+
+            if (string.IsNullOrEmpty(propertyName))
+                throw new ArgumentNullException("propertyName");
+
+            PropertyInfo pInfo = objectWithProperty.GetType().GetProperty(propertyName, typeof(TProperty));
+
+            if (pInfo == null)
+                throw new ArgumentException($"Could not find a property named '{propertyName}' " +
+                    $"with type {typeof(TProperty)} in class {typeof(TObject)}");
+
+            TProperty currentPropertyValue = (TProperty)pInfo.GetValue(objectWithProperty);
+
+            if (EqualityComparer<TProperty>.Default.Equals(currentPropertyValue, value)) return false;
+
+            pInfo.SetValue(objectWithProperty, value);
+            RaisePropertyChanged(propertyName);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Raises this object's PropertyChanged event.
+        /// </summary>
+        /// <param name="propertyName">Name of the property used to notify listeners. This
+        /// value is optional and can be provided automatically when invoked from compilers
+        /// that support <see cref="CallerMemberNameAttribute"/>.</param>
+        protected void RaisePropertyChanged([CallerMemberName]string propertyName = null)
 		{
             //TODO: when we remove the old OnPropertyChanged method we need to uncomment the below line
             //OnPropertyChanged(new PropertyChangedEventArgs(propertyName));

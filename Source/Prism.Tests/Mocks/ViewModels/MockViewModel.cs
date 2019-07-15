@@ -22,9 +22,22 @@ namespace Prism.Tests.Mocks.ViewModels
             }
         }
 
+        internal MockNestedModel MockNestedModel { get; set; }
+        
+        public int MockNestedProperty
+        {
+            get => MockNestedModel.MockNestedProperty;
+            set => SetNestedProperty(MockNestedModel, value);
+        }
+
         internal void InvokeOnPropertyChanged()
         {
 			RaisePropertyChanged(nameof(MockProperty));
+        }
+
+        internal void InvokeOnNestedPropertyChanged()
+        {
+            RaisePropertyChanged(nameof(MockNestedProperty));
         }
     }
 }
