@@ -85,7 +85,7 @@ stages:
           steps:
           - powershell: |
               try {
-                $artifactDirectory = $env:searchDirectory
+                $artifactDirectory = $MyInvocation.MyCommand.Path
                 Write-Host "Currect working directory - $artifactDirectory"
                 $nupkg = Get-ChildItem -Path $artifactDirectory -Filter *.nupkg -Recurse | Select-Object -First 1
 
@@ -126,8 +126,7 @@ stages:
                 exit 1
               }
             displayName: Process Artifacts for Release
-            env:
-              searchDirectory: $(Pipeline.Workspace)/NuGet
+            workingDirectory: '$(Pipeline.Workspace)/NuGet'
 
           - task: ArchiveFiles@2
             displayName: 'Archive Assembly Artifacts'
