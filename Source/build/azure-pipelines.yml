@@ -83,7 +83,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - powershell: ./Process-Release.ps1
+          - powershell: Source/build/Process-Release.ps1
             displayName: Process Artifacts for Release
 
           - task: ArchiveFiles@2
