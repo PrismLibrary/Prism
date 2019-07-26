@@ -532,7 +532,7 @@ namespace Prism.Navigation
                 if (segments.Count > 0)
                     await UseReverseNavigation(topPage, segments.Dequeue(), segments, parameters, false, animated);
 
-                await DoNavigateAction(topPage, nextSegment, topPage, parameters, onNavigationActionCompleted: () =>
+                await DoNavigateAction(topPage, nextSegment, topPage, parameters, onNavigationActionCompleted: (p) =>
                 {
                     if (nextSegment.Contains(KnownNavigationParameters.SelectedTab))
                     {
@@ -584,7 +584,7 @@ namespace Prism.Navigation
             {
                 var newDetail = CreatePageFromSegment(nextSegment);
                 await ProcessNavigation(newDetail, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, newDetail, parameters, onNavigationActionCompleted: () =>
+                await DoNavigateAction(null, nextSegment, newDetail, parameters, onNavigationActionCompleted: (p) =>
                 {
                     currentPage.IsPresented = isPresented;
                     currentPage.Detail = newDetail;
@@ -636,7 +636,7 @@ namespace Prism.Navigation
             if ((detailIsNavPage && reuseNavPage) || (!detailIsNavPage && detail.GetType() == nextSegmentType))
             {
                 await ProcessNavigation(detail, segments, parameters, useModalNavigation, animated);
-                await DoNavigateAction(null, nextSegment, detail, parameters, onNavigationActionCompleted: () =>
+                await DoNavigateAction(null, nextSegment, detail, parameters, onNavigationActionCompleted: (p) =>
                  {
                      if (detail is TabbedPage && nextSegment.Contains(KnownNavigationParameters.SelectedTab))
                      {
@@ -652,10 +652,10 @@ namespace Prism.Navigation
             {
                 var newDetail = CreatePageFromSegment(nextSegment);
                 await ProcessNavigation(newDetail, segments, parameters, newDetail is NavigationPage ? false : true, animated);
-                await DoNavigateAction(detail, nextSegment, newDetail, parameters, onNavigationActionCompleted: () =>
+                await DoNavigateAction(detail, nextSegment, newDetail, parameters, onNavigationActionCompleted: (p) =>
                 {
                     if (detailIsNavPage)
-                        OnNavigatedFrom(((NavigationPage)detail).CurrentPage, parameters);
+                        OnNavigatedFrom(((NavigationPage)detail).CurrentPage, p);
 
                     currentPage.IsPresented = isPresented;
                     currentPage.Detail = newDetail;
@@ -687,7 +687,7 @@ namespace Prism.Navigation
             return true;
         }
 
-        protected static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, INavigationParameters parameters, Func<Task> navigationAction = null, Action onNavigationActionCompleted = null)
+        protected static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, INavigationParameters parameters, Func<Task> navigationAction = null, Action<INavigationParameters> onNavigationActionCompleted = null)
         {
             var segmentParameters = UriParsingHelper.GetSegmentParameters(toSegment, parameters);
             segmentParameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.New);
@@ -703,7 +703,7 @@ namespace Prism.Navigation
 
             OnNavigatedFrom(fromPage, segmentParameters);
 
-            onNavigationActionCompleted?.Invoke();
+            onNavigationActionCompleted?.Invoke(segmentParameters);
 
             OnNavigatedTo(toPage, segmentParameters);
         }
