@@ -208,6 +208,8 @@ namespace Prism.Services.Dialogs
                 case MasterDetailPage mdp:
                     mdp.IsPresented = false;
                     return GetCurrentPage(mdp.Detail);
+                case Shell shell:
+                    return GetCurrentPage((shell.CurrentItem.CurrentItem as IShellSectionController).PresentedPage);
                 default:
                     // If we get some random Page Type
                     if(page != null)
