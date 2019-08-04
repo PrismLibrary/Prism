@@ -1,10 +1,10 @@
+using System;
+using System.Linq.Expressions;
+using System.Windows.Input;
+using Prism.Properties;
+
 namespace Prism.Commands
 {
-    using System;
-    using System.Linq.Expressions;
-    using System.Windows.Input;
-    using Prism.Properties;
-
     /// <summary>
     /// An <see cref="ICommand"/> whose delegates do not take any parameters for <see cref="Execute()"/> and <see cref="CanExecute()"/>.
     /// </summary>
@@ -12,7 +12,7 @@ namespace Prism.Commands
     /// <see cref="DelegateCommand{T}"/>
     public class DelegateCommand : DelegateCommandBase
     {
-        Action _executeMethod;
+        readonly Action _executeMethod;
         Func<bool> _canExecuteMethod;
 
         /// <summary>
