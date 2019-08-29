@@ -25,7 +25,7 @@ namespace Prism.Common
                         return kvp.Value;
                     else if (type.IsAssignableFrom(kvp.Value.GetType()))
                         return kvp.Value;
-                    else if (type.IsEnum && (Enum.IsDefined(type, kvp.Value.ToString()) || int.TryParse(kvp.Value.ToString(), out var enumValue) && Enum.IsDefined(type, enumValue)))
+                    else if (type.IsEnum && Enum.IsDefined(type, kvp.Value.ToString()))
                         return Enum.Parse(type, kvp.Value.ToString());
                     else
                         return Convert.ChangeType(kvp.Value, type);
@@ -50,7 +50,7 @@ namespace Prism.Common
                         value = (T)kvp.Value;
                     else if (type.IsAssignableFrom(kvp.Value.GetType()))
                         value = (T)kvp.Value;
-                    else if (type.IsEnum && (Enum.IsDefined(type, kvp.Value.ToString()) || int.TryParse(kvp.Value.ToString(), out var enumValue) && Enum.IsDefined(type, enumValue)))
+                    else if (type.IsEnum && Enum.IsDefined(type, kvp.Value.ToString()))
                         value = (T)Enum.Parse(type, kvp.Value.ToString());
                     else
                         value = (T)Convert.ChangeType(kvp.Value, type);
@@ -79,7 +79,7 @@ namespace Prism.Common
                         values.Add((T)kvp.Value);
                     else if (type.IsAssignableFrom(kvp.Value.GetType()))
                         values.Add((T)kvp.Value);
-                    else if (type.IsEnum && (Enum.IsDefined(type, kvp.Value.ToString()) || int.TryParse(kvp.Value.ToString(), out var enumValue) && Enum.IsDefined(type, enumValue)))
+                    else if (type.IsEnum && Enum.IsDefined(type, kvp.Value.ToString()))
                         values.Add((T)Enum.Parse(type, kvp.Value.ToString()));
                     else
                         values.Add((T)Convert.ChangeType(kvp.Value, type));
