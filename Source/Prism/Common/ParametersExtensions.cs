@@ -25,8 +25,8 @@ namespace Prism.Common
                         return kvp.Value;
                     else if (type.IsAssignableFrom(kvp.Value.GetType()))
                         return kvp.Value;
-                    else if (type.IsEnum && (Enum.IsDefined(type, kvp.Value.ToString()) || int.TryParse(kvp.Value.ToString(), out var enumValue) && Enum.IsDefined(type, enumValue)))
-                        return Enum.Parse(type, kvp.Value.ToString());
+                    else if (type.IsEnum && Enum.IsDefined(type, kvp.Value))
+                        return Enum.Parse(type, kvp.Value.ToString(), true);
                     else
                         return Convert.ChangeType(kvp.Value, type);
                 }
@@ -50,8 +50,8 @@ namespace Prism.Common
                         value = (T)kvp.Value;
                     else if (type.IsAssignableFrom(kvp.Value.GetType()))
                         value = (T)kvp.Value;
-                    else if (type.IsEnum && (Enum.IsDefined(type, kvp.Value.ToString()) || int.TryParse(kvp.Value.ToString(), out var enumValue) && Enum.IsDefined(type, enumValue)))
-                        value = (T)Enum.Parse(type, kvp.Value.ToString());
+                    else if (type.IsEnum && Enum.TryParse<T>(kvp.Value, true, out var enumValue))
+                        value = enumValue;
                     else
                         value = (T)Convert.ChangeType(kvp.Value, type);
 
@@ -79,8 +79,8 @@ namespace Prism.Common
                         values.Add((T)kvp.Value);
                     else if (type.IsAssignableFrom(kvp.Value.GetType()))
                         values.Add((T)kvp.Value);
-                    else if (type.IsEnum && (Enum.IsDefined(type, kvp.Value.ToString()) || int.TryParse(kvp.Value.ToString(), out var enumValue) && Enum.IsDefined(type, enumValue)))
-                        values.Add((T)Enum.Parse(type, kvp.Value.ToString()));
+                    else if (type.IsEnum && Enum.TryParse<T>(kvp.Value, true, out var enumValue))
+                        value.Add(enumValue);
                     else
                         values.Add((T)Convert.ChangeType(kvp.Value, type));
                 }
