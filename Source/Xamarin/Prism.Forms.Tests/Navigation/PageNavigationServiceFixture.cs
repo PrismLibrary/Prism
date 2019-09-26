@@ -411,6 +411,69 @@ namespace Prism.Forms.Tests.Navigation
             Assert.True(viewModel.OnConfirmNavigationCalled);
             Assert.True(rootPage.Navigation.ModalStack.Count == 0);
         }
+        
+        [Fact]
+        public async void GoBack_ViewModelWithIConfirmNavigationFalse_ResultException()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new ContentPage() {BindingContext = new ContentPageMockViewModel()};
+            ((IPageAware) navigationService).Page = rootPage;
+
+            var viewModel = rootPage.BindingContext as ContentPageMockViewModel;
+
+            var navParams = new NavigationParameters();
+            navParams.Add("canNavigate", false);
+
+            var navigationResult = await navigationService.GoBackAsync(navParams);
+
+            Assert.True(viewModel.OnConfirmNavigationCalled);
+            Assert.NotNull(navigationResult.Exception);
+            Assert.IsType<NavigationException>(navigationResult.Exception);
+            Assert.False(navigationResult.Success);
+            Assert.Equal(NavigationException.IConfirmNavigationReturnedFalse, navigationResult.Exception.Message);
+        }
+        
+        [Fact]
+        public async void GoBackToRoot_ViewModelWithIConfirmNavigationFalse_ResultException()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new ContentPage() {BindingContext = new ContentPageMockViewModel()};
+            ((IPageAware) navigationService).Page = rootPage;
+
+            var viewModel = rootPage.BindingContext as ContentPageMockViewModel;
+
+            var navParams = new NavigationParameters();
+            navParams.Add("canNavigate", false);
+
+            var navigationResult = await navigationService.GoBackToRootAsync(navParams);
+
+            Assert.True(viewModel.OnConfirmNavigationCalled);
+            Assert.NotNull(navigationResult.Exception);
+            Assert.IsType<NavigationException>(navigationResult.Exception);
+            Assert.False(navigationResult.Success);
+            Assert.Equal(NavigationException.IConfirmNavigationReturnedFalse, navigationResult.Exception.Message);
+        }
+        
+        [Fact]
+        public async void NavigateAsync_ViewModelWithIConfirmNavigationFalse_ResultException()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new ContentPage() {BindingContext = new ContentPageMockViewModel()};
+            ((IPageAware) navigationService).Page = rootPage;
+
+            var viewModel = rootPage.BindingContext as ContentPageMockViewModel;
+
+            var navParams = new NavigationParameters();
+            navParams.Add("canNavigate", false);
+
+            var navigationResult = await navigationService.NavigateAsync("ContentPage", navParams);
+
+            Assert.True(viewModel.OnConfirmNavigationCalled);
+            Assert.NotNull(navigationResult.Exception);
+            Assert.IsType<NavigationException>(navigationResult.Exception);
+            Assert.False(navigationResult.Success);
+            Assert.Equal(NavigationException.IConfirmNavigationReturnedFalse, navigationResult.Exception.Message);
+        }
 
         [Fact]
         public async void Navigate_ToNavigatonPage_ViewModelHasINavigationAware()
