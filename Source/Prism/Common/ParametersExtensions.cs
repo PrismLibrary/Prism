@@ -25,6 +25,8 @@ namespace Prism.Common
                         return kvp.Value;
                     else if (type.IsAssignableFrom(kvp.Value.GetType()))
                         return kvp.Value;
+                    else if (type.IsEnum && (Enum.IsDefined(type, kvp.Value.ToString()) || int.TryParse(kvp.Value.ToString(), out var enumValue) && Enum.IsDefined(type, enumValue)))
+                        return Enum.Parse(type, kvp.Value.ToString());
                     else
                         return Convert.ChangeType(kvp.Value, type);
                 }
@@ -36,18 +38,22 @@ namespace Prism.Common
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static bool TryGetValue<T>(this IEnumerable<KeyValuePair<string, object>> parameters, string key, out T value)
         {
+            var type = typeof(T);
+
             foreach (var kvp in parameters)
             {
                 if (string.Compare(kvp.Key, key, StringComparison.Ordinal) == 0)
                 {
                     if (kvp.Value == null)
                         value = default;
-                    else if (kvp.Value.GetType() == typeof(T))
+                    else if (kvp.Value.GetType() == type)
                         value = (T)kvp.Value;
-                    else if (typeof(T).IsAssignableFrom(kvp.Value.GetType()))
+                    else if (type.IsAssignableFrom(kvp.Value.GetType()))
                         value = (T)kvp.Value;
+                    else if (type.IsEnum && (Enum.IsDefined(type, kvp.Value.ToString()) || int.TryParse(kvp.Value.ToString(), out var enumValue) && Enum.IsDefined(type, enumValue)))
+                        value = (T)Enum.Parse(type, kvp.Value.ToString());
                     else
-                        value = (T)Convert.ChangeType(kvp.Value, typeof(T));
+                        value = (T)Convert.ChangeType(kvp.Value, type);
 
                     return true;
                 }
@@ -61,6 +67,7 @@ namespace Prism.Common
         public static IEnumerable<T> GetValues<T>(this IEnumerable<KeyValuePair<string, object>> parameters, string key)
         {
             List<T> values = new List<T>();
+            var type = typeof(T);   
 
             foreach (var kvp in parameters)
             {
@@ -68,12 +75,14 @@ namespace Prism.Common
                 {
                     if (kvp.Value == null)
                         values.Add(default);
-                    else if (kvp.Value.GetType() == typeof(T))
+                    else if (kvp.Value.GetType() == type)
                         values.Add((T)kvp.Value);
-                    else if (typeof(T).IsAssignableFrom(kvp.Value.GetType()))
+                    else if (type.IsAssignableFrom(kvp.Value.GetType()))
                         values.Add((T)kvp.Value);
+                    else if (type.IsEnum && (Enum.IsDefined(type, kvp.Value.ToString()) || int.TryParse(kvp.Value.ToString(), out var enumValue) && Enum.IsDefined(type, enumValue)))
+                        values.Add((T)Enum.Parse(type, kvp.Value.ToString()));
                     else
-                        values.Add((T)Convert.ChangeType(kvp.Value, typeof(T)));
+                        values.Add((T)Convert.ChangeType(kvp.Value, type));
                 }
             }
 
