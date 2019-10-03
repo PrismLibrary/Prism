@@ -337,6 +337,94 @@ namespace Prism.Navigation
             }
         }
 
+        /// <summary>
+        /// Selects a Tab of the TabbedPage parent.
+        /// </summary>
+        /// <param name="name">The name of the tab to select</param>
+        /// <param name="parameters">The navigation parameters</param>
+        public virtual Task<INavigationResult> SelectTabAsync(string name, INavigationParameters parameters)
+        {
+            return SelectTabAsyncInternal(name, parameters);
+        }
+
+        Task<INavigationResult> IPlatformNavigationService.SelectTabAsync(string name, INavigationParameters parameters)
+        {
+            return SelectTabAsyncInternal(name, parameters);
+        }
+
+        /// <summary>
+        /// Selects a Tab of the TabbedPage parent.
+        /// </summary>
+        /// <param name="name">The name of the tab to select</param>
+        /// <param name="parameters">The navigation parameters</param>
+        protected async virtual Task<INavigationResult> SelectTabAsyncInternal(string name, INavigationParameters parameters)
+        {
+            try
+            {
+                var currentPage = _page;
+
+                var canNavigate = await PageUtilities.CanNavigateAsync(currentPage, parameters);
+                if (!canNavigate)
+                    throw new Exception($"IConfirmNavigation for {currentPage} returned false");
+
+                TabbedPage tabbedPage = null;
+
+                if (currentPage.Parent is TabbedPage parent)
+                {
+                    tabbedPage = parent;
+                }
+                else if (currentPage.Parent is NavigationPage navPage)
+                {
+                    if (navPage.Parent != null && navPage.Parent is TabbedPage parent2)
+                    {
+                        tabbedPage = parent2;
+                    }
+                }
+
+                if (tabbedPage == null)
+                    throw new Exception("No parent TabbedPage could be found");
+
+                var tabToSelectedType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(name));
+                if (tabToSelectedType is null)
+                    throw new Exception($"No View Type has been registered for '{name}'");
+
+                Page target = null;
+                foreach (var child in tabbedPage.Children)
+                {
+                    if (child.GetType() == tabToSelectedType)
+                    {
+                        target = child;
+                        break;
+                    }
+
+                    if (child is NavigationPage childNavPage)
+                    {
+                        if (childNavPage.CurrentPage.GetType() == tabToSelectedType ||
+                            childNavPage.RootPage.GetType() == tabToSelectedType)
+                        {
+                            target = child;
+                            break;
+                        }
+                    }
+                }
+
+                if (target is null)
+                    throw new Exception($"Could not find a Child Tab for '{name}'");
+
+                var tabParameters = UriParsingHelper.GetSegmentParameters(name, parameters);
+
+                tabbedPage.CurrentPage = target;
+                PageUtilities.OnNavigatedFrom(currentPage, tabParameters);
+                PageUtilities.OnNavigatedTo(target, tabParameters);
+            }
+            catch (Exception ex)
+            {
+                return new NavigationResult { Exception = ex };
+            }
+
+            return new NavigationResult { Success = true };
+        }
+
         protected virtual async Task ProcessNavigation(Page currentPage, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             if (segments.Count == 0)

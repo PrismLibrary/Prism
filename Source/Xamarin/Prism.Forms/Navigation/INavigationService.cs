@@ -55,5 +55,12 @@ namespace Prism.Navigation
         /// <param name="name">The name of the target to navigate to.</param>
         /// <param name="parameters">The navigation parameters</param>
         Task<INavigationResult> NavigateAsync(string name, INavigationParameters parameters);
+
+        /// <summary>
+        /// Selects a Tab of the TabbedPage parent.
+        /// </summary>
+        /// <param name="name">The name of the tab to select</param>
+        /// <param name="parameters">The navigation parameters</param>
+        Task<INavigationResult> SelectTabAsync(string name, INavigationParameters parameters);
     }
 }

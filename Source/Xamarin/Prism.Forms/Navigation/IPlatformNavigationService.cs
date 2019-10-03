@@ -12,5 +12,7 @@ namespace Prism.Navigation
         Task<INavigationResult> NavigateAsync(string name, INavigationParameters parameters, bool? useModalNavigation, bool animated);
 
         Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters, bool? useModalNavigation, bool animated);
+
+        Task<INavigationResult> SelectTabAsync(string name, INavigationParameters parameters);
     }
 }
