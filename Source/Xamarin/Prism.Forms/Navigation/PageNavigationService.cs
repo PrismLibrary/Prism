@@ -694,7 +694,9 @@ namespace Prism.Navigation
 
             var canNavigate = await PageUtilities.CanNavigateAsync(fromPage, segmentParameters);
             if (!canNavigate)
-                return;
+            {
+                throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, toPage);
+            }
 
             await OnInitializedAsync(toPage, segmentParameters);
 
