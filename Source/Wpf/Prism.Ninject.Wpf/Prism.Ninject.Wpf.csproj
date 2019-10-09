@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Ninject" Version="3.3.4" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19270-01" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
