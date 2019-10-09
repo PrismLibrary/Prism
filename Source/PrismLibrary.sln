@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29403.142
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism", "Prism\Prism.csproj", "{6D4EACA5-275A-495F-A042-BB91247FDE50}"
 EndProject
@@ -30,9 +30,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AD25EEBB-B23F-4238-BF4B-0E3199142E7F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2556BF50-B8A0-4F08-8309-FE53A1B9EFC6}"
-EndProject
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BD870EC2-18B3-4537-A74A-63784B915EB8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Forms", "Xamarin\Prism.DryIoc.Forms\Prism.DryIoc.Forms.csproj", "{CC969CD2-BE7E-4A83-BB5E-55E504C96E79}"
 EndProject

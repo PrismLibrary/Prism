@@ -116,7 +116,7 @@ namespace Prism.Tests.Events
         }
 
         [Fact]
-        public void TargetEqualsNullShouldReturnTrueIfTargetNotAlive()
+        public async Task TargetEqualsNullShouldReturnTrueIfTargetNotAlive()
         {
             SomeClassHandler handler = new SomeClassHandler();
             var weakHandlerRef = new WeakReference(handler);
@@ -124,6 +124,9 @@ namespace Prism.Tests.Events
             var action = new DelegateReference((Action<string>)handler.DoEvent, false);
 
             handler = null;
+
+            // Intentional delay to encourage Garbage Collection to actually occur
+            await Task.Delay(100);
             GC.Collect();
             Assert.False(weakHandlerRef.IsAlive);
 
