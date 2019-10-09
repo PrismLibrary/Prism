@@ -3,6 +3,6 @@ steps:
       # To manually select a Xamarin SDK version on the Hosted macOS agent, run this script with the SDK version you want to target
       # https://go.microsoft.com/fwlink/?linkid=871629
 
-      sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 5_18_1
+      sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_4_0
 
   displayName: 'Select Xamarin SDK version'
