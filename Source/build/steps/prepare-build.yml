@@ -2,7 +2,7 @@ parameters:
   solution: '**/*.sln'
 
 steps:
-- task: DotNetCoreInstaller@0
+- task: UseDotNet@2
   inputs:
     version: '3.0.100'
 
