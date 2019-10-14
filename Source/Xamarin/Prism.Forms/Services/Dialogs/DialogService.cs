@@ -1,4 +1,4 @@
-﻿using Prism.AppModel;
+using Prism.AppModel;
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Mvvm;
@@ -287,10 +287,10 @@ namespace Prism.Services.Dialogs
             var relativeHeight = DialogLayout.GetRelativeHeightRequest(popupView);
             if (relativeHeight != null)
             {
-                popupContainer.SetBinding(DialogContainer.WidthRequestProperty,
+                popupContainer.SetBinding(DialogContainer.HeightRequestProperty,
                     new Binding("Height",
                                 BindingMode.OneWay,
-                                new RelativeContentSizeConverter { RelativeSize = relativeWidth.Value },
+                                new RelativeContentSizeConverter { RelativeSize = relativeHeight.Value },
                                 source: currentPage));
             }
 
