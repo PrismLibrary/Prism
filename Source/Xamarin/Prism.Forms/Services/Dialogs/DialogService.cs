@@ -1,4 +1,4 @@
-using Prism.AppModel;
+﻿using Prism.AppModel;
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Mvvm;
@@ -301,7 +301,7 @@ namespace Prism.Services.Dialogs
             AbsoluteLayout.SetLayoutBounds(popupContainer, popupBounds);
             overlay.Children.Add(content);
 
-            if(DialogLayout.GetUseMask(popupContainer) ?? true)
+            if (DialogLayout.GetUseMask(popupContainer.Content) ?? true)
             {
                 overlay.Children.Add(mask);
             }
@@ -338,7 +338,7 @@ namespace Prism.Services.Dialogs
             return overlayStyle;
         }
 
-        private static readonly BindableProperty IsPopupHostProperty =
+        internal static readonly BindableProperty IsPopupHostProperty =
             BindableProperty.CreateAttached("IsPopupHost", typeof(bool), typeof(DialogService), false);
     }
 }
