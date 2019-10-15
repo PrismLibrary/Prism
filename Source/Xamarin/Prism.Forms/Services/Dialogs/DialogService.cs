@@ -46,14 +46,14 @@ namespace Prism.Services.Dialogs
                         }
 
                         dialogAware.RequestClose -= DialogAware_RequestClose;
-                        callback(result);
+                        callback?.Invoke(result);
                         GC.Collect();
                     }
                     catch(DialogException dex)
                     {
                         if(dex.Message != DialogException.CanCloseIsFalse)
                         {
-                            callback(new DialogResult
+                            callback?.Invoke(new DialogResult
                             {
                                 Exception = dex,
                                 Parameters = parameters
@@ -62,7 +62,7 @@ namespace Prism.Services.Dialogs
                     }
                     catch (Exception ex)
                     {
-                        callback(new DialogResult
+                        callback?.Invoke(new DialogResult
                         {
                             Exception = ex,
                             Parameters = parameters
@@ -87,7 +87,7 @@ namespace Prism.Services.Dialogs
             catch (Exception ex)
             {
                 var error = ex.ToString();
-                callback(new DialogResult { Exception = ex });
+                callback?.Invoke(new DialogResult { Exception = ex });
             }
         }
 
