@@ -4,7 +4,6 @@ parameters:
 jobs:
 - job: sandboxIOS
   displayName: Sandbox iOS App
-  condition: succeeded()
   pool:
     vmImage: $(MacImage)
     demands:
@@ -23,11 +22,14 @@ jobs:
     inputs:
       provProfileSecureFile: Prism.mobileprovision
 
-  - task: vs-publisher-473885.motz-mobile-buildtasks.ios-bundle-version.ios-bundle-version@0
+  - task: ios-bundle-version@1
     displayName: 'Bump iOS Versions in Info.plist'
     inputs:
       sourcePath: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/Info.plist
+      versionCodeOption: 'buildid'
+      versionCode: '$(Build.BuildId)'
       versionName: '7.2.$(Build.BuildId)'
+      printFile: true
 
   - template: ../steps/set-runtime.yml
 
