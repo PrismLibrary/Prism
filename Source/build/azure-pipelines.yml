@@ -22,9 +22,9 @@ name: $(Build.BuildId)
 
 variables:
 - name: VMImage
-  value: windows-2019
+  value: windows-latest
 - name: MacImage
-  value: macOS-10.14
+  value: macOS-latest
 - name: BuildConfiguration
   value: Release
 - name: BuildPlatform

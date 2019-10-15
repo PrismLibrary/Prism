@@ -4,7 +4,7 @@ parameters:
 jobs:
 - job: sandboxAndroid
   displayName: Sandbox Android App
-  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.Reason'], 'PullRequest'))
+  condition: succeeded()
   pool:
     vmImage: $(MacImage)
     demands:
@@ -15,6 +15,12 @@ jobs:
   workspace:
     clean: all
   steps:
+  - task: vs-publisher-473885.motz-mobile-buildtasks.android-manifest-version.android-manifest-version@0
+    displayName: 'Bump Android Versions in AndroidManifest.xml'
+    inputs:
+      sourcePath: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.Android/Properties/AndroidManifest.xml
+      versionName: '7.2.$(Build.BuildId)'
+
   - template: ../steps/set-runtime.yml
 
   - template: ../steps/prepare-build.yml
