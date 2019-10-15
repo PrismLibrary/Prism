@@ -35,3 +35,10 @@ jobs:
       projectFile: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.Android/HelloWorld.Android.csproj
       outputDirectory: '$(Build.BinariesDirectory)/${{ parameters.buildConfiguration }}'
       configuration: ${{ parameters.buildConfiguration }}
+
+  - task: PublishPipelineArtifact@0
+    displayName: 'Publish Sandbox Artifacts'
+    inputs:
+      targetPath: '$(Build.BinariesDirectory)/${{ parameters.buildConfiguration }}'
+      artifactName: Sandbox-Android
+    condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

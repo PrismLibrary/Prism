@@ -42,3 +42,10 @@ jobs:
     inputs:
       solutionFile: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/HelloWorld.iOS.csproj'
       configuration: ${{ parameters.buildConfiguration }}
+
+  - task: PublishPipelineArtifact@0
+    displayName: 'Publish Sandbox Artifacts'
+    inputs:
+      targetPath: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/bin/iPhone/${{ parameters.buildConfiguration }}'
+      artifactName: Sandbox-iOS
+    condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

@@ -16,3 +16,10 @@ jobs:
     parameters:
       solution: Sandbox/Wpf/HelloWorld/HelloWorld.sln
       solutionName: WPF Sandbox
+
+  - task: PublishPipelineArtifact@0
+    displayName: 'Publish Sandbox Artifacts'
+    inputs:
+      targetPath: 'Sandbox/Wpf/HelloWorld/HelloWorld/bin/iPhone/${{ parameters.buildConfiguration }}'
+      artifactName: Sandbox-WPF
+    condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
