@@ -1,5 +1,5 @@
+using Microsoft.Xaml.Behaviors;
 using System;
-using System.Windows.Interactivity;
 
 namespace Prism.Interactivity.InteractionRequest
 {
@@ -7,7 +7,7 @@ namespace Prism.Interactivity.InteractionRequest
     /// Custom event trigger for using with <see cref="IInteractionRequest"/> objects.
     /// </summary>
     /// <remarks>
-    /// The standard <see cref="System.Windows.Interactivity.EventTrigger"/> class can be used instead, as long as the 'Raised' event 
+    /// The standard <see cref="Microsoft.Xaml.Behaviors.EventTrigger"/> class can be used instead, as long as the 'Raised' event 
     /// name is specified.
     /// </remarks>
     [Obsolete("Please use the new IDialogService for an improved dialog experience.")]
