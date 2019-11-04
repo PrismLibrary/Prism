@@ -303,10 +303,10 @@ namespace Prism.Common
                     navigationPage = navParent;
                     return true;
                 }
-                else if ((page.Parent is TabbedPage || page.Parent is CarouselPage) && page.Parent?.Parent is NavigationPage navigationParent)
+                else if ((page.Parent is TabbedPage || page.Parent is CarouselPage) && (page.Parent?.Parent is TabbedPage ? page.Parent?.Parent?.Parent : page.Parent?.Parent) is NavigationPage navigationParent)
                 {
                     navigationPage = navigationParent;
-                    return true;
+                    return true; 
                 }
             }
 
