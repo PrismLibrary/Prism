@@ -230,16 +230,20 @@ namespace Prism
 
         protected override void OnResume()
         {
-            if (MainPage == null) return;
-            var page = PageUtilities.GetCurrentPage(MainPage);
-            PageUtilities.InvokeViewAndViewModelAction<IApplicationLifecycleAware>(page, x => x.OnResume());
+            if (MainPage != null)
+            {
+                var page = PageUtilities.GetCurrentPage(MainPage);
+                PageUtilities.InvokeViewAndViewModelAction<IApplicationLifecycleAware>(page, x => x.OnResume());
+            }
         }
 
         protected override void OnSleep()
         {
-            if (MainPage == null) return;
-            var page = PageUtilities.GetCurrentPage(MainPage);
-            PageUtilities.InvokeViewAndViewModelAction<IApplicationLifecycleAware>(page, x => x.OnSleep());
+            if (MainPage != null)
+            {
+                var page = PageUtilities.GetCurrentPage(MainPage);
+                PageUtilities.InvokeViewAndViewModelAction<IApplicationLifecycleAware>(page, x => x.OnSleep());
+            }
         }
 
         private void PrismApplicationBase_ModalPopping(object sender, ModalPoppingEventArgs e)
