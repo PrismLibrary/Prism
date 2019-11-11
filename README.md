@@ -4,6 +4,13 @@ Prism is a framework for building loosely coupled, maintainable, and testable XA
 
 Prism 7 is a fully open source version of the Prism guidance [originally produced by Microsoft patterns & practices](http://blogs.msdn.com/b/dotnet/archive/2015/03/19/prism-grows-up.aspx). The core team members were all part of the P&amp;P team that developed Prism 1 through 5, and the effort has now been turned over to the open source community to keep it alive and thriving to support the .NET community. There are thousands of companies who have adopted previous versions of Prism for WPF, Silverlight, and Windows Runtime, and we hope they will continue to move along with us as we continue to evolve and enhance the framework to keep pace with current platform capabilities and requirements.
 
+## Help Support Prism
+
+As most of you know, it takes a lot of time and effort for our small team to manage and maintain Prism in our spare time. Even though Prism is open source and hosted on GitHub, there are a number of costs associated with maintaining a project such as Prism.  Please be sure to Star the Prism repo and help sponsor Dan and Brian on GitHub.
+
+- Sponsor [Dan](https://xam.dev/sponsor-prism-dan)
+- Sponsor [Brian](https://xam.dev/sponsor-prism-brian)
+
 ## Build Status
 
 |          | Status |
@@ -26,62 +33,6 @@ Prism 7 is a fully open source version of the Prism guidance [originally produce
 - Documentation is maintained in [the Prism-Documentation repo](https://github.com/PrismLibrary/Prism-Documentation) under /docs and can be found in a readable format on [the website](http://prismlibrary.github.io/docs/).
 - For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism).
 - You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues/new/choose).
-
-## Help Support Prism
-
-As most of you know, it takes a lot of time and effort for our small team to manage and maintain Prism in our spare time.  Even though Prism is open source and hosted on GitHub, there are a number of costs associated with maintaining a project such as Prism.  If you would like to help support us, the easiest thing you can do is become a Patron and watch our Pluralsight courses on Prism.
-
-By becoming a [Patron and subscribing](https://www.patreon.com/prismlibrary) to the Prism Library, you will receive a number of benefits depending on your level of support.
-
-**Supporter** - $5+ per month
-
-- Receive all Prism Library news and announcements, such as new release information and blogs posts.
-- Gives you access to our community Slack channel where you can ask questions and get help from the community and the Prism Library project maintainers (when available).
-
-**Backer** - $10+ per month
-Everything in the Supporter plan plus:
-
-- A Prism sticker
-
-**Generous Backer** - $25+ per month
-Everything in the Backer plan plus:
-
-- Video Tutorial request priority (topic acceptance not guaranteed)
-- Bragging rights!
-
-**Bronze Sponsor** - $100+ per month
-Everything in the Generous Backer plan plus:
-
-- Your name or company logo (small) will be put in sponsors.md in the Prism repository.
-
-**Silver Sponsor** - $250+ per month
-Everything in the Generous Backer plan plus:
-
-- Your name or company logo (medium) will be put in the sponsors.md in the Prism repository.
-- Your name or company logo (medium) will be put on the repository ReadMe.md
-
-**Gold Sponsor** - $500+ per month
-Everything in the Generous Backer plan plus:
-
-- Your name or company logo (large) will be put in the sponsors.md in the Prism repository.
-- Your name or company logo (large) will be put on the repository ReadMe.md
-- Your name or company logo (large) on the homepage of PrismLibrary.com
-- 1 hour VIP support per month
-
-**Platinum Sponsor** - $1,000+ per month
-Everything in the Generous Backer plan plus:
-
-- Your name or company logo (large) will be put at the top of the sponsors.md in the Prism repository.
-- Your name or company logo (large) will be put on the repository ReadMe.md
-- Your name or company logo on the homepage of PrismLibrary.com
-- 1 Sponsored Video Tutorial per month
-- 2 hours VIP support per month
-
-**Corporate Sponsor** - $10,000+ per month
-Everything in the Platinum Sponsor plan plus:
-
-- 3 days onsite training for your company (every six months)
-- Dedicated VIP Support
 
 ## Videos &amp; Training
 
