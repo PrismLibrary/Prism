@@ -20,6 +20,6 @@ jobs:
   - task: PublishPipelineArtifact@0
     displayName: 'Publish Sandbox Artifacts'
     inputs:
-      targetPath: 'Sandbox/Wpf/HelloWorld/HelloWorld/bin/${{ parameters.buildConfiguration }}'
+      targetPath: 'Sandbox/Wpf/HelloWorld/HelloWorld/bin/${{ parameters.buildConfiguration }}/'
       artifactName: Sandbox-WPF
     condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

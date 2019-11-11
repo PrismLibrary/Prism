@@ -36,9 +36,15 @@ jobs:
       outputDirectory: '$(Build.BinariesDirectory)/${{ parameters.buildConfiguration }}'
       configuration: ${{ parameters.buildConfiguration }}
 
+  - bash: cp "${targetPath}/com.companyname.HelloWorld.apk" $stagingDir
+    displayName: Stage Artifacts
+    env:
+      targetPath: '$(Build.BinariesDirectory)/${{ parameters.buildConfiguration }}'
+      stagingDir: $(Build.ArtifactStagingDirectory)
+
   - task: PublishPipelineArtifact@0
     displayName: 'Publish Sandbox Artifacts'
     inputs:
-      targetPath: '$(Build.BinariesDirectory)/${{ parameters.buildConfiguration }}'
+      targetPath: '$(Build.ArtifactStagingDirectory)'
       artifactName: Sandbox-Android
     condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

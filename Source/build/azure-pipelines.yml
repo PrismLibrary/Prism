@@ -60,6 +60,40 @@ stages:
   displayName: Deploy Artifacts
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
+  - deployment: SandboxAndroidDeploy
+    displayName: 'Sandbox Android - App Center'
+    environment: 'App Center'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: AppCenterDistribute@3
+              displayName: 'Deploy Sandbox Android App to App Center'
+              inputs:
+                serverEndpoint: Prism-AppCenter
+                appSlug: 'Prism/Sandbox.Android'
+                appFile: '$(Pipeline.Workspace)/Sandbox-Android/HelloWorld.Android.apk'
+                releaseNotesInput: 'Automated Release for build $(Build.BuildId)'
+                isSilent: false
+
+  - deployment: SandboxiOSDeploy
+    displayName: 'Sandbox iOS - App Center'
+    environment: 'App Center'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: AppCenterDistribute@3
+              displayName: 'Deploy Sandbox iOS App to App Center'
+              inputs:
+                serverEndpoint: Prism-AppCenter
+                appSlug: 'Prism/Sandbox.iOS'
+                appFile: '$(Pipeline.Workspace)/Sandbox-iOS/HelloWorld.iOS.ipa'
+                symbolsDsymFiles: '$(Pipeline.Workspace)/Sandbox-iOS/HelloWorld.iOS.app.dSYM'
+                symbolsIncludeParentDirectory: false
+                releaseNotesInput: 'Automated Release for build $(Build.BuildId)'
+                isSilent: false
+
   - deployment: GitHub
     displayName: GitHub Packages
     environment: GitHub

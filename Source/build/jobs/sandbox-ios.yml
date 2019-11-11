@@ -43,9 +43,18 @@ jobs:
       solutionFile: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/HelloWorld.iOS.csproj'
       configuration: ${{ parameters.buildConfiguration }}
 
+  - bash: |
+     baseArtifactPath='Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/bin/iPhone/${buildConfiguration}'
+     cp -R "${baseArtifactPath}/HellowWorld.iOS.app.dSYM" $stagingDir
+     cp "${baseArtifactPath}/HellowWorld.iOS.ipa" $stagingDir
+    displayName: Stage Artifacts
+    env:
+      stagingDir: $(Build.ArtifactStagingDirectory)
+      buildConfiguration: ${{ parameters.buildConfiguration }}
+
   - task: PublishPipelineArtifact@0
     displayName: 'Publish Sandbox Artifacts'
     inputs:
-      targetPath: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/bin/iPhone/${{ parameters.buildConfiguration }}'
+      targetPath: '$(Build.ArtifactStagingDirectory)'
       artifactName: Sandbox-iOS
     condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

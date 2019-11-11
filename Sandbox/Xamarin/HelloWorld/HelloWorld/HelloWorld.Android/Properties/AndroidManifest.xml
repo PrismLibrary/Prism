@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.HelloWorld">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.prismlibrary.helloworld">
 	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
-	<application android:label="HelloWorld.Android"></application>
+	<application android:label="Hello Prism"></application>
 </manifest>
