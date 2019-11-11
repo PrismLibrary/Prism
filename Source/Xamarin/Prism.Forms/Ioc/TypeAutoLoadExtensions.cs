@@ -15,7 +15,7 @@ namespace Prism.Ioc
             var regAttr = type.GetCustomAttribute<AutoRegisterForNavigationAttribute>();
             var assembly = type.Assembly;
 
-            var viewTypes = assembly.ExportedTypes.Where(t => t.IsSubclassOf(typeof(Page)));
+            var viewTypes = assembly.ExportedTypes.Where(t => t.IsSubclassOf(typeof(Page)) && !t.GetTypeInfo().IsGenericTypeDefinition && !t.GetTypeInfo().ContainsGenericParameters);
             RegisterViewsAutomatically(containerRegistry, viewTypes);
         }
 
