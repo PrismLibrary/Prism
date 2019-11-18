@@ -7,7 +7,8 @@ daysUntilClose: 7
 # Issues with these labels will never be considered stale
 exemptLabels:
   - 'blocked by platform'
-  - ''
+  - 'to verify'
+  - 'roadmap'
 
 # Label to use when marking an issue as stale
 staleLabel: wontfix
