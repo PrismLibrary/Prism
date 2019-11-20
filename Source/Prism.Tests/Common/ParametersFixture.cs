@@ -1,25 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Prism.Common;
+using Prism.Tests.Common.Mocks;
 using Xunit;
 
-namespace Prism.Tests.Mvvm
+namespace Prism.Tests.Common
 {
-    internal class MockParameters : ParametersBase
-    {
-        public MockParameters() : base() { }
-        public MockParameters(string query) : base(query) { }
-    }
-
-    internal enum MockEnum
-    {
-        None = 0,
-        Foo = 1,
-        Bar = 2,
-        Fizz = 3
-    }
-
-    public class AutoInitializeViewModelFixture
+    public class ParametersFixture
     {
         [Fact]
         public void TryGetValueOfT()
@@ -41,7 +27,7 @@ namespace Prism.Tests.Mvvm
         public void GetValuesOfT()
         {
             var parameters = new MockParameters("mock=Foo&mock=2&mock=Fizz");
-            bool success = false;
+
             IEnumerable<MockEnum> values = default;
 
             var ex = Record.Exception(() => values = parameters.GetValues<MockEnum>("mock"));

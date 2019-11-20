@@ -19,16 +19,10 @@ namespace Prism.Common
             {
                 if (string.Compare(kvp.Key, key, StringComparison.Ordinal) == 0)
                 {
-                    if (kvp.Value == null)
-                        return GetDefault(type);
-                    else if (kvp.Value.GetType() == type)
-                        return kvp.Value;
-                    else if (type.IsAssignableFrom(kvp.Value.GetType()))
-                        return kvp.Value;
-                    else if (type.IsEnum && Enum.IsDefined(type, kvp.Value.ToString()))
-                        return Enum.Parse(type, kvp.Value.ToString());
-                    else
-                        return Convert.ChangeType(kvp.Value, type);
+                    if(TryGetValueInternal(kvp, type, out var value))
+                        return value;
+
+                    throw new InvalidCastException($"Unable to convert the value of Type '{kvp.Value.GetType().FullName}' to '{type.FullName}' for the key '{key}' ");
                 }
             }
 
@@ -44,18 +38,9 @@ namespace Prism.Common
             {
                 if (string.Compare(kvp.Key, key, StringComparison.Ordinal) == 0)
                 {
-                    if (kvp.Value == null)
-                        value = default;
-                    else if (kvp.Value.GetType() == type)
-                        value = (T)kvp.Value;
-                    else if (type.IsAssignableFrom(kvp.Value.GetType()))
-                        value = (T)kvp.Value;
-                    else if (type.IsEnum && Enum.IsDefined(type, kvp.Value.ToString()))
-                        value = (T)Enum.Parse(type, kvp.Value.ToString());
-                    else
-                        value = (T)Convert.ChangeType(kvp.Value, type);
-
-                    return true;
+                    var success = TryGetValueInternal(kvp, typeof(T), out object valueAsObject);
+                    value = (T)valueAsObject;
+                    return success;
                 }
             }
 
@@ -67,26 +52,60 @@ namespace Prism.Common
         public static IEnumerable<T> GetValues<T>(this IEnumerable<KeyValuePair<string, object>> parameters, string key)
         {
             List<T> values = new List<T>();
-            var type = typeof(T);   
+            var type = typeof(T);
 
             foreach (var kvp in parameters)
             {
                 if (string.Compare(kvp.Key, key, StringComparison.Ordinal) == 0)
                 {
-                    if (kvp.Value == null)
-                        values.Add(default);
-                    else if (kvp.Value.GetType() == type)
-                        values.Add((T)kvp.Value);
-                    else if (type.IsAssignableFrom(kvp.Value.GetType()))
-                        values.Add((T)kvp.Value);
-                    else if (type.IsEnum && Enum.IsDefined(type, kvp.Value.ToString()))
-                        values.Add((T)Enum.Parse(type, kvp.Value.ToString()));
-                    else
-                        values.Add((T)Convert.ChangeType(kvp.Value, type));
+                    TryGetValueInternal(kvp, type, out var value);
+                    values.Add((T)value);
                 }
             }
 
             return values.AsEnumerable();
+        }
+
+        private static bool TryGetValueInternal(KeyValuePair<string, object> kvp, Type type, out object value)
+        {
+            value = GetDefault(type);
+            var success = false;
+            if (kvp.Value == null)
+            {
+                success = true;
+            }
+            else if (kvp.Value.GetType() == type)
+            {
+                success = true;
+                value = kvp.Value;
+            }
+            else if (type.IsAssignableFrom(kvp.Value.GetType()))
+            {
+                success = true;
+                value = kvp.Value;
+            }
+            else if (type.IsEnum)
+            {
+                var valueAsString = kvp.Value.ToString();
+                if (Enum.IsDefined(type, valueAsString))
+                {
+                    success = true;
+                    value = Enum.Parse(type, valueAsString);
+                }
+                else if (int.TryParse(valueAsString, out var numericValue))
+                {
+                    success = true;
+                    value = Enum.ToObject(type, numericValue);
+                }
+            }
+
+            if (!success && type.GetInterface("System.IConvertible") != null)
+            {
+                success = true;
+                value = Convert.ChangeType(kvp.Value, type);
+            }
+
+            return success;
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
