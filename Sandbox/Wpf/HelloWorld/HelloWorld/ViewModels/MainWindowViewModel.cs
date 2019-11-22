@@ -1,6 +1,7 @@
 ﻿using System;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using Prism.Services.Dialogs;
 
 namespace HelloWorld.ViewModels
@@ -9,6 +10,7 @@ namespace HelloWorld.ViewModels
     {
         private string _title = "Prism Application";
         private readonly IDialogService _dialogService;
+        private readonly IRegionManager _regionManager;
 
         public string Title
         {
@@ -18,9 +20,20 @@ namespace HelloWorld.ViewModels
 
         public DelegateCommand ShowDialogCommand { get; private set; }
 
-        public MainWindowViewModel(IDialogService dialogService)
+        private DelegateCommand<string> _navigate;
+        public DelegateCommand<string> NavigateCommand =>
+            _navigate ?? (_navigate = new DelegateCommand<string>(ExecuteNavigateCommand));
+
+        void ExecuteNavigateCommand(string parameter)
+        {
+            if (!string.IsNullOrWhiteSpace(parameter))
+                _regionManager.RequestNavigate("ContentRegion", parameter);
+        }
+
+        public MainWindowViewModel(IDialogService dialogService, IRegionManager regionManager)
         {
             _dialogService = dialogService;
+            _regionManager = regionManager;
             ShowDialogCommand = new DelegateCommand(ShowDialog);            
         }
 
