@@ -261,7 +261,7 @@ namespace Prism.Regions
                 journalEntry.Uri = navigationContext.Uri;
                 journalEntry.Parameters = navigationContext.Parameters;
 
-                bool persistInHistory = PersistInHistory(activeViews);
+                bool persistInHistory = PersistInHistory(view);
 
                 this.journal.RecordNavigation(journalEntry, persistInHistory);
 
@@ -280,13 +280,10 @@ namespace Prism.Regions
             }
         }
 
-        private static bool PersistInHistory(object[] activeViews)
+        private static bool PersistInHistory(object view)
         {
             bool persist = true;
-            if (activeViews.Length > 0)
-            {
-                MvvmHelpers.ViewAndViewModelAction<IJournalAware>(activeViews[0], ija => { persist &= ija.PersistInHistory(); });
-            }
+            MvvmHelpers.ViewAndViewModelAction<IJournalAware>(view, ija => { persist &= ija.PersistInHistory(); });
             return persist;
         }
 

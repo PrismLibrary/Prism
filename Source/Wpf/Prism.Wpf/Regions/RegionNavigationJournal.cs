@@ -117,13 +117,17 @@ namespace Prism.Regions
         {
             if (!this.isNavigatingInternal)
             {
-                if (this.CurrentEntry != null && persistInHistory)
+                if (this.CurrentEntry != null)
                 {
                     this.backStack.Push(this.CurrentEntry);
                 }
 
                 this.forwardStack.Clear();
-                this.CurrentEntry = entry;
+
+                if (persistInHistory)
+                    CurrentEntry = entry;
+                else
+                    CurrentEntry = null;
             }
         }
 
