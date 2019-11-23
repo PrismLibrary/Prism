@@ -411,28 +411,32 @@ namespace Prism.Wpf.Tests.Regions
             Uri uri3 = new Uri("Uri3", UriKind.Relative);
             RegionNavigationJournalEntry entry3 = new RegionNavigationJournalEntry() { Uri = uri3 };
 
+            Uri uri4 = new Uri("Uri4", UriKind.Relative);
+            RegionNavigationJournalEntry entry4 = new RegionNavigationJournalEntry() { Uri = uri4 };
+
             target.RecordNavigation(entry1, true);
             target.RecordNavigation(entry2, true);
-            target.RecordNavigation(entry3, true);
 
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>()))
-                .Callback<Uri, Action<NavigationResult>>((u, c) => c(new NavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>()))
-                .Callback<Uri, Action<NavigationResult>>((u, c) => c(new NavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>()))
-                .Callback<Uri, Action<NavigationResult>>((u, c) => c(new NavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, NavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
 
             target.GoBack();
 
-            // Act
-            target.RecordNavigation(new RegionNavigationJournalEntry() { Uri = new Uri("Uri4", UriKind.Relative) }, true);
+            Assert.True(target.CanGoForward);
 
+            // Act
+            target.RecordNavigation(entry3, true);
 
             // Verify
             Assert.False(target.CanGoForward);
+            Assert.Equal(entry3, target.CurrentEntry);
         }
 
         [Fact]
