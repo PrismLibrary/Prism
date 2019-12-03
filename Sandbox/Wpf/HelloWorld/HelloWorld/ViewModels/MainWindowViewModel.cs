@@ -42,7 +42,7 @@ namespace HelloWorld.ViewModels
             var message = "This is a message that should be shown in the dialog.";
 
             //using the dialog service as-is
-            //_dialogService.ShowDialog("NotificationDialog", new DialogParameters($"message={message}"), r =>
+            //_dialogService.Show("NotificationDialog", new DialogParameters($"message={message}"), r =>
             //{
             //    if (r.Result == ButtonResult.None)
             //        Title = "Result is None";
@@ -67,7 +67,19 @@ namespace HelloWorld.ViewModels
             //        Title = "I Don't know what you did!?";
             //});
 
-            _dialogService.ShowConfirmation(message, r =>
+            //_dialogService.ShowConfirmation(message, r =>
+            //{
+            //    if (r.Result == ButtonResult.None)
+            //        Title = "Result is None";
+            //    else if (r.Result == ButtonResult.OK)
+            //        Title = "Result is OK";
+            //    else if (r.Result == ButtonResult.Cancel)
+            //        Title = "Result is Cancel";
+            //    else
+            //        Title = "I Don't know what you did!?";
+            //});
+
+            _dialogService.ShowNotificationInAnotherWindow(message, r =>
             {
                 if (r.Result == ButtonResult.None)
                     Title = "Result is None";
@@ -91,6 +103,11 @@ namespace HelloWorld.ViewModels
         public static void ShowConfirmation(this IDialogService dialogService, string message, Action<IDialogResult> callBack)
         {
             dialogService.ShowDialog("ConfirmationDialog", new DialogParameters($"message={message}"), callBack);
+        }
+
+        public static void ShowNotificationInAnotherWindow(this IDialogService dialogService, string message, Action<IDialogResult> callBack)
+        {
+            dialogService.ShowDialog("NotificationDialog", new DialogParameters($"message={message}"), callBack, "AnotherDialogWindow");
         }
     }
 }
