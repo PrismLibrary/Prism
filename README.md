@@ -97,7 +97,6 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 | Package | NuGet | MyGet |
 |---------|-------|-------|
-| [Prism.Autofac.Forms][AutofacFormsNuGet]* | [![AutofacFormsNuGetShield]][AutofacFormsNuGet] | see notes |
 | [Prism.DryIoc.Forms][DryIocFormsNuGet] | [![DryIocFormsNuGetShield]][DryIocFormsNuGet] | [![DryIocFormsMyGetShield]][DryIocFormsMyGet] |
 | [Prism.Unity.Forms][UnityFormsNuGet] | [![UnityFormsNuGetShield]][UnityFormsNuGet] | [![UnityFormsMyGetShield]][UnityFormsMyGet] |
 
