@@ -1,15 +1,15 @@
 ﻿# Prism
 
-Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, and Xamarin Forms. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base in both a netstandard2.0 &amp; net45 Library. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
+Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, and Xamarin Forms. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base supported in .NET Standard 2.0, .Net Core 3, and .NET Framework 4.5. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
 
-Prism 7 is a fully open source version of the Prism guidance [originally produced by Microsoft patterns & practices](http://blogs.msdn.com/b/dotnet/archive/2015/03/19/prism-grows-up.aspx). The core team members were all part of the P&amp;P team that developed Prism 1 through 5, and the effort has now been turned over to the open source community to keep it alive and thriving to support the .NET community. There are thousands of companies who have adopted previous versions of Prism for WPF, Silverlight, and Windows Runtime, and we hope they will continue to move along with us as we continue to evolve and enhance the framework to keep pace with current platform capabilities and requirements.
+Prism 7 is a fully open source version of the Prism guidance [originally produced by Microsoft patterns & practices](http://blogs.msdn.com/b/dotnet/archive/2015/03/19/prism-grows-up.aspx). The core team members were all part of the P&amp;P team that developed Prism 1 through 5, and the effort has now been turned over to the open source community to keep it alive and thriving to support the .NET community. There are thousands of companies who have adopted previous versions of Prism, and we hope they will continue to move along with us as we continue to evolve and enhance the framework to keep pace with current platform capabilities and requirements.
 
 ## Help Support Prism
 
 As most of you know, it takes a lot of time and effort for our small team to manage and maintain Prism in our spare time. Even though Prism is open source and hosted on GitHub, there are a number of costs associated with maintaining a project such as Prism.  Please be sure to Star the Prism repo and help sponsor Dan and Brian on GitHub.
 
-- Sponsor [Dan](https://xam.dev/sponsor-prism-dan)
-- Sponsor [Brian](https://xam.dev/sponsor-prism-brian)
+- Sponsor [Brian Lagunas](https://xam.dev/sponsor-prism-brian)
+- Sponsor [Dan Siegel](https://xam.dev/sponsor-prism-dan)
 
 ## Build Status
 
@@ -17,7 +17,7 @@ As most of you know, it takes a lot of time and effort for our small team to man
 | -------- | ------ |
 | Full Build | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20Prism%20Library)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
 | Prism.Core | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Core)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
-| Prism.Wpf | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Forms)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Prism.Wpf | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Wpf)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
 | Prism.Forms | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Forms)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
 
 ### Sandbox Build Status
@@ -80,11 +80,8 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 | Package | NuGet | MyGet |
 |---------|-------|-------|
-| [Prism.Autofac][AutofacWpfNuGet]* | [![AutofacWpfNuGetShield]][AutofacWpfNuGet] | see notes |
 | [Prism.DryIoc][DryIocWpfNuGet] | [![DryIocWpfNuGetShield]][DryIocWpfNuGet] | [![DryIocWpfMyGetShield]][DryIocWpfMyGet] |
-| [Prism.Mef][MefWpfNuGet]* | [![MefWpfNuGetShield]][MefWpfNuGet] | see notes |
 | [Prism.Ninject][NinjectWpfNuGet] | [![NinjectWpfNuGetShield]][NinjectWpfNuGet] | [![NinjectWpfMyGetShield]][NinjectWpfMyGet] |
-| [Prism.StructureMap][StructureMapWpfNuGet] | [![StructureMapWpfNuGetShield]][StructureMapWpfNuGet] | see notes |
 | [Prism.Unity][UnityWpfNuGet] | [![UnityWpfNuGetShield]][UnityWpfNuGet] | [![UnityWpfMyGetShield]][UnityWpfMyGet] |
 
 <!--
@@ -106,9 +103,6 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 #### Package Notices
 
-- Autofac will be removed following the 7.1 release due to it's inability to support Prism Modularity.
-- MEF is no longer supported in Prism 7 as it is not truly a DI Container and lacks the performance that developers deserve.
-- StructureMap has reached EOL as a container. As a result the Prism team will no longer be continuing to provide updates to the StructureMap package moving forward.
 - For developers using Unity with Prism 6, take note that the new Unity maintainer has made major breaking changes. This includes changing namespaces and the package structure. These changes were NOT made by the Prism team nor do we have any control over it. When upgrading to Prism 7 you will need to uninstall the existing Unity package as we now reference the Unity.Container NuGet.
 
 ![NuGet package tree](images/NuGetPackageTree.png)
@@ -124,10 +118,6 @@ Prism now integrates with Visual Studio and Xamarin Studio to enable a highly pr
 The Prism Template Pack is available on the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/e7b6bde2-ba59-43dd-9d14-58409940ffa0).  To install, just go to Visual Studio -> Tools -> Extensions and Updates... then search for **Prism** in the online gallery:
 
 ![Visual Studio Gallery](images/prism-visual-studio-gallery.jpg)
-
-### Visual Studio for Mac Addin
-
-The Prism Template Studio and Developer Toolkit is available from the Visual Studio Mac Extensions Gallery.
 
 ## Plugins
 
