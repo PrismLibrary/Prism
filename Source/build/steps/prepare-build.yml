@@ -4,12 +4,14 @@ parameters:
 steps:
 - task: UseDotNet@2
   inputs:
-    version: '3.0.100'
+    packageType: 'sdk'
+    useGlobalJson: true
+    workingDirectory: $(System.DefaultWorkingDirectory)\Source
 
 - task: NuGetToolInstaller@0
-  displayName: Use NuGet 5.3.0
+  displayName: Use latest NuGet
   inputs:
-    versionSpec: 5.3.0
+    checkLatest: true
 
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
