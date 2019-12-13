@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Prism.Properties;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -56,7 +57,7 @@ namespace Prism.Xaml
             var valueTargetProvider = ServiceProvider.GetService<IProvideValueTarget>();
 
             if (valueTargetProvider == null)
-                throw new ArgumentException("The ServiceProvider did not provide a 'IProvideValueTarget'");
+                throw new ArgumentException(Resources.ServiceProviderDidNotHaveIProvideValueTarget);
 
             _targetElement = valueTargetProvider.TargetObject as Element;
 
