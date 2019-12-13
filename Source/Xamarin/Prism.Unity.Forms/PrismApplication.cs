@@ -1,16 +1,7 @@
 ﻿using Prism.Ioc;
 using Unity;
-using System.Collections.Generic;
-#if __ANDROID__
-using System;
-using Prism.Logging;
-using Unity.Resolution;
-using Xamarin.Forms.Internals;
-#endif
 
-#if !NETSTANDARD1_0
 [assembly: Xamarin.Forms.XmlnsDefinition("http://prismlibrary.com", "Prism.Unity")]
-#endif
 namespace Prism.Unity
 {
     public abstract class PrismApplication : PrismApplicationBase
@@ -18,7 +9,7 @@ namespace Prism.Unity
         /// <summary>
         /// Initializes a new instance of PrismApplication using the default constructor
         /// </summary>
-        protected PrismApplication() 
+        protected PrismApplication()
             : base() { }
 
         /// <summary>

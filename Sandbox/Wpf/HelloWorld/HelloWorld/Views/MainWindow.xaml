@@ -3,10 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:local="clr-namespace:HelloWorld"
         Title="{Binding Title}" Height="350" Width="525">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         <Button Command="{Binding ShowDialogCommand}" Content="Show Dialog" />
         <!--<ContentControl prism:RegionManager.RegionName="ContentRegion" />-->
+        <!--<Button Command="{Binding NavigateCommand}" CommandParameter="{x:Static local:App.ViewAName}">Navigate to Named View</Button>
+        <TabControl Grid.Row="1" prism:RegionManager.RegionName="ContentRegion" />-->
+        
     </Grid>
 </Window>

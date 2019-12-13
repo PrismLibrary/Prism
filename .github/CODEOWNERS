@@ -1,0 +1,14 @@
+# Prism.Core
+/Source/Prism.Tests/ @brianlagunas
+/Source/Prism/ @brianlagunas
+
+# WPF
+/Source/Wpf/ @brianlagunas
+/Sandbox/Wpf/ @brianlagunas
+
+# Xamarin
+/Source/Xamarin/ @dansiegel
+/Sandbox/Xamarin/ @dansiegel
+
+# CI
+/Source/build/ @dansiegel

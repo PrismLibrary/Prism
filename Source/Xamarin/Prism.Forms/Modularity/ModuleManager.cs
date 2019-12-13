@@ -23,6 +23,11 @@ namespace Prism.Modularity
         public event EventHandler<LoadModuleCompletedEventArgs> LoadModuleCompleted;
 
         /// <summary>
+        /// Not used by Prism.Forms
+        /// </summary>
+        public event EventHandler<ModuleDownloadProgressChangedEventArgs> ModuleDownloadProgressChanged;
+
+        /// <summary>
         /// The module initializer.
         /// </summary>
         protected IModuleInitializer ModuleInitializer { get; }

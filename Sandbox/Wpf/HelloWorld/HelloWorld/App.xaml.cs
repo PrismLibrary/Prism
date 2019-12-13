@@ -15,13 +15,18 @@ namespace HelloWorld
             return Container.Resolve<MainWindow>();
         }
 
+        public static string ViewAName = "MyViewA";
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterForNavigation<ViewA>(ViewAName);
+
             containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();
             containerRegistry.RegisterDialog<ConfirmationDialog, ConfirmationDialogViewModel>();
 
             //register a custom window host
-            //containerRegistry.RegisterDialogWindow<CustomDialogWindow>();
+            containerRegistry.RegisterDialogWindow<CustomDialogWindow>();
+            containerRegistry.RegisterDialogWindow<AnotherDialogWindow>(nameof(AnotherDialogWindow));
         }
     }
 }

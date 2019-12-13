@@ -1,11 +1,6 @@
-
-
 using System.ComponentModel;
 using System.Windows;
 
-#if NETFX_CORE
-using Windows.UI.Xaml;
-#endif
 namespace Prism.Mvvm
 {
     /// <summary>
@@ -45,8 +40,7 @@ namespace Prism.Mvvm
         /// <param name="viewModel">The object to use as the DataContext for the View</param>
         static void Bind(object view, object viewModel)
         {
-            FrameworkElement element = view as FrameworkElement;
-            if (element != null)
+            if (view is FrameworkElement element)
                 element.DataContext = viewModel;
         }
     }

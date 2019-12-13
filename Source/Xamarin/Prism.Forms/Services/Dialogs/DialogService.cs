@@ -1,4 +1,4 @@
-﻿using Prism.AppModel;
+using Prism.AppModel;
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Mvvm;
@@ -257,6 +257,7 @@ namespace Prism.Services.Dialogs
             var overlay = new AbsoluteLayout();
             overlay.SetValue(IsPopupHostProperty, true);
             var existingContent = currentPage.Content;
+            existingContent.BindingContext = currentPage.BindingContext;
             var content = new DialogContainer
             {
                 Padding = currentPage.Padding,

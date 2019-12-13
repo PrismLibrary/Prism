@@ -1,5 +1,4 @@
-﻿#if NETCOREAPP3_0
-using Prism.Properties;
+﻿using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -209,4 +208,3 @@ namespace Prism.Modularity
         }
     }
 }
-#endif

@@ -21,14 +21,24 @@ namespace Prism.Services.Dialogs
             ShowDialogInternal(name, parameters, callback, false);
         }
 
+        public void Show(string name, IDialogParameters parameters, Action<IDialogResult> callback, string windowName)
+        {
+            ShowDialogInternal(name, parameters, callback, false, windowName);
+        }
+
         public void ShowDialog(string name, IDialogParameters parameters, Action<IDialogResult> callback)
         {
             ShowDialogInternal(name, parameters, callback, true);
         }
 
-        void ShowDialogInternal(string name, IDialogParameters parameters, Action<IDialogResult> callback, bool isModal)
+        public void ShowDialog(string name, IDialogParameters parameters, Action<IDialogResult> callback, string windowName)
         {
-            IDialogWindow dialogWindow = CreateDialogWindow();
+            ShowDialogInternal(name, parameters, callback, true, windowName);
+        }
+
+        void ShowDialogInternal(string name, IDialogParameters parameters, Action<IDialogResult> callback, bool isModal, string windowName = null)
+        {
+            IDialogWindow dialogWindow = CreateDialogWindow(windowName);
             ConfigureDialogWindowEvents(dialogWindow, callback);
             ConfigureDialogWindowContent(name, dialogWindow, parameters);
 
@@ -38,9 +48,12 @@ namespace Prism.Services.Dialogs
                 dialogWindow.Show();
         }
 
-        IDialogWindow CreateDialogWindow()
+        IDialogWindow CreateDialogWindow(string name)
         {
-            return _containerExtension.Resolve<IDialogWindow>();
+            if (string.IsNullOrWhiteSpace(name))
+                return _containerExtension.Resolve<IDialogWindow>();
+            else
+                return _containerExtension.Resolve<IDialogWindow>(name);
         }
 
         void ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)

@@ -18,8 +18,15 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
     <None Remove="Services\Dialogs\DialogWindow.xaml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Condition=" '$(TargetFramework)' == 'net45' " Include="System.Configuration" />
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) ">
+    <Compile Remove="**\*.netcore.cs" />
+    <None Include="**\*.netcore.cs" />
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcore')) ">
+    <Compile Remove="**\*.net45.cs" />
+    <None Include="**\*.net45.cs" />
   </ItemGroup>
 
   <ItemGroup>

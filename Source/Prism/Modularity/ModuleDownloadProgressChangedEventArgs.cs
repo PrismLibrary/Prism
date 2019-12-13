@@ -1,5 +1,3 @@
-#if NET45 || NETCOREAPP3_0
-
 using System;
 using System.ComponentModel;
 
@@ -19,32 +17,28 @@ namespace Prism.Modularity
         public ModuleDownloadProgressChangedEventArgs(IModuleInfo moduleInfo, long bytesReceived, long totalBytesToReceive)
             : base(CalculateProgressPercentage(bytesReceived, totalBytesToReceive), null)
         {
-            if (moduleInfo == null)
-                throw new ArgumentNullException(nameof(moduleInfo));
-
-            this.ModuleInfo = moduleInfo;
-            this.BytesReceived = bytesReceived;
-            this.TotalBytesToReceive = totalBytesToReceive;
+            ModuleInfo = moduleInfo ?? throw new ArgumentNullException(nameof(moduleInfo));
+            BytesReceived = bytesReceived;
+            TotalBytesToReceive = totalBytesToReceive;
         }
 
         /// <summary>
         /// Getsthe module info.
         /// </summary>
         /// <value>The module info.</value>
-        public IModuleInfo ModuleInfo { get; private set; }
+        public IModuleInfo ModuleInfo { get; }
 
         /// <summary>
         /// Gets the bytes received.
         /// </summary>
         /// <value>The bytes received.</value>
-        public long BytesReceived { get; private set; }
+        public long BytesReceived { get; }
 
         /// <summary>
         /// Gets the total bytes to receive.
         /// </summary>
         /// <value>The total bytes to receive.</value>
-        public long TotalBytesToReceive { get; private set; }
-
+        public long TotalBytesToReceive { get; }
 
         private static int CalculateProgressPercentage(long bytesReceived, long totalBytesToReceive)
         {
@@ -54,8 +48,6 @@ namespace Prism.Modularity
             }
 
             return (int)((bytesReceived * 100L) / totalBytesToReceive);
-
         }
     }
 }
-#endif

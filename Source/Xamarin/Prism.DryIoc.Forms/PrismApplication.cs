@@ -9,9 +9,7 @@ using Prism.Navigation;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
-#if !NETSTANDARD1_0
 [assembly: Xamarin.Forms.XmlnsDefinition("http://prismlibrary.com", "Prism.DryIoc")]
-#endif
 namespace Prism.DryIoc
 {
     /// <summary>
@@ -22,7 +20,7 @@ namespace Prism.DryIoc
         /// <summary>
         /// Initializes a new instance of PrismApplication using the default constructor
         /// </summary>
-        protected PrismApplication() 
+        protected PrismApplication()
             : base() { }
 
         /// <summary>
