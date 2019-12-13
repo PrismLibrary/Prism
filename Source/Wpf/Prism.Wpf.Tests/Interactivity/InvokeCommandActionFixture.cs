@@ -1,6 +1,4 @@
-
-
-using System;
+﻿using System;
 using System.Windows.Controls;
 using Xunit;
 using Prism.Interactivity;
@@ -8,7 +6,7 @@ using Prism.Wpf.Tests.Mocks;
 
 namespace Prism.Wpf.Tests.Interactivity
 {
-    
+
     public class InvokeCommandActionFixture
     {
         [StaFact]
@@ -167,7 +165,7 @@ namespace Prism.Wpf.Tests.Interactivity
             commandAction.Attach(someControl);
 
             commandAction.InvokeAction(null);
-           
+
             Assert.True(command.ExecuteCalled);
         }
 

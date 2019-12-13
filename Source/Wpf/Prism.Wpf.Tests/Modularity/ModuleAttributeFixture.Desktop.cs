@@ -13,7 +13,7 @@ namespace Prism.Wpf.Tests.Modularity
         {
             var moduleAttribute = new ModuleAttribute();
 
-            Assert.Equal(false, moduleAttribute.OnDemand);
+            Assert.False(moduleAttribute.OnDemand);
         }
 
         [Fact]
@@ -24,7 +24,7 @@ namespace Prism.Wpf.Tests.Modularity
             moduleAttribute.OnDemand = true;
 
             Assert.Equal("Test", moduleAttribute.ModuleName);
-            Assert.Equal(true, moduleAttribute.OnDemand);
+            Assert.True(moduleAttribute.OnDemand);
         }
 
         [Fact]
