@@ -92,7 +92,7 @@ namespace Prism.Services
 
         private Page GetCurrentPage()
         {
-            Page page = null;
+            Page page;
             if (_applicationProvider.MainPage.Navigation.ModalStack.Count > 0)
                 page = _applicationProvider.MainPage.Navigation.ModalStack.LastOrDefault();
             else
