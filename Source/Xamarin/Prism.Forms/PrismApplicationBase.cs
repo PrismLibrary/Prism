@@ -13,7 +13,6 @@ using System;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
-using DependencyService = Prism.Services.DependencyService;
 
 namespace Prism
 {
@@ -189,7 +188,6 @@ namespace Prism
             containerRegistry.RegisterSingleton<IApplicationProvider, ApplicationProvider>();
             containerRegistry.RegisterSingleton<IApplicationStore, ApplicationStore>();
             containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
-            containerRegistry.RegisterSingleton<IDependencyService, DependencyService>();
             containerRegistry.RegisterSingleton<IPageDialogService, PageDialogService>();
             containerRegistry.RegisterSingleton<IDialogService, DialogService>();
             containerRegistry.RegisterSingleton<IDeviceService, DeviceService>();
