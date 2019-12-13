@@ -10,7 +10,6 @@
 
 namespace Prism.Properties {
     using System;
-    using System.Reflection;
     
     
     /// <summary>
@@ -20,7 +19,7 @@ namespace Prism.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -40,7 +39,7 @@ namespace Prism.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Prism.Properties.Resources", typeof(Resources).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Prism.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -76,6 +75,33 @@ namespace Prism.Properties {
         internal static string ModuleNotFound {
             get {
                 return ResourceManager.GetString("ModuleNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Module Reference Location is not supported in Xamarin.Forms.
+        /// </summary>
+        internal static string ModuleRefLocationNotSupported {
+            get {
+                return ResourceManager.GetString("ModuleRefLocationNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NavigationMode is not available.
+        /// </summary>
+        internal static string NavigationModeNotAvailable {
+            get {
+                return ResourceManager.GetString("NavigationModeNotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The ServiceProvider did not provide a &apos;IProvideValueTarget&apos;.
+        /// </summary>
+        internal static string ServiceProviderDidNotHaveIProvideValueTarget {
+            get {
+                return ResourceManager.GetString("ServiceProviderDidNotHaveIProvideValueTarget", resourceCulture);
             }
         }
     }

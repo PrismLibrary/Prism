@@ -1,4 +1,6 @@
-﻿namespace Prism.Navigation
+﻿using Prism.Properties;
+
+namespace Prism.Navigation
 {
     public static class NavigationParametersExtensions
     {
@@ -8,7 +10,7 @@
             if (internalParams.ContainsKey(KnownInternalParameters.NavigationMode))
                 return internalParams.GetValue<NavigationMode>(KnownInternalParameters.NavigationMode);
 
-            throw new System.ArgumentNullException("NavigationMode is not available");
+            throw new System.ArgumentNullException(Resources.NavigationModeNotAvailable);
         }
 
         internal static INavigationParametersInternal GetNavigationParametersInternal(this INavigationParameters parameters)

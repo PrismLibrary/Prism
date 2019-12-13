@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Reflection;
+using Prism.Properties;
 
 namespace Prism.Modularity
 {
@@ -129,7 +130,7 @@ namespace Prism.Modularity
         /// </summary>
         public string Ref
         {
-            get => throw new NotSupportedException("Module Reference Location is not supported in Xamarin.Forms");
+            get => throw new NotSupportedException(Resources.ModuleRefLocationNotSupported);
             set { }
         }
 
