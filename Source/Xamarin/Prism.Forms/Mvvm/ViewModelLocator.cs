@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace Prism.Mvvm
@@ -17,6 +18,7 @@ namespace Prism.Mvvm
         /// <summary>
         /// Instructs Prism to use a given page as the parent for a Partial View
         /// </summary>
+        [Obsolete("This API is Obsolete and will be removed during the 8.0 previews")]
         public static readonly BindableProperty AutowirePartialViewProperty =
             BindableProperty.CreateAttached("AutowirePartialView", typeof(Page), typeof(ViewModelLocator), null, propertyChanged: OnAutowirePartialViewChanged);
 
@@ -43,16 +45,19 @@ namespace Prism.Mvvm
             bindable.SetValue(ViewModelLocator.AutowireViewModelProperty, value);
         }
 
+        [Obsolete("This API is Obsolete and will be removed during the 8.0 previews")]
         public static Page GetAutowirePartialView(BindableObject bindable)
         {
             return (Page)bindable.GetValue(AutowirePartialViewProperty);
         }
 
+        [Obsolete("This API is Obsolete and will be removed during the 8.0 previews")]
         public static void SetAutowirePartialView(BindableObject bindable, Page page)
         {
             bindable.SetValue(AutowirePartialViewProperty, page);
         }
 
+        [Obsolete("This API is Obsolete and will be removed during the 8.0 previews")]
         internal static List<BindableObject> GetPartialViews(this Page page)
         {
             return (List<BindableObject>)page.GetValue(PartialViewsProperty);
@@ -65,6 +70,7 @@ namespace Prism.Mvvm
                 ViewModelLocationProvider.AutoWireViewModelChanged(bindable, Bind);
         }
 
+        [Obsolete("This API is Obsolete and will be removed during the 8.0 previews")]
         private static void OnAutowirePartialViewChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (oldValue == newValue)

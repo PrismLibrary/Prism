@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -25,7 +25,11 @@ namespace Prism.Modularity
         /// <summary>
         /// Not used by Prism.Forms
         /// </summary>
-        public event EventHandler<ModuleDownloadProgressChangedEventArgs> ModuleDownloadProgressChanged;
+        public event EventHandler<ModuleDownloadProgressChangedEventArgs> ModuleDownloadProgressChanged
+        {
+            add => throw new NotSupportedException();
+            remove => throw new NotSupportedException();
+        }
 
         /// <summary>
         /// The module initializer.

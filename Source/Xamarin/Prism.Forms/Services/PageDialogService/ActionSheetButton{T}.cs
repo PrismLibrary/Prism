@@ -26,12 +26,6 @@ namespace Prism.Services
         /// <summary>
         /// Executes the action to take when the button is pressed
         /// </summary>
-        protected override void OnButtonPressed()
-        {
-            Action?.Invoke(Parameter);
-
-            if(Command?.CanExecute(Parameter) ?? false)
-                Command.Execute( Parameter);
-        }
+        protected override void OnButtonPressed() => Action?.Invoke(Parameter);
     }
 }
