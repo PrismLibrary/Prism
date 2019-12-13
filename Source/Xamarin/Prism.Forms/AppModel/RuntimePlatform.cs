@@ -7,12 +7,12 @@
     public enum RuntimePlatform
     {
         Android,
+        GTK,
         iOS,
         macOS,
         Tizen,
         UWP,
-        WinPhone,
-        WinRT,
+        WPF,
         Unknown
     }
 }
