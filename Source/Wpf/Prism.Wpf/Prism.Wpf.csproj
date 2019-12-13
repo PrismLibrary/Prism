@@ -30,23 +30,13 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="System.Windows.Interactivity">
-      <HintPath>..\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.3" />
     <PackageReference Include="CommonServiceLocator" Version="2.0.4" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Prism\Prism.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\System.Windows.Interactivity.dll" Pack="true" PackagePath="lib\net45" />
-    <Content Include="..\System.Windows.Interactivity.dll" Pack="true" PackagePath="lib\netcoreapp3.0" />
   </ItemGroup>
 
 </Project>

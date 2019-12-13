@@ -60,7 +60,7 @@ namespace Prism.Wpf.Tests.Interactivity
         }
     }
 
-    public class TestableTriggerAction : System.Windows.Interactivity.TriggerAction<DependencyObject>
+    public class TestableTriggerAction : Microsoft.Xaml.Behaviors.TriggerAction<DependencyObject>
     {
         public int ExecutionCount { get; set; }
 
