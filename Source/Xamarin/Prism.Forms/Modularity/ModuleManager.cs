@@ -22,6 +22,13 @@ namespace Prism.Modularity
         /// </summary>
         public event EventHandler<LoadModuleCompletedEventArgs> LoadModuleCompleted;
 
+#if NET45 || NETCOREAPP
+        /// <summary>
+        /// Not used by Prism.Forms
+        /// </summary>
+        public event EventHandler<ModuleDownloadProgressChangedEventArgs> ModuleDownloadProgressChanged;
+#endif
+
         /// <summary>
         /// The module initializer.
         /// </summary>

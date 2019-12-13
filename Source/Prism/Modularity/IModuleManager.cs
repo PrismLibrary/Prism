@@ -20,7 +20,7 @@ namespace Prism.Modularity
         /// <param name="moduleName">Name of the module requested for initialization.</param>
         void LoadModule(string moduleName);
 
-#if NET45
+#if NET45 || NETCOREAPP
         /// <summary>
         /// Raised repeatedly to provide progress as modules are downloaded.
         /// </summary>
