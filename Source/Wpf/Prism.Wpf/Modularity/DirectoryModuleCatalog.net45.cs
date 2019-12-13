@@ -1,5 +1,3 @@
-#if NET45
-
 using Prism.Properties;
 using System;
 using System.Collections.Generic;
@@ -245,4 +243,3 @@ namespace Prism.Modularity
         }
     }
 }
-#endif
