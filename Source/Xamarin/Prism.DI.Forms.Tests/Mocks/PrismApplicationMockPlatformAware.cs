@@ -44,7 +44,6 @@ namespace Prism.DI.Forms.Tests
             containerRegistry.RegisterForNavigationOnIdiom<AutowireView, AutowireViewModel>(tabletView: typeof(AutowireViewTablet));
             containerRegistry.RegisterForNavigationOnPlatform<ViewAMock, ViewModelAMock>(new Platform<ViewAMockAndroid>(AppModel.RuntimePlatform.Android));
 
-            DependencyService.Register<IDependencyServiceMock, DependencyServiceMock>();
             ViewModelLocationProvider.Register<PartialView, PartialViewModel>();
         }
     }

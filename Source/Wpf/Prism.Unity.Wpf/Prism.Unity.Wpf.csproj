@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <PackageReference Include="Unity.Container" Version="5.11.1" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

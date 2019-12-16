@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <PackageReference Include="DryIoc.dll" Version="4.0.7" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

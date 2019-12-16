@@ -95,17 +95,6 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         }
 
         [Fact]
-        public void ResolveTypeRegisteredWithDependencyService()
-        {
-            var app = CreateMockApplication();
-            var dependencyService = app.Container.Resolve<IDependencyService>();
-            Assert.NotNull(dependencyService);
-            var service = dependencyService.Get<IDependencyServiceMock>();
-            Assert.NotNull(service);
-            Assert.IsType<DependencyServiceMock>(service);
-        }
-
-        [Fact]
         public void Container_ResolveNavigationService()
         {
             var app = CreateMockApplication();
