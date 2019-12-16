@@ -66,7 +66,6 @@ namespace Prism.DI.Forms.Tests
             containerRegistry.RegisterForNavigation<XamlViewMockB,XamlViewMockBViewModel>();
             containerRegistry.RegisterForNavigation<XamlViewMockA,XamlViewMockAViewModel>();
 
-            DependencyService.Register<IDependencyServiceMock, DependencyServiceMock>();
             ViewModelLocationProvider.Register<PartialView, PartialViewModel>();
         }
 
