@@ -6,7 +6,7 @@ steps:
   inputs:
     packageType: 'sdk'
     useGlobalJson: true
-    workingDirectory: $(System.DefaultWorkingDirectory)\Source
+    workingDirectory: Source
 
 - task: NuGetToolInstaller@0
   displayName: Use latest NuGet
