@@ -1,5 +1,6 @@
 parameters:
   buildConfiguration: 'Debug'
+  versionName: ''
 
 jobs:
 - job: sandboxAndroid
@@ -20,7 +21,7 @@ jobs:
       sourcePath: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.Android/Properties/AndroidManifest.xml
       versionCodeOption: 'buildid'
       versionCode: '$(Build.BuildId)'
-      versionName: '7.2.$(Build.BuildId)'
+      versionName: ${{ parameters.versionName }}
       printFile: true
 
   - template: ../steps/set-runtime.yml

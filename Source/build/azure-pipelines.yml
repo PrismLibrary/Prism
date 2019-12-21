@@ -48,8 +48,12 @@ stages:
   - template: jobs/sandbox-wpf.yml
 
   - template: jobs/sandbox-android.yml
+    parameters:
+      versionName: '8.0.$(Build.BuildId)'
 
   - template: jobs/sandbox-ios.yml
+    parameters:
+      versionName: '8.0.$(Build.BuildId)'
 
 - stage: buildPackage
   displayName: Build Prism Library
