@@ -76,7 +76,7 @@ stages:
               inputs:
                 serverEndpoint: Prism-AppCenter
                 appSlug: 'Prism/Sandbox.Android'
-                appFile: '$(Pipeline.Workspace)/Sandbox-Android/HelloWorld.Android.apk'
+                appFile: '$(Pipeline.Workspace)/Sandbox-Android/com.prismlibrary.helloworld.apk'
                 releaseNotesInput: 'Automated Release for build $(Build.BuildId)'
                 isSilent: false
 
