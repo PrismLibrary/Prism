@@ -52,7 +52,7 @@
     <PackageReleaseNotes Condition=" '$(Version)' != '' ">https://github.com/PrismLibrary/Prism/releases/tag/v$(Version)</PackageReleaseNotes>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+  <PropertyGroup>
     <GenerateDocumentationFile>!$(IsTestProject)</GenerateDocumentationFile>
     <GeneratePackageOnBuild>!$(IsTestProject)</GeneratePackageOnBuild>
   </PropertyGroup>

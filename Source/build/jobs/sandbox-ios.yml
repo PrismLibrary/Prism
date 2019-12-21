@@ -1,10 +1,10 @@
 parameters:
   buildConfiguration: 'Debug'
+  versionName: ''
 
 jobs:
 - job: sandboxIOS
   displayName: Sandbox iOS App
-  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.Reason'], 'PullRequest'))
   pool:
     vmImage: $(MacImage)
     demands:
@@ -23,6 +23,15 @@ jobs:
     inputs:
       provProfileSecureFile: Prism.mobileprovision
 
+  - task: ios-bundle-version@1
+    displayName: 'Bump iOS Versions in Info.plist'
+    inputs:
+      sourcePath: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/Info.plist
+      versionCodeOption: 'buildid'
+      versionCode: '$(Build.BuildId)'
+      versionName: ${{ parameters.versionName }}
+      printFile: true
+
   - template: ../steps/set-runtime.yml
 
   - template: ../steps/prepare-build.yml
@@ -34,3 +43,20 @@ jobs:
     inputs:
       solutionFile: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/HelloWorld.iOS.csproj'
       configuration: ${{ parameters.buildConfiguration }}
+
+  - bash: |
+     echo "Copying files to ${stagingDir}"
+     rm -rf $stagingDir/Debug
+     cp HelloWorld.iOS.ipa $stagingDir
+     cp -R HelloWorld.iOS.app.dSYM $stagingDir
+    displayName: Stage Artifacts
+    workingDirectory: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/bin/iPhone/${{ parameters.buildConfiguration }}'
+    env:
+      stagingDir: $(Build.ArtifactStagingDirectory)
+
+  - task: PublishPipelineArtifact@0
+    displayName: 'Publish Sandbox Artifacts'
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)'
+      artifactName: Sandbox-iOS
+    condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

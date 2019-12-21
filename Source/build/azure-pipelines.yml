@@ -22,9 +22,9 @@ name: $(Build.BuildId)
 
 variables:
 - name: VMImage
-  value: windows-2019
+  value: windows-latest
 - name: MacImage
-  value: macOS-10.14
+  value: macOS-latest
 - name: BuildConfiguration
   value: Release
 - name: BuildPlatform
@@ -48,8 +48,12 @@ stages:
   - template: jobs/sandbox-wpf.yml
 
   - template: jobs/sandbox-android.yml
+    parameters:
+      versionName: '8.0.$(Build.BuildId)'
 
   - template: jobs/sandbox-ios.yml
+    parameters:
+      versionName: '8.0.$(Build.BuildId)'
 
 - stage: buildPackage
   displayName: Build Prism Library
@@ -60,6 +64,40 @@ stages:
   displayName: Deploy Artifacts
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
+  - deployment: SandboxAndroidDeploy
+    displayName: 'Sandbox Android - App Center'
+    environment: 'App Center'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: AppCenterDistribute@3
+              displayName: 'Deploy Sandbox Android App to App Center'
+              inputs:
+                serverEndpoint: Prism-AppCenter
+                appSlug: 'Prism/Sandbox.Android'
+                appFile: '$(Pipeline.Workspace)/Sandbox-Android/HelloWorld.Android.apk'
+                releaseNotesInput: 'Automated Release for build $(Build.BuildId)'
+                isSilent: false
+
+  - deployment: SandboxiOSDeploy
+    displayName: 'Sandbox iOS - App Center'
+    environment: 'App Center'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: AppCenterDistribute@3
+              displayName: 'Deploy Sandbox iOS App to App Center'
+              inputs:
+                serverEndpoint: Prism-AppCenter
+                appSlug: 'Prism/Sandbox.iOS'
+                appFile: '$(Pipeline.Workspace)/Sandbox-iOS/HelloWorld.iOS.ipa'
+                symbolsDsymFiles: '$(Pipeline.Workspace)/Sandbox-iOS/HelloWorld.iOS.app.dSYM'
+                symbolsIncludeParentDirectory: false
+                releaseNotesInput: 'Automated Release for build $(Build.BuildId)'
+                isSilent: false
+
   - deployment: GitHub
     displayName: GitHub Packages
     environment: GitHub
