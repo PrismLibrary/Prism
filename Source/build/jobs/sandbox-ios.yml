@@ -45,10 +45,9 @@ jobs:
       configuration: ${{ parameters.buildConfiguration }}
 
   - bash: |
-     pwd
-     ls
-     cp -R ./HellowWorld.iOS.app.dSYM $stagingDir
-     cp ./HellowWorld.iOS.ipa $stagingDir
+     echo "Copying files to ${stagingDir}"
+     cp HelloWorld.iOS.ipa $stagingDir
+     cp -R HelloWorld.iOS.app.dSYM $stagingDir
     displayName: Stage Artifacts
     workingDirectory: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/bin/iPhone/${{ parameters.buildConfiguration }}'
     env:
