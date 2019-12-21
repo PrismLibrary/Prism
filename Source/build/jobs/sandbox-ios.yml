@@ -45,6 +45,8 @@ jobs:
       configuration: ${{ parameters.buildConfiguration }}
 
   - bash: |
+     pwd
+     ls
      cp -R ./HellowWorld.iOS.app.dSYM $stagingDir
      cp ./HellowWorld.iOS.ipa $stagingDir
     displayName: Stage Artifacts
