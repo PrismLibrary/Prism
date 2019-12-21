@@ -46,6 +46,7 @@ jobs:
 
   - bash: |
      echo "Copying files to ${stagingDir}"
+     rm -rf $stagingDir/Debug
      cp HelloWorld.iOS.ipa $stagingDir
      cp -R HelloWorld.iOS.app.dSYM $stagingDir
     displayName: Stage Artifacts
