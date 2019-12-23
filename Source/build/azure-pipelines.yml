@@ -74,6 +74,7 @@ stages:
               parameters:
                 appName: 'Sandbox.Android'
                 appFile: '$(Pipeline.Workspace)/Sandbox-Android/com.prismlibrary.helloworld.apk'
+                distributionGroup: '88fd9e93-9e2e-4a44-bda4-e7d6bf8f7a10'
 
   - deployment: SandboxiOSDeploy
     displayName: 'Sandbox iOS - App Center'
@@ -87,6 +88,7 @@ stages:
                 appName: 'Sandbox.iOS'
                 appFile: '$(Pipeline.Workspace)/Sandbox-iOS/HelloWorld.iOS.ipa'
                 symbolsDsymFiles: '$(Pipeline.Workspace)/Sandbox-iOS/HelloWorld.iOS.app.dSYM'
+                distributionGroup: 'f411f43a-68b9-455e-9b58-bc702439a3d9'
 
 - stage: deploy
   displayName: Deploy Artifacts

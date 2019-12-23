@@ -2,6 +2,7 @@ parameters:
   appName: ''
   appFile: ''
   symbolsDsymFiles: ''
+  distributionGroup: ''
 
 steps:
 - powershell: |
@@ -25,5 +26,5 @@ steps:
     symbolsDsymFiles: ${{ parameters.symbolsDsymFiles }}
     symbolsIncludeParentDirectory: false
     releaseNotesInput: $(BuildReleaseNotes)
-    distributionGroupId: Public
+    distributionGroupId: ${{ parameters.distributionGroup }}
     isSilent: false
