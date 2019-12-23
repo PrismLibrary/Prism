@@ -1,0 +1,29 @@
+parameters:
+  appName: ''
+  appFile: ''
+  symbolsDsymFiles: ''
+
+steps:
+- powershell: |
+    $BuildReleaseNotes="#Build $env:BUILD_BUILDID\n\nBuild Reason: $env:BUILD_REASON\nSource Branch: $env:BUILD_SOURCEBRANCH\n\n"
+
+    if($env:SYSTEM_PULLREQUEST_PULLREQUESTNUMBER -ne '')
+    {
+      $BuildReleaseNotes+="## Pull Request Info\n\nPR: #$env:SYSTEM_PULLREQUEST_PULLREQUESTNUMBER\nSource Branch: $env:SYSTEM_PULLREQUEST_SOURCEBRANCH\n\n"
+    }
+
+    $BuildReleaseNotes+="## Version Message\n\n$env:BUILD_SOURCEVERSIONMESSAGE"
+    Write-Output ("##vso[task.setvariable variable=BuildReleaseNotes;]$BuildReleaseNotes")
+  displayName: Set Variables for App Center Deploy
+
+- task: AppCenterDistribute@3
+  displayName: 'Deploy ${{ parameters.appName }} App to App Center'
+  inputs:
+    serverEndpoint: Prism-AppCenter
+    appSlug: 'Prism/${{ parameters.appName }}'
+    appFile: ${{ parameters.appFile }}
+    symbolsDsymFiles: ${{ parameters.symbolsDsymFiles }}
+    symbolsIncludeParentDirectory: false
+    releaseNotesInput: $(BuildReleaseNotes)
+    distributionGroupId: Public
+    isSilent: false

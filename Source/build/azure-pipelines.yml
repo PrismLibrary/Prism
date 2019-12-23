@@ -60,9 +60,8 @@ stages:
   jobs:
   - template: jobs/prism-lib.yml
 
-- stage: deploy
-  displayName: Deploy Artifacts
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+- stage: appCenter
+  displayName: Sandbox Deploy
   jobs:
   - deployment: SandboxAndroidDeploy
     displayName: 'Sandbox Android - App Center'
@@ -71,14 +70,10 @@ stages:
       runOnce:
         deploy:
           steps:
-            - task: AppCenterDistribute@3
-              displayName: 'Deploy Sandbox Android App to App Center'
-              inputs:
-                serverEndpoint: Prism-AppCenter
-                appSlug: 'Prism/Sandbox.Android'
+            - template: steps/appcenter-deploy.yml
+              parameters:
+                appName: 'Sandbox.Android'
                 appFile: '$(Pipeline.Workspace)/Sandbox-Android/com.prismlibrary.helloworld.apk'
-                releaseNotesInput: 'Automated Release for build $(Build.BuildId)'
-                isSilent: false
 
   - deployment: SandboxiOSDeploy
     displayName: 'Sandbox iOS - App Center'
@@ -87,17 +82,16 @@ stages:
       runOnce:
         deploy:
           steps:
-            - task: AppCenterDistribute@3
-              displayName: 'Deploy Sandbox iOS App to App Center'
-              inputs:
-                serverEndpoint: Prism-AppCenter
-                appSlug: 'Prism/Sandbox.iOS'
+            - template: steps/appcenter-deploy.yml
+              parameters:
+                appName: 'Sandbox.iOS'
                 appFile: '$(Pipeline.Workspace)/Sandbox-iOS/HelloWorld.iOS.ipa'
                 symbolsDsymFiles: '$(Pipeline.Workspace)/Sandbox-iOS/HelloWorld.iOS.app.dSYM'
-                symbolsIncludeParentDirectory: false
-                releaseNotesInput: 'Automated Release for build $(Build.BuildId)'
-                isSilent: false
 
+- stage: deploy
+  displayName: Deploy Artifacts
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
   - deployment: GitHub
     displayName: GitHub Packages
     environment: GitHub
