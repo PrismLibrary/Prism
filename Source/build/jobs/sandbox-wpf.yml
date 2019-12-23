@@ -18,11 +18,12 @@ jobs:
       solutionName: WPF Sandbox
 
   - task: DotNetCoreCLI@2
+    displayName: 'Run dotnet publish'
     inputs:
       command: 'publish'
       publishWebProjects: false
       projects: 'Sandbox/Wpf/HelloWorld/HelloWorld/HelloWorld.csproj'
-      arguments: '--configuration $(BuildConfiguration) --no-build --runtime win-x86 --self-contained --output $(Pipeline.Workspace)'
+      arguments: '--configuration $(BuildConfiguration) --runtime win-x64 --self-contained --output $(Pipeline.Workspace) --verbosity detailed'
 
   - task: PublishPipelineArtifact@0
     displayName: 'Publish Sandbox Artifacts'
