@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace HelloWorld.Views
+namespace HelloDialog.Views
 {
     public partial class UserAlert
     {

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -108,6 +108,7 @@
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
+    <Content Include="Assets\prism-sandbox-logo.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-200.png" />
     <Content Include="Assets\SmallTile.scale-400.png" />
@@ -146,7 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.8" />
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.9" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\Source\Prism\Prism.csproj">

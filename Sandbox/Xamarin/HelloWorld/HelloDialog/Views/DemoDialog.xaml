@@ -5,7 +5,7 @@
       prism:ViewModelLocator.AutowireViewModel="True"
       prism:DialogLayout.RelativeWidthRequest="{OnIdiom Default=0.75, Desktop=0.5}"
       BackgroundColor="White"
-      x:Class="HelloWorld.Views.DemoDialog">
+      x:Class="HelloDialog.Views.DemoDialog">
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />

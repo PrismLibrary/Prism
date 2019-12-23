@@ -1,8 +1,8 @@
 ﻿using Xamarin.Forms;
 
-namespace HelloWorld.Views
+namespace HelloDialog.Views
 {
-    public partial class DialogDemoPage : ContentPage
+    public partial class DialogDemoPage
     {
         public DialogDemoPage()
         {

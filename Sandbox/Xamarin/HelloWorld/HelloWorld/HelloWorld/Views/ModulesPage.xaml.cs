@@ -2,9 +2,9 @@
 
 namespace HelloWorld.Views
 {
-    public partial class DemoDialog
+    public partial class ModulesPage : ContentPage
     {
-        public DemoDialog()
+        public ModulesPage()
         {
             InitializeComponent();
         }

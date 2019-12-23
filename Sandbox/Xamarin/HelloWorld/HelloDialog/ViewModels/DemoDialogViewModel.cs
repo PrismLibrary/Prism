@@ -7,7 +7,7 @@ using Prism.Services.Dialogs;
 using Prism.Navigation;
 using Prism.AppModel;
 
-namespace HelloWorld.ViewModels
+namespace HelloDialog.ViewModels
 {
     public class DemoDialogViewModel : BindableBase, IDialogAware, IAutoInitialize
     {

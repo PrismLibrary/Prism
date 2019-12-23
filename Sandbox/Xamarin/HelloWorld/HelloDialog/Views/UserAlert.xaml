@@ -7,7 +7,7 @@
              prism:DialogLayout.RelativeWidthRequest="{OnIdiom Default=0.75, Desktop=0.5}"
              prism:DialogLayout.LayoutBounds="0.5,0.3,-1,-1"
              Padding="20"
-             x:Class="HelloWorld.Views.UserAlert">
+             x:Class="HelloDialog.Views.UserAlert">
     <Label Text="Enter your name" />
     <Entry Text="{Binding Name}"
            Placeholder="John Doe"

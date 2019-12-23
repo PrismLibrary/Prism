@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HelloWorld.ViewModels
+namespace HelloDialog.ViewModels
 {
     public class DialogDemoPageViewModel : BindableBase
     {

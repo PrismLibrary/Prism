@@ -6,29 +6,29 @@
              x:Class="ModuleA.Views.ViewA"
              Padding="{OnPlatform iOS='0,20,0,0'}"
              Title="View A">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style TargetType="Label">
-                <Setter Property="HorizontalTextAlignment" Value="Center" />
-            </Style>
-            <Style TargetType="Button">
-                <Setter Property="HorizontalOptions" Value="Center" />
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <Style TargetType="Label">
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+      </Style>
+      <Style TargetType="Button">
+        <Setter Property="HorizontalOptions" Value="Center" />
+      </Style>
+    </ResourceDictionary>
+  </ContentPage.Resources>
 
-    <StackLayout VerticalOptions="Center"
-                 HorizontalOptions="Center">
-        <Label Text="{Binding Title}" />
-        <Label Text="{Binding Message}" />
-        <Label Text="{Binding IsActive, StringFormat='IsActive: {0}'}" />
-        <Button Command="{Binding NavigateCommand}" Text="Navigate" />
-        <Button Text="View B"
-                Command="{prism:NavigateTo ViewB}" />
-        <Button Text="Select Tab C"
-                Command="{prism:SelectTab ViewC}" />
-        <Button Text="Go Back"
-                Command="{prism:GoBack}" />
-    </StackLayout>
+  <StackLayout VerticalOptions="Center"
+               HorizontalOptions="Center">
+    <Label Text="{Binding Title}" />
+    <Label Text="{Binding Message}" />
+    <Label Text="{Binding IsActive, StringFormat='IsActive: {0}'}" />
+    <Button Command="{Binding NavigateCommand}" Text="Navigate" />
+    <Button Text="View B"
+            Command="{prism:NavigateTo ViewB}" />
+    <Button Text="Select Tab C"
+            Command="{prism:SelectTab ViewC}" />
+    <Button Text="Go Back"
+            Command="{prism:GoBack}" />
+  </StackLayout>
 
 </ContentPage>

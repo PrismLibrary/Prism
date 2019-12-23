@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Source\Prism\Prism.csproj" />
+    <ProjectReference Include="..\..\..\..\Source\Xamarin\Prism.Forms\Prism.Forms.csproj" />
+  </ItemGroup>
+
+</Project>
