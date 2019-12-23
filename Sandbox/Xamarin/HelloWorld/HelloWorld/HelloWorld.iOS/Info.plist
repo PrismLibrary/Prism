@@ -21,11 +21,11 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>9.3</string>
+	<string>10.0</string>
 	<key>CFBundleDisplayName</key>
-	<string>HelloWorld</string>
+	<string>Prism Sandbox</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.companyname.HelloWorld</string>
+	<string>com.prismlibrary.helloworld</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>
@@ -34,5 +34,7 @@
 	<string>HelloWorld</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1</string>
 </dict>
 </plist>

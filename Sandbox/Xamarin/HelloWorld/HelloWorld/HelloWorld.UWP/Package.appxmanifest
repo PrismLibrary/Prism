@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="HelloWorld.UWP.App">
       <uap:VisualElements
-        DisplayName="HelloWorld.UWP"
+        DisplayName="Prism Sandbox"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="HelloWorld.UWP"
