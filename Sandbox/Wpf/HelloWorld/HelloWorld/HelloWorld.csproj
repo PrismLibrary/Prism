@@ -11,6 +11,7 @@
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' ">8.0.0</VersionPrefix>
     <!-- This will create CI builds as 7.0.0.1234-ci -->
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
+    <ApplicationIcon>prism-sandbox.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

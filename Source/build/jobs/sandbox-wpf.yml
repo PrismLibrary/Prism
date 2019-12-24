@@ -28,6 +28,6 @@ jobs:
   - task: PublishPipelineArtifact@0
     displayName: 'Publish Sandbox Artifacts'
     inputs:
-      targetPath: $(Pipeline.Workspace)
+      targetPath: $(Pipeline.Workspace)/HelloWorld.zip
       artifactName: Sandbox-WPF
     condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

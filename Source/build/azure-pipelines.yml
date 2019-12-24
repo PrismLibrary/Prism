@@ -90,6 +90,19 @@ stages:
                 symbolsDsymFiles: '$(Pipeline.Workspace)/Sandbox-iOS/HelloWorld.iOS.app.dSYM'
                 distributionGroup: 'f411f43a-68b9-455e-9b58-bc702439a3d9'
 
+  - deployment: SandboxWpfDeploy
+    displayName: 'Sandbox Wpf - App Center'
+    environment: 'App Center'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - template: steps/appcenter-deploy.yml
+              parameters:
+                appName: 'Sandbox.Wpf'
+                appFile: '$(Pipeline.Workspace)/Sandbox-Wpf/HelloWorld.zip'
+                distributionGroup: '786183fd-2cad-4d31-913a-e4f943ab00cd'
+
 - stage: deploy
   displayName: Deploy Artifacts
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -147,7 +160,7 @@ stages:
           - task: GithubRelease@0
             displayName: 'Create GitHub Release'
             inputs:
-              gitHubConnection: 'Prism GitHub Connection'
+              gitHubConnection: 'PrismLib'
               title: '$(ReleaseDisplayName)'
               tagSource: manual
               tag: 'v$(VersionName)'
