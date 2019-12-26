@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:prism="http://prismlibrary.com"
+      prism:ViewModelLocator.AutowireViewModel="True"
+      prism:DialogLayout.RelativeWidthRequest="{OnIdiom Default=0.75, Desktop=0.5}"
+      BackgroundColor="White"
+      x:Class="HelloDialog.Views.DemoDialog">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <BoxView Color="Black" />
+    <Label Text="{Binding Title}"
+           Style="{DynamicResource TitleStyle}"
+           Margin="20,5"
+           TextColor="White" />
+
+    <Label Text="{Binding Message}"
+           Margin="20,0,20,10"
+           Grid.Row="1" />
+
+    <Button Text="Ok"
+            Command="{Binding CloseCommand}"
+            HorizontalOptions="Center"
+            Margin="0,0,0,10"
+            Grid.Row="2"/>
+</Grid>

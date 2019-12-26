@@ -21,7 +21,7 @@ namespace HelloWorld.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new HelloWorld.App());
+            LoadApplication(new HelloWorld.App(new UwpInitializer()));
         }
     }
 }

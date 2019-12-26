@@ -3,6 +3,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,22 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Source\Prism\Prism.csproj" />
     <ProjectReference Include="..\..\..\..\..\Source\Xamarin\Prism.DryIoc.Forms\Prism.DryIoc.Forms.csproj" />
+    <ProjectReference Include="..\..\..\..\..\Source\Xamarin\Prism.Forms\Prism.Forms.csproj" />
+    <ProjectReference Include="..\..\HelloDialog\HelloDialog.csproj" />
+    <ProjectReference Include="..\..\HelloPageDialog\HelloPageDialog.csproj" />
     <ProjectReference Include="..\..\ModuleA\ModuleA.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Strings\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Strings\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
 </Project>

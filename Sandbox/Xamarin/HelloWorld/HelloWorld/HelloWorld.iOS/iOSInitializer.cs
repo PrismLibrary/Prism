@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Prism;
-using Foundation;
-using UIKit;
-using Prism.Ioc;
-using HelloWorld.Interfaces;
+﻿using HelloWorld.Interfaces;
 using HelloWorld.iOS.Services;
+using Prism;
+using Prism.Ioc;
 
 namespace HelloWorld.iOS
 {

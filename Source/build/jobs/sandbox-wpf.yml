@@ -17,9 +17,17 @@ jobs:
       solution: Sandbox/Wpf/HelloWorld/HelloWorld.sln
       solutionName: WPF Sandbox
 
+  - task: DotNetCoreCLI@2
+    displayName: 'Run dotnet publish'
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+      projects: 'Sandbox/Wpf/HelloWorld/HelloWorld/HelloWorld.csproj'
+      arguments: '--configuration $(BuildConfiguration) --runtime win-x64 --self-contained --output $(Pipeline.Workspace) --verbosity detailed'
+
   - task: PublishPipelineArtifact@0
     displayName: 'Publish Sandbox Artifacts'
     inputs:
-      targetPath: 'Sandbox/Wpf/HelloWorld/HelloWorld/bin/${{ parameters.buildConfiguration }}/'
+      targetPath: $(Pipeline.Workspace)/HelloWorld.zip
       artifactName: Sandbox-WPF
     condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

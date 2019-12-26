@@ -71,9 +71,9 @@ namespace HelloWorld
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MyNavigationPage>();
             containerRegistry.RegisterForNavigation<MyMasterDetail>();
-            containerRegistry.RegisterForNavigation<DialogDemoPage, DialogDemoPageViewModel>();
-            containerRegistry.RegisterDialog<DemoDialog, DemoDialogViewModel>();
-            containerRegistry.RegisterDialog<UserAlert, UserAlertViewModel>();
+            containerRegistry.RegisterForNavigation<ModulesPage, ModulesPageViewModel>();
+
+            containerRegistry.RegisterForNavigation<ModulesPage, ModulesPageViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -81,6 +81,8 @@ namespace HelloWorld
             moduleCatalog.AddModule<ModuleA.ModuleAModule>();
             //moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule)));
             //moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule), "ModuleA", InitializationMode.OnDemand));
+            moduleCatalog.AddModule<HelloDialog.HelloDialogModule>(InitializationMode.OnDemand);
+            moduleCatalog.AddModule<HelloPageDialog.HelloPageDialogModule>(InitializationMode.OnDemand);
         }
 
         protected override void OnStart ()

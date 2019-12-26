@@ -25,3 +25,11 @@ indent_style = space
 [*.targets]
 indent_size = 2
 indent_style = space
+
+[*.xaml]
+indent_size = 2
+indent_style = space
+
+[*.plist]
+indent_size = 2
+indent_style = tab

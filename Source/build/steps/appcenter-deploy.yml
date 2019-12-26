@@ -1,0 +1,41 @@
+parameters:
+  appName: ''
+  appFile: ''
+  symbolsDsymFiles: ''
+  distributionGroup: ''
+
+steps:
+- powershell: |
+    New-Item ReleaseNotes.md
+    Set-Content ReleaseNotes.md "# Build $env:BUILD_BUILDID`n`nBuild Reason: $env:BUILD_REASON`nSource Branch: $env:BUILD_SOURCEBRANCH`n`n"
+
+    If($env:SYSTEM_PULLREQUEST_PULLREQUESTNUMBER -ne '')
+    {
+      Add-Content ReleaseNotes.md "## Pull Request Info`n`nPR: #$env:SYSTEM_PULLREQUEST_PULLREQUESTNUMBER`nSource Branch: $env:SYSTEM_PULLREQUEST_SOURCEBRANCH`n`n"
+    }
+
+    If($env:IS_PREVIEW -eq $true)
+    {
+      Add-Content ReleaseNotes.md "Built for Official Preview Release`n`n"
+    }
+    ElseIf($env:IS_RELEASE -eq $true)
+    {
+      Add-Content ReleaseNotes.md "Built for Official GA/Service Release`n`n"
+    }
+
+    Add-Content ReleaseNotes.md "## Version Message`n`n$env:BUILD_SOURCEVERSIONMESSAGE"
+    Get-Content ReleaseNotes.md
+  displayName: Set Variables for App Center Deploy
+
+- task: AppCenterDistribute@3
+  displayName: 'Deploy ${{ parameters.appName }} App to App Center'
+  inputs:
+    serverEndpoint: Prism-AppCenter
+    appSlug: 'Prism/${{ parameters.appName }}'
+    appFile: ${{ parameters.appFile }}
+    symbolsDsymFiles: ${{ parameters.symbolsDsymFiles }}
+    symbolsIncludeParentDirectory: false
+    releaseNotesOption: 'file'
+    releaseNotesFile: 'ReleaseNotes.md'
+    distributionGroupId: ${{ parameters.distributionGroup }}
+    isSilent: false

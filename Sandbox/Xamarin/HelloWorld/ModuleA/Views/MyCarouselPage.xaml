@@ -5,8 +5,8 @@
              prism:ViewModelLocator.AutowireViewModel="True"
               xmlns:local="clr-namespace:ModuleA.Views"
              x:Class="ModuleA.Views.MyCarouselPage">
-    <local:ViewA />
-    <local:ViewB />
-    <local:ViewC />
+  <local:ViewA />
+  <local:ViewB />
+  <local:ViewC />
 
 </CarouselPage>
