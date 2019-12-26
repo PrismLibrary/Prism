@@ -7,8 +7,12 @@
             x:Class="ModuleA.Views.MyTabbedPage">
 
   <TabbedPage.ToolbarItems>
-    <ToolbarItem Text="Save" Command="{Binding ApplicationCommands.SaveCommand}"/>
-    <ToolbarItem Text="Reset" Command="{Binding ApplicationCommands.ResetCommand}"/>
+    <ToolbarItem AutomationId="SaveButton"
+                 Text="Save"
+                 Command="{Binding ApplicationCommands.SaveCommand}" />
+    <ToolbarItem AutomationId="ResetButton"
+                 Text="Reset"
+                 Command="{Binding ApplicationCommands.ResetCommand}"/>
   </TabbedPage.ToolbarItems>
 
   <NavigationPage Title="View A">

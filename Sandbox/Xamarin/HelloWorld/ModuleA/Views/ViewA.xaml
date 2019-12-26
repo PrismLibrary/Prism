@@ -19,15 +19,20 @@
 
   <StackLayout VerticalOptions="Center"
                HorizontalOptions="Center">
-    <Label Text="{Binding Title}" />
-    <Label Text="{Binding Message}" />
-    <Label Text="{Binding IsActive, StringFormat='IsActive: {0}'}" />
-    <Button Command="{Binding NavigateCommand}" Text="Navigate" />
-    <Button Text="View B"
+    <Label AutomationId="TitleLabel" Text="{Binding Title}" />
+    <Label AutomationId="MessageLabel" Text="{Binding Message}" />
+    <Label AutomationId="IsActiveLabel"  Text="{Binding IsActive, StringFormat='IsActive: {0}'}" />
+    <Button AutomationId="NavigateButton"
+            Text="Navigate"
+            Command="{Binding NavigateCommand}" />
+    <Button AutomationId="NavigateToViewBButton"
+            Text="View B"
             Command="{prism:NavigateTo ViewB}" />
-    <Button Text="Select Tab C"
+    <Button AutomationId="SelectTabCButton"
+            Text="Select Tab C"
             Command="{prism:SelectTab ViewC}" />
-    <Button Text="Go Back"
+    <Button AutomationId="GoBackButton"
+            Text="Go Back"
             Command="{prism:GoBack}" />
   </StackLayout>
 

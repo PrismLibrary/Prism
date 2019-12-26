@@ -9,8 +9,12 @@
              Padding="{OnPlatform iOS='0,20,0,0'}"
              Title="View C">
   <StackLayout>
-    <Label Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" />
-    <Button Command="{Binding NavigateCommand}" Text="Navigate" />
+    <Label AutomationId="TitleLabel"
+           Text="{Binding Title}"
+           VerticalOptions="Center"
+           HorizontalOptions="Center" />
+    <Button Text="Navigate"
+            Command="{Binding NavigateCommand}"  />
     <Button Text="View B"
             Command="{prism:NavigateTo ViewB}" />
     <Button Text="Select Tab A"
