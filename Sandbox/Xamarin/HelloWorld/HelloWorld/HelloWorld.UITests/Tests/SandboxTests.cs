@@ -3,9 +3,9 @@ using Xamarin.UITest;
 
 namespace HelloWorld.UITests
 {
-    public class MockDataTests : BaseTest
+    public class SandboxTests : BaseTest
     {
-        public MockDataTests(Platform platform)
+        public SandboxTests(Platform platform)
             : base(platform)
         {
         }
