@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ModuleCatalog xmlns="http://prismlibrary.com"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:mock="clr-namespace:Prism.Forms.Tests.Mocks.Modules"
+               x:Class="Prism.Forms.Tests.Mocks.Modules.BasicCatalog">
+  <ModuleInfo ModuleType="{x:Type mock:ModuleA}"
+              ModuleName="ModuleATest" />
+  <ModuleInfo ModuleType="{x:Type mock:ModuleB}" />
+  <ModuleInfo ModuleType="{x:Type mock:ModuleC}"
+              ModuleName=""
+              InitializationMode="OnDemand" />
+</ModuleCatalog>
