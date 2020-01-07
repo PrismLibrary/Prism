@@ -2,12 +2,14 @@ using System;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using Prism.Properties;
+using Xamarin.Forms;
 
 namespace Prism.Modularity
 {
     /// <summary>
     /// Defines the metadata that describes a module.
     /// </summary>
+    [ContentProperty(nameof(DependsOn))]
     public partial class ModuleInfo : IModuleInfo
     {
         /// <summary>
@@ -31,8 +33,8 @@ namespace Prism.Modularity
             if (dependsOn == null)
                 throw new ArgumentNullException(nameof(dependsOn));
 
-            ModuleName = name;
             ModuleType = Type.GetType(type) ?? throw new ArgumentNullException(nameof(type));
+            ModuleName = name;
             foreach (string dependency in dependsOn)
             {
                 if (!DependsOn.Contains(dependency))
@@ -47,7 +49,8 @@ namespace Prism.Modularity
         /// </summary>
         /// <param name="name">The module's name.</param>
         /// <param name="type">The module's type.</param>
-        public ModuleInfo(string name, string type) : this(name, type, new string[0])
+        public ModuleInfo(string name, string type)
+            : this(name, type, Array.Empty<string>())
         {
         }
 
@@ -78,11 +81,16 @@ namespace Prism.Modularity
             InitializationMode = initializationMode;
         }
 
+        private string _moduleName;
         /// <summary>
         /// Gets or sets the name of the module.
         /// </summary>
         /// <value>The name of the module.</value>
-        public string ModuleName { get; set; }
+        public string ModuleName
+        {
+            get => string.IsNullOrEmpty(_moduleName) ? ModuleType.Name : _moduleName;
+            set => _moduleName = value;
+        }
 
         string IModuleInfo.ModuleType
         {
@@ -90,11 +98,28 @@ namespace Prism.Modularity
             set => ModuleType = Type.GetType(value);
         }
 
+        private Type _moduleType;
         /// <summary>
         /// Gets or sets the module <see cref="Type"/>'s AssemblyQualifiedName.
         /// </summary>
         /// <value>The type of the module.</value>
-        public Type ModuleType { get; set; }
+        public Type ModuleType
+        {
+            get => _moduleType;
+            set
+            {
+                _moduleType = value;
+                ModuleName = value.Name;
+                foreach (var dependencyAttribute in value.GetCustomAttributes<ModuleDependencyAttribute>())
+                {
+                    var dependency = dependencyAttribute.ModuleName;
+                    if (!DependsOn.Contains(dependency))
+                    {
+                        DependsOn.Add(dependency);
+                    }
+                }
+            }
+        }
 
         private Collection<string> _dependsOn;
         /// <summary>
@@ -103,20 +128,7 @@ namespace Prism.Modularity
         /// <value>The list of modules that this module depends upon.</value>
         public Collection<string> DependsOn
         {
-            get
-            {
-                if(_dependsOn == null)
-                {
-                    _dependsOn = new Collection<string>();
-                    var moduleType = ModuleType;
-                    foreach(var dependencyAttribute in moduleType.GetTypeInfo().GetCustomAttributes<ModuleDependencyAttribute>())
-                    {
-                        _dependsOn.Add(dependencyAttribute.ModuleName);
-                    }
-                }
-
-                return _dependsOn;
-            }
+            get => _dependsOn ?? (_dependsOn = new Collection<string>());
             set => _dependsOn = value;
         }
 
@@ -128,7 +140,7 @@ namespace Prism.Modularity
         /// <summary>
         /// Reference to the location of the module assembly. Not Supported by Xamarin.Forms
         /// </summary>
-        public string Ref
+        string IModuleInfo.Ref
         {
             get => throw new NotSupportedException(Resources.ModuleRefLocationNotSupported);
             set { }
@@ -137,6 +149,6 @@ namespace Prism.Modularity
         /// <summary>
         /// Gets or sets the state of the <see cref="ModuleInfo"/> with regards to the module loading and initialization process.
         /// </summary>
-        public ModuleState State { get; set; }
+        ModuleState IModuleInfo.State { get; set; }
     }
 }
