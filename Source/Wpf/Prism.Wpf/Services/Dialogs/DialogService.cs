@@ -48,7 +48,7 @@ namespace Prism.Services.Dialogs
                 dialogWindow.Show();
         }
 
-        IDialogWindow CreateDialogWindow(string name)
+        protected virtual IDialogWindow CreateDialogWindow(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return _containerExtension.Resolve<IDialogWindow>();
@@ -56,7 +56,7 @@ namespace Prism.Services.Dialogs
                 return _containerExtension.Resolve<IDialogWindow>(name);
         }
 
-        void ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)
+        protected virtual void ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)
         {
             var content = _containerExtension.Resolve<object>(dialogName);
             var dialogContent = content as FrameworkElement;
@@ -72,7 +72,7 @@ namespace Prism.Services.Dialogs
             MvvmHelpers.ViewAndViewModelAction<IDialogAware>(viewModel, d => d.OnDialogOpened(parameters));
         }
 
-        void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, Action<IDialogResult> callback)
+        protected virtual void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, Action<IDialogResult> callback)
         {
             Action<IDialogResult> requestCloseHandler = null;
             requestCloseHandler = (o) =>
@@ -117,7 +117,7 @@ namespace Prism.Services.Dialogs
             dialogWindow.Closed += closedHandler;
         }
 
-        void ConfigureDialogWindowProperties(IDialogWindow window, FrameworkElement dialogContent, IDialogAware viewModel)
+        protected virtual void ConfigureDialogWindowProperties(IDialogWindow window, FrameworkElement dialogContent, IDialogAware viewModel)
         {
             var windowStyle = Dialog.GetWindowStyle(dialogContent);
             if (windowStyle != null)
@@ -127,7 +127,7 @@ namespace Prism.Services.Dialogs
             window.DataContext = viewModel; //we want the host window and the dialog to share the same data contex
 
             if (window.Owner == null)
-                window.Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+                window.Owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
         }
     }
 }
