@@ -12,7 +12,7 @@ namespace Prism.Behaviors
         /// </summary>
         /// <param name="page">The CarouselPage to apply the behaviors</param>
         /// <remarks>The CarouselPageActiveAwareBehavior is applied by default</remarks>
-        public virtual void ApplyCarouselPageBehaviors(CarouselPage page)
+        protected virtual void ApplyCarouselPageBehaviors(CarouselPage page)
         {
             page.Behaviors.Add(new CarouselPageActiveAwareBehavior());
         }
@@ -21,18 +21,18 @@ namespace Prism.Behaviors
         /// Applies behaviors to a ContentPage.
         /// </summary>
         /// <param name="page">The ContentPage to apply the behaviors</param>
-        public virtual void ApplyContentPageBehaviors(ContentPage page)
+        protected virtual void ApplyContentPageBehaviors(ContentPage page)
         {
-            
+
         }
 
         /// <summary>
         /// Applies behaviors to a MasterDetailPage.
         /// </summary>
         /// <param name="page">The MasterDetailPage to apply the behaviors</param>
-        public virtual void ApplyMasterDetailPageBehaviors(MasterDetailPage page)
+        protected virtual void ApplyMasterDetailPageBehaviors(MasterDetailPage page)
         {
-            
+
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Prism.Behaviors
         /// </summary>
         /// <param name="page">The NavigationPage to apply the behaviors</param>
         /// <remarks>The NavigationPageSystemGoBackBehavior and NavigationPageActiveAwareBehavior are applied by default</remarks>
-        public virtual void ApplyNavigationPageBehaviors(NavigationPage page)
+        protected virtual void ApplyNavigationPageBehaviors(NavigationPage page)
         {
             page.Behaviors.Add(new NavigationPageSystemGoBackBehavior());
             page.Behaviors.Add(new NavigationPageActiveAwareBehavior());
@@ -50,8 +50,15 @@ namespace Prism.Behaviors
         /// Applies behaviors to a page based on the page type.
         /// </summary>
         /// <param name="page">The page to apply the behaviors</param>
-        /// <remarks>The PageLifeCycleAwareBehavior is applied to all pages</remarks>
-        public virtual void ApplyPageBehaviors(Page page)
+        /// <remarks>
+        /// There is no need to call base.ApplyPageBehaviors when overriding.
+        /// All Prism behaviors have already been applied.
+        /// </remarks>
+        protected virtual void ApplyPageBehaviors(Page page)
+        {
+        }
+
+        void IPageBehaviorFactory.ApplyPageBehaviors(Page page)
         {
             switch (page)
             {
@@ -73,6 +80,7 @@ namespace Prism.Behaviors
             }
 
             page.Behaviors.Add(new PageLifeCycleAwareBehavior());
+            ApplyPageBehaviors(page);
         }
 
         /// <summary>
@@ -80,7 +88,7 @@ namespace Prism.Behaviors
         /// </summary>
         /// <param name="page">The TabbedPage to apply the behaviors</param>
         /// <remarks>The TabbedPageActiveAwareBehavior is added by default</remarks>
-        public virtual void ApplyTabbedPageBehaviors(TabbedPage page)
+        protected virtual void ApplyTabbedPageBehaviors(TabbedPage page)
         {
             page.Behaviors.Add(new TabbedPageActiveAwareBehavior());
         }
