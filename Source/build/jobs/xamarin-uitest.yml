@@ -11,7 +11,7 @@ jobs:
   steps:
   - template: ../steps/build.yml
     parameters:
-      solution: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.UITests.csproj
+      solution: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.UITests/HelloWorld.UITests.csproj
       solutionName: HelloWorld.UITests
   - task: DownloadPipelineArtifact@2
     inputs:
@@ -22,7 +22,7 @@ jobs:
     inputs:
       appFile: '$(Pipeline.Workspace)/Sandbox-Android/*.apk'
       frameworkOption: uitest
-      uiTestBuildDirectory: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWOrld.UITests/bin/$(BuildConfiguration)/net461/'
+      uiTestBuildDirectory: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.UITests/bin/$(BuildConfiguration)/net461/'
       serverEndpoint: 'Prism-AppCenter'
       appSlug: '$(AppCenterDroidSlug)'
       devices: '$(AppCenterDroidDevices)'
