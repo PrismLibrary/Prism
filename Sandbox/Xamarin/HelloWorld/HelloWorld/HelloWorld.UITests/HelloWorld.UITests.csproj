@@ -8,10 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Xamarin.UITest" Version="3.0.5" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <ProjectReference Include="..\HelloWorld.iOS\HelloWorld.iOS.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <Private>False</Private>
@@ -20,6 +24,6 @@
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <Private>False</Private>
     </ProjectReference>
-  </ItemGroup>
+  </ItemGroup>-->
 
 </Project>

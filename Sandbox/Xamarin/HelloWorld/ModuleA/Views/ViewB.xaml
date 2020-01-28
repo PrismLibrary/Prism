@@ -6,6 +6,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ModuleA.Views.ViewB"
              x:Name="viewB"
+             AutomationId="ViewBPage"
              Padding="{OnPlatform iOS='0,20,0,0'}"
              Title="View B">
 
