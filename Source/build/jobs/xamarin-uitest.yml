@@ -1,6 +1,7 @@
 jobs:
 - job: xamarinUITest
   displayName: HelloWorld.UITests
+  dependsOn: sandboxAndroid
   pool:
     vmImage: $(VMImage)
     demands:
