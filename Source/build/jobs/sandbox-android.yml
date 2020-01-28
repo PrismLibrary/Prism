@@ -1,5 +1,5 @@
 parameters:
-  buildConfiguration: 'Debug'
+  buildConfiguration: 'Release'
   versionName: ''
 
 jobs:
@@ -48,4 +48,3 @@ jobs:
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)'
       artifactName: Sandbox-Android
-    condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

@@ -1,0 +1,39 @@
+parameters:
+  artifactName: ''
+  sandboxJobName: ''
+  appFile: ''
+  appName: ''
+  devices: ''
+
+jobs:
+- job: appCenterTests-${{ parameters.artifactName }}
+  displayName: App Center Tests ${{ parameters.artifactName }}
+  dependsOn: |
+   ${{ parameters.sandboxJobName }}
+   xamarinUITest
+  pool:
+    vmImage: $(VMImage)
+    demands:
+    - MSBuild
+  workspace:
+    clean: all
+  steps:
+  - task: DownloadPipelineArtifact@2
+    displayName: Download UI Test Project
+    inputs:
+      artifactName: XamarinUITests
+      targetPath: '$(Pipeline.Workspace)'
+  - task: DownloadPipelineArtifact@2
+    displayName: Download ${{ parameters.artifactName }}
+    inputs:
+      artifactName: ${{ parameters.artifactName }}
+      targetPath: '$(Pipeline.Workspace)'
+  - task: AppCenterTest@1
+    displayName: 'Run UI Tests ${{ parameters.artifactName }} with App Center'
+    inputs:
+      appFile: ${{ parameters.appFile }}
+      frameworkOption: uitest
+      uiTestBuildDirectory: $(Pipeline.Workspace)/XamarinUITests/
+      serverEndpoint: 'Prism-AppCenter'
+      appSlug: 'Prism/${{ parameters.appName }}'
+      devices: ${{ parameters.devices }}

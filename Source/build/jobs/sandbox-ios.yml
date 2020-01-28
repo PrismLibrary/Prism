@@ -59,4 +59,3 @@ jobs:
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)'
       artifactName: Sandbox-iOS
-    condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
