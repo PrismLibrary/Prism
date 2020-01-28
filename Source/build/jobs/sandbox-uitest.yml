@@ -28,6 +28,10 @@ jobs:
     inputs:
       artifactName: ${{ parameters.artifactName }}
       targetPath: '$(Pipeline.Workspace)'
+
+  - powershell: Get-ChildItem . -Recurse | ForEach-Object -Process { $_.FullName }
+    displayName: List Artifacts
+
   - task: AppCenterTest@1
     displayName: 'Run UI Tests ${{ parameters.artifactName }} with App Center'
     inputs:

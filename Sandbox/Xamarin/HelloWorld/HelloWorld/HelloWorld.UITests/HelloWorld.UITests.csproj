@@ -6,10 +6,6 @@
     <NoWarn>NU1201</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != '' ">
-    <OutputDir>$(ArtifactStagingRoot)</OutputDir>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">

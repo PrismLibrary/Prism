@@ -13,13 +13,10 @@ jobs:
       solution: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.UITests/HelloWorld.UITests.csproj
       solutionName: HelloWorld.UITests
 
-  - powershell: Get-ChildItem . -Recurse | ForEach-Object -Process { $_.FullName }
-    displayName: List Artifacts
-
   - task: PublishPipelineArtifact@0
     displayName: 'Publish Sandbox Artifacts'
     inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)'
+      targetPath: 'Sandbox\Xamarin\HelloWorld\HelloWorld\HelloWorld.UITests\bin\Any CPU\Release\net461\'
       artifactName: XamarinUITests
 
 
