@@ -11,7 +11,7 @@ jobs:
   steps:
   - template: ../steps/build.yml
     parameters:
-      solution: Sandbox/Xamarin/HelloWorld/HelloWorld.sln
+      solution: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.UITests.csproj
       solutionName: HelloWorld.UITests
   - task: DownloadPipelineArtifact@2
     inputs:
