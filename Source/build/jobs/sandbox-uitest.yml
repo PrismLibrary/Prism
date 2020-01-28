@@ -8,9 +8,9 @@ parameters:
 jobs:
 - job: appCenterTests_${{ parameters.sandboxJobName }}
   displayName: App Center Tests ${{ parameters.appName }}
-  dependsOn: |
-   ${{ parameters.sandboxJobName }}
-   xamarinUITest
+  dependsOn:
+  - ${{ parameters.sandboxJobName }}
+  - xamarinUITest
   pool:
     vmImage: $(VMImage)
     demands:
