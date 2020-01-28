@@ -6,8 +6,8 @@ parameters:
   devices: ''
 
 jobs:
-- job: appCenterTests-${{ parameters.artifactName }}
-  displayName: App Center Tests ${{ parameters.artifactName }}
+- job: appCenterTests_${{ parameters.sandboxJobName }}
+  displayName: App Center Tests ${{ parameters.appName }}
   dependsOn: |
    ${{ parameters.sandboxJobName }}
    xamarinUITest
