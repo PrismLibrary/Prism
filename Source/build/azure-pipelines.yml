@@ -29,6 +29,10 @@ variables:
   value: Release
 - name: BuildPlatform
   value: Any CPU
+- name: AppCenterDroidSlug
+  value: Prism/Sandbox.Android
+- name: AppCenterDroidDevices
+  value: 8804278a
 - group: SignClient
 - group: AppleCert
 
@@ -54,6 +58,8 @@ stages:
   - template: jobs/sandbox-ios.yml
     parameters:
       versionName: '8.0.$(Build.BuildId)'
+
+  - template: jobs/xamarin-uitest.yml
 
 - stage: buildPackage
   displayName: Build Prism Library

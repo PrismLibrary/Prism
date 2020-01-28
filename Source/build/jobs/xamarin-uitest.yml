@@ -1,0 +1,29 @@
+jobs:
+- job: xamarinUITest
+  displayName: HelloWorld.UITests
+  pool:
+    vmImage: $(VMImage)
+    demands:
+    - MSBuild
+  workspace:
+    clean: all
+  steps:
+  - template: ../steps/build.yml
+    parameters:
+      solution: Sandbox/Xamarin/HelloWorld/HelloWorld.sln
+      solutionName: HelloWorld.UITests
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      artifactName: 'Sandbox-Android'
+      targetPath: '$(Pipeline.Workspace)'
+  - task: AppCenterTest@1
+    displayName: 'Test Android with Visual Studio App Center'
+    inputs:
+      appFile: '$(Pipeline.Workspace)/Sandbox-Android/*.apk'
+      frameworkOption: uitest
+      uiTestBuildDirectory: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWOrld.UITests/bin/$(BuildConfiguration)/net461/'
+      serverEndpoint: 'Prism-AppCenter'
+      appSlug: '$(AppCenterDroidSlug)'
+      devices: '$(AppCenterDroidDevices)'
+    enabled: true
+
