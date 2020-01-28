@@ -20,7 +20,7 @@ jobs:
   - task: AppCenterTest@1
     displayName: 'Test Android with Visual Studio App Center'
     inputs:
-      appFile: '$(Pipeline.Workspace)/Sandbox-Android/*.apk'
+      appFile: '**/*.apk'
       frameworkOption: uitest
       uiTestBuildDirectory: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.UITests/bin/$(BuildConfiguration)/net461/'
       serverEndpoint: 'Prism-AppCenter'
