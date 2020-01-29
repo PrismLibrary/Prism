@@ -66,8 +66,8 @@ stages:
       artifactName: Sandbox-Android
       sandboxJobName: sandboxAndroid
       appFile: '$(Pipeline.Workspace)/Sandbox-Android/com.prismlibrary.helloworld.apk'
-      appName: $(AppCenterDroidAppName)
-      devices: $(AppCenterDroidDevices)
+      appName: '$(AppCenterDroidAppName)'
+      devices: '$(AppCenterDroidDevices)'
 
 - stage: buildPackage
   displayName: Build Prism Library
