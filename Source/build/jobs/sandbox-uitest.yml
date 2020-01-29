@@ -7,7 +7,7 @@ parameters:
 
 jobs:
 - job: appCenterTests_${{ parameters.sandboxJobName }}
-  displayName: App Center Tests ${{ parameters.appName }}
+  displayName: App Center Tests ${{ parameters.artifactName }}
   dependsOn:
   - ${{ parameters.sandboxJobName }}
   - xamarinUITest
@@ -41,7 +41,7 @@ jobs:
       appFile: $(Pipeline.Workspace)/${{ parameters.appFile }}
       frameworkOption: uitest
       uiTestBuildDirectory: $(Pipeline.Workspace)
-      uiTestToolsDirectory: 'Source/build/tools/'
+      uiTestToolsDirectory: '$(System.DefaultWorkingDirectory)/Source/build/tools/'
       serverEndpoint: 'Prism-AppCenter'
       appSlug: 'Prism/${{ parameters.appName }}'
       devices: ${{ parameters.devices }}
