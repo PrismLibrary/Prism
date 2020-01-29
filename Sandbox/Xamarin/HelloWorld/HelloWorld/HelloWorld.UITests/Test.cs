@@ -17,14 +17,16 @@ namespace HelloWorld.UITests
         {
         }
 
+#if DEBUG
         [Test]
         public void Repl()
         {
-            //if (TestEnvironment.IsTestCloud)
-            //    Assert.Ignore("Local only");
+            if (TestEnvironment.IsTestCloud)
+                Assert.Ignore("Local only");
 
             app.Repl();
         }
+#endif
 
         [Test]
         public void AppLaunches()
