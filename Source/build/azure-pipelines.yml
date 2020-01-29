@@ -66,8 +66,8 @@ stages:
       artifactName: Sandbox-Android
       sandboxJobName: sandboxAndroid
       appFile: 'com.prismlibrary.helloworld.apk'
-      appName: $(AppCenterDroidAppName)
-      devices: $(AppCenterDroidDevices)
+      appName: 'Sandbox.Android'
+      devices: '8804278a'
 
 - stage: buildPackage
   displayName: Build Prism Library
