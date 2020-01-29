@@ -41,7 +41,7 @@ jobs:
       appFile: $(Build.ArtifactStagingDirectory)/${{ parameters.appFile }}
       frameworkOption: uitest
       uiTestBuildDirectory: $(Build.ArtifactStagingDirectory)
-      uiTestToolsDirectory: $(System.DefaultWorkingDirectory)\Source\build\tools\
+      # uiTestToolsDirectory: $(System.DefaultWorkingDirectory)\Source\build\tools\
       serverEndpoint: 'Prism-AppCenter'
       appSlug: 'Prism/Sandbox.Android'
       devices: '8804278a'
