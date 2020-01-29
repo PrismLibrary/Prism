@@ -44,3 +44,5 @@ jobs:
       serverEndpoint: 'Prism-AppCenter'
       appSlug: 'Prism/${{ parameters.appName }}'
       devices: ${{ parameters.devices }}
+      dsymDirectory: ''
+      prepareTests: false
