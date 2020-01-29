@@ -27,7 +27,7 @@ jobs:
     displayName: Download ${{ parameters.artifactName }}
     inputs:
       artifactName: ${{ parameters.artifactName }}
-      targetPath: '$(Pipeline.Workspace)'
+      targetPath: '$(Pipeline.Workspace)/${{ parameters.artifactName }}'
 
   - powershell: |
      Write-Host "Pipeline Workspace: $($env:PIPELINE_WORKSPACE)"
@@ -38,7 +38,7 @@ jobs:
   - task: AppCenterTest@1
     displayName: 'Run UI Tests ${{ parameters.artifactName }} with App Center'
     inputs:
-      appFile: ${{ parameters.appFile }}
+      appFile: ${{ parameters.artifactName }}/${{ parameters.appFile }}
       frameworkOption: uitest
       uiTestBuildDirectory: $(Pipeline.Workspace)/XamarinUITests/
       serverEndpoint: 'Prism-AppCenter'

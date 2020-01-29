@@ -65,7 +65,7 @@ stages:
     parameters:
       artifactName: Sandbox-Android
       sandboxJobName: sandboxAndroid
-      appFile: '$(Pipeline.Workspace)/Sandbox-Android/com.prismlibrary.helloworld.apk'
+      appFile: 'com.prismlibrary.helloworld.apk'
       appName: '$(AppCenterDroidAppName)'
       devices: '$(AppCenterDroidDevices)'
 
