@@ -22,26 +22,26 @@ jobs:
     displayName: Download UI Test Project
     inputs:
       artifactName: XamarinUITests
-      targetPath: '$(Pipeline.Workspace)'
+      targetPath: '$(Build.ArtifactStagingDirectory)'
   - task: DownloadPipelineArtifact@2
     displayName: Download ${{ parameters.artifactName }}
     inputs:
       artifactName: ${{ parameters.artifactName }}
-      targetPath: '$(Pipeline.Workspace)'
+      targetPath: '$(Build.ArtifactStagingDirectory)'
 
   - powershell: |
-     Write-Host "Pipeline Workspace: $($env:PIPELINE_WORKSPACE)"
-     cd $env:PIPELINE_WORKSPACE
+     Write-Host "Pipeline Workspace: $($env:BUILD_ARTIFACTSTAGINGDIRECTORY)"
+     cd $env:BUILD_ARTIFACTSTAGINGDIRECTORY
      Get-ChildItem . -Recurse | ForEach-Object -Process { $_.FullName }
     displayName: List Artifacts
 
   - task: AppCenterTest@1
     displayName: 'Run UI Tests ${{ parameters.artifactName }} with App Center'
     inputs:
-      appFile: $(Pipeline.Workspace)/${{ parameters.appFile }}
+      appFile: $(Build.ArtifactStagingDirectory)/${{ parameters.appFile }}
       frameworkOption: uitest
-      uiTestBuildDirectory: $(Pipeline.Workspace)
-      uiTestToolsDirectory: '$(System.DefaultWorkingDirectory)/Source/build/tools/'
+      uiTestBuildDirectory: $(Build.ArtifactStagingDirectory)
+      uiTestToolsDirectory: $(System.DefaultWorkingDirectory)\Source\build\tools\
       serverEndpoint: 'Prism-AppCenter'
       appSlug: 'Prism/${{ parameters.appName }}'
       devices: ${{ parameters.devices }}
