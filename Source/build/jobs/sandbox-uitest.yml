@@ -18,16 +18,18 @@ jobs:
   workspace:
     clean: all
   steps:
+  - powershell: mkdir Artifacts
+    displayName: Create Artifact Directory
   - task: DownloadPipelineArtifact@2
     displayName: Download UI Test Project
     inputs:
       artifactName: XamarinUITests
-      targetPath: '$(Pipeline.Workspace)/XamarinUITests/'
+      targetPath: '$(Pipeline.Workspace)/Artifacts/'
   - task: DownloadPipelineArtifact@2
     displayName: Download ${{ parameters.artifactName }}
     inputs:
       artifactName: ${{ parameters.artifactName }}
-      targetPath: '$(Pipeline.Workspace)/${{ parameters.artifactName }}/'
+      targetPath: '$(Pipeline.Workspace)/Artifacts/'
 
   - powershell: |
      Write-Host "Pipeline Workspace: $($env:PIPELINE_WORKSPACE)"
@@ -38,9 +40,9 @@ jobs:
   - task: AppCenterTest@1
     displayName: 'Run UI Tests ${{ parameters.artifactName }} with App Center'
     inputs:
-      appFile: ${{ parameters.artifactName }}/${{ parameters.appFile }}
+      appFile: Artifacts/${{ parameters.appFile }}
       frameworkOption: uitest
-      uiTestBuildDirectory: $(Pipeline.Workspace)/XamarinUITests/
+      uiTestBuildDirectory: $(Pipeline.Workspace)/Artifacts/
       serverEndpoint: 'Prism-AppCenter'
       appSlug: 'Prism/${{ parameters.appName }}'
       devices: ${{ parameters.devices }}
