@@ -22,12 +22,12 @@ jobs:
     displayName: Download UI Test Project
     inputs:
       artifactName: XamarinUITests
-      targetPath: '$(Pipeline.Workspace)'
+      targetPath: '$(Pipeline.Workspace)/XamarinUITests/'
   - task: DownloadPipelineArtifact@2
     displayName: Download ${{ parameters.artifactName }}
     inputs:
       artifactName: ${{ parameters.artifactName }}
-      targetPath: '$(Pipeline.Workspace)/${{ parameters.artifactName }}'
+      targetPath: '$(Pipeline.Workspace)/${{ parameters.artifactName }}/'
 
   - powershell: |
      Write-Host "Pipeline Workspace: $($env:PIPELINE_WORKSPACE)"
