@@ -36,13 +36,16 @@ jobs:
     displayName: List Artifacts
 
   - task: AppCenterTest@1
-    displayName: 'Run UI Tests ${{ parameters.appName }} with App Center'
+    displayName: 'Run UI Tests ${{ parameters.artifactName }} with App Center'
     inputs:
       appFile: $(Pipeline.Workspace)/${{ parameters.appFile }}
-      # frameworkOption: uitest
+      frameworkOption: uitest
       uiTestBuildDirectory: $(Pipeline.Workspace)
+      uiTestToolsDirectory: 'Source/build/tools/'
       serverEndpoint: 'Prism-AppCenter'
       appSlug: 'Prism/${{ parameters.appName }}'
       devices: ${{ parameters.devices }}
       dsymDirectory: ''
-      prepareTests: false
+      localeOption: 'en_US'
+      skipWaitingForResults: false
+      # prepareTests: false
