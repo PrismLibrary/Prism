@@ -66,8 +66,8 @@ stages:
       artifactName: Sandbox-Android
       sandboxJobName: sandboxAndroid
       appFile: 'com.prismlibrary.helloworld.apk'
-      appName: '$(AppCenterDroidAppName)'
-      devices: '$(AppCenterDroidDevices)'
+      appName: $(AppCenterDroidAppName)
+      devices: $(AppCenterDroidDevices)
 
 - stage: buildPackage
   displayName: Build Prism Library
@@ -118,7 +118,7 @@ stages:
   #               distributionGroup: '786183fd-2cad-4d31-913a-e4f943ab00cd'
 
 - stage: deploy
-  displayName: Deploy Artifacts
+  displayName: CI Deploy Artifacts
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - deployment: GitHub
@@ -151,6 +151,10 @@ stages:
               nuGetFeedType: external
               publishFeedCredentials: 'Prism-MyGet'
 
+- stage: nuGetDeploy
+  displayName: NuGet.org Deploy
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
   - deployment: NuGet
     displayName: NuGet.org
     environment: NuGet
