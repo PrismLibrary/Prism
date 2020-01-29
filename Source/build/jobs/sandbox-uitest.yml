@@ -12,7 +12,7 @@ jobs:
   - ${{ parameters.sandboxJobName }}
   - xamarinUITest
   pool:
-    vmImage: $(VMImage)
+    vmImage: $(MacImage)
     demands:
     - MSBuild
   workspace:
