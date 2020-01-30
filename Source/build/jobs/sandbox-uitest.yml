@@ -52,4 +52,4 @@ jobs:
       devices: ${{ parameters.devices }}
       dsymDirectory: ${{ parameters.dsymDirectory }}
       localeOption: 'en_US'
-      skipWaitingForResults: false
+      skipWaitingForResults: true
