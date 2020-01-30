@@ -1,15 +1,14 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Android", "HelloWorld\HelloWorld.Android\HelloWorld.Android.csproj", "{2C7E47E0-D8AD-495B-B53E-9248D303D167}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Android", "src\HelloWorld.Android\HelloWorld.Android.csproj", "{2C7E47E0-D8AD-495B-B53E-9248D303D167}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.iOS", "HelloWorld\HelloWorld.iOS\HelloWorld.iOS.csproj", "{976B8058-78A1-4543-8F63-B4B998318857}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.iOS", "src\HelloWorld.iOS\HelloWorld.iOS.csproj", "{976B8058-78A1-4543-8F63-B4B998318857}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.UWP", "HelloWorld\HelloWorld.UWP\HelloWorld.UWP.csproj", "{60E72888-83A7-4AD8-8C9B-6B9B0DBC0F81}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.UWP", "src\HelloWorld.UWP\HelloWorld.UWP.csproj", "{60E72888-83A7-4AD8-8C9B-6B9B0DBC0F81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "HelloWorld\HelloWorld\HelloWorld.csproj", "{CB8AD1B8-86E9-427D-9869-BFDB9001428A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "src\HelloWorld\HelloWorld.csproj", "{CB8AD1B8-86E9-427D-9869-BFDB9001428A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{CC81611D-EE90-4AD7-B8F0-D6E55F4364EC}"
 EndProject
@@ -17,19 +16,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FAF925D4-455
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{930CB56C-83C6-45A6-8B71-1F85BB7A08F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism", "..\..\..\Source\Prism\Prism.csproj", "{937618D6-69AA-4549-9A77-E38C127A16FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism", "..\..\Source\Prism\Prism.csproj", "{937618D6-69AA-4549-9A77-E38C127A16FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Forms", "..\..\..\Source\Xamarin\Prism.DryIoc.Forms\Prism.DryIoc.Forms.csproj", "{4809258F-9F28-474E-9796-DA0183BDADCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Forms", "..\..\Source\Xamarin\Prism.DryIoc.Forms\Prism.DryIoc.Forms.csproj", "{4809258F-9F28-474E-9796-DA0183BDADCB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Forms", "..\..\..\Source\Xamarin\Prism.Forms\Prism.Forms.csproj", "{152DA85C-13F4-4427-850C-052CBBCDD4B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Forms", "..\..\Source\Xamarin\Prism.Forms\Prism.Forms.csproj", "{152DA85C-13F4-4427-850C-052CBBCDD4B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleA", "ModuleA\ModuleA.csproj", "{F0D7441B-D48A-4F58-91FB-45FA441B0434}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleA", "src\ModuleA\ModuleA.csproj", "{F0D7441B-D48A-4F58-91FB-45FA441B0434}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDialog", "HelloDialog\HelloDialog.csproj", "{A2798242-FE9E-49EA-A263-156ECAF58D80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDialog", "src\HelloDialog\HelloDialog.csproj", "{A2798242-FE9E-49EA-A263-156ECAF58D80}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloPageDialog", "HelloPageDialog\HelloPageDialog.csproj", "{969CCFE6-7A95-4BE7-B426-2D0B00041F85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloPageDialog", "src\HelloPageDialog\HelloPageDialog.csproj", "{969CCFE6-7A95-4BE7-B426-2D0B00041F85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.UITests", "HelloWorld\HelloWorld.UITests\HelloWorld.UITests.csproj", "{3179C8FF-3AFC-4E7B-B0C9-54964E1C498F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.UITests", "tests\HelloWorld.UITests\HelloWorld.UITests.csproj", "{3179C8FF-3AFC-4E7B-B0C9-54964E1C498F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B89CCDD4-8EED-4A9A-AD34-A6B644DEEEC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -699,7 +700,7 @@ Global
 		{F0D7441B-D48A-4F58-91FB-45FA441B0434} = {930CB56C-83C6-45A6-8B71-1F85BB7A08F5}
 		{A2798242-FE9E-49EA-A263-156ECAF58D80} = {930CB56C-83C6-45A6-8B71-1F85BB7A08F5}
 		{969CCFE6-7A95-4BE7-B426-2D0B00041F85} = {930CB56C-83C6-45A6-8B71-1F85BB7A08F5}
-		{3179C8FF-3AFC-4E7B-B0C9-54964E1C498F} = {CC81611D-EE90-4AD7-B8F0-D6E55F4364EC}
+		{3179C8FF-3AFC-4E7B-B0C9-54964E1C498F} = {B89CCDD4-8EED-4A9A-AD34-A6B644DEEEC9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9E406BB3-20B9-4659-9660-A29BE45C4626}

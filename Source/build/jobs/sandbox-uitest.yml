@@ -4,6 +4,7 @@ parameters:
   appFile: ''
   appName: ''
   devices: ''
+  dsymDirectory: ''
 
 jobs:
 - job: appCenterTests_${{ parameters.sandboxJobName }}

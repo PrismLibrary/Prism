@@ -150,19 +150,19 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.9" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Source\Prism\Prism.csproj">
+    <ProjectReference Include="..\..\..\..\Source\Prism\Prism.csproj">
       <Project>{937618d6-69aa-4549-9a77-e38c127a16fa}</Project>
       <Name>Prism</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Source\Xamarin\Prism.DryIoc.Forms\Prism.DryIoc.Forms.csproj">
+    <ProjectReference Include="..\..\..\..\Source\Xamarin\Prism.DryIoc.Forms\Prism.DryIoc.Forms.csproj">
       <Project>{4809258f-9f28-474e-9796-da0183bdadcb}</Project>
       <Name>Prism.DryIoc.Forms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Source\Xamarin\Prism.Forms\Prism.Forms.csproj">
+    <ProjectReference Include="..\..\..\..\Source\Xamarin\Prism.Forms\Prism.Forms.csproj">
       <Project>{152da85c-13f4-4427-850c-052cbbcdd4b0}</Project>
       <Name>Prism.Forms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ModuleA\ModuleA.csproj">
+    <ProjectReference Include="..\ModuleA\ModuleA.csproj">
       <Project>{f0d7441b-d48a-4f58-91fb-45fa441b0434}</Project>
       <Name>ModuleA</Name>
     </ProjectReference>

@@ -33,6 +33,10 @@ variables:
   value: Sandbox.Android
 - name: AppCenterDroidDevices
   value: 8804278a
+- name: AppCenteriOSAppName
+  value: Sandbox.iOS
+- name: AppCenteriOSDevices
+  value: b062026c
 - group: SignClient
 - group: AppleCert
 
@@ -66,8 +70,17 @@ stages:
       artifactName: Sandbox-Android
       sandboxJobName: sandboxAndroid
       appFile: 'com.prismlibrary.helloworld.apk'
-      appName: 'Sandbox.Android'
-      devices: '8804278a'
+      appName: $(AppCenterDroidAppName)
+      devices: $(AppCenterDroidDevices)
+
+  - template: jobs/sandbox-uitest.yml
+    parameters:
+      artifactName: Sandbox-iOS
+      sandboxJobName: sandboxiOS
+      appFile: 'HelloWorld.iOS.ipa'
+      dsymDirectory: 'HelloWorld.iOS.app.dSYM'
+      appName: $(AppCenteriOSAppName)
+      devices: $(AppCenteriOSDevices)
 
 - stage: buildPackage
   displayName: Build Prism Library

@@ -6,10 +6,7 @@ These samples are no replacement for the unit test suite that covers the code ba
 
 # Stable samples
 
-More complete and stable samples showing how to use Prism 6 for your application development will be posted in separate repositories under the [PrismLibrary GitHub organization](https://github.com/PrismLibrary). These samples are based on public released NuGet packages and are thus more stable than the sandbox samples. Guidance on specific scenarios can be found in these stable samples.
+More complete and stable samples showing how to use Prism 7 for your application development will be posted in separate repositories under the [PrismLibrary GitHub organization](https://github.com/PrismLibrary). These samples are based on public released NuGet packages and are thus more stable than the sandbox samples. Guidance on specific scenarios can be found in these stable samples.
 
 * [WPF](https://github.com/PrismLibrary/Prism-Samples-Wpf)
 * [Xamarin Forms](https://github.com/PrismLibrary/Prism-Samples-Forms)
-* [Windows 10 UWP](https://github.com/PrismLibrary/Prism-Samples-Windows)
-
-
