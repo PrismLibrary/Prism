@@ -48,10 +48,8 @@ jobs:
       uiTestBuildDirectory: $(Build.ArtifactStagingDirectory)
       uiTestToolsDirectory: $(System.DefaultWorkingDirectory)\Source\build\tools\
       serverEndpoint: 'Prism-AppCenter'
-      appSlug: 'Prism/Sandbox.Android'
-      devices: '8804278a'
-      # appSlug: 'Prism/${{ parameters.appName }}'
-      # devices: ${{ parameters.devices }}
-      dsymDirectory: ''
+      appSlug: 'Prism/${{ parameters.appName }}'
+      devices: ${{ parameters.devices }}
+      dsymDirectory: ${{ parameters.dsymDirectory }}
       localeOption: 'en_US'
       skipWaitingForResults: false
