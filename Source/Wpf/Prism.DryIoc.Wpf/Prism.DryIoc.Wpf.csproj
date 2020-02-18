@@ -6,7 +6,6 @@
     <UseWPF>true</UseWPF>
     <RootNamespace>Prism.DryIoc</RootNamespace>
     <PackageId>Prism.DryIoc</PackageId>
-    <SignAssembly>false</SignAssembly>
     <!--<Summary>DryIoc extensions for Prism.</Summary>-->
     <Description>Use these extensions to build Prism applications based on DryIoc.</Description>
     <PackageTags>prism;dryioc;mvvm;wpf;xaml</PackageTags>
