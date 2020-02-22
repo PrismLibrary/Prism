@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+            prism:ViewModelLocator.AutowireViewModel="True"
+            xmlns:local="clr-namespace:ModuleA.Views;assembly=ModuleA"
+            x:Class="ModuleA.Views.MyTabbedPage">
+
+  <TabbedPage.ToolbarItems>
+    <ToolbarItem AutomationId="SaveButton"
+                 Text="Save"
+                 Command="{Binding ApplicationCommands.SaveCommand}" />
+    <ToolbarItem AutomationId="ResetButton"
+                 Text="Reset"
+                 Command="{Binding ApplicationCommands.ResetCommand}"/>
+  </TabbedPage.ToolbarItems>
+
+  <NavigationPage Title="View A">
+    <x:Arguments>
+      <local:ViewA Title="View A" />
+    </x:Arguments>
+  </NavigationPage>
+
+  <NavigationPage Title="View B">
+    <x:Arguments>
+      <local:ViewB Title="View B" />
+    </x:Arguments>
+  </NavigationPage>
+
+  <local:ViewC Title="View C" />
+
+  <!--<local:ViewA Title="View A" />-->
+  <!--<local:ViewB Title="View B"/>-->
+  <!--<local:ViewC Title="View C"/>-->
+
+</TabbedPage>

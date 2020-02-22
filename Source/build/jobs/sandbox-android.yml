@@ -1,5 +1,5 @@
 parameters:
-  buildConfiguration: 'Debug'
+  buildConfiguration: 'Release'
   versionName: ''
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
   - task: android-manifest-version@1
     displayName: 'Bump Android Versions in AndroidManifest.xml'
     inputs:
-      sourcePath: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.Android/Properties/AndroidManifest.xml
+      sourcePath: Sandbox/Xamarin/src/HelloWorld.Android/Properties/AndroidManifest.xml
       versionCodeOption: 'buildid'
       versionCode: '$(Build.BuildId)'
       versionName: ${{ parameters.versionName }}
@@ -28,12 +28,12 @@ jobs:
 
   - template: ../steps/prepare-build.yml
     parameters:
-      solution: Sandbox/Xamarin/HelloWorld/HelloWorld.sln
+      solution: Sandbox/Xamarin/HelloWorld.sln
 
   - task: XamarinAndroid@1
     displayName: 'Build Xamarin.Android project HelloWorld.Android.csproj'
     inputs:
-      projectFile: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.Android/HelloWorld.Android.csproj
+      projectFile: Sandbox/Xamarin/src/HelloWorld.Android/HelloWorld.Android.csproj
       outputDirectory: '$(Build.BinariesDirectory)/${{ parameters.buildConfiguration }}'
       configuration: ${{ parameters.buildConfiguration }}
 
@@ -48,4 +48,3 @@ jobs:
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)'
       artifactName: Sandbox-Android
-    condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

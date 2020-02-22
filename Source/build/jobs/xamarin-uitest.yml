@@ -1,7 +1,6 @@
 jobs:
 - job: xamarinUITest
   displayName: HelloWorld.UITests
-  dependsOn: sandboxAndroid
   pool:
     vmImage: $(VMImage)
     demands:
@@ -11,20 +10,13 @@ jobs:
   steps:
   - template: ../steps/build.yml
     parameters:
-      solution: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.UITests/HelloWorld.UITests.csproj
+      solution: Sandbox/Xamarin/tests/HelloWorld.UITests/HelloWorld.UITests.csproj
       solutionName: HelloWorld.UITests
-  - task: DownloadPipelineArtifact@2
+
+  - task: PublishPipelineArtifact@0
+    displayName: 'Publish Sandbox Artifacts'
     inputs:
-      artifactName: 'Sandbox-Android'
-      targetPath: '$(Pipeline.Workspace)'
-  - task: AppCenterTest@1
-    displayName: 'Test Android with Visual Studio App Center'
-    inputs:
-      appFile: '**/*.apk'
-      frameworkOption: uitest
-      uiTestBuildDirectory: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.UITests/bin/$(BuildConfiguration)/net461/'
-      serverEndpoint: 'Prism-AppCenter'
-      appSlug: '$(AppCenterDroidSlug)'
-      devices: '$(AppCenterDroidDevices)'
-    enabled: true
+      targetPath: 'Sandbox\Xamarin\tests\HelloWorld.UITests\bin\Any CPU\Release\net461\'
+      artifactName: XamarinUITests
+
 

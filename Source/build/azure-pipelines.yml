@@ -29,10 +29,14 @@ variables:
   value: Release
 - name: BuildPlatform
   value: Any CPU
-- name: AppCenterDroidSlug
-  value: Prism/Sandbox.Android
+- name: AppCenterDroidAppName
+  value: Sandbox.Android
 - name: AppCenterDroidDevices
   value: 8804278a
+- name: AppCenteriOSAppName
+  value: Sandbox.iOS
+- name: AppCenteriOSDevices
+  value: b062026c
 - group: SignClient
 - group: AppleCert
 
@@ -61,6 +65,23 @@ stages:
 
   - template: jobs/xamarin-uitest.yml
 
+  - template: jobs/sandbox-uitest.yml
+    parameters:
+      artifactName: Sandbox-Android
+      sandboxJobName: sandboxAndroid
+      appFile: 'com.prismlibrary.helloworld.apk'
+      appName: $(AppCenterDroidAppName)
+      devices: $(AppCenterDroidDevices)
+
+  - template: jobs/sandbox-uitest.yml
+    parameters:
+      artifactName: Sandbox-iOS
+      sandboxJobName: sandboxiOS
+      appFile: 'HelloWorld.iOS.ipa'
+      dsymDirectory: 'HelloWorld.iOS.app.dSYM'
+      appName: $(AppCenteriOSAppName)
+      devices: $(AppCenteriOSDevices)
+
 - stage: buildPackage
   displayName: Build Prism Library
   jobs:
@@ -78,7 +99,7 @@ stages:
           steps:
             - template: steps/appcenter-deploy.yml
               parameters:
-                appName: 'Sandbox.Android'
+                appName: $(AppCenterDroidAppName)
                 appFile: '$(Pipeline.Workspace)/Sandbox-Android/com.prismlibrary.helloworld.apk'
                 distributionGroup: '88fd9e93-9e2e-4a44-bda4-e7d6bf8f7a10'
 
@@ -110,7 +131,7 @@ stages:
   #               distributionGroup: '786183fd-2cad-4d31-913a-e4f943ab00cd'
 
 - stage: deploy
-  displayName: Deploy Artifacts
+  displayName: CI Deploy Artifacts
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - deployment: GitHub
@@ -143,6 +164,10 @@ stages:
               nuGetFeedType: external
               publishFeedCredentials: 'Prism-MyGet'
 
+- stage: nuGetDeploy
+  displayName: NuGet.org Deploy
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
   - deployment: NuGet
     displayName: NuGet.org
     environment: NuGet

@@ -26,7 +26,7 @@ jobs:
   - task: ios-bundle-version@1
     displayName: 'Bump iOS Versions in Info.plist'
     inputs:
-      sourcePath: Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/Info.plist
+      sourcePath: Sandbox/Xamarin/src/HelloWorld.iOS/Info.plist
       versionCodeOption: 'buildid'
       versionCode: '$(Build.BuildId)'
       versionName: ${{ parameters.versionName }}
@@ -36,12 +36,12 @@ jobs:
 
   - template: ../steps/prepare-build.yml
     parameters:
-      solution: Sandbox/Xamarin/HelloWorld/HelloWorld.sln
+      solution: Sandbox/Xamarin/HelloWorld.sln
 
   - task: XamariniOS@2
     displayName: 'Build Xamarin.iOS solution HelloWorld.iOS.csproj'
     inputs:
-      solutionFile: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/HelloWorld.iOS.csproj'
+      solutionFile: 'Sandbox/Xamarin/src/HelloWorld.iOS/HelloWorld.iOS.csproj'
       configuration: ${{ parameters.buildConfiguration }}
 
   - bash: |
@@ -50,7 +50,7 @@ jobs:
      cp HelloWorld.iOS.ipa $stagingDir
      cp -R HelloWorld.iOS.app.dSYM $stagingDir
     displayName: Stage Artifacts
-    workingDirectory: 'Sandbox/Xamarin/HelloWorld/HelloWorld/HelloWorld.iOS/bin/iPhone/${{ parameters.buildConfiguration }}'
+    workingDirectory: 'Sandbox/Xamarin/src/HelloWorld.iOS/bin/iPhone/${{ parameters.buildConfiguration }}'
     env:
       stagingDir: $(Build.ArtifactStagingDirectory)
 
@@ -59,4 +59,3 @@ jobs:
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)'
       artifactName: Sandbox-iOS
-    condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

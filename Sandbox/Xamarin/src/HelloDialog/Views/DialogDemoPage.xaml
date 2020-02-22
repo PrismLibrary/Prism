@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:i18n="clr-namespace:HelloDialog.Strings"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             Padding="20"
+             BackgroundColor="Beige"
+             Title="Demo Dialogs"
+             x:Class="HelloDialog.Views.DialogDemoPage">
+    <ScrollView>
+        <StackLayout>
+            <Label Text="{x:Static i18n:Resources.LoremIpsum}" />
+          <Button Text="XAML Extension Param"
+                  Command="{prism:ShowDialog 'DemoDialog'}"
+                  CommandParameter="{prism:Parameter Key=Message, Value={Binding TestMessage}}"
+                  HorizontalOptions="Center" />
+            <Button Text="Single Param"
+                    Command="{prism:ShowDialog 'DemoDialog'}"
+                    HorizontalOptions="Center">
+                <Button.CommandParameter>
+                  <prism:Parameter Key="Message" Value="{Binding TestMessage}" />
+                </Button.CommandParameter>
+            </Button>
+            <Button Text="Multi Param"
+                    Command="{prism:ShowDialog 'DemoDialog'}"
+                    HorizontalOptions="Center">
+                <Button.CommandParameter>
+                    <prism:Parameters>
+                        <prism:Parameter Key="Title" Value="Success" />
+                        <prism:Parameter Key="Message" Value="{Binding TestMessage}" />
+                    </prism:Parameters>
+                </Button.CommandParameter>
+            </Button>
+            <Button Text="Show Demo Dialog (Querystring)"
+                    Command="{prism:ShowDialog 'DemoDialog?message=Hello%20From%20Prism%20DialogService!&amp;closeOnBackgroundTapped=true'}"
+                    HorizontalOptions="Center" />
+            <Button Text="Show User Alert"
+                    Command="{Binding ShowUserAlertCommand}"
+                    HorizontalOptions="Center" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
