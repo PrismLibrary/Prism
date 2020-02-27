@@ -61,7 +61,7 @@
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup Condition=" $(IsPackable) ">
+  <ItemGroup Condition=" $(IsPackable) And '$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != '' ">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
