@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using Xunit;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
+using CommonServiceLocator;
 
 namespace Prism.Wpf.Tests.Regions
 {
@@ -24,6 +25,46 @@ namespace Prism.Wpf.Tests.Regions
 
             Assert.NotNull(returnedAdapter);
             Assert.Same(regionAdapter, returnedAdapter);
+        }
+
+        [Fact]
+        public void ShouldGetRegisteredMapping_UsingGenericControl()
+        {
+            var regionAdapterMappings = new RegionAdapterMappings();
+            var regionAdapter = new MockRegionAdapter();
+
+            regionAdapterMappings.RegisterMapping<ItemsControl>(regionAdapter);
+
+            var returnedAdapter = regionAdapterMappings.GetMapping<ItemsControl>();
+
+            Assert.NotNull(returnedAdapter);
+            Assert.Same(regionAdapter, returnedAdapter);
+        }
+
+        [Fact]
+        public void ShouldGetRegisteredMapping_UsingGenericControlAndAdapter()
+        {
+            try
+            {
+                var regionAdapterMappings = new RegionAdapterMappings();
+                var regionAdapter = new MockRegionAdapter();
+
+                ServiceLocator.SetLocatorProvider(() => new MockServiceLocator
+                    {
+                        GetInstance = t => regionAdapter
+                    });
+
+                regionAdapterMappings.RegisterMapping<ItemsControl, MockRegionAdapter>();
+
+                var returnedAdapter = regionAdapterMappings.GetMapping<ItemsControl>();
+
+                Assert.NotNull(returnedAdapter);
+                Assert.Same(regionAdapter, returnedAdapter);
+            }
+            finally
+            {
+                ServiceLocator.SetLocatorProvider(null);
+            }            
         }
 
         [Fact]
@@ -76,7 +117,6 @@ namespace Prism.Wpf.Tests.Regions
                 regionAdapterMappings.RegisterMapping(typeof(ItemsControl), regionAdapter);
                 regionAdapterMappings.RegisterMapping(typeof(ItemsControl), regionAdapter);
             });
-
         }
 
         [Fact]
