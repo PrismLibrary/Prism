@@ -362,6 +362,43 @@ namespace Prism.Wpf.Tests.Regions
         }
 
         [Fact]
+        public void CanRegisterViewTypeGeneric()
+        {
+            try
+            {
+                var mockRegionContentRegistry = new MockRegionContentRegistry();
+
+                string regionName = null;
+                Type viewType = null;
+
+                mockRegionContentRegistry.RegisterContentWithViewType = (name, type) =>
+                {
+                    regionName = name;
+                    viewType = type;
+                    return null;
+                };
+                ServiceLocator.SetLocatorProvider(
+                    () => new MockServiceLocator
+                    {
+                        GetInstance = t => mockRegionContentRegistry
+                    });
+
+                var regionManager = new RegionManager();
+
+                regionManager.RegisterViewWithRegion<object>("Region1");
+
+                Assert.Equal("Region1", regionName);
+                Assert.Equal(typeof(object), viewType);
+
+
+            }
+            finally
+            {
+                ServiceLocator.SetLocatorProvider(null);
+            }
+        }
+
+        [Fact]
         public void CanRegisterDelegate()
         {
             try
