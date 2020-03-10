@@ -57,7 +57,7 @@ namespace Prism.Navigation
         /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
         /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
         /// <example>
-        /// NavigateAsync(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
+        /// NavigateAsync(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource), parameters);
         /// </example>
         public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, Uri uri, INavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
         {
@@ -102,7 +102,7 @@ namespace Prism.Navigation
         /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
         /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
         /// <example>
-        /// NavigateAsync("MainPage?id=3&name=dan", ("person", person), ("foo", bar));
+        /// NavigateAsync("MainPage?id=3&amp;name=dan", ("person", person), ("foo", bar));
         /// </example>
         public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, string name, params (string Key, object Value)[] parameters)
         {
@@ -117,7 +117,7 @@ namespace Prism.Navigation
         /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
         /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
         /// <example>
-        /// NavigateAsync(new Uri("MainPage?id=3&name=dan", UriKind.RelativeSource), ("person", person), ("foo", bar));
+        /// NavigateAsync(new Uri("MainPage?id=3&amp;name=dan", UriKind.RelativeSource), ("person", person), ("foo", bar));
         /// </example>
         public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, Uri uri, params (string Key, object Value)[] parameters)
         {
