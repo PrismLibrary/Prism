@@ -26,9 +26,8 @@ namespace Prism.Navigation
         /// Initiates navigation to the target specified by the <paramref name="uri"/>.
         /// </summary>
         /// <param name="uri">The Uri to navigate to</param>
-        /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramf name="parameters"/>.</remarks>
         /// <example>
-        /// Navigate(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource), parameters);
+        /// NavigateAsync(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource));
         /// </example>
         Task<INavigationResult> NavigateAsync(Uri uri);
 
