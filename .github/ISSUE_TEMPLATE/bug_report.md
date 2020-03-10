@@ -9,8 +9,10 @@ assignees: ''
 
 ### Description
 
+<!-- NOTE Your Bug Report WILL be closed if you do not provide a sample! -->
+
 <!-- REQUIRED -->
-<!-- Issues reporting a bug, but lacking a Reproduction will be closed!
+<!-- Issues reporting a bug, but lacking a Reproduction WILL be closed!
      Please ask questions on StackOverflow or on Slack. Issues opened
      that are questions will be closed without comment.  -->
 
@@ -37,4 +39,7 @@ assignees: ''
 
 ### Reproduction Link
 
-<!-- REQUIRED - Please upload or provide a link to a reproduction case. If no reproduction sample is included, this issue may be closed or ignored until a sample has been provided -->
+<!-- REQUIRED -->
+<!-- Please upload or provide a link to a reproduction case. 
+     If no reproduction sample is included, this issue WILL be 
+     closed until a sample has been provided -->
