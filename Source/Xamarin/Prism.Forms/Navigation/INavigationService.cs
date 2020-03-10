@@ -38,7 +38,7 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
         /// <example>
-        /// Navigate(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource), parameters);
+        /// NavigateAsync(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource), parameters);
         /// </example>
         Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters);
 
