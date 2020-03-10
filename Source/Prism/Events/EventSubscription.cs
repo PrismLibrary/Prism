@@ -50,7 +50,7 @@ namespace Prism.Events
         /// <remarks>
         /// If <see cref="Action"/>is no longer valid because it was
         /// garbage collected, this method will return <see langword="null" />.
-        /// Otherwise it will return a delegate that evaluates the <see cref="IDelegateReference"/> and if it
+        /// Otherwise it will return a delegate that evaluates the <see cref="Filter"/> and if it
         /// returns <see langword="true" /> will then call <see cref="InvokeAction"/>. The returned
         /// delegate holds a hard reference to the <see cref="Action"/> target
         /// <see cref="Delegate">delegates</see>. As long as the returned delegate is not garbage collected,
