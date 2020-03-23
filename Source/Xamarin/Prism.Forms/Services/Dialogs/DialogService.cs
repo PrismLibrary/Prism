@@ -31,7 +31,7 @@ namespace Prism.Services.Dialogs
                 var view = CreateViewFor(UriParsingHelper.GetSegmentName(name));
 
                 var dialogAware = InitializeDialog(view, parameters);
-                var currentPage = GetCurrentPage();
+                var currentPage = GetCurrentContentPage();
 
                 dialogAware.RequestClose += DialogAware_RequestClose;
 
@@ -191,6 +191,24 @@ namespace Prism.Services.Dialogs
             }
 
             return dialog;
+        }
+        
+        private ContentPage GetCurrentContentPage()
+        {
+            var cp = GetCurrentPage();
+            var mp = TryGetModalPage(cp);
+            return mp ?? cp;
+        }
+
+        private ContentPage TryGetModalPage(ContentPage cp)
+        {
+            var mp = cp.Navigation.ModalStack.LastOrDefault();
+            if (mp != null)
+            {
+                return GetCurrentPage(mp);
+            }
+
+            return null;
         }
 
         private ContentPage GetCurrentPage(Page page = null)
