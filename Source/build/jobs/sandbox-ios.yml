@@ -43,7 +43,6 @@ jobs:
     inputs:
       solutionFile: 'Sandbox/Xamarin/src/HelloWorld.iOS/HelloWorld.iOS.csproj'
       configuration: ${{ parameters.buildConfiguration }}
-      args: '/p:CodesignKey=''iPhone Distribution'' '
 
   - bash: |
      echo "Copying files to ${stagingDir}"
