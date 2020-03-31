@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;net47;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net461;net47;net48;netcoreapp3.1</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <PackageId>Prism.Ninject</PackageId>
     <RootNamespace>Prism.Ninject</RootNamespace>
