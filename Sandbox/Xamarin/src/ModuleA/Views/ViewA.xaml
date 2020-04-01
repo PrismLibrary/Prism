@@ -31,6 +31,9 @@
     <Button AutomationId="SelectTabCButton"
             Text="Select Tab C"
             Command="{prism:SelectTab ViewC}" />
+    <Button AutomationId="Show Demo Dialog Button"
+            Text="Show Demo Dialog"
+            Command="{prism:ShowDialog 'DemoDialog?message=Hello%20From%20ViewA!&amp;closeOnBackgroundTapped=true'}" />
     <Button AutomationId="GoBackButton"
             Text="Go Back"
             Command="{prism:GoBack}" />

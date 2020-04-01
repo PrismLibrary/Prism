@@ -19,6 +19,9 @@
             Command="{prism:NavigateTo ViewB}" />
     <Button Text="Select Tab A"
             Command="{prism:SelectTab ViewA}" />
+    <Button AutomationId="Show Demo Dialog Button"
+            Text="Show Demo Dialog"
+            Command="{prism:ShowDialog 'DemoDialog?message=Hello%20From%20ViewC!&amp;closeOnBackgroundTapped=true'}" />
     <Button Text="Go Back"
             Command="{prism:GoBack}" />
   </StackLayout>

@@ -4,7 +4,8 @@
              xmlns:prism="http://prismlibrary.com"
              Title="Modules"
              x:Class="HelloWorld.Views.ModulesPage">
-  <ListView ItemsSource="{Binding Modules}">
+  <ListView ItemsSource="{Binding Modules}"
+            BackgroundColor="White">
     <ListView.Behaviors>
       <prism:EventToCommandBehavior EventName="ItemTapped"
                                     EventArgsParameterPath="Item"
