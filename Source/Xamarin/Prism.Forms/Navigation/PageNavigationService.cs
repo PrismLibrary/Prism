@@ -263,9 +263,8 @@ namespace Prism.Navigation
         /// Initiates navigation to the target specified by the <paramref name="uri"/>.
         /// </summary>
         /// <param name="uri">The Uri to navigate to</param>
-        /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
         /// <example>
-        /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
+        /// NavigateAsync(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource));
         /// </example>
         public virtual Task<INavigationResult> NavigateAsync(Uri uri)
         {
@@ -279,7 +278,7 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
         /// <example>
-        /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
+        /// NavigateAsync(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource), parameters);
         /// </example>
         public virtual Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters)
         {
@@ -300,7 +299,7 @@ namespace Prism.Navigation
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
         /// <example>
-        /// Navigate(new Uri("MainPage?id=3&name=brian", UriKind.RelativeSource), parameters);
+        /// Navigate(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource), parameters);
         /// </example>
         protected async virtual Task<INavigationResult> NavigateInternal(Uri uri, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
