@@ -14,7 +14,7 @@ jobs:
 
   - template: ../steps/build.yml
     parameters:
-      solution: e2e/Wpf/HelloWorld/HelloWorld.sln
+      solution: e2e/Wpf/HelloWorld.sln
       solutionName: WPF E2E
 
   - task: DotNetCoreCLI@2
