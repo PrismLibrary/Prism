@@ -185,7 +185,7 @@ stages:
           - checkout: self
             displayName: Get Build Resources
 
-          - powershell: Source/build/Process-Artifacts.ps1
+          - powershell: build/Process-Artifacts.ps1
             displayName: Process Artifacts for Release
 
           - task: ArchiveFiles@2
