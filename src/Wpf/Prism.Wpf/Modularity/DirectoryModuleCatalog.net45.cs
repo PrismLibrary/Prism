@@ -50,7 +50,9 @@ namespace Prism.Modularity
                                      from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
                                      where !(assembly is System.Reflection.Emit.AssemblyBuilder)
                                         && assembly.GetType().FullName != "System.Reflection.Emit.InternalAssemblyBuilder"
-                                        && !String.IsNullOrEmpty(assembly.Location)
+                                        // TODO: Do this in a less hacky way... probably never gonna happen
+                                        && !assembly.GetName().Name.StartsWith("xunit")
+                                        && !string.IsNullOrEmpty(assembly.Location)
                                      select assembly.Location
                                  );
 
