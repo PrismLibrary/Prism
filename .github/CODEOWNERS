@@ -1,3 +1,10 @@
+# CI & Build
+global.json @dansiegel
+*.targets @dansiegel
+*.props @dansiegel
+/build/ @dansiegel
+/e2e/ @dansiegel
+
 # Prism.Core
 /src/Prism.Core/ @brianlagunas @dansiegel
 /tests/Prism.Core.Tests/ @brianlagunas @dansiegel
@@ -5,15 +12,8 @@
 # WPF
 /src/Wpf/ @brianlagunas
 /tests/Wpf/ @brianlagunas
-/sandbox/Wpf/ @brianlagunas
+/e2e/Wpf/ @brianlagunas
 
 # Xamarin.Forms
 /src/Forms/ @dansiegel
 /tests/Forms/ @dansiegel
-
-# CI & Build
-global.json @dansiegel
-*.targets @dansiegel
-*.props @dansiegel
-/build/ @dansiegel
-/e2e/ @dansiegel

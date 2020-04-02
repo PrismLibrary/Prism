@@ -3,8 +3,8 @@ parameters:
   versionName: ''
 
 jobs:
-- job: sandboxIOS
-  displayName: Sandbox iOS App
+- job: e2eIOS
+  displayName: E2E iOS App
   pool:
     vmImage: $(MacImage)
     demands:
@@ -55,7 +55,7 @@ jobs:
       stagingDir: $(Build.ArtifactStagingDirectory)
 
   - task: PublishPipelineArtifact@0
-    displayName: 'Publish Sandbox Artifacts'
+    displayName: 'Publish E2E Artifacts'
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)'
-      artifactName: Sandbox-iOS
+      artifactName: E2E-iOS

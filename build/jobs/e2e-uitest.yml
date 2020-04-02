@@ -1,16 +1,16 @@
 parameters:
   artifactName: ''
-  sandboxJobName: ''
+  e2eJobName: ''
   appFile: ''
   appName: ''
   devices: ''
   dsymDirectory: ''
 
 jobs:
-- job: appCenterTests_${{ parameters.sandboxJobName }}
+- job: appCenterTests_${{ parameters.e2eJobName }}
   displayName: App Center Tests ${{ parameters.artifactName }}
   dependsOn:
-  - ${{ parameters.sandboxJobName }}
+  - ${{ parameters.e2eJobName }}
   - xamarinUITest
   pool:
     vmImage: $(VMImage)

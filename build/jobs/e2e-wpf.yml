@@ -1,6 +1,6 @@
 jobs:
-- job: sandboxWpf
-  displayName: Sandbox WPF App
+- job: e2eWpf
+  displayName: E2E WPF App
   condition: succeeded()
   pool:
     vmImage: $(VMImage)
@@ -9,25 +9,25 @@ jobs:
   workspace:
     clean: all
   steps:
-  - powershell: Copy-Item -Path .\global.json -Destination .\Sandbox\Wpf\HelloWorld\
-    displayName: Copy global.json to Sandbox directory
+  - powershell: Copy-Item -Path .\global.json -Destination .\e2e\Wpf\HelloWorld\
+    displayName: Copy global.json to E2E directory
 
   - template: ../steps/build.yml
     parameters:
-      solution: sandbox/Wpf/HelloWorld/HelloWorld.sln
-      solutionName: WPF Sandbox
+      solution: e2e/Wpf/HelloWorld/HelloWorld.sln
+      solutionName: WPF E2E
 
   - task: DotNetCoreCLI@2
     displayName: 'Run dotnet publish'
     inputs:
       command: 'publish'
       publishWebProjects: false
-      projects: 'Sandbox/Wpf/HelloWorld/HelloWorld.csproj'
+      projects: 'e2e/Wpf/HelloWorld/HelloWorld.csproj'
       arguments: '--configuration $(BuildConfiguration) --runtime win-x64 --self-contained --output $(Pipeline.Workspace) --verbosity detailed'
 
   - task: PublishPipelineArtifact@0
-    displayName: 'Publish Sandbox Artifacts'
+    displayName: 'Publish E2E Artifacts'
     inputs:
       targetPath: $(Pipeline.Workspace)/HelloWorld.zip
-      artifactName: Sandbox-WPF
+      artifactName: E2E-WPF
     condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

@@ -14,7 +14,7 @@ jobs:
       solutionName: HelloWorld.UITests
 
   - task: PublishPipelineArtifact@0
-    displayName: 'Publish Sandbox Artifacts'
+    displayName: 'Publish E2E Artifacts'
     inputs:
       targetPath: 'e2e\Forms\tests\HelloWorld.UITests\bin\Any CPU\Release\net461\'
       artifactName: XamarinUITests

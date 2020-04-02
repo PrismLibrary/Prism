@@ -3,8 +3,8 @@ parameters:
   versionName: ''
 
 jobs:
-- job: sandboxAndroid
-  displayName: Sandbox Android App
+- job: e2eAndroid
+  displayName: E2E Android App
   pool:
     vmImage: $(MacImage)
     demands:
@@ -44,7 +44,7 @@ jobs:
       stagingDir: $(Build.ArtifactStagingDirectory)
 
   - task: PublishPipelineArtifact@0
-    displayName: 'Publish Sandbox Artifacts'
+    displayName: 'Publish E2E Artifacts'
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)'
-      artifactName: Sandbox-Android
+      artifactName: E2E-Android
