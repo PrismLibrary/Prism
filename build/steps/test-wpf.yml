@@ -1,0 +1,13 @@
+steps:
+- task: VSTest@2
+  displayName: Test Prism.WPF
+  inputs:
+    codeCoverageEnabled: true
+    rerunFailedTests: true
+    testAssemblyVer2: |
+     $(System.DefaultWorkingDirectory)\tests\Wpf\**\*test*.dll
+     !**/obj/*
+
+    testRunTitle: Prism.WPF
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'

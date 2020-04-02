@@ -1,0 +1,16 @@
+jobs:
+- job: prismCore
+  displayName: Prism.Core
+  pool:
+    vmImage: $(VMImage)
+    demands:
+    - MSBuild
+  workspace:
+    clean: all
+  steps:
+  - template: ../steps/build.yml
+    parameters:
+      solution: PrismLibrary_Core.sln
+      solutionName: Prism.Core
+
+  - template: ../steps/test-core.yml

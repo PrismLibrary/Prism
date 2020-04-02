@@ -1,0 +1,75 @@
+<Project>
+
+  <PropertyGroup>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Authors>Brian Lagunas;Dan Siegel</Authors>
+    <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/PrismLibrary/Prism</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
+    <IncludeSymbols>True</IncludeSymbols>
+    <IncludeSource>True</IncludeSource>
+    <ArtifactStagingRoot>$(MSBuildThisFileDirectory)Artifacts</ArtifactStagingRoot>
+    <ArtifactStagingRoot Condition=" '$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != '' ">$(BUILD_ARTIFACTSTAGINGDIRECTORY)</ArtifactStagingRoot>
+    <PackageOutputPath>$([System.IO.Path]::Combine('$(ArtifactStagingRoot)', 'NuGet'))</PackageOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsCoreProject>$(MSBuildProjectName.Equals('Prism'))</IsCoreProject>
+    <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
+    <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
+    <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
+    <SignAssembly Condition=" ('$(IsCoreProject)' Or '$(IsWpfProject)') And !$(IsTestProject) ">True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)prism.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
+    <DisableCorePublish Condition=" '$(DisableCorePublish)' == '' ">false</DisableCorePublish>
+    <DisableWpfPublish Condition=" '$(DisableWpfPublish)' == '' ">false</DisableWpfPublish>
+    <DisableFormsPublish Condition=" '$(DisableFormsPublish)' == '' ">false</DisableFormsPublish>
+    <IsPackable>!$(IsTestProject)</IsPackable>
+    <IsPackable Condition=" '$(IsCoreProject)' And !'$(IsTestProject)' ">!$(DisableCorePublish)</IsPackable>
+    <IsPackable Condition=" '$(IsWpfProject)' And !'$(IsTestProject)' ">!$(DisableWpfPublish)</IsPackable>
+    <IsPackable Condition=" '$(IsFormsProject)' And !'$(IsTestProject)' ">!$(DisableFormsPublish)</IsPackable>
+    <PackageTags Condition=" '$(IsCoreProject)' == 'True' ">prism;wpf;xamarin;xaml</PackageTags>
+    <PackageTags Condition=" '$(IsWpfProject)' == 'True' ">prism;mvvm;wpf;dependency injection;di</PackageTags>
+    <PackageTags Condition=" '$(IsFormsProject)' == 'True' ">prism;mvvm;uwp;android;ios;xamarin;xamarin.forms;dependency injection;di</PackageTags>
+    <IS_PREVIEW Condition=" '$(IS_PREVIEW)' == '' ">false</IS_PREVIEW>
+    <IS_RELEASE Condition=" '$(IS_RELEASE)' == '' ">false</IS_RELEASE>
+    <UseWpf>$(IsWpfProject)</UseWpf>
+  </PropertyGroup>
+
+  <!-- Versioning -->
+  <PropertyGroup>
+    <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
+    <!-- Update this version when incrementing Library Versions i.e. 7.1.0, 7.2.0 -->
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' ">8.0.0</VersionPrefix>
+    <VersionSuffix>ci</VersionSuffix>
+    <!-- This will create CI builds as 7.0.0.1234-ci -->
+    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
+    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(IS_RELEASE)' "></VersionSuffix>
+    <PackageReleaseNotes Condition=" '$(VersionSuffix)' == 'pre' ">https://github.com/PrismLibrary/Prism/releases/tag/v$(VersionPrefix)-pre</PackageReleaseNotes>
+    <PackageReleaseNotes Condition=" '$(VersionSuffix)' == '' ">https://github.com/PrismLibrary/Prism/releases/tag/v$(VersionPrefix)</PackageReleaseNotes>
+    <PackageReleaseNotes Condition=" '$(Version)' != '' ">https://github.com/PrismLibrary/Prism/releases/tag/v$(Version)</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>!$(IsTestProject)</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>!$(IsTestProject)</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+    <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" $(IsPackable) And '$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != '' ">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(IsTestProject) ">
+    <None Include="$(MSBuildThisFileDirectory)xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

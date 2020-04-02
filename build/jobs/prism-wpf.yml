@@ -1,0 +1,16 @@
+jobs:
+- job: prismWpf
+  displayName: Prism.Wpf
+  pool:
+    vmImage: $(VMImage)
+    demands:
+    - MSBuild
+  workspace:
+    clean: all
+  steps:
+  - template: ../steps/build.yml
+    parameters:
+      solution: PrismLibrary_Wpf.sln
+      solutionName: Prism.WPF
+
+  - template: ../steps/test-wpf.yml
