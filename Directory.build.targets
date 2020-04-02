@@ -1,5 +1,9 @@
 <Project>
 
+  <PropertyGroup>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+  </PropertyGroup>
+
   <PropertyGroup Condition=" $(IsPackable) ">
     <!-- Nuget source link -->
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>

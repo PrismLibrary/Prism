@@ -1,12 +1,11 @@
 <Project>
 
   <PropertyGroup>
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <NeutralLanguage>en</NeutralLanguage>
     <Authors>Brian Lagunas;Dan Siegel</Authors>
-    <PackageIconUrl>http://prismlibrary.github.io/images/prism-logo-graphic-128.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/PrismLibrary/Prism</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/PrismLibrary/Prism/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>prism-logo.png</PackageIcon>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
@@ -15,10 +14,12 @@
     <ArtifactStagingRoot>$(MSBuildThisFileDirectory)Artifacts</ArtifactStagingRoot>
     <ArtifactStagingRoot Condition=" '$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != '' ">$(BUILD_ARTIFACTSTAGINGDIRECTORY)</ArtifactStagingRoot>
     <PackageOutputPath>$([System.IO.Path]::Combine('$(ArtifactStagingRoot)', 'NuGet'))</PackageOutputPath>
+    <EscapedCurrentDirectory>$([System.Text.RegularExpressions.Regex]::Escape('$(MSBuildThisFileDirectory)'))</EscapedCurrentDirectory>
+    <RelativeProjectPath>$([System.Text.RegularExpressions.Regex]::Replace('$(MSBuildProjectFullPath)', '$(EscapedCurrentDirectory)', ''))</RelativeProjectPath>
   </PropertyGroup>
 
   <PropertyGroup>
-    <IsCoreProject>$(MSBuildProjectName.Equals('Prism'))</IsCoreProject>
+    <IsCoreProject>$(MSBuildProjectName.Equals('Prism.Core'))</IsCoreProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
     <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
@@ -28,10 +29,10 @@
     <DisableCorePublish Condition=" '$(DisableCorePublish)' == '' ">false</DisableCorePublish>
     <DisableWpfPublish Condition=" '$(DisableWpfPublish)' == '' ">false</DisableWpfPublish>
     <DisableFormsPublish Condition=" '$(DisableFormsPublish)' == '' ">false</DisableFormsPublish>
-    <IsPackable>!$(IsTestProject)</IsPackable>
-    <IsPackable Condition=" '$(IsCoreProject)' And !'$(IsTestProject)' ">!$(DisableCorePublish)</IsPackable>
-    <IsPackable Condition=" '$(IsWpfProject)' And !'$(IsTestProject)' ">!$(DisableWpfPublish)</IsPackable>
-    <IsPackable Condition=" '$(IsFormsProject)' And !'$(IsTestProject)' ">!$(DisableFormsPublish)</IsPackable>
+    <IsPackable>$(RelativeProjectPath.StartsWith('src'))</IsPackable>
+    <IsPackable Condition=" '$(IsCoreProject)' And '$(IsPackable)' ">!$(DisableCorePublish)</IsPackable>
+    <IsPackable Condition=" '$(IsWpfProject)' And '$(IsPackable)' ">!$(DisableWpfPublish)</IsPackable>
+    <IsPackable Condition=" '$(IsFormsProject)' And '$(IsPackable)' ">!$(DisableFormsPublish)</IsPackable>
     <PackageTags Condition=" '$(IsCoreProject)' == 'True' ">prism;wpf;xamarin;xaml</PackageTags>
     <PackageTags Condition=" '$(IsWpfProject)' == 'True' ">prism;mvvm;wpf;dependency injection;di</PackageTags>
     <PackageTags Condition=" '$(IsFormsProject)' == 'True' ">prism;mvvm;uwp;android;ios;xamarin;xamarin.forms;dependency injection;di</PackageTags>
@@ -64,8 +65,15 @@
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup Condition=" $(IsPackable) And '$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != '' ">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  <ItemGroup Condition=" $(IsPackable) ">
+    <PackageReference Condition=" '$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != '' "
+                      Include="Microsoft.SourceLink.GitHub"
+                      Version="1.0.0"
+                      PrivateAssets="All" />
+    <None Include="$(MSBuildThisFileDirectory)images/prism-logo.png"
+          Visible="False"
+          Pack="True"
+          PackagePath="" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(IsTestProject) ">
