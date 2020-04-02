@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>fac4fa5a-d6c1-4787-9b1f-a3ec6e2fb26e</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Prism.DI.Forms.Tests</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ConcreteTypeMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\ContainerProviderFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\FixtureBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PartialViewFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PrismApplicationFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\XamlNavigationFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MockForms.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Converters\MockValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Events\TestActionEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Internals\FormsLogObserver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Internals\XamlValueTargetProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Logging\XUnitLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Modules\ModuleMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Navigation\CustomNavigationServiceMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\PrismApplicationCustomNavMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\PrismApplicationMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\PrismApplicationMockPlatformAware.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\PrismApplicationModulesMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\IServiceMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\ServiceMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\AutowireViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ConstructorArgumentViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\CustomNamedNavServiceViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\PartialViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ViewModelAMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ViewModelBMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlViewMockAViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlViewMockBViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlViewMockViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\AutowireView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\AutowireViewTablet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ConstructorArgumentView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\CustomNamedNavService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\PartialView.xaml.cs">
+      <DependentUpon>PartialView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewAMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewAMockAndroid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlViewMock.xaml.cs">
+      <DependentUpon>XamlViewMock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlViewMockA.xaml.cs">
+      <DependentUpon>XamlViewMockA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlViewMockB.xaml.cs">
+      <DependentUpon>XamlViewMockB.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\XunitPlatformInitializer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\Views\PartialView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlViewMock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlViewMockA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlViewMockB.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

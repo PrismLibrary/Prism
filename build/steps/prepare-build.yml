@@ -1,0 +1,19 @@
+parameters:
+  solution: '**/*.sln'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    useGlobalJson: true
+
+- task: NuGetToolInstaller@0
+  displayName: Use latest NuGet
+  inputs:
+    checkLatest: true
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: ${{ parameters.solution }}
+    noCache: true

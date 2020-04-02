@@ -1,0 +1,22 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+
+  <PropertyGroup>
+    <RootNamespace>Prism</RootNamespace>
+    <TargetFrameworks>netstandard2.0;MonoAndroid81</TargetFrameworks>
+    <Title>Prism for Xamarin.Forms</Title>
+    <!-- Summary is not actually supported at this time. Including the summary for future support. -->
+    <!--<Summary>Prism for Xamarin.Forms helps you more easily design and build rich, flexible, and easy to maintain Xamarin.Forms applications.</Summary>-->
+    <Description>Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms; WPF, Windows 10 UWP, and Xamarin Forms. Features that need to be platform specific are implemented in the respective libraries for the target platform. Prism for Xamarin.Forms helps you more easily design and build rich, flexible, and easy to maintain Xamarin.Forms applications.</Description>
+    <PackageTags>prism;xamarin;xamarin.forms;mvvm;uwp;ios;android;xaml</PackageTags>
+    <Version Condition=" '$(PRISM_FORMS_VERSION)' != '' ">$(PRISM_FORMS_VERSION)</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />
+  </ItemGroup>
+
+</Project>

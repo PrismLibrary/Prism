@@ -1,5 +1,0 @@
-steps:
-- powershell: |
-   dotnet test $(System.DefaultWorkingDirectory)\Source\Prism.Tests\Prism.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
-
-  displayName: Test Prism.Core

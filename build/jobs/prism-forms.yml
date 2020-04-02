@@ -1,0 +1,18 @@
+jobs:
+- job: prismForms
+  displayName: Prism.Forms
+  pool:
+    vmImage: $(VMImage)
+    demands:
+    - MSBuild
+  workspace:
+    clean: all
+  steps:
+  - template: ../steps/build.yml
+    parameters:
+      solution: PrismLibrary_Forms.sln
+      solutionName: Prism.Forms
+
+  - template: ../steps/test-core.yml
+
+  - template: ../steps/test-forms.yml

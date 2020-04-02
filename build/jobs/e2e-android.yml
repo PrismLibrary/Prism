@@ -1,0 +1,50 @@
+parameters:
+  buildConfiguration: 'Release'
+  versionName: ''
+
+jobs:
+- job: e2eAndroid
+  displayName: E2E Android App
+  pool:
+    vmImage: $(MacImage)
+    demands:
+    - MSBuild
+    - Xamarin.Android
+    - JDK
+    - AndroidSDK
+  workspace:
+    clean: all
+  steps:
+  - task: android-manifest-version@1
+    displayName: 'Bump Android Versions in AndroidManifest.xml'
+    inputs:
+      sourcePath: e2e/Forms/src/HelloWorld.Android/Properties/AndroidManifest.xml
+      versionCodeOption: 'buildid'
+      versionCode: '$(Build.BuildId)'
+      versionName: ${{ parameters.versionName }}
+      printFile: true
+
+  - template: ../steps/set-runtime.yml
+
+  - template: ../steps/prepare-build.yml
+    parameters:
+      solution: e2e/Forms/HelloWorld.sln
+
+  - task: XamarinAndroid@1
+    displayName: 'Build Xamarin.Android project HelloWorld.Android.csproj'
+    inputs:
+      projectFile: e2e/Forms/src/HelloWorld.Android/HelloWorld.Android.csproj
+      outputDirectory: '$(Build.BinariesDirectory)/${{ parameters.buildConfiguration }}'
+      configuration: ${{ parameters.buildConfiguration }}
+
+  - bash: cp ./com.prismlibrary.helloworld.apk $stagingDir
+    displayName: Stage Artifacts
+    workingDirectory: '$(Build.BinariesDirectory)/${{ parameters.buildConfiguration }}'
+    env:
+      stagingDir: $(Build.ArtifactStagingDirectory)
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish E2E Artifacts'
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)'
+      artifactName: E2E-Android

@@ -1,0 +1,22 @@
+jobs:
+- job: xamarinUITest
+  displayName: HelloWorld.UITests
+  pool:
+    vmImage: $(VMImage)
+    demands:
+    - MSBuild
+  workspace:
+    clean: all
+  steps:
+  - template: ../steps/build.yml
+    parameters:
+      solution: e2e/Forms/tests/HelloWorld.UITests/HelloWorld.UITests.csproj
+      solutionName: HelloWorld.UITests
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish E2E Artifacts'
+    inputs:
+      targetPath: 'e2e\Forms\tests\HelloWorld.UITests\bin\Any CPU\Release\net461\'
+      artifactName: XamarinUITests
+
+

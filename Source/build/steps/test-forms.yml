@@ -1,7 +1,0 @@
-steps:
-- powershell: |
-   dotnet test $(System.DefaultWorkingDirectory)\Source\Xamarin\Prism.Forms\Prism.Forms.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
-   dotnet test $(System.DefaultWorkingDirectory)\Source\Xamarin\Prism.DryIoc.Forms\Prism.DryIoc.Forms.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
-   dotnet test $(System.DefaultWorkingDirectory)\Source\Xamarin\Prism.Unity.Forms\Prism.Unity.Forms.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
-
-  displayName: Test Prism.Forms

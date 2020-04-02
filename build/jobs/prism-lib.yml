@@ -1,0 +1,45 @@
+jobs:
+- job: prismLibFull
+  displayName: Full Prism Library
+  pool:
+    vmImage: $(VMImage)
+    demands:
+    - MSBuild
+  workspace:
+    clean: all
+  steps:
+  - template: ../steps/build.yml
+    parameters:
+      solution: PrismLibrary.sln
+      solutionName: full Prism Library
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Assembly Artifacts'
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)/$(BuildConfiguration)'
+      artifactName: '$(BuildConfiguration)'
+    condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
+
+  - powershell: ./Sign-Packages.ps1
+    workingDirectory: build
+    displayName: 'Authenticode Sign Artifacts'
+    env:
+      SignClientUser: $(SignClientUser)
+      SignClientSecret: $(SignClientSecret)
+      SignClientClientId: $(SignClientClientId)
+      SignClientTenantId: $(SignClientTenantId)
+      SignServiceResourceId: $(SignServiceResourceId)
+    condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Package Artifacts'
+    inputs:
+      targetPath: '$(build.ArtifactStagingDirectory)/NuGet'
+      artifactName: NuGet
+    condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
+
+  - template: ../steps/test-core.yml
+
+  - template: ../steps/test-forms.yml
+
+  - template: ../steps/test-wpf.yml

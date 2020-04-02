@@ -1,0 +1,33 @@
+jobs:
+- job: e2eWpf
+  displayName: E2E WPF App
+  condition: succeeded()
+  pool:
+    vmImage: $(VMImage)
+    demands:
+    - MSBuild
+  workspace:
+    clean: all
+  steps:
+  - powershell: Copy-Item -Path .\global.json -Destination .\e2e\Wpf\HelloWorld\
+    displayName: Copy global.json to E2E directory
+
+  - template: ../steps/build.yml
+    parameters:
+      solution: e2e/Wpf/HelloWorld.sln
+      solutionName: WPF E2E
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run dotnet publish'
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+      projects: 'e2e/Wpf/HelloWorld/HelloWorld.csproj'
+      arguments: '--configuration $(BuildConfiguration) --runtime win-x64 --self-contained --output $(Pipeline.Workspace) --verbosity detailed'
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish E2E Artifacts'
+    inputs:
+      targetPath: $(Pipeline.Workspace)/HelloWorld.zip
+      artifactName: E2E-WPF
+    condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))

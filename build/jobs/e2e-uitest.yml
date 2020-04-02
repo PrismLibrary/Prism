@@ -1,0 +1,55 @@
+parameters:
+  artifactName: ''
+  e2eJobName: ''
+  appFile: ''
+  appName: ''
+  devices: ''
+  dsymDirectory: ''
+
+jobs:
+- job: appCenterTests_${{ parameters.e2eJobName }}
+  displayName: App Center Tests ${{ parameters.artifactName }}
+  dependsOn:
+  - ${{ parameters.e2eJobName }}
+  - xamarinUITest
+  pool:
+    vmImage: $(VMImage)
+    demands:
+    - MSBuild
+  workspace:
+    clean: all
+  steps:
+  - task: DownloadPipelineArtifact@2
+    displayName: Download UI Test Project
+    inputs:
+      artifactName: XamarinUITests
+      targetPath: '$(Build.ArtifactStagingDirectory)'
+  - task: DownloadPipelineArtifact@2
+    displayName: Download ${{ parameters.artifactName }}
+    inputs:
+      artifactName: ${{ parameters.artifactName }}
+      targetPath: '$(Build.ArtifactStagingDirectory)'
+
+  - powershell: |
+     Write-Host "Pipeline Workspace: $($env:BUILD_ARTIFACTSTAGINGDIRECTORY)"
+     cd $env:BUILD_ARTIFACTSTAGINGDIRECTORY
+     Get-ChildItem . -Recurse | ForEach-Object -Process { $_.FullName }
+    displayName: List Artifacts
+
+  - task: UseNode@1
+    inputs:
+      version: '10.15.1'
+
+  - task: AppCenterTest@1
+    displayName: 'Run UI Tests ${{ parameters.artifactName }} with App Center'
+    inputs:
+      appFile: $(Build.ArtifactStagingDirectory)/${{ parameters.appFile }}
+      frameworkOption: uitest
+      uiTestBuildDirectory: $(Build.ArtifactStagingDirectory)
+      uiTestToolsDirectory: $(System.DefaultWorkingDirectory)\build\tools\
+      serverEndpoint: 'Prism-AppCenter'
+      appSlug: 'Prism/${{ parameters.appName }}'
+      devices: ${{ parameters.devices }}
+      dsymDirectory: ${{ parameters.dsymDirectory }}
+      localeOption: 'en_US'
+      skipWaitingForResults: true
