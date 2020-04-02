@@ -13,7 +13,7 @@ jobs:
       solution: PrismLibrary.sln
       solutionName: full Prism Library
 
-  - task: PublishPipelineArtifact@0
+  - task: PublishPipelineArtifact@1
     displayName: 'Publish Assembly Artifacts'
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)/$(BuildConfiguration)'
@@ -31,7 +31,7 @@ jobs:
       SignServiceResourceId: $(SignServiceResourceId)
     condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
 
-  - task: PublishPipelineArtifact@0
+  - task: PublishPipelineArtifact@1
     displayName: 'Publish Package Artifacts'
     inputs:
       targetPath: '$(build.ArtifactStagingDirectory)/NuGet'

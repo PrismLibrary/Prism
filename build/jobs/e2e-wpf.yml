@@ -25,7 +25,7 @@ jobs:
       projects: 'e2e/Wpf/HelloWorld/HelloWorld.csproj'
       arguments: '--configuration $(BuildConfiguration) --runtime win-x64 --self-contained --output $(Pipeline.Workspace) --verbosity detailed'
 
-  - task: PublishPipelineArtifact@0
+  - task: PublishPipelineArtifact@1
     displayName: 'Publish E2E Artifacts'
     inputs:
       targetPath: $(Pipeline.Workspace)/HelloWorld.zip
