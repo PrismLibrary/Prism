@@ -126,7 +126,7 @@ namespace Prism
         /// </summary>
         protected virtual void Initialize()
         {
-            _containerExtension = CreateContainerExtension();
+            _containerExtension = ContainerLocator.Current ?? ContainerLocator.SetCurrent(CreateContainerExtension());
             RegisterRequiredTypes(_containerExtension);
             PlatformInitializer?.RegisterTypes(_containerExtension);
             RegisterTypes(_containerExtension);

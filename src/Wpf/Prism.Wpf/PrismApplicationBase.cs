@@ -1,4 +1,4 @@
-﻿using CommonServiceLocator;
+using CommonServiceLocator;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Logging;
@@ -63,7 +63,7 @@ namespace Prism
         /// </summary>
         public virtual void Initialize()
         {
-            _containerExtension = CreateContainerExtension();
+            _containerExtension = ContainerLocator.SetCurrent(CreateContainerExtension());
             _moduleCatalog = CreateModuleCatalog();
             RegisterRequiredTypes(_containerExtension);
             RegisterTypes(_containerExtension);

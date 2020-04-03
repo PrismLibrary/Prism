@@ -1,7 +1,3 @@
-
-
-using CommonServiceLocator;
-using Prism.Properties;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,6 +5,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using Prism.Properties;
+using Prism.Ioc;
 
 namespace Prism.Regions
 {
@@ -197,7 +195,7 @@ namespace Prism.Regions
             {
                 if (this.regionNavigationService == null)
                 {
-                    this.regionNavigationService = ServiceLocator.Current.GetInstance<IRegionNavigationService>();
+                    this.regionNavigationService = ContainerLocator.Current.Resolve<IRegionNavigationService>();
                     this.regionNavigationService.Region = this;
                 }
 
