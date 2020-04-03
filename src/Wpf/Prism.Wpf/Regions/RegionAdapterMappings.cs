@@ -1,3 +1,4 @@
+using Prism.Ioc;
 using Prism.Properties;
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ namespace Prism.Regions
         /// <typeparam name="TAdapter">The type of the IRegionAdapter to use with the TControl</typeparam>
         public void RegisterMapping<TControl, TAdapter>() where TAdapter : IRegionAdapter
         {
-            RegisterMapping(typeof(TControl), (IRegionAdapter)CommonServiceLocator.ServiceLocator.Current.GetInstance(typeof(TAdapter)));
+            RegisterMapping(typeof(TControl), ContainerLocator.Current.Resolve<TAdapter>());
         }
 
         /// <summary>

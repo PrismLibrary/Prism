@@ -70,7 +70,7 @@ namespace Prism.Unity
                 throw new InvalidOperationException(Resources.NullUnityContainerException);
             }
 
-            ContainerExtension = CreateContainerExtension();
+            ContainerExtension = ContainerLocator.SetCurrent(CreateContainerExtension());
 
             this.Logger.Log(Resources.ConfiguringUnityContainer, Category.Debug, Priority.Low);
             this.ConfigureContainer();

@@ -1,8 +1,3 @@
-using CommonServiceLocator;
-using Prism.Common;
-using Prism.Events;
-using Prism.Properties;
-using Prism.Regions.Behaviors;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +8,11 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
+using Prism.Common;
+using Prism.Events;
+using Prism.Ioc;
+using Prism.Properties;
+using Prism.Regions.Behaviors;
 
 namespace Prism.Regions
 {
@@ -111,8 +111,8 @@ namespace Prism.Regions
 
         private static void CreateRegion(DependencyObject element)
         {
-            IServiceLocator locator = ServiceLocator.Current;
-            DelayedRegionCreationBehavior regionCreationBehavior = locator.GetInstance<DelayedRegionCreationBehavior>();
+            var container = ContainerLocator.Current;
+            DelayedRegionCreationBehavior regionCreationBehavior = container.Resolve<DelayedRegionCreationBehavior>();
             regionCreationBehavior.TargetElement = element;
             regionCreationBehavior.Attach();
         }
@@ -302,7 +302,7 @@ namespace Prism.Regions
         /// <returns>The regionmanager, for adding several views easily</returns>
         public IRegionManager RegisterViewWithRegion(string regionName, Type viewType)
         {
-            var regionViewRegistry = ServiceLocator.Current.GetInstance<IRegionViewRegistry>();
+            var regionViewRegistry = ContainerLocator.Current.Resolve<IRegionViewRegistry>();
 
             regionViewRegistry.RegisterViewWithRegion(regionName, viewType);
 
@@ -319,7 +319,7 @@ namespace Prism.Regions
         /// <returns>The regionmanager, for adding several views easily</returns>
         public IRegionManager RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
         {
-            var regionViewRegistry = ServiceLocator.Current.GetInstance<IRegionViewRegistry>();
+            var regionViewRegistry = ContainerLocator.Current.Resolve<IRegionViewRegistry>();
 
             regionViewRegistry.RegisterViewWithRegion(regionName, getContentDelegate);
 
