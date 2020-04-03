@@ -179,9 +179,7 @@ namespace Prism.Wpf.Tests.Regions
 
             var view = new TestView();
 
-            containerMock
-                .Setup(sl => sl.Resolve<object>(view.GetType().Name))
-                .Returns(view);
+            containerMock.Setup(sl => sl.Resolve(typeof(object), view.GetType().Name)).Returns(view);
 
             var navigationContext = new NavigationContext(null, new Uri(view.GetType().Name, UriKind.Relative));
 
@@ -218,9 +216,7 @@ namespace Prism.Wpf.Tests.Regions
 
             var newView = new TestView();
 
-            containerMock
-                .Setup(sl => sl.Resolve<object>(viewMock.Object.GetType().Name))
-                .Returns(newView);
+            containerMock.Setup(sl => sl.Resolve(typeof(object), viewMock.Object.GetType().Name)).Returns(newView);
 
             var navigationContext = new NavigationContext(null, new Uri(viewMock.Object.GetType().Name, UriKind.Relative));
 
@@ -243,7 +239,6 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenViewExistsAndHasDataContextThatImplementsINavigationAware_ThenDataContextIsQueriedForNavigationAndNewInstanceIsCreatedIfItRejectsIt()
         {
             // Arrange
-
             var containerMock = new Mock<IContainerExtension>();
 
             var region = new Region();
@@ -260,22 +255,16 @@ namespace Prism.Wpf.Tests.Regions
 
             var newView = new TestView();
 
-            containerMock
-                .Setup(sl => sl.Resolve<object>(viewMock.Object.GetType().Name))
-                .Returns(newView);
+            containerMock.Setup(sl => sl.Resolve(typeof(object), viewMock.Object.GetType().Name)).Returns(newView);
 
             var navigationContext = new NavigationContext(null, new Uri(viewMock.Object.GetType().Name, UriKind.Relative));
 
             var navigationTargetHandler = new TestRegionNavigationContentLoader(containerMock.Object);
 
-
             // Act
-
             var returnedView = navigationTargetHandler.LoadContent(region, navigationContext);
 
-
             // Assert
-
             Assert.Same(newView, returnedView);
             Assert.True(region.Views.Contains(newView));
             dataContextMock.VerifyAll();
@@ -285,16 +274,13 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenViewCannotBeCreated_ThenThrowsAnException()
         {
             var containerMock = new Mock<IContainerExtension>();
-            containerMock
-                .Setup(sl => sl.Resolve<object>(typeof(TestView).Name))
-                .Throws<ActivationException>();
+            containerMock.Setup(sl => sl.Resolve(typeof(object), typeof(TestView).Name)).Throws<ActivationException>();
 
             var region = new Region();
 
             var navigationContext = new NavigationContext(null, new Uri(typeof(TestView).Name, UriKind.Relative));
 
             var navigationTargetHandler = new TestRegionNavigationContentLoader(containerMock.Object);
-
 
             // Act
 
@@ -310,33 +296,26 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenViewAddedByHandlerDoesNotImplementINavigationAware_ThenReturnsView()
         {
             // Arrange
-
             var containerMock = new Mock<IContainerExtension>();
 
             var region = new Region();
 
             var view = new TestView();
 
-            containerMock
-                .Setup(sl => sl.Resolve<object>(view.GetType().Name))
-                .Returns(view);
+            containerMock.Setup(sl => sl.Resolve(typeof(object), view.GetType().Name)).Returns(view);
 
             var navigationContext = new NavigationContext(null, new Uri(view.GetType().Name, UriKind.Relative));
 
             var navigationTargetHandler = new TestRegionNavigationContentLoader(containerMock.Object);
 
-
             // Act
-
             var firstReturnedView = navigationTargetHandler.LoadContent(region, navigationContext);
             var secondReturnedView = navigationTargetHandler.LoadContent(region, navigationContext);
 
-
             // Assert
-
             Assert.Same(view, firstReturnedView);
             Assert.Same(view, secondReturnedView);
-            containerMock.Verify(sl => sl.Resolve<object>(view.GetType().Name), Times.Once());
+            containerMock.Verify(sl => sl.Resolve(typeof(object), view.GetType().Name), Times.Once());
         }
 
         [Fact]

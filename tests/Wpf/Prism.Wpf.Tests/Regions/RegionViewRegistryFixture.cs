@@ -14,7 +14,7 @@ namespace Prism.Wpf.Tests.Regions
         public void CanRegisterContentAndRetrieveIt()
         {
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(c => c.Resolve<MockContentObject>()).Returns(new MockContentObject());
+            containerMock.Setup(c => c.Resolve(typeof(MockContentObject))).Returns(new MockContentObject());
             var registry = new RegionViewRegistry(containerMock.Object);
 
             registry.RegisterViewWithRegion("MyRegion", typeof(MockContentObject));
@@ -31,7 +31,7 @@ namespace Prism.Wpf.Tests.Regions
         {
             var listener = new MySubscriberClass();
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(c => c.Resolve<MockContentObject>()).Returns(new MockContentObject());
+            containerMock.Setup(c => c.Resolve(typeof(MockContentObject))).Returns(new MockContentObject());
             var registry = new RegionViewRegistry(containerMock.Object);
 
             registry.ContentRegistered += listener.OnContentRegistered;

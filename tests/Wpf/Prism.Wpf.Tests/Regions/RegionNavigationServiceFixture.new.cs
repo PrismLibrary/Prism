@@ -27,7 +27,7 @@ namespace Prism.Wpf.Tests.Regions
             regionManager.Regions.Add(regionName, region);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             var container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new RegionNavigationContentLoader(container);
@@ -63,7 +63,7 @@ namespace Prism.Wpf.Tests.Regions
             regionManager.Regions.Add(regionName, region);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new RegionNavigationContentLoader(container);
@@ -97,7 +97,7 @@ namespace Prism.Wpf.Tests.Regions
             string otherType = "OtherType";
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
             IContainerExtension container = containerMock.Object;
 
             Mock<IRegionNavigationContentLoader> targetHandlerMock = new Mock<IRegionNavigationContentLoader>();
@@ -132,7 +132,7 @@ namespace Prism.Wpf.Tests.Regions
             IRegion region = new Region();
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new Mock<RegionNavigationContentLoader>(container).Object;
@@ -167,7 +167,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigationUri = new Uri(view.GetType().Name, UriKind.Relative);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new RegionNavigationContentLoader(container);
@@ -202,7 +202,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigationUri = new Uri(view.GetType().Name, UriKind.Relative);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new RegionNavigationContentLoader(container);
@@ -240,7 +240,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigationUri = new Uri(view.GetType().Name, UriKind.Relative);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new RegionNavigationContentLoader(container);
@@ -276,8 +276,7 @@ namespace Prism.Wpf.Tests.Regions
             IRegionNavigationJournalEntry journalEntry = new RegionNavigationJournalEntry();
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>())
-                .Returns(journalEntry);
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(journalEntry);
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new RegionNavigationContentLoader(container);
@@ -320,7 +319,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigationUri = new Uri(view.GetType().Name, UriKind.Relative);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new Mock<RegionNavigationContentLoader>(container).Object;
@@ -378,7 +377,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigationUri = new Uri(view1.GetType().Name, UriKind.Relative);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new Mock<RegionNavigationContentLoader>(container).Object;
@@ -423,7 +422,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigationUri = new Uri(view2.GetType().Name, UriKind.Relative);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new RegionNavigationContentLoader(container);
@@ -468,7 +467,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigationUri = new Uri(view2.GetType().Name, UriKind.Relative);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new Mock<RegionNavigationContentLoader>(container).Object;
@@ -511,7 +510,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigationUri = new Uri(view.GetType().Name, UriKind.Relative);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new Mock<RegionNavigationContentLoader>(container).Object;
@@ -555,7 +554,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigationUri = new Uri(view2.GetType().Name, UriKind.Relative);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new RegionNavigationContentLoader(container);
@@ -602,7 +601,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigationUri = new Uri(view2.GetType().Name, UriKind.Relative);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new Mock<RegionNavigationContentLoader>(container).Object;
@@ -644,7 +643,7 @@ namespace Prism.Wpf.Tests.Regions
 
             var containerMock = new Mock<IContainerExtension>();
             containerMock
-                .Setup(x => x.Resolve<IRegionNavigationJournalEntry>())
+                .Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry)))
                 .Returns(new RegionNavigationJournalEntry());
 
             var contentLoaderMock = new Mock<IRegionNavigationContentLoader>();
@@ -699,7 +698,7 @@ namespace Prism.Wpf.Tests.Regions
 
             var containerMock = new Mock<IContainerExtension>();
             containerMock
-                .Setup(x => x.Resolve<IRegionNavigationJournalEntry>())
+                .Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry)))
                 .Returns(new RegionNavigationJournalEntry());
 
             var contentLoaderMock = new Mock<IRegionNavigationContentLoader>();
@@ -745,7 +744,7 @@ namespace Prism.Wpf.Tests.Regions
             regionManager.Regions.Add(regionName, region);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new RegionNavigationContentLoader(container);
@@ -789,7 +788,7 @@ namespace Prism.Wpf.Tests.Regions
             regionManager.Regions.Add(regionName, region);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             IContainerExtension container = containerMock.Object;
             RegionNavigationContentLoader contentLoader = new RegionNavigationContentLoader(container);
@@ -869,7 +868,7 @@ namespace Prism.Wpf.Tests.Regions
             region.Activate(view);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             var navigationUri = new Uri(view2.GetType().Name, UriKind.Relative);
             IContainerExtension container = containerMock.Object;
@@ -912,7 +911,7 @@ namespace Prism.Wpf.Tests.Regions
             region.Activate(activeViewMock.Object);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             var navigationUri = new Uri(targetViewMock.Object.GetType().Name, UriKind.Relative);
             IContainerExtension container = containerMock.Object;
@@ -951,7 +950,7 @@ namespace Prism.Wpf.Tests.Regions
             region.Activate(view1);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(x => x.Resolve<IRegionNavigationJournalEntry>()).Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             var navigationUri = new Uri(view2.GetType().Name, UriKind.Relative);
             IContainerExtension container = containerMock.Object;
@@ -1036,9 +1035,7 @@ namespace Prism.Wpf.Tests.Regions
             var region = new Region { Name = "RegionName" };
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock
-                .Setup(x => x.Resolve<IRegionNavigationJournalEntry>())
-                .Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             var contentLoaderMock = new Mock<IRegionNavigationContentLoader>();
             contentLoaderMock
@@ -1097,9 +1094,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigationUri = new Uri(view2.GetType().Name, UriKind.Relative);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock
-                .Setup(x => x.Resolve<IRegionNavigationJournalEntry>())
-                .Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             var contentLoaderMock = new Mock<IRegionNavigationContentLoader>();
             contentLoaderMock
@@ -1161,9 +1156,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigationUri = new Uri(view2.GetType().Name, UriKind.Relative);
 
             var containerMock = new Mock<IContainerExtension>();
-            containerMock
-                .Setup(x => x.Resolve<IRegionNavigationJournalEntry>())
-                .Returns(new RegionNavigationJournalEntry());
+            containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
 
             var contentLoaderMock = new Mock<IRegionNavigationContentLoader>();
             contentLoaderMock

@@ -550,7 +550,7 @@ namespace Prism.Wpf.Tests.Regions
                 mockRegionNavigationService.Setup(x => x.RequestNavigate(uri, navigationCallback, navigationParameters)).Verifiable();
 
                 var containerMock = new Mock<IContainerExtension>();
-                containerMock.Setup(x => x.Resolve<IRegionNavigationService>()).Returns(mockRegionNavigationService.Object);
+                containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationService))).Returns(mockRegionNavigationService.Object);
                 ContainerLocator.SetCurrent(containerMock.Object);
 
                 // Act

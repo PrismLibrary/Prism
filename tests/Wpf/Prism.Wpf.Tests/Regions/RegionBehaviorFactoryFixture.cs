@@ -54,7 +54,7 @@ namespace Prism.Wpf.Tests.Regions
         {
             var expectedBehavior = new MockRegionBehavior();
             var containerMock = new Mock<IContainerExtension>();
-            containerMock.Setup(c => c.Resolve<IRegionBehavior>()).Returns(expectedBehavior);
+            containerMock.Setup(c => c.Resolve(typeof(MockRegionBehavior))).Returns(expectedBehavior);
             RegionBehaviorFactory factory = new RegionBehaviorFactory(containerMock.Object);
 
             factory.AddIfMissing("key1", typeof(MockRegionBehavior));

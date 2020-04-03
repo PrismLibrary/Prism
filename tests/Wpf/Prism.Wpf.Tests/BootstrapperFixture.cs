@@ -146,10 +146,10 @@ namespace Prism.Wpf.Tests
         {
             var container = new Mock<IContainerExtension>();
             var regionBehaviorFactory = new RegionBehaviorFactory(container.Object);
-            container.Setup(sl => sl.Resolve<RegionAdapterMappings>()).Returns(new RegionAdapterMappings());
-            container.Setup(sl => sl.Resolve<SelectorRegionAdapter>()).Returns(new SelectorRegionAdapter(regionBehaviorFactory));
-            container.Setup(sl => sl.Resolve<ItemsControlRegionAdapter>()).Returns(new ItemsControlRegionAdapter(regionBehaviorFactory));
-            container.Setup(sl => sl.Resolve<ContentControlRegionAdapter>()).Returns(new ContentControlRegionAdapter(regionBehaviorFactory));
+            container.Setup(sl => sl.Resolve(typeof(RegionAdapterMappings))).Returns(new RegionAdapterMappings());
+            container.Setup(sl => sl.Resolve(typeof(SelectorRegionAdapter))).Returns(new SelectorRegionAdapter(regionBehaviorFactory));
+            container.Setup(sl => sl.Resolve(typeof(ItemsControlRegionAdapter))).Returns(new ItemsControlRegionAdapter(regionBehaviorFactory));
+            container.Setup(sl => sl.Resolve(typeof(ContentControlRegionAdapter))).Returns(new ContentControlRegionAdapter(regionBehaviorFactory));
 
             ContainerLocator.SetCurrent(container.Object);
         }
@@ -168,11 +168,11 @@ namespace Prism.Wpf.Tests
 
         private static void CreateAndConfigureServiceLocatorWithDefaultRegionBehaviors()
         {
-            var serviceLocator = new Mock<IContainerExtension>();
-            var regionBehaviorFactory = new RegionBehaviorFactory(serviceLocator.Object);
-            serviceLocator.Setup(sl => sl.Resolve<IRegionBehaviorFactory>()).Returns(new RegionBehaviorFactory(serviceLocator.Object));
+            var containerExtension = new Mock<IContainerExtension>();
+            var regionBehaviorFactory = new RegionBehaviorFactory(containerExtension.Object);
+            containerExtension.Setup(sl => sl.Resolve(typeof(IRegionBehaviorFactory))).Returns(new RegionBehaviorFactory(containerExtension.Object));
 
-            ContainerLocator.SetCurrent(serviceLocator.Object);
+            ContainerLocator.SetCurrent(containerExtension.Object);
         }
 
         [Fact]
