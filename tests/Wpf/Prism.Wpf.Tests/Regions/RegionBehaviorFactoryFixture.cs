@@ -5,6 +5,8 @@ using System.Linq;
 using Xunit;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
+using Moq;
+using Prism.Ioc;
 
 namespace Prism.Wpf.Tests.Regions
 {
@@ -51,8 +53,9 @@ namespace Prism.Wpf.Tests.Regions
         public void CanCreateRegisteredType()
         {
             var expectedBehavior = new MockRegionBehavior();
-
-            RegionBehaviorFactory factory = new RegionBehaviorFactory(new MockServiceLocator() { GetInstance = (t) => expectedBehavior });
+            var containerMock = new Mock<IContainerExtension>();
+            containerMock.Setup(c => c.Resolve<IRegionBehavior>()).Returns(expectedBehavior);
+            RegionBehaviorFactory factory = new RegionBehaviorFactory(containerMock.Object);
 
             factory.AddIfMissing("key1", typeof(MockRegionBehavior));
             var behavior = factory.CreateFromKey("key1");

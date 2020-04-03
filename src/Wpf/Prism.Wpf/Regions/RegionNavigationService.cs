@@ -1,13 +1,11 @@
-
-
-using CommonServiceLocator;
-using Prism.Common;
-using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Windows;
+using Prism.Common;
+using Prism.Properties;
+using Prism.Ioc;
 
 namespace Prism.Regions
 {
@@ -16,31 +14,22 @@ namespace Prism.Regions
     /// </summary>
     public class RegionNavigationService : IRegionNavigationService
     {
-        private readonly IServiceLocator serviceLocator;
+        private readonly IContainerProvider container;
         private readonly IRegionNavigationContentLoader regionNavigationContentLoader;
-        private IRegionNavigationJournal journal;
+        private readonly IRegionNavigationJournal journal;
         private NavigationContext currentNavigationContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegionNavigationService"/> class.
         /// </summary>
-        /// <param name="serviceLocator">The service locator.</param>
+        /// <param name="container">The <see cref="IContainerProvider" />.</param>
         /// <param name="regionNavigationContentLoader">The navigation target handler.</param>
         /// <param name="journal">The journal.</param>
-        public RegionNavigationService(IServiceLocator serviceLocator, IRegionNavigationContentLoader regionNavigationContentLoader, IRegionNavigationJournal journal)
+        public RegionNavigationService(IContainerProvider container, IRegionNavigationContentLoader regionNavigationContentLoader, IRegionNavigationJournal journal)
         {
-            if (serviceLocator == null)
-                throw new ArgumentNullException(nameof(serviceLocator));
-
-            if (regionNavigationContentLoader == null)
-                throw new ArgumentNullException(nameof(regionNavigationContentLoader));
-
-            if (journal == null)
-                throw new ArgumentNullException(nameof(journal));
-
-            this.serviceLocator = serviceLocator;
-            this.regionNavigationContentLoader = regionNavigationContentLoader;
-            this.journal = journal;
+            this.container = container ?? throw new ArgumentNullException(nameof(container));
+            this.regionNavigationContentLoader = regionNavigationContentLoader ?? throw new ArgumentNullException(nameof(regionNavigationContentLoader));
+            this.journal = journal ?? throw new ArgumentNullException(nameof(journal));
             this.journal.NavigationTarget = this;
         }
 
@@ -69,10 +58,7 @@ namespace Prism.Regions
 
         private void RaiseNavigating(NavigationContext navigationContext)
         {
-            if (this.Navigating != null)
-            {
-                this.Navigating(this, new RegionNavigationEventArgs(navigationContext));
-            }
+            Navigating?.Invoke(this, new RegionNavigationEventArgs(navigationContext));
         }
 
         /// <summary>
@@ -82,10 +68,7 @@ namespace Prism.Regions
 
         private void RaiseNavigated(NavigationContext navigationContext)
         {
-            if (this.Navigated != null)
-            {
-                this.Navigated(this, new RegionNavigationEventArgs(navigationContext));
-            }
+            Navigated?.Invoke(this, new RegionNavigationEventArgs(navigationContext));
         }
 
         /// <summary>
@@ -95,10 +78,7 @@ namespace Prism.Regions
 
         private void RaiseNavigationFailed(NavigationContext navigationContext, Exception error)
         {
-            if (this.NavigationFailed != null)
-            {
-                this.NavigationFailed(this, new RegionNavigationFailedEventArgs(navigationContext, error));
-            }
+            NavigationFailed?.Invoke(this, new RegionNavigationFailedEventArgs(navigationContext, error));
         }
 
         /// <summary>
@@ -109,7 +89,7 @@ namespace Prism.Regions
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exception is marshalled to callback")]
         public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback)
         {
-            this.RequestNavigate(target, navigationCallback, null);
+            RequestNavigate(target, navigationCallback, null);
         }
 
         /// <summary>
@@ -257,7 +237,7 @@ namespace Prism.Regions
                 this.Region.Activate(view);
 
                 // Update the navigation journal before notifying others of navigaton
-                IRegionNavigationJournalEntry journalEntry = this.serviceLocator.GetInstance<IRegionNavigationJournalEntry>();
+                IRegionNavigationJournalEntry journalEntry = this.container.Resolve<IRegionNavigationJournalEntry>();
                 journalEntry.Uri = navigationContext.Uri;
                 journalEntry.Parameters = navigationContext.Parameters;
 

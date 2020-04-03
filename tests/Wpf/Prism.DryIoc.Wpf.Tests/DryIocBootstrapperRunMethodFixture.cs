@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using DryIoc;
-using CommonServiceLocator;
 using Xunit;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
+using Prism.Ioc;
 
 namespace Prism.DryIoc.Wpf.Tests
 {
@@ -31,8 +31,8 @@ namespace Prism.DryIoc.Wpf.Tests
         {
             var bootstrapper = new DefaultDryIocBootstrapper();
             bootstrapper.Run();
-
-            Assert.True(ServiceLocator.Current is DryIocServiceLocatorAdapter);
+            Assert.NotNull(ContainerLocator.Container);
+            Assert.IsType<Ioc.DryIocContainerExtension>(ContainerLocator.Container);
         }
 
         [StaFact]
@@ -187,20 +187,6 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.NotNull(moduleCatalog);
             Assert.True(moduleCatalog.GetType().IsClass);
             Assert.Contains(typeof(IModuleCatalog), moduleCatalog.GetType().GetInterfaces());
-        }
-
-        [StaFact]
-        public void RunRegistersTypeForIServiceLocator()
-        {
-            var bootstrapper = new DefaultDryIocBootstrapper();
-
-            bootstrapper.Run();
-
-            var serviceLocator = bootstrapper.BaseContainer.Resolve<IServiceLocator>();
-            Assert.NotNull(serviceLocator);
-            Assert.True(serviceLocator.GetType().IsClass);
-            Assert.Equal(typeof(DryIocServiceLocatorAdapter), serviceLocator.GetType());
-            Assert.Contains(typeof(IServiceLocator), serviceLocator.GetType().GetInterfaces());
         }
 
         [StaFact]

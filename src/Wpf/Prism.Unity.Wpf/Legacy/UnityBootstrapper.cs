@@ -1,18 +1,15 @@
 using System;
 using System.Globalization;
 using Prism.Events;
+using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
-using Prism.Unity.Properties;
-using CommonServiceLocator;
-using Unity;
-using Prism.Unity.Regions;
-using Unity.Exceptions;
-using Unity.Lifetime;
-using Prism.Ioc;
-using Prism.Unity.Ioc;
 using Prism.Services.Dialogs;
+using Prism.Unity.Ioc;
+using Prism.Unity.Properties;
+using Unity;
+using Unity.Lifetime;
 
 namespace Prism.Unity
 {
@@ -75,9 +72,6 @@ namespace Prism.Unity
             this.Logger.Log(Resources.ConfiguringUnityContainer, Category.Debug, Priority.Low);
             this.ConfigureContainer();
 
-            this.Logger.Log(Resources.ConfiguringServiceLocatorSingleton, Category.Debug, Priority.Low);
-            this.ConfigureServiceLocator();
-
             this.Logger.Log(Resources.ConfiguringViewModelLocator, Category.Debug, Priority.Low);
             this.ConfigureViewModelLocator();
 
@@ -114,21 +108,11 @@ namespace Prism.Unity
         }
 
         /// <summary>
-        /// Configures the LocatorProvider for the <see cref="ServiceLocator" />.
-        /// </summary>
-        protected override void ConfigureServiceLocator()
-        {
-            ServiceLocator.SetLocatorProvider(() => this.Container.Resolve<IServiceLocator>());
-        }
-
-        /// <summary>
         /// Registers in the <see cref="IUnityContainer"/> the <see cref="Type"/> of the Exceptions
         /// that are not considered root exceptions by the <see cref="ExceptionExtensions"/>.
         /// </summary>
         protected override void RegisterFrameworkExceptionTypes()
         {
-            base.RegisterFrameworkExceptionTypes();
-
             ExceptionExtensions.RegisterFrameworkExceptionType(
                 typeof(ResolutionFailedException));
         }
@@ -151,7 +135,7 @@ namespace Prism.Unity
                 RegisterTypeIfMissing(typeof(IDialogService), typeof(DialogService), true);
                 RegisterTypeIfMissing(typeof(IDialogWindow), typeof(DialogWindow), false);
 
-                RegisterTypeIfMissing(typeof(IServiceLocator), typeof(UnityServiceLocatorAdapter), true);
+                // RegisterTypeIfMissing(typeof(IServiceLocator), typeof(UnityServiceLocatorAdapter), true);
                 RegisterTypeIfMissing(typeof(IModuleInitializer), typeof(ModuleInitializer), true);
                 RegisterTypeIfMissing(typeof(IModuleManager), typeof(ModuleManager), true);
                 RegisterTypeIfMissing(typeof(RegionAdapterMappings), typeof(RegionAdapterMappings), true);
@@ -162,7 +146,7 @@ namespace Prism.Unity
                 RegisterTypeIfMissing(typeof(IRegionNavigationJournalEntry), typeof(RegionNavigationJournalEntry), false);
                 RegisterTypeIfMissing(typeof(IRegionNavigationJournal), typeof(RegionNavigationJournal), false);
                 RegisterTypeIfMissing(typeof(IRegionNavigationService), typeof(RegionNavigationService), false);
-                RegisterTypeIfMissing(typeof(IRegionNavigationContentLoader), typeof(UnityRegionNavigationContentLoader), true);
+                RegisterTypeIfMissing(typeof(IRegionNavigationContentLoader), typeof(RegionNavigationContentLoader), true);
             }
         }
 
@@ -223,7 +207,7 @@ namespace Prism.Unity
             if (Container.IsTypeRegistered(fromType))
             {
                 Logger.Log(
-                    String.Format(CultureInfo.CurrentCulture,
+                    string.Format(CultureInfo.CurrentCulture,
                                   Resources.TypeMappingAlreadyRegistered,
                                   fromType.Name), Category.Debug, Priority.Low);
             }

@@ -2,13 +2,12 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
+using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
-using CommonServiceLocator;
-using Prism.Mvvm;
-using Prism.Ioc;
 
 namespace Prism
 {
@@ -100,8 +99,6 @@ namespace Prism
         /// </summary>
         protected virtual void RegisterFrameworkExceptionTypes()
         {
-            ExceptionExtensions.RegisterFrameworkExceptionType(
-                typeof(ActivationException));
         }
 
         /// <summary>
@@ -198,11 +195,6 @@ namespace Prism
         /// <param name="runWithDefaultConfiguration">If <see langword="true"/>, registers default 
         /// Prism Library services in the container. This is the default behavior.</param>
         public abstract void Run(bool runWithDefaultConfiguration);
-
-        /// <summary>
-        /// Configures the LocatorProvider for the <see cref="Microsoft.Practices.ServiceLocation.ServiceLocator" />.
-        /// </summary>
-        protected abstract void ConfigureServiceLocator();
 
         /// <summary>
         /// Contains actions that should occur last.

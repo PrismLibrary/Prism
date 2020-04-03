@@ -1,5 +1,4 @@
 ﻿using DryIoc;
-using CommonServiceLocator;
 using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support;
 using System;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Prism.Ioc;
 
 namespace Prism.DryIoc.Wpf.Tests
 {
@@ -18,8 +18,8 @@ namespace Prism.DryIoc.Wpf.Tests
         {
             var bootstrapper = new RegisterForNavigationBootstrapper();
             bootstrapper.Run();
-            IServiceLocator serviceLocator = bootstrapper.Container.Resolve<IServiceLocator>();
-            object viewInstance = serviceLocator.GetInstance<object>(nameof(NavigateView));
+
+            object viewInstance = ContainerLocator.Container.Resolve<object>(nameof(NavigateView));
 
             Assert.NotNull(viewInstance);
             Assert.IsType<NavigateView>(viewInstance);

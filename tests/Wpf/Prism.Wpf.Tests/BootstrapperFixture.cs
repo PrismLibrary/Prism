@@ -1,11 +1,8 @@
-
-
 using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using CommonServiceLocator;
 using Xunit;
 using Moq;
 using Prism.Logging;
@@ -16,10 +13,12 @@ using Prism.Mvvm;
 using Prism.Wpf.Tests.Mocks.Views;
 using Prism.Wpf.Tests.Mocks.ViewModels;
 using Prism.Ioc;
+using Prism.Wpf.Tests.Mocks;
+using System.Runtime.Serialization;
 
 namespace Prism.Wpf.Tests
 {
-    
+
     public class BootstrapperFixture
     {
         [Fact]
@@ -78,8 +77,9 @@ namespace Prism.Wpf.Tests
 
         private static void CreateAndConfigureServiceLocatorForViewModelLocator()
         {
-            var serviceLocator = new Prism.Wpf.Tests.ServiceLocatorExtensionsFixture.MockServiceLocator(() => new MockViewModel());
-            ServiceLocator.SetLocatorProvider(() => serviceLocator);
+            var container = new MockContainerAdapter();
+            container.ResolvedInstances.Add(typeof(MockViewModel), new MockViewModel());
+            ContainerLocator.SetCurrent(container);
         }
 
         [Fact]
@@ -144,14 +144,14 @@ namespace Prism.Wpf.Tests
 
         private static void CreateAndConfigureServiceLocatorWithRegionAdapters()
         {
-            Mock<ServiceLocatorImplBase> serviceLocator = new Mock<ServiceLocatorImplBase>();
-            var regionBehaviorFactory = new RegionBehaviorFactory(serviceLocator.Object);
-            serviceLocator.Setup(sl => sl.GetInstance<RegionAdapterMappings>()).Returns(new RegionAdapterMappings());
-            serviceLocator.Setup(sl => sl.GetInstance<SelectorRegionAdapter>()).Returns(new SelectorRegionAdapter(regionBehaviorFactory));
-            serviceLocator.Setup(sl => sl.GetInstance<ItemsControlRegionAdapter>()).Returns(new ItemsControlRegionAdapter(regionBehaviorFactory));
-            serviceLocator.Setup(sl => sl.GetInstance<ContentControlRegionAdapter>()).Returns(new ContentControlRegionAdapter(regionBehaviorFactory));
+            var container = new Mock<IContainerExtension>();
+            var regionBehaviorFactory = new RegionBehaviorFactory(container.Object);
+            container.Setup(sl => sl.Resolve<RegionAdapterMappings>()).Returns(new RegionAdapterMappings());
+            container.Setup(sl => sl.Resolve<SelectorRegionAdapter>()).Returns(new SelectorRegionAdapter(regionBehaviorFactory));
+            container.Setup(sl => sl.Resolve<ItemsControlRegionAdapter>()).Returns(new ItemsControlRegionAdapter(regionBehaviorFactory));
+            container.Setup(sl => sl.Resolve<ContentControlRegionAdapter>()).Returns(new ContentControlRegionAdapter(regionBehaviorFactory));
 
-            ServiceLocator.SetLocatorProvider(() => serviceLocator.Object);
+            ContainerLocator.SetCurrent(container.Object);
         }
 
         [Fact]
@@ -168,11 +168,11 @@ namespace Prism.Wpf.Tests
 
         private static void CreateAndConfigureServiceLocatorWithDefaultRegionBehaviors()
         {
-            Mock<ServiceLocatorImplBase> serviceLocator = new Mock<ServiceLocatorImplBase>();
+            var serviceLocator = new Mock<IContainerExtension>();
             var regionBehaviorFactory = new RegionBehaviorFactory(serviceLocator.Object);
-            serviceLocator.Setup(sl => sl.GetInstance<IRegionBehaviorFactory>()).Returns(new RegionBehaviorFactory(serviceLocator.Object));
+            serviceLocator.Setup(sl => sl.Resolve<IRegionBehaviorFactory>()).Returns(new RegionBehaviorFactory(serviceLocator.Object));
 
-            ServiceLocator.SetLocatorProvider(() => serviceLocator.Object);
+            ContainerLocator.SetCurrent(serviceLocator.Object);
         }
 
         [Fact]
@@ -323,14 +323,14 @@ namespace Prism.Wpf.Tests
             throw new NotImplementedException();
         }
 
-        protected override void ConfigureServiceLocator()
-        {
-            throw new NotImplementedException();
-        }
-
         public void CallRegisterFrameworkExceptionTypes()
         {
-            base.RegisterFrameworkExceptionTypes();
+            RegisterFrameworkExceptionTypes();
+        }
+
+        protected override void RegisterFrameworkExceptionTypes()
+        {
+            ExceptionExtensions.RegisterFrameworkExceptionType(typeof(ActivationException));
         }
 
         public IRegionBehaviorFactory CallConfigureDefaultRegionBehaviors()
@@ -345,4 +345,10 @@ namespace Prism.Wpf.Tests
         }
     }
 
+    public class ActivationException : Exception
+    {
+        public ActivationException()
+        {
+        }
+    }
 }
