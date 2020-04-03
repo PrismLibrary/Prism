@@ -1,16 +1,14 @@
-using System;
+﻿using System;
 using System.Globalization;
-using CommonServiceLocator;
+using DryIoc;
+using Prism.DryIoc.Ioc;
+using Prism.DryIoc.Properties;
 using Prism.Events;
+using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
-using Prism;
-using DryIoc;
-using Prism.DryIoc.Properties;
-using Prism.Ioc;
-using Prism.DryIoc.Ioc;
 using Prism.Services.Dialogs;
 
 namespace Prism.DryIoc
@@ -72,9 +70,6 @@ namespace Prism.DryIoc
             Logger.Log(Resources.ConfiguringDryIocContainer, Category.Debug, Priority.Low);
             ConfigureContainer();
 
-            Logger.Log(Resources.ConfiguringServiceLocatorSingleton, Category.Debug, Priority.Low);
-            ConfigureServiceLocator();
-
             Logger.Log(Resources.ConfiguringViewModelLocator, Category.Debug, Priority.Low);
             ConfigureViewModelLocator();
 
@@ -111,18 +106,6 @@ namespace Prism.DryIoc
         }
 
         /// <summary>
-        /// Configures the LocatorProvider for the <see cref="ServiceLocator" />.
-        /// </summary>
-        protected override void ConfigureServiceLocator()
-        {
-            DryIocServiceLocatorAdapter serviceLocator = new DryIocServiceLocatorAdapter(Container);
-            ServiceLocator.SetLocatorProvider(() => serviceLocator);
-
-            // register the locator in DryIoc as well
-            Container.UseInstance<IServiceLocator>(serviceLocator);
-        }
-
-        /// <summary>
         /// Configures the <see cref="ViewModelLocator"/> used by Prism.
         /// </summary>
         protected override void ConfigureViewModelLocator()
@@ -136,8 +119,6 @@ namespace Prism.DryIoc
         /// </summary>
         protected override void RegisterFrameworkExceptionTypes()
         {
-            base.RegisterFrameworkExceptionTypes();
-
             ExceptionExtensions.RegisterFrameworkExceptionType(typeof(ContainerException));
         }
 

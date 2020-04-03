@@ -1,7 +1,5 @@
-﻿using CommonServiceLocator;
-using DryIoc;
+﻿using DryIoc;
 using Prism.DryIoc.Ioc;
-using Prism.DryIoc.Regions;
 using Prism.Ioc;
 using Prism.Regions;
 using System;
@@ -23,16 +21,8 @@ namespace Prism.DryIoc
             return new DryIocContainerExtension(new Container(CreateContainerRules()));
         }
 
-        protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
-        {
-            base.RegisterRequiredTypes(containerRegistry);
-            containerRegistry.RegisterSingleton<IRegionNavigationContentLoader, DryIocRegionNavigationContentLoader>();
-            containerRegistry.RegisterSingleton<IServiceLocator, DryIocServiceLocatorAdapter>();
-        }
-
         protected override void RegisterFrameworkExceptionTypes()
         {
-            base.RegisterFrameworkExceptionTypes();
             ExceptionExtensions.RegisterFrameworkExceptionType(typeof(ContainerException));
         }
     }

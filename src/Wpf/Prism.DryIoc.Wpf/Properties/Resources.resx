@@ -132,9 +132,6 @@
   <data name="ConfiguringRegionAdapters" xml:space="preserve">
     <value>Configuring region adapters.</value>
   </data>
-  <data name="ConfiguringServiceLocatorSingleton" xml:space="preserve">
-    <value>Configuring ServiceLocator singleton.</value>
-  </data>
   <data name="ConfiguringViewModelLocator" xml:space="preserve">
     <value>Configuring the ViewModelLocator to use DryIoc.</value>
   </data>

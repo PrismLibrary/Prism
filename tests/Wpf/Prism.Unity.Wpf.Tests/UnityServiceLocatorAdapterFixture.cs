@@ -1,17 +1,16 @@
 using System;
 using System.Collections.Generic;
-using CommonServiceLocator;
+using Prism.Ioc;
 using Unity;
-using Xunit;
-using Unity.Resolution;
 using Unity.Extension;
-using Unity.Registration;
-using Unity.Lifetime;
 using Unity.Injection;
+using Unity.Lifetime;
+using Unity.Resolution;
+using Xunit;
 
 namespace Prism.Unity.Wpf.Tests
 {
-    
+
     public class UnityServiceLocatorAdapterFixture
     {
         [Fact]
@@ -26,10 +25,10 @@ namespace Prism.Unity.Wpf.Tests
                                                                         return myInstance;
                                                                     }
                                             };
+            var containerExtension = new Ioc.UnityContainerExtension(container);
+            ContainerLocator.SetCurrent(containerExtension);
 
-            IServiceLocator containerAdapter = new UnityServiceLocatorAdapter(container);
-
-            Assert.Same(myInstance, containerAdapter.GetInstance(typeof (object)));
+            Assert.Same(myInstance, ContainerLocator.Container.Resolve(typeof(object)));
 
         }
 
@@ -45,10 +44,10 @@ namespace Prism.Unity.Wpf.Tests
                     return list;
                 }
             };
+            var containerExtension = new Ioc.UnityContainerExtension(container);
+            ContainerLocator.SetCurrent(containerExtension);
 
-            IServiceLocator containerAdapter = new UnityServiceLocatorAdapter(container);
-
-            Assert.Same(list, containerAdapter.GetAllInstances(typeof (object)));
+            Assert.Same(list, ContainerLocator.Container.GetContainer().ResolveAll(typeof (object)));
         }
 
         private class MockUnityContainer : IUnityContainer

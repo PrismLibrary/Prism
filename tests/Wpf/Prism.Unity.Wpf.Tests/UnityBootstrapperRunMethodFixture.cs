@@ -1,17 +1,16 @@
-
-
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using CommonServiceLocator;
-using Unity;
-using Xunit;
 using Moq;
 using Prism.Events;
+using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
+using Prism.Unity.Ioc;
+using Unity;
 using Unity.Lifetime;
+using Xunit;
 
 namespace Prism.Unity.Wpf.Tests
 {
@@ -33,12 +32,13 @@ namespace Prism.Unity.Wpf.Tests
         }
 
         [StaFact]
-        public void RunConfiguresServiceLocatorProvider()
+        public void RunSetsCurrentContainer()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
             bootstrapper.Run();
 
-            Assert.True(CommonServiceLocator.ServiceLocator.Current is UnityServiceLocatorAdapter);
+            Assert.NotNull(ContainerLocator.Current);
+            Assert.IsType<UnityContainerExtension>(ContainerLocator.Current);
         }
 
         [StaFact]
@@ -215,19 +215,6 @@ namespace Prism.Unity.Wpf.Tests
         }
 
         [StaFact]
-        public void RunRegistersTypeForIServiceLocator()
-        {
-            var mockedContainer = new Mock<IUnityContainer>();
-            SetupMockedContainerForVerificationTests(mockedContainer);
-
-            var bootstrapper = new MockedContainerBootstrapper(mockedContainer.Object);
-
-            bootstrapper.Run();
-
-            mockedContainer.Verify(c => c.RegisterType(typeof(IServiceLocator), typeof(UnityServiceLocatorAdapter), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
-        }
-
-        [StaFact]
         public void RunRegistersTypeForIModuleInitializer()
         {
             var mockedContainer = new Mock<IUnityContainer>();
@@ -317,7 +304,6 @@ namespace Prism.Unity.Wpf.Tests
             mockedContainer.Verify(c => c.RegisterType(typeof(IEventAggregator), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
             mockedContainer.Verify(c => c.RegisterType(typeof(IRegionManager), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
             mockedContainer.Verify(c => c.RegisterType(typeof(RegionAdapterMappings), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
-            mockedContainer.Verify(c => c.RegisterType(typeof(IServiceLocator), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
             mockedContainer.Verify(c => c.RegisterType(typeof(IModuleInitializer), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
         }
 
@@ -330,10 +316,10 @@ namespace Prism.Unity.Wpf.Tests
             var mockedModuleInitializer = new Mock<IModuleInitializer>();
             var mockedModuleManager = new Mock<IModuleManager>();
             var regionAdapterMappings = new RegionAdapterMappings();
-            var serviceLocatorAdapter = new UnityServiceLocatorAdapter(container);
-            var regionBehaviorFactory = new RegionBehaviorFactory(serviceLocatorAdapter);
+            var containerExtension = new Ioc.UnityContainerExtension(container);
+            var regionBehaviorFactory = new RegionBehaviorFactory(containerExtension);
 
-            container.RegisterInstance<IServiceLocator>(serviceLocatorAdapter);
+            container.RegisterInstance<IContainerExtension>(containerExtension);
             container.RegisterInstance<IModuleCatalog>(new ModuleCatalog());
             container.RegisterInstance<IModuleInitializer>(mockedModuleInitializer.Object);
             container.RegisterInstance<IModuleManager>(mockedModuleManager.Object);
@@ -347,7 +333,7 @@ namespace Prism.Unity.Wpf.Tests
             container.RegisterSingleton(typeof(IRegionNavigationJournalEntry), typeof(RegionNavigationJournalEntry));
             container.RegisterSingleton(typeof(IRegionNavigationJournal), typeof(RegionNavigationJournal));
             container.RegisterSingleton(typeof(IRegionNavigationService), typeof(RegionNavigationService));
-            container.RegisterSingleton(typeof(IRegionNavigationContentLoader), typeof(Regions.UnityRegionNavigationContentLoader));
+            container.RegisterSingleton(typeof(IRegionNavigationContentLoader), typeof(RegionNavigationContentLoader));
 
 
             container.RegisterInstance<SelectorRegionAdapter>(new SelectorRegionAdapter(regionBehaviorFactory));
@@ -567,10 +553,9 @@ namespace Prism.Unity.Wpf.Tests
             var mockedModuleInitializer = new Mock<IModuleInitializer>();
             var mockedModuleManager = new Mock<IModuleManager>();
             var regionAdapterMappings = new RegionAdapterMappings();
-            var serviceLocatorAdapter = new UnityServiceLocatorAdapter(mockedContainer.Object);
-            var regionBehaviorFactory = new RegionBehaviorFactory(serviceLocatorAdapter);
 
-            mockedContainer.Setup(c => c.Resolve(typeof(IServiceLocator), (string)null)).Returns(serviceLocatorAdapter);
+            var containerExtension = new UnityContainerExtension(mockedContainer.Object);
+            var regionBehaviorFactory = new RegionBehaviorFactory(containerExtension);
 
             mockedContainer.Setup(c => c.RegisterInstance(It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<IInstanceLifetimeManager>()));
 

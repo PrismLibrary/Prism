@@ -1,11 +1,9 @@
-
-
-using CommonServiceLocator;
-using Prism.Properties;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Prism.Ioc;
+using Prism.Properties;
 
 namespace Prism.Regions
 {
@@ -16,16 +14,16 @@ namespace Prism.Regions
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "It is more of a factory than a collection")]
     public class RegionBehaviorFactory : IRegionBehaviorFactory
     {
-        private readonly IServiceLocator serviceLocator;
+        private readonly IContainerProvider container;
         private readonly Dictionary<string, Type> registeredBehaviors = new Dictionary<string, Type>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="RegionBehaviorFactory"/>.
         /// </summary>
-        /// <param name="serviceLocator"><see cref="IServiceLocator"/> used to create the instance of the behavior from its <see cref="Type"/>.</param>
-        public RegionBehaviorFactory(IServiceLocator serviceLocator)
+        /// <param name="container"><see cref="IContainerProvider"/> used to create the instance of the behavior from its <see cref="Type"/>.</param>
+        public RegionBehaviorFactory(IContainerProvider container)
         {
-            this.serviceLocator = serviceLocator;
+            this.container = container;
         }
 
         /// <summary>
@@ -74,7 +72,7 @@ namespace Prism.Regions
                     string.Format(Thread.CurrentThread.CurrentCulture, Resources.TypeWithKeyNotRegistered, key), nameof(key));
             }
 
-            return (IRegionBehavior)this.serviceLocator.GetInstance(this.registeredBehaviors[key]);
+            return (IRegionBehavior)this.container.Resolve(this.registeredBehaviors[key]);
         }
 
 

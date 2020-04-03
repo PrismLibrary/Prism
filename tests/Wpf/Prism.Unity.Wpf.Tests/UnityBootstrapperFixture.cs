@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -13,7 +11,6 @@ using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using Unity.Exceptions;
-using CommonServiceLocator;
 
 namespace Prism.Unity.Wpf.Tests
 {
@@ -124,17 +121,6 @@ namespace Prism.Unity.Wpf.Tests
         }
 
         [StaFact]
-        public void RegisterFrameworkExceptionTypesShouldRegisterActivationException()
-        {
-            var bootstrapper = new DefaultUnityBootstrapper();
-
-            bootstrapper.CallRegisterFrameworkExceptionTypes();
-
-            Assert.True(ExceptionExtensions.IsFrameworkExceptionRegistered(
-                typeof(ActivationException)));
-        }
-
-        [StaFact]
         public void RegisterFrameworkExceptionTypesShouldRegisterResolutionFailedException()
         {
             var bootstrapper = new DefaultUnityBootstrapper();
@@ -210,12 +196,12 @@ namespace Prism.Unity.Wpf.Tests
             return ShellObject;
         }
 
-        protected override void ConfigureServiceLocator()
-        {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.ConfigureServiceLocatorCalled = true;
-            base.ConfigureServiceLocator();
-        }
+        //protected override void ConfigureServiceLocator()
+        //{
+        //    this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+        //    this.ConfigureServiceLocatorCalled = true;
+        //    base.ConfigureServiceLocator();
+        //}
 
         protected override void ConfigureViewModelLocator()
         {
@@ -281,5 +267,5 @@ namespace Prism.Unity.Wpf.Tests
             base.RegisterFrameworkExceptionTypes();
         }
     }
-    
+
 }

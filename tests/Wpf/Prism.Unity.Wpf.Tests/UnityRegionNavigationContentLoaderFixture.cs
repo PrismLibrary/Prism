@@ -1,10 +1,9 @@
 using System.Linq;
-using CommonServiceLocator;
 using Unity;
 using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks.Views;
 using Prism.Regions;
-using Prism.Unity.Wpf.Tests.Mocks;
+using Prism.Ioc;
 
 namespace Prism.Unity.Wpf.Tests
 {
@@ -16,8 +15,8 @@ namespace Prism.Unity.Wpf.Tests
         public UnityRegionNavigationContentLoaderFixture()
         {
             _container = new UnityContainer();
-            MockServiceLocator serviceLocator = new MockServiceLocator(_container);
-            ServiceLocator.SetLocatorProvider(() => serviceLocator);
+            var containerExtension = new Ioc.UnityContainerExtension(_container);
+            ContainerLocator.SetCurrent(containerExtension);
         }
 
         [StaFact]

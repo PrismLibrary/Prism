@@ -1,17 +1,14 @@
-
-
 using System;
 using System.Collections.Specialized;
 using System.Linq;
-using CommonServiceLocator;
 using Xunit;
 using Moq;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
+using Prism.Ioc;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
     public class RegionFixture
     {
         [Fact]
@@ -443,8 +440,10 @@ namespace Prism.Wpf.Tests.Regions
         {
             var ex = Assert.Throws<InvalidOperationException>(() =>
             {
-                var region = new Region();
-                region.Name = "MyRegion";
+                var region = new Region
+                {
+                    Name = "MyRegion"
+                };
 
                 region.Name = "ChangedRegionName";
             });
@@ -550,9 +549,9 @@ namespace Prism.Wpf.Tests.Regions
                 Mock<IRegionNavigationService> mockRegionNavigationService = new Mock<IRegionNavigationService>();
                 mockRegionNavigationService.Setup(x => x.RequestNavigate(uri, navigationCallback, navigationParameters)).Verifiable();
 
-                Mock<IServiceLocator> mockServiceLocator = new Mock<IServiceLocator>();
-                mockServiceLocator.Setup(x => x.GetInstance<IRegionNavigationService>()).Returns(mockRegionNavigationService.Object);
-                ServiceLocator.SetLocatorProvider(() => mockServiceLocator.Object);
+                var containerMock = new Mock<IContainerExtension>();
+                containerMock.Setup(x => x.Resolve<IRegionNavigationService>()).Returns(mockRegionNavigationService.Object);
+                ContainerLocator.SetCurrent(containerMock.Object);
 
                 // Act
                 region.RequestNavigate(uri, navigationCallback, navigationParameters);
@@ -562,7 +561,7 @@ namespace Prism.Wpf.Tests.Regions
             }
             finally
             {
-                ServiceLocator.SetLocatorProvider(() => null);
+                ContainerLocator.SetCurrent(null);
             }
         }
 

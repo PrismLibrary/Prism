@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using CommonServiceLocator;
 using Xunit;
 using Prism.IocContainer.Wpf.Tests.Support;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks;
@@ -209,12 +208,12 @@ namespace Prism.DryIoc.Wpf.Tests
             return ShellObject;
         }
 
-        protected override void ConfigureServiceLocator()
-        {
-            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            ConfigureServiceLocatorCalled = true;
-            base.ConfigureServiceLocator();
-        }
+        //protected override void ConfigureServiceLocator()
+        //{
+        //    MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+        //    ConfigureServiceLocatorCalled = true;
+        //    base.ConfigureServiceLocator();
+        //}
         protected override IModuleCatalog CreateModuleCatalog()
         {
             MethodCalls.Add(MethodBase.GetCurrentMethod().Name);

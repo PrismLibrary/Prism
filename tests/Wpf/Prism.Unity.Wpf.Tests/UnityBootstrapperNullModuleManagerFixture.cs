@@ -1,7 +1,4 @@
-
-
 using System.Windows;
-using CommonServiceLocator;
 using Unity;
 using Xunit;
 using Prism.Logging;
@@ -33,7 +30,6 @@ namespace Prism.Unity.Wpf.Tests
                 Container.RegisterInstance<ILoggerFacade>(Logger);
 
                 this.Container.RegisterInstance(this.ModuleCatalog);
-                RegisterTypeIfMissing(typeof(IServiceLocator), typeof(UnityServiceLocatorAdapter), true);
             }
 
             protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
