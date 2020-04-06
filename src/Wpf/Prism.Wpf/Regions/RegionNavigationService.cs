@@ -22,10 +22,10 @@ namespace Prism.Regions
         /// <summary>
         /// Initializes a new instance of the <see cref="RegionNavigationService"/> class.
         /// </summary>
-        /// <param name="container">The <see cref="IContainerProvider" />.</param>
+        /// <param name="container">The <see cref="IContainerExtension" />.</param>
         /// <param name="regionNavigationContentLoader">The navigation target handler.</param>
         /// <param name="journal">The journal.</param>
-        public RegionNavigationService(IContainerProvider container, IRegionNavigationContentLoader regionNavigationContentLoader, IRegionNavigationJournal journal)
+        public RegionNavigationService(IContainerExtension container, IRegionNavigationContentLoader regionNavigationContentLoader, IRegionNavigationJournal journal)
         {
             this.container = container ?? throw new ArgumentNullException(nameof(container));
             this.regionNavigationContentLoader = regionNavigationContentLoader ?? throw new ArgumentNullException(nameof(regionNavigationContentLoader));

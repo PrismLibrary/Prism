@@ -90,7 +90,7 @@ namespace Prism
         /// </summary>
         protected virtual void ConfigureViewModelLocator()
         {
-            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => ContainerLocator.Current.Resolve(type));
+            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => ContainerLocator.Container.Resolve(type));
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Prism
         /// </summary>
         protected virtual void InitializeModules()
         {
-            IModuleManager manager = ContainerLocator.Current.Resolve<IModuleManager>();
+            IModuleManager manager = ContainerLocator.Container.Resolve<IModuleManager>();
             manager.Run();
         }
 
@@ -118,12 +118,12 @@ namespace Prism
         /// <returns>The <see cref="RegionAdapterMappings"/> instance containing all the mappings.</returns>
         protected virtual RegionAdapterMappings ConfigureRegionAdapterMappings()
         {
-            RegionAdapterMappings regionAdapterMappings = ContainerLocator.Current.Resolve<RegionAdapterMappings>();
+            RegionAdapterMappings regionAdapterMappings = ContainerLocator.Container.Resolve<RegionAdapterMappings>();
             if (regionAdapterMappings != null)
             {
-                regionAdapterMappings.RegisterMapping(typeof(Selector), ContainerLocator.Current.Resolve<SelectorRegionAdapter>());
-                regionAdapterMappings.RegisterMapping(typeof(ItemsControl), ContainerLocator.Current.Resolve<ItemsControlRegionAdapter>());
-                regionAdapterMappings.RegisterMapping(typeof(ContentControl), ContainerLocator.Current.Resolve<ContentControlRegionAdapter>());
+                regionAdapterMappings.RegisterMapping(typeof(Selector), ContainerLocator.Container.Resolve<SelectorRegionAdapter>());
+                regionAdapterMappings.RegisterMapping(typeof(ItemsControl), ContainerLocator.Container.Resolve<ItemsControlRegionAdapter>());
+                regionAdapterMappings.RegisterMapping(typeof(ContentControl), ContainerLocator.Container.Resolve<ContentControlRegionAdapter>());
             }
 
             return regionAdapterMappings;
@@ -135,7 +135,7 @@ namespace Prism
         /// </summary>
         protected virtual IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
         {
-            var defaultRegionBehaviorTypesDictionary = ContainerLocator.Current.Resolve<IRegionBehaviorFactory>();
+            var defaultRegionBehaviorTypesDictionary = ContainerLocator.Container.Resolve<IRegionBehaviorFactory>();
 
             if (defaultRegionBehaviorTypesDictionary != null)
             {

@@ -111,7 +111,7 @@ namespace Prism.Regions
 
         private static void CreateRegion(DependencyObject element)
         {
-            var container = ContainerLocator.Current;
+            var container = ContainerLocator.Container;
             DelayedRegionCreationBehavior regionCreationBehavior = container.Resolve<DelayedRegionCreationBehavior>();
             regionCreationBehavior.TargetElement = element;
             regionCreationBehavior.Attach();
@@ -302,7 +302,7 @@ namespace Prism.Regions
         /// <returns>The regionmanager, for adding several views easily</returns>
         public IRegionManager RegisterViewWithRegion(string regionName, Type viewType)
         {
-            var regionViewRegistry = ContainerLocator.Current.Resolve<IRegionViewRegistry>();
+            var regionViewRegistry = ContainerLocator.Container.Resolve<IRegionViewRegistry>();
 
             regionViewRegistry.RegisterViewWithRegion(regionName, viewType);
 
@@ -319,7 +319,7 @@ namespace Prism.Regions
         /// <returns>The regionmanager, for adding several views easily</returns>
         public IRegionManager RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
         {
-            var regionViewRegistry = ContainerLocator.Current.Resolve<IRegionViewRegistry>();
+            var regionViewRegistry = ContainerLocator.Container.Resolve<IRegionViewRegistry>();
 
             regionViewRegistry.RegisterViewWithRegion(regionName, getContentDelegate);
 

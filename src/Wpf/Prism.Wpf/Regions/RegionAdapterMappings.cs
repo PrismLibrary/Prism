@@ -51,7 +51,7 @@ namespace Prism.Regions
         /// <typeparam name="TAdapter">The type of the IRegionAdapter to use with the TControl</typeparam>
         public void RegisterMapping<TControl, TAdapter>() where TAdapter : IRegionAdapter
         {
-            RegisterMapping(typeof(TControl), ContainerLocator.Current.Resolve<TAdapter>());
+            RegisterMapping(typeof(TControl), ContainerLocator.Container.Resolve<TAdapter>());
         }
 
         /// <summary>
