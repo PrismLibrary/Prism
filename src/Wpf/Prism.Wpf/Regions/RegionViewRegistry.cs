@@ -21,8 +21,8 @@ namespace Prism.Regions
         /// <summary>
         /// Creates a new instance of the <see cref="RegionViewRegistry"/> class.
         /// </summary>
-        /// <param name="container"><see cref="IContainerProvider"/> used to create the instance of the views from its <see cref="Type"/>.</param>
-        public RegionViewRegistry(IContainerProvider container)
+        /// <param name="container"><see cref="IContainerExtension"/> used to create the instance of the views from its <see cref="Type"/>.</param>
+        public RegionViewRegistry(IContainerExtension container)
         {
             this.container = container;
         }

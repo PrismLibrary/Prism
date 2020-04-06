@@ -20,7 +20,7 @@ namespace Prism.Regions
         /// <summary>
         /// Initializes a new instance of the <see cref="RegionNavigationContentLoader"/> class with a service locator.
         /// </summary>
-        /// <param name="container">The <see cref="IContainerProvider" />.</param>
+        /// <param name="container">The <see cref="IContainerExtension" />.</param>
         public RegionNavigationContentLoader(IContainerExtension container)
         {
             this.container = container;

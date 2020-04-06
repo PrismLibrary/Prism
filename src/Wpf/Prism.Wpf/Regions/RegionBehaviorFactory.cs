@@ -20,8 +20,8 @@ namespace Prism.Regions
         /// <summary>
         /// Initializes a new instance of <see cref="RegionBehaviorFactory"/>.
         /// </summary>
-        /// <param name="container"><see cref="IContainerProvider"/> used to create the instance of the behavior from its <see cref="Type"/>.</param>
-        public RegionBehaviorFactory(IContainerProvider container)
+        /// <param name="container"><see cref="IContainerExtension"/> used to create the instance of the behavior from its <see cref="Type"/>.</param>
+        public RegionBehaviorFactory(IContainerExtension container)
         {
             this.container = container;
         }
