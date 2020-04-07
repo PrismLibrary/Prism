@@ -277,13 +277,12 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Equal("ConfigureModuleCatalog", bootstrapper.MethodCalls[2]);
             Assert.Equal("CreateContainer", bootstrapper.MethodCalls[3]);
             Assert.Equal("ConfigureContainer", bootstrapper.MethodCalls[4]);
-            Assert.Equal("ConfigureServiceLocator", bootstrapper.MethodCalls[5]);
-            Assert.Equal("ConfigureRegionAdapterMappings", bootstrapper.MethodCalls[6]);
-            Assert.Equal("ConfigureDefaultRegionBehaviors", bootstrapper.MethodCalls[7]);
-            Assert.Equal("RegisterFrameworkExceptionTypes", bootstrapper.MethodCalls[8]);
-            Assert.Equal("CreateShell", bootstrapper.MethodCalls[9]);
-            Assert.Equal("InitializeShell", bootstrapper.MethodCalls[10]);
-            Assert.Equal("InitializeModules", bootstrapper.MethodCalls[11]);
+            Assert.Equal("ConfigureRegionAdapterMappings", bootstrapper.MethodCalls[5]);
+            Assert.Equal("ConfigureDefaultRegionBehaviors", bootstrapper.MethodCalls[6]);
+            Assert.Equal("RegisterFrameworkExceptionTypes", bootstrapper.MethodCalls[7]);
+            Assert.Equal("CreateShell", bootstrapper.MethodCalls[8]);
+            Assert.Equal("InitializeShell", bootstrapper.MethodCalls[9]);
+            Assert.Equal("InitializeModules", bootstrapper.MethodCalls[10]);
         }
 
         [StaFact]
@@ -298,17 +297,16 @@ namespace Prism.DryIoc.Wpf.Tests
             Assert.Contains("Configuring module catalog.", messages[2]);
             Assert.Contains("Creating DryIoc container.", messages[3]);
             Assert.Contains("Configuring the DryIoc container.", messages[4]);
-            Assert.Contains("Configuring ServiceLocator singleton.", messages[5]);
-            Assert.Contains("Configuring the ViewModelLocator to use DryIoc.", messages[6]);
-            Assert.Contains("Configuring region adapters.", messages[7]);
-            Assert.Contains("Configuring default region behaviors.", messages[8]);
-            Assert.Contains("Registering Framework Exception Types.", messages[9]);
-            Assert.Contains("Creating the shell.", messages[10]);
-            Assert.Contains("Setting the RegionManager.", messages[11]);
-            Assert.Contains("Updating Regions.", messages[12]);
-            Assert.Contains("Initializing the shell.", messages[13]);
-            Assert.Contains("Initializing modules.", messages[14]);
-            Assert.Contains("Bootstrapper sequence completed.", messages[15]);
+            Assert.Contains("Configuring the ViewModelLocator to use DryIoc.", messages[5]);
+            Assert.Contains("Configuring region adapters.", messages[6]);
+            Assert.Contains("Configuring default region behaviors.", messages[7]);
+            Assert.Contains("Registering Framework Exception Types.", messages[8]);
+            Assert.Contains("Creating the shell.", messages[9]);
+            Assert.Contains("Setting the RegionManager.", messages[10]);
+            Assert.Contains("Updating Regions.", messages[11]);
+            Assert.Contains("Initializing the shell.", messages[12]);
+            Assert.Contains("Initializing modules.", messages[13]);
+            Assert.Contains("Bootstrapper sequence completed.", messages[14]);
         }
 
         [StaFact]
@@ -321,6 +319,7 @@ namespace Prism.DryIoc.Wpf.Tests
 
             Assert.True(messages.Contains(expectedMessageText));
         }
+
         [StaFact]
         public void RunShouldLogAboutModuleCatalogCreation()
         {

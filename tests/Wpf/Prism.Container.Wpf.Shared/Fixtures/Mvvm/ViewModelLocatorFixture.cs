@@ -1,24 +1,25 @@
-﻿using Unity;
-using Xunit;
+﻿using Prism.Container.Wpf.Mocks;
+using Prism.Ioc;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks.ViewModels;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks.Views;
 using Prism.Mvvm;
+using Xunit;
 
-namespace Prism.Unity.Wpf.Tests
+namespace Prism.Container.Wpf.Tests.Mvvm
 {
-    [Collection("ServiceLocator")]
-    public class UnityViewModelLocatorFixture
+    [Collection(ContainerHelper.CollectionName)]
+    public class ViewModelLocatorFixture
     {
         [StaFact]
         public void ShouldLocateViewModelAndResolveWithContainer()
         {
-            var bootstrapper = new DefaultUnityBootstrapper();
+            var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
 
-            bootstrapper.BaseContainer.RegisterType<IService, MockService>();
+            bootstrapper.ContainerRegistry.Register<IService, MockService>();
 
-            MockView view = new MockView();
+            var view = new MockView();
             Assert.Null(view.DataContext);
 
             ViewModelLocator.SetAutoWireViewModel(view, true);
