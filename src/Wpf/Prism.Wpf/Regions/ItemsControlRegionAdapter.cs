@@ -2,8 +2,16 @@
 
 using Prism.Properties;
 using System;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
+#else
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+#endif
 
 namespace Prism.Regions
 {
@@ -36,7 +44,7 @@ namespace Prism.Regions
                 throw new ArgumentNullException(nameof(regionTarget));
 
             bool itemsSourceIsSet = regionTarget.ItemsSource != null;
-            itemsSourceIsSet = itemsSourceIsSet || (BindingOperations.GetBinding(regionTarget, ItemsControl.ItemsSourceProperty) != null);
+            itemsSourceIsSet = itemsSourceIsSet || (regionTarget.GetBinding(ItemsControl.ItemsSourceProperty) != null);
 
             if (itemsSourceIsSet)
             {

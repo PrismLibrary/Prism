@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿#if HAS_WINUI
+using Windows.UI.Xaml;
+#else
+using System.Windows;
+#endif
 
 namespace Prism.Services.Dialogs
 {
@@ -36,6 +40,7 @@ namespace Prism.Services.Dialogs
             obj.SetValue(WindowStyleProperty, value);
         }
 
+#if !HAS_WINUI
         /// <summary>
         /// Identifies the WindowStartupLocation attached property.
         /// </summary>
@@ -71,5 +76,6 @@ namespace Prism.Services.Dialogs
             if (sender is Window window)
                 window.WindowStartupLocation = (WindowStartupLocation)e.NewValue;
         }
+#endif
     }
 }

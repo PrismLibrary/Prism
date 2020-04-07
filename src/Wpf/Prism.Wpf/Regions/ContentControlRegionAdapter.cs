@@ -4,8 +4,15 @@ using Prism.Properties;
 using System;
 using System.Collections.Specialized;
 using System.Linq;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
+#else
 using System.Windows.Controls;
 using System.Windows.Data;
+#endif
 
 namespace Prism.Regions
 {
@@ -35,7 +42,7 @@ namespace Prism.Regions
                 throw new ArgumentNullException(nameof(regionTarget));
 
             bool contentIsSet = regionTarget.Content != null;
-            contentIsSet = contentIsSet || (BindingOperations.GetBinding(regionTarget, ContentControl.ContentProperty) != null);
+            contentIsSet = contentIsSet || (regionTarget.GetBinding(ContentControl.ContentProperty) != null);
 
             if (contentIsSet)
                 throw new InvalidOperationException(Resources.ContentControlHasContentException);

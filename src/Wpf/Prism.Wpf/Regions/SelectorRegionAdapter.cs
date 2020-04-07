@@ -1,6 +1,11 @@
 using Prism.Regions.Behaviors;
 using System;
+
+#if HAS_WINUI
+using Windows.UI.Xaml.Controls.Primitives;
+#else
 using System.Windows.Controls.Primitives;
+#endif
 
 namespace Prism.Regions
 {

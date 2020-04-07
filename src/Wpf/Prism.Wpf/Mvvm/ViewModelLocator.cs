@@ -1,5 +1,10 @@
 using System.ComponentModel;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+#else
 using System.Windows;
+#endif
 
 namespace Prism.Mvvm
 {
@@ -11,7 +16,7 @@ namespace Prism.Mvvm
         /// <summary>
         /// The AutoWireViewModel attached property.
         /// </summary>
-        public static DependencyProperty AutoWireViewModelProperty = DependencyProperty.RegisterAttached("AutoWireViewModel", typeof(bool), typeof(ViewModelLocator), new PropertyMetadata(false, AutoWireViewModelChanged));
+        public static DependencyProperty AutoWireViewModelProperty = DependencyProperty.RegisterAttached("AutoWireViewModel", typeof(bool), typeof(ViewModelLocator), new PropertyMetadata(defaultValue: false, propertyChangedCallback: AutoWireViewModelChanged));
         public static bool GetAutoWireViewModel(DependencyObject obj)
         {
             return (bool)obj.GetValue(AutoWireViewModelProperty);
@@ -24,7 +29,9 @@ namespace Prism.Mvvm
 
         private static void AutoWireViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+#if !HAS_WINUI
             if (!DesignerProperties.GetIsInDesignMode(d))
+#endif
             {
                 if ((bool)e.NewValue)
                 {

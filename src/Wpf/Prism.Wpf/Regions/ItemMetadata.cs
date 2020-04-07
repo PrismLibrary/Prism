@@ -1,14 +1,19 @@
 
 
 using System;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+#else
 using System.Windows;
+#endif
 
 namespace Prism.Regions
 {
     /// <summary>
     /// Defines a class that wraps an item and adds metadata for it.
     /// </summary>
-    public class ItemMetadata : DependencyObject
+    public partial class ItemMetadata : DependencyObject
     {
         /// <summary>
         /// The name of the wrapped item.
@@ -20,7 +25,7 @@ namespace Prism.Regions
         /// Value indicating whether the wrapped item is considered active.
         /// </summary>
         public static readonly DependencyProperty IsActiveProperty =
-            DependencyProperty.Register("IsActive", typeof(bool), typeof(ItemMetadata), new PropertyMetadata(DependencyPropertyChanged));
+            DependencyProperty.Register("IsActive", typeof(bool), typeof(ItemMetadata), new PropertyMetadata(defaultValue: false, propertyChangedCallback: DependencyPropertyChanged));
 
         /// <summary>
         /// Initializes a new instance of <see cref="ItemMetadata"/>.

@@ -2,11 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Windows;
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Ioc.Internals;
 using Prism.Properties;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+#else
+using System.Windows;
+#endif
+
 
 namespace Prism.Regions
 {

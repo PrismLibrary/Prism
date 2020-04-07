@@ -4,10 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Windows;
+using Prism.Properties;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+#else
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using Prism.Properties;
+#endif
 
 namespace Prism.Regions.Behaviors
 {
@@ -56,7 +65,7 @@ namespace Prism.Regions.Behaviors
         protected override void OnAttach()
         {
             bool itemsSourceIsSet = this.hostControl.ItemsSource != null;
-            itemsSourceIsSet = itemsSourceIsSet || (BindingOperations.GetBinding(this.hostControl, ItemsControl.ItemsSourceProperty) != null);
+            itemsSourceIsSet = itemsSourceIsSet || (this.hostControl.GetBinding(ItemsControl.ItemsSourceProperty) != null);
 
             if (itemsSourceIsSet)
             {

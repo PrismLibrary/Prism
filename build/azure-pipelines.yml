@@ -54,10 +54,14 @@ stages:
 
   - template: jobs/prism-wpf.yml
 
+  - template: jobs/prism-uno.yml
+
 - stage: e2e
   displayName: End to End
   jobs:
   - template: jobs/e2e-wpf.yml
+
+  - template: jobs/e2e-uno.yml
 
   - template: jobs/e2e-android.yml
     parameters:

@@ -22,6 +22,7 @@
     <IsCoreProject>$(MSBuildProjectName.Equals('Prism.Core'))</IsCoreProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
+    <IsUnoProject>$(MSBuildProjectName.Contains('Uno'))</IsUnoProject>
     <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
     <SignAssembly Condition=" ('$(IsCoreProject)' Or '$(IsWpfProject)') ">True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)prism.snk</AssemblyOriginatorKeyFile>
@@ -29,12 +30,15 @@
     <DisableCorePublish Condition=" '$(DisableCorePublish)' == '' ">false</DisableCorePublish>
     <DisableWpfPublish Condition=" '$(DisableWpfPublish)' == '' ">false</DisableWpfPublish>
     <DisableFormsPublish Condition=" '$(DisableFormsPublish)' == '' ">false</DisableFormsPublish>
+    <DisableUnoPublish Condition=" '$(DisableUnoPublish)' == '' ">false</DisableUnoPublish>
     <IsPackable>$(RelativeProjectPath.StartsWith('src'))</IsPackable>
     <IsPackable Condition=" '$(IsCoreProject)' And '$(IsPackable)' ">!$(DisableCorePublish)</IsPackable>
     <IsPackable Condition=" '$(IsWpfProject)' And '$(IsPackable)' ">!$(DisableWpfPublish)</IsPackable>
     <IsPackable Condition=" '$(IsFormsProject)' And '$(IsPackable)' ">!$(DisableFormsPublish)</IsPackable>
+    <IsPackable Condition=" '$(IsUnoProject)' And '$(IsPackable)' ">!$(DisableUnoPublish)</IsPackable>
     <PackageTags Condition=" '$(IsCoreProject)' == 'True' ">prism;wpf;xamarin;xaml</PackageTags>
     <PackageTags Condition=" '$(IsWpfProject)' == 'True' ">prism;mvvm;wpf;dependency injection;di</PackageTags>
+    <PackageTags Condition=" '$(IsUnoProject)' == 'True' ">prism;mvvm;winui;uno-platform;xamarin;webassembly;android;ios;macos;dependency injection;di</PackageTags>
     <PackageTags Condition=" '$(IsFormsProject)' == 'True' ">prism;mvvm;uwp;android;ios;xamarin;xamarin.forms;dependency injection;di</PackageTags>
     <IS_PREVIEW Condition=" '$(IS_PREVIEW)' == '' ">false</IS_PREVIEW>
     <IS_RELEASE Condition=" '$(IS_RELEASE)' == '' ">false</IS_RELEASE>
@@ -79,5 +83,4 @@
   <ItemGroup Condition=" $(IsTestProject) ">
     <None Include="$(MSBuildThisFileDirectory)xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-
 </Project>

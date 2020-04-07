@@ -64,12 +64,22 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.Unity.Shared", "src\C
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.DryIoc.Shared", "src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.shproj", "{6E7EC81D-DA39-4C4F-A898-0148558C34F4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Uno", "Uno", "{8F959801-D494-4CAF-9437-90F30472E169}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Uno", "src\Uno\Prism.Uno\Prism.Uno.csproj", "{D007EECA-A0AE-470C-9365-86135CEFA12E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Unity.Uno", "src\Uno\Prism.Unity.Uno\Prism.Unity.Uno.csproj", "{9A1C368F-30AE-4C82-BE03-9168CE089B56}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Uno", "src\Uno\Prism.DryIoc.Uno\Prism.DryIoc.Uno.csproj", "{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{02e0ecaa-b8c6-4eab-a9ab-164b1b99af35}*SharedItemsImports = 5
 		tests\Forms\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{089c5e84-52c3-409e-924c-bd8f4833594b}*SharedItemsImports = 5
 		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{0c8aab85-387c-41d2-abce-bafaf74b62b2}*SharedItemsImports = 5
 		tests\Wpf\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.projitems*{367be810-5b34-4894-be47-1c8dcc67de81}*SharedItemsImports = 5
 		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{6e7ec81d-da39-4c4f-a898-0148558c34f4}*SharedItemsImports = 13
+		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{9a1c368f-30ae-4c82-be03-9168ce089b56}*SharedItemsImports = 5
 		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{aad8a958-546b-4b7d-bbd1-d79e825530eb}*SharedItemsImports = 5
 		tests\Wpf\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.projitems*{ba05687e-2317-4a65-805b-c596f52f7203}*SharedItemsImports = 5
 		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{c2f58215-92f0-4501-a9f4-862c78b2b4ce}*SharedItemsImports = 5
@@ -267,6 +277,42 @@ Global
 		{2E8F565D-9D13-424E-BD86-C5A362F9AAE7}.Release|x64.Build.0 = Release|Any CPU
 		{2E8F565D-9D13-424E-BD86-C5A362F9AAE7}.Release|x86.ActiveCfg = Release|Any CPU
 		{2E8F565D-9D13-424E-BD86-C5A362F9AAE7}.Release|x86.Build.0 = Release|Any CPU
+		{D007EECA-A0AE-470C-9365-86135CEFA12E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D007EECA-A0AE-470C-9365-86135CEFA12E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D007EECA-A0AE-470C-9365-86135CEFA12E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D007EECA-A0AE-470C-9365-86135CEFA12E}.Debug|x64.Build.0 = Debug|Any CPU
+		{D007EECA-A0AE-470C-9365-86135CEFA12E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D007EECA-A0AE-470C-9365-86135CEFA12E}.Debug|x86.Build.0 = Debug|Any CPU
+		{D007EECA-A0AE-470C-9365-86135CEFA12E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D007EECA-A0AE-470C-9365-86135CEFA12E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D007EECA-A0AE-470C-9365-86135CEFA12E}.Release|x64.ActiveCfg = Release|Any CPU
+		{D007EECA-A0AE-470C-9365-86135CEFA12E}.Release|x64.Build.0 = Release|Any CPU
+		{D007EECA-A0AE-470C-9365-86135CEFA12E}.Release|x86.ActiveCfg = Release|Any CPU
+		{D007EECA-A0AE-470C-9365-86135CEFA12E}.Release|x86.Build.0 = Release|Any CPU
+		{9A1C368F-30AE-4C82-BE03-9168CE089B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A1C368F-30AE-4C82-BE03-9168CE089B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A1C368F-30AE-4C82-BE03-9168CE089B56}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9A1C368F-30AE-4C82-BE03-9168CE089B56}.Debug|x64.Build.0 = Debug|Any CPU
+		{9A1C368F-30AE-4C82-BE03-9168CE089B56}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9A1C368F-30AE-4C82-BE03-9168CE089B56}.Debug|x86.Build.0 = Debug|Any CPU
+		{9A1C368F-30AE-4C82-BE03-9168CE089B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A1C368F-30AE-4C82-BE03-9168CE089B56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A1C368F-30AE-4C82-BE03-9168CE089B56}.Release|x64.ActiveCfg = Release|Any CPU
+		{9A1C368F-30AE-4C82-BE03-9168CE089B56}.Release|x64.Build.0 = Release|Any CPU
+		{9A1C368F-30AE-4C82-BE03-9168CE089B56}.Release|x86.ActiveCfg = Release|Any CPU
+		{9A1C368F-30AE-4C82-BE03-9168CE089B56}.Release|x86.Build.0 = Release|Any CPU
+		{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35}.Debug|x64.Build.0 = Debug|Any CPU
+		{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35}.Debug|x86.Build.0 = Debug|Any CPU
+		{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35}.Release|x64.ActiveCfg = Release|Any CPU
+		{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35}.Release|x64.Build.0 = Release|Any CPU
+		{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35}.Release|x86.ActiveCfg = Release|Any CPU
+		{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -295,6 +341,10 @@ Global
 		{75B1C655-8365-4130-8B79-C748BF0403F2} = {F3664D7A-6FF5-4D1F-9F5F-26EE87F032D3}
 		{D66336A6-07E5-401A-A710-DAEDD6975D59} = {75B1C655-8365-4130-8B79-C748BF0403F2}
 		{6E7EC81D-DA39-4C4F-A898-0148558C34F4} = {75B1C655-8365-4130-8B79-C748BF0403F2}
+		{8F959801-D494-4CAF-9437-90F30472E169} = {F3664D7A-6FF5-4D1F-9F5F-26EE87F032D3}
+		{D007EECA-A0AE-470C-9365-86135CEFA12E} = {8F959801-D494-4CAF-9437-90F30472E169}
+		{9A1C368F-30AE-4C82-BE03-9168CE089B56} = {8F959801-D494-4CAF-9437-90F30472E169}
+		{02E0ECAA-B8C6-4EAB-A9AB-164B1B99AF35} = {8F959801-D494-4CAF-9437-90F30472E169}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7433AE2-B1A0-4C1A-887E-5CAA7AAF67A6}

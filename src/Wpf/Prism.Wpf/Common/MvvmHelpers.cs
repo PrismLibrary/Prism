@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+#else
 using System.Windows;
+#endif
 
 namespace Prism.Common
 {

@@ -1,0 +1,26 @@
+﻿<ContentControl x:Class="HelloUnoWorld.Views.Shell"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:prism="using:Prism"
+                xmlns:prismMvvm="using:Prism.Mvvm"
+                xmlns:prismRegions="using:Prism.Regions"
+                prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+                xmlns:local="clr-namespace:HelloWorld">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Row="1"
+                        prismRegions:RegionManager.RegionName="ContentRegion" />
+        <StackPanel>
+            <Button Grid.Row="0"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="ViewA"
+                    Content="Navigate to Named View" />
+            <Button Command="{Binding ShowDialogCommand}"
+                    Content="Show Dialog" />
+        </StackPanel>
+    </Grid>
+</ContentControl>
