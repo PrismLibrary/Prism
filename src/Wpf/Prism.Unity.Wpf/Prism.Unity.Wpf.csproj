@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Unity.Container" Version="5.11.1" />
+    <PackageReference Include="Unity.Container" Version="5.11.6" />
   </ItemGroup>
 
   <ItemGroup>

@@ -22,4 +22,6 @@
     <ProjectReference Include="..\Prism.IocContainer.Wpf.Tests.Support\Prism.IocContainer.Wpf.Tests.Support.csproj" />
   </ItemGroup>
 
+  <Import Project="..\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.projitems" Label="Shared" />
+
 </Project>
