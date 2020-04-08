@@ -21,6 +21,7 @@
         <Button Command="{Binding CloseDialogCommand}"
                 CommandParameter="True"
                 Content="OK"
+                x:Name="OKButton"
                 HorizontalAlignment="Right"
                 Margin="0,10,0,0"
                 Grid.Row="1" />

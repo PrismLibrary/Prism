@@ -29,6 +29,8 @@ variables:
   value: windows-latest
 - name: MacImage
   value: macOS-latest
+- name: LinuxImage
+  value: ubuntu-latest
 - name: BuildConfiguration
   value: Release
 - name: BuildPlatform
@@ -72,6 +74,7 @@ stages:
       versionName: '8.0.$(Build.BuildId)'
 
   - template: jobs/xamarin-uitest.yml
+  - template: jobs/uno-uitest.yml
 
   - template: jobs/e2e-uitest.yml
     parameters:

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HelloWorld.Dialogs"
         mc:Ignorable="d"
+        x:Name="contentDialog"
         Title="Another Content Dialog" Height="450" Width="800" Background="Green">
     <Grid>
         

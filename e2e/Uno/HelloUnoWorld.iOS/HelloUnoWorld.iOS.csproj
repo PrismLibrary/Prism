@@ -13,6 +13,9 @@
     </NuGetPackageImportStamp>
     <ResourcesDirectory>..\HelloUnoWorld.Shared\Strings</ResourcesDirectory>
   </PropertyGroup>
+  <PropertyGroup>
+    <IsUiAutomationMappingEnabled>true</IsUiAutomationMappingEnabled>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>portable</DebugType>
@@ -119,6 +122,7 @@
     <PackageReference Include="Uno.UI.RemoteControl" Version="2.0.528" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
+    <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.21.9"/>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Contents.json">

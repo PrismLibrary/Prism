@@ -5,22 +5,25 @@
                 xmlns:prismMvvm="using:Prism.Mvvm"
                 xmlns:prismRegions="using:Prism.Regions"
                 prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+                xmlns:toolkit="using:Uno.UI.Toolkit"
                 xmlns:local="clr-namespace:HelloWorld">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <ContentControl Grid.Row="1"
-                        prismRegions:RegionManager.RegionName="ContentRegion" />
-        <StackPanel>
-            <Button Grid.Row="0"
-                    Command="{Binding NavigateCommand}"
-                    CommandParameter="ViewA"
-                    Content="Navigate to Named View" />
-            <Button Command="{Binding ShowDialogCommand}"
-                    Content="Show Dialog" />
-        </StackPanel>
-    </Grid>
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" toolkit:VisibleBoundsPadding.PaddingMask="All">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <ContentControl Grid.Row="1"
+                    prismRegions:RegionManager.RegionName="ContentRegion" />
+    <StackPanel>
+      <Button x:Name="viewAButton"
+              Grid.Row="0"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="ViewA"
+              Content="Navigate to Named View" />
+      <Button x:Name="showDialog"
+              Command="{Binding ShowDialogCommand}"
+              Content="Show Dialog" />
+    </StackPanel>
+  </Grid>
 </ContentControl>
