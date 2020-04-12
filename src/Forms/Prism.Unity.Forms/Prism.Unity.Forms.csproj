@@ -12,11 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Unity.Container" Version="5.11.1" />
+    <PackageReference Include="Unity.Container" Version="5.11.6" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../Prism.Forms/Prism.Forms.csproj" />
   </ItemGroup>
+
+  <Import Project="..\..\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems" Label="Shared" />
 
 </Project>

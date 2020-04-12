@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Globalization;
 using DryIoc;
-using Prism.DryIoc.Ioc;
 using Prism.DryIoc.Properties;
 using Prism.Events;
 using Prism.Ioc;
@@ -128,7 +127,6 @@ namespace Prism.DryIoc
         /// </summary>
         protected virtual void ConfigureContainer()
         {
-            Container.UseInstance<IContainerExtension>(ContainerExtension);
             Container.UseInstance<ILoggerFacade>(Logger);
             Container.UseInstance<IModuleCatalog>(ModuleCatalog);
 

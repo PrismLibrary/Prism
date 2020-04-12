@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -111,7 +111,6 @@ namespace Prism
         /// <param name="containerRegistry"></param>
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterInstance(_containerExtension);
             containerRegistry.RegisterInstance(_moduleCatalog);
             containerRegistry.RegisterSingleton<ILoggerFacade, TextLogger>();
             containerRegistry.RegisterSingleton<IDialogService, DialogService>();

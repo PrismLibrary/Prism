@@ -31,9 +31,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.IocContainer.Wpf.Test
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.Container.Wpf.Shared", "tests\Wpf\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.shproj", "{BD42A7D6-A84D-4D27-9C28-7F6A2EC477F1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Containers", "Containers", "{3CD6B945-4E76-4DC7-A68A-972C36ADA718}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.DryIoc.Shared", "src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.shproj", "{6E7EC81D-DA39-4C4F-A898-0148558C34F4}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.Unity.Shared", "src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.shproj", "{D66336A6-07E5-401A-A710-DAEDD6975D59}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{2f184285-b860-4c68-aaf7-73af6b2f98d8}*SharedItemsImports = 5
+		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{6e7ec81d-da39-4c4f-a898-0148558c34f4}*SharedItemsImports = 13
+		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{a2976e8c-589a-47c7-b81d-d59cbced2e0b}*SharedItemsImports = 5
+		tests\Wpf\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.projitems*{a60cf7b0-56ad-4568-9720-e30ee5855149}*SharedItemsImports = 5
 		tests\Wpf\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.projitems*{bd42a7d6-a84d-4d27-9c28-7f6a2ec477f1}*SharedItemsImports = 13
+		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{d66336a6-07e5-401a-a710-daedd6975d59}*SharedItemsImports = 13
 		tests\Wpf\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.projitems*{fd11fa19-6a06-471d-8471-94c1153104cd}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -170,6 +181,9 @@ Global
 		{FD11FA19-6A06-471D-8471-94C1153104CD} = {414633C4-2FB9-4A81-8071-832C33C027BC}
 		{4039BC28-15D4-4EE1-82D8-80BD4CC61C50} = {414633C4-2FB9-4A81-8071-832C33C027BC}
 		{BD42A7D6-A84D-4D27-9C28-7F6A2EC477F1} = {414633C4-2FB9-4A81-8071-832C33C027BC}
+		{3CD6B945-4E76-4DC7-A68A-972C36ADA718} = {0DF20AD9-0A3F-4B61-BC8A-2D6DED59A7D2}
+		{6E7EC81D-DA39-4C4F-A898-0148558C34F4} = {3CD6B945-4E76-4DC7-A68A-972C36ADA718}
+		{D66336A6-07E5-401A-A710-DAEDD6975D59} = {3CD6B945-4E76-4DC7-A68A-972C36ADA718}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {544BBD3D-C3AA-405A-9832-122679F8AD05}

@@ -11,11 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DryIoc.dll" Version="4.0.7" />
+    <PackageReference Include="DryIoc.dll" Version="4.1.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../Prism.Forms/Prism.Forms.csproj" />
   </ItemGroup>
+
+  <Import Project="..\..\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems" Label="Shared" />
 
 </Project>

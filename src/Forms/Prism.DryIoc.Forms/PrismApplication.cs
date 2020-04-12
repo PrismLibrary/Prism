@@ -56,7 +56,9 @@ namespace Prism.DryIoc
         /// <returns>An instance of <see cref="Rules" /></returns>
         protected virtual Rules CreateContainerRules() => Rules.Default.WithAutoConcreteTypeResolution()
                                                                        .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
-                                                                       .WithoutFastExpressionCompiler()
+#if __IOS__
+                                                                       .WithUseInterpretation()
+#endif
                                                                        .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
 
         /// <summary>

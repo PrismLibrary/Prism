@@ -1,8 +1,6 @@
-﻿using DryIoc;
-using Prism.DryIoc.Ioc;
+﻿using System;
+using DryIoc;
 using Prism.Ioc;
-using Prism.Regions;
-using System;
 
 namespace Prism.DryIoc
 {

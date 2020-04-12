@@ -58,10 +58,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.DI.Forms.Tests", "tests\Forms\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.shproj", "{FAC4FA5A-D6C1-4787-9B1F-A3EC6E2FB26E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Containers", "Containers", "{75B1C655-8365-4130-8B79-C748BF0403F2}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.Unity.Shared", "src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.shproj", "{D66336A6-07E5-401A-A710-DAEDD6975D59}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.DryIoc.Shared", "src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.shproj", "{6E7EC81D-DA39-4C4F-A898-0148558C34F4}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		tests\Forms\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{089c5e84-52c3-409e-924c-bd8f4833594b}*SharedItemsImports = 5
+		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{0c8aab85-387c-41d2-abce-bafaf74b62b2}*SharedItemsImports = 5
+		tests\Wpf\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.projitems*{367be810-5b34-4894-be47-1c8dcc67de81}*SharedItemsImports = 5
+		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{6e7ec81d-da39-4c4f-a898-0148558c34f4}*SharedItemsImports = 13
+		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{aad8a958-546b-4b7d-bbd1-d79e825530eb}*SharedItemsImports = 5
+		tests\Wpf\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.projitems*{ba05687e-2317-4a65-805b-c596f52f7203}*SharedItemsImports = 5
+		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{c2f58215-92f0-4501-a9f4-862c78b2b4ce}*SharedItemsImports = 5
 		tests\Forms\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{c2ff8459-f2d1-4b87-a31a-82a1835f89cf}*SharedItemsImports = 5
+		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{d66336a6-07e5-401a-a710-daedd6975d59}*SharedItemsImports = 13
+		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{e9a2458b-999d-4d36-822f-663d3830575a}*SharedItemsImports = 5
 		tests\Forms\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{fac4fa5a-d6c1-4787-9b1f-a3ec6e2fb26e}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -278,6 +292,9 @@ Global
 		{367BE810-5B34-4894-BE47-1C8DCC67DE81} = {F1F91777-01EA-43A3-A3ED-D473B382F46C}
 		{2E8F565D-9D13-424E-BD86-C5A362F9AAE7} = {F1F91777-01EA-43A3-A3ED-D473B382F46C}
 		{FAC4FA5A-D6C1-4787-9B1F-A3EC6E2FB26E} = {F8A0FDE6-8E75-47D1-9E33-02AB8E8AB473}
+		{75B1C655-8365-4130-8B79-C748BF0403F2} = {F3664D7A-6FF5-4D1F-9F5F-26EE87F032D3}
+		{D66336A6-07E5-401A-A710-DAEDD6975D59} = {75B1C655-8365-4130-8B79-C748BF0403F2}
+		{6E7EC81D-DA39-4C4F-A898-0148558C34F4} = {75B1C655-8365-4130-8B79-C748BF0403F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7433AE2-B1A0-4C1A-887E-5CAA7AAF67A6}

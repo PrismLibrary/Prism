@@ -1,5 +1,9 @@
 ﻿namespace Prism.Ioc
 {
+    /// <summary>
+    /// A strongly typed container extension
+    /// </summary>
+    /// <typeparam name="TContainer">The underlying root container</typeparam>
     public interface IContainerExtension<TContainer> : IContainerExtension
     {
         /// <summary>
@@ -8,6 +12,9 @@
         TContainer Instance { get; }
     }
 
+    /// <summary>
+    /// A generic abstraction for what Prism expects from a container
+    /// </summary>
     public interface IContainerExtension : IContainerProvider, IContainerRegistry
     {
         /// <summary>
