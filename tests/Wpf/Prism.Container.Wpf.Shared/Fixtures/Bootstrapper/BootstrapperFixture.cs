@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Prism.Container.Wpf.Mocks;
 using Prism.Ioc;
-using Prism.IocContainer.Wpf.Tests.Support.Mocks.Views;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
@@ -12,7 +9,7 @@ using static Prism.Container.Wpf.Tests.ContainerHelper;
 
 namespace Prism.Container.Wpf.Tests.Bootstrapper
 {
-    [Collection(CollectionName)]
+    [Collection(nameof(ContainerExtension))]
     public class BootstrapperFixture
     {
         [StaFact]

@@ -2,15 +2,16 @@
 using Moq;
 using Prism.Container.Wpf.Mocks;
 using Prism.Events;
+using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
-using Prism.Unity.Ioc;
+using Prism.Unity;
 using Unity;
 using Unity.Lifetime;
 using Xunit;
 
-namespace Prism.Container.Wpf.Tests
+namespace Prism.Container.Wpf.Tests.Bootstrapper
 {
     public partial class BootstrapperRunMethodFixture
     {

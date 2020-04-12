@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Prism.Container.Wpf.Tests.Mvvm
 {
-    [Collection(ContainerHelper.CollectionName)]
+    [Collection(nameof(ContainerExtension))]
     public class ViewModelLocatorFixture
     {
         [StaFact]

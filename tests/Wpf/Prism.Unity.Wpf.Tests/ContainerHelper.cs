@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Prism.Ioc;
 using Prism.Unity;
-using Prism.Unity.Ioc;
 using Unity;
 
 namespace Prism.Container.Wpf.Tests
@@ -17,8 +12,6 @@ namespace Prism.Container.Wpf.Tests
 
         public static IContainerExtension CreateContainerExtension() =>
             new UnityContainerExtension(CreateContainer());
-
-        public const string CollectionName = "ContainerExtension";
 
         public static IUnityContainer GetBaseContainer(this IContainerExtension container) =>
             ((IContainerProvider)container).GetContainer();

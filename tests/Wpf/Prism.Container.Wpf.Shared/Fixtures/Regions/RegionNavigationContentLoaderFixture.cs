@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Linq;
 using Prism.Ioc;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks.Views;
 using Prism.Regions;
@@ -9,7 +7,7 @@ using static Prism.Container.Wpf.Tests.ContainerHelper;
 
 namespace Prism.Container.Wpf.Tests.Regions
 {
-    [Collection(CollectionName)]
+    [Collection(nameof(ContainerExtension))]
     public class RegionNavigationContentLoaderFixture
     {
         readonly IContainerExtension _container;
@@ -21,7 +19,8 @@ namespace Prism.Container.Wpf.Tests.Regions
             _container.Register<IRegionNavigationService, RegionNavigationService>();
             _container.Register<IRegionNavigationContentLoader, RegionNavigationContentLoader>();
             _container.Register<IRegionNavigationJournal, RegionNavigationJournal>();
-            ContainerLocator.SetCurrent(_container);
+            ContainerLocator.ResetContainer();
+            ContainerLocator.SetContainerFactory(() => _container);
         }
 
         [StaFact]
@@ -61,11 +60,13 @@ namespace Prism.Container.Wpf.Tests.Regions
             testRegion.Add(view);
             testRegion.Deactivate(view);
 
+            Assert.Empty(testRegion.ActiveViews);
             testRegion.RequestNavigate("SomeView");
 
             Assert.Contains(view, testRegion.Views);
             Assert.Single(testRegion.ActiveViews);
-            Assert.Contains(view, testRegion.ActiveViews);
+            Assert.Same(view, testRegion.ActiveViews.First());
+            //Assert.True(testRegion.ActiveViews.Contains(view));
         }
     }
 }

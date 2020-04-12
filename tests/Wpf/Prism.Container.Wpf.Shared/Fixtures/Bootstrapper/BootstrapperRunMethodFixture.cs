@@ -1,19 +1,14 @@
-using System;
-using System.Windows;
-using System.Windows.Controls;
 using Moq;
 using Prism.Container.Wpf.Mocks;
-using Prism.Container.Wpf.Tests;
 using Prism.Events;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using Xunit;
 
-namespace Prism.Container.Wpf.Tests
+namespace Prism.Container.Wpf.Tests.Bootstrapper
 {
-    [Collection(ContainerHelper.CollectionName)]
+    [Collection(nameof(ContainerExtension))]
     public partial class BootstrapperRunMethodFixture
     {
         [StaFact]
@@ -158,7 +153,7 @@ namespace Prism.Container.Wpf.Tests
         [StaFact]
         public void SetsContainerLocatorCurrentContainer()
         {
-            ContainerLocator.SetCurrent(null);
+            ContainerLocator.ResetContainer();
             Assert.Null(ContainerLocator.Container);
             var bootstrapper = new MockBootstrapper();
 
@@ -220,18 +215,19 @@ namespace Prism.Container.Wpf.Tests
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
 
-            Assert.Equal("CreateLogger", bootstrapper.MethodCalls[0]);
-            Assert.Equal("CreateModuleCatalog", bootstrapper.MethodCalls[1]);
-            Assert.Equal("ConfigureModuleCatalog", bootstrapper.MethodCalls[2]);
-            Assert.Equal("CreateContainer", bootstrapper.MethodCalls[3]);
-            Assert.Equal("ConfigureContainer", bootstrapper.MethodCalls[4]);
-            Assert.Equal("ConfigureViewModelLocator", bootstrapper.MethodCalls[5]);
-            Assert.Equal("ConfigureRegionAdapterMappings", bootstrapper.MethodCalls[6]);
-            Assert.Equal("ConfigureDefaultRegionBehaviors", bootstrapper.MethodCalls[7]);
-            Assert.Equal("RegisterFrameworkExceptionTypes", bootstrapper.MethodCalls[8]);
-            Assert.Equal("CreateShell", bootstrapper.MethodCalls[9]);
-            Assert.Equal("InitializeShell", bootstrapper.MethodCalls[10]);
-            Assert.Equal("InitializeModules", bootstrapper.MethodCalls[11]);
+            var index = 0;
+            Assert.Equal("CreateLogger", bootstrapper.MethodCalls[index++]);
+            Assert.Equal("CreateModuleCatalog", bootstrapper.MethodCalls[index++]);
+            Assert.Equal("ConfigureModuleCatalog", bootstrapper.MethodCalls[index++]);
+            Assert.Equal("CreateContainer", bootstrapper.MethodCalls[index++]);
+            Assert.Equal("ConfigureContainer", bootstrapper.MethodCalls[index++]);
+            Assert.Equal("ConfigureViewModelLocator", bootstrapper.MethodCalls[index++]);
+            Assert.Equal("ConfigureRegionAdapterMappings", bootstrapper.MethodCalls[index++]);
+            Assert.Equal("ConfigureDefaultRegionBehaviors", bootstrapper.MethodCalls[index++]);
+            Assert.Equal("RegisterFrameworkExceptionTypes", bootstrapper.MethodCalls[index++]);
+            Assert.Equal("CreateShell", bootstrapper.MethodCalls[index++]);
+            Assert.Equal("InitializeShell", bootstrapper.MethodCalls[index++]);
+            Assert.Equal("InitializeModules", bootstrapper.MethodCalls[index++]);
         }
 
         [StaFact]
@@ -241,177 +237,163 @@ namespace Prism.Container.Wpf.Tests
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.Contains("Logger was created successfully.", messages[0]);
-            Assert.Contains("Creating module catalog.", messages[1]);
-            Assert.Contains("Configuring module catalog.", messages[2]);
-            Assert.Contains("Creating Unity container.", messages[3]);
-            Assert.Contains("Configuring the Unity container.", messages[4]);
-            Assert.Contains("Adding UnityBootstrapperExtension to container.", messages[5]);
-            Assert.Contains("Configuring the ViewModelLocator to use Unity.", messages[6]);
-            Assert.Contains("Configuring region adapters.", messages[7]);
-            Assert.Contains("Configuring default region behaviors.", messages[8]);
-            Assert.Contains("Registering Framework Exception Types.", messages[9]);
-            Assert.Contains("Creating the shell.", messages[10]);
-            Assert.Contains("Setting the RegionManager.", messages[11]);
-            Assert.Contains("Updating Regions.", messages[12]);
-            Assert.Contains("Initializing the shell.", messages[13]);
-            Assert.Contains("Initializing modules.", messages[14]);
-            Assert.Contains("Bootstrapper sequence completed.", messages[15]);
+            var index = 0;
+            Assert.Contains(ContainerResources.LoggerCreatedSuccessfully, messages[index++]);
+            Assert.Contains(ContainerResources.CreatingModuleCatalog, messages[index++]);
+            Assert.Contains(ContainerResources.ConfiguringModuleCatalog, messages[index++]);
+            Assert.Contains(ContainerResources.CreatingContainer, messages[index++]);
+            Assert.Contains(ContainerResources.ConfiguringContainer, messages[index++]);
+            Assert.Contains(ContainerResources.ConfiguringViewModelLocator, messages[index++]);
+            Assert.Contains(ContainerResources.ConfiguringRegionAdapters, messages[index++]);
+            Assert.Contains(ContainerResources.ConfiguringDefaultRegionBehaviors, messages[index++]);
+            Assert.Contains(ContainerResources.RegisteringFrameworkExceptionTypes, messages[index++]);
+            Assert.Contains(ContainerResources.CreatingShell, messages[index++]);
+            Assert.Contains(ContainerResources.SettingTheRegionManager, messages[index++]);
+            Assert.Contains(ContainerResources.UpdatingRegions, messages[index++]);
+            Assert.Contains(ContainerResources.InitializingShell, messages[index++]);
+            Assert.Contains(ContainerResources.InitializingModules, messages[index++]);
+            Assert.Contains(ContainerResources.BootstrapperSequenceCompleted, messages[index++]);
         }
 
         [StaFact]
         public void RunShouldLogLoggerCreationSuccess()
         {
-            const string expectedMessageText = "Logger was created successfully.";
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.True(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(ContainerResources.LoggerCreatedSuccessfully));
         }
         [StaFact]
         public void RunShouldLogAboutModuleCatalogCreation()
         {
-            const string expectedMessageText = "Creating module catalog.";
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.True(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(ContainerResources.CreatingModuleCatalog));
         }
 
         [StaFact]
         public void RunShouldLogAboutConfiguringModuleCatalog()
         {
-            const string expectedMessageText = "Configuring module catalog.";
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.True(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(ContainerResources.ConfiguringModuleCatalog));
         }
 
         [StaFact]
         public void RunShouldLogAboutCreatingTheContainer()
         {
-            const string expectedMessageText = "Creating Unity container.";
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.True(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(ContainerResources.CreatingContainer));
         }
 
         [StaFact]
         public void RunShouldLogAboutConfiguringContainer()
         {
-            const string expectedMessageText = "Configuring the Unity container.";
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.True(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(ContainerResources.ConfiguringContainer));
         }
 
         [StaFact]
         public void RunShouldLogAboutConfiguringViewModelLocator()
         {
-            const string expectedMessageText = "Configuring the ViewModelLocator to use Unity.";
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.True(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(ContainerResources.ConfiguringViewModelLocator));
         }
 
         [StaFact]
         public void RunShouldLogAboutConfiguringRegionAdapters()
         {
-            const string expectedMessageText = "Configuring region adapters.";
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.True(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(ContainerResources.ConfiguringRegionAdapters));
         }
 
         [StaFact]
         public void RunShouldLogAboutConfiguringRegionBehaviors()
         {
-            const string expectedMessageText = "Configuring default region behaviors.";
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.True(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(ContainerResources.ConfiguringDefaultRegionBehaviors));
         }
 
         [StaFact]
         public void RunShouldLogAboutRegisteringFrameworkExceptionTypes()
         {
-            const string expectedMessageText = "Registering Framework Exception Types.";
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.True(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(ContainerResources.RegisteringFrameworkExceptionTypes));
         }
 
         [StaFact]
         public void RunShouldLogAboutCreatingTheShell()
         {
-            const string expectedMessageText = "Creating the shell.";
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.True(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(ContainerResources.CreatingShell));
         }
 
         [StaFact]
         public void RunShouldLogAboutInitializingTheShellIfShellCreated()
         {
-            const string expectedMessageText = "Initializing the shell.";
             var bootstrapper = new MockBootstrapper();
 
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.True(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(ContainerResources.InitializingShell));
         }
 
         [StaFact]
         public void RunShouldNotLogAboutInitializingTheShellIfShellIsNotCreated()
         {
-            const string expectedMessageText = "Initializing shell";
             var bootstrapper = new MockBootstrapper { ShellObject = null };
 
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.False(messages.Contains(expectedMessageText));
+            Assert.False(messages.Contains(ContainerResources.InitializingShell));
         }
 
         [StaFact]
         public void RunShouldLogAboutInitializingModules()
         {
-            const string expectedMessageText = "Initializing modules.";
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.True(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(ContainerResources.InitializingModules));
         }
 
         [StaFact]
         public void RunShouldLogAboutRunCompleting()
         {
-            const string expectedMessageText = "Bootstrapper sequence completed.";
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
             var messages = bootstrapper.BaseLogger.Messages;
 
-            Assert.True(messages.Contains(expectedMessageText));
+            Assert.True(messages.Contains(ContainerResources.BootstrapperSequenceCompleted));
         }
     }
 }

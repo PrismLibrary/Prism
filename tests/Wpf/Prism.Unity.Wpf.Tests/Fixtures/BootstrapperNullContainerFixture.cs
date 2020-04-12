@@ -3,7 +3,7 @@ using Prism.Container.Wpf.Mocks;
 using Prism.IocContainer.Wpf.Tests.Support;
 using Xunit;
 
-namespace Prism.Unity.Wpf.Tests
+namespace Prism.Container.Wpf.Tests.Bootstrapper
 {
     public class BootstrapperNullContainerFixture : BootstrapperFixtureBase
     {

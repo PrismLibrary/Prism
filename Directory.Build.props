@@ -23,7 +23,7 @@
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
     <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
-    <SignAssembly Condition=" ('$(IsCoreProject)' Or '$(IsWpfProject)') And !$(IsTestProject) ">True</SignAssembly>
+    <SignAssembly Condition=" ('$(IsCoreProject)' Or '$(IsWpfProject)') ">True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)prism.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
     <DisableCorePublish Condition=" '$(DisableCorePublish)' == '' ">false</DisableCorePublish>
