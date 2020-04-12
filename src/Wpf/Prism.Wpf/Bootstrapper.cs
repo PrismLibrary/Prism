@@ -118,12 +118,13 @@ namespace Prism
         /// <returns>The <see cref="RegionAdapterMappings"/> instance containing all the mappings.</returns>
         protected virtual RegionAdapterMappings ConfigureRegionAdapterMappings()
         {
-            RegionAdapterMappings regionAdapterMappings = ContainerLocator.Container.Resolve<RegionAdapterMappings>();
+            var container = ContainerLocator.Container;
+            RegionAdapterMappings regionAdapterMappings = container.Resolve<RegionAdapterMappings>();
             if (regionAdapterMappings != null)
             {
-                regionAdapterMappings.RegisterMapping(typeof(Selector), ContainerLocator.Container.Resolve<SelectorRegionAdapter>());
-                regionAdapterMappings.RegisterMapping(typeof(ItemsControl), ContainerLocator.Container.Resolve<ItemsControlRegionAdapter>());
-                regionAdapterMappings.RegisterMapping(typeof(ContentControl), ContainerLocator.Container.Resolve<ContentControlRegionAdapter>());
+                regionAdapterMappings.RegisterMapping(typeof(Selector), container.Resolve<SelectorRegionAdapter>());
+                regionAdapterMappings.RegisterMapping(typeof(ItemsControl), container.Resolve<ItemsControlRegionAdapter>());
+                regionAdapterMappings.RegisterMapping(typeof(ContentControl), container.Resolve<ContentControlRegionAdapter>());
             }
 
             return regionAdapterMappings;
