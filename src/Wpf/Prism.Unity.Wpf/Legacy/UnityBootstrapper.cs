@@ -66,7 +66,8 @@ namespace Prism.Unity
                 throw new InvalidOperationException(Resources.NullUnityContainerException);
             }
 
-            ContainerExtension = ContainerLocator.SetCurrent(CreateContainerExtension());
+            ContainerLocator.SetContainerFactory(CreateContainerExtension);
+            ContainerExtension = ContainerLocator.Current;
 
             this.Logger.Log(Resources.ConfiguringUnityContainer, Category.Debug, Priority.Low);
             this.ConfigureContainer();

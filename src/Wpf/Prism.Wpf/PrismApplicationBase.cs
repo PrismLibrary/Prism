@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -61,7 +61,8 @@ namespace Prism
         /// </summary>
         public virtual void Initialize()
         {
-            _containerExtension = ContainerLocator.SetCurrent(CreateContainerExtension());
+            ContainerLocator.SetContainerFactory(CreateContainerExtension);
+            _containerExtension = ContainerLocator.Current;
             _moduleCatalog = CreateModuleCatalog();
             RegisterRequiredTypes(_containerExtension);
             RegisterTypes(_containerExtension);
