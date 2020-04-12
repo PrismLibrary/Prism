@@ -154,6 +154,17 @@ namespace Prism.Events
         }
 
         /// <summary>
+        /// Subscribes a delegate to an event that will be published on the <see cref="ThreadOption.PublisherThread"/>
+        /// </summary>
+        /// <param name="action">The delegate that gets executed when the event is raised.</param>
+        /// <param name="filter">Filter to evaluate if the subscriber should receive the event.</param>
+        /// <returns>A <see cref="SubscriptionToken"/> that uniquely identifies the added subscription.</returns>
+        public virtual SubscriptionToken Subscribe(Action<TPayload> action, Predicate<TPayload> filter)
+        {
+            return Subscribe(action, ThreadOption.PublisherThread, false, filter);
+        }
+
+        /// <summary>
         /// Subscribes a delegate to an event.
         /// PubSubEvent will maintain a <see cref="WeakReference"/> to the Target of the supplied <paramref name="action"/> delegate.
         /// </summary>

@@ -144,6 +144,24 @@ namespace Prism.Tests.Events
         }
 
         [Fact]
+        public void FilterEnablesActionTarget_Weak()
+        {
+            TestablePubSubEvent<string> pubSubEvent = new TestablePubSubEvent<string>();
+            var goodFilter = new MockFilter { FilterReturnValue = true };
+            var actionGoodFilter = new ActionHelper();
+            var badFilter = new MockFilter { FilterReturnValue = false };
+            var actionBadFilter = new ActionHelper();
+            pubSubEvent.Subscribe(actionGoodFilter.Action, goodFilter.FilterString);
+            pubSubEvent.Subscribe(actionBadFilter.Action, badFilter.FilterString);
+
+            pubSubEvent.Publish("test");
+
+            Assert.True(actionGoodFilter.ActionCalled);
+            Assert.False(actionBadFilter.ActionCalled);
+
+        }
+
+        [Fact]
         public void SubscribeDefaultsThreadOptionAndNoFilter()
         {
             TestablePubSubEvent<string> pubSubEvent = new TestablePubSubEvent<string>();

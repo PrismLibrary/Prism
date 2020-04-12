@@ -3,11 +3,12 @@ parameters:
 
 steps:
 - task: UseDotNet@2
+  displayName: Use .NET 3.1
   inputs:
     packageType: 'sdk'
     useGlobalJson: true
 
-- task: NuGetToolInstaller@0
+- task: NuGetToolInstaller@1
   displayName: Use latest NuGet
   inputs:
     checkLatest: true
