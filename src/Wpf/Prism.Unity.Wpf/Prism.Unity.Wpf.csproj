@@ -20,4 +20,6 @@
     <ProjectReference Include="..\Prism.Wpf\Prism.Wpf.csproj" />
   </ItemGroup>
 
+  <Import Project="..\..\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems" Label="Shared" />
+
 </Project>

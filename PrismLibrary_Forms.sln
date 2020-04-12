@@ -29,10 +29,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Unity.Forms.Tests", "
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.DI.Forms.Tests", "tests\Forms\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.shproj", "{FAC4FA5A-D6C1-4787-9B1F-A3EC6E2FB26E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Container", "Container", "{09DC3C91-141C-468E-9CE6-71091A95BED8}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.Unity.Shared", "src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.shproj", "{D66336A6-07E5-401A-A710-DAEDD6975D59}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.DryIoc.Shared", "src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.shproj", "{6E7EC81D-DA39-4C4F-A898-0148558C34F4}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		tests\Forms\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{2fd30caf-6930-41f3-8104-3d018c8bdd9e}*SharedItemsImports = 5
 		tests\Forms\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{3cba8db4-c2f3-41cb-b5f5-4c282939d429}*SharedItemsImports = 5
+		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{5923689a-fbe9-4b22-8938-de554bed3144}*SharedItemsImports = 5
+		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{6e7ec81d-da39-4c4f-a898-0148558c34f4}*SharedItemsImports = 13
+		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{d4fe645d-0924-4a20-a081-27a0aff3adfa}*SharedItemsImports = 5
+		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{d66336a6-07e5-401a-a710-daedd6975d59}*SharedItemsImports = 13
 		tests\Forms\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{fac4fa5a-d6c1-4787-9b1f-a3ec6e2fb26e}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -156,6 +166,9 @@ Global
 		{3CBA8DB4-C2F3-41CB-B5F5-4C282939D429} = {CF8CB255-8A76-48A7-B09A-88B14648D3A8}
 		{2FD30CAF-6930-41F3-8104-3D018C8BDD9E} = {CF8CB255-8A76-48A7-B09A-88B14648D3A8}
 		{FAC4FA5A-D6C1-4787-9B1F-A3EC6E2FB26E} = {CF8CB255-8A76-48A7-B09A-88B14648D3A8}
+		{09DC3C91-141C-468E-9CE6-71091A95BED8} = {07A089D7-5FAF-492A-BE7F-B854E255E32C}
+		{D66336A6-07E5-401A-A710-DAEDD6975D59} = {09DC3C91-141C-468E-9CE6-71091A95BED8}
+		{6E7EC81D-DA39-4C4F-A898-0148558C34F4} = {09DC3C91-141C-468E-9CE6-71091A95BED8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E03CA9C3-F24B-442E-B378-C325728E9E29}

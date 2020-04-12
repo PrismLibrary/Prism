@@ -6,7 +6,6 @@ using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Services.Dialogs;
-using Prism.Unity.Ioc;
 using Prism.Unity.Properties;
 using Unity;
 using Unity.Lifetime;
@@ -125,7 +124,6 @@ namespace Prism.Unity
         {
             this.Logger.Log(Resources.AddingUnityBootstrapperExtensionToContainer, Category.Debug, Priority.Low);
 
-            Container.RegisterInstance<IContainerExtension>(ContainerExtension);
             Container.RegisterInstance<ILoggerFacade>(Logger);
 
             this.Container.RegisterInstance(this.ModuleCatalog);

@@ -1,4 +1,4 @@
-﻿using Prism.AppModel;
+using Prism.AppModel;
 using Prism.Behaviors;
 using Prism.Common;
 using Prism.Events;
@@ -183,7 +183,6 @@ namespace Prism
         /// <param name="containerRegistry"></param>
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterInstance<IContainerExtension>(_containerExtension);
             containerRegistry.RegisterSingleton<ILoggerFacade, EmptyLogger>();
             containerRegistry.RegisterSingleton<IApplicationProvider, ApplicationProvider>();
             containerRegistry.RegisterSingleton<IApplicationStore, ApplicationStore>();
