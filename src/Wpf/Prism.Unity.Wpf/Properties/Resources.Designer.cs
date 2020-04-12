@@ -19,7 +19,7 @@ namespace Prism.Unity.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,20 +61,20 @@ namespace Prism.Unity.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adding UnityBootstrapperExtension to container..
-        /// </summary>
-        internal static string AddingUnityBootstrapperExtensionToContainer {
-            get {
-                return ResourceManager.GetString("AddingUnityBootstrapperExtensionToContainer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Bootstrapper sequence completed..
         /// </summary>
         internal static string BootstrapperSequenceCompleted {
             get {
                 return ResourceManager.GetString("BootstrapperSequenceCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configuring the Unity container..
+        /// </summary>
+        internal static string ConfiguringContainer {
+            get {
+                return ResourceManager.GetString("ConfiguringContainer", resourceCulture);
             }
         }
         
@@ -115,20 +115,20 @@ namespace Prism.Unity.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configuring the Unity container..
-        /// </summary>
-        internal static string ConfiguringUnityContainer {
-            get {
-                return ResourceManager.GetString("ConfiguringUnityContainer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Configuring the ViewModelLocator to use Unity..
         /// </summary>
         internal static string ConfiguringViewModelLocator {
             get {
                 return ResourceManager.GetString("ConfiguringViewModelLocator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating Unity container..
+        /// </summary>
+        internal static string CreatingContainer {
+            get {
+                return ResourceManager.GetString("CreatingContainer", resourceCulture);
             }
         }
         
@@ -147,15 +147,6 @@ namespace Prism.Unity.Properties {
         internal static string CreatingShell {
             get {
                 return ResourceManager.GetString("CreatingShell", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Creating Unity container..
-        /// </summary>
-        internal static string CreatingUnityContainer {
-            get {
-                return ResourceManager.GetString("CreatingUnityContainer", resourceCulture);
             }
         }
         

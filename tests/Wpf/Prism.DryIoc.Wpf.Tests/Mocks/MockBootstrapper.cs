@@ -2,17 +2,17 @@
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using Unity;
+using DryIoc;
+using Prism.DryIoc;
+using Prism.Ioc;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
-using Prism.Unity;
-using Prism.Ioc;
 
 namespace Prism.Container.Wpf.Mocks
 {
-    internal class MockBootstrapper : UnityBootstrapper
+    internal class MockBootstrapper : DryIocBootstrapper
     {
         public List<string> MethodCalls = new List<string>();
         public bool InitializeModulesCalled;
@@ -31,7 +31,7 @@ namespace Prism.Container.Wpf.Mocks
 
         public DependencyObject BaseShell => base.Shell;
 
-        public IUnityContainer BaseContainer
+        public IContainer BaseContainer
         {
             get => base.Container;
             set => base.Container = value;
@@ -49,12 +49,12 @@ namespace Prism.Container.Wpf.Mocks
 
         public MockLoggerAdapter BaseLogger => base.Logger as MockLoggerAdapter;
 
-        public IUnityContainer CallCreateContainer()
+        public IContainer CallCreateContainer()
         {
             return this.CreateContainer();
         }
 
-        protected override IUnityContainer CreateContainer()
+        protected override IContainer CreateContainer()
         {
             this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
             this.CreateContainerCalled = true;

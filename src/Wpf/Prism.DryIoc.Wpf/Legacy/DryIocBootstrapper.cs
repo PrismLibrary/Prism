@@ -57,7 +57,7 @@ namespace Prism.DryIoc
             Logger.Log(Resources.ConfiguringModuleCatalog, Category.Debug, Priority.Low);
             ConfigureModuleCatalog();
 
-            Logger.Log(Resources.CreatingDryIocContainer, Category.Debug, Priority.Low);
+            Logger.Log(Resources.CreatingContainer, Category.Debug, Priority.Low);
             Container = CreateContainer();
             if (Container == null)
             {
@@ -67,7 +67,7 @@ namespace Prism.DryIoc
             ContainerLocator.SetContainerFactory(CreateContainerExtension);
             ContainerExtension = ContainerLocator.Current;
 
-            Logger.Log(Resources.ConfiguringDryIocContainer, Category.Debug, Priority.Low);
+            Logger.Log(Resources.ConfiguringContainer, Category.Debug, Priority.Low);
             ConfigureContainer();
 
             Logger.Log(Resources.ConfiguringViewModelLocator, Category.Debug, Priority.Low);

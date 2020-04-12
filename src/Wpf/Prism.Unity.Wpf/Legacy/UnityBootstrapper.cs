@@ -59,7 +59,7 @@ namespace Prism.Unity
             this.Logger.Log(Resources.ConfiguringModuleCatalog, Category.Debug, Priority.Low);
             this.ConfigureModuleCatalog();
 
-            this.Logger.Log(Resources.CreatingUnityContainer, Category.Debug, Priority.Low);
+            this.Logger.Log(Resources.CreatingContainer, Category.Debug, Priority.Low);
             this.Container = this.CreateContainer();
             if (this.Container == null)
             {
@@ -69,7 +69,7 @@ namespace Prism.Unity
             ContainerLocator.SetContainerFactory(CreateContainerExtension);
             ContainerExtension = ContainerLocator.Current;
 
-            this.Logger.Log(Resources.ConfiguringUnityContainer, Category.Debug, Priority.Low);
+            this.Logger.Log(Resources.ConfiguringContainer, Category.Debug, Priority.Low);
             this.ConfigureContainer();
 
             this.Logger.Log(Resources.ConfiguringViewModelLocator, Category.Debug, Priority.Low);
@@ -123,8 +123,6 @@ namespace Prism.Unity
         /// </summary>
         protected virtual void ConfigureContainer()
         {
-            this.Logger.Log(Resources.AddingUnityBootstrapperExtensionToContainer, Category.Debug, Priority.Low);
-
             Container.RegisterInstance<ILoggerFacade>(Logger);
 
             this.Container.RegisterInstance(this.ModuleCatalog);

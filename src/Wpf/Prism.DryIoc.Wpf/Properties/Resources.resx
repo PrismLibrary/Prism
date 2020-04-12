@@ -120,11 +120,11 @@
   <data name="BootstrapperSequenceCompleted" xml:space="preserve">
     <value>Bootstrapper sequence completed.</value>
   </data>
+  <data name="ConfiguringContainer" xml:space="preserve">
+    <value>Configuring the DryIoc container.</value>
+  </data>
   <data name="ConfiguringDefaultRegionBehaviors" xml:space="preserve">
     <value>Configuring default region behaviors.</value>
-  </data>
-  <data name="ConfiguringDryIocContainer" xml:space="preserve">
-    <value>Configuring the DryIoc container.</value>
   </data>
   <data name="ConfiguringModuleCatalog" xml:space="preserve">
     <value>Configuring module catalog.</value>
@@ -135,7 +135,7 @@
   <data name="ConfiguringViewModelLocator" xml:space="preserve">
     <value>Configuring the ViewModelLocator to use DryIoc.</value>
   </data>
-  <data name="CreatingDryIocContainer" xml:space="preserve">
+  <data name="CreatingContainer" xml:space="preserve">
     <value>Creating DryIoc container.</value>
   </data>
   <data name="CreatingModuleCatalog" xml:space="preserve">

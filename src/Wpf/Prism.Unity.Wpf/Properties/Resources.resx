@@ -117,11 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddingUnityBootstrapperExtensionToContainer" xml:space="preserve">
-    <value>Adding UnityBootstrapperExtension to container.</value>
-  </data>
   <data name="BootstrapperSequenceCompleted" xml:space="preserve">
     <value>Bootstrapper sequence completed.</value>
+  </data>
+  <data name="ConfiguringContainer" xml:space="preserve">
+    <value>Configuring the Unity container.</value>
   </data>
   <data name="ConfiguringDefaultRegionBehaviors" xml:space="preserve">
     <value>Configuring default region behaviors.</value>
@@ -135,20 +135,17 @@
   <data name="ConfiguringServiceLocatorSingleton" xml:space="preserve">
     <value>Configuring ServiceLocator singleton.</value>
   </data>
-  <data name="ConfiguringUnityContainer" xml:space="preserve">
-    <value>Configuring the Unity container.</value>
-  </data>
   <data name="ConfiguringViewModelLocator" xml:space="preserve">
     <value>Configuring the ViewModelLocator to use Unity.</value>
+  </data>
+  <data name="CreatingContainer" xml:space="preserve">
+    <value>Creating Unity container.</value>
   </data>
   <data name="CreatingModuleCatalog" xml:space="preserve">
     <value>Creating module catalog.</value>
   </data>
   <data name="CreatingShell" xml:space="preserve">
     <value>Creating the shell.</value>
-  </data>
-  <data name="CreatingUnityContainer" xml:space="preserve">
-    <value>Creating Unity container.</value>
   </data>
   <data name="InitializingModules" xml:space="preserve">
     <value>Initializing modules.</value>

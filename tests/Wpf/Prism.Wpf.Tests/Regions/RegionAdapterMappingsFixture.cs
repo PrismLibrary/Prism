@@ -51,7 +51,8 @@ namespace Prism.Wpf.Tests.Regions
                 var containerMock = new Mock<IContainerExtension>();
                 containerMock.Setup(c => c.Resolve(typeof(MockRegionAdapter)))
                              .Returns(regionAdapter);
-                ContainerLocator.SetCurrent(containerMock.Object);
+                ContainerLocator.ResetContainer();
+                ContainerLocator.SetContainerFactory(() => containerMock.Object);
 
                 regionAdapterMappings.RegisterMapping<ItemsControl, MockRegionAdapter>();
 
@@ -62,7 +63,7 @@ namespace Prism.Wpf.Tests.Regions
             }
             finally
             {
-                ContainerLocator.SetCurrent(null);
+                ContainerLocator.ResetContainer();
             }
         }
 

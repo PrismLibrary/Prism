@@ -1,15 +1,15 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using DryIoc;
+using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Logging;
-using Prism.Unity;
-using Unity;
 
 namespace Prism.Container.Wpf.Mocks
 {
-    internal class MockedContainerBootstrapper : UnityBootstrapper
+    internal class MockedContainerBootstrapper : DryIocBootstrapper
     {
-        private readonly IUnityContainer container;
+        private readonly IContainer container;
         public ILoggerFacade BaseLogger => base.Logger;
 
         public void CallConfigureContainer()
@@ -17,13 +17,13 @@ namespace Prism.Container.Wpf.Mocks
             base.ConfigureContainer();
         }
 
-        public MockedContainerBootstrapper(IUnityContainer container)
+        public MockedContainerBootstrapper(IContainer container)
         {
             ContainerLocator.ResetContainer();
             this.container = container;
         }
 
-        protected override IUnityContainer CreateContainer()
+        protected override IContainer CreateContainer()
         {
             return container;
         }

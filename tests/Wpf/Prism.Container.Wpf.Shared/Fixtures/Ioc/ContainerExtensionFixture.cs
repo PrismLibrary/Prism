@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Prism.Ioc;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Xunit;
@@ -48,15 +47,6 @@ namespace Prism.Container.Wpf.Tests.Ioc
             var ex = Record.Exception(() => dependantA = container.Resolve<IDependantA>());
             Assert.NotNull(ex);
             Assert.Null(dependantA);
-        }
-
-        [Fact]
-        public void TryResolveWorksWithValueTypes()
-        {
-            var container = CreateContainerExtension();
-
-            int valueType = container.Resolve<int>();
-            Assert.Equal(default, valueType);
         }
     }
 }
