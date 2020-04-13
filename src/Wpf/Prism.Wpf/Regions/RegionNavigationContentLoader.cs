@@ -15,7 +15,7 @@ namespace Prism.Regions
     /// </summary>
     public class RegionNavigationContentLoader : IRegionNavigationContentLoader
     {
-        private readonly IContainerProvider container;
+        private readonly IContainerProvider _container;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegionNavigationContentLoader"/> class with a service locator.
@@ -23,7 +23,7 @@ namespace Prism.Regions
         /// <param name="container">The <see cref="IContainerExtension" />.</param>
         public RegionNavigationContentLoader(IContainerExtension container)
         {
-            this.container = container;
+            _container = container;
         }
 
         /// <summary>
@@ -47,9 +47,9 @@ namespace Prism.Regions
             if (navigationContext == null)
                 throw new ArgumentNullException(nameof(navigationContext));
 
-            string candidateTargetContract = this.GetContractFromNavigationContext(navigationContext);
+            string candidateTargetContract = GetContractFromNavigationContext(navigationContext);
 
-            var candidates = this.GetCandidatesFromRegion(region, candidateTargetContract);
+            var candidates = GetCandidatesFromRegion(region, candidateTargetContract);
 
             var acceptingCandidates =
                 candidates.Where(
@@ -77,7 +77,7 @@ namespace Prism.Regions
                 return view;
             }
 
-            view = this.CreateNewRegionItem(candidateTargetContract);
+            view = CreateNewRegionItem(candidateTargetContract);
 
             region.Add(view);
 
@@ -94,7 +94,7 @@ namespace Prism.Regions
             object newRegionItem;
             try
             {
-                newRegionItem = this.container.Resolve<object>(candidateTargetContract);
+                newRegionItem = _container.Resolve<object>(candidateTargetContract);
             }
             catch (Exception e)
             {
@@ -127,46 +127,12 @@ namespace Prism.Regions
         /// <returns>An enumerable of candidate objects from the <see cref="IRegion"/></returns>
         protected virtual IEnumerable<object> GetCandidatesFromRegion(IRegion region, string candidateNavigationContract)
         {
-            if (string.IsNullOrEmpty(candidateNavigationContract))
-                throw new ArgumentNullException(nameof(candidateNavigationContract));
-
             if (region == null)
                 throw new ArgumentNullException(nameof(region));
 
-            var contractCandidates = region.Views.Where(v =>
+            return region.Views.Where(v =>
                 string.Equals(v.GetType().Name, candidateNavigationContract, StringComparison.Ordinal) ||
                 string.Equals(v.GetType().FullName, candidateNavigationContract, StringComparison.Ordinal));
-
-            if (!contractCandidates.Any())
-            {
-                //var matchingRegistration = _container.GetServiceRegistrations().Where(r => candidateNavigationContract.Equals(r.OptionalServiceKey?.ToString(), StringComparison.Ordinal)).FirstOrDefault();
-                //if (matchingRegistration.OptionalServiceKey == null)
-                //    matchingRegistration = _container.GetServiceRegistrations().Where(r => candidateNavigationContract.Equals(r.ImplementationType.Name, StringComparison.Ordinal)).FirstOrDefault();
-
-                //if (matchingRegistration.ServiceType == null)
-                //    return new object[0];
-
-                //string typeCandidateName = matchingRegistration.ImplementationType.FullName;
-                //contractCandidates = base.GetCandidatesFromRegion(region, typeCandidateName);
-            }
-
-            // Unity
-            //if (!contractCandidates.Any())
-            //{
-            //    //First try friendly name registration. If not found, try type registration
-            //    var matchingRegistration = this.container.Registrations.Where(r => candidateNavigationContract.Equals(r.Name, StringComparison.Ordinal)).FirstOrDefault();
-            //    if (matchingRegistration == null)
-            //    {
-            //        matchingRegistration = this.container.Registrations.Where(r => candidateNavigationContract.Equals(r.RegisteredType.Name, StringComparison.Ordinal)).FirstOrDefault();
-            //    }
-            //    if (matchingRegistration == null) return new object[0];
-
-            //    string typeCandidateName = matchingRegistration.MappedToType.FullName;
-
-            //    contractCandidates = base.GetCandidatesFromRegion(region, typeCandidateName);
-            //}
-
-            return contractCandidates;
         }
     }
 }

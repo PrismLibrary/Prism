@@ -2,6 +2,7 @@
 using System.Globalization;
 using DryIoc;
 using Prism.DryIoc.Properties;
+using Prism.DryIoc.Regions;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Logging;
@@ -146,7 +147,7 @@ namespace Prism.DryIoc
                 RegisterTypeIfMissing<IRegionNavigationJournalEntry, RegionNavigationJournalEntry>(false);
                 RegisterTypeIfMissing<IRegionNavigationJournal, RegionNavigationJournal>(false);
                 RegisterTypeIfMissing<IRegionNavigationService, RegionNavigationService>(false);
-                RegisterTypeIfMissing<IRegionNavigationContentLoader, RegionNavigationContentLoader>(true);
+                RegisterTypeIfMissing<IRegionNavigationContentLoader, DryIocRegionNavigationContentLoader>(true);
             }
         }
 

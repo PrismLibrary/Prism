@@ -17,7 +17,7 @@ namespace Prism.Container.Wpf.Tests.Regions
             _container = CreateContainerExtension();
             _container.RegisterInstance<IContainerExtension>(_container);
             _container.Register<IRegionNavigationService, RegionNavigationService>();
-            _container.Register<IRegionNavigationContentLoader, RegionNavigationContentLoader>();
+            _container.Register(typeof(IRegionNavigationContentLoader), RegionNavigationContentLoaderType);
             _container.Register<IRegionNavigationJournal, RegionNavigationJournal>();
             ContainerLocator.ResetContainer();
             ContainerLocator.SetContainerFactory(() => _container);
@@ -50,13 +50,13 @@ namespace Prism.Container.Wpf.Tests.Regions
         [StaFact]
         public void ShouldFindCandidateViewWithFriendlyNameInRegion()
         {
-            _container.Register<object, MockView>("SomeView");
+            _container.RegisterForNavigation<MockView>("SomeView");
 
-            // We cannot access the UnityRegionNavigationContentLoader directly so we need to call its
+            // We cannot access the Container specific RegionNavigationContentLoader directly so we need to call its
             // GetCandidatesFromRegion method through a navigation request.
             IRegion testRegion = new Region();
 
-            MockView view = new MockView();
+            var view = _container.Resolve<object>("SomeView") as MockView;
             testRegion.Add(view);
             testRegion.Deactivate(view);
 
@@ -64,9 +64,9 @@ namespace Prism.Container.Wpf.Tests.Regions
             testRegion.RequestNavigate("SomeView");
 
             Assert.Contains(view, testRegion.Views);
+            Assert.Single(testRegion.Views);
             Assert.Single(testRegion.ActiveViews);
-            Assert.Same(view, testRegion.ActiveViews.First());
-            //Assert.True(testRegion.ActiveViews.Contains(view));
+            Assert.Contains(view, testRegion.ActiveViews);
         }
     }
 }
