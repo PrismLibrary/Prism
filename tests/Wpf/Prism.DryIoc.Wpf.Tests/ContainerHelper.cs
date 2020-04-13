@@ -1,6 +1,7 @@
 ﻿using System;
 using DryIoc;
 using Prism.DryIoc;
+using Prism.DryIoc.Regions;
 using Prism.Ioc;
 
 namespace Prism.Container.Wpf.Tests
@@ -30,5 +31,7 @@ namespace Prism.Container.Wpf.Tests
         public static Type BaseContainerInterfaceType = typeof(IContainer);
 
         public static Type RegisteredFrameworkException = typeof(ContainerException);
+
+        public static Type RegionNavigationContentLoaderType = typeof(DryIocRegionNavigationContentLoader);
     }
 }

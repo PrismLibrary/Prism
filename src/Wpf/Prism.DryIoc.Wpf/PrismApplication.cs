@@ -1,6 +1,8 @@
 ﻿using System;
 using DryIoc;
+using Prism.DryIoc.Regions;
 using Prism.Ioc;
+using Prism.Regions;
 
 namespace Prism.DryIoc
 {
@@ -17,6 +19,12 @@ namespace Prism.DryIoc
         protected override IContainerExtension CreateContainerExtension()
         {
             return new DryIocContainerExtension(new Container(CreateContainerRules()));
+        }
+
+        protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
+        {
+            base.RegisterRequiredTypes(containerRegistry);
+            containerRegistry.RegisterSingleton<IRegionNavigationContentLoader, DryIocRegionNavigationContentLoader>();
         }
 
         protected override void RegisterFrameworkExceptionTypes()
