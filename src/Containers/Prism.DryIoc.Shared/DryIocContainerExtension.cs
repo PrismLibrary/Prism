@@ -2,6 +2,7 @@
 using System.Linq;
 using DryIoc;
 using Prism.Ioc;
+using Prism.Ioc.Internals;
 
 namespace Prism.DryIoc
 {

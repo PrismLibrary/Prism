@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using Prism.Common;
 using Prism.Ioc;
+using Prism.Ioc.Internals;
 using Prism.Properties;
 
 namespace Prism.Regions

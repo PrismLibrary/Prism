@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Prism.Ioc;
+using Prism.Ioc.Internals;
 using Unity;
 using Unity.Resolution;
 

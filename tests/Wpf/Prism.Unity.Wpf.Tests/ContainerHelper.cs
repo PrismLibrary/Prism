@@ -1,7 +1,6 @@
 ﻿using System;
 using Prism.Ioc;
 using Prism.Unity;
-using Prism.Unity.Regions;
 using Unity;
 
 namespace Prism.Container.Wpf.Tests
@@ -27,7 +26,5 @@ namespace Prism.Container.Wpf.Tests
         public static Type BaseContainerInterfaceType = typeof(IUnityContainer);
 
         public static Type RegisteredFrameworkException = typeof(ResolutionFailedException);
-
-        public static Type RegionNavigationContentLoaderType = typeof(UnityRegionNavigationContentLoader);
     }
 }
