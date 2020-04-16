@@ -5,8 +5,8 @@ using System;
 namespace Prism.Modularity
 {
     /// <summary>
-    /// Exception that's thrown when there is no <see cref="IModuleTypeLoader"/> registered in 
-    /// <see cref="ModuleManager.ModuleTypeLoaders"/> that can handle this particular type of module. 
+    /// Exception that's thrown when there is no <see cref="T:Prism.Modularity.IModuleTypeLoader"/> registered in 
+    /// <see cref="T:Prism.Modularity.ModuleManager.ModuleTypeLoaders"/> that can handle this particular type of module. 
     /// </summary>
     public partial class ModuleTypeLoaderNotFoundException : ModularityException
     {

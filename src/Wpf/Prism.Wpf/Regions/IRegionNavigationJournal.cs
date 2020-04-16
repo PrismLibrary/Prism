@@ -58,6 +58,7 @@ namespace Prism.Regions
         /// Records the navigation to the entry..
         /// </summary>
         /// <param name="entry">The entry to record.</param>
+        /// <param name="persistInHistory">If true, Prism keeps the View alive when Navigating away from view</param>
         void RecordNavigation(IRegionNavigationJournalEntry entry, bool persistInHistory);
 
         /// <summary>

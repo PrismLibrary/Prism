@@ -3,19 +3,19 @@
 namespace Prism.Modularity
 {
     /// <summary>
-    /// Defines the states a <see cref="ModuleInfo"/> can be in, with regards to the module loading and initialization process. 
+    /// Defines the states a <see cref="T:Prism.Modularity.ModuleInfo"/> can be in, with regards to the module loading and initialization process. 
     /// </summary>
     public enum ModuleState
     {
         /// <summary>
-        /// Initial state for <see cref="ModuleInfo"/>s. The <see cref="ModuleInfo"/> is defined, 
+        /// Initial state for <see cref="T:Prism.Modularity.ModuleInfo"/>s. The <see cref="T:Prism.Modularity.ModuleInfo"/> is defined, 
         /// but it has not been loaded, retrieved or initialized yet. 
         /// </summary>
         NotStarted,
 
         /// <summary>
         /// The assembly that contains the type of the module is currently being loaded by an instance of a
-        /// <see cref="IModuleTypeLoader"/>. 
+        /// <see cref="T:Prism.Modularity.IModuleTypeLoader"/>. 
         /// </summary>
         LoadingTypes,
 

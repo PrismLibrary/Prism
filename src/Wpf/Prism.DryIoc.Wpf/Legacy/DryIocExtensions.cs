@@ -9,6 +9,7 @@ namespace Prism.DryIoc
         /// <summary>
         /// Registers an object for navigation.
         /// </summary>
+        /// <param name="container">The dependency injection container</param>
         /// <typeparam name="T">The Type of the object to register</typeparam>
         /// <param name="name">The unique name to register with the object</param>
         public static void RegisterTypeForNavigation<T>(this IContainer container, string name = null)
