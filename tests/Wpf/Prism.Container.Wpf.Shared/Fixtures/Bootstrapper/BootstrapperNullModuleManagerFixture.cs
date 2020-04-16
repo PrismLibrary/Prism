@@ -3,6 +3,7 @@ using Xunit;
 
 namespace Prism.Container.Wpf.Tests.Bootstrapper
 {
+    [Collection(nameof(ContainerExtension))]
     public class BootstrapperNullModuleManagerFixture
     {
         [Fact]
