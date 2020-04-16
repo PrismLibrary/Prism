@@ -20,7 +20,7 @@ namespace Prism.Container.Wpf.Tests.Regions
             _container.Register(typeof(IRegionNavigationContentLoader), RegionNavigationContentLoaderType);
             _container.Register<IRegionNavigationJournal, RegionNavigationJournal>();
             ContainerLocator.ResetContainer();
-            ContainerLocator.SetContainerFactory(() => _container);
+            ContainerLocator.SetContainerExtension(() => _container);
         }
 
         [StaFact]

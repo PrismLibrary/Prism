@@ -21,7 +21,7 @@ namespace Prism.Core.Tests.Ioc
         public void FactoryCreatesContainerExtension()
         {
             Assert.Null(Prism.Ioc.ContainerLocator.Current);
-            Prism.Ioc.ContainerLocator.SetContainerFactory(() => new MockContainerExtension());
+            Prism.Ioc.ContainerLocator.SetContainerExtension(() => new MockContainerExtension());
             Assert.NotNull(Prism.Ioc.ContainerLocator.Current);
         }
 
@@ -30,7 +30,7 @@ namespace Prism.Core.Tests.Ioc
         {
             Prism.Ioc.ContainerLocator.ResetContainer();
             Assert.Null(Prism.Ioc.ContainerLocator.Current);
-            Prism.Ioc.ContainerLocator.SetContainerFactory(() => new MockContainerExtension());
+            Prism.Ioc.ContainerLocator.SetContainerExtension(() => new MockContainerExtension());
             Assert.NotNull(Prism.Ioc.ContainerLocator.Current);
             Prism.Ioc.ContainerLocator.ResetContainer();
             Assert.Null(Prism.Ioc.ContainerLocator.Current);
@@ -43,10 +43,10 @@ namespace Prism.Core.Tests.Ioc
             var container = new MockContainerExtension();
             var container2 = new Mock2ContainerExtension();
 
-            Prism.Ioc.ContainerLocator.SetContainerFactory(() => container);
+            Prism.Ioc.ContainerLocator.SetContainerExtension(() => container);
             Assert.Same(container, Prism.Ioc.ContainerLocator.Container);
 
-            Prism.Ioc.ContainerLocator.SetContainerFactory(() => container2);
+            Prism.Ioc.ContainerLocator.SetContainerExtension(() => container2);
             Assert.IsNotType<Mock2ContainerExtension>(Prism.Ioc.ContainerLocator.Container);
             Assert.Same(container, Prism.Ioc.ContainerLocator.Container);
         }

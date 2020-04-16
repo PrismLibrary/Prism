@@ -14,8 +14,8 @@ namespace Prism.Regions
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "It is more of a factory than a collection")]
     public class RegionBehaviorFactory : IRegionBehaviorFactory
     {
-        private readonly IContainerProvider container;
-        private readonly Dictionary<string, Type> registeredBehaviors = new Dictionary<string, Type>();
+        private readonly IContainerProvider _container;
+        private readonly Dictionary<string, Type> _registeredBehaviors = new Dictionary<string, Type>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="RegionBehaviorFactory"/>.
@@ -23,7 +23,7 @@ namespace Prism.Regions
         /// <param name="container"><see cref="IContainerExtension"/> used to create the instance of the behavior from its <see cref="Type"/>.</param>
         public RegionBehaviorFactory(IContainerExtension container)
         {
-            this.container = container;
+            _container = container;
         }
 
         /// <summary>
@@ -51,12 +51,12 @@ namespace Prism.Regions
             }
 
             // Only add the behaviorKey if it doesn't already exists.
-            if (this.registeredBehaviors.ContainsKey(behaviorKey))
+            if (_registeredBehaviors.ContainsKey(behaviorKey))
             {
                 return;
             }
 
-            this.registeredBehaviors.Add(behaviorKey, behaviorType);
+            _registeredBehaviors.Add(behaviorKey, behaviorType);
         }
 
         /// <summary>
@@ -66,13 +66,13 @@ namespace Prism.Regions
         /// <returns>A new instance of the behavior. </returns>
         public IRegionBehavior CreateFromKey(string key)
         {
-            if (!this.ContainsKey(key))
+            if (!ContainsKey(key))
             {
                 throw new ArgumentException(
                     string.Format(Thread.CurrentThread.CurrentCulture, Resources.TypeWithKeyNotRegistered, key), nameof(key));
             }
 
-            return (IRegionBehavior)this.container.Resolve(this.registeredBehaviors[key]);
+            return (IRegionBehavior)_container.Resolve(_registeredBehaviors[key]);
         }
 
 
@@ -85,7 +85,7 @@ namespace Prism.Regions
         /// <filterpriority>1</filterpriority>
         public IEnumerator<string> GetEnumerator()
         {
-            return this.registeredBehaviors.Keys.GetEnumerator();
+            return _registeredBehaviors.Keys.GetEnumerator();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Prism.Regions
         /// <filterpriority>2</filterpriority>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Prism.Regions
         /// </returns>
         public bool ContainsKey(string behaviorKey)
         {
-            return this.registeredBehaviors.ContainsKey(behaviorKey);
+            return _registeredBehaviors.ContainsKey(behaviorKey);
         }
     }
 }
