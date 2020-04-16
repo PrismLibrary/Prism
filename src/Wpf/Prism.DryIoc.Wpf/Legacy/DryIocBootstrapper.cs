@@ -65,7 +65,7 @@ namespace Prism.DryIoc
                 throw new InvalidOperationException(Resources.NullDryIocContainerException);
             }
 
-            ContainerLocator.SetContainerFactory(CreateContainerExtension);
+            ContainerLocator.SetContainerExtension(CreateContainerExtension);
             ContainerExtension = ContainerLocator.Current;
 
             Logger.Log(Resources.ConfiguringContainer, Category.Debug, Priority.Low);

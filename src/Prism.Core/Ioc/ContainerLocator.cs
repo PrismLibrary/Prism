@@ -9,8 +9,6 @@ namespace Prism.Ioc
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class ContainerLocator
     {
-        // NOTE: We want to use Lazy Initialization in case the container is first created
-        // prior to Prism initializing which could be the case with Shiny
         private static Lazy<IContainerExtension> _lazyContainer;
 
         private static IContainerExtension _current;
@@ -32,7 +30,11 @@ namespace Prism.Ioc
         /// Sets the Container Factory to use if the Current <see cref="IContainerProvider" /> is null
         /// </summary>
         /// <param name="factory"></param>
-        public static void SetContainerFactory(Func<IContainerExtension> factory) =>
+        /// <remarks>
+        /// NOTE: We want to use Lazy Initialization in case the container is first created
+        /// prior to Prism initializing which could be the case with Shiny
+        /// </remarks>
+        public static void SetContainerExtension(Func<IContainerExtension> factory) =>
             _lazyContainer = new Lazy<IContainerExtension>(factory);
 
         /// <summary>

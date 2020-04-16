@@ -80,7 +80,7 @@ namespace Prism.Wpf.Tests
             var container = new MockContainerAdapter();
             container.ResolvedInstances.Add(typeof(MockViewModel), new MockViewModel());
             ContainerLocator.ResetContainer();
-            ContainerLocator.SetContainerFactory(() => container);
+            ContainerLocator.SetContainerExtension(() => container);
         }
 
         [Fact]
@@ -153,7 +153,7 @@ namespace Prism.Wpf.Tests
             container.Setup(sl => sl.Resolve(typeof(ContentControlRegionAdapter))).Returns(new ContentControlRegionAdapter(regionBehaviorFactory));
 
             ContainerLocator.ResetContainer();
-            ContainerLocator.SetContainerFactory(() => container.Object);
+            ContainerLocator.SetContainerExtension(() => container.Object);
         }
 
         [Fact]
@@ -175,7 +175,7 @@ namespace Prism.Wpf.Tests
             containerExtension.Setup(sl => sl.Resolve(typeof(IRegionBehaviorFactory))).Returns(new RegionBehaviorFactory(containerExtension.Object));
 
             ContainerLocator.ResetContainer();
-            ContainerLocator.SetContainerFactory(() => containerExtension.Object);
+            ContainerLocator.SetContainerExtension(() => containerExtension.Object);
         }
 
         [Fact]

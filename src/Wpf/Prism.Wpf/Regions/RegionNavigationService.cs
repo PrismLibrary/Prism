@@ -14,10 +14,9 @@ namespace Prism.Regions
     /// </summary>
     public class RegionNavigationService : IRegionNavigationService
     {
-        private readonly IContainerProvider container;
-        private readonly IRegionNavigationContentLoader regionNavigationContentLoader;
-        private readonly IRegionNavigationJournal journal;
-        private NavigationContext currentNavigationContext;
+        private readonly IContainerProvider _container;
+        private readonly IRegionNavigationContentLoader _regionNavigationContentLoader;
+        private NavigationContext _currentNavigationContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegionNavigationService"/> class.
@@ -27,10 +26,10 @@ namespace Prism.Regions
         /// <param name="journal">The journal.</param>
         public RegionNavigationService(IContainerExtension container, IRegionNavigationContentLoader regionNavigationContentLoader, IRegionNavigationJournal journal)
         {
-            this.container = container ?? throw new ArgumentNullException(nameof(container));
-            this.regionNavigationContentLoader = regionNavigationContentLoader ?? throw new ArgumentNullException(nameof(regionNavigationContentLoader));
-            this.journal = journal ?? throw new ArgumentNullException(nameof(journal));
-            this.journal.NavigationTarget = this;
+            _container = container ?? throw new ArgumentNullException(nameof(container));
+            _regionNavigationContentLoader = regionNavigationContentLoader ?? throw new ArgumentNullException(nameof(regionNavigationContentLoader));
+            Journal = journal ?? throw new ArgumentNullException(nameof(journal));
+            Journal.NavigationTarget = this;
         }
 
         /// <summary>
@@ -43,13 +42,7 @@ namespace Prism.Regions
         /// Gets the journal.
         /// </summary>
         /// <value>The journal.</value>
-        public IRegionNavigationJournal Journal
-        {
-            get
-            {
-                return this.journal;
-            }
-        }
+        public IRegionNavigationJournal Journal { get; private set; }
 
         /// <summary>
         /// Raised when the region is about to be navigated to content.
@@ -105,11 +98,11 @@ namespace Prism.Regions
 
             try
             {
-                this.DoNavigate(target, navigationCallback, navigationParameters);
+                DoNavigate(target, navigationCallback, navigationParameters);
             }
             catch (Exception e)
             {
-                this.NotifyNavigationFailed(new NavigationContext(this, target), navigationCallback, e);
+                NotifyNavigationFailed(new NavigationContext(this, target), navigationCallback, e);
             }
         }
 
@@ -118,16 +111,16 @@ namespace Prism.Regions
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
 
-            if (this.Region == null)
+            if (Region == null)
                 throw new InvalidOperationException(Resources.NavigationServiceHasNoRegion);
 
-            this.currentNavigationContext = new NavigationContext(this, source, navigationParameters);
+            _currentNavigationContext = new NavigationContext(this, source, navigationParameters);
 
             // starts querying the active views
             RequestCanNavigateFromOnCurrentlyActiveView(
-                this.currentNavigationContext,
+                _currentNavigationContext,
                 navigationCallback,
-                this.Region.ActiveViews.ToArray(),
+                Region.ActiveViews.ToArray(),
                 0);
         }
 
@@ -139,8 +132,7 @@ namespace Prism.Regions
         {
             if (currentViewIndex < activeViews.Length)
             {
-                var vetoingView = activeViews[currentViewIndex] as IConfirmNavigationRequest;
-                if (vetoingView != null)
+                if (activeViews[currentViewIndex] is IConfirmNavigationRequest vetoingView)
                 {
                     // the current active view implements IConfirmNavigationRequest, request confirmation
                     // providing a callback to resume the navigation request
@@ -148,7 +140,7 @@ namespace Prism.Regions
                         navigationContext,
                         canNavigate =>
                         {
-                            if (this.currentNavigationContext == navigationContext && canNavigate)
+                            if (_currentNavigationContext == navigationContext && canNavigate)
                             {
                                 RequestCanNavigateFromOnCurrentlyActiveViewModel(
                                     navigationContext,
@@ -158,7 +150,7 @@ namespace Prism.Regions
                             }
                             else
                             {
-                                this.NotifyNavigationFailed(navigationContext, navigationCallback, null);
+                                NotifyNavigationFailed(navigationContext, navigationCallback, null);
                             }
                         });
                 }
@@ -183,13 +175,9 @@ namespace Prism.Regions
             object[] activeViews,
             int currentViewIndex)
         {
-            var frameworkElement = activeViews[currentViewIndex] as FrameworkElement;
-
-            if (frameworkElement != null)
+            if (activeViews[currentViewIndex] is FrameworkElement frameworkElement)
             {
-                var vetoingViewModel = frameworkElement.DataContext as IConfirmNavigationRequest;
-
-                if (vetoingViewModel != null)
+                if (frameworkElement.DataContext is IConfirmNavigationRequest vetoingViewModel)
                 {
                     // the data model for the current active view implements IConfirmNavigationRequest, request confirmation
                     // providing a callback to resume the navigation request
@@ -197,7 +185,7 @@ namespace Prism.Regions
                         navigationContext,
                         canNavigate =>
                         {
-                            if (this.currentNavigationContext == navigationContext && canNavigate)
+                            if (_currentNavigationContext == navigationContext && canNavigate)
                             {
                                 RequestCanNavigateFromOnCurrentlyActiveView(
                                     navigationContext,
@@ -207,7 +195,7 @@ namespace Prism.Regions
                             }
                             else
                             {
-                                this.NotifyNavigationFailed(navigationContext, navigationCallback, null);
+                                NotifyNavigationFailed(navigationContext, navigationCallback, null);
                             }
                         });
 
@@ -229,21 +217,21 @@ namespace Prism.Regions
             {
                 NotifyActiveViewsNavigatingFrom(navigationContext, activeViews);
 
-                object view = this.regionNavigationContentLoader.LoadContent(this.Region, navigationContext);
+                object view = _regionNavigationContentLoader.LoadContent(Region, navigationContext);
 
                 // Raise the navigating event just before activing the view.
-                this.RaiseNavigating(navigationContext);
+                RaiseNavigating(navigationContext);
 
-                this.Region.Activate(view);
+                Region.Activate(view);
 
                 // Update the navigation journal before notifying others of navigaton
-                IRegionNavigationJournalEntry journalEntry = this.container.Resolve<IRegionNavigationJournalEntry>();
+                IRegionNavigationJournalEntry journalEntry = _container.Resolve<IRegionNavigationJournalEntry>();
                 journalEntry.Uri = navigationContext.Uri;
                 journalEntry.Parameters = navigationContext.Parameters;
 
                 bool persistInHistory = PersistInHistory(view);
 
-                this.journal.RecordNavigation(journalEntry, persistInHistory);
+                Journal.RecordNavigation(journalEntry, persistInHistory);
 
                 // The view can be informed of navigation
                 Action<INavigationAware> action = (n) => n.OnNavigatedTo(navigationContext);
@@ -252,11 +240,11 @@ namespace Prism.Regions
                 navigationCallback(new NavigationResult(navigationContext, true));
 
                 // Raise the navigated event when navigation is completed.
-                this.RaiseNavigated(navigationContext);
+                RaiseNavigated(navigationContext);
             }
             catch (Exception e)
             {
-                this.NotifyNavigationFailed(navigationContext, navigationCallback, e);
+                NotifyNavigationFailed(navigationContext, navigationCallback, e);
             }
         }
 
@@ -273,7 +261,7 @@ namespace Prism.Regions
                 e != null ? new NavigationResult(navigationContext, e) : new NavigationResult(navigationContext, false);
 
             navigationCallback(navigationResult);
-            this.RaiseNavigationFailed(navigationContext, e);
+            RaiseNavigationFailed(navigationContext, e);
         }
 
         private static void NotifyActiveViewsNavigatingFrom(NavigationContext navigationContext, object[] activeViews)

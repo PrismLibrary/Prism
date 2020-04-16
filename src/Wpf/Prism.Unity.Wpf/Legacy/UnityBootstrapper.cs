@@ -67,7 +67,7 @@ namespace Prism.Unity
                 throw new InvalidOperationException(Resources.NullUnityContainerException);
             }
 
-            ContainerLocator.SetContainerFactory(CreateContainerExtension);
+            ContainerLocator.SetContainerExtension(CreateContainerExtension);
             ContainerExtension = ContainerLocator.Current;
 
             this.Logger.Log(Resources.ConfiguringContainer, Category.Debug, Priority.Low);
@@ -133,7 +133,6 @@ namespace Prism.Unity
                 RegisterTypeIfMissing(typeof(IDialogService), typeof(DialogService), true);
                 RegisterTypeIfMissing(typeof(IDialogWindow), typeof(DialogWindow), false);
 
-                // RegisterTypeIfMissing(typeof(IServiceLocator), typeof(UnityServiceLocatorAdapter), true);
                 RegisterTypeIfMissing(typeof(IModuleInitializer), typeof(ModuleInitializer), true);
                 RegisterTypeIfMissing(typeof(IModuleManager), typeof(ModuleManager), true);
                 RegisterTypeIfMissing(typeof(RegionAdapterMappings), typeof(RegionAdapterMappings), true);

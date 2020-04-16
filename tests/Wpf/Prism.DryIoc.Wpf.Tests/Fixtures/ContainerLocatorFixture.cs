@@ -16,7 +16,7 @@ namespace Prism.DryIoc.Wpf.Tests
 
             var containerExtension = new DryIocContainerExtension(mockContainer.Object);
             ContainerLocator.ResetContainer();
-            ContainerLocator.SetContainerFactory(() => containerExtension);
+            ContainerLocator.SetContainerExtension(() => containerExtension);
 
             var resolved = ContainerLocator.Container.Resolve(typeof(object));
             mockContainer.Verify(c => c.Resolve(typeof(object), IfUnresolved.Throw));
