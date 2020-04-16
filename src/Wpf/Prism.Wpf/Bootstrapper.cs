@@ -21,6 +21,9 @@ namespace Prism
     [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files.")]
     public abstract class Bootstrapper
     {
+        /// <summary>
+        /// Dependency Injection container extension methods for Prism
+        /// </summary>
         protected IContainerExtension ContainerExtension;
         /// <summary>
         /// Gets the <see cref="ILoggerFacade"/> for the application.

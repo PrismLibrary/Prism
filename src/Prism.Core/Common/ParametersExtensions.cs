@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace Prism.Common
 {
+    /// <summary>
+    /// This class provides extensions to manage Parameters
+    /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class ParametersExtensions
     {
@@ -29,6 +32,17 @@ namespace Prism.Common
             return GetDefault(type);
         }
 
+        /// <summary>
+        /// Queries the parameters collection for the value
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parameters">IEnumerable collection of values to search</param>
+        /// <param name="key">String name of parameter</param>
+        /// <param name="value">Out value to return parameter; otherwise default value is returned</param>
+        /// <returns>
+        /// True is value found; otherwise returns false
+        /// Value is set to parameter if true(success); otherwise default 
+        /// </returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static bool TryGetValue<T>(this IEnumerable<KeyValuePair<string, object>> parameters, string key, out T value)
         {

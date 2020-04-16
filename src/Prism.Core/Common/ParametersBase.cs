@@ -7,14 +7,26 @@ using System.Text;
 
 namespace Prism.Common
 {
+    /// <summary>
+    /// Base class for All Parameters
+    /// </summary>
     public abstract class ParametersBase : IEnumerable<KeyValuePair<string, object>>
     {
         private readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();
 
+        /// <summary>
+        /// Default base constructor
+        /// </summary>
         protected ParametersBase()
         {
         }
 
+        /// <summary>
+        /// Single parameter constuctor that turns the query into a Key, Value pair
+        /// <see cref="Add(string, object)"/>
+        /// <see cref="_entries"/>
+        /// </summary>
+        /// <param name="query"></param>
         protected ParametersBase(string query)
         {
             if (!string.IsNullOrWhiteSpace(query))
@@ -57,7 +69,14 @@ namespace Prism.Common
                 }
             }
         }
-
+        /// <summary>
+        /// Searches for parameter value
+        /// </summary>
+        /// <value>
+        /// Returns value if key exists; otherwise returns null
+        /// </value>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public object this[string key]
         {
             get
@@ -73,7 +92,9 @@ namespace Prism.Common
                 return null;
             }
         }
-
+        /// <summary>
+        /// Returns count of parameters in <see cref="_entries" /> collection/>
+        /// </summary>
         public int Count => _entries.Count;
 
         public IEnumerable<string> Keys => 
