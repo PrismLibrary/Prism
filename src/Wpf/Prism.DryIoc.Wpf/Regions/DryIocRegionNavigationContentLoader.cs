@@ -1,11 +1,9 @@
-﻿using CommonServiceLocator;
-using DryIoc;
-using Prism.Regions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DryIoc;
+using Prism.Ioc;
+using Prism.Regions;
 
 namespace Prism.DryIoc.Regions
 {
@@ -13,7 +11,7 @@ namespace Prism.DryIoc.Regions
     {
         private readonly IContainer _container;
 
-        public DryIocRegionNavigationContentLoader(IServiceLocator serviceLocator, IContainer container) : base(serviceLocator)
+        public DryIocRegionNavigationContentLoader(IContainerExtension containerExtension, IContainer container) : base(containerExtension)
         {
             _container = container;
         }
@@ -31,7 +29,7 @@ namespace Prism.DryIoc.Regions
                 if (matchingRegistration.OptionalServiceKey == null)
                     matchingRegistration = _container.GetServiceRegistrations().Where(r => candidateNavigationContract.Equals(r.ImplementationType.Name, StringComparison.Ordinal)).FirstOrDefault();
 
-                if (matchingRegistration.ServiceType == null) 
+                if (matchingRegistration.ServiceType == null)
                     return new object[0];
 
                 string typeCandidateName = matchingRegistration.ImplementationType.FullName;

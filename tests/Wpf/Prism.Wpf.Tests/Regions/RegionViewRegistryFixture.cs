@@ -1,32 +1,26 @@
-
-
 using System;
 using System.Linq;
-using Xunit;
+using Moq;
+using Prism.Ioc;
 using Prism.Regions;
-using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
+
     public class RegionViewRegistryFixture
     {
         [Fact]
         public void CanRegisterContentAndRetrieveIt()
         {
-            MockServiceLocator locator = new MockServiceLocator();
-            Type calledType = null;
-            locator.GetInstance = (type) =>
-                                      {
-                                          calledType = type;
-                                          return new MockContentObject();
-                                      };
-            var registry = new RegionViewRegistry(locator);
+            var containerMock = new Mock<IContainerExtension>();
+            containerMock.Setup(c => c.Resolve(typeof(MockContentObject))).Returns(new MockContentObject());
+            var registry = new RegionViewRegistry(containerMock.Object);
 
             registry.RegisterViewWithRegion("MyRegion", typeof(MockContentObject));
             var result = registry.GetContents("MyRegion");
 
-            Assert.Equal(typeof(MockContentObject), calledType);
+            //Assert.Equal(typeof(MockContentObject), calledType);
             Assert.NotNull(result);
             Assert.Single(result);
             Assert.IsType<MockContentObject>(result.ElementAt(0));
@@ -36,9 +30,9 @@ namespace Prism.Wpf.Tests.Regions
         public void ShouldRaiseEventWhenAddingContent()
         {
             var listener = new MySubscriberClass();
-            MockServiceLocator locator = new MockServiceLocator();
-            locator.GetInstance = (type) => new MockContentObject();
-            var registry = new RegionViewRegistry(locator);
+            var containerMock = new Mock<IContainerExtension>();
+            containerMock.Setup(c => c.Resolve(typeof(MockContentObject))).Returns(new MockContentObject());
+            var registry = new RegionViewRegistry(containerMock.Object);
 
             registry.ContentRegistered += listener.OnContentRegistered;
 
@@ -102,9 +96,7 @@ namespace Prism.Wpf.Tests.Regions
             {
                 //Assert.Fail("Wrong exception type");
             }
-
         }
-
 
         [Fact]
         public void OnRegisterErrorShouldSkipFrameworkExceptions()
@@ -112,21 +104,11 @@ namespace Prism.Wpf.Tests.Regions
             ExceptionExtensions.RegisterFrameworkExceptionType(typeof (FrameworkException));
             var registry = new RegionViewRegistry(null);
             registry.ContentRegistered +=new EventHandler<ViewRegisteredEventArgs>(FailWithFrameworkException);
-
-            try
-            {
-                registry.RegisterViewWithRegion("R1", typeof (object));
-                //Assert.Fail();
-            }
-            catch (ViewRegistrationException ex)
-            {
-                Assert.Contains("Dont do this", ex.Message);
-                Assert.Contains("R1", ex.Message);
-            }
-            catch (Exception)
-            {
-                //Assert.Fail("Wrong exception type");
-            }
+            var ex = Record.Exception(() => registry.RegisterViewWithRegion("R1", typeof(object)));
+            Assert.NotNull(ex);
+            Assert.IsType<ViewRegistrationException>(ex);
+            Assert.Contains("Dont do this", ex.Message);
+            Assert.Contains("R1", ex.Message);
         }
 
         private void FailWithFrameworkException(object sender, ViewRegisteredEventArgs e)
@@ -137,7 +119,6 @@ namespace Prism.Wpf.Tests.Regions
             }
             catch (Exception ex)
             {
-
                 throw new FrameworkException(ex);
             }
         }
@@ -147,12 +128,11 @@ namespace Prism.Wpf.Tests.Regions
             throw new InvalidOperationException("Dont do this");
         }
 
-        public class MockContentObject
+        private class MockContentObject
         {
         }
 
-
-        public class MySubscriberClass
+        private class MySubscriberClass
         {
             public ViewRegisteredEventArgs onViewRegisteredArguments;
             public void OnContentRegistered(object sender, ViewRegisteredEventArgs e)
@@ -161,7 +141,7 @@ namespace Prism.Wpf.Tests.Regions
             }
         }
 
-        class FrameworkException : Exception
+        private class FrameworkException : Exception
         {
             public FrameworkException(Exception innerException)
                 : base("", innerException)

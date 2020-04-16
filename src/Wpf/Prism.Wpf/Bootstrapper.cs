@@ -2,13 +2,12 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
+using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
-using CommonServiceLocator;
-using Prism.Mvvm;
-using Prism.Ioc;
 
 namespace Prism
 {
@@ -91,7 +90,7 @@ namespace Prism
         /// </summary>
         protected virtual void ConfigureViewModelLocator()
         {
-            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => ServiceLocator.Current.GetInstance(type));
+            ViewModelLocationProvider.SetDefaultViewModelFactory((type) => ContainerLocator.Container.Resolve(type));
         }
 
         /// <summary>
@@ -100,8 +99,6 @@ namespace Prism
         /// </summary>
         protected virtual void RegisterFrameworkExceptionTypes()
         {
-            ExceptionExtensions.RegisterFrameworkExceptionType(
-                typeof(ActivationException));
         }
 
         /// <summary>
@@ -109,7 +106,7 @@ namespace Prism
         /// </summary>
         protected virtual void InitializeModules()
         {
-            IModuleManager manager = ServiceLocator.Current.GetInstance<IModuleManager>();
+            IModuleManager manager = ContainerLocator.Container.Resolve<IModuleManager>();
             manager.Run();
         }
 
@@ -121,12 +118,13 @@ namespace Prism
         /// <returns>The <see cref="RegionAdapterMappings"/> instance containing all the mappings.</returns>
         protected virtual RegionAdapterMappings ConfigureRegionAdapterMappings()
         {
-            RegionAdapterMappings regionAdapterMappings = ServiceLocator.Current.GetInstance<RegionAdapterMappings>();
+            var container = ContainerLocator.Container;
+            RegionAdapterMappings regionAdapterMappings = container.Resolve<RegionAdapterMappings>();
             if (regionAdapterMappings != null)
             {
-                regionAdapterMappings.RegisterMapping(typeof(Selector), ServiceLocator.Current.GetInstance<SelectorRegionAdapter>());
-                regionAdapterMappings.RegisterMapping(typeof(ItemsControl), ServiceLocator.Current.GetInstance<ItemsControlRegionAdapter>());
-                regionAdapterMappings.RegisterMapping(typeof(ContentControl), ServiceLocator.Current.GetInstance<ContentControlRegionAdapter>());
+                regionAdapterMappings.RegisterMapping(typeof(Selector), container.Resolve<SelectorRegionAdapter>());
+                regionAdapterMappings.RegisterMapping(typeof(ItemsControl), container.Resolve<ItemsControlRegionAdapter>());
+                regionAdapterMappings.RegisterMapping(typeof(ContentControl), container.Resolve<ContentControlRegionAdapter>());
             }
 
             return regionAdapterMappings;
@@ -138,7 +136,7 @@ namespace Prism
         /// </summary>
         protected virtual IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
         {
-            var defaultRegionBehaviorTypesDictionary = ServiceLocator.Current.GetInstance<IRegionBehaviorFactory>();
+            var defaultRegionBehaviorTypesDictionary = ContainerLocator.Container.Resolve<IRegionBehaviorFactory>();
 
             if (defaultRegionBehaviorTypesDictionary != null)
             {
@@ -198,11 +196,6 @@ namespace Prism
         /// <param name="runWithDefaultConfiguration">If <see langword="true"/>, registers default 
         /// Prism Library services in the container. This is the default behavior.</param>
         public abstract void Run(bool runWithDefaultConfiguration);
-
-        /// <summary>
-        /// Configures the LocatorProvider for the <see cref="Microsoft.Practices.ServiceLocation.ServiceLocator" />.
-        /// </summary>
-        protected abstract void ConfigureServiceLocator();
 
         /// <summary>
         /// Contains actions that should occur last.

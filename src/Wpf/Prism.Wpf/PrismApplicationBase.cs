@@ -1,4 +1,7 @@
-﻿using CommonServiceLocator;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Logging;
@@ -7,11 +10,6 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Services.Dialogs;
-using System;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 
 namespace Prism
 {
@@ -63,13 +61,12 @@ namespace Prism
         /// </summary>
         public virtual void Initialize()
         {
-            _containerExtension = CreateContainerExtension();
+            ContainerLocator.SetContainerExtension(CreateContainerExtension);
+            _containerExtension = ContainerLocator.Current;
             _moduleCatalog = CreateModuleCatalog();
             RegisterRequiredTypes(_containerExtension);
             RegisterTypes(_containerExtension);
             _containerExtension.FinalizeExtension();
-
-            ConfigureServiceLocator();
 
             ConfigureModuleCatalog(_moduleCatalog);
 
@@ -115,7 +112,6 @@ namespace Prism
         /// <param name="containerRegistry"></param>
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterInstance(_containerExtension);
             containerRegistry.RegisterInstance(_moduleCatalog);
             containerRegistry.RegisterSingleton<ILoggerFacade, TextLogger>();
             containerRegistry.RegisterSingleton<IDialogService, DialogService>();
@@ -123,6 +119,7 @@ namespace Prism
             containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
             containerRegistry.RegisterSingleton<RegionAdapterMappings>();
             containerRegistry.RegisterSingleton<IRegionManager, RegionManager>();
+            containerRegistry.RegisterSingleton<IRegionNavigationContentLoader, RegionNavigationContentLoader>();
             containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
             containerRegistry.RegisterSingleton<IRegionViewRegistry, RegionViewRegistry>();
             containerRegistry.RegisterSingleton<IRegionBehaviorFactory, RegionBehaviorFactory>();
@@ -178,7 +175,6 @@ namespace Prism
         /// </summary>
         protected virtual void RegisterFrameworkExceptionTypes()
         {
-            ExceptionExtensions.RegisterFrameworkExceptionType(typeof(ActivationException));
         }
 
         /// <summary>
@@ -215,14 +211,6 @@ namespace Prism
         {
             IModuleManager manager = _containerExtension.Resolve<IModuleManager>();
             manager.Run();
-        }
-
-        /// <summary>
-        /// Configures the LocatorProvider for the <see cref="Microsoft.Practices.ServiceLocation.ServiceLocator" />.
-        /// </summary>
-        protected virtual void ConfigureServiceLocator()
-        {
-            ServiceLocator.SetLocatorProvider(() => _containerExtension.Resolve<IServiceLocator>());
         }
     }
 }

@@ -16,8 +16,14 @@ using Xamarin.Forms.Internals;
 
 namespace Prism
 {
+    /// <summary>
+    /// The Base implementation for a PrismApplication
+    /// </summary>
     public abstract class PrismApplicationBase : Application
     {
+        /// <summary>
+        /// Gets the Current PrismApplication
+        /// </summary>
         public new static PrismApplicationBase Current => (PrismApplicationBase) Application.Current;
         public const string NavigationServiceName = "PageNavigationService";
         public const string NavigationServiceParameterName = "navigationService";
@@ -109,7 +115,11 @@ namespace Prism
             });
         }
 
-
+        /// <summary>
+        /// Creates a new <see cref="INavigationService" /> with the proper context of which <see cref="Page" /> to navigation from.
+        /// </summary>
+        /// <param name="page">The current <see cref="Page" /> that the <see cref="INavigationService" /> will navigation from.</param>
+        /// <returns>The <see cref="INavigationService" /></returns>
         protected INavigationService CreateNavigationService(Page page)
         {
             var navService = Container.Resolve<INavigationService>(NavigationServiceName);
@@ -126,7 +136,8 @@ namespace Prism
         /// </summary>
         protected virtual void Initialize()
         {
-            _containerExtension = CreateContainerExtension();
+            ContainerLocator.SetContainerFactory(CreateContainerExtension);
+            _containerExtension = ContainerLocator.Current;
             RegisterRequiredTypes(_containerExtension);
             PlatformInitializer?.RegisterTypes(_containerExtension);
             RegisterTypes(_containerExtension);
@@ -183,7 +194,6 @@ namespace Prism
         /// <param name="containerRegistry"></param>
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterInstance<IContainerExtension>(_containerExtension);
             containerRegistry.RegisterSingleton<ILoggerFacade, EmptyLogger>();
             containerRegistry.RegisterSingleton<IApplicationProvider, ApplicationProvider>();
             containerRegistry.RegisterSingleton<IApplicationStore, ApplicationStore>();

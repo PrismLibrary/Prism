@@ -1,13 +1,9 @@
-
-
-using Prism.Regions;
-using CommonServiceLocator;
-using Unity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Prism.Ioc;
+using Prism.Regions;
+using Unity;
 
 namespace Prism.Unity.Regions
 {
@@ -22,10 +18,10 @@ namespace Prism.Unity.Regions
         /// <summary>
         /// Initializes a new instance of the <see cref="UnityRegionNavigationContentLoader"/> class.
         /// </summary>
-        /// <param name="serviceLocator"><see cref="IServiceLocator"/> used to create the instance of the view from its <see cref="Type"/>.</param>
+        /// <param name="containerExtension"><see cref="IContainerExtension"/> used to create the instance of the view from its <see cref="Type"/>.</param>
         /// <param name="container"><see cref="IUnityContainer"/> where the views are registered.</param>
-        public UnityRegionNavigationContentLoader(IServiceLocator serviceLocator, IUnityContainer container)
-            : base(serviceLocator)
+        public UnityRegionNavigationContentLoader(IContainerExtension containerExtension, IUnityContainer container)
+            : base(containerExtension)
         {
             this.container = container;
         }

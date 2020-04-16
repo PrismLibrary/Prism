@@ -1,16 +1,15 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
-using Xunit;
+using Moq;
+using Prism.Ioc;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
-using CommonServiceLocator;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
+
     public class RegionAdapterMappingsFixture
     {
         [Fact]
@@ -49,10 +48,11 @@ namespace Prism.Wpf.Tests.Regions
                 var regionAdapterMappings = new RegionAdapterMappings();
                 var regionAdapter = new MockRegionAdapter();
 
-                ServiceLocator.SetLocatorProvider(() => new MockServiceLocator
-                    {
-                        GetInstance = t => regionAdapter
-                    });
+                var containerMock = new Mock<IContainerExtension>();
+                containerMock.Setup(c => c.Resolve(typeof(MockRegionAdapter)))
+                             .Returns(regionAdapter);
+                ContainerLocator.ResetContainer();
+                ContainerLocator.SetContainerExtension(() => containerMock.Object);
 
                 regionAdapterMappings.RegisterMapping<ItemsControl, MockRegionAdapter>();
 
@@ -63,8 +63,8 @@ namespace Prism.Wpf.Tests.Regions
             }
             finally
             {
-                ServiceLocator.SetLocatorProvider(null);
-            }            
+                ContainerLocator.ResetContainer();
+            }
         }
 
         [Fact]

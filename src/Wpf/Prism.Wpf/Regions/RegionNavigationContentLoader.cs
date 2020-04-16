@@ -1,29 +1,29 @@
-using CommonServiceLocator;
-using Prism.Common;
-using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using Prism.Common;
+using Prism.Ioc;
+using Prism.Properties;
 
 namespace Prism.Regions
 {
     /// <summary>
-    /// Implementation of <see cref="IRegionNavigationContentLoader"/> that relies on a <see cref="IServiceLocator"/>
+    /// Implementation of <see cref="IRegionNavigationContentLoader"/> that relies on a <see cref="IContainerProvider"/>
     /// to create new views when necessary.
     /// </summary>
     public class RegionNavigationContentLoader : IRegionNavigationContentLoader
     {
-        private readonly IServiceLocator serviceLocator;
+        private readonly IContainerProvider _container;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegionNavigationContentLoader"/> class with a service locator.
         /// </summary>
-        /// <param name="serviceLocator">The service locator.</param>
-        public RegionNavigationContentLoader(IServiceLocator serviceLocator)
+        /// <param name="container">The <see cref="IContainerExtension" />.</param>
+        public RegionNavigationContentLoader(IContainerExtension container)
         {
-            this.serviceLocator = serviceLocator;
+            _container = container;
         }
 
         /// <summary>
@@ -47,22 +47,20 @@ namespace Prism.Regions
             if (navigationContext == null)
                 throw new ArgumentNullException(nameof(navigationContext));
 
-            string candidateTargetContract = this.GetContractFromNavigationContext(navigationContext);
+            string candidateTargetContract = GetContractFromNavigationContext(navigationContext);
 
-            var candidates = this.GetCandidatesFromRegion(region, candidateTargetContract);
+            var candidates = GetCandidatesFromRegion(region, candidateTargetContract);
 
             var acceptingCandidates =
                 candidates.Where(
                     v =>
                     {
-                        var navigationAware = v as INavigationAware;
-                        if (navigationAware != null && !navigationAware.IsNavigationTarget(navigationContext))
+                        if (v is INavigationAware navigationAware && !navigationAware.IsNavigationTarget(navigationContext))
                         {
                             return false;
                         }
 
-                        var frameworkElement = v as FrameworkElement;
-                        if (frameworkElement == null)
+                        if (!(v is FrameworkElement frameworkElement))
                         {
                             return true;
                         }
@@ -79,7 +77,7 @@ namespace Prism.Regions
                 return view;
             }
 
-            view = this.CreateNewRegionItem(candidateTargetContract);
+            view = CreateNewRegionItem(candidateTargetContract);
 
             region.Add(view);
 
@@ -96,9 +94,9 @@ namespace Prism.Regions
             object newRegionItem;
             try
             {
-                newRegionItem = this.serviceLocator.GetInstance<object>(candidateTargetContract);
+                newRegionItem = _container.Resolve<object>(candidateTargetContract);
             }
-            catch (ActivationException e)
+            catch (Exception e)
             {
                 throw new InvalidOperationException(
                     string.Format(CultureInfo.CurrentCulture, Resources.CannotCreateNavigationTarget, candidateTargetContract),

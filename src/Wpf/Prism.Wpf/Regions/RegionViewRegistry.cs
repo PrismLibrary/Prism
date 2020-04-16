@@ -1,13 +1,11 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using Prism.Events;
 using Prism.Properties;
-using CommonServiceLocator;
 using Prism.Common;
+using Prism.Ioc;
 
 namespace Prism.Regions
 {
@@ -16,17 +14,17 @@ namespace Prism.Regions
     /// </summary>
     public class RegionViewRegistry : IRegionViewRegistry
     {
-        private readonly IServiceLocator locator;
+        private readonly IContainerProvider container;
         private readonly ListDictionary<string, Func<object>> registeredContent = new ListDictionary<string, Func<object>>();
         private readonly WeakDelegatesManager contentRegisteredListeners = new WeakDelegatesManager();
 
         /// <summary>
         /// Creates a new instance of the <see cref="RegionViewRegistry"/> class.
         /// </summary>
-        /// <param name="locator"><see cref="IServiceLocator"/> used to create the instance of the views from its <see cref="Type"/>.</param>
-        public RegionViewRegistry(IServiceLocator locator)
+        /// <param name="container"><see cref="IContainerExtension"/> used to create the instance of the views from its <see cref="Type"/>.</param>
+        public RegionViewRegistry(IContainerExtension container)
         {
-            this.locator = locator;
+            this.container = container;
         }
 
         /// <summary>
@@ -82,7 +80,7 @@ namespace Prism.Regions
         /// <returns>Instance of the registered view.</returns>
         protected virtual object CreateInstance(Type type)
         {
-            return this.locator.GetInstance(type);
+            return this.container.Resolve(type);
         }
 
         private void OnContentRegistered(ViewRegisteredEventArgs e)

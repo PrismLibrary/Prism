@@ -1,7 +1,3 @@
-
-
-using CommonServiceLocator;
-using Prism.Properties;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,6 +5,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using Prism.Properties;
+using Prism.Ioc;
 
 namespace Prism.Regions
 {
@@ -17,24 +15,24 @@ namespace Prism.Regions
     /// </summary>
     public class Region : IRegion
     {
-        private ObservableCollection<ItemMetadata> itemMetadataCollection;
-        private string name;
-        private ViewsCollection views;
-        private ViewsCollection activeViews;
-        private object context;
-        private IRegionManager regionManager;
-        private IRegionNavigationService regionNavigationService;
+        private ObservableCollection<ItemMetadata> _itemMetadataCollection;
+        private string _name;
+        private ViewsCollection _views;
+        private ViewsCollection _activeViews;
+        private object _context;
+        private IRegionManager _regionManager;
+        private IRegionNavigationService _regionNavigationService;
 
-        private Comparison<object> sort;
+        private Comparison<object> _sort;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Region"/>.
         /// </summary>
         public Region()
         {
-            this.Behaviors = new RegionBehaviorCollection(this);
+            Behaviors = new RegionBehaviorCollection(this);
 
-            this.sort = Region.DefaultSortComparison;
+            _sort = Region.DefaultSortComparison;
         }
 
         /// <summary>
@@ -53,17 +51,14 @@ namespace Prism.Regions
         /// <value>The context value to be shared.</value>
         public object Context
         {
-            get
-            {
-                return this.context;
-            }
+            get => _context;
 
             set
             {
-                if (this.context != value)
+                if (_context != value)
                 {
-                    this.context = value;
-                    this.OnPropertyChanged("Context");
+                    _context = value;
+                    OnPropertyChanged(nameof(Context));
                 }
             }
         }
@@ -74,16 +69,13 @@ namespace Prism.Regions
         /// <value>The name of the region.</value>
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
+            get => _name;
 
             set
             {
-                if (this.name != null && this.name != value)
+                if (_name != null && _name != value)
                 {
-                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.CannotChangeRegionNameException, this.name));
+                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.CannotChangeRegionNameException, _name));
                 }
 
                 if (string.IsNullOrEmpty(value))
@@ -91,8 +83,8 @@ namespace Prism.Regions
                     throw new ArgumentException(Resources.RegionNameCannotBeEmptyException);
                 }
 
-                this.name = value;
-                this.OnPropertyChanged("Name");
+                _name = value;
+                OnPropertyChanged(nameof(Name));
             }
         }
 
@@ -104,13 +96,15 @@ namespace Prism.Regions
         {
             get
             {
-                if (this.views == null)
+                if (_views == null)
                 {
-                    this.views = new ViewsCollection(ItemMetadataCollection, x => true);
-                    this.views.SortComparison = this.sort;
+                    _views = new ViewsCollection(ItemMetadataCollection, x => true)
+                    {
+                        SortComparison = _sort
+                    };
                 }
 
-                return this.views;
+                return _views;
             }
         }
 
@@ -122,19 +116,23 @@ namespace Prism.Regions
         {
             get
             {
-                if (this.views == null)
+                if (_views == null)
                 {
-                    this.views = new ViewsCollection(ItemMetadataCollection, x => true);
-                    this.views.SortComparison = this.sort;
+                    _views = new ViewsCollection(ItemMetadataCollection, x => true)
+                    {
+                        SortComparison = _sort
+                    };
                 }
 
-                if (this.activeViews == null)
+                if (_activeViews == null)
                 {
-                    this.activeViews = new ViewsCollection(ItemMetadataCollection, x => x.IsActive);
-                    this.activeViews.SortComparison = this.sort;
+                    _activeViews = new ViewsCollection(ItemMetadataCollection, x => x.IsActive)
+                    {
+                        SortComparison = _sort
+                    };
                 }
 
-                return this.activeViews;
+                return _activeViews;
             }
         }
 
@@ -144,22 +142,19 @@ namespace Prism.Regions
         /// <value>The comparison to use.</value>
         public Comparison<object> SortComparison
         {
-            get
-            {
-                return this.sort;
-            }
+            get => _sort;
             set
             {
-                this.sort = value;
+                _sort = value;
 
-                if (this.activeViews != null)
+                if (_activeViews != null)
                 {
-                    this.activeViews.SortComparison = this.sort;
+                    _activeViews.SortComparison = _sort;
                 }
 
-                if (this.views != null)
+                if (_views != null)
                 {
-                    this.views.SortComparison = this.sort;
+                    _views.SortComparison = _sort;
                 }
             }
         }
@@ -172,17 +167,14 @@ namespace Prism.Regions
         /// used by the developer explicitely.</remarks>
         public IRegionManager RegionManager
         {
-            get
-            {
-                return this.regionManager;
-            }
+            get => _regionManager;
 
             set
             {
-                if (this.regionManager != value)
+                if (_regionManager != value)
                 {
-                    this.regionManager = value;
-                    this.OnPropertyChanged("RegionManager");
+                    _regionManager = value;
+                    OnPropertyChanged(nameof(RegionManager));
                 }
             }
         }
@@ -195,19 +187,16 @@ namespace Prism.Regions
         {
             get
             {
-                if (this.regionNavigationService == null)
+                if (_regionNavigationService == null)
                 {
-                    this.regionNavigationService = ServiceLocator.Current.GetInstance<IRegionNavigationService>();
-                    this.regionNavigationService.Region = this;
+                    _regionNavigationService = ContainerLocator.Container.Resolve<IRegionNavigationService>();
+                    _regionNavigationService.Region = this;
                 }
 
-                return this.regionNavigationService;
+                return _regionNavigationService;
             }
 
-            set
-            {
-                this.regionNavigationService = value;
-            }
+            set => _regionNavigationService = value;
         }
 
         /// <summary>
@@ -218,12 +207,12 @@ namespace Prism.Regions
         {
             get
             {
-                if (this.itemMetadataCollection == null)
+                if (_itemMetadataCollection == null)
                 {
-                    this.itemMetadataCollection = new ObservableCollection<ItemMetadata>();
+                    _itemMetadataCollection = new ObservableCollection<ItemMetadata>();
                 }
 
-                return this.itemMetadataCollection;
+                return _itemMetadataCollection;
             }
         }
 
@@ -276,10 +265,9 @@ namespace Prism.Regions
         {
             ItemMetadata itemMetadata = this.GetItemMetadataOrThrow(view);
 
-            this.ItemMetadataCollection.Remove(itemMetadata);
+            ItemMetadataCollection.Remove(itemMetadata);
 
-            DependencyObject dependencyObject = view as DependencyObject;
-            if (dependencyObject != null && Regions.RegionManager.GetRegionManager(dependencyObject) == this.RegionManager)
+            if (view is DependencyObject dependencyObject && Regions.RegionManager.GetRegionManager(dependencyObject) == this.RegionManager)
             {
                 dependencyObject.ClearValue(Regions.RegionManager.RegionManagerProperty);
             }
@@ -384,9 +372,8 @@ namespace Prism.Regions
                 itemMetadata.Name = viewName;
             }
 
-            DependencyObject dependencyObject = view as DependencyObject;
 
-            if (dependencyObject != null)
+            if (view is DependencyObject dependencyObject)
             {
                 Regions.RegionManager.SetRegionManager(dependencyObject, scopedRegionManager);
             }
@@ -409,11 +396,7 @@ namespace Prism.Regions
 
         private void OnPropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler eventHandler = this.PropertyChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

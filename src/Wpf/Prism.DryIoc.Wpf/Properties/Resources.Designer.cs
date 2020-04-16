@@ -19,7 +19,7 @@ namespace Prism.DryIoc.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -70,20 +70,20 @@ namespace Prism.DryIoc.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Configuring the DryIoc container..
+        /// </summary>
+        internal static string ConfiguringContainer {
+            get {
+                return ResourceManager.GetString("ConfiguringContainer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configuring default region behaviors..
         /// </summary>
         internal static string ConfiguringDefaultRegionBehaviors {
             get {
                 return ResourceManager.GetString("ConfiguringDefaultRegionBehaviors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Configuring the DryIoc container..
-        /// </summary>
-        internal static string ConfiguringDryIocContainer {
-            get {
-                return ResourceManager.GetString("ConfiguringDryIocContainer", resourceCulture);
             }
         }
         
@@ -106,15 +106,6 @@ namespace Prism.DryIoc.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configuring ServiceLocator singleton..
-        /// </summary>
-        internal static string ConfiguringServiceLocatorSingleton {
-            get {
-                return ResourceManager.GetString("ConfiguringServiceLocatorSingleton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Configuring the ViewModelLocator to use DryIoc..
         /// </summary>
         internal static string ConfiguringViewModelLocator {
@@ -126,9 +117,9 @@ namespace Prism.DryIoc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Creating DryIoc container..
         /// </summary>
-        internal static string CreatingDryIocContainer {
+        internal static string CreatingContainer {
             get {
-                return ResourceManager.GetString("CreatingDryIocContainer", resourceCulture);
+                return ResourceManager.GetString("CreatingContainer", resourceCulture);
             }
         }
         
