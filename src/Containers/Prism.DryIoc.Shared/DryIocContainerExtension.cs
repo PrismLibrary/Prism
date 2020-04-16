@@ -8,7 +8,7 @@ namespace Prism.DryIoc
     /// <summary>
     /// The <see cref="IContainerExtension" /> Implementation to use with DryIoc
     /// </summary>
-    public class DryIocContainerExtension : IContainerExtension<IContainer>
+    public class DryIocContainerExtension : IContainerExtension<IContainer>, IContainerInfo
     {
         /// <summary>
         /// The instance of the wrapped container
@@ -172,6 +172,15 @@ namespace Prism.DryIoc
         public bool IsRegistered(Type type, string name)
         {
             return Instance.IsRegistered(type, name);
+        }
+
+        Type IContainerInfo.GetRegistrationType(string key)
+        {
+            var matchingRegistration = Instance.GetServiceRegistrations().Where(r => key.Equals(r.OptionalServiceKey?.ToString(), StringComparison.Ordinal)).FirstOrDefault();
+            if (matchingRegistration.OptionalServiceKey == null)
+                matchingRegistration = Instance.GetServiceRegistrations().Where(r => key.Equals(r.ImplementationType.Name, StringComparison.Ordinal)).FirstOrDefault();
+
+            return matchingRegistration.ImplementationType;
         }
     }
 }

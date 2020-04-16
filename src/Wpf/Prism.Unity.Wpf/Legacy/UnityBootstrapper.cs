@@ -7,7 +7,6 @@ using Prism.Modularity;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using Prism.Unity.Properties;
-using Prism.Unity.Regions;
 using Unity;
 using Unity.Lifetime;
 
@@ -143,7 +142,7 @@ namespace Prism.Unity
                 RegisterTypeIfMissing(typeof(IRegionNavigationJournalEntry), typeof(RegionNavigationJournalEntry), false);
                 RegisterTypeIfMissing(typeof(IRegionNavigationJournal), typeof(RegionNavigationJournal), false);
                 RegisterTypeIfMissing(typeof(IRegionNavigationService), typeof(RegionNavigationService), false);
-                RegisterTypeIfMissing(typeof(IRegionNavigationContentLoader), typeof(UnityRegionNavigationContentLoader), true);
+                RegisterTypeIfMissing(typeof(IRegionNavigationContentLoader), typeof(RegionNavigationContentLoader), true);
             }
         }
 
