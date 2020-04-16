@@ -17,7 +17,7 @@ namespace Prism.Container.Wpf.Tests.Regions
             _container = CreateContainerExtension();
             _container.RegisterInstance<IContainerExtension>(_container);
             _container.Register<IRegionNavigationService, RegionNavigationService>();
-            _container.Register(typeof(IRegionNavigationContentLoader), RegionNavigationContentLoaderType);
+            _container.Register(typeof(IRegionNavigationContentLoader), typeof(RegionNavigationContentLoader));
             _container.Register<IRegionNavigationJournal, RegionNavigationJournal>();
             ContainerLocator.ResetContainer();
             ContainerLocator.SetContainerExtension(() => _container);

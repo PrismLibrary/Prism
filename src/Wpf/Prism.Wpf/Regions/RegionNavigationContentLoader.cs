@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using Prism.Common;
 using Prism.Ioc;
+using Prism.Ioc.Internals;
 using Prism.Properties;
 
 namespace Prism.Regions
@@ -15,7 +16,7 @@ namespace Prism.Regions
     /// </summary>
     public class RegionNavigationContentLoader : IRegionNavigationContentLoader
     {
-        private readonly IContainerProvider _container;
+        private readonly IContainerExtension _container;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegionNavigationContentLoader"/> class with a service locator.
@@ -127,12 +128,41 @@ namespace Prism.Regions
         /// <returns>An enumerable of candidate objects from the <see cref="IRegion"/></returns>
         protected virtual IEnumerable<object> GetCandidatesFromRegion(IRegion region, string candidateNavigationContract)
         {
-            if (region == null)
+            if (region is null)
+            {
                 throw new ArgumentNullException(nameof(region));
+            }
 
-            return region.Views.Where(v =>
-                string.Equals(v.GetType().Name, candidateNavigationContract, StringComparison.Ordinal) ||
-                string.Equals(v.GetType().FullName, candidateNavigationContract, StringComparison.Ordinal));
+            if (string.IsNullOrEmpty(candidateNavigationContract))
+            {
+                throw new ArgumentNullException(nameof(candidateNavigationContract));
+            }
+
+            var contractCandidates = GetCandidatesFromRegionViews(region, candidateNavigationContract);
+
+            if (!contractCandidates.Any())
+            {
+                var matchingType = _container.GetRegistrationType(candidateNavigationContract);
+                if (matchingType is null)
+                {
+                    return Array.Empty<object>();
+                }
+
+                return GetCandidatesFromRegionViews(region, matchingType.FullName);
+            }
+
+            return contractCandidates;
+        }
+
+        private IEnumerable<object> GetCandidatesFromRegionViews(IRegion region, string candidateNavigationContract)
+        {
+            return region.Views.Where(v => ViewIsMatch(v.GetType(), candidateNavigationContract));
+        }
+
+        private static bool ViewIsMatch(Type viewType, string navigationSegment)
+        {
+            var names = new[] { viewType.Name, viewType.FullName };
+            return names.Any(x => x.Equals(navigationSegment, StringComparison.Ordinal));
         }
     }
 }

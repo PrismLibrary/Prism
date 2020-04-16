@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Prism.Ioc;
+using Prism.Ioc.Internals;
 using Unity;
 using Unity.Resolution;
 
@@ -9,7 +10,7 @@ namespace Prism.Unity
     /// <summary>
     /// The Unity implementation of the <see cref="IContainerExtension" />
     /// </summary>
-    public class UnityContainerExtension : IContainerExtension<IUnityContainer>
+    public class UnityContainerExtension : IContainerExtension<IUnityContainer>, IContainerInfo
     {
         /// <summary>
         /// The instance of the wrapped container
@@ -182,6 +183,18 @@ namespace Prism.Unity
         public bool IsRegistered(Type type, string name)
         {
             return Instance.IsRegistered(type, name);
+        }
+
+        Type IContainerInfo.GetRegistrationType(string key)
+        {
+            //First try friendly name registration. If not found, try type registration
+            var matchingRegistration = Instance.Registrations.Where(r => key.Equals(r.Name, StringComparison.Ordinal)).FirstOrDefault();
+            if (matchingRegistration == null)
+            {
+                matchingRegistration = Instance.Registrations.Where(r => key.Equals(r.RegisteredType.Name, StringComparison.Ordinal)).FirstOrDefault();
+            }
+
+            return matchingRegistration?.MappedToType;
         }
     }
 }
