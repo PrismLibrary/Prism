@@ -8,7 +8,7 @@ namespace Prism.Modularity
     public interface IModuleInfo : IModuleCatalogItem
     {
         /// <summary>
-        /// The modules this instance depends on.
+        /// The module names this instance depends on.
         /// </summary>
         Collection<string> DependsOn { get; set; }
         /// <summary>
