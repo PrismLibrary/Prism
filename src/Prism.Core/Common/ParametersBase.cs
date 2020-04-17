@@ -72,7 +72,7 @@ namespace Prism.Common
         /// Searches Parameter collection and returns value if Collection contains key.
         /// Otherswise returns null.
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="key">This parameter represents the key that represents the value to be returned</param>
         /// <returns></returns>
         public object this[string key]
         {
@@ -102,7 +102,7 @@ namespace Prism.Common
             _entries.Select(x => x.Key);
 
         /// <summary>
-        /// Adds the <paramref name="Key" /> and <paramref name="Value" /> to the KeyValuePair<string,object> collection
+        /// Adds the <paramref name="key" /> and <paramref name="value" /> to the KeyValuePair<string,object> collection
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
