@@ -104,15 +104,15 @@ namespace Prism.Common
         /// <summary>
         /// Adds the <paramref name="key" /> and <paramref name="value" /> to the KeyValuePair<string,object> collection
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
+        /// <param name="key">The key to reference this value in the KeyValuePair<string, object></param>
+        /// <param name="value">The value of the parameter to store</param>
         public void Add(string key, object value) =>
             _entries.Add(new KeyValuePair<string, object>(key, value));
 
         /// <summary>
         /// Checks collection for presense of key
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="key">The key to check in the collection</param>
         /// <returns>True if key exists; else returns false.</returns>
         public bool ContainsKey(string key) =>
             _entries.ContainsKey(key);
