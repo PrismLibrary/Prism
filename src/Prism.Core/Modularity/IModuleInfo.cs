@@ -12,8 +12,7 @@ namespace Prism.Modularity
         /// </summary>
         Collection<string> DependsOn { get; set; }
         /// <summary>
-        /// When Prism should Initialize the module
-        /// <see cref="InitializationMode"/>
+        /// Gets or Sets the <see cref="InitializationMode" />
         /// </summary>
         InitializationMode InitializationMode { get; set; }
         /// <summary>
