@@ -8,7 +8,7 @@ using System.Text;
 namespace Prism.Common
 {
     /// <summary>
-    /// Base class for Navigation parameters
+    /// This is a generic parameters base class used for Dialog Parameters and Navigation Parameters
     /// </summary>
     public abstract class ParametersBase : IEnumerable<KeyValuePair<string, object>>
     {
