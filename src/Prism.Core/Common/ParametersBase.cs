@@ -72,7 +72,7 @@ namespace Prism.Common
         /// Searches Parameter collection and returns value if Collection contains key.
         /// Otherswise returns null.
         /// </summary>
-        /// <param name="key">This parameter represents the key that represents the value to be returned</param>
+        /// <param name="key">The key for the value to be returned</param>
         /// <returns></returns>
         public object this[string key]
         {
@@ -127,8 +127,8 @@ namespace Prism.Common
         /// Returns the value of the member referenced by key
         /// </summary>
         /// <typeparam name="T">The type of object to be returned</typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">The key for the value to be returned</param>
+        /// <returns>Returns a matching parameter of <typeparam name="T" /> if one exists in the Collection</returns>
         public T GetValue<T>(string key) => 
             _entries.GetValue<T>(key);
 
