@@ -10,6 +10,7 @@ namespace Prism.Navigation.TabbedPages
         /// <summary>
         /// Selects a Tab of the TabbedPage parent.
         /// </summary>
+        /// <param name="navigationService">Service for handling navigation between views</param>
         /// <param name="name">The name of the tab to select</param>
         /// <param name="parameters">The navigation parameters</param>
         public static async Task<INavigationResult> SelectTabAsync(this INavigationService navigationService, string name, INavigationParameters parameters = null)

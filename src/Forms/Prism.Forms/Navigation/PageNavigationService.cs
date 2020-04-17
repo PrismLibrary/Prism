@@ -173,7 +173,6 @@ namespace Prism.Navigation
         /// <summary>
         /// When navigating inside a NavigationPage: Pops all but the root Page off the navigation stack
         /// </summary>
-        /// <param name="navigationService">The INavigatinService instance</param>
         /// <param name="parameters">The navigation parameters</param>
         /// <remarks>Only works when called from a View within a NavigationPage</remarks>
         protected async virtual Task<INavigationResult> GoBackToRootInternal(INavigationParameters parameters)

@@ -13,6 +13,7 @@ namespace Prism.Navigation
         /// <summary>
         /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
         /// </summary>
+        /// <param name="navigationService">Service for handling navigation between views</param>
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
@@ -37,6 +38,7 @@ namespace Prism.Navigation
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="name"/>.
         /// </summary>
+        /// <param name="navigationService">Service for handling navigation between views</param>
         /// <param name="name">The name of the target to navigate to.</param>
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PushModalAsync, if <c>false</c> uses PushAsync</param>
@@ -50,6 +52,7 @@ namespace Prism.Navigation
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="uri"/>.
         /// </summary>
+        /// <param name="navigationService">Service for handling navigation between views</param>
         /// <param name="uri">The Uri to navigate to</param>
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
@@ -87,6 +90,7 @@ namespace Prism.Navigation
         /// <summary>
         /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
         /// </summary>
+        /// <param name="navigationService">Service for handling navigation between views</param>
         /// <param name="parameters">The navigation parameters</param>
         /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
         public static Task<INavigationResult> GoBackAsync(this INavigationService navigationService, params (string Key, object Value)[] parameters)
@@ -97,6 +101,7 @@ namespace Prism.Navigation
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="name"/>.
         /// </summary>
+        /// <param name="navigationService">Service for handling navigation between views</param>
         /// <param name="name">The Uri to navigate to</param>
         /// <param name="parameters">The navigation parameters</param>
         /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
@@ -112,6 +117,7 @@ namespace Prism.Navigation
         /// <summary>
         /// Initiates navigation to the target specified by the <paramref name="uri"/>.
         /// </summary>
+        /// <param name="navigationService">Service for handling navigation between views</param>
         /// <param name="uri">The Uri to navigate to</param>
         /// <param name="parameters">The navigation parameters</param>
         /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>

@@ -7,14 +7,24 @@ using System.Text;
 
 namespace Prism.Common
 {
+    /// <summary>
+    /// Base class for Navigation parameters
+    /// </summary>
     public abstract class ParametersBase : IEnumerable<KeyValuePair<string, object>>
     {
         private readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         protected ParametersBase()
         {
         }
 
+        /// <summary>
+        /// Constructs a list of parameters
+        /// </summary>
+        /// <param name="query">Query string to be parsed</param>
         protected ParametersBase(string query)
         {
             if (!string.IsNullOrWhiteSpace(query))
@@ -58,6 +68,12 @@ namespace Prism.Common
             }
         }
 
+        /// <summary>
+        /// Searches Parameter collection and returns value if Collection contains key.
+        /// Otherswise returns null.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public object this[string key]
         {
             get
@@ -74,32 +90,72 @@ namespace Prism.Common
             }
         }
 
+        /// <summary>
+        /// The count, or number, of parameters in collection
+        /// </summary>
         public int Count => _entries.Count;
 
+        /// <summary>
+        /// Returns an IEnumerable of the Keys in the collection
+        /// </summary>
         public IEnumerable<string> Keys => 
             _entries.Select(x => x.Key);
 
+        /// <summary>
+        /// Adds the KeyValuePair to the Collection
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public void Add(string key, object value) =>
             _entries.Add(new KeyValuePair<string, object>(key, value));
 
+        /// <summary>
+        /// Checks collection for presense of key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns>True if key exists; else returns false.</returns>
         public bool ContainsKey(string key) =>
             _entries.ContainsKey(key);
 
+        /// <summary>
+        /// Gets an enumerator for the KeyValuePairs in parameter collection
+        /// </summary>
+        /// <returns>Enumerator</returns>
         public IEnumerator<KeyValuePair<string, object>> GetEnumerator() =>
             _entries.GetEnumerator();
-
+        /// <summary>
+        /// Returns the value of the member referenced by key
+        /// </summary>
+        /// <typeparam name="T">The type of object to be returned</typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public T GetValue<T>(string key) => 
             _entries.GetValue<T>(key);
 
+        /// <summary>
+        /// Returns an IEnumerable of all parameters 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
         public IEnumerable<T> GetValues<T>(string key) =>
             _entries.GetValues<T>(key);
 
+        /// <summary>
+        /// Checks to see if the parameter collection contains the value
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value">Value of the returned parameter if it exists</param>
         public bool TryGetValue<T>(string key, out T value) =>
             _entries.TryGetValue(key, out value);
 
         IEnumerator IEnumerable.GetEnumerator() =>
             GetEnumerator();
 
+        /// <summary>
+        /// Converts parameter collection to a parameter string
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             var queryBuilder = new StringBuilder();
@@ -129,6 +185,10 @@ namespace Prism.Common
             return queryBuilder.ToString();
         }
 
+        /// <summary>
+        /// Adds a collection of parameters to the local parameter list
+        /// </summary>
+        /// <param name="parameters"></param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void FromParameters(IEnumerable<KeyValuePair<string, object>> parameters) =>
             _entries.AddRange(parameters);
