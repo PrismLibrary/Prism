@@ -36,8 +36,7 @@ namespace Prism.Modularity
         string Ref { get; set; }
 
         /// <summary>
-        /// An enum that lists the modules state
-        /// <see cref="ModuleState"/>
+        /// Gets or Sets the current <see cref="ModuleState" />
         /// </summary>
         ModuleState State { get; set; }
     }
