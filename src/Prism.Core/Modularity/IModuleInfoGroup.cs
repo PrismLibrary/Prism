@@ -16,8 +16,11 @@ namespace Prism.Modularity
         InitializationMode InitializationMode { get; set; }
 
         /// <summary>
-        /// A string ref for the module for registration/resolution
+        /// A string ref is a location reference to load the module as it may not be already loaded in the Appdomain in some cases may need to be downloaded.
         /// </summary>
+        /// <Remarks>
+        /// This is only used for WPF
+        /// </Remarks>
         string Ref { get; set; }
     }
 }
