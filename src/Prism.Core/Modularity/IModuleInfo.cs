@@ -5,7 +5,7 @@ namespace Prism.Modularity
     /// <summary>
     /// Set of properties for each Module
     /// </summary>
-public interface IModuleInfo : IModuleCatalogItem
+    public interface IModuleInfo : IModuleCatalogItem
     {
         /// <summary>
         /// The modules this instance depends on.
