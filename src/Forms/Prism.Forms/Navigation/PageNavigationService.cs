@@ -535,7 +535,7 @@ namespace Prism.Navigation
                     if (nextSegment.Contains(KnownNavigationParameters.SelectedTab))
                     {
                         var segmentParams = UriParsingHelper.GetSegmentParameters(nextSegment);
-                        await SelectPageTab(topPage, segmentParams);
+                        await SelectPageTab(topPage, segmentParams, nextSegment);
                     }
                 });
             }
@@ -639,7 +639,7 @@ namespace Prism.Navigation
                      if (detail is TabbedPage && nextSegment.Contains(KnownNavigationParameters.SelectedTab))
                      {
                          var segmentParams = UriParsingHelper.GetSegmentParameters(nextSegment);
-                         await SelectPageTab(detail, segmentParams);
+                         await SelectPageTab(detail, segmentParams, nextSegment);
                      }
 
                      currentPage.IsPresented = isPresented;
@@ -906,7 +906,7 @@ namespace Prism.Navigation
                 }
             }
 
-            await TabbedPageSelectTab(tabbedPage, parameters);
+            await TabbedPageSelectTab(tabbedPage, parameters, segment);
         }
 
         void ConfigureCarouselPage(CarouselPage carouselPage, string segment)
@@ -921,11 +921,11 @@ namespace Prism.Navigation
             CarouselPageSelectTab(carouselPage, parameters);
         }
 
-        private async Task SelectPageTab(Page page, INavigationParameters parameters)
+        private async Task SelectPageTab(Page page, INavigationParameters parameters, string segment)
         {
             if (page is TabbedPage tabbedPage)
             {
-                await TabbedPageSelectTab(tabbedPage, parameters);
+                await TabbedPageSelectTab(tabbedPage, parameters, segment);
             }
             else if (page is CarouselPage carouselPage)
             {
@@ -933,7 +933,7 @@ namespace Prism.Navigation
             }
         }
 
-        private async Task TabbedPageSelectTab(TabbedPage tabbedPage, INavigationParameters parameters)
+        private async Task TabbedPageSelectTab(TabbedPage tabbedPage, INavigationParameters parameters, string segment)
         {
             var selectedTab = parameters?.GetValue<string>(KnownNavigationParameters.SelectedTab);
             if (!string.IsNullOrWhiteSpace(selectedTab))
