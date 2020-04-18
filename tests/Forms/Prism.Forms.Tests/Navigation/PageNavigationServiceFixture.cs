@@ -36,7 +36,7 @@ namespace Prism.Forms.Tests.Navigation
             _container.Register(typeof(ContentPageMockViewModel).FullName, typeof(ContentPageMock));
             _container.Register(typeof(ContentPageMock1ViewModel).FullName, typeof(ContentPageMock1));
 
-            _container.Register("SecondContentPageMock", typeof(SecondContentPageMock));
+            _container.Register("SecondContentPage", typeof(SecondContentPageMock));
 
             _container.Register("NavigationPage", typeof(NavigationPageMock));
             _container.Register("NavigationPage-Empty", typeof(NavigationPageEmptyMock));
@@ -627,7 +627,7 @@ namespace Prism.Forms.Tests.Navigation
 
             // Navigate to Page2
             ((IPageAware)navigationService).Page = contentPageMock;
-            await navigationService.NavigateAsync("SecondContentPageMock");
+            await navigationService.NavigateAsync("SecondContentPage");
 
             Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
             Assert.Equal(2, navigationPage.Navigation.NavigationStack.Count);
@@ -683,7 +683,7 @@ namespace Prism.Forms.Tests.Navigation
 
             // Navigate to Page2
             ((IPageAware)navigationService).Page = contentPageMock;
-            await navigationService.NavigateAsync("SecondContentPageMock");
+            await navigationService.NavigateAsync("SecondContentPage");
 
             var secondContentPage = navigationPage.Navigation.NavigationStack.Last();
             var secondContentPageViewModel = secondContentPage.BindingContext;
@@ -878,13 +878,13 @@ namespace Prism.Forms.Tests.Navigation
 
             // Navigate to Page2
             ((IPageAware)navigationService).Page = contentPageMock;
-            await navigationService.NavigateAsync("SecondContentPageMock");
+            await navigationService.NavigateAsync("SecondContentPage");
 
             var secondContentPage = navigationPage.Navigation.NavigationStack.Last();
 
             recorder.Clear();
             ((IPageAware)navigationService).Page = navigationPage;
-            await navigationService.NavigateAsync("SecondContentPageMock");
+            await navigationService.NavigateAsync("SecondContentPage");
 
             Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
             Assert.Equal(2, navigationPage.Navigation.NavigationStack.Count);
@@ -1558,8 +1558,28 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<ContentPageMock>(navPage.CurrentPage);
         }
 
+        //[Fact(Skip = "WIP Enhancement #2038 https://github.com/PrismLibrary/Prism/issues/2038")]
         [Fact]
         public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab_ToContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+            
+            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=ContentPage/SecondContentPage");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
+            Assert.NotNull(tabbedPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+
+            var navPage = tabbedPage.CurrentPage as NavigationPageMock;
+            
+            Assert.NotNull(navPage);
+            Assert.IsType<SecondContentPageMock>(navPage.CurrentPage);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab_ToContentPage_Modal()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new ContentPage();
@@ -1577,7 +1597,7 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public async void Navigate_FromNavigationPage_ToTabbedPage_SelectedTab_ToContentPage()
+        public async void Navigate_FromNavigationPage_ToTabbedPage_SelectedTab_ToContentPage_Modal()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.NavigationPage();
@@ -1597,7 +1617,7 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public async void Navigate_FromNavigationPage_ToTabbedPage_SelectedTab_NavigationPage_ToContentPage()
+        public async void Navigate_FromNavigationPage_ToTabbedPage_SelectedTab_NavigationPage_ToContentPage_Modal()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.NavigationPage();
@@ -1621,7 +1641,7 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public async void Navigate_FromMasterDetailPage_ToNavigationPage_ToTabbedPage_ToContentPage()
+        public async void Navigate_FromMasterDetailPage_ToNavigationPage_ToTabbedPage_ToContentPage_Modal()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.MasterDetailPage();
@@ -1657,7 +1677,7 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public async void Navigate_FromMasterDetailPage_ToNavigationPage_ToTabbedPage_SelectedTab_ToContentPage()
+        public async void Navigate_FromMasterDetailPage_ToNavigationPage_ToTabbedPage_SelectedTab_ToContentPage_Modal()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new Xamarin.Forms.MasterDetailPage();
