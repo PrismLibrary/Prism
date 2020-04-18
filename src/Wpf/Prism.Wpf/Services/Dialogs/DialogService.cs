@@ -85,7 +85,7 @@ namespace Prism.Services.Dialogs
         }
 
         /// <summary>
-        /// Create a new <see cref="IDialogWindow"/>
+        /// Create a new <see cref="IDialogWindow"/>.
         /// </summary>
         /// <param name="name">The name of the hosting window registered with the IContainerRegistry.</param>
         /// <returns>The created <see cref="IDialogWindow"/>.</returns>
