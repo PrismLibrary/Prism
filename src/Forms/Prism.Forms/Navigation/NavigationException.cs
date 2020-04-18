@@ -12,6 +12,7 @@ namespace Prism.Navigation
         public const string IConfirmNavigationReturnedFalse = "IConfirmNavigation returned false";
         public const string NoPageIsRegistered = "No Page has been registered with the provided key";
         public const string ErrorCreatingPage = "An error occurred while resolving the page. This is most likely the result of invalid XAML or other type initialization exception";
+        public const string AmbiguousSelectedTab = "The requested selected tab matches more than one child page";
         public const string UnknownException = "An unknown error occurred. You may need to specify whether to Use Modal Navigation or not.";
 
         public NavigationException()
@@ -28,5 +29,15 @@ namespace Prism.Navigation
         }
 
         public Page Page { get; }
+    }
+
+    public class AmbiguousPathException : Exception
+    {
+        public string Name { get; }
+
+        public AmbiguousPathException(string name)
+        {
+            Name = name;
+        }
     }
 }

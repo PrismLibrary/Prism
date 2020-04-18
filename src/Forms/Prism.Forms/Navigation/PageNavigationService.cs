@@ -579,7 +579,7 @@ namespace Prism.Navigation
                     if (nextSegment.Contains(KnownNavigationParameters.SelectedTab))
                     {
                         var segmentParams = UriParsingHelper.GetSegmentParameters(nextSegment);
-                        SelectPageTab(topPage, segmentParams);
+                        SelectPageTab(topPage, segmentParams, nextSegment);
                     }
                 });
             }
@@ -683,7 +683,7 @@ namespace Prism.Navigation
                      if (detail is TabbedPage && nextSegment.Contains(KnownNavigationParameters.SelectedTab))
                      {
                          var segmentParams = UriParsingHelper.GetSegmentParameters(nextSegment);
-                         SelectPageTab(detail, segmentParams);
+                         SelectPageTab(detail, segmentParams, nextSegment);
                      }
 
                      currentPage.IsPresented = isPresented;
@@ -937,7 +937,7 @@ namespace Prism.Navigation
                 }
             }
 
-            TabbedPageSelectTab(tabbedPage, parameters);
+            TabbedPageSelectTab(tabbedPage, parameters, segment);
         }
 
         void ConfigureCarouselPage(CarouselPage carouselPage, string segment)
@@ -952,11 +952,11 @@ namespace Prism.Navigation
             CarouselPageSelectTab(carouselPage, parameters);
         }
 
-        private static void SelectPageTab(Page page, INavigationParameters parameters)
+        private static void SelectPageTab(Page page, INavigationParameters parameters, string segment)
         {
             if (page is TabbedPage tabbedPage)
             {
-                TabbedPageSelectTab(tabbedPage, parameters);
+                TabbedPageSelectTab(tabbedPage, parameters, segment);
             }
             else if (page is CarouselPage carouselPage)
             {
@@ -964,7 +964,7 @@ namespace Prism.Navigation
             }
         }
 
-        private static void TabbedPageSelectTab(TabbedPage tabbedPage, INavigationParameters parameters)
+        private static void TabbedPageSelectTab(TabbedPage tabbedPage, INavigationParameters parameters, string segment)
         {
             var selectedTab = parameters?.GetValue<string>(KnownNavigationParameters.SelectedTab);
             if (!string.IsNullOrWhiteSpace(selectedTab))
@@ -974,20 +974,27 @@ namespace Prism.Navigation
                 var childFound = false;
                 foreach (var child in tabbedPage.Children)
                 {
-                    if (!childFound && child.GetType() == selectedTabType)
+                    if (child.GetType() == selectedTabType)
                     {
                         tabbedPage.CurrentPage = child;
-                        childFound = true;
+                        break;
                     }
-
-                    if (child is NavigationPage)
+                    else if(child is NavigationPage navPage && 
+                            (navPage.CurrentPage.GetType() == selectedTabType 
+                             || navPage.RootPage.GetType() == selectedTabType))
                     {
-                        if (!childFound && ((NavigationPage)child).CurrentPage.GetType() == selectedTabType)
-                        {
-                            tabbedPage.CurrentPage = child;
-                            childFound = true;
-                        }
+                        if (tabbedPage.Children.Count(x => x.GetType() == selectedTabType) > 1)
+                            throw new NavigationException(NavigationException.AmbiguousSelectedTab, tabbedPage,
+                                new AmbiguousPathException(selectedTabType.Name));
+            
+                        tabbedPage.CurrentPage = child;
+                        break;
                     }
+                }
+
+                // TODO: Enhancement #2038 https://github.com/PrismLibrary/Prism/issues/2038
+                if (childFound)
+                {
                 }
             }
         }
@@ -1106,6 +1113,11 @@ namespace Prism.Navigation
                     }
                     else
                     {
+                        if (currentPage is TabbedPage tabbedPage
+                            && tabbedPage.CurrentPage is NavigationPage navigationPage)
+                        {
+                            return navigationPage.Navigation.PushAsync(page, animated);
+                        }
                         return currentPage.Navigation.PushAsync(page, animated);
                     }
                 }
@@ -1140,7 +1152,8 @@ namespace Prism.Navigation
 
             if (useModalNavigationDefault.HasValue)
                 useModalNavigation = useModalNavigationDefault.Value;
-            else if (currentPage is NavigationPage)
+            else if (currentPage is NavigationPage
+                        || (currentPage is TabbedPage tabbedPage && tabbedPage.CurrentPage is NavigationPage))
                 useModalNavigation = false;
             else
                 useModalNavigation = !PageUtilities.HasNavigationPageParent(currentPage);
