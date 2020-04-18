@@ -1550,10 +1550,30 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<ContentPageMock>(navPage.CurrentPage);
         }
 
+        //[Fact(Skip = "WIP Enhancement #2038 https://github.com/PrismLibrary/Prism/issues/2038")]
         [Fact]
         public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab_ToContentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var rootPage = new ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+            
+            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=ContentPage/SecondContentPage");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
+            Assert.NotNull(tabbedPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+
+            var navPage = tabbedPage.CurrentPage as NavigationPageMock;
+            
+            Assert.NotNull(navPage);
+            Assert.IsType<SecondContentPageMock>(navPage.CurrentPage);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab_ToContentPage_Modal()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
