@@ -29,7 +29,7 @@ namespace Prism.Regions.Adapters
                 throw new ArgumentNullException(nameof(adapter));
 
             if (mappings.ContainsKey(controlType))
-                throw new InvalidOperationException(String.Format(CultureInfo.CurrentCulture,
+                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                                                                   Resources.MappingExistsException, controlType.Name));
 
             mappings.Add(controlType, adapter);

@@ -231,7 +231,7 @@ namespace Prism.Regions
         /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="VisualElement"/>. It will be the current region manager when using this overload.</returns>
         public IRegionManager Add(VisualElement view)
         {
-            return this.Add(view, null, false);
+            return Add(view, null, false);
         }
 
         /// <summary>

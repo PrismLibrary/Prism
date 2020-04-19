@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using Prism.Properties;
 using Prism.Regions.Adapters;
@@ -21,7 +22,7 @@ namespace Prism.Regions.Behaviors
     {
         private readonly RegionAdapterMappings _regionAdapterMappings;
         private WeakReference _elementWeakReference;
-        private bool _regionCreated;
+        private bool _regionCreated = false;
 
         private static ICollection<DelayedRegionCreationBehavior> _instanceTracker = new Collection<DelayedRegionCreationBehavior>();
         private object _trackerLock = new object();
@@ -75,12 +76,14 @@ namespace Prism.Regions.Behaviors
             UnWireTargetElement();
         }
 
-        #region NeedToRemove
+#if false
+#region NeedToRemove
 
         private void WireUpTargetElement() { }
         private void UnWireTargetElement() { }
 
-        #endregion
+#endregion
+#endif
 
         /// <summary>
         /// Called when the <see cref="IRegionManager"/> is updating it's <see cref="IRegionManager.Regions"/> collection.
@@ -100,10 +103,9 @@ namespace Prism.Regions.Behaviors
                 return;
             }
 
-#if IFigureThisOut
             // DependencyObject inherits from DispatcherObject which provides CheckAccess...
             // TODO: Determine proper Forms replacement for CheckAccess...
-            if (TargetElement.CheckAccess())
+            //if (TargetElement.CheckAccess())
             {
                 Detach();
 
@@ -114,7 +116,6 @@ namespace Prism.Regions.Behaviors
                     _regionCreated = true;
                 }
             }
-#endif
         }
 
         /// <summary>
@@ -142,64 +143,56 @@ namespace Prism.Regions.Behaviors
             }
         }
 
-#if IFigureThisOut
-        private void ElementLoaded(object sender, RoutedEventArgs e)
-        {
-            UnWireTargetElement();
-            TryCreateRegion();
-        }
-
         private void WireUpTargetElement()
         {
-            var element = TargetElement;
-            if (element != null)
-            {
-                element.Loaded += this.ElementLoaded;
-                return;
-            }
+            TargetElement.PropertyChanged += TargetElement_ParentChanged;
+            Track();
+            //var element = TargetElement;
+            //if (element != null)
+            //{
+            //    element.Loaded += this.ElementLoaded;
+            //    return;
+            //}
 
-            var fcElement = this.TargetElement as FrameworkContentElement;
-            if (fcElement != null)
-            {
-                fcElement.Loaded += this.ElementLoaded;
-                return;
-            }
+            //var fcElement = this.TargetElement as FrameworkContentElement;
+            //if (fcElement != null)
+            //{
+            //    fcElement.Loaded += this.ElementLoaded;
+            //    return;
+            //}
 
             //if the element is a dependency object, and not a FrameworkElement, nothing is holding onto the reference after the DelayedRegionCreationBehavior
             //is instantiated inside RegionManager.CreateRegion(VisualElement element). If the GC runs before RegionManager.UpdateRegions is called, the region will
             //never get registered because it is gone from the updatingRegionsListeners list inside RegionManager. So we need to hold on to it. This should be rare.
-            VisualElement depObj = this.TargetElement as VisualElement;
-            if (depObj != null)
-            {
-                Track();
-                return;
-            }
         }
 
         private void UnWireTargetElement()
         {
-            var element = TargetElement;
-            if (element != null)
-            {
-                element.Loaded -= this.ElementLoaded;
-                return;
-            }
+            TargetElement.PropertyChanged -= TargetElement_ParentChanged;
+            Untrack();
+            //var element = TargetElement;
+            //if (element != null)
+            //{
+            //    element.Loaded -= this.ElementLoaded;
+            //    return;
+            //}
 
-            var fcElement = this.TargetElement as FrameworkContentElement;
-            if (fcElement != null)
-            {
-                fcElement.Loaded -= this.ElementLoaded;
-                return;
-            }
+            //var fcElement = this.TargetElement as FrameworkContentElement;
+            //if (fcElement != null)
+            //{
+            //    fcElement.Loaded -= this.ElementLoaded;
+            //    return;
+            //}
+        }
 
-            VisualElement depObj = this.TargetElement as VisualElement;
-            if (depObj != null)
+        private void TargetElement_ParentChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(VisualElement.Parent))
             {
-                Untrack();
-                return;
+                UnWireTargetElement();
+                TryCreateRegion();
             }
         }
-#endif
 
         /// <summary>
         /// Add the instance of this class to <see cref="_instanceTracker"/> to keep it alive

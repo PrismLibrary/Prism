@@ -106,9 +106,7 @@ namespace Prism.Regions.Navigation
         {
             if (navigationContext == null) throw new ArgumentNullException(nameof(navigationContext));
 
-            // TODO: Parse the URI
-            var candidateTargetContract = string.Empty;
-            //var candidateTargetContract = UriParsingHelper.GetAbsolutePath(navigationContext.Uri);
+            var candidateTargetContract = UriParsingHelper.EnsureAbsolute(navigationContext.Uri).AbsolutePath;
             candidateTargetContract = candidateTargetContract.TrimStart('/');
             return candidateTargetContract;
         }

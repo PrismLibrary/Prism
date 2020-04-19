@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using Prism.Events;
-using Prism.Properties;
 using Prism.Common;
+using Prism.Events;
 using Prism.Ioc;
+using Prism.Properties;
 
 namespace Prism.Regions
 {
@@ -14,9 +14,9 @@ namespace Prism.Regions
     /// </summary>
     public class RegionViewRegistry : IRegionViewRegistry
     {
-        private readonly IContainerProvider container;
-        private readonly ListDictionary<string, Func<object>> registeredContent = new ListDictionary<string, Func<object>>();
-        private readonly WeakDelegatesManager contentRegisteredListeners = new WeakDelegatesManager();
+        private readonly IContainerProvider _container;
+        private readonly ListDictionary<string, Func<object>> _registeredContent = new ListDictionary<string, Func<object>>();
+        private readonly WeakDelegatesManager _contentRegisteredListeners = new WeakDelegatesManager();
 
         /// <summary>
         /// Creates a new instance of the <see cref="RegionViewRegistry"/> class.
@@ -24,7 +24,7 @@ namespace Prism.Regions
         /// <param name="container"><see cref="IContainerExtension"/> used to create the instance of the views from its <see cref="Type"/>.</param>
         public RegionViewRegistry(IContainerExtension container)
         {
-            this.container = container;
+            _container = container;
         }
 
         /// <summary>
@@ -32,8 +32,8 @@ namespace Prism.Regions
         /// </summary>
         public event EventHandler<ViewRegisteredEventArgs> ContentRegistered
         {
-            add { this.contentRegisteredListeners.AddListener(value); }
-            remove { this.contentRegisteredListeners.RemoveListener(value); }
+            add => _contentRegisteredListeners.AddListener(value);
+            remove => _contentRegisteredListeners.RemoveListener(value);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Prism.Regions
         public IEnumerable<object> GetContents(string regionName)
         {
             List<object> items = new List<object>();
-            foreach (Func<object> getContentDelegate in this.registeredContent[regionName])
+            foreach (Func<object> getContentDelegate in _registeredContent[regionName])
             {
                 items.Add(getContentDelegate());
             }
@@ -59,7 +59,7 @@ namespace Prism.Regions
         /// <param name="viewType">Content type to be registered for the <paramref name="regionName"/>.</param>
         public void RegisterViewWithRegion(string regionName, Type viewType)
         {
-            this.RegisterViewWithRegion(regionName, () => this.CreateInstance(viewType));
+            RegisterViewWithRegion(regionName, () => CreateInstance(viewType));
         }
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace Prism.Regions
         /// <param name="getContentDelegate">Delegate used to retrieve the content associated with the <paramref name="regionName"/>.</param>
         public void RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
         {
-            this.registeredContent.Add(regionName, getContentDelegate);
-            this.OnContentRegistered(new ViewRegisteredEventArgs(regionName, getContentDelegate));
+            _registeredContent.Add(regionName, getContentDelegate);
+            OnContentRegistered(new ViewRegisteredEventArgs(regionName, getContentDelegate));
         }
 
         /// <summary>
@@ -80,14 +80,14 @@ namespace Prism.Regions
         /// <returns>Instance of the registered view.</returns>
         protected virtual object CreateInstance(Type type)
         {
-            return this.container.Resolve(type);
+            return _container.Resolve(type);
         }
 
         private void OnContentRegistered(ViewRegisteredEventArgs e)
         {
             try
             {
-                this.contentRegisteredListeners.Raise(this, e);
+                _contentRegisteredListeners.Raise(this, e);
             }
             catch (TargetInvocationException ex)
             {

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Prism.Regions;
 using Prism.Regions.Adapters;
 using Prism.Regions.Behaviors;
@@ -9,6 +7,9 @@ using Xamarin.Forms;
 
 namespace Prism.Ioc
 {
+    /// <summary>
+    /// Provides registration and configuration helpers for Region Navigation
+    /// </summary>
     public static class RegionRegistrationExtensions
     {
         /// <summary>
@@ -30,16 +31,25 @@ namespace Prism.Ioc
         }
 
         /// <summary>
+        /// Configures the Default Behaviors and Adapters for Region Navigation
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static PrismApplicationBase InitializeRegionConfigurations(this PrismApplicationBase app) =>
+            app.ConfigureDefaultRegionBehaviors()
+               .ConfigureRegionAdapterMappings();
+
+        /// <summary>
         /// Configures the <see cref="IRegionBehaviorFactory"/>. 
         /// This will be the list of default behaviors that will be added to a region. 
         /// </summary>
         public static PrismApplicationBase ConfigureDefaultRegionBehaviors(this PrismApplicationBase app, Action<IRegionBehaviorFactory> configure = null)
         {
             var regionBehaviors = app.Container.Resolve<IRegionBehaviorFactory>();
-            //regionBehaviors.AddIfMissing(BindRegionContextToDependencyObjectBehavior.BehaviorKey, typeof(BindRegionContextToDependencyObjectBehavior));
+            regionBehaviors.AddIfMissing(BindRegionContextToVisualElementBehavior.BehaviorKey, typeof(BindRegionContextToVisualElementBehavior));
             regionBehaviors.AddIfMissing(RegionActiveAwareBehavior.BehaviorKey, typeof(RegionActiveAwareBehavior));
             regionBehaviors.AddIfMissing(SyncRegionContextWithHostBehavior.BehaviorKey, typeof(SyncRegionContextWithHostBehavior));
-            //regionBehaviors.AddIfMissing(RegionManagerRegistrationBehavior.BehaviorKey, typeof(RegionManagerRegistrationBehavior));
+            regionBehaviors.AddIfMissing(RegionManagerRegistrationBehavior.BehaviorKey, typeof(RegionManagerRegistrationBehavior));
             regionBehaviors.AddIfMissing(RegionMemberLifetimeBehavior.BehaviorKey, typeof(RegionMemberLifetimeBehavior));
             regionBehaviors.AddIfMissing(ClearChildViewsRegionBehavior.BehaviorKey, typeof(ClearChildViewsRegionBehavior));
             regionBehaviors.AddIfMissing(AutoPopulateRegionBehavior.BehaviorKey, typeof(AutoPopulateRegionBehavior));
@@ -66,7 +76,7 @@ namespace Prism.Ioc
             regionAdapterMappings.RegisterMapping(typeof(ScrollView), container.Resolve<ScrollViewRegionAdapter>());
             regionAdapterMappings.RegisterMapping(typeof(ContentView), container.Resolve<ContentViewRegionAdapter>());
             regionAdapterMappings.RegisterMapping(typeof(Frame), container.Resolve<ContentViewRegionAdapter>());
-            // regionAdapterMappings.RegisterMapping(typeof(RefreshView), container.Resolve<ContentViewRegionAdapter>());
+            regionAdapterMappings.RegisterMapping(typeof(RefreshView), container.Resolve<ContentViewRegionAdapter>());
 
             configure?.Invoke(regionAdapterMappings);
             return app;

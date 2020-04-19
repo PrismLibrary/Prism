@@ -10,6 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\IRegionMemberLifetime.cs" Link="Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\IRegionViewRegistry.cs" Link="Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\RegionViewRegistry.cs" Link="Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\RegionMemberLifetimeAttribute.cs" Link="Regions\%(Filename)%(Extension)" />
     <Compile Include="..\..\Wpf\Prism.Wpf\Regions\ViewSortHintAttribute.cs" Link="Regions\%(Filename)%(Extension)" />
     <Compile Include="..\..\Wpf\Prism.Wpf\Regions\SyncActiveStateAttribute.cs" Link="Regions\%(Filename)%(Extension)" />
     <Compile Include="..\..\Wpf\Prism.Wpf\Regions\*Exception.cs" Link="Regions\%(Filename)%(Extension)" />

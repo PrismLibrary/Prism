@@ -173,8 +173,17 @@
   <data name="RegionCreationException" xml:space="preserve">
     <value>An exception occurred while creating a region with name '{0}'. The exception was: {1}.</value>
   </data>
+  <data name="RegionManagerWithDifferentNameException" xml:space="preserve">
+    <value>The region being added already has a name of '{0}' and cannot be added to the region manager with a different name ('{1}').</value>
+  </data>
   <data name="RegionNameCannotBeEmptyException" xml:space="preserve">
     <value>The region name cannot be null or empty.</value>
+  </data>
+  <data name="RegionNameExistsException" xml:space="preserve">
+    <value>Region with the given name is already registered: {0}</value>
+  </data>
+  <data name="RegionNotInRegionManagerException" xml:space="preserve">
+    <value>The region manager does not contain the {0} region.</value>
   </data>
   <data name="RegionViewExistsException" xml:space="preserve">
     <value>View already exists in region.</value>

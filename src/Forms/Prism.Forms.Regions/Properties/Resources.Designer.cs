@@ -213,11 +213,38 @@ namespace Prism.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The region being added already has a name of &apos;{0}&apos; and cannot be added to the region manager with a different name (&apos;{1}&apos;)..
+        /// </summary>
+        internal static string RegionManagerWithDifferentNameException {
+            get {
+                return ResourceManager.GetString("RegionManagerWithDifferentNameException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The region name cannot be null or empty..
         /// </summary>
         internal static string RegionNameCannotBeEmptyException {
             get {
                 return ResourceManager.GetString("RegionNameCannotBeEmptyException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Region with the given name is already registered: {0}.
+        /// </summary>
+        internal static string RegionNameExistsException {
+            get {
+                return ResourceManager.GetString("RegionNameExistsException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The region manager does not contain the {0} region..
+        /// </summary>
+        internal static string RegionNotInRegionManagerException {
+            get {
+                return ResourceManager.GetString("RegionNotInRegionManagerException", resourceCulture);
             }
         }
         
