@@ -1,16 +1,19 @@
-﻿using System;
+using System;
 using Prism.Properties;
 
 namespace Prism.Modularity
 {
+    /// <summary>
+    /// <see cref="IModuleCatalog"/> extensions.
+    /// </summary>
     public static class IModuleCatalogExtensions
     {
         /// <summary>
-        /// Adds the module.
+        /// Adds the module to the <see cref="IModuleCatalog"/>.
         /// </summary>
-        /// <param name="catalog">Catalog</param>
-        /// <param name="mode"><see cref="InitializationMode"/></param>
-        /// <param name="dependsOn">Collection of module names (<see cref="ModuleInfo.ModuleName"/>) of the modules on which the module to be added logically depends on.</param>
+        /// <param name="catalog">The catalog to add the module to.</param>
+        /// <param name="mode">Stage on which the module to be added will be initialized.</param>
+        /// <param name="dependsOn">Collection of module names (<see cref="IModuleInfo.ModuleName"/>) of the modules on which the module to be added logically depends on.</param>
         /// <typeparam name="T">The <see cref="IModule"/> type parameter.</typeparam>
         /// <returns>The same <see cref="IModuleCatalog"/> instance with the added module.</returns>
         public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, InitializationMode mode = InitializationMode.WhenAvailable, params string[] dependsOn)
@@ -20,12 +23,12 @@ namespace Prism.Modularity
         }
 
         /// <summary>
-        /// Adds the module.
+        /// Adds the module to the <see cref="IModuleCatalog"/>.
         /// </summary>
-        /// <param name="catalog">Catalog.</param>
-        /// <param name="name">Name.</param>
-        /// <param name="mode"><see cref="IModule"/>.</param>
-        /// <param name="dependsOn">Collection of module names (<see cref="ModuleInfo.ModuleName"/>) of the modules on which the module to be added logically depends on.</param>
+        /// <param name="catalog">The catalog to add the module to.</param>
+        /// <param name="name">Name of the module to be added.</param>
+        /// <param name="mode">Stage on which the module to be added will be initialized.</param>
+        /// <param name="dependsOn">Collection of module names (<see cref="IModuleInfo.ModuleName"/>) of the modules on which the module to be added logically depends on.</param>
         /// <typeparam name="T">The <see cref="IModule"/> type parameter.</typeparam>
         /// <returns>The same <see cref="IModuleCatalog"/> instance with the added module.</returns>
         public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, string name, InitializationMode mode = InitializationMode.WhenAvailable, params string[] dependsOn)
@@ -37,7 +40,7 @@ namespace Prism.Modularity
         /// <summary>
         /// Adds a groupless <see cref="IModuleInfo"/> to the catalog.
         /// </summary>
-        /// <param name="catalog">Catalog.</param>
+        /// <param name="catalog">The catalog to add the module to.</param>
         /// <param name="moduleType"><see cref="Type"/> of the module to be added.</param>
         /// <param name="dependsOn">Collection of module names (<see cref="IModuleInfo.ModuleName"/>) of the modules on which the module to be added logically depends on.</param>
         /// <returns>The same <see cref="IModuleCatalog"/> instance with the added module.</returns>
@@ -49,7 +52,7 @@ namespace Prism.Modularity
         /// <summary>
         /// Adds a groupless <see cref="IModuleInfo"/> to the catalog.
         /// </summary>
-        /// <param name="catalog">Catalog.</param>
+        /// <param name="catalog">The catalog to add the module to.</param>
         /// <param name="moduleType"><see cref="Type"/> of the module to be added.</param>
         /// <param name="initializationMode">Stage on which the module to be added will be initialized.</param>
         /// <param name="dependsOn">Collection of module names (<see cref="IModuleInfo.ModuleName"/>) of the modules on which the module to be added logically depends on.</param>
@@ -63,12 +66,13 @@ namespace Prism.Modularity
         }
 
         /// <summary>
-        /// Adds a groupless <see cref="ModuleInfo"/> to the catalog.
+        /// Adds a groupless <see cref="IModuleInfo"/> to the catalog.
         /// </summary>
+        /// <param name="catalog">The catalog to add the module to.</param>
         /// <param name="moduleName">Name of the module to be added.</param>
         /// <param name="catalog">Catalog.</param>
         /// <param name="moduleType"><see cref="Type"/> of the module to be added.</param>
-        /// <param name="dependsOn">Collection of module names (<see cref="ModuleInfo.ModuleName"/>) of the modules on which the module to be added logically depends on.</param>
+        /// <param name="dependsOn">Collection of module names (<see cref="IModuleInfo.ModuleName"/>) of the modules on which the module to be added logically depends on.</param>
         /// <returns>The same <see cref="IModuleCatalog"/> instance with the added module.</returns>
         public static IModuleCatalog AddModule(this IModuleCatalog catalog, string moduleName, string moduleType, params string[] dependsOn)
         {
@@ -78,7 +82,7 @@ namespace Prism.Modularity
         /// <summary>
         /// Adds a groupless <see cref="ModuleInfo"/> to the catalog.
         /// </summary>
-        /// <param name="catalog">Catalog.</param>
+        /// <param name="catalog">The catalog to add the module to.</param>
         /// <param name="moduleName">Name of the module to be added.</param>
         /// <param name="moduleType"><see cref="Type"/> of the module to be added.</param>
         /// <param name="initializationMode">Stage on which the module to be added will be initialized.</param>
@@ -92,7 +96,7 @@ namespace Prism.Modularity
         /// <summary>
         /// Adds a groupless <see cref="ModuleInfo"/> to the catalog.
         /// </summary>
-        /// <param name="catalog">Catalog.</param>
+        /// <param name="catalog">The catalog to add the module to.</param>
         /// <param name="moduleName">Name of the module to be added.</param>
         /// <param name="moduleType"><see cref="Type"/> of the module to be added.</param>
         /// <param name="refValue">Reference to the location of the module to be added assembly.</param>
@@ -116,22 +120,21 @@ namespace Prism.Modularity
         }
 
         /// <summary>
-        /// Adds the module.
+        /// Adds the module to the <see cref="IModuleCatalog"/>.
         /// </summary>
-        /// <param name="catalog">Catalog</param>
-        /// <param name="mode"><see cref="InitializationMode"/></param>
+        /// <param name="catalog">The catalog to add the module to.</param>
+        /// <param name="mode">Stage on which the module to be added will be initialized.</param>
         /// <typeparam name="T">The <see cref="IModule"/> type parameter.</typeparam>
         /// <returns>The same <see cref="IModuleCatalog"/> instance with the added module.</returns>
         public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, InitializationMode mode = InitializationMode.WhenAvailable)
             where T : IModule =>
             catalog.AddModule<T>(typeof(T).Name, mode);
 
-
         /// <summary>
-        /// Adds the module.
+        /// Adds the module to the <see cref="IModuleCatalog"/>.
         /// </summary>
-        /// <param name="catalog">Catalog</param>
-        /// <param name="name">Name.</param>
+        /// <param name="catalog">The catalog to add the module to.</param>
+        /// <param name="name">Name of the module to be added.</param>
         /// <typeparam name="T">The <see cref="IModule"/> type parameter.</typeparam>
         /// <returns>The same <see cref="IModuleCatalog"/> instance with the added module.</returns>
         public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, string name)
@@ -139,11 +142,11 @@ namespace Prism.Modularity
             catalog.AddModule<T>(name, InitializationMode.WhenAvailable);
 
         /// <summary>
-        /// Adds the module.
+        /// Adds the module to the <see cref="IModuleCatalog"/>.
         /// </summary>
-        /// <param name="catalog">Catalog.</param>
-        /// <param name="name">Name.</param>
-        /// <param name="mode"><see cref="IModule"/>.</param>
+        /// <param name="catalog">The catalog to add the module to.</param>
+        /// <param name="name">Name of the module to be added.</param>
+        /// <param name="mode">Stage on which the module to be added will be initialized.</param>
         /// <typeparam name="T">The <see cref="IModule"/> type parameter.</typeparam>
         /// <returns>The same <see cref="IModuleCatalog"/> instance with the added module.</returns>
         public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, string name, InitializationMode mode)
@@ -153,11 +156,11 @@ namespace Prism.Modularity
         /// <summary>
         /// Creates and adds a <see cref="ModuleInfoGroup"/> to the catalog.
         /// </summary>
-        /// <param name="catalog">Catalog.</param>
+        /// <param name="catalog">The catalog to add the module to.</param>
         /// <param name="initializationMode">Stage on which the module group to be added will be initialized.</param>
         /// <param name="refValue">Reference to the location of the module group to be added.</param>
         /// <param name="moduleInfos">Collection of <see cref="ModuleInfo"/> included in the group.</param>
-        /// <returns>The same <see cref="IModuleCatalog"/> instance with the added module group.</returns>
+        /// <returns>The same <see cref="IModuleCatalog"/> with the added module group.</returns>
         public static IModuleCatalog AddGroup(this IModuleCatalog catalog, InitializationMode initializationMode, string refValue, params ModuleInfo[] moduleInfos)
         {
             if (!(catalog is IModuleGroupsCatalog groupSupport))
