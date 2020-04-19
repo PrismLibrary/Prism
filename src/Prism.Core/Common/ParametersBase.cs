@@ -113,7 +113,7 @@ namespace Prism.Common
         /// Checks collection for presense of key
         /// </summary>
         /// <param name="key">The key to check in the collection</param>
-        /// <returns>True if key exists; else returns false.</returns>
+        /// <returns><c>true</c> if key exists; else returns <c>false</c>.</returns>
         public bool ContainsKey(string key) =>
             _entries.ContainsKey(key);
 
@@ -123,19 +123,20 @@ namespace Prism.Common
         /// <returns>Enumerator</returns>
         public IEnumerator<KeyValuePair<string, object>> GetEnumerator() =>
             _entries.GetEnumerator();
+        
         /// <summary>
         /// Returns the value of the member referenced by key
         /// </summary>
         /// <typeparam name="T">The type of object to be returned</typeparam>
         /// <param name="key">The key for the value to be returned</param>
-        /// <returns>Returns a matching parameter of <typeparam name="T" /> if one exists in the Collection</returns>
+        /// <returns>Returns a matching parameter of <see cref="T" /> if one exists in the Collection</returns>
         public T GetValue<T>(string key) => 
             _entries.GetValue<T>(key);
 
         /// <summary>
         /// Returns an IEnumerable of all parameters 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The type for the values to be returned</typeparam>
         /// <param name="key"></param>
         public IEnumerable<T> GetValues<T>(string key) =>
             _entries.GetValues<T>(key);
@@ -143,7 +144,7 @@ namespace Prism.Common
         /// <summary>
         /// Checks to see if the parameter collection contains the value
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The type for the values to be returned</typeparam>
         /// <param name="key"></param>
         /// <param name="value">Value of the returned parameter if it exists</param>
         public bool TryGetValue<T>(string key, out T value) =>
@@ -155,7 +156,7 @@ namespace Prism.Common
         /// <summary>
         /// Converts parameter collection to a parameter string
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A string representation of the parameters</returns>
         public override string ToString()
         {
             var queryBuilder = new StringBuilder();
@@ -188,7 +189,7 @@ namespace Prism.Common
         /// <summary>
         /// Adds a collection of parameters to the local parameter list
         /// </summary>
-        /// <param name="parameters"></param>
+        /// <param name="parameters">An IEnumberable of KeyValuePairs to add to the current parameter list</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void FromParameters(IEnumerable<KeyValuePair<string, object>> parameters) =>
             _entries.AddRange(parameters);
