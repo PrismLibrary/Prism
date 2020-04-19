@@ -41,7 +41,7 @@ namespace Prism.Regions
         {
             Behaviors = new RegionBehaviorCollection(this);
 
-            _sort = Region.DefaultSortComparison;
+            _sort = DefaultSortComparison;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Prism.Regions
         /// <summary>
         /// Gets the collection of <see cref="IRegionBehavior"/>s that can extend the behavior of regions.
         /// </summary>
-        public IRegionBehaviorCollection Behaviors { get; private set; }
+        public IRegionBehaviorCollection Behaviors { get; }
 
         /// <summary>
         /// Gets or sets a context for the region. This value can be used by the user to share context with the views.

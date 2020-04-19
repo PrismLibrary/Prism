@@ -52,14 +52,12 @@ namespace Prism.Common
         /// <returns>view or viewmodel as <typeparamref name="T"/>.</returns>
         public static T GetImplementerFromViewOrViewModel<T>(object view) where T : class
         {
-            T viewAsT = view as T;
-            if (viewAsT != null)
+            if (view is T viewAsT)
             {
                 return viewAsT;
             }
 
-            var element = view as FrameworkElement;
-            if (element != null)
+            if (view is FrameworkElement element)
             {
                 var vmAsT = element.DataContext as T;
                 return vmAsT;

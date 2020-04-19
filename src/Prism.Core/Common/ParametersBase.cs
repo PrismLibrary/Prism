@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +11,7 @@ namespace Prism.Common
     /// This is a generic parameters base class used for Dialog Parameters and Navigation Parameters.
     /// </summary>
     public abstract class ParametersBase : IEnumerable<KeyValuePair<string, object>>
+    public abstract class ParametersBase : IParameters, IEnumerable<KeyValuePair<string, object>>
     {
         private readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();
 
@@ -51,7 +52,7 @@ namespace Prism.Common
                         i++;
                     }
                     string key = null;
-                    string value = null;
+                    string value;
                     if (num4 >= 0)
                     {
                         key = query.Substring(startIndex, num4 - startIndex);

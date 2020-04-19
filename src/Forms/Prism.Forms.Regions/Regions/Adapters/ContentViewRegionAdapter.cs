@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Specialized;
+using System.Linq;
+using Prism.Properties;
+using Prism.Regions.Behaviors;
+using Xamarin.Forms;
+
+namespace Prism.Regions.Adapters
+{
+    /// <summary>
+    /// Adapter that creates a new <see cref="SingleActiveRegion"/> and monitors its
+    /// active view to set it on the adapted <see cref="ContentView"/>.
+    /// </summary>
+    public class ContentViewRegionAdapter : RegionAdapterBase<ContentView>
+    {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ContentViewRegionAdapter"/>.
+        /// </summary>
+        /// <param name="regionBehaviorFactory">The factory used to create the region behaviors to attach to the created regions.</param>
+        public ContentViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
+            : base(regionBehaviorFactory)
+        {
+        }
+
+        /// <summary>
+        /// Adapts a <see cref="ContentView"/> to an <see cref="IRegion"/>.
+        /// </summary>
+        /// <param name="region">The new region being used.</param>
+        /// <param name="regionTarget">The object to adapt.</param>
+        protected override void Adapt(IRegion region, ContentView regionTarget)
+        {
+            if (regionTarget == null)
+                throw new ArgumentNullException(nameof(regionTarget));
+
+            bool contentIsSet = regionTarget.Content != null;
+
+            // WTF????
+            // contentIsSet = contentIsSet || (BindingOperations.GetBinding(regionTarget, ContentView.ContentProperty) != null);
+
+            if (contentIsSet)
+                throw new InvalidOperationException(Resources.ContentViewHasContentException);
+
+            region.ActiveViews.CollectionChanged += delegate
+            {
+                regionTarget.Content = region.ActiveViews.FirstOrDefault() as View;
+            };
+
+            region.Views.CollectionChanged +=
+                (sender, e) =>
+                {
+                    if (e.Action == NotifyCollectionChangedAction.Add && region.ActiveViews.Count() == 0)
+                    {
+                        region.Activate(e.NewItems[0] as VisualElement);
+                    }
+                };
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="SingleActiveRegion"/>.
+        /// </summary>
+        /// <returns>A new instance of <see cref="SingleActiveRegion"/>.</returns>
+        protected override IRegion CreateRegion() =>
+            new SingleActiveRegion();
+    }
+}

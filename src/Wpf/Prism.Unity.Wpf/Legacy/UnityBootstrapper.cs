@@ -108,16 +108,6 @@ namespace Prism.Unity
         }
 
         /// <summary>
-        /// Registers in the <see cref="IUnityContainer"/> the <see cref="Type"/> of the Exceptions
-        /// that are not considered root exceptions by the <see cref="ExceptionExtensions"/>.
-        /// </summary>
-        protected override void RegisterFrameworkExceptionTypes()
-        {
-            ExceptionExtensions.RegisterFrameworkExceptionType(
-                typeof(ResolutionFailedException));
-        }
-
-        /// <summary>
         /// Configures the <see cref="IUnityContainer"/>. May be overwritten in a derived class to add specific
         /// type mappings required by the application.
         /// </summary>

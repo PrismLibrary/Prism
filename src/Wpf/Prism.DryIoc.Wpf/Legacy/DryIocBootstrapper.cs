@@ -114,15 +114,6 @@ namespace Prism.DryIoc
         }
 
         /// <summary>
-        /// Registers in the DryIoc <see cref="IContainer"/> the <see cref="Type"/> of the Exceptions
-        /// that are not considered root exceptions by the <see cref="ExceptionExtensions"/>.
-        /// </summary>
-        protected override void RegisterFrameworkExceptionTypes()
-        {
-            ExceptionExtensions.RegisterFrameworkExceptionType(typeof(ContainerException));
-        }
-
-        /// <summary>
         /// Configures the <see cref="Container"/>.
         /// May be overwritten in a derived class to add specific type mappings required by the application.
         /// </summary>

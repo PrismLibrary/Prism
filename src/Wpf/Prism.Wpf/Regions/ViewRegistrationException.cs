@@ -1,5 +1,3 @@
-
-
 using System;
 
 namespace Prism.Regions
@@ -9,6 +7,7 @@ namespace Prism.Regions
     /// </summary>
     public partial class ViewRegistrationException : Exception
     {
+        // TODO: Find updated links as these are dead...
         //
         // For guidelines regarding the creation of new exception types, see
         //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconerrorraisinghandlingguidelines.asp
