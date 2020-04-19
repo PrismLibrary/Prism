@@ -1,13 +1,13 @@
 ﻿namespace Prism.Services.Dialogs
 {
     /// <summary>
-    /// An <see cref="IDialogResult"/> that contains <see cref="IDialogParameters"/> passed to the dialog
+    /// An <see cref="IDialogResult"/> that contains <see cref="IDialogParameters"/> from the dialog
     /// and the <see cref="ButtonResult"/> of the dialog.
     /// </summary>
     public class DialogResult : IDialogResult
     {
         /// <summary>
-        /// The parameters passed to the dialog.
+        /// The parameters from the dialog.
         /// </summary>
         public IDialogParameters Parameters { get; private set; } = new DialogParameters();
 
@@ -34,7 +34,7 @@
         /// Initializes a new instance of the <see cref="DialogResult"/> class.
         /// </summary>
         /// <param name="result">The result of the dialog.</param>
-        /// <param name="parameters">The parameters passed to the dialog.</param>
+        /// <param name="parameters">The parameters from the dialog.</param>
         public DialogResult(ButtonResult result, IDialogParameters parameters)
         {
             Result = result;

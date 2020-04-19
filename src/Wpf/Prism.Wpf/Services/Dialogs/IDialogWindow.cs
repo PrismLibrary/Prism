@@ -5,7 +5,7 @@ using System.Windows;
 namespace Prism.Services.Dialogs
 {
     /// <summary>
-    /// Interface for a dialog hosting window
+    /// Interface for a dialog hosting window.
     /// </summary>
     public interface IDialogWindow
     {
