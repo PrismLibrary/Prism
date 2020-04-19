@@ -179,6 +179,10 @@ namespace Prism.Unity
             return new UnityContainer();
         }
 
+        /// <summary>
+        /// Creates the <see cref="IContainerExtension"/> used by Prism.
+        /// </summary>
+        /// <returns>The container extension.</returns>
         protected override IContainerExtension CreateContainerExtension()
         {
             return new UnityContainerExtension(Container);

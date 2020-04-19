@@ -10,6 +10,9 @@ namespace Prism.Logging
     /// </summary>
     public class TextLogger : ILoggerFacade, IDisposable
     {
+        /// <summary>
+        /// A <see cref="TextWriter"/> that writes to console output.
+        /// </summary>
         public TextWriter Writer { get; set; } = Console.Out;
 
         /// <summary>
