@@ -73,7 +73,7 @@ namespace Prism.Common
         /// Otherswise returns null.
         /// </summary>
         /// <param name="key">The key for the value to be returned</param>
-        /// <returns></returns>
+        /// <returns>The value of the parameter referenced by the key; otherwise <c>null</c></returns>
         public object this[string key]
         {
             get
@@ -137,7 +137,7 @@ namespace Prism.Common
         /// Returns an IEnumerable of all parameters 
         /// </summary>
         /// <typeparam name="T">The type for the values to be returned</typeparam>
-        /// <param name="key"></param>
+        /// <param name="key">Returns a IEnumberable of all the instances of type <see cref="T"/></param>
         public IEnumerable<T> GetValues<T>(string key) =>
             _entries.GetValues<T>(key);
 
@@ -145,7 +145,7 @@ namespace Prism.Common
         /// Checks to see if the parameter collection contains the value
         /// </summary>
         /// <typeparam name="T">The type for the values to be returned</typeparam>
-        /// <param name="key"></param>
+        /// <param name="key">The key for the value to be returned</param>
         /// <param name="value">Value of the returned parameter if it exists</param>
         public bool TryGetValue<T>(string key, out T value) =>
             _entries.TryGetValue(key, out value);
