@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Forms\Prism.Forms.Regions\Prism.Forms.Regions.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Forms\Prism.Forms\Prism.Forms.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Prism.Core\Prism.Core.csproj" />
+  </ItemGroup>
+
+</Project>

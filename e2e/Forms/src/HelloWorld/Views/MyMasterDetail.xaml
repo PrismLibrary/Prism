@@ -41,6 +41,11 @@
               <Button Text="Show Dialog"
                       Command="{prism:ShowDialog 'DemoDialog?message=Hello%20From%20Prism%20DialogService!&amp;closeOnBackgroundTapped=true'}" />
             </controls:SectionGroup>
+
+            <controls:SectionGroup Title="Regions">
+              <Button Text="Content View Region"
+                      Command="{prism:NavigateTo 'NavigationPage/RegionDemoPage'}" />
+            </controls:SectionGroup>
           </StackLayout>
         </ScrollView>
       </StackLayout>
