@@ -34,6 +34,14 @@
     <Compile Remove="**\*.netcore.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Modularity\ConfigurationModuleCatalog.Desktop.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Modularity\ConfigurationStore.Desktop.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Modularity\IConfigurationStore.Desktop.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Modularity\ModuleConfigurationElement.Desktop.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Modularity\ModuleConfigurationElementCollection.Desktop.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Modularity\ModuleDependencyCollection.Desktop.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Modularity\ModuleDependencyConfigurationElement.Desktop.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Modularity\ModulesConfigurationSection.Desktop.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Bootstrapper.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Interactivity\InvokeCommandAction.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\PrismApplicationBase.cs" />
