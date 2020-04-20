@@ -137,7 +137,8 @@ namespace Prism.Common
         /// Returns an IEnumerable of all parameters 
         /// </summary>
         /// <typeparam name="T">The type for the values to be returned</typeparam>
-        /// <param name="key">Returns a IEnumberable of all the instances of type <see cref="T"/></param>
+        /// <param name="key">The key for the values to be returned</param>
+        ///<returns>Returns a IEnumberable of all the instances of type <see cref="T"/></returns>
         public IEnumerable<T> GetValues<T>(string key) =>
             _entries.GetValues<T>(key);
 
