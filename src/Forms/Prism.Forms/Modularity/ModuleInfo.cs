@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Reflection;
+using Prism.Mvvm;
 using Prism.Properties;
 
 namespace Prism.Modularity
@@ -149,6 +150,7 @@ namespace Prism.Modularity
             set { }
         }
 
+        private ModuleState _state;
         /// <summary>
         /// Gets or sets the state of the <see cref="ModuleInfo"/> with regards to the module loading and initialization process.
         /// </summary>
