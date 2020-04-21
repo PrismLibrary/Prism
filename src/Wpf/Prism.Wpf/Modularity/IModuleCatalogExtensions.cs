@@ -12,7 +12,7 @@ namespace Prism.Modularity
         /// <param name="mode"><see cref="InitializationMode"/></param>
         /// <param name="dependsOn">Collection of module names (<see cref="ModuleInfo.ModuleName"/>) of the modules on which the module to be added logically depends on.</param>
         /// <typeparam name="T">The <see cref="IModule"/> type parameter.</typeparam>
-        /// <returns>The module.</returns>
+        /// <returns>The same <see cref="IModuleCatalog"/> instance with the added module.</returns>
         public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, InitializationMode mode = InitializationMode.WhenAvailable, params string[] dependsOn)
             where T : IModule
         {
