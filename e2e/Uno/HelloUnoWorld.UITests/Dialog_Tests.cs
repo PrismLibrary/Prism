@@ -9,26 +9,26 @@ using Query = System.Func<Uno.UITest.IAppQuery, Uno.UITest.IAppQuery>;
 
 namespace Sample.UITests
 {
-	public class Dialog_Tests : TestBase
-	{
-		[Test]
-		public void TestViewA()
-		{
-			Query testSelector = q => q.Marked("showDialog");
-			Query OkSelector = q => q.Marked("OKButton");
+    public class Dialog_Tests : TestBase
+    {
+        [Test]
+        public void TestViewA()
+        {
+            Query testSelector = q => q.Marked("showDialog");
+            Query OkSelector = q => q.Marked("OKButton");
 
-			App.WaitForElement(testSelector);
-			App.Screenshot("Dialog - Initial");
+            App.WaitForElement(testSelector);
+            TakeScreenshot("Initial");
 
-			App.Tap(testSelector);
+            App.Tap(testSelector);
 
-			App.WaitForElement(OkSelector);
+            App.WaitForElement(OkSelector);
 
-			App.Screenshot("Dialog - Opened");
+            TakeScreenshot("Opened");
 
             App.Tap(OkSelector);
 
-			App.Screenshot("Dialog - Closed");
+            TakeScreenshot("Closed");
         }
     }
 }

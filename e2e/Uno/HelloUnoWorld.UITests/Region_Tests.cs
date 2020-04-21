@@ -9,22 +9,22 @@ using Query = System.Func<Uno.UITest.IAppQuery, Uno.UITest.IAppQuery>;
 
 namespace Sample.UITests
 {
-	public class Region_Tests : TestBase
-	{
-		[Test]
-		public void TestViewA()
-		{
-			Query testSelector = q => q.Marked("viewAButton");
-			Query viewASelector = q => q.Marked("viewAText");
+    public class Region_Tests : TestBase
+    {
+        [Test]
+        public void TestViewA()
+        {
+            Query testSelector = q => q.Marked("viewAButton");
+            Query viewASelector = q => q.Marked("viewAText");
 
-			App.WaitForElement(testSelector);
-			App.Screenshot("TestViewA - Initial");
+            App.WaitForElement(testSelector);
+            TakeScreenshot("Initial");
 
-			App.Tap(testSelector);
+            App.Tap(testSelector);
 
-			App.WaitForElement(viewASelector);
+            App.WaitForElement(viewASelector);
 
-			App.Screenshot("TestViewA - Done");
-		}
-	}
+            TakeScreenshot("Done");
+        }
+    }
 }

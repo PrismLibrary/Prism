@@ -1,0 +1,32 @@
+﻿<Page x:Class="HelloUnoWorld.Views.ModulesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+      xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:modularity="using:Prism.Modularity"
+      xmlns:prismMvvm="using:Prism.Mvvm"
+      xmlns:prismI="using:Prism.Interactivity"
+      prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Grid>
+    <ListView x:Name="listView" ItemsSource="{Binding Modules}" IsItemClickEnabled="true">
+      <mxi:Interaction.Behaviors>
+          <mxic:EventTriggerBehavior EventName="ItemClick">
+              <prismI:InvokeCommandAction Command="{Binding LoadModule}" TriggerParameterPath="ClickedItem" />
+          </mxic:EventTriggerBehavior>
+      </mxi:Interaction.Behaviors>
+      <ListView.ItemTemplate>
+        <DataTemplate x:DataType="modularity:IModuleInfo">
+          <StackPanel AutomationProperties.AutomationId="{x:Bind ModuleName}">
+            <TextBlock Text="{x:Bind ModuleName}" FontWeight="Bold" />
+            <TextBlock Text="{x:Bind State}" />
+          </StackPanel>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </Grid>
+</Page>

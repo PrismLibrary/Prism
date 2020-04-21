@@ -18,7 +18,7 @@ mono nuget.exe install NUnit.ConsoleRunner -Version 3.10.0
 
 export UNO_UITEST_PLATFORM=iOS
 export UNO_UITEST_IOSBUNDLE_PATH=$BUILD_SOURCESDIRECTORY/e2e/Uno/HelloUnoWorld.iOS/bin/iPhoneSimulator/Release/HelloUnoWorld.app
-export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/e2e/uno/wasm
+export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/e2e/uno/ios
 
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 

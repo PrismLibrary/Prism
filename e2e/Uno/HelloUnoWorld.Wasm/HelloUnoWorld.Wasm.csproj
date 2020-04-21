@@ -6,6 +6,7 @@
     <WasmHead>true</WasmHead>
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
     <NoWarn>NU1701</NoWarn>
+    <WasmShellILLinkerEnabled>false</WasmShellILLinkerEnabled>
   </PropertyGroup>
   <PropertyGroup>
     <!-- 
@@ -45,14 +46,17 @@
     <!-- Note that for WebAssembly version 1.1.1 of the console logger required -->
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
-    <PackageReference Include="Uno.UI" Version="2.1.37" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="2.1.37" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.10" />
-    <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" Version="1.0.10" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1-uno.28" />
+    <PackageReference Include="Uno.UI" Version="2.3.0-dev.2" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="2.3.0-dev.2" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.2.0-dev.24" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.2.0-dev.24" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Prism.Core\Prism.Core.csproj" />
     <ProjectReference Include="..\..\..\src\Uno\Prism.DryIoc.Uno\Prism.DryIoc.Uno.csproj" />
     <ProjectReference Include="..\..\..\src\Uno\Prism.Uno\Prism.Uno.csproj" />
+    <ProjectReference Include="..\ModuleA\ModuleA.csproj" />
   </ItemGroup>
   <Import Project="..\HelloUnoWorld.Shared\HelloUnoWorld.Shared.projitems" Label="Shared" Condition="Exists('..\HelloUnoWorld.Shared\HelloUnoWorld.Shared.projitems')" />
 </Project>

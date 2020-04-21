@@ -12,6 +12,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
+      <Version>2.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Uno.Core" Version="2.0.0-dev.5" />
     <PackageReference Include="Uno.UI" Version="2.1.37" />
   </ItemGroup>
@@ -114,6 +117,10 @@
     <ProjectReference Include="..\..\..\src\Uno\Prism.Uno\Prism.Uno.csproj">
       <Project>{b2a9c972-bd7a-4a95-b62c-f8385b819900}</Project>
       <Name>Prism.Uno</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModuleA\ModuleA.csproj">
+      <Project>{a1ddecd2-0702-40d9-ad6f-163a86783bd2}</Project>
+      <Name>ModuleA</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

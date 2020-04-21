@@ -20,6 +20,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Prism.Modularity;
+using HelloWorld.ViewModels;
 
 namespace HelloUnoWorld
 {
@@ -39,8 +41,6 @@ namespace HelloUnoWorld
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
-
-        public static string ViewAName = "ViewA";
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
@@ -113,9 +113,15 @@ namespace HelloUnoWorld
             return Container.Resolve<Shell>();
         }
 
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            moduleCatalog.AddModule<ModuleA.ModuleAModule>(InitializationMode.OnDemand);
+        }
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<ViewA>(ViewAName);
+            containerRegistry.RegisterForNavigation<ViewA>(nameof(ViewA));
+            containerRegistry.RegisterForNavigation<ModulesPage, ModulesPageViewModel>();
 
             containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();
             containerRegistry.RegisterDialog<ConfirmationDialog, ConfirmationDialogViewModel>();

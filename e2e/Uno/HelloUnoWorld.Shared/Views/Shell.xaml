@@ -11,19 +11,28 @@
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" toolkit:VisibleBoundsPadding.PaddingMask="All">
     <Grid.RowDefinitions>
       <RowDefinition Height="auto" />
+      <RowDefinition Height="auto" />
       <RowDefinition />
     </Grid.RowDefinitions>
-    <ContentControl Grid.Row="1"
-                    prismRegions:RegionManager.RegionName="ContentRegion" />
-    <StackPanel>
+    <TextBlock Text="{Binding Title}" FontSize="30" />
+    <StackPanel Grid.Row="1" Orientation="Vertical">
       <Button x:Name="viewAButton"
-              Grid.Row="0"
               Command="{Binding NavigateCommand}"
               CommandParameter="ViewA"
               Content="Navigate to Named View" />
       <Button x:Name="showDialog"
               Command="{Binding ShowDialogCommand}"
               Content="Show Dialog" />
-    </StackPanel>
+      <Button x:Name="showModules"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="ModulesPage"
+              Content="Modules" />
+      <Button x:Name="ModuleViewAButton"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="ModulePageA"
+              Content="Navigate to Named View in Module" />
+      </StackPanel>
+    <ContentControl Grid.Row="2"
+                    prismRegions:RegionManager.RegionName="ContentRegion" />
   </Grid>
 </ContentControl>

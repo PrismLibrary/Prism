@@ -26,7 +26,7 @@ $ANDROID_HOME/platform-tools/adb devices
 
 echo "Emulator started"
 
-export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/e2e/uno/wasm
+export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/e2e/uno/android
 export UNO_UITEST_PLATFORM=Android
 export UNO_UITEST_ANDROIDAPK_PATH=$BUILD_SOURCESDIRECTORY/e2e/Uno/HelloUnoWorld.Droid/bin/Release/com.prismlibrary.helloworld-Signed.apk
 
