@@ -4,6 +4,9 @@ using Unity;
 [assembly: Xamarin.Forms.XmlnsDefinition("http://prismlibrary.com", "Prism.Unity")]
 namespace Prism.Unity
 {
+    /// <summary>
+    /// Base class for PrismApplication
+    /// </summary>
     public abstract class PrismApplication : PrismApplicationBase
     {
         /// <summary>
