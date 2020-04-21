@@ -11,10 +11,12 @@
             <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Button Command="{Binding ShowDialogCommand}" Content="Show Dialog" />
-        <!--<ContentControl prism:RegionManager.RegionName="ContentRegion" />-->
-        <!--<Button Command="{Binding NavigateCommand}" CommandParameter="{x:Static local:App.ViewAName}">Navigate to Named View</Button>
-        <TabControl Grid.Row="1" prism:RegionManager.RegionName="ContentRegion" />-->
+        <!--<Button Command="{Binding ShowDialogCommand}" Content="Show Dialog" />-->
+
+    <Button Command="{Binding NavigateCommand}" CommandParameter="ViewA">Navigate to ViewA</Button>
+    <ContentControl Grid.Row="1" prism:RegionManager.RegionName="ContentRegion" />
+
+        <!--<TabControl Grid.Row="1" prism:RegionManager.RegionName="ContentRegion" />-->
         
     </Grid>
 </Window>

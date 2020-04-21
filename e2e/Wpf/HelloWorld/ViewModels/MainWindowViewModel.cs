@@ -1,4 +1,5 @@
 ﻿using System;
+using HelloWorld.Core;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -93,21 +94,5 @@ namespace HelloWorld.ViewModels
         }
     }
 
-    public static class DialogServiceExtensions
-    {
-        public static void ShowNotification(this IDialogService dialogService, string message, Action<IDialogResult> callBack)
-        {
-            dialogService.ShowDialog("NotificationDialog", new DialogParameters($"message={message}"), callBack);
-        }
 
-        public static void ShowConfirmation(this IDialogService dialogService, string message, Action<IDialogResult> callBack)
-        {
-            dialogService.ShowDialog("ConfirmationDialog", new DialogParameters($"message={message}"), callBack);
-        }
-
-        public static void ShowNotificationInAnotherWindow(this IDialogService dialogService, string message, Action<IDialogResult> callBack)
-        {
-            dialogService.ShowDialog("NotificationDialog", new DialogParameters($"message={message}"), callBack, "AnotherDialogWindow");
-        }
-    }
 }
