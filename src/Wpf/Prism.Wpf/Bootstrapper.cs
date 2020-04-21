@@ -21,7 +21,12 @@ namespace Prism
     [Obsolete("This class will be removed in Prism 8.1. Please migrate to the PrismApplication or the new PrismBootstrapper.")]
     public abstract class Bootstrapper
     {
+        /// <summary>
+        /// Gets the <see cref="IContainerExtension"/> for the application.
+        /// </summary>
+        /// <value>A <see cref="IContainerExtension"/> instance.</value>
         protected IContainerExtension ContainerExtension;
+        
         /// <summary>
         /// Gets the <see cref="ILoggerFacade"/> for the application.
         /// </summary>
