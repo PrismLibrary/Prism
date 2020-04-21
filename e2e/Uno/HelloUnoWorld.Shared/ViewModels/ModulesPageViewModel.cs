@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Prism.Commands;
 using Prism.Modularity;
 using Prism.Mvvm;
@@ -40,6 +41,7 @@ namespace HelloWorld.ViewModels
         private void OnModuleLoaded(object sender, LoadModuleCompletedEventArgs e)
         {
             Modules = _moduleCatalog.Modules;
+            System.Console.WriteLine($"Stte: {Modules.First().State}");
         }
 
         public void Destroy()

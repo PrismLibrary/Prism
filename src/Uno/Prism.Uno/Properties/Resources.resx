@@ -274,4 +274,16 @@
   <data name="MustBeModuleGroupCatalog" xml:space="preserve">
     <value>The ModuleCatalog must implement IModuleGroupCatalog to add groups</value>
   </data>
+  <data name="DuplicatedModuleInCatalog" xml:space="preserve">
+    <value>A duplicated module with name {0} has been found in the ModuleCatalog.</value>
+  </data>
+  <data name="ModuleRefLocationNotSupported" xml:space="preserve">
+    <value>Module Reference Location is not supported in Xamarin.Forms</value>
+  </data>
+  <data name="NavigationModeNotAvailable" xml:space="preserve">
+    <value>NavigationMode is not available</value>
+  </data>
+  <data name="ServiceProviderDidNotHaveIProvideValueTarget" xml:space="preserve">
+    <value>The ServiceProvider did not provide a 'IProvideValueTarget'</value>
+  </data>
 </root>

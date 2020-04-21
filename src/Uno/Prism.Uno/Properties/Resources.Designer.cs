@@ -172,6 +172,15 @@ namespace Prism.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A duplicated module with name {0} has been found in the ModuleCatalog..
+        /// </summary>
+        internal static string DuplicatedModuleInCatalog {
+            get {
+                return ResourceManager.GetString("DuplicatedModuleInCatalog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to retrieve the module type {0} from the loaded assemblies.  You may need to specify a more fully-qualified type name..
         /// </summary>
         internal static string FailedToGetType {
@@ -265,6 +274,15 @@ namespace Prism.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Module Reference Location is not supported in Xamarin.Forms.
+        /// </summary>
+        internal static string ModuleRefLocationNotSupported {
+            get {
+                return ResourceManager.GetString("ModuleRefLocationNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to load type &apos;{0}&apos; from assembly &apos;{1}&apos;..
         /// </summary>
         internal static string ModuleTypeNotFound {
@@ -288,6 +306,15 @@ namespace Prism.Properties {
         internal static string NavigationInProgress {
             get {
                 return ResourceManager.GetString("NavigationInProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NavigationMode is not available.
+        /// </summary>
+        internal static string NavigationModeNotAvailable {
+            get {
+                return ResourceManager.GetString("NavigationModeNotAvailable", resourceCulture);
             }
         }
         
@@ -443,6 +470,15 @@ namespace Prism.Properties {
         internal static string RegionViewNameExistsException {
             get {
                 return ResourceManager.GetString("RegionViewNameExistsException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The ServiceProvider did not provide a &apos;IProvideValueTarget&apos;.
+        /// </summary>
+        internal static string ServiceProviderDidNotHaveIProvideValueTarget {
+            get {
+                return ResourceManager.GetString("ServiceProviderDidNotHaveIProvideValueTarget", resourceCulture);
             }
         }
         
