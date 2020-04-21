@@ -29,7 +29,9 @@ namespace Prism
         /// <value>The shell user interface.</value>
         protected Window Shell { get; set; }
 
-
+        /// <summary>
+        /// Runs the bootstrapper process.
+        /// </summary>
         public void Run()
         {
             InitializeInternal();
@@ -163,9 +165,9 @@ namespace Prism
         {
             if (regionAdapterMappings != null)
             {
-                regionAdapterMappings.RegisterMapping(typeof(Selector), _containerExtension.Resolve<SelectorRegionAdapter>());
-                regionAdapterMappings.RegisterMapping(typeof(ItemsControl), _containerExtension.Resolve<ItemsControlRegionAdapter>());
-                regionAdapterMappings.RegisterMapping(typeof(ContentControl), _containerExtension.Resolve<ContentControlRegionAdapter>());
+                regionAdapterMappings.RegisterMapping<Selector, SelectorRegionAdapter>();
+                regionAdapterMappings.RegisterMapping<ItemsControl, ItemsControlRegionAdapter>();
+                regionAdapterMappings.RegisterMapping<ContentControl, ContentControlRegionAdapter>();
             }
         }
 
