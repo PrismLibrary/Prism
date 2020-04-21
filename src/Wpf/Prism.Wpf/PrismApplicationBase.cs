@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using Prism.Events;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Modularity;
-using Prism.Mvvm;
 using Prism.Regions;
-using Prism.Regions.Behaviors;
-using Prism.Services.Dialogs;
 
 namespace Prism
 {
@@ -29,6 +22,10 @@ namespace Prism
         /// </summary>
         public IContainerProvider Container => _containerExtension;
 
+        /// <summary>
+        /// Raises the System.Windows.Application.Startup event.
+        /// </summary>
+        /// <param name="e">A System.Windows.StartupEventArgs that contains the event data.</param>
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -50,16 +47,13 @@ namespace Prism
         /// </summary>
         protected virtual void ConfigureViewModelLocator()
         {
-            ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
-            {
-                return Container.Resolve(type);
-            });
+            PrismInitializationExtensions.ConfigureViewModelLocator(Container);
         }
 
         /// <summary>
         /// Runs the initialization sequence to configure the Prism application.
         /// </summary>
-        public virtual void Initialize()
+        protected virtual void Initialize()
         {
             ContainerLocator.SetContainerExtension(CreateContainerExtension);
             _containerExtension = ContainerLocator.Current;
@@ -112,21 +106,7 @@ namespace Prism
         /// <param name="containerRegistry"></param>
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterInstance(_moduleCatalog);
-            containerRegistry.RegisterSingleton<ILoggerFacade, TextLogger>();
-            containerRegistry.RegisterSingleton<IDialogService, DialogService>();
-            containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
-            containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
-            containerRegistry.RegisterSingleton<RegionAdapterMappings>();
-            containerRegistry.RegisterSingleton<IRegionManager, RegionManager>();
-            containerRegistry.RegisterSingleton<IRegionNavigationContentLoader, RegionNavigationContentLoader>();
-            containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
-            containerRegistry.RegisterSingleton<IRegionViewRegistry, RegionViewRegistry>();
-            containerRegistry.RegisterSingleton<IRegionBehaviorFactory, RegionBehaviorFactory>();
-            containerRegistry.Register<IRegionNavigationJournalEntry, RegionNavigationJournalEntry>();
-            containerRegistry.Register<IRegionNavigationJournal, RegionNavigationJournal>();
-            containerRegistry.Register<IRegionNavigationService, RegionNavigationService>();
-            containerRegistry.Register<IDialogWindow, DialogWindow>(); //default dialog host
+            containerRegistry.RegisterRequiredTypes(_moduleCatalog);
         }
 
         /// <summary>
@@ -140,17 +120,7 @@ namespace Prism
         /// </summary>
         protected virtual void ConfigureDefaultRegionBehaviors(IRegionBehaviorFactory regionBehaviors)
         {
-            if (regionBehaviors != null)
-            {
-                regionBehaviors.AddIfMissing(BindRegionContextToDependencyObjectBehavior.BehaviorKey, typeof(BindRegionContextToDependencyObjectBehavior));
-                regionBehaviors.AddIfMissing(RegionActiveAwareBehavior.BehaviorKey, typeof(RegionActiveAwareBehavior));
-                regionBehaviors.AddIfMissing(SyncRegionContextWithHostBehavior.BehaviorKey, typeof(SyncRegionContextWithHostBehavior));
-                regionBehaviors.AddIfMissing(RegionManagerRegistrationBehavior.BehaviorKey, typeof(RegionManagerRegistrationBehavior));
-                regionBehaviors.AddIfMissing(RegionMemberLifetimeBehavior.BehaviorKey, typeof(RegionMemberLifetimeBehavior));
-                regionBehaviors.AddIfMissing(ClearChildViewsRegionBehavior.BehaviorKey, typeof(ClearChildViewsRegionBehavior));
-                regionBehaviors.AddIfMissing(AutoPopulateRegionBehavior.BehaviorKey, typeof(AutoPopulateRegionBehavior));
-                regionBehaviors.AddIfMissing(IDestructibleRegionBehavior.BehaviorKey, typeof(IDestructibleRegionBehavior));
-            }
+            regionBehaviors?.RegisterDefaultRegionBehaviors();
         }
 
         /// <summary>
@@ -161,12 +131,7 @@ namespace Prism
         /// <returns>The <see cref="RegionAdapterMappings"/> instance containing all the mappings.</returns>
         protected virtual void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
         {
-            if (regionAdapterMappings != null)
-            {
-                regionAdapterMappings.RegisterMapping(typeof(Selector), _containerExtension.Resolve<SelectorRegionAdapter>());
-                regionAdapterMappings.RegisterMapping(typeof(ItemsControl), _containerExtension.Resolve<ItemsControlRegionAdapter>());
-                regionAdapterMappings.RegisterMapping(typeof(ContentControl), _containerExtension.Resolve<ContentControlRegionAdapter>());
-            }
+            regionAdapterMappings?.RegisterDefaultRegionAdapterMappings();
         }
 
         /// <summary>
@@ -209,8 +174,7 @@ namespace Prism
         /// </summary>
         protected virtual void InitializeModules()
         {
-            IModuleManager manager = _containerExtension.Resolve<IModuleManager>();
-            manager.Run();
+            PrismInitializationExtensions.RunModuleManager(Container);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Prism
     /// <remarks>
     /// This class must be overridden to provide application specific configuration.
     /// </remarks>
-    [Obsolete("It is recommended to use the new PrismApplication as the app's base class. This will require updating the App.xaml and App.xaml.cs files.")]
+    [Obsolete("This class will be removed in Prism 8.1. Please migrate to the PrismApplication or the new PrismBootstrapper.")]
     public abstract class Bootstrapper
     {
         protected IContainerExtension ContainerExtension;
