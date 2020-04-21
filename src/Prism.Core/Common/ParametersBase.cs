@@ -102,7 +102,7 @@ namespace Prism.Common
             _entries.Select(x => x.Key);
 
         /// <summary>
-        /// Adds the <paramref name="key" /> and <paramref name="value" /> to the KeyValuePair<string,object> collection
+        /// Adds the key and value to the KeyValuePair<string,object> collection
         /// </summary>
         /// <param name="key">The key to reference this value in the KeyValuePair<string, object></param>
         /// <param name="value">The value of the parameter to store</param>
