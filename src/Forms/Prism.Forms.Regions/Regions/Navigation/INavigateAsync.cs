@@ -1,4 +1,5 @@
 ﻿using System;
+using Prism.Navigation;
 
 namespace Prism.Regions.Navigation
 {
@@ -32,6 +33,6 @@ namespace Prism.Regions.Navigation
         /// Convenience overloads for this method can be found as extension methods on the 
         /// <see cref="NavigationAsyncExtensions"/> class.
         /// </remarks>
-        void RequestNavigate(Uri target, Action<IRegionNavigationResult> navigationCallback, IRegionParameters navigationParameters);
+        void RequestNavigate(Uri target, Action<IRegionNavigationResult> navigationCallback, INavigationParameters navigationParameters);
     }
 }

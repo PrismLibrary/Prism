@@ -29,7 +29,7 @@ namespace Prism.Regions
                 throw new ArgumentNullException(nameof(adapter));
 
             if (mappings.ContainsKey(controlType))
-                throw new InvalidOperationException(String.Format(CultureInfo.CurrentCulture,
+                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                                                                   Resources.MappingExistsException, controlType.Name));
 
             mappings.Add(controlType, adapter);
@@ -77,7 +77,7 @@ namespace Prism.Regions
                 }
                 currentType = currentType.BaseType;
             }
-            throw new KeyNotFoundException(String.Format(CultureInfo.CurrentCulture, Resources.NoRegionAdapterException, controlType));
+            throw new KeyNotFoundException(string.Format(CultureInfo.CurrentCulture, Resources.NoRegionAdapterException, controlType));
         }
 
         /// <summary>

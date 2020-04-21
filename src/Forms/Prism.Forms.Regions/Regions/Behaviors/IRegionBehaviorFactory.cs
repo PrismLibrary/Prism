@@ -12,9 +12,10 @@ namespace Prism.Regions.Behaviors
         /// <summary>
         /// Adds a particular type of RegionBehavior if it was not already registered. the <paramref name="behaviorKey"/> string is used to check if the behavior is already present
         /// </summary>
+        /// <typeparam name="TBehavior">Type of the behavior to add.</typeparam>
         /// <param name="behaviorKey">The behavior key that's used to find if a certain behavior is already added.</param>
-        /// <param name="behaviorType">Type of the behavior to add. .</param>
-        void AddIfMissing(string behaviorKey, Type behaviorType);
+        void AddIfMissing<TBehavior>(string behaviorKey)
+            where TBehavior : IRegionBehavior;
 
         /// <summary>
         /// Determines whether a behavior with the specified key already exists

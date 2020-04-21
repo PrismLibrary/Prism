@@ -25,7 +25,7 @@ namespace Prism.Regions.Behaviors
             BindableProperty.CreateAttached("ClearChildViews", typeof(bool), typeof(ClearChildViewsRegionBehavior), false);
 
         /// <summary>
-        /// Gets the ClearChildViews attached property from a DependencyObject.
+        /// Gets the ClearChildViews attached property from a BindableObject.
         /// </summary>
         /// <param name="target">The object from which to get the value.</param>
         /// <returns>The value of the ClearChildViews attached property in the target specified.</returns>
@@ -38,7 +38,7 @@ namespace Prism.Regions.Behaviors
         }
 
         /// <summary>
-        /// Sets the ClearChildViews attached property in a DependencyObject.
+        /// Sets the ClearChildViews attached property in a BindableObject.
         /// </summary>
         /// <param name="target">The object in which to set the value.</param>
         /// <param name="value">The value of to set in the target object's ClearChildViews attached property.</param>
@@ -64,7 +64,7 @@ namespace Prism.Regions.Behaviors
             {
                 if (GetClearChildViews(view))
                 {
-                    view.ClearValue(RegionManager.RegionManagerProperty);
+                    view.ClearValue(Xaml.RegionManager.RegionManagerProperty);
                 }
             }
         }

@@ -84,7 +84,7 @@ namespace Prism.Regions.Behaviors
             {
                 // We are assuming that any scoped region managers are attached directly to the 
                 // view.
-                var regionManager = RegionManager.GetRegionManager(visualElement);
+                var regionManager = Xaml.RegionManager.GetRegionManager(visualElement);
 
                 // If the view's RegionManager attached property is different from the region's RegionManager,
                 // then the view's region manager is a scoped region manager.

@@ -16,10 +16,10 @@ namespace Prism.Regions.Navigation
         IRegionNavigationService NavigationService { get; }
 
         /// <summary>
-        /// Gets the <see cref="IRegionParameters"/> extracted from the URI and the object parameters passed in navigation.
+        /// Gets the <see cref="INavigationParameters"/> extracted from the URI and the object parameters passed in navigation.
         /// </summary>
         /// <value>The URI query.</value>
-        IRegionParameters Parameters { get; }
+        INavigationParameters Parameters { get; }
 
         /// <summary>
         /// Gets the navigation URI.

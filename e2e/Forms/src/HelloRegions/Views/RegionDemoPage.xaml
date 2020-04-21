@@ -11,7 +11,7 @@
     <ContentView prism:RegionManager.RegionName="ContentRegion" />
     <Button Text="Region A"
             Command="{Binding NavigateCommand}"
-            CommandParameter="RegionA" />
+            CommandParameter="RegionA?message=This%20is%20awesome!" />
     <Button Text="Region B"
             Command="{Binding NavigateCommand}"
             CommandParameter="RegionB" />

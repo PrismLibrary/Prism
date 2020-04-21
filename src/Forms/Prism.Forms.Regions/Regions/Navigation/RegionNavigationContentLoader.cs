@@ -5,6 +5,7 @@ using System.Linq;
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Ioc.Internals;
+using Prism.Mvvm;
 using Prism.Properties;
 using Xamarin.Forms;
 
@@ -54,13 +55,7 @@ namespace Prism.Regions.Navigation
 
             var acceptingCandidates =
                 candidates.Where(
-                    v =>
-                    {
-                        var regionAware = MvvmHelpers.GetImplementerFromViewOrViewModel<IRegionAware>(v);
-
-                        return regionAware?.IsNavigationTarget(navigationContext) ?? false;
-                    });
-
+                    v => MvvmHelpers.IsNavigationTarget(v, navigationContext));
 
             var view = acceptingCandidates.FirstOrDefault();
 
@@ -86,7 +81,12 @@ namespace Prism.Regions.Navigation
             object newRegionItem;
             try
             {
-                newRegionItem = _container.Resolve<object>(candidateTargetContract);
+                var view = _container.Resolve<object>(candidateTargetContract) as VisualElement;
+
+                if (ViewModelLocator.GetAutowireViewModel(view) is null)
+                    ViewModelLocator.SetAutowireViewModel(view, true);
+
+                newRegionItem = view;
             }
             catch (Exception e)
             {

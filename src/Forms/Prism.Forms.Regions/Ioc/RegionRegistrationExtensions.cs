@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using Prism.Behaviors;
 using Prism.Regions;
 using Prism.Regions.Adapters;
 using Prism.Regions.Behaviors;
@@ -46,14 +48,14 @@ namespace Prism.Ioc
         public static PrismApplicationBase ConfigureDefaultRegionBehaviors(this PrismApplicationBase app, Action<IRegionBehaviorFactory> configure = null)
         {
             var regionBehaviors = app.Container.Resolve<IRegionBehaviorFactory>();
-            regionBehaviors.AddIfMissing(BindRegionContextToVisualElementBehavior.BehaviorKey, typeof(BindRegionContextToVisualElementBehavior));
-            regionBehaviors.AddIfMissing(RegionActiveAwareBehavior.BehaviorKey, typeof(RegionActiveAwareBehavior));
-            regionBehaviors.AddIfMissing(SyncRegionContextWithHostBehavior.BehaviorKey, typeof(SyncRegionContextWithHostBehavior));
-            regionBehaviors.AddIfMissing(RegionManagerRegistrationBehavior.BehaviorKey, typeof(RegionManagerRegistrationBehavior));
-            regionBehaviors.AddIfMissing(RegionMemberLifetimeBehavior.BehaviorKey, typeof(RegionMemberLifetimeBehavior));
-            regionBehaviors.AddIfMissing(ClearChildViewsRegionBehavior.BehaviorKey, typeof(ClearChildViewsRegionBehavior));
-            regionBehaviors.AddIfMissing(AutoPopulateRegionBehavior.BehaviorKey, typeof(AutoPopulateRegionBehavior));
-            regionBehaviors.AddIfMissing(DestructibleRegionBehavior.BehaviorKey, typeof(DestructibleRegionBehavior));
+            regionBehaviors.AddIfMissing<BindRegionContextToVisualElementBehavior>(BindRegionContextToVisualElementBehavior.BehaviorKey);
+            regionBehaviors.AddIfMissing<RegionActiveAwareBehavior>(RegionActiveAwareBehavior.BehaviorKey);
+            regionBehaviors.AddIfMissing<SyncRegionContextWithHostBehavior>(SyncRegionContextWithHostBehavior.BehaviorKey);
+            regionBehaviors.AddIfMissing<RegionManagerRegistrationBehavior>(RegionManagerRegistrationBehavior.BehaviorKey);
+            regionBehaviors.AddIfMissing<RegionMemberLifetimeBehavior>(RegionMemberLifetimeBehavior.BehaviorKey);
+            regionBehaviors.AddIfMissing<ClearChildViewsRegionBehavior>(ClearChildViewsRegionBehavior.BehaviorKey);
+            regionBehaviors.AddIfMissing<AutoPopulateRegionBehavior>(AutoPopulateRegionBehavior.BehaviorKey);
+            regionBehaviors.AddIfMissing<DestructibleRegionBehavior>(DestructibleRegionBehavior.BehaviorKey);
 
             configure?.Invoke(regionBehaviors);
             return app;
@@ -69,14 +71,14 @@ namespace Prism.Ioc
         {
             var container = app.Container;
             var regionAdapterMappings = container.Resolve<RegionAdapterMappings>();
-            regionAdapterMappings.RegisterMapping(typeof(CarouselView), container.Resolve<CarouselViewRegionAdapter>());
-            regionAdapterMappings.RegisterMapping(typeof(CollectionView), container.Resolve<CollectionViewRegionAdapter>());
-            regionAdapterMappings.RegisterMapping(typeof(FlexLayout), container.Resolve<LayoutViewRegionAdapter>());
-            regionAdapterMappings.RegisterMapping(typeof(StackLayout), container.Resolve<LayoutViewRegionAdapter>());
-            regionAdapterMappings.RegisterMapping(typeof(ScrollView), container.Resolve<ScrollViewRegionAdapter>());
-            regionAdapterMappings.RegisterMapping(typeof(ContentView), container.Resolve<ContentViewRegionAdapter>());
-            regionAdapterMappings.RegisterMapping(typeof(Frame), container.Resolve<ContentViewRegionAdapter>());
-            regionAdapterMappings.RegisterMapping(typeof(RefreshView), container.Resolve<ContentViewRegionAdapter>());
+            regionAdapterMappings.RegisterMapping<CarouselView, CarouselViewRegionAdapter>();
+            regionAdapterMappings.RegisterMapping<CollectionView, CollectionViewRegionAdapter>();
+            regionAdapterMappings.RegisterMapping<FlexLayout, LayoutViewRegionAdapter>();
+            regionAdapterMappings.RegisterMapping<StackLayout, LayoutViewRegionAdapter>();
+            regionAdapterMappings.RegisterMapping<ScrollView, ScrollViewRegionAdapter>();
+            regionAdapterMappings.RegisterMapping<ContentView, ContentViewRegionAdapter>();
+            regionAdapterMappings.RegisterMapping<Frame, ContentViewRegionAdapter>();
+            regionAdapterMappings.RegisterMapping<RefreshView, ContentViewRegionAdapter>();
 
             configure?.Invoke(regionAdapterMappings);
             return app;

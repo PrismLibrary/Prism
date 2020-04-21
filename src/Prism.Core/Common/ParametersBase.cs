@@ -10,7 +10,6 @@ namespace Prism.Common
     /// <summary>
     /// This is a generic parameters base class used for Dialog Parameters and Navigation Parameters.
     /// </summary>
-    public abstract class ParametersBase : IEnumerable<KeyValuePair<string, object>>
     public abstract class ParametersBase : IParameters, IEnumerable<KeyValuePair<string, object>>
     {
         private readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();

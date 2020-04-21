@@ -20,12 +20,14 @@ namespace Prism.Regions.Behaviors
     /// </remarks>
     public class DelayedRegionCreationBehavior
     {
+        private static readonly ICollection<DelayedRegionCreationBehavior> _instanceTracker =
+            new Collection<DelayedRegionCreationBehavior>();
+
         private readonly RegionAdapterMappings _regionAdapterMappings;
+        private readonly object _trackerLock = new object();
+
         private WeakReference _elementWeakReference;
         private bool _regionCreated = false;
-
-        private static ICollection<DelayedRegionCreationBehavior> _instanceTracker = new Collection<DelayedRegionCreationBehavior>();
-        private object _trackerLock = new object();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DelayedRegionCreationBehavior"/> class.
@@ -45,7 +47,7 @@ namespace Prism.Regions.Behaviors
         /// so this behavior can be tested in isolation.
         /// </summary>
         /// <value>The region manager accessor.</value>
-        public IRegionManagerAccessor RegionManagerAccessor { get; set; }
+        public IRegionManagerAccessor RegionManagerAccessor { get; }
 
         /// <summary>
         /// The element that will host the Region.
@@ -75,15 +77,6 @@ namespace Prism.Regions.Behaviors
             RegionManagerAccessor.UpdatingRegions -= OnUpdatingRegions;
             UnWireTargetElement();
         }
-
-#if false
-#region NeedToRemove
-
-        private void WireUpTargetElement() { }
-        private void UnWireTargetElement() { }
-
-#endregion
-#endif
 
         /// <summary>
         /// Called when the <see cref="IRegionManager"/> is updating it's <see cref="IRegionManager.Regions"/> collection.
@@ -132,8 +125,8 @@ namespace Prism.Regions.Behaviors
             try
             {
                 // Build the region
-                IRegionAdapter regionAdapter = this._regionAdapterMappings.GetMapping(targetElement.GetType());
-                IRegion region = regionAdapter.Initialize(targetElement, regionName);
+                var regionAdapter = _regionAdapterMappings.GetMapping(targetElement.GetType());
+                var region = regionAdapter.Initialize(targetElement, regionName);
 
                 return region;
             }
@@ -147,19 +140,6 @@ namespace Prism.Regions.Behaviors
         {
             TargetElement.PropertyChanged += TargetElement_ParentChanged;
             Track();
-            //var element = TargetElement;
-            //if (element != null)
-            //{
-            //    element.Loaded += this.ElementLoaded;
-            //    return;
-            //}
-
-            //var fcElement = this.TargetElement as FrameworkContentElement;
-            //if (fcElement != null)
-            //{
-            //    fcElement.Loaded += this.ElementLoaded;
-            //    return;
-            //}
 
             //if the element is a dependency object, and not a FrameworkElement, nothing is holding onto the reference after the DelayedRegionCreationBehavior
             //is instantiated inside RegionManager.CreateRegion(VisualElement element). If the GC runs before RegionManager.UpdateRegions is called, the region will
@@ -170,24 +150,11 @@ namespace Prism.Regions.Behaviors
         {
             TargetElement.PropertyChanged -= TargetElement_ParentChanged;
             Untrack();
-            //var element = TargetElement;
-            //if (element != null)
-            //{
-            //    element.Loaded -= this.ElementLoaded;
-            //    return;
-            //}
-
-            //var fcElement = this.TargetElement as FrameworkContentElement;
-            //if (fcElement != null)
-            //{
-            //    fcElement.Loaded -= this.ElementLoaded;
-            //    return;
-            //}
         }
 
         private void TargetElement_ParentChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(VisualElement.Parent))
+            if(e.PropertyName == nameof(VisualElement.Parent) && TargetElement?.Parent != null)
             {
                 UnWireTargetElement();
                 TryCreateRegion();

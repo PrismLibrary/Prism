@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Prism.Common;
 using Prism.Ioc;
+using Prism.Navigation;
 using Prism.Properties;
 using Xamarin.Forms;
 
@@ -89,7 +90,7 @@ namespace Prism.Regions.Navigation
         /// <param name="target">The target.</param>
         /// <param name="navigationCallback">A callback to execute when the navigation request is completed.</param>
         /// <param name="regionParameters">The navigation parameters specific to the navigation request.</param>
-        public void RequestNavigate(Uri target, Action<IRegionNavigationResult> navigationCallback, IRegionParameters regionParameters)
+        public void RequestNavigate(Uri target, Action<IRegionNavigationResult> navigationCallback, INavigationParameters regionParameters)
         {
             if (navigationCallback == null)
                 throw new ArgumentNullException(nameof(navigationCallback));
@@ -104,7 +105,7 @@ namespace Prism.Regions.Navigation
             }
         }
 
-        private void DoNavigate(Uri source, Action<IRegionNavigationResult> navigationCallback, IRegionParameters regionParameters)
+        private void DoNavigate(Uri source, Action<IRegionNavigationResult> navigationCallback, INavigationParameters regionParameters)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -259,14 +260,9 @@ namespace Prism.Regions.Navigation
 
         private static void NotifyActiveViewsNavigatingFrom(INavigationContext navigationContext, object[] activeViews)
         {
-            InvokeOnNavigationAwareElements(activeViews, (n) => n.OnNavigatedFrom(navigationContext));
-        }
-
-        private static void InvokeOnNavigationAwareElements(IEnumerable<object> items, Action<IRegionAware> invocation)
-        {
-            foreach (var item in items)
+            foreach (var item in activeViews)
             {
-                MvvmHelpers.ViewAndViewModelAction(item, invocation);
+                MvvmHelpers.OnNavigatedFrom(item, navigationContext);
             }
         }
     }

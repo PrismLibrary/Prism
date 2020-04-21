@@ -10,9 +10,9 @@ namespace Prism.Ioc
     public static class RegionNavigationRegistrationExtensions
     {
         /// <summary>
-        /// Registers a Page for navigation.
+        /// Registers a <see cref="View"/> for region navigation.
         /// </summary>
-        /// <typeparam name="TView">The Type of Page to register</typeparam>
+        /// <typeparam name="TView">The Type of <see cref="View"/> to register</typeparam>
         /// <param name="containerRegistry"><see cref="IContainerRegistry"/> used to register type for Navigation.</param>
         /// <param name="name">The unique name to register with the Page</param>
         public static void RegisterForNavigation<TView>(this IContainerRegistry containerRegistry, string name = null) 
@@ -27,9 +27,9 @@ namespace Prism.Ioc
         }
 
         /// <summary>
-        /// Registers a Page for navigation.
+        /// Registers a <see cref="View"/> for region navigation.
         /// </summary>
-        /// <typeparam name="TView">The Type of Page to register</typeparam>
+        /// <typeparam name="TView">The Type of <see cref="View" to register</typeparam>
         /// <typeparam name="TViewModel">The ViewModel to use as the BindingContext for the Page</typeparam>
         /// <param name="name">The unique name to register with the Page</param>
         /// <param name="containerRegistry"></param>

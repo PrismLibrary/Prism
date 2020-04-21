@@ -265,7 +265,7 @@ namespace Prism.Regions
                 itemMetadata.Name = viewName;
             }
 
-            Regions.RegionManager.SetRegionManager(view, scopedRegionManager);
+            Xaml.RegionManager.SetRegionManager(view, scopedRegionManager);
 
             ItemMetadataCollection.Add(itemMetadata);
         }
@@ -302,9 +302,9 @@ namespace Prism.Regions
 
             ItemMetadataCollection.Remove(itemMetadata);
 
-            if (Regions.RegionManager.GetRegionManager(view) == RegionManager)
+            if (Xaml.RegionManager.GetRegionManager(view) == RegionManager)
             {
-                view.ClearValue(Regions.RegionManager.RegionManagerProperty);
+                view.ClearValue(Xaml.RegionManager.RegionManagerProperty);
             }
         }
 

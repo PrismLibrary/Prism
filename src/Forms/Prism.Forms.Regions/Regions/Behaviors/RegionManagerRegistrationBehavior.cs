@@ -79,7 +79,7 @@ namespace Prism.Regions.Behaviors
 
         private void StartMonitoringRegionManager()
         {
-            RegionManagerAccessor.UpdatingRegions += this.OnUpdatingRegions;
+            RegionManagerAccessor.UpdatingRegions += OnUpdatingRegions;
             TryRegisterRegion();
         }
 

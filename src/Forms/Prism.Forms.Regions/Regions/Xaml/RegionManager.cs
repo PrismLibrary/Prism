@@ -9,9 +9,12 @@ using Prism.Regions.Adapters;
 using Prism.Regions.Behaviors;
 using Xamarin.Forms;
 
-namespace Prism.Regions
+namespace Prism.Regions.Xaml
 {
-    public partial class RegionManager
+    /// <summary>
+    /// A class to provide Bindable Properties and helpers for Regions.
+    /// </summary>
+    public static class RegionManager
     {
         private static readonly WeakDelegatesManager updatingRegionsListeners = new WeakDelegatesManager();
 
@@ -185,8 +188,8 @@ namespace Prism.Regions
         /// target element longer than expected.</remarks>
         public static event EventHandler UpdatingRegions
         {
-            add { updatingRegionsListeners.AddListener(value); }
-            remove { updatingRegionsListeners.RemoveListener(value); }
+            add => updatingRegionsListeners.AddListener(value);
+            remove => updatingRegionsListeners.RemoveListener(value);
         }
 
         /// <summary>
@@ -197,7 +200,6 @@ namespace Prism.Regions
         /// </remarks>
         public static void UpdateRegions()
         {
-
             try
             {
                 updatingRegionsListeners.Raise(null, EventArgs.Empty);

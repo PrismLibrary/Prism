@@ -16,42 +16,19 @@ namespace Prism.Regions.Adapters
         /// <summary>
         /// Registers the mapping between a type and an adapter.
         /// </summary>
-        /// <param name="controlType">The type of the control.</param>
-        /// <param name="adapter">The adapter to use with the <paramref name="controlType"/> type.</param>
-        /// <exception cref="ArgumentNullException">When any of <paramref name="controlType"/> or <paramref name="adapter"/> are <see langword="null" />.</exception>
-        /// <exception cref="InvalidOperationException">If a mapping for <paramref name="controlType"/> already exists.</exception>
-        public void RegisterMapping(Type controlType, IRegionAdapter adapter)
+        /// <typeparam name="TControl">The type of the control</typeparam>
+        /// <typeparam name="TAdapter">The type of the IRegionAdapter to use with the TControl</typeparam>
+        public void RegisterMapping<TControl, TAdapter>() where TAdapter : IRegionAdapter
         {
-            if (controlType == null)
-                throw new ArgumentNullException(nameof(controlType));
-
-            if (adapter == null)
-                throw new ArgumentNullException(nameof(adapter));
+            var controlType = typeof(TControl);
 
             if (mappings.ContainsKey(controlType))
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                                                                   Resources.MappingExistsException, controlType.Name));
 
+            var adapter = ContainerLocator.Container.Resolve<TAdapter>();
+
             mappings.Add(controlType, adapter);
-        }
-
-        /// <summary>
-        /// Registers the mapping between a type and an adapter.
-        /// </summary>
-        /// <typeparam name="TControl">The type of the control</typeparam>
-        public void RegisterMapping<TControl>(IRegionAdapter adapter)
-        {
-            RegisterMapping(typeof(TControl), adapter);
-        }
-
-        /// <summary>
-        /// Registers the mapping between a type and an adapter.
-        /// </summary>
-        /// <typeparam name="TControl">The type of the control</typeparam>
-        /// <typeparam name="TAdapter">The type of the IRegionAdapter to use with the TControl</typeparam>
-        public void RegisterMapping<TControl, TAdapter>() where TAdapter : IRegionAdapter
-        {
-            RegisterMapping(typeof(TControl), ContainerLocator.Container.Resolve<TAdapter>());
         }
 
         /// <summary>

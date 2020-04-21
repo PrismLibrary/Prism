@@ -82,11 +82,11 @@ namespace Prism.Regions.Adapters
                     {
                         IRegionBehavior behavior = behaviorFactory.CreateFromKey(behaviorKey);
 
-                        if (regionTarget is VisualElement dependencyObjectRegionTarget)
+                        if (regionTarget is VisualElement visualElementRegionTarget)
                         {
                             if (behavior is IHostAwareRegionBehavior hostAwareRegionBehavior)
                             {
-                                hostAwareRegionBehavior.HostControl = dependencyObjectRegionTarget;
+                                hostAwareRegionBehavior.HostControl = visualElementRegionTarget;
                             }
                         }
 
@@ -137,7 +137,7 @@ namespace Prism.Regions.Adapters
                 // Set the region as a dependency property on the control hosting the region
                 // Because we are using an observable region, the hosting control can detect that the
                 // region has actually been created. This is an ideal moment to hook up custom behaviors
-                RegionManager.GetObservableRegion(targetElement).Value = region;
+                Xaml.RegionManager.GetObservableRegion(targetElement).Value = region;
             }
         }
     }

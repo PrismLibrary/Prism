@@ -1,4 +1,5 @@
 ﻿using System;
+using Prism.Ioc;
 using Xamarin.Forms;
 
 namespace Prism.Regions
@@ -12,8 +13,8 @@ namespace Prism.Regions
         /// target element longer than expected.</remarks>
         public event EventHandler UpdatingRegions
         {
-            add => RegionManager.UpdatingRegions += value;
-            remove => RegionManager.UpdatingRegions -= value;
+            add => Xaml.RegionManager.UpdatingRegions += value;
+            remove => Xaml.RegionManager.UpdatingRegions -= value;
         }
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace Prism.Regions
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
 
-            return element.GetValue(RegionManager.RegionNameProperty) as string;
+            return element.GetValue(Xaml.RegionManager.RegionNameProperty) as string;
         }
 
         /// <summary>
@@ -40,7 +41,26 @@ namespace Prism.Regions
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
 
-            return element.GetValue(RegionManager.RegionManagerProperty) as IRegionManager;
+            var regionManager = TryGetRegion(element);
+            if(regionManager is null)
+            {
+                regionManager = ContainerLocator.Container.Resolve<IRegionManager>();
+                element.SetValue(Xaml.RegionManager.RegionManagerProperty, regionManager);
+            }
+
+            return regionManager;
+        }
+
+        private IRegionManager TryGetRegion(VisualElement element)
+        {
+            try
+            {
+                return element.GetValue(Xaml.RegionManager.RegionManagerProperty) as IRegionManager;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

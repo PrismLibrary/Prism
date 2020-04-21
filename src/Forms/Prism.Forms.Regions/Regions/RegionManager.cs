@@ -1,4 +1,8 @@
-﻿namespace Prism.Regions
+﻿using System;
+using Prism.Navigation;
+using Prism.Regions.Navigation;
+
+namespace Prism.Regions
 {
     /// <summary>
     /// This class is responsible for maintaining a collection of regions and attaching regions to controls.
@@ -28,5 +32,21 @@
         /// <returns>A new region manager that can be used as a different scope from the current region manager.</returns>
         public IRegionManager CreateRegionManager() =>
             new RegionManager();
+
+        public void RequestNavigate(string regionName, Uri target, Action<IRegionNavigationResult> navigationCallback) =>
+            RequestNavigate(regionName, target, navigationCallback, null);
+
+        public void RequestNavigate(string regionName, Uri target, Action<IRegionNavigationResult> navigationCallback, INavigationParameters navigationParameters)
+        {
+            if (string.IsNullOrEmpty(regionName))
+                throw new ArgumentNullException(nameof(regionName));
+
+            var region = Regions[regionName];
+
+            if (region is null)
+                throw new Exception("Region not Found");
+
+            region.NavigationService.RequestNavigate(target, navigationCallback, navigationParameters);
+        }
     }
 }

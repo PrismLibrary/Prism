@@ -6,7 +6,7 @@ using Xamarin.Forms;
 namespace Prism.Regions
 {
     /// <summary>
-    /// Class that holds methods to Set and Get the RegionContext from a DependencyObject.
+    /// Class that holds methods to Set and Get the RegionContext from a BindableObject.
     ///
     /// RegionContext allows sharing of contextual information between the view that's hosting a <see cref="IRegion"/>
     /// and any views that are inside the Region.
@@ -18,7 +18,7 @@ namespace Prism.Regions
 
         /// <summary>
         /// Returns an <see cref="ObservableObject{T}"/> wrapper around the RegionContext value. The RegionContext
-        /// will be set on any views (dependency objects) that are inside the <see cref="IRegion.Views"/> collection by
+        /// will be set on any views (BindableObject's) that are inside the <see cref="IRegion.Views"/> collection by
         /// the <see cref="BindRegionContextToVisualElementBehavior"/> Behavior.
         /// The RegionContext will also be set to the control that hosts the Region, by the <see cref="SyncRegionContextWithHostBehavior"/> Behavior.
         ///

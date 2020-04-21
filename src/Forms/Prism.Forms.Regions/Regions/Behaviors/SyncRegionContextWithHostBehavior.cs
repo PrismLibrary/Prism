@@ -7,7 +7,7 @@ namespace Prism.Regions.Behaviors
 {
     /// <summary>
     /// Behavior that synchronizes the <see cref="IRegion.Context"/> property of a <see cref="IRegion"/> with 
-    /// the control that hosts the Region. It does this by setting the <see cref="RegionManager.RegionContextProperty"/> 
+    /// the control that hosts the Region. It does this by setting the <see cref="Xaml.RegionManager.RegionContextProperty"/> 
     /// Dependency Property on the host control.
     /// 
     /// This behavior allows the usage of two way databinding of the RegionContext from XAML. 
@@ -67,11 +67,11 @@ namespace Prism.Regions.Behaviors
         {
             if (e.PropertyName == RegionContextPropertyName)
             {
-                if (RegionManager.GetRegionContext(HostControl) != Region.Context)
+                if (Xaml.RegionManager.GetRegionContext(HostControl) != Region.Context)
                 {
                     // Setting this Dependency Property will automatically also change the HostControlRegionContext.Value
                     // (see RegionManager.OnRegionContextChanged())
-                    RegionManager.SetRegionContext(_hostControl, Region.Context);
+                    Xaml.RegionManager.SetRegionContext(_hostControl, Region.Context);
                 }
             }
         }
@@ -94,9 +94,9 @@ namespace Prism.Regions.Behaviors
 
             // Also make sure the region's DependencyProperty was changed (this can occur if the value
             // was changed only on the HostControlRegionContext)
-            if (RegionManager.GetRegionContext(HostControl) != HostControlRegionContext.Value)
+            if (Xaml.RegionManager.GetRegionContext(HostControl) != HostControlRegionContext.Value)
             {
-                RegionManager.SetRegionContext(HostControl, HostControlRegionContext.Value);
+                Xaml.RegionManager.SetRegionContext(HostControl, HostControlRegionContext.Value);
             }
         }
     }

@@ -3,13 +3,11 @@ using Xamarin.Forms;
 
 namespace Prism.Common
 {
+    // TODO: Refactor this... we probably do not need this for Xamarin
     /// <summary>
-    /// Class that wraps an object, so that other classes can notify for Change events. Typically, this class is set as 
-    /// a Dependency Property on DependencyObjects, and allows other classes to observe any changes in the Value. 
+    /// Class that wraps an object, so that other classes can notify for Change events. Typically, this class is set as
+    /// a Bindable Property on BindableObjects, and allows other classes to observe any changes in the Value.
     /// </summary>
-    /// <remarks>
-    /// This class is required, because in Silverlight, it's not possible to receive Change notifications for Dependency properties that you do not own. 
-    /// </remarks>
     /// <typeparam name="T">The type of the property that's wrapped in the Observable object</typeparam>
     public class ObservableObject<T> : BindableObject, INotifyPropertyChanged
     {

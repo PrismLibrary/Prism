@@ -23,7 +23,7 @@ namespace Prism.Regions
 
         public IEnumerator<IRegion> GetEnumerator()
         {
-            RegionManager.UpdateRegions();
+            Xaml.RegionManager.UpdateRegions();
 
             return _regions.GetEnumerator();
         }
@@ -35,7 +35,7 @@ namespace Prism.Regions
         {
             get
             {
-                RegionManager.UpdateRegions();
+                Xaml.RegionManager.UpdateRegions();
 
                 IRegion region = GetRegionByName(regionName);
                 if (region == null)
@@ -52,7 +52,7 @@ namespace Prism.Regions
             if (region == null)
                 throw new ArgumentNullException(nameof(region));
 
-            RegionManager.UpdateRegions();
+            Xaml.RegionManager.UpdateRegions();
 
             if (region.Name == null)
             {
@@ -73,7 +73,7 @@ namespace Prism.Regions
 
         public bool Remove(string regionName)
         {
-            RegionManager.UpdateRegions();
+            Xaml.RegionManager.UpdateRegions();
 
             bool removed = false;
 
@@ -92,7 +92,7 @@ namespace Prism.Regions
 
         public bool ContainsRegionWithName(string regionName)
         {
-            RegionManager.UpdateRegions();
+            Xaml.RegionManager.UpdateRegions();
 
             return GetRegionByName(regionName) != null;
         }
