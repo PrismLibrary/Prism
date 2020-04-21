@@ -9,6 +9,7 @@ using Prism.Regions.Behaviors;
 using Prism.Services.Dialogs;
 using System;
 using System.Linq;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -91,6 +92,8 @@ namespace Prism
             }
 
             InitializeModules();
+
+            Suspending += (s, e) => OnSuspending(e);
         }
 
         /// <summary>
@@ -214,6 +217,10 @@ namespace Prism
         {
             IModuleManager manager = _containerExtension.Resolve<IModuleManager>();
             manager.Run();
+        }
+
+        protected virtual void OnSuspending(SuspendingEventArgs e)
+        {
         }
     }
 }
