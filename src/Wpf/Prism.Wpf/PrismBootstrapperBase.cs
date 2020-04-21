@@ -1,18 +1,19 @@
-﻿using System;
-using System.Windows;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
+using System;
+using System.Windows;
 
 namespace Prism
 {
     /// <summary>
-    /// Base application class that provides a basic initialization sequence
+    /// Base class that provides a basic bootstrapping sequence and hooks
+    /// that specific implementations can override
     /// </summary>
     /// <remarks>
     /// This class must be overridden to provide application specific configuration.
     /// </remarks>
-    public abstract class PrismApplicationBase : Application
+    public abstract class PrismBootstrapperBase
     {
         IContainerExtension _containerExtension;
         IModuleCatalog _moduleCatalog;
@@ -23,19 +24,15 @@ namespace Prism
         public IContainerProvider Container => _containerExtension;
 
         /// <summary>
-        /// Raises the System.Windows.Application.Startup event.
+        /// Gets the shell user interface
         /// </summary>
-        /// <param name="e">A System.Windows.StartupEventArgs that contains the event data.</param>
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-            InitializeInternal();
-        }
+        /// <value>The shell user interface.</value>
+        protected Window Shell { get; set; }
 
         /// <summary>
-        /// Run the initialization process.
+        /// Runs the bootstrapper process.
         /// </summary>
-        void InitializeInternal()
+        public void Run()
         {
             ConfigureViewModelLocator();
             Initialize();
@@ -79,7 +76,7 @@ namespace Prism
                 RegionManager.UpdateRegions();
                 InitializeShell(shell);
             }
-			
+
             InitializeModules();
         }
 
@@ -153,7 +150,7 @@ namespace Prism
         /// </summary>
         protected virtual void InitializeShell(Window shell)
         {
-            MainWindow = shell;
+            Shell = shell;
         }
 
         /// <summary>
@@ -161,7 +158,7 @@ namespace Prism
         /// </summary>
         protected virtual void OnInitialized()
         {
-            MainWindow?.Show();
+            Shell?.Show();
         }
 
         /// <summary>

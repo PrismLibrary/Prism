@@ -1,15 +1,14 @@
-﻿using HelloWorld.Views;
+﻿using HelloWorld.Modules.ModuleA;
+using HelloWorld.Views;
 using Prism.Ioc;
-using System.Windows;
 using Prism.Modularity;
-using HelloWorld.Modules.ModuleA;
+using Prism.Unity;
+using System.Windows;
+using Unity;
 
 namespace HelloWorld
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App
+    class Bootstrapper : PrismBootstrapper
     {
         protected override Window CreateShell()
         {
