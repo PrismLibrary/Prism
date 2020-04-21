@@ -12,7 +12,14 @@ namespace Prism.Mvvm
     public class ErrorsContainer<T>
     {
         private static readonly T[] noErrors = new T[0];
+        /// <summary>
+        /// Delegate to be called when raiseErrorsChanged is invoked
+        /// </summary>
         protected readonly Action<string> raiseErrorsChanged;
+
+        /// <summary>
+        /// KeyValuePairs of the string error and a List of the types of the error object(s)
+        /// </summary>
         protected readonly Dictionary<string, List<T>> validationResults;
 
         /// <summary>

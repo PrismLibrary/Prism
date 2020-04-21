@@ -58,6 +58,7 @@ namespace Prism.Regions
         /// Records the navigation to the entry..
         /// </summary>
         /// <param name="entry">The entry to record.</param>
+        /// <param name="persistInHistory">Keep Navigation object in memory when OnNavigationFrom is called</param>
         void RecordNavigation(IRegionNavigationJournalEntry entry, bool persistInHistory);
 
         /// <summary>

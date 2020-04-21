@@ -5,13 +5,31 @@ using System.Linq;
 
 namespace Prism.Common
 {
+    /// <summary>
+    /// Extension methods for Navigation or Dialog parameters
+    /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class ParametersExtensions
     {
+        /// <summary>
+        /// Searches <paramref name="parameters"/> for <paramref name="key"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the parameter to return</typeparam>
+        /// <param name="parameters">A collection of parameters to search</param>
+        /// <param name="key">The key of the parameter to find</param>
+        /// <returns>A matching value of <langword>T</langword> if it exists</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static T GetValue<T>(this IEnumerable<KeyValuePair<string, object>> parameters, string key) =>
             (T)GetValue(parameters, key, typeof(T));
 
+        /// <summary>
+        /// Searches <paramref name="parameters"/> for value referenced by <paramref name="key"/>
+        /// </summary>
+        /// <param name="parameters">A collection of parameters to search</param>
+        /// <param name="key">The key of the parameter to find</param>
+        /// <param name="type">The type of the parameter to return</param>
+        /// <returns>A matching value of <paramref name="type"/> if it exists</returns>
+        /// <exception cref="InvalidCastException">Unable to convert the value of Type</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static object GetValue(this IEnumerable<KeyValuePair<string, object>> parameters, string key, Type type)
         {
@@ -29,6 +47,13 @@ namespace Prism.Common
             return GetDefault(type);
         }
 
+        /// <summary>
+        /// Searches <paramref name="parameters"/> for value referenced by <paramref name="key"/>
+        /// </summary>
+        /// <param name="parameters">A collection of parameters to search</param>
+        /// <param name="key">The key of the parameter to find</param>
+        /// <param name="value">The value of parameter to return</param>
+        /// <returns>Success if value is found; otherwise returns <c>false</c></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static bool TryGetValue<T>(this IEnumerable<KeyValuePair<string, object>> parameters, string key, out T value)
         {
@@ -48,6 +73,12 @@ namespace Prism.Common
             return false;
         }
 
+        /// <summary>
+        /// Searches <paramref name="parameters"/> for value referenced by <paramref name="key"/>
+        /// </summary>
+        /// <param name="parameters">A collection of parameters to search</param>
+        /// <param name="key">The key of the parameter to find</param>
+        /// <returns>An IEnumberable&lt;T> of all the values referenced by key</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static IEnumerable<T> GetValues<T>(this IEnumerable<KeyValuePair<string, object>> parameters, string key)
         {
@@ -108,6 +139,12 @@ namespace Prism.Common
             return success;
         }
 
+        /// <summary>
+        /// Checks to see if key exists in IEnumberable of KeyValuePairs
+        /// </summary>
+        /// <param name="parameters">IEnumberable to search</param>
+        /// <param name="key">The key to search the <paramref name="parameters"/> for existence</param>
+        /// <returns><c>true</c> if key exists; <c>false</c> otherwise</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static bool ContainsKey(this IEnumerable<KeyValuePair<string, object>> parameters, string key) =>
             parameters.Any(x => string.Compare(x.Key, key, StringComparison.Ordinal) == 0);
