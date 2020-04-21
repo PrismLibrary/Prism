@@ -14,6 +14,7 @@
   <ItemGroup Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='xamarinmac20' or '$(TargetFramework)'=='monoandroid90' or '$(TargetFramework)'=='netstandard2.0'">
     <PackageReference Include="Uno.UI" Version="2.0.528" />
     <PackageReference Include="Uno.Core" Version="2.0.0-dev.5" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1-uno.28" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='uap10.0.16299'">
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
