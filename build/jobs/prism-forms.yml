@@ -16,3 +16,5 @@ jobs:
   - template: ../steps/test-core.yml
 
   - template: ../steps/test-forms.yml
+    parameters:
+      publishTestResults: true

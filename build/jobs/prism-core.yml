@@ -14,3 +14,5 @@ jobs:
       solutionName: Prism.Core
 
   - template: ../steps/test-core.yml
+    parameters:
+      publishTestResults: true
