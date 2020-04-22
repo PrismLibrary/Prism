@@ -10,4 +10,5 @@ steps:
 - ${{ if eq(parameters.publishTestResults, true) }}:
   - template: publish-vstest-results.yml
     parameters:
+      testRunTitle: Prism.Core
       testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Prism.Core.Tests/TestResults/*.trx'
