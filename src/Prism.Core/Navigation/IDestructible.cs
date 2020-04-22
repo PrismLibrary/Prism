@@ -1,12 +1,12 @@
 ﻿namespace Prism.Navigation
 {
     /// <summary>
-    /// Interface for destuctible objects 
+    /// Interface for objects that require cleanup of resources prior to Disposal
     /// </summary>
     public interface IDestructible
     {
         /// <summary>
-        /// Classic destructor for object to be called on destruction
+        /// This method allows cleanup of any resources used by your View/ViewModel 
         /// </summary>
         void Destroy();
     }
