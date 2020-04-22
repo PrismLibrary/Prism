@@ -1,7 +1,7 @@
 ﻿namespace Prism.Navigation
 {
     /// <summary>
-    /// Internal - Provides a way for the INavigationService to pass parameteres during navigation.
+    /// Internal - Provides a way for the <see cref="INavigationService"/> to pass parameteres during navigation.
     /// </summary>
     public interface INavigationParametersInternal
     {
@@ -24,7 +24,7 @@
         /// </summary>
         /// <typeparam name="T">The type of object to be returned</typeparam>
         /// <param name="key">The key for the value to be returned</param>
-        /// <returns>Returns a matching parameter of <see cref="T" /> if one exists in the Collection</returns>
+        /// <returns>Returns a matching parameter of <typeparamref name="T"/> if one exists in the Collection</returns>
         T GetValue<T>(string key);
     }
 }
