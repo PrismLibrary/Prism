@@ -13,14 +13,4 @@ steps:
   - template: publish-vstest-results.yml
     parameters:
       testRunTitle: Prism.Forms
-      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Forms/Prism.Forms.Tests/TestResults/*.trx'
-
-  - template: publish-vstest-results.yml
-    parameters:
-      testRunTitle: Prism.DryIoc.Forms
-      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Forms/Prism.DryIoc.Forms.Tests/TestResults/*.trx'
-
-  - template: publish-vstest-results.yml
-    parameters:
-      testRunTitle: Prism.Unity.Forms
-      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Forms/Prism.Unity.Forms.Tests/TestResults/*.trx'
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Forms/**/TestResults/*.trx'
