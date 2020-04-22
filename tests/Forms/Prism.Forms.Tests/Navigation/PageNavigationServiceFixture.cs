@@ -1555,7 +1555,6 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<ContentPageMock>(navPage.CurrentPage);
         }
 
-        //[Fact(Skip = "WIP Enhancement #2038 https://github.com/PrismLibrary/Prism/issues/2038")]
         [Fact]
         public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab_ToContentPage()
         {
@@ -1576,7 +1575,7 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
-        public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab_ToContentPage_Modal()
+        public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab_NotNavigationPage_ToContentPage_ImplicitModal()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
             var rootPage = new ContentPage();
@@ -1766,6 +1765,28 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<NavigationPageMock>(navPage);
             Assert.IsType<Tab2Mock>(navPage.CurrentPage);
 
+            Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_CreateTabs_WithNavigationPage_SelectTab_ToContentPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage-Empty?{KnownNavigationParameters.CreateTab}=Tab1&{KnownNavigationParameters.CreateTab}=NavigationPage|Tab2&{KnownNavigationParameters.CreateTab}=Tab3&{KnownNavigationParameters.SelectedTab}=Tab2|SecondContentPage/AnotherPage");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageEmptyMock;
+            Assert.NotNull(tabbedPage);
+            Assert.Equal(3, tabbedPage.Children.Count());
+
+            Assert.IsType<Tab1Mock>(tabbedPage.Children[0]);
+
+            var navPage = tabbedPage.Children[1] as NavigationPageMock;
+            Assert.IsType<NavigationPageMock>(navPage);
+            Assert.IsType<SecondContentPageMock>(navPage.CurrentPage);
+            
             Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
         }
 
