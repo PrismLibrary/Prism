@@ -19,7 +19,7 @@ namespace Prism.Mvvm
         protected readonly Action<string> raiseErrorsChanged;
 
         /// <summary>
-        /// <see cref="Dictionary{string, List{T}}" /> of the errors and object(s)
+        /// <see cref="Dictionary{string, List{T}}" /> of the errors and sources
         /// </summary>
         protected readonly Dictionary<string, List<T>> validationResults;
 
