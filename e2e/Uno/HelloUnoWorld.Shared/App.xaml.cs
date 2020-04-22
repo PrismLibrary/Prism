@@ -127,7 +127,6 @@ namespace HelloUnoWorld
 
             //register a custom window host
             containerRegistry.RegisterDialogWindow<CustomContentDialog>();
-            containerRegistry.RegisterDialogWindow<AnotherContentDialog>(nameof(AnotherContentDialog));
         }
 
     }
