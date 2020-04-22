@@ -3,9 +3,9 @@ parameters:
 
 steps:
 - powershell: |
+   dotnet test $(System.DefaultWorkingDirectory)\tests\Wpf\Prism.Wpf.Tests\Prism.Wpf.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
    dotnet test $(System.DefaultWorkingDirectory)\tests\Wpf\Prism.DryIoc.Wpf.Tests\Prism.DryIoc.Wpf.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
    dotnet test $(System.DefaultWorkingDirectory)\tests\Wpf\Prism.Unity.Wpf.Tests\Prism.Unity.Wpf.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
-   dotnet test $(System.DefaultWorkingDirectory)\tests\Wpf\Prism.Wpf.Tests\Prism.Wpf.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
 
   displayName: Test Prism.WPF
 
@@ -13,4 +13,14 @@ steps:
   - template: publish-vstest-results.yml
     parameters:
       testRunTitle: Prism.WPF
-      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Wpf/**/TestResults/*.trx'
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Wpf/Prism.Wpf.Tests/TestResults/*.trx'
+
+  - template: publish-vstest-results.yml
+    parameters:
+      testRunTitle: Prism.DryIoc.WPF
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Wpf/Prism.DryIoc.Wpf.Tests/TestResults/*.trx'
+
+  - template: publish-vstest-results.yml
+    parameters:
+      testRunTitle: Prism.Unity.WPF
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Wpf/Prism.Unity.Wpf.Tests/TestResults/*.trx'
