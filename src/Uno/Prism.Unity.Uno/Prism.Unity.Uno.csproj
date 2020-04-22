@@ -34,6 +34,7 @@
     <Compile Remove="..\..\Wpf\Prism.Unity.Wpf\Legacy\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="..\..\Wpf\Prism.Unity.Wpf\PrismBootstrapper.cs" />
     <Compile Remove="..\..\Wpf\Prism.Unity.Wpf\Properties\AssemblyInfo.cs" />
     <Compile Remove="..\..\Wpf\Prism.Unity.Wpf\Properties\Settings.Designer.cs" />
   </ItemGroup>

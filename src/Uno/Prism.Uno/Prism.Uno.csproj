@@ -40,6 +40,7 @@
     <Compile Remove="..\..\Wpf\Prism.Wpf\Bootstrapper.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Interactivity\InvokeCommandAction.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\PrismApplicationBase.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\PrismBootstrapperBase.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\AssemblyInfo.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\Resources.Designer.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\Settings.Designer.cs" />
@@ -47,9 +48,6 @@
     <Compile Remove="..\..\Wpf\Prism.Wpf\Services\Dialogs\DialogWindow.xaml.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Services\Dialogs\IDialogWindow.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Services\Dialogs\IDialogWindowExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="LinkerDefinition.mono.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />
@@ -71,5 +69,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Services\Dialogs\DialogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
 </Project>

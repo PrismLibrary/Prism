@@ -28,6 +28,7 @@
   <ItemGroup>
     <Compile Remove="..\..\Wpf\Prism.DryIoc.Wpf\Legacy\DryIocBootstrapper.cs" />
     <Compile Remove="..\..\Wpf\Prism.DryIoc.Wpf\Legacy\DryIocExtensions.cs" />
+    <Compile Remove="..\..\Wpf\Prism.DryIoc.Wpf\PrismBootstrapper.cs" />
     <Compile Remove="..\..\Wpf\Prism.DryIoc.Wpf\Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

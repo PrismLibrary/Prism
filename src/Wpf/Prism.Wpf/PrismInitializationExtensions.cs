@@ -6,8 +6,14 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Services.Dialogs;
+
+#if HAS_WINUI
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+#else
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+#endif
 
 namespace Prism
 {
