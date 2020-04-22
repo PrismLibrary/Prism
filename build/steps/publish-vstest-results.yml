@@ -1,9 +1,11 @@
 parameters:
+  enabled: true
   testRunTitle: 'TestRun'
   testResultsFiles: '**/*.trx'
 
 steps:
 - task: PublishTestResults@2
+  enabled: ${{ parameters.enabled }}
   displayName: 'Publish ${{ parameters.testRunTitle }} test results'
   inputs:
     testRunner: VSTest

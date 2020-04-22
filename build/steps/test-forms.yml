@@ -10,19 +10,19 @@ steps:
   displayName: Test Prism.Forms
 
 - template: publish-vstest-results.yml
-  enabled: ${{ parameters.publishTestResults }}
   parameters:
+    enabled: ${{ parameters.publishTestResults }}
     testRunTitle: Prism.Forms
     testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Forms/Prism.Forms.Tests/TestResults/*.trx'
 
 - template: publish-vstest-results.yml
-  enabled: ${{ parameters.publishTestResults }}
   parameters:
+    enabled: ${{ parameters.publishTestResults }}
     testRunTitle: Prism.DryIoc.Forms
     testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Forms/Prism.DryIoc.Forms.Tests/TestResults/*.trx'
 
 - template: publish-vstest-results.yml
-  enabled: ${{ parameters.publishTestResults }}
   parameters:
+    enabled: ${{ parameters.publishTestResults }}
     testRunTitle: Prism.Unity.Forms
     testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Forms/Prism.Unity.Forms.Tests/TestResults/*.trx'

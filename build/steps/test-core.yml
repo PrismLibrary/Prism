@@ -8,7 +8,7 @@ steps:
   displayName: Test Prism.Core
 
 - template: publish-vstest-results.yml
-  enabled: ${{ parameters.publishTestResults }}
   parameters:
+    enabled: ${{ parameters.publishTestResults }}
     testRunTitle: Prism.Core
     testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Prism.Core.Tests/TestResults/*.trx'
