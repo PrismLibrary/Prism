@@ -38,5 +38,10 @@ namespace Prism.Ioc
         /// <param name="parameters">Typed parameters to use when resolving the Service</param>
         /// <returns>The resolved Service <see cref="Type"/></returns>
         object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters);
+
+        /// <summary>
+        /// Creates a new scope
+        /// </summary>
+        void CreateScope();
     }
 }

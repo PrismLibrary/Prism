@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using DryIoc;
 using Prism.Ioc;
@@ -11,6 +11,8 @@ namespace Prism.DryIoc
     /// </summary>
     public class DryIocContainerExtension : IContainerExtension<IContainer>, IContainerInfo
     {
+        private ServiceScope _currentScope;
+
         /// <summary>
         /// The instance of the wrapped container
         /// </summary>
@@ -182,6 +184,56 @@ namespace Prism.DryIoc
                 matchingRegistration = Instance.GetServiceRegistrations().Where(r => key.Equals(r.ImplementationType.Name, StringComparison.Ordinal)).FirstOrDefault();
 
             return matchingRegistration.ImplementationType;
+        }
+
+        /// <summary>
+        /// Creates a new Scope
+        /// </summary>
+        public virtual void CreateScope() =>
+            CreateScopeInternal();
+
+        /// <summary>
+        /// Creates a new Scope and provides the updated ServiceProvider
+        /// </summary>
+        /// <returns>The Scoped <see cref="IServiceProvider" />.</returns>
+        /// <remarks>
+        /// This should be called by custom implementations that Implement IServiceScopeFactory
+        /// </remarks>
+        protected IServiceProvider CreateScopeInternal()
+        {
+            if (_currentScope != null)
+            {
+                _currentScope.Dispose();
+                _currentScope = null;
+                GC.Collect();
+            }
+
+            _currentScope = new ServiceScope(Instance.OpenScope());
+            return _currentScope;
+        }
+
+        private class ServiceScope : IServiceProvider, IDisposable
+        {
+            public ServiceScope(IResolverContext context)
+            {
+                Context = context;
+            }
+
+            public IResolverContext Context { get; private set; }
+
+            public object GetService(Type serviceType) =>
+                Context.GetService(serviceType);
+
+            public void Dispose()
+            {
+                if (Context != null)
+                {
+                    Context.Dispose();
+                    Context = null;
+                }
+
+                GC.Collect();
+            }
         }
     }
 }

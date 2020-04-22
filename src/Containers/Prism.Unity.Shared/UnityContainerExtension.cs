@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Linq;
 using Prism.Ioc;
 using Prism.Ioc.Internals;
 using Unity;
+using Unity.Lifetime;
 using Unity.Resolution;
 
 namespace Prism.Unity
@@ -12,6 +13,8 @@ namespace Prism.Unity
     /// </summary>
     public class UnityContainerExtension : IContainerExtension<IUnityContainer>, IContainerInfo
     {
+        private ServiceScope _currentScope;
+
         /// <summary>
         /// The instance of the wrapped container
         /// </summary>
@@ -195,6 +198,63 @@ namespace Prism.Unity
             }
 
             return matchingRegistration?.MappedToType;
+        }
+
+        /// <summary>
+        /// Creates a new Scope
+        /// </summary>
+        public virtual void CreateScope() =>
+            CreateScopeInternal();
+
+        /// <summary>
+        /// Creates a new Scope and provides the updated ServiceProvider
+        /// </summary>
+        /// <returns>The Scoped <see cref="IServiceProvider" />.</returns>
+        /// <remarks>
+        /// This should be called by custom implementations that Implement IServiceScopeFactory
+        /// </remarks>
+        protected IServiceProvider CreateScopeInternal()
+        {
+            if (_currentScope != null)
+            {
+                _currentScope.Dispose();
+                _currentScope = null;
+                GC.Collect();
+            }
+
+            _currentScope = new ServiceScope(Instance.CreateChildContainer());
+            return _currentScope;
+        }
+
+        private class ServiceScope : IServiceProvider//, IServiceScope
+        {
+            public ServiceScope(IUnityContainer container)
+            {
+                Container = container;
+            }
+
+            public IUnityContainer Container { get; private set; }
+
+            public IServiceProvider ServiceProvider => this;
+
+            public object GetService(Type serviceType)
+            {
+                if (!Container.IsRegistered(serviceType))
+                    return null;
+
+                return Container.Resolve(serviceType);
+            }
+
+            public void Dispose()
+            {
+                if (Container != null)
+                {
+                    Container.Dispose();
+                    Container = null;
+                }
+
+                GC.Collect();
+            }
         }
     }
 }
