@@ -9,18 +9,20 @@ steps:
 
   displayName: Test Prism.WPF
 
-- ${{ if eq(parameters.publishTestResults, true) }}:
-  - template: publish-vstest-results.yml
-    parameters:
-      testRunTitle: Prism.WPF
-      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Wpf/Prism.Wpf.Tests/TestResults/*.trx'
+- template: publish-vstest-results.yml
+  enabled: ${{ parameters.publishTestResults }}
+  parameters:
+    testRunTitle: Prism.WPF
+    testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Wpf/Prism.Wpf.Tests/TestResults/*.trx'
 
-  - template: publish-vstest-results.yml
-    parameters:
-      testRunTitle: Prism.DryIoc.WPF
-      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Wpf/Prism.DryIoc.Wpf.Tests/TestResults/*.trx'
+- template: publish-vstest-results.yml
+  enabled: ${{ parameters.publishTestResults }}
+  parameters:
+    testRunTitle: Prism.DryIoc.WPF
+    testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Wpf/Prism.DryIoc.Wpf.Tests/TestResults/*.trx'
 
-  - template: publish-vstest-results.yml
-    parameters:
-      testRunTitle: Prism.Unity.WPF
-      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Wpf/Prism.Unity.Wpf.Tests/TestResults/*.trx'
+- template: publish-vstest-results.yml
+  enabled: ${{ parameters.publishTestResults }}
+  parameters:
+    testRunTitle: Prism.Unity.WPF
+    testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Wpf/Prism.Unity.Wpf.Tests/TestResults/*.trx'

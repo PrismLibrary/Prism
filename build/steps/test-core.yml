@@ -7,8 +7,8 @@ steps:
 
   displayName: Test Prism.Core
 
-- ${{ if eq(parameters.publishTestResults, true) }}:
-  - template: publish-vstest-results.yml
-    parameters:
-      testRunTitle: Prism.Core
-      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Prism.Core.Tests/TestResults/*.trx'
+- template: publish-vstest-results.yml
+  enabled: ${{ parameters.publishTestResults }}
+  parameters:
+    testRunTitle: Prism.Core
+    testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Prism.Core.Tests/TestResults/*.trx'
