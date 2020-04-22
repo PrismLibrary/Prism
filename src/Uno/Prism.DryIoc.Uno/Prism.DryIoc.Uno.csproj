@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;xamarinios10;monoandroid90;xamarinmac20;uap10.0.16299</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;xamarinios10;monoandroid90;xamarinmac20</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <DefineConstants>$(DefineConstants);HAS_WINUI</DefineConstants>
     <NoWarn>$(NoWarn);1591</NoWarn>
