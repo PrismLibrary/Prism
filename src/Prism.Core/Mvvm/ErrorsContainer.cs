@@ -12,6 +12,7 @@ namespace Prism.Mvvm
     public class ErrorsContainer<T>
     {
         private static readonly T[] noErrors = new T[0];
+
         /// <summary>
         /// Delegate to be called when raiseErrorsChanged is invoked
         /// </summary>
