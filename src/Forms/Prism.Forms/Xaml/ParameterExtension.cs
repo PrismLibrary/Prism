@@ -12,7 +12,7 @@ namespace Prism.Xaml
         /// Method to retrieve value for parameter
         /// </summary>
         /// <param name="serviceProvider">The service that supplies the parameters value</param>
-        /// <returns>This class</returns>
+        /// <returns>The instance of the ParameterExtension class</returns>
         public Parameter ProvideValue(IServiceProvider serviceProvider) =>
             this;
 
