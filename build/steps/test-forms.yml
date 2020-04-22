@@ -9,7 +9,7 @@ steps:
 
   displayName: Test Prism.Forms
 
-- ${{ if eq(parameters.publishTestResults, true) }}
+- ${{ if eq(parameters.publishTestResults, true) }}:
   - template: publish-vstest-results.yml
     parameters:
       testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Forms/**/TestResults/*.trx'
