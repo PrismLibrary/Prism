@@ -44,7 +44,7 @@ namespace Prism.Regions
                 throw new ArgumentNullException(nameof(regionTarget));
 
             bool itemsSourceIsSet = regionTarget.ItemsSource != null;
-            itemsSourceIsSet = itemsSourceIsSet || (regionTarget.GetBinding(ItemsControl.ItemsSourceProperty) != null);
+            itemsSourceIsSet = itemsSourceIsSet || regionTarget.HasBinding(ItemsControl.ItemsSourceProperty);
 
             if (itemsSourceIsSet)
             {

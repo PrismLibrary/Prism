@@ -42,7 +42,7 @@ namespace Prism.Regions
                 throw new ArgumentNullException(nameof(regionTarget));
 
             bool contentIsSet = regionTarget.Content != null;
-            contentIsSet = contentIsSet || (regionTarget.GetBinding(ContentControl.ContentProperty) != null);
+            contentIsSet = contentIsSet || regionTarget.HasBinding(ContentControl.ContentProperty);
 
             if (contentIsSet)
                 throw new InvalidOperationException(Resources.ContentControlHasContentException);

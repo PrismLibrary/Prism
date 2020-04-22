@@ -65,7 +65,7 @@ namespace Prism.Regions.Behaviors
         protected override void OnAttach()
         {
             bool itemsSourceIsSet = this.hostControl.ItemsSource != null;
-            itemsSourceIsSet = itemsSourceIsSet || (this.hostControl.GetBinding(ItemsControl.ItemsSourceProperty) != null);
+            itemsSourceIsSet = itemsSourceIsSet || this.hostControl.HasBinding(ItemsControl.ItemsSourceProperty);
 
             if (itemsSourceIsSet)
             {

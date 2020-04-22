@@ -12,20 +12,19 @@ using System.Windows.Data;
 
 namespace Prism
 {
-    internal static class DependencyObjectExtensions
+    internal static partial class DependencyObjectExtensions
     {
-        public static bool CheckAccess(this DependencyObject instance)
-#if __WASM__
-            // This needs to evolve, once threading is supported
-            // See https://github.com/unoplatform/uno/issues/2302
-            => System.Threading.Thread.CurrentThread.ManagedThreadId == 1;
-#elif HAS_WINUI
-            => instance.Dispatcher.HasThreadAccess;
+        /// <summary>
+        /// Determines if a <see cref="DependencyProperty"/> has a binding set
+        /// </summary>
+        /// <param name="instance">The to use to search for the property</param>
+        /// <param name="property">The property to search</param>
+        /// <returns><c>true</c> if there is an active binding, otherwise <c>false</c></returns>
+        public static bool HasBinding(this FrameworkElement instance, DependencyProperty property)
+#if HAS_WINUI
+            => instance.GetBindingExpression(property) != null;
 #else
-            => instance.CheckAccess();
+            => BindingOperations.GetBinding(instance, property) != null;
 #endif
-
-        public static BindingExpression GetBinding(this FrameworkElement instance, DependencyProperty property)
-            => instance.GetBindingExpression(property);
     }
 }
