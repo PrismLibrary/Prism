@@ -19,15 +19,14 @@ namespace Prism.Mvvm
         protected readonly Action<string> raiseErrorsChanged;
 
         /// <summary>
-        /// KeyValuePairs of the string error and a List of the types of the error object(s)
+        /// <see cref="Dictionary{string, List{T}}" /> of the errors and object(s)
         /// </summary>
         protected readonly Dictionary<string, List<T>> validationResults;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorsContainer{T}"/> class.
         /// </summary>
-        /// <param name="raiseErrorsChanged">The action that invoked if when errors are added for an object./>
-        /// event.</param>
+        /// <param name="raiseErrorsChanged">The action that is invoked when errors are added for an object/>
         public ErrorsContainer(Action<string> raiseErrorsChanged)
         {
             if (raiseErrorsChanged == null)
