@@ -1558,7 +1558,7 @@ namespace Prism.Forms.Tests.Navigation
             var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
             
-            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=ContentPage/SecondContentPage");
+            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=ContentPage|SecondContentPage");
 
             var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
             Assert.NotNull(tabbedPage);
