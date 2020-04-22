@@ -1,7 +1,11 @@
+parameters:
+  publishTestResults: false
+
 steps:
 - task: VSTest@2
   displayName: Test Prism.WPF
   inputs:
+    publishRunAttachments: false
     codeCoverageEnabled: true
     rerunFailedTests: true
     testAssemblyVer2: |
@@ -11,3 +15,8 @@ steps:
     testRunTitle: Prism.WPF
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
+
+- ${{ if eq(parameters.publishTestResults, true) }}
+  - template: publish-vstest-results.yml
+    parameters:
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Prism.Core.Tests/TestResults/*.trx'

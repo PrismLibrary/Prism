@@ -1,3 +1,6 @@
+parameters:
+  publishTestResults: false
+
 steps:
 - powershell: |
    dotnet test $(System.DefaultWorkingDirectory)\tests\Forms\Prism.Forms.Tests\Prism.Forms.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
@@ -5,3 +8,8 @@ steps:
    dotnet test $(System.DefaultWorkingDirectory)\tests\Forms\Prism.Unity.Forms.Tests\Prism.Unity.Forms.Tests.csproj --configuration $env:BuildConfiguration --logger trx --no-build --collect "Code Coverage"
 
   displayName: Test Prism.Forms
+
+- ${{ if eq(parameters.publishTestResults, true) }}
+  - template: publish-vstest-results.yml
+    parameters:
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/tests/Forms/**/TestResults/*.trx'

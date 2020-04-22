@@ -1,0 +1,10 @@
+parameters:
+  testResultsFiles: '**/*.trx'
+
+steps:
+- task: PublishTestResults@2
+  displayName: 'Publish VSTest results'
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: ${{ parameters.testResultsFiles }}
+    failTaskOnFailedTests: true
