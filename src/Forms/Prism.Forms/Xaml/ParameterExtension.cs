@@ -4,7 +4,7 @@ using Xamarin.Forms.Xaml;
 namespace Prism.Xaml
 {
     /// <summary>
-    /// Extension methods for INavigation and IDialog parameters
+    /// XAML Extension for INavigation and IDialog parameters
     /// </summary>
     public class ParameterExtension : Parameter, IMarkupExtension<Parameter>
     {
