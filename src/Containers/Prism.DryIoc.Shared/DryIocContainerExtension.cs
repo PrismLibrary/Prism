@@ -117,10 +117,8 @@ namespace Prism.DryIoc
         /// </summary>
         /// <param name="type">The service <see cref="Type"/></param>
         /// <returns>The resolved Service <see cref="Type"/></returns>
-        public object Resolve(Type type)
-        {
-            return Instance.Resolve(type);
-        }
+        public object Resolve(Type type) =>
+            Resolve(type, Array.Empty<(Type, object)>());
 
         /// <summary>
         /// Resolves a given <see cref="Type"/>
@@ -128,10 +126,8 @@ namespace Prism.DryIoc
         /// <param name="type">The service <see cref="Type"/></param>
         /// <param name="name">The service name/key used when registering the <see cref="Type"/></param>
         /// <returns>The resolved Service <see cref="Type"/></returns>
-        public object Resolve(Type type, string name)
-        {
-            return Instance.Resolve(type, serviceKey: name);
-        }
+        public object Resolve(Type type, string name) =>
+            Resolve(type, name, Array.Empty<(Type, object)>());
 
         /// <summary>
         /// Resolves a given <see cref="Type"/>
@@ -141,7 +137,15 @@ namespace Prism.DryIoc
         /// <returns>The resolved Service <see cref="Type"/></returns>
         public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            return Instance.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
+            try
+            {
+                var container = _currentScope?.Context ?? Instance;
+                return container.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, ex);
+            }
         }
 
         /// <summary>
@@ -153,7 +157,15 @@ namespace Prism.DryIoc
         /// <returns>The resolved Service <see cref="Type"/></returns>
         public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
         {
-            return Instance.Resolve(type, name, args: parameters.Select(p => p.Instance).ToArray());
+            try
+            {
+                var container = _currentScope?.Context ?? Instance;
+                return container.Resolve(type, name, args: parameters.Select(p => p.Instance).ToArray());
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, name, ex);
+            }
         }
 
         /// <summary>

@@ -126,10 +126,8 @@ namespace Prism.Unity
         /// </summary>
         /// <param name="type">The service <see cref="Type"/></param>
         /// <returns>The resolved Service <see cref="Type"/></returns>
-        public object Resolve(Type type)
-        {
-            return Instance.Resolve(type);
-        }
+        public object Resolve(Type type) =>
+            Resolve(type, Array.Empty<(Type, object)>());
 
         /// <summary>
         /// Resolves a given <see cref="Type"/>
@@ -137,10 +135,8 @@ namespace Prism.Unity
         /// <param name="type">The service <see cref="Type"/></param>
         /// <param name="name">The service name/key used when registering the <see cref="Type"/></param>
         /// <returns>The resolved Service <see cref="Type"/></returns>
-        public object Resolve(Type type, string name)
-        {
-            return Instance.Resolve(type, name);
-        }
+        public object Resolve(Type type, string name) =>
+            Resolve(type, name, Array.Empty<(Type, object)>());
 
         /// <summary>
         /// Resolves a given <see cref="Type"/>
@@ -150,8 +146,16 @@ namespace Prism.Unity
         /// <returns>The resolved Service <see cref="Type"/></returns>
         public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
-            return Instance.Resolve(type, overrides);
+            try
+            {
+                var c = _currentScope?.Container ?? Instance;
+                var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+                return c.Resolve(type, overrides);
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, ex);
+            }
         }
 
         /// <summary>
@@ -163,8 +167,16 @@ namespace Prism.Unity
         /// <returns>The resolved Service <see cref="Type"/></returns>
         public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
         {
-            var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
-            return Instance.Resolve(type, name, overrides);
+            try
+            {
+                var c = _currentScope?.Container ?? Instance;
+                var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+                return c.Resolve(type, name, overrides);
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, name, ex);
+            }
         }
 
         /// <summary>
