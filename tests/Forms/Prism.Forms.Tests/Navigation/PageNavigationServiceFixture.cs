@@ -1562,7 +1562,7 @@ namespace Prism.Forms.Tests.Navigation
             var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
             
-            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=ContentPage/SecondContentPage");
+            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=ContentPage|SecondContentPage");
 
             var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
             Assert.NotNull(tabbedPage);
@@ -1775,7 +1775,7 @@ namespace Prism.Forms.Tests.Navigation
             var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
-            await navigationService.NavigateAsync($"TabbedPage-Empty?{KnownNavigationParameters.CreateTab}=Tab1&{KnownNavigationParameters.CreateTab}=NavigationPage|Tab2&{KnownNavigationParameters.CreateTab}=Tab3&{KnownNavigationParameters.SelectedTab}=Tab2|SecondContentPage/AnotherPage");
+            await navigationService.NavigateAsync($"TabbedPage-Empty?{KnownNavigationParameters.CreateTab}=Tab1&{KnownNavigationParameters.CreateTab}=NavigationPage|Tab2&{KnownNavigationParameters.CreateTab}=Tab3&{KnownNavigationParameters.SelectedTab}=Tab2|SecondContentPage");
 
             var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageEmptyMock;
             Assert.NotNull(tabbedPage);
