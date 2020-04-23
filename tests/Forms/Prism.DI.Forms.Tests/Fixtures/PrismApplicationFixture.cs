@@ -153,7 +153,7 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         [InlineData(typeof(ViewAMockAndroid), Device.Android)]
         public async Task NavigationUses_PlatformSpecificView(Type viewType, string runtimePlatform)
         {
-            MockForms.UpdateRuntimePlatform(runtimePlatform);
+            MockForms.Init(runtimePlatform);
             var initializer = new XunitPlatformInitializer(_testOutputHelper);
             var app = new PrismApplicationMockPlatformAware(initializer);
 
@@ -162,7 +162,7 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             Assert.IsType(viewType, app.MainPage);
             Assert.IsType<ViewModelAMock>(app.MainPage.BindingContext);
 
-            MockForms.UpdateRuntimePlatform("Test");
+            MockForms.Init("Test");
         }
 
         [Fact]
