@@ -3,6 +3,7 @@ using Prism.Forms.Tests.Mocks;
 using Prism.Forms.Tests.Mocks.ViewModels;
 using Prism.Forms.Tests.Mocks.Views;
 using Prism.Forms.Tests.Navigation.Mocks.Views;
+using Prism.Ioc;
 using Prism.Logging;
 using Prism.Navigation;
 using System;

@@ -10,6 +10,11 @@ namespace Prism.Forms.Tests.Services.Mocks.Ioc
     {
         private readonly MockContainer _container = new MockContainer();
 
+        public void CreateScope()
+        {
+            throw new NotImplementedException();
+        }
+
         public void FinalizeExtension()
         {
             throw new NotImplementedException();
@@ -46,6 +51,16 @@ namespace Prism.Forms.Tests.Services.Mocks.Ioc
             return this;
         }
 
+        public IContainerRegistry Register(Type type, Func<object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry Register(Type type, Func<IContainerProvider, object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
         public IContainerRegistry RegisterInstance(Type type, object instance)
         {
             throw new NotImplementedException();
@@ -56,12 +71,47 @@ namespace Prism.Forms.Tests.Services.Mocks.Ioc
             throw new NotImplementedException();
         }
 
+        public IContainerRegistry RegisterMany(Type type, params Type[] serviceTypes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterManySingleton(Type type, params Type[] serviceTypes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterScoped(Type from, Type to)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterScoped(Type type, Func<object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterScoped(Type type, Func<IContainerProvider, object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
         public IContainerRegistry RegisterSingleton(Type from, Type to)
         {
             throw new NotImplementedException();
         }
 
         public IContainerRegistry RegisterSingleton(Type from, Type to, string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterSingleton(Type type, Func<object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterSingleton(Type type, Func<IContainerProvider, object> factoryMethod)
         {
             throw new NotImplementedException();
         }

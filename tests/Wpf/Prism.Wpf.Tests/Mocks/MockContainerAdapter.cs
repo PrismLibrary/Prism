@@ -8,6 +8,11 @@ namespace Prism.Wpf.Tests.Mocks
     {
         public Dictionary<Type, object> ResolvedInstances = new Dictionary<Type, object>();
 
+        public void CreateScope()
+        {
+            throw new NotImplementedException();
+        }
+
         public void FinalizeExtension()
         {
             
@@ -33,6 +38,16 @@ namespace Prism.Wpf.Tests.Mocks
             throw new NotImplementedException();
         }
 
+        public IContainerRegistry Register(Type type, Func<object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry Register(Type type, Func<IContainerProvider, object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
         public IContainerRegistry RegisterInstance(Type type, object instance)
         {
             throw new NotImplementedException();
@@ -43,12 +58,47 @@ namespace Prism.Wpf.Tests.Mocks
             throw new NotImplementedException();
         }
 
+        public IContainerRegistry RegisterMany(Type type, params Type[] serviceTypes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterManySingleton(Type type, params Type[] serviceTypes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterScoped(Type from, Type to)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterScoped(Type type, Func<object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterScoped(Type type, Func<IContainerProvider, object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
         public IContainerRegistry RegisterSingleton(Type from, Type to)
         {
             throw new NotImplementedException();
         }
 
         public IContainerRegistry RegisterSingleton(Type from, Type to, string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterSingleton(Type type, Func<object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterSingleton(Type type, Func<IContainerProvider, object> factoryMethod)
         {
             throw new NotImplementedException();
         }

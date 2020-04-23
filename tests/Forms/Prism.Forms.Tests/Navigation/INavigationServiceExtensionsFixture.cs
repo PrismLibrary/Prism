@@ -2,7 +2,9 @@
 using Prism.Forms.Tests.Mocks;
 using Prism.Forms.Tests.Mocks.Views;
 using Prism.Forms.Tests.Navigation.Mocks.Views;
+using Prism.Ioc;
 using Prism.Navigation;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;

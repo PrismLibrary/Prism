@@ -1,5 +1,4 @@
-﻿using Prism.Forms.Tests.Navigation;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -11,14 +10,6 @@ namespace Prism.Forms.Tests.Mocks
         Dictionary<string, Type> _registeredPages = new Dictionary<string, Type>();
 
         public object Instance => throw new NotImplementedException();
-
-        public object GetInstance(string key)
-        {
-            if (_registeredPages.ContainsKey(key))
-                return Activator.CreateInstance(_registeredPages[key]);
-
-            return null;
-        }
 
         public IContainerRegistry Register(string key, Type type)
         {
@@ -37,7 +28,10 @@ namespace Prism.Forms.Tests.Mocks
 
         public object Resolve(Type type, string name)
         {
-            throw new NotImplementedException();
+            if (_registeredPages.ContainsKey(name))
+                return Activator.CreateInstance(_registeredPages[name]);
+
+            return null;
         }
 
         public IContainerRegistry Register(Type from, Type to)
@@ -82,7 +76,7 @@ namespace Prism.Forms.Tests.Mocks
 
         public void FinalizeExtension()
         {
-            
+
         }
 
         public bool IsRegistered(Type type)
@@ -111,6 +105,56 @@ namespace Prism.Forms.Tests.Mocks
         }
 
         public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateScope()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterSingleton(Type type, Func<object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterSingleton(Type type, Func<IContainerProvider, object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterManySingleton(Type type, params Type[] serviceTypes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry Register(Type type, Func<object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry Register(Type type, Func<IContainerProvider, object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterMany(Type type, params Type[] serviceTypes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterScoped(Type from, Type to)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterScoped(Type type, Func<object> factoryMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContainerRegistry RegisterScoped(Type type, Func<IContainerProvider, object> factoryMethod)
         {
             throw new NotImplementedException();
         }

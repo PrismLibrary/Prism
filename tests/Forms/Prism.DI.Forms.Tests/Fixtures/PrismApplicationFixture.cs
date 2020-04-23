@@ -2,13 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-#if Autofac
-using Autofac.Core.Registration;
-#elif DryIoc
-using DryIoc;
-#elif Ninject
-using Ninject;
-#endif
 using Prism.Common;
 using Prism.DI.Forms.Tests;
 using Prism.DI.Forms.Tests.Fixtures;
@@ -21,9 +14,7 @@ using Prism.DI.Forms.Tests.Navigation;
 using Prism.Forms.Tests.Mocks.Logging;
 using Prism.Ioc;
 using Prism.Logging;
-using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Mocks;
 using Xunit;
@@ -123,10 +114,14 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             Assert.NotNull(result.Exception);
             Assert.IsType<NavigationException>(result.Exception);
             Assert.Equal(NavigationException.NoPageIsRegistered, result.Exception.Message);
+            var innerException = result.Exception.InnerException;
+            Assert.IsType<ContainerResolutionException>(innerException);
 #if DryIoc
-            Assert.IsType<ContainerException>(result.Exception.InnerException);
+            Assert.IsType<global::DryIoc.ContainerException>(innerException.InnerException);
 #elif Unity
-            Assert.IsType<NullReferenceException>(result.Exception.InnerException);
+            Assert.IsType<KeyNotFoundException>(innerException.InnerException);
+#else
+            throw new NotImplementedException("Container not implemented");
 #endif
             Assert.Contains("missing", result.Exception.InnerException.ToString(), StringComparison.OrdinalIgnoreCase);
         }

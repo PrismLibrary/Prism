@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConcreteTypeMock.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\ContainerProviderFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerProviderFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\FixtureBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PartialViewFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PrismApplicationFixture.cs" />
@@ -75,5 +75,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Fixtures\Navigation\" />
   </ItemGroup>
 </Project>
