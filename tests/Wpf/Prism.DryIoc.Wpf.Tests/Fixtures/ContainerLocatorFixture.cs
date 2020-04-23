@@ -10,17 +10,18 @@ namespace Prism.DryIoc.Wpf.Tests
         [Fact]
         public void ShouldForwardResolveToInnerContainer()
         {
-            object myInstance = new object();
             var mockContainer = new Mock<IContainer>();
-            mockContainer.Setup(c => c.Resolve(typeof(object), IfUnresolved.Throw)).Returns(myInstance);
 
+            Assert.Empty(mockContainer.Invocations);
             var containerExtension = new DryIocContainerExtension(mockContainer.Object);
+
+            // We register the IContainerExtension and IContainerProvider directly with the container in the ctor.
+            Assert.Equal(2, mockContainer.Invocations.Count);
             ContainerLocator.ResetContainer();
             ContainerLocator.SetContainerExtension(() => containerExtension);
 
             var resolved = ContainerLocator.Container.Resolve(typeof(object));
-            mockContainer.Verify(c => c.Resolve(typeof(object), IfUnresolved.Throw));
-            Assert.Same(myInstance, resolved);
+            Assert.Equal(3, mockContainer.Invocations.Count);
         }
     }
 }
