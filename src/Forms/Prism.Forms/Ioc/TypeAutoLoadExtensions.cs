@@ -32,9 +32,12 @@ namespace Prism.Ioc
 
         private static void RegisterView(IContainerRegistry containerRegistry, Type viewType, bool checkIfRegistered = false)
         {
+            if (viewType.IsAbstract)
+                return;
+
             var name = AutoRegistrationViewNameProvider.GetNavigationSegmentName(viewType);
 
-            if(!checkIfRegistered || containerRegistry.IsRegistered<object>(name))
+            if(!checkIfRegistered || !containerRegistry.IsRegistered<object>(name))
             {
                 containerRegistry.RegisterForNavigation(viewType, name);
             }

@@ -9,8 +9,13 @@ namespace Prism.Ioc
         public static void SetDefaultProvider(Func<Type, string> navigationSegmentNameProvider) =>
             _defaultProvider = navigationSegmentNameProvider;
 
-        public static string GetNavigationSegmentName(Type viewType) =>
-            _defaultProvider(viewType);
+        public static string GetNavigationSegmentName(Type viewType)
+        {
+            if (_defaultProvider is null)
+                _defaultProvider = DefaultProvider;
+
+            return _defaultProvider(viewType);
+        }
 
         private static string DefaultProvider(Type type) =>
             type.Name;
