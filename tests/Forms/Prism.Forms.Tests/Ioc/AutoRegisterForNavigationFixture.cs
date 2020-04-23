@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Humanizer;
 using MockApp;
 using MockApp.Views;
@@ -10,6 +8,7 @@ using Xunit;
 
 namespace Prism.Forms.Tests.Ioc
 {
+    [Collection(nameof(ContainerExtension))]
     public class AutoRegisterForNavigationFixture
     {
         public AutoRegisterForNavigationFixture()

@@ -1,12 +1,13 @@
 ﻿using Prism.Forms.Tests.Mocks.Views;
 using Prism.Navigation;
+using System;
 using System.Reflection;
 using Xunit;
 
 namespace Prism.Forms.Tests.Navigation
 {
-    [Collection("PageNavigationRegistry")]
-    public class PageNavigationRegistryFixture
+    [Collection(nameof(PageNavigation))]
+    public class PageNavigationRegistryFixture : IDisposable
     {
         [Fact]
         public void RegisterPageForNavigation()
@@ -52,6 +53,11 @@ namespace Prism.Forms.Tests.Navigation
             var infoType = PageNavigationRegistry.GetPageType(name);
 
             Assert.Null(infoType);
+        }
+
+        public void Dispose()
+        {
+            PageNavigationRegistry.ClearRegistrationCache();
         }
     }
 }
