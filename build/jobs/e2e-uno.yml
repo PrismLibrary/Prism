@@ -1,0 +1,18 @@
+jobs:
+- job: e2eUno
+  displayName: E2E Uno Apps
+  condition: succeeded()
+  pool:
+    vmImage: $(VMImage)
+    demands:
+    - MSBuild
+  workspace:
+    clean: all
+  steps:
+  - powershell: Copy-Item -Path .\global.json -Destination .\e2e\Uno
+    displayName: Copy global.json to E2E directory
+
+  - template: ../steps/build.yml
+    parameters:
+      solution: e2e/Uno/HelloWorld.sln
+      solutionName: Uno E2E

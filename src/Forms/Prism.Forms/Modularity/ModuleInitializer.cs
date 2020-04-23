@@ -18,7 +18,9 @@ namespace Prism.Modularity
             if (module != null)
             {
                 module.RegisterTypes(_container);
+#if !HAS_WINUI
                 module.GetType().AutoRegisterViews(_container);
+#endif
                 module.OnInitialized(_container);
             }
         }

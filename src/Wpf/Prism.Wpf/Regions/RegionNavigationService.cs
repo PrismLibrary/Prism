@@ -2,10 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Windows;
 using Prism.Common;
 using Prism.Properties;
 using Prism.Ioc;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+#else
+using System.Windows;
+#endif
 
 namespace Prism.Regions
 {

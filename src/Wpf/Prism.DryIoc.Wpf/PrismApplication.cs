@@ -13,7 +13,12 @@ namespace Prism.DryIoc
         /// <returns>An instance of <see cref="Rules" /></returns>
         protected virtual Rules CreateContainerRules() => Rules.Default.WithAutoConcreteTypeResolution()
                                                                        .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
-                                                                       .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
+                                                                       .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace)
+#if HAS_WINUI
+                                                                       .WithoutFastExpressionCompiler()
+                                                                       .WithTrackingDisposableTransients()
+#endif
+        ;
 
         protected override IContainerExtension CreateContainerExtension()
         {

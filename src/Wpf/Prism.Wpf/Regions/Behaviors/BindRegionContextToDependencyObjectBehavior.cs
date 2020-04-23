@@ -4,7 +4,12 @@ using Prism.Common;
 using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+#else
 using System.Windows;
+#endif
 
 namespace Prism.Regions.Behaviors
 {

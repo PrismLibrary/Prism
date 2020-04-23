@@ -2,10 +2,15 @@
 
 using System;
 using System.Collections.Specialized;
-using System.Windows;
 using System.Linq;
 using System.Reflection;
 using Prism.Common;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+#else
+using System.Windows;
+#endif
 
 namespace Prism.Regions.Behaviors
 {

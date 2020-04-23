@@ -24,6 +24,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{63541838-3D6A-4F2E-92EF-AC4953BB9B9B}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{a0842858-bfd5-41ae-bde7-cbd870bc9900}*SharedItemsImports = 5
+		..\..\src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{debadaab-5c78-444e-aa77-336a43b49ec3}*SharedItemsImports = 5
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

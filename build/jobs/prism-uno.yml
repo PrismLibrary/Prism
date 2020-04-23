@@ -1,0 +1,14 @@
+jobs:
+- job: prismUno
+  displayName: Prism.Uno
+  pool:
+    vmImage: $(VMImage)
+    demands:
+    - MSBuild
+  workspace:
+    clean: all
+  steps:
+  - template: ../steps/build.yml
+    parameters:
+      solution: PrismLibrary_Uno.sln
+      solutionName: Prism.Uno

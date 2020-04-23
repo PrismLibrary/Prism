@@ -7,6 +7,7 @@ namespace Prism.Services.Dialogs
     /// </summary>
     public interface IDialogService
     {
+#if !HAS_WINUI
         /// <summary>
         /// Shows a non-modal dialog.
         /// </summary>
@@ -23,6 +24,7 @@ namespace Prism.Services.Dialogs
         /// <param name="callback">The action to perform when the dialog is closed.</param>
         /// <param name="windowName">The name of the hosting window registered with the IContainerRegistry.</param>
         void Show(string name, IDialogParameters parameters, Action<IDialogResult> callback, string windowName);
+#endif
 
         /// <summary>
         /// Shows a modal dialog.

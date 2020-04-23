@@ -2,14 +2,17 @@ using System;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using Prism.Properties;
-using Xamarin.Forms;
 
 namespace Prism.Modularity
 {
     /// <summary>
     /// Defines the metadata that describes a module.
     /// </summary>
-    [ContentProperty(nameof(DependsOn))]
+#if HAS_WINUI
+    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(DependsOn))]
+#else
+    [Xamarin.Forms.ContentProperty(nameof(DependsOn))]
+#endif
     public partial class ModuleInfo : IModuleInfo
     {
         /// <summary>
@@ -149,6 +152,15 @@ namespace Prism.Modularity
         /// <summary>
         /// Gets or sets the state of the <see cref="ModuleInfo"/> with regards to the module loading and initialization process.
         /// </summary>
-        ModuleState IModuleInfo.State { get; set; }
+        public ModuleState State { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the state of the <see cref="ModuleInfo"/> with regards to the module loading and initialization process.
+        /// </summary>
+        ModuleState IModuleInfo.State
+        {
+            get => State;
+            set => State = value;
+        }
     }
 }

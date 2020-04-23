@@ -1,0 +1,4 @@
+﻿<linker>
+  <assembly fullname="Prism" />
+  <assembly fullname="Prism.Uno" />
+</linker>

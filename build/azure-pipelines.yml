@@ -29,6 +29,8 @@ variables:
   value: windows-latest
 - name: MacImage
   value: macOS-latest
+- name: LinuxImage
+  value: ubuntu-latest
 - name: BuildConfiguration
   value: Release
 - name: BuildPlatform
@@ -54,10 +56,14 @@ stages:
 
   - template: jobs/prism-wpf.yml
 
+  - template: jobs/prism-uno.yml
+
 - stage: e2e
   displayName: End to End
   jobs:
   - template: jobs/e2e-wpf.yml
+
+  - template: jobs/e2e-uno.yml
 
   - template: jobs/e2e-android.yml
     parameters:
@@ -68,6 +74,7 @@ stages:
       versionName: '8.0.$(Build.BuildId)'
 
   - template: jobs/xamarin-uitest.yml
+  - template: jobs/uno-uitest.yml
 
   - template: jobs/e2e-uitest.yml
     parameters:

@@ -3,7 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+#else
 using System.Windows;
+#endif
 
 namespace Prism.Regions.Behaviors
 {
@@ -150,12 +155,14 @@ namespace Prism.Regions.Behaviors
                 return;
             }
 
+#if !HAS_WINUI
             FrameworkContentElement fcElement = this.TargetElement as FrameworkContentElement;
             if (fcElement != null)
             {
                 fcElement.Loaded += this.ElementLoaded;
                 return;
             }
+#endif
 
             //if the element is a dependency object, and not a FrameworkElement, nothing is holding onto the reference after the DelayedRegionCreationBehavior
             //is instantiated inside RegionManager.CreateRegion(DependencyObject element). If the GC runs before RegionManager.UpdateRegions is called, the region will
@@ -177,12 +184,14 @@ namespace Prism.Regions.Behaviors
                 return;
             }
 
+#if !HAS_WINUI
             FrameworkContentElement fcElement = this.TargetElement as FrameworkContentElement;
             if (fcElement != null)
             {
                 fcElement.Loaded -= this.ElementLoaded;
                 return;
             }
+#endif
 
             DependencyObject depObj = this.TargetElement as DependencyObject;
             if (depObj != null)
