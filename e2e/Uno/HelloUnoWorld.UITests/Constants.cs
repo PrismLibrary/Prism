@@ -14,6 +14,6 @@ namespace Sample.UITests
         public readonly static string AndroidAppName = "com.prismlibrary.helloworld";
         public readonly static string iOSDeviceNameOrId = "iPad Pro (12.9-inch) (3rd generation)";
 
-        public readonly static Platform CurrentPlatform = Platform.Android;
+        public readonly static Platform CurrentPlatform = Platform.Browser;
     }
 }

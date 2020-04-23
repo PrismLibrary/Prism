@@ -12,7 +12,7 @@ namespace Sample.UITests
     public class Dialog_Tests : TestBase
     {
         [Test]
-        public void TestViewA()
+        public void ShowDialog()
         {
             Query testSelector = q => q.Marked("showDialog");
             Query OkSelector = q => q.Marked("OKButton");
