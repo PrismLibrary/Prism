@@ -13,7 +13,7 @@
         /// <param name="task">The task to be awaited</param>
         public static void Await<T>(this Task<T> task)
         {
-            task.Await<T>(null, null, false);
+            task.Await(null, null, false);
         }
 
         /// <summary>
@@ -25,7 +25,7 @@
         /// <param name="configureAwait">Configures an awaiter used to await this task</param>
         public static void Await<T>(this Task<T> task, bool configureAwait)
         {
-            task.Await<T>(null, null, configureAwait);
+            task.Await(null, null, configureAwait);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@
         /// <param name="completedCallback">The action to perform when the task is complete.</param>
         public static void Await<T>(this Task<T> task, Action<T> completedCallback)
         {
-            task.Await<T>(completedCallback, null, false);
+            task.Await(completedCallback, null, false);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@
         /// <param name="errorCallback">The action to perform when an error occurs executing the task.</param>
         public static void Await<T>(this Task<T> task, Action<T> completedCallback, Action<Exception> errorCallback)
         {
-            task.Await<T>(completedCallback, errorCallback, false);
+            task.Await(completedCallback, errorCallback, false);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@
         /// <param name="errorCallback">The action to perform when an error occurs executing the task.</param>
         public static void Await<T>(this Task<T> task, Action<Exception> errorCallback)
         {
-            task.Await<T>(null, errorCallback, false);
+            task.Await(null, errorCallback, false);
         }
 
         /// <summary>
