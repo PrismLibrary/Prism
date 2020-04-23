@@ -14,6 +14,19 @@ namespace Prism.DryIoc
         private IResolverContext _currentScope;
 
         /// <summary>
+        /// Gets the Default DryIoc Container Rules used by Prism
+        /// </summary>
+        public static Rules DefaultRules => Rules.Default.WithAutoConcreteTypeResolution()
+                                                                       .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
+#if HAS_WINUI || __IOS__
+                                                                       .WithoutFastExpressionCompiler()
+#endif
+#if HAS_WINUI
+                                                                       .WithTrackingDisposableTransients()
+#endif
+                                                                       .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
+
+        /// <summary>
         /// The instance of the wrapped container
         /// </summary>
         public IContainer Instance { get; }
