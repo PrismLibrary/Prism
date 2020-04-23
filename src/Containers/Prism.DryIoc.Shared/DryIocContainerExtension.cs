@@ -32,6 +32,14 @@ namespace Prism.DryIoc
         public IContainer Instance { get; }
 
         /// <summary>
+        /// Constructs a default instance of the <see cref="DryIocContainerExtension"
+        /// </summary>
+        public DryIocContainerExtension()
+            : this(new Container(DefaultRules))
+        {
+        }
+
+        /// <summary>
         /// Constructs a new <see cref="DryIocContainerExtension" />
         /// </summary>
         /// <param name="container">The <see cref="IContainer" /> instance to use.</param>
@@ -329,6 +337,12 @@ namespace Prism.DryIoc
                 matchingRegistration = Instance.GetServiceRegistrations().Where(r => key.Equals(r.ImplementationType.Name, StringComparison.Ordinal)).FirstOrDefault();
 
             return matchingRegistration.ImplementationType;
+        }
+
+        Type IContainerInfo.GetRegistrationType(Type serviceType)
+        {
+            var registration = Instance.GetServiceRegistrations().Where(x => x.ServiceType == serviceType).FirstOrDefault();
+            return registration.ServiceType is null ? null : registration.ImplementationType;
         }
 
         /// <summary>

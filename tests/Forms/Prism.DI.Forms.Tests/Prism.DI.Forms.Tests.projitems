@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConcreteTypeMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerProviderFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\FixtureBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerResolutionExceptionFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PartialViewFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PrismApplicationFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\XamlNavigationFixture.cs" />
@@ -39,6 +40,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlViewMockViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\AutowireView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\AutowireViewTablet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\BadView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ConstructorArgumentView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\CustomNamedNavService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\PartialView.xaml.cs">
@@ -77,7 +79,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\" />
     <Folder Include="$(MSBuildThisFileDirectory)Fixtures\Navigation\" />
   </ItemGroup>
 </Project>

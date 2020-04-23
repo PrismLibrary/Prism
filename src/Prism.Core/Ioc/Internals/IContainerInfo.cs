@@ -16,5 +16,13 @@ namespace Prism.Ioc.Internals
         /// <returns>Implementation <see cref="Type"/></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         Type GetRegistrationType(string key);
+
+        /// <summary>
+        /// Locates the registered implementation <see cref="Type"/> for a give key
+        /// </summary>
+        /// <param name="serviceType">Service Type</param>
+        /// <returns>Implementation <see cref="Type"/></returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        Type GetRegistrationType(Type serviceType);
     }
 }

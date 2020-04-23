@@ -343,6 +343,12 @@ namespace Prism.Unity
             return matchingRegistration?.MappedToType;
         }
 
+        Type IContainerInfo.GetRegistrationType(Type serviceType)
+        {
+            var matchingRegistration = Instance.Registrations.Where(x => x.RegisteredType == serviceType).FirstOrDefault();
+            return matchingRegistration?.MappedToType;
+        }
+
         /// <summary>
         /// Creates a new Scope
         /// </summary>

@@ -114,9 +114,9 @@ namespace Prism.Ioc
         /// that resulted in the ContainerResolutionException.
         /// </summary>
         /// <returns>A <see cref="Dictionary{Type, Exception}"/> mapping types that encountered given exceptions in the resolution process.</returns>
-        public IDictionary<Type, Exception> GetErrors()
+        public ContainerResolutionErrorCollection GetErrors()
         {
-            var errors = new Dictionary<Type, Exception>();
+            var errors = new ContainerResolutionErrorCollection();
             if (IsKnownIssue)
             {
                 return errors;
@@ -152,7 +152,7 @@ namespace Prism.Ioc
                     return defaultValue;
                 }
 
-                name = ServiceType.FullName;
+                return container.GetRegistrationType(ServiceType);
             }
             else if (!container.IsRegistered(ServiceType, ServiceName))
             {
@@ -163,9 +163,9 @@ namespace Prism.Ioc
         }
 
         [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "This method is meant to collect any exception thrown.")]
-        private void PopulateErrors(Type implementingType, ref Dictionary<Type, Exception> errors)
+        private static void PopulateErrors(Type implementingType, ref ContainerResolutionErrorCollection errors)
         {
-            var ctors = implementingType.GetConstructors(BindingFlags.Public);
+            var ctors = implementingType.GetConstructors();
 
             if (ctors.Length > 1)
             {
@@ -186,7 +186,7 @@ namespace Prism.Ioc
                 try
                 {
                     var defaultImplementingType = IsConcreteType(parameter.ParameterType) ? parameter.ParameterType : null;
-                    var parameterImplementingType = container.GetRegistrationType(parameter.ParameterType.FullName) ?? null;
+                    var parameterImplementingType = container.GetRegistrationType(parameter.ParameterType);
                     if (parameterImplementingType is null)
                         throw new ContainerResolutionException(parameter.ParameterType, MissingRegistration);
 
@@ -213,13 +213,20 @@ namespace Prism.Ioc
 
             try
             {
-                // We generally expect some sort of Initialization Exception here...
+                // We generally expect some sort of InvokationException Exception here...
                 ctor.Invoke(parameterInstances.ToArray());
 
                 // If we managed to create an instance for every parameter and the
                 // constructor didn't throw an exception when activating the instance
                 // we really aren't sure what allowed us to get here...
                 throw new ContainerResolutionException(implementingType, UnknownError);
+            }
+            catch (TargetInvocationException tie)
+            {
+                errors.Add(implementingType, tie);
+
+                if(tie.InnerException != null)
+                    errors.Add(implementingType, tie.InnerException);
             }
             catch (Exception ex)
             {
@@ -229,7 +236,7 @@ namespace Prism.Ioc
 
         private static bool IsConcreteType(Type type)
         {
-            if (type.IsAbstract || type.IsEnum || type.IsPrimitive)
+            if (type.IsAbstract || type.IsEnum || type.IsPrimitive || type == typeof(object))
                 return false;
 
             return true;
