@@ -42,17 +42,17 @@ namespace HelloUnoWorld.ViewModels
             var message = "This is a message that should be shown in the dialog.";
 
             //using the dialog service as-is
-            //_dialogService.Show("NotificationDialog", new DialogParameters($"message={message}"), r =>
-            //{
-            //    if (r.Result == ButtonResult.None)
-            //        Title = "Result is None";
-            //    else if (r.Result == ButtonResult.OK)
-            //        Title = "Result is OK";
-            //    else if (r.Result == ButtonResult.Cancel)
-            //        Title = "Result is Cancel";
-            //    else
-            //        Title = "I Don't know what you did!?";
-            //});
+            _dialogService.ShowDialog("NotificationDialog", new DialogParameters($"message={message}"), r =>
+            {
+                if (r.Result == ButtonResult.None)
+                    Title = "Result is None";
+                else if (r.Result == ButtonResult.OK)
+                    Title = "Result is OK";
+                else if (r.Result == ButtonResult.Cancel)
+                    Title = "Result is Cancel";
+                else
+                    Title = "I Don't know what you did!?";
+            });
 
             //using custom extenions methods to simplify the app's dialogs
             //_dialogService.ShowNotification(message, r =>
@@ -79,17 +79,17 @@ namespace HelloUnoWorld.ViewModels
             //        Title = "I Don't know what you did!?";
             //});
 
-            _dialogService.ShowNotificationInAnotherContentDialog(message, r =>
-            {
-                if (r.Result == ButtonResult.None)
-                    Title = "Result is None";
-                else if (r.Result == ButtonResult.OK)
-                    Title = "Result is OK";
-                else if (r.Result == ButtonResult.Cancel)
-                    Title = "Result is Cancel";
-                else
-                    Title = "I Don't know what you did!?";
-            });
+            //_dialogService.ShowNotificationInAnotherContentDialog(message, r =>
+            //{
+            //    if (r.Result == ButtonResult.None)
+            //        Title = "Result is None";
+            //    else if (r.Result == ButtonResult.OK)
+            //        Title = "Result is OK";
+            //    else if (r.Result == ButtonResult.Cancel)
+            //        Title = "Result is Cancel";
+            //    else
+            //        Title = "I Don't know what you did!?";
+            //});
         }
     }
 
