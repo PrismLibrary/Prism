@@ -9,7 +9,8 @@ using Xunit;
 
 namespace Prism.Forms.Tests.Navigation
 {
-    [Collection("PageNavigationRegistry")]
+
+    [Collection(nameof(PageNavigation))]
     public class INavigationServiceExtensionsFixture
     {
         public INavigationServiceExtensionsFixture()
