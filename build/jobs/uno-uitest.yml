@@ -28,6 +28,7 @@ jobs:
       testRunTitle: 'WebAssembly Test Run'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml'
+      searchFolder: '$(build.artifactstagingdirectory)/e2e/uno/wasm' # https://github.com/microsoft/azure-pipelines-tasks/issues/10072
 
   - task: PublishBuildArtifacts@1
     condition: always()
