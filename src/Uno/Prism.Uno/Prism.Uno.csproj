@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='uap10.0.16299'">
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
-    <PackageReference Include="CommonServiceLocator" Version="2.0.5" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
