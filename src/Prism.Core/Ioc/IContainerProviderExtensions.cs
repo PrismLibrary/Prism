@@ -54,5 +54,42 @@ namespace Prism.Ioc
         {
             return (T)provider.Resolve(typeof(T), name);
         }
+
+        /// <summary>
+        /// Determines if a given service is registered
+        /// </summary>
+        /// <typeparam name="T">The service <see cref="Type" /></typeparam>
+        /// <param name="containerProvider">The instance of the <see cref="IContainerProvider" /></param>
+        /// <returns><c>true</c> if the service is registered.</returns>
+        public static bool IsRegistered<T>(this IContainerProvider containerProvider)
+        {
+            return containerProvider.IsRegistered(typeof(T));
+        }
+
+        internal static bool IsRegistered(this IContainerProvider containerProvider, Type type)
+        {
+            if (containerProvider is IContainerRegistry containerRegistry)
+                return containerRegistry.IsRegistered(type);
+            return false;
+        }
+
+        /// <summary>
+        /// Determines if a given service is registered with the specified name
+        /// </summary>
+        /// <typeparam name="T">The service <see cref="Type" /></typeparam>
+        /// <param name="containerProvider">The instance of the <see cref="IContainerProvider" /></param>
+        /// <param name="name">The service name or key used</param>
+        /// <returns><c>true</c> if the service is registered.</returns>
+        public static bool IsRegistered<T>(this IContainerProvider containerProvider, string name)
+        {
+            return containerProvider.IsRegistered(typeof(T), name);
+        }
+
+        internal static bool IsRegistered(this IContainerProvider containerProvider, Type type, string name)
+        {
+            if (containerProvider is IContainerRegistry containerRegistry)
+                return containerRegistry.IsRegistered(type, name);
+            return false;
+        }
     }
 }

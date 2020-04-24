@@ -37,7 +37,7 @@ namespace Prism.Container.Wpf.Tests.Regions
             testRegion.Add(view);
             testRegion.Deactivate(view);
 
-            Assert.True(_container.IsRegistered<object>("MockView"));
+            Assert.True(((IContainerRegistry)_container).IsRegistered<object>("MockView"));
 
             testRegion.RequestNavigate("MockView");
 

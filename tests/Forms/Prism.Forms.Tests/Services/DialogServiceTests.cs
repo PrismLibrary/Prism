@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Prism.Forms.Tests.Services.Mocks;
+using Prism.Forms.Tests.Services.Mocks.Dialogs;
 using Prism.Ioc;
 using Prism.Services.Dialogs;
-using Xunit;
-using Prism.Forms.Tests.Mocks;
-using Prism.Common;
-using Prism.Forms.Tests.Services.Mocks.Dialogs;
-using Xamarin.Forms;
-using Prism.Forms.Tests.Services.Mocks;
 using Prism.Services.Dialogs.Xaml;
+using Xamarin.Forms;
+using Xunit;
 
 namespace Prism.Forms.Tests.Services
 {
@@ -228,7 +223,7 @@ namespace Prism.Forms.Tests.Services
 
             DialogMock.ConstructorCallback = null;
 
-            return new DialogService(_currentApp, _currentApp.Container as IContainerExtension);
+            return new DialogService(_currentApp, _currentApp.Container);
         }
 
         private void SetMainPage(Page page = null, bool resetApp = true)

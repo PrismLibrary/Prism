@@ -14,6 +14,6 @@
         /// <summary>
         /// The result of the dialog.
         /// </summary>
-        ButtonResult Result { get; }        
+        ButtonResult Result { get; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using DryIoc;
 using Prism.Ioc;
@@ -9,12 +9,32 @@ namespace Prism.DryIoc
     /// <summary>
     /// The <see cref="IContainerExtension" /> Implementation to use with DryIoc
     /// </summary>
-    public class DryIocContainerExtension : IContainerExtension<IContainer>, IContainerInfo
+    public partial class DryIocContainerExtension : IContainerExtension<IContainer>, IContainerInfo
     {
+        private IResolverContext _currentScope;
+
+        /// <summary>
+        /// Gets the Default DryIoc Container Rules used by Prism
+        /// </summary>
+        public static Rules DefaultRules => Rules.Default.WithAutoConcreteTypeResolution()
+                                                         .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
+                                                         .WithFuncAndLazyWithoutRegistration()
+                                                         .WithTrackingDisposableTransients()
+                                                         .WithoutFastExpressionCompiler()
+                                                         .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
+
         /// <summary>
         /// The instance of the wrapped container
         /// </summary>
         public IContainer Instance { get; }
+
+        /// <summary>
+        /// Constructs a default instance of the <see cref="DryIocContainerExtension"
+        /// </summary>
+        public DryIocContainerExtension()
+            : this(new Container(DefaultRules))
+        {
+        }
 
         /// <summary>
         /// Constructs a new <see cref="DryIocContainerExtension" />
@@ -86,6 +106,84 @@ namespace Prism.DryIoc
         }
 
         /// <summary>
+        /// Registers a Singleton with the given service <see cref="Type" /> factory delegate method.
+        /// </summary>
+        /// <param name="type">The service <see cref="Type" /></param>
+        /// <param name="factoryMethod">The delegate method.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry RegisterSingleton(Type type, Func<object> factoryMethod)
+        {
+            Instance.RegisterDelegate(type, r => factoryMethod(), Reuse.Singleton);
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a Singleton with the given service <see cref="Type" /> factory delegate method.
+        /// </summary>
+        /// <param name="type">The service <see cref="Type" /></param>
+        /// <param name="factoryMethod">The delegate method using <see cref="IContainerProvider"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry RegisterSingleton(Type type, Func<IContainerProvider, object> factoryMethod)
+        {
+            Instance.RegisterDelegate(type, factoryMethod, Reuse.Singleton);
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a Singleton Service which implements service interfaces
+        /// </summary>
+        /// <param name="type">The implementation <see cref="Type" />.</param>
+        /// <param name="serviceTypes">The service <see cref="Type"/>'s.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        /// <remarks>Registers all interfaces if none are specified.</remarks>
+        public IContainerRegistry RegisterManySingleton(Type type, params Type[] serviceTypes)
+        {
+            if (serviceTypes.Length == 0)
+            {
+                serviceTypes = type.GetInterfaces();
+            }
+
+            Instance.RegisterMany(serviceTypes, type, Reuse.Singleton);
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a scoped service
+        /// </summary>
+        /// <param name="from">The service <see cref="Type" /></param>
+        /// <param name="to">The implementation <see cref="Type" /></param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry RegisterScoped(Type from, Type to)
+        {
+            Instance.Register(from, to, Reuse.ScopedOrSingleton);
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a scoped service using a delegate method.
+        /// </summary>
+        /// <param name="type">The service <see cref="Type" /></param>
+        /// <param name="factoryMethod">The delegate method.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry RegisterScoped(Type type, Func<object> factoryMethod)
+        {
+            Instance.RegisterDelegate(type, r => factoryMethod(), Reuse.ScopedOrSingleton);
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a scoped service using a delegate method.
+        /// </summary>
+        /// <param name="type">The service <see cref="Type"/>.</param>
+        /// <param name="factoryMethod">The delegate method using the <see cref="IContainerProvider"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry RegisterScoped(Type type, Func<IContainerProvider, object> factoryMethod)
+        {
+            Instance.RegisterDelegate(type, factoryMethod, Reuse.ScopedOrSingleton);
+            return this;
+        }
+
+        /// <summary>
         /// Registers a Transient with the given service and mapping to the specified implementation <see cref="Type" />.
         /// </summary>
         /// <param name="from">The service <see cref="Type" /></param>
@@ -111,14 +209,54 @@ namespace Prism.DryIoc
         }
 
         /// <summary>
+        /// Registers a Transient Service using a delegate method
+        /// </summary>
+        /// <param name="type">The service <see cref="Type" /></param>
+        /// <param name="factoryMethod">The delegate method.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry Register(Type type, Func<object> factoryMethod)
+        {
+            Instance.RegisterDelegate(type, r => factoryMethod());
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a Transient Service using a delegate method
+        /// </summary>
+        /// <param name="type">The service <see cref="Type" /></param>
+        /// <param name="factoryMethod">The delegate method using <see cref="IContainerProvider"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry Register(Type type, Func<IContainerProvider, object> factoryMethod)
+        {
+            Instance.RegisterDelegate(type, factoryMethod);
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a Transient Service which implements service interfaces
+        /// </summary>
+        /// <param name="type">The implementing <see cref="Type" />.</param>
+        /// <param name="serviceTypes">The service <see cref="Type"/>'s.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        /// <remarks>Registers all interfaces if none are specified.</remarks>
+        public IContainerRegistry RegisterMany(Type type, params Type[] serviceTypes)
+        {
+            if (serviceTypes.Length == 0)
+            {
+                serviceTypes = type.GetInterfaces();
+            }
+
+            Instance.RegisterMany(serviceTypes, type, Reuse.Transient);
+            return this;
+        }
+
+        /// <summary>
         /// Resolves a given <see cref="Type"/>
         /// </summary>
         /// <param name="type">The service <see cref="Type"/></param>
         /// <returns>The resolved Service <see cref="Type"/></returns>
-        public object Resolve(Type type)
-        {
-            return Instance.Resolve(type);
-        }
+        public object Resolve(Type type) =>
+            Resolve(type, Array.Empty<(Type, object)>());
 
         /// <summary>
         /// Resolves a given <see cref="Type"/>
@@ -126,10 +264,8 @@ namespace Prism.DryIoc
         /// <param name="type">The service <see cref="Type"/></param>
         /// <param name="name">The service name/key used when registering the <see cref="Type"/></param>
         /// <returns>The resolved Service <see cref="Type"/></returns>
-        public object Resolve(Type type, string name)
-        {
-            return Instance.Resolve(type, serviceKey: name);
-        }
+        public object Resolve(Type type, string name) =>
+            Resolve(type, name, Array.Empty<(Type, object)>());
 
         /// <summary>
         /// Resolves a given <see cref="Type"/>
@@ -139,7 +275,15 @@ namespace Prism.DryIoc
         /// <returns>The resolved Service <see cref="Type"/></returns>
         public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            return Instance.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
+            try
+            {
+                var container = _currentScope ?? Instance;
+                return container.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, ex);
+            }
         }
 
         /// <summary>
@@ -151,7 +295,15 @@ namespace Prism.DryIoc
         /// <returns>The resolved Service <see cref="Type"/></returns>
         public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
         {
-            return Instance.Resolve(type, name, args: parameters.Select(p => p.Instance).ToArray());
+            try
+            {
+                var container = _currentScope ?? Instance;
+                return container.Resolve(type, name, args: parameters.Select(p => p.Instance).ToArray());
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, name, ex);
+            }
         }
 
         /// <summary>
@@ -182,6 +334,38 @@ namespace Prism.DryIoc
                 matchingRegistration = Instance.GetServiceRegistrations().Where(r => key.Equals(r.ImplementationType.Name, StringComparison.Ordinal)).FirstOrDefault();
 
             return matchingRegistration.ImplementationType;
+        }
+
+        Type IContainerInfo.GetRegistrationType(Type serviceType)
+        {
+            var registration = Instance.GetServiceRegistrations().Where(x => x.ServiceType == serviceType).FirstOrDefault();
+            return registration.ServiceType is null ? null : registration.ImplementationType;
+        }
+
+        /// <summary>
+        /// Creates a new Scope
+        /// </summary>
+        public virtual void CreateScope() =>
+            CreateScopeInternal();
+
+        /// <summary>
+        /// Creates a new Scope and provides the updated ServiceProvider
+        /// </summary>
+        /// <returns>The Scoped <see cref="IResolverContext" />.</returns>
+        /// <remarks>
+        /// This should be called by custom implementations that Implement IServiceScopeFactory
+        /// </remarks>
+        protected IResolverContext CreateScopeInternal()
+        {
+            if (_currentScope != null)
+            {
+                _currentScope.Dispose();
+                _currentScope = null;
+                GC.Collect();
+            }
+
+            _currentScope = Instance.OpenScope();
+            return _currentScope;
         }
     }
 }

@@ -1,13 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-#if Autofac
-using Autofac.Core.Registration;
-#elif DryIoc
-using DryIoc;
-#elif Ninject
-using Ninject;
-#endif
 using Prism.DI.Forms.Tests.Fixtures;
 using Prism.DI.Forms.Tests.Mocks.ViewModels;
 using Prism.DI.Forms.Tests.Mocks.Views;
@@ -16,12 +9,8 @@ using Xamarin.Forms;
 using Xunit;
 using Xunit.Abstractions;
 
-#if Autofac
-namespace Prism.Autofac.Forms.Tests.Fixtures
-#elif DryIoc
+#if DryIoc
 namespace Prism.DryIoc.Forms.Tests.Fixtures
-#elif Ninject
-namespace Prism.Ninject.Forms.Tests.Fixtures
 #elif Unity
 namespace Prism.Unity.Forms.Tests.Fixtures
 #endif

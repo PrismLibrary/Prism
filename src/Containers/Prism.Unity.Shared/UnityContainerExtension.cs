@@ -1,8 +1,10 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Prism.Ioc;
 using Prism.Ioc.Internals;
 using Unity;
+using Unity.Lifetime;
 using Unity.Resolution;
 
 namespace Prism.Unity
@@ -10,8 +12,10 @@ namespace Prism.Unity
     /// <summary>
     /// The Unity implementation of the <see cref="IContainerExtension" />
     /// </summary>
-    public class UnityContainerExtension : IContainerExtension<IUnityContainer>, IContainerInfo
+    public partial class UnityContainerExtension : IContainerExtension<IUnityContainer>, IContainerInfo
     {
+        private IUnityContainer _currentScope;
+
         /// <summary>
         /// The instance of the wrapped container
         /// </summary>
@@ -94,6 +98,58 @@ namespace Prism.Unity
         }
 
         /// <summary>
+        /// Registers a Singleton with the given service <see cref="Type" /> factory delegate method.
+        /// </summary>
+        /// <param name="type">The service <see cref="Type" /></param>
+        /// <param name="factoryMethod">The delegate method.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry RegisterSingleton(Type type, Func<object> factoryMethod)
+        {
+            Instance.RegisterFactory(type, _ => factoryMethod(), new ContainerControlledLifetimeManager());
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a Singleton with the given service <see cref="Type" /> factory delegate method.
+        /// </summary>
+        /// <param name="type">The service <see cref="Type" /></param>
+        /// <param name="factoryMethod">The delegate method using <see cref="IContainerProvider"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry RegisterSingleton(Type type, Func<IContainerProvider, object> factoryMethod)
+        {
+            Instance.RegisterFactory(type, c => factoryMethod(c.Resolve<IContainerProvider>()), new ContainerControlledLifetimeManager());
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a Singleton Service which implements service interfaces
+        /// </summary>
+        /// <param name="type">The implementation <see cref="Type" />.</param>
+        /// <param name="serviceTypes">The service <see cref="Type"/>'s.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        /// <remarks>Registers all interfaces if none are specified.</remarks>
+        public IContainerRegistry RegisterManySingleton(Type type, params Type[] serviceTypes)
+        {
+            Instance.RegisterSingleton(type);
+            return RegisterManyInternal(type, serviceTypes);
+        }
+
+        private IContainerRegistry RegisterManyInternal(Type implementingType, Type[] serviceTypes)
+        {
+            if (serviceTypes is null || serviceTypes.Length == 0)
+            {
+                serviceTypes = implementingType.GetInterfaces().Where(x => x != typeof(IDisposable)).ToArray();
+            }
+
+            foreach (var service in serviceTypes)
+            {
+                Instance.RegisterFactory(service, c => c.Resolve(implementingType));
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Registers a Transient with the given service and mapping to the specified implementation <see cref="Type" />.
         /// </summary>
         /// <param name="from">The service <see cref="Type" /></param>
@@ -119,14 +175,85 @@ namespace Prism.Unity
         }
 
         /// <summary>
+        /// Registers a Transient Service using a delegate method
+        /// </summary>
+        /// <param name="type">The service <see cref="Type" /></param>
+        /// <param name="factoryMethod">The delegate method.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry Register(Type type, Func<object> factoryMethod)
+        {
+            Instance.RegisterFactory(type, _ => factoryMethod());
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a Transient Service using a delegate method
+        /// </summary>
+        /// <param name="type">The service <see cref="Type" /></param>
+        /// <param name="factoryMethod">The delegate method using <see cref="IContainerProvider"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry Register(Type type, Func<IContainerProvider, object> factoryMethod)
+        {
+            Instance.RegisterFactory(type, c => factoryMethod(c.Resolve<IContainerProvider>()));
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a Transient Service which implements service interfaces
+        /// </summary>
+        /// <param name="type">The implementing <see cref="Type" />.</param>
+        /// <param name="serviceTypes">The service <see cref="Type"/>'s.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        /// <remarks>Registers all interfaces if none are specified.</remarks>
+        public IContainerRegistry RegisterMany(Type type, params Type[] serviceTypes)
+        {
+            Instance.RegisterType(type);
+            return RegisterManyInternal(type, serviceTypes);
+        }
+
+        /// <summary>
+        /// Registers a scoped service
+        /// </summary>
+        /// <param name="from">The service <see cref="Type" /></param>
+        /// <param name="to">The implementation <see cref="Type" /></param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry RegisterScoped(Type from, Type to)
+        {
+            Instance.RegisterType(from, to, new HierarchicalLifetimeManager());
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a scoped service using a delegate method.
+        /// </summary>
+        /// <param name="type">The service <see cref="Type" /></param>
+        /// <param name="factoryMethod">The delegate method.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry RegisterScoped(Type type, Func<object> factoryMethod)
+        {
+            Instance.RegisterFactory(type, c => factoryMethod(), new HierarchicalLifetimeManager());
+            return this;
+        }
+
+        /// <summary>
+        /// Registers a scoped service using a delegate method.
+        /// </summary>
+        /// <param name="type">The service <see cref="Type"/>.</param>
+        /// <param name="factoryMethod">The delegate method.</param>
+        /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
+        public IContainerRegistry RegisterScoped(Type type, Func<IContainerProvider, object> factoryMethod)
+        {
+            Instance.RegisterFactory(type, c => factoryMethod(c.Resolve<IContainerProvider>()), new HierarchicalLifetimeManager());
+            return this;
+        }
+
+        /// <summary>
         /// Resolves a given <see cref="Type"/>
         /// </summary>
         /// <param name="type">The service <see cref="Type"/></param>
         /// <returns>The resolved Service <see cref="Type"/></returns>
-        public object Resolve(Type type)
-        {
-            return Instance.Resolve(type);
-        }
+        public object Resolve(Type type) =>
+            Resolve(type, Array.Empty<(Type, object)>());
 
         /// <summary>
         /// Resolves a given <see cref="Type"/>
@@ -134,10 +261,8 @@ namespace Prism.Unity
         /// <param name="type">The service <see cref="Type"/></param>
         /// <param name="name">The service name/key used when registering the <see cref="Type"/></param>
         /// <returns>The resolved Service <see cref="Type"/></returns>
-        public object Resolve(Type type, string name)
-        {
-            return Instance.Resolve(type, name);
-        }
+        public object Resolve(Type type, string name) =>
+            Resolve(type, name, Array.Empty<(Type, object)>());
 
         /// <summary>
         /// Resolves a given <see cref="Type"/>
@@ -147,8 +272,16 @@ namespace Prism.Unity
         /// <returns>The resolved Service <see cref="Type"/></returns>
         public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
         {
-            var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
-            return Instance.Resolve(type, overrides);
+            try
+            {
+                var c = _currentScope ?? Instance;
+                var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+                return c.Resolve(type, overrides);
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, ex);
+            }
         }
 
         /// <summary>
@@ -160,8 +293,21 @@ namespace Prism.Unity
         /// <returns>The resolved Service <see cref="Type"/></returns>
         public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
         {
-            var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
-            return Instance.Resolve(type, name, overrides);
+            try
+            {
+                var c = _currentScope ?? Instance;
+
+                // Unit will simply return a new object() for unregistered Views
+                if (!c.IsRegistered(type, name))
+                    throw new KeyNotFoundException($"No registered type {type.Name} with the key {name}.");
+
+                var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+                return c.Resolve(type, name, overrides);
+            }
+            catch (Exception ex)
+            {
+                throw new ContainerResolutionException(type, name, ex);
+            }
         }
 
         /// <summary>
@@ -195,6 +341,38 @@ namespace Prism.Unity
             }
 
             return matchingRegistration?.MappedToType;
+        }
+
+        Type IContainerInfo.GetRegistrationType(Type serviceType)
+        {
+            var matchingRegistration = Instance.Registrations.Where(x => x.RegisteredType == serviceType).FirstOrDefault();
+            return matchingRegistration?.MappedToType;
+        }
+
+        /// <summary>
+        /// Creates a new Scope
+        /// </summary>
+        public virtual void CreateScope() =>
+            CreateScopeInternal();
+
+        /// <summary>
+        /// Creates a new Scope and provides the updated ServiceProvider
+        /// </summary>
+        /// <returns>A child <see cref="IUnityContainer" />.</returns>
+        /// <remarks>
+        /// This should be called by custom implementations that Implement IServiceScopeFactory
+        /// </remarks>
+        protected IUnityContainer CreateScopeInternal()
+        {
+            if (_currentScope != null)
+            {
+                _currentScope.Dispose();
+                _currentScope = null;
+                GC.Collect();
+            }
+
+            _currentScope = Instance.CreateChildContainer();
+            return _currentScope;
         }
     }
 }
