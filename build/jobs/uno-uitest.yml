@@ -28,6 +28,7 @@ jobs:
       testRunTitle: 'WebAssembly Test Run'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml'
+      failTaskOnFailedTests: true
 
   - task: PublishBuildArtifacts@1
     condition: always()
@@ -64,6 +65,7 @@ jobs:
       testRunTitle: 'Android Test Run'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml'
+      failTaskOnFailedTests: false # Android tests may randomly fail because of the System UI not responding. https://github.com/PrismLibrary/Prism/issues/2099
 
   - task: PublishBuildArtifacts@1
     condition: always()
@@ -99,6 +101,7 @@ jobs:
       testRunTitle: 'iOS Test Run'
       testResultsFormat: 'NUnit'
       testResultsFiles: '$(build.sourcesdirectory)/build/TestResult.xml'
+      failTaskOnFailedTests: true
 
   - task: PublishBuildArtifacts@1
     condition: always()

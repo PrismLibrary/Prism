@@ -26,4 +26,4 @@ mono $BUILD_SOURCESDIRECTORY/build/NUnit.ConsoleRunner.3.10.0/tools/nunit3-conso
 --inprocess \
 --agents=1 \
 --workers=1 \
-$BUILD_SOURCESDIRECTORY/e2e/Uno/HelloUnoWorld.UITests/bin/Release/net47/HelloUnoWorld.UITests.dll
+$BUILD_SOURCESDIRECTORY/e2e/Uno/HelloUnoWorld.UITests/bin/Release/net47/HelloUnoWorld.UITests.dll || true
