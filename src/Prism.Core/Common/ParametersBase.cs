@@ -102,9 +102,9 @@ namespace Prism.Common
             _entries.Select(x => x.Key);
 
         /// <summary>
-        /// Adds the key and value to the KeyValuePair<string,object> collection
+        /// Adds the key and value to the parameters collection
         /// </summary>
-        /// <param name="key">The key to reference this value in the KeyValuePair<string, object></param>
+        /// <param name="key">The key to reference this value in the parameters collection</param>
         /// <param name="value">The value of the parameter to store</param>
         public void Add(string key, object value) =>
             _entries.Add(new KeyValuePair<string, object>(key, value));
@@ -129,7 +129,7 @@ namespace Prism.Common
         /// </summary>
         /// <typeparam name="T">The type of object to be returned</typeparam>
         /// <param name="key">The key for the value to be returned</param>
-        /// <returns>Returns a matching parameter of <see cref="T" /> if one exists in the Collection</returns>
+        /// <returns>Returns a matching parameter of <typeparamref name="T"/> if one exists in the Collection</returns>
         public T GetValue<T>(string key) => 
             _entries.GetValue<T>(key);
 
@@ -138,7 +138,7 @@ namespace Prism.Common
         /// </summary>
         /// <typeparam name="T">The type for the values to be returned</typeparam>
         /// <param name="key">The key for the values to be returned</param>
-        ///<returns>Returns a IEnumberable of all the instances of type <see cref="T"/></returns>
+        ///<returns>Returns a IEnumberable of all the instances of type <typeparamref name="T"/></returns>
         public IEnumerable<T> GetValues<T>(string key) =>
             _entries.GetValues<T>(key);
 

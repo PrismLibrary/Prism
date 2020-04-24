@@ -12,14 +12,21 @@ namespace Prism.Mvvm
     public class ErrorsContainer<T>
     {
         private static readonly T[] noErrors = new T[0];
+
+        /// <summary>
+        /// Delegate to be called when raiseErrorsChanged is invoked
+        /// </summary>
         protected readonly Action<string> raiseErrorsChanged;
+
+        /// <summary>
+        /// <see cref="Dictionary{string, List{T}}" /> of the errors and sources
+        /// </summary>
         protected readonly Dictionary<string, List<T>> validationResults;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorsContainer{T}"/> class.
         /// </summary>
-        /// <param name="raiseErrorsChanged">The action that invoked if when errors are added for an object./>
-        /// event.</param>
+        /// <param name="raiseErrorsChanged">The action that is invoked when errors are added for an object/>
         public ErrorsContainer(Action<string> raiseErrorsChanged)
         {
             if (raiseErrorsChanged == null)
