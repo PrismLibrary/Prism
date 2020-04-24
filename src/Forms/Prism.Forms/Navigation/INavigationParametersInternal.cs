@@ -1,21 +1,21 @@
 ﻿namespace Prism.Navigation
 {
     /// <summary>
-    /// Internal - Provides a way for the <see cref="INavigationService"/> to pass parameteres during navigation.
+    /// Used to set internal parameters used by Prism's <see cref="INavigationService"/>
     /// </summary>
     public interface INavigationParametersInternal
     {
         /// <summary>
-        /// Adds the key and value to the KeyValuePair<string,object> collection
+        /// Adds the key and value to the parameters Collection
         /// </summary>
-        /// <param name="key">The key to reference this value in the KeyValuePair<string, object></param>
+        /// <param name="key">The key to reference this value in the parameters collection.</param>
         /// <param name="value">The value of the parameter to store</param>
         void Add(string key, object value);
 
         /// <summary>
         /// Checks collection for presense of key
         /// </summary>
-        /// <param name="key">The key to check in the collection</param>
+        /// <param name="key">The key to check in the Collection</param>
         /// <returns><c>true</c> if key exists; else returns <c>false</c>.</returns>
         bool ContainsKey(string key);
 
