@@ -14,204 +14,205 @@ using Xunit;
 
 namespace Prism.Wpf.Tests
 {
-    public class PrismBootstapperSetup : IDisposable
+    public class PrismApplicationSetup : IDisposable
     {
-        public PrismBootstrapper Bootstrapper { get; set; }
+        public PrismApplication Application { get; set; }
 
-        public PrismBootstapperSetup()
+        public PrismApplicationSetup()
         {
             ContainerLocator.ResetContainer();
-            Bootstrapper = new PrismBootstrapper();
-            Bootstrapper.Run();
+            Application = new PrismApplication();
+            Application.CallOnStartup();
         }
 
         public void Dispose()
         {
             ContainerLocator.ResetContainer();
+            Application.Shutdown();
         }
     }
 
-    public class PrismBootstapperBaseFixture : IClassFixture<PrismBootstapperSetup>
+    public class PrismApplicationBaseFixture : IClassFixture<PrismApplicationSetup>
     {
-        PrismBootstrapper bootstrapper = null;
+        PrismApplication application = null;
 
-        public PrismBootstapperBaseFixture(PrismBootstapperSetup setup)
+        public PrismApplicationBaseFixture(PrismApplicationSetup setup)
         {
-            bootstrapper = setup.Bootstrapper;
+            application = setup.Application;
         }
 
         [Fact]
-        public void BootstrapperShouldCallConfigureViewModelLocator()
+        public void applicationShouldCallConfigureViewModelLocator()
         {
-            Assert.True(bootstrapper.ConfigureViewModelLocatorWasCalled);
+            Assert.True(application.ConfigureViewModelLocatorWasCalled);
         }
 
         [Fact]
-        public void BootstrapperShouldCallInitialize()
+        public void applicationShouldCallInitialize()
         {
-            Assert.True(bootstrapper.InitializeCalled);
+            Assert.True(application.InitializeCalled);
         }
 
         [Fact]
-        public void BootstrapperShouldCallCreateContainerExtension()
+        public void applicationShouldCallCreateContainerExtension()
         {
-            Assert.True(bootstrapper.CreateContainerExtensionCalled);
+            Assert.True(application.CreateContainerExtensionCalled);
         }
 
         [Fact]
-        public void BootstrapperShouldCallCreateModuleCatalog()
+        public void applicationShouldCallCreateModuleCatalog()
         {
-            Assert.True(bootstrapper.CreateModuleCatalogCalled);
+            Assert.True(application.CreateModuleCatalogCalled);
         }
 
         [Fact]
-        public void BootstrapperShouldCallRegisterRequiredTypes()
+        public void applicationShouldCallRegisterRequiredTypes()
         {
-            Assert.True(bootstrapper.RegisterRequiredTypesCalled);
+            Assert.True(application.RegisterRequiredTypesCalled);
         }
 
         [Fact]
-        public void BootstrapperShouldCallRegisterTypes()
+        public void applicationShouldCallRegisterTypes()
         {
-            Assert.True(bootstrapper.RegisterTypesWasCalled);
+            Assert.True(application.RegisterTypesWasCalled);
         }
 
         [Fact]
-        public void BootstrapperShouldCallConfigureDefaultRegionBehaviors()
+        public void applicationShouldCallConfigureDefaultRegionBehaviors()
         {
-            Assert.True(bootstrapper.ConfigureDefaultRegionBehaviorsCalled);
+            Assert.True(application.ConfigureDefaultRegionBehaviorsCalled);
         }
 
         [Fact]
-        public void BootstrapperShouldCallConfigureRegionAdapterMappings()
+        public void applicationShouldCallConfigureRegionAdapterMappings()
         {
-            Assert.True(bootstrapper.ConfigureRegionAdapterMappingsCalled);
+            Assert.True(application.ConfigureRegionAdapterMappingsCalled);
         }
 
         [Fact]
-        public void BootstrapperShouldCallRegisterFrameworkExceptionTypes()
+        public void applicationShouldCallRegisterFrameworkExceptionTypes()
         {
-            Assert.True(bootstrapper.RegisterFrameworkExceptionTypesCalled);
+            Assert.True(application.RegisterFrameworkExceptionTypesCalled);
         }
 
         [Fact]
-        public void BootstrapperShouldCallCreateShell()
+        public void applicationShouldCallCreateShell()
         {
-            Assert.True(bootstrapper.CreateShellWasCalled);
+            Assert.True(application.CreateShellWasCalled);
         }
 
         [Fact]
-        public void BootstrapperShouldCallInitializeShell()
+        public void applicationShouldCallInitializeShell()
         {
-            //in our mock Shell is null, so this INitializeShell should not be called by the bootstrapper
-            Assert.False(bootstrapper.InitializeShellWasCalled);
+            //in our mock Shell is null, so this INitializeShell should not be called by the application
+            Assert.False(application.InitializeShellWasCalled);
         }
 
         [Fact]
-        public void BootstrapperShouldCallOnInitialized()
+        public void applicationShouldCallOnInitialized()
         {
-            Assert.True(bootstrapper.OnInitializedWasCalled);
+            Assert.True(application.OnInitializedWasCalled);
         }
 
         [Fact]
-        public void BootstrapperShouldCallConfigureModuleCatalog()
+        public void applicationShouldCallConfigureModuleCatalog()
         {
-            Assert.True(bootstrapper.ConfigureModuleCatalogCalled);
+            Assert.True(application.ConfigureModuleCatalogCalled);
         }
 
         [Fact]
-        public void BootstrapperShouldCallInitializeModules()
+        public void applicationShouldCallInitializeModules()
         {
-            Assert.True(bootstrapper.InitializeModulesCalled);
+            Assert.True(application.InitializeModulesCalled);
         }
 
         [Fact]
         public void CreateModuleCatalogShouldReturnDefaultModuleCatalog()
         {
-            Assert.NotNull(bootstrapper.DefaultModuleCatalog);
+            Assert.NotNull(application.DefaultModuleCatalog);
         }
 
         [Fact]
         public void ConfigureRegionAdapterMappingsShouldRegisterItemsControlMapping()
         {
-            Assert.NotNull(bootstrapper.DefaultRegionAdapterMappings);
-            Assert.NotNull(bootstrapper.DefaultRegionAdapterMappings.GetMapping(typeof(ItemsControl)));
+            Assert.NotNull(application.DefaultRegionAdapterMappings);
+            Assert.NotNull(application.DefaultRegionAdapterMappings.GetMapping(typeof(ItemsControl)));
         }
 
         [Fact]
         public void ConfigureRegionAdapterMappingsShouldRegisterSelectorMapping()
         {
-            Assert.NotNull(bootstrapper.DefaultRegionAdapterMappings);
-            Assert.NotNull(bootstrapper.DefaultRegionAdapterMappings.GetMapping(typeof(Selector)));
+            Assert.NotNull(application.DefaultRegionAdapterMappings);
+            Assert.NotNull(application.DefaultRegionAdapterMappings.GetMapping(typeof(Selector)));
         }
 
         [Fact]
         public void ConfigureRegionAdapterMappingsShouldRegisterContentControlMapping()
         {
-            Assert.NotNull(bootstrapper.DefaultRegionAdapterMappings);
-            Assert.NotNull(bootstrapper.DefaultRegionAdapterMappings.GetMapping(typeof(ContentControl)));
+            Assert.NotNull(application.DefaultRegionAdapterMappings);
+            Assert.NotNull(application.DefaultRegionAdapterMappings.GetMapping(typeof(ContentControl)));
         }
 
         [Fact]
         public void ConfigureDefaultRegionBehaviorsShouldAddAutoPopulateRegionBehavior()
         {
-            Assert.True(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(AutoPopulateRegionBehavior.BehaviorKey));
+            Assert.True(application.DefaultRegionBehaviorTypes.ContainsKey(AutoPopulateRegionBehavior.BehaviorKey));
         }
 
         [Fact]
         public void ConfigureDefaultRegionBehaviorsShouldBindRegionContextToDependencyObjectBehavior()
         {
-            Assert.True(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(BindRegionContextToDependencyObjectBehavior.BehaviorKey));
+            Assert.True(application.DefaultRegionBehaviorTypes.ContainsKey(BindRegionContextToDependencyObjectBehavior.BehaviorKey));
         }
 
         [Fact]
         public void ConfigureDefaultRegionBehaviorsShouldAddRegionActiveAwareBehavior()
         {
-            Assert.True(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(RegionActiveAwareBehavior.BehaviorKey));
+            Assert.True(application.DefaultRegionBehaviorTypes.ContainsKey(RegionActiveAwareBehavior.BehaviorKey));
         }
 
         [Fact]
         public void ConfigureDefaultRegionBehaviorsShouldAddSyncRegionContextWithHostBehavior()
         {
-            Assert.True(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(SyncRegionContextWithHostBehavior.BehaviorKey));
+            Assert.True(application.DefaultRegionBehaviorTypes.ContainsKey(SyncRegionContextWithHostBehavior.BehaviorKey));
         }
 
         [Fact]
         public void ConfigureDefaultRegionBehaviorsShouldAddRegionManagerRegistrationBehavior()
         {
-            Assert.True(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(RegionManagerRegistrationBehavior.BehaviorKey));
+            Assert.True(application.DefaultRegionBehaviorTypes.ContainsKey(RegionManagerRegistrationBehavior.BehaviorKey));
         }
 
         [Fact]
         public void ConfigureDefaultRegionBehaviorsShouldAddRegionLifetimeBehavior()
         {
-            Assert.True(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(RegionMemberLifetimeBehavior.BehaviorKey));
+            Assert.True(application.DefaultRegionBehaviorTypes.ContainsKey(RegionMemberLifetimeBehavior.BehaviorKey));
         }
 
         [Fact]
         public void RequiredTypesAreRegistered()
         {
-            bootstrapper.MockContainer.Verify(x => x.RegisterInstance(typeof(IModuleCatalog), It.IsAny<IModuleCatalog>()), Times.Once);
-
-            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(ILoggerFacade), It.IsAny<Type>()), Times.Once);
-            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IDialogService), typeof(DialogService)), Times.Once);
-            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IModuleInitializer), typeof(ModuleInitializer)), Times.Once);
-            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IModuleManager), typeof(ModuleManager)), Times.Once);
-            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(RegionAdapterMappings), typeof(RegionAdapterMappings)), Times.Once);
-            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionManager), typeof(RegionManager)), Times.Once);
-            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionNavigationContentLoader), typeof(RegionNavigationContentLoader)), Times.Once);
-            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IEventAggregator), typeof(EventAggregator)), Times.Once);
-            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionViewRegistry), typeof(RegionViewRegistry)), Times.Once);
-            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionBehaviorFactory), typeof(RegionBehaviorFactory)), Times.Once);
-
-            bootstrapper.MockContainer.Verify(x => x.Register(typeof(IRegionNavigationJournalEntry), typeof(RegionNavigationJournalEntry)), Times.Once);
-            bootstrapper.MockContainer.Verify(x => x.Register(typeof(IRegionNavigationJournal), typeof(RegionNavigationJournal)), Times.Once);
-            bootstrapper.MockContainer.Verify(x => x.Register(typeof(IRegionNavigationService), typeof(RegionNavigationService)), Times.Once);
-            bootstrapper.MockContainer.Verify(x => x.Register(typeof(IDialogWindow), typeof(DialogWindow)), Times.Once);
+            application.MockContainer.Verify(x => x.RegisterInstance(typeof(IModuleCatalog), It.IsAny<IModuleCatalog>()), Times.Once);
+            
+            application.MockContainer.Verify(x => x.RegisterSingleton(typeof(ILoggerFacade), It.IsAny<Type>()), Times.Once);
+            application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IDialogService), typeof(DialogService)), Times.Once);
+            application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IModuleInitializer), typeof(ModuleInitializer)), Times.Once);
+            application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IModuleManager), typeof(ModuleManager)), Times.Once);
+            application.MockContainer.Verify(x => x.RegisterSingleton(typeof(RegionAdapterMappings), typeof(RegionAdapterMappings)), Times.Once);
+            application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionManager), typeof(RegionManager)), Times.Once);
+            application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionNavigationContentLoader), typeof(RegionNavigationContentLoader)), Times.Once);
+            application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IEventAggregator), typeof(EventAggregator)), Times.Once);
+            application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionViewRegistry), typeof(RegionViewRegistry)), Times.Once);
+            application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionBehaviorFactory), typeof(RegionBehaviorFactory)), Times.Once);
+            
+            application.MockContainer.Verify(x => x.Register(typeof(IRegionNavigationJournalEntry), typeof(RegionNavigationJournalEntry)), Times.Once);
+            application.MockContainer.Verify(x => x.Register(typeof(IRegionNavigationJournal), typeof(RegionNavigationJournal)), Times.Once);
+            application.MockContainer.Verify(x => x.Register(typeof(IRegionNavigationService), typeof(RegionNavigationService)), Times.Once);
+            application.MockContainer.Verify(x => x.Register(typeof(IDialogWindow), typeof(DialogWindow)), Times.Once);
         }
     }
 
-    public class PrismBootstrapper : PrismBootstrapperBase
+    public class PrismApplication : PrismApplicationBase
     {
         public Mock<IContainerExtension> MockContainer { get; private set; }
 
@@ -235,6 +236,11 @@ namespace Prism.Wpf.Tests
         public bool CreateModuleCatalogCalled { get; internal set; }
         public bool CreateContainerExtensionCalled { get; internal set; }
         public bool InitializeCalled { get; internal set; }
+
+        public void CallOnStartup()
+        {
+            base.OnStartup(null);
+        }
 
         protected override void Initialize()
         {
