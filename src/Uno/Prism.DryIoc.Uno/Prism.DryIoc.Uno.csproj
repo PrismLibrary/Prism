@@ -3,9 +3,15 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;xamarinios10;monoandroid90;xamarinmac20</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
-    <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <DefineConstants>$(DefineConstants);HAS_WINUI</DefineConstants>
     <NoWarn>$(NoWarn);1591</NoWarn>
+    
+    <!-- 
+    Library layout generation is disabled as this project does not have any XAML files, and 
+    that if set to true, there is a nuget issue where Uno.Prism PRI resource get incorrectly
+    propagated to their dependents.
+    -->
+    <GenerateLibraryLayout>false</GenerateLibraryLayout>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
