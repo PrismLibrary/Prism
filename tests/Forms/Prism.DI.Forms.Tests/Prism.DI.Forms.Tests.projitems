@@ -13,9 +13,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerProviderFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\FixtureBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerResolutionExceptionFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Navigation\XamlNavigationFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PartialViewFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PrismApplicationFixture.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\XamlNavigationFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Converters\MockValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Events\TestActionEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Internals\FormsLogObserver.cs" />
@@ -77,8 +77,5 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Fixtures\Navigation\" />
   </ItemGroup>
 </Project>
