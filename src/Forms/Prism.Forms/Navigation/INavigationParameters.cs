@@ -2,6 +2,9 @@
 
 namespace Prism.Navigation
 {
+    /// <summary>
+    /// Provides a way for the <see cref="INavigationService"/> to pass parameteres during navigation.
+    /// </summary>
     public interface INavigationParameters : IEnumerable<KeyValuePair<string, object>>
     {
         void Add(string key, object value);
