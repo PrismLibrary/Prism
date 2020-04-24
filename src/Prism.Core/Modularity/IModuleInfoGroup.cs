@@ -5,7 +5,7 @@ namespace Prism.Modularity
 {
     // IList must be supported in Silverlight 2 to be able to add items from XAML
     /// <summary>
-    /// A collection of <see cref="ModuleInfo"/> for the Modules used by the application
+    /// A collection of <see cref="IModuleInfo"/> for the Modules used by the application
     /// </summary>
     public interface IModuleInfoGroup : IModuleCatalogItem, IList<IModuleInfo>, IList
     {

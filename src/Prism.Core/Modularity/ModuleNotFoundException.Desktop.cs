@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace Prism.Modularity
 {
     /// <summary>
-    /// Exception thrown when a requested <see cref="ModuleInfo"/> is not found.
+    /// Exception thrown when a requested <see cref="IModuleInfo"/> is not found.
     /// </summary>
     [Serializable]
     public partial class ModuleNotFoundException

@@ -54,9 +54,7 @@
         /// </summary>
         /// <remarks>Primarily used to replace async void scenarios such as ctor's and ICommands.</remarks>
         /// <param name="task">The task to be awaited</param>
-        /// <param name="completedCallback">The action to perform when the task is complete.</param>
         /// <param name="errorCallback">The action to perform when an error occurs executing the task.</param>
-        /// <param name="configureAwait">Configures an awaiter used to await this task</param>
         public static void Await(this Task task, Action<Exception> errorCallback)
         {
             task.Await(null, errorCallback, false);
@@ -81,6 +79,6 @@
             {
                 errorCallback?.Invoke(ex);
             }
-        }       
+        }
     }
 }

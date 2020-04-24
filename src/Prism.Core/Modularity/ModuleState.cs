@@ -3,20 +3,22 @@
 namespace Prism.Modularity
 {
     /// <summary>
-    /// Defines the states a <see cref="ModuleInfo"/> can be in, with regards to the module loading and initialization process. 
+    /// Defines the states a <see cref="IModuleInfo"/> can be in, with regards to the module loading and initialization process. 
     /// </summary>
     public enum ModuleState
     {
         /// <summary>
-        /// Initial state for <see cref="ModuleInfo"/>s. The <see cref="ModuleInfo"/> is defined, 
-        /// but it has not been loaded, retrieved or initialized yet. 
+        /// Initial state for <see cref="IModuleInfo"/>s. The <see cref="IModuleInfo"/> is defined, 
+        /// but it has not been loaded, retrieved or initialized yet.
         /// </summary>
         NotStarted,
 
         /// <summary>
-        /// The assembly that contains the type of the module is currently being loaded by an instance of a
-        /// <see cref="IModuleTypeLoader"/>. 
+        /// The assembly that contains the type of the module is currently being loaded.
         /// </summary>
+        /// <remarks>
+        /// Used in Wpf to load a module dynamically
+        /// </remarks>
         LoadingTypes,
 
         /// <summary>

@@ -47,7 +47,7 @@ namespace Prism.Services
         /// </summary>
         /// <para>
         /// The text displayed in the action sheet will be the value for <see cref="IActionSheetButton.Text"/> and when pressed
-        /// the <see cref="IActionSheetButton.Command"/> will be executed.
+        /// the callback action will be executed.
         /// </para>
         /// <param name="title">Text to display in action sheet</param>
         /// <param name="buttons">Buttons displayed in action sheet</param>
