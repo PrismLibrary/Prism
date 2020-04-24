@@ -1,9 +1,12 @@
 ﻿using Moq;
+using Prism.Events;
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
+using Prism.Services.Dialogs;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -168,6 +171,28 @@ namespace Prism.Wpf.Tests
         public void ConfigureDefaultRegionBehaviorsShouldAddRegionLifetimeBehavior()
         {
             Assert.True(bootstrapper.DefaultRegionBehaviorTypes.ContainsKey(RegionMemberLifetimeBehavior.BehaviorKey));
+        }
+
+        [Fact]
+        public void RequiredTypesAreRegistered()
+        {
+            bootstrapper.MockContainer.Verify(x => x.RegisterInstance(typeof(IModuleCatalog), It.IsAny<IModuleCatalog>()), Times.Once);
+
+            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(ILoggerFacade), It.IsAny<Type>()), Times.Once);
+            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IDialogService), typeof(DialogService)), Times.Once);
+            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IModuleInitializer), typeof(ModuleInitializer)), Times.Once);
+            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IModuleManager), typeof(ModuleManager)), Times.Once);
+            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(RegionAdapterMappings), typeof(RegionAdapterMappings)), Times.Once);
+            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionManager), typeof(RegionManager)), Times.Once);
+            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionNavigationContentLoader), typeof(RegionNavigationContentLoader)), Times.Once);
+            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IEventAggregator), typeof(EventAggregator)), Times.Once);
+            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionViewRegistry), typeof(RegionViewRegistry)), Times.Once);
+            bootstrapper.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionBehaviorFactory), typeof(RegionBehaviorFactory)), Times.Once);
+
+            bootstrapper.MockContainer.Verify(x => x.Register(typeof(IRegionNavigationJournalEntry), typeof(RegionNavigationJournalEntry)), Times.Once);
+            bootstrapper.MockContainer.Verify(x => x.Register(typeof(IRegionNavigationJournal), typeof(RegionNavigationJournal)), Times.Once);
+            bootstrapper.MockContainer.Verify(x => x.Register(typeof(IRegionNavigationService), typeof(RegionNavigationService)), Times.Once);
+            bootstrapper.MockContainer.Verify(x => x.Register(typeof(IDialogWindow), typeof(DialogWindow)), Times.Once);
         }
     }
 
