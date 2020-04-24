@@ -17,14 +17,11 @@ namespace Prism.DryIoc
         /// Gets the Default DryIoc Container Rules used by Prism
         /// </summary>
         public static Rules DefaultRules => Rules.Default.WithAutoConcreteTypeResolution()
-                                                                       .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
-#if HAS_WINUI || __IOS__
-                                                                       .WithoutFastExpressionCompiler()
-#endif
-#if HAS_WINUI
-                                                                       .WithTrackingDisposableTransients()
-#endif
-                                                                       .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
+                                                         .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
+                                                         .WithFuncAndLazyWithoutRegistration()
+                                                         .WithTrackingDisposableTransients()
+                                                         .WithoutFastExpressionCompiler()
+                                                         .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
 
         /// <summary>
         /// The instance of the wrapped container

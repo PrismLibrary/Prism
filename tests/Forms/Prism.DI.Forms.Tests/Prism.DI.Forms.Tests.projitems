@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConcreteTypeMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerExtensionTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerProviderFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\FixtureBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerResolutionExceptionFixture.cs" />
@@ -27,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\PrismApplicationMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\PrismApplicationMockPlatformAware.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\PrismApplicationModulesMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\AggregateService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\IServiceMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\ServiceMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\AutowireViewModel.cs" />
