@@ -1,5 +1,6 @@
 ﻿using Prism.AppModel;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Prism.Services
@@ -29,6 +30,12 @@ namespace Prism.Services
         /// </summary>
         /// <param name="action">The Action to invoke</param>
         void BeginInvokeOnMainThread(Action action);
+        
+        /// <summary>
+        /// Invokes an action (which can be awaited) on the device main UI thread.
+        /// </summary>
+        /// <param name="action">The Action to invoke</param>
+        Task BeginInvokeOnMainThreadAsync(Action action);
 
         /// <summary>
         /// Starts a recurring timer using the Device clock capabilities.

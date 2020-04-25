@@ -1,5 +1,6 @@
 ﻿using Prism.AppModel;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Prism.Services
@@ -64,6 +65,30 @@ namespace Prism.Services
         public void BeginInvokeOnMainThread(Action action)
         {
             Device.BeginInvokeOnMainThread(action);
+        }
+
+        /// <summary>
+        /// Invokes an action (which can be awaited) on the device main UI thread.
+        /// </summary>
+        /// <param name="action">The Action to invoke</param>
+        public Task BeginInvokeOnMainThreadAsync(Action action)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    action();
+                    tcs.TrySetResult(true);
+                }
+                catch (Exception ex)
+                {
+                    tcs.TrySetException(ex);
+                }
+            });
+            
+            return tcs.Task;
         }
 
         /// <summary>
