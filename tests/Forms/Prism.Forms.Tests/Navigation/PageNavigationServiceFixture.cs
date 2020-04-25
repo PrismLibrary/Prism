@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using Prism.Common;
 using Prism.Forms.Tests.Mocks;
 using Prism.Forms.Tests.Mocks.ViewModels;
@@ -9,6 +6,10 @@ using Prism.Forms.Tests.Mocks.Views;
 using Prism.Forms.Tests.Navigation.Mocks.Views;
 using Prism.Ioc;
 using Prism.Navigation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;
 
@@ -412,13 +413,13 @@ namespace Prism.Forms.Tests.Navigation
             Assert.True(viewModel.OnConfirmNavigationCalled);
             Assert.True(rootPage.Navigation.ModalStack.Count == 0);
         }
-
+        
         [Fact]
         public async void GoBack_ViewModelWithIConfirmNavigationFalse_ResultException()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
-            var rootPage = new ContentPage() { BindingContext = new ContentPageMockViewModel() };
-            ((IPageAware)navigationService).Page = rootPage;
+            var rootPage = new ContentPage() {BindingContext = new ContentPageMockViewModel()};
+            ((IPageAware) navigationService).Page = rootPage;
 
             var viewModel = rootPage.BindingContext as ContentPageMockViewModel;
 
@@ -433,13 +434,13 @@ namespace Prism.Forms.Tests.Navigation
             Assert.False(navigationResult.Success);
             Assert.Equal(NavigationException.IConfirmNavigationReturnedFalse, navigationResult.Exception.Message);
         }
-
+        
         [Fact]
         public async void GoBackToRoot_ViewModelWithIConfirmNavigationFalse_ResultException()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
-            var rootPage = new ContentPage() { BindingContext = new ContentPageMockViewModel() };
-            ((IPageAware)navigationService).Page = rootPage;
+            var rootPage = new ContentPage() {BindingContext = new ContentPageMockViewModel()};
+            ((IPageAware) navigationService).Page = rootPage;
 
             var viewModel = rootPage.BindingContext as ContentPageMockViewModel;
 
@@ -454,13 +455,13 @@ namespace Prism.Forms.Tests.Navigation
             Assert.False(navigationResult.Success);
             Assert.Equal(NavigationException.IConfirmNavigationReturnedFalse, navigationResult.Exception.Message);
         }
-
+        
         [Fact]
         public async void NavigateAsync_ViewModelWithIConfirmNavigationFalse_ResultException()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
-            var rootPage = new ContentPage() { BindingContext = new ContentPageMockViewModel() };
-            ((IPageAware)navigationService).Page = rootPage;
+            var rootPage = new ContentPage() {BindingContext = new ContentPageMockViewModel()};
+            ((IPageAware) navigationService).Page = rootPage;
 
             var viewModel = rootPage.BindingContext as ContentPageMockViewModel;
 
@@ -1633,7 +1634,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<PageMock>(navPage.CurrentPage);
 
             var contentPage = tabbedPage.Navigation.NavigationStack[1] as ContentPageMock;
-            Assert.NotNull(contentPage);
+            Assert.NotNull(contentPage);            
         }
 
         [Fact]
@@ -1685,7 +1686,7 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.True(rootPage.Detail.Navigation.NavigationStack.Count == 2);
 
-            Assert.IsType<TabbedPageMock>(rootPage.Detail.Navigation.NavigationStack[0]);
+            Assert.IsType<TabbedPageMock>(rootPage.Detail.Navigation.NavigationStack[0]);            
             Assert.IsType<Tab2Mock>(((TabbedPageMock)rootPage.Detail.Navigation.NavigationStack[0]).CurrentPage);
 
             Assert.IsType<ContentPageMock>(rootPage.Detail.Navigation.NavigationStack[1]);
@@ -1764,7 +1765,7 @@ namespace Prism.Forms.Tests.Navigation
             var navPage = tabbedPage.Children[1] as NavigationPageMock;
             Assert.IsType<NavigationPageMock>(navPage);
             Assert.IsType<Tab2Mock>(navPage.CurrentPage);
-
+            
             Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
         }
 
@@ -1787,6 +1788,35 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<NavigationPageMock>(navPage);
             Assert.IsType<SecondContentPageMock>(navPage.CurrentPage);
             
+            Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_CreateTabs_WithNavigationPage_SelectTab_ToContentPage_WithNavigationParam()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage-Empty?{KnownNavigationParameters.CreateTab}=Tab1&{KnownNavigationParameters.CreateTab}=NavigationPage|Tab2&{KnownNavigationParameters.CreateTab}=Tab3&{KnownNavigationParameters.SelectedTab}=Tab2|SecondContentPage?Param=1");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageEmptyMock;
+            Assert.NotNull(tabbedPage);
+            Assert.Equal(3, tabbedPage.Children.Count());
+
+            Assert.IsType<Tab1Mock>(tabbedPage.Children[0]);
+
+            var navPage = tabbedPage.Children[1] as NavigationPageMock;
+            Assert.IsType<NavigationPageMock>(navPage);
+            Assert.IsType<SecondContentPageMock>(navPage.CurrentPage);
+
+            var secondContentPage = navPage.CurrentPage as SecondContentPageMock;
+            var lastNavigationAwareRecord = secondContentPage.PageNavigationEventRecorder.Records.First(r => 
+                r.Event == PageNavigationEvent.OnNavigatedTo);
+            var navigationParameters = lastNavigationAwareRecord.NavigationParameters;
+            var actualNavigationParam = navigationParameters.First();
+            Assert.Equal(new KeyValuePair<string, object>("Param", 1.ToString()), actualNavigationParam);
+
             Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
         }
 

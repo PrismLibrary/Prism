@@ -34,25 +34,25 @@ namespace Prism.Forms.Tests.Mocks.Views
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
             OnNavigatedFromCalled = true;
-            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedFrom);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedFrom, parameters);
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
             OnNavigatedToCalled = true;
-            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnNavigatedTo, parameters);
         }
 
         public void Initialize(INavigationParameters parameters)
         {
             InitializeCalled = true;
-            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnInitialized);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnInitialized, parameters);
         }
 
         public Task InitializeAsync(INavigationParameters parameters)
         {
             InitializeAsyncCalled = true;
-            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnInitializedAsync);
+            PageNavigationEventRecorder?.Record(this, PageNavigationEvent.OnInitializedAsync, parameters);
             return Task.CompletedTask;
         }
 
@@ -78,7 +78,7 @@ namespace Prism.Forms.Tests.Mocks.Views
 
     public class SecondContentPageMock : ContentPageMock
     {
-        public SecondContentPageMock()
+        public SecondContentPageMock() : base(new PageNavigationEventRecorder())
         {
         }
 

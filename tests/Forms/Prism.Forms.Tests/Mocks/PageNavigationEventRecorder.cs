@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using Prism.Navigation;
 
 namespace Prism.Forms.Tests.Mocks
 {
@@ -26,9 +27,11 @@ namespace Prism.Forms.Tests.Mocks
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="pageNavigationEvent"></param>
-        public void Record(object sender, PageNavigationEvent pageNavigationEvent)
+        public void Record(object sender, 
+            PageNavigationEvent pageNavigationEvent,
+            INavigationParameters navigationParameters = null)
         {
-            _records.Enqueue(new PageNavigationRecord(sender, pageNavigationEvent));
+            _records.Enqueue(new PageNavigationRecord(sender, pageNavigationEvent, navigationParameters));
         }
 
         public PageNavigationRecord TakeFirst()

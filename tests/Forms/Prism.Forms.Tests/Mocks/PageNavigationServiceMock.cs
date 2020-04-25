@@ -23,8 +23,11 @@ namespace Prism.Forms.Tests.Mocks
             var page = _containerMock.Resolve<object>(name) as Page;
 
             PageUtilities.InvokeViewAndViewModelAction<IPageNavigationEventRecordable>(
-                page,
-                x => x.PageNavigationEventRecorder = _recorder);
+                page, 
+                x =>
+                {
+                    if (_recorder != null) x.PageNavigationEventRecorder = _recorder;
+                });
 
             return page;
         }
