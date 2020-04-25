@@ -8,6 +8,7 @@ using Prism.Ioc;
 using Prism.Logging;
 using Prism.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -1790,6 +1791,35 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<NavigationPageMock>(navPage);
             Assert.IsType<SecondContentPageMock>(navPage.CurrentPage);
             
+            Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
+        }
+
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_CreateTabs_WithNavigationPage_SelectTab_ToContentPage_WithNavigationParam()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var rootPage = new ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage-Empty?{KnownNavigationParameters.CreateTab}=Tab1&{KnownNavigationParameters.CreateTab}=NavigationPage|Tab2&{KnownNavigationParameters.CreateTab}=Tab3&{KnownNavigationParameters.SelectedTab}=Tab2|SecondContentPage?Param=1");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageEmptyMock;
+            Assert.NotNull(tabbedPage);
+            Assert.Equal(3, tabbedPage.Children.Count());
+
+            Assert.IsType<Tab1Mock>(tabbedPage.Children[0]);
+
+            var navPage = tabbedPage.Children[1] as NavigationPageMock;
+            Assert.IsType<NavigationPageMock>(navPage);
+            Assert.IsType<SecondContentPageMock>(navPage.CurrentPage);
+
+            var secondContentPage = navPage.CurrentPage as SecondContentPageMock;
+            var lastNavigationAwareRecord = secondContentPage.PageNavigationEventRecorder.Records.First(r => 
+                r.Event == PageNavigationEvent.OnNavigatedTo);
+            var navigationParameters = lastNavigationAwareRecord.NavigationParameters;
+            var actualNavigationParam = navigationParameters.First();
+            Assert.Equal(new KeyValuePair<string, object>("Param", 1.ToString()), actualNavigationParam);
+
             Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
         }
 
