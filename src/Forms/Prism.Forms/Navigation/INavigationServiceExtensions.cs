@@ -11,6 +11,20 @@ namespace Prism.Navigation
     public static class INavigationServiceExtensions
     {
         /// <summary>
+        /// Provides an easy to use way to provide an Error Callback without using await NavigationService
+        /// </summary>
+        /// <param name="navigationTask">The current Navigation Task</param>
+        /// <param name="errorCallback">The <see cref="Exception"/> handler</param>
+        public static void OnNavigationError(this Task<INavigationResult> navigationTask, Action<Exception> errorCallback)
+        {
+            navigationTask.Await(r =>
+            {
+                if (!r.Success)
+                    errorCallback?.Invoke(r.Exception);
+            });
+        }
+
+        /// <summary>
         /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
         /// </summary>
         /// <param name="navigationService">Service for handling navigation between views</param>

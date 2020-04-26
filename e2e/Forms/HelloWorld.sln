@@ -33,6 +33,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Forms", "..\..\src\Forms\Prism.DryIoc.Forms\Prism.DryIoc.Forms.csproj", "{74F5E189-BF46-4D6A-BDF9-752D44E3E2DD}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{74f5e189-bf46-4d6a-bdf9-752d44e3e2dd}*SharedItemsImports = 5
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
 		Ad-Hoc|ARM = Ad-Hoc|ARM

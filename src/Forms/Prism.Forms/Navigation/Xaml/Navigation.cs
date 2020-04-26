@@ -5,25 +5,31 @@ using Xamarin.Forms;
 
 namespace Prism.Navigation.Xaml
 {
+    /// <summary>
+    /// Provides Attachable properties for Navigation
+    /// </summary>
     public static class Navigation
     {
         internal static readonly BindableProperty NavigationServiceProperty =
             BindableProperty.CreateAttached("NavigationService",
                 typeof(INavigationService),
-                typeof(NavigationExtensionBase),
+                typeof(Navigation),
                 default(INavigationService));
 
+        /// <summary>
+        /// Provides bindable CanNavigate Bindable Property
+        /// </summary>
         public static readonly BindableProperty CanNavigateProperty =
             BindableProperty.CreateAttached("CanNavigate",
                 typeof(bool),
-                typeof(NavigationExtensionBase),
+                typeof(Navigation),
                 true,
                 propertyChanged: OnCanNavigatePropertyChanged);
         
         internal static readonly BindableProperty RaiseCanExecuteChangedInternalProperty =
             BindableProperty.CreateAttached("RaiseCanExecuteChangedInternal",
                 typeof(Action),
-                typeof(NavigationExtensionBase),
+                typeof(Navigation),
                 default(Action));
 
         public static bool GetCanNavigate(BindableObject view) => (bool) view.GetValue(CanNavigateProperty);
@@ -34,23 +40,12 @@ namespace Prism.Navigation.Xaml
         {
             if(page == null) throw new ArgumentNullException(nameof(page));
 
-            var navigationService = (INavigationService) page.GetValue(NavigationServiceProperty);
-            if (navigationService == null) page.SetValue(NavigationServiceProperty, navigationService = CreateNavigationService(page));
-
-            return navigationService;
+            return (INavigationService) page.GetValue(NavigationServiceProperty);
         }
 
         internal static Action GetRaiseCanExecuteChangedInternal(BindableObject view) => (Action) view.GetValue(RaiseCanExecuteChangedInternalProperty);
 
         internal static void SetRaiseCanExecuteChangedInternal(BindableObject view, Action value) => view.SetValue(RaiseCanExecuteChangedInternalProperty, value);
-
-        private static INavigationService CreateNavigationService(Page view)
-        {
-            var context = (PrismApplicationBase) Application.Current;
-            var navigationService = context.Container.Resolve<INavigationService>("PageNavigationService");
-            if (navigationService is IPageAware pageAware) pageAware.Page = view;
-            return navigationService;
-        }
 
         private static void OnCanNavigatePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
         {

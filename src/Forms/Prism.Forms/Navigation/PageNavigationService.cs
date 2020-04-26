@@ -34,7 +34,7 @@ namespace Prism.Navigation
             set { _page = value; }
         }
 
-        public PageNavigationService(IContainerExtension container, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory, ILoggerFacade logger)
+        public PageNavigationService(IContainerProvider container, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory, ILoggerFacade logger)
         {
             _container = container;
             _applicationProvider = applicationProvider;
@@ -781,7 +781,13 @@ namespace Prism.Navigation
         {
             try
             {
-                return _container.Resolve<object>(segmentName) as Page;
+                _container.CreateScope();
+                var page = _container.Resolve<object>(segmentName) as Page;
+
+                if (page is null)
+                    throw new NullReferenceException($"The resolved type for {segmentName} was null. You may be attempting to navigate to a Non-Page type");
+
+                return SetNavigationServiceForPage(page);
             }
             catch (Exception ex)
             {
@@ -820,6 +826,16 @@ namespace Prism.Navigation
                 _logger.Log(e.ToString(), Category.Exception, Priority.High);
                 throw;
             }
+        }
+
+        private Page SetNavigationServiceForPage(Page page)
+        {
+            var childNavService = _container.Resolve<INavigationService>();
+            if (childNavService is IPageAware pa)
+                pa.Page = page;
+
+            page.SetValue(Xaml.Navigation.NavigationServiceProperty, childNavService);
+            return page;
         }
 
         void ConfigurePages(Page page, string segment)
