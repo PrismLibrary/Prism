@@ -33,6 +33,7 @@ namespace Prism.DryIoc
         /// </summary>
         public IContainer Instance { get; }
 
+#if !ContainerExtensions
         /// <summary>
         /// Constructs a default instance of the <see cref="DryIocContainerExtension"
         /// </summary>
@@ -54,6 +55,7 @@ namespace Prism.DryIoc
                 typeof(IContainerProvider)
             }, this);
         }
+#endif
 
         /// <summary>
         /// Used to perform any final steps for configuring the extension that may be required by the container.

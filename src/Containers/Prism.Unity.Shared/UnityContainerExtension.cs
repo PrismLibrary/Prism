@@ -26,6 +26,7 @@ namespace Prism.Unity
         /// </summary>
         public IUnityContainer Instance { get; }
 
+#if !ContainerExtensions
         /// <summary>
         /// Constructs a default <see cref="UnityContainerExtension" />
         /// </summary>
@@ -46,6 +47,7 @@ namespace Prism.Unity
             Instance.RegisterFactory(typeof(IContainerExtension), c => c.Resolve<UnityContainerExtension>(currentContainer));
             Instance.RegisterFactory(typeof(IContainerProvider), c => c.Resolve<UnityContainerExtension>(currentContainer));
         }
+#endif
 
         /// <summary>
         /// Used to perform any final steps for configuring the extension that may be required by the container.
