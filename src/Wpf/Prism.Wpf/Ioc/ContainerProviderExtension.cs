@@ -5,7 +5,6 @@ namespace Prism.Ioc
 {
     /// <summary>
     /// Provides Types and Services registered with the Container
-    /// </summary>
     /// <example>
     /// <para>
     /// Usage as markup extension:
@@ -27,12 +26,20 @@ namespace Prism.Ioc
     /// ]]>
     /// </para>
     /// </example>
+    /// </summary>
     public class ContainerProviderExtension : MarkupExtension
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContainerProviderExtension"/> class.
+        /// </summary>
         public ContainerProviderExtension()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContainerProviderExtension"/> class.
+        /// </summary>
+        /// <param name="type">The type to Resolve</param>
         public ContainerProviderExtension(Type type)
         {
             Type = type;
