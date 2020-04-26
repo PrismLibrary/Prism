@@ -13,15 +13,8 @@ using Xunit.Abstractions;
 
 namespace Prism.Container.Wpf.Tests.Ioc
 {
-    public class ContainerProviderExtensionFixture
+    public class ContainerProviderExtensionFixture : IDisposable
     {
-        public ContainerProviderExtensionFixture()
-        {
-            Initalize();
-        }
-
-        private static bool _initialized;
-
         private static readonly MockService _unnamedService = new MockService();
         private static readonly IReadOnlyDictionary<string, MockService> _namedServiceDictionary = new Dictionary<string, MockService>
         {
@@ -29,27 +22,22 @@ namespace Prism.Container.Wpf.Tests.Ioc
             ["B"] = new MockService(),
         };
 
-        private void Initalize()
+        public ContainerProviderExtensionFixture()
         {
-            if (_initialized)
-            {
-                return;
-            }
-
             ContainerLocator.ResetContainer();
-#if DryIoc
-            var container = new global::DryIoc.Container(global::DryIoc.Rules.Default.WithAutoConcreteTypeResolution());
-            ContainerLocator.SetContainerExtension(() => new Prism.DryIoc.DryIocContainerExtension(container));
-#elif Unity
-            ContainerLocator.SetContainerExtension(() => new Prism.Unity.UnityContainerExtension());
-#endif
-            ContainerLocator.Current.RegisterInstance<IService>(_unnamedService);
+            ContainerLocator.SetContainerExtension(() => ContainerHelper.CreateContainerExtension());
+            var containerExtension = ContainerLocator.Current;
+            containerExtension.RegisterInstance<IService>(_unnamedService);
             foreach (var kvp in _namedServiceDictionary)
             {
-                ContainerLocator.Current.RegisterInstance<IService>(kvp.Value, kvp.Key);
+                containerExtension.RegisterInstance<IService>(kvp.Value, kvp.Key);
             }
+            containerExtension.FinalizeExtension();
+        }
 
-            _initialized = true;
+        public void Dispose()
+        {
+            ContainerLocator.ResetContainer();
         }
 
         [Fact]
@@ -111,11 +99,11 @@ namespace Prism.Container.Wpf.Tests.Ioc
         {
             var xaml =
 @"<Window 
-  xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-  xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-  xmlns:prism=""clr-namespace:Prism.Ioc;assembly=Prism.Wpf""
-  xmlns:mocks=""clr-namespace:Prism.IocContainer.Wpf.Tests.Support.Mocks;assembly=Prism.IocContainer.Wpf.Tests.Support""
-  DataContext=""{prism:ContainerProvider 'mocks:IService'}"" />";
+  xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
+  xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
+  xmlns:prism='http://prismlibrary.com/'
+  xmlns:mocks='clr-namespace:Prism.IocContainer.Wpf.Tests.Support.Mocks;assembly=Prism.IocContainer.Wpf.Tests.Support'
+  DataContext='{prism:ContainerProvider mocks:IService}' />";
 
             using (var reader = new StringReader(xaml))
             {
@@ -130,12 +118,12 @@ namespace Prism.Container.Wpf.Tests.Ioc
         {
             var xaml =
 @"<Window
-  xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-  xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-  xmlns:prism=""clr-namespace:Prism.Ioc;assembly=Prism.Wpf""
-  xmlns:mocks=""clr-namespace:Prism.IocContainer.Wpf.Tests.Support.Mocks;assembly=Prism.IocContainer.Wpf.Tests.Support"">
+  xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
+  xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
+  xmlns:prism='clr-namespace:Prism.Ioc;assembly=Prism.Wpf'
+  xmlns:mocks='clr-namespace:Prism.IocContainer.Wpf.Tests.Support.Mocks;assembly=Prism.IocContainer.Wpf.Tests.Support'>
   <Window.DataContext>
-    <prism:ContainerProvider Type=""mocks:IService"" />
+    <prism:ContainerProvider Type='mocks:IService' />
   </Window.DataContext>
 </Window>";
 
