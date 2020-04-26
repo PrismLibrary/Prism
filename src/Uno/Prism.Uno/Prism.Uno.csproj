@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Remove="..\..\Wpf\Prism.Wpf\Bootstrapper.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Interactivity\InvokeCommandAction.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Ioc\ContainerProviderExtension.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\PrismApplicationBase.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\PrismBootstrapperBase.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\AssemblyInfo.cs" />
