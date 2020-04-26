@@ -9,7 +9,12 @@ namespace Prism.DryIoc
     /// <summary>
     /// The <see cref="IContainerExtension" /> Implementation to use with DryIoc
     /// </summary>
-    public partial class DryIocContainerExtension : IContainerExtension<IContainer>, IContainerInfo
+#if ContainerExtensions
+    internal partial
+#else
+    public
+#endif
+    class DryIocContainerExtension : IContainerExtension<IContainer>, IContainerInfo
     {
         private IResolverContext _currentScope;
 

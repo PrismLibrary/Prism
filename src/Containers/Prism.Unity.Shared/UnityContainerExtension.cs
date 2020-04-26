@@ -12,7 +12,12 @@ namespace Prism.Unity
     /// <summary>
     /// The Unity implementation of the <see cref="IContainerExtension" />
     /// </summary>
-    public partial class UnityContainerExtension : IContainerExtension<IUnityContainer>, IContainerInfo
+#if ContainerExtensions
+    internal partial
+#else
+    public
+#endif
+    class UnityContainerExtension : IContainerExtension<IUnityContainer>, IContainerInfo
     {
         private IUnityContainer _currentScope;
 
