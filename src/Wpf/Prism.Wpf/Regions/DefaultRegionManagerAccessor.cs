@@ -1,7 +1,12 @@
 
 
 using System;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+#else
 using System.Windows;
+#endif
 
 namespace Prism.Regions
 {

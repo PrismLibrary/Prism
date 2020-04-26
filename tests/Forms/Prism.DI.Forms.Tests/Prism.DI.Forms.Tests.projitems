@@ -10,12 +10,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConcreteTypeMock.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\ContainerProviderFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerExtensionTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerProviderFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\FixtureBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerResolutionExceptionFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Navigation\XamlNavigationFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PartialViewFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PrismApplicationFixture.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\XamlNavigationFixture.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MockForms.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Converters\MockValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Events\TestActionEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Internals\FormsLogObserver.cs" />
@@ -27,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\PrismApplicationMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\PrismApplicationMockPlatformAware.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\PrismApplicationModulesMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\AggregateService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\IServiceMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\ServiceMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\AutowireViewModel.cs" />
@@ -40,6 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlViewMockViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\AutowireView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\AutowireViewTablet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\BadView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ConstructorArgumentView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\CustomNamedNavService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\PartialView.xaml.cs">

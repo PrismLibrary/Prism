@@ -6,6 +6,12 @@ using System.Linq;
 using System.Collections.Specialized;
 using Prism.Common;
 
+#if HAS_WINUI
+using Windows.UI.Xaml;
+#else
+using System.Windows;
+#endif
+
 namespace Prism.Regions.Behaviors
 {
     /// <summary>
@@ -20,7 +26,7 @@ namespace Prism.Regions.Behaviors
     /// or the <see cref="RegionMemberLifetimeAttribute"/> (in that order) to determine if it should be kept 
     /// alive on removal.
     /// <p/>
-    /// If the item in the collection is a <see cref="System.Windows.FrameworkElement"/>, it will
+    /// If the item in the collection is a <see cref="FrameworkElement"/>, it will
     /// also check it's DataContext for <see cref="IRegionMemberLifetime"/> or the <see cref="RegionMemberLifetimeAttribute"/>.
     /// <p/>
     /// The order of checks are:
@@ -90,7 +96,7 @@ namespace Prism.Regions.Behaviors
                 return lifetimeAttribute;
             }
 
-            var frameworkElement = inactiveView as System.Windows.FrameworkElement;
+            var frameworkElement = inactiveView as FrameworkElement;
             if (frameworkElement != null && frameworkElement.DataContext != null)
             {
                 var dataContext = frameworkElement.DataContext;

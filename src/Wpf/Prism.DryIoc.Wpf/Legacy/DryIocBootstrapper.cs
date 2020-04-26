@@ -156,7 +156,7 @@ namespace Prism.DryIoc
         /// <returns>A new instance of <see cref="IContainer"/>.</returns>
         protected virtual IContainer CreateContainer()
         {
-            return new Container(Rules.Default.WithAutoConcreteTypeResolution());
+            return new Container(DryIocContainerExtension.DefaultRules);
         }
 
         protected override IContainerExtension CreateContainerExtension()

@@ -82,8 +82,8 @@ namespace Prism.Forms.Tests.Modularity
         {
             var catalog = new ModuleCatalog();
             catalog.AddModule<BadModule>();
-
-            var initializer = new ModuleInitializer(new PageNavigationContainerMock());
+            var containerMock = ContainerMock.CreateMock();
+            var initializer = new ModuleInitializer(containerMock.Object);
             var manager = new ModuleManager(initializer, catalog);
             manager.LoadModuleCompleted += OnModuleLoaded;
             void OnModuleLoaded(object sender, LoadModuleCompletedEventArgs args)
@@ -101,8 +101,8 @@ namespace Prism.Forms.Tests.Modularity
         {
             var catalog = new ModuleCatalog();
             catalog.AddModule<BadInitializationModule>();
-
-            var initializer = new ModuleInitializer(new PageNavigationContainerMock());
+            var containerMock = ContainerMock.CreateMock();
+            var initializer = new ModuleInitializer(containerMock.Object);
             var manager = new ModuleManager(initializer, catalog);
             manager.LoadModuleCompleted += OnModuleLoaded;
             void OnModuleLoaded(object sender, LoadModuleCompletedEventArgs args)

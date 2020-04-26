@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;xamarinios10;monoandroid90;xamarinmac20</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
+    <DefineConstants>$(DefineConstants);HAS_WINUI</DefineConstants>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    
+    <!-- 
+    Library layout generation is disabled as this project does not have any XAML files, and 
+    that if set to true, there is a nuget issue where Uno.Prism PRI resource get incorrectly
+    propagated to their dependents.
+    -->
+    <GenerateLibraryLayout>false</GenerateLibraryLayout>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='xamarinmac20' or '$(TargetFramework)'=='monoandroid90' or '$(TargetFramework)'=='netstandard2.0'">
+    <PackageReference Include="Uno.UI" Version="2.0.528" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Wpf\Prism.DryIoc.Wpf\**\*.cs" Exclude="..\..\Wpf\Prism.DryIoc.Wpf\bin\**\*.cs;..\..\Wpf\Prism.DryIoc.Wpf\obj\**\*.cs" />
+    <EmbeddedResource Include="..\..\Wpf\Prism.Unity.Wpf\Properties\**\*.resx" Link="Properties\%(FileName)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="..\..\Wpf\Prism.DryIoc.Wpf\Legacy\DryIocBootstrapper.cs" />
+    <Compile Remove="..\..\Wpf\Prism.DryIoc.Wpf\Legacy\DryIocExtensions.cs" />
+    <Compile Remove="..\..\Wpf\Prism.DryIoc.Wpf\PrismBootstrapper.cs" />
+    <Compile Remove="..\..\Wpf\Prism.DryIoc.Wpf\Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DryIoc.dll" Version="4.1.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Prism.Uno\Prism.Uno.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <EmbeddedResource Include="LinkerDefinition.mono.xml">
+      <LogicalName>$(AssemblyName).xml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="..\..\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems" Label="Shared" />
+</Project>

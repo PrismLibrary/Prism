@@ -16,10 +16,10 @@ namespace Prism.Services.Dialogs
         private IContainerProvider _containerExtension { get; }
         private IApplicationProvider _applicationProvider { get; }
 
-        public DialogService(IApplicationProvider applicationProvider, IContainerExtension containerExtension)
+        public DialogService(IApplicationProvider applicationProvider, IContainerProvider containerProvider)
         {
             _applicationProvider = applicationProvider;
-            _containerExtension = containerExtension;
+            _containerExtension = containerProvider;
         }
 
         public void ShowDialog(string name, IDialogParameters parameters, Action<IDialogResult> callback)

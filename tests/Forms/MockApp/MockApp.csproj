@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.13.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Forms\Prism.Forms\Prism.Forms.csproj" />
+    <ProjectReference Include="..\..\..\src\Prism.Core\Prism.Core.csproj" />
+  </ItemGroup>
+
+</Project>

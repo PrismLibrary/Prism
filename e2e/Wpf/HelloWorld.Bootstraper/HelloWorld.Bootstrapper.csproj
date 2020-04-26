@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>HelloWorld</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefaultItemExcludes>..\HelloWorld\bin\**;..\HelloWorld\obj\**;..\HelloWorld\App.*</DefaultItemExcludes>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Page Include="..\HelloWorld\**\*.xaml" LinkBase="%(RecurseDir)" Generator="MSBuild:Compile" Exclude="$(DefaultItemExcludes)" />
+    <Compile Include="..\HelloWorld\**\*.cs" LinkBase="%(RecurseDir)" Exclude="$(DefaultItemExcludes)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Prism.Core\Prism.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\Wpf\Prism.Unity.Wpf\Prism.Unity.Wpf.csproj" />
+    <ProjectReference Include="..\..\..\src\Wpf\Prism.Wpf\Prism.Wpf.csproj" />
+    <ProjectReference Include="..\HelloWorld.Core\HelloWorld.Core.csproj" />
+    <ProjectReference Include="..\Modules\HelloWorld.Modules.ModuleA\HelloWorld.Modules.ModuleA.csproj" />
+  </ItemGroup>
+
+</Project>

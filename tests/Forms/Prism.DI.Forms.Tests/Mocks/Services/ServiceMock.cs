@@ -2,5 +2,6 @@
 {
     public class ServiceMock : IServiceMock
     {
+        public string SomeProperty { get; set; }
     }
 }

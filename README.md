@@ -1,6 +1,6 @@
 ﻿# Prism
 
-Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, and Xamarin Forms. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base supported in .NET Standard 2.0, .Net Core 3, and .NET Framework 4.5. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
+Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Xamarin Forms, Uno Platform and WinUI. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base supported in .NET Standard 2.0, .Net Core 3, and .NET Framework 4.5. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
 
 Prism 7 is a fully open source version of the Prism guidance [originally produced by Microsoft patterns & practices](https://devblogs.microsoft.com/dotnet/prism-grows-up/). The core team members were all part of the P&amp;P team that developed Prism 1 through 5, and the effort has now been turned over to the open source community to keep it alive and thriving to support the .NET community. There are thousands of companies who have adopted previous versions of Prism, and we hope they will continue to move along with us as we continue to evolve and enhance the framework to keep pace with current platform capabilities and requirements.
 
@@ -19,14 +19,15 @@ As most of you know, it takes a lot of time and effort for our small team to man
 | Prism.Core | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Core)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
 | Prism.Wpf | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Wpf)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
 | Prism.Forms | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Forms)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Prism.Uno | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Uno)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
 
 ### E2E Build Status
 
 | E2E App | Status |
 |---------|:------:|
-| WPF | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=E2E&jobName=E2E%20WPF%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
-| Xamarin iOS | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=E2E&jobName=E2E%20iOS%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
-| Xamarin Android | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=E2E&jobName=E2E%20Android%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| WPF | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=End%20to%20End&jobName=E2E%20WPF%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Xamarin iOS | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=End%20to%20End&jobName=E2E%20iOS%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Xamarin Android | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=End%20to%20End&jobName=E2E%20Android%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
 
 ## Support
 
@@ -69,6 +70,7 @@ These are the base packages for each platform, together with the Prism's Core as
 | Cross Platform | Prism.dll | [Prism.Core][CoreNuGet] | [![CoreNuGetShield]][CoreNuGet] | [![CoreMyGetShield]][CoreMyGet] | net45, net47, netstandard2.0 |
 | WPF | Prism.Wpf.dll | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfMyGetShield]][WpfMyGet] | net461, net47, net48, netcoreapp3.1 |
 | Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][FormsNuGet] | [![FormsNuGetShield]][FormsNuGet] | [![FormsMyGetShield]][FormsMyGet] | netstandard2.0 |
+| Uno Platform and WinUI | Prism.Uno.dll | [Prism.Uno][FormsNuGet] | [![UnoNuGetShield]][UnoNuGet] | [![UnoMyGetShield]][UnoMyGet] | netstandard2.0 (WebAssembly), xamarinios10, monoandroid90, xamarinmac20, uap10.0.16299|
 
 ### Container-specific packages
 
@@ -138,6 +140,7 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [CoreNuGet]: https://www.nuget.org/packages/Prism.Core/
 [WpfNuGet]: https://www.nuget.org/packages/Prism.Wpf/
 [FormsNuGet]: https://www.nuget.org/packages/Prism.Forms/
+[UnoNuGet]: https://www.nuget.org/packages/Prism.Uno/
 
 [DryIocWpfNuGet]: https://www.nuget.org/packages/Prism.DryIoc/
 [UnityWpfNuGet]: https://www.nuget.org/packages/Prism.Unity/
@@ -145,9 +148,13 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [UnityFormsNuGet]: https://www.nuget.org/packages/Prism.Unity.Forms/
 [DryIocFormsNuGet]: https://www.nuget.org/packages/Prism.DryIoc.Forms/
 
+[DryIocUnoNuGet]: https://www.nuget.org/packages/Prism.DryIoc.Uno/
+[UnityUnoNuGet]: https://www.nuget.org/packages/Prism.Unity.Uno/
+
 [CoreNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Core.svg
 [WpfNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Wpf.svg
 [FormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Forms.svg
+[UnoNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Uno.svg
 
 [DryIocWpfNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.svg
 [UnityWpfNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.svg
@@ -155,9 +162,13 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [DryIocFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Forms.svg
 [UnityFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Forms.svg
 
+[DryIocUnoNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Uno.svg
+[UnityUnoNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Uno.svg
+
 [CoreMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Core
 [WpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Wpf
 [FormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Forms
+[UnoMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Uno
 
 [DryIocWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.DryIoc
 [UnityWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Unity
@@ -168,9 +179,13 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [CoreMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Core.svg
 [WpfMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Wpf.svg
 [FormsMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Forms.svg
+[UnoMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Uno.svg
 
 [DryIocWpfMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.DryIoc.svg
 [UnityWpfMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Unity.svg
 
 [DryIocFormsMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.DryIoc.Forms.svg
 [UnityFormsMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Unity.Forms.svg
+
+[DryIocUnoMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.DryIoc.Uno.svg
+[UnityUnoMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Unity.Uno.svg

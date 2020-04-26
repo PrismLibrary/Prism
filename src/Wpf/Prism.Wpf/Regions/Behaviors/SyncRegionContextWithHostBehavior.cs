@@ -1,9 +1,14 @@
 
 
 using System;
-using System.Windows;
 using Prism.Properties;
 using Prism.Common;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+#else
+using System.Windows;
+#endif
 
 namespace Prism.Regions.Behaviors
 {

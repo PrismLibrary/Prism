@@ -1,10 +1,13 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Controls;
+
+#if HAS_WINUI
+using Windows.UI.Xaml;
+#else
+using System.Windows;
+#endif
 
 namespace Prism.Regions
 {
@@ -58,6 +61,7 @@ namespace Prism.Regions
         /// Records the navigation to the entry..
         /// </summary>
         /// <param name="entry">The entry to record.</param>
+        /// <param name="persistInHistory">Keep Navigation object in memory when OnNavigationFrom is called</param>
         void RecordNavigation(IRegionNavigationJournalEntry entry, bool persistInHistory);
 
         /// <summary>
