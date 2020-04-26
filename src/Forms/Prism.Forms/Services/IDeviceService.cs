@@ -32,10 +32,34 @@ namespace Prism.Services
         void BeginInvokeOnMainThread(Action action);
         
         /// <summary>
-        /// Invokes an action (which can be awaited) on the device main UI thread.
+        /// Invokes an awaitable action on the device main UI thread.
         /// </summary>
         /// <param name="action">The Action to invoke</param>
-        Task BeginInvokeOnMainThreadAsync(Action action);
+        /// <returns>A task representing the work to be performed</returns>
+        Task InvokeOnMainThreadAsync(Action action);
+
+        /// <summary>
+        /// Invokes an awaitable func of type TResult on the device main UI thread.
+        /// </summary>
+        /// <param name="func">The func to invoke</param>
+        /// <typeparam name="T">The return type of the task</typeparam>
+        /// <returns>A task of type T representing the work to be performed</returns>
+        Task<T> InvokeOnMainThreadAsync<T>(Func<T> func);
+
+        /// <summary>
+        /// Invokes an awaitable func of type Task TResult on the device main UI thread.
+        /// </summary>
+        /// <param name="funcTask">The func to invoke</param>
+        /// <typeparam name="T">The return type of the task</typeparam>
+        /// <returns>A task of type T representing the work to be performed</returns>
+        Task<T> InvokeOnMainThreadAsync<T>(Func<Task<T>> funcTask);
+
+        /// <summary>
+        /// Invokes an awaitable func of type Task on the device main UI thread.
+        /// </summary>
+        /// <param name="funcTask">The func to invoke</param>
+        /// <returns>A task representing the work to be performed</returns>
+        Task InvokeOnMainThreadAsync(Func<Task> funcTask);
 
         /// <summary>
         /// Starts a recurring timer using the Device clock capabilities.

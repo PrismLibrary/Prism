@@ -68,27 +68,45 @@ namespace Prism.Services
         }
 
         /// <summary>
-        /// Invokes an action (which can be awaited) on the device main UI thread.
+        /// Invokes an awaitable action on the device main UI thread.
         /// </summary>
         /// <param name="action">The Action to invoke</param>
-        public Task BeginInvokeOnMainThreadAsync(Action action)
+        /// <returns>A task representing the work to be performed</returns>
+        public Task InvokeOnMainThreadAsync(Action action)
         {
-            var tcs = new TaskCompletionSource<bool>();
-            
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                try
-                {
-                    action();
-                    tcs.TrySetResult(true);
-                }
-                catch (Exception ex)
-                {
-                    tcs.TrySetException(ex);
-                }
-            });
-            
-            return tcs.Task;
+            return Device.InvokeOnMainThreadAsync(action);
+        }
+
+        /// <summary>
+        /// Invokes an awaitable func of type TResult on the device main UI thread.
+        /// </summary>
+        /// <param name="func">The func to invoke</param>
+        /// <typeparam name="T">The return type of the task</typeparam>
+        /// <returns>A task of type T representing the work to be performed</returns>
+        public Task<T> InvokeOnMainThreadAsync<T>(Func<T> func)
+        {
+            return Device.InvokeOnMainThreadAsync(func);
+        }
+
+        /// <summary>
+        /// Invokes an awaitable func of type Task TResult on the device main UI thread.
+        /// </summary>
+        /// <param name="funcTask">The func to invoke</param>
+        /// <typeparam name="T">The return type of the task</typeparam>
+        /// <returns>A task of type T representing the work to be performed</returns>
+        public Task<T> InvokeOnMainThreadAsync<T>(Func<Task<T>> funcTask)
+        {
+            return Device.InvokeOnMainThreadAsync(funcTask);
+        }
+
+        /// <summary>
+        /// Invokes an awaitable func of type Task on the device main UI thread.
+        /// </summary>
+        /// <param name="funcTask">The func to invoke</param>
+        /// <returns>A task representing the work to be performed</returns>
+        public Task InvokeOnMainThreadAsync(Func<Task> funcTask)
+        {
+            return Device.InvokeOnMainThreadAsync(funcTask);
         }
 
         /// <summary>
