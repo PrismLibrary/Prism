@@ -1,6 +1,5 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Windows;
@@ -45,10 +44,7 @@ namespace Prism
         /// </summary>
         protected virtual void ConfigureViewModelLocator()
         {
-            ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
-            {
-                return Container.Resolve(type);
-            });
+            PrismInitializationExtensions.ConfigureViewModelLocator(Container);
         }
 
         /// <summary>

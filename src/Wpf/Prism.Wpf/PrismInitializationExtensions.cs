@@ -2,6 +2,7 @@
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
+using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Services.Dialogs;
@@ -18,6 +19,14 @@ namespace Prism
 {
     internal static class PrismInitializationExtensions
     {
+        internal static void ConfigureViewModelLocator(IContainerProvider containerProvider)
+        {
+            ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
+            {
+                return containerProvider.Resolve(type);
+            });
+        }
+
         internal static void RegisterRequiredTypes(this IContainerRegistry containerRegistry, IModuleCatalog moduleCatalog)
         {
             containerRegistry.RegisterInstance(moduleCatalog);
