@@ -19,11 +19,11 @@ namespace Prism
 {
     internal static class PrismInitializationExtensions
     {
-        internal static void ConfigureViewModelLocator(IContainerProvider containerProvider)
+        internal static void ConfigureViewModelLocator()
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                return containerProvider.Resolve(type);
+                return ContainerLocator.Container.Resolve(type);
             });
         }
 

@@ -44,7 +44,7 @@ namespace Prism
         /// </summary>
         protected virtual void ConfigureViewModelLocator()
         {
-            PrismInitializationExtensions.ConfigureViewModelLocator(Container);
+            PrismInitializationExtensions.ConfigureViewModelLocator();
         }
 
         /// <summary>
