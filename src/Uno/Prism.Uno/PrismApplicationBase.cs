@@ -50,7 +50,6 @@ namespace Prism
         {
             ConfigureViewModelLocator();
             Initialize();
-            OnInitialized();
         }
 
         /// <summary>
@@ -90,12 +89,48 @@ namespace Prism
             if (shell != null)
             {
                 _containerExtension.Resolve<IRegionNavigationService>().NavigationFailed += (s, e) => Console.WriteLine($"Region navigation failed {e.Error}");
-                RegionManager.SetRegionManager(shell, _containerExtension.Resolve<IRegionManager>());
-                RegionManager.UpdateRegions();
                 InitializeShell(shell);
-            }
 
-            InitializeModules();
+                void FinalizeInitialization()
+                {
+                    RegionManager.SetRegionManager(shell, _containerExtension.Resolve<IRegionManager>());
+                    RegionManager.UpdateRegions();
+
+                    InitializeModules();
+                    OnInitialized();
+                }
+
+                if (shell is FrameworkElement fe)
+                {
+                    void OnLoaded(object sender, object args)
+                    {
+                        FinalizeInitialization();
+                        fe.Loaded -= OnLoaded;
+                    }
+
+#if HAS_UNO
+                    // Uno currently loads items earlier than UWP, so we can check 
+                    // for the IsLoaded property. UWP got that property in SDK 17763,
+                    // meaning that the condition can be removed once the SDK is updated
+                    // in Prism.Uno.
+                    if (fe.IsLoaded)
+                    {
+                        FinalizeInitialization();
+                    }
+                    else
+#endif
+                    {
+                        // We need to delay the initialization after the shell has been loaded, otherwise 
+                        // the visual tree is not materialized for the RegionManager to be available.
+                        // See https://github.com/PrismLibrary/Prism/issues/2102 for more details.
+                        fe.Loaded += OnLoaded;
+                    }
+                }
+                else
+                {
+                    FinalizeInitialization();
+                }
+            }
         }
 
         /// <summary>

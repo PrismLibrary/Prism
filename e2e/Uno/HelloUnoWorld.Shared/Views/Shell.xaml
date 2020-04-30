@@ -8,14 +8,19 @@
                 xmlns:toolkit="using:Uno.UI.Toolkit"
                 xmlns:local="clr-namespace:HelloWorld">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" toolkit:VisibleBoundsPadding.PaddingMask="All">
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        toolkit:VisibleBoundsPadding.PaddingMask="All">
     <Grid.RowDefinitions>
       <RowDefinition Height="auto" />
       <RowDefinition Height="auto" />
+      <RowDefinition Height="auto" />
+      <RowDefinition Height="*" />
       <RowDefinition />
     </Grid.RowDefinitions>
-    <TextBlock Text="{Binding Title}" FontSize="30" />
-    <StackPanel Grid.Row="1" Orientation="Vertical">
+    <TextBlock Text="{Binding Title}"
+               FontSize="30" />
+    <StackPanel Grid.Row="1"
+                Orientation="Vertical">
       <Button x:Name="viewAButton"
               Command="{Binding NavigateCommand}"
               CommandParameter="ViewA"
@@ -31,8 +36,10 @@
               Command="{Binding NavigateCommand}"
               CommandParameter="ModulePageA"
               Content="Navigate to Named View in Module" />
-      </StackPanel>
+    </StackPanel>
     <ContentControl Grid.Row="2"
+                    prismRegions:RegionManager.RegionName="InitialRegion" />
+    <ContentControl Grid.Row="3"
                     prismRegions:RegionManager.RegionName="ContentRegion" />
   </Grid>
 </ContentControl>
