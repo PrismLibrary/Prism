@@ -29,7 +29,7 @@ namespace HelloWorld.ViewModels
             var result = await _navigationService.NavigateAsync(name);
             if (!result.Success)
             {
-
+                Console.WriteLine(result.Exception);
             }
         }
 

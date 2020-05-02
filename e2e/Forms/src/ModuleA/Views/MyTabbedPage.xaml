@@ -29,8 +29,10 @@
 
   <local:ViewC Title="View C" />
 
-  <!--<local:ViewA Title="View A" />-->
-  <!--<local:ViewB Title="View B"/>-->
-  <!--<local:ViewC Title="View C"/>-->
+  <NavigationPage Title="Items">
+    <x:Arguments>
+      <local:ItemListPage Title="Items" />
+    </x:Arguments>
+  </NavigationPage>
 
 </TabbedPage>

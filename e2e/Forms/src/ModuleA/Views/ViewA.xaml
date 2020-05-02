@@ -23,14 +23,20 @@
     <Label AutomationId="MessageLabel" Text="{Binding Message}" />
     <Label AutomationId="IsActiveLabel"  Text="{Binding IsActive, StringFormat='IsActive: {0}'}" />
     <Button AutomationId="NavigateButton"
-            Text="Navigate"
-            Command="{Binding NavigateCommand}" />
+            Text="Select Tab C"
+            Command="{Binding SelectTabCommand}" CommandParameter="ViewC"/>
     <Button AutomationId="NavigateToViewBButton"
             Text="View B"
             Command="{prism:NavigateTo ViewB}" />
     <Button AutomationId="SelectTabCButton"
-            Text="Select Tab C"
+            Text="Select Tab C (XAML)"
             Command="{prism:SelectTab ViewC}" />
+    <Button AutomationId="NavigateToItem2XamlButton"
+            Text="Items - Item Detail - 2 (XAML)"
+            Command="{prism:NavigateTo '/MyTabbedPage?selectedTab=ItemListPage|ItemDetailPage?Id=2'}" />
+    <Button AutomationId="NavigateToItem2Button"
+            Text="Items - Item Detail - 2"
+            Command="{Binding NavigateCommand}" CommandParameter="/MyTabbedPage?selectedTab=ItemListPage|ItemDetailPage?Id=2" />
     <Button AutomationId="Show Demo Dialog Button"
             Text="Show Demo Dialog"
             Command="{prism:ShowDialog 'DemoDialog?message=Hello%20From%20ViewA!&amp;closeOnBackgroundTapped=true'}" />

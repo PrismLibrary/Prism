@@ -885,7 +885,8 @@ namespace Prism.Navigation
                         {
                             var navigationPageChild = await CreatePageFromSegment(tabSegements[1]);
 
-                            navigationPage.PushAsync(navigationPageChild);
+                            // previously this was not awaited, was there a reason for that?
+                            await navigationPage.PushAsync(navigationPageChild);
 
                             //when creating a NavigationPage w/ DI, a blank Page object is injected into the ctor. Let's remove it
                             if (navigationPage.Navigation.NavigationStack.Count > 1)
