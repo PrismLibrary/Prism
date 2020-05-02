@@ -40,7 +40,6 @@ namespace HelloWorld.UITests
                     .Android
                     // Used to run a .apk file:
                     .EnableLocalScreenshots()
-                    .ApkFile(@"Z:\repos\Twitch\Prism\Sandbox\Xamarin\HelloWorld\HelloWorld\HelloWorld.Android\bin\Release\com.prismlibrary.helloworld.apk")
                     .StartApp();
             }
 
@@ -52,6 +51,7 @@ namespace HelloWorld.UITests
                     //.AppBundle("path/to/file.app")
                     // Used to run a .ipa file on a physical ios device:
                     //.InstalledApp("com.company.bundleid")
+                    .EnableLocalScreenshots()
                     .StartApp();
             }
         }
