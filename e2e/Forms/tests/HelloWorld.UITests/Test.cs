@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using HelloWorld.UITests.Pages;
 using NUnit.Framework;
 using Xamarin.UITest;
@@ -41,6 +37,26 @@ namespace HelloWorld.UITests
             new ViewA().NavigateToViewB();
 
             new ViewB();
+        }
+
+        [Test]
+        public void NavigateToItemList_ItemDetail_Id2()
+        {
+            new ViewA().NavigateToItem2();
+
+            var itemDetailPage = new ItemDetailPage();
+            var result = itemDetailPage.GetItemIdLabelValue();
+            Assert.AreEqual(2, result);
+        }
+
+        [Test]
+        public void NavigateToItemList_ItemDetail_Id2_Xaml()
+        {
+            new ViewA().NavigateToItem2();
+
+            var itemDetailPage = new ItemDetailPage();
+            var result = itemDetailPage.GetItemIdLabelValue();
+            Assert.AreEqual(2, result);
         }
     }
 }
