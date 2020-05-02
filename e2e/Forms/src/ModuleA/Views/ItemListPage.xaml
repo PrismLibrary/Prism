@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:vm="clr-namespace:ModuleA.ViewModels"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ModuleA.Views.ItemListPage" 
+             Title="{Binding Title}" 
+             x:Name="BrowseItemsPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddItemCommand}"/>
+    </ContentPage.ToolbarItems>
+    <CollectionView x:Name="ItemsCollectionView" ItemsSource="{Binding Items}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <StackLayout Padding="10">
+                    <Label Text="{Binding Text}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                    <Label Text="{Binding Description}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" 
+                                              Command="{Binding Source={x:Reference BrowseItemsPage}, Path=BindingContext.ItemSelectedCommand}"
+                                              CommandParameter="{Binding .}"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

@@ -35,7 +35,8 @@ namespace ModuleA.ViewModels
             set { SetProperty(ref _canNavigate, value); }
         }
 
-        public DelegateCommand NavigateCommand { get; set; }
+        public DelegateCommand<string> SelectTabCommand { get; set; }
+        public DelegateCommand<string> NavigateCommand { get; set; }
 
         public DelegateCommand SaveCommand { get; private set; }
 
@@ -58,7 +59,8 @@ namespace ModuleA.ViewModels
         {
             _navigationService = navigationService;
 
-            NavigateCommand = new DelegateCommand(Navigate).ObservesCanExecute(() => CanNavigate);
+            SelectTabCommand = new DelegateCommand<string>(SelectTab).ObservesCanExecute(() => CanNavigate);
+            NavigateCommand = new DelegateCommand<string>(Navigate).ObservesCanExecute(() => CanNavigate);
             SaveCommand = new DelegateCommand(Save);
             ResetCommand = new DelegateCommand(Reset);
 
@@ -76,10 +78,25 @@ namespace ModuleA.ViewModels
             Title = "Saved";
         }
 
-        async void Navigate()
+        async void SelectTab(string tabName)
         {
             CanNavigate = false;
-            await _navigationService.SelectTabAsync("ViewC");
+            var result = await _navigationService.SelectTabAsync(tabName);
+            if (!result.Success)
+            {
+                Console.WriteLine(result.Exception);
+            }
+            CanNavigate = true;
+        }
+
+        async void Navigate(string url)
+        {
+            CanNavigate = false;
+            var result = await _navigationService.NavigateAsync(url);
+            if (!result.Success)
+            {
+                Console.WriteLine(result.Exception);
+            }
             CanNavigate = true;
         }
 
