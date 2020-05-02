@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Prism.Modularity;
 using HelloWorld.ViewModels;
+using Prism.Regions;
 
 namespace HelloUnoWorld
 {
@@ -117,9 +118,17 @@ namespace HelloUnoWorld
             moduleCatalog.AddModule<ModuleA.ModuleAModule>(InitializationMode.OnDemand);
         }
 
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            var regionManager = Container.Resolve<IRegionManager>();
+            regionManager.RequestNavigate("InitialRegion", nameof(InitialView));
+        }
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<ViewA>(nameof(ViewA));
+            containerRegistry.RegisterForNavigation<InitialView>(nameof(InitialView));
             containerRegistry.RegisterForNavigation<ModulesPage, ModulesPageViewModel>();
 
             containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();

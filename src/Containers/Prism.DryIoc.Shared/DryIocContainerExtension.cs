@@ -35,7 +35,7 @@ namespace Prism.DryIoc
 
 #if !ContainerExtensions
         /// <summary>
-        /// Constructs a default instance of the <see cref="DryIocContainerExtension"
+        /// Constructs a default instance of the <see cref="DryIocContainerExtension" />
         /// </summary>
         public DryIocContainerExtension()
             : this(new Container(DefaultRules))
