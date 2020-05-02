@@ -89,28 +89,6 @@ namespace Prism.Services
         }
 
         /// <summary>
-        /// Returns a double that represents a font size that corresponds to size on targetElement.
-        /// </summary>
-        /// <param name="size">The named size for which to get the numeric size.</param>
-        /// <param name="targetElement">The element for which to calculate the numeric size.</param>
-        /// <returns>A double that represents a font size that corresponds to size on targetElement.</returns>
-        public double GetNamedSize(NamedSize size, Element targetElement)
-        {
-            return Device.GetNamedSize(size, targetElement);
-        }
-
-        /// <summary>
-        /// Returns a double that represents the named size for the font that is used on the element on the native platform.
-        /// </summary>
-        /// <param name="size">The named size for which to get the numeric size.</param>
-        /// <param name="targetElementType">The element type for which to calculate the numeric size.</param>
-        /// <returns>The named size for the font that is used on the element on the native platform.</returns>
-        public double GetNamedSize(NamedSize size, Type targetElementType)
-        {
-            return Device.GetNamedSize(size, targetElementType);
-        }
-
-        /// <summary>
         /// Invokes an Action on the device main (UI) thread.
         /// </summary>
         /// <param name="action">The Action to invoke</param>

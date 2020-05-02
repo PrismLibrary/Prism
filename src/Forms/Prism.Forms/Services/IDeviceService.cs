@@ -48,22 +48,6 @@ namespace Prism.Services
         /// </summary>
         /// <returns>The current SynchronizationContext from the main thread.</returns>
         Task<SynchronizationContext> GetMainThreadSynchronizationContextAsync();
-
-        /// <summary>
-        /// Returns a double that represents a font size that corresponds to size on targetElement.
-        /// </summary>
-        /// <param name="size">The named size for which to get the numeric size.</param>
-        /// <param name="targetElement">The element for which to calculate the numeric size.</param>
-        /// <returns>A double that represents a font size that corresponds to size on targetElement.</returns>
-        double GetNamedSize(NamedSize size, Element targetElement);
-
-        /// <summary>
-        /// Returns a double that represents the named size for the font that is used on the element on the native platform.
-        /// </summary>
-        /// <param name="size">The named size for which to get the numeric size.</param>
-        /// <param name="targetElementType">The element type for which to calculate the numeric size.</param>
-        /// <returns>The named size for the font that is used on the element on the native platform.</returns>
-        double GetNamedSize(NamedSize size, Type targetElementType);
         
         /// <summary>
         /// Invokes an Action on the device main (UI) thread.
