@@ -4,12 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xaml;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Prism.Container.Wpf.Tests.Ioc
 {
@@ -22,17 +23,26 @@ namespace Prism.Container.Wpf.Tests.Ioc
             ["B"] = new MockService(),
         };
 
+        private static readonly IContainerExtension _containerExtension
+             = ContainerHelper.CreateContainerExtension();
+
+        static ContainerProviderExtensionFixture()
+        {
+            // Preload assembly to resolve 'xmlns:prism' on xaml.
+            Assembly.Load("Prism.Wpf");
+
+            _containerExtension.RegisterInstance<IService>(_unnamedService);
+            foreach (var kvp in _namedServiceDictionary)
+            {
+                _containerExtension.RegisterInstance<IService>(kvp.Value, kvp.Key);
+            }
+            _containerExtension.FinalizeExtension();
+        }
+
         public ContainerProviderExtensionFixture()
         {
             ContainerLocator.ResetContainer();
-            ContainerLocator.SetContainerExtension(() => ContainerHelper.CreateContainerExtension());
-            var containerExtension = ContainerLocator.Current;
-            containerExtension.RegisterInstance<IService>(_unnamedService);
-            foreach (var kvp in _namedServiceDictionary)
-            {
-                containerExtension.RegisterInstance<IService>(kvp.Value, kvp.Key);
-            }
-            containerExtension.FinalizeExtension();
+            ContainerLocator.SetContainerExtension(() => _containerExtension);
         }
 
         public void Dispose()
@@ -82,7 +92,7 @@ namespace Prism.Container.Wpf.Tests.Ioc
         [InlineData("B")]
         public void CanResolvedNamedServiceUsingProperty(string name)
         {
-            var expected = _namedServiceDictionary[name];
+            var expectedService = _namedServiceDictionary[name];
 
             var containerProvider = new ContainerProviderExtension()
             {
@@ -91,13 +101,10 @@ namespace Prism.Container.Wpf.Tests.Ioc
             };
             var service = containerProvider.ProvideValue(null);
 
-            Assert.Same(expected, service);
+            Assert.Same(expectedService, service);
         }
 
-        [WpfFact]
-        public void CanResolveServiceFromMarkupExtension()
-        {
-            var xaml =
+        private const string _xamlWithMarkupExtension =
 @"<Window 
   xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
   xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
@@ -105,34 +112,40 @@ namespace Prism.Container.Wpf.Tests.Ioc
   xmlns:mocks='clr-namespace:Prism.IocContainer.Wpf.Tests.Support.Mocks;assembly=Prism.IocContainer.Wpf.Tests.Support'
   DataContext='{prism:ContainerProvider mocks:IService}' />";
 
-            using (var reader = new StringReader(xaml))
-            {
-                var window = XamlServices.Load(reader) as Window;
-
-                Assert.Same(_unnamedService, window.DataContext);
-            }
-        }
-
-        [WpfFact]
-        public void CanResolveServiceFromXmlElement()
-        {
-            var xaml =
+        private const string _xamlWithXmlElement =
 @"<Window
   xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
   xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
-  xmlns:prism='clr-namespace:Prism.Ioc;assembly=Prism.Wpf'
+  xmlns:prism='http://prismlibrary.com/'
   xmlns:mocks='clr-namespace:Prism.IocContainer.Wpf.Tests.Support.Mocks;assembly=Prism.IocContainer.Wpf.Tests.Support'>
   <Window.DataContext>
     <prism:ContainerProvider Type='mocks:IService' />
   </Window.DataContext>
 </Window>";
 
-            using (var reader = new StringReader(xaml))
-            {
-                var window = XamlServices.Load(reader) as Window;
+        [Theory]
+        [InlineData(_xamlWithMarkupExtension)]
+        [InlineData(_xamlWithXmlElement)]
+        public void CanResolveServiceFromXaml(string xaml)
+        {
+            // Don't use StaTheoryAttribute. 
+            // If use StaTheoryAttribute, ContainerLocator.Current will be changed by other test method
+            // and Window.DataContext will be null.
 
-                Assert.Same(_unnamedService, window.DataContext);
-            }
+            object dataContext = null;
+            var thread = new Thread(() =>
+            {
+                using (var reader = new StringReader(xaml))
+                {
+                    var window = XamlServices.Load(reader) as Window;
+                    dataContext = window.DataContext;
+                }
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            thread.Join();
+
+            Assert.Same(_unnamedService, dataContext);
         }
     }
 }
