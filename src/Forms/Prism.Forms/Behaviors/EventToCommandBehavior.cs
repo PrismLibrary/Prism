@@ -34,28 +34,54 @@ namespace Prism.Behaviors
     // This is a modified version of https://anthonysimmon.com/eventtocommand-in-xamarin-forms-apps/
     public class EventToCommandBehavior : BehaviorBase<BindableObject>
     {
+        /// <summary>
+        /// Bindable property for Name of the event that will be forwarded to 
+        /// <see cref="EventToCommandBehavior.Command"/>
+        /// </summary>
         public static readonly BindableProperty EventNameProperty =
             BindableProperty.Create(nameof(EventName), typeof(string), typeof(EventToCommandBehavior));
 
+        /// <summary>
+        /// Bindable property for Command to execute
+        /// </summary>
         public static readonly BindableProperty CommandProperty =
             BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(EventToCommandBehavior));
 
+        /// <summary>
+        /// Bindable property for Argument sent to <see cref="ICommand.Execute(object)"/>
+        /// </summary>
         public static readonly BindableProperty CommandParameterProperty =
             BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(EventToCommandBehavior));
 
+        /// <summary>
+        /// Bindable property to set instance of <see cref="IValueConverter" /> to convert the <see cref="EventArgs" /> for <see cref="EventName" />
+        /// </summary>
         public static readonly BindableProperty EventArgsConverterProperty =
             BindableProperty.Create(nameof(EventArgsConverter), typeof(IValueConverter), typeof(EventToCommandBehavior));
 
+        /// <summary>
+        /// Bindable property to set Argument passed as parameter to <see cref="IValueConverter.Convert" />
+        /// </summary>
         public static readonly BindableProperty EventArgsConverterParameterProperty =
             BindableProperty.Create(nameof(EventArgsConverterParameter), typeof(object), typeof(EventToCommandBehavior));
 
+        /// <summary>
+        /// Bindable property to set Parameter path to extract property from <see cref="EventArgs"/> instance to pass to <see cref="ICommand.Execute"/>
+        /// </summary>
         public static readonly BindableProperty EventArgsParameterPathProperty =
             BindableProperty.Create(
                 nameof(EventArgsParameterPath),
                 typeof(string),
                 typeof(EventToCommandBehavior));
 
+        /// <summary>
+        /// <see cref="EventInfo"/>
+        /// </summary>
         protected EventInfo _eventInfo;
+
+        /// <summary>
+        /// Delegate to Invoke when event is raised
+        /// </summary>
         protected Delegate _handler;
 
         /// <summary>
@@ -120,6 +146,12 @@ namespace Prism.Behaviors
             set { SetValue(EventArgsConverterParameterProperty, value); }
         }
 
+        /// <summary>
+        /// Subscribes to the event <see cref="BindableObject"/> object
+        /// </summary>
+        /// <param name="bindable">Bindable object that is source of event to Attach</param>
+        /// <exception cref="ArgumentException">Thrown if no matching event exists on 
+        /// <see cref="BindableObject"/></exception>
         protected override void OnAttachedTo(BindableObject bindable)
         {
             base.OnAttachedTo(bindable);
@@ -136,6 +168,10 @@ namespace Prism.Behaviors
             AddEventHandler(_eventInfo, AssociatedObject, OnEventRaised);
         }
 
+        /// <summary>
+        /// Unsubscribes from the event on <paramref name="bindable"/>
+        /// </summary>
+        /// <param name="bindable"><see cref="BindableObject"/> that is source of event</param>
         protected override void OnDetachingFrom(BindableObject bindable)
         {
             if (_handler != null)
@@ -167,6 +203,11 @@ namespace Prism.Behaviors
             eventInfo.AddEventHandler(item, _handler);
         }
 
+        /// <summary>
+        /// Method called when event is raised
+        /// </summary>
+        /// <param name="sender">Source of that raised the event</param>
+        /// <param name="eventArgs">Arguments of the raised event</param>
         protected virtual void OnEventRaised(object sender, EventArgs eventArgs)
         {
             if (Command == null)
