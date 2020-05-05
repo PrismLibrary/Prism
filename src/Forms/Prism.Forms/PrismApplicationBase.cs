@@ -162,10 +162,6 @@ namespace Prism
             _containerExtension.CreateScope();
             NavigationService = _containerExtension.Resolve<INavigationService>();
 
-            // Ensure the Container doesn't inflate a Xamarin.Forms.Page here...
-            if (NavigationService is IPageAware pageAware)
-                pageAware.Page = null;
-
             InitializeModules();
         }
 
