@@ -19,7 +19,7 @@ namespace Prism.Unity
 #endif
     class UnityContainerExtension : IContainerExtension<IUnityContainer>, IContainerInfo
     {
-        private IUnityContainer _currentScope;
+        private UnityScopedProvider _currentScope;
 
         /// <summary>
         /// The instance of the wrapped container
@@ -48,6 +48,11 @@ namespace Prism.Unity
             Instance.RegisterFactory(typeof(IContainerProvider), c => c.Resolve<UnityContainerExtension>(currentContainer));
         }
 #endif
+
+        /// <summary>
+        /// Gets the current <see cref="IScopedProvider"/>
+        /// </summary>
+        public IScopedProvider CurrentScope => _currentScope;
 
         /// <summary>
         /// Used to perform any final steps for configuring the extension that may be required by the container.
@@ -281,7 +286,7 @@ namespace Prism.Unity
         {
             try
             {
-                var c = _currentScope ?? Instance;
+                var c = _currentScope?.Container ?? Instance;
                 var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
                 return c.Resolve(type, overrides);
             }
@@ -302,9 +307,9 @@ namespace Prism.Unity
         {
             try
             {
-                var c = _currentScope ?? Instance;
+                var c = _currentScope?.Container ?? Instance;
 
-                // Unit will simply return a new object() for unregistered Views
+                // Unity will simply return a new object() for unregistered Views
                 if (!c.IsRegistered(type, name))
                     throw new KeyNotFoundException($"No registered type {type.Name} with the key {name}.");
 
@@ -359,7 +364,7 @@ namespace Prism.Unity
         /// <summary>
         /// Creates a new Scope
         /// </summary>
-        public virtual void CreateScope() =>
+        public virtual IScopedProvider CreateScope() =>
             CreateScopeInternal();
 
         /// <summary>
@@ -369,17 +374,67 @@ namespace Prism.Unity
         /// <remarks>
         /// This should be called by custom implementations that Implement IServiceScopeFactory
         /// </remarks>
-        protected IUnityContainer CreateScopeInternal()
+        protected IScopedProvider CreateScopeInternal()
         {
-            if (_currentScope != null)
+            var child = Instance.CreateChildContainer();
+            _currentScope = new UnityScopedProvider(child);
+            return _currentScope;
+        }
+
+        private class UnityScopedProvider : IScopedProvider
+        {
+            public UnityScopedProvider(IUnityContainer container)
             {
-                _currentScope.Dispose();
-                _currentScope = null;
-                GC.Collect();
+                Container = container;
             }
 
-            _currentScope = Instance.CreateChildContainer();
-            return _currentScope;
+            public IUnityContainer Container { get; private set; }
+            public bool IsAttached { get; set; }
+            public IScopedProvider CurrentScope => this;
+
+            public IScopedProvider CreateScope() => this;
+
+            public void Dispose()
+            {
+                Container.Dispose();
+                Container = null;
+            }
+
+            public object Resolve(Type type) =>
+                Resolve(type, Array.Empty<(Type, object)>());
+
+            public object Resolve(Type type, string name) =>
+                Resolve(type, name, Array.Empty<(Type, object)>());
+
+            public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
+            {
+                try
+                {
+                    var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+                    return Container.Resolve(type, overrides);
+                }
+                catch (Exception ex)
+                {
+                    throw new ContainerResolutionException(type, ex);
+                }
+            }
+
+            public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
+            {
+                try
+                {
+                    // Unity will simply return a new object() for unregistered Views
+                    if (!Container.IsRegistered(type, name))
+                        throw new KeyNotFoundException($"No registered type {type.Name} with the key {name}.");
+
+                    var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
+                    return Container.Resolve(type, name, overrides);
+                }
+                catch (Exception ex)
+                {
+                    throw new ContainerResolutionException(type, name, ex);
+                }
+            }
         }
     }
 }

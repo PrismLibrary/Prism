@@ -16,6 +16,7 @@ namespace Prism.Forms.Tests.Common
         public PageUtilitiesFixture(ITestOutputHelper output)
         {
             _output = output;
+            Xamarin.Forms.Mocks.MockForms.Init();
         }
 
         [Fact]

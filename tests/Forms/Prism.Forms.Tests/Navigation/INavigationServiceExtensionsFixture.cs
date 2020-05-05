@@ -1,4 +1,5 @@
-﻿using Prism.Common;
+﻿using Moq;
+using Prism.Common;
 using Prism.Forms.Tests.Mocks;
 using Prism.Forms.Tests.Mocks.Views;
 using Prism.Forms.Tests.Navigation.Mocks.Views;
@@ -13,10 +14,14 @@ namespace Prism.Forms.Tests.Navigation
 {
 
     [Collection(nameof(PageNavigation))]
-    public class INavigationServiceExtensionsFixture
+    public class INavigationServiceExtensionsFixture : IDisposable
     {
         public INavigationServiceExtensionsFixture()
         {
+            ContainerLocator.ResetContainer();
+            var container = new Mock<IContainerExtension>();
+            container.Setup(x => x.CreateScope()).Returns(Mock.Of<IScopedProvider>());
+            ContainerLocator.SetContainerExtension(() => container.Object);
             PageNavigationRegistry.ClearRegistrationCache();
 
             PageNavigationRegistry.Register("NavigationPage", typeof(NavigationPage));
@@ -233,6 +238,11 @@ namespace Prism.Forms.Tests.Navigation
 
             path = ((NavigationPathPageMock)tabbedpage.Children[0]).ViewModel.NavigationService.GetNavigationUriPath();
             Assert.Equal("/MasterDetailPage/NavigationPage/TabbedPage1?selectedTab=Page1", path);
+        }
+
+        public void Dispose()
+        {
+            ContainerLocator.ResetContainer();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Prism.DryIoc
 #endif
     class DryIocContainerExtension : IContainerExtension<IContainer>, IContainerInfo
     {
-        private IResolverContext _currentScope;
+        private DryIocScopedProvider _currentScope;
 
         /// <summary>
         /// Gets the Default DryIoc Container Rules used by Prism
@@ -56,6 +56,11 @@ namespace Prism.DryIoc
             }, this);
         }
 #endif
+
+        /// <summary>
+        ///  Gets the current scope
+        /// </summary>
+        public IScopedProvider CurrentScope => _currentScope;
 
         /// <summary>
         /// Used to perform any final steps for configuring the extension that may be required by the container.
@@ -284,7 +289,7 @@ namespace Prism.DryIoc
         {
             try
             {
-                var container = _currentScope ?? Instance;
+                var container = _currentScope?.Resolver ?? Instance;
                 return container.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
             }
             catch (Exception ex)
@@ -304,7 +309,7 @@ namespace Prism.DryIoc
         {
             try
             {
-                var container = _currentScope ?? Instance;
+                var container = _currentScope?.Resolver ?? Instance;
                 return container.Resolve(type, name, args: parameters.Select(p => p.Instance).ToArray());
             }
             catch (Exception ex)
@@ -352,7 +357,7 @@ namespace Prism.DryIoc
         /// <summary>
         /// Creates a new Scope
         /// </summary>
-        public virtual void CreateScope() =>
+        public virtual IScopedProvider CreateScope() =>
             CreateScopeInternal();
 
         /// <summary>
@@ -362,17 +367,62 @@ namespace Prism.DryIoc
         /// <remarks>
         /// This should be called by custom implementations that Implement IServiceScopeFactory
         /// </remarks>
-        protected IResolverContext CreateScopeInternal()
+        protected IScopedProvider CreateScopeInternal()
         {
-            if (_currentScope != null)
+            var resolver = Instance.OpenScope();
+            _currentScope = new DryIocScopedProvider(resolver);
+            return _currentScope;
+        }
+
+        private class DryIocScopedProvider : IScopedProvider
+        {
+            public DryIocScopedProvider(IResolverContext resolver)
             {
-                _currentScope.Dispose();
-                _currentScope = null;
-                GC.Collect();
+                Resolver = resolver;
             }
 
-            _currentScope = Instance.OpenScope();
-            return _currentScope;
+            public bool IsAttached { get; set; }
+
+            public IResolverContext Resolver { get; private set; }
+            public IScopedProvider CurrentScope => this;
+
+            public IScopedProvider CreateScope() => this;
+
+            public void Dispose()
+            {
+                Resolver.Dispose();
+                Resolver = null;
+            }
+
+            public object Resolve(Type type) =>
+                Resolve(type, Array.Empty<(Type, object)>());
+
+            public object Resolve(Type type, string name) =>
+                Resolve(type, name, Array.Empty<(Type, object)>());
+
+            public object Resolve(Type type, params (Type Type, object Instance)[] parameters)
+            {
+                try
+                {
+                    return Resolver.Resolve(type, args: parameters.Select(p => p.Instance).ToArray());
+                }
+                catch (Exception ex)
+                {
+                    throw new ContainerResolutionException(type, ex);
+                }
+            }
+
+            public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
+            {
+                try
+                {
+                    return Resolver.Resolve(type, name, args: parameters.Select(p => p.Instance).ToArray());
+                }
+                catch (Exception ex)
+                {
+                    throw new ContainerResolutionException(type, name, ex);
+                }
+            }
         }
     }
 }

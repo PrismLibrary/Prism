@@ -121,19 +121,22 @@ namespace Prism
 
         private INavigationService CreateNavigationService(object view)
         {
-            var navService = Container.Resolve<INavigationService>();
-            if (!(view is Page page))
-                return navService;
-
-            // This could happen if someone manually sets the children of a TabbedPage
-            // and explicitly set AutowireViewModel = true
-            if (navService is IPageAware pa && pa.Page != page)
+            if(view is Page page)
             {
-                navService = Container.Resolve<INavigationService>(NavigationServiceName);
-                page.SetValue(Navigation.Xaml.Navigation.NavigationServiceProperty, navService);
+                return Navigation.Xaml.Navigation.GetNavigationService(page);
+            }
+            else if (view is VisualElement visualElement)
+            {
+                page = ViewModelLocator.GetAutowirePartialView(visualElement);
+                if (page != null)
+                {
+                    return CreateNavigationService(page);
+                }
+
+                return CreateNavigationService(visualElement.Parent);
             }
 
-            return navService;
+            return Container.Resolve<INavigationService>();
         }
 
         /// <summary>

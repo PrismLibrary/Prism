@@ -15,10 +15,7 @@ namespace Prism.DI.Forms.Tests
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-#if DryIoc
-            containerRegistry.Register<INavigationService, CustomNavigationServiceMock>();
-#endif
-            containerRegistry.Register<INavigationService, CustomNavigationServiceMock>(NavigationServiceName);
+            containerRegistry.RegisterScoped<INavigationService, CustomNavigationServiceMock>();
         }
 
         public INavigationService GetNavigationService() => NavigationService;

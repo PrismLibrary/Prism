@@ -782,7 +782,7 @@ namespace Prism.Navigation
             try
             {
                 _container.CreateScope();
-                var page = _container.Resolve<object>(segmentName) as Page;
+                var page = (Page)_container.Resolve<object>(segmentName);
 
                 if (page is null)
                     throw new NullReferenceException($"The resolved type for {segmentName} was null. You may be attempting to navigate to a Non-Page type");
@@ -830,6 +830,12 @@ namespace Prism.Navigation
 
         private Page SetNavigationServiceForPage(Page page)
         {
+            // Someone explicitly set Autowire ViewModel
+            if (page.GetValue(Xaml.Navigation.NavigationServiceProperty) != null)
+                return page;
+
+            // This will wireup the Navigation Service in case you have something injected that
+            // actually required the Nav Service
             var childNavService = _container.Resolve<INavigationService>();
             if (childNavService is IPageAware pa)
                 pa.Page = page;

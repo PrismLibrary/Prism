@@ -80,6 +80,7 @@ namespace Prism.Behaviors
             }
 
             page.Behaviors.Add(new PageLifeCycleAwareBehavior());
+            page.Behaviors.Add(new PageScopeBehavior());
             ApplyPageBehaviors(page);
         }
 
