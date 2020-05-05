@@ -9,6 +9,7 @@ using Xamarin.Forms;
 using Prism.Logging;
 using Prism.Forms.Tests.Mocks.Logging;
 using Prism.Mvvm;
+using System;
 #if Autofac
 using Prism.Autofac;
 using Autofac;
@@ -32,10 +33,10 @@ namespace Prism.DI.Forms.Tests
         {
         }
 
-        public PrismApplicationMock(IPlatformInitializer platformInitializer, Page startPage) 
+        public PrismApplicationMock(IPlatformInitializer platformInitializer, Func<Page> startPage) 
             : this(platformInitializer)
         {
-            Current.MainPage = startPage;
+            MainPage = startPage?.Invoke();
         }
 
         public new INavigationService NavigationService => base.NavigationService;
