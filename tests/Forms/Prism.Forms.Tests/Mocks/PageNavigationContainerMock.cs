@@ -1,4 +1,5 @@
-﻿using Prism.Ioc;
+﻿using Moq;
+using Prism.Ioc;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace Prism.Forms.Tests.Mocks
         Dictionary<string, Type> _registeredPages = new Dictionary<string, Type>();
 
         public object Instance => throw new NotImplementedException();
+
+        public IScopedProvider CurrentScope { get; private set; }
 
         public IContainerRegistry Register(string key, Type type)
         {
@@ -109,9 +112,10 @@ namespace Prism.Forms.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public void CreateScope()
+        public IScopedProvider CreateScope()
         {
-            throw new NotImplementedException();
+            CurrentScope = Mock.Of<IScopedProvider>();
+            return CurrentScope;
         }
 
         public IContainerRegistry RegisterSingleton(Type type, Func<object> factoryMethod)

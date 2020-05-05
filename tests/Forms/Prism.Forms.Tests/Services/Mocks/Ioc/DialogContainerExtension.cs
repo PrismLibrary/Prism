@@ -10,6 +10,8 @@ namespace Prism.Forms.Tests.Services.Mocks.Ioc
     {
         private readonly MockContainer _container = new MockContainer();
 
+        public IScopedProvider CurrentScope { get; }
+
         public void CreateScope()
         {
             throw new NotImplementedException();
@@ -132,6 +134,11 @@ namespace Prism.Forms.Tests.Services.Mocks.Ioc
         }
 
         public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        IScopedProvider IContainerProvider.CreateScope()
         {
             throw new NotImplementedException();
         }

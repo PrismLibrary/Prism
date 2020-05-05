@@ -8,6 +8,8 @@ namespace Prism.Wpf.Tests.Mocks
     {
         public Dictionary<Type, object> ResolvedInstances = new Dictionary<Type, object>();
 
+        public IScopedProvider CurrentScope { get; }
+
         public void CreateScope()
         {
             throw new NotImplementedException();
@@ -130,6 +132,11 @@ namespace Prism.Wpf.Tests.Mocks
         }
 
         public object Resolve(Type type, string name, params (Type Type, object Instance)[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        IScopedProvider IContainerProvider.CreateScope()
         {
             throw new NotImplementedException();
         }

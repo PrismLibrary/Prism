@@ -1,4 +1,4 @@
-﻿using Prism.AppModel;
+using Prism.AppModel;
 using Prism.Behaviors;
 using Prism.Common;
 using Prism.Events;
@@ -10,6 +10,7 @@ using Prism.Navigation;
 using Prism.Services;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -25,12 +26,16 @@ namespace Prism
         /// Gets the Current PrismApplication
         /// </summary>
         public new static PrismApplicationBase Current => (PrismApplicationBase) Application.Current;
+
+        /// <summary>
+        /// The registration name to create a new transient instance of the <see cref="INavigationService"/>
+        /// </summary>
         public const string NavigationServiceName = "PageNavigationService";
-        public const string NavigationServiceParameterName = "navigationService";
-        IContainerExtension _containerExtension;
-        IModuleCatalog _moduleCatalog;
-        Page _previousPage = null;
-        bool _setFormsDependencyResolver { get; }
+
+        private IContainerExtension _containerExtension;
+        private IModuleCatalog _moduleCatalog;
+        private Page _previousPage = null;
+        private bool _setFormsDependencyResolver { get; }
 
         /// <summary>
         /// The dependency injection container used to resolve objects
@@ -83,7 +88,7 @@ namespace Prism
         /// <summary>
         /// Run the initialization process.
         /// </summary>
-        void InitializeInternal()
+        private void InitializeInternal()
         {
             ConfigureViewModelLocator();
             Initialize();
@@ -97,38 +102,41 @@ namespace Prism
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                INavigationService navigationService = null;
-                switch (view)
+                List<(Type Type, object Instance)> overrides = new List<(Type, object)>();
+                if(Container.IsRegistered<IResolverOverridesHelper>())
                 {
-                    case Page page:
-                        navigationService = CreateNavigationService(page);
-                        break;
-                    case BindableObject bindable:
-                        if (bindable.GetValue(ViewModelLocator.AutowirePartialViewProperty) is Page attachedPage)
-                        {
-                            navigationService = CreateNavigationService(attachedPage);
-                        }
-                        break;
+                    var resolver = Container.Resolve<IResolverOverridesHelper>();
+                    overrides.AddRange(resolver.GetOverrides());
                 }
 
-                return Container.Resolve(type, (typeof(INavigationService), navigationService));
+                if(!overrides.Any(x => x.Type == typeof(INavigationService)))
+                {
+                    var navService = CreateNavigationService(view);
+                    overrides.Add((typeof(INavigationService), navService));
+                }
+
+                return Container.Resolve(type, overrides.ToArray());
             });
         }
 
-        /// <summary>
-        /// Creates a new <see cref="INavigationService" /> with the proper context of which <see cref="Page" /> to navigation from.
-        /// </summary>
-        /// <param name="page">The current <see cref="Page" /> that the <see cref="INavigationService" /> will navigation from.</param>
-        /// <returns>The <see cref="INavigationService" /></returns>
-        protected INavigationService CreateNavigationService(Page page)
+        private INavigationService CreateNavigationService(object view)
         {
-            var navService = Container.Resolve<INavigationService>(NavigationServiceName);
-            if(navService is IPageAware pa)
+            if(view is Page page)
             {
-                pa.Page = page;
+                return Navigation.Xaml.Navigation.GetNavigationService(page);
+            }
+            else if (view is VisualElement visualElement)
+            {
+                page = ViewModelLocator.GetAutowirePartialView(visualElement);
+                if (page != null)
+                {
+                    return CreateNavigationService(page);
+                }
+
+                return CreateNavigationService(visualElement.Parent);
             }
 
-            return navService;
+            return Container.Resolve<INavigationService>();
         }
 
         /// <summary>
@@ -151,7 +159,8 @@ namespace Prism
             _moduleCatalog = Container.Resolve<IModuleCatalog>();
             ConfigureModuleCatalog(_moduleCatalog);
 
-            NavigationService = _containerExtension.CreateNavigationService(null);
+            _containerExtension.CreateScope();
+            NavigationService = _containerExtension.Resolve<INavigationService>();
 
             InitializeModules();
         }
@@ -178,9 +187,16 @@ namespace Prism
 #endif
         }
 
+        /// <summary>
+        /// Customizes the registration name when using <see cref="AutoRegisterForNavigationAttribute"/>
+        /// </summary>
+        /// <remarks>
+        /// This will be removed in a future version once we have a separate code gen tool
+        /// </remarks>
+        /// <param name="pageType">The page <see cref="Type"/></param>
+        /// <returns>The name used while navigating</returns>
         protected virtual string GetNavigationSegmentNameFromType(Type pageType) =>
             pageType.Name;
-
 
         /// <summary>
         /// Creates the container used by Prism.
@@ -205,6 +221,7 @@ namespace Prism
             containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
             containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
             containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
+            containerRegistry.RegisterScoped<INavigationService, PageNavigationService>();
             containerRegistry.Register<INavigationService, PageNavigationService>(NavigationServiceName);
         }
 
@@ -236,6 +253,13 @@ namespace Prism
         /// </summary>
         protected abstract void OnInitialized();
 
+        /// <summary>
+        /// Application developers override this method to perform actions when the application
+        /// resumes from a sleeping state
+        /// </summary>
+        /// <remarks>
+        /// Be sure to call base.OnResume() or you will lose support for IApplicationLifecycleAware
+        /// </remarks>
         protected override void OnResume()
         {
             if (MainPage != null)
@@ -245,6 +269,13 @@ namespace Prism
             }
         }
 
+        /// <summary>
+        /// Application developers override this method to perform actions when the application
+        /// enters the sleeping state
+        /// </summary>
+        /// <remarks>
+        /// Be sure to call base.OnSleep() or you will lose support for IApplicationLifecycleAware
+        /// </remarks>
         protected override void OnSleep()
         {
             if (MainPage != null)

@@ -1,4 +1,5 @@
-﻿using Prism.Common;
+﻿using Moq;
+using Prism.Common;
 using Prism.Forms.Tests.Mocks;
 using Prism.Forms.Tests.Mocks.ViewModels;
 using Prism.Forms.Tests.Mocks.Views;
@@ -24,7 +25,9 @@ namespace Prism.Forms.Tests.Navigation
         {
             Xamarin.Forms.Mocks.MockForms.Init();
 
+            ContainerLocator.ResetContainer();
             _container = new PageNavigationContainerMock();
+            ContainerLocator.SetContainerExtension(() => _container);
 
             _container.Register("PageMock", typeof(PageMock));
 

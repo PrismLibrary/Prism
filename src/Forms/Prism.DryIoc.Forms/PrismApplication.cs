@@ -1,12 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using DryIoc;
-using Prism.Common;
+﻿using DryIoc;
 using Prism.Ioc;
-using Prism.Logging;
-using Prism.Navigation;
-using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
 [assembly: Xamarin.Forms.XmlnsDefinition("http://prismlibrary.com", "Prism.DryIoc")]
@@ -55,28 +48,5 @@ namespace Prism.DryIoc
         /// </summary>
         /// <returns>An instance of <see cref="Rules" /></returns>
         protected virtual Rules CreateContainerRules() => DryIocContainerExtension.DefaultRules;
-
-        /// <summary>
-        /// Configures the Container.
-        /// </summary>
-        /// <param name="containerRegistry"></param>
-        protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
-        {
-            base.RegisterRequiredTypes(containerRegistry);
-            containerRegistry.GetContainer().Register<INavigationService, PageNavigationService>();
-            containerRegistry.GetContainer().Register<INavigationService>(
-                made: Made.Of(() => SetPage(Arg.Of<INavigationService>(), Arg.Of<Page>())),
-                setup: Setup.Decorator);
-        }
-
-        internal static INavigationService SetPage(INavigationService navigationService, Page page)
-        {
-            if (navigationService is IPageAware pageAware)
-            {
-                pageAware.Page = page;
-            }
-
-            return navigationService;
-        }
     }
 }

@@ -1,24 +1,31 @@
+using System;
 using Prism.DI.Forms.Tests.Mocks;
+using Prism.Ioc;
 using Xamarin.Forms;
-using Xunit;
 using Xunit.Abstractions;
 
 namespace Prism.DI.Forms.Tests.Fixtures
 {
-    public abstract class FixtureBase
+    public abstract class FixtureBase : IDisposable
     {
         protected ITestOutputHelper _testOutputHelper { get; }
 
-        public FixtureBase(ITestOutputHelper testOutputHelper)
+        protected FixtureBase(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
+            ContainerLocator.ResetContainer();
             Xamarin.Forms.Mocks.MockForms.Init();
         }
 
-        protected PrismApplicationMock CreateMockApplication(Page view = null)
+        protected PrismApplicationMock CreateMockApplication(Func<Page> viewFactory = null)
         {
             var initializer = new XunitPlatformInitializer(_testOutputHelper);
-            return view == null ? new PrismApplicationMock(initializer) : new PrismApplicationMock(initializer, view);
+            return viewFactory == null ? new PrismApplicationMock(initializer) : new PrismApplicationMock(initializer, viewFactory);
+        }
+
+        public void Dispose()
+        {
+            ContainerLocator.ResetContainer();
         }
     }
 }

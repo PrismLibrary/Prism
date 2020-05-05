@@ -2,24 +2,18 @@ jobs:
 
 - job: UnoUITest_Wasm
   displayName: Uno UITest WebAssembly
-
   container: unoplatform/wasm-build:2.0
-
+  condition: and(succeeded(), eq(variables['EnableUITest'], 'true'))
   pool:
     vmImage: $(LinuxImage)
-
   workspace:
     clean: all
-
   steps:
-
   - bash: |
       build/scripts/wasm-uitest-run.sh
-
     env:
       BUILD_SOURCESDIRECTORY: "$(build.sourcesdirectory)"
       BUILD_ARTIFACTSTAGINGDIRECTORY: "$(build.artifactstagingdirectory)"
-
     displayName: 'Run UI Tests'
 
   - task: PublishTestResults@2
@@ -37,10 +31,9 @@ jobs:
       ArtifactName: UnoUITests
       ArtifactType: Container
 
-
 - job: UnoUITest_Android
   displayName: Uno UITest Android
-
+  condition: and(succeeded(), eq(variables['EnableUITest'], 'true'))
   pool:
     vmImage: $(MacImage)
 
@@ -77,13 +70,11 @@ jobs:
 
 - job: UnoUITest_iOS
   displayName: Uno UITest iOS
-
+  condition: and(succeeded(), eq(variables['EnableUITest'], 'true'))
   pool:
     vmImage: $(MacImage)
-
   workspace:
     clean: all
-
   steps:
   - template: ../steps/set-runtime.yml
 

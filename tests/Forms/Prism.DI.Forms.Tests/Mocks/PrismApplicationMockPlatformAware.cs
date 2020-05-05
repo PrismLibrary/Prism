@@ -9,15 +9,10 @@ using Xamarin.Forms;
 using Prism.Logging;
 using Prism.Forms.Tests.Mocks.Logging;
 using Prism.Mvvm;
-#if Autofac
-using Prism.Autofac;
-using Autofac;
-#elif DryIoc
+using System;
+#if DryIoc
 using Prism.DryIoc;
 using DryIoc;
-#elif Ninject
-using Prism.Ninject;
-using Ninject;
 #elif Unity
 using Prism.Unity;
 using Unity;
@@ -32,7 +27,7 @@ namespace Prism.DI.Forms.Tests
         {
         }
 
-        public PrismApplicationMockPlatformAware(IPlatformInitializer platformInitializer, Page startPage) 
+        public PrismApplicationMockPlatformAware(IPlatformInitializer platformInitializer, Func<Page> startPage) 
             : base(platformInitializer, startPage)
         {
         }

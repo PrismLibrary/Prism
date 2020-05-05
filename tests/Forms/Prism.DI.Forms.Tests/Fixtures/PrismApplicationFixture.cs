@@ -59,8 +59,8 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         [Fact]
         public void OnInitialized_SetPage()
         {
-            var view = new ViewMock();
-            var app = CreateMockApplication(view);
+            Page view = null;
+            var app = CreateMockApplication(() => view = new ViewMock());
             Assert.True(app.Initialized);
             Assert.NotNull(Application.Current.MainPage);
             Assert.Same(view, Application.Current.MainPage);
@@ -224,7 +224,8 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         [Fact]
         public void CustomNamedNavigationService_Resolved_In_ViewModel()
         {
-            var app = CreateMockApplication(new CustomNamedNavService());
+            var app = CreateMockApplication();
+            app.MainPage = new CustomNamedNavService();
             var vm = app.MainPage.BindingContext as CustomNamedNavServiceViewModel;
 
             Assert.NotNull(vm);

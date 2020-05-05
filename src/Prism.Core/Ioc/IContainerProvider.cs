@@ -42,6 +42,11 @@ namespace Prism.Ioc
         /// <summary>
         /// Creates a new scope
         /// </summary>
-        void CreateScope();
+        IScopedProvider CreateScope();
+
+        /// <summary>
+        /// Gets the Current Scope
+        /// </summary>
+        IScopedProvider CurrentScope { get; }
     }
 }

@@ -9,6 +9,11 @@ namespace Prism.Forms.Tests.Modularity
 {
     public class ModuleFixture
     {
+        public ModuleFixture()
+        {
+            Xamarin.Forms.Mocks.MockForms.Init();
+        }
+
         [Fact]
         public void BasicCatalogHasThreeModules()
         {
