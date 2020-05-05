@@ -32,8 +32,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Forms", "..\..\src\Fo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Forms", "..\..\src\Forms\Prism.DryIoc.Forms\Prism.DryIoc.Forms.csproj", "{74F5E189-BF46-4D6A-BDF9-752D44E3E2DD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "containers", "containers", "{65A6E069-67F8-494E-9B34-FFBDBD587A75}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.DryIoc.Shared", "..\..\src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.shproj", "{6E7EC81D-DA39-4C4F-A898-0148558C34F4}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{6e7ec81d-da39-4c4f-a898-0148558c34f4}*SharedItemsImports = 13
 		..\..\src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{74f5e189-bf46-4d6a-bdf9-752d44e3e2dd}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -704,6 +709,8 @@ Global
 		{57CAB459-1FE8-45FB-9E73-EDBE84F7E190} = {FAF925D4-455B-448F-B048-6469DE52D341}
 		{966CA02B-30A1-41A6-B514-BE8BDF942EF3} = {FAF925D4-455B-448F-B048-6469DE52D341}
 		{74F5E189-BF46-4D6A-BDF9-752D44E3E2DD} = {FAF925D4-455B-448F-B048-6469DE52D341}
+		{65A6E069-67F8-494E-9B34-FFBDBD587A75} = {FAF925D4-455B-448F-B048-6469DE52D341}
+		{6E7EC81D-DA39-4C4F-A898-0148558C34F4} = {65A6E069-67F8-494E-9B34-FFBDBD587A75}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9E406BB3-20B9-4659-9660-A29BE45C4626}
