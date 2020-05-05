@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Forms\Prism.Forms\Prism.Forms.csproj" />
     <ProjectReference Include="..\..\..\..\src\Prism.Core\Prism.Core.csproj" />
   </ItemGroup>
