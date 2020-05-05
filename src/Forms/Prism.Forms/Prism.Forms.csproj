@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Prism</RootNamespace>
-    <TargetFrameworks>netstandard2.0;MonoAndroid81</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;MonoAndroid90;MonoAndroid10.0</TargetFrameworks>
     <Title>Prism for Xamarin.Forms</Title>
     <!-- Summary is not actually supported at this time. Including the summary for future support. -->
     <!--<Summary>Prism for Xamarin.Forms helps you more easily design and build rich, flexible, and easy to maintain Xamarin.Forms applications.</Summary>-->
@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />
+    <PackageReference Include="Xamarin.Forms" Version="4.6.0.726" />
   </ItemGroup>
 
   <ItemGroup>

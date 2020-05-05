@@ -1,5 +1,8 @@
 ﻿using Prism.AppModel;
 using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Prism.Services
@@ -10,10 +13,20 @@ namespace Prism.Services
     public interface IDeviceService
     {
         /// <summary>
+        /// Gets a list of custom flags that were set on the device before Xamarin.Forms was initialized.
+        /// </summary>
+        IReadOnlyList<string> Flags { get; }
+        
+        /// <summary>
+        /// Gets the flow direction on the device.
+        /// </summary>
+        FlowDirection FlowDirection { get; }
+        
+        /// <summary>
         /// Gets the kind of device that Xamarin.Forms is currently working on.
         /// </summary>
         TargetIdiom Idiom { get; }
-
+        
         /// <summary>
         /// Gets the Platform (OS) that the application is running on.  This is the native Device.RunTimePlatform property.
         /// </summary>
@@ -29,6 +42,54 @@ namespace Prism.Services
         /// </summary>
         /// <param name="action">The Action to invoke</param>
         void BeginInvokeOnMainThread(Action action);
+
+        /// <summary>
+        /// Returns the current SynchronizationContext from the main thread.
+        /// </summary>
+        /// <returns>The current SynchronizationContext from the main thread.</returns>
+        Task<SynchronizationContext> GetMainThreadSynchronizationContextAsync();
+        
+        /// <summary>
+        /// Invokes an Action on the device main (UI) thread.
+        /// </summary>
+        /// <param name="action">The Action to invoke</param>
+        /// <returns>A task representing the work to be performed</returns>
+        Task InvokeOnMainThreadAsync(Action action);
+
+        /// <summary>
+        /// Invokes a Func on the device main (UI) thread.
+        /// </summary>
+        /// <param name="func">The Func to invoke.</param>
+        /// <typeparam name="T">The return type of the Func.</typeparam>
+        /// <returns>A task of type T representing the work to be performed</returns>
+        Task<T> InvokeOnMainThreadAsync<T>(Func<T> func);
+
+        /// <summary>
+        /// Invokes a Func on the device main (UI) thread.
+        /// </summary>
+        /// <param name="funcTask">The return type of the Func.</param>
+        /// <typeparam name="T">The return type of the Func.</typeparam>
+        /// <returns>A task of type T representing the work to be performed</returns>
+        Task<T> InvokeOnMainThreadAsync<T>(Func<Task<T>> funcTask);
+
+        /// <summary>
+        /// Invokes a Func on the device main (UI) thread.
+        /// </summary>
+        /// <param name="funcTask">The Func to invoke.</param>
+        /// <returns>A task representing the work to be performed</returns>
+        Task InvokeOnMainThreadAsync(Func<Task> funcTask);
+
+        /// <summary>
+        /// Sets a list of custom flags on the device.
+        /// </summary>
+        /// <param name="flags">The list of custom flag values.</param>
+        void SetFlags(IReadOnlyList<string> flags);
+        
+        /// <summary>
+        /// Sets the flow direction on the device.
+        /// </summary>
+        /// <param name="flowDirection">The new flow direction value to set.</param>
+        void SetFlowDirection(FlowDirection flowDirection);
 
         /// <summary>
         /// Starts a recurring timer using the Device clock capabilities.
