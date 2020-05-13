@@ -339,6 +339,53 @@ namespace Prism.Regions
         /// <summary>
         /// Navigates the specified region manager.
         /// </summary>
+        /// <typeparam name="T">The type of the view to navigate</typeparam>
+        /// <param name="regionName">The name of the region to call Navigate on.</param>
+        public void RequestNavigate<T>(string regionName)
+        {
+            RequestNavigate(regionName, typeof(T).Name, nr => { });
+        }
+
+        /// <summary>
+        /// Navigates the specified region manager.
+        /// </summary>
+        /// <param name="regionName">The name of the region to call Navigate on.</param>
+        /// <typeparam name="T">The type of the view to navigate</typeparam>
+        /// <param name="navigationCallback">The navigation callback.</param>
+        public void RequestNavigate<T>(string regionName, Action<NavigationResult> navigationCallback)
+        {
+            if (typeof(T).Name == null)
+                throw new ArgumentNullException(typeof(T).Name);
+
+            RequestNavigate(regionName, new Uri(typeof(T).Name, UriKind.RelativeOrAbsolute), navigationCallback);
+        }
+
+        /// <summary>
+        /// This method allows an IRegionManager to locate a specified region and navigate in it to the specified target string, passing a navigation callback and an instance of NavigationParameters, which holds a collection of object parameters.
+        /// </summary>
+        /// <param name="regionName">The name of the region where the navigation will occur.</param>
+        /// <param name="navigationCallback">The navigation callback that will be executed after the navigation is completed.</param>
+        /// <typeparam name="T">The type of the view to navigate</typeparam>
+        /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
+        public void RequestNavigate<T>(string regionName, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        {
+            RequestNavigate(regionName, new Uri(typeof(T).Name, UriKind.RelativeOrAbsolute), navigationCallback, navigationParameters);
+        }
+
+        /// <summary>
+        /// This method allows an IRegionManager to locate a specified region and navigate in it to the specified target string, passing an instance of NavigationParameters, which holds a collection of object parameters.
+        /// </summary>
+        /// <param name="regionName">The name of the region where the navigation will occur.</param>
+        /// <typeparam name="T">The type of the view to navigate</typeparam>
+        /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
+        public void RequestNavigate<T>(string regionName, NavigationParameters navigationParameters)
+        {
+            RequestNavigate(regionName, new Uri(typeof(T).Name, UriKind.RelativeOrAbsolute), nr => { }, navigationParameters);
+        }
+
+        /// <summary>
+        /// Navigates the specified region manager.
+        /// </summary>
         /// <param name="regionName">The name of the region to call Navigate on.</param>
         /// <param name="source">The URI of the content to display.</param>
         /// <param name="navigationCallback">The navigation callback.</param>
