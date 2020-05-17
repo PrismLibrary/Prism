@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using Prism.Behaviors;
+using Prism.Extensions;
 using Prism.Properties;
 using Prism.Regions.Adapters;
 using Xamarin.Forms;
@@ -26,7 +28,9 @@ namespace Prism.Regions.Behaviors
         private readonly RegionAdapterMappings _regionAdapterMappings;
         private readonly object _trackerLock = new object();
 
+        private WeakReference _trackingElement;
         private WeakReference _elementWeakReference;
+        private WeakReference _pageWeakReference;
         private bool _regionCreated = false;
 
         /// <summary>
@@ -59,6 +63,18 @@ namespace Prism.Regions.Behaviors
             set => _elementWeakReference = new WeakReference(value);
         }
 
+        private Page ParentPage
+        {
+            get => _pageWeakReference != null ? _pageWeakReference.Target as Page : null;
+            set => _pageWeakReference = new WeakReference(value);
+        }
+
+        private Element TrackingElement
+        {
+            get => _trackingElement != null ? _trackingElement.Target as Element : null;
+            set => _trackingElement = new WeakReference(value);
+        }
+
         /// <summary>
         /// Start monitoring the <see cref="RegionManager"/> and the <see cref="TargetElement"/> to detect when the <see cref="TargetElement"/> becomes
         /// part of the Visual Tree. When that happens, the Region will be created and the behavior will <see cref="Detach"/>.
@@ -66,6 +82,7 @@ namespace Prism.Regions.Behaviors
         public void Attach()
         {
             RegionManagerAccessor.UpdatingRegions += OnUpdatingRegions;
+            TrackingElement = TargetElement;
             WireUpTargetElement();
         }
 
@@ -96,9 +113,7 @@ namespace Prism.Regions.Behaviors
                 return;
             }
 
-            // DependencyObject inherits from DispatcherObject which provides CheckAccess...
-            // TODO: Determine proper Forms replacement for CheckAccess...
-            //if (TargetElement.CheckAccess())
+            if (TargetElement.CheckForParentPage())
             {
                 Detach();
 
@@ -108,6 +123,12 @@ namespace Prism.Regions.Behaviors
                     CreateRegion(TargetElement, regionName);
                     _regionCreated = true;
                 }
+            }
+            else
+            {
+                TrackingElement.PropertyChanged -= TargetElement_ParentChanged;
+                TrackingElement = TargetElement.GetRoot();
+                TrackingElement.PropertyChanged += TargetElement_ParentChanged;
             }
         }
 
@@ -127,7 +148,8 @@ namespace Prism.Regions.Behaviors
                 // Build the region
                 var regionAdapter = _regionAdapterMappings.GetMapping(targetElement.GetType());
                 var region = regionAdapter.Initialize(targetElement, regionName);
-
+                var cleanupBehavior = new RegionCleanupBehavior(region);
+                TargetElement.GetParentPage().Behaviors.Add(cleanupBehavior);
                 return region;
             }
             catch (Exception ex)
@@ -138,7 +160,7 @@ namespace Prism.Regions.Behaviors
 
         private void WireUpTargetElement()
         {
-            TargetElement.PropertyChanged += TargetElement_ParentChanged;
+            TrackingElement.PropertyChanged += TargetElement_ParentChanged;
             Track();
 
             //if the element is a dependency object, and not a FrameworkElement, nothing is holding onto the reference after the DelayedRegionCreationBehavior
@@ -148,7 +170,7 @@ namespace Prism.Regions.Behaviors
 
         private void UnWireTargetElement()
         {
-            TargetElement.PropertyChanged -= TargetElement_ParentChanged;
+            TrackingElement.PropertyChanged -= TargetElement_ParentChanged;
             Untrack();
         }
 
