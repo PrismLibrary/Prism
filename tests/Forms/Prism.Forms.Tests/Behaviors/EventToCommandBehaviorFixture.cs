@@ -10,6 +10,11 @@ namespace Prism.Forms.Tests.Behaviors
 {
     public class EventToCommandBehaviorFixture
     {
+        public EventToCommandBehaviorFixture()
+        {
+            Xamarin.Forms.Mocks.MockForms.Init();
+        }
+
         private class ItemTappedEventArgsConverter : IValueConverter
         {
             private readonly bool _returnParameter;
