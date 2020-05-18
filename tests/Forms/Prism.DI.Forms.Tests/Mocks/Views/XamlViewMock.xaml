@@ -15,7 +15,6 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout>
-        <local:PartialView mvvm:ViewModelLocator.AutowirePartialView="{x:Reference xamlViewMock}" />
         <Entry x:Name="testEntry"
            Text="{Binding Test,Converter={StaticResource mockValueConverter}}" />
     </StackLayout>

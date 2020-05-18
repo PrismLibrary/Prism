@@ -13,7 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerProviderFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\FixtureBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Navigation\XamlNavigationFixture.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PartialViewFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PrismApplicationFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Converters\MockValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Events\TestActionEvent.cs" />
