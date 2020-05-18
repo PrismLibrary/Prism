@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Prism.Ioc;
 using Prism.Mvvm;
+using Prism.Navigation;
 using Prism.Properties;
 using Prism.Regions.Behaviors;
 using Prism.Regions.Navigation;
@@ -14,7 +15,7 @@ namespace Prism.Regions
     /// <summary>
     /// Implementation of <see cref="IRegion"/> that allows multiple active views.
     /// </summary>
-    public class Region : BindableBase, IRegion
+    public class Region : BindableBase, IRegion, INavigationServiceAware
     {
         private ObservableCollection<ItemMetadata> _itemMetadataCollection;
         private IRegionManager _regionManager;
@@ -30,6 +31,13 @@ namespace Prism.Regions
             Behaviors = new RegionBehaviorCollection(this);
 
             _sort = DefaultSortComparison;
+        }
+
+        private WeakReference<INavigationService> _weakNavigationService;
+        INavigationService INavigationServiceAware.NavigationService
+        {
+            get => _weakNavigationService.TryGetTarget(out var target) ? target : null;
+            set => _weakNavigationService = new WeakReference<INavigationService>(value);
         }
 
         private ViewsCollection _views;

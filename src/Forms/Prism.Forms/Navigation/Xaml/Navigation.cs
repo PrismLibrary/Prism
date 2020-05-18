@@ -72,7 +72,14 @@ namespace Prism.Navigation.Xaml
         /// <param name="value">The Can Navigate value</param>
         public static void SetCanNavigate(BindableObject view, bool value) => view.SetValue(CanNavigateProperty, value);
 
-        internal static INavigationService GetNavigationService(Page page)
+        /// <summary>
+        /// Gets the instance of <see cref="INavigationService"/> for the given <see cref="Page"/>
+        /// </summary>
+        /// <param name="page">The <see cref="Page"/></param>
+        /// <returns>The <see cref="INavigationService"/></returns>
+        /// <remarks>Do not use... this is an internal use API</remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static INavigationService GetNavigationService(Page page)
         {
             if(page == null) throw new ArgumentNullException(nameof(page));
 

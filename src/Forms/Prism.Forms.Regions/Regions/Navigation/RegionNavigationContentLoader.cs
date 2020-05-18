@@ -64,8 +64,10 @@ namespace Prism.Regions.Navigation
                 return view;
             }
 
+            var activeRegion = _container.Resolve<IActiveRegionHelper>();
+            activeRegion.ActiveRegion = region;
             view = CreateNewRegionItem(candidateTargetContract) as VisualElement;
-
+            activeRegion.ActiveRegion = null;
             region.Add(view);
 
             return view;

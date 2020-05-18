@@ -149,7 +149,13 @@ namespace Prism.Regions.Behaviors
                 var regionAdapter = _regionAdapterMappings.GetMapping(targetElement.GetType());
                 var region = regionAdapter.Initialize(targetElement, regionName);
                 var cleanupBehavior = new RegionCleanupBehavior(region);
-                TargetElement.GetParentPage().Behaviors.Add(cleanupBehavior);
+                var page = targetElement.GetParentPage();
+                page.Behaviors.Add(cleanupBehavior);
+                if (region is INavigationServiceAware nsa)
+                {
+                    nsa.NavigationService = Prism.Navigation.Xaml.Navigation.GetNavigationService(page);
+                }
+
                 return region;
             }
             catch (Exception ex)

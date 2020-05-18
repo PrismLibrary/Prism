@@ -106,7 +106,9 @@ namespace Prism
                 if(Container.IsRegistered<IResolverOverridesHelper>())
                 {
                     var resolver = Container.Resolve<IResolverOverridesHelper>();
-                    overrides.AddRange(resolver.GetOverrides());
+                    var resolverOverrides = resolver.GetOverrides();
+                    if(resolverOverrides.Any())
+                        overrides.AddRange(resolverOverrides);
                 }
 
                 if(!overrides.Any(x => x.Type == typeof(INavigationService)))
