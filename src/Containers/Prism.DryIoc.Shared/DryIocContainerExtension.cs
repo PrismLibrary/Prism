@@ -21,7 +21,7 @@ namespace Prism.DryIoc
         /// <summary>
         /// Gets the Default DryIoc Container Rules used by Prism
         /// </summary>
-        public static Rules DefaultRules => Rules.Default.WithAutoConcreteTypeResolution()
+        public static Rules DefaultRules => Rules.Default.WithConcreteTypeDynamicRegistrations()
                                                          .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
                                                          .WithFuncAndLazyWithoutRegistration()
                                                          .WithTrackingDisposableTransients()
