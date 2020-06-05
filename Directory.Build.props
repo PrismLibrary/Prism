@@ -18,6 +18,10 @@
     <RelativeProjectPath>$([System.Text.RegularExpressions.Regex]::Replace('$(MSBuildProjectFullPath)', '$(EscapedCurrentDirectory)', ''))</RelativeProjectPath>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != ''">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
   <PropertyGroup>
     <IsCoreProject>$(MSBuildProjectName.Equals('Prism.Core'))</IsCoreProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
@@ -70,9 +74,8 @@
   </PropertyGroup>
 
   <ItemGroup Condition=" $(IsPackable) ">
-    <PackageReference Condition=" '$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != '' "
-                      Include="Microsoft.SourceLink.GitHub"
-                      Version="1.0.0"
+    <PackageReference Include="Microsoft.SourceLink.GitHub"
+                      Version="1.1.0-beta-20204-02"
                       PrivateAssets="All" />
     <None Include="$(MSBuildThisFileDirectory)images/prism-logo.png"
           Visible="False"
@@ -85,10 +88,14 @@
   </ItemGroup>
 
   <ItemGroup Condition=" $(IsTestProject) ">
-    <None Include="$(MSBuildThisFileDirectory)xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)xunit.runner.json"
+          CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies"
+                      Version="1.0.0"
+                      PrivateAssets="All" />
+    <SourceRoot Include="$(NuGetPackageRoot)" Condition="'$(NuGetPackageRoot)' != ''" />
   </ItemGroup>
 </Project>
