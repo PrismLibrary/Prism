@@ -1,0 +1,37 @@
+<Project>
+  <Import Project="..\Directory.Build.props" />
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <IsPackable Condition=" '$(IsCoreProject)' ">!$(DisableCorePublish)</IsPackable>
+    <IsPackable Condition=" '$(IsWpfProject)' ">!$(DisableWpfPublish)</IsPackable>
+    <IsPackable Condition=" '$(IsFormsProject)' ">!$(DisableFormsPublish)</IsPackable>
+    <IsPackable Condition=" '$(IsUnoProject)' ">!$(DisableUnoPublish)</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>$(IsPackable)</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != ''">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" $(IsPackable) ">
+    <PackageReference Include="Microsoft.SourceLink.GitHub"
+                      Version="1.1.0-beta-20204-02"
+                      PrivateAssets="All" />
+    <None Include="$(PrismPackageIcon)"
+          Visible="False"
+          Pack="True"
+          PackagePath="" />
+    <None Include="$(PrismLicenseFile)"
+          Visible="False"
+          Pack="True"
+          PackagePath="" />
+    <SourceRoot Include="$(NuGetPackageRoot)"
+                Condition="'$(NuGetPackageRoot)' != ''" />
+  </ItemGroup>
+
+</Project>

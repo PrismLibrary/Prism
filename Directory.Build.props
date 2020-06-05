@@ -16,10 +16,8 @@
     <PackageOutputPath>$([System.IO.Path]::Combine('$(ArtifactStagingRoot)', 'NuGet'))</PackageOutputPath>
     <EscapedCurrentDirectory>$([System.Text.RegularExpressions.Regex]::Escape('$(MSBuildThisFileDirectory)'))</EscapedCurrentDirectory>
     <RelativeProjectPath>$([System.Text.RegularExpressions.Regex]::Replace('$(MSBuildProjectFullPath)', '$(EscapedCurrentDirectory)', ''))</RelativeProjectPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != ''">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <PrismPackageIcon>$(MSBuildThisFileDirectory)images/prism-logo.png</PrismPackageIcon>
+    <PrismLicenseFile>$(MSBuildThisFileDirectory)LICENSE</PrismLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -35,11 +33,7 @@
     <DisableWpfPublish Condition=" '$(DisableWpfPublish)' == '' ">false</DisableWpfPublish>
     <DisableFormsPublish Condition=" '$(DisableFormsPublish)' == '' ">false</DisableFormsPublish>
     <DisableUnoPublish Condition=" '$(DisableUnoPublish)' == '' ">false</DisableUnoPublish>
-    <IsPackable>$(RelativeProjectPath.StartsWith('src'))</IsPackable>
-    <IsPackable Condition=" '$(IsCoreProject)' And '$(IsPackable)' ">!$(DisableCorePublish)</IsPackable>
-    <IsPackable Condition=" '$(IsWpfProject)' And '$(IsPackable)' ">!$(DisableWpfPublish)</IsPackable>
-    <IsPackable Condition=" '$(IsFormsProject)' And '$(IsPackable)' ">!$(DisableFormsPublish)</IsPackable>
-    <IsPackable Condition=" '$(IsUnoProject)' And '$(IsPackable)' ">!$(DisableUnoPublish)</IsPackable>
+    <IsPackable>false</IsPackable>
     <PackageTags Condition=" '$(IsCoreProject)' == 'True' ">prism;wpf;xamarin;xaml</PackageTags>
     <PackageTags Condition=" '$(IsWpfProject)' == 'True' ">prism;mvvm;wpf;dependency injection;di</PackageTags>
     <PackageTags Condition=" '$(IsUnoProject)' == 'True' ">prism;mvvm;winui;uno-platform;xamarin;webassembly;android;ios;macos;dependency injection;di</PackageTags>
@@ -64,28 +58,9 @@
     <PackageReleaseNotes Condition=" '$(Version)' != '' ">https://github.com/PrismLibrary/Prism/releases/tag/v$(Version)</PackageReleaseNotes>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <GenerateDocumentationFile>!$(IsTestProject)</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>!$(IsTestProject)</GeneratePackageOnBuild>
-  </PropertyGroup>
-
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
   </PropertyGroup>
-
-  <ItemGroup Condition=" $(IsPackable) ">
-    <PackageReference Include="Microsoft.SourceLink.GitHub"
-                      Version="1.1.0-beta-20204-02"
-                      PrivateAssets="All" />
-    <None Include="$(MSBuildThisFileDirectory)images/prism-logo.png"
-          Visible="False"
-          Pack="True"
-          PackagePath="" />
-    <None Include="$(MSBuildThisFileDirectory)LICENSE"
-          Visible="False"
-          Pack="True"
-          PackagePath="" />
-  </ItemGroup>
 
   <ItemGroup Condition=" $(IsTestProject) ">
     <None Include="$(MSBuildThisFileDirectory)xunit.runner.json"
@@ -96,6 +71,5 @@
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies"
                       Version="1.0.0"
                       PrivateAssets="All" />
-    <SourceRoot Include="$(NuGetPackageRoot)" Condition="'$(NuGetPackageRoot)' != ''" />
   </ItemGroup>
 </Project>
