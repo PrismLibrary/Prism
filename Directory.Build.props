@@ -4,7 +4,7 @@
     <NeutralLanguage>en</NeutralLanguage>
     <Authors>Brian Lagunas;Dan Siegel</Authors>
     <PackageProjectUrl>https://github.com/PrismLibrary/Prism</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>prism-logo.png</PackageIcon>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>
@@ -75,6 +75,10 @@
                       Version="1.0.0"
                       PrivateAssets="All" />
     <None Include="$(MSBuildThisFileDirectory)images/prism-logo.png"
+          Visible="False"
+          Pack="True"
+          PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)LICENSE"
           Visible="False"
           Pack="True"
           PackagePath="" />
