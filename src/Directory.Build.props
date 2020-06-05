@@ -7,15 +7,12 @@
     <IsPackable Condition=" '$(IsWpfProject)' ">!$(DisableWpfPublish)</IsPackable>
     <IsPackable Condition=" '$(IsFormsProject)' ">!$(DisableFormsPublish)</IsPackable>
     <IsPackable Condition=" '$(IsUnoProject)' ">!$(DisableUnoPublish)</IsPackable>
+    <ContinuousIntegrationBuild Condition="'$(BUILD_BUILDID)' != ''">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>$(IsPackable)</GeneratePackageOnBuild>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(BUILD_ARTIFACTSTAGINGDIRECTORY)' != ''">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup Condition=" $(IsPackable) ">
