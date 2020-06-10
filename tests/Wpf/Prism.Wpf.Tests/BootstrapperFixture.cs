@@ -56,25 +56,6 @@ namespace Prism.Wpf.Tests
             Assert.IsType<TextLogger>(bootstrapper.BaseLogger);
         }
 
-        [StaFact]
-        public void ConfigureViewModelLocatorShouldUserServiceLocatorAsResolver()
-        {
-            var bootstrapper = new DefaultBootstrapper();
-
-            CreateAndConfigureServiceLocatorForViewModelLocator();
-
-            bootstrapper.CallConfigureViewModelLocator();
-
-            var view = new MockView();
-
-            ViewModelLocationProvider.AutoWireViewModelChanged(view, (v, vm) =>
-                {
-                    Assert.NotNull(v);
-                    Assert.NotNull(vm);
-                    Assert.IsType<MockViewModel>(vm);
-                });
-        }
-
         private static void CreateAndConfigureServiceLocatorForViewModelLocator()
         {
             var container = new MockContainerAdapter();
