@@ -166,7 +166,7 @@ namespace Prism
                 defaultRegionBehaviorTypesDictionary.AddIfMissing(AutoPopulateRegionBehavior.BehaviorKey,
                                                   typeof(AutoPopulateRegionBehavior));
 
-                defaultRegionBehaviorTypesDictionary.AddIfMissing(IDestructibleRegionBehavior.BehaviorKey, typeof(IDestructibleRegionBehavior));
+                defaultRegionBehaviorTypesDictionary.AddIfMissing(DestructibleRegionBehavior.BehaviorKey, typeof(DestructibleRegionBehavior));
             }
 
             return defaultRegionBehaviorTypesDictionary;
