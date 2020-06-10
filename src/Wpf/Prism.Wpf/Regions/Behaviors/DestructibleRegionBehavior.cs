@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 
 namespace Prism.Regions.Behaviors
 {
-    public class IDestructibleRegionBehavior : RegionBehavior
+    public class DestructibleRegionBehavior : RegionBehavior
     {
         public const string BehaviorKey = "IDestructibleRegionBehavior";
 
