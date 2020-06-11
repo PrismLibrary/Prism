@@ -70,7 +70,7 @@ These are the base packages for each platform, together with the Prism's Core as
 | Cross Platform | Prism.dll | [Prism.Core][CoreNuGet] | [![CoreNuGetShield]][CoreNuGet] | [![CoreMyGetShield]][CoreMyGet] | net45, net47, netstandard2.0 |
 | WPF | Prism.Wpf.dll | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfMyGetShield]][WpfMyGet] | net461, net47, net48, netcoreapp3.1 |
 | Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][FormsNuGet] | [![FormsNuGetShield]][FormsNuGet] | [![FormsMyGetShield]][FormsMyGet] | netstandard2.0 |
-| Uno Platform and WinUI | Prism.Uno.dll | [Prism.Uno][FormsNuGet] | [![UnoNuGetShield]][UnoNuGet] | [![UnoMyGetShield]][UnoMyGet] | netstandard2.0 (WebAssembly), xamarinios10, monoandroid90, xamarinmac20, uap10.0.16299|
+| Uno Platform and WinUI | Prism.Uno.dll | [Prism.Uno][UnoNuGet] | [![UnoNuGetShield]][UnoNuGet] | [![UnoMyGetShield]][UnoMyGet] | netstandard2.0 (WebAssembly), xamarinios10, monoandroid90, xamarinmac20, uap10.0.16299|
 
 ### Container-specific packages
 
