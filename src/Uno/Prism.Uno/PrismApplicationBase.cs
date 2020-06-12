@@ -204,6 +204,10 @@ namespace Prism
         protected virtual void InitializeShell(UIElement shell)
         {
             Windows.UI.Xaml.Window.Current.Content = shell;
+
+            // Activate must be called immediately in order for the Loaded event to be raised
+            // in the shell.
+            Windows.UI.Xaml.Window.Current.Activate();
         }
 
         /// <summary>
@@ -211,7 +215,6 @@ namespace Prism
         /// </summary>
         protected virtual void OnInitialized()
         {
-            Windows.UI.Xaml.Window.Current.Activate();
         }
 
         /// <summary>
