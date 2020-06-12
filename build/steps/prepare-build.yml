@@ -18,3 +18,4 @@ steps:
   inputs:
     restoreSolution: ${{ parameters.solution }}
     noCache: true
+    verbosityRestore: normal
