@@ -70,7 +70,6 @@ namespace Prism.Modularity
         /// </summary>
         /// <param name="catalog">The catalog to add the module to.</param>
         /// <param name="moduleName">Name of the module to be added.</param>
-        /// <param name="catalog">Catalog.</param>
         /// <param name="moduleType"><see cref="Type"/> of the module to be added.</param>
         /// <param name="dependsOn">Collection of module names (<see cref="IModuleInfo.ModuleName"/>) of the modules on which the module to be added logically depends on.</param>
         /// <returns>The same <see cref="IModuleCatalog"/> instance with the added module.</returns>
