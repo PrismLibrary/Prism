@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+    - name: File a bug with the Prism Templates
+      url: https://github.com/PrismLibrary/Prism.Templates/issues/new/choose
+      about: Issues related to the Prism Templates should be filed in the Prism.Templates repo
     - name: Ask a Question for Prism.Forms
       url: https://stackoverflow.com/questions/ask?tags=prism&tags=xamarin.forms
       about: Please ask and answer questions for Prism.Forms here.
