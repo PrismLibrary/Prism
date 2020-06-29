@@ -26,7 +26,7 @@ namespace Prism.DryIoc
                                                          .WithFuncAndLazyWithoutRegistration()
                                                          .WithTrackingDisposableTransients()
                                                          .WithoutFastExpressionCompiler()
-                                                         .WithDefaultIfAlreadyRegistered(IfAlreadyRegistered.Replace);
+                                                         .WithFactorySelector(Rules.SelectLastRegisteredFactory());
 
         /// <summary>
         /// The instance of the wrapped container
