@@ -6,7 +6,7 @@ namespace Prism.Services.Dialogs
     /// Represents Dialog parameters.
     /// </summary>
     /// <remarks>
-    /// A class that implements this interface can be used to to pass 
+    /// A class that implements this interface can be used to pass
     /// object parameters during the showing and closing of Dialogs.
     /// </remarks>
     public interface IDialogParameters
