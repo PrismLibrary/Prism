@@ -28,7 +28,7 @@ namespace Prism.Regions
         /// Gets a value that indicates whether there is at least one entry in the forward navigation history.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance can go forward; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance can go forward; otherwise, <c>false</c>.
         /// </value>
         bool CanGoForward { get; }
 

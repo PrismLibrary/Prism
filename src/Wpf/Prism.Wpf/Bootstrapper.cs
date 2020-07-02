@@ -48,7 +48,7 @@ namespace Prism
         /// <summary>
         /// Creates the container extension used by Prism.
         /// </summary>
-        /// <returns>The container extension</returns>
+        /// <returns>The container extension.</returns>
         protected abstract IContainerExtension CreateContainerExtension();
 
         /// <summary>

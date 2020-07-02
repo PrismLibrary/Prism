@@ -4,6 +4,9 @@ using Prism.Mvvm;
 
 namespace Prism.Unity
 {
+    /// <summary>
+    /// <see cref="IUnityContainer"/> extensions.
+    /// </summary>
     public static class UnityExtensions
     {
         /// <summary>

@@ -13,7 +13,7 @@ namespace Prism.Interactivity
     /// <summary>
     /// Base behavior to handle connecting a <see cref="System.Windows.Controls.Control"/> to a Command.
     /// </summary>
-    /// <typeparam name="T">The target object must derive from Control</typeparam>
+    /// <typeparam name="T">The target object must derive from Control.</typeparam>
     /// <remarks>
     /// CommandBehaviorBase can be used to provide new behaviors for commands.
     /// </remarks>
@@ -36,6 +36,10 @@ namespace Prism.Interactivity
         }
 
         bool _autoEnabled = true;
+        /// <summary>
+        /// If <c>true</c> the target object's IsEnabled property will update based on the commands ability to execute.
+        /// If <c>false</c> the target object's IsEnabled property will not update.
+        /// </summary>
         public bool AutoEnable
         {
             get { return _autoEnabled; }
@@ -47,7 +51,7 @@ namespace Prism.Interactivity
         }
 
         /// <summary>
-        /// Corresponding command to be execute and monitored for <see cref="ICommand.CanExecuteChanged"/>
+        /// Corresponding command to be execute and monitored for <see cref="ICommand.CanExecuteChanged"/>.
         /// </summary>
         public ICommand Command
         {
@@ -69,7 +73,7 @@ namespace Prism.Interactivity
         }
 
         /// <summary>
-        /// The parameter to supply the command during execution
+        /// The parameter to supply the command during execution.
         /// </summary>
         public object CommandParameter
         {
@@ -124,7 +128,7 @@ namespace Prism.Interactivity
         }
 
         /// <summary>
-        /// Executes the command, if it's set, providing the <see cref="CommandParameter"/>
+        /// Executes the command, if it's set, providing the <see cref="CommandParameter"/>.
         /// </summary>
         protected virtual void ExecuteCommand(object parameter)
         {
