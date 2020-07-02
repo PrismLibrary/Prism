@@ -16,9 +16,9 @@ namespace Prism.Services.Dialogs
         public DialogParameters() : base() { }
 
         /// <summary>
-        /// Constructs a list of parameters
+        /// Constructs a list of parameters.
         /// </summary>
-        /// <param name="query">Query string to be parsed</param>
+        /// <param name="query">Query string to be parsed.</param>
         public DialogParameters(string query) : base(query) { }
     }
 }
