@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Bootstrapper\BootstrapperNullModuleManagerFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Bootstrapper\BootstrapperRunMethodFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerExtensionFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerProviderExtensionFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\NullLoggerBootstrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\NullModuleCatalogBootstrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\NullModuleManagerBootstrapper.cs" />
