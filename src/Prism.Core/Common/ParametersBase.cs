@@ -8,23 +8,23 @@ using System.Text;
 namespace Prism.Common
 {
     /// <summary>
-    /// This is a generic parameters base class used for Dialog Parameters and Navigation Parameters
+    /// This is a generic parameters base class used for Dialog Parameters and Navigation Parameters.
     /// </summary>
     public abstract class ParametersBase : IEnumerable<KeyValuePair<string, object>>
     {
         private readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();
 
         /// <summary>
-        /// Default constructor
+        /// Default constructor.
         /// </summary>
         protected ParametersBase()
         {
         }
 
         /// <summary>
-        /// Constructs a list of parameters
+        /// Constructs a list of parameters.
         /// </summary>
-        /// <param name="query">Query string to be parsed</param>
+        /// <param name="query">Query string to be parsed.</param>
         protected ParametersBase(string query)
         {
             if (!string.IsNullOrWhiteSpace(query))
@@ -72,8 +72,8 @@ namespace Prism.Common
         /// Searches Parameter collection and returns value if Collection contains key.
         /// Otherswise returns null.
         /// </summary>
-        /// <param name="key">The key for the value to be returned</param>
-        /// <returns>The value of the parameter referenced by the key; otherwise <c>null</c></returns>
+        /// <param name="key">The key for the value to be returned.</param>
+        /// <returns>The value of the parameter referenced by the key; otherwise <c>null</c>.</returns>
         public object this[string key]
         {
             get
@@ -91,63 +91,63 @@ namespace Prism.Common
         }
 
         /// <summary>
-        /// The count, or number, of parameters in collection
+        /// The count, or number, of parameters in collection.
         /// </summary>
         public int Count => _entries.Count;
 
         /// <summary>
-        /// Returns an IEnumerable of the Keys in the collection
+        /// Returns an IEnumerable of the Keys in the collection.
         /// </summary>
         public IEnumerable<string> Keys => 
             _entries.Select(x => x.Key);
 
         /// <summary>
-        /// Adds the key and value to the parameters collection
+        /// Adds the key and value to the parameters collection.
         /// </summary>
-        /// <param name="key">The key to reference this value in the parameters collection</param>
-        /// <param name="value">The value of the parameter to store</param>
+        /// <param name="key">The key to reference this value in the parameters collection.</param>
+        /// <param name="value">The value of the parameter to store.</param>
         public void Add(string key, object value) =>
             _entries.Add(new KeyValuePair<string, object>(key, value));
 
         /// <summary>
-        /// Checks collection for presense of key
+        /// Checks collection for presence of key.
         /// </summary>
-        /// <param name="key">The key to check in the collection</param>
+        /// <param name="key">The key to check in the collection.</param>
         /// <returns><c>true</c> if key exists; else returns <c>false</c>.</returns>
         public bool ContainsKey(string key) =>
             _entries.ContainsKey(key);
 
         /// <summary>
-        /// Gets an enumerator for the KeyValuePairs in parameter collection
+        /// Gets an enumerator for the KeyValuePairs in parameter collection.
         /// </summary>
-        /// <returns>Enumerator</returns>
+        /// <returns>Enumerator.</returns>
         public IEnumerator<KeyValuePair<string, object>> GetEnumerator() =>
             _entries.GetEnumerator();
         
         /// <summary>
-        /// Returns the value of the member referenced by key
+        /// Returns the value of the member referenced by key.
         /// </summary>
-        /// <typeparam name="T">The type of object to be returned</typeparam>
-        /// <param name="key">The key for the value to be returned</param>
-        /// <returns>Returns a matching parameter of <typeparamref name="T"/> if one exists in the Collection</returns>
+        /// <typeparam name="T">The type of object to be returned.</typeparam>
+        /// <param name="key">The key for the value to be returned.</param>
+        /// <returns>Returns a matching parameter of <typeparamref name="T"/> if one exists in the Collection.</returns>
         public T GetValue<T>(string key) => 
             _entries.GetValue<T>(key);
 
         /// <summary>
-        /// Returns an IEnumerable of all parameters 
+        /// Returns an IEnumerable of all parameters .
         /// </summary>
-        /// <typeparam name="T">The type for the values to be returned</typeparam>
-        /// <param name="key">The key for the values to be returned</param>
-        ///<returns>Returns a IEnumberable of all the instances of type <typeparamref name="T"/></returns>
+        /// <typeparam name="T">The type for the values to be returned.</typeparam>
+        /// <param name="key">The key for the values to be returned.</param>
+        ///<returns>Returns a IEnumerable of all the instances of type <typeparamref name="T"/>.</returns>
         public IEnumerable<T> GetValues<T>(string key) =>
             _entries.GetValues<T>(key);
 
         /// <summary>
-        /// Checks to see if the parameter collection contains the value
+        /// Checks to see if the parameter collection contains the value.
         /// </summary>
-        /// <typeparam name="T">The type for the values to be returned</typeparam>
-        /// <param name="key">The key for the value to be returned</param>
-        /// <param name="value">Value of the returned parameter if it exists</param>
+        /// <typeparam name="T">The type for the values to be returned.</typeparam>
+        /// <param name="key">The key for the value to be returned.</param>
+        /// <param name="value">Value of the returned parameter if it exists.</param>
         public bool TryGetValue<T>(string key, out T value) =>
             _entries.TryGetValue(key, out value);
 
@@ -155,9 +155,9 @@ namespace Prism.Common
             GetEnumerator();
 
         /// <summary>
-        /// Converts parameter collection to a parameter string
+        /// Converts parameter collection to a parameter string.
         /// </summary>
-        /// <returns>A string representation of the parameters</returns>
+        /// <returns>A string representation of the parameters.</returns>
         public override string ToString()
         {
             var queryBuilder = new StringBuilder();
@@ -188,9 +188,9 @@ namespace Prism.Common
         }
 
         /// <summary>
-        /// Adds a collection of parameters to the local parameter list
+        /// Adds a collection of parameters to the local parameter list.
         /// </summary>
-        /// <param name="parameters">An IEnumberable of KeyValuePairs to add to the current parameter list</param>
+        /// <param name="parameters">An IEnumerable of KeyValuePairs to add to the current parameter list.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void FromParameters(IEnumerable<KeyValuePair<string, object>> parameters) =>
             _entries.AddRange(parameters);
