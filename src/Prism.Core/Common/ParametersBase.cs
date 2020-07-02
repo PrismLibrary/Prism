@@ -134,7 +134,7 @@ namespace Prism.Common
             _entries.GetValue<T>(key);
 
         /// <summary>
-        /// Returns an IEnumerable of all parameters .
+        /// Returns an IEnumerable of all parameters.
         /// </summary>
         /// <typeparam name="T">The type for the values to be returned.</typeparam>
         /// <param name="key">The key for the values to be returned.</param>
