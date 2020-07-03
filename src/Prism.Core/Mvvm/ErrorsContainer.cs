@@ -14,19 +14,19 @@ namespace Prism.Mvvm
         private static readonly T[] noErrors = new T[0];
 
         /// <summary>
-        /// Delegate to be called when raiseErrorsChanged is invoked
+        /// Delegate to be called when raiseErrorsChanged is invoked.
         /// </summary>
         protected readonly Action<string> raiseErrorsChanged;
 
         /// <summary>
-        /// <see cref="Dictionary{string, List{T}}" /> of the errors and sources
+        /// A map from property name to a <see cref="List{T}"/> of the errors and sources.
         /// </summary>
         protected readonly Dictionary<string, List<T>> validationResults;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorsContainer{T}"/> class.
         /// </summary>
-        /// <param name="raiseErrorsChanged">The action that is invoked when errors are added for an object/>
+        /// <param name="raiseErrorsChanged">The action that is invoked when errors are added for an object.</param>
         public ErrorsContainer(Action<string> raiseErrorsChanged)
         {
             if (raiseErrorsChanged == null)
@@ -50,7 +50,7 @@ namespace Prism.Mvvm
         }
 
         /// <summary>
-        /// Returns all the errors in the container
+        /// Returns all the errors in the container.
         /// </summary>
         /// <returns>The dictionary of errors per property.</returns>
         public Dictionary<string, List<T>> GetErrors()
@@ -94,7 +94,7 @@ namespace Prism.Mvvm
         /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="propertyExpression">The expression indicating a property.</param>
         /// <example>
-        ///     container.ClearErrors(()=>SomeProperty);
+        /// container.ClearErrors(()=>SomeProperty);
         /// </example>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public void ClearErrors<TProperty>(Expression<Func<TProperty>> propertyExpression)
@@ -106,9 +106,9 @@ namespace Prism.Mvvm
         /// <summary>
         /// Clears the errors for a property.
         /// </summary>
-        /// <param name="propertyName">The name of th property for which to clear errors.</param>
+        /// <param name="propertyName">The name of the property for which to clear errors.</param>
         /// <example>
-        ///     container.ClearErrors("SomeProperty");
+        /// container.ClearErrors("SomeProperty");
         /// </example>
         public void ClearErrors(string propertyName)
         {
