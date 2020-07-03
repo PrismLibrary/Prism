@@ -159,6 +159,10 @@ namespace Prism.DryIoc
             return new Container(DryIocContainerExtension.DefaultRules);
         }
 
+        /// <summary>
+        /// Create a new <see cref="DryIocContainerExtension"/> used by Prism.
+        /// </summary>
+        /// <returns>A new <see cref="DryIocContainerExtension"/>.</returns>
         protected override IContainerExtension CreateContainerExtension()
         {
             return new DryIocContainerExtension(Container);

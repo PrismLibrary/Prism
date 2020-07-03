@@ -4,6 +4,9 @@ using System;
 
 namespace Prism.DryIoc
 {
+    /// <summary>
+    /// <see cref="IContainer"/> extensions.
+    /// </summary>
     public static class DryIocExtensions
     {
         /// <summary>
