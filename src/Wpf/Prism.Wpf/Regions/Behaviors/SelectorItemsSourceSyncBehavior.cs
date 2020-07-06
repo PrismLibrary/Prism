@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Windows;
 using Prism.Properties;
 
 #if HAS_WINUI
