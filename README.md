@@ -39,12 +39,13 @@ As most of you know, it takes a lot of time and effort for our small team to man
 
 By watching our courses, not only do you help support the project financially, but you might also learn something along the way.  We believe this is a win-win for everyone.
 
-- [Introduction to Prism](https://app.pluralsight.com/library/courses/prism-introduction/table-of-contents)
-- [What's New in Prism 5.0](https://app.pluralsight.com/library/courses/prism-50-whats-new/table-of-contents)
-- [Prism Problems & Solutions: Showing Multiple Shells](https://app.pluralsight.com/library/courses/prism-showing-multiple-shells/table-of-contents)
-- [Prism Problems & Solutions: Mastering TabControl](https://app.pluralsight.com/library/courses/prism-mastering-tabcontrol/table-of-contents)
-- [Prism Problems & Solutions: Loading Modules Based on User Roles](https://app.pluralsight.com/library/courses/prism-loading-modules-user-roles/table-of-contents)
-- [Prism Problems & Solutions: Loading Dependent Views](https://app.pluralsight.com/library/courses/prism-problems-solutions/table-of-contents)
+- [Introduction to Prism for WPF (NEW)](https://pluralsight.pxf.io/bE3rB)
+- [Introduction to Prism (Legacy)](https://pluralsight.pxf.io/W1Dz3)
+- [What's New in Prism 5.0](https://pluralsight.pxf.io/z7avm)
+- [Prism Problems & Solutions: Showing Multiple Shells](https://pluralsight.pxf.io/XVxR5)
+- [Prism Problems & Solutions: Mastering TabControl](https://pluralsight.pxf.io/B6X99)
+- [Prism Problems & Solutions: Loading Modules Based on User Roles](https://pluralsight.pxf.io/GvjkE)
+- [Prism Problems & Solutions: Loading Dependent Views](https://pluralsight.pxf.io/a01zj)
 
 We appreciate your support.
 
