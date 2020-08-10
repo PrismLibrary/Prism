@@ -1,16 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
-    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Humanizer.Core" Version="2.8.11" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
     <PackageReference Include="Moq" Version="4.14.5" />
-    <PackageReference Include="Xamarin.Forms.Mocks" Version="4.6.0.1" />
+    <PackageReference Include="Unity.Container" Version="5.11.8" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>
@@ -19,8 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Forms\Prism.Forms\Prism.Forms.csproj" />
-    <ProjectReference Include="..\MockApp\MockApp.csproj" />
+    <ProjectReference Include="..\..\..\src\Prism.Core\Prism.Core.csproj" />
   </ItemGroup>
+
+  <Import Project="..\Prism.Container.Shared\Prism.Container.Shared.projitems" Label="Shared" />
+
+  <Import Project="..\..\..\src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems" Label="Shared" />
 
 </Project>

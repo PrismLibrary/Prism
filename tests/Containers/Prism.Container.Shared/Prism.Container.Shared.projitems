@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>78932299-2281-4a59-bfb8-07de3014f748</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Prism.Ioc</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\CompositeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\IServiceA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\IServiceB.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\IServiceC.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\ServiceA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\ServiceB.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Services\ServiceC.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ConstructorArgumentViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\BadView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewB.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\ContainerExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\ContainerExtensionCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\ContainerResolutionExceptionFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\ContainerSetup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\ContainerFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tests\TestBase.cs" />
+  </ItemGroup>
+</Project>

@@ -88,7 +88,7 @@ namespace Prism.DryIoc
         /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
         public IContainerRegistry RegisterInstance(Type type, object instance, string name)
         {
-            Instance.RegisterInstance(type, instance, serviceKey: name);
+            Instance.RegisterInstance(type, instance, ifAlreadyRegistered: IfAlreadyRegistered.Replace, serviceKey: name);
             return this;
         }
 
@@ -113,7 +113,7 @@ namespace Prism.DryIoc
         /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
         public IContainerRegistry RegisterSingleton(Type from, Type to, string name)
         {
-            Instance.Register(from, to, Reuse.Singleton, serviceKey: name);
+            Instance.Register(from, to, Reuse.Singleton, ifAlreadyRegistered: IfAlreadyRegistered.Replace, serviceKey: name);
             return this;
         }
 
@@ -216,7 +216,7 @@ namespace Prism.DryIoc
         /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
         public IContainerRegistry Register(Type from, Type to, string name)
         {
-            Instance.Register(from, to, serviceKey: name);
+            Instance.Register(from, to, ifAlreadyRegistered: IfAlreadyRegistered.Replace, serviceKey: name);
             return this;
         }
 
@@ -336,7 +336,7 @@ namespace Prism.DryIoc
         /// <returns><c>true</c> if the service is registered.</returns>
         public bool IsRegistered(Type type, string name)
         {
-            return Instance.IsRegistered(type, name);
+            return Instance.IsRegistered(type, name) || Instance.IsRegistered(type, name, FactoryType.Wrapper); ;
         }
 
         Type IContainerInfo.GetRegistrationType(string key)

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -10,10 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConcreteTypeMock.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerExtensionTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerProviderFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\FixtureBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerResolutionExceptionFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Navigation\XamlNavigationFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PartialViewFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PrismApplicationFixture.cs" />
@@ -42,7 +40,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlViewMockViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\AutowireView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\AutowireViewTablet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\BadView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ConstructorArgumentView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\CustomNamedNavService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\PartialView.xaml.cs">

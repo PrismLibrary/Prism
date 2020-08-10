@@ -31,7 +31,7 @@
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Unity.Container" Version="5.11.7" />
+    <PackageReference Include="Unity.Container" Version="5.11.8" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Wpf\Prism.Unity.Wpf\**\*.cs" Exclude="..\..\Wpf\Prism.Unity.Wpf\bin\**\*.cs;..\..\Wpf\Prism.Unity.Wpf\obj\**\*.cs" />
