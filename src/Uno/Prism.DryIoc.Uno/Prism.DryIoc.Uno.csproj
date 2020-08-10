@@ -39,7 +39,7 @@
     <Compile Remove="..\..\Wpf\Prism.DryIoc.Wpf\Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DryIoc.dll" Version="4.1.4" />
+    <PackageReference Include="DryIoc.dll" Version="4.3.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Prism.Uno\Prism.Uno.csproj" />

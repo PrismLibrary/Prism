@@ -2,31 +2,27 @@
 using System.Collections.Generic;
 using System.Text;
 using Prism.Ioc;
-using Prism.DI.Forms.Tests.Mocks.Services;
 using Xunit;
-using Prism.DI.Forms.Tests.Mocks.Views;
 using System.Linq;
-using Xamarin.Forms.Xaml;
 using System.Reflection;
-using Prism.DI.Forms.Tests.Mocks.ViewModels;
+using Prism.Ioc.Mocks.Services;
+using Prism.Ioc.Mocks.Views;
+using Prism.Ioc.Mocks.ViewModels;
 
-#if DryIoc
-using ContainerExtension = Prism.DryIoc.DryIocContainerExtension;
-
-namespace Prism.DryIoc.Forms.Tests.Fixtures
-#elif Unity
-using ContainerExtension = Prism.Unity.UnityContainerExtension;
-
-namespace Prism.Unity.Forms.Tests.Fixtures
-#endif
+namespace Prism.Ioc.Tests
 {
-    public class ContainerResolutionExceptionFixture
+    public class ContainerResolutionExceptionFixture : TestBase
     {
+        public ContainerResolutionExceptionFixture(ContainerSetup setup)
+            : base(setup)
+        {
+        }
+
         [Fact]
         public void ThrowsContainerResolutionExceptionForUnregisteredService()
         {
-            var container = new ContainerExtension();
-            var ex = Record.Exception(() => container.Resolve<IServiceMock>());
+            var container = Setup.CreateContainer();
+            var ex = Record.Exception(() => container.Resolve<IServiceA>());
 
             Assert.NotNull(ex);
             Assert.IsType<ContainerResolutionException>(ex);
@@ -35,7 +31,7 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         [Fact]
         public void ThrowsContainerResolutionExceptionForUnregisteredNamedPage()
         {
-            var container = new ContainerExtension();
+            var container = Setup.CreateContainer();
             var ex = Record.Exception(() => container.Resolve<object>("missing"));
 
             Assert.NotNull(ex);
@@ -46,9 +42,9 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         public void GetErrorsDoesNotThrowException()
         {
             ContainerLocator.ResetContainer();
-            var container = new ContainerExtension();
-            ContainerLocator.SetContainerExtension(() => container);
-            container.Register<object, BadView>("BadView");
+            var container = Setup.CreateContainer();
+            ContainerLocator.SetContainerExtension(() => Setup.Extension);
+            Setup.Registry.Register<object, BadView>("BadView");
 
             var ex = Record.Exception(() => container.Resolve<object>("BadView"));
 
@@ -63,9 +59,9 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         public void GetErrorsLocatesIssueWithBadView()
         {
             ContainerLocator.ResetContainer();
-            var container = new ContainerExtension();
-            ContainerLocator.SetContainerExtension(() => container);
-            container.Register<object, BadView>("BadView");
+            var container = Setup.CreateContainer();
+            ContainerLocator.SetContainerExtension(() => Setup.Extension);
+            Setup.Registry.Register<object, BadView>("BadView");
 
             var ex = Record.Exception(() => container.Resolve<object>("BadView"));
 
@@ -80,9 +76,9 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         public void GetErrorsLocatesTargetInvocationException()
         {
             ContainerLocator.ResetContainer();
-            var container = new ContainerExtension();
-            ContainerLocator.SetContainerExtension(() => container);
-            container.Register<object, BadView>("BadView");
+            var container = Setup.CreateContainer();
+            ContainerLocator.SetContainerExtension(() => Setup.Extension);
+            Setup.Registry.Register<object, BadView>("BadView");
 
             var ex = Record.Exception(() => container.Resolve<object>("BadView"));
 
@@ -97,9 +93,9 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         public void GetErrorsLocatesXamlParseException()
         {
             ContainerLocator.ResetContainer();
-            var container = new ContainerExtension();
-            ContainerLocator.SetContainerExtension(() => container);
-            container.Register<object, BadView>("BadView");
+            var container = Setup.CreateContainer();
+            ContainerLocator.SetContainerExtension(() => Setup.Extension);
+            Setup.Registry.Register<object, BadView>("BadView");
 
             var ex = Record.Exception(() => container.Resolve<object>("BadView"));
 
@@ -114,8 +110,8 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         public void LocatesUnregisteredServiceType()
         {
             ContainerLocator.ResetContainer();
-            var container = new ContainerExtension();
-            ContainerLocator.SetContainerExtension(() => container);
+            var container = Setup.CreateContainer();
+            ContainerLocator.SetContainerExtension(() => Setup.Extension);
 
             var ex = Record.Exception(() => container.Resolve<ConstructorArgumentViewModel>());
 
@@ -123,16 +119,15 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             var cre = ex as ContainerResolutionException;
             var errors = cre.GetErrors();
 
-            Assert.Contains(typeof(IServiceMock), errors.Types);
+            Assert.Contains(typeof(IServiceA), errors.Types);
         }
-
 
         [Fact]
         public void LocatesUnregisteredServiceWithMissingRegistration()
         {
             ContainerLocator.ResetContainer();
-            var container = new ContainerExtension();
-            ContainerLocator.SetContainerExtension(() => container);
+            var container = Setup.CreateContainer();
+            ContainerLocator.SetContainerExtension(() => Setup.Extension);
 
             var ex = Record.Exception(() => container.Resolve<ConstructorArgumentViewModel>());
 
@@ -140,7 +135,7 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             var cre = ex as ContainerResolutionException;
             var errors = cre.GetErrors();
 
-            Assert.Contains(errors, x => x.Value is ContainerResolutionException innerCre && innerCre.ServiceType == typeof(IServiceMock) && innerCre.Message == ContainerResolutionException.MissingRegistration);
+            Assert.Contains(errors, x => x.Value is ContainerResolutionException innerCre && innerCre.ServiceType == typeof(IServiceA) && innerCre.Message == ContainerResolutionException.MissingRegistration);
         }
     }
 }
