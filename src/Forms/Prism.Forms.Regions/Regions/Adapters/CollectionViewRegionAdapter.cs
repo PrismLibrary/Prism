@@ -1,4 +1,6 @@
-﻿using Prism.Regions.Behaviors;
+﻿using System;
+using Prism.Properties;
+using Prism.Regions.Behaviors;
 using Xamarin.Forms;
 
 namespace Prism.Regions.Adapters
@@ -25,7 +27,21 @@ namespace Prism.Regions.Adapters
         /// <param name="regionTarget">The object to adapt.</param>
         protected override void Adapt(IRegion region, CollectionView regionTarget)
         {
-            throw new System.NotImplementedException();
+            if (region == null)
+                throw new ArgumentNullException(nameof(region));
+
+            if (regionTarget == null)
+                throw new ArgumentNullException(nameof(regionTarget));
+
+            bool itemsSourceIsSet = regionTarget.ItemsSource != null || regionTarget.IsSet(ItemsView.ItemsSourceProperty);
+
+            if (itemsSourceIsSet)
+            {
+                throw new InvalidOperationException(Resources.CollectionViewHasItemsSourceException);
+            }
+
+            regionTarget.ItemsSource = region.ActiveViews;
+            regionTarget.ItemTemplate = new RegionItemsSourceTemplate();
         }
 
         /// <summary>

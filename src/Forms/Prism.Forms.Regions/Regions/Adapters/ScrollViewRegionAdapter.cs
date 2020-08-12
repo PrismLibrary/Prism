@@ -32,10 +32,8 @@ namespace Prism.Regions.Adapters
             if (regionTarget == null)
                 throw new ArgumentNullException(nameof(regionTarget));
 
+            // No binding check required as the ContentProperty is not Bindable
             bool contentIsSet = regionTarget.Content != null;
-
-            // WTF????
-            // contentIsSet = contentIsSet || (BindingOperations.GetBinding(regionTarget, ContentView.ContentProperty) != null);
 
             if (contentIsSet)
                 throw new InvalidOperationException(Resources.ScrollViewHasContentException);

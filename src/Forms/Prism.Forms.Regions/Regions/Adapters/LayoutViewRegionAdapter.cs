@@ -34,25 +34,18 @@ namespace Prism.Regions.Adapters
             if (regionTarget == null)
                 throw new ArgumentNullException(nameof(regionTarget));
 
-            bool itemsSourceIsSet = regionTarget.Children?.Any() ?? false;
+            bool itemsSourceIsSet = regionTarget.Children?.Any() ?? false || regionTarget.IsSet(BindableLayout.ItemsSourceProperty);
 
             if (itemsSourceIsSet)
             {
                 throw new InvalidOperationException(Resources.LayoutViewHasChildrenException);
             }
 
-            // If control has child items, move them to the region and then bind control to region. Can't set ItemsSource if child items exist.
-            //if (regionTarget.Items.Count > 0)
-            //{
-            //    foreach (object childItem in regionTarget.Items)
-            //    {
-            //        region.Add(childItem);
-            //    }
-            //    // Control must be empty before setting ItemsSource
-            //    regionTarget.Items.Clear();
-            //}
-
-            //regionTarget.ItemsSource = region.Views;
+            regionTarget.SetValue(BindableLayout.ItemsSourceProperty, region.ActiveViews);
+            if(!regionTarget.IsSet(BindableLayout.ItemTemplateProperty))
+            {
+                regionTarget.SetValue(BindableLayout.ItemTemplateSelectorProperty, new RegionItemsSourceTemplate());
+            }
         }
 
         /// <summary>

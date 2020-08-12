@@ -32,10 +32,7 @@ namespace Prism.Regions.Adapters
             if (regionTarget == null)
                 throw new ArgumentNullException(nameof(regionTarget));
 
-            bool contentIsSet = regionTarget.Content != null;
-
-            // WTF????
-            // contentIsSet = contentIsSet || (BindingOperations.GetBinding(regionTarget, ContentView.ContentProperty) != null);
+            bool contentIsSet = regionTarget.Content != null || regionTarget.IsSet(ContentView.ContentProperty);
 
             if (contentIsSet)
                 throw new InvalidOperationException(Resources.ContentViewHasContentException);
