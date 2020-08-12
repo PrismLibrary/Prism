@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             Title="StackLayout Demo"
+             x:Class="HelloRegions.Views.StackLayoutDemoRegion">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <Style TargetType="Button" x:Key="SelectorButton">
+        <Setter Property="BorderColor" Value="Blue" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="Padding" Value="20,0" />
+        <Setter Property="BackgroundColor" Value="#666666" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="VerticalOptions" Value="Center" />
+      </Style>
+    </ResourceDictionary>
+  </ContentPage.Resources>
+  <Grid RowDefinitions="Auto,*,40,40"
+        Padding="20,40,20,20">
+    <Label Text="StackLayout - Demo Region"
+           HorizontalTextAlignment="Center" />
+    <StackLayout prism:RegionManager.RegionName="StackRegion"
+                  Grid.Row="1" />
+
+    <StackLayout Orientation="Horizontal"
+                 Padding="20"
+                 HorizontalOptions="Center"
+                 Grid.Row="2">
+      <Button Text="Region A"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="RegionA?message=This%20is%20awesome!"
+              Style="{StaticResource SelectorButton}" />
+      <Button Text="Region B"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="RegionB"
+              Style="{StaticResource SelectorButton}" />
+      <Button Text="Region C"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="RegionC"
+              Style="{StaticResource SelectorButton}" />
+    </StackLayout>
+  </Grid>
+</ContentPage>

@@ -6,6 +6,7 @@ namespace HelloRegions.ViewModels
     public class RegionAViewModel : ViewModelBase
     {
         public RegionAViewModel(INavigationService navigationService, IRegionNavigationService regionNavigation)
+            : base(regionNavigation)
         {
             Title = "Hello from Region A";
             NavigationService = navigationService;

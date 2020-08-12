@@ -1,8 +1,11 @@
-﻿namespace HelloRegions.ViewModels
+﻿using Prism.Regions.Navigation;
+
+namespace HelloRegions.ViewModels
 {
     public class RegionCViewModel : ViewModelBase
     {
-        public RegionCViewModel()
+        public RegionCViewModel(IRegionNavigationService regionNavigationService)
+            : base(regionNavigationService)
         {
             Title = "Hello from Region C";
         }

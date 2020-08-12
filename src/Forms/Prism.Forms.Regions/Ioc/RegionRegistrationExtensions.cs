@@ -21,7 +21,7 @@ namespace Prism.Ioc
         {
             containerRegistry.RegisterSingleton<RegionAdapterMappings>(p =>
             {
-                var regionAdapterMappings = p.Resolve<RegionAdapterMappings>();
+                var regionAdapterMappings = new RegionAdapterMappings();
                 regionAdapterMappings.RegisterMapping<CarouselView, CarouselViewRegionAdapter>();
                 regionAdapterMappings.RegisterMapping<CollectionView, CollectionViewRegionAdapter>();
                 regionAdapterMappings.RegisterMapping<FlexLayout, LayoutViewRegionAdapter>();
