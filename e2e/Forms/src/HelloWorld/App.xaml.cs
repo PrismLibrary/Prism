@@ -64,7 +64,7 @@ namespace HelloWorld
             this.ConfigureDefaultRegionBehaviors(behaviors =>
             {
                 // Demo purposes only... you could add your own additional behaviors here...
-                //behaviors.AddIfMissing(MyCustomBehavior.BehaviorName, typeof(MyCustomBehavior));
+                // behaviors.AddIfMissing<MyCustomBehavior>(MyCustomBehavior.BehaviorName);
             });
 
             this.ConfigureRegionAdapterMappings(mappings =>
@@ -98,11 +98,9 @@ namespace HelloWorld
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<ModuleA.ModuleAModule>();
-            //moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule)));
-            //moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule), "ModuleA", InitializationMode.OnDemand));
             moduleCatalog.AddModule<HelloDialog.HelloDialogModule>(InitializationMode.OnDemand);
-            moduleCatalog.AddModule<HelloPageDialog.HelloPageDialogModule>(InitializationMode.OnDemand);
-            moduleCatalog.AddModule<HelloRegions.RegionDemoModule>();
+            moduleCatalog.AddModule(new ModuleInfo(typeof(HelloPageDialog.HelloPageDialogModule), "HelloPageDialogModule", InitializationMode.OnDemand));
+            moduleCatalog.AddModule(new ModuleInfo(typeof(HelloRegions.RegionDemoModule)));
         }
 
         protected override void OnStart ()
