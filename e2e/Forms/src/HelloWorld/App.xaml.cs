@@ -49,7 +49,7 @@ namespace HelloWorld
         }
 
         public App(IPlatformInitializer initializer)
-            : this(initializer, true)
+            : this(initializer, false)
         {
         }
 
@@ -74,12 +74,41 @@ namespace HelloWorld
                 // mappings.RegisterMapping<RefreshView, MyCustomAdapter>();
             });
 
-            NavigationService.NavigateAsync($"MyMasterDetail/MyTabbedPage").OnNavigationError(OnNavigationError);
+            AppDomain.CurrentDomain.UnhandledException += AppDomain_UnhandledException;
+
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+
+            //NavigationService.NavigateAsync($"MyMasterDetail/MyTabbedPage").OnNavigationError(OnNavigationError);
+            NavigationService.NavigateAsync("MyMasterDetail/NavigationPage/ContentViewDemoRegion").OnNavigationError(OnNavigationError);
+            //MainPage = new MyMasterDetail
+            //{
+            //    Detail = new NavigationPage(new RegionDemoPage())
+            //};
+        }
+
+        private void AppDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            System.Diagnostics.Debugger.Break();
+        }
+
+        private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            System.Diagnostics.Debugger.Break();
         }
 
         private void OnNavigationError(Exception ex)
         {
-
+            if(ex.InnerException is ContainerResolutionException cre)
+            {
+                var errors = cre.GetErrors();
+                foreach(var error in errors)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine(error.Key.FullName);
+                    Console.WriteLine(error.Value.ToString());
+                    Console.WriteLine();
+                }
+            }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
