@@ -1,5 +1,7 @@
 ﻿using System;
+using Prism.Ioc;
 using Prism.Regions;
+using Prism.Regions.Xaml;
 using Xamarin.Forms;
 
 namespace Prism.Behaviors
@@ -17,9 +19,13 @@ namespace Prism.Behaviors
 
         protected override void OnDetachingFrom(Page bindable)
         {
-            if (Region != null && Region.RegionManager.Regions.ContainsRegionWithName(Region.Name))
+            if (Region != null)
             {
-                Region.RegionManager.Regions.Remove(Region.Name);
+                var manager = Region.RegionManager ?? ContainerLocator.Container.Resolve<IRegionManager>();
+                if(manager.Regions.ContainsRegionWithName(Region.Name))
+                {
+                    manager.Regions.Remove(Region.Name);
+                }
             }
         }
     }
