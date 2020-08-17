@@ -90,6 +90,10 @@ namespace Prism.Regions.Navigation
 
                 newRegionItem = view;
             }
+            catch(ContainerResolutionException)
+            {
+                throw;
+            }
             catch (Exception e)
             {
                 throw new InvalidOperationException(

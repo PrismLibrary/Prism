@@ -11,10 +11,27 @@ namespace Prism.Regions.Adapters
     /// Adapter that creates a new <see cref="SingleActiveRegion"/> and monitors its
     /// active view to set it on the adapted <see cref="ContentView"/>.
     /// </summary>
-    public class ContentViewRegionAdapter : RegionAdapterBase<ContentView>
+    public class ContentViewRegionAdapter : ContentViewRegionAdapter<ContentView>
     {
         /// <summary>
         /// Initializes a new instance of <see cref="ContentViewRegionAdapter"/>.
+        /// </summary>
+        /// <param name="regionBehaviorFactory">The factory used to create the region behaviors to attach to the created regions.</param>
+        public ContentViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
+            : base(regionBehaviorFactory)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Adapter that creates a new <see cref="SingleActiveRegion"/> and monitors its
+    /// active view to set it on the adapted <see cref="ContentView"/>.
+    /// </summary>
+    public class ContentViewRegionAdapter<TContentView> : RegionAdapterBase<TContentView>
+        where TContentView : ContentView
+    {
+        /// <summary>
+        /// Initializes a new instance of <see cref="ContentViewRegionAdapter{TContentView}"/>.
         /// </summary>
         /// <param name="regionBehaviorFactory">The factory used to create the region behaviors to attach to the created regions.</param>
         public ContentViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
@@ -27,7 +44,7 @@ namespace Prism.Regions.Adapters
         /// </summary>
         /// <param name="region">The new region being used.</param>
         /// <param name="regionTarget">The object to adapt.</param>
-        protected override void Adapt(IRegion region, ContentView regionTarget)
+        protected override void Adapt(IRegion region, TContentView regionTarget)
         {
             if (regionTarget == null)
                 throw new ArgumentNullException(nameof(regionTarget));

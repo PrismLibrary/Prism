@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Prism.Navigation;
 using Prism.Regions;
-using Prism.Regions.Navigation;
 
 namespace Prism.Ioc
 {
@@ -18,17 +16,15 @@ namespace Prism.Ioc
                 return Array.Empty<(Type Type, object Instance)>();
             }
 
-            var overrides = new List<(Type Type, object Instance)>
-            {
-                (typeof(IRegionNavigationService), ActiveRegion.NavigationService)
-            };
-
             if (ActiveRegion is INavigationServiceAware nsa && nsa.NavigationService != null)
             {
-                overrides.Add((typeof(INavigationService), nsa.NavigationService));
+                return new List<(Type Type, object Instance)>
+                {
+                    (typeof(INavigationService), nsa.NavigationService)
+                };
             }
 
-            return overrides;
+            return Array.Empty<(Type Type, object Instance)>(); ;
         }
     }
 }

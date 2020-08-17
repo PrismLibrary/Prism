@@ -16,20 +16,21 @@ namespace Prism.Ioc
         /// Registers the default RegionManager
         /// </summary>
         /// <param name="containerRegistry">The current <see cref="IContainerRegistry" /></param>
+        /// <param name="configureAdapters">A configuration delegate to Register Adapter Mappings.</param>
+        /// <param name="configureBehaviors">A configuration delegate to Add custom Region Behaviors.</param>
         /// <returns>The current <see cref="IContainerRegistry" /></returns>
-        public static IContainerRegistry RegisterRegionServices(this IContainerRegistry containerRegistry)
+        public static IContainerRegistry RegisterRegionServices(this IContainerRegistry containerRegistry, Action<RegionAdapterMappings> configureAdapters = null, Action<IRegionBehaviorFactory> configureBehaviors = null)
         {
             containerRegistry.RegisterSingleton<RegionAdapterMappings>(p =>
             {
                 var regionAdapterMappings = new RegionAdapterMappings();
-                regionAdapterMappings.RegisterMapping<CarouselView, CarouselViewRegionAdapter>();
-                regionAdapterMappings.RegisterMapping<CollectionView, CollectionViewRegionAdapter>();
-                regionAdapterMappings.RegisterMapping<FlexLayout, LayoutViewRegionAdapter>();
-                regionAdapterMappings.RegisterMapping<StackLayout, LayoutViewRegionAdapter>();
-                regionAdapterMappings.RegisterMapping<ScrollView, ScrollViewRegionAdapter>();
-                regionAdapterMappings.RegisterMapping<ContentView, ContentViewRegionAdapter>();
-                regionAdapterMappings.RegisterMapping<Frame, ContentViewRegionAdapter>();
-                regionAdapterMappings.RegisterMapping<RefreshView, ContentViewRegionAdapter>();
+                configureAdapters?.Invoke(regionAdapterMappings);
+
+                regionAdapterMappings.RegisterDefaultMapping<CarouselView, CarouselViewRegionAdapter>();
+                regionAdapterMappings.RegisterDefaultMapping<CollectionView, CollectionViewRegionAdapter>();
+                regionAdapterMappings.RegisterDefaultMapping<Layout<View>, LayoutViewRegionAdapter>();
+                regionAdapterMappings.RegisterDefaultMapping<ScrollView, ScrollViewRegionAdapter>();
+                regionAdapterMappings.RegisterDefaultMapping<ContentView, ContentViewRegionAdapter>();
                 return regionAdapterMappings;
             });
 
@@ -47,7 +48,7 @@ namespace Prism.Ioc
                 regionBehaviors.AddIfMissing<ClearChildViewsRegionBehavior>(ClearChildViewsRegionBehavior.BehaviorKey);
                 regionBehaviors.AddIfMissing<AutoPopulateRegionBehavior>(AutoPopulateRegionBehavior.BehaviorKey);
                 regionBehaviors.AddIfMissing<DestructibleRegionBehavior>(DestructibleRegionBehavior.BehaviorKey);
-
+                configureBehaviors?.Invoke(regionBehaviors);
                 return regionBehaviors;
             });
             containerRegistry.Register<IRegionNavigationJournalEntry, RegionNavigationJournalEntry>();

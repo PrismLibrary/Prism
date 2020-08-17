@@ -18,6 +18,7 @@ namespace Prism.Regions.Adapters
         /// </summary>
         /// <typeparam name="TControl">The type of the control</typeparam>
         /// <typeparam name="TAdapter">The type of the IRegionAdapter to use with the TControl</typeparam>
+        /// <exception cref="InvalidOperationException">Throws <see cref="InvalidOperationException"/> when a mapping has already been defined for a specified control type.</exception>
         public void RegisterMapping<TControl, TAdapter>() where TAdapter : IRegionAdapter
         {
             var controlType = typeof(TControl);
@@ -25,6 +26,34 @@ namespace Prism.Regions.Adapters
             if (mappings.ContainsKey(controlType))
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                                                                   Resources.MappingExistsException, controlType.Name));
+
+            var adapter = ContainerLocator.Container.Resolve<TAdapter>();
+
+            mappings.Add(controlType, adapter);
+        }
+
+        /// <summary>
+        /// Removes an existing Registration if one exists and registers the new mapping between a type and an adapter.
+        /// </summary>
+        /// <typeparam name="TControl">The type of the control</typeparam>
+        /// <typeparam name="TAdapter">The type of the IRegionAdapter to use with the TControl</typeparam>
+        public void RegisterOrReplaceMapping<TControl, TAdapter>() where TAdapter : IRegionAdapter
+        {
+            var controlType = typeof(TControl);
+            var adapter = ContainerLocator.Container.Resolve<TAdapter>();
+
+            if (mappings.ContainsKey(controlType))
+                mappings.Remove(controlType);
+
+            mappings.Add(controlType, adapter);
+        }
+
+        internal void RegisterDefaultMapping<TControl, TAdapter>() where TAdapter : IRegionAdapter
+        {
+            var controlType = typeof(TControl);
+
+            if (mappings.ContainsKey(controlType))
+                return;
 
             var adapter = ContainerLocator.Container.Resolve<TAdapter>();
 
