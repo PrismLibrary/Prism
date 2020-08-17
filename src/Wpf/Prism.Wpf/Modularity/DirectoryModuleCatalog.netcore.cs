@@ -87,14 +87,14 @@ namespace Prism.Modularity
                 Assembly moduleReflectionOnlyAssembly = AppDomain.CurrentDomain.GetAssemblies().First(asm => asm.FullName == typeof(IModule).Assembly.FullName);
                 Type IModuleType = moduleReflectionOnlyAssembly.GetType(typeof(IModule).FullName);
 
-                IEnumerable<ModuleInfo> modules = GetNotAllreadyLoadedModuleInfos(directory, IModuleType);
+                IEnumerable<ModuleInfo> modules = GetNotAlreadyLoadedModuleInfos(directory, IModuleType);
 
                 var array = modules.ToArray();
                 AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve -= resolveEventHandler;
                 return array;
             }
 
-            private static IEnumerable<ModuleInfo> GetNotAllreadyLoadedModuleInfos(DirectoryInfo directory, Type IModuleType)
+            private static IEnumerable<ModuleInfo> GetNotAlreadyLoadedModuleInfos(DirectoryInfo directory, Type IModuleType)
             {
                 List<Assembly> validAssemblies = new List<Assembly>();
                 Assembly[] alreadyLoadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(p => !p.IsDynamic).ToArray();
