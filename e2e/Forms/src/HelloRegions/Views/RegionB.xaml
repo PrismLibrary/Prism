@@ -8,4 +8,18 @@
              x:Class="HelloRegions.Views.RegionB">
   <Label Text="Hello from Region B" />
   <Label Text="{Binding Message}" />
+
+  <StackLayout Orientation="Horizontal"
+               HorizontalOptions="Center">
+    <Button Text="Go Back"
+            Command="{Binding GoBackCommand}"
+            BackgroundColor="Transparent"
+            TextColor="Blue"
+            BorderWidth="0"/>
+    <Button Text="Go Forward"
+            Command="{Binding GoForwardCommand}"
+            BackgroundColor="Transparent"
+            TextColor="Blue"
+            BorderWidth="0" />
+  </StackLayout>
 </StackLayout>

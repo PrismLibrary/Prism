@@ -4,8 +4,7 @@ namespace HelloRegions.ViewModels
 {
     public class RegionCViewModel : ViewModelBase
     {
-        public RegionCViewModel(IRegionNavigationService regionNavigationService)
-            : base(regionNavigationService)
+        public RegionCViewModel()
         {
             Title = "Hello from Region C";
         }

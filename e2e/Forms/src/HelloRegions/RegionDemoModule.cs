@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using HelloRegions.ViewModels;
 using HelloRegions.Views;
 using Prism.Ioc;
@@ -15,6 +15,8 @@ namespace HelloRegions
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterRegionServices();
+
             containerRegistry.RegisterForNavigation<CarouselDemoRegion, CarouselDemoRegionViewModel>();
             containerRegistry.RegisterForNavigation<CollectionViewDemoRegion, CollectionViewDemoRegionViewModel>();
             containerRegistry.RegisterForNavigation<ContentViewDemoRegion, ContentViewDemoRegionViewModel>();

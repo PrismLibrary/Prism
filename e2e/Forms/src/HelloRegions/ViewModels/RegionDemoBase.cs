@@ -7,7 +7,7 @@ using Prism.Regions.Navigation;
 
 namespace HelloRegions.ViewModels
 {
-    public abstract class RegionDemoBase : BindableBase, IDestructible
+    public abstract class RegionDemoBase : BindableBase, IDestructible, IInitialize
     {
         private IRegionManager _regionManager { get; }
 
@@ -34,6 +34,11 @@ namespace HelloRegions.ViewModels
         public void Destroy()
         {
             _regionManager.Regions.Remove(RegionName);
+        }
+
+        public void Initialize(INavigationParameters parameters)
+        {
+            _regionManager.RequestNavigate(RegionName, "RegionA", NavigationCallback);
         }
     }
 }

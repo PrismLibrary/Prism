@@ -2,42 +2,23 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:local="clr-namespace:HelloRegions.Views"
              Title="ContentView - Demo"
              x:Class="HelloRegions.Views.ContentViewDemoRegion">
-  <ContentPage.Resources>
-    <ResourceDictionary>
-      <Style TargetType="Button" x:Key="SelectorButton">
-        <Setter Property="BorderColor" Value="Blue" />
-        <Setter Property="BorderWidth" Value="1" />
-        <Setter Property="Padding" Value="20,0" />
-        <Setter Property="BackgroundColor" Value="#666666" />
-        <Setter Property="TextColor" Value="White" />
-        <Setter Property="VerticalOptions" Value="Center" />
-      </Style>
-    </ResourceDictionary>
-  </ContentPage.Resources>
-  <Grid RowDefinitions="Auto,*,40,40"
-        Padding="20,40,20,20">
+
+  <Grid Padding="20,40,20,20">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="40" />
+    </Grid.RowDefinitions>
     <Label Text="ContentView - Demo Region"
            HorizontalTextAlignment="Center" />
     <ContentView prism:RegionManager.RegionName="ContentRegion"
                   Grid.Row="1" />
 
-    <StackLayout Orientation="Horizontal"
-                 HorizontalOptions="Center"
-                 Grid.Row="2">
-      <Button Text="Region A"
-              Command="{Binding NavigateCommand}"
-              CommandParameter="RegionA?message=This%20is%20awesome!"
-              Style="{StaticResource SelectorButton}" />
-      <Button Text="Region B"
-              Command="{Binding NavigateCommand}"
-              CommandParameter="RegionB"
-              Style="{StaticResource SelectorButton}" />
-      <Button Text="Region C"
-              Command="{Binding NavigateCommand}"
-              CommandParameter="RegionC"
-              Style="{StaticResource SelectorButton}" />
-    </StackLayout>
+    <local:NavigationView Grid.Row="2" />
   </Grid>
+
 </ContentPage>

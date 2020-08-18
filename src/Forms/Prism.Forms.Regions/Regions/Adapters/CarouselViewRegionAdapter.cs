@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using Prism.Behaviors;
+using Prism.Common;
+using Prism.Navigation;
 using Prism.Properties;
 using Prism.Regions.Behaviors;
+using Prism.Regions.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.Regions.Adapters
@@ -42,20 +46,34 @@ namespace Prism.Regions.Adapters
 
             regionTarget.ItemsSource = region.Views;
             regionTarget.ItemTemplate = new RegionItemsSourceTemplate();
+            var regionBehavior = new CarouselRegionBehavior(region);
+            regionTarget.Behaviors.Add(regionBehavior);
 
             region.ActiveViews.CollectionChanged += delegate
             {
-                regionTarget.CurrentItem = region.ActiveViews.FirstOrDefault();
+                var activeView = region.ActiveViews.FirstOrDefault();
+                regionBehavior.CurrentView = activeView;
+                regionTarget.CurrentItem = activeView;
             };
 
-            region.Views.CollectionChanged +=
-                (sender, e) =>
+            void OnFirstItemAdded(object sender, NotifyCollectionChangedEventArgs e)
+            {
+                if (e.Action == NotifyCollectionChangedAction.Add)
                 {
-                    if (e.Action == NotifyCollectionChangedAction.Add && region.ActiveViews.Count() == 0)
+                    var items = e.NewItems.Cast<object>()
+                                          .Where(x => x is VisualElement)
+                                          .Cast<VisualElement>()
+                                          .ToList();
+                    if (region.ActiveViews.Count() == 0)
                     {
-                        region.Activate(e.NewItems[0] as VisualElement);
+                        region.Activate(items[0]);
                     }
-                };
+
+                    region.Views.CollectionChanged -= OnFirstItemAdded;
+                }
+            }
+
+            region.Views.CollectionChanged += OnFirstItemAdded;
         }
 
         /// <summary>
@@ -64,5 +82,48 @@ namespace Prism.Regions.Adapters
         /// <returns>A new instance of <see cref="SingleActiveRegion"/>.</returns>
         protected override IRegion CreateRegion() =>
             new SingleActiveRegion();
+
+        private class CarouselRegionBehavior : BehaviorBase<CarouselView>
+        {
+            private IRegion _region { get; }
+            public VisualElement CurrentView;
+
+            public CarouselRegionBehavior(IRegion region)
+            {
+                _region = region;
+            }
+
+            protected override void OnAttachedTo(CarouselView carousel)
+            {
+                base.OnAttachedTo(carousel);
+                carousel.CurrentItemChanged += OnCurrentItemChanged;
+            }
+
+            protected override void OnDetachingFrom(CarouselView carousel)
+            {
+                base.OnDetachingFrom(carousel);
+                carousel.CurrentItemChanged -= OnCurrentItemChanged;
+            }
+
+            private void OnCurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
+            {
+                if(sender is CarouselView carousel && carousel.CurrentItem != CurrentView && carousel.CurrentItem != null && carousel.CurrentItem is VisualElement newActiveView)
+                {
+                    var previousView = CurrentView;
+                    CurrentView = newActiveView;
+
+                    if (!_region.ActiveViews.Contains(newActiveView))
+                    {
+                        _region.Activate(newActiveView);
+                    }
+
+                    var info = PageNavigationRegistry.GetPageNavigationInfo(newActiveView.GetType());
+                    var context = new NavigationContext(_region.NavigationService, new Uri(info.Name, UriKind.RelativeOrAbsolute));
+
+                    MvvmHelpers.OnNavigatedFrom(previousView, context);
+                    MvvmHelpers.OnNavigatedTo(newActiveView, context);
+                }
+            }
+        }
     }
 }

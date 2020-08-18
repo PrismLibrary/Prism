@@ -57,28 +57,5 @@ namespace Prism.Ioc
             containerRegistry.RegisterManySingleton<RegionResolverOverrides>(typeof(IResolverOverridesHelper), typeof(IActiveRegionHelper));
             return containerRegistry.RegisterSingleton<IRegionManager, RegionManager>();
         }
-
-        /// <summary>
-        /// Configures the <see cref="IRegionBehaviorFactory"/>. 
-        /// This will be the list of default behaviors that will be added to a region.
-        /// </summary>
-        public static PrismApplicationBase ConfigureDefaultRegionBehaviors(this PrismApplicationBase app, Action<IRegionBehaviorFactory> configure)
-        {
-            var regionBehaviors = app.Container.Resolve<IRegionBehaviorFactory>();
-            configure.Invoke(regionBehaviors);
-            return app;
-        }
-
-        /// <summary>
-        /// Allows you to provide custom RegionAdapters for your controls or override the default ones from Prism.
-        /// </summary>
-        /// <returns>The <see cref="RegionAdapterMappings"/> instance containing all the mappings.</returns>
-        public static PrismApplicationBase ConfigureRegionAdapterMappings(this PrismApplicationBase app, Action<RegionAdapterMappings> configure)
-        {
-            var container = app.Container;
-            var regionAdapterMappings = container.Resolve<RegionAdapterMappings>();
-            configure.Invoke(regionAdapterMappings);
-            return app;
-        }
     }
 }

@@ -105,7 +105,7 @@ namespace Prism.Regions.Navigation
             {
                 if (CurrentEntry != null)
                 {
-                    _backStack.Push(this.CurrentEntry);
+                    _backStack.Push(CurrentEntry);
                 }
 
                 _forwardStack.Clear();

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Prism.Regions;
-using Xamarin.Forms;
+﻿using Prism.Regions;
 
 namespace HelloRegions.ViewModels
 {
@@ -14,15 +10,5 @@ namespace HelloRegions.ViewModels
         }
 
         protected override string RegionName => "FrameRegion";
-    }
-
-    public class ScrollViewDemoRegionViewModel : RegionDemoBase
-    {
-        public ScrollViewDemoRegionViewModel(IRegionManager regionManager)
-            : base(regionManager)
-        {
-        }
-
-        protected override string RegionName => "ScrollRegion";
     }
 }

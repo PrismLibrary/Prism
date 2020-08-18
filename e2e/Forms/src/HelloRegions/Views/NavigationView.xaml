@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             x:Class="HelloRegions.Views.NavigationView">
+  <StackLayout.Resources>
+    <ResourceDictionary>
+      <Style TargetType="Button" x:Key="SelectorButton">
+        <Setter Property="BorderColor" Value="Blue" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="Padding" Value="20,0" />
+        <Setter Property="BackgroundColor" Value="#666666" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="VerticalOptions" Value="Center" />
+      </Style>
+    </ResourceDictionary>
+  </StackLayout.Resources>
+  <StackLayout Orientation="Horizontal"
+               HorizontalOptions="Center">
+    <Button Text="Region A"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="RegionA?message=This%20is%20awesome!"
+              Style="{StaticResource SelectorButton}" />
+    <Button Text="Region B"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="RegionB"
+              Style="{StaticResource SelectorButton}" />
+    <Button Text="Region C"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="RegionC"
+              Style="{StaticResource SelectorButton}" />
+  </StackLayout>
+
+  <Picker x:Name="regionDemo"
+          SelectedItem="CarouselDemoRegion">
+    <Picker.Items>
+      <x:String>CarouselDemoRegion</x:String>
+      <x:String>CollectionViewDemoRegion</x:String>
+      <x:String>ContentViewDemoRegion</x:String>
+      <x:String>FlexLayoutDemoRegion</x:String>
+      <x:String>FrameDemoRegion</x:String>
+      <x:String>ScrollViewDemoRegion</x:String>
+      <x:String>StackLayoutDemoRegion</x:String>
+    </Picker.Items>
+  </Picker>
+
+  <Button Text="Add Region Page"
+          Command="{prism:NavigateTo Name={Binding SelectedItem, Source={x:Reference regionDemo}}}"
+          Style="{StaticResource SelectorButton}"/>
+</StackLayout>

@@ -61,18 +61,6 @@ namespace HelloWorld
         protected override void OnInitialized()
         {
             InitializeComponent();
-            this.ConfigureDefaultRegionBehaviors(behaviors =>
-            {
-                // Demo purposes only... you could add your own additional behaviors here...
-                // behaviors.AddIfMissing<MyCustomBehavior>(MyCustomBehavior.BehaviorName);
-            });
-
-            this.ConfigureRegionAdapterMappings(mappings =>
-            {
-                // Demo purposes only... you could add aditional Adapter mappings here...
-
-                // mappings.RegisterMapping<RefreshView, MyCustomAdapter>();
-            });
 
             AppDomain.CurrentDomain.UnhandledException += AppDomain_UnhandledException;
 
@@ -113,7 +101,6 @@ namespace HelloWorld
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterRegionServices();
             containerRegistry.RegisterForNavigation<MainPage>();
             //containerRegistry.RegisterForNavigation<MainPage, SomeOtherViewModel>(); //override viewmodel convention
             containerRegistry.RegisterForNavigation<NavigationPage>();
