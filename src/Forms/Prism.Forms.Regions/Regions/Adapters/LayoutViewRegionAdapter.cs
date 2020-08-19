@@ -41,11 +41,8 @@ namespace Prism.Regions.Adapters
                 throw new InvalidOperationException(Resources.LayoutViewHasChildrenException);
             }
 
-            regionTarget.SetValue(BindableLayout.ItemsSourceProperty, region.ActiveViews);
-            if(!regionTarget.IsSet(BindableLayout.ItemTemplateProperty))
-            {
-                regionTarget.SetValue(BindableLayout.ItemTemplateSelectorProperty, new RegionItemsSourceTemplate());
-            }
+            BindableLayout.SetItemsSource(regionTarget, region.ActiveViews);
+            BindableLayout.SetItemTemplate(regionTarget, new RegionItemsSourceTemplate());
         }
 
         /// <summary>
