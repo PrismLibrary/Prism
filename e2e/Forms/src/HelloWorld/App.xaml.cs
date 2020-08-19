@@ -62,26 +62,7 @@ namespace HelloWorld
         {
             InitializeComponent();
 
-            AppDomain.CurrentDomain.UnhandledException += AppDomain_UnhandledException;
-
-            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
-
-            //NavigationService.NavigateAsync($"MyMasterDetail/MyTabbedPage").OnNavigationError(OnNavigationError);
-            NavigationService.NavigateAsync("MyMasterDetail/NavigationPage/ContentViewDemoRegion").OnNavigationError(OnNavigationError);
-            //MainPage = new MyMasterDetail
-            //{
-            //    Detail = new NavigationPage(new RegionDemoPage())
-            //};
-        }
-
-        private void AppDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            System.Diagnostics.Debugger.Break();
-        }
-
-        private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
-        {
-            System.Diagnostics.Debugger.Break();
+            NavigationService.NavigateAsync($"MyMasterDetail/MyTabbedPage").OnNavigationError(OnNavigationError);
         }
 
         private void OnNavigationError(Exception ex)

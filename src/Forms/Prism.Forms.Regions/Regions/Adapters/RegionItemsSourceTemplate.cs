@@ -2,17 +2,23 @@
 
 namespace Prism.Regions.Adapters
 {
-    internal class RegionItemsSourceTemplate : DataTemplateSelector
+    // Implementation Note:
+    // In discussing with PureWeen, it is best to provide a ContentView and provide a
+    // simple Binding of the BindingContext to the Content property. The Xamarin.Forms
+    // Layout engine may reuse the template provided and change out change out the Binding
+    // Context for memory optimization.
+    internal class RegionItemsSourceTemplate : DataTemplate
     {
-        protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
+        public RegionItemsSourceTemplate()
+            : base(ViewTemplate)
         {
-            // Implementation Note:
-            // The view returned will get the BindingContext set to the item provided here.
-            // In our case this means we lose our ViewModel and the View gets a BindingContext
-            // of itself. To prevent anything from getting messed up we return the view as
-            // the content of a new ContentView.
-            var view = (View)item;
-            return new DataTemplate(() => new ContentView { Content = view });
+        }
+
+        private static View ViewTemplate()
+        {
+            var view = new ContentView();
+            view.SetBinding(ContentView.ContentProperty, new Binding("."));
+            return view;
         }
     }
 }
