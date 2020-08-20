@@ -6,7 +6,7 @@ using Xamarin.Forms;
 namespace Prism.Regions.Adapters
 {
     /// <summary>
-    /// Adapter that creates a new <see cref="AllActiveRegion"/> and monitors its
+    /// Adapter that creates a new <see cref="Region"/> and monitors its
     /// active view to set it on the adapted <see cref="CollectionView"/>.
     /// </summary>
     public class CollectionViewRegionAdapter : RegionAdapterBase<CollectionView>
@@ -40,15 +40,15 @@ namespace Prism.Regions.Adapters
                 throw new InvalidOperationException(Resources.CollectionViewHasItemsSourceException);
             }
 
-            regionTarget.ItemsSource = region.ActiveViews;
+            regionTarget.ItemsSource = region.Views;
             regionTarget.ItemTemplate = new RegionItemsSourceTemplate();
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="AllActiveRegion"/>.
+        /// Creates a new instance of <see cref="IRegion"/>.
         /// </summary>
-        /// <returns>A new instance of <see cref="AllActiveRegion"/>.</returns>
+        /// <returns>A new instance of <see cref="Region"/>.</returns>
         protected override IRegion CreateRegion() =>
-            new AllActiveRegion();
+            new Region();
     }
 }

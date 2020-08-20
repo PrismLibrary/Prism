@@ -58,6 +58,6 @@ namespace Prism.Regions.Adapters
         /// </summary>
         /// <returns>A new instance of <see cref="SingleActiveRegion"/>.</returns>
         protected override IRegion CreateRegion() =>
-            new SingleActiveRegion();
+            new Region();
     }
 }
