@@ -46,9 +46,9 @@
               <Button Text="CarouselView Region"
                       Command="{Binding NavigateCommand}"
                       CommandParameter="MyNavigationPage/CarouselDemoRegion" />
-              <Button Text="CollectionView Region"
+              <!--<Button Text="CollectionView Region"
                       Command="{Binding NavigateCommand}"
-                      CommandParameter="MyNavigationPage/CollectionViewDemoRegion" />
+                      CommandParameter="MyNavigationPage/CollectionViewDemoRegion" />-->
               <Button Text="ContentView Region"
                       Command="{Binding NavigateCommand}"
                       CommandParameter="MyNavigationPage/ContentViewDemoRegion" />
