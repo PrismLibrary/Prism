@@ -145,20 +145,21 @@ stages:
   displayName: CI Deploy Artifacts
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
-  - deployment: GitHub
-    displayName: GitHub Packages
-    environment: GitHub
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: NuGetCommand@2
-            displayName: NuGet Push
-            inputs:
-              command: push
-              packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
-              nuGetFeedType: external
-              publishFeedCredentials: 'GitHub-Packages'
+  # GitHub randomly started returning a 409
+  # - deployment: GitHub
+  #   displayName: GitHub Packages
+  #   environment: GitHub
+  #   strategy:
+  #     runOnce:
+  #       deploy:
+  #         steps:
+  #         - task: NuGetCommand@2
+  #           displayName: NuGet Push
+  #           inputs:
+  #             command: push
+  #             packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
+  #             nuGetFeedType: external
+  #             publishFeedCredentials: 'GitHub-Packages'
 
   - deployment: MyGet
     displayName: MyGet.org
