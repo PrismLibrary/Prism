@@ -14,8 +14,8 @@ namespace Prism.Ioc
         /// </summary>
         /// <typeparam name="TView">The Type of <see cref="View"/> to register</typeparam>
         /// <param name="containerRegistry"><see cref="IContainerRegistry"/> used to register type for Navigation.</param>
-        /// <param name="name">The unique name to register with the Page</param>
-        public static void RegisterForNavigation<TView>(this IContainerRegistry containerRegistry, string name = null) 
+        /// <param name="name">The unique name to register with the View</param>
+        public static void RegisterForRegionNavigation<TView>(this IContainerRegistry containerRegistry, string name = null) 
             where TView : View
         {
             var viewType = typeof(TView);
@@ -30,10 +30,10 @@ namespace Prism.Ioc
         /// Registers a <see cref="View"/> for region navigation.
         /// </summary>
         /// <typeparam name="TView">The Type of <see cref="View" to register</typeparam>
-        /// <typeparam name="TViewModel">The ViewModel to use as the BindingContext for the Page</typeparam>
-        /// <param name="name">The unique name to register with the Page</param>
+        /// <typeparam name="TViewModel">The ViewModel to use as the BindingContext for the View</typeparam>
+        /// <param name="name">The unique name to register with the View</param>
         /// <param name="containerRegistry"></param>
-        public static void RegisterForNavigation<TView, TViewModel>(this IContainerRegistry containerRegistry, string name = null)
+        public static void RegisterForRegionNavigation<TView, TViewModel>(this IContainerRegistry containerRegistry, string name = null)
             where TView : View
             where TViewModel : class
         {

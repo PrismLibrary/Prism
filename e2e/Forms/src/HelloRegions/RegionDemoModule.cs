@@ -25,9 +25,9 @@ namespace HelloRegions
             containerRegistry.RegisterForNavigation<ScrollViewDemoRegion, ScrollViewDemoRegionViewModel>();
             containerRegistry.RegisterForNavigation<StackLayoutDemoRegion, StackLayoutDemoRegionViewModel>();
 
-            containerRegistry.RegisterForNavigation<RegionA, RegionAViewModel>();
-            containerRegistry.RegisterForNavigation<RegionB, RegionBViewModel>();
-            containerRegistry.RegisterForNavigation<RegionC, RegionCViewModel>();
+            containerRegistry.RegisterForRegionNavigation<RegionA, RegionAViewModel>();
+            containerRegistry.RegisterForRegionNavigation<RegionB, RegionBViewModel>();
+            containerRegistry.RegisterForRegionNavigation<RegionC, RegionCViewModel>();
         }
     }
 }
