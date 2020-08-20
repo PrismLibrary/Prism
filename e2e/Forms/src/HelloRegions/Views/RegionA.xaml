@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             FlexLayout.Grow="0.5"
+             x:Class="HelloRegions.Views.RegionA">
+  <Label Text="Hello from Region A" />
+  <Label Text="{Binding Message}" />
+  <Label Text="{Binding RefreshedMessage}" />
+
+  <StackLayout Orientation="Horizontal"
+               HorizontalOptions="Center">
+    <Button Text="Go Back"
+            Command="{Binding GoBackCommand}"
+            BackgroundColor="Transparent"
+            TextColor="Blue"
+            BorderWidth="0"/>
+    <Button Text="Go Forward"
+            Command="{Binding GoForwardCommand}"
+            BackgroundColor="Transparent"
+            TextColor="Blue"
+            BorderWidth="0" />
+  </StackLayout>
+</StackLayout>

@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Prism.AppModel;
 using Prism.Behaviors;
 using Prism.Common;
 using Prism.Events;
+using Prism.Extensions;
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
@@ -9,9 +13,6 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using Prism.Services.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -106,7 +107,9 @@ namespace Prism
                 if(Container.IsRegistered<IResolverOverridesHelper>())
                 {
                     var resolver = Container.Resolve<IResolverOverridesHelper>();
-                    overrides.AddRange(resolver.GetOverrides());
+                    var resolverOverrides = resolver.GetOverrides();
+                    if(resolverOverrides.Any())
+                        overrides.AddRange(resolverOverrides);
                 }
 
                 if(!overrides.Any(x => x.Type == typeof(INavigationService)))
@@ -125,15 +128,9 @@ namespace Prism
             {
                 return Navigation.Xaml.Navigation.GetNavigationService(page);
             }
-            else if (view is VisualElement visualElement)
+            else if (view is VisualElement visualElement && visualElement.TryGetParentPage(out var parent))
             {
-                page = ViewModelLocator.GetAutowirePartialView(visualElement);
-                if (page != null)
-                {
-                    return CreateNavigationService(page);
-                }
-
-                return CreateNavigationService(visualElement.Parent);
+                return Navigation.Xaml.Navigation.GetNavigationService(parent);
             }
 
             return Container.Resolve<INavigationService>();

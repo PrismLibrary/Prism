@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:local="clr-namespace:HelloRegions.Views"
+             Title="FlexLayout - Demo"
+             x:Class="HelloRegions.Views.FlexLayoutDemoRegion">
+
+  <Grid Padding="20,40,20,20">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="40" />
+    </Grid.RowDefinitions>
+    <Label Text="FlexLayout - Demo Region"
+           HorizontalTextAlignment="Center" />
+    <FlexLayout prism:RegionManager.RegionName="FlexRegion"
+                AlignItems="Center"
+                JustifyContent="SpaceEvenly"
+                Wrap="Wrap"
+                Grid.Row="1" />
+
+    <local:NavigationView Grid.Row="2" />
+  </Grid>
+
+</ContentPage>

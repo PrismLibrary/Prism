@@ -35,7 +35,9 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.Unity.Shared", "src\C
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.DryIoc.Shared", "src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.shproj", "{6E7EC81D-DA39-4C4F-A898-0148558C34F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockApp", "tests\Forms\MockApp\MockApp.csproj", "{0E7ACB55-03FD-4EF6-A116-D6E85BC0C605}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockApp", "tests\Forms\MockApp\MockApp.csproj", "{0E7ACB55-03FD-4EF6-A116-D6E85BC0C605}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Forms.Regions", "src\Forms\Prism.Forms.Regions\Prism.Forms.Regions.csproj", "{7E197F24-C16B-4A20-BA37-685C473FFE11}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -164,6 +166,18 @@ Global
 		{0E7ACB55-03FD-4EF6-A116-D6E85BC0C605}.Release|x64.Build.0 = Release|Any CPU
 		{0E7ACB55-03FD-4EF6-A116-D6E85BC0C605}.Release|x86.ActiveCfg = Release|Any CPU
 		{0E7ACB55-03FD-4EF6-A116-D6E85BC0C605}.Release|x86.Build.0 = Release|Any CPU
+		{7E197F24-C16B-4A20-BA37-685C473FFE11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E197F24-C16B-4A20-BA37-685C473FFE11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E197F24-C16B-4A20-BA37-685C473FFE11}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7E197F24-C16B-4A20-BA37-685C473FFE11}.Debug|x64.Build.0 = Debug|Any CPU
+		{7E197F24-C16B-4A20-BA37-685C473FFE11}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7E197F24-C16B-4A20-BA37-685C473FFE11}.Debug|x86.Build.0 = Debug|Any CPU
+		{7E197F24-C16B-4A20-BA37-685C473FFE11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E197F24-C16B-4A20-BA37-685C473FFE11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E197F24-C16B-4A20-BA37-685C473FFE11}.Release|x64.ActiveCfg = Release|Any CPU
+		{7E197F24-C16B-4A20-BA37-685C473FFE11}.Release|x64.Build.0 = Release|Any CPU
+		{7E197F24-C16B-4A20-BA37-685C473FFE11}.Release|x86.ActiveCfg = Release|Any CPU
+		{7E197F24-C16B-4A20-BA37-685C473FFE11}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,6 +198,7 @@ Global
 		{D66336A6-07E5-401A-A710-DAEDD6975D59} = {09DC3C91-141C-468E-9CE6-71091A95BED8}
 		{6E7EC81D-DA39-4C4F-A898-0148558C34F4} = {09DC3C91-141C-468E-9CE6-71091A95BED8}
 		{0E7ACB55-03FD-4EF6-A116-D6E85BC0C605} = {CF8CB255-8A76-48A7-B09A-88B14648D3A8}
+		{7E197F24-C16B-4A20-BA37-685C473FFE11} = {CFDB2435-DE4F-4A95-A612-35671358F0A5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E03CA9C3-F24B-442E-B378-C325728E9E29}

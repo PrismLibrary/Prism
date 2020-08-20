@@ -15,44 +15,26 @@ namespace Prism.Common
         public static void InvokeViewAndViewModelAction<T>(object view, Action<T> action) where T : class
         {
             if (view is T viewAsT)
-                action(viewAsT);
-
-            if (view is BindableObject element)
             {
-                if (element.BindingContext is T viewModelAsT)
-                {
-                    action(viewModelAsT);
-                }
+                action(viewAsT);
             }
 
-            if (view is Page page && page.GetPartialViews() is List<BindableObject> partials)
+            if (view is BindableObject element && element.BindingContext is T viewModelAsT)
             {
-                foreach (var partial in partials)
-                {
-                    InvokeViewAndViewModelAction(partial, action);
-                }
+                action(viewModelAsT);
             }
         }
 
         public static async Task InvokeViewAndViewModelActionAsync<T>(object view, Func<T, Task> action) where T : class
         {
             if (view is T viewAsT)
-                await action(viewAsT);
-
-            if (view is BindableObject element)
             {
-                if (element.BindingContext is T viewModelAsT)
-                {
-                    await action(viewModelAsT);
-                }
+                await action(viewAsT);
             }
 
-            if (view is Page page && page.GetPartialViews() is List<BindableObject> partials)
+            if (view is BindableObject element && element.BindingContext is T viewModelAsT)
             {
-                foreach (var partial in partials)
-                {
-                    await InvokeViewAndViewModelActionAsync(partial, action);
-                }
+                await action(viewModelAsT);
             }
         }
 

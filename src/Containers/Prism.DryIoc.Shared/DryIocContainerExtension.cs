@@ -54,6 +54,7 @@ namespace Prism.DryIoc
                 typeof(IContainerExtension),
                 typeof(IContainerProvider)
             }, this);
+            ExceptionExtensions.RegisterFrameworkExceptionType(typeof(ContainerException));
         }
 #endif
 

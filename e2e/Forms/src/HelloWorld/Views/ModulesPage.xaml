@@ -5,7 +5,8 @@
              Title="Modules"
              x:Class="HelloWorld.Views.ModulesPage">
   <ListView ItemsSource="{Binding Modules}"
-            BackgroundColor="White">
+            BackgroundColor="White"
+            HasUnevenRows="True">
     <ListView.Behaviors>
       <prism:EventToCommandBehavior EventName="ItemTapped"
                                     EventArgsParameterPath="Item"
@@ -13,8 +14,38 @@
     </ListView.Behaviors>
     <ListView.ItemTemplate>
       <DataTemplate>
-        <TextCell Text="{Binding ModuleName}"
-                  Detail="{Binding State}" />
+        <ViewCell>
+          <StackLayout Padding="20, 5"
+                       Spacing="0"
+                       VerticalOptions="Center">
+            <Label Text="{Binding ModuleName}"
+                   FontSize="Medium"/>
+            <Label Text="{Binding State}"
+                   FontSize="Small"
+                   TextColor="Yellow">
+              <Label.Triggers>
+                <DataTrigger TargetType="Label"
+                             Binding="{Binding State}"
+                             Value="Initialized">
+                  <Setter Property="TextColor" Value="Green" />
+                </DataTrigger>
+                <DataTrigger TargetType="Label"
+                             Binding="{Binding State}"
+                             Value="NotStarted">
+                  <Setter Property="TextColor" Value="Red" />
+                </DataTrigger>
+              </Label.Triggers>
+            </Label>
+            <StackLayout BindableLayout.ItemsSource="{Binding DependsOn}">
+              <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                  <Label Text="{Binding ., StringFormat='- {0}'}"
+                         Padding="15,0,0,0"/>
+                </DataTemplate>
+              </BindableLayout.ItemTemplate>
+            </StackLayout>
+          </StackLayout>
+        </ViewCell>
       </DataTemplate>
     </ListView.ItemTemplate>
   </ListView>

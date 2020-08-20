@@ -41,6 +41,30 @@
               <Button Text="Show Dialog"
                       Command="{prism:ShowDialog 'DemoDialog?message=Hello%20From%20Prism%20DialogService!&amp;closeOnBackgroundTapped=true'}" />
             </controls:SectionGroup>
+
+            <controls:SectionGroup Title="Regions">
+              <Button Text="CarouselView Region"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="MyNavigationPage/CarouselDemoRegion" />
+              <!--<Button Text="CollectionView Region"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="MyNavigationPage/CollectionViewDemoRegion" />-->
+              <Button Text="ContentView Region"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="MyNavigationPage/ContentViewDemoRegion" />
+              <Button Text="FlexLayout Region"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="MyNavigationPage/FlexLayoutDemoRegion" />
+              <Button Text="Frame Region"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="MyNavigationPage/FrameDemoRegion" />
+              <Button Text="ScrollView Region"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="MyNavigationPage/ScrollViewDemoRegion" />
+              <Button Text="StackLayout Region"
+                      Command="{Binding NavigateCommand}"
+                      CommandParameter="MyNavigationPage/StackLayoutDemoRegion" />
+            </controls:SectionGroup>
           </StackLayout>
         </ScrollView>
       </StackLayout>

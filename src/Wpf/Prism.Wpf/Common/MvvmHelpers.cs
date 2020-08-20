@@ -26,17 +26,12 @@ namespace Prism.Common
         /// <param name="action">The <see cref="Action{T}"/> to perform.</param>
         public static void ViewAndViewModelAction<T>(object view, Action<T> action) where T : class
         {
-            T viewAsT = view as T;
-            if (viewAsT != null)
+            if (view is T viewAsT)
                 action(viewAsT);
-            var element = view as FrameworkElement;
-            if (element != null)
+
+            if (view is FrameworkElement element && element.DataContext is T viewModelAsT)
             {
-                var viewModelAsT = element.DataContext as T;
-                if (viewModelAsT != null)
-                {
-                    action(viewModelAsT);
-                }
+                action(viewModelAsT);
             }
         }
 
@@ -52,16 +47,13 @@ namespace Prism.Common
         /// <returns>view or viewmodel as <typeparamref name="T"/>.</returns>
         public static T GetImplementerFromViewOrViewModel<T>(object view) where T : class
         {
-            T viewAsT = view as T;
-            if (viewAsT != null)
+            if (view is T viewAsT)
             {
                 return viewAsT;
             }
 
-            var element = view as FrameworkElement;
-            if (element != null)
+            if (view is FrameworkElement element && element.DataContext is T vmAsT)
             {
-                var vmAsT = element.DataContext as T;
                 return vmAsT;
             }
 

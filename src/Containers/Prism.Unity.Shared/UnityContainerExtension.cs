@@ -47,6 +47,7 @@ namespace Prism.Unity
             Instance.RegisterInstance(currentContainer, this);
             Instance.RegisterFactory(typeof(IContainerExtension), c => c.Resolve<UnityContainerExtension>(currentContainer));
             Instance.RegisterFactory(typeof(IContainerProvider), c => c.Resolve<UnityContainerExtension>(currentContainer));
+            ExceptionExtensions.RegisterFrameworkExceptionType(typeof(ResolutionFailedException));
         }
 #endif
 

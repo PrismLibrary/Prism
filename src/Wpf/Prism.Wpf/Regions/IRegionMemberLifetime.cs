@@ -1,5 +1,3 @@
-
-
 using Prism.Regions.Behaviors;
 
 namespace Prism.Regions

@@ -1,5 +1,3 @@
-
-
 using System.Linq;
 
 namespace Prism.Regions
@@ -19,7 +17,7 @@ namespace Prism.Regions
         {
             object currentActiveView = ActiveViews.FirstOrDefault();
 
-            if (currentActiveView != null && currentActiveView != view && this.Views.Contains(currentActiveView))
+            if (currentActiveView != null && currentActiveView != view && Views.Contains(currentActiveView))
             {
                 base.Deactivate(currentActiveView);
             }

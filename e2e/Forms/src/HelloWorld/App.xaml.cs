@@ -49,7 +49,7 @@ namespace HelloWorld
         }
 
         public App(IPlatformInitializer initializer)
-            : this(initializer, true)
+            : this(initializer, false)
         {
         }
 
@@ -67,7 +67,17 @@ namespace HelloWorld
 
         private void OnNavigationError(Exception ex)
         {
-
+            if(ex.InnerException is ContainerResolutionException cre)
+            {
+                var errors = cre.GetErrors();
+                foreach(var error in errors)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine(error.Key.FullName);
+                    Console.WriteLine(error.Value.ToString());
+                    Console.WriteLine();
+                }
+            }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -85,10 +95,9 @@ namespace HelloWorld
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<ModuleA.ModuleAModule>();
-            //moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule)));
-            //moduleCatalog.AddModule(new ModuleInfo(typeof(ModuleA.ModuleAModule), "ModuleA", InitializationMode.OnDemand));
             moduleCatalog.AddModule<HelloDialog.HelloDialogModule>(InitializationMode.OnDemand);
-            moduleCatalog.AddModule<HelloPageDialog.HelloPageDialogModule>(InitializationMode.OnDemand);
+            moduleCatalog.AddModule(new ModuleInfo(typeof(HelloPageDialog.HelloPageDialogModule), "HelloPageDialogModule", InitializationMode.OnDemand));
+            moduleCatalog.AddModule(new ModuleInfo(typeof(HelloRegions.RegionDemoModule)));
         }
 
         protected override void OnStart ()

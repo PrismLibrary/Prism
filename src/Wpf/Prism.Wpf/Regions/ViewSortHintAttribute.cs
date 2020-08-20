@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Net;
 
@@ -17,13 +15,13 @@ namespace Prism.Regions
         /// <param name="hint">The hint to use for sorting.</param>
         public ViewSortHintAttribute(string hint)
         {            
-            this.Hint = hint;
+            Hint = hint;
         }
 
         /// <summary>
         /// Gets  the hint.
         /// </summary>
         /// <value>The hint to use for sorting.</value>
-        public string Hint { get; private set; }
+        public string Hint { get; }
     }
 }

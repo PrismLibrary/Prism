@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Prism</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Prism.Forms\Prism.Forms.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\IRegionMemberLifetime.cs" Link="Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\IRegionViewRegistry.cs" Link="Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\RegionViewRegistry.cs" Link="Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\RegionMemberLifetimeAttribute.cs" Link="Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\ViewSortHintAttribute.cs" Link="Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\SyncActiveStateAttribute.cs" Link="Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\*Exception.cs" Link="Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\*Exception.Desktop.cs" Link="Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\Behaviors\*Exception.cs" Link="Regions\Behaviors\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\Behaviors\*Exception.Desktop.cs" Link="Regions\Behaviors\%(Filename)%(Extension)" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
