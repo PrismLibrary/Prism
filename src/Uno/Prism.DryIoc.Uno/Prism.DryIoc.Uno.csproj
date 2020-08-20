@@ -5,13 +5,17 @@
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
     <DefineConstants>$(DefineConstants);HAS_WINUI</DefineConstants>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    
-    <!-- 
-    Library layout generation is disabled as this project does not have any XAML files, and 
+
+    <!--
+    Library layout generation is disabled as this project does not have any XAML files, and
     that if set to true, there is a nuget issue where Uno.Prism PRI resource get incorrectly
     propagated to their dependents.
     -->
     <GenerateLibraryLayout>false</GenerateLibraryLayout>
+    <Description>Use these extensions to build apps for Uno Platform, UWP, &amp; WinUI using Prism with the DryIoc Container.
+
+Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET Standard. Features that need to be platform specific are implemented in the respective libraries for the target platform (WPF, Uno Platform, and Xamarin Forms). Prism for Uno Platform helps you more easily design and build rich, flexible, and easy to maintain Windows UWP, WinUI &amp; cross platform Uno applications.</Description>
+    <PackageTags>prism;winui;windows;uno;mvvm;uwp;ios;android;macos;webassembly;linux;xaml;dryioc</PackageTags>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
