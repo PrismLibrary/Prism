@@ -36,7 +36,6 @@ namespace Prism
         private IContainerExtension _containerExtension;
         private IModuleCatalog _moduleCatalog;
         private Page _previousPage = null;
-        private bool _setFormsDependencyResolver { get; }
 
         /// <summary>
         /// The dependency injection container used to resolve objects
@@ -56,7 +55,7 @@ namespace Prism
         /// <summary>
         /// Initializes a new instance of <see cref="PrismApplicationBase" /> using the default constructor
         /// </summary>
-        protected PrismApplicationBase() : this(null, false)
+        protected PrismApplicationBase() : this(null)
         {
         }
 
@@ -65,8 +64,13 @@ namespace Prism
         /// Used when there are specific types that need to be registered on the platform.
         /// </summary>
         /// <param name="platformInitializer">The <see cref="IPlatformInitializer"/>.</param>
-        protected PrismApplicationBase(IPlatformInitializer platformInitializer) : this(platformInitializer, false)
+        protected PrismApplicationBase(IPlatformInitializer platformInitializer)
         {
+            base.ModalPopping += PrismApplicationBase_ModalPopping;
+            base.ModalPopped += PrismApplicationBase_ModalPopped;
+
+            PlatformInitializer = platformInitializer;
+            InitializeInternal();
         }
 
         /// <summary>
@@ -76,14 +80,10 @@ namespace Prism
         /// </summary>
         /// <param name="platformInitializer">The <see cref="IPlatformInitializer"/>.</param>
         /// <param name="setFormsDependencyResolver">Should <see cref="PrismApplicationBase" /> set the <see cref="DependencyResolver" />.</param>
+        [Obsolete]
         protected PrismApplicationBase(IPlatformInitializer platformInitializer, bool setFormsDependencyResolver)
+            : this(platformInitializer)
         {
-            base.ModalPopping += PrismApplicationBase_ModalPopping;
-            base.ModalPopped += PrismApplicationBase_ModalPopped;
-            _setFormsDependencyResolver = setFormsDependencyResolver;
-
-            PlatformInitializer = platformInitializer;
-            InitializeInternal();
         }
 
         /// <summary>
@@ -150,9 +150,6 @@ namespace Prism
             GetType().AutoRegisterViews(_containerExtension);
             _containerExtension.FinalizeExtension();
 
-            if(_setFormsDependencyResolver)
-                SetDependencyResolver(_containerExtension);
-
             _moduleCatalog = Container.Resolve<IModuleCatalog>();
             ConfigureModuleCatalog(_moduleCatalog);
 
@@ -160,28 +157,6 @@ namespace Prism
             NavigationService = _containerExtension.Resolve<INavigationService>();
 
             InitializeModules();
-        }
-
-        /// <summary>
-        /// Sets the <see cref="DependencyResolver" /> to use the App Container for resolving types
-        /// </summary>
-        protected virtual void SetDependencyResolver(IContainerProvider containerProvider)
-        {
-            DependencyResolver.ResolveUsing(type => containerProvider.Resolve(type));
-#if __ANDROID__
-            DependencyResolver.ResolveUsing((Type type, object[] dependencies) =>
-            {
-                foreach(var dependency in dependencies)
-                {
-                    if(dependency is Android.Content.Context context)
-                    {
-                        return containerProvider.Resolve(type, (typeof(Android.Content.Context), context));
-                    }
-                }
-                containerProvider.Resolve<ILoggerFacade>().Log($"Could not locate an Android.Content.Context to resolve {type.Name}", Category.Warn, Priority.High);
-                return containerProvider.Resolve(type);
-            });
-#endif
         }
 
         /// <summary>
