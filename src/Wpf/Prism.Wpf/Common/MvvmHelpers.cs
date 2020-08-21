@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Prism.Mvvm;
 #if HAS_WINUI
 using Windows.UI.Xaml;
 #else
@@ -15,6 +15,14 @@ namespace Prism.Common
     /// </summary>
     public static class MvvmHelpers
     {
+        internal static void AutowireViewModel(object viewOrViewModel)
+        {
+            if(viewOrViewModel is FrameworkElement view && ViewModelLocator.GetAutoWireViewModel(view) is null)
+            {
+                ViewModelLocator.SetAutoWireViewModel(view, true);
+            }
+        }
+
         /// <summary>
         /// Perform an <see cref="Action{T}"/> on a view and viewmodel.
         /// </summary>

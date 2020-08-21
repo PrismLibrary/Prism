@@ -49,14 +49,14 @@ namespace Prism.Services.Dialogs
         void ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)
         {
             var content = _containerProvider.Resolve<object>(dialogName);
-            var dialogContent = content as FrameworkElement;
-            if (dialogContent == null)
+            if (!(content is FrameworkElement dialogContent))
             {
                 throw new NullReferenceException("A dialog's content must be a FrameworkElement");
             }
 
-            var viewModel = dialogContent.DataContext as IDialogAware;
-            if (viewModel == null)
+            MvvmHelpers.AutowireViewModel(content);
+
+            if (!(dialogContent.DataContext is IDialogAware viewModel))
             {
                 throw new NullReferenceException($"A dialog's ViewModel must implement the IDialogAware interface ({dialogContent.DataContext})");
             }
