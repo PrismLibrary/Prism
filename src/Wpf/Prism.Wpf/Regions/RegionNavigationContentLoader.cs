@@ -102,6 +102,7 @@ namespace Prism.Regions
             try
             {
                 newRegionItem = _container.Resolve<object>(candidateTargetContract);
+                MvvmHelpers.AutowireViewModel(newRegionItem);
             }
             catch (Exception e)
             {

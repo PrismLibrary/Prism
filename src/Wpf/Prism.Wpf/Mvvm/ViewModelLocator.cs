@@ -16,16 +16,16 @@ namespace Prism.Mvvm
         /// <summary>
         /// The AutoWireViewModel attached property.
         /// </summary>
-        public static DependencyProperty AutoWireViewModelProperty = DependencyProperty.RegisterAttached("AutoWireViewModel", typeof(bool), typeof(ViewModelLocator), new PropertyMetadata(defaultValue: false, propertyChangedCallback: AutoWireViewModelChanged));
+        public static DependencyProperty AutoWireViewModelProperty = DependencyProperty.RegisterAttached("AutoWireViewModel", typeof(bool?), typeof(ViewModelLocator), new PropertyMetadata(defaultValue: null, propertyChangedCallback: AutoWireViewModelChanged));
 
         /// <summary>
         /// Gets the value for the <see cref="AutoWireViewModelProperty"/> attached property.
         /// </summary>
         /// <param name="obj">The target element.</param>
         /// <returns>The <see cref="AutoWireViewModelProperty"/> attached to the <paramref name="obj"/> element.</returns>
-        public static bool GetAutoWireViewModel(DependencyObject obj)
+        public static bool? GetAutoWireViewModel(DependencyObject obj)
         {
-            return (bool)obj.GetValue(AutoWireViewModelProperty);
+            return (bool?)obj.GetValue(AutoWireViewModelProperty);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Prism.Mvvm
         /// </summary>
         /// <param name="obj">The target element.</param>
         /// <param name="value">The value to attach.</param>
-        public static void SetAutoWireViewModel(DependencyObject obj, bool value)
+        public static void SetAutoWireViewModel(DependencyObject obj, bool? value)
         {
             obj.SetValue(AutoWireViewModelProperty, value);
         }
@@ -44,7 +44,8 @@ namespace Prism.Mvvm
             if (!DesignerProperties.GetIsInDesignMode(d))
 #endif
             {
-                if ((bool)e.NewValue)
+                var value = (bool?)e.NewValue;
+                if (value.HasValue && value.Value)
                 {
                     ViewModelLocationProvider.AutoWireViewModelChanged(d, Bind);
                 }

@@ -1,4 +1,5 @@
-﻿using Prism.Events;
+﻿using Prism.Common;
+using Prism.Events;
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
@@ -88,6 +89,7 @@ namespace Prism
             var shell = CreateShell();
             if (shell != null)
             {
+                MvvmHelpers.AutowireViewModel(shell);
                 _containerExtension.Resolve<IRegionNavigationService>().NavigationFailed += (s, e) => Console.WriteLine($"Region navigation failed {e.Error}");
                 InitializeShell(shell);
 

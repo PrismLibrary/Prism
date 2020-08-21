@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Prism.Common;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -75,6 +76,7 @@ namespace Prism
             var shell = CreateShell();
             if (shell != null)
             {
+                MvvmHelpers.AutowireViewModel(shell);
                 RegionManager.SetRegionManager(shell, _containerExtension.Resolve<IRegionManager>());
                 RegionManager.UpdateRegions();
                 InitializeShell(shell);
