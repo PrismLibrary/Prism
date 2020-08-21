@@ -1,5 +1,4 @@
 using Prism.Ioc;
-using Prism.Logging;
 using System;
 using System.Globalization;
 
@@ -11,17 +10,14 @@ namespace Prism.Modularity
     public class ModuleInitializer : IModuleInitializer
     {
         private readonly IContainerExtension _containerExtension;
-        private readonly ILoggerFacade _loggerFacade;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ModuleInitializer"/>.
         /// </summary>
         /// <param name="containerExtension">The container that will be used to resolve the modules by specifying its type.</param>
-        /// <param name="loggerFacade">The logger to use.</param>
-        public ModuleInitializer(IContainerExtension containerExtension, ILoggerFacade loggerFacade)
+        public ModuleInitializer(IContainerExtension containerExtension)
         {
             this._containerExtension = containerExtension ?? throw new ArgumentNullException(nameof(containerExtension));
-            this._loggerFacade = loggerFacade ?? throw new ArgumentNullException(nameof(loggerFacade));
         }
 
         /// <summary>
@@ -87,8 +83,6 @@ namespace Prism.Modularity
                     moduleException = new ModuleInitializeException(moduleInfo.ModuleName, exception.Message, exception);
                 }
             }
-
-            this._loggerFacade.Log(moduleException.ToString(), Category.Exception, Priority.High);
 
             throw moduleException;
         }

@@ -1,6 +1,3 @@
-
-
-using Prism.Logging;
 using Prism.Properties;
 using System;
 using System.Collections.Generic;
@@ -15,7 +12,6 @@ namespace Prism.Modularity
     public partial class ModuleManager : IModuleManager, IDisposable
     {
         private readonly IModuleInitializer moduleInitializer;
-        private readonly ILoggerFacade loggerFacade;
         private IEnumerable<IModuleTypeLoader> typeLoaders;
         private HashSet<IModuleTypeLoader> subscribedToModuleTypeLoaders = new HashSet<IModuleTypeLoader>();
 
@@ -24,12 +20,10 @@ namespace Prism.Modularity
         /// </summary>
         /// <param name="moduleInitializer">Service used for initialization of modules.</param>
         /// <param name="moduleCatalog">Catalog that enumerates the modules to be loaded and initialized.</param>
-        /// <param name="loggerFacade">Logger used during the load and initialization of modules.</param>
-        public ModuleManager(IModuleInitializer moduleInitializer, IModuleCatalog moduleCatalog, ILoggerFacade loggerFacade)
+        public ModuleManager(IModuleInitializer moduleInitializer, IModuleCatalog moduleCatalog)
         {
             this.moduleInitializer = moduleInitializer ?? throw new ArgumentNullException(nameof(moduleInitializer));
-            this.ModuleCatalog = moduleCatalog ?? throw new ArgumentNullException(nameof(moduleCatalog));
-            this.loggerFacade = loggerFacade ?? throw new ArgumentNullException(nameof(loggerFacade));
+            ModuleCatalog = moduleCatalog ?? throw new ArgumentNullException(nameof(moduleCatalog));
         }
 
         /// <summary>
@@ -226,7 +220,7 @@ namespace Prism.Modularity
 
         /// <summary>
         /// Handles any exception occurred in the module typeloading process,
-        /// logs the error using the <see cref="ILoggerFacade"/> and throws a <see cref="ModuleTypeLoadingException"/>.
+        /// and throws a <see cref="ModuleTypeLoadingException"/>.
         /// This method can be overridden to provide a different behavior.
         /// </summary>
         /// <param name="moduleInfo">The module metadata where the error happenened.</param>
@@ -243,8 +237,6 @@ namespace Prism.Modularity
             {
                 moduleTypeLoadingException = new ModuleTypeLoadingException(moduleInfo.ModuleName, exception.Message, exception);
             }
-
-            this.loggerFacade.Log(moduleTypeLoadingException.Message, Category.Exception, Priority.High);
 
             throw moduleTypeLoadingException;
         }

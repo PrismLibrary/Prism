@@ -5,7 +5,6 @@ using Prism.Forms.Tests.Mocks.ViewModels;
 using Prism.Forms.Tests.Mocks.Views;
 using Prism.Forms.Tests.Navigation.Mocks.Views;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Navigation;
 using System;
 using System.Linq;
@@ -19,7 +18,6 @@ namespace Prism.Forms.Tests.Navigation
     {
         PageNavigationContainerMock _container;
         IApplicationProvider _applicationProvider;
-        ILoggerFacade _loggerFacade;
 
         public PageNavigationServiceFixture()
         {
@@ -58,7 +56,6 @@ namespace Prism.Forms.Tests.Navigation
             _container.Register("CarouselPage", typeof(CarouselPageMock));
 
             _applicationProvider = new ApplicationProviderMock();
-            _loggerFacade = new EmptyLogger();
         }
 
         [Fact]

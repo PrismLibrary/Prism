@@ -1,6 +1,5 @@
 ﻿using Prism.Events;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -30,7 +29,6 @@ namespace Prism
         internal static void RegisterRequiredTypes(this IContainerRegistry containerRegistry, IModuleCatalog moduleCatalog)
         {
             containerRegistry.RegisterInstance(moduleCatalog);
-            containerRegistry.RegisterSingleton<ILoggerFacade, TextLogger>();
             containerRegistry.RegisterSingleton<IDialogService, DialogService>();
             containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
             containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();

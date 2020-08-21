@@ -91,16 +91,6 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         }
 
         [StaFact]
-        public void RunShouldCallCreateLogger()
-        {
-            var bootstrapper = new MockBootstrapper();
-
-            bootstrapper.Run();
-
-            Assert.True(bootstrapper.CreateLoggerCalled);
-        }
-
-        [StaFact]
         public void RunShouldCallCreateModuleCatalog()
         {
             var bootstrapper = new MockBootstrapper();
@@ -216,7 +206,6 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
             bootstrapper.Run();
 
             var index = 0;
-            Assert.Equal("CreateLogger", bootstrapper.MethodCalls[index++]);
             Assert.Equal("CreateModuleCatalog", bootstrapper.MethodCalls[index++]);
             Assert.Equal("ConfigureModuleCatalog", bootstrapper.MethodCalls[index++]);
             Assert.Equal("CreateContainer", bootstrapper.MethodCalls[index++]);
@@ -235,7 +224,7 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         {
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
             var index = 0;
             Assert.Contains(ContainerResources.LoggerCreatedSuccessfully, messages[index++]);
@@ -260,18 +249,17 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         {
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
-            Assert.True(messages.Contains(ContainerResources.LoggerCreatedSuccessfully));
+            Assert.Contains(ContainerResources.LoggerCreatedSuccessfully, messages);
         }
         [StaFact]
         public void RunShouldLogAboutModuleCatalogCreation()
         {
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
-
-            Assert.True(messages.Contains(ContainerResources.CreatingModuleCatalog));
+            var messages = bootstrapper.Messages;
+            Assert.Contains(ContainerResources.CreatingModuleCatalog, messages);
         }
 
         [StaFact]
@@ -279,9 +267,9 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         {
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
-            Assert.True(messages.Contains(ContainerResources.ConfiguringModuleCatalog));
+            Assert.Contains(ContainerResources.ConfiguringModuleCatalog, messages);
         }
 
         [StaFact]
@@ -289,9 +277,9 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         {
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
-            Assert.True(messages.Contains(ContainerResources.CreatingContainer));
+            Assert.Contains(ContainerResources.CreatingContainer, messages);
         }
 
         [StaFact]
@@ -299,9 +287,9 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         {
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
-            Assert.True(messages.Contains(ContainerResources.ConfiguringContainer));
+            Assert.Contains(ContainerResources.ConfiguringContainer, messages);
         }
 
         [StaFact]
@@ -309,9 +297,9 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         {
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
-            Assert.True(messages.Contains(ContainerResources.ConfiguringViewModelLocator));
+            Assert.Contains(ContainerResources.ConfiguringViewModelLocator, messages);
         }
 
         [StaFact]
@@ -319,9 +307,9 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         {
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
-            Assert.True(messages.Contains(ContainerResources.ConfiguringRegionAdapters));
+            Assert.Contains(ContainerResources.ConfiguringRegionAdapters, messages);
         }
 
         [StaFact]
@@ -329,9 +317,9 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         {
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
-            Assert.True(messages.Contains(ContainerResources.ConfiguringDefaultRegionBehaviors));
+            Assert.Contains(ContainerResources.ConfiguringDefaultRegionBehaviors, messages);
         }
 
         [StaFact]
@@ -339,9 +327,9 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         {
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
-            Assert.True(messages.Contains(ContainerResources.RegisteringFrameworkExceptionTypes));
+            Assert.Contains(ContainerResources.RegisteringFrameworkExceptionTypes, messages);
         }
 
         [StaFact]
@@ -349,9 +337,9 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         {
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
-            Assert.True(messages.Contains(ContainerResources.CreatingShell));
+            Assert.Contains(ContainerResources.CreatingShell, messages);
         }
 
         [StaFact]
@@ -360,9 +348,9 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
             var bootstrapper = new MockBootstrapper();
 
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
-            Assert.True(messages.Contains(ContainerResources.InitializingShell));
+            Assert.Contains(ContainerResources.InitializingShell, messages);
         }
 
         [StaFact]
@@ -371,9 +359,9 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
             var bootstrapper = new MockBootstrapper { ShellObject = null };
 
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
-            Assert.False(messages.Contains(ContainerResources.InitializingShell));
+            Assert.DoesNotContain(ContainerResources.InitializingShell, messages);
         }
 
         [StaFact]
@@ -381,9 +369,9 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         {
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
-            Assert.True(messages.Contains(ContainerResources.InitializingModules));
+            Assert.Contains(ContainerResources.InitializingModules, messages);
         }
 
         [StaFact]
@@ -391,9 +379,9 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         {
             var bootstrapper = new MockBootstrapper();
             bootstrapper.Run();
-            var messages = bootstrapper.BaseLogger.Messages;
+            var messages = bootstrapper.Messages;
 
-            Assert.True(messages.Contains(ContainerResources.BootstrapperSequenceCompleted));
+            Assert.Contains(ContainerResources.BootstrapperSequenceCompleted, messages);
         }
     }
 }

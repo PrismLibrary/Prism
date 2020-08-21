@@ -6,19 +6,11 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
-using Prism.Logging;
-using Prism.Forms.Tests.Mocks.Logging;
 using Prism.Mvvm;
 using System;
-#if Autofac
-using Prism.Autofac;
-using Autofac;
-#elif DryIoc
+#if DryIoc
 using Prism.DryIoc;
 using DryIoc;
-#elif Ninject
-using Prism.Ninject;
-using Ninject;
 #elif Unity
 using Prism.Unity;
 using Unity;
@@ -56,7 +48,6 @@ namespace Prism.DI.Forms.Tests
             containerRegistry.Register<ViewModelBMock>(ViewModelBMock.Key);
             containerRegistry.Register<ConstructorArgumentViewModel>();
             containerRegistry.RegisterSingleton<ModuleMock>();
-            containerRegistry.RegisterSingleton<ILoggerFacade, XunitLogger>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<ViewMock>("view");

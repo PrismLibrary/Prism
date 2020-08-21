@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using Prism.Events;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Services.Dialogs;
@@ -39,27 +38,21 @@ namespace Prism.Unity
         /// <param name="runWithDefaultConfiguration">If <see langword="true"/>, registers default Prism Library services in the container. This is the default behavior.</param>
         public override void Run(bool runWithDefaultConfiguration)
         {
-            this.useDefaultConfiguration = runWithDefaultConfiguration;
+            useDefaultConfiguration = runWithDefaultConfiguration;
 
-            this.Logger = this.CreateLogger();
-            if (this.Logger == null)
-            {
-                throw new InvalidOperationException(Resources.NullLoggerFacadeException);
-            }
+            Log(Resources.LoggerCreatedSuccessfully);
 
-            this.Logger.Log(Resources.LoggerCreatedSuccessfully, Category.Debug, Priority.Low);
-
-            this.Logger.Log(Resources.CreatingModuleCatalog, Category.Debug, Priority.Low);
-            this.ModuleCatalog = this.CreateModuleCatalog();
+            Log(Resources.CreatingModuleCatalog);
+            ModuleCatalog = CreateModuleCatalog();
             if (this.ModuleCatalog == null)
             {
                 throw new InvalidOperationException(Resources.NullModuleCatalogException);
             }
 
-            this.Logger.Log(Resources.ConfiguringModuleCatalog, Category.Debug, Priority.Low);
+            Log(Resources.ConfiguringModuleCatalog);
             this.ConfigureModuleCatalog();
 
-            this.Logger.Log(Resources.CreatingContainer, Category.Debug, Priority.Low);
+            Log(Resources.CreatingContainer);
             this.Container = this.CreateContainer();
             if (this.Container == null)
             {
@@ -69,42 +62,42 @@ namespace Prism.Unity
             ContainerLocator.SetContainerExtension(CreateContainerExtension);
             ContainerExtension = ContainerLocator.Current;
 
-            this.Logger.Log(Resources.ConfiguringContainer, Category.Debug, Priority.Low);
+            Log(Resources.ConfiguringContainer);
             this.ConfigureContainer();
 
-            this.Logger.Log(Resources.ConfiguringViewModelLocator, Category.Debug, Priority.Low);
+            Log(Resources.ConfiguringViewModelLocator);
             this.ConfigureViewModelLocator();
 
-            this.Logger.Log(Resources.ConfiguringRegionAdapters, Category.Debug, Priority.Low);
+            Log(Resources.ConfiguringRegionAdapters);
             this.ConfigureRegionAdapterMappings();
 
-            this.Logger.Log(Resources.ConfiguringDefaultRegionBehaviors, Category.Debug, Priority.Low);
+            Log(Resources.ConfiguringDefaultRegionBehaviors);
             this.ConfigureDefaultRegionBehaviors();
 
-            this.Logger.Log(Resources.RegisteringFrameworkExceptionTypes, Category.Debug, Priority.Low);
+            Log(Resources.RegisteringFrameworkExceptionTypes);
             this.RegisterFrameworkExceptionTypes();
 
-            this.Logger.Log(Resources.CreatingShell, Category.Debug, Priority.Low);
+            Log(Resources.CreatingShell);
             this.Shell = this.CreateShell();
             if (this.Shell != null)
             {
-                this.Logger.Log(Resources.SettingTheRegionManager, Category.Debug, Priority.Low);
+                Log(Resources.SettingTheRegionManager);
                 RegionManager.SetRegionManager(this.Shell, this.Container.Resolve<IRegionManager>());
 
-                this.Logger.Log(Resources.UpdatingRegions, Category.Debug, Priority.Low);
+                Log(Resources.UpdatingRegions);
                 RegionManager.UpdateRegions();
 
-                this.Logger.Log(Resources.InitializingShell, Category.Debug, Priority.Low);
+                Log(Resources.InitializingShell);
                 this.InitializeShell();
             }
 
-            if (this.Container.IsRegistered<IModuleManager>())
+            if (Container.IsRegistered<IModuleManager>())
             {
-                this.Logger.Log(Resources.InitializingModules, Category.Debug, Priority.Low);
-                this.InitializeModules();
+                Log(Resources.InitializingModules);
+                InitializeModules();
             }
 
-            this.Logger.Log(Resources.BootstrapperSequenceCompleted, Category.Debug, Priority.Low);
+            Log(Resources.BootstrapperSequenceCompleted);
         }
 
         /// <summary>
@@ -113,9 +106,7 @@ namespace Prism.Unity
         /// </summary>
         protected virtual void ConfigureContainer()
         {
-            Container.RegisterInstance<ILoggerFacade>(Logger);
-
-            this.Container.RegisterInstance(this.ModuleCatalog);
+            Container.RegisterInstance(ModuleCatalog);
 
             if (useDefaultConfiguration)
             {
@@ -196,10 +187,10 @@ namespace Prism.Unity
             }
             if (Container.IsTypeRegistered(fromType))
             {
-                Logger.Log(
+                Log(
                     string.Format(CultureInfo.CurrentCulture,
                                   Resources.TypeMappingAlreadyRegistered,
-                                  fromType.Name), Category.Debug, Priority.Low);
+                                  fromType.Name));
             }
             else
             {

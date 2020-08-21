@@ -3,14 +3,12 @@ using System.Windows.Controls;
 using DryIoc;
 using Prism.DryIoc;
 using Prism.Ioc;
-using Prism.Logging;
 
 namespace Prism.Container.Wpf.Mocks
 {
     internal class MockedContainerBootstrapper : DryIocBootstrapper
     {
         private readonly IContainer container;
-        public ILoggerFacade BaseLogger => base.Logger;
 
         public void CallConfigureContainer()
         {

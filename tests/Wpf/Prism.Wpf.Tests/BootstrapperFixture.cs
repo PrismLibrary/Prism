@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Xunit;
 using Moq;
-using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
@@ -22,14 +21,6 @@ namespace Prism.Wpf.Tests
     public class BootstrapperFixture
     {
         [Fact]
-        public void LoggerDefaultsToNull()
-        {
-            var bootstrapper = new DefaultBootstrapper();
-
-            Assert.Null(bootstrapper.BaseLogger);
-        }
-
-        [Fact]
         public void ModuleCatalogDefaultsToNull()
         {
             var bootstrapper = new DefaultBootstrapper();
@@ -43,17 +34,6 @@ namespace Prism.Wpf.Tests
             var bootstrapper = new DefaultBootstrapper();
 
             Assert.Null(bootstrapper.BaseShell);
-        }
-
-        [Fact]
-        public void CreateLoggerInitializesLogger()
-        {
-            var bootstrapper = new DefaultBootstrapper();
-            bootstrapper.CallCreateLogger();
-
-            Assert.NotNull(bootstrapper.BaseLogger);
-
-            Assert.IsType<TextLogger>(bootstrapper.BaseLogger);
         }
 
         private static void CreateAndConfigureServiceLocatorForViewModelLocator()
@@ -247,14 +227,6 @@ namespace Prism.Wpf.Tests
         public IRegionBehaviorFactory DefaultRegionBehaviorTypes;
         public bool ExtraInitialization;
 
-        public ILoggerFacade BaseLogger
-        {
-            get
-            {
-                return base.Logger;
-            }
-        }
-
         public IModuleCatalog BaseModuleCatalog
         {
             get { return base.ModuleCatalog; }
@@ -265,11 +237,6 @@ namespace Prism.Wpf.Tests
         {
             get { return base.Shell; }
             set { base.Shell = value; }
-        }
-
-        public void CallCreateLogger()
-        {
-            this.Logger = base.CreateLogger();
         }
 
         public void CallCreateModuleCatalog()

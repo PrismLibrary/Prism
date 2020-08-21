@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using Xunit;
 using Moq;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Modularity;
 using Prism.Wpf.Tests.Mocks;
 
@@ -18,7 +17,7 @@ namespace Prism.Wpf.Tests.Modularity
         {
             var ex = Assert.Throws<ArgumentNullException>(() =>
             {
-                new ModuleManager(null, new MockModuleCatalog(), new MockLogger());
+                new ModuleManager(null, new MockModuleCatalog());
             });
             
         }
@@ -28,20 +27,10 @@ namespace Prism.Wpf.Tests.Modularity
         {
             var ex = Assert.Throws<ArgumentNullException>(() =>
             {
-                new ModuleManager(new MockModuleInitializer(), null, new MockLogger());
+                new ModuleManager(new MockModuleInitializer(), null);
             });
             
         }
-
-        [Fact]
-        public void NullLoggerThrows()
-        {
-            var ex = Assert.Throws<ArgumentNullException>(() =>
-            {
-                new ModuleManager(new MockModuleInitializer(), new MockModuleCatalog(), null);
-            });
-            
-        }       
 
         [Fact]
         public void ShouldInvokeRetrieverForModules()
@@ -49,7 +38,7 @@ namespace Prism.Wpf.Tests.Modularity
             var loader = new MockModuleInitializer();
             var moduleInfo = CreateModuleInfo("needsRetrieval", InitializationMode.WhenAvailable);
             var catalog = new MockModuleCatalog { Modules = { moduleInfo } };
-            ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
+            ModuleManager manager = new ModuleManager(loader, catalog);
             var moduleTypeLoader = new MockModuleTypeLoader();
             manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };
 
@@ -64,7 +53,7 @@ namespace Prism.Wpf.Tests.Modularity
             var loader = new MockModuleInitializer();
             var backgroungModuleInfo = CreateModuleInfo("NeedsRetrieval", InitializationMode.WhenAvailable);
             var catalog = new MockModuleCatalog { Modules = { backgroungModuleInfo } };
-            ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
+            ModuleManager manager = new ModuleManager(loader, catalog);
             var moduleTypeLoader = new MockModuleTypeLoader();
             manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };            
             Assert.False(loader.InitializeCalled);
@@ -82,7 +71,7 @@ namespace Prism.Wpf.Tests.Modularity
             var loader = new MockModuleInitializer();
             var onDemandModule = CreateModuleInfo("NeedsRetrieval", InitializationMode.OnDemand);
             var catalog = new MockModuleCatalog { Modules = { onDemandModule } };
-            ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
+            ModuleManager manager = new ModuleManager(loader, catalog);
             var moduleRetriever = new MockModuleTypeLoader();
             manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleRetriever };
             manager.Run();
@@ -107,7 +96,7 @@ namespace Prism.Wpf.Tests.Modularity
 
                 var catalog = new MockModuleCatalog { Modules = new List<IModuleInfo> { CreateModuleInfo("Missing", InitializationMode.OnDemand) } };
 
-                ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
+                ModuleManager manager = new ModuleManager(loader, catalog);
                 var moduleTypeLoader = new MockModuleTypeLoader();
 
                 manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };
@@ -127,7 +116,7 @@ namespace Prism.Wpf.Tests.Modularity
                 var loader = new MockModuleInitializer();
 
                 var catalog = new MockModuleCatalog { CompleteListWithDependencies = modules => new List<ModuleInfo>() };
-                ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
+                ModuleManager manager = new ModuleManager(loader, catalog);
                 var moduleRetriever = new MockModuleTypeLoader();
                 manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleRetriever };
                 manager.Run();
@@ -145,7 +134,7 @@ namespace Prism.Wpf.Tests.Modularity
             var alreadyPresentModule = CreateModuleInfo(typeof(MockModule), InitializationMode.WhenAvailable);
             alreadyPresentModule.State = ModuleState.ReadyForInitialization;
             var catalog = new MockModuleCatalog { Modules = { alreadyPresentModule } };
-            var manager = new ModuleManager(loader, catalog, new MockLogger());
+            var manager = new ModuleManager(loader, catalog);
             var moduleTypeLoader = new MockModuleTypeLoader();
             manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };
 
@@ -163,7 +152,7 @@ namespace Prism.Wpf.Tests.Modularity
             var loader = new MockModuleInitializer();
             var onDemandModule = CreateModuleInfo(typeof(MockModule), InitializationMode.OnDemand);
             var catalog = new MockModuleCatalog { Modules = { onDemandModule } };
-            var manager = new ModuleManager(loader, catalog, new MockLogger());
+            var manager = new ModuleManager(loader, catalog);
             manager.Run();
             manager.LoadModule("MockModule");
             loader.InitializeCalled = false;
@@ -178,7 +167,7 @@ namespace Prism.Wpf.Tests.Modularity
             var loader = new MockModuleInitializer();
             var onDemandModule = CreateModuleInfo("ModuleThatNeedsRetrieval", InitializationMode.OnDemand);
             var catalog = new MockModuleCatalog { Modules = { onDemandModule } };
-            var manager = new ModuleManager(loader, catalog, new MockLogger());
+            var manager = new ModuleManager(loader, catalog);
             var moduleTypeLoader = new MockModuleTypeLoader();
             manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };
             manager.Run();
@@ -196,7 +185,7 @@ namespace Prism.Wpf.Tests.Modularity
         {
             var loader = new MockModuleInitializer();
             var catalog = new MockModuleCatalog();
-            var manager = new ModuleManager(loader, catalog, new MockLogger());
+            var manager = new ModuleManager(loader, catalog);
             bool validateCatalogCalled = false;
             bool getModulesCalledBeforeValidate = false;
 
@@ -227,7 +216,7 @@ namespace Prism.Wpf.Tests.Modularity
             var catalog = new MockModuleCatalog { Modules = { requiredModule, dependantModuleInfo } };
             catalog.GetDependentModules = m => new[] { requiredModule };
 
-            ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
+            ModuleManager manager = new ModuleManager(loader, catalog);
             var moduleTypeLoader = new MockModuleTypeLoader();
             manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };
 
@@ -256,7 +245,7 @@ namespace Prism.Wpf.Tests.Modularity
                                                       return null;
                                               };
 
-            ModuleManager manager = new ModuleManager(initializer, catalog, new MockLogger());
+            ModuleManager manager = new ModuleManager(initializer, catalog);
             var moduleTypeLoader = new MockModuleTypeLoader();
             manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };
 
@@ -272,7 +261,7 @@ namespace Prism.Wpf.Tests.Modularity
             var loader = new MockModuleInitializer();
             var moduleInfo = CreateModuleInfo("NeedsRetrieval", InitializationMode.WhenAvailable);
             var catalog = new MockModuleCatalog { Modules = { moduleInfo } };
-            ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger());
+            ModuleManager manager = new ModuleManager(loader, catalog);
             var moduleTypeLoader = new MockModuleTypeLoader();
 
             Exception retrieverException = new Exception();
@@ -305,41 +294,13 @@ namespace Prism.Wpf.Tests.Modularity
 
                 var loader = new MockModuleInitializer();
                 var catalog = new MockModuleCatalog { Modules = { CreateModuleInfo("ModuleThatNeedsRetrieval", InitializationMode.WhenAvailable) } };
-                ModuleManager manager = new ModuleManager(loader, catalog, new MockLogger())
+                ModuleManager manager = new ModuleManager(loader, catalog)
                 {
                     ModuleTypeLoaders = new List<IModuleTypeLoader> { new MockModuleTypeLoader() { canLoadModuleTypeReturnValue = false } }
                 };
                 manager.Run();
             });
 
-        }
-
-        [Fact]
-        public void ShouldLogMessageOnModuleRetrievalError()
-        {
-            var loader = new MockModuleInitializer();
-            var moduleInfo = CreateModuleInfo("ModuleThatNeedsRetrieval", InitializationMode.WhenAvailable);
-            var catalog = new MockModuleCatalog { Modules = { moduleInfo } };
-            var logger = new MockLogger();
-            ModuleManager manager = new ModuleManager(loader, catalog, logger);
-            var moduleTypeLoader = new MockModuleTypeLoader
-            {
-                LoadCompletedError = new Exception()
-            };
-            manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };
-
-            try
-            {
-                manager.Run();
-            }
-            catch
-            {
-                // Ignore all errors to make sure logger is called even if errors thrown.
-            }
-
-            Assert.NotNull(logger.LastMessage);
-            Assert.Contains("ModuleThatNeedsRetrieval", logger.LastMessage);
-            Assert.Equal<Category>(Category.Exception, logger.LastMessageCategory);
         }
 
         [Fact]
@@ -350,7 +311,7 @@ namespace Prism.Wpf.Tests.Modularity
             onDemandModule.ModuleName = "OnDemandModule";
             var moduleThatLoadsOtherModule = CreateModuleInfo(typeof(MockModule), InitializationMode.WhenAvailable);
             var catalog = new MockModuleCatalog { Modules = { moduleThatLoadsOtherModule, onDemandModule } };
-            ModuleManager manager = new ModuleManager(initializer, catalog, new MockLogger());
+            ModuleManager manager = new ModuleManager(initializer, catalog);
             
             bool onDemandModuleWasInitialized = false;
             initializer.Initialize = m =>
@@ -377,7 +338,7 @@ namespace Prism.Wpf.Tests.Modularity
             Mock<IModuleInitializer> mockInit = new Mock<IModuleInitializer>(); 
             var moduleInfo = CreateModuleInfo("needsRetrieval", InitializationMode.WhenAvailable);
             var catalog = new Mock<IModuleCatalog>();
-            ModuleManager manager = new ModuleManager(mockInit.Object, catalog.Object, new MockLogger());
+            ModuleManager manager = new ModuleManager(mockInit.Object, catalog.Object);
 
             IDisposable disposableManager = manager as IDisposable;
             Assert.NotNull(disposableManager);
@@ -389,7 +350,7 @@ namespace Prism.Wpf.Tests.Modularity
             Mock<IModuleInitializer> mockInit = new Mock<IModuleInitializer>();
             var moduleInfo = CreateModuleInfo("needsRetrieval", InitializationMode.WhenAvailable);
             var catalog = new Mock<IModuleCatalog>();
-            ModuleManager manager = new ModuleManager(mockInit.Object, catalog.Object, new MockLogger());
+            ModuleManager manager = new ModuleManager(mockInit.Object, catalog.Object);
 
             var mockTypeLoader = new Mock<IModuleTypeLoader>();
             manager.ModuleTypeLoaders = new List<IModuleTypeLoader> {mockTypeLoader.Object};
@@ -410,7 +371,7 @@ namespace Prism.Wpf.Tests.Modularity
             Mock<IModuleInitializer> mockInit = new Mock<IModuleInitializer>();
             var moduleInfo = CreateModuleInfo("needsRetrieval", InitializationMode.WhenAvailable);
             var catalog = new Mock<IModuleCatalog>();
-            ModuleManager manager = new ModuleManager(mockInit.Object, catalog.Object, new MockLogger());
+            ModuleManager manager = new ModuleManager(mockInit.Object, catalog.Object);
 
             var mockTypeLoader = new Mock<IModuleTypeLoader>();
             var disposableMockTypeLoader = mockTypeLoader.As<IDisposable>();
@@ -429,7 +390,7 @@ namespace Prism.Wpf.Tests.Modularity
             Mock<IModuleInitializer> mockInit = new Mock<IModuleInitializer>();
             var moduleInfo = CreateModuleInfo("needsRetrieval", InitializationMode.WhenAvailable);
             var catalog = new Mock<IModuleCatalog>();
-            ModuleManager manager = new ModuleManager(mockInit.Object, catalog.Object, new MockLogger());
+            ModuleManager manager = new ModuleManager(mockInit.Object, catalog.Object);
 
             var mockTypeLoader1 = new Mock<IModuleTypeLoader>();
 

@@ -6,8 +6,6 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Navigation;
 using Xamarin.Forms;
-using Prism.Logging;
-using Prism.Forms.Tests.Mocks.Logging;
 using Prism.Mvvm;
 using System;
 #if DryIoc

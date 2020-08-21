@@ -3,7 +3,6 @@ using Moq;
 using Prism.Container.Wpf.Mocks;
 using Prism.Events;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Unity;
@@ -24,19 +23,6 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
             var returnedContainer = createdContainer.Resolve<IUnityContainer>();
             Assert.NotNull(returnedContainer);
             Assert.Equal(typeof(UnityContainer), returnedContainer.GetType());
-        }
-
-        [StaFact]
-        public void RunRegistersInstanceOfILoggerFacade()
-        {
-            var mockedContainer = new Mock<IUnityContainer>();
-            SetupMockedContainerForVerificationTests(mockedContainer);
-
-            var bootstrapper = new MockedContainerBootstrapper(mockedContainer.Object);
-
-            bootstrapper.Run();
-
-            mockedContainer.Verify(c => c.RegisterInstance(typeof(ILoggerFacade), null, bootstrapper.BaseLogger, It.IsAny<IInstanceLifetimeManager>()), Times.Once());
         }
 
         [StaFact]

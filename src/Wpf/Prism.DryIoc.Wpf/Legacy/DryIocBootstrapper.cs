@@ -4,7 +4,6 @@ using DryIoc;
 using Prism.DryIoc.Properties;
 using Prism.Events;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -39,25 +38,19 @@ namespace Prism.DryIoc
         {
             _useDefaultConfiguration = runWithDefaultConfiguration;
 
-            Logger = CreateLogger();
-            if (Logger == null)
-            {
-                throw new InvalidOperationException(Resources.NullLoggerFacadeException);
-            }
+            Log(Resources.LoggerCreatedSuccessfully);
 
-            Logger.Log(Resources.LoggerCreatedSuccessfully, Category.Debug, Priority.Low);
-
-            Logger.Log(Resources.CreatingModuleCatalog, Category.Debug, Priority.Low);
+            Log(Resources.CreatingModuleCatalog);
             ModuleCatalog = CreateModuleCatalog();
             if (ModuleCatalog == null)
             {
                 throw new InvalidOperationException(Resources.NullModuleCatalogException);
             }
 
-            Logger.Log(Resources.ConfiguringModuleCatalog, Category.Debug, Priority.Low);
+            Log(Resources.ConfiguringModuleCatalog);
             ConfigureModuleCatalog();
 
-            Logger.Log(Resources.CreatingContainer, Category.Debug, Priority.Low);
+            Log(Resources.CreatingContainer);
             Container = CreateContainer();
             if (Container == null)
             {
@@ -67,42 +60,42 @@ namespace Prism.DryIoc
             ContainerLocator.SetContainerExtension(CreateContainerExtension);
             ContainerExtension = ContainerLocator.Current;
 
-            Logger.Log(Resources.ConfiguringContainer, Category.Debug, Priority.Low);
+            Log(Resources.ConfiguringContainer);
             ConfigureContainer();
 
-            Logger.Log(Resources.ConfiguringViewModelLocator, Category.Debug, Priority.Low);
+            Log(Resources.ConfiguringViewModelLocator);
             ConfigureViewModelLocator();
 
-            Logger.Log(Resources.ConfiguringRegionAdapters, Category.Debug, Priority.Low);
+            Log(Resources.ConfiguringRegionAdapters);
             ConfigureRegionAdapterMappings();
 
-            Logger.Log(Resources.ConfiguringDefaultRegionBehaviors, Category.Debug, Priority.Low);
+            Log(Resources.ConfiguringDefaultRegionBehaviors);
             ConfigureDefaultRegionBehaviors();
 
-            Logger.Log(Resources.RegisteringFrameworkExceptionTypes, Category.Debug, Priority.Low);
+            Log(Resources.RegisteringFrameworkExceptionTypes);
             RegisterFrameworkExceptionTypes();
 
-            Logger.Log(Resources.CreatingShell, Category.Debug, Priority.Low);
+            Log(Resources.CreatingShell);
             Shell = CreateShell();
             if (Shell != null)
             {
-                Logger.Log(Resources.SettingTheRegionManager, Category.Debug, Priority.Low);
+                Log(Resources.SettingTheRegionManager);
                 RegionManager.SetRegionManager(Shell, Container.Resolve<IRegionManager>());
 
-                Logger.Log(Resources.UpdatingRegions, Category.Debug, Priority.Low);
+                Log(Resources.UpdatingRegions);
                 RegionManager.UpdateRegions();
 
-                Logger.Log(Resources.InitializingShell, Category.Debug, Priority.Low);
+                Log(Resources.InitializingShell);
                 InitializeShell();
             }
 
             if (Container.IsRegistered<IModuleManager>())
             {
-                Logger.Log(Resources.InitializingModules, Category.Debug, Priority.Low);
+                Log(Resources.InitializingModules);
                 InitializeModules();
             }
 
-            Logger.Log(Resources.BootstrapperSequenceCompleted, Category.Debug, Priority.Low);
+            Log(Resources.BootstrapperSequenceCompleted);
         }
 
         /// <summary>
@@ -119,7 +112,6 @@ namespace Prism.DryIoc
         /// </summary>
         protected virtual void ConfigureContainer()
         {
-            Container.UseInstance<ILoggerFacade>(Logger);
             Container.UseInstance<IModuleCatalog>(ModuleCatalog);
 
             if (_useDefaultConfiguration)
@@ -193,8 +185,7 @@ namespace Prism.DryIoc
         {
             if(Container!=null && Container.IsRegistered<TFrom>())
             {
-                Logger.Log(String.Format(CultureInfo.CurrentCulture, Resources.TypeMappingAlreadyRegistered, typeof(TFrom).Name),
-                    Category.Debug, Priority.Low);
+                Log(string.Format(CultureInfo.CurrentCulture, Resources.TypeMappingAlreadyRegistered, typeof(TFrom).Name));
             }
             else
             {
@@ -227,8 +218,7 @@ namespace Prism.DryIoc
             }
             if (Container.IsRegistered(fromType))
             {
-                Logger.Log(String.Format(CultureInfo.CurrentCulture, Resources.TypeMappingAlreadyRegistered, fromType.Name),
-                    Category.Debug, Priority.Low);
+                Log(string.Format(CultureInfo.CurrentCulture, Resources.TypeMappingAlreadyRegistered, fromType.Name));
             }
             else
             {

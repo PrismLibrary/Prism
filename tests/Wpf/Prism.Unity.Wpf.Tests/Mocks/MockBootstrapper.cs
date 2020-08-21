@@ -2,13 +2,11 @@
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using Unity;
-using Prism.IocContainer.Wpf.Tests.Support.Mocks;
-using Prism.Logging;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Unity;
-using Prism.Ioc;
+using Unity;
 
 namespace Prism.Container.Wpf.Mocks
 {
@@ -47,8 +45,6 @@ namespace Prism.Container.Wpf.Mocks
 
         public IContainerRegistry ContainerRegistry => base.ContainerExtension;
 
-        public MockLoggerAdapter BaseLogger => base.Logger as MockLoggerAdapter;
-
         public IUnityContainer CallCreateContainer()
         {
             return this.CreateContainer();
@@ -66,13 +62,6 @@ namespace Prism.Container.Wpf.Mocks
             this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
             this.ConfigureContainerCalled = true;
             base.ConfigureContainer();
-        }
-
-        protected override ILoggerFacade CreateLogger()
-        {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.CreateLoggerCalled = true;
-            return new MockLoggerAdapter();
         }
 
         protected override DependencyObject CreateShell()
@@ -144,6 +133,13 @@ namespace Prism.Container.Wpf.Mocks
         public void CallRegisterFrameworkExceptionTypes()
         {
             base.RegisterFrameworkExceptionTypes();
+        }
+
+        public List<string> Messages { get; } = new List<string>();
+
+        protected override void Log(string message)
+        {
+            Messages.Add(message);
         }
     }
 }

@@ -6,7 +6,6 @@ using Prism.DI.Forms.Tests.Mocks.Views;
 using Prism.Events;
 using Prism.Forms.Tests.Mocks.Events;
 using Prism.Ioc;
-using Prism.Logging;
 using Xunit;
 using Xunit.Abstractions;
 
