@@ -34,6 +34,7 @@ As most of you know, it takes a lot of time and effort for our small team to man
 - Documentation is maintained in [the Prism-Documentation repo](https://github.com/PrismLibrary/Prism-Documentation) under /docs and can be found in a readable format on [the website](http://prismlibrary.com/docs/).
 - For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism).
 - You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues/new/choose).
+- Paid [Enterprise Support](https://avantipoint.com/contact?utm_source=github&utm_medium=prism-readme) is available exclusively from AvantiPoint, and helps to support this project.
 
 ## Videos &amp; Training
 
@@ -49,12 +50,14 @@ By watching our courses, not only do you help support the project financially, b
 
 We appreciate your support.
 
-### Twitch
+### Live & Recorded Video Content
 
-Both Brian and Dan are streaming live on a regular basis covering topics for WPF and Xamarin.Forms developers. Be sure to follow and subscribe to find out when they go live.
+Both Brian and Dan stream live on Twitch and host recorded content on their YouTube Channels. Be sure to Subscribe and Ring that bell for notifications when they go live or post new content.
 
-- [Brian Lagunas](https://twitch.tv/brianlagunas)
-- [Dan Siegel](https://twitch.tv/dansiegel)
+| | Twitch | YouTube |
+|:-:|:--:|:--:|
+| Brian Lagunas | [Twitch](https://twitch.tv/brianlagunas) | [YouTube](https://youtube.com/brianlagunas) |
+| Dan Siegel | [Twitch](https://twitch.tv/dansiegel) | [YouTube](https://youtube.com/dansiegel) |
 
 ## NuGet Packages
 
@@ -66,12 +69,12 @@ Simply add `https://www.myget.org/F/prism/api/v3/index.json` as a package source
 
 These are the base packages for each platform, together with the Prism's Core assembly as a cross-platform PCL.
 
-| Platform | Assembly | Package | NuGet | MyGet | Targets |
-| -------- | -------- | ------- | ------- | ----- | ------ |
-| Cross Platform | Prism.dll | [Prism.Core][CoreNuGet] | [![CoreNuGetShield]][CoreNuGet] | [![CoreMyGetShield]][CoreMyGet] | net45, net47, netstandard2.0 |
-| WPF | Prism.Wpf.dll | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfMyGetShield]][WpfMyGet] | net461, net47, net48, netcoreapp3.1 |
-| Xamarin.Forms | Prism.Forms.dll | [Prism.Forms][FormsNuGet] | [![FormsNuGetShield]][FormsNuGet] | [![FormsMyGetShield]][FormsMyGet] | netstandard2.0 |
-| Uno Platform and WinUI | Prism.Uno.dll | [Prism.Uno][UnoNuGet] | [![UnoNuGetShield]][UnoNuGet] | [![UnoMyGetShield]][UnoMyGet] | netstandard2.0 (WebAssembly), xamarinios10, monoandroid90, xamarinmac20, uap10.0.16299|
+| Platform | Package | NuGet | MyGet |
+| -------- | ------- | ------- | ----- |
+| Cross Platform | [Prism.Core][CoreNuGet] | [![CoreNuGetShield]][CoreNuGet] | [![CoreMyGetShield]][CoreMyGet] |
+| WPF | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfMyGetShield]][WpfMyGet] |
+| Xamarin.Forms | [Prism.Forms][FormsNuGet] | [![FormsNuGetShield]][FormsNuGet] | [![FormsMyGetShield]][FormsMyGet] |
+| Uno Platform and WinUI | [Prism.Uno][UnoNuGet] | [![UnoNuGetShield]][UnoNuGet] | [![UnoMyGetShield]][UnoMyGet] |
 
 ### Container-specific packages
 
@@ -101,11 +104,15 @@ A detailed overview of each assembly per package is available [here](http://pris
 
 ## Prism Template Pack
 
-Prism now integrates with Visual Studio and Xamarin Studio to enable a highly productive developer workflow for creating WPF, and native iOS and Android applications using Xamarin.Forms.  Jump start your Prism apps with code snippets, item templates, and project templates for your IDE of choice.
+Prism integrates with Visual Studio to enable a highly productive developer workflow for creating WPF, and native iOS and Android applications using Xamarin.Forms.  Jump start your Prism apps with code snippets, item templates, and project templates for your IDE of choice.
+
+> **NOTE**
+> The Prism Templates are open source and available at
+> https://github.com/PrismLibrary/Prism.Templates
 
 ### Visual Studio Gallery
 
-The Prism Template Pack is available on the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/e7b6bde2-ba59-43dd-9d14-58409940ffa0).  To install, just go to Visual Studio -> Tools -> Extensions and Updates... then search for **Prism** in the online gallery:
+The Prism Template Pack is available on the [Visual Studio Gallery](https://marketplace.visualstudio.com/items?itemName=BrianLagunas.PrismTemplatePack).  To install, just go to Visual Studio -> Tools -> Extensions and Updates... then search for **Prism** in the online gallery:
 
 ![Visual Studio Gallery](images/prism-visual-studio-gallery.jpg)
 
@@ -118,8 +125,12 @@ There are certain things that cannot be added directly into Prism for various re
   - Adds support for Syslog, Loggly, Graylog, Application Insights, &amp; App Center
 - [Prism.Container.Extensions](https://github.com/dansiegel/Prism.Container.Extensions)
   - Adds advanced Container Registration abstractions
-  - Adds DryIoc ContainerExtension with support for Microsoft.DependencyInjection.Extensions &amp; Splat. Uses a singleton pattern to allow initialization from a native platform
+  - Adds DryIoc & Unity ContainerExtension with support for Microsoft.DependencyInjection.Extensions. Uses a singleton pattern to allow initialization from a native platform
   - Provides an extended PrismApplication with additional error handling and platform specifics support for Prism.Forms
+- [Prism.Magician](https://sponsorconnect.dev/nuget/package/prism.magician) (Works with ALL Platforms)
+  - The Magician works to reduce the amount of code you need to write with a collection of intelligent code generators that evaluate your codebase and references
+  - It additionally provides a series of Roslyn Analyzers to help prevent you from making common mistakes
+  - **NOTE:** This package is only available to Dan's [GitHub Sponsors](https://xam.dev/sponsor-prism-dan) and [Enterprise Support](https://avantipoint.com/contact) customers.
 
 ## Samples
 
