@@ -33,13 +33,14 @@ namespace Prism.Services.Dialogs
                 var dialogAware = InitializeDialog(view, parameters);
                 var currentPage = GetCurrentContentPage();
 
+                var dialogModal = new DialogPage();
                 dialogAware.RequestClose += DialogAware_RequestClose;
 
                 void DialogAware_RequestClose(IDialogParameters outParameters)
                 {
                     try
                     {
-                        var result = CloseDialog(outParameters ?? new DialogParameters(), currentPage);
+                        var result = CloseDialog(outParameters ?? new DialogParameters(), currentPage, dialogModal);
                         if(result.Exception is DialogException de && de.Message == DialogException.CanCloseIsFalse)
                         {
                             return;
@@ -79,7 +80,7 @@ namespace Prism.Services.Dialogs
                     }
                 }
 
-                InsertPopupViewInCurrentPage(currentPage as ContentPage, view, closeOnBackgroundTapped, DialogAware_RequestClose);
+                InsertPopupViewInCurrentPage(currentPage as ContentPage, dialogModal, view, closeOnBackgroundTapped, DialogAware_RequestClose);
 
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(currentPage, aa => aa.IsActive = false);
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(view, aa => aa.IsActive = true);
@@ -91,7 +92,7 @@ namespace Prism.Services.Dialogs
             }
         }
 
-        private IDialogResult CloseDialog(IDialogParameters parameters, ContentPage currentPage)
+        private IDialogResult CloseDialog(IDialogParameters parameters, ContentPage currentPage, DialogPage dialogModal)
         {
             try
             {
@@ -100,20 +101,7 @@ namespace Prism.Services.Dialogs
                     parameters = new DialogParameters();
                 }
 
-                if (!(currentPage is ContentPage contentPage))
-                {
-                    throw new DialogException(DialogException.RequiresContentPage);
-                }
-
-                if (!(bool)contentPage.Content.GetValue(IsPopupHostProperty))
-                {
-                    throw new DialogException(DialogException.HostPageIsNotDialogHost);
-                }
-
-                var hostView = (AbsoluteLayout)contentPage.Content;
-
-                var popupContainer = (DialogContainer)hostView.Children.First(x => x is DialogContainer dc && dc.IsPopupContent);
-                var view = popupContainer.Content;
+                var view = dialogModal.DialogView;
                 var dialogAware = GetDialogController(view);
 
                 if(!dialogAware.CanCloseDialog())
@@ -121,10 +109,7 @@ namespace Prism.Services.Dialogs
                     throw new DialogException(DialogException.CanCloseIsFalse);
                 }
 
-                var pageContainer = (DialogContainer)hostView.Children.First(x => x is DialogContainer dc && dc.IsPageContent);
-                contentPage.Content = pageContainer.Content;
-                contentPage.Padding = pageContainer.Padding;
-                contentPage.SetValue(IsPopupHostProperty, false);
+                currentPage.Navigation.PopModalAsync(true);
 
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(view, aa => aa.IsActive = false);
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(currentPage, aa => aa.IsActive = true);
@@ -246,7 +231,7 @@ namespace Prism.Services.Dialogs
             }
         }
 
-        private void InsertPopupViewInCurrentPage(ContentPage currentPage, View popupView, bool hideOnBackgroundTapped, Action<IDialogParameters> callback)
+        private void InsertPopupViewInCurrentPage(ContentPage currentPage, DialogPage modalPage, View popupView, bool hideOnBackgroundTapped, Action<IDialogParameters> callback)
         {
             View mask = DialogLayout.GetMask(popupView);
 
@@ -260,8 +245,8 @@ namespace Prism.Services.Dialogs
                 };
             }
 
-            mask.SetBinding(VisualElement.WidthRequestProperty, new Binding { Path = "Width", Source = currentPage });
-            mask.SetBinding(VisualElement.HeightRequestProperty, new Binding { Path = "Height", Source = currentPage });
+            mask.SetBinding(VisualElement.WidthRequestProperty, new Binding { Path = "Width", Source = modalPage });
+            mask.SetBinding(VisualElement.HeightRequestProperty, new Binding { Path = "Height", Source = modalPage });
 
             if (hideOnBackgroundTapped)
             {
@@ -273,18 +258,6 @@ namespace Prism.Services.Dialogs
             }
 
             var overlay = new AbsoluteLayout();
-            overlay.SetValue(IsPopupHostProperty, true);
-            var existingContent = currentPage.Content;
-            existingContent.BindingContext = currentPage.BindingContext;
-            var content = new DialogContainer
-            {
-                Padding = currentPage.Padding,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                VerticalOptions = LayoutOptions.FillAndExpand,
-                IsPageContent = true
-            };
-            currentPage.Padding = new Thickness(0);
-
             var popupContainer = new DialogContainer
             {
                 IsPopupContent = true,
@@ -300,7 +273,7 @@ namespace Prism.Services.Dialogs
                     new Binding("Width",
                                 BindingMode.OneWay,
                                 new RelativeContentSizeConverter { RelativeSize = relativeWidth.Value },
-                                source: currentPage));
+                                source: modalPage));
             }
 
             var relativeHeight = DialogLayout.GetRelativeHeightRequest(popupView);
@@ -310,15 +283,12 @@ namespace Prism.Services.Dialogs
                     new Binding("Height",
                                 BindingMode.OneWay,
                                 new RelativeContentSizeConverter { RelativeSize = relativeHeight.Value },
-                                source: currentPage));
+                                source: modalPage));
             }
 
-            AbsoluteLayout.SetLayoutFlags(content, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(content, new Rectangle(0f, 0f, currentPage.Width, currentPage.Height));
             AbsoluteLayout.SetLayoutFlags(popupContainer, AbsoluteLayoutFlags.PositionProportional);
             var popupBounds = DialogLayout.GetLayoutBounds(popupView);
             AbsoluteLayout.SetLayoutBounds(popupContainer, popupBounds);
-            overlay.Children.Add(content);
 
             if (DialogLayout.GetUseMask(popupContainer.Content) ?? true)
             {
@@ -326,10 +296,10 @@ namespace Prism.Services.Dialogs
             }
 
             overlay.Children.Add(popupContainer);
-            currentPage.Content = overlay;
 
-            // The original content needs to be reparented after the Page Content has been reset.
-            content.Content = existingContent;
+            modalPage.Content = overlay;
+            modalPage.DialogView = popupView;
+            currentPage.Navigation.PushModalAsync(modalPage, true);
         }
 
         private static Style GetOverlayStyle(View popupView)
@@ -357,7 +327,15 @@ namespace Prism.Services.Dialogs
             return overlayStyle;
         }
 
-        internal static readonly BindableProperty IsPopupHostProperty =
-            BindableProperty.CreateAttached("IsPopupHost", typeof(bool), typeof(DialogService), false);
+        private class DialogPage : ContentPage
+        {
+            public DialogPage()
+            {
+                AutomationId = "PrismDialogModal";
+                BackgroundColor = Color.Transparent;
+            }
+
+            public View DialogView { get; set; }
+        }
     }
 }
