@@ -1,4 +1,4 @@
-using Prism.Behaviors;
+﻿using Prism.Behaviors;
 using Prism.Common;
 using Prism.Ioc;
 using System;
@@ -12,12 +12,13 @@ namespace Prism.Navigation
     /// <summary>
     /// Provides page based navigation for ViewModels.
     /// </summary>
-    public class PageNavigationService : INavigationService, IPlatformNavigationService, IPageAware
+    public class PageNavigationService : INavigationService, IPageAware
     {
         internal const string RemovePageRelativePath = "../";
         internal const string RemovePageInstruction = "__RemovePage/";
         internal const string RemovePageSegment = "__RemovePage";
 
+        // Brian appears to still be thinking...
         //not sure I like this static property, think about this a little more
         protected internal static PageNavigationSource NavigationSource { get; protected set; } = PageNavigationSource.Device;
 
@@ -64,7 +65,14 @@ namespace Prism.Navigation
             return GoBackInternal(parameters, null, true);
         }
 
-        Task<INavigationResult> IPlatformNavigationService.GoBackAsync(INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        /// <summary>
+        /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
+        /// </summary>
+        /// <param name="parameters">The navigation parameters</param>
+        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
+        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
+        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+        public virtual Task<INavigationResult> GoBackAsync(INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             return GoBackInternal(parameters, useModalNavigation, animated);
         }
@@ -167,7 +175,13 @@ namespace Prism.Navigation
             return false;
         }
 
-        Task<INavigationResult> IPlatformNavigationService.GoBackToRootAsync(INavigationParameters parameters)
+        /// <summary>
+        /// When navigating inside a NavigationPage: Pops all but the root Page off the navigation stack
+        /// </summary>
+        /// <param name="parameters">The navigation parameters</param>
+        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+        /// <remarks>Only works when called from a View within a NavigationPage</remarks>
+        public virtual Task<INavigationResult> GoBackToRootAsync(INavigationParameters parameters)
         {
             return GoBackToRootInternal(parameters);
         }
@@ -240,7 +254,15 @@ namespace Prism.Navigation
             return NavigateInternal(name, parameters, null, true);
         }
 
-        Task<INavigationResult> IPlatformNavigationService.NavigateAsync(string name, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="name"/>.
+        /// </summary>
+        /// <param name="name">The name of the target to navigate to.</param>
+        /// <param name="parameters">The navigation parameters</param>
+        /// <param name="useModalNavigation">If <c>true</c> uses PushModalAsync, if <c>false</c> uses PushAsync</param>
+        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
+        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+        public Task<INavigationResult> NavigateAsync(string name, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             return NavigateInternal(name, parameters, useModalNavigation, animated);
         }
@@ -286,7 +308,19 @@ namespace Prism.Navigation
             return NavigateInternal(uri, parameters, null, true);
         }
 
-        Task<INavigationResult> IPlatformNavigationService.NavigateAsync(Uri uri, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="uri"/>.
+        /// </summary>
+        /// <param name="uri">The Uri to navigate to</param>
+        /// <param name="parameters">The navigation parameters</param>
+        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
+        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
+        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+        /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
+        /// <example>
+        /// NavigateAsync(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource), parameters);
+        /// </example>
+        public virtual Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             return NavigateInternal(uri, parameters, useModalNavigation, animated);
         }
@@ -336,6 +370,15 @@ namespace Prism.Navigation
             }
         }
 
+        /// <summary>
+        /// Processes the Navigation for the Queued navigation segments
+        /// </summary>
+        /// <param name="currentPage">The Current <see cref="Page"/> that we are navigating from.</param>
+        /// <param name="segments">The Navigation <see cref="Uri"/> segmenets.</param>
+        /// <param name="parameters">The <see cref="INavigationParameters"/>.</param>
+        /// <param name="useModalNavigation"><see cref="Nullable{Boolean}"/> flag if we should force Modal Navigation.</param>
+        /// <param name="animated">If <c>true</c>, the navigation will be animated.</param>
+        /// <returns></returns>
         protected virtual async Task ProcessNavigation(Page currentPage, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             if (segments.Count == 0)
