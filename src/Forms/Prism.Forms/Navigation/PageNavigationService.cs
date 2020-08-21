@@ -1,7 +1,6 @@
-﻿using Prism.Behaviors;
+using Prism.Behaviors;
 using Prism.Common;
 using Prism.Ioc;
-using Prism.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +24,6 @@ namespace Prism.Navigation
         private readonly IContainerProvider _container;
         protected readonly IApplicationProvider _applicationProvider;
         protected readonly IPageBehaviorFactory _pageBehaviorFactory;
-        protected readonly ILoggerFacade _logger;
 
         protected Page _page;
         Page IPageAware.Page
@@ -34,12 +32,17 @@ namespace Prism.Navigation
             set { _page = value; }
         }
 
-        public PageNavigationService(IContainerProvider container, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory, ILoggerFacade logger)
+        /// <summary>
+        /// Constructs a new instance of the <see cref="PageNavigationService"/>.
+        /// </summary>
+        /// <param name="container">The <see cref="IContainerProvider"/> that will be used to resolve pages for navigation.</param>
+        /// <param name="applicationProvider">The <see cref="IApplicationProvider"/> that will let us ensure the Application.MainPage is set.</param>
+        /// <param name="pageBehaviorFactory">The <see cref="IPageBehaviorFactory"/> that will apply base and custom behaviors to pages created in the <see cref="PageNavigationService"/>.</param>
+        public PageNavigationService(IContainerProvider container, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory)
         {
             _container = container;
             _applicationProvider = applicationProvider;
             _pageBehaviorFactory = pageBehaviorFactory;
-            _logger = logger;
         }
 
         /// <summary>
@@ -108,7 +111,6 @@ namespace Prism.Navigation
             }
             catch (Exception ex)
             {
-                _logger.Log(ex.ToString(), Category.Exception, Priority.High);
                 result.Exception = ex;
                 return result;
             }
@@ -325,7 +327,6 @@ namespace Prism.Navigation
             }
             catch (Exception ex)
             {
-                _logger.Log(ex.ToString(), Category.Exception, Priority.High);
                 result.Exception = ex;
                 return result;
             }
@@ -800,32 +801,19 @@ namespace Prism.Navigation
 
         protected virtual Page CreatePageFromSegment(string segment)
         {
-            string segmentName = null;
-            try
+            string segmentName = UriParsingHelper.GetSegmentName(segment);
+            var page = CreatePage(segmentName);
+            if (page == null)
             {
-                segmentName = UriParsingHelper.GetSegmentName(segment);
-                var page = CreatePage(segmentName);
-                if (page == null)
-                {
-                    var innerException = new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
-                    throw new NavigationException(NavigationException.NoPageIsRegistered, _page, innerException);
-                }
+                var innerException = new NullReferenceException(string.Format("{0} could not be created. Please make sure you have registered {0} for navigation.", segmentName));
+                throw new NavigationException(NavigationException.NoPageIsRegistered, _page, innerException);
+            }
 
-                PageUtilities.SetAutowireViewModelOnPage(page);
-                _pageBehaviorFactory.ApplyPageBehaviors(page);
-                ConfigurePages(page, segment);
+            PageUtilities.SetAutowireViewModelOnPage(page);
+            _pageBehaviorFactory.ApplyPageBehaviors(page);
+            ConfigurePages(page, segment);
 
-                return page;
-            }
-            catch(NavigationException)
-            {
-                throw;
-            }
-            catch (Exception e)
-            {
-                _logger.Log(e.ToString(), Category.Exception, Priority.High);
-                throw;
-            }
+            return page;
         }
 
         private Page SetNavigationServiceForPage(Page page)
