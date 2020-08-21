@@ -1,4 +1,6 @@
-﻿using Prism.Forms.Tests.Services.Mocks;
+﻿using System.Linq;
+using NuGet.Frameworks;
+using Prism.Forms.Tests.Services.Mocks;
 using Prism.Forms.Tests.Services.Mocks.Dialogs;
 using Prism.Ioc;
 using Prism.Services.Dialogs;
@@ -58,18 +60,19 @@ namespace Prism.Forms.Tests.Services
         public void MainPageContentPreservedOnClose()
         {
             SetMainPage();
+            var mainPage = _currentApp.MainPage as ContentPage;
+            var mainPageContent = mainPage.Content;
             var dialogService = CreateDialogService();
             dialogService.ShowDialog(DialogMockViewName);
 
-            Assert.IsType<ContentPage>(_currentApp.MainPage);
-            var mainPage = _currentApp.MainPage as ContentPage;
-            Assert.IsType<AbsoluteLayout>(mainPage.Content);
-            Assert.True((bool)mainPage.Content.GetValue(DialogService.IsPopupHostProperty));
+            Assert.Equal(mainPage, _currentApp.MainPage);
+            Assert.Single(_currentApp.MainPage.Navigation.ModalStack);
 
             DialogMock.Current.ViewModel.SendRequestClose();
 
-            Assert.IsType<Label>(mainPage.Content);
-            Assert.Equal("Hello World", ((Label)mainPage.Content).Text);
+            Assert.Equal(mainPage, _currentApp.MainPage);
+            Assert.Empty(_currentApp.MainPage.Navigation.ModalStack);
+            Assert.Equal(mainPageContent, mainPage.Content);
         }
 
         [Fact]
@@ -91,9 +94,10 @@ namespace Prism.Forms.Tests.Services
             DialogMock.ConstructorCallback = v => DialogLayout.SetMaskStyle(v, style);
             dialogService.ShowDialog(DialogMockViewName);
 
-            var mainPage = _currentApp.MainPage as ContentPage;
-            var layout = mainPage.Content as AbsoluteLayout;
-            var mask = layout.Children[1];
+            Assert.Single(_currentApp.MainPage.Navigation.ModalStack);
+            var dialogPage = _currentApp.MainPage.Navigation.ModalStack.First() as DialogPage;
+            var layout = dialogPage.Content as AbsoluteLayout;
+            var mask = layout.Children[0];
 
             Assert.Equal(style, mask.Style);
         }
@@ -112,13 +116,12 @@ namespace Prism.Forms.Tests.Services
 
             vm.SendRequestClose();
             Assert.False(didCallback);
-            var mainPage = _currentApp.MainPage as ContentPage;
-            Assert.IsType<AbsoluteLayout>(mainPage.Content);
+            Assert.Single(_currentApp.MainPage.Navigation.ModalStack);
 
             vm.CanClose = true;
             vm.SendRequestClose();
             Assert.True(didCallback);
-            Assert.IsType<Label>(mainPage.Content);
+            Assert.Empty(_currentApp.MainPage.Navigation.ModalStack);
         }
 
         [Fact]
@@ -147,10 +150,13 @@ namespace Prism.Forms.Tests.Services
             var useMask = DialogLayout.GetUseMask(DialogMock.Current);
             Assert.NotNull(useMask);
             Assert.False(useMask.Value);
-            var mainPage = _currentApp.MainPage as ContentPage;
-            var layout = mainPage.Content as AbsoluteLayout;
 
-            Assert.Equal(2, layout.Children.Count);
+            Assert.Single(_currentApp.MainPage.Navigation.ModalStack);
+            var dialogPage = _currentApp.MainPage.Navigation.ModalStack.First() as DialogPage;
+            Assert.NotNull(dialogPage);
+            var layout = dialogPage.Content as AbsoluteLayout;
+
+            Assert.Equal(1, layout.Children.Count);
         }
 
         [Fact]
@@ -164,10 +170,13 @@ namespace Prism.Forms.Tests.Services
             var useMask = DialogLayout.GetUseMask(DialogMock.Current);
             Assert.NotNull(useMask);
             Assert.True(useMask.Value);
-            var mainPage = _currentApp.MainPage as ContentPage;
-            var layout = mainPage.Content as AbsoluteLayout;
 
-            Assert.Equal(3, layout.Children.Count);
+            Assert.Single(_currentApp.MainPage.Navigation.ModalStack);
+            var dialogPage = _currentApp.MainPage.Navigation.ModalStack.First() as DialogPage;
+            Assert.NotNull(dialogPage);
+            var layout = dialogPage.Content as AbsoluteLayout;
+
+            Assert.Equal(2, layout.Children.Count);
         }
 
         [Fact]
@@ -179,10 +188,12 @@ namespace Prism.Forms.Tests.Services
             DialogMock.ConstructorCallback = v => DialogLayout.SetMask(v, customMask);
             dialogService.ShowDialog(DialogMockViewName);
 
-            var mainPage = _currentApp.MainPage as ContentPage;
-            var layout = mainPage.Content as AbsoluteLayout;
+            Assert.Single(_currentApp.MainPage.Navigation.ModalStack);
+            var dialogPage = _currentApp.MainPage.Navigation.ModalStack.First() as DialogPage;
+            Assert.NotNull(dialogPage);
+            var layout = dialogPage.Content as AbsoluteLayout;
 
-            Assert.IsType<Image>(layout.Children[1]);
+            Assert.IsType<Image>(layout.Children[0]);
         }
 
         [Fact]
@@ -192,9 +203,11 @@ namespace Prism.Forms.Tests.Services
             var dialogService = CreateDialogService();
             dialogService.ShowDialog(DialogMockViewName);
 
-            var mainPage = _currentApp.MainPage as ContentPage;
-            var layout = mainPage.Content as AbsoluteLayout;
-            var mask = layout.Children[1];
+            Assert.Single(_currentApp.MainPage.Navigation.ModalStack);
+            var dialogPage = _currentApp.MainPage.Navigation.ModalStack.First() as DialogPage;
+            Assert.NotNull(dialogPage);
+            var layout = dialogPage.Content as AbsoluteLayout;
+            var mask = layout.Children[0];
 
             Assert.Empty(mask.GestureRecognizers);
         }
@@ -207,9 +220,11 @@ namespace Prism.Forms.Tests.Services
             DialogMock.ConstructorCallback = v => DialogLayout.SetCloseOnBackgroundTapped(v, true);
             dialogService.ShowDialog(DialogMockViewName);
 
-            var mainPage = _currentApp.MainPage as ContentPage;
-            var layout = mainPage.Content as AbsoluteLayout;
-            var mask = layout.Children[1];
+            Assert.Single(_currentApp.MainPage.Navigation.ModalStack);
+            var dialogPage = _currentApp.MainPage.Navigation.ModalStack.First() as DialogPage;
+            Assert.NotNull(dialogPage);
+            var layout = dialogPage.Content as AbsoluteLayout;
+            var mask = layout.Children[0];
 
             Assert.Single(mask.GestureRecognizers);
         }
