@@ -299,7 +299,7 @@ namespace Prism.Services.Dialogs
 
             modalPage.Content = overlay;
             modalPage.DialogView = popupView;
-            currentPage.Navigation.PushModalAsync(modalPage, true);
+            currentPage.Navigation.PushModalAsync(modalPage, false);
         }
 
         private static Style GetOverlayStyle(View popupView)
@@ -325,17 +325,6 @@ namespace Prism.Services.Dialogs
 
             Application.Current.Resources[PopupOverlayStyle] = overlayStyle;
             return overlayStyle;
-        }
-
-        private class DialogPage : ContentPage
-        {
-            public DialogPage()
-            {
-                AutomationId = "PrismDialogModal";
-                BackgroundColor = Color.Transparent;
-            }
-
-            public View DialogView { get; set; }
         }
     }
 }
