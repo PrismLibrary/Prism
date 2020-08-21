@@ -90,7 +90,6 @@ namespace Prism
             if (shell != null)
             {
                 MvvmHelpers.AutowireViewModel(shell);
-                _containerExtension.Resolve<IRegionNavigationService>().NavigationFailed += (s, e) => Console.WriteLine($"Region navigation failed {e.Error}");
                 InitializeShell(shell);
 
                 void FinalizeInitialization()
