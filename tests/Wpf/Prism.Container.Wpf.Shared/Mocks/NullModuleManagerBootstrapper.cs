@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Regions;
 
 namespace Prism.Container.Wpf.Mocks
@@ -12,9 +11,8 @@ namespace Prism.Container.Wpf.Mocks
         protected override void ConfigureContainer()
         {
             //base.RegisterDefaultTypesIfMissing();
-            ContainerExtension.RegisterInstance<ILoggerFacade>(Logger);
 
-            ContainerExtension.RegisterInstance(this.ModuleCatalog);
+            ContainerExtension.RegisterInstance(ModuleCatalog);
         }
 
         protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()

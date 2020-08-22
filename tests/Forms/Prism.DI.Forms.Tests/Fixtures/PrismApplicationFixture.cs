@@ -11,9 +11,7 @@ using Prism.DI.Forms.Tests.Mocks.Services;
 using Prism.DI.Forms.Tests.Mocks.ViewModels;
 using Prism.DI.Forms.Tests.Mocks.Views;
 using Prism.DI.Forms.Tests.Navigation;
-using Prism.Forms.Tests.Mocks.Logging;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Navigation;
 using Xamarin.Forms;
 using Xamarin.Forms.Mocks;
@@ -45,15 +43,6 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         {
             var app = CreateMockApplication();
             Assert.IsAssignableFrom<ITestOutputHelper>(app.Container.Resolve<ITestOutputHelper>());
-        }
-
-        [Fact]
-        public void ResolvesCustom_ILoggerFacade()
-        {
-            var app = CreateMockApplication();
-            var logger = app.Container.Resolve<ILoggerFacade>();
-            logger.Log("Test Message", Category.Debug, Priority.None);
-            Assert.IsType<XunitLogger>(logger);
         }
 
         [Fact]

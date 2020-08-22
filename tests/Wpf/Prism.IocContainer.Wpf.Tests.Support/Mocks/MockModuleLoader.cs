@@ -1,5 +1,3 @@
-
-
 using Prism.Modularity;
 
 namespace Prism.IocContainer.Wpf.Tests.Support.Mocks

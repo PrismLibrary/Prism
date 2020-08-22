@@ -1,8 +1,6 @@
-using Prism.AppModel;
 using Prism.Behaviors;
 using Prism.Common;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Navigation;
 
 namespace Prism.DI.Forms.Tests.Navigation

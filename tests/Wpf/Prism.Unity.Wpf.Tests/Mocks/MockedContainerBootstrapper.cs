@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Unity;
 using Unity;
 
@@ -10,7 +9,6 @@ namespace Prism.Container.Wpf.Mocks
     internal class MockedContainerBootstrapper : UnityBootstrapper
     {
         private readonly IUnityContainer container;
-        public ILoggerFacade BaseLogger => base.Logger;
 
         public void CallConfigureContainer()
         {

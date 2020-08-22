@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -26,12 +25,6 @@ namespace Prism
         /// </summary>
         /// <value>A <see cref="IContainerExtension"/> instance.</value>
         protected IContainerExtension ContainerExtension;
-        
-        /// <summary>
-        /// Gets the <see cref="ILoggerFacade"/> for the application.
-        /// </summary>
-        /// <value>A <see cref="ILoggerFacade"/> instance.</value>
-        protected ILoggerFacade Logger { get; set; }
 
         /// <summary>
         /// Gets the default <see cref="IModuleCatalog"/> for the application.
@@ -52,17 +45,6 @@ namespace Prism
         protected abstract IContainerExtension CreateContainerExtension();
 
         /// <summary>
-        /// Create the <see cref="ILoggerFacade" /> used by the bootstrapper.
-        /// </summary>
-        /// <remarks>
-        /// The base implementation returns a new TextLogger.
-        /// </remarks>
-        protected virtual ILoggerFacade CreateLogger()
-        {
-            return new TextLogger();
-        }
-
-        /// <summary>
         /// Runs the bootstrapper process.
         /// </summary>
         public void Run()
@@ -70,6 +52,11 @@ namespace Prism
             this.Run(true);
 
             this.OnInitialized();
+        }
+
+        protected virtual void Log(string message)
+        {
+            // Intentionally left blank
         }
 
         /// <summary>

@@ -7,7 +7,6 @@ using Prism.Common;
 using Prism.Events;
 using Prism.Extensions;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -182,7 +181,6 @@ namespace Prism
         /// <param name="containerRegistry"></param>
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<ILoggerFacade, EmptyLogger>();
             containerRegistry.RegisterSingleton<IApplicationProvider, ApplicationProvider>();
             containerRegistry.RegisterSingleton<IApplicationStore, ApplicationStore>();
             containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();

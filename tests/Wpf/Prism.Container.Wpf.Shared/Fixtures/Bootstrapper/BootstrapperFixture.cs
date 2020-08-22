@@ -1,7 +1,6 @@
 ﻿using System;
 using Prism.Container.Wpf.Mocks;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using Xunit;
@@ -47,16 +46,6 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
             var returnedCatalog = bootstrapper.ContainerExtension.Resolve<IModuleCatalog>();
             Assert.NotNull(returnedCatalog);
             Assert.IsType<ModuleCatalog>(returnedCatalog);
-        }
-
-        [StaFact]
-        public void ConfigureContainerAddsLoggerFacadeToContainer()
-        {
-            var bootstrapper = new MockBootstrapper();
-            bootstrapper.Run();
-
-            var returnedCatalog = bootstrapper.ContainerExtension.Resolve<ILoggerFacade>();
-            Assert.NotNull(returnedCatalog);
         }
 
         [StaFact]

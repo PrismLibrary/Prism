@@ -4,7 +4,6 @@ using Prism;
 using Prism.Behaviors;
 using Prism.Common;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Modularity;
 using Prism.Navigation;
 

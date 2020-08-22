@@ -18,7 +18,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Events\TestActionEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Internals\FormsLogObserver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Internals\XamlValueTargetProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Logging\XUnitLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Modules\ModuleMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Navigation\CustomNavigationServiceMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\PrismApplicationCustomNavMock.cs" />

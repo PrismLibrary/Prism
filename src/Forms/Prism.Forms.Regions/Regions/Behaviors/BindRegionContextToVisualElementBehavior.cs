@@ -7,7 +7,7 @@ using Xamarin.Forms;
 namespace Prism.Regions.Behaviors
 {
     /// <summary>
-    /// Defines a behavior that forwards the <see cref="RegionManager.RegionContextProperty"/> 
+    /// Defines a behavior that forwards the <see cref="Xaml.RegionManager.RegionContextProperty"/> 
     /// to the views in the region.
     /// </summary>
     public class BindRegionContextToVisualElementBehavior : IRegionBehavior

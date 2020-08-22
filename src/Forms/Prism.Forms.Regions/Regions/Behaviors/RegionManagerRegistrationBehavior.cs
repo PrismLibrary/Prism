@@ -8,7 +8,7 @@ namespace Prism.Regions.Behaviors
     /// <summary>
     /// Subscribes to a static event from the <see cref="RegionManager"/> in order to register the target <see cref="IRegion"/>
     /// in a <see cref="IRegionManager"/> when one is available on the host control by walking up the tree and finding
-    /// a control whose <see cref="RegionManager.RegionManagerProperty"/> property is not <see langword="null"/>.
+    /// a control whose <see cref="Xaml.RegionManager.RegionManagerProperty"/> property is not <see langword="null"/>.
     /// </summary>
     public class RegionManagerRegistrationBehavior : RegionBehavior, IHostAwareRegionBehavior
     {

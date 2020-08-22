@@ -84,6 +84,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.Ioc.Shared", "tests\C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Containers", "Containers", "{D62DD517-CA80-449D-A26B-9AB427379825}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.Container.Wpf.Shared", "tests\Wpf\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.shproj", "{BD42A7D6-A84D-4D27-9C28-7F6A2EC477F1}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{02e0ecaa-b8c6-4eab-a9ab-164b1b99af35}*SharedItemsImports = 5
@@ -99,6 +101,7 @@ Global
 		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{9a1c368f-30ae-4c82-be03-9168ce089b56}*SharedItemsImports = 5
 		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{aad8a958-546b-4b7d-bbd1-d79e825530eb}*SharedItemsImports = 5
 		tests\Wpf\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.projitems*{ba05687e-2317-4a65-805b-c596f52f7203}*SharedItemsImports = 5
+		tests\Wpf\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.projitems*{bd42a7d6-a84d-4d27-9c28-7f6a2ec477f1}*SharedItemsImports = 13
 		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{c2f58215-92f0-4501-a9f4-862c78b2b4ce}*SharedItemsImports = 5
 		tests\Forms\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{c2ff8459-f2d1-4b87-a31a-82a1835f89cf}*SharedItemsImports = 5
 		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{d66336a6-07e5-401a-a710-daedd6975d59}*SharedItemsImports = 13
@@ -416,6 +419,7 @@ Global
 		{704E14A4-C3A2-492D-9C4E-7D386A18B698} = {D62DD517-CA80-449D-A26B-9AB427379825}
 		{78932299-2281-4A59-BFB8-07DE3014F748} = {D62DD517-CA80-449D-A26B-9AB427379825}
 		{D62DD517-CA80-449D-A26B-9AB427379825} = {00FFDC13-7397-46F1-897E-A62A7575D28A}
+		{BD42A7D6-A84D-4D27-9C28-7F6A2EC477F1} = {F1F91777-01EA-43A3-A3ED-D473B382F46C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7433AE2-B1A0-4C1A-887E-5CAA7AAF67A6}

@@ -29,7 +29,7 @@ namespace Prism.Ioc
         /// <summary>
         /// Registers a <see cref="View"/> for region navigation.
         /// </summary>
-        /// <typeparam name="TView">The Type of <see cref="View" to register</typeparam>
+        /// <typeparam name="TView">The Type of <see cref="View" />to register</typeparam>
         /// <typeparam name="TViewModel">The ViewModel to use as the BindingContext for the View</typeparam>
         /// <param name="name">The unique name to register with the View</param>
         /// <param name="containerRegistry"></param>

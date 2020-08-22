@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xunit;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Modularity;
 using Prism.Wpf.Tests.Mocks;
 
@@ -20,17 +19,7 @@ namespace Prism.Wpf.Tests.Modularity
         {
             var ex = Assert.Throws<ArgumentNullException>(() =>
             {
-                ModuleInitializer loader = new ModuleInitializer(null, new MockLogger());
-            });
-            
-        }
-
-        [Fact]
-        public void NullLoggerThrows()
-        {
-            var ex = Assert.Throws<ArgumentNullException>(() =>
-            {
-                ModuleInitializer loader = new ModuleInitializer(new MockContainerAdapter(), null);
+                ModuleInitializer loader = new ModuleInitializer(null);
             });
             
         }
@@ -42,7 +31,7 @@ namespace Prism.Wpf.Tests.Modularity
             {
                 var moduleInfo = CreateModuleInfo(typeof(ExceptionThrowingModule));
 
-                ModuleInitializer loader = new ModuleInitializer(new MockContainerAdapter(), new MockLogger());
+                ModuleInitializer loader = new ModuleInitializer(new MockContainerAdapter());
 
                 loader.Initialize(moduleInfo);
             });
@@ -54,7 +43,7 @@ namespace Prism.Wpf.Tests.Modularity
         public void ShouldResolveModuleAndInitializeSingleModule()
         {
             IContainerExtension containerFacade = new MockContainerAdapter();
-            var service = new ModuleInitializer(containerFacade, new MockLogger());
+            var service = new ModuleInitializer(containerFacade);
             FirstTestModule.wasInitializedOnce = false;
             var info = CreateModuleInfo(typeof(FirstTestModule));
             service.Initialize(info);
@@ -66,8 +55,7 @@ namespace Prism.Wpf.Tests.Modularity
         public void ShouldLogModuleInitializeErrorsAndContinueLoading()
         {
             IContainerExtension containerFacade = new MockContainerAdapter();
-            var logger = new MockLogger();
-            var service = new CustomModuleInitializerService(containerFacade, logger);
+            var service = new CustomModuleInitializerService(containerFacade);
             var invalidModule = CreateModuleInfo(typeof(InvalidModule));
 
             Assert.False(service.HandleModuleInitializerrorCalled);
@@ -79,8 +67,7 @@ namespace Prism.Wpf.Tests.Modularity
         public void ShouldLogModuleInitializationError()
         {
             IContainerExtension containerFacade = new MockContainerAdapter();
-            var logger = new MockLogger();
-            var service = new ModuleInitializer(containerFacade, logger);
+            var service = new ModuleInitializer(containerFacade);
             ExceptionThrowingModule.wasInitializedOnce = false;
             var exceptionModule = CreateModuleInfo(typeof(ExceptionThrowingModule));
 
@@ -88,12 +75,10 @@ namespace Prism.Wpf.Tests.Modularity
             {
                 service.Initialize(exceptionModule);
             }
-            catch (ModuleInitializeException)
+            catch (ModuleInitializeException mie)
             {
+                Assert.Contains("ExceptionThrowingModule", mie.Message);
             }
-
-            Assert.NotNull(logger.LastMessage);
-            Assert.Contains("ExceptionThrowingModule", logger.LastMessage);
         }
 
         [Fact]
@@ -101,7 +86,7 @@ namespace Prism.Wpf.Tests.Modularity
         {
             var moduleInfo = new ModuleInfo("TestModule", "BadAssembly.BadType");
 
-            ModuleInitializer loader = new ModuleInitializer(new MockContainerAdapter(), new MockLogger());
+            ModuleInitializer loader = new ModuleInitializer(new MockContainerAdapter());
 
             try
             {
@@ -219,8 +204,8 @@ namespace Prism.Wpf.Tests.Modularity
         {
             public bool HandleModuleInitializerrorCalled;
 
-            public CustomModuleInitializerService(IContainerExtension containerFacade, ILoggerFacade logger)
-                : base(containerFacade, logger)
+            public CustomModuleInitializerService(IContainerExtension containerFacade)
+                : base(containerFacade)
             {
             }
 
