@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <RootNamespace>HelloWorld</RootNamespace>
     <AssemblyName>HelloWorld</AssemblyName>
@@ -15,11 +15,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Page Remove="ModuleCatalog.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\src\Prism.Core\Prism.Core.csproj" />
     <ProjectReference Include="..\..\..\src\Wpf\Prism.DryIoc.Wpf\Prism.DryIoc.Wpf.csproj" />
     <ProjectReference Include="..\..\..\src\Wpf\Prism.Wpf\Prism.Wpf.csproj" />
     <ProjectReference Include="..\HelloWorld.Core\HelloWorld.Core.csproj" />
     <ProjectReference Include="..\Modules\HelloWorld.Modules.ModuleA\HelloWorld.Modules.ModuleA.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="ModuleCatalog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
   </ItemGroup>
 
 </Project>

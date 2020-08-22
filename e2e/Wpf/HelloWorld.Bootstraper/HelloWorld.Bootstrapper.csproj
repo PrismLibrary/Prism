@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <RootNamespace>HelloWorld</RootNamespace>
   </PropertyGroup>
@@ -15,6 +15,10 @@
     <Page Include="..\HelloWorld\**\*.xaml" LinkBase="%(RecurseDir)" Generator="MSBuild:Compile" Exclude="$(DefaultItemExcludes)" />
     <Compile Include="..\HelloWorld\**\*.cs" LinkBase="%(RecurseDir)" Exclude="$(DefaultItemExcludes)" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Page Remove="..\HelloWorld\ModuleCatalog.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Prism.Core\Prism.Core.csproj" />
@@ -22,6 +26,10 @@
     <ProjectReference Include="..\..\..\src\Wpf\Prism.Wpf\Prism.Wpf.csproj" />
     <ProjectReference Include="..\HelloWorld.Core\HelloWorld.Core.csproj" />
     <ProjectReference Include="..\Modules\HelloWorld.Modules.ModuleA\HelloWorld.Modules.ModuleA.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="..\HelloWorld\ModuleCatalog.xaml" />
   </ItemGroup>
 
 </Project>

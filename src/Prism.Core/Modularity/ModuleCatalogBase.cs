@@ -28,7 +28,7 @@ namespace Prism.Modularity
     public class ModuleCatalogBase : IModuleCatalog
     {
         private ModuleCatalogItemCollection _items { get; }
-        private bool isLoaded;
+        private bool _isLoaded;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IModuleCatalog"/> class.
@@ -91,7 +91,7 @@ namespace Prism.Modularity
         /// </summary>
         public virtual void Load()
         {
-            isLoaded = true;
+            _isLoaded = true;
             InnerLoad();
         }
 
@@ -179,7 +179,7 @@ namespace Prism.Modularity
         /// <exception cref="ModularityException">When validation of the <see cref="ModuleCatalogBase"/> fails, because this method calls <see cref="Validate"/>.</exception>
         public virtual void Initialize()
         {
-            if (!isLoaded)
+            if (!_isLoaded)
             {
                 Load();
             }
