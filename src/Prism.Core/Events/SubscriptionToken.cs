@@ -1,6 +1,3 @@
-
-
-
 using System;
 
 namespace Prism.Events
@@ -50,13 +47,13 @@ namespace Prism.Events
             return Equals(obj as SubscriptionToken);
         }
 
-        ///<summary>
-        ///Serves as a hash function for a particular type. 
-        ///</summary>
-        ///<returns>
-        ///A hash code for the current <see cref="T:System.Object" />.
-        ///</returns>
-        ///<filterpriority>2</filterpriority>
+        /// <summary>
+        /// Serves as a hash function for a particular type. 
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object" />.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
             return _token.GetHashCode();
@@ -68,7 +65,7 @@ namespace Prism.Events
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Should never have need for a finalizer, hence no need for Dispose(bool).")]
         public virtual void Dispose()
         {
-            // While the SubsctiptionToken class implements IDisposable, in the case of weak subscriptions 
+            // While the SubscriptionToken class implements IDisposable, in the case of weak subscriptions 
             // (i.e. keepSubscriberReferenceAlive set to false in the Subscribe method) it's not necessary to unsubscribe,
             // as no resources should be kept alive by the event subscription. 
             // In such cases, if a warning is issued, it could be suppressed.
