@@ -75,12 +75,5 @@ namespace Prism.Unity.Forms.Tests.Fixtures
             Assert.Contains(events, e => e == "ConvertBack");
 
         }
-
-        [Fact]
-        public void ResolvesForDependencyResolver()
-        {
-            var app = CreateMockApplication();
-            Assert.Same(app.Container.Resolve<ILoggerFacade>(), Xamarin.Forms.DependencyService.Resolve<ILoggerFacade>());
-        }
     }
 }
