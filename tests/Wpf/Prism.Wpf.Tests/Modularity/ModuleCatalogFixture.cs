@@ -302,20 +302,6 @@ namespace Prism.Wpf.Tests.Modularity
         }
 
         [Fact]
-        public void CanLoadCatalogFromXaml()
-        {
-            Stream stream =
-                Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                    "Prism.Wpf.Tests.Modularity.ModuleCatalogXaml.SimpleModuleCatalog.xaml");
-
-            var catalog = ModuleCatalog.CreateFromXaml(stream);
-            Assert.NotNull(catalog);
-
-            Assert.Equal(4, catalog.Modules.Count());
-        }
-
-
-        [Fact]
         public void ShouldLoadAndValidateOnInitialize()
         {
             var catalog = new TestableModuleCatalog();

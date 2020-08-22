@@ -45,11 +45,16 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Mocks\Modules\*.cs" />
-    <EmbeddedResource Include="Modularity\ModuleCatalogXaml\SimpleModuleCatalog.xaml">
+    <Page Remove="Modularity\ModuleCatalogXaml\InvalidDependencyModuleCatalog.xaml" />
+    <Resource Include="Modularity\ModuleCatalogXaml\InvalidDependencyModuleCatalog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Modularity\ModuleCatalogXaml\SimpleModuleCatalog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
+    </Resource>
   </ItemGroup>
 
 </Project>

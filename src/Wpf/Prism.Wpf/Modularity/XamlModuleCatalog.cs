@@ -50,6 +50,13 @@ namespace Prism.Modularity
                         mg.Ref = GetFileAbsoluteUri(mg.Ref);
                         mg.UpdateModulesRef();
                     }
+                    else
+                    {
+                        foreach(var module in mg)
+                        {
+                            module.Ref = GetFileAbsoluteUri(module.Ref);
+                        }
+                    }
                 }
 
                 Items.Add(item);
