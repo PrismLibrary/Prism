@@ -31,6 +31,7 @@ namespace HelloWorld
         //2. Remove the project reference to the module project 
         //3. Make sure the Modules directory exists in the output path when debugging
         //4. Uncomment CreateModuleCatalog to test other modules catalogs
+        //5. Uncomment post build task in ModuleA.csproj
         //protected override IModuleCatalog CreateModuleCatalog()
         //{
         //    return new ConfigurationModuleCatalog();

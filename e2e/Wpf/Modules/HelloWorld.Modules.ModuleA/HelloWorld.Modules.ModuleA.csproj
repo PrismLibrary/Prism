@@ -10,7 +10,7 @@
     <ProjectReference Include="..\..\..\..\src\Wpf\Prism.Wpf\Prism.Wpf.csproj" />
     <ProjectReference Include="..\..\HelloWorld.Core\HelloWorld.Core.csproj" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy &quot;$(TargetDir)*&quot; &quot;$(SolutionDir)$(SolutionName)\$(OutDir)Modules\&quot; /y" />
-  </Target>
+  </Target>-->
 </Project>
