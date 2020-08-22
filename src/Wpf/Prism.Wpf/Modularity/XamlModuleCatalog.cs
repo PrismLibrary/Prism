@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Windows.Markup;
 
 namespace Prism.Modularity
 {
@@ -32,7 +34,7 @@ namespace Prism.Modularity
         /// </summary>
         protected override void InnerLoad()
         {
-            var catalog = ModuleCatalog.CreateFromXaml(_resourceUri);
+            var catalog = CreateFromXaml(_resourceUri);
 
             foreach(IModuleCatalogItem item in catalog.Items)
             {
@@ -52,6 +54,38 @@ namespace Prism.Modularity
 
                 Items.Add(item);
             }
+        }
+
+        /// <summary>
+        /// Creates a <see cref="ModuleCatalog"/> from XAML.
+        /// </summary>
+        /// <param name="xamlStream"><see cref="Stream"/> that contains the XAML declaration of the catalog.</param>
+        /// <returns>An instance of <see cref="ModuleCatalog"/> built from the XAML.</returns>
+        private static ModuleCatalog CreateFromXaml(Stream xamlStream)
+        {
+            if (xamlStream == null)
+            {
+                throw new ArgumentNullException(nameof(xamlStream));
+            }
+
+            return XamlReader.Load(xamlStream) as ModuleCatalog;
+        }
+
+        /// <summary>
+        /// Creates a <see cref="ModuleCatalog"/> from a XAML included as an Application Resource.
+        /// </summary>
+        /// <param name="builderResourceUri">Relative <see cref="Uri"/> that identifies the XAML included as an Application Resource.</param>
+        /// <returns>An instance of <see cref="ModuleCatalog"/> build from the XAML.</returns>
+        private static ModuleCatalog CreateFromXaml(Uri builderResourceUri)
+        {
+            var streamInfo = System.Windows.Application.GetResourceStream(builderResourceUri);
+
+            if ((streamInfo != null) && (streamInfo.Stream != null))
+            {
+                return CreateFromXaml(streamInfo.Stream);
+            }
+
+            return null;
         }
     }
 }
