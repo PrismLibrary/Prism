@@ -10,7 +10,7 @@ namespace Prism.Forms.Tests.Navigation.Mocks.Views
         public NavigationPathPageMockViewModel ViewModel { get; }
         public NavigationPathPageMock()
         {
-            var navService = new PageNavigationServiceMock(null, new ApplicationProviderMock(), null, null);
+            var navService = new PageNavigationServiceMock(null, new ApplicationProviderMock(), null);
             ((IPageAware)navService).Page = this;
 
             BindingContext = ViewModel = new NavigationPathPageMockViewModel(navService);
@@ -47,7 +47,7 @@ namespace Prism.Forms.Tests.Navigation.Mocks.Views
 
         public NavigationPathTabbedPageMock()
         {
-            var navService = new PageNavigationServiceMock(null, new ApplicationProviderMock(), null, null);
+            var navService = new PageNavigationServiceMock(null, new ApplicationProviderMock(), null);
             ((IPageAware)navService).Page = this;
 
             BindingContext = ViewModel = new NavigationPathPageMockViewModel(navService);
