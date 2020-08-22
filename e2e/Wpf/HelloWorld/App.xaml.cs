@@ -23,8 +23,21 @@ namespace HelloWorld
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            base.ConfigureModuleCatalog(moduleCatalog);
             moduleCatalog.AddModule<ModuleAModule>();
         }
+
+        //to test various module catalogs:
+        //1. Comment out ConfigureModuleCatalog 
+        //2. Remove the project reference to the module project 
+        //3. Make sure the Modules directory exists in the output path when debugging
+        //4. Uncomment CreateModuleCatalog to test other modules catalogs
+        //protected override IModuleCatalog CreateModuleCatalog()
+        //{
+        //    return new ConfigurationModuleCatalog();
+
+        //    return new DirectoryModuleCatalog() { ModulePath = "Modules" };
+
+        //    return new XamlResourceCatalog("ModuleCatalog.xaml");
+        //}
     }
 }

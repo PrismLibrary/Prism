@@ -72,5 +72,21 @@ namespace Prism.Modularity
 
             return null;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        protected string GetFileAbsoluteUri(string filePath)
+        {
+            UriBuilder uriBuilder = new UriBuilder();
+            uriBuilder.Host = String.Empty;
+            uriBuilder.Scheme = Uri.UriSchemeFile;
+            uriBuilder.Path = Path.GetFullPath(filePath);
+            Uri fileUri = uriBuilder.Uri;
+
+            return fileUri.ToString();
+        }
     }
 }

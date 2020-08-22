@@ -17,7 +17,7 @@ namespace Prism.Modularity
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
     public class ModuleInfoGroup : IModuleInfoGroup
     {
-        private readonly Collection<IModuleInfo> modules = new Collection<IModuleInfo>();
+        private readonly Collection<IModuleInfo> _modules = new Collection<IModuleInfo>();
 
         /// <summary>
         /// Gets or sets the <see cref="IModuleInfo.InitializationMode"/> for the whole group. Any <see cref="IModuleInfo"/> classes that are
@@ -46,9 +46,16 @@ namespace Prism.Modularity
         public void Add(IModuleInfo item)
         {
             ForwardValues(item);
-            modules.Add(item);
+            _modules.Add(item);
         }
 
+        internal void UpdateModulesRef()
+        {
+            foreach(var module in _modules)
+            {
+                module.Ref = Ref;
+            }            
+        }
 
         /// <summary>
         /// Forwards <see cref="InitializationMode"/> and <see cref="Ref"/> properties from this <see cref="ModuleInfoGroup"/>
@@ -75,7 +82,7 @@ namespace Prism.Modularity
         /// <summary>
         /// Removes all <see cref="IModuleInfo"/>s from the <see cref="ModuleInfoGroup"/>.
         /// </summary>
-        public void Clear() => modules.Clear();
+        public void Clear() => _modules.Clear();
 
         /// <summary>
         /// Determines whether the <see cref="ModuleInfoGroup"/> contains a specific value.
@@ -84,7 +91,7 @@ namespace Prism.Modularity
         /// <returns>
         /// true if <paramref name="item"/> is found in the <see cref="ModuleInfoGroup"/>; otherwise, false.
         /// </returns>
-        public bool Contains(IModuleInfo item) => modules.Contains(item);
+        public bool Contains(IModuleInfo item) => _modules.Contains(item);
 
         /// <summary>
         /// Copies the elements of the <see cref="ModuleInfoGroup"/> to an <see cref="T:System.Array"/>, starting at a particular <see cref="T:System.Array"/> index.
@@ -106,7 +113,7 @@ namespace Prism.Modularity
         /// </exception>
         public void CopyTo(IModuleInfo[] array, int arrayIndex)
         {
-            modules.CopyTo(array, arrayIndex);
+            _modules.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -116,7 +123,7 @@ namespace Prism.Modularity
         /// <returns>
         /// The number of elements contained in the <see cref="ModuleInfoGroup"/>.
         /// </returns>
-        public int Count => modules.Count;
+        public int Count => _modules.Count;
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="ModuleInfoGroup"/> is read-only.
@@ -133,7 +140,7 @@ namespace Prism.Modularity
         /// <returns>
         /// true if <paramref name="item"/> was successfully removed from the <see cref="ModuleInfoGroup"/>; otherwise, false. This method also returns false if <paramref name="item"/> is not found in the original <see cref="ModuleInfoGroup"/>.
         /// </returns>
-        public bool Remove(IModuleInfo item) => modules.Remove(item);
+        public bool Remove(IModuleInfo item) => _modules.Remove(item);
 
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
@@ -141,7 +148,7 @@ namespace Prism.Modularity
         /// <returns>
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
         /// </returns>
-        public IEnumerator<IModuleInfo> GetEnumerator() => modules.GetEnumerator();
+        public IEnumerator<IModuleInfo> GetEnumerator() => _modules.GetEnumerator();
 
         /// <summary>
         /// Returns an enumerator that iterates through a collection.
@@ -199,7 +206,7 @@ namespace Prism.Modularity
         /// <returns>
         /// The index of <paramref name="value"/> if found in the list; otherwise, -1.
         /// </returns>
-        public int IndexOf(object value) => modules.IndexOf((IModuleInfo)value);
+        public int IndexOf(object value) => _modules.IndexOf((IModuleInfo)value);
 
         /// <summary>
         /// Inserts an item to the <see cref="ModuleInfoGroup"/> at the specified index.
@@ -227,7 +234,7 @@ namespace Prism.Modularity
             if (!(value is IModuleInfo moduleInfo))
                 throw new ArgumentException(Resources.ValueMustBeOfTypeModuleInfo, nameof(value));
 
-            modules.Insert(index, moduleInfo);
+            _modules.Insert(index, moduleInfo);
         }
 
         /// <summary>
@@ -259,7 +266,7 @@ namespace Prism.Modularity
         /// <exception cref="T:System.NotSupportedException">
         /// The <see cref="T:System.Collections.Generic.IList`1"/> is read-only.
         /// </exception>
-        public void RemoveAt(int index) => modules.RemoveAt(index);
+        public void RemoveAt(int index) => _modules.RemoveAt(index);
 
         /// <summary>
         /// Gets or sets the <see cref="object"/> at the specified index.
@@ -293,7 +300,7 @@ namespace Prism.Modularity
         /// The type of the source <see cref="T:System.Collections.ICollection"/> cannot be cast automatically to the type of the destination <paramref name="array"/>.
         /// </exception>
         void ICollection.CopyTo(Array array, int index) => 
-            ((ICollection)modules).CopyTo(array, index);
+            ((ICollection)_modules).CopyTo(array, index);
 
         /// <summary>
         /// Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection"/> is synchronized (thread safe).
@@ -301,7 +308,7 @@ namespace Prism.Modularity
         /// <value></value>
         /// <returns>true if access to the <see cref="T:System.Collections.ICollection"/> is synchronized (thread safe); otherwise, false.
         /// </returns>
-        public bool IsSynchronized => ((ICollection)modules).IsSynchronized;
+        public bool IsSynchronized => ((ICollection)_modules).IsSynchronized;
 
         /// <summary>
         /// Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"/>.
@@ -310,7 +317,7 @@ namespace Prism.Modularity
         /// <returns>
         /// An object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"/>.
         /// </returns>
-        public object SyncRoot => ((ICollection)modules).SyncRoot;
+        public object SyncRoot => ((ICollection)_modules).SyncRoot;
 
         /// <summary>
         /// Determines the index of a specific item in the <see cref="T:System.Collections.Generic.IList`1"/>.
@@ -319,7 +326,7 @@ namespace Prism.Modularity
         /// <returns>
         /// The index of <paramref name="item"/> if found in the list; otherwise, -1.
         /// </returns>
-        public int IndexOf(IModuleInfo item) => modules.IndexOf(item);
+        public int IndexOf(IModuleInfo item) => _modules.IndexOf(item);
 
         /// <summary>
         /// Inserts an item to the <see cref="T:System.Collections.Generic.IList`1"/> at the specified index.
@@ -329,7 +336,7 @@ namespace Prism.Modularity
         /// <exception cref="T:System.ArgumentOutOfRangeException">
         /// 	<paramref name="index"/> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"/>.
         /// </exception>
-        public void Insert(int index, IModuleInfo item) => modules.Insert(index, item);
+        public void Insert(int index, IModuleInfo item) => _modules.Insert(index, item);
 
         /// <summary>
         /// Gets or sets the <see cref="IModuleInfo"/> at the specified index.
@@ -337,8 +344,8 @@ namespace Prism.Modularity
         /// <value>The <see cref="IModuleInfo"/> at the specified index </value>
         public IModuleInfo this[int index]
         {
-            get => modules[index];
-            set => modules[index] = value;
+            get => _modules[index];
+            set => _modules[index] = value;
         }
     }
 }

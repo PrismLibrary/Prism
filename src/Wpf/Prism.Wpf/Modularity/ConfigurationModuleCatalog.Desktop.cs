@@ -1,9 +1,6 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using Prism.Properties;
 
@@ -20,7 +17,7 @@ namespace Prism.Modularity
         /// </summary>
         public ConfigurationModuleCatalog()
         {
-            this.Store = new ConfigurationStore();
+            Store = new ConfigurationStore();
         }
 
         /// <summary>
@@ -33,28 +30,17 @@ namespace Prism.Modularity
         /// </summary>
         protected override void InnerLoad()
         {
-            if (this.Store == null)
+            if (Store == null)
             {
                 throw new InvalidOperationException(Resources.ConfigurationStoreCannotBeNull);
             }
 
-            this.EnsureModulesDiscovered();
-        }
-
-        private static string GetFileAbsoluteUri(string filePath)
-        {
-            UriBuilder uriBuilder = new UriBuilder();
-            uriBuilder.Host = String.Empty;
-            uriBuilder.Scheme = Uri.UriSchemeFile;
-            uriBuilder.Path = Path.GetFullPath(filePath);
-            Uri fileUri = uriBuilder.Uri;
-
-            return fileUri.ToString();
+            EnsureModulesDiscovered();
         }
 
         private void EnsureModulesDiscovered()
         {
-            ModulesConfigurationSection section = this.Store.RetrieveModuleConfigurationSection();
+            ModulesConfigurationSection section = Store.RetrieveModuleConfigurationSection();
 
             if (section != null)
             {
