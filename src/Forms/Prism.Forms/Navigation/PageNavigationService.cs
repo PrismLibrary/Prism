@@ -924,7 +924,7 @@ namespace Prism.Navigation
 
                             //set the title because Xamarin doesn't do this for us.
                             navigationPage.Title = navigationPageChild.Title;
-                            navigationPage.Icon = navigationPageChild.Icon;
+                            navigationPage.IconImageSource = navigationPageChild.IconImageSource;
 
                             tabbedPage.Children.Add(navigationPage);
                         }
