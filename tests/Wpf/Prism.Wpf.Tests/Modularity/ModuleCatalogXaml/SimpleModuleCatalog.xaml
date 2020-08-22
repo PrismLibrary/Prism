@@ -19,7 +19,7 @@
 
   </Modularity:ModuleInfoGroup>
 
-  <Modularity:ModuleInfo Ref="Module3" ModuleName="Module3" ModuleType="Module3Type" />
+  <Modularity:ModuleInfo Ref="file://Module3" ModuleName="Module3" ModuleType="Module3Type" />
 
   <Modularity:ModuleInfoGroup InitializationMode="OnDemand">
     <Modularity:ModuleInfo Ref="Module4" ModuleName="Module4" ModuleType="Module1Type" />

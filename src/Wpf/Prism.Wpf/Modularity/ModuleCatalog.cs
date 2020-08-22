@@ -42,11 +42,11 @@ namespace Prism.Modularity
         }
 
         /// <summary>
-        /// 
+        /// Creates a valid file uri to locate the module assembly file
         /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        protected string GetFileAbsoluteUri(string filePath)
+        /// <param name="filePath">The relative path to the file</param>
+        /// <returns>The valid absolute file path</returns>
+        protected virtual string GetFileAbsoluteUri(string filePath)
         {
             UriBuilder uriBuilder = new UriBuilder();
             uriBuilder.Host = String.Empty;

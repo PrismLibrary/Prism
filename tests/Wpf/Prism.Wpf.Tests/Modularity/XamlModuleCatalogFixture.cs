@@ -1,5 +1,6 @@
 ﻿using Prism.Modularity;
 using System;
+using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -27,6 +28,26 @@ namespace Prism.Wpf.Tests.Modularity
 
             Assert.NotNull(catalog);
             Assert.Equal(5, catalog.Modules.Count());
+        }
+
+        [Fact]
+        public void XamlModuleCatalog_SupportsLegacyFileFormat()
+        {
+            var expectedModulePath = Path.GetFullPath("Module3");
+
+            var catalog = new XamlModuleCatalog(_simpleCatalogPackUri);
+            catalog.Initialize();
+
+            Assert.NotNull(catalog);
+
+            var module3 = catalog.Modules.SingleOrDefault(x => x.ModuleName == "Module3");
+
+            Assert.NotNull(module3);
+
+            Uri uri = new Uri(module3.Ref);
+
+            Assert.True(uri.IsFile);
+            Assert.Equal(expectedModulePath, uri.LocalPath);
         }
 
         [Fact]

@@ -11,6 +11,9 @@ namespace Prism.Modularity
     {
         private readonly Uri _resourceUri;
 
+        private const string _refFilePrefix = "file://";
+        private int _refFilePrefixLength = _refFilePrefix.Length;
+
         /// <summary>
         /// Creates an instance of a XamlResourceCatalog.
         /// </summary>
@@ -36,7 +39,7 @@ namespace Prism.Modularity
         {
             var catalog = CreateFromXaml(_resourceUri);
 
-            foreach(IModuleCatalogItem item in catalog.Items)
+            foreach (IModuleCatalogItem item in catalog.Items)
             {
                 if (item is ModuleInfo mi)
                 {
@@ -52,7 +55,7 @@ namespace Prism.Modularity
                     }
                     else
                     {
-                        foreach(var module in mg)
+                        foreach (var module in mg)
                         {
                             module.Ref = GetFileAbsoluteUri(module.Ref);
                         }
@@ -61,6 +64,22 @@ namespace Prism.Modularity
 
                 Items.Add(item);
             }
+        }
+
+        /// <inheritdoc />
+        protected override string GetFileAbsoluteUri(string path)
+        {            
+            //this is to maintain backwards compatibility with the old file:/// and file:// syntax for Xaml module catalog Ref property
+            if (path.StartsWith(_refFilePrefix + "/", StringComparison.Ordinal))
+            {
+                path = path.Substring(_refFilePrefixLength + 1);
+            }
+            else if (path.StartsWith(_refFilePrefix, StringComparison.Ordinal))
+            {
+                path = path.Substring(_refFilePrefixLength);
+            }
+
+            return base.GetFileAbsoluteUri(path);
         }
 
         /// <summary>
