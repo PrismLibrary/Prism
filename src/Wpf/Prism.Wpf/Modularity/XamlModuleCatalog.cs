@@ -5,7 +5,7 @@ namespace Prism.Modularity
     /// <summary>
     /// A catalog built from a XAML file.
     /// </summary>
-    public class XamlResourceCatalog : ModuleCatalog
+    public class XamlModuleCatalog : ModuleCatalog
     {
         private readonly Uri _resourceUri;
 
@@ -13,7 +13,7 @@ namespace Prism.Modularity
         /// Creates an instance of a XamlResourceCatalog.
         /// </summary>
         /// <param name="fileName">The name of the XAML file</param>
-        public XamlResourceCatalog(string fileName)
+        public XamlModuleCatalog(string fileName)
             : this(new Uri(fileName, UriKind.Relative))
         {
         }
@@ -22,7 +22,7 @@ namespace Prism.Modularity
         /// Creates an instance of a XamlResourceCatalog.
         /// </summary>
         /// <param name="resourceUri">The pack url of the XAML file resource</param>
-        public XamlResourceCatalog(Uri resourceUri)
+        public XamlModuleCatalog(Uri resourceUri)
         {
             _resourceUri = resourceUri;
         }

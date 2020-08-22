@@ -37,7 +37,7 @@ namespace HelloWorld
 
         //    return new DirectoryModuleCatalog() { ModulePath = "Modules" };
 
-        //    return new XamlResourceCatalog("ModuleCatalog.xaml");
+        //    return new XamlModuleCatalog("ModuleCatalog.xaml");
         //}
     }
 }
