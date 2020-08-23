@@ -10,7 +10,7 @@ namespace HelloWorld
 {
     class Bootstrapper : PrismBootstrapper
     {
-        protected override Window CreateShell()
+        protected override DependencyObject CreateShell()
         {
             return Container.Resolve<MainWindow>();
         }

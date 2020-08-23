@@ -117,42 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BootstrapperSequenceCompleted" xml:space="preserve">
-    <value>Bootstrapper sequence completed.</value>
-  </data>
-  <data name="ConfiguringContainer" xml:space="preserve">
-    <value>Configuring the DryIoc container.</value>
-  </data>
-  <data name="ConfiguringDefaultRegionBehaviors" xml:space="preserve">
-    <value>Configuring default region behaviors.</value>
-  </data>
-  <data name="ConfiguringModuleCatalog" xml:space="preserve">
-    <value>Configuring module catalog.</value>
-  </data>
-  <data name="ConfiguringRegionAdapters" xml:space="preserve">
-    <value>Configuring region adapters.</value>
-  </data>
-  <data name="ConfiguringViewModelLocator" xml:space="preserve">
-    <value>Configuring the ViewModelLocator to use DryIoc.</value>
-  </data>
-  <data name="CreatingContainer" xml:space="preserve">
-    <value>Creating DryIoc container.</value>
-  </data>
-  <data name="CreatingModuleCatalog" xml:space="preserve">
-    <value>Creating module catalog.</value>
-  </data>
-  <data name="CreatingShell" xml:space="preserve">
-    <value>Creating the shell.</value>
-  </data>
-  <data name="InitializingModules" xml:space="preserve">
-    <value>Initializing modules.</value>
-  </data>
-  <data name="InitializingShell" xml:space="preserve">
-    <value>Initializing the shell.</value>
-  </data>
-  <data name="LoggerCreatedSuccessfully" xml:space="preserve">
-    <value>Logger was created successfully.</value>
-  </data>
   <data name="NotOverwrittenGetModuleEnumeratorException" xml:space="preserve">
     <value>The method 'GetModuleEnumerator' of the bootstrapper must be overwritten in order to use the default module initialization logic.</value>
   </data>
@@ -168,16 +132,7 @@
   <data name="NullModuleCatalogException" xml:space="preserve">
     <value>The IModuleCatalog is required and cannot be null in order to initialize the modules.</value>
   </data>
-  <data name="RegisteringFrameworkExceptionTypes" xml:space="preserve">
-    <value>Registering Framework Exception Types.</value>
-  </data>
-  <data name="SettingTheRegionManager" xml:space="preserve">
-    <value>Setting the RegionManager.</value>
-  </data>
   <data name="TypeMappingAlreadyRegistered" xml:space="preserve">
     <value>Type '{0}' was already registered by the application. Skipping...</value>
-  </data>
-  <data name="UpdatingRegions" xml:space="preserve">
-    <value>Updating Regions.</value>
   </data>
 </root>

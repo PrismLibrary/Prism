@@ -2,7 +2,7 @@
 
 namespace Prism.Container.Wpf.Mocks
 {
-    internal partial class NullModuleCatalogBootstrapper : UnityBootstrapper
+    internal partial class NullModuleCatalogBootstrapper : PrismBootstrapper
     {
     }
 }

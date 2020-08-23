@@ -1,4 +1,3 @@
-
 using System;
 using Xunit;
 
@@ -6,7 +5,7 @@ namespace Prism.IocContainer.Wpf.Tests.Support
 {
     public class BootstrapperFixtureBase
     {
-        protected static void AssertExceptionThrownOnRun(Bootstrapper bootstrapper, Type expectedExceptionType, string expectedExceptionMessageSubstring)
+        protected static void AssertExceptionThrownOnRun(PrismBootstrapperBase bootstrapper, Type expectedExceptionType, string expectedExceptionMessageSubstring)
         {
             bool exceptionThrown = false;
             try

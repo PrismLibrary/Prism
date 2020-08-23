@@ -363,4 +363,11 @@ namespace Prism.Wpf.Tests.Regions
 
         public class TestView { }
     }
+
+    public class ActivationException : Exception
+    {
+        public ActivationException()
+        {
+        }
+    }
 }

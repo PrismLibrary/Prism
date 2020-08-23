@@ -6,24 +6,28 @@ using Prism.Ioc;
 
 namespace Prism.Container.Wpf.Mocks
 {
-    internal class MockedContainerBootstrapper : DryIocBootstrapper
+    internal class MockedContainerBootstrapper : PrismBootstrapper
     {
-        private readonly IContainer container;
-
-        public void CallConfigureContainer()
-        {
-            base.ConfigureContainer();
-        }
+        private readonly IContainer _container;
 
         public MockedContainerBootstrapper(IContainer container)
         {
             ContainerLocator.ResetContainer();
-            this.container = container;
+            this._container = container;
         }
 
-        protected override IContainer CreateContainer()
+        bool _useDefaultConfiguration = true;
+
+        public void Run(bool useDefaultConfiguration)
         {
-            return container;
+            _useDefaultConfiguration = useDefaultConfiguration;
+
+            base.Run();
+        }
+
+        protected override IContainerExtension CreateContainerExtension()
+        {
+            return new DryIocContainerExtension(_container);
         }
 
         protected override DependencyObject CreateShell()
@@ -31,9 +35,20 @@ namespace Prism.Container.Wpf.Mocks
             return new UserControl();
         }
 
-        protected override void InitializeShell()
+        protected override void InitializeShell(DependencyObject shell)
         {
-            // no op
+
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+
+        }
+
+        protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
+        {
+            if (_useDefaultConfiguration)
+                base.RegisterRequiredTypes(containerRegistry);
         }
     }
 }
