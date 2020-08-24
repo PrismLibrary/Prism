@@ -5,63 +5,44 @@ using System.Windows.Controls;
 using DryIoc;
 using Prism.DryIoc;
 using Prism.Ioc;
-using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Prism.Modularity;
 using Prism.Regions;
 
 namespace Prism.Container.Wpf.Mocks
 {
-    internal class MockBootstrapper : DryIocBootstrapper
+    internal class MockBootstrapper : PrismBootstrapper
     {
         public List<string> MethodCalls = new List<string>();
         public bool InitializeModulesCalled;
         public bool ConfigureRegionAdapterMappingsCalled;
         public RegionAdapterMappings DefaultRegionAdapterMappings;
         public bool CreateModuleCatalogCalled;
-        public bool ConfigureContainerCalled;
+        public bool RegisterRequiredTypesCalled;
+        public bool RegisterTypesCalled;
         public bool CreateShellCalled;
         public bool CreateContainerCalled;
         public bool ConfigureModuleCatalogCalled;
         public bool InitializeShellCalled;
+        public bool OnInitializeCalled;
         public bool ConfigureViewModelLocatorCalled;
         public bool ConfigureDefaultRegionBehaviorsCalled;
-        public DependencyObject ShellObject = new UserControl();
+        public UserControl ShellObject = new UserControl();
 
         public DependencyObject BaseShell => base.Shell;
 
         public IContainer BaseContainer
         {
-            get => base.Container;
-            set => base.Container = value;
+            get => base.Container?.GetContainer();
         }
 
-        public override void Run(bool runWithDefaultConfiguration)
-        {
-            ContainerLocator.ResetContainer();
-            base.Run(runWithDefaultConfiguration);
-        }
+        public IContainerExtension ContainerExtension => (IContainerExtension)base.Container;
 
-        public new IContainerExtension ContainerExtension => base.ContainerExtension;
-
-        public IContainerRegistry ContainerRegistry => base.ContainerExtension;
+        public IContainerRegistry ContainerRegistry => (IContainerRegistry)base.Container;
 
         public IContainer CallCreateContainer()
         {
-            return this.CreateContainer();
-        }
-
-        protected override IContainer CreateContainer()
-        {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.CreateContainerCalled = true;
-            return base.CreateContainer();
-        }
-
-        protected override void ConfigureContainer()
-        {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.ConfigureContainerCalled = true;
-            base.ConfigureContainer();
+            var containerExt = this.CreateContainerExtension();
+            return ((IContainerExtension<IContainer>)containerExt).Instance;
         }
 
         protected override DependencyObject CreateShell()
@@ -69,6 +50,32 @@ namespace Prism.Container.Wpf.Mocks
             this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
             this.CreateShellCalled = true;
             return ShellObject;
+        }
+
+        protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
+        {
+            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            this.RegisterRequiredTypesCalled = true;
+            base.RegisterRequiredTypes(containerRegistry);
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            this.RegisterTypesCalled = true;
+        }
+
+        protected override void Initialize()
+        {
+            ContainerLocator.ResetContainer();
+            base.Initialize();
+        }
+
+        protected override IContainerExtension CreateContainerExtension()
+        {
+            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            this.CreateContainerCalled = true;
+            return base.CreateContainerExtension();
         }
 
         protected override void ConfigureViewModelLocator()
@@ -85,18 +92,25 @@ namespace Prism.Container.Wpf.Mocks
             return base.CreateModuleCatalog();
         }
 
-        protected override void ConfigureModuleCatalog()
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
             this.ConfigureModuleCatalogCalled = true;
-            base.ConfigureModuleCatalog();
+            base.ConfigureModuleCatalog(moduleCatalog);
         }
 
-        protected override void InitializeShell()
+        protected override void InitializeShell(DependencyObject shell)
         {
             this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
             this.InitializeShellCalled = true;
-            // no op
+            base.InitializeShell(shell);
+        }
+
+        protected override void OnInitialized()
+        {
+            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            this.OnInitializeCalled = true;
+            base.OnInitialized();
         }
 
         protected override void InitializeModules()
@@ -106,22 +120,21 @@ namespace Prism.Container.Wpf.Mocks
             base.InitializeModules();
         }
 
-        protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
+        protected override void ConfigureDefaultRegionBehaviors(IRegionBehaviorFactory regionBehaviors)
         {
             this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
             this.ConfigureDefaultRegionBehaviorsCalled = true;
-            return base.ConfigureDefaultRegionBehaviors();
+            base.ConfigureDefaultRegionBehaviors(regionBehaviors);
         }
 
-        protected override RegionAdapterMappings ConfigureRegionAdapterMappings()
+        protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
         {
             this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
             ConfigureRegionAdapterMappingsCalled = true;
-            var regionAdapterMappings = base.ConfigureRegionAdapterMappings();
+
+            base.ConfigureRegionAdapterMappings(regionAdapterMappings);
 
             DefaultRegionAdapterMappings = regionAdapterMappings;
-
-            return regionAdapterMappings;
         }
 
         protected override void RegisterFrameworkExceptionTypes()
@@ -133,13 +146,6 @@ namespace Prism.Container.Wpf.Mocks
         public void CallRegisterFrameworkExceptionTypes()
         {
             base.RegisterFrameworkExceptionTypes();
-        }
-
-        public List<string> Messages { get; } = new List<string>();
-
-        protected override void Log(string message)
-        {
-            Messages.Add(message);
         }
     }
 }

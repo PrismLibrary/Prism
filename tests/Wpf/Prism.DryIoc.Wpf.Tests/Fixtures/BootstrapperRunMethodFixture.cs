@@ -1,13 +1,13 @@
-﻿using System;
+using System;
+using DryIoc;
 using Moq;
 using Prism.Container.Wpf.Mocks;
+using Prism.DryIoc;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
-using Prism.DryIoc;
 using Xunit;
-using DryIoc;
 
 namespace Prism.Container.Wpf.Tests.Bootstrapper
 {
@@ -34,7 +34,7 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.UseInstance(typeof(IModuleCatalog), It.IsAny<object>(), IfAlreadyRegistered.Replace, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<object>()));
+            mockedContainer.Verify(c => c.Register(It.IsAny<Factory>(), typeof(IModuleCatalog), It.IsAny<object>(), It.IsAny<IfAlreadyRegistered?>(), It.IsAny<bool>()));
         }
 
         [StaFact]
@@ -141,25 +141,26 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
 
             mockedContainer.Setup(c => c.Register(It.IsAny<Factory>(), It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<IfAlreadyRegistered?>(), It.IsAny<bool>()));
 
-            mockedContainer.Setup(c => c.Resolve(typeof(IModuleCatalog), IfUnresolved.Throw)).Returns(
+            // NOTE: The actual method called by Prism's DryIocContainerExtension is off over the IResolver not IContainer
+            mockedContainer.As<IResolver>().Setup(r => r.Resolve(typeof(IModuleCatalog), It.IsAny<object>(), IfUnresolved.Throw, It.IsAny<Type>(), It.IsAny<Request>(), It.IsAny<object[]>())).Returns(
                 new ModuleCatalog());
 
-            mockedContainer.Setup(c => c.Resolve(typeof(IModuleInitializer), IfUnresolved.Throw)).Returns(
+            mockedContainer.As<IResolver>().Setup(c => c.Resolve(typeof(IModuleInitializer), It.IsAny<object>(), IfUnresolved.Throw, It.IsAny<Type>(), It.IsAny<Request>(), It.IsAny<object[]>())).Returns(
                 mockedModuleInitializer.Object);
 
-            mockedContainer.Setup(c => c.Resolve(typeof(IModuleManager), IfUnresolved.Throw)).Returns(
+            mockedContainer.As<IResolver>().Setup(c => c.Resolve(typeof(IModuleManager), It.IsAny<object>(), IfUnresolved.Throw, It.IsAny<Type>(), It.IsAny<Request>(), It.IsAny<object[]>())).Returns(
                 mockedModuleManager.Object);
 
-            mockedContainer.Setup(c => c.Resolve(typeof(RegionAdapterMappings), IfUnresolved.Throw)).Returns(
+            mockedContainer.As<IResolver>().Setup(c => c.Resolve(typeof(RegionAdapterMappings), It.IsAny<object>(), IfUnresolved.Throw, It.IsAny<Type>(), It.IsAny<Request>(), It.IsAny<object[]>())).Returns(
                 regionAdapterMappings);
 
-            mockedContainer.Setup(c => c.Resolve(typeof(SelectorRegionAdapter), IfUnresolved.Throw)).Returns(
+            mockedContainer.As<IResolver>().Setup(c => c.Resolve(typeof(SelectorRegionAdapter), It.IsAny<object>(), IfUnresolved.Throw, It.IsAny<Type>(), It.IsAny<Request>(), It.IsAny<object[]>())).Returns(
                 new SelectorRegionAdapter(regionBehaviorFactory));
 
-            mockedContainer.Setup(c => c.Resolve(typeof(ItemsControlRegionAdapter), IfUnresolved.Throw)).Returns(
+            mockedContainer.As<IResolver>().Setup(c => c.Resolve(typeof(ItemsControlRegionAdapter), It.IsAny<object>(), IfUnresolved.Throw, It.IsAny<Type>(), It.IsAny<Request>(), It.IsAny<object[]>())).Returns(
                 new ItemsControlRegionAdapter(regionBehaviorFactory));
 
-            mockedContainer.Setup(c => c.Resolve(typeof(ContentControlRegionAdapter), IfUnresolved.Throw)).Returns(
+            mockedContainer.As<IResolver>().Setup(c => c.Resolve(typeof(ContentControlRegionAdapter), It.IsAny<object>(), IfUnresolved.Throw, It.IsAny<Type>(), It.IsAny<Request>(), It.IsAny<object[]>())).Returns(
                 new ContentControlRegionAdapter(regionBehaviorFactory));
         }
     }

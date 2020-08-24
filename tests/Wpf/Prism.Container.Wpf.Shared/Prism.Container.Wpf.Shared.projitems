@@ -13,12 +13,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\ContainerExtensionCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Bootstrapper\BootstrapperFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Bootstrapper\BootstrapperNullModuleCatalogFixture.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Bootstrapper\BootstrapperNullModuleManagerFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Bootstrapper\BootstrapperRunMethodFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerExtensionFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerProviderExtensionFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\NullModuleCatalogBootstrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mocks\NullModuleManagerBootstrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Mvvm\ViewModelLocatorFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Regions\RegionNavigationContentLoaderFixture.cs" />
   </ItemGroup>

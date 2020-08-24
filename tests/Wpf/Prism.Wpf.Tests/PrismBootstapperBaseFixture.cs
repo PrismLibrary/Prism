@@ -267,13 +267,13 @@ namespace Prism.Wpf.Tests
             return moduleCatalog;
         }
 
-        protected override Window CreateShell()
+        protected override DependencyObject CreateShell()
         {
             CreateShellWasCalled = true;
             return null;
         }
 
-        protected override void InitializeShell(Window shell)
+        protected override void InitializeShell(DependencyObject shell)
         {
             InitializeShellWasCalled = false;
         }

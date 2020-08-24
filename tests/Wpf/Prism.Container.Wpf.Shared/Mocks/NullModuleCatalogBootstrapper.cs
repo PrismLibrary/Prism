@@ -1,6 +1,6 @@
-﻿using System;
-using System.Windows;
+﻿using Prism.Ioc;
 using Prism.Modularity;
+using System.Windows;
 
 namespace Prism.Container.Wpf.Mocks
 {
@@ -13,12 +13,12 @@ namespace Prism.Container.Wpf.Mocks
 
         protected override DependencyObject CreateShell()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
-        protected override void InitializeShell()
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
