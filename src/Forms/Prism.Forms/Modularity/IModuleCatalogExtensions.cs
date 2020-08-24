@@ -20,6 +20,13 @@ namespace Prism.Modularity
             where T : IModule =>
             catalog.AddModule<T>(typeof(T).Name, mode);
 
+        /// <summary>
+        /// Adds the module.
+        /// </summary>
+        /// <returns>The module.</returns>
+        /// <param name="catalog">Catalog.</param>
+        /// <param name="name">Name.</param>
+        /// <typeparam name="T">The <see cref="IModule"/> type parameter.</typeparam>
         public static IModuleCatalog AddModule<T>(this IModuleCatalog catalog, string name)
             where T : IModule =>
             catalog.AddModule<T>(name, InitializationMode.WhenAvailable);

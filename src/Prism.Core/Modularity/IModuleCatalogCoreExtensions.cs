@@ -27,6 +27,25 @@ namespace Prism.Modularity
             catalog.Modules.Any(module => module.ModuleName == name);
 
         /// <summary>
+        /// Gets the current <see cref="ModuleState"/> of the <see cref="IModule"/>.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="IModule"/> to check.</typeparam>
+        /// <param name="catalog">Catalog.</param>
+        /// <returns></returns>
+        public static ModuleState GetModuleState<T>(this IModuleCatalog catalog)
+            where T : IModule =>
+            catalog.Modules.FirstOrDefault(mi => mi.ModuleType == typeof(T).AssemblyQualifiedName).State;
+
+        /// <summary>
+        /// Gets the current <see cref="ModuleState"/> of the <see cref="IModule"/>.
+        /// </summary>
+        /// <param name="catalog">Catalog.</param>
+        /// <param name="name">Name.</param>
+        /// <returns></returns>
+        public static ModuleState GetModuleState(this IModuleCatalog catalog, string name) =>
+            catalog.Modules.FirstOrDefault(module => module.ModuleName == name).State;
+
+        /// <summary>
         /// Checks to see if the <see cref="IModule"/> is already initialized. 
         /// </summary>
         /// <returns><c>true</c>, if initialized, <c>false</c> otherwise.</returns>
