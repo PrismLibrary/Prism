@@ -24,19 +24,18 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
             Assert.Equal(typeof(global::DryIoc.Container), returnedContainer.GetType());
         }
 
-        //TODO: I have no idea why this wouldn't work
-        //[StaFact]
-        //public void RunRegistersInstanceOfIModuleCatalog()
-        //{
-        //    var mockedContainer = new Mock<IContainer>();
-        //    SetupMockedContainerForVerificationTests(mockedContainer);
+        [StaFact]
+        public void RunRegistersInstanceOfIModuleCatalog()
+        {
+            var mockedContainer = new Mock<IContainer>();
+            SetupMockedContainerForVerificationTests(mockedContainer);
 
-        //    var bootstrapper = new MockedContainerBootstrapper(mockedContainer.Object);
+            var bootstrapper = new MockedContainerBootstrapper(mockedContainer.Object);
 
-        //    bootstrapper.Run();
+            bootstrapper.Run();
 
-        //    mockedContainer.Verify(c => c.UseInstance(typeof(IModuleCatalog), It.IsAny<object>(), IfAlreadyRegistered.Replace, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<object>()));
-        //}
+            mockedContainer.Verify(c => c.Register(It.IsAny<Factory>(), typeof(IModuleCatalog), It.IsAny<object>(), It.IsAny<IfAlreadyRegistered?>(), It.IsAny<bool>()));
+        }
 
         [StaFact]
         public void RunRegistersTypeForIModuleInitializer()
