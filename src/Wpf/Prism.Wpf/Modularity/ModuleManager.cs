@@ -32,6 +32,11 @@ namespace Prism.Modularity
         protected IModuleCatalog ModuleCatalog { get; }
 
         /// <summary>
+        /// Gets all the <see cref="IModuleInfo"/> classes that are in the <see cref="IModuleCatalog"/>.
+        /// </summary>
+        public IEnumerable<IModuleInfo> Modules => ModuleCatalog.Modules;
+
+        /// <summary>
         /// Raised repeatedly to provide progress as modules are loaded in the background.
         /// </summary>
         public event EventHandler<ModuleDownloadProgressChangedEventArgs> ModuleDownloadProgressChanged;
@@ -68,7 +73,7 @@ namespace Prism.Modularity
 
 
         /// <summary>
-        /// Loads and initializes the module on the <see cref="ModuleCatalog"/> with the name <paramref name="moduleName"/>.
+        /// Loads and initializes the module on the <see cref="IModuleCatalog"/> with the name <paramref name="moduleName"/>.
         /// </summary>
         /// <param name="moduleName">Name of the module requested for initialization.</param>
         public void LoadModule(string moduleName)

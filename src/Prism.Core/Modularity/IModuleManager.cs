@@ -1,6 +1,5 @@
-
-
 using System;
+using System.Collections.Generic;
 
 namespace Prism.Modularity
 {
@@ -9,6 +8,11 @@ namespace Prism.Modularity
     /// </summary>
     public interface IModuleManager
     {
+        /// <summary>
+        /// Gets all the <see cref="IModuleInfo"/> classes that are in the <see cref="IModuleCatalog"/>.
+        /// </summary>
+        IEnumerable<IModuleInfo> Modules { get; }
+
         /// <summary>
         /// Initializes the modules marked as <see cref="InitializationMode.WhenAvailable"/> on the <see cref="IModuleCatalog"/>.
         /// </summary>
