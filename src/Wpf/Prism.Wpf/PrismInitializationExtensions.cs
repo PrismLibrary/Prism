@@ -66,7 +66,7 @@ namespace Prism
         internal static void RunModuleManager(IContainerProvider containerProvider)
         {
             IModuleManager manager = containerProvider.Resolve<IModuleManager>();
-            manager?.Run();
+            manager.Run();
         }
     }
 }
