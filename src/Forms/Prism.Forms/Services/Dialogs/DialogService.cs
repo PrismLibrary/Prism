@@ -299,7 +299,7 @@ namespace Prism.Services.Dialogs
 
             modalPage.Content = overlay;
             modalPage.DialogView = popupView;
-            currentPage.Navigation.PushModalAsync(modalPage, false);
+            currentPage.Navigation.PushModalAsync(modalPage, true);
         }
 
         private static Style GetOverlayStyle(View popupView)
