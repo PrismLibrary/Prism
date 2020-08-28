@@ -1,15 +1,17 @@
-﻿# Prism
+# Prism
 
-Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Xamarin Forms, Uno Platform and WinUI. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base supported in .NET Standard 2.0, .Net Core 3, and .NET Framework 4.5. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
-
-Prism 7 is a fully open source version of the Prism guidance [originally produced by Microsoft patterns & practices](https://devblogs.microsoft.com/dotnet/prism-grows-up/). The core team members were all part of the P&amp;P team that developed Prism 1 through 5, and the effort has now been turned over to the open source community to keep it alive and thriving to support the .NET community. There are thousands of companies who have adopted previous versions of Prism, and we hope they will continue to move along with us as we continue to evolve and enhance the framework to keep pace with current platform capabilities and requirements.
+Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Xamarin Forms, Uno Platform and WinUI. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base supported in .NET Standard 2.0, .NET Framework 4.5 / 4.7. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
 
 ## Help Support Prism
 
 As most of you know, it takes a lot of time and effort for our small team to manage and maintain Prism in our spare time. Even though Prism is open source and hosted on GitHub, there are a number of costs associated with maintaining a project such as Prism.  Please be sure to Star the Prism repo and help sponsor Dan and Brian on GitHub.
 
-- Sponsor [Brian Lagunas](https://xam.dev/sponsor-prism-brian)
-- Sponsor [Dan Siegel](https://xam.dev/sponsor-prism-dan)
+Don't forget both Brian and Dan stream live on Twitch and host recorded content on their YouTube Channels. Be sure to Subscribe and Ring that Bell for notifications when they go live or post new content.
+
+| | Sponsor | Twitter | Twitch | YouTube |
+|:-:|:--:|:--:|:--:|:--:|
+| Brian Lagunas | [![GitHub][OctoSponsor]](https://xam.dev/sponsor-prism-brian) | [![Twitter][TwitterLogo]](http://twitter/brianlagunas)<br /><span style="font-size:9px">Follow</span> | [![Twitch][TwitchLogo]](https://twitch.tv/brianlagunas)<br /><span style="font-size:9px">Follow & Subscribe</span> | [![YouTube][YouTubeLogo]](https://youtube.com/brianlagunas)<br /><span style="font-size:9px">Subcribe & Ring the Bell</span>
+| Dan Siegel | [![GitHub][OctoSponsor]](https://xam.dev/sponsor-prism-dan) | [![Twitter][TwitterLogo]](http://twitter/DanJSiegel)<br /><span style="font-size:9px">Follow</span> | [![Twitch][TwitchLogo]](https://twitch.tv/dansiegel)<br /><span style="font-size:9px">Follow & Subscribe</span> | [![YouTube][YouTubeLogo]](https://youtube.com/dansiegel)<br /><span style="font-size:9px">Subscribe & Ring the Bell</span>
 
 ## Build Status
 
@@ -34,7 +36,7 @@ As most of you know, it takes a lot of time and effort for our small team to man
 - Documentation is maintained in [the Prism-Documentation repo](https://github.com/PrismLibrary/Prism-Documentation) under /docs and can be found in a readable format on [the website](http://prismlibrary.com/docs/).
 - For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism).
 - You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues/new/choose).
-- Paid [Enterprise Support](https://avantipoint.com/contact?utm_source=github&utm_medium=prism-readme) is available exclusively from AvantiPoint, and helps to support this project.
+- [Enterprise Support](https://avantipoint.com/contact?utm_source=github&utm_medium=prism-readme) is available exclusively from AvantiPoint, and helps to support this project.
 
 ## Videos &amp; Training
 
@@ -49,15 +51,6 @@ By watching our courses, not only do you help support the project financially, b
 - [Prism Problems & Solutions: Loading Dependent Views](https://pluralsight.pxf.io/a01zj)
 
 We appreciate your support.
-
-### Live & Recorded Video Content
-
-Both Brian and Dan stream live on Twitch and host recorded content on their YouTube Channels. Be sure to Subscribe and Ring that bell for notifications when they go live or post new content.
-
-| | Twitch | YouTube |
-|:-:|:--:|:--:|
-| Brian Lagunas | [Twitch](https://twitch.tv/brianlagunas) | [YouTube](https://youtube.com/brianlagunas) |
-| Dan Siegel | [Twitch](https://twitch.tv/dansiegel) | [YouTube](https://youtube.com/dansiegel) |
 
 ## NuGet Packages
 
@@ -107,7 +100,9 @@ A detailed overview of each assembly per package is available [here](http://pris
 Prism integrates with Visual Studio to enable a highly productive developer workflow for creating WPF, and native iOS and Android applications using Xamarin.Forms.  Jump start your Prism apps with code snippets, item templates, and project templates for your IDE of choice.
 
 > **NOTE**
+>
 > The Prism Templates are open source and available at
+>
 > https://github.com/PrismLibrary/Prism.Templates
 
 ### Visual Studio Gallery
@@ -138,6 +133,7 @@ For stable samples be sure to check out the samples repo for the platform you ar
 
 - [Prism for WPF Samples](https://github.com/PrismLibrary/Prism-Samples-Wpf)
 - [Prism for Xamarim.Forms](https://github.com/PrismLibrary/Prism-Samples-Forms)
+- [Prism for Uno Platform](#) (Coming soon)
 
 ## Contributing
 
@@ -201,3 +197,8 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 
 [DryIocUnoMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.DryIoc.Uno.svg
 [UnityUnoMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Unity.Uno.svg
+
+[TwitterLogo]: https://dansiegelgithubsponsors.blob.core.windows.net/images/twitter.png
+[TwitchLogo]: https://dansiegelgithubsponsors.blob.core.windows.net/images/twitch.png
+[YouTubeLogo]: https://dansiegelgithubsponsors.blob.core.windows.net/images/youtube.png
+[OctoSponsor]: https://dansiegelgithubsponsors.blob.core.windows.net/images/octosponsor.png
