@@ -10,8 +10,8 @@ Don't forget both Brian and Dan stream live on Twitch and host recorded content 
 
 | | Sponsor | Twitter | Twitch | YouTube |
 |:-:|:--:|:--:|:--:|:--:|
-| Brian Lagunas | [![GitHub][OctoSponsor]](https://xam.dev/sponsor-prism-brian) | [![Twitter][TwitterLogo]](http://twitter/brianlagunas)<br /><span style="font-size:9px">Follow</span> | [![Twitch][TwitchLogo]](https://twitch.tv/brianlagunas)<br /><span style="font-size:9px">Follow & Subscribe</span> | [![YouTube][YouTubeLogo]](https://youtube.com/brianlagunas)<br /><span style="font-size:9px">Subcribe & Ring the Bell</span>
-| Dan Siegel | [![GitHub][OctoSponsor]](https://xam.dev/sponsor-prism-dan) | [![Twitter][TwitterLogo]](http://twitter/DanJSiegel)<br /><span style="font-size:9px">Follow</span> | [![Twitch][TwitchLogo]](https://twitch.tv/dansiegel)<br /><span style="font-size:9px">Follow & Subscribe</span> | [![YouTube][YouTubeLogo]](https://youtube.com/dansiegel)<br /><span style="font-size:9px">Subscribe & Ring the Bell</span>
+| Brian Lagunas | [![GitHub][OctoSponsor]](https://xam.dev/sponsor-prism-brian) | [![Twitter][TwitterLogo]](https://twitter.com/brianlagunas)<br /><span style="font-size:9px">Follow</span> | [![Twitch][TwitchLogo]](https://twitch.tv/brianlagunas)<br /><span style="font-size:9px">Follow & Subscribe</span> | [![YouTube][YouTubeLogo]](https://youtube.com/brianlagunas)<br /><span style="font-size:9px">Subcribe & Ring the Bell</span>
+| Dan Siegel | [![GitHub][OctoSponsor]](https://xam.dev/sponsor-prism-dan) | [![Twitter][TwitterLogo]](https://twitter.com/DanJSiegel)<br /><span style="font-size:9px">Follow</span> | [![Twitch][TwitchLogo]](https://twitch.tv/dansiegel)<br /><span style="font-size:9px">Follow & Subscribe</span> | [![YouTube][YouTubeLogo]](https://youtube.com/dansiegel)<br /><span style="font-size:9px">Subscribe & Ring the Bell</span>
 
 ## Build Status
 
