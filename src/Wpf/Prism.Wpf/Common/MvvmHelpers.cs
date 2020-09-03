@@ -17,7 +17,7 @@ namespace Prism.Common
     {
         internal static void AutowireViewModel(object viewOrViewModel)
         {
-            if(viewOrViewModel is FrameworkElement view && ViewModelLocator.GetAutoWireViewModel(view) is null)
+            if(viewOrViewModel is FrameworkElement view && view.DataContext is null && ViewModelLocator.GetAutoWireViewModel(view) is null)
             {
                 ViewModelLocator.SetAutoWireViewModel(view, true);
             }
