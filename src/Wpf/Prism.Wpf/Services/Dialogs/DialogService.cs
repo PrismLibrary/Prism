@@ -74,10 +74,23 @@ namespace Prism.Services.Dialogs
 
         void ShowDialogInternal(string name, IDialogParameters parameters, Action<IDialogResult> callback, bool isModal, string windowName = null)
         {
+            if (parameters == null)
+                parameters = new DialogParameters();
+
             IDialogWindow dialogWindow = CreateDialogWindow(windowName);
             ConfigureDialogWindowEvents(dialogWindow, callback);
             ConfigureDialogWindowContent(name, dialogWindow, parameters);
 
+            ShowDialogWindow(dialogWindow, isModal);
+        }
+
+        /// <summary>
+        /// Shows the dialog window.
+        /// </summary>
+        /// <param name="dialogWindow">The dialog window to show.</param>
+        /// <param name="isModal">If true; dialog is shown as a modal</param>
+        protected virtual void ShowDialogWindow(IDialogWindow dialogWindow, bool isModal)
+        {
             if (isModal)
                 dialogWindow.ShowDialog();
             else
