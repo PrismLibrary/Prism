@@ -137,11 +137,7 @@ namespace Prism.Services.Dialogs
         private View CreateViewFor(string name)
         {
             var view = (View)_containerExtension.Resolve<object>(name);
-
-            if (ViewModelLocator.GetAutowireViewModel(view) is null)
-            {
-                ViewModelLocator.SetAutowireViewModel(view, true);
-            }
+            PageUtilities.SetAutowireViewModel(view);
 
             return view;
         }
