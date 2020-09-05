@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Prism</RootNamespace>
+    <Description>Prism is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices. Prism provides an implementation of a collection of design patterns that are helpful in writing well structured, maintainable, and testable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET Standard. Features that need to be platform specific are implemented in the respective libraries for the target platform (WPF, Uno Platform, and Xamarin Forms).
+
+Prism.Forms.Regions helps you more easily design and build rich, flexible, and easy to maintain Xamarin.Forms applications by bringing class WPF Regions to Xamarin.Forms. This library provides the IRegion and RegionManager. While we support a number of standard Xamarin.Forms controls like StackLayout &amp; ContentView, you can provide custom RegionAdapters to make Regions work with any control that you like.</Description>
   </PropertyGroup>
 
   <ItemGroup>
