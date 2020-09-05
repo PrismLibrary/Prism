@@ -85,8 +85,7 @@ namespace Prism.Regions.Navigation
             {
                 var view = _container.Resolve<object>(candidateTargetContract) as VisualElement;
 
-                if (ViewModelLocator.GetAutowireViewModel(view) is null)
-                    ViewModelLocator.SetAutowireViewModel(view, true);
+                PageUtilities.SetAutowireViewModel(view);
 
                 newRegionItem = view;
             }

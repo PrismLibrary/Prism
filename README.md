@@ -86,10 +86,7 @@ Each supported IoC container has its own package assisting in the setup and usag
 |---------|-------|-------|
 | [Prism.DryIoc.Forms][DryIocFormsNuGet] | [![DryIocFormsNuGetShield]][DryIocFormsNuGet] | [![DryIocFormsMyGetShield]][DryIocFormsMyGet] |
 | [Prism.Unity.Forms][UnityFormsNuGet] | [![UnityFormsNuGetShield]][UnityFormsNuGet] | [![UnityFormsMyGetShield]][UnityFormsMyGet] |
-
-#### Package Notices
-
-- For developers using Unity with Prism 6, take note that the new Unity maintainer has made major breaking changes. This includes changing namespaces and the package structure. These changes were NOT made by the Prism team nor do we have any control over it. When upgrading to Prism 7 you will need to uninstall the existing Unity package as we now reference the Unity.Container NuGet.
+| [Prism.Forms.Regions][PrismFormsRegionsNuget] | [![PrismFormsRegionsNuGetShield]][PrismFormsRegionsNuGet] | [![PrismFormsRegionsMyGetShield]][PrismFormsRegionsMyGet] |
 
 ![NuGet package tree](images/NuGetPackageTree.png)
 
@@ -149,6 +146,11 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [WpfNuGet]: https://www.nuget.org/packages/Prism.Wpf/
 [FormsNuGet]: https://www.nuget.org/packages/Prism.Forms/
 [UnoNuGet]: https://www.nuget.org/packages/Prism.Uno/
+
+[PrismFormsRegionsNuGet]: https://www.nuget.org/packages/Prism.Forms.Regions/
+[PrismFormsRegionsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Forms.Regions
+[PrismFormsRegionsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Forms.Regions.svg
+[PrismFormsRegionsMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Forms.Regions.svg
 
 [DryIocWpfNuGet]: https://www.nuget.org/packages/Prism.DryIoc/
 [UnityWpfNuGet]: https://www.nuget.org/packages/Prism.Unity/

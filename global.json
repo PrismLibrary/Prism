@@ -1,10 +1,10 @@
 {
   "sdk": {
-    "version": "3.1.300",
+    "version": "3.1.401",
     "rollForward": "latestMinor",
     "allowPrerelease": false
   },
   "msbuild-sdks": {
-    "MSBuild.Sdk.Extras": "2.0.54"
+    "MSBuild.Sdk.Extras": "2.1.2"
   }
 }

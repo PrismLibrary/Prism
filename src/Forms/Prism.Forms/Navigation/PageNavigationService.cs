@@ -852,7 +852,7 @@ namespace Prism.Navigation
                 throw new NavigationException(NavigationException.NoPageIsRegistered, _page, innerException);
             }
 
-            PageUtilities.SetAutowireViewModelOnPage(page);
+            PageUtilities.SetAutowireViewModel(page);
             _pageBehaviorFactory.ApplyPageBehaviors(page);
             ConfigurePages(page, segment);
 
@@ -891,11 +891,11 @@ namespace Prism.Navigation
         {
             foreach (var child in tabbedPage.Children)
             {
-                PageUtilities.SetAutowireViewModelOnPage(child);
+                PageUtilities.SetAutowireViewModel(child);
                 _pageBehaviorFactory.ApplyPageBehaviors(child);
                 if (child is NavigationPage navPage)
                 {
-                    PageUtilities.SetAutowireViewModelOnPage(navPage.CurrentPage);
+                    PageUtilities.SetAutowireViewModel(navPage.CurrentPage);
                     _pageBehaviorFactory.ApplyPageBehaviors(navPage.CurrentPage);
                 }
             }
@@ -944,7 +944,7 @@ namespace Prism.Navigation
         {
             foreach (var child in carouselPage.Children)
             {
-                PageUtilities.SetAutowireViewModelOnPage(child);
+                PageUtilities.SetAutowireViewModel(child);
             }
 
             var parameters = UriParsingHelper.GetSegmentParameters(segment);

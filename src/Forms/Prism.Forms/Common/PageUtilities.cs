@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -307,11 +308,16 @@ namespace Prism.Common
                    || potentialDescendant == potentialBase;
         }
 
-        internal static void SetAutowireViewModelOnPage(Page page)
+        /// <summary>
+        /// Sets the AutowireViewModel property on the View to <c>true</c> if there is currently
+        /// no BindingContext and the AutowireViewModel property has not been set.
+        /// </summary>
+        /// <param name="element">The View typically a <see cref="Page"/> or <see cref="View"/>.</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void SetAutowireViewModel(VisualElement element)
         {
-            var vmlResult = Mvvm.ViewModelLocator.GetAutowireViewModel(page);
-            if (vmlResult == null)
-                Mvvm.ViewModelLocator.SetAutowireViewModel(page, true);
+            if (element.BindingContext is null && ViewModelLocator.GetAutowireViewModel(element) is null)
+                ViewModelLocator.SetAutowireViewModel(element, true);
         }
     }
 }
