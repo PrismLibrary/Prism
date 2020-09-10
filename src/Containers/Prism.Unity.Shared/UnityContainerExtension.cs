@@ -70,7 +70,7 @@ namespace Prism.Unity
         public IContainerRegistry RegisterInstance(Type type, object instance)
         {
             Instance.RegisterInstance(type, instance);
-            return RegisterInstance(type, instance, type.AssemblyQualifiedName);
+            return this;
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Prism.Unity
         public IContainerRegistry RegisterSingleton(Type from, Type to)
         {
             Instance.RegisterSingleton(from, to);
-            return RegisterSingleton(from, to, to.AssemblyQualifiedName);
+            return this;
         }
 
         /// <summary>
@@ -120,7 +120,6 @@ namespace Prism.Unity
         public IContainerRegistry RegisterSingleton(Type type, Func<object> factoryMethod)
         {
             Instance.RegisterFactory(type, _ => factoryMethod(), new ContainerControlledLifetimeManager());
-            Instance.RegisterFactory(type, $"{type.FullName}{Guid.NewGuid()}", _ => factoryMethod(), new ContainerControlledLifetimeManager());
             return this;
         }
 
@@ -133,7 +132,6 @@ namespace Prism.Unity
         public IContainerRegistry RegisterSingleton(Type type, Func<IContainerProvider, object> factoryMethod)
         {
             Instance.RegisterFactory(type, c => factoryMethod(c.Resolve<IContainerProvider>()), new ContainerControlledLifetimeManager());
-            Instance.RegisterFactory(type, $"{type.FullName}{Guid.NewGuid()}", c => factoryMethod(c.Resolve<IContainerProvider>()), new ContainerControlledLifetimeManager());
             return this;
         }
 
@@ -147,7 +145,7 @@ namespace Prism.Unity
         public IContainerRegistry RegisterManySingleton(Type type, params Type[] serviceTypes)
         {
             Instance.RegisterSingleton(type);
-            return RegisterManyInternal(type, serviceTypes);
+            return this;
         }
 
         private IContainerRegistry RegisterManyInternal(Type implementingType, Type[] serviceTypes)
@@ -160,7 +158,6 @@ namespace Prism.Unity
             foreach (var service in serviceTypes)
             {
                 Instance.RegisterFactory(service, c => c.Resolve(implementingType));
-                Instance.RegisterFactory(service, $"{service.FullName}{Guid.NewGuid()}", c => c.Resolve(implementingType));
             }
 
             return this;
@@ -175,7 +172,7 @@ namespace Prism.Unity
         public IContainerRegistry Register(Type from, Type to)
         {
             Instance.RegisterType(from, to);
-            return Register(from, to, to.AssemblyQualifiedName);
+            return this;
         }
 
         /// <summary>
@@ -200,7 +197,6 @@ namespace Prism.Unity
         public IContainerRegistry Register(Type type, Func<object> factoryMethod)
         {
             Instance.RegisterFactory(type, _ => factoryMethod());
-            Instance.RegisterFactory(type, $"{type.FullName}{Guid.NewGuid()}", _ => factoryMethod());
             return this;
         }
 
@@ -213,7 +209,6 @@ namespace Prism.Unity
         public IContainerRegistry Register(Type type, Func<IContainerProvider, object> factoryMethod)
         {
             Instance.RegisterFactory(type, c => factoryMethod(c.Resolve<IContainerProvider>()));
-            Instance.RegisterFactory(type, $"{type.FullName}{Guid.NewGuid()}", c => factoryMethod(c.Resolve<IContainerProvider>()));
             return this;
         }
 
@@ -227,7 +222,7 @@ namespace Prism.Unity
         public IContainerRegistry RegisterMany(Type type, params Type[] serviceTypes)
         {
             Instance.RegisterType(type);
-            return RegisterManyInternal(type, serviceTypes);
+            return this;
         }
 
         /// <summary>
@@ -239,7 +234,6 @@ namespace Prism.Unity
         public IContainerRegistry RegisterScoped(Type from, Type to)
         {
             Instance.RegisterType(from, to, new HierarchicalLifetimeManager());
-            Instance.RegisterType(from, to, to.AssemblyQualifiedName, new HierarchicalLifetimeManager());
             return this;
         }
 
@@ -252,7 +246,6 @@ namespace Prism.Unity
         public IContainerRegistry RegisterScoped(Type type, Func<object> factoryMethod)
         {
             Instance.RegisterFactory(type, c => factoryMethod(), new HierarchicalLifetimeManager());
-            Instance.RegisterFactory(type, $"{type.FullName}{Guid.NewGuid()}", c => factoryMethod(), new HierarchicalLifetimeManager());
             return this;
         }
 
@@ -265,7 +258,6 @@ namespace Prism.Unity
         public IContainerRegistry RegisterScoped(Type type, Func<IContainerProvider, object> factoryMethod)
         {
             Instance.RegisterFactory(type, c => factoryMethod(c.Resolve<IContainerProvider>()), new HierarchicalLifetimeManager());
-            Instance.RegisterFactory(type, $"{type.FullName}{Guid.NewGuid()}", c => factoryMethod(c.Resolve<IContainerProvider>()), new HierarchicalLifetimeManager());
             return this;
         }
 
