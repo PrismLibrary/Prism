@@ -1,4 +1,5 @@
 <Project>
+  <Sdk Name="Microsoft.Build.CentralPackageVersions" Version="2.0.79" />
 
   <PropertyGroup>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>

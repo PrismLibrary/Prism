@@ -18,12 +18,12 @@ Prism for Uno Platform helps you more easily design and build rich, flexible, an
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='xamarinmac20' or '$(TargetFramework)'=='monoandroid90' or '$(TargetFramework)'=='netstandard2.0'">
-    <PackageReference Include="Uno.UI" Version="3.0.5" />
-    <PackageReference Include="Uno.Core" Version="2.0.0" />
-    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.2-uno.74" />
+    <PackageReference Include="Uno.UI" />
+    <PackageReference Include="Uno.Core" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='uap10.0.16299'">
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />

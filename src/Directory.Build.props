@@ -16,9 +16,6 @@
   </PropertyGroup>
 
   <ItemGroup Condition=" $(IsPackable) ">
-    <PackageReference Include="Microsoft.SourceLink.GitHub"
-                      Version="1.1.0-beta-20204-02"
-                      PrivateAssets="All" />
     <None Include="$(PrismPackageIcon)"
           Visible="False"
           Pack="True"

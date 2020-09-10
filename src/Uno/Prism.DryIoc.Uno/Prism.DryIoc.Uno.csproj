@@ -21,7 +21,7 @@ Prism provides an implementation of a collection of design patterns that are hel
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='xamarinios10' or '$(TargetFramework)'=='xamarinmac20' or '$(TargetFramework)'=='monoandroid90' or '$(TargetFramework)'=='netstandard2.0'">
-    <PackageReference Include="Uno.UI" Version="3.0.5" />
+    <PackageReference Include="Uno.UI" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
@@ -43,7 +43,7 @@ Prism provides an implementation of a collection of design patterns that are hel
     <Compile Remove="..\..\Wpf\Prism.DryIoc.Wpf\Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DryIoc.dll" Version="4.3.1" />
+    <PackageReference Include="DryIoc.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Prism.Uno\Prism.Uno.csproj" />
