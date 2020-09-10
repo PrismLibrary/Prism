@@ -73,7 +73,7 @@ stages:
     parameters:
       versionName: '8.0.$(Build.BuildId)'
 
-  - template: jobs/xamarin-uitest.yml
+  # - template: jobs/xamarin-uitest.yml
   - template: jobs/uno-uitest.yml
 
   - template: jobs/e2e-uitest.yml

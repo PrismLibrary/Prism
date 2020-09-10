@@ -11,7 +11,6 @@ jobs:
   displayName: App Center Tests ${{ parameters.artifactName }}
   dependsOn:
   - ${{ parameters.e2eJobName }}
-  - xamarinUITest
   pool:
     vmImage: $(VMImage)
     demands:
@@ -20,15 +19,15 @@ jobs:
     clean: all
   steps:
   - task: DownloadPipelineArtifact@2
-    displayName: Download UI Test Project
-    inputs:
-      artifactName: XamarinUITests
-      targetPath: '$(Build.ArtifactStagingDirectory)'
-  - task: DownloadPipelineArtifact@2
     displayName: Download ${{ parameters.artifactName }}
     inputs:
       artifactName: ${{ parameters.artifactName }}
       targetPath: '$(Build.ArtifactStagingDirectory)'
+
+  - template: ../steps/build.yml
+    parameters:
+      solution: e2e/Forms/tests/HelloWorld.UITests/HelloWorld.UITests.csproj
+      solutionName: HelloWorld.UITests
 
   - powershell: |
      Write-Host "Pipeline Workspace: $($env:BUILD_ARTIFACTSTAGINGDIRECTORY)"
@@ -45,7 +44,7 @@ jobs:
     inputs:
       appFile: $(Build.ArtifactStagingDirectory)/${{ parameters.appFile }}
       frameworkOption: uitest
-      uiTestBuildDirectory: $(Build.ArtifactStagingDirectory)
+      uiTestBuildDirectory: $(Build.ArtifactStagingDirectory)\UITests
       uiTestToolsDirectory: $(System.DefaultWorkingDirectory)\build\tools\
       serverEndpoint: 'Prism-AppCenter'
       appSlug: 'Prism/${{ parameters.appName }}'
