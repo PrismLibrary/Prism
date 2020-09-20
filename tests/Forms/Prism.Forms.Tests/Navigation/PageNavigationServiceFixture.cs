@@ -17,8 +17,8 @@ namespace Prism.Forms.Tests.Navigation
 {
     public class PageNavigationServiceFixture : IDisposable
     {
-        PageNavigationContainerMock _container;
-        IApplicationProvider _applicationProvider;
+        private PageNavigationContainerMock _container;
+        private IApplicationProvider _applicationProvider;
 
         public PageNavigationServiceFixture()
         {
@@ -46,13 +46,11 @@ namespace Prism.Forms.Tests.Navigation
             _container.Register("MasterDetailPage", typeof(MasterDetailPageMock));
             _container.Register("MasterDetailPage-Empty", typeof(MasterDetailPageEmptyMock));
 
-
             _container.Register("TabbedPage", typeof(TabbedPageMock));
             _container.Register("TabbedPage-Empty", typeof(TabbedPageEmptyMock));
             _container.Register("Tab1", typeof(Tab1Mock));
             _container.Register("Tab2", typeof(Tab2Mock));
             _container.Register("Tab3", typeof(Tab3Mock));
-
 
             _container.Register("CarouselPage", typeof(CarouselPageMock));
 
@@ -225,8 +223,6 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.True(recorder.IsEmpty);
         }
-
-
 
         [Fact]
         public async void Navigate_ToContentPage_ByName_WithNavigationParameters()
@@ -413,13 +409,13 @@ namespace Prism.Forms.Tests.Navigation
             Assert.True(viewModel.OnConfirmNavigationCalled);
             Assert.True(rootPage.Navigation.ModalStack.Count == 0);
         }
-        
+
         [Fact]
         public async void GoBack_ViewModelWithIConfirmNavigationFalse_ResultException()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
-            var rootPage = new ContentPage() {BindingContext = new ContentPageMockViewModel()};
-            ((IPageAware) navigationService).Page = rootPage;
+            var rootPage = new ContentPage() { BindingContext = new ContentPageMockViewModel() };
+            ((IPageAware)navigationService).Page = rootPage;
 
             var viewModel = rootPage.BindingContext as ContentPageMockViewModel;
 
@@ -434,13 +430,13 @@ namespace Prism.Forms.Tests.Navigation
             Assert.False(navigationResult.Success);
             Assert.Equal(NavigationException.IConfirmNavigationReturnedFalse, navigationResult.Exception.Message);
         }
-        
+
         [Fact]
         public async void GoBackToRoot_ViewModelWithIConfirmNavigationFalse_ResultException()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
-            var rootPage = new ContentPage() {BindingContext = new ContentPageMockViewModel()};
-            ((IPageAware) navigationService).Page = rootPage;
+            var rootPage = new ContentPage() { BindingContext = new ContentPageMockViewModel() };
+            ((IPageAware)navigationService).Page = rootPage;
 
             var viewModel = rootPage.BindingContext as ContentPageMockViewModel;
 
@@ -455,13 +451,13 @@ namespace Prism.Forms.Tests.Navigation
             Assert.False(navigationResult.Success);
             Assert.Equal(NavigationException.IConfirmNavigationReturnedFalse, navigationResult.Exception.Message);
         }
-        
+
         [Fact]
         public async void NavigateAsync_ViewModelWithIConfirmNavigationFalse_ResultException()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
-            var rootPage = new ContentPage() {BindingContext = new ContentPageMockViewModel()};
-            ((IPageAware) navigationService).Page = rootPage;
+            var rootPage = new ContentPage() { BindingContext = new ContentPageMockViewModel() };
+            ((IPageAware)navigationService).Page = rootPage;
 
             var viewModel = rootPage.BindingContext as ContentPageMockViewModel;
 
@@ -564,7 +560,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<ContentPageMock>(rootPage.Navigation.NavigationStack[0]);
         }
 
-        //TODO: rename tests to follow a new test naming convention 
+        //TODO: rename tests to follow a new test naming convention
         [Fact]
         public async Task Navigate_FromNavigationPage_WithoutChildPage_ToContentPage()
         {
@@ -925,7 +921,6 @@ namespace Prism.Forms.Tests.Navigation
             Assert.True(recorder.IsEmpty);
         }
 
-
         [Fact]
         public async Task DeepNavigate_ToNavigationPage_ToTabbedPage_SelectContentPage()
         {
@@ -1029,7 +1024,6 @@ namespace Prism.Forms.Tests.Navigation
             var navPage = rootPage.Navigation.ModalStack[0].Navigation.ModalStack[0];
             Assert.True(navPage.Navigation.NavigationStack.Count == 1);
         }
-
 
         [Fact]
         public async void DeepNavigate_From_ContentPage_To_EmptyNavigationPage_ToContentPage_toContentPage()
@@ -1462,7 +1456,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<Tab3Mock>(tabbedPage.CurrentPage);
         }
 
-        #endregion
+        #endregion MasterDetailPage
 
         #region TabbedPage
 
@@ -1562,7 +1556,7 @@ namespace Prism.Forms.Tests.Navigation
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
             var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
-            
+
             await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=ContentPage|SecondContentPage");
 
             var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
@@ -1570,7 +1564,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.NotNull(tabbedPage.CurrentPage);
 
             var navPage = tabbedPage.CurrentPage as NavigationPageMock;
-            
+
             Assert.NotNull(navPage);
             Assert.IsType<SecondContentPageMock>(navPage.CurrentPage);
         }
@@ -1578,7 +1572,7 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab_NotNavigationPage_ToContentPage_ImplicitModal()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
             var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -1634,7 +1628,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<PageMock>(navPage.CurrentPage);
 
             var contentPage = tabbedPage.Navigation.NavigationStack[1] as ContentPageMock;
-            Assert.NotNull(contentPage);            
+            Assert.NotNull(contentPage);
         }
 
         [Fact]
@@ -1686,7 +1680,7 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.True(rootPage.Detail.Navigation.NavigationStack.Count == 2);
 
-            Assert.IsType<TabbedPageMock>(rootPage.Detail.Navigation.NavigationStack[0]);            
+            Assert.IsType<TabbedPageMock>(rootPage.Detail.Navigation.NavigationStack[0]);
             Assert.IsType<Tab2Mock>(((TabbedPageMock)rootPage.Detail.Navigation.NavigationStack[0]).CurrentPage);
 
             Assert.IsType<ContentPageMock>(rootPage.Detail.Navigation.NavigationStack[1]);
@@ -1765,14 +1759,14 @@ namespace Prism.Forms.Tests.Navigation
             var navPage = tabbedPage.Children[1] as NavigationPageMock;
             Assert.IsType<NavigationPageMock>(navPage);
             Assert.IsType<Tab2Mock>(navPage.CurrentPage);
-            
+
             Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
         }
 
         [Fact]
         public async void Navigate_FromContentPage_ToTabbedPage_CreateTabs_WithNavigationPage_SelectTab_ToContentPage()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
             var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -1787,14 +1781,14 @@ namespace Prism.Forms.Tests.Navigation
             var navPage = tabbedPage.Children[1] as NavigationPageMock;
             Assert.IsType<NavigationPageMock>(navPage);
             Assert.IsType<SecondContentPageMock>(navPage.CurrentPage);
-            
+
             Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
         }
 
         [Fact]
         public async void Navigate_FromContentPage_ToTabbedPage_CreateTabs_WithNavigationPage_SelectTab_ToContentPage_WithNavigationParam()
         {
-            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
             var rootPage = new ContentPage();
             ((IPageAware)navigationService).Page = rootPage;
 
@@ -1811,7 +1805,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<SecondContentPageMock>(navPage.CurrentPage);
 
             var secondContentPage = navPage.CurrentPage as SecondContentPageMock;
-            var lastNavigationAwareRecord = secondContentPage.PageNavigationEventRecorder.Records.First(r => 
+            var lastNavigationAwareRecord = secondContentPage.PageNavigationEventRecorder.Records.First(r =>
                 r.Event == PageNavigationEvent.OnNavigatedTo);
             var navigationParameters = lastNavigationAwareRecord.NavigationParameters;
             var actualNavigationParam = navigationParameters.First();
@@ -1820,7 +1814,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
         }
 
-        #endregion
+        #endregion TabbedPage
 
         #region CarouselPage
 
@@ -1870,7 +1864,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<ContentPageMock>(carouselPage.CurrentPage);
         }
 
-        #endregion
+        #endregion CarouselPage
 
         #region Remove and Navigate - "../"
 
@@ -1962,7 +1956,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<PageMock>(rootPage.Navigation.NavigationStack[0]);
         }
 
-        #endregion
+        #endregion Remove and Navigate - "../"
 
         #region Remove and GoBack - "../"
 
@@ -2061,8 +2055,7 @@ namespace Prism.Forms.Tests.Navigation
             Assert.Equal(3, viewModel.NavigatedToParameters["id"]);
         }
 
-        #endregion
-
+        #endregion Remove and GoBack - "../"
 
         public void Dispose()
         {
