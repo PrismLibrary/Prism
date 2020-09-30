@@ -27,6 +27,7 @@ namespace Prism.Navigation
         protected readonly IPageBehaviorFactory _pageBehaviorFactory;
 
         protected Page _page;
+
         Page IPageAware.Page
         {
             get { return _page; }
@@ -357,7 +358,6 @@ namespace Prism.Navigation
                     result.Success = true;
                     return result;
                 }
-
             }
             catch (Exception ex)
             {
@@ -435,7 +435,7 @@ namespace Prism.Navigation
                 return RemoveAndGoBack(currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
         }
 
-        bool CanRemoveAndPush(Queue<string> segments)
+        private bool CanRemoveAndPush(Queue<string> segments)
         {
             if (segments.All(x => x == RemovePageSegment))
                 return false;
@@ -443,7 +443,7 @@ namespace Prism.Navigation
                 return true;
         }
 
-        Task RemoveAndGoBack(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        private Task RemoveAndGoBack(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             List<Page> pagesToRemove = new List<Page>();
 
@@ -463,7 +463,7 @@ namespace Prism.Navigation
             return GoBackAsync(parameters);
         }
 
-        async Task RemoveAndPush(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        private async Task RemoveAndPush(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             var pagesToRemove = new List<Page>
             {
@@ -752,7 +752,7 @@ namespace Prism.Navigation
             OnNavigatedTo(toPage, segmentParameters);
         }
 
-        static async Task OnInitializedAsync(Page toPage, INavigationParameters parameters)
+        private static async Task OnInitializedAsync(Page toPage, INavigationParameters parameters)
         {
             await PageUtilities.OnInitializedAsync(toPage, parameters);
 
@@ -852,9 +852,9 @@ namespace Prism.Navigation
                 throw new NavigationException(NavigationException.NoPageIsRegistered, _page, innerException);
             }
 
-                PageUtilities.SetAutowireViewModel(page);
-                _pageBehaviorFactory.ApplyPageBehaviors(page);
-                await ConfigurePages(page, segment);
+            PageUtilities.SetAutowireViewModel(page);
+            _pageBehaviorFactory.ApplyPageBehaviors(page);
+            await ConfigurePages(page, segment);
 
             return page;
         }
@@ -875,7 +875,7 @@ namespace Prism.Navigation
             return page;
         }
 
-        async Task ConfigurePages(Page page, string segment)
+        private async Task ConfigurePages(Page page, string segment)
         {
             if (page is TabbedPage)
             {
@@ -887,7 +887,7 @@ namespace Prism.Navigation
             }
         }
 
-        async Task ConfigureTabbedPage(TabbedPage tabbedPage, string segment)
+        private async Task ConfigureTabbedPage(TabbedPage tabbedPage, string segment)
         {
             foreach (var child in tabbedPage.Children)
             {
@@ -941,7 +941,7 @@ namespace Prism.Navigation
             await TabbedPageSelectTab(tabbedPage, parameters);
         }
 
-        void ConfigureCarouselPage(CarouselPage carouselPage, string segment)
+        private void ConfigureCarouselPage(CarouselPage carouselPage, string segment)
         {
             foreach (var child in carouselPage.Children)
             {
@@ -981,7 +981,7 @@ namespace Prism.Navigation
                 {
                     segment = selectedTab;
                 }
-                
+
                 var selectedTabType =
                     PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(segment));
 
@@ -992,8 +992,8 @@ namespace Prism.Navigation
                         tabbedPage.CurrentPage = child;
                         break;
                     }
-                    else if(child is NavigationPage navPage && 
-                            (navPage.CurrentPage.GetType() == selectedTabType 
+                    else if (child is NavigationPage navPage &&
+                            (navPage.CurrentPage.GetType() == selectedTabType
                              || navPage.RootPage.GetType() == selectedTabType))
                     {
                         tabbedPage.CurrentPage = child;
@@ -1125,7 +1125,6 @@ namespace Prism.Navigation
                         return currentPage.Navigation.PushAsync(page, animated);
                     }
                 }
-
             }
         }
 
