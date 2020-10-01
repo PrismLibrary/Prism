@@ -366,7 +366,7 @@ namespace Prism.Tests.Commands
         }
 
         [Fact]
-        public void NonGenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName()
+        public void NonGenericDelegateCommandObservingPropertyShouldRaiseOnNullPropertyName()
         {
             bool canExecuteChangedRaised = false;
 
@@ -375,6 +375,20 @@ namespace Prism.Tests.Commands
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
 			RaisePropertyChanged(null);
+
+            Assert.True(canExecuteChangedRaised);
+        }
+
+        [Fact]
+        public void NonGenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName()
+        {
+            bool canExecuteChangedRaised = false;
+
+            var command = new DelegateCommand(() => { }).ObservesProperty(() => IntProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            RaisePropertyChanged(string.Empty);
 
             Assert.True(canExecuteChangedRaised);
         }
@@ -647,7 +661,7 @@ namespace Prism.Tests.Commands
         }
 
         [Fact]
-        public void GenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName()
+        public void GenericDelegateCommandObservingPropertyShouldRaiseOnNullPropertyName()
         {
             bool canExecuteChangedRaised = false;
 
@@ -656,6 +670,20 @@ namespace Prism.Tests.Commands
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
             RaisePropertyChanged(null);
+
+            Assert.True(canExecuteChangedRaised);
+        }
+
+        [Fact]
+        public void GenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName()
+        {
+            bool canExecuteChangedRaised = false;
+
+            var command = new DelegateCommand<object>((o) => { }).ObservesProperty(() => IntProperty);
+
+            command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
+
+            RaisePropertyChanged(string.Empty);
 
             Assert.True(canExecuteChangedRaised);
         }

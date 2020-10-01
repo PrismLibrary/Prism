@@ -57,10 +57,7 @@ namespace Prism.Commands
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // Invoke action when e.PropertyName == null in order to satisfy:
-            //  - DelegateCommandFixture.GenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName
-            //  - DelegateCommandFixture.NonGenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName
-            if (e?.PropertyName == PropertyInfo.Name || e?.PropertyName == null)
+            if (e?.PropertyName == PropertyInfo.Name || string.IsNullOrEmpty(e?.PropertyName))
             {
                 _action?.Invoke();
             }
