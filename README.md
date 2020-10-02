@@ -26,7 +26,7 @@ Don't forget both Brian and Dan stream live on Twitch and host recorded content 
 ### E2E Build Status
 
 | E2E App | Status |
-|---------|:------:|
+|---------| ------ |
 | WPF | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=End%20to%20End&jobName=E2E%20WPF%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
 | Xamarin iOS | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=End%20to%20End&jobName=E2E%20iOS%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
 | Xamarin Android | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=End%20to%20End&jobName=E2E%20Android%20App)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
