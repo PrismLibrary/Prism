@@ -70,7 +70,7 @@ jobs:
 
 - job: UnoUITest_iOS
   displayName: Uno UITest iOS
-  condition: and(succeeded(), eq(variables['EnableUITest'], 'true'))
+  condition: and(succeeded(), eq(variables['EnableUITest'], 'true'), eq(variables['XcodeOverride'], ''))
   pool:
     vmImage: $(MacImage)
   workspace:
