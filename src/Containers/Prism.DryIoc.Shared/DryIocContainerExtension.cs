@@ -21,7 +21,7 @@ namespace Prism.DryIoc
         /// <summary>
         /// Gets the Default DryIoc Container Rules used by Prism
         /// </summary>
-        public static Rules DefaultRules => Rules.Default.WithConcreteTypeDynamicRegistrations()
+        public static Rules DefaultRules => Rules.Default.WithConcreteTypeDynamicRegistrations(reuse:Reuse.Transient)
                                                          .With(Made.Of(FactoryMethod.ConstructorWithResolvableArguments))
                                                          .WithFuncAndLazyWithoutRegistration()
                                                          .WithTrackingDisposableTransients()
@@ -204,7 +204,7 @@ namespace Prism.DryIoc
         /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
         public IContainerRegistry Register(Type from, Type to)
         {
-            Instance.Register(from, to);
+            Instance.Register(from, to, Reuse.Transient);
             return this;
         }
 
@@ -217,7 +217,7 @@ namespace Prism.DryIoc
         /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
         public IContainerRegistry Register(Type from, Type to, string name)
         {
-            Instance.Register(from, to, ifAlreadyRegistered: IfAlreadyRegistered.Replace, serviceKey: name);
+            Instance.Register(from, to, Reuse.Transient, ifAlreadyRegistered: IfAlreadyRegistered.Replace, serviceKey: name);
             return this;
         }
 
