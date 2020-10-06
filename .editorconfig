@@ -1,38 +1,64 @@
 ; This file is for unifying the coding style for different editors and IDEs.
 ; More information at http://editorconfig.org
 
+# This file is the top-most EditorConfig file
 root = true
 
+##########################################
+# Common Settings
+##########################################
+
 [*]
+indent_style = space
 end_of_line = CRLF
+trim_trailing_whitespace = true
+insert_final_newline = true
 
-[*.cs]
-indent_style = space
-indent_size = 4
+##########################################
+# File Extension Settings
+##########################################
 
-[*.csproj]
-indent_style = space
+[*.sln]
+indent_style = tab
+indent_size = 2
+
+[*.{csproj,proj,projitems,shproj}]
 indent_size = 2
 
 [*.json]
-indent_style = space
 indent_size = 2
 
-[*.props]
+[*.{props,targets}]
 indent_size = 2
-indent_style = space
 
 [*.targets]
 indent_size = 2
-indent_style = space
 
 [*.xaml]
 indent_size = 2
-indent_style = space
 
 [*.plist]
 indent_size = 2
 indent_style = tab
 
 [*.sh]
+indent_size = 2
 end_of_line = lf
+
+[*.cs]
+indent_size = 4
+
+# Sort using and Import directives with System.* appearing first
+dotnet_sort_system_directives_first = true
+# Avoid "this." and "Me." if not necessary
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_event = false:suggestion
+
+# Suggest more modern language features when available
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_explicit_tuple_names = true:suggestion
