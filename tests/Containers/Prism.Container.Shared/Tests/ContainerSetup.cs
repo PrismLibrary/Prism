@@ -4,7 +4,7 @@ using Prism.Mvvm;
 
 namespace Prism.Ioc.Tests
 {
-    public sealed partial class ContainerSetup : IDisposable
+    public partial class ContainerSetup : IDisposable
     {
         public ContainerSetup()
         {
