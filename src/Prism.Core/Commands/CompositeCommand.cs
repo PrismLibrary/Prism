@@ -1,9 +1,9 @@
-using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
+using Prism.Properties;
 
 namespace Prism.Commands
 {

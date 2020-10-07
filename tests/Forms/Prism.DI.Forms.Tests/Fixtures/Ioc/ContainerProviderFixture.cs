@@ -35,9 +35,9 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         public void CanResolveUnnamedType()
         {
             var app = CreateMockApplication();
-            
+
             var containerProvider = new ContainerProvider<ConcreteTypeMock>();
-            ConcreteTypeMock type = (ConcreteTypeMock) containerProvider;
+            ConcreteTypeMock type = (ConcreteTypeMock)containerProvider;
             Assert.NotNull(type);
 
             Assert.IsType<ConcreteTypeMock>(type);

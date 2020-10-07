@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Prism.Wpf.Tests
 {
-    
+
     public class ExceptionExtensionsFixture
     {
         [Fact]
@@ -33,7 +33,7 @@ namespace Prism.Wpf.Tests
                 }
                 catch (Exception ex)
                 {
-                    
+
                     throw new FrameworkException1(ex);
                 }
             }
@@ -64,13 +64,13 @@ namespace Prism.Wpf.Tests
                     }
                     catch (Exception ex)
                     {
-                        
+
                         throw new FrameworkException2(ex);
                     }
                 }
                 catch (Exception ex)
                 {
-                    
+
                     throw new NonFrameworkException(ex);
                 }
             }
@@ -113,7 +113,7 @@ namespace Prism.Wpf.Tests
             Exception exception = caughtException.GetRootException();
             Assert.IsType<FrameworkException2>(exception);
         }
-            
+
         private class MockException : Exception
         {
 
@@ -130,28 +130,28 @@ namespace Prism.Wpf.Tests
             }
         }
 
-        private class FrameworkException1:Exception
+        private class FrameworkException1 : Exception
         {
             public FrameworkException1(Exception innerException) : base("", innerException)
             {
-                
+
             }
         }
 
-        private class RootException:Exception
-        {}
+        private class RootException : Exception
+        { }
 
         private class NonFrameworkException : Exception
         {
             public NonFrameworkException(Exception innerException)
                 : base("", innerException)
             {
-                
+
             }
         }
 
     }
 
-    
+
 
 }

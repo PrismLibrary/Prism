@@ -1,7 +1,7 @@
 
 
-using Prism.Mvvm;
 using System.ComponentModel;
+using Prism.Mvvm;
 
 namespace Prism.Tests.Mocks.ViewModels
 {
@@ -24,7 +24,7 @@ namespace Prism.Tests.Mocks.ViewModels
 
         internal void InvokeOnPropertyChanged()
         {
-			RaisePropertyChanged(nameof(MockProperty));
+            RaisePropertyChanged(nameof(MockProperty));
         }
     }
 }

@@ -168,7 +168,7 @@ namespace Prism.Common
             if (innerValues.ContainsKey(key))
             {
                 List<TValue> innerList = (List<TValue>)innerValues[key];
-                innerList.RemoveAll(delegate(TValue item)
+                innerList.RemoveAll(delegate (TValue item)
                                                {
                                                    return value.Equals(item);
                                                });

@@ -2,14 +2,14 @@
 
 using System;
 using System.Collections.Generic;
-using Xunit;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {
-    
+
     public class AutoPopulateRegionBehaviorFixture
     {
         [Fact]
@@ -20,9 +20,9 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             var view = new object();
             viewFactory.GetContentsReturnValue.Add(view);
             var behavior = new AutoPopulateRegionBehavior(viewFactory)
-                               {
-                                   Region = region
-                               };
+            {
+                Region = region
+            };
 
             behavior.Attach();
 
@@ -37,9 +37,9 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             var region = new MockPresentationRegion() { Name = "MyRegion" };
             var viewFactory = new MockRegionContentRegistry();
             var behavior = new AutoPopulateRegionBehavior(viewFactory)
-                               {
-                                   Region = region
-                               };
+            {
+                Region = region
+            };
             var view = new object();
 
             behavior.Attach();

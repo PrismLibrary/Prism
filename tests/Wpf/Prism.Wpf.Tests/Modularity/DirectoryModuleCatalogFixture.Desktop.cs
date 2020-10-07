@@ -7,8 +7,8 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Security.Policy;
 using System.Threading;
-using Xunit;
 using Prism.Modularity;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Modularity
 {
@@ -141,7 +141,7 @@ namespace Prism.Wpf.Tests.Modularity
         //    {
         //        //Assert.Fail("Should not have thrown.");
         //    }
-            
+
         //    var modules = catalog.Modules.ToArray();
         //    Assert.NotNull(modules);
         //    Assert.Equal(0, modules.Length);

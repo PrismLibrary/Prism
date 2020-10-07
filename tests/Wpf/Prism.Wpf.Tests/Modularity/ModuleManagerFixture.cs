@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Xunit;
 using Moq;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Modularity
 {
-    
+
     public class ModuleManagerFixture
     {
         [Fact]
@@ -19,7 +19,7 @@ namespace Prism.Wpf.Tests.Modularity
             {
                 new ModuleManager(null, new MockModuleCatalog());
             });
-            
+
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace Prism.Wpf.Tests.Modularity
             {
                 new ModuleManager(new MockModuleInitializer(), null);
             });
-            
+
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace Prism.Wpf.Tests.Modularity
             var catalog = new MockModuleCatalog { Modules = { backgroungModuleInfo } };
             ModuleManager manager = new ModuleManager(loader, catalog);
             var moduleTypeLoader = new MockModuleTypeLoader();
-            manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };            
+            manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };
             Assert.False(loader.InitializeCalled);
 
             manager.Run();
@@ -222,7 +222,7 @@ namespace Prism.Wpf.Tests.Modularity
 
             manager.Run();
 
-            moduleTypeLoader.RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(dependantModuleInfo, null));            
+            moduleTypeLoader.RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(dependantModuleInfo, null));
 
             Assert.False(loader.InitializeCalled);
             Assert.Empty(loader.InitializedModules);
@@ -237,7 +237,7 @@ namespace Prism.Wpf.Tests.Modularity
             var dependantModuleInfo = CreateModuleInfo("ModuleThatNeedsRetrieval2", InitializationMode.WhenAvailable, "RequiredModule");
 
             var catalog = new MockModuleCatalog { Modules = { requiredModule, dependantModuleInfo } };
-            catalog.GetDependentModules = delegate(IModuleInfo module)
+            catalog.GetDependentModules = delegate (IModuleInfo module)
                                               {
                                                   if (module == dependantModuleInfo)
                                                       return new[] { requiredModule };
@@ -267,7 +267,7 @@ namespace Prism.Wpf.Tests.Modularity
             Exception retrieverException = new Exception();
             moduleTypeLoader.LoadCompletedError = retrieverException;
 
-            manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };            
+            manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { moduleTypeLoader };
             Assert.False(loader.InitializeCalled);
 
             try
@@ -312,7 +312,7 @@ namespace Prism.Wpf.Tests.Modularity
             var moduleThatLoadsOtherModule = CreateModuleInfo(typeof(MockModule), InitializationMode.WhenAvailable);
             var catalog = new MockModuleCatalog { Modules = { moduleThatLoadsOtherModule, onDemandModule } };
             ModuleManager manager = new ModuleManager(initializer, catalog);
-            
+
             bool onDemandModuleWasInitialized = false;
             initializer.Initialize = m =>
                                      {
@@ -331,11 +331,11 @@ namespace Prism.Wpf.Tests.Modularity
             Assert.True(onDemandModuleWasInitialized);
         }
 
-        
+
         [Fact]
         public void ModuleManagerIsDisposable()
         {
-            Mock<IModuleInitializer> mockInit = new Mock<IModuleInitializer>(); 
+            Mock<IModuleInitializer> mockInit = new Mock<IModuleInitializer>();
             var moduleInfo = CreateModuleInfo("needsRetrieval", InitializationMode.WhenAvailable);
             var catalog = new Mock<IModuleCatalog>();
             ModuleManager manager = new ModuleManager(mockInit.Object, catalog.Object);
@@ -343,7 +343,7 @@ namespace Prism.Wpf.Tests.Modularity
             IDisposable disposableManager = manager as IDisposable;
             Assert.NotNull(disposableManager);
         }
-        
+
         [Fact]
         public void DisposeDoesNotThrowWithNonDisposableTypeLoaders()
         {
@@ -353,13 +353,13 @@ namespace Prism.Wpf.Tests.Modularity
             ModuleManager manager = new ModuleManager(mockInit.Object, catalog.Object);
 
             var mockTypeLoader = new Mock<IModuleTypeLoader>();
-            manager.ModuleTypeLoaders = new List<IModuleTypeLoader> {mockTypeLoader.Object};
+            manager.ModuleTypeLoaders = new List<IModuleTypeLoader> { mockTypeLoader.Object };
 
             try
             {
                 manager.Dispose();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 //Assert.Fail();
             }
@@ -399,7 +399,7 @@ namespace Prism.Wpf.Tests.Modularity
             disposableMockTypeLoader.Setup(loader => loader.Dispose());
 
             manager.ModuleTypeLoaders = new List<IModuleTypeLoader>() { mockTypeLoader1.Object, mockTypeLoader.Object };
-            
+
             try
             {
                 manager.Dispose();
@@ -490,7 +490,7 @@ namespace Prism.Wpf.Tests.Modularity
 
         public void Initialize(IModuleInfo moduleInfo)
         {
-            InitializeCalled = true;            
+            InitializeCalled = true;
             this.InitializedModules.Add(moduleInfo);
         }
     }

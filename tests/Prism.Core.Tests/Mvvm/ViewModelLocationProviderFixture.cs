@@ -1,9 +1,9 @@
 ﻿using System;
-using Xunit;
-using Prism.Mvvm;
 using System.Reflection;
-using Prism.Tests.Mocks.Views;
+using Prism.Mvvm;
 using Prism.Tests.Mocks.ViewModels;
+using Prism.Tests.Mocks.Views;
+using Xunit;
 
 namespace Prism.Tests.Mvvm
 {

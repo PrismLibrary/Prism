@@ -1,7 +1,7 @@
-﻿using Prism.Common;
-using Prism.Navigation;
-using System;
+﻿using System;
 using System.Collections.Specialized;
+using Prism.Common;
+using Prism.Navigation;
 
 namespace Prism.Regions.Behaviors
 {

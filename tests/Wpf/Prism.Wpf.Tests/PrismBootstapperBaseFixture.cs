@@ -1,14 +1,14 @@
-﻿using Moq;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using Moq;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Services.Dialogs;
-using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using Xunit;
 
 namespace Prism.Wpf.Tests

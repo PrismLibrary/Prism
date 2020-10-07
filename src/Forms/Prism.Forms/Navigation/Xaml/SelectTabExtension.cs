@@ -53,7 +53,7 @@ namespace Prism.Navigation.Xaml
         protected async Task HandleNavigation(INavigationParameters parameters, INavigationService navigationService)
         {
             var result = await navigationService.SelectTabAsync(Name, parameters);
-            if(!result.Success)
+            if (!result.Success)
             {
                 Log(result.Exception, parameters);
             }

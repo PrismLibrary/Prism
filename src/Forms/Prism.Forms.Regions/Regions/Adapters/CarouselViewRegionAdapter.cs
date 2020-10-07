@@ -107,7 +107,7 @@ namespace Prism.Regions.Adapters
 
             private void OnCurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
             {
-                if(sender is CarouselView carousel && carousel.CurrentItem != CurrentView && carousel.CurrentItem != null && carousel.CurrentItem is VisualElement newActiveView)
+                if (sender is CarouselView carousel && carousel.CurrentItem != CurrentView && carousel.CurrentItem != null && carousel.CurrentItem is VisualElement newActiveView)
                 {
                     var previousView = CurrentView;
                     CurrentView = newActiveView;

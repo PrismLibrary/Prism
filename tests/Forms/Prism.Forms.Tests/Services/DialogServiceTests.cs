@@ -231,7 +231,7 @@ namespace Prism.Forms.Tests.Services
 
         private IDialogService CreateDialogService()
         {
-            if(_currentApp is null)
+            if (_currentApp is null)
             {
                 _currentApp = new MockApplication();
             }
@@ -243,7 +243,7 @@ namespace Prism.Forms.Tests.Services
 
         private void SetMainPage(Page page = null, bool resetApp = true)
         {
-            if(resetApp)
+            if (resetApp)
             {
                 _currentApp = null;
             }

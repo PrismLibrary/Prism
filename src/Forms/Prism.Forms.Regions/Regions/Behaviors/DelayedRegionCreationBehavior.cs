@@ -182,7 +182,7 @@ namespace Prism.Regions.Behaviors
 
         private void TargetElement_ParentChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(VisualElement.Parent) && TargetElement?.Parent != null)
+            if (e.PropertyName == nameof(VisualElement.Parent) && TargetElement?.Parent != null)
             {
                 UnWireTargetElement();
                 TryCreateRegion();

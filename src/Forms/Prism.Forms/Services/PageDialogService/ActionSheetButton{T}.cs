@@ -8,7 +8,7 @@ namespace Prism.Services
     {
         protected internal ActionSheetButton()
         {
-            
+
         }
 
         /// <summary>

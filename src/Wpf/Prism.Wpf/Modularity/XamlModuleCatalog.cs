@@ -68,7 +68,7 @@ namespace Prism.Modularity
 
         /// <inheritdoc />
         protected override string GetFileAbsoluteUri(string path)
-        {            
+        {
             //this is to maintain backwards compatibility with the old file:/// and file:// syntax for Xaml module catalog Ref property
             if (path.StartsWith(_refFilePrefix + "/", StringComparison.Ordinal))
             {

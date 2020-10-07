@@ -94,7 +94,7 @@ namespace Prism.Regions
                 Exception rootException;
                 if (ex.InnerException != null)
                 {
-                     rootException = ex.InnerException.GetRootException();
+                    rootException = ex.InnerException.GetRootException();
                 }
                 else
                 {

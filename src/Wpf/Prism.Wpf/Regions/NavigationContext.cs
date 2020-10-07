@@ -1,6 +1,6 @@
-using Prism.Common;
 using System;
 using System.Collections.Generic;
+using Prism.Common;
 
 namespace Prism.Regions
 {

@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Xamarin.Forms;
-using System.Threading.Tasks;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
@@ -27,7 +27,7 @@ namespace Prism.Forms.Tests.Mocks.Views
             ViewModelLocator.SetAutowireViewModel(this, true);
 
             PageNavigationEventRecorder = recorder;
-            if(recorder != null)
+            if (recorder != null)
                 ((IPageNavigationEventRecordable)BindingContext).PageNavigationEventRecorder = recorder;
         }
 

@@ -73,7 +73,7 @@ namespace Prism.Regions.Behaviors
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
         /// </returns>
         /// <filterpriority>1</filterpriority>
-        public IEnumerator<string> GetEnumerator() => 
+        public IEnumerator<string> GetEnumerator() =>
             _registeredBehaviors.Keys.GetEnumerator();
 
         /// <summary>

@@ -1,5 +1,5 @@
-using Xunit;
 using Prism.Tests.Mocks.ViewModels;
+using Xunit;
 
 namespace Prism.Tests.Mvvm
 {

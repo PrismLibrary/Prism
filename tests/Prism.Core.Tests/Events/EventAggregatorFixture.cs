@@ -1,5 +1,5 @@
-using Xunit;
 using Prism.Events;
+using Xunit;
 
 namespace Prism.Tests.Events
 {

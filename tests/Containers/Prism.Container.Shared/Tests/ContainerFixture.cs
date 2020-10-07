@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Prism.Ioc.Mocks.Services;
 using Prism.Ioc;
-using Xunit;
-using Prism.Mvvm;
+using Prism.Ioc.Mocks.Services;
 using Prism.Ioc.Mocks.Views;
+using Prism.Mvvm;
+using Xunit;
 
 namespace Prism.Ioc.Tests
 {

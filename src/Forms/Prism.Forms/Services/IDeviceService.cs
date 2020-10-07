@@ -1,8 +1,8 @@
-﻿using Prism.AppModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Prism.AppModel;
 using Xamarin.Forms;
 
 namespace Prism.Services
@@ -16,17 +16,17 @@ namespace Prism.Services
         /// Gets a list of custom flags that were set on the device before Xamarin.Forms was initialized.
         /// </summary>
         IReadOnlyList<string> Flags { get; }
-        
+
         /// <summary>
         /// Gets the flow direction on the device.
         /// </summary>
         FlowDirection FlowDirection { get; }
-        
+
         /// <summary>
         /// Gets the kind of device that Xamarin.Forms is currently working on.
         /// </summary>
         TargetIdiom Idiom { get; }
-        
+
         /// <summary>
         /// Gets the Platform (OS) that the application is running on.  This is the native Device.RunTimePlatform property.
         /// </summary>
@@ -48,7 +48,7 @@ namespace Prism.Services
         /// </summary>
         /// <returns>The current SynchronizationContext from the main thread.</returns>
         Task<SynchronizationContext> GetMainThreadSynchronizationContextAsync();
-        
+
         /// <summary>
         /// Invokes an Action on the device main (UI) thread.
         /// </summary>
@@ -84,7 +84,7 @@ namespace Prism.Services
         /// </summary>
         /// <param name="flags">The list of custom flag values.</param>
         void SetFlags(IReadOnlyList<string> flags);
-        
+
         /// <summary>
         /// Sets the flow direction on the device.
         /// </summary>

@@ -2,13 +2,13 @@
 
 using System;
 using System.Collections.ObjectModel;
-using Xunit;
 using Moq;
 using Prism.Modularity;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Modularity
 {
-    
+
     public class FileModuleTypeLoaderFixture
     {
         [Fact]
@@ -21,7 +21,7 @@ namespace Prism.Wpf.Tests.Modularity
             var fileModuleInfo = CreateModuleInfo(assemblyRef, "TestModules.FileModuleAClass", "ModuleA", true, null);
 
             bool loadCompleted = false;
-            retriever.LoadModuleCompleted += delegate(object sender, LoadModuleCompletedEventArgs e)
+            retriever.LoadModuleCompleted += delegate (object sender, LoadModuleCompletedEventArgs e)
             {
                 loadCompleted = true;
             };
@@ -43,7 +43,7 @@ namespace Prism.Wpf.Tests.Modularity
             Exception resultException = null;
 
             bool loadCompleted = false;
-            retriever.LoadModuleCompleted += delegate(object sender, LoadModuleCompletedEventArgs e)
+            retriever.LoadModuleCompleted += delegate (object sender, LoadModuleCompletedEventArgs e)
             {
                 loadCompleted = true;
                 resultException = e.Error;
@@ -73,7 +73,7 @@ namespace Prism.Wpf.Tests.Modularity
             Assert.False(retriever.CanLoadModuleType(moduleInfo));
         }
 
-        
+
         [Fact]
         public void FileModuleTypeLoaderCanBeDisposed()
         {
@@ -91,7 +91,7 @@ namespace Prism.Wpf.Tests.Modularity
             disposableMockResolver.Setup(resolver => resolver.Dispose());
 
             var typeLoader = new FileModuleTypeLoader(mockResolver.Object);
-            
+
             typeLoader.Dispose();
 
             disposableMockResolver.Verify(resolver => resolver.Dispose(), Times.Once());

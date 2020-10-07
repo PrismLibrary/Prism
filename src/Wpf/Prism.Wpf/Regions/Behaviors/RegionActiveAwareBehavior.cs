@@ -59,7 +59,7 @@ namespace Prism.Regions.Behaviors
                 collection.CollectionChanged -= OnCollectionChanged;
             }
         }
-        
+
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)

@@ -1,8 +1,8 @@
-using Prism.Ioc;
-using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Prism.Ioc;
+using Prism.Properties;
 
 namespace Prism.Regions
 {

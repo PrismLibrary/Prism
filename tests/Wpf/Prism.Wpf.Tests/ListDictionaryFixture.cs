@@ -2,12 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using Xunit;
 using Prism.Common;
+using Xunit;
 
 namespace Prism.Wpf.Tests
 {
-    
+
     public class ListDictionaryFixture
     {
         static ListDictionary<string, object> list;
@@ -24,7 +24,7 @@ namespace Prism.Wpf.Tests
             {
                 list.Add(null, new object());
             });
-            
+
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace Prism.Wpf.Tests
             {
                 list.Add("", null);
             });
-            
+
         }
 
         [Fact]
@@ -67,7 +67,7 @@ namespace Prism.Wpf.Tests
             {
                 list.RemoveValue(null, new object());
             });
-            
+
         }
 
         [Fact]
@@ -113,7 +113,7 @@ namespace Prism.Wpf.Tests
             var ex = Assert.Throws<ArgumentNullException>(() =>
             {
                 list.Remove(null);
-            });            
+            });
         }
 
         [Fact]
@@ -186,7 +186,7 @@ namespace Prism.Wpf.Tests
             var ex = Assert.Throws<ArgumentNullException>(() =>
             {
                 list.ContainsKey(null);
-            });            
+            });
         }
 
         [Fact]
@@ -227,7 +227,7 @@ namespace Prism.Wpf.Tests
             list.Add("bar", new object());
             list.Add("baz", new object());
 
-            IEnumerable<object> filtered = list.FindAllValuesByKey(delegate(string key)
+            IEnumerable<object> filtered = list.FindAllValuesByKey(delegate (string key)
                                                                        {
                                                                            return key.StartsWith("b");
                                                                        });
@@ -248,7 +248,7 @@ namespace Prism.Wpf.Tests
             list.Add("bar", new object());
             list.Add("baz", DateTime.Today);
 
-            IEnumerable<object> filtered = list.FindAllValues(delegate(object value)
+            IEnumerable<object> filtered = list.FindAllValues(delegate (object value)
                                                                   {
                                                                       return value is DateTime;
                                                                   });

@@ -1,16 +1,16 @@
-using Xunit;
-using Xunit.Abstractions;
-using Prism.DI.Forms.Tests.Fixtures;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using Xamarin.Forms.Xaml.Internals;
-using Prism.DI.Forms.Tests.Mocks.Internals;
-using Xamarin.Forms.Internals;
-using Prism.Navigation.Xaml;
-using System.Windows.Input;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Prism.DI.Forms.Tests.Fixtures;
+using Prism.DI.Forms.Tests.Mocks.Internals;
 using Prism.DI.Forms.Tests.Mocks.Views;
+using Prism.Navigation.Xaml;
+using Xamarin.Forms;
+using Xamarin.Forms.Internals;
+using Xamarin.Forms.Xaml;
+using Xamarin.Forms.Xaml.Internals;
+using Xunit;
+using Xunit.Abstractions;
 
 #if Autofac
 namespace Prism.Autofac.Forms.Tests.Fixtures
@@ -24,7 +24,7 @@ namespace Prism.Unity.Forms.Tests.Fixtures
 {
     public class XamlNavigationFixture : FixtureBase
     {
-        public XamlNavigationFixture(ITestOutputHelper testOutputHelper) 
+        public XamlNavigationFixture(ITestOutputHelper testOutputHelper)
             : base(testOutputHelper)
         {
         }

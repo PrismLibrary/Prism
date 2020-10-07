@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace Prism.Modularity
 {
     [Serializable]
-    public partial class CyclicDependencyFoundException 
+    public partial class CyclicDependencyFoundException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CyclicDependencyFoundException"/> class

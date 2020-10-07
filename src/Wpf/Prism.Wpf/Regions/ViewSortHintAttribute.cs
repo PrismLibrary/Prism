@@ -14,7 +14,7 @@ namespace Prism.Regions
         /// </summary>
         /// <param name="hint">The hint to use for sorting.</param>
         public ViewSortHintAttribute(string hint)
-        {            
+        {
             Hint = hint;
         }
 

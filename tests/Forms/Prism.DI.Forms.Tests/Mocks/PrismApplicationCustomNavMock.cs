@@ -1,7 +1,7 @@
 using Prism;
+using Prism.DI.Forms.Tests.Navigation;
 using Prism.Ioc;
 using Prism.Navigation;
-using Prism.DI.Forms.Tests.Navigation;
 
 namespace Prism.DI.Forms.Tests
 {
@@ -10,7 +10,7 @@ namespace Prism.DI.Forms.Tests
         public PrismApplicationCustomNavMock(IPlatformInitializer initializer)
             : base(initializer)
         {
-            
+
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xunit;
 using Prism.Mvvm;
+using Xunit;
 
 namespace Prism.Tests.Mvvm
 {
@@ -30,7 +30,7 @@ namespace Prism.Tests.Mvvm
 
             var validation = new ErrorsContainer<string>(pn => validatedProperties.Add(pn));
 
-            validation.SetErrors("property1", new[] { "message"});
+            validation.SetErrors("property1", new[] { "message" });
 
             Assert.True(validation.HasErrors);
             Assert.Contains("message", validation.GetErrors("property1"));

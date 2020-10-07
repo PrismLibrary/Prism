@@ -6,7 +6,7 @@ namespace Prism.DI.Forms.Tests.Mocks.ViewModels
     {
         public INavigationService NavigationService { get; }
 
-        public CustomNamedNavServiceViewModel(INavigationService meaninglessName) => 
+        public CustomNamedNavServiceViewModel(INavigationService meaninglessName) =>
             NavigationService = meaninglessName;
     }
 }

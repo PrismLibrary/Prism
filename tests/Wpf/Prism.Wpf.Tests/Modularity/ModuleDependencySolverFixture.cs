@@ -2,12 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using Xunit;
 using Prism.Modularity;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Modularity
 {
-    
+
     public class ModuleDependencySolverFixture
     {
         private ModuleDependencySolver solver;
@@ -37,7 +37,7 @@ namespace Prism.Wpf.Tests.Modularity
             {
                 solver.AddModule(null);
             });
-            
+
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace Prism.Wpf.Tests.Modularity
             {
                 solver.AddModule(String.Empty);
             });
-            
+
         }
 
         [Fact]
@@ -57,7 +57,7 @@ namespace Prism.Wpf.Tests.Modularity
             {
                 solver.AddDependency("ModuleA", "ModuleB");
             });
-            
+
         }
 
         [Fact]

@@ -1,5 +1,5 @@
-﻿using Prism.AppModel;
-using System;
+﻿using System;
+using Prism.AppModel;
 
 namespace Prism
 {

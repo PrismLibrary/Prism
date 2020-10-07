@@ -78,9 +78,9 @@ namespace Prism.Common
         {
             get
             {
-                foreach(var entry in _entries)
+                foreach (var entry in _entries)
                 {
-                    if(string.Compare(entry.Key, key, StringComparison.Ordinal) == 0)
+                    if (string.Compare(entry.Key, key, StringComparison.Ordinal) == 0)
                     {
                         return entry.Value;
                     }
@@ -98,7 +98,7 @@ namespace Prism.Common
         /// <summary>
         /// Returns an IEnumerable of the Keys in the collection.
         /// </summary>
-        public IEnumerable<string> Keys => 
+        public IEnumerable<string> Keys =>
             _entries.Select(x => x.Key);
 
         /// <summary>
@@ -123,14 +123,14 @@ namespace Prism.Common
         /// <returns>Enumerator.</returns>
         public IEnumerator<KeyValuePair<string, object>> GetEnumerator() =>
             _entries.GetEnumerator();
-        
+
         /// <summary>
         /// Returns the value of the member referenced by key.
         /// </summary>
         /// <typeparam name="T">The type of object to be returned.</typeparam>
         /// <param name="key">The key for the value to be returned.</param>
         /// <returns>Returns a matching parameter of <typeparamref name="T"/> if one exists in the Collection.</returns>
-        public T GetValue<T>(string key) => 
+        public T GetValue<T>(string key) =>
             _entries.GetValue<T>(key);
 
         /// <summary>

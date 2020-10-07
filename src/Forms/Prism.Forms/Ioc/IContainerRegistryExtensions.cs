@@ -1,7 +1,7 @@
-﻿using Prism.Mvvm;
-using Prism.Navigation;
-using System;
+﻿using System;
 using System.Linq;
+using Prism.Mvvm;
+using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.Ioc
@@ -127,7 +127,7 @@ namespace Prism.Ioc
             if (string.IsNullOrWhiteSpace(name))
                 name = typeof(TView).Name;
 
-            if(platforms.Any(x => x.RuntimePlatform.ToString() == Device.RuntimePlatform))
+            if (platforms.Any(x => x.RuntimePlatform.ToString() == Device.RuntimePlatform))
             {
                 var platform = platforms.First(x => x.RuntimePlatform.ToString() == Device.RuntimePlatform);
                 containerRegistry.RegisterForNavigationWithViewModel<TViewModel>(platform.ViewType, name);

@@ -1,8 +1,8 @@
-using Prism.Properties;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Prism.Properties;
 
 namespace Prism.Modularity
 {
@@ -51,10 +51,10 @@ namespace Prism.Modularity
 
         internal void UpdateModulesRef()
         {
-            foreach(var module in _modules)
+            foreach (var module in _modules)
             {
                 module.Ref = Ref;
-            }            
+            }
         }
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace Prism.Modularity
         /// <exception cref="T:System.ArgumentException">
         /// The type of the source <see cref="T:System.Collections.ICollection"/> cannot be cast automatically to the type of the destination <paramref name="array"/>.
         /// </exception>
-        void ICollection.CopyTo(Array array, int index) => 
+        void ICollection.CopyTo(Array array, int index) =>
             ((ICollection)_modules).CopyTo(array, index);
 
         /// <summary>

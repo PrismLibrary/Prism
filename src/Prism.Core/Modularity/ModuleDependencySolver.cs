@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Prism.Properties;
 using Prism.Common;
+using Prism.Properties;
 
 namespace Prism.Modularity
 {

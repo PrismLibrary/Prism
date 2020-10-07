@@ -19,7 +19,7 @@ namespace Prism.Navigation.Xaml
         protected override async Task HandleNavigation(INavigationParameters parameters, INavigationService navigationService)
         {
             var result = await navigationService.NavigateAsync(Name, parameters, animated: Animated, useModalNavigation: UseModalNavigation);
-            if(result.Exception != null)
+            if (result.Exception != null)
             {
                 Log(result.Exception, parameters);
             }

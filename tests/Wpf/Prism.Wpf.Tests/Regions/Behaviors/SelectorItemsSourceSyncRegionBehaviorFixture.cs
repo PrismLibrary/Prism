@@ -6,14 +6,14 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using Xunit;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {
-    
+
     public class SelectorItemsSourceSyncRegionBehaviorFixture
     {
         [StaFact]
@@ -54,7 +54,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             behavior.Region.Add(v3);
             behavior.Region.Add(v2);
             behavior.Region.Add(v1);
-            
+
             Assert.Equal(3, (behavior.HostControl as Selector).Items.Count);
 
             Assert.Same(v1, (behavior.HostControl as Selector).Items[0]);

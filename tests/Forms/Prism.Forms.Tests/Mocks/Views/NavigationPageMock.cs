@@ -106,7 +106,7 @@ namespace Prism.Forms.Tests.Mocks.Views
 
         }
 
-        public NavigationPageEmptyMock_Reused(PageNavigationEventRecorder recorder) : base (recorder)
+        public NavigationPageEmptyMock_Reused(PageNavigationEventRecorder recorder) : base(recorder)
         {
 
         }

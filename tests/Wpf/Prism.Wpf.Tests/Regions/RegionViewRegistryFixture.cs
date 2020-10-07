@@ -92,7 +92,7 @@ namespace Prism.Wpf.Tests.Regions
                 Assert.Contains("R1", ex.Message);
                 Assert.Equal("Dont do this", ex.InnerException.Message);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 //Assert.Fail("Wrong exception type");
             }
@@ -101,9 +101,9 @@ namespace Prism.Wpf.Tests.Regions
         [Fact]
         public void OnRegisterErrorShouldSkipFrameworkExceptions()
         {
-            ExceptionExtensions.RegisterFrameworkExceptionType(typeof (FrameworkException));
+            ExceptionExtensions.RegisterFrameworkExceptionType(typeof(FrameworkException));
             var registry = new RegionViewRegistry(null);
-            registry.ContentRegistered +=new EventHandler<ViewRegisteredEventArgs>(FailWithFrameworkException);
+            registry.ContentRegistered += new EventHandler<ViewRegisteredEventArgs>(FailWithFrameworkException);
             var ex = Record.Exception(() => registry.RegisterViewWithRegion("R1", typeof(object)));
             Assert.NotNull(ex);
             Assert.IsType<ViewRegistrationException>(ex);

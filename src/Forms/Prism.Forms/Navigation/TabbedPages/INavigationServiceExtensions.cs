@@ -1,6 +1,6 @@
-﻿using Prism.Common;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Prism.Common;
 using Xamarin.Forms;
 
 namespace Prism.Navigation.TabbedPages
@@ -55,7 +55,7 @@ namespace Prism.Navigation.TabbedPages
 
                     if (child is NavigationPage childNavPage)
                     {
-                        if (childNavPage.CurrentPage.GetType() == tabToSelectedType || 
+                        if (childNavPage.CurrentPage.GetType() == tabToSelectedType ||
                             childNavPage.RootPage.GetType() == tabToSelectedType)
                         {
                             target = child;
@@ -73,7 +73,7 @@ namespace Prism.Navigation.TabbedPages
                 PageUtilities.OnNavigatedFrom(currentPage, tabParameters);
                 PageUtilities.OnNavigatedTo(target, tabParameters);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new NavigationResult { Exception = ex };
             }

@@ -1,11 +1,11 @@
 
 
-using Prism.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Prism.Properties;
 
 namespace Prism.Modularity
 {

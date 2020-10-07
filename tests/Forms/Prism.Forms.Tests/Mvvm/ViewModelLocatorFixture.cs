@@ -1,8 +1,8 @@
-﻿using Prism.Forms.Tests.Mvvm.Mocks.ViewModels;
+﻿using System;
+using System.Reflection;
+using Prism.Forms.Tests.Mvvm.Mocks.ViewModels;
 using Prism.Forms.Tests.Mvvm.Mocks.Views;
 using Prism.Mvvm;
-using System;
-using System.Reflection;
 using Xamarin.Forms;
 using Xunit;
 
@@ -70,9 +70,9 @@ namespace Prism.Forms.Tests.Mvvm
             var defaultResolver = (Func<Type, Type>)propertyInfo.GetValue(typeof(ViewModelLocationProvider));
 
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(
-                viewType => 
-                    viewType == typeof(TestPageOfShouldUseCustomDefaultViewTypeToViewModelTypeResolverWhenSet) 
-                        ? typeof(ViewModelLocatorFixture) 
+                viewType =>
+                    viewType == typeof(TestPageOfShouldUseCustomDefaultViewTypeToViewModelTypeResolverWhenSet)
+                        ? typeof(ViewModelLocatorFixture)
                         : defaultResolver(viewType));
 
             ViewModelLocator.SetAutowireViewModel(view, true);

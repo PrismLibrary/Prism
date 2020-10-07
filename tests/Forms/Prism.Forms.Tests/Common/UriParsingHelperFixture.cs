@@ -1,6 +1,6 @@
-﻿using Prism.Common;
+﻿using System;
+using Prism.Common;
 using Prism.Navigation;
-using System;
 using Xunit;
 
 namespace Prism.Forms.Tests.Common

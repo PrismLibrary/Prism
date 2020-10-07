@@ -756,7 +756,7 @@ namespace Prism.Wpf.Tests.Regions
             };
 
             bool isNavigatingRaised = false;
-            target.Navigating += delegate(object sender, RegionNavigationEventArgs e)
+            target.Navigating += delegate (object sender, RegionNavigationEventArgs e)
             {
                 if (sender == target)
                 {
@@ -800,7 +800,7 @@ namespace Prism.Wpf.Tests.Regions
             };
 
             bool isNavigatedRaised = false;
-            target.Navigated += delegate(object sender, RegionNavigationEventArgs e)
+            target.Navigated += delegate (object sender, RegionNavigationEventArgs e)
             {
                 if (sender == target)
                 {
@@ -1052,7 +1052,7 @@ namespace Prism.Wpf.Tests.Regions
             };
 
             RegionNavigationFailedEventArgs eventArgs = null;
-            target.NavigationFailed += delegate(object sender, RegionNavigationFailedEventArgs e)
+            target.NavigationFailed += delegate (object sender, RegionNavigationFailedEventArgs e)
             {
                 if (sender == target)
                 {
@@ -1111,7 +1111,7 @@ namespace Prism.Wpf.Tests.Regions
             };
 
             RegionNavigationFailedEventArgs eventArgs = null;
-            target.NavigationFailed += delegate(object sender, RegionNavigationFailedEventArgs e)
+            target.NavigationFailed += delegate (object sender, RegionNavigationFailedEventArgs e)
             {
                 if (sender == target)
                 {
@@ -1173,7 +1173,7 @@ namespace Prism.Wpf.Tests.Regions
             };
 
             RegionNavigationFailedEventArgs eventArgs = null;
-            target.NavigationFailed += delegate(object sender, RegionNavigationFailedEventArgs e)
+            target.NavigationFailed += delegate (object sender, RegionNavigationFailedEventArgs e)
             {
                 if (sender == target)
                 {

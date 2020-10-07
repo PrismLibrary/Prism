@@ -1,7 +1,7 @@
-﻿using Prism.Xaml;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Prism.Xaml;
 using Xamarin.Forms;
 
 namespace Prism.Navigation.Xaml
@@ -44,7 +44,7 @@ namespace Prism.Navigation.Xaml
                 var navigationService = Navigation.GetNavigationService(SourcePage);
                 await HandleNavigation(parameters, navigationService);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log(ex, parameters);
             }

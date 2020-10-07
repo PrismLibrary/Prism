@@ -2,10 +2,10 @@
 
 using System;
 using System.Windows;
-using Xunit;
 using Moq;
-using Prism.Regions;
 using Prism.Ioc;
+using Prism.Regions;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {

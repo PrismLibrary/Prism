@@ -1,9 +1,9 @@
-﻿using Prism.Common;
-using Prism.Ioc;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using Prism.Common;
+using Prism.Ioc;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -94,7 +94,7 @@ namespace Prism.Services.Dialogs
 
             closingHandler = (o, e) =>
             {
-                if (contentDialog.DataContext is IDialogAware dialogAware 
+                if (contentDialog.DataContext is IDialogAware dialogAware
                     && !dialogAware.CanCloseDialog())
                 {
                     e.Cancel = true;

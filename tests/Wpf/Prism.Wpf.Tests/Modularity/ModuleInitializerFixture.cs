@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Xunit;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Modularity
 {
     /// <summary>
     /// Summary description for ModuleInitializerFixture
     /// </summary>
-    
+
     public class ModuleInitializerFixture
     {
         [Fact]
@@ -21,7 +21,7 @@ namespace Prism.Wpf.Tests.Modularity
             {
                 ModuleInitializer loader = new ModuleInitializer(null);
             });
-            
+
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace Prism.Wpf.Tests.Modularity
             {
                 Assert.Contains("BadAssembly.BadType", ex.Message);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 //Assert.Fail();
             }
@@ -128,7 +128,7 @@ namespace Prism.Wpf.Tests.Modularity
 
             public void RegisterTypes(IContainerRegistry containerRegistry)
             {
-                
+
             }
         }
 
@@ -145,7 +145,7 @@ namespace Prism.Wpf.Tests.Modularity
 
             public void RegisterTypes(IContainerRegistry containerRegistry)
             {
-                
+
             }
         }
 
@@ -161,7 +161,7 @@ namespace Prism.Wpf.Tests.Modularity
 
             public void RegisterTypes(IContainerRegistry containerRegistry)
             {
-                
+
             }
         }
 
@@ -178,7 +178,7 @@ namespace Prism.Wpf.Tests.Modularity
 
             public void RegisterTypes(IContainerRegistry containerRegistry)
             {
-                
+
             }
         }
 

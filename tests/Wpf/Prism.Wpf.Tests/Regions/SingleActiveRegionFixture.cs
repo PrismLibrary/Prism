@@ -1,11 +1,11 @@
 
 
-using Xunit;
 using Prism.Regions;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
+
     public class SingleActiveRegionFixture
     {
         [Fact]

@@ -36,7 +36,7 @@ namespace Prism.Regions
         /// Gets the current navigation entry of the content that is currently displayed.
         /// </summary>
         /// <value>The current entry.</value>
-        IRegionNavigationJournalEntry CurrentEntry {get;}
+        IRegionNavigationJournalEntry CurrentEntry { get; }
 
         /// <summary>
         /// Gets or sets the target that implements INavigateAsync.

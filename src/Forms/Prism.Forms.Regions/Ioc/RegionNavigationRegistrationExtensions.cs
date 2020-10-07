@@ -15,7 +15,7 @@ namespace Prism.Ioc
         /// <typeparam name="TView">The Type of <see cref="View"/> to register</typeparam>
         /// <param name="containerRegistry"><see cref="IContainerRegistry"/> used to register type for Navigation.</param>
         /// <param name="name">The unique name to register with the View</param>
-        public static void RegisterForRegionNavigation<TView>(this IContainerRegistry containerRegistry, string name = null) 
+        public static void RegisterForRegionNavigation<TView>(this IContainerRegistry containerRegistry, string name = null)
             where TView : View
         {
             var viewType = typeof(TView);

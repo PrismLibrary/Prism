@@ -1,6 +1,6 @@
-﻿using Xunit;
-using Prism.Forms.Tests.Mocks.Views;
+﻿using Prism.Forms.Tests.Mocks.Views;
 using Prism.Navigation;
+using Xunit;
 
 namespace Prism.Forms.Tests.Navigation
 {

@@ -89,7 +89,7 @@ namespace Prism.Events
                     subscription = new EventSubscription(actionReference);
                     break;
             }
-            
+
             return InternalSubscribe(subscription);
         }
 

@@ -17,7 +17,7 @@ namespace Prism.Wpf.Tests.Mocks
 
         public void FinalizeExtension()
         {
-            
+
         }
 
         public bool IsRegistered(Type type)

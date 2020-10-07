@@ -78,7 +78,7 @@ namespace Prism.Xaml
                 }
             }
 
-            if(BindingContext == null)
+            if (BindingContext == null)
             {
                 BindingContext = SourcePage.BindingContext;
             }

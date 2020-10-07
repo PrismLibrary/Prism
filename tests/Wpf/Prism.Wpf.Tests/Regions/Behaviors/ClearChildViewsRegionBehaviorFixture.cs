@@ -1,13 +1,13 @@
 
 
-using Xunit;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {
-    
+
     public class ClearChildViewsRegionBehaviorFixture
     {
         [StaFact]

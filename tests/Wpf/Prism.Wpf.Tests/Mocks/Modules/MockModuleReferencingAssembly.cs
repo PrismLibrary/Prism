@@ -1,6 +1,6 @@
+using System;
 using Prism.Ioc;
 using Prism.Modularity;
-using System;
 
 namespace Prism.Wpf.Tests.Mocks.Modules
 {

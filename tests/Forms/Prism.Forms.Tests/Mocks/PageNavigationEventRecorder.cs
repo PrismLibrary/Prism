@@ -33,7 +33,7 @@ namespace Prism.Forms.Tests.Mocks
 
         public PageNavigationRecord TakeFirst()
         {
-            if(_records.Count == 0) throw new InvalidOperationException("Not exist records.");
+            if (_records.Count == 0) throw new InvalidOperationException("Not exist records.");
 
             return _records.Dequeue();
         }

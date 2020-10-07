@@ -51,9 +51,9 @@ namespace Prism.Regions
 
             // Add the behavior that syncs the items source items with the rest of the items
             region.Behaviors.Add(SelectorItemsSourceSyncBehavior.BehaviorKey, new SelectorItemsSourceSyncBehavior()
-                                                                                  {
-                                                                                      HostControl = regionTarget
-                                                                                  });
+            {
+                HostControl = regionTarget
+            });
 
             base.AttachBehaviors(region, regionTarget);
         }

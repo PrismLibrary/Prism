@@ -18,7 +18,7 @@ namespace Prism.Wpf.Tests.Mocks
         {
             if (OnAttach != null)
                 OnAttach();
-            
+
         }
     }
 }

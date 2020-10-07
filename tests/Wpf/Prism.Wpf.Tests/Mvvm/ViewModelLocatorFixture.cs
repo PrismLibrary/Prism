@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Reflection;
-using Xunit;
 using Prism.Mvvm;
 using Prism.Wpf.Tests.Mocks.ViewModels;
 using Prism.Wpf.Tests.Mocks.Views;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Mvvm
 {
-    
+
     public class ViewModelLocatorFixture
     {
         [StaFact]
@@ -62,7 +62,7 @@ namespace Prism.Wpf.Tests.Mvvm
 
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType => typeof(ViewModelLocatorFixture));
 
-            ViewModelLocator.SetAutoWireViewModel(view, true);            
+            ViewModelLocator.SetAutoWireViewModel(view, true);
             Assert.NotNull(view.DataContext);
             Assert.IsType<ViewModelLocatorFixture>(view.DataContext);
         }
@@ -77,7 +77,7 @@ namespace Prism.Wpf.Tests.Mvvm
 
             string viewModel = "Test String";
             ViewModelLocationProvider.Register(view.GetType().ToString(), () => viewModel);
-            
+
             ViewModelLocator.SetAutoWireViewModel(view, true);
             Assert.NotNull(view.DataContext);
             ReferenceEquals(view.DataContext, viewModel);

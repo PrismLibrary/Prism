@@ -71,7 +71,7 @@ namespace Prism.Modularity
             {
                 throw new ModuleNotFoundException(moduleName, string.Format(CultureInfo.CurrentCulture, Resources.ModuleNotFound, moduleName));
             }
-            else if(modules.Count() > 1)
+            else if (modules.Count() > 1)
             {
                 throw new DuplicateModuleException(moduleName, string.Format(CultureInfo.CurrentCulture, Resources.DuplicatedModuleInCatalog, moduleName));
             }
@@ -112,7 +112,7 @@ namespace Prism.Modularity
                     {
                         RaiseLoadModuleCompleted(moduleInfo, ex);
                     }
-                    
+
                 }
             }
         }

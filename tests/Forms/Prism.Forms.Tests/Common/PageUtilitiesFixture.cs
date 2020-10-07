@@ -169,7 +169,7 @@ namespace Prism.Forms.Tests.Common
             Assert.Equal(tab5, recorder.Records[1].Sender);
             Assert.Equal(0, tab5.Behaviors.Count);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[1].Event);
-            
+
             Assert.Equal(tab5ChildViewModel, recorder.Records[2].Sender);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[2].Event);
 

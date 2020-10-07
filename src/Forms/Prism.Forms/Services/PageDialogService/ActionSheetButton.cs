@@ -10,7 +10,7 @@ namespace Prism.Services
     {
         protected internal ActionSheetButton()
         {
-            
+
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Prism.Services
         /// <param name="text">Button text</param>
         /// <param name="action">Action to execute when button pressed</param>
         /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
-        public static IActionSheetButton CreateCancelButton(string text, Action action) => 
+        public static IActionSheetButton CreateCancelButton(string text, Action action) =>
             CreateButtonInternal(text, action, isCancel: true);
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Prism.Services
         /// <param name="action">Action to execute when button pressed</param>
         /// <param name="parameter">Parameter to pass the Action when the button is pressed</param>
         /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
-        public static IActionSheetButton CreateCancelButton<T>(string text, Action<T> action, T parameter) => 
+        public static IActionSheetButton CreateCancelButton<T>(string text, Action<T> action, T parameter) =>
             CreateButtonInternal(text, action, parameter, isCancel: true);
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Prism.Services
         /// </summary>
         /// <param name="text">Button text</param>
         /// <returns>An instance of <see cref="ActionSheetButton"/></returns>
-        public static IActionSheetButton CreateDestroyButton(string text) => 
+        public static IActionSheetButton CreateDestroyButton(string text) =>
             CreateDestroyButton(text, default);
 
         /// <summary>

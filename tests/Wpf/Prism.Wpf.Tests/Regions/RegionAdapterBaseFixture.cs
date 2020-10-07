@@ -1,13 +1,13 @@
 
 
 using System;
-using Xunit;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
+
     public class RegionAdapterBaseFixture
     {
         [Fact]
@@ -83,9 +83,9 @@ namespace Prism.Wpf.Tests.Regions
             public IRegion AttachBehaviorsArgumentRegion;
             public MockRegionTarget attachBehaviorsArgumentTargetToAdapt;
 
-            public TestableRegionAdapterBase() :base(null)
+            public TestableRegionAdapterBase() : base(null)
             {
-                
+
             }
 
             protected override void Adapt(IRegion region, MockRegionTarget regionTarget)

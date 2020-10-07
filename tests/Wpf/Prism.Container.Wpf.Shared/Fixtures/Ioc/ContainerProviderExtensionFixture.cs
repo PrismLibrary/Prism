@@ -1,6 +1,4 @@
-﻿using Prism.Ioc;
-using Prism.IocContainer.Wpf.Tests.Support.Mocks;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,6 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xaml;
+using Prism.Ioc;
+using Prism.IocContainer.Wpf.Tests.Support.Mocks;
 using Xunit;
 
 namespace Prism.Container.Wpf.Tests.Ioc

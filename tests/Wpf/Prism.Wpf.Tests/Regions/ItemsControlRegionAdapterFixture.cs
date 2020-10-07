@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Xunit;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
+
     public class ItemsControlRegionAdapterFixture
     {
         [StaFact]
@@ -102,7 +102,7 @@ namespace Prism.Wpf.Tests.Regions
 
         private class TestableItemsControlRegionAdapter : ItemsControlRegionAdapter
         {
-            public TestableItemsControlRegionAdapter() : base (null)
+            public TestableItemsControlRegionAdapter() : base(null)
             {
             }
 

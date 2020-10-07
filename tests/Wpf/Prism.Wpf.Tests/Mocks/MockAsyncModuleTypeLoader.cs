@@ -36,7 +36,7 @@ namespace Prism.Wpf.Tests.Mocks
             retrieverThread.Start();
         }
 
-        
+
         public event EventHandler<ModuleDownloadProgressChangedEventArgs> ModuleDownloadProgressChanged;
 
         private void RaiseLoadModuleProgressChanged(ModuleDownloadProgressChangedEventArgs e)

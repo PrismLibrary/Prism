@@ -1,7 +1,7 @@
-﻿using Prism.Common;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Common;
 using Xamarin.Forms;
 
 namespace Prism.Services

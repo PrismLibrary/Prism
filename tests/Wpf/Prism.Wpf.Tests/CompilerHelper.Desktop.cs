@@ -7,13 +7,13 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using Microsoft.CSharp;
-using Xunit;
-using Prism.Modularity;
 using Prism.Ioc;
+using Prism.Modularity;
+using Xunit;
 
 namespace Prism.Wpf.Tests
 {
-    public class CompilerHelper 
+    public class CompilerHelper
     {
         private static string moduleTemplate =
             @"using System;

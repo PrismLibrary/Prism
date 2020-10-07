@@ -1,6 +1,6 @@
-﻿using Prism.Common;
+﻿using System.Threading.Tasks;
+using Prism.Common;
 using Prism.Services;
-using System.Threading.Tasks;
 
 namespace Prism.Forms.Tests.Mocks
 {

@@ -2,15 +2,15 @@
 
 using System;
 using System.Windows;
-using Xunit;
+using Prism.Common;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
-using Prism.Common;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {
-    
+
     public class SyncRegionContextWithHostBehaviorFixture
     {
         [StaFact]
@@ -122,7 +122,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
             Assert.Null(RegionManager.GetRegionContext(hostControl));
             behavior.Attach();
-            Assert.Equal("NewValue", RegionManager.GetRegionContext(hostControl));  
+            Assert.Equal("NewValue", RegionManager.GetRegionContext(hostControl));
         }
 
         [StaFact]

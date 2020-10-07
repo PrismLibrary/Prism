@@ -207,7 +207,7 @@ namespace Prism.Regions.Behaviors
         /// </summary>
         private void Track()
         {
-            lock(_trackerLock)
+            lock (_trackerLock)
             {
                 if (!_instanceTracker.Contains(this))
                 {
@@ -215,17 +215,17 @@ namespace Prism.Regions.Behaviors
                 }
             }
         }
-  
+
         /// <summary>
         /// Remove the instance of this class from <see cref="_instanceTracker"/>
         /// so it can eventually be garbage collected
         /// </summary>
         private void Untrack()
         {
-            lock(_trackerLock)
+            lock (_trackerLock)
             {
                 _instanceTracker.Remove(this);
-            } 
+            }
         }
     }
 }

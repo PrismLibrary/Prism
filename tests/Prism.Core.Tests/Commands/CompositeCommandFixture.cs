@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Input;
-using Xunit;
 using Prism.Commands;
+using Xunit;
 
 namespace Prism.Tests.Commands
 {

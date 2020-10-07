@@ -1,8 +1,8 @@
-﻿using Moq;
+﻿using System;
+using System.Collections.Generic;
+using Moq;
 using Prism.Ioc;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
 
 namespace Prism.Forms.Tests.Mocks
 {

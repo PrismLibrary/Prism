@@ -83,7 +83,7 @@ namespace Prism.Regions.Behaviors
         {
             if (args.PropertyName == "Value")
             {
-                var context = (ObservableObject<object>) sender;
+                var context = (ObservableObject<object>)sender;
                 this.Region.Context = context.Value;
             }
         }
@@ -99,7 +99,7 @@ namespace Prism.Regions.Behaviors
             {
                 this.DetachNotifyChangeEvent(e.OldItems);
                 SetContextToViews(e.OldItems, null);
-                
+
             }
         }
 

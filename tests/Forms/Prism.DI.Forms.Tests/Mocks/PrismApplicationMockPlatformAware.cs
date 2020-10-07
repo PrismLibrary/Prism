@@ -25,7 +25,7 @@ namespace Prism.DI.Forms.Tests
         {
         }
 
-        public PrismApplicationMockPlatformAware(IPlatformInitializer platformInitializer, Func<Page> startPage) 
+        public PrismApplicationMockPlatformAware(IPlatformInitializer platformInitializer, Func<Page> startPage)
             : base(platformInitializer, startPage)
         {
         }

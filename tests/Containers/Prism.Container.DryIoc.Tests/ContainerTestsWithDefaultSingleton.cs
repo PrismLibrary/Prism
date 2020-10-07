@@ -1,6 +1,6 @@
-﻿using Prism.Ioc.Mocks.Services;
+﻿using System;
+using Prism.Ioc.Mocks.Services;
 using Prism.Ioc.Tests;
-using System;
 using Xunit;
 
 namespace Prism.Ioc.DryIoc.Tests

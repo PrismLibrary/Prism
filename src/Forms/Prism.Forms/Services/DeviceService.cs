@@ -1,8 +1,8 @@
-﻿using Prism.AppModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Prism.AppModel;
 using Xamarin.Forms;
 
 namespace Prism.Services
@@ -129,7 +129,7 @@ namespace Prism.Services
         {
             return Device.InvokeOnMainThreadAsync(funcTask);
         }
-        
+
         /// <summary>
         /// Sets a list of custom flags on the device.
         /// </summary>
