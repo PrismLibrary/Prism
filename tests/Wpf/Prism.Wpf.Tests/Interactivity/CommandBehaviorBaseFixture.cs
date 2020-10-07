@@ -1,12 +1,12 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
-using Xunit;
 using Prism.Interactivity;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Interactivity
 {
-    
+
     public class CommandBehaviorBaseFixture
     {
         [Fact]

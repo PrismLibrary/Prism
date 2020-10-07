@@ -20,10 +20,10 @@ namespace Prism.DI.Forms.Tests.Mocks.Internals
         private IEnumerable<object> GetBindableStack()
         {
             var stack = new List<object>();
-            if(TargetObject is Element element)
+            if (TargetObject is Element element)
             {
                 stack.Add(element);
-                while(element.Parent != null)
+                while (element.Parent != null)
                 {
                     element = element.Parent;
                     stack.Add(element);

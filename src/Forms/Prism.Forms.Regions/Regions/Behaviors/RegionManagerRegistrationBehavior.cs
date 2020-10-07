@@ -121,7 +121,7 @@ namespace Prism.Regions.Behaviors
 
         private IRegionManager FindRegionManager(Element element)
         {
-            if(element is VisualElement visualElement)
+            if (element is VisualElement visualElement)
             {
                 var regionmanager = RegionManagerAccessor.GetRegionManager(visualElement);
                 if (regionmanager != null)

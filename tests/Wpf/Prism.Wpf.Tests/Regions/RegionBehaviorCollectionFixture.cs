@@ -1,12 +1,12 @@
 
 
-using Xunit;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
+
     public class RegionBehaviorCollectionFixture
     {
         [Fact]

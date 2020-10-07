@@ -25,7 +25,7 @@ namespace Prism
         /// <summary>
         /// Gets the Current PrismApplication
         /// </summary>
-        public new static PrismApplicationBase Current => (PrismApplicationBase) Application.Current;
+        public new static PrismApplicationBase Current => (PrismApplicationBase)Application.Current;
 
         /// <summary>
         /// The registration name to create a new transient instance of the <see cref="INavigationService"/>
@@ -103,15 +103,15 @@ namespace Prism
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
                 List<(Type Type, object Instance)> overrides = new List<(Type, object)>();
-                if(Container.IsRegistered<IResolverOverridesHelper>())
+                if (Container.IsRegistered<IResolverOverridesHelper>())
                 {
                     var resolver = Container.Resolve<IResolverOverridesHelper>();
                     var resolverOverrides = resolver.GetOverrides();
-                    if(resolverOverrides.Any())
+                    if (resolverOverrides.Any())
                         overrides.AddRange(resolverOverrides);
                 }
 
-                if(!overrides.Any(x => x.Type == typeof(INavigationService)))
+                if (!overrides.Any(x => x.Type == typeof(INavigationService)))
                 {
                     var navService = CreateNavigationService(view);
                     overrides.Add((typeof(INavigationService), navService));
@@ -123,7 +123,7 @@ namespace Prism
 
         private INavigationService CreateNavigationService(object view)
         {
-            if(view is Page page)
+            if (view is Page page)
             {
                 return Navigation.Xaml.Navigation.GetNavigationService(page);
             }

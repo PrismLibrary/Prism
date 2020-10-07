@@ -1,5 +1,5 @@
-using Prism.Ioc;
 using Prism.Forms;
+using Prism.Ioc;
 using Xunit.Abstractions;
 
 namespace Prism.DI.Forms.Tests.Mocks

@@ -37,7 +37,7 @@ namespace Prism.Common
             {
                 if (string.Compare(kvp.Key, key, StringComparison.Ordinal) == 0)
                 {
-                    if(TryGetValueInternal(kvp, type, out var value))
+                    if (TryGetValueInternal(kvp, type, out var value))
                         return value;
 
                     throw new InvalidCastException($"Unable to convert the value of Type '{kvp.Value.GetType().FullName}' to '{type.FullName}' for the key '{key}' ");

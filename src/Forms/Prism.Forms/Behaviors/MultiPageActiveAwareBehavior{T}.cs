@@ -1,6 +1,6 @@
-﻿using Prism.Common;
+﻿using System;
+using Prism.Common;
 using Prism.Navigation;
-using System;
 using Xamarin.Forms;
 
 namespace Prism.Behaviors

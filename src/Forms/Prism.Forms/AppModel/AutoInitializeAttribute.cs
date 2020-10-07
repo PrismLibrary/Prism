@@ -12,7 +12,7 @@ namespace Prism.AppModel
         /// Provides a custom name for <see cref="IAutoInitialize"/> to use
         /// </summary>
         /// <param name="name">The custom name to use</param>
-        public AutoInitializeAttribute(string name): this(name, false) { }
+        public AutoInitializeAttribute(string name) : this(name, false) { }
 
         /// <summary>
         /// Marks a property as required if <c>true</c>

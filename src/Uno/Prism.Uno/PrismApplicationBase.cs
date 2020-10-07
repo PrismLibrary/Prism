@@ -1,4 +1,6 @@
-﻿using Prism.Common;
+﻿using System;
+using System.Linq;
+using Prism.Common;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -6,8 +8,6 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Services.Dialogs;
-using System;
-using System.Linq;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;

@@ -2,16 +2,16 @@
 
 using System;
 using System.Linq;
-using Xunit;
 using Prism.Ioc;
 using Prism.Modularity;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Modularity
 {
     /// <summary>
     /// Summary description for ModuleInfoGroupExtensionsFixture
     /// </summary>
-    
+
     public class ModuleInfoGroupExtensionsFixture
     {
         [Fact]
@@ -76,12 +76,12 @@ namespace Prism.Wpf.Tests.Modularity
         {
             public void OnInitialized(IContainerProvider containerProvider)
             {
-                
+
             }
 
             public void RegisterTypes(IContainerRegistry containerRegistry)
             {
-                
+
             }
         }
     }

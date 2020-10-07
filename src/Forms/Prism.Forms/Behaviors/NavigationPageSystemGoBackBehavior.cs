@@ -23,7 +23,7 @@ namespace Prism.Behaviors
             if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
             {
                 PageUtilities.HandleSystemGoBack(e.Page, AssociatedObject.CurrentPage);
-            }            
+            }
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using Prism.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Prism.Common;
 using Xamarin.Forms;
 
 namespace Prism.Navigation
@@ -104,7 +104,7 @@ namespace Prism.Navigation
         private static INavigationParameters GetNavigationParameters((string Key, object Value)[] parameters)
         {
             var navParams = new NavigationParameters();
-            foreach(var (Key, Value) in parameters)
+            foreach (var (Key, Value) in parameters)
             {
                 navParams.Add(Key, Value);
             }
@@ -181,7 +181,7 @@ namespace Prism.Navigation
                 ProcessModalNavigationPagePath((NavigationPage)mainPage, stack);
             }
             else if (mainPage is MasterDetailPage)
-            { 
+            {
                 var detail = ((MasterDetailPage)mainPage).Detail;
                 if (detail is NavigationPage)
                 {
@@ -194,7 +194,7 @@ namespace Prism.Navigation
                 }
 
                 AddSegmentToStack(mainPage, stack);
-            }  
+            }
             else
             {
                 AddSegmentToStack(mainPage, stack);

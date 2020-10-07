@@ -89,7 +89,7 @@ namespace Prism.Regions.Navigation
 
                 newRegionItem = view;
             }
-            catch(ContainerResolutionException)
+            catch (ContainerResolutionException)
             {
                 throw;
             }

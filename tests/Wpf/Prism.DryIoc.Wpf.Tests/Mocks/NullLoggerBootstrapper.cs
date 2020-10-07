@@ -1,6 +1,6 @@
-﻿using Prism.DryIoc;
+﻿using System.Windows;
+using Prism.DryIoc;
 using Prism.Ioc;
-using System.Windows;
 
 namespace Prism.Container.Wpf.Mocks
 {

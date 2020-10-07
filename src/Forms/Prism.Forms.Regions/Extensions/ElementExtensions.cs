@@ -11,7 +11,7 @@ namespace Prism.Extensions
 
         public static Element GetRoot(this Element element)
         {
-            switch(element.Parent)
+            switch (element.Parent)
             {
                 case null:
                     return element;
@@ -22,7 +22,7 @@ namespace Prism.Extensions
 
         public static Page GetParentPage(this Element visualElement)
         {
-            switch(visualElement.Parent)
+            switch (visualElement.Parent)
             {
                 case Page page:
                     return page;

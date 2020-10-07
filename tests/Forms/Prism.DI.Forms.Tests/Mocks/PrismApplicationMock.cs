@@ -25,7 +25,7 @@ namespace Prism.DI.Forms.Tests
         {
         }
 
-        public PrismApplicationMock(IPlatformInitializer platformInitializer, Func<Page> startPage) 
+        public PrismApplicationMock(IPlatformInitializer platformInitializer, Func<Page> startPage)
             : this(platformInitializer)
         {
             MainPage = startPage?.Invoke();
@@ -55,8 +55,8 @@ namespace Prism.DI.Forms.Tests
             containerRegistry.RegisterForNavigation<AutowireView, AutowireViewModel>();
             containerRegistry.RegisterForNavigation<ConstructorArgumentView, ConstructorArgumentViewModel>();
             containerRegistry.RegisterForNavigation<XamlViewMock>();
-            containerRegistry.RegisterForNavigation<XamlViewMockB,XamlViewMockBViewModel>();
-            containerRegistry.RegisterForNavigation<XamlViewMockA,XamlViewMockAViewModel>();
+            containerRegistry.RegisterForNavigation<XamlViewMockB, XamlViewMockBViewModel>();
+            containerRegistry.RegisterForNavigation<XamlViewMockA, XamlViewMockAViewModel>();
 
             ViewModelLocationProvider.Register<PartialView, PartialViewModel>();
         }

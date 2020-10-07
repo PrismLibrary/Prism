@@ -46,7 +46,7 @@ namespace Prism.Regions.Xaml
         /// will create and adapt a new region for that control, and register it
         /// in the <see cref="IRegionManager"/> with the specified region name.
         /// </remarks>
-        public static readonly BindableProperty RegionNameProperty = 
+        public static readonly BindableProperty RegionNameProperty =
             BindableProperty.CreateAttached("RegionName", typeof(string), typeof(RegionManager), null, propertyChanged: OnSetRegionNameCallback);
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Prism.Regions.Xaml
 
         private static void OnSetRegionNameCallback(BindableObject bindable, object oldValue, object newValue)
         {
-            if(!DesignMode.IsDesignModeEnabled && bindable is VisualElement view)
+            if (!DesignMode.IsDesignModeEnabled && bindable is VisualElement view)
             {
                 CreateRegion(view);
             }

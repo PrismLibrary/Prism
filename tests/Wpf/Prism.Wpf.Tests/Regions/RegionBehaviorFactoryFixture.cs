@@ -2,15 +2,15 @@
 
 using System;
 using System.Linq;
-using Xunit;
-using Prism.Regions;
-using Prism.Wpf.Tests.Mocks;
 using Moq;
 using Prism.Ioc;
+using Prism.Regions;
+using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
+
     public class RegionBehaviorFactoryFixture
     {
         [Fact]
@@ -23,7 +23,7 @@ namespace Prism.Wpf.Tests.Regions
 
             Assert.Equal(2, factory.Count());
             Assert.True(factory.ContainsKey("key1"));
-            
+
         }
 
         [Fact]

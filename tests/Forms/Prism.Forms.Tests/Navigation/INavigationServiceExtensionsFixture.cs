@@ -1,12 +1,12 @@
-﻿using Moq;
+﻿using System;
+using System.Threading.Tasks;
+using Moq;
 using Prism.Common;
 using Prism.Forms.Tests.Mocks;
 using Prism.Forms.Tests.Mocks.Views;
 using Prism.Forms.Tests.Navigation.Mocks.Views;
 using Prism.Ioc;
 using Prism.Navigation;
-using System;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xunit;
 
@@ -232,7 +232,7 @@ namespace Prism.Forms.Tests.Navigation
 
             var path = page1.ViewModel.NavigationService.GetNavigationUriPath();
             Assert.Equal("/MasterDetailPage/NavigationPage/TabbedPage1/Page1", path);
-            
+
             path = tabbedpage.ViewModel.NavigationService.GetNavigationUriPath();
             Assert.Equal("/MasterDetailPage/NavigationPage/TabbedPage1", path);
 

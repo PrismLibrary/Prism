@@ -1,11 +1,11 @@
 
 
-using Xunit;
 using Prism.Modularity;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Modularity
 {
-    
+
     public class ModuleAttributeFixture
     {
         [Fact]

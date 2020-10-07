@@ -1,10 +1,10 @@
+using System;
+using System.Linq;
 using Prism.AppModel;
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Services.Dialogs.Xaml;
-using System;
-using System.Linq;
 using Xamarin.Forms;
 
 namespace Prism.Services.Dialogs
@@ -41,7 +41,7 @@ namespace Prism.Services.Dialogs
                     try
                     {
                         var result = CloseDialog(outParameters ?? new DialogParameters(), currentPage, dialogModal);
-                        if(result.Exception is DialogException de && de.Message == DialogException.CanCloseIsFalse)
+                        if (result.Exception is DialogException de && de.Message == DialogException.CanCloseIsFalse)
                         {
                             return;
                         }
@@ -50,9 +50,9 @@ namespace Prism.Services.Dialogs
                         callback?.Invoke(result);
                         GC.Collect();
                     }
-                    catch(DialogException dex)
+                    catch (DialogException dex)
                     {
-                        if(dex.Message != DialogException.CanCloseIsFalse)
+                        if (dex.Message != DialogException.CanCloseIsFalse)
                         {
                             callback?.Invoke(new DialogResult
                             {
@@ -71,10 +71,10 @@ namespace Prism.Services.Dialogs
                     }
                 }
 
-                if(!parameters.TryGetValue<bool>(KnownDialogParameters.CloseOnBackgroundTapped, out var closeOnBackgroundTapped))
+                if (!parameters.TryGetValue<bool>(KnownDialogParameters.CloseOnBackgroundTapped, out var closeOnBackgroundTapped))
                 {
                     var dialogLayoutCloseOnBackgroundTapped = DialogLayout.GetCloseOnBackgroundTapped(view);
-                    if(dialogLayoutCloseOnBackgroundTapped.HasValue)
+                    if (dialogLayoutCloseOnBackgroundTapped.HasValue)
                     {
                         closeOnBackgroundTapped = dialogLayoutCloseOnBackgroundTapped.Value;
                     }
@@ -96,7 +96,7 @@ namespace Prism.Services.Dialogs
         {
             try
             {
-                if(parameters is null)
+                if (parameters is null)
                 {
                     parameters = new DialogParameters();
                 }
@@ -104,7 +104,7 @@ namespace Prism.Services.Dialogs
                 var view = dialogModal.DialogView;
                 var dialogAware = GetDialogController(view);
 
-                if(!dialogAware.CanCloseDialog())
+                if (!dialogAware.CanCloseDialog())
                 {
                     throw new DialogException(DialogException.CanCloseIsFalse);
                 }
@@ -120,7 +120,7 @@ namespace Prism.Services.Dialogs
                     Parameters = parameters
                 };
             }
-            catch(DialogException)
+            catch (DialogException)
             {
                 throw;
             }
@@ -144,15 +144,15 @@ namespace Prism.Services.Dialogs
 
         private IDialogAware GetDialogController(View view)
         {
-            if(view is IDialogAware viewAsDialogAware)
+            if (view is IDialogAware viewAsDialogAware)
             {
                 return viewAsDialogAware;
             }
-            else if(view.BindingContext is null)
+            else if (view.BindingContext is null)
             {
                 throw new DialogException(DialogException.NoViewModel);
             }
-            else if(view.BindingContext is IDialogAware dialogAware)
+            else if (view.BindingContext is IDialogAware dialogAware)
             {
                 return dialogAware;
             }
@@ -166,14 +166,14 @@ namespace Prism.Services.Dialogs
 
             dialog.OnDialogOpened(parameters);
 
-            if(dialog is IAbracadabra)
+            if (dialog is IAbracadabra)
             {
                 PageUtilities.Abracadabra(dialog, parameters);
             }
 
             return dialog;
         }
-        
+
         private ContentPage GetCurrentContentPage()
         {
             var cp = GetCurrentPage();
@@ -194,7 +194,7 @@ namespace Prism.Services.Dialogs
 
         private ContentPage GetCurrentPage(Page page = null)
         {
-            switch(page)
+            switch (page)
             {
                 case ContentPage cp:
                     return cp;
@@ -211,7 +211,7 @@ namespace Prism.Services.Dialogs
                     return GetCurrentPage((shell.CurrentItem.CurrentItem as IShellSectionController).PresentedPage);
                 default:
                     // If we get some random Page Type
-                    if(page != null)
+                    if (page != null)
                     {
                         Xamarin.Forms.Internals.Log.Warning("Warning", $"An Unknown Page type {page.GetType()} was found walk walking the Navigation Stack. This is not supported by the DialogService");
                         return null;
@@ -231,7 +231,7 @@ namespace Prism.Services.Dialogs
         {
             View mask = DialogLayout.GetMask(popupView);
 
-            if(mask is null)
+            if (mask is null)
             {
                 Style overlayStyle = GetOverlayStyle(popupView);
 
@@ -301,7 +301,7 @@ namespace Prism.Services.Dialogs
         private static Style GetOverlayStyle(View popupView)
         {
             var style = DialogLayout.GetMaskStyle(popupView);
-            if(style != null)
+            if (style != null)
             {
                 return style;
             }

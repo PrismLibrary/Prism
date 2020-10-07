@@ -1,12 +1,12 @@
-﻿using Prism.AppModel;
-using Prism.Mvvm;
-using Prism.Navigation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Prism.AppModel;
+using Prism.Mvvm;
+using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.Common
@@ -58,7 +58,7 @@ namespace Prism.Common
 
         private static void DestroyChildren(Page page)
         {
-            switch(page)
+            switch (page)
             {
                 case MasterDetailPage mdp:
                     DestroyPage(mdp.Master);
@@ -144,11 +144,11 @@ namespace Prism.Common
                             .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                             .Where(x => x.CanWrite);
 
-            foreach(var prop in props)
+            foreach (var prop in props)
             {
                 (var name, var isRequired) = prop.GetAutoInitializeProperty();
 
-                if(!parameters.HasKey(name, out var key))
+                if (!parameters.HasKey(name, out var key))
                 {
                     if (isRequired)
                         throw new ArgumentNullException(name);
@@ -168,7 +168,7 @@ namespace Prism.Common
         private static (string Name, bool IsRequired) GetAutoInitializeProperty(this PropertyInfo pi)
         {
             var attr = pi.GetCustomAttribute<AutoInitializeAttribute>();
-            if(attr is null)
+            if (attr is null)
             {
                 return (pi.Name, false);
             }

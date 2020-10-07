@@ -37,7 +37,7 @@ namespace Prism.Navigation.Xaml
                 return;
             }
 
-            if(newValue != null && newValue is IScopedProvider scopedProvider)
+            if (newValue != null && newValue is IScopedProvider scopedProvider)
             {
                 scopedProvider.IsAttached = true;
             }
@@ -52,7 +52,7 @@ namespace Prism.Navigation.Xaml
                 typeof(Navigation),
                 true,
                 propertyChanged: OnCanNavigatePropertyChanged);
-        
+
         internal static readonly BindableProperty RaiseCanExecuteChangedInternalProperty =
             BindableProperty.CreateAttached("RaiseCanExecuteChangedInternal",
                 typeof(Action),
@@ -63,7 +63,7 @@ namespace Prism.Navigation.Xaml
         /// Gets the Bindable Can Navigate property for an element
         /// </summary>
         /// <param name="view">The bindable element</param>
-        public static bool GetCanNavigate(BindableObject view) => (bool) view.GetValue(CanNavigateProperty);
+        public static bool GetCanNavigate(BindableObject view) => (bool)view.GetValue(CanNavigateProperty);
 
         /// <summary>
         /// Sets the Bindable Can Navigate property for an element
@@ -81,14 +81,14 @@ namespace Prism.Navigation.Xaml
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static INavigationService GetNavigationService(Page page)
         {
-            if(page == null) throw new ArgumentNullException(nameof(page));
+            if (page == null) throw new ArgumentNullException(nameof(page));
 
-            var navService = (INavigationService) page.GetValue(NavigationServiceProperty);
-            if(navService is null)
+            var navService = (INavigationService)page.GetValue(NavigationServiceProperty);
+            if (navService is null)
             {
                 var currentScope = (IScopedProvider)page.GetValue(NavigationScopeProperty) ?? ContainerLocator.Container.CurrentScope;
 
-                if(currentScope is null)
+                if (currentScope is null)
                     currentScope = ContainerLocator.Container.CreateScope();
 
                 if (!currentScope.IsAttached)
@@ -97,7 +97,7 @@ namespace Prism.Navigation.Xaml
                 currentScope.IsAttached = true;
 
                 navService = currentScope.Resolve<INavigationService>();
-                if(navService is IPageAware pa)
+                if (navService is IPageAware pa)
                 {
                     pa.Page = page;
                 }
@@ -108,7 +108,7 @@ namespace Prism.Navigation.Xaml
             return navService;
         }
 
-        internal static Action GetRaiseCanExecuteChangedInternal(BindableObject view) => (Action) view.GetValue(RaiseCanExecuteChangedInternalProperty);
+        internal static Action GetRaiseCanExecuteChangedInternal(BindableObject view) => (Action)view.GetValue(RaiseCanExecuteChangedInternalProperty);
 
         internal static void SetRaiseCanExecuteChangedInternal(BindableObject view, Action value) => view.SetValue(RaiseCanExecuteChangedInternalProperty, value);
 

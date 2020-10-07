@@ -11,7 +11,7 @@ namespace Prism.Forms.Tests.Mocks.Views
 
         public PageMock() : this(null)
         {
-            
+
         }
 
         public PageMock(PageNavigationEventRecorder recorder)

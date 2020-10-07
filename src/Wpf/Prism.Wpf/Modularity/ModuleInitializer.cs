@@ -1,6 +1,6 @@
-using Prism.Ioc;
 using System;
 using System.Globalization;
+using Prism.Ioc;
 
 namespace Prism.Modularity
 {

@@ -1,7 +1,7 @@
-using Microsoft.Xaml.Behaviors;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
+using Microsoft.Xaml.Behaviors;
 
 namespace Prism.Interactivity
 {
@@ -85,8 +85,8 @@ namespace Prism.Interactivity
         /// <summary>
         /// Dependency property identifying the TriggerParameterPath to be parsed to identify the child property of the trigger parameter to be used as the command parameter.
         /// </summary>
-        public static readonly DependencyProperty TriggerParameterPathProperty = 
-            DependencyProperty.Register("TriggerParameterPath", typeof(string), typeof(InvokeCommandAction), 
+        public static readonly DependencyProperty TriggerParameterPathProperty =
+            DependencyProperty.Register("TriggerParameterPath", typeof(string), typeof(InvokeCommandAction),
                 new PropertyMetadata(null, (d, e) => { }));
 
         /// <summary>

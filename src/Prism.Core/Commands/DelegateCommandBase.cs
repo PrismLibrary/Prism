@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
-using System.Windows.Input;
 using System.Threading;
+using System.Windows.Input;
 
 namespace Prism.Commands
 {
@@ -89,7 +89,7 @@ namespace Prism.Commands
         {
             if (_observedPropertiesExpressions.Contains(propertyExpression.ToString()))
             {
-                throw new ArgumentException($"{propertyExpression.ToString()} is already being observed.", 
+                throw new ArgumentException($"{propertyExpression.ToString()} is already being observed.",
                     nameof(propertyExpression));
             }
             else

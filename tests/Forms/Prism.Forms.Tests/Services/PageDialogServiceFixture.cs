@@ -1,9 +1,9 @@
-﻿using Prism.Commands;
+﻿using System;
+using System.Threading.Tasks;
+using Prism.Commands;
 using Prism.Common;
 using Prism.Forms.Tests.Mocks;
 using Prism.Services;
-using System;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Prism.Forms.Tests.Services
@@ -103,7 +103,7 @@ namespace Prism.Forms.Tests.Services
             };
             await service.DisplayActionSheetAsync(null, btns);
 
-            switch(text)
+            switch (text)
             {
                 case "other":
                     Assert.True(otherButtonPressed);
@@ -133,7 +133,7 @@ namespace Prism.Forms.Tests.Services
             public bool ButtonPressed { get; set; }
         }
 
-        private void OnButtonPressed(ButtonModel model) => 
+        private void OnButtonPressed(ButtonModel model) =>
             model.ButtonPressed = true;
 
         private async Task DisplayActionSheet_PressButton_UsingGenericAction(string text)
@@ -150,7 +150,7 @@ namespace Prism.Forms.Tests.Services
             };
             await service.DisplayActionSheetAsync(null, btns);
 
-            switch(text)
+            switch (text)
             {
                 case "other":
                     Assert.True(otherButtonModel.ButtonPressed);

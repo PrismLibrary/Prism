@@ -1,6 +1,6 @@
 using System;
-using Xunit;
 using Prism.Events;
+using Xunit;
 
 namespace Prism.Tests.Events
 {
@@ -32,9 +32,9 @@ namespace Prism.Tests.Events
             object[] received1 = null;
             object[] received2 = null;
             var eventSubscription1 = new MockEventSubscription();
-            eventSubscription1.GetPublishActionReturnValue = delegate(object[] args) { received1 = args; };
+            eventSubscription1.GetPublishActionReturnValue = delegate (object[] args) { received1 = args; };
             var eventSubscription2 = new MockEventSubscription();
-            eventSubscription2.GetPublishActionReturnValue = delegate(object[] args) { received2 = args; };
+            eventSubscription2.GetPublishActionReturnValue = delegate (object[] args) { received2 = args; };
 
             customEvent.Subscribe(eventSubscription1);
             customEvent.Subscribe(eventSubscription2);

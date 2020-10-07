@@ -145,7 +145,7 @@ namespace Prism.Tests.Events
             Assert.True(weakHandlerRef.IsAlive);
             GC.KeepAlive(handler);
         }
-        
+
         [Fact]
         public void TargetEqualsWorksWithStaticMethodDelegates()
         {

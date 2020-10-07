@@ -7,7 +7,7 @@ namespace Prism.DI.Forms.Tests.Navigation
 {
     public class CustomNavigationServiceMock : PageNavigationService
     {
-        public CustomNavigationServiceMock(IContainerExtension container, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory) 
+        public CustomNavigationServiceMock(IContainerExtension container, IApplicationProvider applicationProvider, IPageBehaviorFactory pageBehaviorFactory)
             : base(container, applicationProvider, pageBehaviorFactory)
         {
         }

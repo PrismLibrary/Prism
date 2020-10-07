@@ -12,7 +12,7 @@ namespace Prism.Wpf.Tests.Mocks
 
         public void Attach()
         {
-            
+
         }
 
         public DependencyObject HostControl { get; set; }

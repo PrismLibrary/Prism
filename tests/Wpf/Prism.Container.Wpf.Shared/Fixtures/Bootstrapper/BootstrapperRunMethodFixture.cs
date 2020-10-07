@@ -188,7 +188,7 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
             container.RegisterInstance<IModuleInitializer>(mockedModuleInitializer.Object);
             container.RegisterInstance<IModuleManager>(mockedModuleManager.Object);
             container.RegisterInstance<RegionAdapterMappings>(regionAdapterMappings);
-            
+
             container.RegisterSingleton(typeof(RegionAdapterMappings), typeof(RegionAdapterMappings));
             container.RegisterSingleton(typeof(IRegionManager), typeof(RegionManager));
             container.RegisterSingleton(typeof(IEventAggregator), typeof(EventAggregator));
@@ -221,7 +221,7 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
             Assert.Equal("CreateModuleCatalog", bootstrapper.MethodCalls[index++]);
             Assert.Equal("RegisterRequiredTypes", bootstrapper.MethodCalls[index++]);
             Assert.Equal("RegisterTypes", bootstrapper.MethodCalls[index++]);
-            Assert.Equal("ConfigureModuleCatalog", bootstrapper.MethodCalls[index++]);            
+            Assert.Equal("ConfigureModuleCatalog", bootstrapper.MethodCalls[index++]);
             Assert.Equal("ConfigureRegionAdapterMappings", bootstrapper.MethodCalls[index++]);
             Assert.Equal("ConfigureDefaultRegionBehaviors", bootstrapper.MethodCalls[index++]);
             Assert.Equal("RegisterFrameworkExceptionTypes", bootstrapper.MethodCalls[index++]);

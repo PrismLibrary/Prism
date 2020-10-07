@@ -10,7 +10,7 @@ namespace Prism.Regions
     /// the <see cref="RegionMemberLifetimeBehavior"/> can use to determine if the instance should
     /// be removed when it is deactivated.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true )]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
     public sealed class RegionMemberLifetimeAttribute : Attribute
     {
         /// <summary>

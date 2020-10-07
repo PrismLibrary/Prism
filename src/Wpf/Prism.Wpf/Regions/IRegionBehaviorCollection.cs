@@ -30,6 +30,6 @@ namespace Prism.Regions
         /// Gets the <see cref="IRegionBehavior"/> with the specified key.
         /// </summary>
         /// <value>The registered <see cref="IRegionBehavior"/></value>
-        IRegionBehavior this[string key]{ get; }
+        IRegionBehavior this[string key] { get; }
     }
 }

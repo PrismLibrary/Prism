@@ -6,7 +6,7 @@ namespace Prism.DI.Forms.Tests.Mocks.ViewModels
     public class XamlViewMockBViewModel : BindableBase, INavigationAware
     {
         private string _test = "Initial Value";
-        private string _foo;  
+        private string _foo;
 
         public string Test
         {

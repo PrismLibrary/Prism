@@ -1,9 +1,9 @@
 
 
 using System;
-using Xunit;
 using Moq;
 using Prism.Regions;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Specialized;
 using System.Linq;
-using Xunit;
 using Moq;
+using Prism.Ioc;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
-using Prism.Ioc;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {

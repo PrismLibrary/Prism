@@ -37,7 +37,7 @@ namespace Prism.Ioc
 
             var name = AutoRegistrationViewNameProvider.GetNavigationSegmentName(viewType);
 
-            if(!checkIfRegistered || !containerRegistry.IsRegistered<object>(name))
+            if (!checkIfRegistered || !containerRegistry.IsRegistered<object>(name))
             {
                 containerRegistry.RegisterForNavigation(viewType, name);
             }

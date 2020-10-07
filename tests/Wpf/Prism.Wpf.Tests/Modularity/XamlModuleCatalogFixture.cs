@@ -1,7 +1,7 @@
-﻿using Prism.Modularity;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
+using Prism.Modularity;
 using Xunit;
 
 namespace Prism.Wpf.Tests.Modularity
@@ -93,7 +93,7 @@ namespace Prism.Wpf.Tests.Modularity
                     var uri = new Uri(group.Ref);
 
                     Assert.True(uri.IsFile);
-                }                
+                }
             }
         }
 

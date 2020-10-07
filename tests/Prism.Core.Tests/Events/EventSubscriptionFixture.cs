@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Xunit;
 using Prism.Events;
+using Xunit;
 
 namespace Prism.Tests.Events
 {

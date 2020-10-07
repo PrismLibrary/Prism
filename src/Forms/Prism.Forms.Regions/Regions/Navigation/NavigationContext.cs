@@ -35,7 +35,7 @@ namespace Prism.Regions.Navigation
             Parameters = regionParameters ?? new NavigationParameters();
 
             var queryString = uri != null ? UriParsingHelper.EnsureAbsolute(uri).Query : null;
-            if(!string.IsNullOrEmpty(queryString))
+            if (!string.IsNullOrEmpty(queryString))
             {
                 UpdateRegionParameters(new NavigationParameters(queryString));
             }

@@ -6,13 +6,13 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Data;
-using Xunit;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
+
     public class ViewsCollectionFixture
     {
         [Fact]
@@ -40,7 +40,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.Empty(viewsCollection);
 
             var item = new object();
-            originalCollection.Add(new ItemMetadata(item) {Name = "Possible"});
+            originalCollection.Add(new ItemMetadata(item) { Name = "Possible" });
             Assert.Single(viewsCollection);
 
             Assert.Same(item, viewsCollection.First());
@@ -54,7 +54,7 @@ namespace Prism.Wpf.Tests.Regions
             bool collectionChanged = false;
             viewsCollection.CollectionChanged += (s, e) => collectionChanged = true;
 
-            originalCollection.Add(new ItemMetadata(new object()) {IsActive = true});
+            originalCollection.Add(new ItemMetadata(new object()) { IsActive = true });
 
             Assert.True(collectionChanged);
         }
@@ -77,7 +77,7 @@ namespace Prism.Wpf.Tests.Regions
                                                              removedFromCollection = true;
                                                          }
                                                      };
-            var filteredInObject = new ItemMetadata(new object()) {IsActive = true};
+            var filteredInObject = new ItemMetadata(new object()) { IsActive = true };
 
             originalCollection.Add(filteredInObject);
 
@@ -96,7 +96,7 @@ namespace Prism.Wpf.Tests.Regions
             IViewsCollection viewsCollection = new ViewsCollection(originalCollection, x => x.IsActive);
             bool collectionChanged = false;
             viewsCollection.CollectionChanged += (s, e) => collectionChanged = true;
-            var filteredOutObject = new ItemMetadata(new object()) {IsActive = false};
+            var filteredOutObject = new ItemMetadata(new object()) { IsActive = false };
 
             originalCollection.Add(filteredOutObject);
             originalCollection.Remove(filteredOutObject);
@@ -171,7 +171,7 @@ namespace Prism.Wpf.Tests.Regions
                                                          }
                                                      };
 
-            originalCollection.Add(new ItemMetadata(new object()) {IsActive = true});
+            originalCollection.Add(new ItemMetadata(new object()) { IsActive = true });
             Assert.True(addedToCollection);
             Assert.False(removedFromCollection);
             addedToCollection = false;
@@ -281,16 +281,16 @@ namespace Prism.Wpf.Tests.Regions
             originalCollection.Add(new ItemMetadata("c"));
             IViewsCollection viewsCollection = new ViewsCollection(originalCollection, (i) => true);
 
-            CollectionViewSource cvs = new CollectionViewSource {Source = viewsCollection};
+            CollectionViewSource cvs = new CollectionViewSource { Source = viewsCollection };
 
             var view = cvs.View;
             //try
             //{
-                originalCollection.RemoveAt(1);
+            originalCollection.RemoveAt(1);
             //}
             //catch (Exception ex)
             //{
-                //Assert.Fail(ex.Message);
+            //Assert.Fail(ex.Message);
             //}
         }
 

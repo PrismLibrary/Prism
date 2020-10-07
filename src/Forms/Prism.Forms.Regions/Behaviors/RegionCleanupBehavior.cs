@@ -22,7 +22,7 @@ namespace Prism.Behaviors
             if (Region != null)
             {
                 var manager = Region.RegionManager ?? ContainerLocator.Container.Resolve<IRegionManager>();
-                if(manager.Regions.ContainsRegionWithName(Region.Name))
+                if (manager.Regions.ContainsRegionWithName(Region.Name))
                 {
                     manager.Regions.Remove(Region.Name);
                 }

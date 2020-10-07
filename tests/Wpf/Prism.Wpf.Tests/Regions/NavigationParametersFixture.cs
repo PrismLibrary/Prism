@@ -1,10 +1,10 @@
-﻿using Xunit;
+﻿using System.Linq;
 using Prism.Regions;
-using System.Linq;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
+
     public class NavigationParametersFixture
     {
         const string _uri = "?id=3&name=brian";
@@ -47,7 +47,7 @@ namespace Prism.Wpf.Tests.Regions
         {
             var parameters = new NavigationParameters(_uriWithJQueryArray);
             Assert.Equal(3, parameters.Count);
-            Assert.Contains( "color[]", parameters.Keys.ToArray());
+            Assert.Contains("color[]", parameters.Keys.ToArray());
         }
 
         [Fact]

@@ -1,9 +1,9 @@
-﻿using Prism.Common;
+﻿using System;
+using System.Windows;
+using Prism.Common;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
-using System;
-using System.Windows;
 
 namespace Prism
 {

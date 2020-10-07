@@ -45,7 +45,7 @@ namespace MockApp
 
         protected override string GetNavigationSegmentNameFromType(Type pageType)
         {
-            if(PageNameDelegate is null)
+            if (PageNameDelegate is null)
                 return base.GetNavigationSegmentNameFromType(pageType);
 
             return PageNameDelegate(pageType);

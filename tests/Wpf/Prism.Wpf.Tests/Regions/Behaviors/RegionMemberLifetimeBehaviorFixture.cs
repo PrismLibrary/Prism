@@ -1,15 +1,15 @@
 
 
-using Xunit;
 using Moq;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {
-    
-    public class RegionMemberLifetimeBehaviorFixture 
+
+    public class RegionMemberLifetimeBehaviorFixture
     {
         protected Region Region { get; set; }
         protected RegionMemberLifetimeBehavior Behavior { get; set; }
@@ -248,10 +248,10 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         {
         }
 
-        
+
     }
 
-    
+
     public class RegionMemberLifetimeBehaviorAgainstSingleActiveRegionFixture
                 : RegionMemberLifetimeBehaviorFixture
     {

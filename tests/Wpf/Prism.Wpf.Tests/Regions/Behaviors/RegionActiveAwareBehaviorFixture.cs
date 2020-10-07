@@ -2,15 +2,15 @@
 
 using System;
 using System.Windows;
-using Xunit;
 using Moq;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {
-    
+
     public class RegionActiveAwareBehaviorFixture
     {
         [StaFact]
@@ -223,7 +223,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             scopedRegionManager.Regions.Add(scopedRegion);
             var behaviorForScopedRegion = new RegionActiveAwareBehavior { Region = scopedRegion };
             behaviorForScopedRegion.Attach();
-            var childActiveAwareView = new ActiveAwareObject();            
+            var childActiveAwareView = new ActiveAwareObject();
 
             var region = new MockPresentationRegion();
             var behavior = new RegionActiveAwareBehavior { Region = region };
@@ -248,7 +248,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         public void WhenParentViewGetsActivatedOrDeactivated_ThenSyncedChildViewNotInActiveViewsIsNotUpdated()
         {
             var scopedRegionManager = new RegionManager();
-            var scopedRegion = new Region { Name="MyScopedRegion", RegionManager = scopedRegionManager };
+            var scopedRegion = new Region { Name = "MyScopedRegion", RegionManager = scopedRegionManager };
             scopedRegionManager.Regions.Add(scopedRegion);
             var behaviorForScopedRegion = new RegionActiveAwareBehavior { Region = scopedRegion };
             behaviorForScopedRegion.Attach();
@@ -281,7 +281,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         public void WhenParentViewWithoutScopedRegionGetsActivatedOrDeactivated_ThenSyncedChildViewIsNotUpdated()
         {
             var commonRegionManager = new RegionManager();
-            var nonScopedRegion = new Region { Name="MyRegion", RegionManager = commonRegionManager };
+            var nonScopedRegion = new Region { Name = "MyRegion", RegionManager = commonRegionManager };
             commonRegionManager.Regions.Add(nonScopedRegion);
             var behaviorForScopedRegion = new RegionActiveAwareBehavior { Region = nonScopedRegion };
             behaviorForScopedRegion.Attach();
@@ -331,6 +331,6 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             public bool IsActive { get; set; }
             public event EventHandler IsActiveChanged;
         }
-        
+
     }
 }

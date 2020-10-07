@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
-using Xunit;
 using Moq;
 using Prism.Regions;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
+
     public class NavigationContextFixture
     {
         [Fact]

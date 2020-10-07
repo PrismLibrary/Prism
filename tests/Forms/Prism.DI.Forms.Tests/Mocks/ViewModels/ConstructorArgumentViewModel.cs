@@ -7,7 +7,7 @@ namespace Prism.DI.Forms.Tests.Mocks.ViewModels
     {
         public IServiceMock Service { get; }
 
-        public ConstructorArgumentViewModel( IServiceMock service )
+        public ConstructorArgumentViewModel(IServiceMock service)
         {
             Service = service;
         }

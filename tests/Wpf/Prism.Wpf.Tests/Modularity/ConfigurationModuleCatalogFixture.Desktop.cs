@@ -3,9 +3,9 @@
 using System;
 using System.Configuration;
 using System.Linq;
-using Xunit;
 using Prism.Modularity;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Modularity
 {
@@ -41,7 +41,7 @@ namespace Prism.Wpf.Tests.Modularity
                 Modules = new[] { new ModuleConfigurationElement(@"MocksModules\MockModuleA.dll", "TestModules.MockModuleAClass", "MockModuleA", false) }
             };
 
-            ConfigurationModuleCatalog catalog = new ConfigurationModuleCatalog(){Store = store};
+            ConfigurationModuleCatalog catalog = new ConfigurationModuleCatalog() { Store = store };
             catalog.Load();
 
             var modules = catalog.Modules;
@@ -52,8 +52,8 @@ namespace Prism.Wpf.Tests.Modularity
             Assert.NotNull(modules.First().Ref);
             Assert.StartsWith("file://", modules.First().Ref);
             Assert.Contains(@"MocksModules/MockModuleA.dll", modules.First().Ref);
-            Assert.NotNull( modules.First().ModuleType);
-            Assert.Equal("TestModules.MockModuleAClass",  modules.First().ModuleType);
+            Assert.NotNull(modules.First().ModuleType);
+            Assert.Equal("TestModules.MockModuleAClass", modules.First().ModuleType);
 
         }
 

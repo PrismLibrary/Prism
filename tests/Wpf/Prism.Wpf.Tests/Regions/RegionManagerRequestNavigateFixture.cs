@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
-using Xunit;
-
-using Prism.Regions;
-
+using System.Text;
 using Moq;
+using Prism.Regions;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
+
     public class RegionManagerRequestNavigateFixture
     {
         const string region = "Region";
@@ -36,7 +34,7 @@ namespace Prism.Wpf.Tests.Regions
         public void ThrowsWhenNavigationCallbackIsNull()
         {
             ExceptionAssert.Throws<ArgumentNullException>(() =>
-                regionManager.RequestNavigate(region, source, null, parameters)                
+                regionManager.RequestNavigate(region, source, null, parameters)
             );
 
             ExceptionAssert.Throws<ArgumentNullException>(() =>

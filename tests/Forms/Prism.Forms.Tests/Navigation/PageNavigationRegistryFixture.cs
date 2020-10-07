@@ -1,7 +1,7 @@
-﻿using Prism.Forms.Tests.Mocks.Views;
-using Prism.Navigation;
-using System;
+﻿using System;
 using System.Reflection;
+using Prism.Forms.Tests.Mocks.Views;
+using Prism.Navigation;
 using Xunit;
 
 namespace Prism.Forms.Tests.Navigation

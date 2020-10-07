@@ -42,7 +42,7 @@ namespace Prism.Regions
                 throw new ArgumentNullException(nameof(element));
 
             var regionManager = TryGetRegion(element);
-            if(regionManager is null)
+            if (regionManager is null)
             {
                 regionManager = ContainerLocator.Container.Resolve<IRegionManager>();
                 element.SetValue(Xaml.RegionManager.RegionManagerProperty, regionManager);

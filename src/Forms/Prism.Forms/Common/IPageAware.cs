@@ -10,6 +10,6 @@ namespace Prism.Common
         /// <summary>
         /// The <see cref="Xamarin.Forms.Page"/> instance.
         /// </summary>
-        Page Page { get; set; } 
+        Page Page { get; set; }
     }
 }

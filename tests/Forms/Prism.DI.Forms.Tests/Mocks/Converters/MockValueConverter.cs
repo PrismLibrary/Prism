@@ -1,8 +1,8 @@
 using System;
 using System.Globalization;
-using Xamarin.Forms;
-using Prism.Forms.Tests.Mocks.Events;
 using Prism.Events;
+using Prism.Forms.Tests.Mocks.Events;
+using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks.Converters
 {

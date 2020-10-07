@@ -1,8 +1,8 @@
-﻿using Prism.Properties;
-using System;
+﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
+using Prism.Properties;
 
 namespace Prism.Commands
 {

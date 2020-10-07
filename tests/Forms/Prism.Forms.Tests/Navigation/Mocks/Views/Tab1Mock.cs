@@ -9,9 +9,9 @@ namespace Prism.Forms.Tests.Navigation.Mocks.Views
         {
         }
 
-        public Tab1Mock(PageNavigationEventRecorder recorder) : base (recorder)
+        public Tab1Mock(PageNavigationEventRecorder recorder) : base(recorder)
         {
-            
+
         }
     }
 }

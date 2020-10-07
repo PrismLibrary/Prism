@@ -81,12 +81,12 @@ namespace Prism.Core.Tests.Extensions
         {
             public const string Result = "RESULT";
 
-            public bool TaskCompleted { get; set; }  = false;
+            public bool TaskCompleted { get; set; } = false;
 
             public async Task RunATask()
             {
                 await Task.Delay(500);
-                TaskCompleted = true;                
+                TaskCompleted = true;
             }
 
             public async Task<string> RunATaskWithResult()

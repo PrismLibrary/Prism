@@ -4,13 +4,13 @@ using System;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Xunit;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
+
     public class ContentControlRegionAdapterFixture
     {
         [StaFact]

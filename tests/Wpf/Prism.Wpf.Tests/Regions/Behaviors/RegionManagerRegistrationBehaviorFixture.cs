@@ -4,14 +4,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Controls;
-using Xunit;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {
-    
+
     public class RegionManagerRegistrationBehaviorFixture
     {
         [StaFact]
@@ -23,13 +23,13 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             {
                 GetRegionManager = d => regionManager
             };
-            var region = new MockPresentationRegion() {Name = "myRegionName"};
+            var region = new MockPresentationRegion() { Name = "myRegionName" };
             var behavior = new RegionManagerRegistrationBehavior()
-                               {
-                                   RegionManagerAccessor = accessor,
-                                   Region = region,
-                                   HostControl = control
-                               };
+            {
+                RegionManagerAccessor = accessor,
+                Region = region,
+                HostControl = control
+            };
 
             behavior.Attach();
 
@@ -123,7 +123,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
                 GetRegionManager = d => d == regionScopeControl ? regionManager : null
             };
 
-            var region = new MockPresentationRegion() {Name = "myRegionName"};
+            var region = new MockPresentationRegion() { Name = "myRegionName" };
             var behavior = new RegionManagerRegistrationBehavior()
             {
                 RegionManagerAccessor = accessor,

@@ -1,14 +1,14 @@
-﻿using Moq;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using Moq;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Services.Dialogs;
-using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using Xunit;
 
 namespace Prism.Wpf.Tests
@@ -192,7 +192,7 @@ namespace Prism.Wpf.Tests
         public void RequiredTypesAreRegistered()
         {
             application.MockContainer.Verify(x => x.RegisterInstance(typeof(IModuleCatalog), It.IsAny<IModuleCatalog>()), Times.Once);
-            
+
             application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IDialogService), typeof(DialogService)), Times.Once);
             application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IModuleInitializer), typeof(ModuleInitializer)), Times.Once);
             application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IModuleManager), typeof(ModuleManager)), Times.Once);
@@ -202,7 +202,7 @@ namespace Prism.Wpf.Tests
             application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IEventAggregator), typeof(EventAggregator)), Times.Once);
             application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionViewRegistry), typeof(RegionViewRegistry)), Times.Once);
             application.MockContainer.Verify(x => x.RegisterSingleton(typeof(IRegionBehaviorFactory), typeof(RegionBehaviorFactory)), Times.Once);
-            
+
             application.MockContainer.Verify(x => x.Register(typeof(IRegionNavigationJournalEntry), typeof(RegionNavigationJournalEntry)), Times.Once);
             application.MockContainer.Verify(x => x.Register(typeof(IRegionNavigationJournal), typeof(RegionNavigationJournal)), Times.Once);
             application.MockContainer.Verify(x => x.Register(typeof(IRegionNavigationService), typeof(RegionNavigationService)), Times.Once);

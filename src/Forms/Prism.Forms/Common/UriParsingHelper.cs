@@ -1,7 +1,7 @@
-﻿using Prism.Navigation;
-using Prism.Services.Dialogs;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Prism.Navigation;
+using Prism.Services.Dialogs;
 
 namespace Prism.Common
 {

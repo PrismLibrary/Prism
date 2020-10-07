@@ -58,7 +58,7 @@ namespace Prism.Wpf.Tests.Modularity
             Assert.False(manager.IsModuleInitialized<MockModuleA>());
             moduleInfo.State = ModuleState.Initializing;
             Assert.False(manager.IsModuleInitialized<MockModuleA>());
-            moduleInfo.State = ModuleState.Initialized; 
+            moduleInfo.State = ModuleState.Initialized;
             Assert.True(manager.IsModuleInitialized<MockModuleA>());
         }
 

@@ -93,7 +93,7 @@ namespace Prism.Ioc
         {
             get
             {
-                switch(Message)
+                switch (Message)
                 {
                     // Be sure to add any constants here as new use cases emerge.
                     case MissingRegistration:
@@ -123,12 +123,12 @@ namespace Prism.Ioc
             }
 
             var implementingType = TryFindImplementingType();
-            if(implementingType is null)
+            if (implementingType is null)
             {
                 errors.Add(ServiceType, new ContainerResolutionException(ServiceType, MissingRegistration));
                 return errors;
             }
-            else if(implementingType.IsAbstract)
+            else if (implementingType.IsAbstract)
             {
                 errors.Add(ServiceType, new ContainerResolutionException(implementingType, CannotResolveAbstractType));
             }
@@ -171,7 +171,7 @@ namespace Prism.Ioc
             {
                 errors.Add(implementingType, new ContainerResolutionException(implementingType, MultipleConstructors));
             }
-            else if(ctors.Length == 0)
+            else if (ctors.Length == 0)
             {
                 errors.Add(implementingType, new ContainerResolutionException(implementingType, NoPublicConstructors));
                 return;
@@ -181,7 +181,7 @@ namespace Prism.Ioc
             var parameters = ctor.GetParameters();
             var parameterInstances = new List<object>();
             var container = ContainerLocator.Current;
-            foreach(var parameter in parameters)
+            foreach (var parameter in parameters)
             {
                 try
                 {
@@ -197,14 +197,14 @@ namespace Prism.Ioc
                 {
                     // TODO: Add Exceptions Extensions lookup here to get root Exception
                     errors.Add(parameter.ParameterType, ex);
-                    if(ex is ContainerResolutionException cre && !cre.IsKnownIssue)
+                    if (ex is ContainerResolutionException cre && !cre.IsKnownIssue)
                     {
-                        foreach(var subError in cre.GetErrors())
+                        foreach (var subError in cre.GetErrors())
                         {
                             errors.Add(subError.Key, subError.Value);
                         }
                     }
-                } 
+                }
             }
 
             // Return if we had an error with any children
@@ -225,7 +225,7 @@ namespace Prism.Ioc
             {
                 errors.Add(implementingType, tie);
 
-                if(tie.InnerException != null)
+                if (tie.InnerException != null)
                     errors.Add(implementingType, tie.InnerException);
             }
             catch (Exception ex)

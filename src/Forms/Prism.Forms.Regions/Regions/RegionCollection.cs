@@ -28,7 +28,7 @@ namespace Prism.Regions
             return _regions.GetEnumerator();
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => 
+        IEnumerator IEnumerable.GetEnumerator() =>
             GetEnumerator();
 
         public IRegion this[string regionName]

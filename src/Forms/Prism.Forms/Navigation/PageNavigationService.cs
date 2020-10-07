@@ -1,10 +1,10 @@
-﻿using Prism.Behaviors;
-using Prism.Common;
-using Prism.Ioc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Behaviors;
+using Prism.Common;
+using Prism.Ioc;
 using Xamarin.Forms;
 
 namespace Prism.Navigation
@@ -133,11 +133,11 @@ namespace Prism.Navigation
 
         private static Exception GetGoBackException(Page currentPage, Page mainPage)
         {
-            if(IsMainPage(currentPage, mainPage))
+            if (IsMainPage(currentPage, mainPage))
             {
                 return new NavigationException(NavigationException.CannotPopApplicationMainPage, currentPage);
             }
-            else if((currentPage is NavigationPage navPage && IsOnNavigationPageRoot(navPage)) ||
+            else if ((currentPage is NavigationPage navPage && IsOnNavigationPageRoot(navPage)) ||
                 (currentPage.Parent is NavigationPage navParent && IsOnNavigationPageRoot(navParent)))
             {
                 return new NavigationException(NavigationException.CannotGoBackFromRoot, currentPage);
@@ -155,7 +155,7 @@ namespace Prism.Navigation
             {
                 return true;
             }
-            else if(mainPage is MasterDetailPage mdp && mdp.Detail == currentPage)
+            else if (mainPage is MasterDetailPage mdp && mdp.Detail == currentPage)
             {
                 return true;
             }
@@ -167,7 +167,7 @@ namespace Prism.Navigation
             {
                 return true;
             }
-            else if(currentPage.Parent is NavigationPage navPage && navPage.CurrentPage == navPage.RootPage)
+            else if (currentPage.Parent is NavigationPage navPage && navPage.CurrentPage == navPage.RootPage)
             {
                 return IsMainPage(navPage, mainPage);
             }

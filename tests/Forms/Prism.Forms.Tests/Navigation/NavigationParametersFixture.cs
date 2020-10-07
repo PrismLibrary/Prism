@@ -1,5 +1,5 @@
-﻿using Prism.Navigation;
-using System.Linq;
+﻿using System.Linq;
+using Prism.Navigation;
 using Xunit;
 
 namespace Prism.Forms.Tests.Navigation

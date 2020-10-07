@@ -1,8 +1,8 @@
 using System;
 using System.Windows.Input;
-using Xunit;
 using Prism.Commands;
 using Prism.Mvvm;
+using Xunit;
 
 namespace Prism.Tests.Commands
 {
@@ -374,7 +374,7 @@ namespace Prism.Tests.Commands
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
-			RaisePropertyChanged(null);
+            RaisePropertyChanged(null);
 
             Assert.True(canExecuteChangedRaised);
         }
@@ -422,7 +422,7 @@ namespace Prism.Tests.Commands
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
-			RaisePropertyChanged(null);
+            RaisePropertyChanged(null);
 
             Assert.False(canExecuteChangedRaised);
         }
@@ -697,7 +697,7 @@ namespace Prism.Tests.Commands
 
             command.CanExecuteChanged += delegate { canExecuteChangedRaised = true; };
 
-			RaisePropertyChanged(null);
+            RaisePropertyChanged(null);
 
             Assert.False(canExecuteChangedRaised);
         }

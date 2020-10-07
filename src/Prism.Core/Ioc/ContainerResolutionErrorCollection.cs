@@ -24,7 +24,7 @@ namespace Prism.Ioc
         /// </remarks>
         public IEnumerable<Type> Types => _errors.Select(x => x.Key).Distinct();
 
-        IEnumerator<KeyValuePair<Type, Exception>> IEnumerable<KeyValuePair<Type,Exception>>.GetEnumerator() =>
+        IEnumerator<KeyValuePair<Type, Exception>> IEnumerable<KeyValuePair<Type, Exception>>.GetEnumerator() =>
             _errors.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() =>

@@ -1,6 +1,6 @@
+using System;
 using Prism.Ioc;
 using Prism.Modularity;
-using System;
 
 namespace Prism.Wpf.Tests.Mocks.Modules
 {
@@ -17,5 +17,5 @@ namespace Prism.Wpf.Tests.Mocks.Modules
         }
     }
 
-    public class MyDummyClass : DummyClass {}
+    public class MyDummyClass : DummyClass { }
 }

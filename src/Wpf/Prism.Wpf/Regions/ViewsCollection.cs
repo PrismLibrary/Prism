@@ -153,9 +153,9 @@ namespace Prism.Regions
             this.monitoredItems.Add(
                 itemMetadata,
                 new MonitorInfo
-                    {
-                        IsInList = isInList
-                    });
+                {
+                    IsInList = isInList
+                });
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Prism.Regions
         /// <param name="e"></param>
         private void OnItemMetadataChanged(object sender, EventArgs e)
         {
-            ItemMetadata itemMetadata = (ItemMetadata) sender;
+            ItemMetadata itemMetadata = (ItemMetadata)sender;
 
             // Our monitored item may have been removed during another event before
             // our OnItemMetadataChanged got called back, so it's not unexpected
@@ -263,7 +263,7 @@ namespace Prism.Regions
             int newIndex = this.filteredItems.IndexOf(item);
             this.NotifyAdd(new[] { item }, newIndex);
         }
-        
+
         private void RemoveFromFilteredList(object item)
         {
             int index = this.filteredItems.IndexOf(item);
@@ -276,7 +276,7 @@ namespace Prism.Regions
             this.filteredItems = this.subjectCollection.Where(i => this.filter(i)).Select(i => i.Item)
                 .OrderBy<object, object>(o => o, new RegionItemComparer(this.SortComparison)).ToList();
         }
-        
+
         private class MonitorInfo
         {
             public bool IsInList { get; set; }

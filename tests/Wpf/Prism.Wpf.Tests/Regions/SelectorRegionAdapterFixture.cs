@@ -2,13 +2,13 @@
 
 using System;
 using System.Windows.Controls;
-using Xunit;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-    
+
     public class SelectorRegionAdapterFixture
     {
         [StaFact]
@@ -21,7 +21,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.NotNull(region);
 
             Assert.IsType<SelectorItemsSourceSyncBehavior>(region.Behaviors["SelectorItemsSourceSyncBehavior"]);
-            
+
         }
 
 

@@ -2,12 +2,12 @@
 
 using System;
 using System.IO;
-using Xunit;
 using Prism.Modularity;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Modularity
 {
-    
+
     public class AssemblyResolverFixture : IDisposable
     {
         private const string ModulesDirectory1 = @".\DynamicModules\MocksModulesAssemblyResolve";
@@ -72,11 +72,11 @@ namespace Prism.Wpf.Tests.Modularity
         {
             string assemblyPath = CompilerHelper.GenerateDynamicModule("ModuleInLoadedFromContext1", "Module", ModulesDirectory1 + @"\ModuleInLoadedFromContext1.dll");
             var uriBuilder = new UriBuilder
-                                 {
-                                     Host = String.Empty,
-                                     Scheme = Uri.UriSchemeFile,
-                                     Path = Path.GetFullPath(assemblyPath)
-                                 };
+            {
+                Host = String.Empty,
+                Scheme = Uri.UriSchemeFile,
+                Path = Path.GetFullPath(assemblyPath)
+            };
             var assemblyUri = uriBuilder.Uri;
             using (var resolver = new AssemblyResolver())
             {
@@ -99,11 +99,11 @@ namespace Prism.Wpf.Tests.Modularity
         {
             string assemblyPath = CompilerHelper.GenerateDynamicModule("ModuleInLoadedFromContext2", "Module", ModulesDirectory1 + @"\ModuleInLoadedFromContext2.dll");
             var uriBuilder = new UriBuilder
-                                 {
-                                     Host = String.Empty,
-                                     Scheme = Uri.UriSchemeFile,
-                                     Path = Path.GetFullPath(assemblyPath)
-                                 };
+            {
+                Host = String.Empty,
+                Scheme = Uri.UriSchemeFile,
+                Path = Path.GetFullPath(assemblyPath)
+            };
             var assemblyUri = uriBuilder.Uri;
             using (var resolver = new AssemblyResolver())
             {
@@ -116,7 +116,7 @@ namespace Prism.Wpf.Tests.Modularity
 
                 resolvedType =
                     Type.GetType("TestModules.ModuleInLoadedFromContext2Class, ModuleInLoadedFromContext2, Version=0.0.0.0");
-                
+
                 Assert.NotNull(resolvedType);
 
                 resolvedType =

@@ -1,5 +1,5 @@
-﻿using Prism.Navigation;
-using System;
+﻿using System;
+using Prism.Navigation;
 
 namespace Prism.Navigation
 {

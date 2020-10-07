@@ -18,7 +18,7 @@ namespace Prism.Regions
         /// Initializes a new instance of the <see cref="UpdateRegionsException"/> class with a specified error message.
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
-        public UpdateRegionsException(string message) 
+        public UpdateRegionsException(string message)
             : base(message)
         {
         }
@@ -30,7 +30,7 @@ namespace Prism.Regions
         /// <param name="message">The error message that explains the reason for the exception.</param>
         /// <param name="inner">The exception that is the cause of the current exception, or a null reference 
         /// (Nothing in Visual Basic) if no inner exception is specified.</param>
-        public UpdateRegionsException(string message, Exception inner) 
+        public UpdateRegionsException(string message, Exception inner)
             : base(message, inner)
         {
         }

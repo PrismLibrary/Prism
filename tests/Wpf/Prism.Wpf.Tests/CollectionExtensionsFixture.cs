@@ -6,14 +6,14 @@ using Xunit;
 
 namespace Prism.Wpf.Tests
 {
-    
+
     public class CollectionExtensionsFixture
     {
         [Fact]
         public void CanAddRangeToCollection()
         {
             Collection<object> col = new Collection<object>();
-            List<object> itemsToAdd = new List<object>{"1", "2"};
+            List<object> itemsToAdd = new List<object> { "1", "2" };
 
             col.AddRange(itemsToAdd);
 

@@ -3,14 +3,14 @@
 using System;
 using System.Linq;
 using System.Windows;
-using Xunit;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Regions.Behaviors
 {
-    
+
     public class DelayedRegionCreationBehaviorFixture
     {
         private DelayedRegionCreationBehavior GetBehavior(DependencyObject control, MockRegionManagerAccessor accessor, MockRegionAdapter adapter)
@@ -36,9 +36,9 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             var control2 = new MockFrameworkElement();
 
             var accessor = new MockRegionManagerAccessor
-                               {
-                                   GetRegionName = d => d == control1 ? "Region1" : "Region2"
-                               };
+            {
+                GetRegionName = d => d == control1 ? "Region1" : "Region2"
+            };
 
             var adapter = new MockRegionAdapter();
             adapter.Accessor = accessor;
@@ -65,9 +65,9 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             var control2 = new MockFrameworkContentElement();
 
             var accessor = new MockRegionManagerAccessor
-                               {
-                                   GetRegionName = d => "myRegionName"
-                               };
+            {
+                GetRegionName = d => "myRegionName"
+            };
 
             var behavior1 = this.GetBehavior(control1, accessor);
             behavior1.Attach();
@@ -109,9 +109,9 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             WeakReference controlWeakReference = new WeakReference(control);
 
             var accessor = new MockRegionManagerAccessor
-                               {
-                                   GetRegionName = d => "myRegionName"
-                               };
+            {
+                GetRegionName = d => "myRegionName"
+            };
 
             var behavior = this.GetBehavior(control, accessor);
             behavior.Attach();
@@ -139,7 +139,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             var behavior = this.GetBehavior(control, accessor);
             behavior.Attach();
             accessor.UpdateRegions();
-            
+
             Assert.True(controlWeakReference.IsAlive);
             GC.KeepAlive(control);
 
@@ -155,9 +155,9 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             var control = new MockFrameworkElement();
 
             var accessor = new MockRegionManagerAccessor
-                               {
-                                   GetRegionName = d => "myRegionName",
-                               };
+            {
+                GetRegionName = d => "myRegionName",
+            };
             var behavior = this.GetBehavior(control, accessor);
             behavior.Attach();
 

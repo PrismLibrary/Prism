@@ -12,14 +12,14 @@ namespace Prism.Modularity
         /// </summary>
         /// <param name="moduleInfo">Module that should have it's type loaded.</param>
         /// <returns><see langword="true"/> if the current typeloader is able to retrieve the module, otherwise <see langword="false"/>.</returns>
-        bool CanLoadModuleType(IModuleInfo moduleInfo);      
+        bool CanLoadModuleType(IModuleInfo moduleInfo);
 
         /// <summary>
         /// Retrieves the <paramref name="moduleInfo"/>.
         /// </summary>
         /// <param name="moduleInfo">Module that should have it's type loaded.</param>
         void LoadModuleType(IModuleInfo moduleInfo);
-   
+
         /// <summary>
         /// Raised repeatedly to provide progress as modules are downloaded in the background.
         /// </summary>

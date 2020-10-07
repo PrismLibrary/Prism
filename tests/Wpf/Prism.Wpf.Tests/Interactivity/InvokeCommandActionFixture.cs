@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Controls;
-using Xunit;
 using Prism.Interactivity;
 using Prism.Wpf.Tests.Mocks;
+using Xunit;
 
 namespace Prism.Wpf.Tests.Interactivity
 {

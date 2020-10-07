@@ -7,7 +7,7 @@ using Prism.Modularity;
 namespace Prism.Wpf.Tests.Mocks
 {
     public class MockModuleTypeLoader : IModuleTypeLoader
-    {        
+    {
         public List<IModuleInfo> LoadedModules = new List<IModuleInfo>();
         public bool canLoadModuleTypeReturnValue = true;
         public Exception LoadCompletedError;
