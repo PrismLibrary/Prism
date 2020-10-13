@@ -3,12 +3,9 @@ contact_links:
     - name: File a bug with the Prism Templates
       url: https://github.com/PrismLibrary/Prism.Templates/issues/new/choose
       about: Issues related to the Prism Templates should be filed in the Prism.Templates repo
-    - name: Ask a Question for Prism.Forms
-      url: https://stackoverflow.com/questions/ask?tags=prism&tags=xamarin.forms
-      about: Please ask and answer questions for Prism.Forms here.
-    - name: Ask a Question for Prism.Wpf
-      url: https://stackoverflow.com/questions/ask?tags=prism&tags=wpf
-      about: Please ask and answer questions for Prism.Wpf here.
+    - name: Ask a Question
+      url: https://github.com/PrismLibrary/Prism/discussions/category_choices
+      about: Please ask and answer questions for Prism here.
     - name: Read the Docs
       url: https://prismlibrary.com/docs
       about: Be sure you've read the docs!
