@@ -7,7 +7,6 @@ using Prism.Modularity;
 namespace HelloDialog
 {
     [ModuleDependency("HelloPageDialogModule")]
-    [AutoRegisterForNavigation]
     public class HelloDialogModule : IModule
     {
         public void OnInitialized(IContainerProvider containerProvider)
@@ -18,6 +17,7 @@ namespace HelloDialog
         {
             containerRegistry.RegisterDialog<DemoDialog, DemoDialogViewModel>();
             containerRegistry.RegisterDialog<UserAlert, UserAlertViewModel>();
+            containerRegistry.RegisterForNavigation<DialogDemoPage, DialogDemoPageViewModel>();
         }
     }
 }
