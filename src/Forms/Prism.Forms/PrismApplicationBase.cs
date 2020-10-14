@@ -145,8 +145,6 @@ namespace Prism
             RegisterRequiredTypes(_containerExtension);
             PlatformInitializer?.RegisterTypes(_containerExtension);
             RegisterTypes(_containerExtension);
-            AutoRegistrationViewNameProvider.SetDefaultProvider(GetNavigationSegmentNameFromType);
-            GetType().AutoRegisterViews(_containerExtension);
             _containerExtension.FinalizeExtension();
 
             _moduleCatalog = Container.Resolve<IModuleCatalog>();
@@ -157,17 +155,6 @@ namespace Prism
 
             InitializeModules();
         }
-
-        /// <summary>
-        /// Customizes the registration name when using <see cref="AutoRegisterForNavigationAttribute"/>
-        /// </summary>
-        /// <remarks>
-        /// This will be removed in a future version once we have a separate code gen tool
-        /// </remarks>
-        /// <param name="pageType">The page <see cref="Type"/></param>
-        /// <returns>The name used while navigating</returns>
-        protected virtual string GetNavigationSegmentNameFromType(Type pageType) =>
-            pageType.Name;
 
         /// <summary>
         /// Creates the container used by Prism.
