@@ -166,11 +166,6 @@ namespace Prism.Services.Dialogs
 
             dialog.OnDialogOpened(parameters);
 
-            if (dialog is IAbracadabra)
-            {
-                PageUtilities.Abracadabra(dialog, parameters);
-            }
-
             return dialog;
         }
 

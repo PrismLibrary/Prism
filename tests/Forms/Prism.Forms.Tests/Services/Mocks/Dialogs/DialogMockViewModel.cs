@@ -5,7 +5,7 @@ using Prism.Services.Dialogs;
 
 namespace Prism.Forms.Tests.Services.Mocks.Dialogs
 {
-    public class DialogMockViewModel : BindableBase, IAutoInitialize, IDialogAware
+    public class DialogMockViewModel : BindableBase, IDialogAware
     {
         private string _title;
         public string Title

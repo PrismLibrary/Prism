@@ -9,7 +9,7 @@ using Prism.Navigation.TabbedPages;
 
 namespace ModuleA.ViewModels
 {
-    public class ViewAViewModel : BindableBase, IAutoInitialize, INavigationAware, IActiveAware, IApplicationLifecycleAware, IPageLifecycleAware
+    public class ViewAViewModel : BindableBase, INavigationAware, IActiveAware, IApplicationLifecycleAware, IPageLifecycleAware
     {
         private readonly INavigationService _navigationService;
 
@@ -100,11 +100,6 @@ namespace ModuleA.ViewModels
                 Title = "Went Back";
             else if (navigationMode == NavigationMode.New)
                 Title = "Went to New Page";
-        }
-
-        public void OnNavigatingTo(INavigationParameters parameters)
-        {
-
         }
 
         public void OnResume()
