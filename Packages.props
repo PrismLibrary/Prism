@@ -1,7 +1,7 @@
 <Project>
 
   <ItemGroup>
-    <PackageReference Update="DryIoc.dll" Version="4.4.1" />
+    <PackageReference Update="DryIoc.dll" Version="4.5.0" />
     <PackageReference Update="Unity.Container" Version="5.11.8" />
 
     <PackageReference Update="System.ValueTuple" Version="4.5.0" />
@@ -11,7 +11,7 @@
 
   <!-- Uno -->
   <ItemGroup>
-    <PackageReference Update="Uno.UI" Version="3.0.12" />
+    <PackageReference Update="Uno.UI" Version="3.0.17" />
     <PackageReference Update="Uno.Core" Version="2.0.0" />
     <PackageReference Update="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.2-uno.76" />
     <PackageReference Update="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
@@ -33,7 +33,7 @@
     <PackageReference Update="Newtonsoft.Json" Version="12.0.2" />
 
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.7.1" />
-    <PackageReference Update="Moq" Version="4.14.5" />
+    <PackageReference Update="Moq" Version="4.14.7" />
     <PackageReference Update="xunit" Version="2.4.1" />
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>
@@ -56,7 +56,7 @@
 
   <ItemGroup>
     <GlobalPackageReference Include="Microsoft.NETFramework.ReferenceAssemblies"
-                      Version="1.0.0" />
+                            Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(IsPackable) ">
