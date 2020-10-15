@@ -11,10 +11,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Unity.Uno", "src\Uno\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Core", "src\Prism.Core\Prism.Core.csproj", "{CF74BE80-F9A0-4C02-A59C-30F43EDAB866}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{57CC0FDC-A8BD-4A51-A965-C25F1A7DDF89}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Containers", "Containers", "{B08E87A0-7697-43DA-AFB6-090E955057B4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Uno", "Uno", "{CBE0B15D-B960-4D91-9F74-2F7BA30BED4D}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.DryIoc.Shared", "src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.shproj", "{6E7EC81D-DA39-4C4F-A898-0148558C34F4}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.Unity.Shared", "src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.shproj", "{D66336A6-07E5-401A-A710-DAEDD6975D59}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{4338e214-2ba3-4043-90b6-6c1269c58865}*SharedItemsImports = 5
+		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{6e7ec81d-da39-4c4f-a898-0148558c34f4}*SharedItemsImports = 13
 		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{b09fc94c-8100-4eb2-846c-99acb056a993}*SharedItemsImports = 5
+		src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{d66336a6-07e5-401a-a710-daedd6975d59}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
@@ -238,6 +250,16 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B2A9C972-BD7A-4A95-B62C-F8385B819900} = {CBE0B15D-B960-4D91-9F74-2F7BA30BED4D}
+		{B09FC94C-8100-4EB2-846C-99ACB056A993} = {CBE0B15D-B960-4D91-9F74-2F7BA30BED4D}
+		{4338E214-2BA3-4043-90B6-6C1269C58865} = {CBE0B15D-B960-4D91-9F74-2F7BA30BED4D}
+		{CF74BE80-F9A0-4C02-A59C-30F43EDAB866} = {57CC0FDC-A8BD-4A51-A965-C25F1A7DDF89}
+		{B08E87A0-7697-43DA-AFB6-090E955057B4} = {57CC0FDC-A8BD-4A51-A965-C25F1A7DDF89}
+		{CBE0B15D-B960-4D91-9F74-2F7BA30BED4D} = {57CC0FDC-A8BD-4A51-A965-C25F1A7DDF89}
+		{6E7EC81D-DA39-4C4F-A898-0148558C34F4} = {B08E87A0-7697-43DA-AFB6-090E955057B4}
+		{D66336A6-07E5-401A-A710-DAEDD6975D59} = {B08E87A0-7697-43DA-AFB6-090E955057B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A6B5A49-790C-425F-BBF5-99D104959C33}

@@ -14,7 +14,7 @@ Prism for Xamarin.Forms helps you more easily design and build rich, flexible, a
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
+    <PackageReference Include="Xamarin.Forms" />
   </ItemGroup>
 
   <ItemGroup>

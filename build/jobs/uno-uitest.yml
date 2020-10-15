@@ -2,13 +2,19 @@ jobs:
 
 - job: UnoUITest_Wasm
   displayName: Uno UITest WebAssembly
-  container: unoplatform/wasm-build:2.0
+  container: unoplatform/wasm-build:3.0
   condition: and(succeeded(), eq(variables['EnableUITest'], 'true'))
   pool:
     vmImage: $(LinuxImage)
   workspace:
     clean: all
   steps:
+  - task: UseDotNet@2
+    displayName: Use .NET 3.1
+    inputs:
+      packageType: 'sdk'
+      useGlobalJson: true
+
   - bash: |
       build/scripts/wasm-uitest-run.sh
     env:
@@ -41,6 +47,12 @@ jobs:
     clean: all
 
   steps:
+  - task: UseDotNet@2
+    displayName: Use .NET 3.1
+    inputs:
+      packageType: 'sdk'
+      useGlobalJson: true
+
   - template: ../steps/set-runtime.yml
 
   - bash: |
@@ -76,6 +88,12 @@ jobs:
   workspace:
     clean: all
   steps:
+  - task: UseDotNet@2
+    displayName: Use .NET 3.1
+    inputs:
+      packageType: 'sdk'
+      useGlobalJson: true
+
   - template: ../steps/set-runtime.yml
 
   - bash: |

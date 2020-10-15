@@ -118,14 +118,12 @@
     <BundleResource Include="Resources\Fonts\winjs-symbols.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed">
-      <Version>2.0.2-uno.74</Version>
-    </PackageReference>
-    <PackageReference Include="Uno.UI" Version="3.0.5" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="3.0.5" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
-    <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.21.9" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" />
+    <PackageReference Include="Uno.UI" />
+    <PackageReference Include="Uno.UI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Filter" />
+    <PackageReference Include="Xamarin.TestCloud.Agent" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Contents.json">
