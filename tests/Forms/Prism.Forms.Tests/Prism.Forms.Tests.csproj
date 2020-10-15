@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Forms\Prism.Forms\Prism.Forms.csproj" />
-    <ProjectReference Include="..\MockApp\MockApp.csproj" />
   </ItemGroup>
 
 </Project>
