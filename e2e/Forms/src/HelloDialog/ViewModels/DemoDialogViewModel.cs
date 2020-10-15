@@ -9,7 +9,7 @@ using Prism.AppModel;
 
 namespace HelloDialog.ViewModels
 {
-    public class DemoDialogViewModel : BindableBase, IDialogAware, IAutoInitialize
+    public class DemoDialogViewModel : BindableBase, IDialogAware
     {
         public DemoDialogViewModel()
         {
@@ -24,7 +24,6 @@ namespace HelloDialog.ViewModels
         }
 
         private string message;
-        [AutoInitialize(true)]
         public string Message
         {
             get => message;
@@ -44,7 +43,7 @@ namespace HelloDialog.ViewModels
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-
+            Message = parameters.GetValue<string>("message");
         }
     }
 }
