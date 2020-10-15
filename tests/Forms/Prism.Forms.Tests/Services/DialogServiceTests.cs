@@ -125,20 +125,6 @@ namespace Prism.Forms.Tests.Services
         }
 
         [Fact]
-        public void IAutoInitializeSetsProperties()
-        {
-            SetMainPage();
-            var dialogService = CreateDialogService();
-            var title = "This message was set automagically";
-            dialogService.ShowDialog(DialogMockViewName, new DialogParameters { { "title", title } });
-
-            var dialog = DialogMock.Current;
-            Assert.Equal(title, dialog.ViewModel.Title);
-            var titleLabel = dialog.Children[1] as Label;
-            Assert.Equal(title, titleLabel.Text);
-        }
-
-        [Fact]
         public void UseMaskFalseProhibitsMaskInsersion()
         {
             SetMainPage();

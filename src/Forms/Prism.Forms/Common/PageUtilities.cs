@@ -133,47 +133,14 @@ namespace Prism.Common
         {
             if (page is null) return;
 
-            InvokeViewAndViewModelAction<IAbracadabra>(page, v => Abracadabra(v, parameters));
             InvokeViewAndViewModelAction<IInitialize>(page, v => v.Initialize(parameters));
             await InvokeViewAndViewModelActionAsync<IInitializeAsync>(page, async v => await v.InitializeAsync(parameters));
-        }
-
-        internal static void Abracadabra(object page, IEnumerable<KeyValuePair<string, object>> parameters)
-        {
-            var props = page.GetType()
-                            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                            .Where(x => x.CanWrite);
-
-            foreach (var prop in props)
-            {
-                (var name, var isRequired) = prop.GetAutoInitializeProperty();
-
-                if (!parameters.HasKey(name, out var key))
-                {
-                    if (isRequired)
-                        throw new ArgumentNullException(name);
-                    continue;
-                }
-
-                prop.SetValue(page, parameters.GetValue(key, prop.PropertyType));
-            }
         }
 
         private static bool HasKey(this IEnumerable<KeyValuePair<string, object>> parameters, string name, out string key)
         {
             key = parameters.Select(x => x.Key).FirstOrDefault(k => k.Equals(name, StringComparison.InvariantCultureIgnoreCase));
             return !string.IsNullOrEmpty(key);
-        }
-
-        private static (string Name, bool IsRequired) GetAutoInitializeProperty(this PropertyInfo pi)
-        {
-            var attr = pi.GetCustomAttribute<AutoInitializeAttribute>();
-            if (attr is null)
-            {
-                return (pi.Name, false);
-            }
-
-            return (string.IsNullOrEmpty(attr.Name) ? pi.Name : attr.Name, attr.IsRequired);
         }
 
         public static void OnNavigatedTo(object page, INavigationParameters parameters)
