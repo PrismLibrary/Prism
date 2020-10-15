@@ -5,9 +5,6 @@ IFS=$'\n\t'
 
 cd $BUILD_SOURCESDIRECTORY
 
-mv $BUILD_SOURCESDIRECTORY/e2e/Uno/Wasm.targets $BUILD_SOURCESDIRECTORY/e2e/Uno/Directory.Build.targets
-cp $BUILD_SOURCESDIRECTORY/e2e/Uno/Directory.Build.targets $BUILD_SOURCESDIRECTORY/src/Directory.Build.targets
-
 msbuild /r /p:Configuration=Release $BUILD_SOURCESDIRECTORY/e2e/Uno/HelloUnoWorld.UITests/HelloUnoWorld.UITests.csproj
 msbuild /r /p:Configuration=Release $BUILD_SOURCESDIRECTORY/e2e/Uno/HelloUnoWorld.Wasm/HelloUnoWorld.Wasm.csproj
 
