@@ -44,8 +44,8 @@ jobs:
     inputs:
       appFile: $(Build.ArtifactStagingDirectory)/${{ parameters.appFile }}
       frameworkOption: uitest
-      uiTestBuildDirectory: $(Build.ArtifactStagingDirectory)\UITests
-      uiTestToolsDirectory: $(System.DefaultWorkingDirectory)\build\tools\
+      uiTestBuildDirectory: $(Build.ArtifactStagingDirectory)\UITests\net461
+      uiTestToolsDirectory: $(Build.ArtifactStagingDirectory)\UITests\net461
       serverEndpoint: 'Prism-AppCenter'
       appSlug: 'Prism/${{ parameters.appName }}'
       devices: ${{ parameters.devices }}
