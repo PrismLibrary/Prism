@@ -9,19 +9,31 @@ using Xamarin.Forms;
 
 namespace Prism.Services.Dialogs
 {
+    /// <summary>
+    /// Provides the ability to display dialogs from ViewModels.
+    /// </summary>
     public sealed class DialogService : IDialogService
     {
+        /// <summary>
+        /// Gets the key for specifying or retrieving popup overlay style from Application Resources.
+        /// </summary>
         public const string PopupOverlayStyle = "PrismDialogMaskStyle";
 
         private IContainerProvider _containerExtension { get; }
         private IApplicationProvider _applicationProvider { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DialogService"/> class.
+        /// </summary>
+        /// <param name="applicationProvider">An object that provides Application components.</param>
+        /// <param name="containerProvider">An object that can resolve services.</param>
         public DialogService(IApplicationProvider applicationProvider, IContainerProvider containerProvider)
         {
             _applicationProvider = applicationProvider;
             _containerExtension = containerProvider;
         }
 
+        /// <inheritdoc/>
         public void ShowDialog(string name, IDialogParameters parameters, Action<IDialogResult> callback)
         {
             try

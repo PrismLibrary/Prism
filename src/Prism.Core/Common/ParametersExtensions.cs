@@ -50,6 +50,7 @@ namespace Prism.Common
         /// <summary>
         /// Searches <paramref name="parameters"/> for value referenced by <paramref name="key"/>
         /// </summary>
+        /// <typeparam name="T">The type of the parameter to return</typeparam>
         /// <param name="parameters">A collection of parameters to search</param>
         /// <param name="key">The key of the parameter to find</param>
         /// <param name="value">The value of parameter to return</param>
@@ -76,6 +77,7 @@ namespace Prism.Common
         /// <summary>
         /// Searches <paramref name="parameters"/> for value referenced by <paramref name="key"/>
         /// </summary>
+        /// <typeparam name="T">The type of the parameter to return</typeparam>
         /// <param name="parameters">A collection of parameters to search</param>
         /// <param name="key">The key of the parameter to find</param>
         /// <returns>An IEnumberable{T} of all the values referenced by key</returns>
