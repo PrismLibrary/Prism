@@ -151,6 +151,11 @@ stages:
       runOnce:
         deploy:
           steps:
+          - task: NuGetToolInstaller@1
+            displayName: Use latest NuGet
+            inputs:
+              checkLatest: true
+
           - task: NuGetCommand@2
             displayName: NuGet Push
             inputs:
@@ -197,6 +202,11 @@ stages:
                $(Pipeline.Workspace)/**/*.snupkg
               isDraft: true
               addChangeLog: true
+
+          - task: NuGetToolInstaller@1
+            displayName: Use latest NuGet
+            inputs:
+              checkLatest: true
 
           - task: NuGetCommand@2
             displayName: NuGet Push
