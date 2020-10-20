@@ -54,20 +54,18 @@ We appreciate your support.
 
 ## NuGet Packages
 
-Official Prism releases are available on NuGet. Prism also has a MyGet feed which will be updated with each merged PR. If you want to take advantage of a new feature as soon as it's merged into the code base, or if there is a critical bug you need fixed we invite you to try the packages on this feed. Our feed is a public feed in the MyGet Gallery.
-
-Simply add `https://www.myget.org/F/prism/api/v3/index.json` as a package source to either Visual Studio or Visual Studio for Mac.
+Official Prism releases are available on NuGet. Prism packages are also available on the SponsorConnect feed which will be updated with each merged PR. If you want to take advantage of a new feature as soon as it's merged into the code base, or if there is a critical bug you need fixed we invite you to try the packages on this feed. The SponsorConnect package feed is available to Sponsors only.
 
 ### Core Packages
 
 These are the base packages for each platform, together with the Prism's Core assembly as a cross-platform PCL.
 
-| Platform | Package | NuGet | MyGet |
+| Platform | Package | NuGet | SponsorConnect |
 | -------- | ------- | ------- | ----- |
-| Cross Platform | [Prism.Core][CoreNuGet] | [![CoreNuGetShield]][CoreNuGet] | [![CoreMyGetShield]][CoreMyGet] |
-| WPF | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfMyGetShield]][WpfMyGet] |
-| Xamarin.Forms | [Prism.Forms][FormsNuGet] | [![FormsNuGetShield]][FormsNuGet] | [![FormsMyGetShield]][FormsMyGet] |
-| Uno Platform and WinUI | [Prism.Uno][UnoNuGet] | [![UnoNuGetShield]][UnoNuGet] | [![UnoMyGetShield]][UnoMyGet] |
+| Cross Platform | [Prism.Core][CoreNuGet] | [![CoreNuGetShield]][CoreNuGet] | [![CoreSponsorConnectShield]][CoreSponsorConnect] |
+| WPF | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfSponsorConnectShield]][WpfSponsorConnect] |
+| Xamarin.Forms | [Prism.Forms][FormsNuGet] | [![FormsNuGetShield]][FormsNuGet] | [![FormsSponsorConnectShield]][FormsSponsorConnect] |
+| Uno Platform and WinUI | [Prism.Uno][UnoNuGet] | [![UnoNuGetShield]][UnoNuGet] | [![UnoSponsorConnectShield]][UnoSponsorConnect] |
 
 ### Container-specific packages
 
@@ -75,18 +73,25 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 #### WPF
 
-| Package | NuGet | MyGet |
+| Package | NuGet | SponsorConnect |
 |---------|-------|-------|
-| [Prism.DryIoc][DryIocWpfNuGet] | [![DryIocWpfNuGetShield]][DryIocWpfNuGet] | [![DryIocWpfMyGetShield]][DryIocWpfMyGet] |
-| [Prism.Unity][UnityWpfNuGet] | [![UnityWpfNuGetShield]][UnityWpfNuGet] | [![UnityWpfMyGetShield]][UnityWpfMyGet] |
+| [Prism.DryIoc][DryIocWpfNuGet] | [![DryIocWpfNuGetShield]][DryIocWpfNuGet] | [![DryIocWpfSponsorConnectShield]][DryIocWpfSponsorConnect] |
+| [Prism.Unity][UnityWpfNuGet] | [![UnityWpfNuGetShield]][UnityWpfNuGet] | [![UnityWpfSponsorConnectShield]][UnityWpfSponsorConnect] |
 
 #### Xamarin Forms
 
-| Package | NuGet | MyGet |
+| Package | NuGet | SponsorConnect |
 |---------|-------|-------|
-| [Prism.DryIoc.Forms][DryIocFormsNuGet] | [![DryIocFormsNuGetShield]][DryIocFormsNuGet] | [![DryIocFormsMyGetShield]][DryIocFormsMyGet] |
-| [Prism.Unity.Forms][UnityFormsNuGet] | [![UnityFormsNuGetShield]][UnityFormsNuGet] | [![UnityFormsMyGetShield]][UnityFormsMyGet] |
-| [Prism.Forms.Regions][PrismFormsRegionsNuget] | [![PrismFormsRegionsNuGetShield]][PrismFormsRegionsNuGet] | [![PrismFormsRegionsMyGetShield]][PrismFormsRegionsMyGet] |
+| [Prism.DryIoc.Forms][DryIocFormsNuGet] | [![DryIocFormsNuGetShield]][DryIocFormsNuGet] | [![DryIocFormsSponsorConnectShield]][DryIocFormsSponsorConnect] |
+| [Prism.Unity.Forms][UnityFormsNuGet] | [![UnityFormsNuGetShield]][UnityFormsNuGet] | [![UnityFormsSponsorConnectShield]][UnityFormsSponsorConnect] |
+| [Prism.Forms.Regions][PrismFormsRegionsNuget] | [![PrismFormsRegionsNuGetShield]][PrismFormsRegionsNuGet] | [![PrismFormsRegionsSponsorConnectShield]][PrismFormsRegionsSponsorConnect] |
+
+#### Uno Platform
+
+| Package | NuGet | SponsorConnect |
+|---------|-------|-------|
+| [Prism.DryIoc.Uno][DryIocUnoPlatformNuGet] | [![DryIocUnoPlatformNuGetShield]][DryIocUnoPlatformNuGet] | [![DryIocUnoPlatformSponsorConnectShield]][DryIocUnoPlatformSponsorConnect] |
+| [Prism.Unity.Uno][UnityUnoPlatformNuGet] | [![UnityUnoPlatformNuGetShield]][UnityUnoPlatformNuGet] | [![UnityUnoPlatformSponsorConnectShield]][UnityUnoPlatformSponsorConnect] |
 
 ![NuGet package tree](images/NuGetPackageTree.png)
 
@@ -148,9 +153,9 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [UnoNuGet]: https://www.nuget.org/packages/Prism.Uno/
 
 [PrismFormsRegionsNuGet]: https://www.nuget.org/packages/Prism.Forms.Regions/
-[PrismFormsRegionsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Forms.Regions
+[PrismFormsRegionsSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Forms.Regions
 [PrismFormsRegionsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Forms.Regions.svg
-[PrismFormsRegionsMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Forms.Regions.svg
+[PrismFormsRegionsSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Forms.Regions%2Fvpre
 
 [DryIocWpfNuGet]: https://www.nuget.org/packages/Prism.DryIoc/
 [UnityWpfNuGet]: https://www.nuget.org/packages/Prism.Unity/
@@ -158,8 +163,8 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [UnityFormsNuGet]: https://www.nuget.org/packages/Prism.Unity.Forms/
 [DryIocFormsNuGet]: https://www.nuget.org/packages/Prism.DryIoc.Forms/
 
-[DryIocUnoNuGet]: https://www.nuget.org/packages/Prism.DryIoc.Uno/
-[UnityUnoNuGet]: https://www.nuget.org/packages/Prism.Unity.Uno/
+[DryIocUnoPlatformNuGet]: https://www.nuget.org/packages/Prism.DryIoc.Uno/
+[UnityUnoPlatformNuGet]: https://www.nuget.org/packages/Prism.Unity.Uno/
 
 [CoreNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Core.svg
 [WpfNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Wpf.svg
@@ -172,33 +177,36 @@ This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/pr
 [DryIocFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Forms.svg
 [UnityFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Forms.svg
 
-[DryIocUnoNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Uno.svg
-[UnityUnoNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Uno.svg
+[DryIocUnoPlatformNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Uno.svg
+[UnityUnoPlatformNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Uno.svg
 
-[CoreMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Core
-[WpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Wpf
-[FormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Forms
-[UnoMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Uno
+[CoreSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Core
+[WpfSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Wpf
+[FormsSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Forms
+[UnoSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Uno
 
-[DryIocWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.DryIoc
-[UnityWpfMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Unity
+[DryIocWpfSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.DryIoc
+[UnityWpfSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Unity
 
-[UnityFormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.Unity.Forms
-[DryIocFormsMyGet]: https://myget.org/feed/prism/package/nuget/Prism.DryIoc.Forms
+[UnityFormsSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Unity.Forms
+[DryIocFormsSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.DryIoc.Forms
 
-[CoreMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Core.svg
-[WpfMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Wpf.svg
-[FormsMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Forms.svg
-[UnoMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Uno.svg
+[DryIocUnoPlatformSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.DryIoc.Uno
+[UnityUnoPlatformSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Unity.Uno
 
-[DryIocWpfMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.DryIoc.svg
-[UnityWpfMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Unity.svg
+[CoreSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Core%2Fvpre
+[WpfSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Wpf%2Fvpre
+[FormsSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Forms%2Fvpre
+[UnoSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Uno%2Fvpre
 
-[DryIocFormsMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.DryIoc.Forms.svg
-[UnityFormsMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Unity.Forms.svg
+[DryIocWpfSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.DryIoc%2Fvpre
+[UnityWpfSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Unity%2Fvpre
 
-[DryIocUnoMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.DryIoc.Uno.svg
-[UnityUnoMyGetShield]: https://img.shields.io/myget/prism/vpre/Prism.Unity.Uno.svg
+[DryIocFormsSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.DryIoc.Forms%2Fvpre
+[UnityFormsSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Unity.Forms%2Fvpre
+
+[DryIocUnoPlatformSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.DryIoc.Uno%2Fvpre
+[UnityUnoPlatformSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Unity.Uno%2Fvpre
 
 [TwitterLogo]: https://dansiegelgithubsponsors.blob.core.windows.net/images/twitter.png
 [TwitchLogo]: https://dansiegelgithubsponsors.blob.core.windows.net/images/twitch.png
