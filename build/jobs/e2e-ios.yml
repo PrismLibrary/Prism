@@ -54,6 +54,11 @@ jobs:
     env:
       stagingDir: $(Build.ArtifactStagingDirectory)
 
+  - bash: rm -rf NuGet
+    displayName: Cleanup ArtifactStagingDirectory
+    inputs:
+      workingDirectory: $(Build.ArtifactStagingDirectory)
+
   - task: PublishPipelineArtifact@1
     displayName: 'Publish E2E Artifacts'
     inputs:
