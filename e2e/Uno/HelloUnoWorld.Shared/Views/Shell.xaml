@@ -4,7 +4,7 @@
                 xmlns:prism="using:Prism"
                 xmlns:prismMvvm="using:Prism.Mvvm"
                 xmlns:prismRegions="using:Prism.Regions"
-                prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+                prismMvvm:ViewModelLocator.AutowireViewModel="True"
                 xmlns:toolkit="using:Uno.UI.Toolkit"
                 xmlns:local="clr-namespace:HelloWorld">
 
