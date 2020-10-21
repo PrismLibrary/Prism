@@ -45,6 +45,7 @@ Prism for Uno Platform helps you more easily design and build rich, flexible, an
     <Compile Remove="..\..\Wpf\Prism.Wpf\Bootstrapper.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Interactivity\InvokeCommandAction.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Ioc\ContainerProviderExtension.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Mvvm\ViewModelLocator.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\PrismApplicationBase.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\PrismBootstrapperBase.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\AssemblyInfo.cs" />
