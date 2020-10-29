@@ -16,7 +16,7 @@
     <PackageReference Include="Xamarin.UITest" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition=" '$(BUILD_ARTIFACTSTAGINGDIRECTORY)' == '' ">
     <ProjectReference Include="..\..\src\HelloWorld.iOS\HelloWorld.iOS.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <Private>False</Private>
