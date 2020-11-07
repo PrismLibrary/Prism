@@ -53,5 +53,19 @@ namespace Prism.Services
         /// <param name="buttons">Buttons displayed in action sheet</param>
         /// <returns></returns>
         Task DisplayActionSheetAsync(string title, params IActionSheetButton[] buttons);
+
+        /// <summary>
+        /// Displays a native platform promt, allowing the application user to enter a string.
+        /// </summary>
+        /// <param name="title">Title to display</param>
+        /// <param name="message">Message to display</param>
+        /// <param name="accept">Text for the accept button</param>
+        /// <param name="cancel">Text for the cancel button</param>
+        /// <param name="placeholder">Placeholder text to display in the prompt</param>
+        /// <param name="maxLength">Maximum length of the user response</param>
+        /// <param name="keyboard">Keyboard type to use for the user response</param>
+        /// <param name="initialValue">Pre-defined response that will be displayed, and which can be edited</param>
+        /// <returns><c>string</c> entered by the user. <c>null</c> if cancel is pressed</returns>
+        Task<string> DisplayPromptAsync(string title, string message, string accept = "OK", string cancel = "Cancel", string placeholder = default, int maxLength = -1, Xamarin.Forms.Keyboard keyboard = default, string initialValue = "");
     }
 }
