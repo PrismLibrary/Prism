@@ -11,7 +11,6 @@
 
 Prism.Wpf helps you more easily design and build rich, flexible, and easy to maintain Windows Presentation Foundation (WPF) desktop applications. This library provides user interface composition as well as modularity support.</Description>
     <PackageTags>prism;mvvm;xaml;wpf</PackageTags>
-    <Version Condition=" '$(PRISM_WPF_VERSION)' != '' ">$(PRISM_WPF_VERSION)</Version>
   </PropertyGroup>
 
   <ItemGroup>

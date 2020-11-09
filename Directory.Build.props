@@ -45,17 +45,7 @@
 
   <!-- Versioning -->
   <PropertyGroup>
-    <Version Condition=" '$(PRISM_RELEASE)' != '' ">$(PRISM_RELEASE)</Version>
-    <!-- Update this version when incrementing Library Versions i.e. 7.1.0, 7.2.0 -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' ">8.0.0</VersionPrefix>
-    <VersionSuffix>ci</VersionSuffix>
-    <!-- This will create CI builds as 7.0.0.1234-ci -->
-    <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
-    <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(IS_RELEASE)' "></VersionSuffix>
-    <PackageReleaseNotes Condition=" '$(VersionSuffix)' == 'pre' ">https://github.com/PrismLibrary/Prism/releases/tag/v$(VersionPrefix)-pre</PackageReleaseNotes>
-    <PackageReleaseNotes Condition=" '$(VersionSuffix)' == '' ">https://github.com/PrismLibrary/Prism/releases/tag/v$(VersionPrefix)</PackageReleaseNotes>
-    <PackageReleaseNotes Condition=" '$(Version)' != '' ">https://github.com/PrismLibrary/Prism/releases/tag/v$(Version)</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/PrismLibrary/Prism/releases/tag/v$(Version)</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">

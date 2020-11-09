@@ -59,8 +59,13 @@
                             Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup Condition=" $(DISABLE_GITVERSIONING) != 'true' ">
+    <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.3.37"
+                            Condition=" !$(MSBuildProjectDirectory.Contains('e2e')) "/>
+  </ItemGroup>
+
   <ItemGroup Condition=" $(IsPackable) ">
     <GlobalPackageReference Include="Microsoft.SourceLink.GitHub"
-                      Version="1.1.0-beta-20204-02" />
+                            Version="1.1.0-beta-20204-02" />
   </ItemGroup>
 </Project>

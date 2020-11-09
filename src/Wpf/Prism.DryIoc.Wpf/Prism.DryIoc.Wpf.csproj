@@ -9,7 +9,6 @@
     <!--<Summary>DryIoc extensions for Prism.</Summary>-->
     <Description>Use these extensions to build Prism applications based on DryIoc.</Description>
     <PackageTags>prism;dryioc;mvvm;wpf;xaml</PackageTags>
-    <Version Condition=" '$(PRISM_DRYIOC_WPF_VERSION)' != '' ">$(PRISM_DRYIOC_WPF_VERSION)</Version>
   </PropertyGroup>
 
   <ItemGroup>
