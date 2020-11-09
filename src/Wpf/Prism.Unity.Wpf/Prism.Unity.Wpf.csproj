@@ -9,7 +9,6 @@
     <!--<Summary>Unity extensions for Prism.</Summary>-->
     <Description>Use these extensions to build Prism applications based on Unity.</Description>
     <PackageTags>prism;unity;mvvm;wpf;xaml</PackageTags>
-    <Version Condition=" '$(PRISM_UNITY_WPF_VERSION)' != '' ">$(PRISM_UNITY_WPF_VERSION)</Version>
   </PropertyGroup>
 
   <ItemGroup>

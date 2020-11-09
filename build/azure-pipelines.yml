@@ -142,7 +142,7 @@ stages:
 
 - stage: deploy
   displayName: CI Deploy Artifacts
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/rel')))
   jobs:
   - deployment: SponsorConnect
     displayName: SponsorConnect.dev
@@ -164,14 +164,13 @@ stages:
               nuGetFeedType: external
               publishFeedCredentials: 'SponsorConnect'
 
-- stage: nuGetDeploy
+- stage: nugetDeploy
   displayName: NuGet.org Deploy
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/rel'), eq(variables['system.pullrequest.isfork'], false))
   jobs:
   - deployment: NuGet
     displayName: NuGet.org
     environment: NuGet
-    condition: and(succeeded(),or(eq(variables['IS_PREVIEW'], true), eq(variables['IS_RELEASE'], true)))
     strategy:
       runOnce:
         deploy:

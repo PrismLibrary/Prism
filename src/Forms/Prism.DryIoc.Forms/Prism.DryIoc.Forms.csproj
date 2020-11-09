@@ -7,7 +7,6 @@
     <!--<Summary>DryIoc extensions for Prism for Xamarin.Forms.</Summary>-->
     <Description>Use these extensions to build Xamarin.Forms applications with Prism and DryIoc.</Description>
     <PackageTags>prism;xamarin;xamarin.forms;dryioc;dependency injection</PackageTags>
-    <Version Condition=" '$(PRISM_DRYIOC_FORMS_VERSION)' != '' ">$(PRISM_DRYIOC_FORMS_VERSION)</Version>
   </PropertyGroup>
 
   <ItemGroup>

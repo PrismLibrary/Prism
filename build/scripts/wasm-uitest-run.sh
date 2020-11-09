@@ -6,7 +6,7 @@ IFS=$'\n\t'
 cd $BUILD_SOURCESDIRECTORY
 
 msbuild /r /p:Configuration=Release $BUILD_SOURCESDIRECTORY/e2e/Uno/HelloUnoWorld.UITests/HelloUnoWorld.UITests.csproj
-msbuild /r /p:Configuration=Release $BUILD_SOURCESDIRECTORY/e2e/Uno/HelloUnoWorld.Wasm/HelloUnoWorld.Wasm.csproj
+msbuild /r /p:Configuration=Release /p:DISABLE_GITVERSIONING=true $BUILD_SOURCESDIRECTORY/e2e/Uno/HelloUnoWorld.Wasm/HelloUnoWorld.Wasm.csproj
 
 cd $BUILD_SOURCESDIRECTORY/build
 
