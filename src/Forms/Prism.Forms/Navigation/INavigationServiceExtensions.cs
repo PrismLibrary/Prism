@@ -31,11 +31,12 @@ namespace Prism.Navigation
         /// When navigating inside a NavigationPage: Pops all but the root Page off the navigation stack
         /// </summary>
         /// <param name="navigationService">The INavigatinService instance</param>
+        /// <param name="parameters">The navigation parameters</param>
         /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
         /// <remarks>Only works when called from a View within a NavigationPage</remarks>
-        public static Task<INavigationResult> GoBackToRootAsync(this INavigationService navigationService)
+        public static Task<INavigationResult> GoBackToRootAsync(this INavigationService navigationService, INavigationParameters parameters = null)
         {
-            return navigationService.GoBackToRootAsync(new NavigationParameters());
+            return navigationService.GoBackToRootAsync(parameters);
         }
 
         /// <summary>
@@ -63,6 +64,33 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="navigationService">Service for handling navigation between views</param>
         /// <param name="parameters">The navigation parameters</param>
+        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
+        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
+        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+        public static Task<INavigationResult> GoBackAsync(this INavigationService navigationService, INavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        {
+            return navigationService.GoBackAsync(parameters, useModalNavigation, animated);
+        }
+
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="name"/>.
+        /// </summary>
+        /// <param name="navigationService">Service for handling navigation between views</param>
+        /// <param name="name">The name of the target to navigate to.</param>
+        /// <param name="parameters">The navigation parameters</param>
+        /// <param name="useModalNavigation">If <c>true</c> uses PushModalAsync, if <c>false</c> uses PushAsync</param>
+        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
+        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+        public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, string name, INavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        {
+            return navigationService.NavigateAsync(name, parameters, useModalNavigation, animated);
+        }
+
+        /// <summary>
+        /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
+        /// </summary>
+        /// <param name="navigationService">Service for handling navigation between views</param>
+        /// <param name="parameters">The navigation parameters</param>
         /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
         public static Task<INavigationResult> GoBackAsync(this INavigationService navigationService, params (string Key, object Value)[] parameters)
         {
@@ -83,6 +111,24 @@ namespace Prism.Navigation
         public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, string name, params (string Key, object Value)[] parameters)
         {
             return navigationService.NavigateAsync(name, GetNavigationParameters(parameters));
+        }
+
+        /// <summary>
+        /// Initiates navigation to the target specified by the <paramref name="uri"/>.
+        /// </summary>
+        /// <param name="navigationService">Service for handling navigation between views</param>
+        /// <param name="uri">The Uri to navigate to</param>
+        /// <param name="parameters">The navigation parameters</param>
+        /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
+        /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
+        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+        /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
+        /// <example>
+        /// NavigateAsync(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource), parameters);
+        /// </example>
+        public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, Uri uri, INavigationParameters parameters = null, bool? useModalNavigation = null, bool animated = true)
+        {
+            return navigationService.NavigateAsync(uri, parameters, useModalNavigation, animated);
         }
 
         /// <summary>
