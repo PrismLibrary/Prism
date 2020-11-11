@@ -155,8 +155,6 @@ namespace Prism.Ioc.Tests
             Assert.NotSame(resolved, resolved2);
         }
 
-#if !UNITY
-
         [Fact]
         public void RegisterManyRegistersAllInterfacesByDefault()
         {
@@ -187,8 +185,6 @@ namespace Prism.Ioc.Tests
             Setup.Registry.RegisterMany<CompositeService>();
             Assert.NotSame(container.Resolve<IServiceA>(), container.Resolve<IServiceA>());
         }
-
-#endif
 
         [Fact]
         public void RegisterSupportsLazyInjection()
@@ -288,8 +284,6 @@ namespace Prism.Ioc.Tests
             Assert.Same(resolved, resolved2);
         }
 
-#if !UNITY
-
         [Fact]
         public void RegisterManySingletonRegistersAllInterfacesByDefault()
         {
@@ -326,8 +320,6 @@ namespace Prism.Ioc.Tests
             Assert.Same(serviceA, serviceB);
             Assert.Same(serviceB, serviceC);
         }
-
-#endif
 
         [Fact]
         public void RegisterSingletonSupportsLazyInjection()
