@@ -145,7 +145,7 @@ namespace Prism.Unity
         public IContainerRegistry RegisterManySingleton(Type type, params Type[] serviceTypes)
         {
             Instance.RegisterSingleton(type);
-            return this;
+            return RegisterManyInternal(type, serviceTypes);
         }
 
         private IContainerRegistry RegisterManyInternal(Type implementingType, Type[] serviceTypes)
@@ -222,7 +222,7 @@ namespace Prism.Unity
         public IContainerRegistry RegisterMany(Type type, params Type[] serviceTypes)
         {
             Instance.RegisterType(type);
-            return this;
+            return RegisterManyInternal(type, serviceTypes);
         }
 
         /// <summary>
