@@ -4,6 +4,12 @@ parameters:
   msbuildArguments: '/p:JavaSdkDirectory="$(JAVA_HOME)"'
 
 steps:
+- task: ChocoInstallPackage@1
+  displayName: Install latest VS2019
+  inputs:
+    packageId: 'visualstudio2019buildtools'
+    extraOptions: '--package-parameters "--allWorkloads --includeRecommended --includeOptional --passive --locale en-US"'
+
 - template: prepare-build.yml
   parameters:
     solution: ${{ parameters.solution }}
@@ -15,3 +21,5 @@ steps:
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
     msbuildArguments: ${{ parameters.msbuildArguments }}
+  env:
+    MSBuildSDKsPath: 'C:\hostedtoolcache\windows\dotnet\sdk\5.0.100\Sdks\'

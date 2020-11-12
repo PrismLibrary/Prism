@@ -3,7 +3,7 @@ parameters:
 
 steps:
 - task: UseDotNet@2
-  displayName: Use .NET 3.1
+  displayName: Use .NET 5.0
   inputs:
     packageType: 'sdk'
     useGlobalJson: true
@@ -19,3 +19,5 @@ steps:
     restoreSolution: ${{ parameters.solution }}
     noCache: true
     verbosityRestore: normal
+  env:
+    MSBuildSDKsPath: 'C:\hostedtoolcache\windows\dotnet\sdk\5.0.100\Sdks\'
