@@ -1,8 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>net452;net47;netcoreapp3.1;</TargetFrameworks>
     <IsPackable>false</IsPackable>
+    <UseWpf>true</UseWpf>
   </PropertyGroup>
 
   <ItemGroup>

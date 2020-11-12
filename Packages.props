@@ -32,8 +32,8 @@
     <PackageReference Update="Humanizer.Core" Version="2.8.26" />
     <PackageReference Update="Newtonsoft.Json" Version="12.0.2" />
 
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.7.1" />
-    <PackageReference Update="Moq" Version="4.14.7" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.8.0" />
+    <PackageReference Update="Moq" Version="4.15.1" />
     <PackageReference Update="xunit" Version="2.4.1" />
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>

@@ -51,7 +51,6 @@ namespace Prism.Modularity
 
         /// <summary>
         /// Handles any exception occurred in the module Initialization process,
-        /// logs the error using the <see cref="ILoggerFacade"/> and throws a <see cref="ModuleInitializeException"/>.
         /// This method can be overridden to provide a different behavior.
         /// </summary>
         /// <param name="moduleInfo">The module metadata where the error happenened.</param>
