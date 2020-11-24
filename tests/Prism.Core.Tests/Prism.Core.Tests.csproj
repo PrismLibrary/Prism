@@ -1,8 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;net472;netcoreapp3.1;</TargetFrameworks>
+    <TargetFrameworks>net461;net472;netcoreapp3.1;net5.0-windows</TargetFrameworks>
     <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('net5')) ">
     <UseWpf>true</UseWpf>
   </PropertyGroup>
 
