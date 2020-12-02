@@ -8,7 +8,7 @@ using Xamarin.Forms;
 namespace Prism.Regions.Adapters
 {
     /// <summary>
-    /// Adapter that creates a new <see cref="SingleActiveRegion"/> and monitors its
+    /// Adapter that creates a new <see cref="Region"/> and monitors its
     /// active view to set it on the adapted <see cref="ScrollView"/>.
     /// </summary>
     public class ScrollViewRegionAdapter : RegionAdapterBase<ScrollView>
@@ -54,9 +54,9 @@ namespace Prism.Regions.Adapters
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="SingleActiveRegion"/>.
+        /// Creates a new instance of <see cref="Region"/>.
         /// </summary>
-        /// <returns>A new instance of <see cref="SingleActiveRegion"/>.</returns>
+        /// <returns>A new instance of <see cref="Region"/>.</returns>
         protected override IRegion CreateRegion() =>
             new Region();
     }
