@@ -51,6 +51,18 @@ namespace Prism.Ioc
         }
 
         /// <summary>
+        /// Registers a Page for navigation.
+        /// </summary>
+        /// <param name="viewType">The Type of Page to register</param>
+        /// <param name="viewModelType">The Type of ViewModel to use as the BindingContext for the Page</param>
+        /// <param name="name">The unique name to register with the Page</param>
+        /// <param name="containerRegistry"></param>
+        public static void RegisterForNavigation(this IContainerRegistry containerRegistry, Type viewType, Type viewModelType, string name = null)
+        {
+            containerRegistry.RegisterForNavigationWithViewModel(viewType, viewModelType, name);
+        }
+
+        /// <summary>
         /// Registers a Page for navigation based on the current Device OS using a shared ViewModel
         /// </summary>
         /// <typeparam name="TView">Default View Type to be shared across multiple Device Operating Systems if they are not specified directly.</typeparam>
@@ -176,10 +188,15 @@ namespace Prism.Ioc
         private static void RegisterForNavigationWithViewModel<TViewModel>(this IContainerRegistry containerRegistry, Type viewType, string name)
             where TViewModel : class
         {
+            containerRegistry.RegisterForNavigationWithViewModel(viewType, typeof(TViewModel), name);
+        }
+
+        private static void RegisterForNavigationWithViewModel(this IContainerRegistry containerRegistry, Type viewType, Type viewModelType, string name)
+        {
             if (string.IsNullOrWhiteSpace(name))
                 name = viewType.Name;
 
-            ViewModelLocationProvider.Register(viewType.ToString(), typeof(TViewModel));
+            ViewModelLocationProvider.Register(viewType.ToString(), viewModelType);
 
             containerRegistry.RegisterForNavigation(viewType, name);
         }
