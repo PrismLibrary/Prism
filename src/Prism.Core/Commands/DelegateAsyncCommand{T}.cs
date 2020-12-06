@@ -72,15 +72,16 @@ namespace Prism.Commands
                 try
                 {
                     _isExecuting = true;
+                    RaiseCanExecuteChanged();
+
                     await _execute(parameter);
                 }
                 finally
                 {
                     _isExecuting = false;
+                    RaiseCanExecuteChanged();
                 }
-            }
-
-            RaiseCanExecuteChanged();
+            }            
         }
 
         public void RaiseCanExecuteChanged()
