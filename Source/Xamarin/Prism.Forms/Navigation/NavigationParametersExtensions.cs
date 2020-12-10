@@ -4,8 +4,9 @@
     {
         public static NavigationMode GetNavigationMode(this NavigationParameters parameters)
         {
-            if (parameters.ContainsKey(KnownNavigationParameters.NavigationMode))
-                return (NavigationMode)parameters[KnownNavigationParameters.NavigationMode];
+            object navigationMode;
+            if (parameters.TryGetValue(KnownNavigationParameters.NavigationMode, out navigationMode))
+                return (NavigationMode)navigationMode;
 
             throw new System.ArgumentNullException("NavigationMode is not available");
         }

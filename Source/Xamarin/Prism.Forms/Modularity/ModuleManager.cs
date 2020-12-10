@@ -5,7 +5,7 @@ using System.Linq;
 namespace Prism.Modularity
 {
     /// <summary>
-    /// Component responsible for coordinating the modules' type loading and module initialization process. 
+    /// Component responsible for coordinating the modules' type loading and module initialization process.
     /// </summary>
     public class ModuleManager : IModuleManager
     {
@@ -53,7 +53,7 @@ namespace Prism.Modularity
         public void LoadModule(string moduleName)
         {
             var modules = ModuleCatalog.Modules.Where(m => m.ModuleName == moduleName);
-            if (modules == null || modules.Count() == 0)
+            if (modules == null || !modules.Any())
                 throw new Exception(String.Format("Module {0} was not found in the catalog.", moduleName));
 
             if (modules.Count() != 1)

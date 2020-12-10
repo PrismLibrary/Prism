@@ -42,9 +42,10 @@ namespace Prism.Common
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
-            if (innerValues.ContainsKey(key))
+            IList<TValue> list;
+            if (innerValues.TryGetValue(key, out list))
             {
-                innerValues[key].Add(value);
+                list.Add(value);
             }
             else
             {
@@ -165,9 +166,10 @@ namespace Prism.Common
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
-            if (innerValues.ContainsKey(key))
+            IList<TValue> list;
+            if (innerValues.TryGetValue(key, out list))
             {
-                List<TValue> innerList = (List<TValue>)innerValues[key];
+                var innerList = (List<TValue>)list;
                 innerList.RemoveAll(delegate(TValue item)
                                                {
                                                    return value.Equals(item);
@@ -228,11 +230,13 @@ namespace Prism.Common
         {
             get
             {
-                if (innerValues.ContainsKey(key) == false)
+                IList<TValue> list;
+                if (!innerValues.TryGetValue(key, out list))
                 {
-                    innerValues.Add(key, new List<TValue>());
+                    list = new List<TValue>();
+                    innerValues.Add(key, list);
                 }
-                return innerValues[key];
+                return list;
             }
             set { innerValues[key] = value; }
         }

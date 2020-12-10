@@ -36,7 +36,7 @@ namespace Prism.Mvvm
         }
 
         /// <summary>
-        /// Gets a value indicating whether the object has validation errors. 
+        /// Gets a value indicating whether the object has validation errors.
         /// </summary>
         public bool HasErrors
         {
@@ -117,7 +117,7 @@ namespace Prism.Mvvm
         {
             var localPropertyName = propertyName ?? string.Empty;
             var hasCurrentValidationResults = this.validationResults.ContainsKey(localPropertyName);
-            var hasNewValidationResults = newValidationResults != null && newValidationResults.Count() > 0;
+            var hasNewValidationResults = newValidationResults != null && newValidationResults.Any();
 
             if (hasCurrentValidationResults || hasNewValidationResults)
             {

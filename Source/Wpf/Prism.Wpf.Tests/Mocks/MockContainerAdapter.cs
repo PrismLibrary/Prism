@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
@@ -13,14 +11,10 @@ namespace Prism.Wpf.Tests.Mocks
         protected override object DoGetInstance(Type serviceType, string key)
         {
             object resolvedInstance;
-            if (!this.ResolvedInstances.ContainsKey(serviceType))
+            if (!this.ResolvedInstances.TryGetValue(serviceType, out resolvedInstance))
             {
                 resolvedInstance = Activator.CreateInstance(serviceType);
                 this.ResolvedInstances.Add(serviceType, resolvedInstance);
-            }
-            else
-            {
-                resolvedInstance = this.ResolvedInstances[serviceType];
             }
 
             return resolvedInstance;

@@ -1,19 +1,18 @@
-﻿using System;
-using Prism.Navigation;
-using System.Threading.Tasks;
+﻿using Prism.Navigation;
 
 namespace Prism.Forms.Tests.Mocks.ViewModels
 {
     public class ContentPageMockViewModel : ViewModelBase, IConfirmNavigation
     {
-        public bool OnConfirmNavigationCalled { get; private set; } = false;
+        public bool OnConfirmNavigationCalled { get; private set; }
 
         public bool CanNavigate(NavigationParameters parameters)
         {
             OnConfirmNavigationCalled = true;
 
-            if (parameters.ContainsKey("canNavigate"))
-                return (bool)parameters["canNavigate"];
+            object canNavigate;
+            if (parameters.TryGetValue("canNavigate", out canNavigate))
+                return (bool)canNavigate;
 
             return true;
         }

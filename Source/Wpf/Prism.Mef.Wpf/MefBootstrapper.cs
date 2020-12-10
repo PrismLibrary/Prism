@@ -36,7 +36,7 @@ namespace Prism.Mef
         /// <summary>
         /// Run the bootstrapper process.
         /// </summary>
-        /// <param name="runWithDefaultConfiguration">If <see langword="true"/>, registers default 
+        /// <param name="runWithDefaultConfiguration">If <see langword="true"/>, registers default
         /// Prism Library services in the container. This is the default behavior.</param>
         public override void Run(bool runWithDefaultConfiguration)
         {
@@ -107,7 +107,7 @@ namespace Prism.Mef
             }
 
             IEnumerable<Lazy<object, object>> exports = this.Container.GetExports(typeof(IModuleManager), null, null);
-            if ((exports != null) && (exports.Count() > 0))
+            if ((exports != null) && exports.Any())
             {
                 this.Logger.Log(Resources.InitializingModules, Category.Debug, Priority.Low);
                 this.InitializeModules();
@@ -156,7 +156,7 @@ namespace Prism.Mef
         }
 
         /// <summary>
-        /// Configures the <see cref="CompositionContainer"/>. 
+        /// Configures the <see cref="CompositionContainer"/>.
         /// May be overwritten in a derived class to add specific type mappings required by the application.
         /// </summary>
         /// <remarks>
@@ -169,7 +169,7 @@ namespace Prism.Mef
         }
 
         /// <summary>
-        /// Helper method for configuring the <see cref="CompositionContainer"/>. 
+        /// Helper method for configuring the <see cref="CompositionContainer"/>.
         /// Registers defaults for all the types necessary for Prism to work, if they are not already registered.
         /// </summary>
         public virtual void RegisterDefaultTypesIfMissing()
@@ -178,7 +178,7 @@ namespace Prism.Mef
         }
 
         /// <summary>
-        /// Helper method for configuring the <see cref="CompositionContainer"/>. 
+        /// Helper method for configuring the <see cref="CompositionContainer"/>.
         /// Registers all the types direct instantiated by the bootstrapper with the container.
         /// </summary>
         protected virtual void RegisterBootstrapperProvidedTypes()

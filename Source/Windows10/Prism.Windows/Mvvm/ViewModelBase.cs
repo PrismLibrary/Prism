@@ -47,11 +47,12 @@ namespace Prism.Windows.Mvvm
         /// <param name="entityStateKey">The entity state key.</param>
         /// <param name="viewModelState">State of the view model.</param>
         /// <returns>The T type object that represents the state value of the specified entity.</returns>
-        static public T RetrieveEntityStateValue<T>(string entityStateKey, IDictionary<string, object> viewModelState)
+        public static T RetrieveEntityStateValue<T>(string entityStateKey, IDictionary<string, object> viewModelState)
         {
-            if (viewModelState != null && viewModelState.ContainsKey(entityStateKey))
+            object state;
+            if (viewModelState != null && viewModelState.TryGetValue(entityStateKey, out state))
             {
-                return (T)viewModelState[entityStateKey];
+                return (T)state;
             }
 
             return default(T);
@@ -89,9 +90,10 @@ namespace Prism.Windows.Mvvm
 
             foreach (PropertyInfo propertyInfo in viewModelProperties)
             {
-                if (viewModelState.ContainsKey(propertyInfo.Name))
+                object value;
+                if (viewModelState.TryGetValue(propertyInfo.Name, out value))
                 {
-                    propertyInfo.SetValue(viewModel, viewModelState[propertyInfo.Name]);
+                    propertyInfo.SetValue(viewModel, value);
                 }
             }
         }

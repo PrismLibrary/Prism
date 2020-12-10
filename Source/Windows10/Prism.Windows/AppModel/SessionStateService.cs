@@ -144,10 +144,10 @@ namespace Prism.Windows.AppModel
 
 
         /// <summary>
-        /// Any <see cref="Frame"/> instances registered with <see cref="RegisterFrame"/> will 
-        /// restore their prior navigation state, which in turn gives their active <see cref="Page"/> 
+        /// Any <see cref="Frame"/> instances registered with <see cref="RegisterFrame"/> will
+        /// restore their prior navigation state, which in turn gives their active <see cref="Page"/>
         /// an opportunity restore its state.
-        /// 
+        ///
         /// This method requires that RestoreSessionStateAsync be called prior to this method.
         /// </summary>
         public void RestoreFrameState()
@@ -261,11 +261,13 @@ namespace Prism.Windows.AppModel
                 if (frameSessionKey != null)
                 {
                     // Registered frames reflect the corresponding session state
-                    if (!_sessionState.ContainsKey(frameSessionKey))
+                    object state;
+                    if (!_sessionState.TryGetValue(frameSessionKey, out state))
                     {
-                        _sessionState[frameSessionKey] = new Dictionary<string, object>();
+                        state = new Dictionary<string, object>();
+                        _sessionState[frameSessionKey] = state;
                     }
-                    frameState = (Dictionary<string, object>)_sessionState[frameSessionKey];
+                    frameState = (Dictionary<string, object>)state;
                 }
                 else
                 {
@@ -280,9 +282,10 @@ namespace Prism.Windows.AppModel
         private void RestoreFrameNavigationState(IFrameFacade frame)
         {
             var frameState = GetSessionStateForFrame(frame);
-            if (frameState.ContainsKey(Constants.SessionStateKeyNavigation))
+            object sessionStateNavigation;
+            if (frameState.TryGetValue(Constants.SessionStateKeyNavigation, out sessionStateNavigation))
             {
-                frame.SetNavigationState((string)frameState[Constants.SessionStateKeyNavigation]);
+                frame.SetNavigationState((string)sessionStateNavigation);
             }
         }
 

@@ -203,7 +203,7 @@ namespace Prism.Forms.Tests.Navigation
             parameters.Add("id", new Person());
             parameters.Add("id", null);
             var result = parameters.GetValues<Person>("id").ToArray();
-            Assert.Equal(3, result.Count());
+            Assert.Equal(3, result.Length);
             Assert.IsType<Person>(result[0]);
             Assert.IsType<Person>(result[1]);
             Assert.Null(result[2]);
@@ -214,7 +214,7 @@ namespace Prism.Forms.Tests.Navigation
         {
             var parameters = new NavigationParameters(_uriWithArray);
             var result = parameters.GetValues<string>("color").ToArray();
-            Assert.Equal(3, result.Count());
+            Assert.Equal(3, result.Length);
             Assert.IsType<string>(result[0]);
             Assert.IsType<string>(result[1]);
             Assert.IsType<string>(result[2]);
@@ -225,7 +225,7 @@ namespace Prism.Forms.Tests.Navigation
         {
             var parameters = new NavigationParameters("id=1&id=2&id=3");
             var result = parameters.GetValues<int>("id").ToArray();
-            Assert.Equal(3, result.Count());
+            Assert.Equal(3, result.Length);
             Assert.IsType<int>(result[0]);
             Assert.IsType<int>(result[1]);
             Assert.IsType<int>(result[2]);

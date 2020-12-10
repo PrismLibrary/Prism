@@ -48,7 +48,7 @@ namespace Prism.Regions
             region.Views.CollectionChanged +=
                 (sender, e) =>
                 {
-                    if (e.Action == NotifyCollectionChangedAction.Add && region.ActiveViews.Count() == 0)
+                    if (e.Action == NotifyCollectionChangedAction.Add && !region.ActiveViews.Any())
                     {
                         region.Activate(e.NewItems[0]);
                     }

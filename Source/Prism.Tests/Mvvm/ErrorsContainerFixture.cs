@@ -157,7 +157,7 @@ namespace Prism.Tests.Mvvm
             var errors = validation.GetErrors(null);
 
             Assert.True(validation.HasErrors);
-            Assert.True(errors.Count() == 0);
+            Assert.True(!errors.Any());
         }
 
         [Fact]

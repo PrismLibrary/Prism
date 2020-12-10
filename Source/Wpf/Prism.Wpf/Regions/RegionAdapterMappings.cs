@@ -53,9 +53,10 @@ namespace Prism.Regions
 
             while (currentType != null)
             {
-                if (mappings.ContainsKey(currentType))
+                IRegionAdapter regionAdapter;
+                if (mappings.TryGetValue(currentType, out regionAdapter))
                 {
-                    return mappings[currentType];
+                    return regionAdapter;
                 }
                 currentType = currentType.BaseType;
             }

@@ -59,8 +59,15 @@ namespace Prism.Windows.Navigation
 
             // Get the page type and parameter of the last navigation to check if we
             // are trying to navigate to the exact same page that we are currently on
-            var lastNavigationParameter = _sessionStateService.SessionState.ContainsKey(LastNavigationParameterKey) ? _sessionStateService.SessionState[LastNavigationParameterKey] : null;
-            var lastPageTypeFullName = _sessionStateService.SessionState.ContainsKey(LastNavigationPageKey) ? _sessionStateService.SessionState[LastNavigationPageKey] as string : string.Empty;
+            object lastNavigationParameter;
+            _sessionStateService.SessionState.TryGetValue(LastNavigationParameterKey, out lastNavigationParameter);
+
+            string lastPageTypeFullName;
+            object lastNavigationPage;
+            if(_sessionStateService.SessionState.TryGetValue(LastNavigationPageKey, out lastNavigationPage))
+                lastPageTypeFullName = lastNavigationPage as string;
+            else
+                lastPageTypeFullName = string.Empty;
 
             if (lastPageTypeFullName != pageType.FullName || !AreEquals(lastNavigationParameter, parameter))
             {
@@ -116,7 +123,7 @@ namespace Prism.Windows.Navigation
         {
             _frame.ClearBackStack();
         }
-        
+
         /// <summary>
         /// Remove the first page of the backstack with optional pageToken and parameter
         /// </summary>
@@ -258,9 +265,10 @@ namespace Prism.Windows.Navigation
             if (newViewModel != null)
             {
                 Dictionary<string, object> viewModelState;
-                if (frameState.ContainsKey(viewModelKey))
+                object state;
+                if (frameState.TryGetValue(viewModelKey, out state))
                 {
-                    viewModelState = frameState[viewModelKey] as Dictionary<string, object>;
+                    viewModelState = state as Dictionary<string, object>;
                 }
                 else
                 {
@@ -286,9 +294,12 @@ namespace Prism.Windows.Navigation
             var viewModelKey = "ViewModel-" + _frame.BackStackDepth;
             if (departingViewModel != null)
             {
-                var viewModelState = frameState.ContainsKey(viewModelKey)
-                                         ? frameState[viewModelKey] as Dictionary<string, object>
-                                         : null;
+                Dictionary<string, object> viewModelState;
+                object state;
+                if (frameState.TryGetValue(viewModelKey, out state))
+                    viewModelState = state as Dictionary<string, object>;
+                else
+                    viewModelState = null;
 
                 departingViewModel.OnNavigatingFrom(e, viewModelState, suspending);
             }

@@ -12,7 +12,7 @@ namespace Prism
 {
     public abstract class PrismApplicationBase<T> : Application
     {
-        IPlatformInitializer<T> _platformInitializer = null;
+        readonly IPlatformInitializer<T> _platformInitializer;
         Page _previousPage = null;
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Prism
             RegisterTypes();
 
             _platformInitializer?.RegisterTypes(Container);
-            
+
             NavigationService = CreateNavigationService();
 
             InitializeModules();
@@ -114,7 +114,7 @@ namespace Prism
         /// </summary>
         protected virtual void InitializeModules()
         {
-            if (ModuleCatalog.Modules.Count() > 0)
+            if (ModuleCatalog.Modules.Any())
             {
                 IModuleManager manager = CreateModuleManager();
                 manager.Run();

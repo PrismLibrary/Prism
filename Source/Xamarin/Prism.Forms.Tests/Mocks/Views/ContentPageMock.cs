@@ -1,5 +1,4 @@
-﻿using System;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using Prism.Navigation;
 using Xamarin.Forms;
 using System.Threading.Tasks;
@@ -53,8 +52,9 @@ namespace Prism.Forms.Tests.Mocks.Views
             {
                 OnConfirmNavigationCalled = true;
 
-                if (parameters.ContainsKey("canNavigate"))
-                    return (bool)parameters["canNavigate"];
+                object canNavigate;
+                if (parameters.TryGetValue("canNavigate", out canNavigate))
+                    return (bool)canNavigate;
 
                 return true;
             });

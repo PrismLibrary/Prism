@@ -5,7 +5,7 @@ namespace Prism.Navigation
 {
     public static class PageNavigationRegistry
     {
-        static Dictionary<string, PageNavigationInfo> _pageRegistrationCache = new Dictionary<string, PageNavigationInfo>();
+        static readonly Dictionary<string, PageNavigationInfo> _pageRegistrationCache = new Dictionary<string, PageNavigationInfo>();
 
         public static void Register(string name, Type pageType)
         {
@@ -19,8 +19,9 @@ namespace Prism.Navigation
 
         public static PageNavigationInfo GetPageNavigationInfo(string name)
         {
-            if (_pageRegistrationCache.ContainsKey(name))
-                return _pageRegistrationCache[name];
+            PageNavigationInfo pageNavigationInfo;
+            if (_pageRegistrationCache.TryGetValue(name, out pageNavigationInfo))
+                return pageNavigationInfo;
 
             return null;
         }

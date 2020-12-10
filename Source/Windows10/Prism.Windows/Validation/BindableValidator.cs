@@ -80,7 +80,8 @@ namespace Prism.Windows.Validation
         {
             get
             {
-                return _errors.ContainsKey(propertyName) ? _errors[propertyName] : EmptyErrorsCollection;
+                ReadOnlyCollection<string> errors;
+                return _errors.TryGetValue(propertyName, out errors) ? errors : EmptyErrorsCollection;
             }
         }
 
@@ -104,7 +105,7 @@ namespace Prism.Windows.Validation
         /// Returns a new ReadOnlyDictionary containing all the errors of the Entity, separated by property.
         /// </summary>
         /// <returns>
-        /// A ReadOnlyDictionary that contains a KeyValuePair for each property with errors. 
+        /// A ReadOnlyDictionary that contains a KeyValuePair for each property with errors.
         /// Each KeyValuePair has a property name as the key, and the value is the collection of errors of that property.
         /// </returns>
         public ReadOnlyDictionary<string, ReadOnlyCollection<string>> GetAllErrors()
@@ -135,8 +136,8 @@ namespace Prism.Windows.Validation
         }
 
         /// <summary>
-        /// Validates the property, based on the rules set in the property ValidationAttributes attributes. 
-        /// It updates the errors collection with the new validation results (notifying if necessary). 
+        /// Validates the property, based on the rules set in the property ValidationAttributes attributes.
+        /// It updates the errors collection with the new validation results (notifying if necessary).
         /// </summary>
         /// <param name="propertyName">The name of the property to validate.</param>
         /// <returns>True if the property is valid. Otherwise, false.</returns>
@@ -172,7 +173,7 @@ namespace Prism.Windows.Validation
 
         /// <summary>
         /// Validates all the properties decorated with the ValidationAttribute attribute.
-        /// It updates each property errors collection with the new validation results (notifying if necessary). 
+        /// It updates each property errors collection with the new validation results (notifying if necessary).
         /// </summary>
         /// <returns>True if the property is valid. Otherwise, false.</returns>
         public bool ValidateProperties()
@@ -197,7 +198,7 @@ namespace Prism.Windows.Validation
                 }
             }
 
-            // Notify each property whose set of errors has changed since the last validation.  
+            // Notify each property whose set of errors has changed since the last validation.
             foreach (string propertyName in propertiesWithChangedErrors)
             {
                 OnErrorsChanged(propertyName);
@@ -208,7 +209,7 @@ namespace Prism.Windows.Validation
         }
 
         /// <summary>
-        /// Performs a validation of a property, adding the results in the propertyErrors list. 
+        /// Performs a validation of a property, adding the results in the propertyErrors list.
         /// </summary>
         /// <param name="propertyInfo">The PropertyInfo of the property to validate</param>
         /// <param name="propertyErrors">A list containing the current error messages of the property.</param>

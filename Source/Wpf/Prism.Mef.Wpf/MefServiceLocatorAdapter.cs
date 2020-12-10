@@ -52,9 +52,9 @@ namespace Prism.Mef
         protected override object DoGetInstance(Type serviceType, string key)
         {
             IEnumerable<Lazy<object, object>> exports = this.compositionContainer.GetExports(serviceType, null, key);
-            if ((exports != null) && (exports.Count() > 0))
+            if ((exports != null) && exports.Any())
             {
-                // If there is more than one value, this will throw an InvalidOperationException, 
+                // If there is more than one value, this will throw an InvalidOperationException,
                 // which will be wrapped by the base class as an ActivationException.
                 return exports.Single().Value;
             }

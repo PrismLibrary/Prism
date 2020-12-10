@@ -7,12 +7,13 @@ namespace Prism.Forms.Tests.Mocks
 {
     public class PageNavigationContainerMock : IDisposable
     {
-        Dictionary<string, Type> _registeredPages = new Dictionary<string, Type>();
+        readonly Dictionary<string, Type> _registeredPages = new Dictionary<string, Type>();
 
         public object GetInstance(string key)
         {
-            if (_registeredPages.ContainsKey(key))
-                return Activator.CreateInstance(_registeredPages[key]);
+            Type page;
+            if (_registeredPages.TryGetValue(key, out page))
+                return Activator.CreateInstance(page);
 
             return null;
         }
