@@ -284,7 +284,15 @@ namespace Prism.Common
         public static void SetAutowireViewModel(VisualElement element)
         {
             if (element.BindingContext is null && ViewModelLocator.GetAutowireViewModel(element) is null)
+            {
                 ViewModelLocator.SetAutowireViewModel(element, true);
+            }
+            else if (element.BindingContext == element.Parent?.BindingContext)
+            {
+                //if the parent binding context is the same as the element, then it was probably inherited
+                //and we don't want that. Set the VML
+                ViewModelLocator.SetAutowireViewModel(element, true);
+            }                
         }
     }
 }
