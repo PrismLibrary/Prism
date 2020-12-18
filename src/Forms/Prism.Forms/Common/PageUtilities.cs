@@ -287,13 +287,12 @@ namespace Prism.Common
             {
                 ViewModelLocator.SetAutowireViewModel(element, true);
             }
-            else
+            else if (element.BindingContext == element.Parent?.BindingContext)
             {
                 //if the parent binding context is the same as the element, then it was probably inherited
                 //and we don't want that. Set the VML
-                if (element.BindingContext == element.Parent?.BindingContext)
-                    ViewModelLocator.SetAutowireViewModel(element, true);
-            }
+                ViewModelLocator.SetAutowireViewModel(element, true);
+            }                
         }
     }
 }
