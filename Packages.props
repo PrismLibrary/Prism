@@ -5,7 +5,7 @@
     <PackageReference Update="Unity.Container" Version="5.11.8" />
 
     <PackageReference Update="System.ValueTuple" Version="4.5.0" />
-    <PackageReference Update="Xamarin.Forms" Version="4.8.0.1364" />
+    <PackageReference Update="Xamarin.Forms" Version="5.0.0.1874" />
     <PackageReference Update="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
   </ItemGroup>
 
