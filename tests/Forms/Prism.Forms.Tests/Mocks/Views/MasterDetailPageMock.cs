@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Prism.Forms.Tests.Mocks.Views
 {
-    public class MasterDetailPageMock : MasterDetailPage, IMasterDetailPageOptions, IDestructible, IPageNavigationEventRecordable
+    public class MasterDetailPageMock : FlyoutPage, IMasterDetailPageOptions, IDestructible, IPageNavigationEventRecordable
     {
         public PageNavigationEventRecorder PageNavigationEventRecorder { get; set; }
 
@@ -15,7 +15,7 @@ namespace Prism.Forms.Tests.Mocks.Views
 
         public MasterDetailPageMock(PageNavigationEventRecorder recorder)
         {
-            Master = new ContentPageMock(recorder) { Title = "Master" };
+            Flyout = new ContentPageMock(recorder) { Title = "Master" };
             Detail = new ContentPageMock(recorder);
 
             ViewModelLocator.SetAutowireViewModel(this, true);
@@ -26,7 +26,7 @@ namespace Prism.Forms.Tests.Mocks.Views
 
         public MasterDetailPageMock(PageNavigationEventRecorder recorder, Page masterPage, Page detailPage)
         {
-            Master = masterPage;
+            Flyout = masterPage;
             Detail = detailPage;
 
             ViewModelLocator.SetAutowireViewModel(this, true);
@@ -42,12 +42,12 @@ namespace Prism.Forms.Tests.Mocks.Views
         }
     }
 
-    public class MasterDetailPageEmptyMock : MasterDetailPage
+    public class MasterDetailPageEmptyMock : FlyoutPage
     {
         public MasterDetailPageEmptyMock()
         {
             ViewModelLocator.SetAutowireViewModel(this, true);
-            Master = new ContentPageMock { Title = "Master" };
+            Flyout = new ContentPageMock { Title = "Master" };
         }
     }
 }

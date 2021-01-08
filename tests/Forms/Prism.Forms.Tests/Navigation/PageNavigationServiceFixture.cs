@@ -504,7 +504,7 @@ namespace Prism.Forms.Tests.Navigation
 
             Assert.True(rootPage.Navigation.ModalStack.Count == 1);
 
-            var mdPage = rootPage.Navigation.ModalStack[0] as MasterDetailPage;
+            var mdPage = rootPage.Navigation.ModalStack[0] as FlyoutPage;
             Assert.NotNull(mdPage);
 
             var viewModel = mdPage.BindingContext as MasterDetailPageMockViewModel;

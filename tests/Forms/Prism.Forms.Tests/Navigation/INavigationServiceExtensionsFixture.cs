@@ -30,7 +30,7 @@ namespace Prism.Forms.Tests.Navigation
             PageNavigationRegistry.Register("Page3", typeof(NavigationPathPageMock3));
             PageNavigationRegistry.Register("Page4", typeof(NavigationPathPageMock4));
             PageNavigationRegistry.Register("TabbedPage1", typeof(NavigationPathTabbedPageMock));
-            PageNavigationRegistry.Register("MasterDetailPage", typeof(MasterDetailPage));
+            PageNavigationRegistry.Register("MasterDetailPage", typeof(FlyoutPage));
         }
 
         [Fact]
@@ -186,9 +186,9 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public void GetNavigationUriPath3()
         {
-            var rootPage = new MasterDetailPage
+            var rootPage = new FlyoutPage
             {
-                Master = new ContentPage() { Title = "Master" }
+                Flyout = new ContentPage() { Title = "Master" }
             };
 
             var page1 = new NavigationPathPageMock() { Title = "Page1" };
@@ -203,9 +203,9 @@ namespace Prism.Forms.Tests.Navigation
         public void GetNavigationUriPath4()
         {
             var page1 = new NavigationPathPageMock() { Title = "Page1" };
-            new MasterDetailPage
+            new FlyoutPage
             {
-                Master = new ContentPage() { Title = "Master" },
+                Flyout = new ContentPage() { Title = "Master" },
                 Detail = new NavigationPage(page1)
             };
 
@@ -217,9 +217,9 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public void GetNavigationUriPath5()
         {
-            var rootPage = new MasterDetailPage
+            var rootPage = new FlyoutPage
             {
-                Master = new ContentPage() { Title = "Master" }
+                Flyout = new ContentPage() { Title = "Master" }
             };
 
             var tabbedpage = new NavigationPathTabbedPageMock() { Title = "Page1" };
