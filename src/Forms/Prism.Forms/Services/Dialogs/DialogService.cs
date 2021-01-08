@@ -211,7 +211,7 @@ namespace Prism.Services.Dialogs
                     return GetCurrentPage(np.CurrentPage);
                 case CarouselPage carouselPage:
                     return GetCurrentPage(carouselPage.CurrentPage);
-                case MasterDetailPage mdp:
+                case FlyoutPage mdp:
                     mdp.IsPresented = false;
                     return GetCurrentPage(mdp.Detail);
                 case Shell shell:

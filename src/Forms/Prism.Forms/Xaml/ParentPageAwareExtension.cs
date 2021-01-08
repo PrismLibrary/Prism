@@ -71,8 +71,8 @@ namespace Prism.Xaml
             {
                 SourcePage = parentPage;
 
-                if (parentPage.Parent is MasterDetailPage mdp
-                    && mdp.Master == parentPage)
+                if (parentPage.Parent is FlyoutPage mdp
+                    && mdp.Flyout == parentPage)
                 {
                     SourcePage = mdp;
                 }

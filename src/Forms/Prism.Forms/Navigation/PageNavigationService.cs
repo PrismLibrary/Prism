@@ -155,7 +155,7 @@ namespace Prism.Navigation
             {
                 return true;
             }
-            else if (mainPage is MasterDetailPage mdp && mdp.Detail == currentPage)
+            else if (mainPage is FlyoutPage mdp && mdp.Detail == currentPage)
             {
                 return true;
             }
@@ -418,9 +418,9 @@ namespace Prism.Navigation
             {
                 await ProcessNavigationForCarouselPage((CarouselPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
-            else if (currentPage is MasterDetailPage)
+            else if (currentPage is FlyoutPage)
             {
-                await ProcessNavigationForMasterDetailPage((MasterDetailPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForMasterDetailPage((FlyoutPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
         }
 
@@ -617,7 +617,7 @@ namespace Prism.Navigation
             });
         }
 
-        protected virtual async Task ProcessNavigationForMasterDetailPage(MasterDetailPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        protected virtual async Task ProcessNavigationForMasterDetailPage(FlyoutPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             bool isPresented = GetMasterDetailPageIsPresented(currentPage);
 
@@ -707,7 +707,7 @@ namespace Prism.Navigation
             }
         }
 
-        protected static bool GetMasterDetailPageIsPresented(MasterDetailPage page)
+        protected static bool GetMasterDetailPageIsPresented(FlyoutPage page)
         {
             if (page is IMasterDetailPageOptions iMasterDetailPage)
                 return iMasterDetailPage.IsPresentedAfterNavigation;
@@ -1043,7 +1043,7 @@ namespace Prism.Navigation
                 else
                 {
                     var pageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(item));
-                    if (PageUtilities.IsSameOrSubclassOf<MasterDetailPage>(pageType))
+                    if (PageUtilities.IsSameOrSubclassOf<FlyoutPage>(pageType))
                     {
                         illegalSegments.Enqueue(item);
                         illegalPageFound = true;

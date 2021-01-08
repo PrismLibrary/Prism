@@ -30,7 +30,7 @@ namespace Prism.Behaviors
         /// Applies behaviors to a MasterDetailPage.
         /// </summary>
         /// <param name="page">The MasterDetailPage to apply the behaviors</param>
-        protected virtual void ApplyMasterDetailPageBehaviors(MasterDetailPage page)
+        protected virtual void ApplyMasterDetailPageBehaviors(FlyoutPage page)
         {
 
         }
@@ -68,7 +68,7 @@ namespace Prism.Behaviors
                 case NavigationPage navPage:
                     ApplyNavigationPageBehaviors(navPage);
                     break;
-                case MasterDetailPage masterDetailPage:
+                case FlyoutPage masterDetailPage:
                     ApplyMasterDetailPageBehaviors(masterDetailPage);
                     break;
                 case TabbedPage tabbedPage:
