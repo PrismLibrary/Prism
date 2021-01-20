@@ -139,7 +139,7 @@ namespace Prism.Services.Dialogs
                 throw new NullReferenceException("A dialog's ViewModel must implement the IDialogAware interface");
 
             if (!(dialogContent.DataContext is IDialogAsyncAware asyncviewModel))
-                throw new NullReferenceException("A dialog's ViewModel must implement the IDialogAware interface");
+                throw new NullReferenceException("A dialog's ViewModel must implement the IDialogAsyncAware interface");
 
             if (viewModel != null)
             {
