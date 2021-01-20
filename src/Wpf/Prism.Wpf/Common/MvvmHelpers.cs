@@ -48,9 +48,7 @@ namespace Prism.Common
                 action(viewAsT);
 
             if (view is FrameworkElement element && element.DataContext is T viewModelAsT)
-            {
                 action(viewModelAsT);
-            }
         }
 
         /// <summary>

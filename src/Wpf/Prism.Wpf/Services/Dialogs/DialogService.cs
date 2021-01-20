@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Prism.Common;
 using Prism.Ioc;
@@ -34,7 +35,7 @@ namespace Prism.Services.Dialogs
         /// <param name="callback">The action to perform when the dialog is closed.</param>
         public void Show(string name, IDialogParameters parameters, Action<IDialogResult> callback)
         {
-            ShowDialogInternal(name, parameters, callback, false);
+            _ = ShowDialogInternal(name, parameters, callback, false);
         }
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace Prism.Services.Dialogs
         /// <param name="windowName">The name of the hosting window registered with the IContainerRegistry.</param>
         public void Show(string name, IDialogParameters parameters, Action<IDialogResult> callback, string windowName)
         {
-            ShowDialogInternal(name, parameters, callback, false, windowName);
+            _ = ShowDialogInternal(name, parameters, callback, false, windowName);
         }
 
         /// <summary>
@@ -57,7 +58,18 @@ namespace Prism.Services.Dialogs
         /// <param name="callback">The action to perform when the dialog is closed.</param>
         public void ShowDialog(string name, IDialogParameters parameters, Action<IDialogResult> callback)
         {
-            ShowDialogInternal(name, parameters, callback, true);
+            _ = ShowDialogInternal(name, parameters, callback, true);
+        }
+
+        /// <summary>
+        /// Async Shows a modal dialog.
+        /// </summary>
+        /// <param name="name">The name of the dialog to show.</param>
+        /// <param name="parameters">The parameters to pass to the dialog.</param>
+        /// <param name="callback">The action to perform when the dialog is closed.</param>
+        public async Task ShowDialogAsync(string name, IDialogParameters parameters, Action<IDialogResult> callback)
+        {
+            await ShowDialogInternal(name, parameters, callback, true);
         }
 
         /// <summary>
@@ -69,18 +81,17 @@ namespace Prism.Services.Dialogs
         /// <param name="windowName">The name of the hosting window registered with the IContainerRegistry.</param>
         public void ShowDialog(string name, IDialogParameters parameters, Action<IDialogResult> callback, string windowName)
         {
-            ShowDialogInternal(name, parameters, callback, true, windowName);
+            _ = ShowDialogInternal(name, parameters, callback, true, windowName);
         }
 
-        void ShowDialogInternal(string name, IDialogParameters parameters, Action<IDialogResult> callback, bool isModal, string windowName = null)
+        async Task ShowDialogInternal(string name, IDialogParameters parameters, Action<IDialogResult> callback, bool isModal, string windowName = null)
         {
             if (parameters == null)
                 parameters = new DialogParameters();
 
             IDialogWindow dialogWindow = CreateDialogWindow(windowName);
             ConfigureDialogWindowEvents(dialogWindow, callback);
-            ConfigureDialogWindowContent(name, dialogWindow, parameters);
-
+            await ConfigureDialogWindowContent(name, dialogWindow, parameters);
             ShowDialogWindow(dialogWindow, isModal);
         }
 
@@ -116,7 +127,7 @@ namespace Prism.Services.Dialogs
         /// <param name="dialogName">The name of the dialog to show.</param>
         /// <param name="window">The hosting window.</param>
         /// <param name="parameters">The parameters to pass to the dialog.</param>
-        protected virtual void ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)
+        protected virtual async Task ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)
         {
             var content = _containerExtension.Resolve<object>(dialogName);
             if (!(content is FrameworkElement dialogContent))
@@ -124,12 +135,14 @@ namespace Prism.Services.Dialogs
 
             MvvmHelpers.AutowireViewModel(dialogContent);
 
-            if (!(dialogContent.DataContext is IDialogAware viewModel))
+            if (!(dialogContent.DataContext is IDialogAware viewModel) || !(dialogContent.DataContext is IDialogAsyncAware asyncviewModel))
                 throw new NullReferenceException("A dialog's ViewModel must implement the IDialogAware interface");
 
             ConfigureDialogWindowProperties(window, dialogContent, viewModel);
-
-            MvvmHelpers.ViewAndViewModelAction<IDialogAware>(viewModel, d => d.OnDialogOpened(parameters));
+            if (viewModel != null)
+                viewModel.OnDialogOpened(parameters);
+            else if (asyncviewModel != null)
+                await asyncviewModel.OnDialogOpenedAsync(parameters);
         }
 
         /// <summary>
@@ -200,5 +213,7 @@ namespace Prism.Services.Dialogs
             if (window.Owner == null)
                 window.Owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
         }
+
+
     }
 }
