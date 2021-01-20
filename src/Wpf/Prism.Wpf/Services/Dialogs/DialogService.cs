@@ -135,14 +135,22 @@ namespace Prism.Services.Dialogs
 
             MvvmHelpers.AutowireViewModel(dialogContent);
 
-            if (!(dialogContent.DataContext is IDialogAware viewModel) || !(dialogContent.DataContext is IDialogAsyncAware asyncviewModel))
+            if (!(dialogContent.DataContext is IDialogAware viewModel))
                 throw new NullReferenceException("A dialog's ViewModel must implement the IDialogAware interface");
 
-            ConfigureDialogWindowProperties(window, dialogContent, viewModel);
+            if (!(dialogContent.DataContext is IDialogAsyncAware asyncviewModel))
+                throw new NullReferenceException("A dialog's ViewModel must implement the IDialogAware interface");
+
             if (viewModel != null)
+            {
+                ConfigureDialogWindowProperties(window, dialogContent, viewModel);
                 viewModel.OnDialogOpened(parameters);
+            }
             else if (asyncviewModel != null)
+            {
+                ConfigureDialogWindowProperties(window, dialogContent, asyncviewModel);
                 await asyncviewModel.OnDialogOpenedAsync(parameters);
+            }
         }
 
         /// <summary>
@@ -201,19 +209,18 @@ namespace Prism.Services.Dialogs
         /// <param name="window">The hosting window.</param>
         /// <param name="dialogContent">The dialog to show.</param>
         /// <param name="viewModel">The dialog's ViewModel.</param>
-        protected virtual void ConfigureDialogWindowProperties(IDialogWindow window, FrameworkElement dialogContent, IDialogAware viewModel)
+        protected virtual void ConfigureDialogWindowProperties<T>(IDialogWindow window, FrameworkElement dialogContent, T viewModel)
         {
             var windowStyle = Dialog.GetWindowStyle(dialogContent);
             if (windowStyle != null)
                 window.Style = windowStyle;
 
             window.Content = dialogContent;
+
             window.DataContext = viewModel; //we want the host window and the dialog to share the same data context
 
             if (window.Owner == null)
                 window.Owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
         }
-
-
     }
 }
