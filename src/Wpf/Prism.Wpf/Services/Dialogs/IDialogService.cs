@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Prism.Services.Dialogs
 {
@@ -40,7 +41,7 @@ namespace Prism.Services.Dialogs
         /// <param name="name">The name of the dialog to show.</param>
         /// <param name="parameters">The parameters to pass to the dialog.</param>
         /// <param name="callback">The action to perform when the dialog is closed.</param>
-        void ShowDialogAsync(string name, IDialogParameters parameters, Action<IDialogResult> callback);
+        Task ShowDialogAsync(string name, IDialogParameters parameters, Action<IDialogResult> callback);
 
         /// <summary>
         /// Shows a modal dialog.
