@@ -46,10 +46,9 @@ namespace Prism.Services.Dialogs
         /// </summary>
         /// <remarks>
         /// This attached property is used to specify the startup location of a <see cref="IDialogWindow"/>.
-        /// The default startup location is <c>WindowStartupLocation.CenterOwner</c>.
         /// </remarks>
         public static readonly DependencyProperty WindowStartupLocationProperty =
-            DependencyProperty.RegisterAttached("WindowStartupLocation", typeof(WindowStartupLocation), typeof(Dialog), new UIPropertyMetadata(WindowStartupLocation.CenterOwner, OnWindowStartupLocationChanged));
+            DependencyProperty.RegisterAttached("WindowStartupLocation", typeof(WindowStartupLocation), typeof(Dialog), new UIPropertyMetadata(OnWindowStartupLocationChanged));
 
         /// <summary>
         /// Gets the value for the <see cref="WindowStartupLocationProperty"/> attached property.
