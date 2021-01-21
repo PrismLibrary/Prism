@@ -86,9 +86,19 @@ namespace Prism.Regions
 
             view = CreateNewRegionItem(candidateTargetContract);
 
-            region.Add(view);
+            AddViewToRegion(region, view);
 
             return view;
+        }
+
+        /// <summary>
+        /// Adds the view to the region.
+        /// </summary>
+        /// <param name="region">The region to add the view to</param>
+        /// <param name="view">The view to add to the region</param>
+        protected virtual void AddViewToRegion(IRegion region, object view)
+        {
+            region.Add(view);
         }
 
         /// <summary>
