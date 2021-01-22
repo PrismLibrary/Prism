@@ -75,22 +75,23 @@ stages:
 
   - template: jobs/uno-uitest.yml
 
-  - template: jobs/e2e-uitest.yml
-    parameters:
-      artifactName: E2E-Android
-      e2eJobName: e2eAndroid
-      appFile: 'com.prismlibrary.helloworld.apk'
-      appName: $(AppCenterDroidAppName)
-      devices: $(AppCenterDroidDevices)
+  # Need to refactor this to run locally like Uno UI tests
+  # - template: jobs/e2e-uitest.yml
+  #   parameters:
+  #     artifactName: E2E-Android
+  #     e2eJobName: e2eAndroid
+  #     appFile: 'com.prismlibrary.helloworld.apk'
+  #     appName: $(AppCenterDroidAppName)
+  #     devices: $(AppCenterDroidDevices)
 
-  - template: jobs/e2e-uitest.yml
-    parameters:
-      artifactName: E2E-iOS
-      e2eJobName: e2eiOS
-      appFile: 'HelloWorld.iOS.ipa'
-      dsymDirectory: 'HelloWorld.iOS.app.dSYM'
-      appName: $(AppCenteriOSAppName)
-      devices: $(AppCenteriOSDevices)
+  # - template: jobs/e2e-uitest.yml
+  #   parameters:
+  #     artifactName: E2E-iOS
+  #     e2eJobName: e2eiOS
+  #     appFile: 'HelloWorld.iOS.ipa'
+  #     dsymDirectory: 'HelloWorld.iOS.app.dSYM'
+  #     appName: $(AppCenteriOSAppName)
+  #     devices: $(AppCenteriOSDevices)
 
 - stage: buildPackage
   displayName: Build Prism Library
