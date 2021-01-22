@@ -7,6 +7,12 @@ steps:
     XcodeOverride: $(XcodeOverride)
   condition: ne(variables['XcodeOverride'], '')
 
+- task: UseDotNet@2
+  displayName: 'Use global.json SDK'
+  inputs:
+    packageType: 'sdk'
+    useGlobalJson: true
+
 - script: |
     dotnet tool install --global boots
     boots --stable Mono
