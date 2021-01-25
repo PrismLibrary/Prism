@@ -75,6 +75,7 @@ stages:
 
   - template: jobs/uno-uitest.yml
 
+  # Need to refactor this to run locally like Uno UI tests
   # - template: jobs/e2e-uitest.yml
   #   parameters:
   #     artifactName: E2E-Android

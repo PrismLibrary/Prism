@@ -14,9 +14,10 @@ namespace HelloPageDialog
             _pageDialogService = pageDialogService;
         }
 
-        public void OnInitialized(IContainerProvider containerProvider)
+        public async void OnInitialized(IContainerProvider containerProvider)
         {
-            _pageDialogService.DisplayAlertAsync("Hello", "You just loaded the PageDialogService Module!", "Ok");
+            var name = await _pageDialogService.DisplayPromptAsync("Hello", "What is your name?", placeholder: "Your name");
+            _pageDialogService.DisplayAlertAsync("Hello", $"{(string.IsNullOrWhiteSpace(name) ? "You" : name)} just loaded the PageDialogService Module!", "Ok");
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
