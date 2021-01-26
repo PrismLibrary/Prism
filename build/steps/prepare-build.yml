@@ -6,10 +6,10 @@ steps:
   displayName: Ensure 3.1 SDK is Installed
   inputs:
     packageType: 'sdk'
-    version: '3.1.404'
+    version: '3.1.405'
 
 - task: UseDotNet@2
-  displayName: Use .NET 5.0
+  displayName: 'Use global.json SDK'
   inputs:
     packageType: 'sdk'
     useGlobalJson: true
