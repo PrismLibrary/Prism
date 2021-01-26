@@ -3,6 +3,12 @@ parameters:
 
 steps:
 - task: UseDotNet@2
+  displayName: Ensure 3.1 SDK is Installed
+  inputs:
+    packageType: 'sdk'
+    version: '3.1.405'
+
+- task: UseDotNet@2
   displayName: 'Use global.json SDK'
   inputs:
     packageType: 'sdk'

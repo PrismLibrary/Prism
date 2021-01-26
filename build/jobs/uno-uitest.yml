@@ -9,11 +9,7 @@ jobs:
   workspace:
     clean: all
   steps:
-  - task: UseDotNet@2
-    displayName: Use .NET 3.1
-    inputs:
-      packageType: 'sdk'
-      useGlobalJson: true
+  - template: ../steps/prepare-build.yml
 
   - bash: |
       build/scripts/wasm-uitest-run.sh
@@ -47,11 +43,7 @@ jobs:
     clean: all
 
   steps:
-  - task: UseDotNet@2
-    displayName: Use .NET 3.1
-    inputs:
-      packageType: 'sdk'
-      useGlobalJson: true
+  - template: ../steps/prepare-build.yml
 
   - template: ../steps/set-runtime.yml
 
@@ -88,11 +80,7 @@ jobs:
   workspace:
     clean: all
   steps:
-  - task: UseDotNet@2
-    displayName: Use .NET 3.1
-    inputs:
-      packageType: 'sdk'
-      useGlobalJson: true
+  - template: ../steps/prepare-build.yml
 
   - template: ../steps/set-runtime.yml
 

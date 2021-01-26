@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45;net47</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net461;net47;net5.0</TargetFrameworks>
     <AssemblyName>Prism</AssemblyName>
     <PackageId>Prism.Core</PackageId>
     <RootNamespace>Prism</RootNamespace>
@@ -11,7 +11,7 @@
     <PackageTags>prism;wpf;xamarin;mvvm;xaml</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup Condition=" $(TargetFramework) == 'net45' ">
+  <ItemGroup Condition=" $(TargetFramework) == 'net461' ">
     <PackageReference Include="System.ValueTuple" />
   </ItemGroup>
 
