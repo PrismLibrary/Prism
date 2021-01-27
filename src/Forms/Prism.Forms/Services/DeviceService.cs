@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Prism.AppModel;
 using Xamarin.Forms;
+using FlowDirection = Prism.AppModel.FlowDirection;
 
 namespace Prism.Services
 {
@@ -20,7 +21,6 @@ namespace Prism.Services
         public const string UWP = "UWP";
         public const string WPF = "WPF";
 
-
         /// <summary>
         /// Gets a list of custom flags that were set on the device before Xamarin.Forms was initialized.
         /// </summary>
@@ -29,7 +29,7 @@ namespace Prism.Services
         /// <summary>
         /// Gets the flow direction on the device.
         /// </summary>
-        public FlowDirection FlowDirection => Device.FlowDirection;
+        public FlowDirection FlowDirection => (FlowDirection)Device.FlowDirection;
 
         /// <summary>
         /// Gets the kind of device that Xamarin.Forms is currently working on.
@@ -143,7 +143,7 @@ namespace Prism.Services
         /// Sets the flow direction on the device.
         /// </summary>
         /// <param name="flowDirection">The new flow direction value to set.</param>
-        public void SetFlowDirection(FlowDirection flowDirection)
+        public void SetFlowDirection(Xamarin.Forms.FlowDirection flowDirection)
         {
             Device.SetFlowDirection(flowDirection);
         }

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Prism.AppModel;
 using Xamarin.Forms;
+using FlowDirection = Prism.AppModel.FlowDirection;
 
 namespace Prism.Services
 {
@@ -89,7 +90,7 @@ namespace Prism.Services
         /// Sets the flow direction on the device.
         /// </summary>
         /// <param name="flowDirection">The new flow direction value to set.</param>
-        void SetFlowDirection(FlowDirection flowDirection);
+        void SetFlowDirection(Xamarin.Forms.FlowDirection flowDirection);
 
         /// <summary>
         /// Starts a recurring timer using the Device clock capabilities.
