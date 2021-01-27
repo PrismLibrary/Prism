@@ -100,6 +100,24 @@ namespace HelloWorld
             moduleCatalog.AddModule(new ModuleInfo(typeof(HelloRegions.RegionDemoModule)));
         }
 
+        protected override void InitializeModules()
+        {
+            var manager = Container.Resolve<IModuleManager>();
+            manager.LoadModuleCompleted += OnLoadModuleCompleted;
+            base.InitializeModules();
+        }
+
+        private void OnLoadModuleCompleted(object sender, LoadModuleCompletedEventArgs e)
+        {
+            if (!System.Diagnostics.Debugger.IsAttached)
+                return;
+
+            if(e.Error != null || e.ModuleInfo.State != ModuleState.Initialized)
+            {
+                System.Diagnostics.Debugger.Break();
+            }
+        }
+
         protected override void OnStart ()
         {
             // Handle when your app starts
