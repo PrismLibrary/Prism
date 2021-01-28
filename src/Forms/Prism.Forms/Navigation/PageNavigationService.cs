@@ -859,19 +859,15 @@ namespace Prism.Navigation
             return page;
         }
 
-        private Page SetNavigationServiceForPage(Page page)
+        /// <summary>
+        /// Ensures that the <see cref="Page"/> has an attached <see cref="IScopedProvider"/> and <see cref="INavigationService"/>
+        /// that can be more easily reused.
+        /// </summary>
+        /// <param name="page">The <see cref="Page"/> the <see cref="INavigationService"/> instance will be created for.</param>
+        /// <returns>The <see cref="Page"/></returns>
+        protected Page SetNavigationServiceForPage(Page page)
         {
-            // Someone explicitly set Autowire ViewModel
-            if (page.GetValue(Xaml.Navigation.NavigationServiceProperty) != null)
-                return page;
-
-            // This will wireup the Navigation Service in case you have something injected that
-            // actually required the Nav Service
-            var childNavService = _container.Resolve<INavigationService>();
-            if (childNavService is IPageAware pa)
-                pa.Page = page;
-
-            page.SetValue(Xaml.Navigation.NavigationServiceProperty, childNavService);
+            Xaml.Navigation.GetNavigationService(page);
             return page;
         }
 
