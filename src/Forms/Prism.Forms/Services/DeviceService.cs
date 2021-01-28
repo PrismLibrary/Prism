@@ -44,31 +44,18 @@ namespace Prism.Services
         /// <summary>
         /// Gets the Platform (OS) that the application is running on. The result is an enum of type RuntimePlatform.
         /// </summary>
-        public RuntimePlatform RuntimePlatform
-        {
-            get
+        public RuntimePlatform RuntimePlatform =>
+            Device.RuntimePlatform switch
             {
-                switch (Device.RuntimePlatform)
-                {
-                    case Android:
-                        return RuntimePlatform.Android;
-                    case GTK:
-                        return RuntimePlatform.GTK;
-                    case iOS:
-                        return RuntimePlatform.iOS;
-                    case macOS:
-                        return RuntimePlatform.macOS;
-                    case Tizen:
-                        return RuntimePlatform.Tizen;
-                    case UWP:
-                        return RuntimePlatform.UWP;
-                    case WPF:
-                        return RuntimePlatform.WPF;
-                    default:
-                        return RuntimePlatform.Unknown;
-                }
-            }
-        }
+                Android => RuntimePlatform.Android,
+                GTK => RuntimePlatform.GTK,
+                iOS => RuntimePlatform.iOS,
+                macOS => RuntimePlatform.macOS,
+                Tizen => RuntimePlatform.Tizen,
+                UWP => RuntimePlatform.UWP,
+                WPF => RuntimePlatform.WPF,
+                _ => RuntimePlatform.Unknown,
+            };
 
         /// <summary>
         /// Invokes an action on the device main UI thread.
@@ -143,9 +130,9 @@ namespace Prism.Services
         /// Sets the flow direction on the device.
         /// </summary>
         /// <param name="flowDirection">The new flow direction value to set.</param>
-        public void SetFlowDirection(Xamarin.Forms.FlowDirection flowDirection)
+        public void SetFlowDirection(FlowDirection flowDirection)
         {
-            Device.SetFlowDirection(flowDirection);
+            Device.SetFlowDirection((Xamarin.Forms.FlowDirection)flowDirection);
         }
 
         /// <summary>

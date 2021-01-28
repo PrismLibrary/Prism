@@ -90,7 +90,7 @@ namespace Prism.Services
         /// Sets the flow direction on the device.
         /// </summary>
         /// <param name="flowDirection">The new flow direction value to set.</param>
-        void SetFlowDirection(Xamarin.Forms.FlowDirection flowDirection);
+        void SetFlowDirection(FlowDirection flowDirection);
 
         /// <summary>
         /// Starts a recurring timer using the Device clock capabilities.
