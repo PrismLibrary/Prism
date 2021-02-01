@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Moq;
 using Prism.AppModel;
 using Prism.Common;
@@ -28,8 +29,12 @@ namespace Prism.Forms.Tests.Mocks
             this.pressedButton = pressedButton;
         }
 
-        public override Task<string> DisplayActionSheetAsync(string title, string cancelButton, string destroyButton, params string[] otherButtons)
+        public override Task DisplayActionSheetAsync(string title, FlowDirection flowDirection, params IActionSheetButton[] buttons)
         {
+            foreach (var button in buttons.Where(button => button != null && button.Text.Equals(pressedButton)))
+            {
+                button.PressButton();
+            }
             return Task.FromResult(pressedButton);
         }
     }

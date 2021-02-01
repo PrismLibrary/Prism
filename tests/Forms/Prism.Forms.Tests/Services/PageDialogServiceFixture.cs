@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Prism.Commands;
 using Prism.Common;
 using Prism.Forms.Tests.Mocks;
 using Prism.Services;
@@ -37,8 +36,8 @@ namespace Prism.Forms.Tests.Services
         public async Task DisplayActionSheetNoButtons_ShouldThrowException()
         {
             var service = new PageDialogServiceMock("cancel", _applicationProvider);
-            var argumentException = await Assert.ThrowsAsync<ArgumentException>(() => service.DisplayActionSheetAsync(null, null));
-            Assert.Equal(typeof(ArgumentException), argumentException.GetType());
+            var argumentException = await Assert.ThrowsAsync<ArgumentNullException>(() => service.DisplayActionSheetAsync(null, null));
+            Assert.Equal(typeof(ArgumentNullException), argumentException.GetType());
         }
 
         [Fact]
@@ -89,9 +88,9 @@ namespace Prism.Forms.Tests.Services
             await DisplayActionSheet_PressButton_UsingGenericAction(null);
         }
 
-        private async Task DisplayActionSheet_PressButton_UsingAction(string text)
+        private async Task DisplayActionSheet_PressButton_UsingAction(string pressedButton)
         {
-            var service = new PageDialogServiceMock(text, _applicationProvider);
+            var service = new PageDialogServiceMock(pressedButton, _applicationProvider);
             bool cancelButtonPressed = false;
             bool destroyButtonPressed = false;
             bool otherButtonPressed = false;
@@ -103,7 +102,7 @@ namespace Prism.Forms.Tests.Services
             };
             await service.DisplayActionSheetAsync(null, btns);
 
-            switch (text)
+            switch (pressedButton)
             {
                 case "other":
                     Assert.True(otherButtonPressed);
@@ -136,9 +135,9 @@ namespace Prism.Forms.Tests.Services
         private void OnButtonPressed(ButtonModel model) =>
             model.ButtonPressed = true;
 
-        private async Task DisplayActionSheet_PressButton_UsingGenericAction(string text)
+        private async Task DisplayActionSheet_PressButton_UsingGenericAction(string pressedButton)
         {
-            var service = new PageDialogServiceMock(text, _applicationProvider);
+            var service = new PageDialogServiceMock(pressedButton, _applicationProvider);
             var cancelButtonModel = new ButtonModel();
             var destroyButtonModel = new ButtonModel();
             var otherButtonModel = new ButtonModel();
@@ -150,7 +149,7 @@ namespace Prism.Forms.Tests.Services
             };
             await service.DisplayActionSheetAsync(null, btns);
 
-            switch (text)
+            switch (pressedButton)
             {
                 case "other":
                     Assert.True(otherButtonModel.ButtonPressed);
