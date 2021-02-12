@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Prism.Ioc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Prism.Ioc.Mocks.Services;
 using Prism.Ioc.Mocks.Views;
-using Prism.Mvvm;
 using Xunit;
 
 namespace Prism.Ioc.Tests
@@ -705,6 +704,8 @@ namespace Prism.Ioc.Tests
             Assert.IsType<ServiceA>(service);
             Assert.Same(service, Setup.Container.Resolve<Lazy<IServiceA>>().Value);
         }
+
+        
 
 #if !UNITY
 

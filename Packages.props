@@ -40,6 +40,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Update="Xunit.StaFact" Version="1.0.37" />
+    <PackageReference Update="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Update="Microsoft.Extensions.Logging" Version="5.0.0" />
   </ItemGroup>
 
   <!-- UI Tests -->
