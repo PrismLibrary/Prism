@@ -1,7 +1,9 @@
-﻿using System;
+﻿using HelloPageDialog.ViewModels;
+using HelloPageDialog.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Services;
+using Xamarin.Forms;
 
 namespace HelloPageDialog
 {
@@ -14,15 +16,18 @@ namespace HelloPageDialog
             _pageDialogService = pageDialogService;
         }
 
-        public async void OnInitialized(IContainerProvider containerProvider)
+        public void OnInitialized(IContainerProvider containerProvider)
         {
-            var name = await _pageDialogService.DisplayPromptAsync("Hello", "What is your name?", placeholder: "Your name");
-            _pageDialogService.DisplayAlertAsync("Hello", $"{(string.IsNullOrWhiteSpace(name) ? "You" : name)} just loaded the PageDialogService Module!", "Ok");
+            _pageDialogService.DisplayAlertAsync("Hello", "You just loaded the PageDialogService Module!", "Ok");
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<PageDialogTabs>();
+            containerRegistry.RegisterForNavigation<ActionSheetDemoPage, ActionSheetDemoPageViewModel>();
+            containerRegistry.RegisterForNavigation<AlertDialogDemoPage, AlertDialogDemoPageViewModel>();
+            containerRegistry.RegisterForNavigation<DisplayPromptDemoPage, DisplayPromptDemoPageViewModel>();
         }
     }
 }

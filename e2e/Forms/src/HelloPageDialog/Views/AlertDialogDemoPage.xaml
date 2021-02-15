@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             Title="Alert Dialog"
+             x:Class="HelloPageDialog.Views.AlertDialogDemoPage">
+  <StackLayout Padding="15">
+    <Label Text="Title" />
+    <Entry Text="{Binding Title}" />
+    <Label Text="Message" />
+    <Entry Text="{Binding Message}" />
+    <Label Text="Flow Direction" />
+    <Picker ItemsSource="{Binding FlowDirections}"
+            ItemDisplayBinding="{Binding .,StringFormat='{0}'}"
+            SelectedItem="{Binding FlowDirection}" />
+    <Button Text="Show Alert"
+            Command="{Binding ShowAlertCommand}" />
+  </StackLayout>
+</ContentPage>

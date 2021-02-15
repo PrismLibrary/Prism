@@ -83,13 +83,14 @@ namespace Prism.Navigation.Xaml
         {
             if (page == null) throw new ArgumentNullException(nameof(page));
 
+            var container = ContainerLocator.Container;
             var navService = (INavigationService)page.GetValue(NavigationServiceProperty);
             if (navService is null)
             {
-                var currentScope = (IScopedProvider)page.GetValue(NavigationScopeProperty) ?? ContainerLocator.Container.CurrentScope;
+                var currentScope = (IScopedProvider)page.GetValue(NavigationScopeProperty) ?? container.CurrentScope;
 
                 if (currentScope is null)
-                    currentScope = ContainerLocator.Container.CreateScope();
+                    currentScope = container.CreateScope();
 
                 if (!currentScope.IsAttached)
                     page.SetValue(NavigationScopeProperty, currentScope);
@@ -103,6 +104,13 @@ namespace Prism.Navigation.Xaml
                 }
 
                 page.SetValue(NavigationServiceProperty, navService);
+            }
+            else if(navService is IPageAware pa && pa.Page != page)
+            {
+                var scope = container.CreateScope();
+                page.SetValue(NavigationScopeProperty, scope);
+                page.SetValue(NavigationServiceProperty, null);
+                return GetNavigationService(page);
             }
 
             return navService;

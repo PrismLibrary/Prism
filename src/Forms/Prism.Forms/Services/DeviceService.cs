@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Prism.AppModel;
 using Xamarin.Forms;
+using FlowDirection = Prism.AppModel.FlowDirection;
 
 namespace Prism.Services
 {
@@ -20,7 +21,6 @@ namespace Prism.Services
         public const string UWP = "UWP";
         public const string WPF = "WPF";
 
-
         /// <summary>
         /// Gets a list of custom flags that were set on the device before Xamarin.Forms was initialized.
         /// </summary>
@@ -29,7 +29,7 @@ namespace Prism.Services
         /// <summary>
         /// Gets the flow direction on the device.
         /// </summary>
-        public FlowDirection FlowDirection => Device.FlowDirection;
+        public FlowDirection FlowDirection => (FlowDirection)Device.FlowDirection;
 
         /// <summary>
         /// Gets the kind of device that Xamarin.Forms is currently working on.
@@ -44,31 +44,18 @@ namespace Prism.Services
         /// <summary>
         /// Gets the Platform (OS) that the application is running on. The result is an enum of type RuntimePlatform.
         /// </summary>
-        public RuntimePlatform RuntimePlatform
-        {
-            get
+        public RuntimePlatform RuntimePlatform =>
+            Device.RuntimePlatform switch
             {
-                switch (Device.RuntimePlatform)
-                {
-                    case Android:
-                        return RuntimePlatform.Android;
-                    case GTK:
-                        return RuntimePlatform.GTK;
-                    case iOS:
-                        return RuntimePlatform.iOS;
-                    case macOS:
-                        return RuntimePlatform.macOS;
-                    case Tizen:
-                        return RuntimePlatform.Tizen;
-                    case UWP:
-                        return RuntimePlatform.UWP;
-                    case WPF:
-                        return RuntimePlatform.WPF;
-                    default:
-                        return RuntimePlatform.Unknown;
-                }
-            }
-        }
+                Android => RuntimePlatform.Android,
+                GTK => RuntimePlatform.GTK,
+                iOS => RuntimePlatform.iOS,
+                macOS => RuntimePlatform.macOS,
+                Tizen => RuntimePlatform.Tizen,
+                UWP => RuntimePlatform.UWP,
+                WPF => RuntimePlatform.WPF,
+                _ => RuntimePlatform.Unknown,
+            };
 
         /// <summary>
         /// Invokes an action on the device main UI thread.
@@ -145,7 +132,7 @@ namespace Prism.Services
         /// <param name="flowDirection">The new flow direction value to set.</param>
         public void SetFlowDirection(FlowDirection flowDirection)
         {
-            Device.SetFlowDirection(flowDirection);
+            Device.SetFlowDirection((Xamarin.Forms.FlowDirection)flowDirection);
         }
 
         /// <summary>

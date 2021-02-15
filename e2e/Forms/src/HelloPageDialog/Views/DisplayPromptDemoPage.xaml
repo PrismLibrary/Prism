@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             Title="Prompts"
+             ios:Page.UseSafeArea="True"
+             x:Class="HelloPageDialog.Views.DisplayPromptDemoPage">
+  <Grid RowDefinitions="*,Auto" Padding="15">
+    <TableView Intent="Form" HasUnevenRows="True">
+      <TableRoot Title="Page Dialog Service">
+        <TableSection Title="Display Prompt">
+          <EntryCell Label="Title" Text="{Binding Title}" />
+          <EntryCell Label="Message" Text="{Binding Message}" />
+          <EntryCell Label="Placeholder" Text="{Binding Placeholder}" />
+          <EntryCell Label="Initial Value" Text="{Binding InitialValue}" />
+          <EntryCell Label="Accept Button" Text="{Binding Accept}" />
+          <EntryCell Label="Cancel Button" Text="{Binding Cancel}" />
+          <EntryCell Label="Max Length" Text="{Binding MaxLength}" Keyboard="Numeric" />
+          <ViewCell>
+            <StackLayout Padding="15">
+              <Label Text="Keyboard Type" />
+              <Picker ItemsSource="{Binding KeyboardTypes}"
+                      ItemDisplayBinding="{Binding ., StringFormat='{0}'}"
+                      SelectedItem="{Binding KeyboardType}" />
+            </StackLayout>
+          </ViewCell>
+        </TableSection>
+      </TableRoot>
+    </TableView>
+    <Button Text="Display Prompt"
+            Command="{Binding ShowPromptCommand}"
+            Grid.Row="1" />
+  </Grid>
+</ContentPage>

@@ -40,6 +40,8 @@
                       Command="{prism:NavigateTo 'MyNavigationPage/DialogDemoPage'}" />
               <Button Text="Show Dialog"
                       Command="{prism:ShowDialog 'DemoDialog?message=Hello%20From%20Prism%20DialogService!&amp;closeOnBackgroundTapped=true'}" />
+              <Button Text="Page Dialog Demo"
+                      Command="{prism:NavigateTo 'NavigationPage/PageDialogTabs?createTab=AlertDialogDemoPage&amp;createTab=ActionSheetDemoPage&amp;createTab=DisplayPromptDemoPage'}" />
             </controls:SectionGroup>
 
             <controls:SectionGroup Title="Regions">

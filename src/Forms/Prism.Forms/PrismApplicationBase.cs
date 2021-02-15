@@ -171,6 +171,7 @@ namespace Prism
             containerRegistry.RegisterSingleton<IApplicationProvider, ApplicationProvider>();
             containerRegistry.RegisterSingleton<IApplicationStore, ApplicationStore>();
             containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
+            containerRegistry.RegisterSingleton<IKeyboardMapper, KeyboardMapper>();
             containerRegistry.RegisterSingleton<IPageDialogService, PageDialogService>();
             containerRegistry.RegisterSingleton<IDialogService, DialogService>();
             containerRegistry.RegisterSingleton<IDeviceService, DeviceService>();

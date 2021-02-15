@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Prism.AppModel;
 using Xamarin.Forms;
+using FlowDirection = Prism.AppModel.FlowDirection;
 
 namespace Prism.Services
 {
