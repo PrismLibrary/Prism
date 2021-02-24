@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConcreteTypeMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Ioc\ContainerProviderFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\FixtureBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Navigation\NavigationServiceFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Navigation\XamlNavigationFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PrismApplicationFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Converters\MockValueConverter.cs" />
@@ -33,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\PartialViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ViewModelAMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ViewModelBMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlTabbedViewMockViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlViewMockAViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlViewMockBViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlViewMockViewModel.cs" />
@@ -46,6 +48,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewAMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewAMockAndroid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlTabbedViewMock.xaml.cs">
+      <DependentUpon>XamlTabbedViewMock.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlViewMock.xaml.cs">
       <DependentUpon>XamlViewMock.xaml</DependentUpon>
     </Compile>
@@ -71,6 +77,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlViewMockB.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlTabbedViewMock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
