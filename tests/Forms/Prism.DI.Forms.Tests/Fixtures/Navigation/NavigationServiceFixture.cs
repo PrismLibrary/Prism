@@ -108,5 +108,24 @@ namespace Prism.DI.Forms.Tests.Fixtures.Navigation
             var correctPageNavService = ((IPageAware)vm.NavigationService).Page == view;
             Assert.True(correctPageNavService);
         }
+
+        [Fact]
+        public void TabbedPage_InNavigationPage_GetsCorrectNavService()
+        {
+            var app = CreateMockApplication();
+            app.NavigationService.NavigateAsync("NavigationPage/XamlTabbedViewMock");
+
+            var mainPage = app.MainPage;
+            Assert.IsType<NavigationPage>(mainPage);
+
+            var tp = mainPage.Navigation.NavigationStack[0] as TabbedPage;
+            Assert.NotNull(tp);
+
+            var tpVm = tp.BindingContext as XamlTabbedViewMockViewModel;
+            Assert.NotNull(tpVm);
+
+            var correctNavService = ((IPageAware)tpVm.NavigationService).Page == tp;
+            Assert.True(correctNavService);
+        }
     }
 }
