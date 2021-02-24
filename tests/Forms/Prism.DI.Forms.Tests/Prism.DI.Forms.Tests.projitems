@@ -34,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\PartialViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ViewModelAMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ViewModelBMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlMasterDetailViewMockViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlTabbedViewMockViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlViewMockAViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\XamlViewMockBViewModel.cs" />
@@ -48,6 +49,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewAMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewAMockAndroid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ViewMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlMasterDetailViewMock.xaml.cs">
+      <DependentUpon>XamlMasterDetailViewMock.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlTabbedViewMock.xaml.cs">
       <DependentUpon>XamlTabbedViewMock.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -83,6 +88,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlTabbedViewMock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlMasterDetailViewMock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

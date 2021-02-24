@@ -127,5 +127,43 @@ namespace Prism.DI.Forms.Tests.Fixtures.Navigation
             var correctNavService = ((IPageAware)tpVm.NavigationService).Page == tp;
             Assert.True(correctNavService);
         }
+
+        [Fact]
+        public void MasterDetail_GetsCorrectNavService()
+        {
+            var app = CreateMockApplication();
+            app.NavigationService.NavigateAsync("XamlMasterDetailViewMock");
+
+            var mainPage = app.MainPage;
+            Assert.IsType<XamlMasterDetailViewMock>(mainPage);
+
+            var vm = mainPage.BindingContext as XamlMasterDetailViewMockViewModel;
+            Assert.NotNull(vm);
+
+            var correctNavService = ((IPageAware)vm.NavigationService).Page == mainPage;
+            Assert.True(correctNavService);
+        }
+
+        [Fact]
+        public void MasterDetail_Detail_GetsCorrectNavService()
+        {
+            var app = CreateMockApplication();
+            app.NavigationService.NavigateAsync("XamlMasterDetailViewMock");
+
+            var mainPage = app.MainPage as XamlMasterDetailViewMock;
+            Assert.NotNull(mainPage);
+
+            var detail = mainPage.Detail as NavigationPage;
+            Assert.NotNull(detail);
+
+            var view = detail.CurrentPage as XamlViewMockA;
+            Assert.NotNull(view);
+
+            var vm = view.BindingContext as XamlViewMockAViewModel;
+            Assert.NotNull(vm);
+
+            var correctNavService = ((IPageAware)vm.NavigationService).Page == view;
+            Assert.True(correctNavService);
+        }
     }
 }
