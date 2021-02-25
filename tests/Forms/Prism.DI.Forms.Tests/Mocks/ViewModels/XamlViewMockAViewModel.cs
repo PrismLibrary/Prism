@@ -20,6 +20,13 @@ namespace Prism.DI.Forms.Tests.Mocks.ViewModels
             set => SetProperty(ref _test, value);
         }
 
+        public INavigationService NavigationService { get; set; }
+
+        public XamlViewMockAViewModel(INavigationService navigationService)
+        {
+            NavigationService = navigationService;
+        }
+
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
         }

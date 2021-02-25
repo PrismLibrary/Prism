@@ -62,7 +62,7 @@ namespace HelloWorld
         {
             InitializeComponent();
 
-            NavigationService.NavigateAsync($"MyMasterDetail/MyTabbedPage").OnNavigationError(OnNavigationError);
+            NavigationService.NavigateAsync($"MyTabbedPage").OnNavigationError(OnNavigationError);
         }
 
         private void OnNavigationError(Exception ex)
