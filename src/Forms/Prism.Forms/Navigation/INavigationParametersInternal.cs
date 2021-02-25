@@ -13,7 +13,7 @@
         void Add(string key, object value);
 
         /// <summary>
-        /// Checks collection for presense of key
+        /// Checks collection for presence of key
         /// </summary>
         /// <param name="key">The key to check in the Collection</param>
         /// <returns><c>true</c> if key exists; else returns <c>false</c>.</returns>

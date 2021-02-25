@@ -94,7 +94,7 @@ namespace Prism.Behaviors
         }
 
         /// <summary>
-        /// Name of the event that will be forwared to <see cref="Command" />
+        /// Name of the event that will be forwarded to <see cref="Command" />
         /// </summary>
         /// <remarks>
         /// An event that is invalid for the attached <see cref="View" /> will result in <see cref="ArgumentException" /> thrown.

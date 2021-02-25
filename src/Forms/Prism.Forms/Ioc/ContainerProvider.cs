@@ -28,7 +28,7 @@
     ///     }
     /// }
     /// </code>
-    /// We can then simply use our ValueConveter or other class directly in XAML
+    /// We can then simply use our ValueConverter or other class directly in XAML
     /// <![CDATA[
     /// <ContentPage xmlns:prism="clr-namespace:Prism.Ioc;assembly=Prism.Forms">
     ///     <ContentPage.Resources>

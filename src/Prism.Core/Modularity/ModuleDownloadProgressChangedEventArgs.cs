@@ -23,7 +23,7 @@ namespace Prism.Modularity
         }
 
         /// <summary>
-        /// Getsthe module info.
+        /// Gets the module info.
         /// </summary>
         /// <value>The module info.</value>
         public IModuleInfo ModuleInfo { get; }

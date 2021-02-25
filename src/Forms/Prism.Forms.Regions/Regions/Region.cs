@@ -103,7 +103,7 @@ namespace Prism.Regions
 
         private string _name;
         /// <summary>
-        /// Gets the name of the region that uniequely identifies the region within a <see cref="IRegionManager"/>.
+        /// Gets the name of the region that uniquely identifies the region within a <see cref="IRegionManager"/>.
         /// </summary>
         /// <value>The name of the region.</value>
         public string Name
@@ -154,7 +154,7 @@ namespace Prism.Regions
         /// </summary>
         /// <value>The <see cref="IRegionManager"/> where this <see cref="IRegion"/> is registered.</value>
         /// <remarks>This is usually used by implementations of <see cref="IRegionManager"/> and should not be
-        /// used by the developer explicitely.</remarks>
+        /// used by the developer explicitly.</remarks>
         public IRegionManager RegionManager
         {
             get => _regionManager;

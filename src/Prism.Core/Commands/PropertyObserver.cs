@@ -56,7 +56,7 @@ namespace Prism.Commands
         /// property changed notifications. The given expression must be in this form: "() => Prop.NestedProp.PropToObserve".
         /// </summary>
         /// <param name="propertyExpression">Expression representing property to be observed. Ex.: "() => Prop.NestedProp.PropToObserve".</param>
-        /// <param name="action">Action to be invoked when PropertyChanged event occours.</param>
+        /// <param name="action">Action to be invoked when PropertyChanged event occurs.</param>
         internal static PropertyObserver Observes<T>(Expression<Func<T>> propertyExpression, Action action)
         {
             return new PropertyObserver(propertyExpression.Body, action);

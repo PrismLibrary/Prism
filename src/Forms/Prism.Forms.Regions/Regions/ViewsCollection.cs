@@ -134,7 +134,7 @@ namespace Prism.Regions
         }
 
         /// <summary>
-        /// Adds handler to monitor the MetadatItem and adds it to our monitoring list.
+        /// Adds handler to monitor the MetadataItem and adds it to our monitoring list.
         /// </summary>
         /// <param name="itemMetadata"></param>
         /// <param name="isInList"></param>

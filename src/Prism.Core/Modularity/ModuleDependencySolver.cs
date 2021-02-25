@@ -72,7 +72,7 @@ namespace Prism.Modularity
         /// </summary>
         /// <returns>The resulting ordered list of modules.</returns>
         /// <exception cref="CyclicDependencyFoundException">This exception is thrown
-        /// when a cycle is found in the defined depedency graph.</exception>
+        /// when a cycle is found in the defined dependency graph.</exception>
         public string[] Solve()
         {
             List<string> skip = new List<string>();

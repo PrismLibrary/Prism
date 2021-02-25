@@ -32,7 +32,7 @@ namespace Prism.Regions
         /// notify when the value is set for the first time.
         /// </summary>
         /// <param name="view">Any view that hold the RegionContext value. </param>
-        /// <returns>Wrapper around the Regioncontext value. </returns>
+        /// <returns>Wrapper around the <see cref="RegionContext"/> value. </returns>
         public static ObservableObject<object> GetObservableContext(DependencyObject view)
         {
             if (view == null)

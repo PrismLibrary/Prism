@@ -58,7 +58,7 @@ namespace Prism.Common
         /// </summary>
         /// <remarks>
         /// If the view implements <typeparamref name="T"/> it will be returned.
-        /// Otherwise if the view's datacontext implements <typeparamref name="T"/> it will be returned instead.
+        /// Otherwise if the view's <see cref="FrameworkElement.DataContext"/> implements <typeparamref name="T"/> it will be returned instead.
         /// </remarks>
         /// <typeparam name="T">The implementer type to get.</typeparam>
         /// <param name="view">The view to get <typeparamref name="T"/> from.</param>

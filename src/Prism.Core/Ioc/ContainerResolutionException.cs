@@ -24,7 +24,7 @@ namespace Prism.Ioc
         public const string CannotResolveAbstractType = "The Implementing Type is abstract.";
 
         /// <summary>
-        /// The message provided by <see cref="ContainerResolutionException"/> when mulptiple constructors were found in the implementing type
+        /// The message provided by <see cref="ContainerResolutionException"/> when multiple constructors were found in the implementing type
         /// </summary>
         public const string MultipleConstructors = "The Implementing Type has multiple constructors which may not be resolvable";
 
@@ -213,7 +213,7 @@ namespace Prism.Ioc
 
             try
             {
-                // We generally expect some sort of InvokationException Exception here...
+                // We generally expect some sort of InvocationException Exception here...
                 ctor.Invoke(parameterInstances.ToArray());
 
                 // If we managed to create an instance for every parameter and the

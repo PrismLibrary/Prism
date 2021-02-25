@@ -61,7 +61,7 @@ namespace Prism.Services
         Task DisplayAlertAsync(string title, string message, string cancelButton, FlowDirection flowDirection);
 
         /// <summary>
-        /// Displays a native platform action sheet, allowing the application user to choose from serveral buttons.
+        /// Displays a native platform action sheet, allowing the application user to choose from several buttons.
         /// </summary>
         /// <param name="title">Title to display in view.</param>
         /// <param name="cancelButton">Text for the cancel button.</param>
@@ -71,7 +71,7 @@ namespace Prism.Services
         Task<string> DisplayActionSheetAsync(string title, string cancelButton, string destroyButton, params string[] otherButtons);
 
         /// <summary>
-        /// Displays a native platform action sheet, allowing the application user to choose from serveral buttons.
+        /// Displays a native platform action sheet, allowing the application user to choose from several buttons.
         /// </summary>
         /// <param name="title">Title to display in view.</param>
         /// <param name="cancelButton">Text for the cancel button.</param>
@@ -82,7 +82,7 @@ namespace Prism.Services
         Task<string> DisplayActionSheetAsync(string title, string cancelButton, string destroyButton, FlowDirection flowDirection, params string[] otherButtons);
 
         /// <summary>
-        /// Displays a native platform action sheet, allowing the application user to choose from serveral buttons.
+        /// Displays a native platform action sheet, allowing the application user to choose from several buttons.
         /// </summary>
         /// <para>
         /// The text displayed in the action sheet will be the value for <see cref="IActionSheetButton.Text"/> and when pressed
@@ -94,7 +94,7 @@ namespace Prism.Services
         Task DisplayActionSheetAsync(string title, params IActionSheetButton[] buttons);
 
         /// <summary>
-        /// Displays a native platform action sheet, allowing the application user to choose from serveral buttons.
+        /// Displays a native platform action sheet, allowing the application user to choose from several buttons.
         /// </summary>
         /// <para>
         /// The text displayed in the action sheet will be the value for <see cref="IActionSheetButton.Text"/> and when pressed
@@ -107,7 +107,7 @@ namespace Prism.Services
         Task DisplayActionSheetAsync(string title, FlowDirection flowDirection, params IActionSheetButton[] buttons);
 
         /// <summary>
-        /// Displays a native platform promt, allowing the application user to enter a string.
+        /// Displays a native platform prompt, allowing the application user to enter a string.
         /// </summary>
         /// <param name="title">Title to display</param>
         /// <param name="message">Message to display</param>

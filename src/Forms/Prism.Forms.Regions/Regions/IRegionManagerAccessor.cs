@@ -9,7 +9,7 @@ namespace Prism.Regions
     public interface IRegionManagerAccessor
     {
         /// <summary>
-        /// Notification used by attached behaviors to update the region managers appropriatelly if needed to.
+        /// Notification used by attached behaviors to update the region managers appropriately if needed to.
         /// </summary>
         /// <remarks>This event uses weak references to the event handler to prevent this static event of keeping the
         /// target element longer than expected.</remarks>

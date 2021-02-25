@@ -214,12 +214,12 @@ namespace Prism.Regions.Navigation
 
                 var view = (VisualElement)_regionNavigationContentLoader.LoadContent(Region, navigationContext);
 
-                // Raise the navigating event just before activing the view.
+                // Raise the navigating event just before activating the view.
                 RaiseNavigating(navigationContext);
 
                 Region.Activate(view);
 
-                // Update the navigation journal before notifying others of navigaton
+                // Update the navigation journal before notifying others of navigation
                 IRegionNavigationJournalEntry journalEntry = _container.Resolve<IRegionNavigationJournalEntry>();
                 journalEntry.Uri = navigationContext.Uri;
                 journalEntry.Parameters = navigationContext.Parameters;

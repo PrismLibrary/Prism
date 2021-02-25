@@ -6,7 +6,7 @@
     public interface IJournalAware
     {
         /// <summary>
-        /// Determines if the current obect is going to be added to the navigation journal's backstack.
+        /// Determines if the current object is going to be added to the navigation journal's backstack.
         /// </summary>
         /// <returns>True, add to backstack. False, remove from backstack.</returns>
         bool PersistInHistory();

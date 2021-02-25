@@ -5,7 +5,7 @@ using Prism.Navigation;
 namespace Prism.Regions.Behaviors
 {
     /// <summary>
-    /// Provides a Behavior to Destory the View/ViewModel when the View is removed from the Region's Views
+    /// Provides a Behavior to Destroy the View/ViewModel when the View is removed from the Region's Views
     /// </summary>
     public class DestructibleRegionBehavior : RegionBehavior
     {

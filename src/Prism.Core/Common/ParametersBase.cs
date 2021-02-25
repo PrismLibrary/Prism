@@ -70,7 +70,7 @@ namespace Prism.Common
 
         /// <summary>
         /// Searches Parameter collection and returns value if Collection contains key.
-        /// Otherswise returns null.
+        /// Otherwise returns null.
         /// </summary>
         /// <param name="key">The key for the value to be returned.</param>
         /// <returns>The value of the parameter referenced by the key; otherwise <c>null</c>.</returns>

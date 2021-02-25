@@ -59,7 +59,7 @@ namespace Prism.Regions.Behaviors
         }
 
         /// <summary>
-        /// Starts to monitor the <see cref="IRegion"/> to keep it in synch with the items of the <see cref="HostControl"/>.
+        /// Starts to monitor the <see cref="IRegion"/> to keep it in sync with the items of the <see cref="HostControl"/>.
         /// </summary>
         protected override void OnAttach()
         {

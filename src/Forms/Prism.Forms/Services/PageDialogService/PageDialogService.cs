@@ -98,7 +98,7 @@ namespace Prism.Services
         }
 
         /// <summary>
-        /// Displays a native platform action sheet, allowing the application user to choose from serveral buttons.
+        /// Displays a native platform action sheet, allowing the application user to choose from several buttons.
         /// </summary>
         /// <param name="title">Title to display in view.</param>
         /// <param name="cancelButton">Text for the cancel button.</param>
@@ -111,7 +111,7 @@ namespace Prism.Services
         }
 
         /// <summary>
-        /// Displays a native platform action sheet, allowing the application user to choose from serveral buttons.
+        /// Displays a native platform action sheet, allowing the application user to choose from several buttons.
         /// </summary>
         /// <param name="title">Title to display in view.</param>
         /// <param name="cancelButton">Text for the cancel button.</param>
@@ -125,7 +125,7 @@ namespace Prism.Services
         }
 
         /// <summary>
-        /// Displays a native platform action sheet, allowing the application user to choose from serveral buttons.
+        /// Displays a native platform action sheet, allowing the application user to choose from several buttons.
         /// </summary>
         /// <para>
         /// The text displayed in the action sheet will be the value for <see cref="IActionSheetButton.Text"/> and when pressed
@@ -140,7 +140,7 @@ namespace Prism.Services
         }
 
         /// <summary>
-        /// Displays a native platform action sheet, allowing the application user to choose from serveral buttons.
+        /// Displays a native platform action sheet, allowing the application user to choose from several buttons.
         /// </summary>
         /// <para>
         /// The text displayed in the action sheet will be the value for <see cref="IActionSheetButton.Text"/> and when pressed
@@ -169,7 +169,7 @@ namespace Prism.Services
         }
 
         /// <summary>
-        /// Displays a native platform promt, allowing the application user to enter a string.
+        /// Displays a native platform prompt, allowing the application user to enter a string.
         /// </summary>
         /// <param name="title">Title to display</param>
         /// <param name="message">Message to display</param>
