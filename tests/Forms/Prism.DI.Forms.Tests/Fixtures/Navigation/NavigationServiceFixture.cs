@@ -26,8 +26,9 @@ namespace Prism.DI.Forms.Tests.Fixtures.Navigation
             Assert.IsType<XamlViewMockA>(mainPage);
             Assert.NotNull(vm);
 
-            var correctPage = ((IPageAware)vm.NavigationService).Page == mainPage;
-            Assert.True(correctPage);
+            var page = ((IPageAware)vm.NavigationService).Page;
+            Assert.IsType<XamlViewMockA>(mainPage);
+            Assert.Same(mainPage, page);
         }
 
         [Fact]
@@ -45,8 +46,9 @@ namespace Prism.DI.Forms.Tests.Fixtures.Navigation
             var vm = view.BindingContext as XamlViewMockAViewModel;
             Assert.NotNull(vm);
 
-            var correctPage = ((IPageAware)vm.NavigationService).Page == view;
-            Assert.True(correctPage);
+            var page = ((IPageAware)vm.NavigationService).Page;
+            Assert.IsType<XamlViewMockA>(page);
+            Assert.Same(view, page);
         }
 
         [Fact]
@@ -61,8 +63,9 @@ namespace Prism.DI.Forms.Tests.Fixtures.Navigation
             var tpVm = tp.BindingContext as XamlTabbedViewMockViewModel;
             Assert.NotNull(tpVm);
 
-            var correctNavService = ((IPageAware)tpVm.NavigationService).Page == tp;
-            Assert.True(correctNavService);
+            var page = ((IPageAware)tpVm.NavigationService).Page;
+            Assert.IsType<XamlTabbedViewMock>(page);
+            Assert.Same(tp, page);
         }
 
         [Fact]
@@ -86,8 +89,9 @@ namespace Prism.DI.Forms.Tests.Fixtures.Navigation
             var vm = view.BindingContext as XamlViewMockAViewModel;
             Assert.NotNull(vm);
 
-            var correctPageNavService = ((IPageAware)vm.NavigationService).Page == view;
-            Assert.True(correctPageNavService);
+            var page = ((IPageAware)vm.NavigationService).Page;
+            Assert.IsType<XamlViewMockA>(page);
+            Assert.Same(view, page);
         }
 
         [Fact]
@@ -105,8 +109,9 @@ namespace Prism.DI.Forms.Tests.Fixtures.Navigation
             var vm = view.BindingContext as XamlViewMockAViewModel;
             Assert.NotNull(vm);
 
-            var correctPageNavService = ((IPageAware)vm.NavigationService).Page == view;
-            Assert.True(correctPageNavService);
+            var page = ((IPageAware)vm.NavigationService).Page;
+            Assert.IsType<XamlViewMockA>(page);
+            Assert.Same(view, page);
         }
 
         [Fact]
@@ -124,8 +129,9 @@ namespace Prism.DI.Forms.Tests.Fixtures.Navigation
             var tpVm = tp.BindingContext as XamlTabbedViewMockViewModel;
             Assert.NotNull(tpVm);
 
-            var correctNavService = ((IPageAware)tpVm.NavigationService).Page == tp;
-            Assert.True(correctNavService);
+            var page = ((IPageAware)tpVm.NavigationService).Page;
+            Assert.IsType<XamlTabbedViewMock>(page);
+            Assert.Same(tp, page);
         }
 
         [Fact]
@@ -140,8 +146,9 @@ namespace Prism.DI.Forms.Tests.Fixtures.Navigation
             var vm = mainPage.BindingContext as XamlMasterDetailViewMockViewModel;
             Assert.NotNull(vm);
 
-            var correctNavService = ((IPageAware)vm.NavigationService).Page == mainPage;
-            Assert.True(correctNavService);
+            var page = ((IPageAware)vm.NavigationService).Page;
+            Assert.IsType<XamlMasterDetailViewMock>(page);
+            Assert.Same(mainPage, page);
         }
 
         [Fact]
@@ -162,8 +169,9 @@ namespace Prism.DI.Forms.Tests.Fixtures.Navigation
             var vm = view.BindingContext as XamlViewMockAViewModel;
             Assert.NotNull(vm);
 
-            var correctNavService = ((IPageAware)vm.NavigationService).Page == view;
-            Assert.True(correctNavService);
+            var page = ((IPageAware)vm.NavigationService).Page;
+            Assert.IsType<XamlViewMockA>(page);
+            Assert.Same(view, page);
         }
     }
 }

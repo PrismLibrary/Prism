@@ -95,15 +95,7 @@ namespace Prism.Navigation.Xaml
                 if (!currentScope.IsAttached)
                     page.SetValue(NavigationScopeProperty, currentScope);
 
-                currentScope.IsAttached = true;
-
-                navService = currentScope.Resolve<INavigationService>();
-                if (navService is IPageAware pa)
-                {
-                    pa.Page = page;
-                }
-
-                page.SetValue(NavigationServiceProperty, navService);
+                navService = CreateNavigationService(currentScope, page);
             }
             else if(navService is IPageAware pa && pa.Page != page)
             {
@@ -112,6 +104,25 @@ namespace Prism.Navigation.Xaml
                 page.SetValue(NavigationServiceProperty, null);
                 return GetNavigationService(page);
             }
+
+            return navService;
+        }
+
+        private static INavigationService CreateNavigationService(IScopedProvider scope, Page page)
+        {
+            var navService = scope.Resolve<INavigationService>();
+            switch(navService)
+            {
+                case IPageAware pa when pa.Page is null:
+                    pa.Page = page;
+                    break;
+                case IPageAware pa1 when pa1.Page != page:
+                    return CreateNavigationService(ContainerLocator.Container.CreateScope(), page);
+            }
+
+            page.SetValue(NavigationScopeProperty, scope);
+            scope.IsAttached = true;
+            page.SetValue(NavigationServiceProperty, navService);
 
             return navService;
         }
