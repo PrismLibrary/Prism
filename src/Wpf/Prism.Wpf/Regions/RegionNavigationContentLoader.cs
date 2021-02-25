@@ -138,7 +138,7 @@ namespace Prism.Regions
         }
 
         /// <summary>
-        /// Returns the set of candidates that may satisfiy this navigation request.
+        /// Returns the set of candidates that may satisfy this navigation request.
         /// </summary>
         /// <param name="region">The region containing items that may satisfy the navigation request.</param>
         /// <param name="candidateNavigationContract">The candidate navigation target as determined by <see cref="GetContractFromNavigationContext"/></param>

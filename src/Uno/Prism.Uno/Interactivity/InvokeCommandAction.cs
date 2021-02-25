@@ -17,14 +17,14 @@ namespace Prism.Interactivity
         private ExecutableCommandBehavior _commandBehavior;
 
         /// <summary>
-        /// Dependency property identifying if the associated element should automaticlaly be enabled or disabled based on the result of the Command's CanExecute
+        /// Dependency property identifying if the associated element should automatically be enabled or disabled based on the result of the Command's CanExecute
         /// </summary>
         public static readonly DependencyProperty AutoEnableProperty =
             DependencyProperty.Register("AutoEnable", typeof(bool), typeof(InvokeCommandAction),
                 new PropertyMetadata(true));
 
         /// <summary>
-        /// Gets or sets whther or not the associated element will automatically be enabled or disabled based on the result of the commands CanExecute
+        /// Gets or sets whether or not the associated element will automatically be enabled or disabled based on the result of the commands CanExecute
         /// </summary>
         public bool AutoEnable
         {

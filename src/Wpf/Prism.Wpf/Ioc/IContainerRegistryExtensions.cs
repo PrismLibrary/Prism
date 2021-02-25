@@ -57,7 +57,7 @@ namespace Prism.Ioc
         /// </summary>
         /// <param name="containerRegistry"></param>
         /// <param name="type">The type of object to register</param>
-        /// <param name="name">The unique name to register with the obect.</param>
+        /// <param name="name">The unique name to register with the object.</param>
         public static void RegisterForNavigation(this IContainerRegistry containerRegistry, Type type, string name)
         {
             containerRegistry.Register(typeof(object), type, name);

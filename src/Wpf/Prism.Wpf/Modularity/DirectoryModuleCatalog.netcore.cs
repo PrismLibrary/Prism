@@ -10,7 +10,7 @@ using Prism.Properties;
 namespace Prism.Modularity
 {
     /// <summary>
-    /// Represets a catalog created from a directory on disk.
+    /// Represents a catalog created from a directory on disk.
     /// </summary>
     /// <remarks>
     /// The directory catalog will scan the contents of a directory, locating classes that implement
@@ -18,7 +18,7 @@ namespace Prism.Modularity
     /// Assemblies are loaded into a new application domain with ReflectionOnlyLoad.  The application domain is destroyed
     /// once the assemblies have been discovered.
     ///
-    /// The diretory catalog does not continue to monitor the directory after it has created the initialze catalog.
+    /// The directory catalog does not continue to monitor the directory after it has created the initialize catalog.
     /// </remarks>
     public class DirectoryModuleCatalog : ModuleCatalog
     {

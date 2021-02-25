@@ -13,7 +13,7 @@ namespace Prism.Events
     {
         private readonly Dictionary<Type, EventBase> events = new Dictionary<Type, EventBase>();
         // Captures the sync context for the UI thread when constructed on the UI thread 
-        // in a platform agnositc way so it can be used for UI thread dispatching
+        // in a platform agnostic way so it can be used for UI thread dispatching
         private readonly SynchronizationContext syncContext = SynchronizationContext.Current;
 
         /// <summary>

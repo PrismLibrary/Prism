@@ -53,7 +53,7 @@ namespace Prism.Modularity
         /// Handles any exception occurred in the module Initialization process,
         /// This method can be overridden to provide a different behavior.
         /// </summary>
-        /// <param name="moduleInfo">The module metadata where the error happenened.</param>
+        /// <param name="moduleInfo">The module metadata where the error happened.</param>
         /// <param name="assemblyName">The assembly name.</param>
         /// <param name="exception">The exception thrown that is the cause of the current error.</param>
         /// <exception cref="ModuleInitializeException"></exception>

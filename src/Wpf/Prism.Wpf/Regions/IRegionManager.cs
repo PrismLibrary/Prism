@@ -20,7 +20,7 @@ namespace Prism.Regions
         IRegionManager CreateRegionManager();
 
         /// <summary>
-        ///     Add a view to the Views collection of a Region. Note that the region must already exist in this regionmanager. 
+        ///     Add a view to the Views collection of a Region. Note that the region must already exist in this <see cref="IRegionManager"/>. 
         /// </summary>
         /// <param name="regionName">The name of the region to add a view to</param>
         /// <param name="view">The view to add to the views collection</param>
@@ -34,7 +34,7 @@ namespace Prism.Regions
         /// </summary>
         /// <param name="regionName">The name of the region to associate the view with.</param>
         /// <param name="viewType">The type of the view to register with the </param>
-        /// <returns>The regionmanager, for adding several views easily</returns>
+        /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
         IRegionManager RegisterViewWithRegion(string regionName, Type viewType);
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Prism.Regions
         /// </summary>
         /// <param name="regionName">The name of the region to associate the view with.</param>
         /// <param name="getContentDelegate">The delegate used to resolve a concrete instance of the view.</param>
-        /// <returns>The regionmanager, for adding several views easily</returns>
+        /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
         IRegionManager RegisterViewWithRegion(string regionName, Func<object> getContentDelegate);
 
         /// <summary>

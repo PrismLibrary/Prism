@@ -5,7 +5,7 @@ namespace Prism.Events
     /// <summary>
     /// Subscription token returned from <see cref="EventBase"/> on subscribe.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Should never have a need for a finalizer, hence no need for Dispole(bool)")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Should never have a need for a finalizer, hence no need for Dispose(bool)")]
     public class SubscriptionToken : IEquatable<SubscriptionToken>, IDisposable
     {
         private readonly Guid _token;

@@ -77,8 +77,8 @@ namespace Prism
 
             ConfigureModuleCatalog(_moduleCatalog);
 
-            var regionAdapterMappins = _containerExtension.Resolve<RegionAdapterMappings>();
-            ConfigureRegionAdapterMappings(regionAdapterMappins);
+            var regionAdapterMappings = _containerExtension.Resolve<RegionAdapterMappings>();
+            ConfigureRegionAdapterMappings(regionAdapterMappings);
 
             var defaultRegionBehaviors = _containerExtension.Resolve<IRegionBehaviorFactory>();
             ConfigureDefaultRegionBehaviors(defaultRegionBehaviors);

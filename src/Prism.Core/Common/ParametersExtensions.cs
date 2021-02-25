@@ -80,7 +80,7 @@ namespace Prism.Common
         /// <typeparam name="T">The type of the parameter to return</typeparam>
         /// <param name="parameters">A collection of parameters to search</param>
         /// <param name="key">The key of the parameter to find</param>
-        /// <returns>An IEnumberable{T} of all the values referenced by key</returns>
+        /// <returns>An IEnumerable{T} of all the values referenced by key</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static IEnumerable<T> GetValues<T>(this IEnumerable<KeyValuePair<string, object>> parameters, string key)
         {
@@ -144,7 +144,7 @@ namespace Prism.Common
         /// <summary>
         /// Checks to see if key exists in parameter collection
         /// </summary>
-        /// <param name="parameters">IEnumberable to search</param>
+        /// <param name="parameters">IEnumerable to search</param>
         /// <param name="key">The key to search the <paramref name="parameters"/> for existence</param>
         /// <returns><c>true</c> if key exists; <c>false</c> otherwise</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]

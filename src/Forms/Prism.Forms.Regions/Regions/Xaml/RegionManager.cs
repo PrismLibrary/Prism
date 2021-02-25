@@ -182,7 +182,7 @@ namespace Prism.Regions.Xaml
         }
 
         /// <summary>
-        /// Notification used by attached behaviors to update the region managers appropriatelly if needed to.
+        /// Notification used by attached behaviors to update the region managers appropriately if needed to.
         /// </summary>
         /// <remarks>This event uses weak references to the event handler to prevent this static event of keeping the
         /// target element longer than expected.</remarks>
@@ -193,7 +193,7 @@ namespace Prism.Regions.Xaml
         }
 
         /// <summary>
-        /// Notifies attached behaviors to update the region managers appropriatelly if needed to.
+        /// Notifies attached behaviors to update the region managers appropriately if needed to.
         /// </summary>
         /// <remarks>
         /// This method is normally called internally, and there is usually no need to call this from user code.

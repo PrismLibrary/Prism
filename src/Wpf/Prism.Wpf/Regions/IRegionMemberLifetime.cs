@@ -5,7 +5,7 @@ namespace Prism.Regions
     /// <summary>
     /// When implemented, allows an instance placed in a <see cref="IRegion"/>
     /// that uses a <see cref="RegionMemberLifetimeBehavior"/> to indicate
-    /// it should be removed when it transitions from an activated to deactived state.
+    /// it should be removed when it transitions from an activated to deactivated state.
     /// </summary>
     public interface IRegionMemberLifetime
     {

@@ -30,7 +30,7 @@ namespace Prism.Navigation
         /// <summary>
         /// When navigating inside a NavigationPage: Pops all but the root Page off the navigation stack
         /// </summary>
-        /// <param name="navigationService">The INavigatinService instance</param>
+        /// <param name="navigationService">The INavigationService instance</param>
         /// <param name="parameters">The navigation parameters</param>
         /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
         /// <remarks>Only works when called from a View within a NavigationPage</remarks>

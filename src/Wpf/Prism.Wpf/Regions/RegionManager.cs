@@ -204,7 +204,7 @@ namespace Prism.Regions
         }
 
         /// <summary>
-        /// Notification used by attached behaviors to update the region managers appropriatelly if needed to.
+        /// Notification used by attached behaviors to update the region managers appropriately if needed to.
         /// </summary>
         /// <remarks>This event uses weak references to the event handler to prevent this static event of keeping the
         /// target element longer than expected.</remarks>
@@ -215,7 +215,7 @@ namespace Prism.Regions
         }
 
         /// <summary>
-        /// Notifies attached behaviors to update the region managers appropriatelly if needed to.
+        /// Notifies attached behaviors to update the region managers appropriately if needed to.
         /// </summary>
         /// <remarks>
         /// This method is normally called internally, and there is usually no need to call this from user code.
@@ -276,7 +276,7 @@ namespace Prism.Regions
         }
 
         /// <summary>
-        ///     Add a view to the Views collection of a Region. Note that the region must already exist in this regionmanager.
+        ///     Add a view to the Views collection of a Region. Note that the region must already exist in this <see cref="IRegionManager"/>.
         /// </summary>
         /// <param name="regionName">The name of the region to add a view to</param>
         /// <param name="view">The view to add to the views collection</param>
@@ -296,7 +296,7 @@ namespace Prism.Regions
         /// </summary>
         /// <param name="regionName">The name of the region to associate the view with.</param>
         /// <typeparam name="T">The type of the view to register</typeparam>
-        /// <returns>The regionmanager, for adding several views easily</returns>
+        /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
         public IRegionManager RegisterViewWithRegion<T>(string regionName)
         {
             return RegisterViewWithRegion(regionName, typeof(T));
@@ -309,7 +309,7 @@ namespace Prism.Regions
         /// </summary>
         /// <param name="regionName">The name of the region to associate the view with.</param>
         /// <param name="viewType">The type of the view to register with the </param>
-        /// <returns>The regionmanager, for adding several views easily</returns>
+        /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
         public IRegionManager RegisterViewWithRegion(string regionName, Type viewType)
         {
             var regionViewRegistry = ContainerLocator.Container.Resolve<IRegionViewRegistry>();
@@ -326,7 +326,7 @@ namespace Prism.Regions
         /// </summary>
         /// <param name="regionName">The name of the region to associate the view with.</param>
         /// <param name="getContentDelegate">The delegate used to resolve a concrete instance of the view.</param>
-        /// <returns>The regionmanager, for adding several views easily</returns>
+        /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
         public IRegionManager RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
         {
             var regionViewRegistry = ContainerLocator.Container.Resolve<IRegionViewRegistry>();
@@ -539,10 +539,10 @@ namespace Prism.Regions
             }
 
             /// <summary>
-            /// Adds a region to the regionmanager with the name received as argument.
+            /// Adds a region to the <see cref="RegionManager"/> with the name received as argument.
             /// </summary>
             /// <param name="regionName">The name to be given to the region.</param>
-            /// <param name="region">The region to be added to the regionmanager.</param>
+            /// <param name="region">The region to be added to the <see cref="RegionManager"/>.</param>
             /// <exception cref="ArgumentNullException">Thrown if <paramref name="region"/> is <see langword="null"/>.</exception>
             /// <exception cref="ArgumentException">Thrown if <paramref name="regionName"/> and <paramref name="region"/>'s name do not match and the <paramref name="region"/> <see cref="IRegion.Name"/> is not <see langword="null"/>.</exception>
             public void Add(string regionName, IRegion region)

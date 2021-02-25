@@ -8,7 +8,7 @@
         public const string CreateTab = "createTab";
 
         /// <summary>
-        /// Used to select an existing Tab when navigating to a Tabbedpage.
+        /// Used to select an existing Tab when navigating to a TabbedPage.
         /// </summary>
         public const string SelectedTab = "selectedTab";
 

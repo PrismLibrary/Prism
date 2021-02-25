@@ -98,10 +98,10 @@ namespace Prism.Regions
         }
 
         /// <summary>
-        /// Adds a region to the regionmanager with the name received as argument.
+        /// Adds a region to the <see cref="RegionManager"/> with the name received as argument.
         /// </summary>
         /// <param name="regionName">The name to be given to the region.</param>
-        /// <param name="region">The region to be added to the regionmanager.</param>
+        /// <param name="region">The region to be added to the <see cref="RegionManager"/>.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="region"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="regionName"/> and <paramref name="region"/>'s name do not match and the <paramref name="region"/> <see cref="IRegion.Name"/> is not <see langword="null"/>.</exception>
         public void Add(string regionName, IRegion region)

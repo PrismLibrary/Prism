@@ -1,7 +1,7 @@
 ﻿namespace Prism.Regions
 {
     /// <summary>
-    /// Extention methods for the IRegionBehaviorFactory.
+    /// Extension methods for the IRegionBehaviorFactory.
     /// </summary>
     public static class IRegionBehaviorFactoryExtensions
     {

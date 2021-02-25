@@ -27,7 +27,7 @@ namespace Prism.Ioc
                 configureAdapters?.Invoke(regionAdapterMappings);
 
                 regionAdapterMappings.RegisterDefaultMapping<CarouselView, CarouselViewRegionAdapter>();
-                // TODO: CollectionView is buggy with only last View showing dispite multiple Active Views
+                // TODO: CollectionView is buggy with only last View showing despite multiple Active Views
                 // BUG: iOS Crash with CollectionView https://github.com/xamarin/Xamarin.Forms/issues/9970
                 //regionAdapterMappings.RegisterDefaultMapping<CollectionView, CollectionViewRegionAdapter>();
                 regionAdapterMappings.RegisterDefaultMapping<Layout<View>, LayoutViewRegionAdapter>();

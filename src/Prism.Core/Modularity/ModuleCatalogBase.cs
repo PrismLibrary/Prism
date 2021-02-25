@@ -188,7 +188,7 @@ namespace Prism.Modularity
         }
 
         /// <summary>
-        /// Checks for cyclic dependencies, by calling the dependencysolver.
+        /// Checks for cyclic dependencies, by calling the dependency solver.
         /// </summary>
         /// <param name="modules">the.</param>
         /// <returns></returns>
@@ -332,7 +332,7 @@ namespace Prism.Modularity
         }
 
         /// <summary>
-        /// Returns the <see cref="IModuleInfo"/> on which the received module dependens on.
+        /// Returns the <see cref="IModuleInfo"/> on which the received module depends on.
         /// </summary>
         /// <param name="moduleInfo">Module whose dependant modules are requested.</param>
         /// <returns>Collection of <see cref="IModuleInfo"/> dependants of <paramref name="moduleInfo"/>.</returns>

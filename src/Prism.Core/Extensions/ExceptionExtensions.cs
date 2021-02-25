@@ -47,7 +47,7 @@ namespace System
         /// It should not be used to replace the Inner Exception stack of an exception, because this might hide required exception
         /// information. 
         /// </remarks>
-        /// <param name="exception">The exception that will provide the list of inner exeptions to examine.</param>
+        /// <param name="exception">The exception that will provide the list of inner exceptions to examine.</param>
         /// <returns>
         /// The exception that most likely caused the exception to occur. If it can't find the root exception, it will return the 
         /// <paramref name="exception"/> value itself.

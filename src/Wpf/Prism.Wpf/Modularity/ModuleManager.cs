@@ -151,7 +151,7 @@ namespace Prism.Modularity
         }
 
         /// <summary>
-        /// Loads the modules that are not intialized and have their dependencies loaded.
+        /// Loads the modules that are not initialized and have their dependencies loaded.
         /// </summary>
         protected virtual void LoadModulesThatAreReadyForLoad()
         {
@@ -180,7 +180,7 @@ namespace Prism.Modularity
             IModuleTypeLoader moduleTypeLoader = this.GetTypeLoaderForModule(moduleInfoToLoadType);
             moduleInfoToLoadType.State = ModuleState.LoadingTypes;
 
-            // Delegate += works differently betweem SL and WPF.
+            // Delegate += works differently between SL and WPF.
             // We only want to subscribe to each instance once.
             if (!this.subscribedToModuleTypeLoaders.Contains(moduleTypeLoader))
             {
@@ -228,7 +228,7 @@ namespace Prism.Modularity
         /// and throws a <see cref="ModuleTypeLoadingException"/>.
         /// This method can be overridden to provide a different behavior.
         /// </summary>
-        /// <param name="moduleInfo">The module metadata where the error happenened.</param>
+        /// <param name="moduleInfo">The module metadata where the error happened.</param>
         /// <param name="exception">The exception thrown that is the cause of the current error.</param>
         /// <exception cref="ModuleTypeLoadingException"></exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1")]

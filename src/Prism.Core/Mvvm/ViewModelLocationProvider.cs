@@ -35,7 +35,7 @@ namespace Prism.Mvvm
         static Func<Type, object> _defaultViewModelFactory = type => Activator.CreateInstance(type);
 
         /// <summary>
-        /// ViewModelfactory that provides the View instance and ViewModel type as parameters.
+        /// ViewModelFactory that provides the View instance and ViewModel type as parameters.
         /// </summary>
         static Func<object, Type, object> _defaultViewModelFactoryWithViewParameter;
 

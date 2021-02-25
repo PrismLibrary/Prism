@@ -116,7 +116,7 @@ namespace Prism.Commands
         /// <summary>
         /// Observes a property that implements INotifyPropertyChanged, and automatically calls DelegateCommandBase.RaiseCanExecuteChanged on property changed notifications.
         /// </summary>
-        /// <typeparam name="TType">The type of the return value of the method that this delegate encapulates</typeparam>
+        /// <typeparam name="TType">The type of the return value of the method that this delegate encapsulates</typeparam>
         /// <param name="propertyExpression">The property expression. Example: ObservesProperty(() => PropertyName).</param>
         /// <returns>The current instance of DelegateCommand</returns>
         public DelegateCommand<T> ObservesProperty<TType>(Expression<Func<TType>> propertyExpression)

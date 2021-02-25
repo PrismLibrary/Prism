@@ -374,7 +374,7 @@ namespace Prism.Navigation
         /// Processes the Navigation for the Queued navigation segments
         /// </summary>
         /// <param name="currentPage">The Current <see cref="Page"/> that we are navigating from.</param>
-        /// <param name="segments">The Navigation <see cref="Uri"/> segmenets.</param>
+        /// <param name="segments">The Navigation <see cref="Uri"/> segments.</param>
         /// <param name="parameters">The <see cref="INavigationParameters"/>.</param>
         /// <param name="useModalNavigation"><see cref="Nullable{Boolean}"/> flag if we should force Modal Navigation.</param>
         /// <param name="animated">If <c>true</c>, the navigation will be animated.</param>
@@ -496,7 +496,13 @@ namespace Prism.Navigation
             }
         }
 
+        [Obsolete("Renamed to 'ProcessNavigationForAbsoluteUri'")]
         protected virtual Task ProcessNavigationForAbsoulteUri(Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            return ProcessNavigationForAbsoluteUri(segments, parameters, useModalNavigation, animated);
+        }
+        
+        protected virtual Task ProcessNavigationForAbsoluteUri(Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             return ProcessNavigation(null, segments, parameters, useModalNavigation, animated);
         }
@@ -904,13 +910,13 @@ namespace Prism.Navigation
                 foreach (var tabToCreate in tabsToCreate)
                 {
                     //created tab can be a single view or a view nested in a NavigationPage with the syntax "NavigationPage|ViewToCreate"
-                    var tabSegements = tabToCreate.Split('|');
-                    if (tabSegements.Length > 1)
+                    var tabSegments = tabToCreate.Split('|');
+                    if (tabSegments.Length > 1)
                     {
-                        var navigationPage = CreatePageFromSegment(tabSegements[0]) as NavigationPage;
+                        var navigationPage = CreatePageFromSegment(tabSegments[0]) as NavigationPage;
                         if (navigationPage != null)
                         {
-                            var navigationPageChild = CreatePageFromSegment(tabSegements[1]);
+                            var navigationPageChild = CreatePageFromSegment(tabSegments[1]);
 
                             navigationPage.PushAsync(navigationPageChild);
 
