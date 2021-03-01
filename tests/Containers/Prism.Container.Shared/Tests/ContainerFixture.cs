@@ -705,7 +705,7 @@ namespace Prism.Ioc.Tests
             Assert.Same(service, Setup.Container.Resolve<Lazy<IServiceA>>().Value);
         }
 
-        
+
 
 #if !UNITY
 

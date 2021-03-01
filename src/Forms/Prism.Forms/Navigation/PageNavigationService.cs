@@ -501,7 +501,7 @@ namespace Prism.Navigation
         {
             return ProcessNavigationForAbsoluteUri(segments, parameters, useModalNavigation, animated);
         }
-        
+
         protected virtual Task ProcessNavigationForAbsoluteUri(Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             return ProcessNavigation(null, segments, parameters, useModalNavigation, animated);

@@ -9,6 +9,6 @@ namespace Prism.DI.Forms.Tests.Mocks.ViewModels
         public XamlMasterDetailViewMockViewModel(INavigationService navigationService)
         {
             NavigationService = navigationService;
-        }        
+        }
     }
 }

@@ -97,7 +97,7 @@ namespace Prism.Navigation.Xaml
 
                 navService = CreateNavigationService(currentScope, page);
             }
-            else if(navService is IPageAware pa && pa.Page != page)
+            else if (navService is IPageAware pa && pa.Page != page)
             {
                 var scope = container.CreateScope();
                 page.SetValue(NavigationScopeProperty, scope);
@@ -111,7 +111,7 @@ namespace Prism.Navigation.Xaml
         private static INavigationService CreateNavigationService(IScopedProvider scope, Page page)
         {
             var navService = scope.Resolve<INavigationService>();
-            switch(navService)
+            switch (navService)
             {
                 case IPageAware pa when pa.Page is null:
                     pa.Page = page;
