@@ -4,7 +4,7 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace Prism.Services.Dialogs
 {
-    internal class DialogPage : ContentPage
+    internal class DialogPage : ContentPage, IDialogContainer
     {
         public DialogPage()
         {
@@ -14,5 +14,10 @@ namespace Prism.Services.Dialogs
         }
 
         public View DialogView { get; set; }
+    }
+
+    public interface IDialogContainer
+    {
+        View DialogView { get; }
     }
 }
