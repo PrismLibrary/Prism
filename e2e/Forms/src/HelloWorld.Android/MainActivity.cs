@@ -24,7 +24,7 @@ namespace HelloWorld.Droid
 
         public override async void OnBackPressed()
         {
-            var result = await PrismPlatform.OnBackPressed();
+            var result = await PrismPlatform.OnBackPressed(this);
             if (!result.Success)
             {
                 System.Diagnostics.Debugger.Break();

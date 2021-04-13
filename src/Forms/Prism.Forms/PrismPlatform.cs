@@ -2,8 +2,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Android.App;
 using Prism.Common;
 using Prism.Ioc;
+using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Xamarin.Forms;
 
@@ -18,7 +20,7 @@ namespace Prism
         /// <summary>
         /// Called when the Activity has detected the user's press of the back key
         /// </summary>
-        public static async Task<IBackPressedResult> OnBackPressed()
+        public static async Task<IBackPressedResult> OnBackPressed(Activity activity = null)
         {
             await semaphore.WaitAsync();
             try
@@ -45,6 +47,17 @@ namespace Prism
 
                 var navService = Navigation.Xaml.Navigation.GetNavigationService(topPage);
                 var navResult = await navService.GoBackAsync();
+                if(navResult.Exception is NavigationException ne
+                    && ne.Message == NavigationException.CannotPopApplicationMainPage
+                    && activity != null)
+                {
+                    activity.FinishAffinity();
+                    return new BackPressedResult
+                    {
+                        Success = true
+                    };
+                }
+
                 return new BackPressedResult
                 {
                     Success = navResult.Success,
