@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Prism.Common;
 using Prism.Ioc;
-using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Xamarin.Forms;
 
@@ -30,7 +29,18 @@ namespace Prism
                 Page topPage = PageUtilities.GetCurrentPage(appProvider.MainPage);
                 if (topPage is IDialogContainer dc)
                 {
-
+                    var result = await dc.RequestCloseAsync();
+                    return result.Exception switch
+                    {
+                        DialogException de
+                            when de.Message == DialogException.CanCloseIsFalse
+                          => new BackPressedResult(),
+                        _ => new BackPressedResult
+                        {
+                            Success = result.Exception is null,
+                            Exception = result.Exception
+                        }
+                    };
                 }
 
                 var navService = Navigation.Xaml.Navigation.GetNavigationService(topPage);

@@ -53,6 +53,7 @@ namespace Prism.Services.Dialogs
                     try
                     {
                         var result = CloseDialog(outParameters ?? new DialogParameters(), currentPage, dialogModal);
+                        dialogModal.RaiseDialogResult(result);
                         if (result.Exception is DialogException de && de.Message == DialogException.CanCloseIsFalse)
                         {
                             return;
@@ -64,22 +65,27 @@ namespace Prism.Services.Dialogs
                     }
                     catch (DialogException dex)
                     {
+                        var result = new DialogResult
+                        {
+                            Exception = dex,
+                            Parameters = parameters
+                        };
+                        dialogModal.RaiseDialogResult(result);
+
                         if (dex.Message != DialogException.CanCloseIsFalse)
                         {
-                            callback?.Invoke(new DialogResult
-                            {
-                                Exception = dex,
-                                Parameters = parameters
-                            });
+                            callback?.Invoke(result);
                         }
                     }
                     catch (Exception ex)
                     {
-                        callback?.Invoke(new DialogResult
+                        var result = new DialogResult
                         {
                             Exception = ex,
                             Parameters = parameters
-                        });
+                        };
+                        dialogModal.RaiseDialogResult(result);
+                        callback?.Invoke(result);
                     }
                 }
 
@@ -251,14 +257,15 @@ namespace Prism.Services.Dialogs
             mask.SetBinding(VisualElement.WidthRequestProperty, new Binding { Path = "Width", Source = modalPage });
             mask.SetBinding(VisualElement.HeightRequestProperty, new Binding { Path = "Height", Source = modalPage });
 
+            var dismissCommand = new Command(() => callback(new DialogParameters()));
             if (hideOnBackgroundTapped)
             {
-                var dismissCommand = new Command(() => callback(new DialogParameters()));
                 mask.GestureRecognizers.Add(new TapGestureRecognizer
                 {
                     Command = dismissCommand
                 });
             }
+            modalPage.Dismiss = dismissCommand;
 
             var overlay = new AbsoluteLayout();
             var popupContainer = new DialogContainer
