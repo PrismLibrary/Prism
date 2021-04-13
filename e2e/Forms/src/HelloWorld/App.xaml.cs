@@ -43,7 +43,7 @@ namespace HelloWorld
     #endregion
     public sealed partial class App
     {
-        public App() 
+        public App()
             : this(null)
         {
         }
@@ -62,7 +62,8 @@ namespace HelloWorld
         {
             InitializeComponent();
 
-            NavigationService.NavigateAsync($"MyTabbedPage").OnNavigationError(OnNavigationError);
+            // DO NOT COMMIT CHANGES TO THIS!!!!
+            NavigationService.NavigateAsync($"MyMasterDetail/MyTabbedPage").OnNavigationError(OnNavigationError);
         }
 
         private void OnNavigationError(Exception ex)
