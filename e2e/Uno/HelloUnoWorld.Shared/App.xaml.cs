@@ -9,20 +9,27 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Prism.Modularity;
+using HelloWorld.ViewModels;
+using Prism.Regions;
+
+#if HAS_WINUI
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
+#else
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Prism.Modularity;
-using HelloWorld.ViewModels;
-using Prism.Regions;
+#endif
 
 namespace HelloUnoWorld
 {
@@ -37,7 +44,7 @@ namespace HelloUnoWorld
         /// </summary>
         public App()
         {
-            ConfigureFilters(global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory);
+            InitializeLogging();
 
             this.InitializeComponent();
         }
@@ -52,6 +59,7 @@ namespace HelloUnoWorld
             base.OnLaunched(args);
         }
 
+#if !HAS_UNO_WINUI && !NETCOREAPP
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved
         /// without knowing whether the application will be terminated or resumed with the contents
@@ -65,52 +73,75 @@ namespace HelloUnoWorld
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+#endif
 
         /// <summary>
-        /// Configures global logging
+        /// Configures global Uno Platform logging
         /// </summary>
-        /// <param name="factory"></param>
-        static void ConfigureFilters(ILoggerFactory factory)
+        private static void InitializeLogging()
         {
-            factory
-                .WithFilter(new FilterLoggerSettings
-                    {
-                        { "Uno", LogLevel.Warning },
-                        { "Windows", LogLevel.Warning },
-
-                        // Debug JS interop
-                        // { "Uno.Foundation.WebAssemblyRuntime", LogLevel.Debug },
-
-                        // Generic Xaml events
-                        // { "Windows.UI.Xaml", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.VisualStateGroup", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.StateTriggerBase", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.UIElement", LogLevel.Debug },
-
-                        // Layouter specific messages
-                        // { "Windows.UI.Xaml.Controls", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.Controls.Layouter", LogLevel.Debug },
-                        // { "Windows.UI.Xaml.Controls.Panel", LogLevel.Debug },
-                        // { "Windows.Storage", LogLevel.Debug },
-
-                        // Binding related messages
-                        // { "Windows.UI.Xaml.Data", LogLevel.Debug },
-
-                        // DependencyObject memory references tracking
-                        // { "ReferenceHolder", LogLevel.Debug },
-                    }
-                )
-#if DEBUG
-                .AddConsole(LogLevel.Debug);
+            var factory = LoggerFactory.Create(builder =>
+            {
+#if __WASM__
+                builder.AddProvider(new global::Uno.Extensions.Logging.WebAssembly.WebAssemblyConsoleLoggerProvider());
+#elif __IOS__
+                    builder.AddProvider(new global::Uno.Extensions.Logging.OSLogLoggerProvider());
+#elif NETFX_CORE
+                    builder.AddDebug();
 #else
-                .AddConsole(LogLevel.Information);
+                    builder.AddConsole();
 #endif
-        }
 
+                // Exclude logs below this level
+                builder.SetMinimumLevel(LogLevel.Information);
+
+                // Default filters for Uno Platform namespaces
+                builder.AddFilter("Uno", LogLevel.Warning);
+                builder.AddFilter("Windows", LogLevel.Warning);
+                builder.AddFilter("Microsoft", LogLevel.Warning);
+
+                // Generic Xaml events
+                // builder.AddFilter("Windows.UI.Xaml", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.VisualStateGroup", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.StateTriggerBase", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.UIElement", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.FrameworkElement", LogLevel.Trace );
+
+                // Layouter specific messages
+                // builder.AddFilter("Windows.UI.Xaml.Controls", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.Controls.Layouter", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.Controls.Panel", LogLevel.Debug );
+
+                // builder.AddFilter("Windows.Storage", LogLevel.Debug );
+
+                // Binding related messages
+                // builder.AddFilter("Windows.UI.Xaml.Data", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.Data", LogLevel.Debug );
+
+                // Binder memory references tracking
+                // builder.AddFilter("Uno.UI.DataBinding.BinderReferenceHolder", LogLevel.Debug );
+
+                // RemoteControl and HotReload related
+                // builder.AddFilter("Uno.UI.RemoteControl", LogLevel.Information);
+
+                // Debug JS interop
+                // builder.AddFilter("Uno.Foundation.WebAssemblyRuntime", LogLevel.Debug );
+            });
+
+            global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
+        }
 
         protected override UIElement CreateShell()
         {
-            return Container.Resolve<Shell>();
+            var shell = Container.Resolve<Shell>();
+
+#if NET5_0 && WINDOWS
+            var window = new Window();
+            window.Activate();
+            window.Content = shell;
+#endif
+
+            return shell;
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

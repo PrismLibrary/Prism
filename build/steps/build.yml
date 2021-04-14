@@ -15,3 +15,4 @@ steps:
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
     msbuildArguments: ${{ parameters.msbuildArguments }}
+    maximumCpuCount: true

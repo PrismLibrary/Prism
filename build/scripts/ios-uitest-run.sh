@@ -9,7 +9,7 @@ xcrun simctl list devices --json
 
 cd $BUILD_SOURCESDIRECTORY
 msbuild /r /p:Configuration=Release $BUILD_SOURCESDIRECTORY/e2e/Uno/HelloUnoWorld.UITests/HelloUnoWorld.UITests.csproj
-msbuild /r /p:Configuration=Release "/p:Platform=iPhoneSimulator" $BUILD_SOURCESDIRECTORY/e2e/Uno/HelloUnoWorld.iOS/HelloUnoWorld.iOS.csproj
+msbuild /r /p:Configuration=Release "/p:Platform=iPhoneSimulator" $BUILD_SOURCESDIRECTORY/e2e/Uno/$TARGET_XAML_FLAVOR/HelloUnoWorld.iOS/HelloUnoWorld.iOS.csproj
 
 cd $BUILD_SOURCESDIRECTORY/build
 
@@ -17,8 +17,8 @@ wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
 mono nuget.exe install NUnit.ConsoleRunner -Version 3.10.0
 
 export UNO_UITEST_PLATFORM=iOS
-export UNO_UITEST_IOSBUNDLE_PATH=$BUILD_SOURCESDIRECTORY/e2e/Uno/HelloUnoWorld.iOS/bin/iPhoneSimulator/Release/HelloUnoWorld.app
-export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/e2e/uno/ios
+export UNO_UITEST_IOSBUNDLE_PATH=$BUILD_SOURCESDIRECTORY/e2e/Uno/$TARGET_XAML_FLAVOR/HelloUnoWorld.iOS/bin/iPhoneSimulator/Release/HelloUnoWorld.app
+export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/e2e/uno/$TARGET_XAML_FLAVOR/ios
 
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 

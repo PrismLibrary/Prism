@@ -8,6 +8,7 @@
     <IsPackable Condition=" '$(IsFormsProject)' ">!$(DisableFormsPublish)</IsPackable>
     <IsPackable Condition=" '$(IsUnoProject)' ">!$(DisableUnoPublish)</IsPackable>
     <ContinuousIntegrationBuild Condition="'$(BUILD_BUILDID)' != ''">true</ContinuousIntegrationBuild>
+    <IsWinUI>true</IsWinUI>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -28,4 +29,22 @@
                 Condition="'$(NuGetPackageRoot)' != ''" />
   </ItemGroup>
 
+  <!--
+  Adjust the output paths for runtime project in order for those
+  projects to stay in the same folder as the original reference one.
+  -->
+  <PropertyGroup>
+    <_AdjustedOutputProjects>$(_AdjustedOutputProjects);Prism.Uno.csproj</_AdjustedOutputProjects>
+    <_AdjustedOutputProjects>$(_AdjustedOutputProjects);Prism.Uno.WinUI.csproj</_AdjustedOutputProjects>
+    <_AdjustedOutputProjects>$(_AdjustedOutputProjects);Prism.DryIoc.Uno.csproj</_AdjustedOutputProjects>
+    <_AdjustedOutputProjects>$(_AdjustedOutputProjects);Prism.DryIoc.Uno.WinUI.csproj</_AdjustedOutputProjects>
+    <_AdjustedOutputProjects>$(_AdjustedOutputProjects);Prism.Unity.Uno.csproj</_AdjustedOutputProjects>
+    <_AdjustedOutputProjects>$(_AdjustedOutputProjects);Prism.Unity.Uno.WinUI.csproj</_AdjustedOutputProjects>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(_AdjustedOutputProjects.Contains('$(MSBuildProjectFile)'))">
+    <BaseOutputPath>bin\$(MSBuildProjectName)</BaseOutputPath>
+    <BaseIntermediateOutputPath>obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <DefaultItemExcludes>$(DefaultItemExcludes);obj/**;bin/**</DefaultItemExcludes>
+  </PropertyGroup>
 </Project>

@@ -7,10 +7,14 @@ using System.Linq;
 using Prism.Properties;
 using Prism.Ioc;
 
-#if HAS_WINUI
+#if HAS_UWP
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+#elif HAS_WINUI
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 #else
 using System.Windows;
 using System.Windows.Controls;
@@ -47,7 +51,7 @@ namespace Prism.Regions
         /// <summary>
         /// Occurs when a property value changes.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Gets the collection of <see cref="IRegionBehavior"/>s that can extend the behavior of regions.
@@ -405,7 +409,7 @@ namespace Prism.Regions
 
         private void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

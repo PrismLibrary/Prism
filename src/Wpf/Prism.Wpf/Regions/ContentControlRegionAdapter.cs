@@ -5,10 +5,14 @@ using System;
 using System.Collections.Specialized;
 using System.Linq;
 
-#if HAS_WINUI
+#if HAS_UWP
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+#elif HAS_WINUI
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 #else
 using System.Windows.Controls;
 using System.Windows.Data;

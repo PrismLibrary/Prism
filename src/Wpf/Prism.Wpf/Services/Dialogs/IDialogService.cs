@@ -7,7 +7,7 @@ namespace Prism.Services.Dialogs
     /// </summary>
     public interface IDialogService
     {
-#if !HAS_WINUI
+#if !HAS_UWP && !HAS_WINUI
         /// <summary>
         /// Shows a non-modal dialog.
         /// </summary>

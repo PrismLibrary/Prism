@@ -9,8 +9,10 @@ namespace Prism.Modularity
     /// <summary>
     /// Defines the metadata that describes a module.
     /// </summary>
-#if HAS_WINUI
+#if HAS_UWP
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(DependsOn))]
+#elif HAS_WINUI
+    [Microsoft.UI.Xaml.Markup.ContentProperty(Name = nameof(DependsOn))]
 #else
     [Xamarin.Forms.ContentProperty(nameof(DependsOn))]
 #endif
@@ -150,7 +152,6 @@ namespace Prism.Modularity
             set { }
         }
 
-        private ModuleState _state;
         /// <summary>
         /// Gets or sets the state of the <see cref="ModuleInfo"/> with regards to the module loading and initialization process.
         /// </summary>

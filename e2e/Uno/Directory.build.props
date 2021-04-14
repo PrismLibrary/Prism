@@ -1,0 +1,22 @@
+<Project ToolsVersion="15.0">
+
+  <!-- https://docs.microsoft.com/en-us/visualstudio/msbuild/customize-your-build?view=vs-2019#use-case-multi-level-merging -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+
+  <!--
+  Adjust the output paths for runtime project in order for those
+  projects to stay in the same folder as the original reference one.
+  -->
+  <PropertyGroup>
+    <_AdjustedOutputProjects>$(_AdjustedOutputProjects);ModuleA.csproj</_AdjustedOutputProjects>
+    <_AdjustedOutputProjects>$(_AdjustedOutputProjects);ModuleA.WinUI.csproj</_AdjustedOutputProjects>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(_AdjustedOutputProjects.Contains('$(MSBuildProjectFile)'))">
+    <BaseOutputPath>bin\$(MSBuildProjectName)</BaseOutputPath>
+    <BaseIntermediateOutputPath>obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <DefaultItemExcludes>$(DefaultItemExcludes);obj/**;bin/**</DefaultItemExcludes>
+  </PropertyGroup>
+
+</Project>

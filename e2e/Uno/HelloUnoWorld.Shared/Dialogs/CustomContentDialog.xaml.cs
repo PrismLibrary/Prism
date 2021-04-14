@@ -1,7 +1,14 @@
 ﻿using Prism.Services.Dialogs;
 using Windows.Foundation;
+
+#if HAS_WINUI
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+#endif
+
 
 namespace HelloUnoWorld.Dialogs
 {

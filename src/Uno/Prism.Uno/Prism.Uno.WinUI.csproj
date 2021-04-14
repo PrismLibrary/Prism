@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid10.0;xamarinmac20</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net5.0-windows10.0.18362.0</TargetFrameworks>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+    <AssemblyName>Prism.Uno</AssemblyName>
+    <RootNamespace>Prism</RootNamespace>
+    <DefineConstants>$(DefineConstants);HAS_WINUI</DefineConstants>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <PackageId>Prism.Uno.WinUI</PackageId>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+    <Description>
+      Prism is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices. Prism provides an implementation of a collection of design patterns that are helpful in writing well structured, maintainable, and testable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET Standard. Features that need to be platform specific are implemented in the respective libraries for the target platform (WPF, Uno Platform, and Xamarin Forms).
+
+      Prism for Uno Platform helps you more easily design and build rich, flexible, and easy to maintain Windows UWP, WinUI &amp; cross platform Uno applications. This library provides user interface composition as well as modularity support.
+    </Description>
+    <PackageTags>prism;winui;windows;uno;mvvm;uwp;ios;android;macos;webassembly;linux;xaml</PackageTags>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios')) or $(TargetFramework.StartsWith('xamarinmac')) or $(TargetFramework.StartsWith('MonoAndroid')) or $(TargetFramework.StartsWith('netstandard'))">
+    <PackageReference Include="Uno.WinUI" />
+    <PackageReference Include="Uno.Core" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362.0'">
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'!='net5.0-windows10.0.18362.0'">
+    <Page Include="**\*.xaml"
+          Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="**\*.xaml"
+                        Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Wpf\Prism.Wpf\**\*.cs"
+             Exclude="..\..\Wpf\Prism.Wpf\bin\**\*.cs;..\..\Wpf\Prism.Wpf\obj\**\*.cs" />
+    <Compile Include="..\..\Forms\Prism.Forms\Modularity\*.cs"
+             Link="Modularity\%(FileName)%(Extension)" />
+    <Compile Remove="**\*.net45.cs" />
+    <Compile Remove="**\*.netcore.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Modularity\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Bootstrapper.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Interactivity\InvokeCommandAction.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Ioc\ContainerProviderExtension.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Mvvm\ViewModelLocator.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\PrismApplicationBase.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\PrismBootstrapperBase.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\AssemblyInfo.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\Resources.Designer.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\Settings.Designer.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Services\Dialogs\DialogService.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Services\Dialogs\DialogWindow.xaml.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Services\Dialogs\IDialogWindow.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Services\Dialogs\IDialogWindowExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <EmbeddedResource Include="LinkerDefinition.mono.xml">
+      <LogicalName>$(AssemblyName).xml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Services\Dialogs\DialogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+</Project>
