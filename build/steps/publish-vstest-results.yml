@@ -5,6 +5,7 @@ parameters:
 
 steps:
 - task: PublishTestResults@2
+  condition: always()
   enabled: ${{ parameters.enabled }}
   displayName: 'Publish ${{ parameters.testRunTitle }} test results'
   inputs:
