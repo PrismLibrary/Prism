@@ -25,3 +25,4 @@ steps:
     restoreSolution: ${{ parameters.solution }}
     noCache: true
     verbosityRestore: normal
+    nugetConfigPath: build/nuget.config
