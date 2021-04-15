@@ -1194,7 +1194,7 @@ namespace Prism.Navigation
                 FlyoutPage fp => IsRoot(fp.Detail, currentPage),
                 TabbedPage tp => IsRoot(tp.CurrentPage, currentPage),
                 CarouselPage cp => IsRoot(cp.CurrentPage, currentPage),
-                NavigationPage np => IsRoot(np.CurrentPage, currentPage),
+                NavigationPage np => IsRoot(np.RootPage, currentPage),
                 _ => false
             };
         }
