@@ -216,7 +216,14 @@ namespace Prism.Common
             return stackCount - 1;
         }
 
-        public static Page GetCurrentPage(Page mainPage)
+        public static Page GetCurrentPage(Page mainPage) =>
+            _getCurrentPage(mainPage);
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void SetCurrentPageDelegate(Func<Page, Page> getCurrentPageDelegate) =>
+            _getCurrentPage = getCurrentPageDelegate;
+
+        private static Func<Page, Page> _getCurrentPage = mainPage =>
         {
             var page = mainPage;
 
@@ -225,7 +232,7 @@ namespace Prism.Common
                 page = lastModal;
 
             return GetOnNavigatedToTargetFromChild(page);
-        }
+        };
 
         public static void HandleSystemGoBack(Page previousPage, Page currentPage)
         {

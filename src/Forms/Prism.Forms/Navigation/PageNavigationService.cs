@@ -93,6 +93,9 @@ namespace Prism.Navigation
                 NavigationSource = PageNavigationSource.NavigationService;
 
                 page = GetCurrentPage();
+                if (IsRoot(_applicationProvider.MainPage, page))
+                    throw new NavigationException(NavigationException.CannotPopApplicationMainPage, page);
+
                 var segmentParameters = UriParsingHelper.GetSegmentParameters(null, parameters);
                 segmentParameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
 
@@ -1179,6 +1182,21 @@ namespace Prism.Navigation
         internal static bool UseReverseNavigation(Page currentPage, Type nextPageType)
         {
             return PageUtilities.HasNavigationPageParent(currentPage) && PageUtilities.IsSameOrSubclassOf<ContentPage>(nextPageType);
+        }
+
+        protected static bool IsRoot(Page mainPage, Page currentPage)
+        {
+            if (mainPage == currentPage)
+                return true;
+
+            return mainPage switch
+            {
+                FlyoutPage fp => IsRoot(fp.Detail, currentPage),
+                TabbedPage tp => IsRoot(tp.CurrentPage, currentPage),
+                CarouselPage cp => IsRoot(cp.CurrentPage, currentPage),
+                NavigationPage np => IsRoot(np.RootPage, currentPage),
+                _ => false
+            };
         }
     }
 }

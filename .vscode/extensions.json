@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ms-dotnettools.csharp",
+    "ms-azure-devops.azure-pipelines",
+    "ms-vscode.powershell",
+    "editorconfig.editorconfig",
+    "shd101wyy.markdown-preview-enhanced",
+    "streetsidesoftware.code-spell-checker",
+    "clancey.comet-debug"
+  ]
+}

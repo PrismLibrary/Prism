@@ -1,6 +1,8 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Prism;
 
 namespace HelloWorld.Droid
 {
@@ -18,6 +20,19 @@ namespace HelloWorld.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App(new AndroidInitializer()));
+        }
+
+        public override async void OnBackPressed()
+        {
+            var result = await PrismPlatform.OnBackPressed(this);
+            if (!result.Success)
+            {
+                System.Diagnostics.Debugger.Break();
+                if (result.Exception != null)
+                {
+                    Console.WriteLine(result.Exception);
+                }
+            }
         }
     }
 }
