@@ -2,30 +2,22 @@
 <resources>
 
   <style name="MainTheme" parent="MainTheme.Base">
-  </style>
-  <!-- Base theme applied no matter what API -->
-  <style name="MainTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
-    <!--If you are using revision 22.1 please use just windowNoTitle. Without android:-->
-    <item name="windowNoTitle">true</item>
-    <!--We will be using the toolbar so no need to show ActionBar-->
-    <item name="windowActionBar">false</item>
+    <!-- As of Xamarin.Forms 4.6 the theme has moved into the Forms binary -->
+    <!-- If you want to override anything you can do that here. -->
+    <!-- Underneath are a couple of entries to get you started. -->
+
     <!-- Set theme colors from https://aka.ms/material-colors -->
     <!-- colorPrimary is used for the default action bar background -->
-    <item name="colorPrimary">#2196F3</item>
+    <item name="colorPrimary">@color/colorPrimary</item>
     <!-- colorPrimaryDark is used for the status bar -->
-    <item name="colorPrimaryDark">#1976D2</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     <!-- colorAccent is used as the default value for colorControlActivated
          which is used to tint widgets -->
-    <item name="colorAccent">#FF4081</item>
-    <!-- You can also set colorControlNormal, colorControlActivated
-         colorControlHighlight and colorSwitchThumbNormal. -->
-    <item name="windowActionModeOverlay">true</item>
-
-    <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
+    <item name="colorAccent">@color/colorAccent</item>
   </style>
 
   <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
-    <item name="colorAccent">#FF4081</item>
+    <item name="colorAccent">@color/colorAccent</item>
   </style>
 
   <style name="MainTheme.Splash" parent="Theme.AppCompat.Light.NoActionBar">

@@ -1,7 +1,7 @@
 <Project>
 
   <ItemGroup>
-    <PackageReference Update="DryIoc.dll" Version="4.7.2" />
+    <PackageReference Update="DryIoc.dll" Version="4.7.4" />
     <PackageReference Update="Unity.Container" Version="5.11.10" />
 
     <PackageReference Update="System.ValueTuple" Version="4.5.0" />
