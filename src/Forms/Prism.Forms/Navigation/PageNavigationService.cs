@@ -158,7 +158,7 @@ namespace Prism.Navigation
             {
                 return true;
             }
-            else if (mainPage is MasterDetailPage mdp && mdp.Detail == currentPage)
+            else if (mainPage is FlyoutPage flyout && flyout.Detail == currentPage)
             {
                 return true;
             }
@@ -409,21 +409,21 @@ namespace Prism.Navigation
             {
                 await ProcessNavigationForContentPage(currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
             }
-            else if (currentPage is NavigationPage)
+            else if (currentPage is NavigationPage nav)
             {
-                await ProcessNavigationForNavigationPage((NavigationPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForNavigationPage(nav, nextSegment, segments, parameters, useModalNavigation, animated);
             }
-            else if (currentPage is TabbedPage)
+            else if (currentPage is TabbedPage tabbed)
             {
-                await ProcessNavigationForTabbedPage((TabbedPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForTabbedPage(tabbed, nextSegment, segments, parameters, useModalNavigation, animated);
             }
-            else if (currentPage is CarouselPage)
+            else if (currentPage is CarouselPage carousel)
             {
-                await ProcessNavigationForCarouselPage((CarouselPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForCarouselPage(carousel, nextSegment, segments, parameters, useModalNavigation, animated);
             }
-            else if (currentPage is MasterDetailPage)
+            else if (currentPage is FlyoutPage flyout)
             {
-                await ProcessNavigationForMasterDetailPage((MasterDetailPage)currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+                await ProcessNavigationForFlyoutPage(flyout, nextSegment, segments, parameters, useModalNavigation, animated);
             }
         }
 
@@ -626,9 +626,15 @@ namespace Prism.Navigation
             });
         }
 
-        protected virtual async Task ProcessNavigationForMasterDetailPage(MasterDetailPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        [Obsolete("Use ProcessNavigationForFlyoutPage instead")]
+        protected virtual Task ProcessNavigationForMasterDetailPage(MasterDetailPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            bool isPresented = GetMasterDetailPageIsPresented(currentPage);
+            return ProcessNavigationForFlyoutPage(currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+        }
+
+        protected virtual async Task ProcessNavigationForFlyoutPage(FlyoutPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        {
+            bool isPresented = GetFlyoutPageIsPresented(currentPage);
 
             var detail = currentPage.Detail;
             if (detail == null)
@@ -688,15 +694,15 @@ namespace Prism.Navigation
             {
                 await ProcessNavigation(detail, segments, parameters, useModalNavigation, animated);
                 await DoNavigateAction(null, nextSegment, detail, parameters, onNavigationActionCompleted: (p) =>
-                 {
-                     if (detail is TabbedPage && nextSegment.Contains(KnownNavigationParameters.SelectedTab))
-                     {
-                         var segmentParams = UriParsingHelper.GetSegmentParameters(nextSegment);
-                         SelectPageTab(detail, segmentParams);
-                     }
+                {
+                    if (detail is TabbedPage && nextSegment.Contains(KnownNavigationParameters.SelectedTab))
+                    {
+                        var segmentParams = UriParsingHelper.GetSegmentParameters(nextSegment);
+                        SelectPageTab(detail, segmentParams);
+                    }
 
-                     currentPage.IsPresented = isPresented;
-                 });
+                    currentPage.IsPresented = isPresented;
+                });
                 return;
             }
             else
@@ -716,15 +722,21 @@ namespace Prism.Navigation
             }
         }
 
-        protected static bool GetMasterDetailPageIsPresented(MasterDetailPage page)
+        protected static bool GetFlyoutPageIsPresented(FlyoutPage page)
         {
-            if (page is IMasterDetailPageOptions iMasterDetailPage)
-                return iMasterDetailPage.IsPresentedAfterNavigation;
+            if (page is IFlyoutPageOptions flyoutPageOptions)
+                return flyoutPageOptions.IsPresentedAfterNavigation;
 
-            if (page.BindingContext is IMasterDetailPageOptions iMasterDetailPageBindingContext)
-                return iMasterDetailPageBindingContext.IsPresentedAfterNavigation;
+            if (page.BindingContext is IFlyoutPageOptions flyoutPageBindingContext)
+                return flyoutPageBindingContext.IsPresentedAfterNavigation;
 
             return false;
+        }
+
+        [Obsolete("Xamarin.Forms.MasterDetailPage is Obsolete. This may be removed in a future version")]
+        protected static bool GetMasterDetailPageIsPresented(MasterDetailPage page)
+        {
+            return GetFlyoutPageIsPresented(page);
         }
 
         protected static bool GetClearNavigationPageNavigationStack(NavigationPage page)
@@ -1048,7 +1060,7 @@ namespace Prism.Navigation
                 else
                 {
                     var pageType = PageNavigationRegistry.GetPageType(UriParsingHelper.GetSegmentName(item));
-                    if (PageUtilities.IsSameOrSubclassOf<MasterDetailPage>(pageType))
+                    if (PageUtilities.IsSameOrSubclassOf<FlyoutPage>(pageType))
                     {
                         illegalSegments.Enqueue(item);
                         illegalPageFound = true;

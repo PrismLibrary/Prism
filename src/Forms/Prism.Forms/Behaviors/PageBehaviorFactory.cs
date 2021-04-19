@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 
 namespace Prism.Behaviors
 {
@@ -8,7 +9,7 @@ namespace Prism.Behaviors
     public class PageBehaviorFactory : IPageBehaviorFactory
     {
         /// <summary>
-        /// Applies behaviors to a CarouselPage.
+        /// Applies behaviors to a <see cref="CarouselPage" />.
         /// </summary>
         /// <param name="page">The CarouselPage to apply the behaviors</param>
         /// <remarks>The CarouselPageActiveAwareBehavior is applied by default</remarks>
@@ -18,7 +19,7 @@ namespace Prism.Behaviors
         }
 
         /// <summary>
-        /// Applies behaviors to a ContentPage.
+        /// Applies behaviors to a <see cref="ContentPage" />.
         /// </summary>
         /// <param name="page">The ContentPage to apply the behaviors</param>
         protected virtual void ApplyContentPageBehaviors(ContentPage page)
@@ -30,15 +31,25 @@ namespace Prism.Behaviors
         /// Applies behaviors to a MasterDetailPage.
         /// </summary>
         /// <param name="page">The MasterDetailPage to apply the behaviors</param>
+        [Obsolete("MasterDetailPage is obsolete, please use FlyoutPage")]
         protected virtual void ApplyMasterDetailPageBehaviors(MasterDetailPage page)
         {
 
         }
 
         /// <summary>
-        /// Applies behaviors to a NavigationPage.
+        /// Applies behaviors to a <see cref="FlyoutPage" />
         /// </summary>
-        /// <param name="page">The NavigationPage to apply the behaviors</param>
+        /// <param name="page">The <see cref="FlyoutPage" /> to apply the behaviors.</param>
+        protected virtual void ApplyFlyoutPageBehaviors(FlyoutPage page)
+        {
+
+        }
+
+        /// <summary>
+        /// Applies behaviors to a <see cref="NavigationPage" />.
+        /// </summary>
+        /// <param name="page">The <see cref="NavigationPage" /> to apply the behaviors</param>
         /// <remarks>The NavigationPageSystemGoBackBehavior and NavigationPageActiveAwareBehavior are applied by default</remarks>
         protected virtual void ApplyNavigationPageBehaviors(NavigationPage page)
         {
@@ -47,9 +58,9 @@ namespace Prism.Behaviors
         }
 
         /// <summary>
-        /// Applies behaviors to a page based on the page type.
+        /// Applies behaviors to a page based on the <see cref="Page" /> type.
         /// </summary>
-        /// <param name="page">The page to apply the behaviors</param>
+        /// <param name="page">The <see cref="Page" /> to apply the behaviors.</param>
         /// <remarks>
         /// There is no need to call base.ApplyPageBehaviors when overriding.
         /// All Prism behaviors have already been applied.
@@ -70,6 +81,9 @@ namespace Prism.Behaviors
                     break;
                 case MasterDetailPage masterDetailPage:
                     ApplyMasterDetailPageBehaviors(masterDetailPage);
+                    break;
+                case FlyoutPage flyoutPage:
+                    ApplyFlyoutPageBehaviors(flyoutPage);
                     break;
                 case TabbedPage tabbedPage:
                     ApplyTabbedPageBehaviors(tabbedPage);

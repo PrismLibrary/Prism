@@ -175,7 +175,7 @@ namespace Prism.Navigation
 
                     AddSegmentToStack(parent, stack);
                 }
-                else if (parent is MasterDetailPage)
+                else if (parent is FlyoutPage)
                 {
                     AddSegmentToStack(parent, stack);
                 }
@@ -200,9 +200,9 @@ namespace Prism.Navigation
                     AddUseModalNavigationParameter(stack);
                     ProcessModalNavigationPagePath((NavigationPage)childPage, stack);
                 }
-                else if (childPage is MasterDetailPage)
+                else if (childPage is FlyoutPage flyout)
                 {
-                    ProcessModalMasterDetailPagePath((MasterDetailPage)childPage, stack);
+                    ProcessModalFlyoutPagePath(flyout, stack);
                 }
                 else
                 {
@@ -226,9 +226,9 @@ namespace Prism.Navigation
                 AddUseModalNavigationParameter(stack);
                 ProcessModalNavigationPagePath((NavigationPage)mainPage, stack);
             }
-            else if (mainPage is MasterDetailPage)
+            else if (mainPage is FlyoutPage flyout)
             {
-                var detail = ((MasterDetailPage)mainPage).Detail;
+                var detail = flyout.Detail;
                 if (detail is NavigationPage)
                 {
                     AddUseModalNavigationParameter(stack);
@@ -258,7 +258,7 @@ namespace Prism.Navigation
             AddSegmentToStack(page, stack);
         }
 
-        private static void ProcessModalMasterDetailPagePath(MasterDetailPage page, Stack<string> stack)
+        private static void ProcessModalFlyoutPagePath(FlyoutPage page, Stack<string> stack)
         {
             if (page.Detail is NavigationPage)
             {
@@ -288,7 +288,7 @@ namespace Prism.Navigation
                     currentSegment = $"{parentKeyInfo.Name}?{KnownNavigationParameters.SelectedTab}={currentPageKeyInfo.Name}";
                     page = parent;
                 }
-                else if (parent is MasterDetailPage)
+                else if (parent is FlyoutPage)
                 {
                     currentSegment = $"{parentKeyInfo.Name}/{currentPageKeyInfo.Name}";
                     page = parent;

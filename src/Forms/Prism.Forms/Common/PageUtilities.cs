@@ -60,9 +60,9 @@ namespace Prism.Common
         {
             switch (page)
             {
-                case MasterDetailPage mdp:
-                    DestroyPage(mdp.Master);
-                    DestroyPage(mdp.Detail);
+                case FlyoutPage flyout:
+                    DestroyPage(flyout.Flyout);
+                    DestroyPage(flyout.Detail);
                     break;
                 case TabbedPage tabbedPage:
                     foreach (var item in tabbedPage.Children.Reverse())
@@ -176,12 +176,12 @@ namespace Prism.Common
         {
             Page child = null;
 
-            if (target is MasterDetailPage)
-                child = ((MasterDetailPage)target).Detail;
-            else if (target is TabbedPage)
-                child = ((TabbedPage)target).CurrentPage;
-            else if (target is CarouselPage)
-                child = ((CarouselPage)target).CurrentPage;
+            if (target is FlyoutPage flyout)
+                child = flyout.Detail;
+            else if (target is TabbedPage tabbed)
+                child = tabbed.CurrentPage;
+            else if (target is CarouselPage carousel)
+                child = carousel.CurrentPage;
             else if (target is NavigationPage)
                 child = target.Navigation.NavigationStack.Last();
 

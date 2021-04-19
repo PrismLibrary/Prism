@@ -202,13 +202,13 @@ namespace Prism.Ioc
         }
 
         public static IContainerRegistry RegisterDialog<TView>(this IContainerRegistry containerRegistry, string name = null)
-            where TView : View
+            where TView : VisualElement
         {
             return containerRegistry.Register<object, TView>(name ?? typeof(TView).Name);
         }
 
         public static IContainerRegistry RegisterDialog<TView, TViewModel>(this IContainerRegistry containerRegistry, string name = null)
-            where TView : View
+            where TView : VisualElement
         {
             ViewModelLocationProvider.Register<TView, TViewModel>();
             return containerRegistry.RegisterDialog<TView>(name);

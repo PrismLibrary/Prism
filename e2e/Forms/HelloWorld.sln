@@ -40,6 +40,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloRegions", "src\HelloRe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Forms.Regions", "..\..\src\Forms\Prism.Forms.Regions\Prism.Forms.Regions.csproj", "{53FF796C-02CA-4276-B3F9-207E5ABC67EB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{086EB11D-4D55-41A6-A8A4-DEC599D12F67}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Packages.props = ..\..\Packages.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{6e7ec81d-da39-4c4f-a898-0148558c34f4}*SharedItemsImports = 13

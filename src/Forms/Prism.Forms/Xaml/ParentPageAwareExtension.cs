@@ -7,6 +7,10 @@ using Xamarin.Forms.Xaml;
 
 namespace Prism.Xaml
 {
+    /// <summary>
+    /// Provides a base implementation of <see cref="IMarkupExtension{T}" /> that locates the parent <see cref="Page" />
+    /// </summary>
+    /// <typeparam name="T">The generic type the extension will return.</typeparam>
     public abstract class ParentPageAwareExtension<T> : BindableObject, IMarkupExtension<T>
     {
         private IServiceProvider ServiceProvider;
@@ -71,10 +75,10 @@ namespace Prism.Xaml
             {
                 SourcePage = parentPage;
 
-                if (parentPage.Parent is MasterDetailPage mdp
-                    && mdp.Master == parentPage)
+                if (parentPage.Parent is FlyoutPage flyout
+                    && flyout.Flyout == parentPage)
                 {
-                    SourcePage = mdp;
+                    SourcePage = flyout;
                 }
             }
 
