@@ -82,9 +82,9 @@ namespace Prism.Xaml
                 }
             }
 
-            if (BindingContext == null)
+            if (BindingContext == null || !IsSet(BindingContextProperty))
             {
-                BindingContext = SourcePage.BindingContext;
+                BindingContext = _targetElement.BindingContext;
             }
         }
 
