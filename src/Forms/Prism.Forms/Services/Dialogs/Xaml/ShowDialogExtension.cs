@@ -13,7 +13,7 @@ namespace Prism.Services.Dialogs.Xaml
     {
         public static Lazy<IDialogService> LazyDialogService = new Lazy<IDialogService>(() =>
         {
-            return PrismApplicationBase.Current.Container.Resolve<IDialogService>();
+            return ContainerLocator.Container.Resolve<IDialogService>();
         });
 
         public string Name { get; set; }
