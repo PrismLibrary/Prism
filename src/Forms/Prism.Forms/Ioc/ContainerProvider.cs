@@ -14,13 +14,13 @@
     ///     {
     ///         _logger = logger;
     ///     }
-    /// 
+    ///
     ///     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     ///     {
     ///         _logger.Log($"Converting {value.GetType().Name} to {targetType.Name}", Category.Debug, Priority.None);
     ///         // do stuff
     ///     }
-    /// 
+    ///
     ///     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     ///     {
     ///         _logger.Log($"Converting back from {value.GetType().Name} to {targetType.Name}", Category.Debug, Priority.None);
@@ -53,7 +53,7 @@
         /// <param name="containerProvider"></param>
         public static implicit operator T(ContainerProvider<T> containerProvider)
         {
-            var container = PrismApplicationBase.Current.Container;
+            var container = ContainerLocator.Container;
             if (container == null) return default(T);
             if (string.IsNullOrWhiteSpace(containerProvider.Name))
             {
