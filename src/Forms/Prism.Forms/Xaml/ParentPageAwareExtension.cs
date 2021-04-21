@@ -16,6 +16,9 @@ namespace Prism.Xaml
         private IServiceProvider ServiceProvider;
 
         private Element _targetElement;
+        /// <summary>
+        /// The target element the XAML Extension is being used on.
+        /// </summary>
         protected Element TargetElement
         {
             get
@@ -30,7 +33,15 @@ namespace Prism.Xaml
             set => _targetElement = value;
         }
 
+        /// <summary>
+        /// Sets the Target BindingContext strategy
+        /// </summary>
+        public TargetBindingContext TargetBindingContext { get; set; }
+
         private Page _sourcePage;
+        /// <summary>
+        /// The parent Page of the layout where the XAML Extension is being used.
+        /// </summary>
         public Page SourcePage
         {
             protected internal get
@@ -45,12 +56,21 @@ namespace Prism.Xaml
             set => _sourcePage = value;
         }
 
+        /// <summary>
+        /// Provides the object that is created from the markup extension.
+        /// </summary>
+        /// <param name="serviceProvider">The Service Provider</param>
+        /// <returns>The object created by the markup extension.</returns>
         public T ProvideValue(IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             return ProvideValue();
         }
 
+        /// <summary>
+        /// Provides the object that is created from the markup extension.
+        /// </summary>
+        /// <returns>The object created by the markup extension.</returns>
         protected abstract T ProvideValue();
 
         object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) =>
@@ -82,12 +102,19 @@ namespace Prism.Xaml
                 }
             }
 
-            if (BindingContext == null)
+            if (BindingContext == null || !IsSet(BindingContextProperty))
             {
-                BindingContext = SourcePage.BindingContext;
+                BindingContext = TargetBindingContext switch
+                {
+                    TargetBindingContext.Page => SourcePage.BindingContext,
+                    _ => TargetElement.BindingContext
+                };
             }
         }
 
+        /// <summary>
+        /// Callback when the TargetElement is changed
+        /// </summary>
         protected virtual void OnTargetElementChanged()
         {
         }
