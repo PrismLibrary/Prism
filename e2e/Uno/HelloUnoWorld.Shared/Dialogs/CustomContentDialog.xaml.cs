@@ -1,7 +1,14 @@
 ﻿using Prism.Services.Dialogs;
 using Windows.Foundation;
+
+#if HAS_WINUI
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+#endif
+
 
 namespace HelloUnoWorld.Dialogs
 {
@@ -13,6 +20,10 @@ namespace HelloUnoWorld.Dialogs
         public CustomContentDialog()
         {
             InitializeComponent();
+
+            // This is needed to enable dialog to be created properly.
+            // See: https://github.com/microsoft/microsoft-ui-xaml/issues/4251
+            XamlRoot = App.MainXamlRoot;
         }
 
         public IDialogResult Result { get ; set; }

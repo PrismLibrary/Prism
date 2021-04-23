@@ -1,12 +1,19 @@
 parameters:
   solution: '**/*.sln'
 
+
 steps:
 - task: UseDotNet@2
   displayName: Ensure 3.1 SDK is Installed
   inputs:
     packageType: 'sdk'
     version: '3.1.405'
+
+- task: UseDotNet@2
+  displayName: Ensure 5.0.103 SDK is Installed
+  inputs:
+    packageType: 'sdk'
+    version: '5.0.103'
 
 - task: UseDotNet@2
   displayName: 'Use global.json SDK'
@@ -20,6 +27,7 @@ steps:
     checkLatest: true
 
 - task: NuGetCommand@2
+  condition: ne(variables['disable_package_restore_step'], 'true')
   displayName: 'NuGet restore'
   inputs:
     restoreSolution: ${{ parameters.solution }}

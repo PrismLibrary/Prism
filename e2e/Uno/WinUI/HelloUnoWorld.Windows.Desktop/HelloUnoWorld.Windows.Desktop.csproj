@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
+		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+		<RootNamespace>HelloUnoWorld.WinUI</RootNamespace>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<Platforms>x86;x64;arm64</Platforms>
+		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <DefineConstants>HAS_WINUI</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Microsoft.ProjectReunion" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
+		<PackageReference Include="Uno.Core" />
+		<Manifest Include="$(ApplicationManifest)" />
+	</ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Prism.Core\Prism.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Uno\Prism.DryIoc.Uno\Prism.DryIoc.Uno.WinUI.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Uno\Prism.Uno\Prism.Uno.WinUI.csproj" />
+    <ProjectReference Include="..\..\ModuleA\ModuleA.WinUI.csproj" />
+  </ItemGroup>
+  
+  <Import Project="..\..\HelloUnoWorld.Shared\HelloUnoWorld.Shared.projitems" Label="Shared" />
+</Project>

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid10.0;xamarinmac20</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net5.0-windows10.0.18362.0</TargetFrameworks>
+    <DefineConstants>$(DefineConstants);HAS_WINUI</DefineConstants>
+    <AssemblyName>Prism.Unity.Uno</AssemblyName>
+    <RootNamespace>Prism.Unity</RootNamespace>
+    <PackageId>Prism.Unity.Uno.WinUI</PackageId>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+
+    <!--
+    Library layout generation is disabled as this project does not have any XAML files, and
+    that if set to true, there is a nuget issue where Uno.Prism PRI resource get incorrectly
+    propagated to their dependents.
+    -->
+    <GenerateLibraryLayout>false</GenerateLibraryLayout>
+    <Description>Use these extensions to build apps for Uno Platform, UWP, &amp; WinUI using Prism with the Unity Container.
+
+Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET Standard. Features that need to be platform specific are implemented in the respective libraries for the target platform (WPF, Uno Platform, and Xamarin Forms). Prism for Uno Platform helps you more easily design and build rich, flexible, and easy to maintain Windows UWP, WinUI &amp; cross platform Uno applications.</Description>
+    <PackageTags>prism;winui;windows;uno;mvvm;uwp;ios;android;macos;webassembly;linux;xaml;unity;unitycontainer</PackageTags>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios')) or $(TargetFramework.StartsWith('xamarinmac')) or $(TargetFramework.StartsWith('MonoAndroid')) or $(TargetFramework.StartsWith('netstandard'))">
+    <PackageReference Include="Uno.WinUI" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Unity.Container" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Wpf\Prism.Unity.Wpf\**\*.cs" Exclude="..\..\Wpf\Prism.Unity.Wpf\bin\**\*.cs;..\..\Wpf\Prism.Unity.Wpf\obj\**\*.cs" />
+    <EmbeddedResource Include="..\..\Wpf\Prism.Unity.Wpf\Properties\**\*.resx" Link="Properties\%(FileName)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="..\..\Wpf\Prism.Unity.Wpf\Legacy\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="..\..\Wpf\Prism.Unity.Wpf\PrismBootstrapper.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Unity.Wpf\Properties\AssemblyInfo.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Unity.Wpf\Properties\Settings.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Prism.Uno\Prism.Uno.WinUI.csproj" />
+  </ItemGroup>
+  <Import Project="..\..\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems" Label="Shared" />
+</Project>

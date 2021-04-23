@@ -9,10 +9,17 @@ using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Services.Dialogs;
 using Windows.ApplicationModel;
+
+#if HAS_UWP
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+#elif HAS_WINUI
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+#endif
 
 namespace Prism
 {
@@ -29,7 +36,9 @@ namespace Prism
 
         public PrismApplicationBase()
         {
+#if HAS_UWP
             Suspending += (s, e) => OnSuspending(e);
+#endif
         }
 
         /// <summary>
@@ -203,11 +212,19 @@ namespace Prism
         /// </summary>
         protected virtual void InitializeShell(UIElement shell)
         {
+#if HAS_UWP
             Windows.UI.Xaml.Window.Current.Content = shell;
 
             // Activate must be called immediately in order for the Loaded event to be raised
             // in the shell.
             Windows.UI.Xaml.Window.Current.Activate();
+#elif HAS_WINUI && !NETCOREAPP
+            Microsoft.UI.Xaml.Window.Current.Content = shell;
+
+            // Activate must be called immediately in order for the Loaded event to be raised
+            // in the shell.
+            Microsoft.UI.Xaml.Window.Current.Activate();
+#endif
         }
 
         /// <summary>
@@ -230,8 +247,10 @@ namespace Prism
             PrismInitializationExtensions.RunModuleManager(Container);
         }
 
+#if HAS_UWP
         protected virtual void OnSuspending(SuspendingEventArgs e)
         {
         }
+#endif
     }
 }

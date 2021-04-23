@@ -6,9 +6,12 @@ using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Services.Dialogs;
 
-#if HAS_WINUI
+#if HAS_UWP
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+#elif HAS_WINUI
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 #else
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;

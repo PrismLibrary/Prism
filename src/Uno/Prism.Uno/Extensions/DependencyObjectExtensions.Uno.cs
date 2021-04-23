@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
+#if HAS_UWP
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
+#elif HAS_WINUI
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
+#endif
 
 namespace Prism
 {
@@ -19,6 +24,8 @@ namespace Prism
             // This needs to evolve, once threading is supported
             // See https://github.com/unoplatform/uno/issues/2302
             => System.Threading.Thread.CurrentThread.ManagedThreadId == 1;
+#elif HAS_WINUI
+            => instance.DispatcherQueue.HasThreadAccess;
 #else
             => instance.Dispatcher.HasThreadAccess;
 #endif

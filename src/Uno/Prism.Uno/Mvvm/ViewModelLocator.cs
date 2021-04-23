@@ -1,4 +1,8 @@
-﻿using Windows.UI.Xaml;
+﻿#if HAS_UWP
+using Windows.UI.Xaml;
+#elif HAS_WINUI
+using Microsoft.UI.Xaml;
+#endif
 
 namespace Prism.Mvvm
 {

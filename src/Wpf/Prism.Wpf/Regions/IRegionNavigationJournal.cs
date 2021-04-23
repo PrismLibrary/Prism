@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-#if HAS_WINUI
+#if HAS_UWP
 using Windows.UI.Xaml;
+#elif HAS_WINUI
+using Microsoft.UI.Xaml;
 #else
 using System.Windows;
 #endif

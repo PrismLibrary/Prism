@@ -8,8 +8,7 @@
                 xmlns:toolkit="using:Uno.UI.Toolkit"
                 xmlns:local="clr-namespace:HelloWorld">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-        toolkit:VisibleBoundsPadding.PaddingMask="All">
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid.RowDefinitions>
       <RowDefinition Height="auto" />
       <RowDefinition Height="auto" />
