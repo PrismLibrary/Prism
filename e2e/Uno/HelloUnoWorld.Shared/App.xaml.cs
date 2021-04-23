@@ -38,6 +38,10 @@ namespace HelloUnoWorld
     /// </summary>
     sealed partial class App : PrismApplication
     {
+        private static Window _window;
+
+        public static XamlRoot MainXamlRoot { get; private set; }
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -136,10 +140,12 @@ namespace HelloUnoWorld
             var shell = Container.Resolve<Shell>();
 
 #if NET5_0 && WINDOWS
-            var window = new Window();
-            window.Activate();
-            window.Content = shell;
+            _window = new Window();
+            _window.Activate();
+            _window.Content = shell;
 #endif
+
+            MainXamlRoot = shell.XamlRoot;
 
             return shell;
         }
