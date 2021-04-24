@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Data;
 #elif HAS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
+using Windows.Foundation.Metadata;
 #endif
 
 namespace Prism
@@ -25,7 +26,22 @@ namespace Prism
             // See https://github.com/unoplatform/uno/issues/2302
             => System.Threading.Thread.CurrentThread.ManagedThreadId == 1;
 #elif HAS_WINUI
+#if NETCOREAPP
             => instance.DispatcherQueue.HasThreadAccess;
+#else
+            {
+                // Dispatcher queue HasThreadAccess is not yet implemented in Uno, we can fall back on CoreDispatcher
+                // See https://github.com/unoplatform/uno/issues/5818
+                if(ApiInformation.IsPropertyPresent("Microsoft.System.DispatcherQueue", nameof(Microsoft.System.DispatcherQueue.HasThreadAccess)))
+                {
+                    return instance.DispatcherQueue.HasThreadAccess;
+                }
+                else
+                {
+                    return instance.Dispatcher.HasThreadAccess;
+                }
+            }
+#endif
 #else
             => instance.Dispatcher.HasThreadAccess;
 #endif
