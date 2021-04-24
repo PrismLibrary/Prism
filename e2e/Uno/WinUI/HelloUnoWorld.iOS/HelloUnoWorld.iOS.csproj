@@ -13,6 +13,9 @@
     </NuGetPackageImportStamp>
     <ResourcesDirectory>..\HelloUnoWorld.Shared\Strings</ResourcesDirectory>
   </PropertyGroup>
+  <PropertyGroup>
+    <IsUiAutomationMappingEnabled>true</IsUiAutomationMappingEnabled>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>portable</DebugType>
