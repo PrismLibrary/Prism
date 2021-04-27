@@ -9,7 +9,7 @@ using Prism.Navigation;
 
 namespace HelloWorld.ViewModels
 {
-    public class MyMasterDetailViewModel : ViewModelBase
+    public class MyFlyoutViewModel : ViewModelBase
     {
         INavigationService _navigationService;
 
@@ -18,7 +18,7 @@ namespace HelloWorld.ViewModels
         public string Message => "Hello from MyMasterDetailViewModel";
 
         public DelegateCommand<string> NavigateCommand { get; set; }
-        public MyMasterDetailViewModel(INavigationService navigationService)
+        public MyFlyoutViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
             NavigateCommand = new DelegateCommand<string>(Navigate);
