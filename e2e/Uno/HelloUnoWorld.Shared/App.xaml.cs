@@ -40,7 +40,9 @@ namespace HelloUnoWorld
     {
         private static Window _window;
 
+#if HAS_UNO_WINUI || NETCOREAPP
         public static XamlRoot MainXamlRoot { get; private set; }
+#endif
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -145,7 +147,9 @@ namespace HelloUnoWorld
             _window.Content = shell;
 #endif
 
+#if HAS_UNO_WINUI || NETCOREAPP
             MainXamlRoot = shell.XamlRoot;
+#endif
 
             return shell;
         }

@@ -21,9 +21,11 @@ namespace HelloUnoWorld.Dialogs
         {
             InitializeComponent();
 
+#if HAS_UNO_WINUI || NETCOREAPP
             // This is needed to enable dialog to be created properly.
             // See: https://github.com/microsoft/microsoft-ui-xaml/issues/4251
             XamlRoot = App.MainXamlRoot;
+#endif
         }
 
         public IDialogResult Result { get ; set; }
