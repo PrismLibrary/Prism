@@ -3,11 +3,22 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:prism="http://prismlibrary.com"
                   xmlns:controls="clr-namespace:HelloWorld.Controls"
-                  x:Class="HelloWorld.Views.MyMasterDetail">
+                  x:Class="HelloWorld.Views.MyFlyout">
 
   <MasterDetailPage.Master>
     <ContentPage Title="Menu"
                  AutomationId="Menu">
+      <ContentPage.Resources>
+        <ResourceDictionary>
+          <Style TargetType="Button">
+            <Setter Property="CornerRadius" Value="15" />
+            <Setter Property="BorderColor" Value="#5f5f61" />
+            <Setter Property="BorderWidth" Value="2" />
+            <Setter Property="BackgroundColor" Value="#7E7D81" />
+            <Setter Property="TextColor" Value="#FFFFFF" />
+          </Style>
+        </ResourceDictionary>
+      </ContentPage.Resources>
       <StackLayout>
         <Image Source="{OnPlatform Android='icon.png', iOS='PrismLogo', UWP='prism-sandobx-logo.png'}"
                HorizontalOptions="Center"
