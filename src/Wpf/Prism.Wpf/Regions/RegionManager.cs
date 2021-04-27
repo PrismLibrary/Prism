@@ -241,7 +241,7 @@ namespace Prism.Regions
         private static bool IsInDesignMode(DependencyObject element)
         {
 #if HAS_UWP || HAS_WINUI
-            return false;
+            return Windows.ApplicationModel.DesignMode.DesignModeEnabled;
 #else
             return DesignerProperties.GetIsInDesignMode(element);
 #endif
