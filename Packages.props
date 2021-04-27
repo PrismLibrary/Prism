@@ -1,7 +1,7 @@
 <Project>
 
   <ItemGroup>
-    <PackageReference Update="DryIoc.dll" Version="4.7.4" />
+    <PackageReference Update="DryIoc.dll" Version="4.7.6" />
     <PackageReference Update="Unity.Container" Version="5.11.10" />
 
     <PackageReference Update="System.ValueTuple" Version="4.5.0" />
@@ -77,7 +77,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" $(DISABLE_GITVERSIONING) != 'true' ">
-    <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.3.37"
+    <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.4.194"
                             Condition=" !$(MSBuildProjectDirectory.Contains('e2e')) "/>
   </ItemGroup>
 
