@@ -50,6 +50,23 @@ namespace Prism.Regions
         IRegionManager Add(VisualElement view);
 
         /// <summary>
+        /// Adds a new view to the region.
+        /// </summary>
+        /// <param name="view">The view to add.</param>
+        /// <param name="viewName">The name of the view. This can be used to retrieve it later by calling <see cref="GetView"/>.</param>
+        /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="VisualElement"/>. It will be the current region manager when using this overload.</returns>
+        IRegionManager Add(VisualElement view, string viewName);
+
+        /// <summary>
+        /// Adds a new view to the region.
+        /// </summary>
+        /// <param name="view">The view to add.</param>
+        /// <param name="viewName">The name of the view. This can be used to retrieve it later by calling <see cref="GetView"/>.</param>
+        /// <param name="createRegionManagerScope">When <see langword="true"/>, the added view will receive a new instance of <see cref="IRegionManager"/>, otherwise it will use the current region manager for this region.</param>
+        /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="VisualElement"/>.</returns>
+        IRegionManager Add(VisualElement view, string viewName, bool createRegionManagerScope);
+
+        /// <summary>
         /// Removes the specified view from the region.
         /// </summary>
         /// <param name="view">The view to remove.</param>

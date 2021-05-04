@@ -12,6 +12,7 @@ using Prism.Events;
 using Prism.Ioc;
 using Prism.Properties;
 using Prism.Regions.Behaviors;
+using Prism.Ioc.Internals;
 
 #if HAS_UWP
 using Windows.UI.Xaml;
@@ -292,16 +293,19 @@ namespace Prism.Regions
         }
 
         /// <summary>
-        /// Associate a view with a region, by registering a type. When the region get's displayed
-        /// this type will be resolved using the ServiceLocator into a concrete instance. The instance
-        /// will be added to the Views collection of the region
+        /// Add a view to the Views collection of a Region. Note that the region must already exist in this <see cref="IRegionManager"/>.
         /// </summary>
-        /// <param name="regionName">The name of the region to associate the view with.</param>
-        /// <typeparam name="T">The type of the view to register</typeparam>
-        /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
-        public IRegionManager RegisterViewWithRegion<T>(string regionName)
+        /// <param name="regionName">The name of the region to add a view to</param>
+        /// <param name="targetName">The view to add to the views collection</param>
+        /// <returns>The RegionManager, to easily add several views. </returns>
+        public IRegionManager AddToRegion(string regionName, string targetName)
         {
-            return RegisterViewWithRegion(regionName, typeof(T));
+            if (!Regions.ContainsRegionWithName(regionName))
+                throw new ArgumentException(string.Format(Thread.CurrentThread.CurrentCulture, Resources.RegionNotFound, regionName), nameof(regionName));
+
+            var view = CreateNewRegionItem(targetName);
+
+            return Regions[regionName].Add(view);
         }
 
         /// <summary>
@@ -319,6 +323,21 @@ namespace Prism.Regions
             regionViewRegistry.RegisterViewWithRegion(regionName, viewType);
 
             return this;
+        }
+
+        /// <summary>
+        /// Associate a view with a region, by registering a type. When the region get's displayed
+        /// this type will be resolved using the ServiceLocator into a concrete instance. The instance
+        /// will be added to the Views collection of the region
+        /// </summary>
+        /// <param name="regionName">The name of the region to associate the view with.</param>
+        /// <param name="targetName">The type of the view to register with the </param>
+        /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
+        public IRegionManager RegisterViewWithRegion(string regionName, string targetName)
+        {
+            var viewType = ContainerLocator.Current.GetRegistrationType(targetName);
+
+            return RegisterViewWithRegion(regionName, viewType);
         }
 
         /// <summary>

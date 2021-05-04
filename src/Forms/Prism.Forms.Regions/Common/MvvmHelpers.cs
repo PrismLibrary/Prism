@@ -41,16 +41,23 @@ namespace Prism.Common
 
         public static bool IsNavigationTarget(object view, INavigationContext navigationContext)
         {
-            bool isViewTarget = false;
-            bool isVMTarget = false;
-
             if (view is IRegionAware viewAsRegionAware)
-                isViewTarget = viewAsRegionAware.IsNavigationTarget(navigationContext);
+            {
+                return viewAsRegionAware.IsNavigationTarget(navigationContext);
+            }
 
             if (view is BindableObject bindable && bindable.BindingContext is IRegionAware vmAsRegionAware)
-                isVMTarget = vmAsRegionAware.IsNavigationTarget(navigationContext);
+            {
+                return vmAsRegionAware.IsNavigationTarget(navigationContext);
+            }
 
-            return isViewTarget || isVMTarget;
+            var uri = navigationContext.Uri;
+            if (!uri.IsAbsoluteUri)
+                uri = new Uri(new Uri("app://prism.regions"), uri);
+            var path = uri.LocalPath.Substring(1);
+            var viewType = view.GetType();
+
+            return path == viewType.Name || path == viewType.FullName;
         }
 
         public static void OnNavigatedFrom(object view, INavigationContext navigationContext)

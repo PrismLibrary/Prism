@@ -95,6 +95,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Unity.Uno.WinUI", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Uno.WinUI", "src\Uno\Prism.DryIoc.Uno\Prism.DryIoc.Uno.WinUI.csproj", "{DB530D15-0556-4B6F-96B2-1497C8DF08D6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Forms.Regions.Tests", "tests\Forms\Prism.Forms.Regions.Tests\Prism.Forms.Regions.Tests.csproj", "{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{02e0ecaa-b8c6-4eab-a9ab-164b1b99af35}*SharedItemsImports = 5
@@ -416,6 +418,18 @@ Global
 		{DB530D15-0556-4B6F-96B2-1497C8DF08D6}.Release|x64.Build.0 = Release|Any CPU
 		{DB530D15-0556-4B6F-96B2-1497C8DF08D6}.Release|x86.ActiveCfg = Release|Any CPU
 		{DB530D15-0556-4B6F-96B2-1497C8DF08D6}.Release|x86.Build.0 = Release|Any CPU
+		{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7}.Debug|x64.Build.0 = Debug|Any CPU
+		{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7}.Debug|x86.Build.0 = Debug|Any CPU
+		{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7}.Release|x64.ActiveCfg = Release|Any CPU
+		{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7}.Release|x64.Build.0 = Release|Any CPU
+		{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7}.Release|x86.ActiveCfg = Release|Any CPU
+		{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -459,6 +473,7 @@ Global
 		{E74664C1-1BB1-4920-8099-2C9125CFD00B} = {9DF4BF66-FEFA-4135-A37A-963E46B77D13}
 		{D3611B62-8FE0-4594-A4E0-1FA0C5CD8ADA} = {9DF4BF66-FEFA-4135-A37A-963E46B77D13}
 		{DB530D15-0556-4B6F-96B2-1497C8DF08D6} = {9DF4BF66-FEFA-4135-A37A-963E46B77D13}
+		{1DECC7D9-9F2A-4FF5-9FBB-A5245F1C73D7} = {F8A0FDE6-8E75-47D1-9E33-02AB8E8AB473}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7433AE2-B1A0-4C1A-887E-5CAA7AAF67A6}

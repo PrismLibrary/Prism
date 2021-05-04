@@ -157,8 +157,7 @@ namespace Prism.Regions.Navigation
 
         private static bool ViewIsMatch(Type viewType, string navigationSegment)
         {
-            var names = new[] { viewType.Name, viewType.FullName };
-            return names.Any(x => x.Equals(navigationSegment, StringComparison.Ordinal));
+            return viewType.FullName == navigationSegment || viewType.Name == navigationSegment;
         }
     }
 }

@@ -264,6 +264,15 @@ namespace Prism.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This RegionManager does not contain a Region with the name &apos;{0}&apos;..
+        /// </summary>
+        internal static string RegionNotFound {
+            get {
+                return ResourceManager.GetString("RegionNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The region manager does not contain the {0} region..
         /// </summary>
         internal static string RegionNotInRegionManagerException {
