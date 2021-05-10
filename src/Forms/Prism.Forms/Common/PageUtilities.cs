@@ -290,7 +290,12 @@ namespace Prism.Common
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static void SetAutowireViewModel(VisualElement element)
         {
-            if (element.BindingContext is null && ViewModelLocator.GetAutowireViewModel(element) is null)
+            if (element.IsSet(ViewModelLocator.AutowireViewModelProperty))
+            {
+                return;
+            }
+
+            if (element.BindingContext is null)
             {
                 ViewModelLocator.SetAutowireViewModel(element, true);
             }
