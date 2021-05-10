@@ -80,7 +80,9 @@ namespace Prism.Regions
         /// <returns>Instance of the registered view.</returns>
         protected virtual object CreateInstance(Type type)
         {
-            return _container.Resolve(type);
+            var view = _container.Resolve(type);
+            MvvmHelpers.AutowireViewModel(view);
+            return view;
         }
 
         private void OnContentRegistered(ViewRegisteredEventArgs e)

@@ -6,6 +6,8 @@ namespace Prism.Common
 {
     internal static class MvvmHelpers
     {
+        public static void AutowireViewModel(object view) => PageUtilities.SetAutowireViewModel((VisualElement)view);
+
         public static void ViewAndViewModelAction<T>(object view, Action<T> action)
             where T : class
         {

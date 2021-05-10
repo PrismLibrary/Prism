@@ -83,7 +83,7 @@ namespace Prism.Wpf.Tests.Mvvm
             ReferenceEquals(view.DataContext, viewModel);
         }
 
-        private static void ResetViewModelLocationProvider()
+        internal static void ResetViewModelLocationProvider()
         {
             Type staticType = typeof(ViewModelLocationProvider);
             ConstructorInfo ci = staticType.TypeInitializer;

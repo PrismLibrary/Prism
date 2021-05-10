@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
+using System.Windows;
 using Moq;
 using Prism.Ioc;
 using Prism.Regions;
+using Prism.Wpf.Tests.Mvvm;
 using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
@@ -109,6 +111,49 @@ namespace Prism.Wpf.Tests.Regions
             Assert.IsType<ViewRegistrationException>(ex);
             Assert.Contains("Dont do this", ex.Message);
             Assert.Contains("R1", ex.Message);
+        }
+
+        [StaFact]
+        public void RegisterViewWithRegion_ShouldHaveViewModel_ByDefault()
+        {
+            ViewModelLocatorFixture.ResetViewModelLocationProvider();
+
+            var containerMock = new Mock<IContainerExtension>();
+            containerMock.Setup(c => c.Resolve(typeof(Mocks.Views.Mock))).Returns(new Mocks.Views.Mock());
+            containerMock.Setup(c => c.Resolve(typeof(Mocks.ViewModels.MockViewModel))).Returns(new Mocks.ViewModels.MockViewModel());
+            var registry = new RegionViewRegistry(containerMock.Object);
+
+            registry.RegisterViewWithRegion("MyRegion", typeof(Mocks.Views.Mock));
+
+            var result = registry.GetContents("MyRegion");
+            Assert.NotNull(result);
+            Assert.Single(result);
+
+            var view = result.ElementAt(0) as FrameworkElement;
+            Assert.IsType<Mocks.Views.Mock>(view);
+            Assert.NotNull(view.DataContext);
+            Assert.IsType<Mocks.ViewModels.MockViewModel>(view.DataContext);
+        }
+
+        [StaFact]
+        public void RegisterViewWithRegion_ShouldNotHaveViewModel_OnOptOut()
+        {
+            ViewModelLocatorFixture.ResetViewModelLocationProvider();
+
+            var containerMock = new Mock<IContainerExtension>();
+            containerMock.Setup(c => c.Resolve(typeof(Mocks.Views.MockOptOut))).Returns(new Mocks.Views.MockOptOut());
+            containerMock.Setup(c => c.Resolve(typeof(Mocks.ViewModels.MockOptOutViewModel))).Returns(new Mocks.ViewModels.MockOptOutViewModel());
+            var registry = new RegionViewRegistry(containerMock.Object);
+
+            registry.RegisterViewWithRegion("MyRegion", typeof(Mocks.Views.MockOptOut));
+
+            var result = registry.GetContents("MyRegion");
+            Assert.NotNull(result);
+            Assert.Single(result);
+
+            var view = result.ElementAt(0) as FrameworkElement;
+            Assert.IsType<Mocks.Views.MockOptOut>(view);
+            Assert.Null(view.DataContext);
         }
 
         private void FailWithFrameworkException(object sender, ViewRegisteredEventArgs e)
