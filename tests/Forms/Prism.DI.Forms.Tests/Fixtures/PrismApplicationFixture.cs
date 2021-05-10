@@ -270,6 +270,7 @@ namespace Prism.Unity.Forms.Tests.Fixtures
 
             var mockB = navigationPage.CurrentPage as XamlViewMockB;
             mockB.TestButton.SendClicked();
+            await Task.Delay(150);
 
             Assert.IsType<XamlViewMockA>(navigationPage.RootPage);
             Assert.IsType<XamlViewMockA>(navigationPage.CurrentPage);
