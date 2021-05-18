@@ -11,17 +11,12 @@ namespace Prism.Common
         public static void ViewAndViewModelAction<T>(object view, Action<T> action)
             where T : class
         {
-            var stack = new System.Diagnostics.StackTrace();
             if (view is T viewAsT)
                 action(viewAsT);
 
             if (view is BindableObject bindable && bindable.BindingContext is T vmAsT)
                 action(vmAsT);
         }
-
-        public static bool GetImplementerFromViewOrViewModel<T>(object view, out T implementer)
-            where T : class =>
-            (implementer = GetImplementerFromViewOrViewModel<T>(view)) != null;
 
         public static T GetImplementerFromViewOrViewModel<T>(object view)
             where T : class

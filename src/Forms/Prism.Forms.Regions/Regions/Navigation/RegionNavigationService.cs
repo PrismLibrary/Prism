@@ -131,7 +131,7 @@ namespace Prism.Regions.Navigation
         {
             if (currentViewIndex < activeViews.Length)
             {
-                if (MvvmHelpers.GetImplementerFromViewOrViewModel<IConfirmRegionNavigationRequest>(activeViews[currentViewIndex], out var vetoingView))
+                if (activeViews[currentViewIndex] is IConfirmRegionNavigationRequest vetoingView)
                 {
                     // the current active view implements IConfirmNavigationRequest, request confirmation
                     // providing a callback to resume the navigation request
