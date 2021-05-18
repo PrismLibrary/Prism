@@ -110,11 +110,15 @@ namespace Prism.Regions
         /// <returns>An instance of an item to put into the <see cref="IRegion"/>.</returns>
         protected virtual object CreateNewRegionItem(string candidateTargetContract)
         {
-            object newRegionItem;
             try
             {
-                newRegionItem = _container.Resolve<object>(candidateTargetContract);
+                var newRegionItem = _container.Resolve<object>(candidateTargetContract);
                 MvvmHelpers.AutowireViewModel(newRegionItem);
+                return newRegionItem;
+            }
+            catch (ContainerResolutionException)
+            {
+                throw;
             }
             catch (Exception e)
             {
@@ -122,7 +126,6 @@ namespace Prism.Regions
                     string.Format(CultureInfo.CurrentCulture, Resources.CannotCreateNavigationTarget, candidateTargetContract),
                     e);
             }
-            return newRegionItem;
         }
 
         /// <summary>
