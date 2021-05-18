@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Moq;
 using Prism.Ioc;
 using Prism.Regions;
+using Xamarin.Forms;
 using Xunit;
 
 namespace Prism.Forms.Regions.Tests
@@ -132,7 +133,7 @@ namespace Prism.Forms.Regions.Tests
             throw new InvalidOperationException("Dont do this");
         }
 
-        private class MockContentObject
+        private class MockContentObject : VisualElement
         {
         }
 
