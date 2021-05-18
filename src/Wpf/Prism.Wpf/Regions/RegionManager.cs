@@ -468,6 +468,33 @@ namespace Prism.Regions
             RequestNavigate(regionName, new Uri(target, UriKind.RelativeOrAbsolute), nr => { }, navigationParameters);
         }
 
+        /// <summary>
+        /// Provides a new item for the region based on the supplied candidate target contract name.
+        /// </summary>
+        /// <param name="candidateTargetContract">The target contract to build.</param>
+        /// <returns>An instance of an item to put into the <see cref="IRegion"/>.</returns>
+        protected virtual object CreateNewRegionItem(string candidateTargetContract)
+        {
+            try
+            {
+                var view = ContainerLocator.Container.Resolve<object>(candidateTargetContract);
+
+                MvvmHelpers.AutowireViewModel(view);
+
+                return view;
+            }
+            catch (ContainerResolutionException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException(
+                    string.Format(CultureInfo.CurrentCulture, Resources.CannotCreateNavigationTarget, candidateTargetContract),
+                    e);
+            }
+        }
+
         private class RegionCollection : IRegionCollection
         {
             private readonly IRegionManager regionManager;

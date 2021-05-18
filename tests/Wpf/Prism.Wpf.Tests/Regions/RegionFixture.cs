@@ -529,6 +529,16 @@ namespace Prism.Wpf.Tests.Regions
             {
                 throw new NotImplementedException();
             }
+
+            public IRegionManager AddToRegion(string regionName, string viewName)
+            {
+                throw new NotImplementedException();
+            }
+
+            public IRegionManager RegisterViewWithRegion(string regionName, string viewName)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [Fact]
