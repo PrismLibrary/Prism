@@ -4,14 +4,14 @@ Prism is a framework for building loosely coupled, maintainable, and testable XA
 
 ## Help Support Prism
 
-As most of you know, it takes a lot of time and effort for our small team to manage and maintain Prism in our spare time. Even though Prism is open source and hosted on GitHub, there are a number of costs associated with maintaining a project such as Prism.  Please be sure to Star the Prism repo and help sponsor Dan and Brian on GitHub.
+As most of you know, it takes a lot of time and effort for our small team to manage and maintain Prism in our spare time. Even though Prism is open source and hosted on GitHub, there are a number of costs associated with maintaining a project such as Prism.  Please be sure to Star the Prism repo and help sponsor Dan and Brian on GitHub. As a bonus GitHub sponsors get access to Sponsor Connect where you can access exclusive training content, all Prism CI builds, and a Sponsor Only Discord with Brian and Dan!
 
-Don't forget both Brian and Dan stream live on Twitch and host recorded content on their YouTube Channels. Be sure to Subscribe and Ring that Bell for notifications when they go live or post new content.
+Don't forget both Brian and Dan have content on YouTube and stream there from time to time. Be sure to subscribe to their channels and turn on notifications so you know when they do a Live Stream!
 
-| | Sponsor | Twitter | Twitch | YouTube |
-|:-:|:--:|:--:|:--:|:--:|
-| Brian Lagunas | [![GitHub][OctoSponsor]](https://xam.dev/sponsor-prism-brian) | [![Twitter][TwitterLogo]](https://twitter.com/brianlagunas)<br /><span style="font-size:9px">Follow</span> | [![Twitch][TwitchLogo]](https://twitch.tv/brianlagunas)<br /><span style="font-size:9px">Follow & Subscribe</span> | [![YouTube][YouTubeLogo]](https://youtube.com/brianlagunas)<br /><span style="font-size:9px">Subcribe & Ring the Bell</span>
-| Dan Siegel | [![GitHub][OctoSponsor]](https://xam.dev/sponsor-prism-dan) | [![Twitter][TwitterLogo]](https://twitter.com/DanJSiegel)<br /><span style="font-size:9px">Follow</span> | [![Twitch][TwitchLogo]](https://twitch.tv/dansiegel)<br /><span style="font-size:9px">Follow & Subscribe</span> | [![YouTube][YouTubeLogo]](https://youtube.com/dansiegel)<br /><span style="font-size:9px">Subscribe & Ring the Bell</span>
+| | Sponsor | Twitter | YouTube |
+|:-:|:--:|:--:|:--:|
+| Brian Lagunas | [![GitHub][OctoSponsor]](https://xam.dev/sponsor-prism-brian) | [![Twitter][TwitterLogo]](https://twitter.com/brianlagunas)<br /><span style="font-size:9px">Follow</span> | [![YouTube][YouTubeLogo]](https://youtube.com/brianlagunas)<br /><span style="font-size:9px">Subcribe & Ring the Bell</span>
+| Dan Siegel | [![GitHub][OctoSponsor]](https://xam.dev/sponsor-prism-dan) | [![Twitter][TwitterLogo]](https://twitter.com/DanJSiegel)<br /><span style="font-size:9px">Follow</span> | [![YouTube][YouTubeLogo]](https://youtube.com/dansiegel)<br /><span style="font-size:9px">Subscribe & Ring the Bell</span>
 
 ## Build Status
 
