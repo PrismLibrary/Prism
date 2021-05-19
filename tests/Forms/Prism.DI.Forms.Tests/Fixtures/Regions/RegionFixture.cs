@@ -27,6 +27,11 @@ namespace Prism.DI.Forms.Tests.Fixtures.Regions
             Assert.Null(result.Exception);
             Assert.NotNull(_app.MainPage);
             Assert.IsType<Issue2415Page>(_app.MainPage);
+
+            var vm = _app.MainPage.BindingContext as Issue2415PageViewModel;
+
+            Assert.NotNull(vm.Result);
+            Assert.True(vm.Result.Result);
         }
 
         void IPlatformInitializer.RegisterTypes(IContainerRegistry containerRegistry)
