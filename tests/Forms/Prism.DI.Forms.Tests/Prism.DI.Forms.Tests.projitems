@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Navigation\NavigationServiceFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Navigation\XamlNavigationFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Fixtures\PrismApplicationFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\Regions\RegionFixture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Converters\MockValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Events\TestActionEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Internals\FormsLogObserver.cs" />
@@ -31,6 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\AutowireViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ConstructorArgumentViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\CustomNamedNavServiceViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\Issue2415PageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\PartialViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ViewModelAMock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\ViewModels\ViewModelBMock.cs" />
@@ -43,6 +45,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\AutowireViewTablet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\ConstructorArgumentView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\CustomNamedNavService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\Issue2415Page.xaml.cs">
+      <DependentUpon>Issue2415Page.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\Issue2415RegionView.xaml.cs">
+      <DependentUpon>Issue2415RegionView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\Views\PartialView.xaml.cs">
       <DependentUpon>PartialView.xaml</DependentUpon>
     </Compile>
@@ -94,6 +104,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\Views\XamlMasterDetailViewMock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\Views\Issue2415Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Mocks\Views\Issue2415RegionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

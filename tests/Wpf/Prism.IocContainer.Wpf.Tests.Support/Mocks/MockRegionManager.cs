@@ -78,5 +78,15 @@ namespace Prism.IocContainer.Wpf.Tests.Support.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public IRegionManager AddToRegion(string regionName, string viewName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IRegionManager RegisterViewWithRegion(string regionName, string viewName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

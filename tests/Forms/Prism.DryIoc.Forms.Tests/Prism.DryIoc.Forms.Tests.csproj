@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Forms\Prism.DryIoc.Forms\Prism.DryIoc.Forms.csproj" />
+    <ProjectReference Include="..\..\..\src\Forms\Prism.Forms.Regions\Prism.Forms.Regions.csproj" />
   </ItemGroup>
 
   <Import Project="..\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems" Label="Shared" />

@@ -65,13 +65,13 @@ stages:
 
   - template: jobs/e2e-uno.yml
 
-  - template: jobs/e2e-android.yml
-    parameters:
-      versionName: '8.0.$(Build.BuildId)'
+  # - template: jobs/e2e-android.yml
+  #   parameters:
+  #     versionName: '8.0.$(Build.BuildId)'
 
-  - template: jobs/e2e-ios.yml
-    parameters:
-      versionName: '8.0.$(Build.BuildId)'
+  # - template: jobs/e2e-ios.yml
+  #   parameters:
+  #     versionName: '8.0.$(Build.BuildId)'
 
   - template: jobs/uno-uitest.yml
 

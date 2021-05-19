@@ -63,7 +63,7 @@ namespace HelloWorld
             InitializeComponent();
 
             // DO NOT COMMIT CHANGES TO THIS!!!!
-            NavigationService.NavigateAsync($"MyMasterDetail/MyTabbedPage").OnNavigationError(OnNavigationError);
+            NavigationService.NavigateAsync($"MyFlyout/MyTabbedPage").OnNavigationError(OnNavigationError);
         }
 
         private void OnNavigationError(Exception ex)
@@ -87,7 +87,7 @@ namespace HelloWorld
             //containerRegistry.RegisterForNavigation<MainPage, SomeOtherViewModel>(); //override viewmodel convention
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MyNavigationPage>();
-            containerRegistry.RegisterForNavigation<MyMasterDetail>();
+            containerRegistry.RegisterForNavigation<MyFlyout>();
             containerRegistry.RegisterForNavigation<ModulesPage, ModulesPageViewModel>();
 
             containerRegistry.RegisterForNavigation<ModulesPage, ModulesPageViewModel>();

@@ -87,6 +87,16 @@ namespace Prism.Wpf.Tests.Mocks
         {
             throw new System.NotImplementedException();
         }
+
+        public IRegionManager AddToRegion(string regionName, string viewName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IRegionManager RegisterViewWithRegion(string regionName, string viewName)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     internal class MockRegionCollection : List<IRegion>, IRegionCollection

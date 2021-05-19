@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using Prism.Behaviors;
 using Prism.Common;
+using Prism.Ioc;
 using Prism.Navigation;
 using Prism.Properties;
 using Prism.Regions.Behaviors;
@@ -19,13 +20,17 @@ namespace Prism.Regions.Adapters
     /// </summary>
     public class CarouselViewRegionAdapter : RegionAdapterBase<CarouselView>
     {
+        private IContainerProvider _container { get; }
+
         /// <summary>
         /// Initializes a new instance of <see cref="CarouselViewRegionAdapter"/>.
         /// </summary>
         /// <param name="regionBehaviorFactory">The factory used to create the region behaviors to attach to the created regions.</param>
-        public CarouselViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
+        /// <param name="container">The <see cref="IContainerProvider"/> used to resolve a new Region.</param>
+        public CarouselViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory, IContainerProvider container)
             : base(regionBehaviorFactory)
         {
+            _container = container;
         }
 
         /// <summary>
@@ -81,7 +86,7 @@ namespace Prism.Regions.Adapters
         /// </summary>
         /// <returns>A new instance of <see cref="SingleActiveRegion"/>.</returns>
         protected override IRegion CreateRegion() =>
-            new SingleActiveRegion();
+            _container.Resolve<SingleActiveRegion>();
 
         private class CarouselRegionBehavior : BehaviorBase<CarouselView>
         {

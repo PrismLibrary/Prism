@@ -21,6 +21,34 @@ namespace Prism.Regions
         IRegionManager CreateRegionManager();
 
         /// <summary>
+        /// Add a view to the Views collection of a Region. Note that the region must already exist in this <see cref="IRegionManager"/>. 
+        /// </summary>
+        /// <param name="regionName">The name of the region to add a view to</param>
+        /// <param name="targetName">The view to add to the views collection</param>
+        /// <returns>The RegionManager, to easily add several views. </returns>
+        IRegionManager AddToRegion(string regionName, string targetName);
+
+        /// <summary>
+        /// Associate a view with a region, by registering a type. When the region get's displayed
+        /// this type will be resolved using the ServiceLocator into a concrete instance. The instance
+        /// will be added to the Views collection of the region
+        /// </summary>
+        /// <param name="regionName">The name of the region to associate the view with.</param>
+        /// <param name="targetName">The type of the view to register with the </param>
+        /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
+        IRegionManager RegisterViewWithRegion(string regionName, string targetName);
+
+        /// <summary>
+        /// Associate a view with a region, by registering a type. When the region get's displayed
+        /// this type will be resolved using the ServiceLocator into a concrete instance. The instance
+        /// will be added to the Views collection of the region
+        /// </summary>
+        /// <param name="regionName">The name of the region to associate the view with.</param>
+        /// <param name="viewType">The type of the view to register with the  <see cref="IRegion"/>.</param>
+        /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
+        IRegionManager RegisterViewWithRegion(string regionName, Type viewType);
+
+        /// <summary>
         /// Initiates navigation to the target specified by the <see cref="Uri"/>.
         /// </summary>
         /// <param name="regionName">The name of the Region to navigate to.</param>

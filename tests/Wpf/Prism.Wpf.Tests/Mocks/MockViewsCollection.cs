@@ -14,7 +14,7 @@ namespace Prism.Wpf.Tests.Mocks
 
         public void Add(object view)
         {
-            this.Items.Add(view);
+            Items.Add(view);
         }
 
         public bool Contains(object value)

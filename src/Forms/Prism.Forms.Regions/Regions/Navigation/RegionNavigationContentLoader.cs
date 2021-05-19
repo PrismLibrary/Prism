@@ -80,14 +80,13 @@ namespace Prism.Regions.Navigation
         /// <returns>An instance of an item to put into the <see cref="IRegion"/>.</returns>
         protected virtual object CreateNewRegionItem(string candidateTargetContract)
         {
-            object newRegionItem;
             try
             {
                 var view = _container.Resolve<object>(candidateTargetContract) as VisualElement;
 
                 PageUtilities.SetAutowireViewModel(view);
 
-                newRegionItem = view;
+                return view;
             }
             catch (ContainerResolutionException)
             {
@@ -99,7 +98,6 @@ namespace Prism.Regions.Navigation
                     string.Format(CultureInfo.CurrentCulture, Resources.CannotCreateNavigationTarget, candidateTargetContract),
                     e);
             }
-            return newRegionItem;
         }
 
         /// <summary>
@@ -157,8 +155,7 @@ namespace Prism.Regions.Navigation
 
         private static bool ViewIsMatch(Type viewType, string navigationSegment)
         {
-            var names = new[] { viewType.Name, viewType.FullName };
-            return names.Any(x => x.Equals(navigationSegment, StringComparison.Ordinal));
+            return viewType.FullName == navigationSegment || viewType.Name == navigationSegment;
         }
     }
 }

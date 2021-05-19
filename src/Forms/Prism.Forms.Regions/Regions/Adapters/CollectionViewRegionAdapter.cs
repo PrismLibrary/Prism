@@ -1,4 +1,5 @@
 ﻿using System;
+using Prism.Ioc;
 using Prism.Properties;
 using Prism.Regions.Behaviors;
 using Xamarin.Forms;
@@ -11,13 +12,17 @@ namespace Prism.Regions.Adapters
     /// </summary>
     public class CollectionViewRegionAdapter : RegionAdapterBase<CollectionView>
     {
+        private IContainerProvider _container { get; }
+
         /// <summary>
         /// Initializes a new instance of <see cref="CollectionViewRegionAdapter"/>.
         /// </summary>
         /// <param name="regionBehaviorFactory">The factory used to create the region behaviors to attach to the created regions.</param>
-        public CollectionViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
+        /// <param name="container">The <see cref="IContainerProvider"/> used to resolve a new Region.</param>
+        public CollectionViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory, IContainerProvider container)
             : base(regionBehaviorFactory)
         {
+            _container = container;
         }
 
         /// <summary>
@@ -49,6 +54,6 @@ namespace Prism.Regions.Adapters
         /// </summary>
         /// <returns>A new instance of <see cref="Region"/>.</returns>
         protected override IRegion CreateRegion() =>
-            new Region();
+            _container.Resolve<Region>();
     }
 }

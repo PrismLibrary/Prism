@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Linq;
+using Prism.Ioc;
 using Prism.Properties;
 using Prism.Regions.Behaviors;
 using Xamarin.Forms;
@@ -13,13 +14,17 @@ namespace Prism.Regions.Adapters
     /// </summary>
     public class ScrollViewRegionAdapter : RegionAdapterBase<ScrollView>
     {
+        private IContainerProvider _container { get; }
+
         /// <summary>
         /// Initializes a new instance of <see cref="ScrollViewRegionAdapter"/>.
         /// </summary>
         /// <param name="regionBehaviorFactory">The factory used to create the region behaviors to attach to the created regions.</param>
-        public ScrollViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
+        /// <param name="container">The <see cref="IContainerProvider"/> used to resolve a new Region.</param>
+        public ScrollViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory, IContainerProvider container)
             : base(regionBehaviorFactory)
         {
+            _container = container;
         }
 
         /// <summary>
@@ -58,6 +63,6 @@ namespace Prism.Regions.Adapters
         /// </summary>
         /// <returns>A new instance of <see cref="Region"/>.</returns>
         protected override IRegion CreateRegion() =>
-            new Region();
+            _container.Resolve<Region>();
     }
 }

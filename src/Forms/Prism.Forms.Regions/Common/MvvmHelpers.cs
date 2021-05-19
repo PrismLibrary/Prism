@@ -11,17 +11,12 @@ namespace Prism.Common
         public static void ViewAndViewModelAction<T>(object view, Action<T> action)
             where T : class
         {
-            var stack = new System.Diagnostics.StackTrace();
             if (view is T viewAsT)
                 action(viewAsT);
 
             if (view is BindableObject bindable && bindable.BindingContext is T vmAsT)
                 action(vmAsT);
         }
-
-        public static bool GetImplementerFromViewOrViewModel<T>(object view, out T implementer)
-            where T : class =>
-            (implementer = GetImplementerFromViewOrViewModel<T>(view)) != null;
 
         public static T GetImplementerFromViewOrViewModel<T>(object view)
             where T : class
@@ -41,16 +36,23 @@ namespace Prism.Common
 
         public static bool IsNavigationTarget(object view, INavigationContext navigationContext)
         {
-            bool isViewTarget = false;
-            bool isVMTarget = false;
-
             if (view is IRegionAware viewAsRegionAware)
-                isViewTarget = viewAsRegionAware.IsNavigationTarget(navigationContext);
+            {
+                return viewAsRegionAware.IsNavigationTarget(navigationContext);
+            }
 
             if (view is BindableObject bindable && bindable.BindingContext is IRegionAware vmAsRegionAware)
-                isVMTarget = vmAsRegionAware.IsNavigationTarget(navigationContext);
+            {
+                return vmAsRegionAware.IsNavigationTarget(navigationContext);
+            }
 
-            return isViewTarget || isVMTarget;
+            var uri = navigationContext.Uri;
+            if (!uri.IsAbsoluteUri)
+                uri = new Uri(new Uri("app://prism.regions"), uri);
+            var path = uri.LocalPath.Substring(1);
+            var viewType = view.GetType();
+
+            return path == viewType.Name || path == viewType.FullName;
         }
 
         public static void OnNavigatedFrom(object view, INavigationContext navigationContext)

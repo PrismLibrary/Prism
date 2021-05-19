@@ -5,13 +5,13 @@ using Xamarin.Forms.Xaml;
 namespace HelloWorld.Views
 {
     [XamlCompilation(XamlCompilationOptions.Skip)]
-    public partial class MyMasterDetail //: IMasterDetailPageOptions
+    public partial class MyFlyout : IFlyoutPageOptions
     {
-        public MyMasterDetail()
+        public MyFlyout()
         {
             InitializeComponent();
         }
 
-        //public bool IsPresentedAfterNavigation => Device.Idiom != TargetIdiom.Phone;
+        public bool IsPresentedAfterNavigation => Device.Idiom != TargetIdiom.Phone;
     }
 }

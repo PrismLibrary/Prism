@@ -194,6 +194,9 @@
   <data name="RegionNameExistsException" xml:space="preserve">
     <value>Region with the given name is already registered: {0}</value>
   </data>
+  <data name="RegionNotFound" xml:space="preserve">
+    <value>This RegionManager does not contain a Region with the name '{0}'.</value>
+  </data>
   <data name="RegionNotInRegionManagerException" xml:space="preserve">
     <value>The region manager does not contain the {0} region.</value>
   </data>

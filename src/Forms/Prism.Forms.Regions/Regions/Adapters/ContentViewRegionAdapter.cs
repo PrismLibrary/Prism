@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Linq;
+using Prism.Ioc;
 using Prism.Properties;
 using Prism.Regions.Behaviors;
 using Xamarin.Forms;
@@ -17,8 +18,9 @@ namespace Prism.Regions.Adapters
         /// Initializes a new instance of <see cref="ContentViewRegionAdapter"/>.
         /// </summary>
         /// <param name="regionBehaviorFactory">The factory used to create the region behaviors to attach to the created regions.</param>
-        public ContentViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
-            : base(regionBehaviorFactory)
+        /// <param name="container">The <see cref="IContainerProvider"/> used to resolve a new Region.</param>
+        public ContentViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory, IContainerProvider container)
+            : base(regionBehaviorFactory, container)
         {
         }
     }
@@ -30,13 +32,17 @@ namespace Prism.Regions.Adapters
     public class ContentViewRegionAdapter<TContentView> : RegionAdapterBase<TContentView>
         where TContentView : ContentView
     {
+        private IContainerProvider _container { get; }
+
         /// <summary>
         /// Initializes a new instance of <see cref="ContentViewRegionAdapter{TContentView}"/>.
         /// </summary>
         /// <param name="regionBehaviorFactory">The factory used to create the region behaviors to attach to the created regions.</param>
-        public ContentViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
+        /// <param name="container">The <see cref="IContainerProvider"/> used to resolve a new Region.</param>
+        public ContentViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory, IContainerProvider container)
             : base(regionBehaviorFactory)
         {
+            _container = container;
         }
 
         /// <summary>
@@ -74,6 +80,6 @@ namespace Prism.Regions.Adapters
         /// </summary>
         /// <returns>A new instance of <see cref="SingleActiveRegion"/>.</returns>
         protected override IRegion CreateRegion() =>
-            new SingleActiveRegion();
+            _container.Resolve<SingleActiveRegion>();
     }
 }
