@@ -1,54 +1,53 @@
 <Project>
 
   <ItemGroup>
-    <PackageReference Update="DryIoc.dll" Version="4.7.6" />
-    <PackageReference Update="Unity.Container" Version="5.11.10" />
+    <PackageReference Update="DryIoc.dll" Version="4.7.7" />
+    <PackageReference Update="Unity.Container" Version="5.11.11" />
 
     <PackageReference Update="System.ValueTuple" Version="4.5.0" />
-    <PackageReference Update="Xamarin.Forms" Version="5.0.0.1874" />
+    <PackageReference Update="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Update="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
   </ItemGroup>
 
   <!-- Uno -->
   <ItemGroup>
-    <PackageReference Update="Uno.UI" Version="3.6.6" />
-    <PackageReference Update="Uno.WinUI" Version="3.6.6" />
+    <PackageReference Update="Uno.UI" Version="3.7.4" />
+    <PackageReference Update="Uno.WinUI" Version="3.7.4" />
     <PackageReference Update="Uno.Core" Version="2.3.0" />
     <PackageReference Update="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.3-uno.92" />
     <PackageReference Update="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.3-uno.92" />
     <PackageReference Update="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
-    <PackageReference Update="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.3-rc7" />
-    <PackageReference Update="Uno.UI.RemoteControl" Version="3.6.6" />
-    <PackageReference Update="Uno.WinUI.RemoteControl" Version="3.6.6" />
+    <PackageReference Update="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.3" />
+    <PackageReference Update="Uno.UI.RemoteControl" Version="3.7.4" />
+    <PackageReference Update="Uno.WinUI.RemoteControl" Version="3.7.4" />
     <PackageReference Update="Uno.UniversalImageLoader" Version="1.9.33" />
     <PackageReference Update="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Update="Uno.Extensions.Logging.WebAssembly.Console" Version="1.0.1" />
     <PackageReference Update="Uno.Extensions.Logging.OSLog " Version="1.0.1" />
     <PackageReference Update="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
     <PackageReference Update="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
-    <PackageReference Update="Uno.UI.WebAssembly" Version="3.6.6" />
-    <PackageReference Update="Uno.WinUI.Skia.Gtk" Version="3.6.6" />
-    <PackageReference Update="Uno.WinUI.Skia.Wpf" Version="3.6.6" />
-    <PackageReference Update="Uno.WinUI.WebAssembly" Version="3.6.6" />
-    <PackageReference Update="Uno.Wasm.Bootstrap" Version="2.1.0-dev.59" />
-    <PackageReference Update="Uno.Wasm.Bootstrap.DevServer" Version="2.1.0-dev.59" />
-    <PackageReference Update="Microsoft.Windows.Compatibility" Version="5.0.1" />
-    <PackageReference Update="Microsoft.ProjectReunion" Version="0.5.0" />
+    <PackageReference Update="Uno.UI.WebAssembly" Version="3.7.4" />
+    <PackageReference Update="Uno.WinUI.Skia.Gtk" Version="3.7.4" />
+    <PackageReference Update="Uno.WinUI.Skia.Wpf" Version="3.7.4" />
+    <PackageReference Update="Uno.WinUI.WebAssembly" Version="3.7.4" />
+    <PackageReference Update="Uno.Wasm.Bootstrap" Version="2.1.0" />
+    <PackageReference Update="Uno.Wasm.Bootstrap.DevServer" Version="2.1.0" />
+    <PackageReference Update="Microsoft.Windows.Compatibility" Version="5.0.2" />
+    <PackageReference Update="Microsoft.ProjectReunion" Version="0.5.7" />
     <PackageReference Update="Microsoft.ProjectReunion.Foundation" Version="0.5.0" />
-    <PackageReference Update="Microsoft.ProjectReunion.WinUI" Version="0.5.0" />
+    <PackageReference Update="Microsoft.ProjectReunion.WinUI" Version="0.5.7" />
 
     <PackageReference Update="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.11" />
-    <PackageReference Update="Microsoft.Windows.Compatibility" Version="5.0.1" />
   </ItemGroup>
 
   <!-- Tests -->
   <ItemGroup>
     <PackageReference Update="Xamarin.Forms.Mocks" Version="4.7.0.1" />
-    <PackageReference Update="Humanizer.Core" Version="2.8.26" />
-    <PackageReference Update="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Update="Humanizer.Core" Version="2.10.1" />
+    <PackageReference Update="Newtonsoft.Json" Version="13.0.1" />
 
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.8.3" />
-    <PackageReference Update="Moq" Version="4.16.0" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Update="Moq" Version="4.16.1" />
     <PackageReference Update="xunit" Version="2.4.1" />
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>
@@ -62,8 +61,8 @@
   <!-- UI Tests -->
   <ItemGroup>
     <PackageReference Update="Uno.UITest.Helpers" Version="1.0.0" />
-    <PackageReference Update="Xamarin.TestCloud.Agent" Version="0.22.1" />
-    <PackageReference Update="NUnit" Version="3.13.0" />
+    <PackageReference Update="Xamarin.TestCloud.Agent" Version="0.22.2" />
+    <PackageReference Update="NUnit" Version="3.13.2" />
     <PackageReference Update="NUnit3TestAdapter" Version="3.17.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -73,7 +72,7 @@
 
   <ItemGroup>
     <GlobalPackageReference Include="Microsoft.NETFramework.ReferenceAssemblies"
-                            Version="1.0.0" />
+                            Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(DISABLE_GITVERSIONING) != 'true' ">
