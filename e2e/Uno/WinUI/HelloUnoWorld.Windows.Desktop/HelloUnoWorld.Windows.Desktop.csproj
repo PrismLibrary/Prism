@@ -17,13 +17,19 @@
     <PackageReference Include="Uno.Core" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Prism.Core\Prism.Core.csproj" />
     <ProjectReference Include="..\..\..\..\src\Uno\Prism.DryIoc.Uno\Prism.DryIoc.Uno.WinUI.csproj" />
     <ProjectReference Include="..\..\..\..\src\Uno\Prism.Uno\Prism.Uno.WinUI.csproj" />
     <ProjectReference Include="..\..\ModuleA\ModuleA.WinUI.csproj" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <!-- CI Isn't picking up 5.0.6 or later -->
+    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.18362.16" />
+    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.18362.16" />
+  </ItemGroup>
+
   <Import Project="..\..\HelloUnoWorld.Shared\HelloUnoWorld.Shared.projitems" Label="Shared" />
 </Project>
