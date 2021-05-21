@@ -16,6 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup Condition=" $(IsPackable) ">
+    <None Include="$(MSBuildThisFileDirectory)ReadMe.md"
+          Visible="False"
+          Pack="True"
+          PackagePath="" />
     <None Include="$(PrismPackageIcon)"
           Visible="False"
           Pack="True"
