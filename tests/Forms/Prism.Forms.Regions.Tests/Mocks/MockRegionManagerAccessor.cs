@@ -1,6 +1,6 @@
-﻿using Prism.Regions;
+﻿using System;
+using Prism.Regions;
 using Xamarin.Forms;
-using System;
 
 namespace Prism.Forms.Regions.Mocks
 {

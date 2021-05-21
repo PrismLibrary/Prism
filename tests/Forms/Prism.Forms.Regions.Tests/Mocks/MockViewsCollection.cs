@@ -1,9 +1,9 @@
-﻿using Prism.Regions;
-using Xamarin.Forms;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Collections;
+using Prism.Regions;
+using Xamarin.Forms;
 
 namespace Prism.Forms.Regions.Mocks
 {

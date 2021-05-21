@@ -12,9 +12,9 @@ namespace Prism.DI.Forms.Tests.Mocks.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Issue2415RegionView : ContentView
     {
-        public Issue2415RegionView ()
+        public Issue2415RegionView()
         {
-            InitializeComponent ();
+            InitializeComponent();
         }
     }
 }
