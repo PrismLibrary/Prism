@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Prism.Regions.Adapters;
 using Prism.Regions;
+using Prism.Regions.Adapters;
 using Xamarin.Forms;
 
 namespace Prism.Forms.Regions.Mocks

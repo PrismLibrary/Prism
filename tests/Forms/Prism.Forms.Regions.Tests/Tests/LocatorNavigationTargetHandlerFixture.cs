@@ -85,7 +85,7 @@ namespace Prism.Forms.Regions.Tests
             //containerMock.As<IContainerInfo>()
             //    .Setup(x => x.GetRegistrationType("Xamarin.Forms.Grid"))
             //    .Returns(typeof(Grid));
-            
+
             containerMock.Setup(x => x.Resolve(typeof(IActiveRegionHelper)))
                 .Returns(new RegionResolverOverrides());
 
