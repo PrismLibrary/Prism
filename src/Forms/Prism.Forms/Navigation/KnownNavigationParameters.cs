@@ -1,5 +1,8 @@
 ﻿namespace Prism.Navigation
 {
+    /// <summary>
+    /// Navigation parameters used by the <see cref="INavigationService"/> during navigation.
+    /// </summary>
     public static class KnownNavigationParameters
     {
         /// <summary>
