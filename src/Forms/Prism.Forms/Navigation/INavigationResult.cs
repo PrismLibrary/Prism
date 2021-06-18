@@ -3,7 +3,7 @@
 namespace Prism.Navigation
 {
     /// <summary>
-    /// Provides navigation results indicating whether the navigation was successful or if there was an encountered <see cref="Exception"/>.
+    /// Provides navigation results indicating if the navigation was successful and any exceptions caught.
     /// </summary>
     public interface INavigationResult
     {

@@ -12,14 +12,14 @@ namespace Prism.Navigation
         /// <summary>
         /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
         /// </summary>
-        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful and any encountered <see cref="Exception"/>.</returns>
         Task<INavigationResult> GoBackAsync();
 
         /// <summary>
         /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
         /// </summary>
         /// <param name="parameters">The navigation parameters</param>
-        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful and any encountered <see cref="Exception"/>.</returns>
         Task<INavigationResult> GoBackAsync(INavigationParameters parameters);
 
         /// <summary>
@@ -28,14 +28,14 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful and any encountered <see cref="Exception"/>.</returns>
         Task<INavigationResult> GoBackAsync(INavigationParameters parameters, bool? useModalNavigation, bool animated);
 
         /// <summary>
         /// When navigating inside a NavigationPage: Pops all but the root Page off the navigation stack
         /// </summary>
         /// <param name="parameters">The navigation parameters</param>
-        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful and any encountered <see cref="Exception"/>.</returns>
         /// <remarks>Only works when called from a View within a NavigationPage</remarks>
         Task<INavigationResult> GoBackToRootAsync(INavigationParameters parameters);
 
@@ -79,7 +79,7 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PushModalAsync, if <c>false</c> uses PushAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful and any encountered <see cref="Exception"/>.</returns>
         Task<INavigationResult> NavigateAsync(string name, INavigationParameters parameters, bool? useModalNavigation, bool animated);
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Prism.Navigation
         /// <param name="parameters">The navigation parameters</param>
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
-        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+        /// <returns><see cref="INavigationResult"/> indicating whether the request was successful and any encountered <see cref="Exception"/>.</returns>
         /// <remarks>Navigation parameters can be provided in the Uri and by using the <paramref name="parameters"/>.</remarks>
         /// <example>
         /// NavigateAsync(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource), parameters);
