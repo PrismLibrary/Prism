@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Prism.Behaviors;
 using Prism.Properties;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -84,6 +85,10 @@ namespace Prism.Xaml
                 throw new ArgumentException(Resources.ServiceProviderDidNotHaveIProvideValueTarget);
 
             _targetElement = valueTargetProvider.TargetObject as Element;
+
+            //this is handling the scenario of the extension being used within the EventToCommandBehavior
+            if (_targetElement is null && valueTargetProvider.TargetObject is BehaviorBase<BindableObject> behavior)
+                _targetElement = behavior.AssociatedObject as Element;
 
             if (_targetElement is null)
                 throw new ArgumentNullException(nameof(TargetElement));
