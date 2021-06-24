@@ -91,7 +91,7 @@ namespace Prism.Xaml
                 _targetElement = behavior.AssociatedObject as Element;
 
             if (_targetElement is null)
-                throw new ArgumentNullException(nameof(TargetElement));
+                throw new Exception($"{valueTargetProvider.TargetObject} is not supported");
 
             var parentPage = (Page)GetBindableStack().FirstOrDefault(p => p.GetType()
                                                                            .IsSubclassOf(typeof(Page)));
