@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Prism.Behaviors;
 using Prism.DI.Forms.Tests.Fixtures;
 using Prism.DI.Forms.Tests.Mocks.Internals;
 using Prism.DI.Forms.Tests.Mocks.Views;
@@ -165,6 +166,51 @@ namespace Prism.Unity.Forms.Tests.Fixtures
 
             Assert.NotNull(navigateExtension.SourcePage);
             Assert.IsType<MasterDetailPage>(navigateExtension.SourcePage);
+        }
+
+
+        [Fact]
+        public async Task ResolvesParentElementFrom_EventToCommandBehavior()
+        {
+            var app = CreateMockApplication();
+
+            Log.Listeners.Clear();
+            var logObserver = new FormsLogObserver();
+            Log.Listeners.Add(logObserver);
+
+            var behavior = new EventToCommandBehavior() { EventName = "ItemTapped" };
+            var layout = new ListView();
+            layout.Behaviors.Add(behavior);
+
+            var serviceProvider = new XamlServiceProvider();
+            serviceProvider.Add(typeof(IProvideValueTarget), new XamlValueTargetProvider(behavior, "Command"));
+
+            var navigateExtension = new NavigateToExtension()
+            {
+                Name = "/AutowireView"
+            };
+            navigateExtension.ProvideValue(serviceProvider);
+
+            app.MainPage = new NavigationPage(new ContentPage
+            {
+                Content = layout
+            });
+
+            Assert.NotNull(layout.Parent);
+            Assert.IsType<ContentPage>(layout.Parent);
+
+            Assert.NotNull(navigateExtension.SourcePage);
+            Assert.True(navigateExtension.CanExecute(null));
+            var ex = await Record.ExceptionAsync(async () =>
+            {
+                navigateExtension.Execute(null);
+                if (navigateExtension.IsNavigating)
+                    await Task.Delay(100);
+            });
+            Assert.Null(ex);
+            Assert.Empty(logObserver.Logs);
+
+            Assert.IsType<AutowireView>(app.MainPage);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Prism.Behaviors;
 using Prism.Properties;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -85,8 +86,12 @@ namespace Prism.Xaml
 
             _targetElement = valueTargetProvider.TargetObject as Element;
 
+            //this is handling the scenario of the extension being used within the EventToCommandBehavior
+            if (_targetElement is null && valueTargetProvider.TargetObject is BehaviorBase<BindableObject> behavior)
+                _targetElement = behavior.AssociatedObject as Element;
+
             if (_targetElement is null)
-                throw new ArgumentNullException(nameof(TargetElement));
+                throw new Exception($"{valueTargetProvider.TargetObject} is not supported");
 
             var parentPage = (Page)GetBindableStack().FirstOrDefault(p => p.GetType()
                                                                            .IsSubclassOf(typeof(Page)));
