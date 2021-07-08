@@ -20,7 +20,7 @@ namespace Prism.Services.Dialogs
         /// <summary>
         /// Initializes a new instance of the <see cref="DialogService"/> class.
         /// </summary>
-        /// <param name="containerExtension"></param>
+        /// <param name="containerExtension">The <see cref="IContainerExtension" /></param>
         public DialogService(IContainerExtension containerExtension)
         {
             _containerExtension = containerExtension;
