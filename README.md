@@ -110,6 +110,8 @@ The Prism Template Pack is available on the [Visual Studio Gallery](https://mark
 There are certain things that cannot be added directly into Prism for various reasons. To handle these common tasks such as supporting PopupPage's in Xamarin Forms, there are Prism Plugins. You can find a number of Plugins available on NuGet from our maintainer [@DanJSiegel](https://twitter.com/DanJSiegel).
 
 - [Prism.Plugin.Popups](https://github.com/dansiegel/Prism.Plugin.Popups) (Forms Only)
+- [Prism.Popups.XCT](https://github.com/FileOnQ/Prism.Popups.XCT) (Forms Only)
+  - Adds support for native popups using Xamarin Community Toolkits Popup API
 - [Prism.Plugin.Logging](https://github.com/dansiegel/Prism.Plugin.Logging) (Works on all Platforms)
   - Adds support for Syslog, Loggly, Graylog, Application Insights, &amp; App Center
 - [Prism.Container.Extensions](https://github.com/dansiegel/Prism.Container.Extensions)
