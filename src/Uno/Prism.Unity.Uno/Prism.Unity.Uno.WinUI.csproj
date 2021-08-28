@@ -2,7 +2,7 @@
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid10.0;xamarinmac20</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net5.0-windows10.0.18362.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net5.0-windows10.0.18362</TargetFrameworks>
     <DefineConstants>$(DefineConstants);HAS_WINUI</DefineConstants>
     <AssemblyName>Prism.Unity.Uno</AssemblyName>
     <RootNamespace>Prism.Unity</RootNamespace>

@@ -2,7 +2,7 @@
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid10.0</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net5.0-windows10.0.18362.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net5.0-windows10.0.18362</TargetFrameworks>
     <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <DefineConstants>$(DefineConstants);HAS_WINUI</DefineConstants>
@@ -14,7 +14,7 @@
   <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios')) or $(TargetFramework.StartsWith('xamarinmac')) or $(TargetFramework.StartsWith('MonoAndroid')) or $(TargetFramework.StartsWith('netstandard'))">
     <PackageReference Include="Uno.WinUI" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'!='net5.0-windows10.0.18362.0'">
+  <ItemGroup Condition="'$(TargetFramework)'!='net5.0-windows10.0.18362'">
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
     <Compile Update="**\*.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
