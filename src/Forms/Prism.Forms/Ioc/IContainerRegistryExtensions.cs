@@ -6,6 +6,9 @@ using Xamarin.Forms;
 
 namespace Prism.Ioc
 {
+    /// <summary>
+    /// Extension methods for registering views and dialogs for navigation.
+    /// </summary>
     public static class IContainerRegistryExtensions
     {
         /// <summary>
