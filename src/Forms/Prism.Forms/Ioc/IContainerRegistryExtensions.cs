@@ -7,9 +7,9 @@ using Xamarin.Forms;
 namespace Prism.Ioc
 {
     /// <summary>
-    /// Extension methods for registering containers such as pages for navigation, dialog, etc.
+    /// Extension methods for registering views and dialogs for navigation.
     /// </summary>
-    public static class ContainerRegistryExtensions
+    public static class IContainerRegistryExtensions
     {
         /// <summary>
         /// Registers a Page for navigation.

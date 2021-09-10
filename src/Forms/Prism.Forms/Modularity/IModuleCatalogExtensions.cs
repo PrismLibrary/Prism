@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,7 +7,7 @@ namespace Prism.Modularity
     /// <summary>
     /// <see cref="IModuleCatalog"/>  extensions.
     /// </summary>
-    public static class ModuleCatalogExtensions
+    public static class IModuleCatalogExtensions
     {
         /// <summary>
         /// Adds the module.

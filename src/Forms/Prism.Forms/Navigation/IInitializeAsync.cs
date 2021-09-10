@@ -3,12 +3,12 @@
 namespace Prism.Navigation
 {
     /// <summary>
-    /// Asynchronous initialization of navigation
+    /// This class is used to initialize views and viewmodels during the navigation process.
     /// </summary>
     public interface IInitializeAsync
     {
         /// <summary>
-        /// Asynchronously initialize method which initializes the navigation.
+        /// Invoked when the View or ViewModel is first created during the navigation process.
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
