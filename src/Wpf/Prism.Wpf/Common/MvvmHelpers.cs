@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Prism.Mvvm;
 #if HAS_UWP
@@ -27,6 +28,7 @@ namespace Prism.Common
         /// the AutoWireViewModel property of the view is null.
         /// </remarks>
         /// <param name="viewOrViewModel">The View or ViewModel.</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static void AutowireViewModel(object viewOrViewModel)
         {
             if (viewOrViewModel is FrameworkElement view && view.DataContext is null && ViewModelLocator.GetAutowireViewModel(view) is null)
@@ -44,6 +46,7 @@ namespace Prism.Common
         /// the AutoWireViewModel property of the view is null.
         /// </remarks>
         /// <param name="viewOrViewModel">The View or ViewModel.</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static void AutowireViewModel(object viewOrViewModel)
         {
             if (viewOrViewModel is FrameworkElement view && view.DataContext is null && ViewModelLocator.GetAutoWireViewModel(view) is null)
