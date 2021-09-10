@@ -7,7 +7,7 @@ namespace Prism.Modularity
     /// <summary>
     /// <see cref="IModuleCatalog"/>  extensions.
     /// </summary>
-    public static class IModuleCatalogExtensions
+    public static class ModuleCatalogExtensions
     {
         /// <summary>
         /// Adds the module.
