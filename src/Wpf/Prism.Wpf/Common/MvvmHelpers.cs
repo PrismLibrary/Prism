@@ -18,7 +18,16 @@ namespace Prism.Common
     public static class MvvmHelpers
     {
 #if HAS_UWP || HAS_WINUI
-        internal static void AutowireViewModel(object viewOrViewModel)
+        /// <summary>
+        /// Sets the AutoWireViewModel property to true for the <paramref name="viewOrViewModel"/>.
+        /// </summary>
+        /// <remarks>
+        /// The AutoWireViewModel property will only be set to true if the view
+        /// is a <see cref="FrameworkElement"/>, the DataContext of the view is null, and
+        /// the AutoWireViewModel property of the view is null.
+        /// </remarks>
+        /// <param name="viewOrViewModel">The View or ViewModel.</param>
+        public static void AutowireViewModel(object viewOrViewModel)
         {
             if (viewOrViewModel is FrameworkElement view && view.DataContext is null && ViewModelLocator.GetAutowireViewModel(view) is null)
             {
