@@ -1,7 +1,14 @@
 ﻿using System;
 using System.Linq;
+using Prism.AppModel;
+using Prism.Behaviors;
+using Prism.Common;
+using Prism.Events;
+using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
+using Prism.Services.Dialogs;
 using Xamarin.Forms;
 
 namespace Prism.Ioc
@@ -11,6 +18,29 @@ namespace Prism.Ioc
     /// </summary>
     public static class IContainerRegistryExtensions
     {
+        /// <summary>
+        /// Registers Prism's core services
+        /// </summary>
+        /// <param name="containerRegistry"></param>
+        /// <returns></returns>
+        public static IContainerRegistry RegisterRequiredTypes(this IContainerRegistry containerRegistry)
+        {
+            containerRegistry.TryRegisterSingleton<IApplicationProvider, ApplicationProvider>();
+            containerRegistry.TryRegisterSingleton<IApplicationStore, ApplicationStore>();
+            containerRegistry.TryRegisterSingleton<IEventAggregator, EventAggregator>();
+            containerRegistry.TryRegisterSingleton<IKeyboardMapper, KeyboardMapper>();
+            containerRegistry.TryRegisterSingleton<IPageDialogService, PageDialogService>();
+            containerRegistry.TryRegisterSingleton<IDialogService, DialogService>();
+            containerRegistry.TryRegisterSingleton<IDeviceService, DeviceService>();
+            containerRegistry.TryRegisterSingleton<IPageBehaviorFactory, PageBehaviorFactory>();
+            containerRegistry.TryRegisterSingleton<IModuleCatalog, ModuleCatalog>();
+            containerRegistry.TryRegisterSingleton<IModuleManager, ModuleManager>();
+            containerRegistry.TryRegisterSingleton<IModuleInitializer, ModuleInitializer>();
+            containerRegistry.TryRegisterScoped<INavigationService, PageNavigationService>();
+            containerRegistry.TryRegister<INavigationService, PageNavigationService>(PrismApplicationBase.NavigationServiceName);
+            return containerRegistry;
+        }
+
         /// <summary>
         /// Registers a Page for navigation.
         /// </summary>

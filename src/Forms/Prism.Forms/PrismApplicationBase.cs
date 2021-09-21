@@ -2,16 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Prism.AppModel;
-using Prism.Behaviors;
 using Prism.Common;
-using Prism.Events;
 using Prism.Extensions;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Services;
-using Prism.Services.Dialogs;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -26,6 +22,19 @@ namespace Prism
         /// Gets the Current PrismApplication
         /// </summary>
         public new static PrismApplicationBase Current => (PrismApplicationBase)Application.Current;
+
+        private static bool _isApplicationFirstRun;
+
+        /// <summary>
+        /// Calling this method resets the application for Unit Tests. This will clear
+        /// the ContainerLocator &amp; PageNavigationRegistry.
+        /// </summary>
+        public static void ResetApplication()
+        {
+            ContainerLocator.ResetContainer();
+            PageNavigationRegistry.ClearRegistrationCache();
+            _isApplicationFirstRun = false;
+        }
 
         /// <summary>
         /// The registration name to create a new transient instance of the <see cref="INavigationService"/>
@@ -140,15 +149,28 @@ namespace Prism
         /// </summary>
         protected virtual void Initialize()
         {
-            ContainerLocator.SetContainerExtension(CreateContainerExtension);
-            _containerExtension = ContainerLocator.Current;
-            RegisterRequiredTypes(_containerExtension);
-            PlatformInitializer?.RegisterTypes(_containerExtension);
-            RegisterTypes(_containerExtension);
-            _containerExtension.FinalizeExtension();
+            if(ContainerLocator.Current is null)
+            {
+                _isApplicationFirstRun = false;
+            }
 
-            _moduleCatalog = Container.Resolve<IModuleCatalog>();
-            ConfigureModuleCatalog(_moduleCatalog);
+            if(!_isApplicationFirstRun)
+            {
+                ContainerLocator.SetContainerExtension(CreateContainerExtension);
+                _containerExtension = ContainerLocator.Current;
+                RegisterRequiredTypes(_containerExtension);
+                PlatformInitializer?.RegisterTypes(_containerExtension);
+                RegisterTypes(_containerExtension);
+                _containerExtension.FinalizeExtension();
+
+                _moduleCatalog = Container.Resolve<IModuleCatalog>();
+                ConfigureModuleCatalog(_moduleCatalog);
+            }
+            else
+            {
+                _containerExtension = ContainerLocator.Current;
+                _moduleCatalog = Container.Resolve<IModuleCatalog>();
+            }
 
             _containerExtension.CreateScope();
             NavigationService = _containerExtension.Resolve<INavigationService>();
@@ -168,19 +190,7 @@ namespace Prism
         /// <param name="containerRegistry"></param>
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<IApplicationProvider, ApplicationProvider>();
-            containerRegistry.RegisterSingleton<IApplicationStore, ApplicationStore>();
-            containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
-            containerRegistry.RegisterSingleton<IKeyboardMapper, KeyboardMapper>();
-            containerRegistry.RegisterSingleton<IPageDialogService, PageDialogService>();
-            containerRegistry.RegisterSingleton<IDialogService, DialogService>();
-            containerRegistry.RegisterSingleton<IDeviceService, DeviceService>();
-            containerRegistry.RegisterSingleton<IPageBehaviorFactory, PageBehaviorFactory>();
-            containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
-            containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
-            containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
-            containerRegistry.RegisterScoped<INavigationService, PageNavigationService>();
-            containerRegistry.Register<INavigationService, PageNavigationService>(NavigationServiceName);
+            containerRegistry.RegisterRequiredTypes();
         }
 
         /// <summary>

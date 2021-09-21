@@ -1,4 +1,6 @@
-﻿namespace Prism.Ioc
+﻿using System;
+
+namespace Prism.Ioc
 {
     /// <summary>
     /// A strongly typed container extension
@@ -15,7 +17,7 @@
     /// <summary>
     /// A generic abstraction for what Prism expects from a container
     /// </summary>
-    public interface IContainerExtension : IContainerProvider, IContainerRegistry
+    public interface IContainerExtension : IContainerProvider, IContainerRegistry, IDisposable
     {
         /// <summary>
         /// Used to perform any final steps for configuring the extension that may be required by the container.

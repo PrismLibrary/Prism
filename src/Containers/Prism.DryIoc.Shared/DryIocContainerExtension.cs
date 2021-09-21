@@ -10,11 +10,11 @@ namespace Prism.DryIoc
     /// The <see cref="IContainerExtension" /> Implementation to use with DryIoc
     /// </summary>
 #if ContainerExtensions
-    internal partial
+    internal
 #else
     public
 #endif
-    class DryIocContainerExtension : IContainerExtension<IContainer>, IContainerInfo
+    partial class DryIocContainerExtension : IContainerExtension<IContainer>, IContainerInfo
     {
         private DryIocScopedProvider _currentScope;
 
@@ -373,6 +373,21 @@ namespace Prism.DryIoc
             var resolver = Instance.OpenScope();
             _currentScope = new DryIocScopedProvider(resolver);
             return _currentScope;
+        }
+
+        private bool _disposed;
+
+        /// <summary>
+        /// Disposes the Container.
+        /// </summary>
+        public void Dispose()
+        {
+            if(!_disposed)
+            {
+                Instance.Dispose();
+            }
+
+            _disposed = true;
         }
 
         private class DryIocScopedProvider : IScopedProvider

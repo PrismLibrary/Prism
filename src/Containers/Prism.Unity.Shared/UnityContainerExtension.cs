@@ -14,11 +14,11 @@ namespace Prism.Unity
     /// The Unity implementation of the <see cref="IContainerExtension" />
     /// </summary>
 #if ContainerExtensions
-    internal partial
+    internal
 #else
     public
 #endif
-    class UnityContainerExtension : IContainerExtension<IUnityContainer>, IContainerInfo
+    partial class UnityContainerExtension : IContainerExtension<IUnityContainer>, IContainerInfo
     {
         private UnityScopedProvider _currentScope;
 
@@ -388,6 +388,20 @@ namespace Prism.Unity
             var child = Instance.CreateChildContainer();
             _currentScope = new UnityScopedProvider(child);
             return _currentScope;
+        }
+
+        private bool _disposed;
+        /// <summary>
+        /// Disposes the Container
+        /// </summary>
+        public void Dispose()
+        {
+            if(!_disposed)
+            {
+                Instance.Dispose();
+            }
+
+            _disposed = true;
         }
 
         private class UnityScopedProvider : IScopedProvider
