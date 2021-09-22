@@ -23,7 +23,7 @@ namespace Prism
         /// </summary>
         public new static PrismApplicationBase Current => (PrismApplicationBase)Application.Current;
 
-        private static bool _isApplicationFirstRun;
+        private static bool _isApplicationFirstRun = true;
 
         /// <summary>
         /// Calling this method resets the application for Unit Tests. This will clear
@@ -33,7 +33,7 @@ namespace Prism
         {
             ContainerLocator.ResetContainer();
             PageNavigationRegistry.ClearRegistrationCache();
-            _isApplicationFirstRun = false;
+            _isApplicationFirstRun = true;
         }
 
         /// <summary>
@@ -151,10 +151,10 @@ namespace Prism
         {
             if(ContainerLocator.Current is null)
             {
-                _isApplicationFirstRun = false;
+                _isApplicationFirstRun = true;
             }
 
-            if(!_isApplicationFirstRun)
+            if(_isApplicationFirstRun)
             {
                 ContainerLocator.SetContainerExtension(CreateContainerExtension);
                 _containerExtension = ContainerLocator.Current;
@@ -165,6 +165,7 @@ namespace Prism
 
                 _moduleCatalog = Container.Resolve<IModuleCatalog>();
                 ConfigureModuleCatalog(_moduleCatalog);
+                _isApplicationFirstRun = false;
             }
             else
             {
