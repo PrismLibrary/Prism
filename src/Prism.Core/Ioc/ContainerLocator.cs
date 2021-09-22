@@ -9,14 +9,11 @@ namespace Prism.Ioc
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class ContainerLocator
     {
-        private static IContainerExtension _current;
-
         /// <summary>
         /// Gets the current <see cref="IContainerExtension" />.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static IContainerExtension Current =>
-            _current;
+        public static IContainerExtension Current { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="IContainerProvider" />
@@ -38,12 +35,12 @@ namespace Prism.Ioc
         /// <param name="container"></param>
         public static void SetContainerExtension(IContainerExtension container)
         {
-            if(_current != null)
+            if(Current != null)
             {
                 throw new InvalidOperationException("The Current container is not null, and cannot be set again. In order to set the container you must first call ResetContainer.");
             }
 
-            _current = container;
+            Current = container;
         }
 
         /// <summary>
@@ -52,8 +49,8 @@ namespace Prism.Ioc
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static void ResetContainer()
         {
-            _current?.Dispose();
-            _current = null;
+            Current?.Dispose();
+            Current = null;
         }
     }
 }
