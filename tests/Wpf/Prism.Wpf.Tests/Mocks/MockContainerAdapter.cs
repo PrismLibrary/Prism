@@ -15,6 +15,11 @@ namespace Prism.Wpf.Tests.Mocks
             throw new NotImplementedException();
         }
 
+        public void Dispose()
+        {
+
+        }
+
         public void FinalizeExtension()
         {
 

@@ -6,6 +6,7 @@ using static Prism.Container.Wpf.Tests.ContainerHelper;
 
 namespace Prism.Container.Wpf.Tests.Ioc
 {
+    [Collection(nameof(ContainerExtension))]
     public class ContainerExtensionFixture
     {
         [Fact]

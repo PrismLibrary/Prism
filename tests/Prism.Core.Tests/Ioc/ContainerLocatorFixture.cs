@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System;
+using Moq;
 using Prism.Ioc;
 using Xunit;
 
@@ -37,16 +38,15 @@ namespace Prism.Tests.Ioc
         [Fact]
         public void FactoryOnlySetsContainerOnce()
         {
-            Prism.Ioc.ContainerLocator.ResetContainer();
-            var container = new Mock<IContainerExtension>().Object;
-            var container2 = new Mock<IContainerExtension>().Object;
+            var container = Mock.Of<IContainerExtension>();
+            var container2 = Mock.Of<IContainerExtension>();
 
             Prism.Ioc.ContainerLocator.SetContainerExtension(() => container);
             Assert.Same(container, Prism.Ioc.ContainerLocator.Container);
 
-            Prism.Ioc.ContainerLocator.SetContainerExtension(() => container2);
-            Assert.NotSame(container2, Prism.Ioc.ContainerLocator.Container);
-            Assert.Same(container, Prism.Ioc.ContainerLocator.Container);
+            var ex = Record.Exception(() => Prism.Ioc.ContainerLocator.SetContainerExtension(() => container2));
+            Assert.NotNull(ex);
+            Assert.Contains("The Current container is not null", ex.Message);
         }
     }
 }

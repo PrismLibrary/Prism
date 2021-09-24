@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Prism.Ioc.Tests
 {
+    [Collection(nameof(ContainerExtension))]
     public class ContainerResolutionExceptionFixture : TestBase
     {
         public ContainerResolutionExceptionFixture(ContainerSetup setup)
@@ -41,9 +42,7 @@ namespace Prism.Ioc.Tests
         [Fact]
         public void GetErrorsDoesNotThrowException()
         {
-            ContainerLocator.ResetContainer();
             var container = Setup.CreateContainer();
-            ContainerLocator.SetContainerExtension(() => Setup.Extension);
             Setup.Registry.Register<object, BadView>("BadView");
 
             var ex = Record.Exception(() => container.Resolve<object>("BadView"));
@@ -58,9 +57,7 @@ namespace Prism.Ioc.Tests
         [Fact]
         public void GetErrorsLocatesIssueWithBadView()
         {
-            ContainerLocator.ResetContainer();
             var container = Setup.CreateContainer();
-            ContainerLocator.SetContainerExtension(() => Setup.Extension);
             Setup.Registry.Register<object, BadView>("BadView");
 
             var ex = Record.Exception(() => container.Resolve<object>("BadView"));
@@ -75,9 +72,7 @@ namespace Prism.Ioc.Tests
         [Fact]
         public void GetErrorsLocatesTargetInvocationException()
         {
-            ContainerLocator.ResetContainer();
             var container = Setup.CreateContainer();
-            ContainerLocator.SetContainerExtension(() => Setup.Extension);
             Setup.Registry.Register<object, BadView>("BadView");
 
             var ex = Record.Exception(() => container.Resolve<object>("BadView"));
@@ -92,9 +87,7 @@ namespace Prism.Ioc.Tests
         [Fact]
         public void GetErrorsLocatesXamlParseException()
         {
-            ContainerLocator.ResetContainer();
             var container = Setup.CreateContainer();
-            ContainerLocator.SetContainerExtension(() => Setup.Extension);
             Setup.Registry.Register<object, BadView>("BadView");
 
             var ex = Record.Exception(() => container.Resolve<object>("BadView"));
@@ -109,9 +102,7 @@ namespace Prism.Ioc.Tests
         [Fact]
         public void LocatesUnregisteredServiceType()
         {
-            ContainerLocator.ResetContainer();
             var container = Setup.CreateContainer();
-            ContainerLocator.SetContainerExtension(() => Setup.Extension);
 
             var ex = Record.Exception(() => container.Resolve<ConstructorArgumentViewModel>());
 
@@ -125,9 +116,7 @@ namespace Prism.Ioc.Tests
         [Fact]
         public void LocatesUnregisteredServiceWithMissingRegistration()
         {
-            ContainerLocator.ResetContainer();
             var container = Setup.CreateContainer();
-            ContainerLocator.SetContainerExtension(() => Setup.Extension);
 
             var ex = Record.Exception(() => container.Resolve<ConstructorArgumentViewModel>());
 

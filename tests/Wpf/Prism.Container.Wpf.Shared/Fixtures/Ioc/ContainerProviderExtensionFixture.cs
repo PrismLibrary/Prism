@@ -14,6 +14,7 @@ using Xunit;
 
 namespace Prism.Container.Wpf.Tests.Ioc
 {
+    [Collection(nameof(ContainerExtension))]
     public class ContainerProviderExtensionFixture : IDisposable
     {
         private static readonly MockService _unnamedService = new MockService();
@@ -23,25 +24,26 @@ namespace Prism.Container.Wpf.Tests.Ioc
             ["B"] = new MockService(),
         };
 
-        private static readonly IContainerExtension _containerExtension
+        private readonly IContainerExtension _containerExtension
              = ContainerHelper.CreateContainerExtension();
 
-        static ContainerProviderExtensionFixture()
+        static void ConfigureExtension(IContainerExtension containerExtension)
         {
             // Preload assembly to resolve 'xmlns:prism' on xaml.
             Assembly.Load("Prism.Wpf");
 
-            _containerExtension.RegisterInstance<IService>(_unnamedService);
+            containerExtension.RegisterInstance<IService>(_unnamedService);
             foreach (var kvp in _namedServiceDictionary)
             {
-                _containerExtension.RegisterInstance<IService>(kvp.Value, kvp.Key);
+                containerExtension.RegisterInstance<IService>(kvp.Value, kvp.Key);
             }
-            _containerExtension.FinalizeExtension();
+            containerExtension.FinalizeExtension();
         }
 
         public ContainerProviderExtensionFixture()
         {
             ContainerLocator.ResetContainer();
+            ConfigureExtension(_containerExtension);
             ContainerLocator.SetContainerExtension(() => _containerExtension);
         }
 

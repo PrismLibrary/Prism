@@ -17,6 +17,11 @@ namespace Prism.Forms.Tests.Services.Mocks.Ioc
             throw new NotImplementedException();
         }
 
+        public void Dispose()
+        {
+
+        }
+
         public void FinalizeExtension()
         {
             throw new NotImplementedException();

@@ -15,7 +15,7 @@ namespace Prism.Container.Wpf.Tests
             new global::DryIoc.Container(CreateContainerRules());
 
         public static IContainerExtension CreateContainerExtension() =>
-        new DryIocContainerExtension(CreateContainer());
+            new DryIocContainerExtension(CreateContainer());
 
         public static IContainer GetBaseContainer(this IContainerExtension container) =>
             ((IContainerProvider)container).GetContainer();
