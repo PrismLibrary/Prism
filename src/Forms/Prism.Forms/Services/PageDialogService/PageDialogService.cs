@@ -63,7 +63,8 @@ namespace Prism.Services
         /// <returns><c>true</c> if non-destructive button pressed; otherwise <c>false</c>/></returns>
         public virtual Task<bool> DisplayAlertAsync(string title, string message, string acceptButton, string cancelButton, FlowDirection flowDirection)
         {
-            return _applicationProvider.MainPage.DisplayAlert(title, message, acceptButton, cancelButton, (XFFlow)flowDirection);
+            return _applicationProvider?.MainPage == null ? Task.FromResult(false) :
+                _applicationProvider.MainPage.DisplayAlert(title, message, acceptButton, cancelButton, (XFFlow)flowDirection);
         }
 
         /// <summary>
@@ -78,7 +79,8 @@ namespace Prism.Services
         /// <returns></returns>
         public virtual Task DisplayAlertAsync(string title, string message, string cancelButton)
         {
-            return _applicationProvider.MainPage.DisplayAlert(title, message, cancelButton);
+            return _applicationProvider?.MainPage == null ? Task.CompletedTask :
+                _applicationProvider.MainPage.DisplayAlert(title, message, cancelButton);
         }
 
         /// <summary>
@@ -94,7 +96,8 @@ namespace Prism.Services
         /// <returns></returns>
         public virtual Task DisplayAlertAsync(string title, string message, string cancelButton, FlowDirection flowDirection)
         {
-            return _applicationProvider.MainPage.DisplayAlert(title, message, cancelButton, (XFFlow)flowDirection);
+            return _applicationProvider?.MainPage == null ? Task.CompletedTask :
+                _applicationProvider.MainPage.DisplayAlert(title, message, cancelButton, (XFFlow)flowDirection);
         }
 
         /// <summary>
