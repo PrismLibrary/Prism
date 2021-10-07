@@ -804,11 +804,8 @@ namespace Prism.Navigation
         {
             PageUtilities.OnNavigatedTo(toPage, parameters);
 
-            if (toPage is TabbedPage tabbedPage)
+            if (toPage is TabbedPage tabbedPage && tabbedPage.CurrentPage != null)
             {
-                if (tabbedPage.CurrentPage == null)
-                    return;
-
                 if (tabbedPage.CurrentPage is NavigationPage navigationPage)
                 {
                     PageUtilities.OnNavigatedTo(navigationPage.CurrentPage, parameters);
@@ -828,11 +825,8 @@ namespace Prism.Navigation
         {
             PageUtilities.OnNavigatedFrom(fromPage, parameters);
 
-            if (fromPage is TabbedPage tabbedPage)
+            if (fromPage is TabbedPage tabbedPage && tabbedPage.CurrentPage != null)
             {
-                if (tabbedPage.CurrentPage == null)
-                    return;
-
                 if (tabbedPage.CurrentPage is NavigationPage navigationPage)
                 {
                     PageUtilities.OnNavigatedFrom(navigationPage.CurrentPage, parameters);
