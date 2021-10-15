@@ -10,7 +10,7 @@ namespace Prism.Common
         /// <inheritdoc/>
         public Page MainPage
         {
-            get { return Application.Current.MainPage; }
+            get { return Application.Current?.MainPage; }
             set { Application.Current.MainPage = value; }
         }
     }
