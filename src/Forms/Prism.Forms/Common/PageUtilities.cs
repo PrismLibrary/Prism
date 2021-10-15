@@ -305,6 +305,15 @@ namespace Prism.Common
                 //and we don't want that. Set the VML
                 ViewModelLocator.SetAutowireViewModel(element, true);
             }
+
+            //due to the nature of NavigationPage and TabbedPage, it's possibe for them to inherit their parent BindingContext
+            //this causes issues with navigation interfaces being called when they shouldn't be. In this scenario, we want
+            //to set the binding context of these types to prevent them from inheriting their parent's binding context
+            var type = element.GetType();
+            if ((type == typeof(NavigationPage) || type == typeof(TabbedPage)) && element.BindingContext == null)
+            {
+                element.BindingContext = element;
+            }
         }
     }
 }
