@@ -4,6 +4,7 @@ using Prism.AppModel;
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Mvvm;
+using Prism.Navigation;
 using Prism.Services.Dialogs.Xaml;
 using Xamarin.Forms;
 
@@ -48,11 +49,11 @@ namespace Prism.Services.Dialogs
                 var dialogModal = new DialogPage();
                 dialogAware.RequestClose += DialogAware_RequestClose;
 
-                void DialogAware_RequestClose(IDialogParameters outParameters)
+                async void DialogAware_RequestClose(IDialogParameters outParameters)
                 {
                     try
                     {
-                        var result = CloseDialog(outParameters ?? new DialogParameters(), currentPage, dialogModal);
+                        var result = await CloseDialogAsync(outParameters ?? new DialogParameters(), currentPage, dialogModal);
                         dialogModal.RaiseDialogResult(result);
                         if (result.Exception is DialogException de && de.Message == DialogException.CanCloseIsFalse)
                         {
@@ -110,10 +111,12 @@ namespace Prism.Services.Dialogs
             }
         }
 
-        private IDialogResult CloseDialog(IDialogParameters parameters, ContentPage currentPage, DialogPage dialogModal)
+        private async System.Threading.Tasks.Task<IDialogResult> CloseDialogAsync(IDialogParameters parameters, ContentPage currentPage, DialogPage dialogModal)
         {
             try
             {
+                PageNavigationService.NavigationSource = PageNavigationSource.DialogService;
+
                 if (parameters is null)
                 {
                     parameters = new DialogParameters();
@@ -126,8 +129,8 @@ namespace Prism.Services.Dialogs
                 {
                     throw new DialogException(DialogException.CanCloseIsFalse);
                 }
-
-                currentPage.Navigation.PopModalAsync(true);
+                
+                await currentPage.Navigation.PopModalAsync(true);
 
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(view, aa => aa.IsActive = false);
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(currentPage, aa => aa.IsActive = true);
@@ -149,6 +152,10 @@ namespace Prism.Services.Dialogs
                     Exception = ex,
                     Parameters = parameters
                 };
+            }
+            finally
+            {
+                PageNavigationService.NavigationSource = PageNavigationSource.Device;
             }
         }
 
@@ -240,7 +247,7 @@ namespace Prism.Services.Dialogs
             }
         }
 
-        private void InsertPopupViewInCurrentPage(ContentPage currentPage, DialogPage modalPage, View popupView, bool hideOnBackgroundTapped, Action<IDialogParameters> callback)
+        private async void InsertPopupViewInCurrentPage(ContentPage currentPage, DialogPage modalPage, View popupView, bool hideOnBackgroundTapped, Action<IDialogParameters> callback)
         {
             View mask = DialogLayout.GetMask(popupView);
 
@@ -309,7 +316,7 @@ namespace Prism.Services.Dialogs
 
             modalPage.Content = overlay;
             modalPage.DialogView = popupView;
-            currentPage.Navigation.PushModalAsync(modalPage, true);
+            await currentPage.Navigation.PushModalAsync(modalPage, true);
         }
 
         private static Style GetOverlayStyle(View popupView)
