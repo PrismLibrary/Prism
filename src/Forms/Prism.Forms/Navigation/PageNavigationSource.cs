@@ -3,6 +3,7 @@
     public enum PageNavigationSource
     {
         NavigationService,
-        Device
+        Device,
+        DialogService
     }
 }

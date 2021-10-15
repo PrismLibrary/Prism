@@ -20,7 +20,7 @@ namespace Prism.Navigation
 
         // Brian appears to still be thinking...
         //not sure I like this static property, think about this a little more
-        protected internal static PageNavigationSource NavigationSource { get; protected set; } = PageNavigationSource.Device;
+        protected internal static PageNavigationSource NavigationSource { get; set; } = PageNavigationSource.Device;
 
         private readonly IContainerProvider _container;
         protected readonly IApplicationProvider _applicationProvider;
