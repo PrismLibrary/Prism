@@ -185,5 +185,14 @@ namespace Prism.Services
             var keyboard = _keyboardMapper.Map(keyboardType);
             return _applicationProvider.MainPage.DisplayPromptAsync(title, message, accept, cancel, placeholder, maxLength, keyboard, initialValue);
         }
+
+        /// <summary>
+        /// Determines if the dialog can be shown.
+        /// </summary>
+        /// <returns>True if you can show the dialog; False if the dialog cannot be shown</returns>
+        public bool CanShowDialog()
+        {
+            return _applicationProvider.MainPage != null;
+        }
     }
 }

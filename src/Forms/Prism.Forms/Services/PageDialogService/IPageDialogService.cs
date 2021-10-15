@@ -9,6 +9,12 @@ namespace Prism.Services
     public interface IPageDialogService
     {
         /// <summary>
+        /// Determines if the dialog can be shown.
+        /// </summary>
+        /// <returns>True if you can show the dialog; False if the dialog cannot be shown</returns>
+        bool CanShowDialog();
+
+        /// <summary>
         /// Presents an alert dialog to the application user with an accept and a cancel button.
         /// </summary>
         /// <para>
