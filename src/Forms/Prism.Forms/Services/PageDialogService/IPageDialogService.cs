@@ -11,7 +11,7 @@ namespace Prism.Services
         /// <summary>
         /// Determines if the dialog can be shown.
         /// </summary>
-        /// <returns>True is you can show the dialog; False if the dialog cannot be shown</returns>
+        /// <returns>True if you can show the dialog; False if the dialog cannot be shown</returns>
         bool CanShowDialog();
 
         /// <summary>
