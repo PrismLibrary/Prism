@@ -129,7 +129,7 @@ namespace Prism.Services.Dialogs
                 {
                     throw new DialogException(DialogException.CanCloseIsFalse);
                 }
-                
+
                 await currentPage.Navigation.PopModalAsync(true);
 
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(view, aa => aa.IsActive = false);
