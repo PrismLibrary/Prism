@@ -158,7 +158,10 @@ namespace Prism.Services.Dialogs
             closingHandler = (o, e) =>
             {
                 if (!dialogWindow.GetDialogViewModel().CanCloseDialog())
+                {
+                    callback?.Invoke(dialogWindow.Result);
                     e.Cancel = true;
+                }
             };
             dialogWindow.Closing += closingHandler;
 
