@@ -5,7 +5,7 @@
     "allowPrerelease": false
   },
   "msbuild-sdks": {
-    "MSBuild.Sdk.Extras": "3.0.23",
+    "MSBuild.Sdk.Extras": "3.0.38",
     "Microsoft.Build.CentralPackageVersions": "2.0.79"
   }
 }

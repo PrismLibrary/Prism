@@ -7,6 +7,7 @@
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <DefineConstants>$(DefineConstants);HAS_WINUI</DefineConstants>
     <AssemblyName>ModuleA</AssemblyName>
+    <UseWinUI>true</UseWinUI>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
@@ -14,8 +15,13 @@
   <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios')) or $(TargetFramework.StartsWith('xamarinmac')) or $(TargetFramework.StartsWith('MonoAndroid')) or $(TargetFramework.StartsWith('netstandard'))">
     <PackageReference Include="Uno.WinUI" />
   </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+  </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'!='net5.0-windows10.0.18362'">
-    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml">
+      <XamlRuntime>WinUI</XamlRuntime>
+    </Page>
     <Compile Update="**\*.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
