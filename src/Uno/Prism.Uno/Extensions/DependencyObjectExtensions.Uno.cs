@@ -32,11 +32,7 @@ namespace Prism
             {
                 // Dispatcher queue HasThreadAccess is not yet implemented in Uno, we can fall back on CoreDispatcher
                 // See https://github.com/unoplatform/uno/issues/5818
-#if __ANDROID__ || __IOS__ || __MACOS__
-                if(ApiInformation.IsPropertyPresent("Microsoft.System.DispatcherQueue", nameof(Microsoft.System.DispatcherQueue.HasThreadAccess)))
-#else
                 if(ApiInformation.IsPropertyPresent("Microsoft.UI.Dispatching.DispatcherQueue", nameof(Microsoft.UI.Dispatching.DispatcherQueue.HasThreadAccess)))
-#endif
                 {
                     return instance.DispatcherQueue.HasThreadAccess;
                 }

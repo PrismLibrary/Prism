@@ -143,13 +143,16 @@ namespace HelloUnoWorld
 
 #if NET5_0 && WINDOWS
             _window = new Window();
-            _window.Activate();
-            _window.Content = shell;
+
+#endif
+#if HAS_UNO_WINUI || NETCOREAPP
+            shell.Loaded += (s, e) => {
+                MainXamlRoot = shell.XamlRoot;
+            };
 #endif
 
-#if HAS_UNO_WINUI || NETCOREAPP
-            MainXamlRoot = shell.XamlRoot;
-#endif
+            _window.Activate();
+            _window.Content = shell;
 
             return shell;
         }
