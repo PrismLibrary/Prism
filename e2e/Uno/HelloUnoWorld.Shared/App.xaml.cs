@@ -36,7 +36,7 @@ namespace HelloUnoWorld
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : PrismApplication
+    public sealed partial class App : PrismApplication
     {
         private static Window _window;
 
