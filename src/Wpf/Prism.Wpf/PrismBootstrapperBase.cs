@@ -53,7 +53,10 @@ namespace Prism
         /// </summary>
         protected virtual void Initialize()
         {
-            ContainerLocator.SetContainerExtension(CreateContainerExtension);
+            if (ContainerLocator.Current is null)
+            {
+                ContainerLocator.SetContainerExtension(CreateContainerExtension);
+            }
             _containerExtension = ContainerLocator.Current;
             _moduleCatalog = CreateModuleCatalog();
             RegisterRequiredTypes(_containerExtension);

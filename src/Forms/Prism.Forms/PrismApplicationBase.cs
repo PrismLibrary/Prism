@@ -149,7 +149,7 @@ namespace Prism
         /// </summary>
         protected virtual void Initialize()
         {
-            if(ContainerLocator.Current is null)
+            if (ContainerLocator.Current is null)
             {
                 _isApplicationFirstRun = true;
             }

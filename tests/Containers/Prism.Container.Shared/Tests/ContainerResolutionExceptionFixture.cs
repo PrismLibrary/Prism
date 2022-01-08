@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Prism.Ioc;
+﻿using System.Reflection;
 using Prism.Ioc.Mocks.Services;
 using Prism.Ioc.Mocks.ViewModels;
 using Prism.Ioc.Mocks.Views;
