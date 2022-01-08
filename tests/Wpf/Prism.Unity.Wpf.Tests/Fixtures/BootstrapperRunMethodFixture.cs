@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Moq;
 using Prism.Container.Wpf.Mocks;
 using Prism.Events;
@@ -9,11 +9,20 @@ using Prism.Unity;
 using Unity;
 using Unity.Lifetime;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Prism.Container.Wpf.Tests.Bootstrapper
 {
-    public partial class BootstrapperRunMethodFixture
+    [Collection(nameof(ContainerExtension))]
+    public partial class BootstrapperRunMethodFixture : IDisposable
     {
+        private ITestOutputHelper _testOutputHelper { get; }
+
+        public BootstrapperRunMethodFixture(ITestOutputHelper testOutput)
+        {
+            _testOutputHelper = testOutput;
+        }
+
         [StaFact]
         public void RunAddsCompositionContainerToContainer()
         {
@@ -162,6 +171,11 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
 
             mockedContainer.Setup(c => c.Resolve(typeof(ContentControlRegionAdapter), (string)null)).Returns(
                 new ContentControlRegionAdapter(regionBehaviorFactory));
+        }
+
+        public void Dispose()
+        {
+            ContainerLocator.ResetContainer();
         }
     }
 }
