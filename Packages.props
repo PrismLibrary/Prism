@@ -1,11 +1,11 @@
 <Project>
 
   <ItemGroup>
-    <PackageReference Update="DryIoc.dll" Version="4.8.0" />
+    <PackageReference Update="DryIoc.dll" Version="4.8.6" />
     <PackageReference Update="Unity.Container" Version="5.11.11" />
 
     <PackageReference Update="System.ValueTuple" Version="4.5.0" />
-    <PackageReference Update="Xamarin.Forms" Version="5.0.0.2012" />
+    <PackageReference Update="Xamarin.Forms" Version="5.0.0.2291" />
     <PackageReference Update="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
   </ItemGroup>
 
@@ -41,10 +41,10 @@
   <!-- Tests -->
   <ItemGroup>
     <PackageReference Update="Xamarin.Forms.Mocks" Version="4.7.0.1" />
-    <PackageReference Update="Humanizer.Core" Version="2.11.10" />
+    <PackageReference Update="Humanizer.Core" Version="2.13.14" />
     <PackageReference Update="Newtonsoft.Json" Version="13.0.1" />
 
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.10.0" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Update="Moq" Version="4.16.1" />
     <PackageReference Update="xunit" Version="2.4.1" />
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.3">
@@ -74,12 +74,12 @@
   </ItemGroup>
 
   <ItemGroup Condition=" $(DISABLE_GITVERSIONING) != 'true' ">
-    <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.4.220"
+    <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.4.255"
                             Condition=" !$(MSBuildProjectDirectory.Contains('e2e')) "/>
   </ItemGroup>
 
   <ItemGroup Condition=" $(IsPackable) ">
     <GlobalPackageReference Include="Microsoft.SourceLink.GitHub"
-                            Version="1.1.0-beta-20204-02" />
+                            Version="1.1.1" />
   </ItemGroup>
 </Project>
