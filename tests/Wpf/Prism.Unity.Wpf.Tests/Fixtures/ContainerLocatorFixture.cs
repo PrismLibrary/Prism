@@ -1,15 +1,15 @@
 using System;
-using System.Collections.Generic;
 using Moq;
+using Prism.Container.Wpf.Tests;
 using Prism.Ioc;
 using Unity;
-using Unity.Lifetime;
 using Unity.Resolution;
 using Xunit;
 
 namespace Prism.Unity.Wpf.Tests
 {
-    public class ContainerLocatorFixture
+    [Collection(nameof(ContainerExtension))]
+    public class ContainerLocatorFixture : IDisposable
     {
         [Fact]
         public void ShouldForwardResolveToInnerContainer()
@@ -24,6 +24,11 @@ namespace Prism.Unity.Wpf.Tests
             var resolved = ContainerLocator.Container.Resolve(typeof(object));
             mockContainer.Verify(c => c.Resolve(typeof(object), null, It.IsAny<ResolverOverride[]>()), Times.Once);
             Assert.Same(myInstance, resolved);
+        }
+
+        public void Dispose()
+        {
+            ContainerLocator.ResetContainer();
         }
     }
 }

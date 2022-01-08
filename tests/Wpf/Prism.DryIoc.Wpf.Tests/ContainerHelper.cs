@@ -17,6 +17,9 @@ namespace Prism.Container.Wpf.Tests
         public static IContainerExtension CreateContainerExtension() =>
             new DryIocContainerExtension(CreateContainer());
 
+        public static IContainerExtension CreateContainerExtension(IContainer container) =>
+            new DryIocContainerExtension(container);
+
         public static IContainer GetBaseContainer(this IContainerExtension container) =>
             ((IContainerProvider)container).GetContainer();
 

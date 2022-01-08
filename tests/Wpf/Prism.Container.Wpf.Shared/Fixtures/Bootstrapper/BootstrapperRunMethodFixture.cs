@@ -1,3 +1,4 @@
+using System;
 using Moq;
 using Prism.Container.Wpf.Mocks;
 using Prism.Events;
@@ -8,7 +9,6 @@ using Xunit;
 
 namespace Prism.Container.Wpf.Tests.Bootstrapper
 {
-    [Collection(nameof(ContainerExtension))]
     public partial class BootstrapperRunMethodFixture
     {
         [StaFact]
@@ -203,7 +203,7 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
             container.RegisterInstance<ItemsControlRegionAdapter>(new ItemsControlRegionAdapter(regionBehaviorFactory));
             container.RegisterInstance<ContentControlRegionAdapter>(new ContentControlRegionAdapter(regionBehaviorFactory));
 
-            var bootstrapper = new MockedContainerBootstrapper(container.GetBaseContainer());
+            var bootstrapper = new MockedContainerBootstrapper(container);
             bootstrapper.Run(false);
 
             mockedModuleManager.Verify(mm => mm.Run(), Times.Once());

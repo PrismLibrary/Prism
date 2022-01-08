@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using DryIoc;
+using Prism.Container.Wpf.Tests;
 using Prism.DryIoc;
 using Prism.Ioc;
 
@@ -8,12 +9,16 @@ namespace Prism.Container.Wpf.Mocks
 {
     internal class MockedContainerBootstrapper : PrismBootstrapper
     {
-        private readonly IContainer _container;
+        private readonly IContainerExtension _container;
+
+        public MockedContainerBootstrapper(IContainerExtension container)
+        {
+            this._container = container;
+        }
 
         public MockedContainerBootstrapper(IContainer container)
+            : this(ContainerHelper.CreateContainerExtension(container))
         {
-            ContainerLocator.ResetContainer();
-            this._container = container;
         }
 
         bool _useDefaultConfiguration = true;
@@ -27,7 +32,7 @@ namespace Prism.Container.Wpf.Mocks
 
         protected override IContainerExtension CreateContainerExtension()
         {
-            return new DryIocContainerExtension(_container);
+            return _container;
         }
 
         protected override DependencyObject CreateShell()

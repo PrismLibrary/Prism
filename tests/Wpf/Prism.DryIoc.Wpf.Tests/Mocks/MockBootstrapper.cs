@@ -41,95 +41,94 @@ namespace Prism.Container.Wpf.Mocks
 
         public IContainer CallCreateContainer()
         {
-            var containerExt = this.CreateContainerExtension();
+            var containerExt = CreateContainerExtension();
             return ((IContainerExtension<IContainer>)containerExt).Instance;
         }
 
         protected override DependencyObject CreateShell()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.CreateShellCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            CreateShellCalled = true;
             return ShellObject;
         }
 
         protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.RegisterRequiredTypesCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            RegisterRequiredTypesCalled = true;
             base.RegisterRequiredTypes(containerRegistry);
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.RegisterTypesCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            RegisterTypesCalled = true;
         }
 
         protected override void Initialize()
         {
-            ContainerLocator.ResetContainer();
             base.Initialize();
         }
 
         protected override IContainerExtension CreateContainerExtension()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.CreateContainerCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            CreateContainerCalled = true;
             return base.CreateContainerExtension();
         }
 
         protected override void ConfigureViewModelLocator()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.ConfigureViewModelLocatorCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            ConfigureViewModelLocatorCalled = true;
             base.ConfigureViewModelLocator();
         }
 
         protected override IModuleCatalog CreateModuleCatalog()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.CreateModuleCatalogCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            CreateModuleCatalogCalled = true;
             return base.CreateModuleCatalog();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.ConfigureModuleCatalogCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            ConfigureModuleCatalogCalled = true;
             base.ConfigureModuleCatalog(moduleCatalog);
         }
 
         protected override void InitializeShell(DependencyObject shell)
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.InitializeShellCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            InitializeShellCalled = true;
             base.InitializeShell(shell);
         }
 
         protected override void OnInitialized()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.OnInitializeCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            OnInitializeCalled = true;
             base.OnInitialized();
         }
 
         protected override void InitializeModules()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.InitializeModulesCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            InitializeModulesCalled = true;
             base.InitializeModules();
         }
 
         protected override void ConfigureDefaultRegionBehaviors(IRegionBehaviorFactory regionBehaviors)
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
-            this.ConfigureDefaultRegionBehaviorsCalled = true;
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            ConfigureDefaultRegionBehaviorsCalled = true;
             base.ConfigureDefaultRegionBehaviors(regionBehaviors);
         }
 
         protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
             ConfigureRegionAdapterMappingsCalled = true;
 
             base.ConfigureRegionAdapterMappings(regionAdapterMappings);
@@ -139,7 +138,7 @@ namespace Prism.Container.Wpf.Mocks
 
         protected override void RegisterFrameworkExceptionTypes()
         {
-            this.MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
+            MethodCalls.Add(MethodBase.GetCurrentMethod().Name);
             base.RegisterFrameworkExceptionTypes();
         }
 

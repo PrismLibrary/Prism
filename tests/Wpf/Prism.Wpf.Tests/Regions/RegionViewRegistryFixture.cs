@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-
+    [Collection(nameof(ContainerExtension))]
     public class RegionViewRegistryFixture
     {
         [Fact]
@@ -195,5 +195,12 @@ namespace Prism.Wpf.Tests.Regions
             }
         }
 
+    }
+
+    public class ContainerExtension { }
+
+    [CollectionDefinition(nameof(ContainerExtension), DisableParallelization = true)]
+    public class ContainerExtensionCollection : ICollectionFixture<ContainerExtension>
+    {
     }
 }

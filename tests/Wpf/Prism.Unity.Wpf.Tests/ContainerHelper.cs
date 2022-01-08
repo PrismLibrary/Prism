@@ -13,6 +13,9 @@ namespace Prism.Container.Wpf.Tests
         public static IContainerExtension CreateContainerExtension() =>
             new UnityContainerExtension(CreateContainer());
 
+        public static IContainerExtension CreateContainerExtension(IUnityContainer container) =>
+            new UnityContainerExtension(container);
+
         public static IUnityContainer GetBaseContainer(this IContainerExtension container) =>
             ((IContainerProvider)container).GetContainer();
 
