@@ -13,6 +13,11 @@ namespace Prism.Services.Dialogs
         public IDialogResult Result { get; set; }
 
         /// <summary>
+        /// Current window instance
+        /// </summary>
+        public Window Window => this;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DialogWindow"/> class.
         /// </summary>
         public DialogWindow()

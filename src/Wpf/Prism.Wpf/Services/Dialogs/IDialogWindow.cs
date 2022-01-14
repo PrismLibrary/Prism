@@ -20,6 +20,11 @@ namespace Prism.Services.Dialogs
         void Close();
 
         /// <summary>
+        /// Current window
+        /// </summary>
+        Window Window { get; }
+
+        /// <summary>
         /// The window's owner.
         /// </summary>
         Window Owner { get; set; }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using Prism.Common;
 using Prism.Ioc;
+using Prism.Regions;
 
 namespace Prism.Services.Dialogs
 {
@@ -123,6 +124,12 @@ namespace Prism.Services.Dialogs
                 throw new NullReferenceException("A dialog's content must be a FrameworkElement");
 
             MvvmHelpers.AutowireViewModel(dialogContent);
+
+            if (window.Window!=null)
+            {
+                RegionManager.SetRegionManager(window.Window, _containerExtension.Resolve<IRegionManager>());
+                RegionManager.UpdateRegions();
+            }
 
             if (!(dialogContent.DataContext is IDialogAware viewModel))
                 throw new NullReferenceException("A dialog's ViewModel must implement the IDialogAware interface");
