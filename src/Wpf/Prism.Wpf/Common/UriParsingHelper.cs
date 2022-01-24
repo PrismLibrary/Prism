@@ -41,15 +41,11 @@ namespace Prism.Common
 
         private static Uri EnsureAbsolute(Uri uri)
         {
-            if (uri.IsAbsoluteUri)
-            {
+            if (uri != null && uri.IsAbsoluteUri)
                 return uri;
-            }
-
-            if ((uri != null) && !uri.OriginalString.StartsWith("/", StringComparison.Ordinal))
-            {
+            if (uri != null && !uri.OriginalString.StartsWith("/", StringComparison.Ordinal))
                 return new Uri("http://localhost/" + uri, UriKind.Absolute);
-            }
+
             return new Uri("http://localhost" + uri, UriKind.Absolute);
         }
     }

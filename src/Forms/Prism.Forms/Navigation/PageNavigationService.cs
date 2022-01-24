@@ -84,7 +84,7 @@ namespace Prism.Navigation
         /// <param name="useModalNavigation">If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync</param>
         /// <param name="animated">If <c>true</c> the transition is animated, if <c>false</c> there is no animation on transition.</param>
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-        protected async virtual Task<INavigationResult> GoBackInternal(INavigationParameters parameters, bool? useModalNavigation, bool animated)
+        protected virtual async Task<INavigationResult> GoBackInternal(INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
             var result = new NavigationResult();
             Page page = null;
@@ -194,7 +194,7 @@ namespace Prism.Navigation
         /// </summary>
         /// <param name="parameters">The navigation parameters</param>
         /// <remarks>Only works when called from a View within a NavigationPage</remarks>
-        protected async virtual Task<INavigationResult> GoBackToRootInternal(INavigationParameters parameters)
+        protected virtual async Task<INavigationResult> GoBackToRootInternal(INavigationParameters parameters)
         {
             var result = new NavigationResult();
             Page page = null;
@@ -558,10 +558,9 @@ namespace Prism.Navigation
             }
 
             var clearNavigationStack = GetClearNavigationPageNavigationStack(currentPage);
-            var isEmptyOfNavigationStack = currentPage.Navigation.NavigationStack.Count == 0;
 
             List<Page> destroyPages;
-            if (clearNavigationStack && !isEmptyOfNavigationStack)
+            if (clearNavigationStack)
             {
                 destroyPages = currentPage.Navigation.NavigationStack.ToList();
                 destroyPages.Reverse();
@@ -596,7 +595,7 @@ namespace Prism.Navigation
             {
                 await UseReverseNavigation(currentPage, nextSegment, segments, parameters, false, animated);
 
-                if (clearNavigationStack && !isEmptyOfNavigationStack)
+                if (clearNavigationStack)
                     currentPage.Navigation.RemovePage(topPage);
             }
 

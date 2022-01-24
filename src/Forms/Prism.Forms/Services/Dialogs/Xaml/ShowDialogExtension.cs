@@ -4,7 +4,6 @@ using Prism.Ioc;
 using Prism.Xaml;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
-using Xamarin.Forms.Xaml;
 
 namespace Prism.Services.Dialogs.Xaml
 {
@@ -28,7 +27,7 @@ namespace Prism.Services.Dialogs.Xaml
         public void Execute(object parameter)
         {
             IsExecuting = true;
-            CanExecuteChanged(this, EventArgs.Empty);
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
             try
             {
@@ -47,7 +46,7 @@ namespace Prism.Services.Dialogs.Xaml
             OnDialogClosed(result);
 
             IsExecuting = false;
-            CanExecuteChanged(this, EventArgs.Empty);
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnDialogClosed(IDialogResult result)

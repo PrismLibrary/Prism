@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Prism.AppModel;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Xamarin.Forms;
@@ -191,7 +190,7 @@ namespace Prism.Common
             return target;
         }
 
-        public static Page GetPreviousPage(Page currentPage, System.Collections.Generic.IReadOnlyList<Page> navStack)
+        public static Page GetPreviousPage(Page currentPage, IReadOnlyList<Page> navStack)
         {
             Page previousPage = null;
 
@@ -203,7 +202,7 @@ namespace Prism.Common
             return previousPage;
         }
 
-        public static int GetCurrentPageIndex(Page currentPage, System.Collections.Generic.IReadOnlyList<Page> navStack)
+        public static int GetCurrentPageIndex(Page currentPage, IReadOnlyList<Page> navStack)
         {
             int stackCount = navStack.Count;
             for (int x = 0; x < stackCount; x++)
@@ -245,7 +244,7 @@ namespace Prism.Common
 
         internal static bool HasDirectNavigationPageParent(Page page)
         {
-            return page?.Parent != null && page?.Parent is NavigationPage;
+            return page?.Parent is NavigationPage;
         }
 
         internal static bool HasNavigationPageParent(Page page) =>
@@ -260,7 +259,7 @@ namespace Prism.Common
                     navigationPage = navParent;
                     return true;
                 }
-                else if ((page.Parent is TabbedPage || page.Parent is CarouselPage) && page.Parent?.Parent is NavigationPage navigationParent)
+                else if ((page.Parent is TabbedPage || page.Parent is CarouselPage) && page.Parent.Parent is NavigationPage navigationParent)
                 {
                     navigationPage = navigationParent;
                     return true;

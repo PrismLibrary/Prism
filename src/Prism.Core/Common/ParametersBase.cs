@@ -27,44 +27,44 @@ namespace Prism.Common
         /// <param name="query">Query string to be parsed.</param>
         protected ParametersBase(string query)
         {
-            if (!string.IsNullOrWhiteSpace(query))
-            {
-                int num = query.Length;
-                for (int i = ((query.Length > 0) && (query[0] == '?')) ? 1 : 0; i < num; i++)
-                {
-                    int startIndex = i;
-                    int num4 = -1;
-                    while (i < num)
-                    {
-                        char ch = query[i];
-                        if (ch == '=')
-                        {
-                            if (num4 < 0)
-                            {
-                                num4 = i;
-                            }
-                        }
-                        else if (ch == '&')
-                        {
-                            break;
-                        }
-                        i++;
-                    }
-                    string key = null;
-                    string value;
-                    if (num4 >= 0)
-                    {
-                        key = query.Substring(startIndex, num4 - startIndex);
-                        value = query.Substring(num4 + 1, (i - num4) - 1);
-                    }
-                    else
-                    {
-                        value = query.Substring(startIndex, i - startIndex);
-                    }
+            if (string.IsNullOrWhiteSpace(query))
+                return;
 
-                    if (key != null)
-                        Add(Uri.UnescapeDataString(key), Uri.UnescapeDataString(value));
+            int num = query.Length;
+            for (int i =  query[0] == '?' ? 1 : 0; i < num; i++)
+            {
+                int startIndex = i;
+                int num4 = -1;
+                while (i < num)
+                {
+                    char ch = query[i];
+                    if (ch == '=')
+                    {
+                        if (num4 < 0)
+                        {
+                            num4 = i;
+                        }
+                    }
+                    else if (ch == '&')
+                    {
+                        break;
+                    }
+                    i++;
                 }
+                string key = null;
+                string value;
+                if (num4 >= 0)
+                {
+                    key = query.Substring(startIndex, num4 - startIndex);
+                    value = query.Substring(num4 + 1, (i - num4) - 1);
+                }
+                else
+                {
+                    value = query.Substring(startIndex, i - startIndex);
+                }
+
+                if (key != null)
+                    Add(Uri.UnescapeDataString(key), Uri.UnescapeDataString(value));
             }
         }
 
@@ -78,11 +78,11 @@ namespace Prism.Common
         {
             get
             {
-                foreach (var entry in _entries)
+                foreach (var (s, value) in _entries)
                 {
-                    if (string.Compare(entry.Key, key, StringComparison.Ordinal) == 0)
+                    if (string.Compare(s, key, StringComparison.Ordinal) == 0)
                     {
-                        return entry.Value;
+                        return value;
                     }
                 }
 

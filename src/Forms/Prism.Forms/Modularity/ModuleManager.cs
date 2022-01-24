@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using Prism.Properties;
 
 namespace Prism.Modularity
 {
     /// <summary>
-    /// Component responsible for coordinating the modules' type loading and module initialization process. 
+    /// Component responsible for coordinating the modules' type loading and module initialization process.
     /// </summary>
     public class ModuleManager : IModuleManager
     {
@@ -66,12 +65,14 @@ namespace Prism.Modularity
         /// <param name="moduleName">Name of the module requested for initialization.</param>
         public void LoadModule(string moduleName)
         {
-            var modules = ModuleCatalog.Modules.Where(m => m.ModuleName == moduleName);
-            if (modules == null || modules.Count() == 0)
+            var modules = ModuleCatalog.Modules
+                .Where(m => m.ModuleName == moduleName)
+                .ToArray();
+            if (!modules.Any())
             {
                 throw new ModuleNotFoundException(moduleName, string.Format(CultureInfo.CurrentCulture, Resources.ModuleNotFound, moduleName));
             }
-            else if (modules.Count() > 1)
+            else if (modules.Length > 1)
             {
                 throw new DuplicateModuleException(moduleName, string.Format(CultureInfo.CurrentCulture, Resources.DuplicatedModuleInCatalog, moduleName));
             }
@@ -87,8 +88,7 @@ namespace Prism.Modularity
         protected void LoadModulesWhenAvailable()
         {
             var whenAvailableModules = ModuleCatalog.Modules.Where(m => m.InitializationMode == InitializationMode.WhenAvailable && m.State == ModuleState.NotStarted);
-            if (whenAvailableModules != null)
-                LoadModules(whenAvailableModules);
+            LoadModules(whenAvailableModules);
         }
 
         /// <summary>
