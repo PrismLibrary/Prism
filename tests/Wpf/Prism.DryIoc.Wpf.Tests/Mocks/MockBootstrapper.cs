@@ -67,6 +67,7 @@ namespace Prism.Container.Wpf.Mocks
 
         protected override void Initialize()
         {
+            ContainerLocator.ResetContainer();
             base.Initialize();
         }
 
