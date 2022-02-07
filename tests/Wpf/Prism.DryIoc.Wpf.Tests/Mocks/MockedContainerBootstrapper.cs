@@ -13,6 +13,7 @@ namespace Prism.Container.Wpf.Mocks
 
         public MockedContainerBootstrapper(IContainerExtension container)
         {
+            ContainerLocator.ResetContainer();
             this._container = container;
         }
 
