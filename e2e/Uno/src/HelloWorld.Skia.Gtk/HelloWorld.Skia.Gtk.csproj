@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+    <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup Condition="exists('..\HelloWorld.UWP')">
+    <EmbeddedResource Include="..\HelloWorld.UWP\Package.appxmanifest" LogicalName="Package.appxmanifest" />
+    <Content Include="..\HelloWorld.UWP\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
+    <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\HelloWorld.Shared\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" VersionOverride="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" VersionOverride="5.0.0" />
+    <PackageReference Include="Uno.UI.Skia.Gtk" VersionOverride="4.2.6" />
+    <PackageReference Include="Uno.UI.RemoteControl" VersionOverride="4.2.6" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" VersionOverride="4.2.6" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Prism.Core\Prism.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Uno\Prism.DryIoc.Uno\Prism.DryIoc.Uno.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Uno\Prism.Uno\Prism.Uno.csproj" />
+  </ItemGroup>
+  <Import Project="..\HelloWorld.Shared\HelloWorld.Shared.projitems" Label="Shared" />
+</Project>

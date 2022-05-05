@@ -1,3 +1,0 @@
-namespace HelloUnoWorld.Skia.Gtk
-{
-}
