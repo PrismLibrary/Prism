@@ -6,16 +6,19 @@
     xmlns:pvm="using:Prism.Mvvm"
     pvm:ViewModelLocator.AutowireViewModel="true"
     xmlns:local="using:HelloWorld.Views"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="auto"/>
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
     <StackPanel Margin="20">
       <TextBlock Text="{Binding Title}" FontSize="30" />
-      <TextBlock Text="Welcome to Uno/WinUI and Prism!" FontSize="15" />
+      <StackPanel Orientation="Horizontal">
+        <Button Command="{Binding NavigateCommand}" CommandParameter="ViewA">Navigate to View A</Button>
+        <Button Command="{Binding NavigateCommand}" CommandParameter="ViewB">Navigate to View B</Button>
+      </StackPanel>
     </StackPanel>
     <ContentControl Grid.Row="1" pr:RegionManager.RegionName="ContentRegion" />
   </Grid>

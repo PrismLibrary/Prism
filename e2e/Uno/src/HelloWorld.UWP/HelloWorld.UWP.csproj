@@ -144,6 +144,10 @@
       <Project>{80a4c39a-a6b4-494d-801c-75eb4aeb803e}</Project>
       <Name>Prism.Uno</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModuleA\ModuleA.csproj">
+      <Project>{dac1cb86-83f2-4896-bf55-883d2fe28f1f}</Project>
+      <Name>ModuleA</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

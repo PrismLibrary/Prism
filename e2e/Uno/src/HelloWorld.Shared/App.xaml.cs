@@ -2,6 +2,8 @@
 using HelloWorld.Views;
 using Prism.DryIoc;
 using Prism.Ioc;
+using Prism.Modularity;
+using ModuleA;
 
 namespace HelloWorld
 {
@@ -23,6 +25,12 @@ namespace HelloWorld
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
 
+        }
+
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+
+            moduleCatalog.AddModule<ModuleAModule>();
         }
     }
 }
