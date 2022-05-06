@@ -137,10 +137,6 @@ We strongly encourage you to get involved and help us evolve the code base.
 
 - You can see what our expectations are for pull requests [here](https://github.com/PrismLibrary/Prism/blob/master/.github/CONTRIBUTING.md).
 
-### .NET Foundation
-
-This project is part of the [.NET Foundation](http://www.dotnetfoundation.org/projects).
-
 [CoreNuGet]: https://www.nuget.org/packages/Prism.Core/
 [WpfNuGet]: https://www.nuget.org/packages/Prism.Wpf/
 [FormsNuGet]: https://www.nuget.org/packages/Prism.Forms/
