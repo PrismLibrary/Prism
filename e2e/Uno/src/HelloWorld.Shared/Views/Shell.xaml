@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="HelloWorld.Views.Shell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pr="using:Prism.Regions"
+    xmlns:pvm="using:Prism.Mvvm"
+    pvm:ViewModelLocator.AutowireViewModel="true"
+    xmlns:local="using:HelloWorld.Views"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <StackPanel Margin="20">
+      <TextBlock Text="{Binding Title}" FontSize="30" />
+      <StackPanel Orientation="Horizontal">
+        <Button Command="{Binding NavigateCommand}" CommandParameter="ViewA">Navigate to View A</Button>
+        <Button Command="{Binding NavigateCommand}" CommandParameter="ViewB">Navigate to View B</Button>
+      </StackPanel>
+    </StackPanel>
+    <ContentControl Grid.Row="1" pr:RegionManager.RegionName="ContentRegion" />
+  </Grid>
+</Page>

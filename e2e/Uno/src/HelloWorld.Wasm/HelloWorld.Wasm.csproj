@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>NU1701</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <!--
+		IL Linking is disabled in Debug configuration.
+		When building in Release, see https://platform.uno/docs/articles/features/using-il-linker-webassembly.html
+		-->
+    <WasmShellILLinkerEnabled>false</WasmShellILLinkerEnabled>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Assets\SplashScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\HelloWorld.Shared\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WasmCSS\Fonts.css" />
+    <EmbeddedResource Include="WasmScripts\AppManifest.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <LinkerDescriptor Include="LinkerConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <!--
+		This item group is required by the project template because of the
+		new SDK-Style project, otherwise some files are not added automatically.
+
+		You can safely remove this ItemGroup completely.
+		-->
+    <None Include="Program.cs" />
+    <None Include="LinkerConfig.xml" />
+    <None Include="wwwroot\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.Compatibility" VersionOverride="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" VersionOverride="5.0.0" />
+    <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" VersionOverride="1.3.0" />
+    <PackageReference Include="Uno.UI.WebAssembly" VersionOverride="4.2.6" />
+    <PackageReference Include="Uno.UI.RemoteControl" VersionOverride="4.2.6" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" VersionOverride="4.2.6" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" VersionOverride="3.3.1" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" VersionOverride="3.3.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Prism.Core\Prism.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Uno\Prism.DryIoc.Uno\Prism.DryIoc.Uno.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Uno\Prism.Uno\Prism.Uno.csproj" />
+    <ProjectReference Include="..\ModuleA\ModuleA.csproj" />
+  </ItemGroup>
+  <Import Project="..\HelloWorld.Shared\HelloWorld.Shared.projitems" Label="Shared" Condition="Exists('..\HelloWorld.Shared\HelloWorld.Shared.projitems')" />
+</Project>
