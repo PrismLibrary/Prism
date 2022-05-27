@@ -128,7 +128,8 @@ There are certain things that cannot be added directly into Prism for various re
 For stable samples be sure to check out the samples repo for the platform you are most interested in.
 
 - [Prism for WPF Samples](https://github.com/PrismLibrary/Prism-Samples-Wpf)
-- [Prism for Xamarim.Forms](https://github.com/PrismLibrary/Prism-Samples-Forms)
+- [Prism for Xamarin.Forms](https://github.com/PrismLibrary/Prism-Samples-Forms)
+- [New Prism for Xamarin.Forms](https://github.com/mzy666888/Prism-XamarinForms-Sample)
 - [Prism for Uno Platform](#) (Coming soon)
 
 ## Contributing
