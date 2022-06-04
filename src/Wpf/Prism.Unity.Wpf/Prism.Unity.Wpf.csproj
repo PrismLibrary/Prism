@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;net47;netcoreapp3.1;net5.0-windows</TargetFrameworks>
+    <TargetFrameworks>net461;net47;net6.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <RootNamespace>Prism.Unity</RootNamespace>
     <PackageId>Prism.Unity</PackageId>

@@ -2,7 +2,7 @@
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid11.0;MonoAndroid12.0;xamarinmac20</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net5.0-windows10.0.18362</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net6.0-windows10.0.18362</TargetFrameworks>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <AssemblyName>Prism.Uno</AssemblyName>
     <RootNamespace>Prism</RootNamespace>
