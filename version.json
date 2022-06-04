@@ -1,6 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/AArnott/Nerdbank.GitVersioning/master/src/NerdBank.GitVersioning/version.schema.json",
-  "version": "8.2-pre",
+  "version": "9.0-pre",
+  "buildNumberOffset": 47,
   "assemblyVersion": {
     "precision": "revision"
   },
