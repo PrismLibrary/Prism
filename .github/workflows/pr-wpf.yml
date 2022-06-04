@@ -1,4 +1,4 @@
-name: Prism.Forms Build
+name: Prism.Wpf Build
 
 on:
   pull_request:
