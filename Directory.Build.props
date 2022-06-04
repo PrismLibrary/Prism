@@ -49,6 +49,12 @@
     <PackageReleaseNotes>https://github.com/PrismLibrary/Prism/releases/tag/v$(Version)</PackageReleaseNotes>
   </PropertyGroup>
 
+  <!-- Unit Tests -->
+  <PropertyGroup>
+    <VSTestLogger>trx%3bLogFileName=$(MSBuildProjectName).trx</VSTestLogger>
+    <VSTestResultsDirectory>$(MSBuildThisFileDirectory)TestResults</VSTestResultsDirectory>
+  </PropertyGroup>
+
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
   </PropertyGroup>
