@@ -23,7 +23,7 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
     <Reference Include="System.Configuration" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcore')) OR $(TargetFramework.StartsWith('net5'))">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcore')) OR $(TargetFramework.StartsWith('net6'))">
     <Compile Remove="**\*.net45.cs" />
     <None Include="**\*.net45.cs" />
   </ItemGroup>
