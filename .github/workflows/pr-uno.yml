@@ -1,0 +1,23 @@
+name: Prism.Uno Build
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths-include:
+      - 'global.json'
+      - '**/*.props'
+      - '**/*.targets'
+      - 'src/Prism.Core/**'
+      - 'src/Containers/**'
+      - 'src/Uno/**'
+      - 'src/Wpf/**'
+      - '.github/workflows/pr-uno.yml'
+
+jobs:
+  build:
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
+    with:
+      name: Prism.Uno
+      solution-path: PrismLibrary_Uno.sln
+      run-tests: false
