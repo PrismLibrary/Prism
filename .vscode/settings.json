@@ -8,8 +8,5 @@
       "strings": true
     },
     "editor.autoIndent": "full"
-  },
-  "files.associations": {
-    "**/*.yml": "azure-pipelines"
   }
 }

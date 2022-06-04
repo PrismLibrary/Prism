@@ -1,0 +1,28 @@
+name: Prism.Forms Build
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths-include:
+      - 'global.json'
+      - '**/*.props'
+      - '**/*.targets'
+      - 'src/Prism.Core/**'
+      - 'tests/Prism.Core.Tests/**'
+      - 'src/Wpf/**'
+      - 'src/Containers/**'
+      - 'tests/Containers/**'
+      - 'tests/Wpf/**'
+      - '.github/workflows/pr-wpf.yml'
+
+jobs:
+  build:
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    permissions:
+      statuses: write
+      checks: write
+    with:
+      name: Prism.Wpf
+      solution-path: PrismLibrary_Wpf.sln
+      run-tests: true

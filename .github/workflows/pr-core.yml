@@ -1,0 +1,25 @@
+name: Prism.Core Build
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths-include:
+      - 'global.json'
+      - '**/*.props'
+      - '**/*.targets'
+      - 'src/Prism.Core/**'
+      - 'tests/Prism.Core.Tests/**'
+      - '.github/workflows/pr-core.yml'
+
+jobs:
+  build:
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    permissions:
+      statuses: write
+      checks: write
+    with:
+      name: Prism.Core
+      solution-path: PrismLibrary_Core.sln
+      run-tests: true
+
