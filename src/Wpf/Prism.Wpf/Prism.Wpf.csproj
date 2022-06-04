@@ -4,7 +4,7 @@
   <PropertyGroup>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Prism</RootNamespace>
-    <TargetFrameworks>net461;net47;netcoreapp3.1;net5.0-windows</TargetFrameworks>
+    <TargetFrameworks>net461;net47;net6.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <!--<Summary>Prism libraries related to user interface composition, regions, and modularity for WPF.</Summary>-->
     <Description>Prism is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices. Prism provides an implementation of a collection of design patterns that are helpful in writing well structured, maintainable, and testable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET Standard. Features that need to be platform specific are implemented in the respective libraries for the target platform (WPF, Uno Platform, and Xamarin Forms).
