@@ -10,7 +10,7 @@ dotnet build /p:Configuration=Release /p:DISABLE_GITVERSIONING=true $BUILD_SOURC
 
 # copy build app to artifacts
 mkdir -p $BUILD_ARTIFACTSTAGINGDIRECTORY/e2e/uno/$TARGET_XAML_FLAVOR/site
-cp -r $BUILD_SOURCESDIRECTORY/e2e/Uno/$TARGET_XAML_FLAVOR/HelloUnoWorld.Wasm/bin/Release/net5.0/dist/* $BUILD_ARTIFACTSTAGINGDIRECTORY/e2e/uno/$TARGET_XAML_FLAVOR/site
+cp -r $BUILD_SOURCESDIRECTORY/e2e/Uno/$TARGET_XAML_FLAVOR/HelloUnoWorld.Wasm/bin/Release/net6.0/dist/* $BUILD_ARTIFACTSTAGINGDIRECTORY/e2e/uno/$TARGET_XAML_FLAVOR/site
 
 cd $BUILD_SOURCESDIRECTORY/build
 
@@ -31,7 +31,7 @@ export UNO_UITEST_SCREENSHOT_PATH=$BUILD_ARTIFACTSTAGINGDIRECTORY/e2e/uno/$TARGE
 export UNO_UITEST_PLATFORM=Browser
 export UNO_UITEST_CHROME_CONTAINER_MODE=true
 
-dotnet serve -p 8000 -d "$BUILD_SOURCESDIRECTORY/e2e/Uno/$TARGET_XAML_FLAVOR/HelloUnoWorld.Wasm/bin/Release/net5.0/dist/" &
+dotnet serve -p 8000 -d "$BUILD_SOURCESDIRECTORY/e2e/Uno/$TARGET_XAML_FLAVOR/HelloUnoWorld.Wasm/bin/Release/net6.0/dist/" &
 
 mkdir -p $UNO_UITEST_SCREENSHOT_PATH
 
