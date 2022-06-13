@@ -24,23 +24,22 @@ namespace Prism.Events
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public TEventType GetEvent<TEventType>() where TEventType : EventBase, new()
         {
-            lock (events)
+            if (!events.TryGetValue(typeof(TEventType), out EventBase eventInstance))
             {
-                EventBase existingEvent = null;
-
-                if (!events.TryGetValue(typeof(TEventType), out existingEvent))
+                lock (events)
                 {
-                    TEventType newEvent = new TEventType();
-                    newEvent.SynchronizationContext = syncContext;
-                    events[typeof(TEventType)] = newEvent;
-
-                    return newEvent;
-                }
-                else
-                {
-                    return (TEventType)existingEvent;
+                    if (!events.TryGetValue(typeof(TEventType), out eventInstance))
+                    {
+                        eventInstance = new TEventType()
+                        {
+                            SynchronizationContext = syncContext
+                        };
+                        events[typeof(TEventType)] = eventInstance;
+                    }
                 }
             }
+
+            return (TEventType)eventInstance;
         }
     }
 }
