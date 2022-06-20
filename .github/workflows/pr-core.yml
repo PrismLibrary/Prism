@@ -20,4 +20,4 @@ jobs:
       checks: write
     with:
       name: Prism.Core
-      solution-path: PrismLibrary_Core.sln
+      solution-path: PrismLibrary_Core.slnf

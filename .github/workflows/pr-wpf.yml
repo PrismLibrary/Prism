@@ -24,4 +24,4 @@ jobs:
       checks: write
     with:
       name: Prism.Wpf
-      solution-path: PrismLibrary_Wpf.sln
+      solution-path: PrismLibrary_Wpf.slnf

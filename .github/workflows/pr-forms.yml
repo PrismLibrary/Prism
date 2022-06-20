@@ -28,4 +28,4 @@ jobs:
       checks: write
     with:
       name: Prism.Forms
-      solution-path: PrismLibrary_Forms.sln
+      solution-path: PrismLibrary_Forms.slnf

@@ -19,5 +19,5 @@ jobs:
     uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
     with:
       name: Prism.Uno
-      solution-path: PrismLibrary_Uno.sln
+      solution-path: PrismLibrary_Uno.slnf
       run-tests: false
