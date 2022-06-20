@@ -1,5 +1,4 @@
 name: 🐞 Bug
-about: File a bug/issue
 title: '[BUG] <title>'
 description: File a bug report
 labels: ["bug", "to verify"]
