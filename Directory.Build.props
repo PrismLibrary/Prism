@@ -51,7 +51,7 @@
 
   <!-- Unit Tests -->
   <PropertyGroup>
-    <VSTestLogger>trx%3bLogFileName=$(MSBuildProjectName).trx</VSTestLogger>
+    <VSTestLogger>trx%3bLogFileName=$(MSBuildProjectName)-$(TargetFramework).trx</VSTestLogger>
     <VSTestResultsDirectory>$(MSBuildThisFileDirectory)TestResults</VSTestResultsDirectory>
   </PropertyGroup>
 
