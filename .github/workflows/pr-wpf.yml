@@ -19,9 +19,8 @@ on:
 jobs:
   build:
     uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
-    permissions:
-      statuses: write
-      checks: write
     with:
       name: Prism.Wpf
       solution-path: PrismLibrary_Wpf.slnf
+    secrets:
+      codecovToken: ${{ secrets.CODECOVTOKEN }}

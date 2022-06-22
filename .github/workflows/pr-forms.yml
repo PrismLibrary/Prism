@@ -16,16 +16,11 @@ on:
       - 'tests/Forms/**'
       - '.github/workflows/pr-forms.yml'
 
-permissions:
-  statuses: write
-  checks: write
-
 jobs:
   build:
     uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
-    permissions:
-      statuses: write
-      checks: write
     with:
       name: Prism.Forms
       solution-path: PrismLibrary_Forms.slnf
+    secrets:
+      codecovToken: ${{ secrets.CODECOVTOKEN }}
