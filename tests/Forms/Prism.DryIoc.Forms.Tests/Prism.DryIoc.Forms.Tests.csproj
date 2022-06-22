@@ -5,6 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <DefineConstants>$(DefineConstants);DryIoc</DefineConstants>
     <IsPackable>false</IsPackable>
+    <NoWarn>$(NoWarn);CS0618;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

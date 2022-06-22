@@ -57,7 +57,7 @@ namespace Prism.Regions
             {
                 return element.GetValue(Xaml.RegionManager.RegionManagerProperty) as IRegionManager;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }

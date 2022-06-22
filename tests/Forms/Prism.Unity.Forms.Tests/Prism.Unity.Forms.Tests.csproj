@@ -5,6 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <DefineConstants>$(DefineConstants);Unity</DefineConstants>
+    <NoWarn>$(NoWarn);CS0618;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

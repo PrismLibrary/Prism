@@ -10,6 +10,7 @@
 
 Prism for Xamarin.Forms helps you more easily design and build rich, flexible, and easy to maintain Xamarin.Forms applications. This library provides user interface composition as well as modularity support.</Description>
     <PackageTags>prism;xamarin;xamarin.forms;mvvm;uwp;ios;android;xaml</PackageTags>
+    <NoWarn>$(NoWarn);CS1591;CS0618</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

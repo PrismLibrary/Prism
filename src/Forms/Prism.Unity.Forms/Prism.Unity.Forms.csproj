@@ -8,6 +8,7 @@
     <!--<Summary>Unity extensions for Prism for Xamarin.Forms.</Summary>-->
     <Description>Use these extensions to build Xamarin.Forms applications with Prism and Unity.</Description>
     <PackageTags>prism;xamarin;xamarin.forms;ninject;dependency injection</PackageTags>
+    <NoWarn>$(NoWarn);CS1591;CS0612</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
