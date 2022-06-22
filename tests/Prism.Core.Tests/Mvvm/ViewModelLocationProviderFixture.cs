@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using Prism.Mvvm;
 using Prism.Tests.Mocks.ViewModels;
@@ -162,10 +162,11 @@ namespace Prism.Tests.Mvvm
 
         private static void ResetViewModelLocationProvider()
         {
-            Type staticType = typeof(ViewModelLocationProvider);
-            ConstructorInfo ci = staticType.GetTypeInfo().TypeInitializer;
-            object[] parameters = new object[0];
-            ci.Invoke(null, parameters);
+            //Type staticType = typeof(ViewModelLocationProvider);
+            //ConstructorInfo ci = staticType.GetTypeInfo().TypeInitializer;
+            //object[] parameters = new object[0];
+            //ci.Invoke(null, parameters);
+            ViewModelLocationProvider.Reset();
         }
     }
 }

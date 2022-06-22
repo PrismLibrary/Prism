@@ -106,17 +106,18 @@ namespace Prism.Forms.Tests.Mvvm
 
         private static void ResetViewModelLocationProvider()
         {
-            TypeInfo staticType = typeof(ViewModelLocationProvider).GetTypeInfo();
+            // TypeInfo staticType = typeof(ViewModelLocationProvider).GetTypeInfo();
 
-            ConstructorInfo ci = null;
-            foreach (var ctor in staticType.DeclaredConstructors)
-            {
-                ci = ctor;
-                continue;
-            }
+            // ConstructorInfo ci = null;
+            // foreach (var ctor in staticType.DeclaredConstructors)
+            // {
+            //     ci = ctor;
+            //     continue;
+            // }
 
-            object[] parameters = new object[0];
-            ci.Invoke(null, parameters);
+            // object[] parameters = new object[0];
+            // ci.Invoke(null, parameters);
+            ViewModelLocationProvider.Reset();
         }
     }
 }
