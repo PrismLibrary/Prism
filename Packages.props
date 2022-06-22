@@ -22,6 +22,7 @@
 
   <!-- Tests -->
   <ItemGroup>
+    <PackageReference Update="GitHubActionsTestLogger" Version="2.0.1" />
     <PackageReference Update="Xamarin.Forms.Mocks" Version="4.7.0.1" />
     <PackageReference Update="Humanizer.Core" Version="2.14.1" />
     <PackageReference Update="Newtonsoft.Json" Version="13.0.1" />

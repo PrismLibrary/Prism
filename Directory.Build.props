@@ -50,10 +50,10 @@
   </PropertyGroup>
 
   <!-- Unit Tests -->
-  <PropertyGroup>
+  <!-- <PropertyGroup>
     <VSTestLogger>trx%3bLogFileName=$(MSBuildProjectName)-$(TargetFramework).trx</VSTestLogger>
     <VSTestResultsDirectory>$(MSBuildThisFileDirectory)TestResults</VSTestResultsDirectory>
-  </PropertyGroup>
+  </PropertyGroup> -->
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
