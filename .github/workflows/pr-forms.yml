@@ -22,5 +22,6 @@ jobs:
     with:
       name: Prism.Forms
       solution-path: PrismLibrary_Forms.slnf
+      dotnet-version: 6.0.x
     secrets:
       codecovToken: ${{ secrets.CODECOVTOKEN }}
