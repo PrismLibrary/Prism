@@ -205,3 +205,6 @@ FakesAssemblies/
 
 # Jetbrains files
 .idea*
+
+# Nuke files
+.nuke/temp/
