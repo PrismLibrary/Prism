@@ -26,10 +26,10 @@
     <PackageReference Include="Uno.Core" />
     <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net5.0-windows10.0.18362'">
+  <ItemGroup Condition="'$(TargetFramework)'=='net6.0-windows10.0.18362'">
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'!='net5.0-windows10.0.18362'">
+  <ItemGroup Condition="'$(TargetFramework)'!='net6.0-windows10.0.18362'">
     <Page Include="**\*.xaml"
           Exclude="bin\**\*.xaml;obj\**\*.xaml" />
     <Compile Update="**\*.xaml.cs">
