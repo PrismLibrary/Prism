@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid11.0;MonoAndroid12.0;xamarinmac20</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid11.0;MonoAndroid12.0;xamarinmac20;net6.0;net6.0-android;net6.0-ios;net6.0-maccatalyst;net6.0-macos</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net6.0-windows10.0.18362</TargetFrameworks>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <AssemblyName>Prism.DryIoc.Uno</AssemblyName>
@@ -20,11 +20,11 @@ Prism provides an implementation of a collection of design patterns that are hel
     <PackageTags>prism;winui;windows;uno;mvvm;uwp;ios;android;macos;webassembly;linux;xaml;dryioc</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios')) or $(TargetFramework.StartsWith('xamarinmac')) or $(TargetFramework.StartsWith('MonoAndroid')) or $(TargetFramework.StartsWith('netstandard'))">
+  <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios')) or $(TargetFramework.StartsWith('xamarinmac')) or $(TargetFramework.StartsWith('MonoAndroid')) or $(TargetFramework.StartsWith('netstandard')) or $(TargetFramework.StartsWith('net6.0-android')) or $(TargetFramework.StartsWith('net6.0-ios')) or $(TargetFramework.StartsWith('net6.0-mac')) or '$(TargetFramework)'=='net6.0'">
     <PackageReference Include="Uno.WinUI" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0' or '$(TargetFramework)'=='net6.0'">
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
   </PropertyGroup>
 
@@ -55,7 +55,7 @@ Prism provides an implementation of a collection of design patterns that are hel
   <ItemGroup>
     <ProjectReference Include="..\Prism.Uno\Prism.Uno.WinUI.csproj" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0' or '$(TargetFramework)'=='net6.0'">
     <EmbeddedResource Include="LinkerDefinition.mono.xml">
       <LogicalName>$(AssemblyName).xml</LogicalName>
     </EmbeddedResource>

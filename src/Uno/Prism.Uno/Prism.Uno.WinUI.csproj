@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid11.0;MonoAndroid12.0;xamarinmac20</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid11.0;MonoAndroid12.0;xamarinmac20;net6.0;net6.0-android;net6.0-ios;net6.0-maccatalyst;net6.0-macos</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net6.0-windows10.0.18362</TargetFrameworks>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <AssemblyName>Prism.Uno</AssemblyName>
@@ -21,7 +21,7 @@
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios')) or $(TargetFramework.StartsWith('xamarinmac')) or $(TargetFramework.StartsWith('MonoAndroid')) or $(TargetFramework.StartsWith('netstandard'))">
+  <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios')) or $(TargetFramework.StartsWith('xamarinmac')) or $(TargetFramework.StartsWith('MonoAndroid')) or $(TargetFramework.StartsWith('netstandard')) or $(TargetFramework.StartsWith('net6.0-android')) or $(TargetFramework.StartsWith('net6.0-ios')) or $(TargetFramework.StartsWith('net6.0-mac')) or '$(TargetFramework)'=='net6.0'">
     <PackageReference Include="Uno.WinUI" />
     <PackageReference Include="Uno.Core" />
     <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" />

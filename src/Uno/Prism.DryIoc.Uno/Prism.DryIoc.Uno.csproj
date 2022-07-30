@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid11.0;MonoAndroid12.0;xamarinmac20</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid11.0;MonoAndroid12.0;xamarinmac20;net6.0;net6.0-android;net6.0-ios;net6.0-maccatalyst;net6.0-macos</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.18362;</TargetFrameworks>
     <DefineConstants>$(DefineConstants);HAS_UWP</DefineConstants>
     <NoWarn>$(NoWarn);1591</NoWarn>
@@ -20,7 +20,7 @@ Prism provides an implementation of a collection of design patterns that are hel
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
   </PropertyGroup>
-  <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios')) or $(TargetFramework.StartsWith('xamarinmac')) or $(TargetFramework.StartsWith('MonoAndroid')) or $(TargetFramework.StartsWith('netstandard'))">
+  <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios')) or $(TargetFramework.StartsWith('xamarinmac')) or $(TargetFramework.StartsWith('MonoAndroid')) or $(TargetFramework.StartsWith('netstandard')) or $(TargetFramework.StartsWith('net6.0-android')) or $(TargetFramework.StartsWith('net6.0-ios')) or $(TargetFramework.StartsWith('net6.0-mac')) or '$(TargetFramework)'=='net6.0'">
     <PackageReference Include="Uno.UI" />
   </ItemGroup>
   <ItemGroup>
