@@ -218,7 +218,7 @@ namespace Prism
             // Activate must be called immediately in order for the Loaded event to be raised
             // in the shell.
             Windows.UI.Xaml.Window.Current.Activate();
-#elif HAS_WINUI && !NETCOREAPP
+#elif HAS_WINUI
             Microsoft.UI.Xaml.Window.Current.Content = shell;
 
             // Activate must be called immediately in order for the Loaded event to be raised

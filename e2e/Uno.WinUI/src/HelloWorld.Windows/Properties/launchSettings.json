@@ -1,0 +1,10 @@
+{
+	"profiles": {
+		"HelloWorld.Windows (Package)": {
+			"commandName": "MsixPackage"
+		},
+		"HelloWorld.Windows (Unpackaged)": {
+			"commandName": "Project"
+		}
+	}
+}
