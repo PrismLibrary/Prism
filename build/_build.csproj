@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AvantiPoint.Nuke.Maui" Version="1.0.73-beta" />
+    <PackageReference Include="AvantiPoint.Nuke.Maui" Version="1.0.87-beta" />
   </ItemGroup>
 
   <ItemGroup>
