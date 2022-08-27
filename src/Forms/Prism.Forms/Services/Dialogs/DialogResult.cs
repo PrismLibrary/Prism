@@ -6,7 +6,7 @@ using Prism.Navigation;
 namespace Prism.Services.Dialogs
 {
     /// <summary>
-    /// Provides returns information about a dialog that has been closed.
+    /// Provides information about a dialog that has been closed.
     /// </summary>
     internal class DialogResult : IDialogResult
     {
