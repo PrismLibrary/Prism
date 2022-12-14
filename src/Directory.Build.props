@@ -11,6 +11,14 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <!-- xamarinmac20 -->
+    <UnoLibraryTargets>netstandard2.0;xamarinios10;MonoAndroid11.0;MonoAndroid12.0;net6.0-android30.0;net6.0-ios;net6.0-maccatalyst-net6.0-macos</UnoLibraryTargets>
+    <UnoLibraryTargets Condition=" '$(OS)' == 'Windows_NT' ">$(UnoLibraryTargets);uap10.0.18362;</UnoLibraryTargets>
+    <UnoWinUILibraryTargets>netstandard2.0;xamarinios10;MonoAndroid11.0;MonoAndroid12.0;net6.0-android30.0;net6.0-ios;net6.0-maccatalyst-net6.0-macos</UnoWinUILibraryTargets>
+    <UnoWinUILibraryTargets Condition=" '$(OS)' == 'Windows_NT' ">$(UnoWinUILibraryTargets);net6.0-windows10.0.18362</UnoWinUILibraryTargets>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>$(IsPackable)</GeneratePackageOnBuild>
   </PropertyGroup>

@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid11.0;MonoAndroid12.0;xamarinmac20</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.18362;</TargetFrameworks>
+    <TargetFrameworks>$(UnoLibraryTargets)</TargetFrameworks>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <RootNamespace>Prism</RootNamespace>
     <DefineConstants>$(DefineConstants);HAS_UWP</DefineConstants>
@@ -19,6 +18,12 @@ Prism for Uno Platform helps you more easily design and build rich, flexible, an
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios')) or $(TargetFramework.StartsWith('xamarinmac')) or $(TargetFramework.StartsWith('MonoAndroid')) or $(TargetFramework.StartsWith('netstandard'))">
+    <PackageReference Include="Uno.UI" />
+    <PackageReference Include="Uno.Core" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-ios')) or $(TargetFramework.StartsWith('net6.0-mac')) or $(TargetFramework.StartsWith('net6.0-android'))">
     <PackageReference Include="Uno.UI" />
     <PackageReference Include="Uno.Core" />
     <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" />
