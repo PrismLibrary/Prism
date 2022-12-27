@@ -137,7 +137,7 @@ namespace Prism.Interactivity
         /// <summary>
         /// A CommandBehavior that exposes a public ExecuteCommand method. It provides the functionality to invoke commands and update Enabled state of the target control.
         /// It is not possible to make the <see cref="InvokeCommandAction"/> inherit from <see cref="CommandBehaviorBase{T}"/>, since the <see cref="InvokeCommandAction"/>
-        /// must already inherit from <see cref="TriggerAction{T}"/>, so we chose to follow the aggregation approach.
+        /// must already inherit from <see cref="Trigger{T}"/>, so we chose to follow the aggregation approach.
         /// </summary>
         private class ExecutableCommandBehavior : CommandBehaviorBase<UIElement>
         {

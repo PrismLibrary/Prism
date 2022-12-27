@@ -11,17 +11,50 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <!-- xamarinmac20 -->
-    <UnoLibraryTargets>netstandard2.0;xamarinios10;MonoAndroid11.0;MonoAndroid12.0;net6.0-android30.0;net6.0-ios;net6.0-maccatalyst-net6.0-macos</UnoLibraryTargets>
-    <UnoLibraryTargets Condition=" '$(OS)' == 'Windows_NT' ">$(UnoLibraryTargets);uap10.0.18362;</UnoLibraryTargets>
-    <UnoWinUILibraryTargets>netstandard2.0;xamarinios10;MonoAndroid11.0;MonoAndroid12.0;net6.0-android30.0;net6.0-ios;net6.0-maccatalyst-net6.0-macos</UnoWinUILibraryTargets>
-    <UnoWinUILibraryTargets Condition=" '$(OS)' == 'Windows_NT' ">$(UnoWinUILibraryTargets);net6.0-windows10.0.18362</UnoWinUILibraryTargets>
+    <UnoWinUILibraryTargets>netstandard2.0;monoandroid12.0;monoandroid13.0;xamarinios10;xamarinmac20;net6.0-android31;net6.0-ios14.0;net6.0-maccatalyst15.0;net6.0-macos10.14</UnoWinUILibraryTargets>
+    <UnoWinUILibraryTargets Condition=" $([MSBuild]::IsOSPlatform('windows')) ">$(UnoWinUILibraryTargets);net6.0-windows10.0.18362</UnoWinUILibraryTargets>
   </PropertyGroup>
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>$(IsPackable)</GeneratePackageOnBuild>
   </PropertyGroup>
+
+  <Choose>
+    <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+      <PropertyGroup>
+        <RuntimeIdentifier >iossimulator-x64</RuntimeIdentifier>
+        <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion>10.0</TargetPlatformMinVersion>
+      </PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
+      <PropertyGroup>
+        <RuntimeIdentifier>maccatalyst-x64</RuntimeIdentifier>
+        <SupportedOSPlatformVersion>13.1</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion>13.1</TargetPlatformMinVersion>
+      </PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'macos'">
+      <PropertyGroup>
+        <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
+        <SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion>10.14</TargetPlatformMinVersion>
+      </PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+      <PropertyGroup>
+        <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion>21.0</TargetPlatformMinVersion>
+      </PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+      <PropertyGroup>
+        <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
+      </PropertyGroup>
+    </When>
+  </Choose>
 
   <ItemGroup Condition=" $(IsPackable) ">
     <None Include="$(PrismPackageIcon)"

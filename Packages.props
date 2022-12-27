@@ -11,13 +11,13 @@
 
   <!-- Uno -->
   <ItemGroup>
-    <PackageReference Update="Uno.UI" Version="4.3.8" />
-    <PackageReference Update="Uno.WinUI" Version="4.3.8" />
+    <PackageReference Update="Uno.UI" Version="4.6.39" />
+    <PackageReference Update="Uno.WinUI" Version="4.6.39" />
     <PackageReference Update="Uno.Core" Version="4.0.1" />
     <PackageReference Update="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.3.0" />
     <PackageReference Update="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.3.0" />
     <PackageReference Update="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
-    <PackageReference Update="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.8" />
+    <PackageReference Update="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
   </ItemGroup>
 
   <!-- Tests -->
@@ -27,9 +27,9 @@
     <PackageReference Update="Humanizer.Core" Version="2.14.1" />
     <PackageReference Update="Newtonsoft.Json" Version="13.0.1" />
 
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.2.0" />
-    <PackageReference Update="Moq" Version="4.18.1" />
-    <PackageReference Update="xunit" Version="2.4.1" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+    <PackageReference Update="Moq" Version="4.18.3" />
+    <PackageReference Update="xunit" Version="2.4.2" />
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -53,7 +53,7 @@
 
   <ItemGroup>
     <GlobalPackageReference Include="Microsoft.NETFramework.ReferenceAssemblies"
-                            Version="1.0.2" />
+                            Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(DISABLE_GITVERSIONING) != 'true' ">

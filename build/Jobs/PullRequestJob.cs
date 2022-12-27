@@ -17,7 +17,7 @@ class PullRequestJob : CIJobBase
 
     public override string Name { get; }
 
-    public override IEnumerable<string> DotNetSdks => new[] { "6.0.x" };
+    public override IEnumerable<string> DotNetSdks => new[] { "6.0.x", "7.0.x" };
 
     public override IEnumerable<string> InvokedTargets { get; }
 }
