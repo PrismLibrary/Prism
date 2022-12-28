@@ -15,7 +15,6 @@ on:
 
 jobs:
   build-prism-core:
-    runs-on: windows-latest
     uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
     with:
       name: Build Prism.Core
