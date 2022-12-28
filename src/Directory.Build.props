@@ -48,7 +48,7 @@
         <TargetPlatformMinVersion>21.0</TargetPlatformMinVersion>
       </PropertyGroup>
     </When>
-    <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+    <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' AND $(UseWPF) != 'true'">
       <PropertyGroup>
         <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
         <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
