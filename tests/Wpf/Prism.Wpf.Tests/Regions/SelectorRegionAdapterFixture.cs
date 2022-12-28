@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
@@ -26,7 +27,7 @@ namespace Prism.Wpf.Tests.Regions
 
 
         [StaFact]
-        public void AdapterDoesNotPreventRegionFromBeingGarbageCollected()
+        public async Task AdapterDoesNotPreventRegionFromBeingGarbageCollected()
         {
             var selector = new ListBox();
             object model = new object();
@@ -42,6 +43,7 @@ namespace Prism.Wpf.Tests.Regions
 
             region = null;
             selector = null;
+            await Task.Delay(50);
             GC.Collect();
             GC.Collect();
 

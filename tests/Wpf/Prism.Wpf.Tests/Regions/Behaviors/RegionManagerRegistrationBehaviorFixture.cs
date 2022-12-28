@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
@@ -185,7 +186,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         }
 
         [StaFact]
-        public void BehaviorDoesNotPreventRegionManagerFromBeingGarbageCollected()
+        public async Task BehaviorDoesNotPreventRegionManagerFromBeingGarbageCollected()
         {
             var control = new MockFrameworkElement();
             var regionManager = new MockRegionManager();
@@ -209,7 +210,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             GC.KeepAlive(regionManager);
 
             regionManager = null;
-
+            await Task.Delay(50);
             GC.Collect();
 
             Assert.False(regionManagerWeakReference.IsAlive);
