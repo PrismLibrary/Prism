@@ -1,6 +1,7 @@
 name: build_core
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - master
