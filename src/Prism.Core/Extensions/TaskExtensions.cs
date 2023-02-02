@@ -73,11 +73,19 @@
             try
             {
                 await task.ConfigureAwait(configureAwait);
-                completedCallback?.Invoke();
             }
             catch (Exception ex)
             {
                 errorCallback?.Invoke(ex);
+                return;
+            }
+            try
+            {
+                completedCallback?.Invoke();
+            }
+            catch {
+                //ignore unlikely issues invoking the completed Callback action
+                //errors within completedCallback should be handled by the completedCallback itself.
             }
         }
     }
