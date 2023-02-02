@@ -76,14 +76,23 @@
         /// <param name="configureAwait">Configures an awaiter used to await this task</param>
         public async static void Await<T>(this Task<T> task, Action<T> completedCallback, Action<Exception> errorCallback, bool configureAwait)
         {
+            T result;
             try
             {
-                T result = await task.ConfigureAwait(configureAwait);
-                completedCallback?.Invoke(result);
+                result = await task.ConfigureAwait(configureAwait);
             }
             catch (Exception ex)
             {
                 errorCallback?.Invoke(ex);
+                return;
+            }
+            try
+            {
+                completedCallback?.Invoke(result);
+            }
+            catch {
+                //ignore unlikely issues invoking the completed Callback action
+                //errors within completedCallback should be handled by the completedCallback itself.
             }
         }
     }
