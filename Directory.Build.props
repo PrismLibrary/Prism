@@ -22,6 +22,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <IsCoreProject>$(MSBuildProjectName.Equals('Prism.Core'))</IsCoreProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
@@ -56,6 +57,28 @@
   <ItemGroup Condition=" $(IsTestProject) ">
     <None Include="$(MSBuildThisFileDirectory)xunit.runner.json"
           CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(DISABLE_GITVERSIONING) != 'true' ">
+    <PackageReference Include="Nerdbank.GitVersioning"
+                      Condition=" !$(MSBuildProjectDirectory.Contains('e2e')) ">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(IsPackable) ">
+    <PackageReference Include="Microsoft.SourceLink.GitHub">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

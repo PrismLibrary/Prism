@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid11.0;MonoAndroid12.0;xamarinmac20</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net6.0-android;net6.0-ios;net6.0-maccatalyst;net6.0-macos</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net6.0-windows10.0.18362</TargetFrameworks>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <AssemblyName>Prism.DryIoc.Uno</AssemblyName>
@@ -19,10 +19,6 @@
 Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET Standard. Features that need to be platform specific are implemented in the respective libraries for the target platform (WPF, Uno Platform, and Xamarin Forms). Prism for Uno Platform helps you more easily design and build rich, flexible, and easy to maintain Windows UWP, WinUI &amp; cross platform Uno applications.</Description>
     <PackageTags>prism;winui;windows;uno;mvvm;uwp;ios;android;macos;webassembly;linux;xaml;dryioc</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios')) or $(TargetFramework.StartsWith('xamarinmac')) or $(TargetFramework.StartsWith('MonoAndroid')) or $(TargetFramework.StartsWith('netstandard'))">
-    <PackageReference Include="Uno.WinUI" />
-  </ItemGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
