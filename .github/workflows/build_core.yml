@@ -1,0 +1,21 @@
+name: build_core
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - .github/workflows/build_core.yml
+      - Directory.Build.props
+      - Directory.Build.targets
+      - xunit.runner.json
+      - 'src/Prism.Core/**'
+      - 'tests/Prism.Core.Tests/**'
+
+jobs:
+  build-prism-core:
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    with:
+      name: Build Prism.Core
+      solution-path: PrismLibrary_Core.slnf
