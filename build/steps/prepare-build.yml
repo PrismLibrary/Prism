@@ -4,22 +4,22 @@ parameters:
 
 steps:
 - task: UseDotNet@2
-  displayName: Ensure 3.1 SDK is Installed
+  displayName: Ensure 3.1 x is Installed
   inputs:
     packageType: 'sdk'
-    version: '3.1.409'
+    version: '3.1.x'
 
 - task: UseDotNet@2
-  displayName: Ensure 5.0.203 SDK is Installed
+  displayName: Ensure 5.0.x SDK is Installed
   inputs:
     packageType: 'sdk'
-    version: '5.0.203'
+    version: '5.0.x'
 
 - task: UseDotNet@2
-  displayName: 'Use global.json SDK'
+  displayName: Ensure 6.0.x SDK is Installed
   inputs:
     packageType: 'sdk'
-    useGlobalJson: true
+    version: '6.0.x'
 
 - task: NuGetToolInstaller@1
   displayName: Use latest NuGet
