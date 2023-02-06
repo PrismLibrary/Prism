@@ -24,8 +24,8 @@ jobs:
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
-      dotnet-version: |
-        6.0.x
+      dotnet-version: 6.0.x
+      install-workload: 'maui ios android macos maccatalyst runtimes-windows maui-windows maui-maccatalyst maui-ios maui-android'
       uno-check: true
-      uno-check-manifest: 'https://raw.githubusercontent.com/unoplatform/uno.check/34b1a60f5c1c51604b47362781969dde46979fd5/manifests/uno.ui.manifest.json'
+      uno-check-manifest: 'https://raw.githubusercontent.com/unoplatform/uno.check/1.6.0/manifests/uno.ui.manifest.json'
       uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip vsmac'

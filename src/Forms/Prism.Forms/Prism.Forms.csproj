@@ -1,8 +1,9 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="Sdk.props" Sdk="MSBuild.Sdk.Extras" Version="$(MSBuildSdkExtrasVersion)" Condition="'$(MSBuildRuntimeType)' != 'Core'" />
   <PropertyGroup>
     <RootNamespace>Prism</RootNamespace>
-    <TargetFrameworks>netstandard2.0;MonoAndroid10.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks Condition="$(MSBuildRuntimeType) != 'Core'">$(TargetFrameworks);MonoAndroid10.0</TargetFrameworks>
     <Title>Prism for Xamarin.Forms</Title>
     <!-- Summary is not actually supported at this time. Including the summary for future support. -->
     <!--<Summary>Prism for Xamarin.Forms helps you more easily design and build rich, flexible, and easy to maintain Xamarin.Forms applications.</Summary>-->
@@ -25,5 +26,5 @@ Prism for Xamarin.Forms helps you more easily design and build rich, flexible, a
       <DesignTime>True</DesignTime>
     </Compile>
   </ItemGroup>
-
+  <Import Project="Sdk.targets" Sdk="MSBuild.Sdk.Extras" Version="$(MSBuildSdkExtrasVersion)" Condition="'$(MSBuildRuntimeType)' != 'Core'" />
 </Project>
