@@ -24,7 +24,8 @@ jobs:
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
-      install-workload: maui
       dotnet-version: |
         6.0.x
       uno-check: true
+      uno-check-manifest: 'https://raw.githubusercontent.com/unoplatform/uno.check/34b1a60f5c1c51604b47362781969dde46979fd5/manifests/uno.ui.manifest.json'
+      uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip vsmac'
