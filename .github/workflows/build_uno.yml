@@ -24,7 +24,7 @@ jobs:
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
+      install-workload: maui
       dotnet-version: |
         6.0.x
-        7.0.x
       uno-check: true
