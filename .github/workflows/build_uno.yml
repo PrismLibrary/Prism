@@ -20,12 +20,10 @@ on:
 
 jobs:
   build-prism-uno:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
-      dotnet-version: 6.0.x
-      install-workload: 'maui ios android macos maccatalyst runtimes-windows maui-windows maui-maccatalyst maui-ios maui-android'
+      dotnet-version: 7.0.102
       uno-check: true
-      uno-check-manifest: 'https://raw.githubusercontent.com/unoplatform/uno.check/1.6.0/manifests/uno.ui.manifest.json'
       uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip vsmac'
