@@ -1,6 +1,6 @@
 <Project>
   <ItemGroup>
-    <PackageVersion Include="DryIoc.dll" Version="4.8.0" />
+    <PackageVersion Include="DryIoc.dll" Version="5.3.1" />
     <PackageVersion Include="Unity.Container" Version="5.11.11" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
     <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2401" />
