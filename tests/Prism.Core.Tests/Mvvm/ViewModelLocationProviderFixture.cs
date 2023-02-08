@@ -160,12 +160,7 @@ namespace Prism.Tests.Mvvm
             });
         }
 
-        private static void ResetViewModelLocationProvider()
-        {
-            Type staticType = typeof(ViewModelLocationProvider);
-            ConstructorInfo ci = staticType.GetTypeInfo().TypeInitializer;
-            object[] parameters = new object[0];
-            ci.Invoke(null, parameters);
-        }
+        private static void ResetViewModelLocationProvider() =>
+            ViewModelLocationProvider.Reset();
     }
 }

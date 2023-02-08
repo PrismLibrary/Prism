@@ -1,0 +1,147 @@
+name: Prism CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-prism-core:
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    with:
+      name: Build Prism.Core
+      solution-path: PrismLibrary_Core.slnf
+      code-sign: true
+      artifact-name: Core
+    secrets:
+      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
+      codeSignClientId: ${{ secrets.CodeSignClientId }}
+      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
+      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
+      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
+
+  build-prism-wpf:
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    with:
+      name: Build Prism.Wpf
+      solution-path: PrismLibrary_Wpf.slnf
+      code-sign: true
+      artifact-name: Wpf
+    secrets:
+      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
+      codeSignClientId: ${{ secrets.CodeSignClientId }}
+      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
+      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
+      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
+
+  build-prism-forms:
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
+    with:
+      name: Build Prism.Forms
+      solution-path: PrismLibrary_Forms.slnf
+      code-sign: true
+      artifact-name: Forms
+    secrets:
+      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
+      codeSignClientId: ${{ secrets.CodeSignClientId }}
+      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
+      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
+      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
+
+  build-prism-uno:
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
+    with:
+      name: Build Prism.Uno
+      solution-path: PrismLibrary_Uno.slnf
+      dotnet-version: 7.0.102
+      uno-check: true
+      uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip vsmac'
+      run-tests: false
+      code-sign: true
+      artifact-name: Uno
+    secrets:
+      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
+      codeSignClientId: ${{ secrets.CodeSignClientId }}
+      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
+      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
+      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
+
+  generate-consolidated-artifacts:
+    needs: [build-prism-core, build-prism-wpf, build-prism-forms, build-prism-uno]
+    runs-on: windows-latest
+    steps:
+      - name: Download Core
+        uses: actions/download-artifact@v3
+        with:
+          name: Core
+          path: artifacts\Core
+
+      - name: Download Wpf
+        uses: actions/download-artifact@v3
+        with:
+          name: Wpf
+          path: artifacts\Wpf
+
+      - name: Download Forms
+        uses: actions/download-artifact@v3
+        with:
+          name: Forms
+          path: artifacts\Forms
+
+      - name: Download Uno
+        uses: actions/download-artifact@v3
+        with:
+          name: Uno
+          path: artifacts\Uno
+
+      - name: Consolidate Artifacts
+        run: |
+          mkdir artifacts\binaries
+          mkdir artifacts\nuget
+          $platforms = @('Forms', 'Wpf', 'Uno')
+          $platformNuGet = $platforms | ForEach-Object { Join-Path -Path .\artifacts -ChildPath "$_\NuGet" }
+          $platformBinary = $platforms | ForEach-Object { Join-Path -Path .\artifacts -ChildPath "$_\Release" }
+          Get-ChildItem $platformNuGet -Filter '*.nupkg' | Where-Object { $_.Name.StartsWith('Prism.Core') -eq $false } | ForEach-Object { Copy-Item $_.FullName .\artifacts\nuget }
+          Get-ChildItem $platformNuGet -Filter '*.snupkg' | Where-Object { $_.Name.StartsWith('Prism.Core') -eq $false } | ForEach-Object { Copy-Item $_.FullName .\artifacts\nuget }
+          Get-ChildItem $platformBinary | Where-Object { $_.Name -ne 'Core' } | ForEach-Object { Copy-Item $_.FullName .\artifacts\binaries -Recurse }
+          Get-ChildItem .\artifacts\Core\NuGet -Filter '*.nupkg' | ForEach-Object { Copy-Item $_.FullName .\artifacts\nuget }
+          Get-ChildItem .\artifacts\Core\NuGet -Filter '*.snupkg' | ForEach-Object { Copy-Item $_.FullName .\artifacts\nuget }
+          Get-ChildItem .\artifacts\Core\Release | ForEach-Object { Copy-Item $_.FullName .\artifacts\binaries -Recurse }
+
+          Remove-Item artifacts\Core -Recurse
+          Remove-Item artifacts\Wpf -Recurse
+          Remove-Item artifacts\Forms -Recurse
+          Remove-Item artifacts\Uno -Recurse
+
+          Get-ChildItem .\artifacts\nuget | ForEach-Object { Write-Host $_.FullName }
+
+      - name: Upload Consolidated NuGets
+        uses: actions/upload-artifact@v3
+        with:
+          name: NuGet
+          path: .\artifacts\nuget
+
+      - name: Upload Consolidated Binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: Binaries
+          path: .\artifacts\binaries
+
+  deploy-internal:
+    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master
+    needs: generate-consolidated-artifacts
+    if: ${{ github.event_name == 'push' }}
+    with:
+      name: Deploy Internal
+    secrets:
+      feedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
+      apiKey: ${{ secrets.IN_HOUSE_API_KEY }}
+
+  deploy-sponsors:
+    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master
+    needs: generate-consolidated-artifacts
+    if: ${{ github.event_name == 'push' }}
+    with:
+      name: Deploy Sponsor Connect
+    secrets:
+      feedUrl: ${{ secrets.SPONSOR_CONNECT_NUGET_FEED }}
+      apiKey: ${{ secrets.SPONSOR_CONNECT_TOKEN }}

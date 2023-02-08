@@ -583,6 +583,7 @@ namespace Prism.Tests.Commands
 
         public void Execute(object parameter)
         {
+            CanExecuteChanged(this, EventArgs.Empty);
             Command.UnregisterCommand(this);
             ExecutedCalled = true;
         }

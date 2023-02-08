@@ -1,0 +1,24 @@
+name: build_forms
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - .github/workflows/build_forms.yml
+      - Directory.Build.props
+      - Directory.Build.targets
+      - Packages.props
+      - xunit.runner.json
+      - 'src/Prism.Core/**'
+      - 'tests/Prism.Core.Tests/**'
+      - 'src/Forms/**'
+      - 'tests/Forms/**'
+
+jobs:
+  build-prism-forms:
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
+    with:
+      name: Build Prism.Forms
+      solution-path: PrismLibrary_Forms.slnf
