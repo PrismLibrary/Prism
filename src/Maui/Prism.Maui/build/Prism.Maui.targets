@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+  <ItemGroup>
+    <Using Include="Prism" />
+    <Using Include="Prism.AppModel" />
+    <Using Include="Prism.Commands" />
+    <Using Include="Prism.Events" />
+    <Using Include="Prism.Ioc" />
+    <Using Include="Prism.Modularity" />
+    <Using Include="Prism.Mvvm" />
+    <Using Include="Prism.Navigation" />
+    <Using Include="Prism.Regions" />
+    <Using Include="Prism.Regions.Navigation" />
+    <Using Include="Prism.Services" />
+  </ItemGroup>
+</Project>
