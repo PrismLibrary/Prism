@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PrismMauiDemo.Views.RootPage"
+             Title="RootPage">
+  <Grid RowDefinitions="*,2*">
+    <Image Source="logo.png" HeightRequest="100" />
+    <StackLayout HorizontalOptions="Center"
+               Spacing="15"
+                 Grid.Row="1">
+      <Button Text="Flyout Page"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="/MainPage/NavigationPage/ViewA/ViewB/ViewC/ViewD" />
+      <Button Text="Tabbed Page"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="/TabbedPage?createTab=ViewA&amp;createTab=ViewB&amp;createTab=ViewC&amp;createTab=ViewD" />
+      <Button Text="Regions"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="/RegionHome/NavigationPage/ContentRegionPage" />
+    </StackLayout>
+  </Grid>
+</ContentPage>

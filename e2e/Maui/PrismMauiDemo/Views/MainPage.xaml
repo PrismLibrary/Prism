@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<FlyoutPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:prism="http://prismlibrary.com"
+            x:Class="PrismMauiDemo.Views.MainPage"
+            Title="MainPage"
+            BackgroundColor="White">
+  <FlyoutPage.Flyout>
+    <ContentPage Title="Menu">
+      <StackLayout Margin="20"
+                   Spacing="15">
+        <Button Text="ViewA"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="NavigationPage/ViewA" />
+        <Button Text="ViewB"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="NavigationPage/ViewB" />
+        <Button Text="ViewC"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="NavigationPage/ViewC" />
+        <Button Text="ViewD"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="NavigationPage/ViewD" />
+        <Button Text="SamplePage"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="NavigationPage/SamplePage" />
+        <Button Text="Root Page"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="/RootPage" />
+      </StackLayout>
+    </ContentPage>
+  </FlyoutPage.Flyout>
+</FlyoutPage>

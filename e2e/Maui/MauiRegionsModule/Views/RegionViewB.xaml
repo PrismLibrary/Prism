@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiRegionsModule.Views.RegionViewB">
+  <StackLayout Margin="20">
+    <Label Text="Region View B"
+           FontAttributes="Bold" />
+    <Label Text="{Binding PageName, StringFormat='Navigation Service Page: {0}'}" />
+    <Label Text="{Binding ViewCount, StringFormat='Region Views: {0} view(s)'}" />
+    <Label Text="{Binding Message, StringFormat='Message: {0}'}" />
+  </StackLayout>
+</ContentView>
