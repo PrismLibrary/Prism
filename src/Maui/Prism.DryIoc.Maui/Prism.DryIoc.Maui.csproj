@@ -16,6 +16,6 @@
     <ProjectReference Include="..\Prism.Maui\Prism.Maui.csproj" />
   </ItemGroup>
 
-  <Import Project="..\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems" Label="Shared" />
+  <Import Project="..\..\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems" Label="Shared" />
 
 </Project>
