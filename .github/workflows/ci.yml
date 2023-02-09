@@ -65,6 +65,20 @@ jobs:
       codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
+  build-prism-maui:
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    with:
+      name: Build Prism.Maui
+      solution-path: PrismLibrary_Maui.slnf
+      code-sign: true
+      artifact-name: Maui
+    secrets:
+      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
+      codeSignClientId: ${{ secrets.CodeSignClientId }}
+      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
+      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
+      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
+
   generate-consolidated-artifacts:
     needs: [build-prism-core, build-prism-wpf, build-prism-forms, build-prism-uno]
     runs-on: windows-latest
@@ -93,11 +107,17 @@ jobs:
           name: Uno
           path: artifacts\Uno
 
+      - name: Download Maui
+        uses: actions/download-artifact@v3
+        with:
+          name: Maui
+          path: artifacts\Maui
+
       - name: Consolidate Artifacts
         run: |
           mkdir artifacts\binaries
           mkdir artifacts\nuget
-          $platforms = @('Forms', 'Wpf', 'Uno')
+          $platforms = @('Forms', 'Wpf', 'Uno', 'Maui')
           $platformNuGet = $platforms | ForEach-Object { Join-Path -Path .\artifacts -ChildPath "$_\NuGet" }
           $platformBinary = $platforms | ForEach-Object { Join-Path -Path .\artifacts -ChildPath "$_\Release" }
           Get-ChildItem $platformNuGet -Filter '*.nupkg' | Where-Object { $_.Name.StartsWith('Prism.Core') -eq $false } | ForEach-Object { Copy-Item $_.FullName .\artifacts\nuget }
@@ -111,6 +131,7 @@ jobs:
           Remove-Item artifacts\Wpf -Recurse
           Remove-Item artifacts\Forms -Recurse
           Remove-Item artifacts\Uno -Recurse
+          Remove-Item artifacts\Maui -Recurse
 
           Get-ChildItem .\artifacts\nuget | ForEach-Object { Write-Host $_.FullName }
 
