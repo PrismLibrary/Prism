@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Moq;
 using Prism.Ioc;
@@ -63,7 +64,7 @@ namespace Prism.Wpf.Tests.Regions
         }
 
         [Fact]
-        public void ShouldNotPreventSubscribersFromBeingGarbageCollected()
+        public async Task ShouldNotPreventSubscribersFromBeingGarbageCollected()
         {
             var registry = new RegionViewRegistry(null);
             var subscriber = new MySubscriberClass();
@@ -72,6 +73,7 @@ namespace Prism.Wpf.Tests.Regions
             WeakReference subscriberWeakReference = new WeakReference(subscriber);
 
             subscriber = null;
+            await Task.Delay(50);
             GC.Collect();
 
             Assert.False(subscriberWeakReference.IsAlive);

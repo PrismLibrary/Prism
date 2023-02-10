@@ -1,0 +1,30 @@
+name: build_uno
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - .github/workflows/build_forms.yml
+      - Directory.Build.props
+      - Directory.Build.targets
+      - Packages.props
+      - xunit.runner.json
+      - 'src/Prism.Core/**'
+      - 'tests/Prism.Core.Tests/**'
+      - 'src/Wpf/**'
+      - 'tests/Wpf/**'
+      - 'src/Uno/**'
+      - 'tests/Uno/**'
+
+jobs:
+  build-prism-uno:
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
+    with:
+      name: Build Prism.Uno
+      solution-path: PrismLibrary_Uno.slnf
+      dotnet-version: 7.0.102
+      uno-check: true
+      uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip vsmac'
+      run-tests: false

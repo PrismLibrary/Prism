@@ -1,0 +1,11 @@
+name: Publish Prism Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish-release:
+    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@master
+    secrets:
+      apiKey: ${{ secrets.NUGET_API_KEY }}

@@ -1,0 +1,48 @@
+<Project>
+  <ItemGroup>
+    <PackageVersion Include="DryIoc.dll" Version="4.8.0" />
+    <PackageVersion Include="Unity.Container" Version="5.11.11" />
+    <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
+    <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2401" />
+    <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+  </ItemGroup>
+  <!-- Uno -->
+  <ItemGroup>
+    <PackageVersion Include="Uno.UI" Version="4.7.37" />
+    <PackageVersion Include="Uno.WinUI" Version="4.7.37" />
+    <PackageVersion Include="Uno.Core" Version="4.0.1" />
+    <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.3.0" />
+    <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.3.0" />
+    <PackageVersion Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
+    <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
+  </ItemGroup>
+  <!-- Tests -->
+  <ItemGroup>
+    <PackageVersion Include="coverlet.collector" Version="3.2.0" />
+    <PackageVersion Include="GitHubActionsTestLogger" Version="2.0.1" />
+    <PackageVersion Include="Xamarin.Forms.Mocks" Version="4.7.0.1" />
+    <PackageVersion Include="Humanizer.Core" Version="2.14.1" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+    <PackageVersion Include="Moq" Version="4.18.4" />
+    <PackageVersion Include="xunit" Version="2.4.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
+    <PackageVersion Include="Xunit.StaFact" Version="1.1.11" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+  </ItemGroup>
+  <!-- UI Tests -->
+  <ItemGroup>
+    <PackageVersion Include="Uno.UITest.Helpers" Version="1.0.0" />
+    <PackageVersion Include="Xamarin.TestCloud.Agent" Version="0.22.2" />
+    <PackageVersion Include="NUnit" Version="3.13.2" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="3.17.0" />
+    <PackageVersion Include="Xamarin.UITest" Version="3.0.12" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Global Packages -->
+    <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" />
+    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.5.119" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
+  </ItemGroup>
+</Project>

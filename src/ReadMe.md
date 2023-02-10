@@ -1,5 +1,5 @@
 
-Thank you for installing Prism 8.1!
+Thank you for installing Prism 9.0! Please note Prism's License has changed.
 
 ## Help Support Prism
 

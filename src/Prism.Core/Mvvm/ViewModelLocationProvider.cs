@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 
@@ -19,6 +20,19 @@ namespace Prism.Mvvm
 
     public static class ViewModelLocationProvider
     {
+        /// <summary>
+        /// Resets the ViewModelLocationProvider for Unit Testing Purposes.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void Reset()
+        {
+            _factories = new Dictionary<string, Func<object>>();
+            _typeFactories = new Dictionary<string, Type>();
+            _defaultViewModelFactory = type => Activator.CreateInstance(type);
+            _defaultViewModelFactoryWithViewParameter = null;
+            _defaultViewTypeToViewModelTypeResolver = DefaultViewTypeToViewModel;
+        }
+
         /// <summary>
         /// A dictionary that contains all the registered factories for the views.
         /// </summary>
@@ -42,16 +56,17 @@ namespace Prism.Mvvm
         /// <summary>
         /// Default view type to view model type resolver, assumes the view model is in same assembly as the view type, but in the "ViewModels" namespace.
         /// </summary>
-        static Func<Type, Type> _defaultViewTypeToViewModelTypeResolver =
-            viewType =>
-            {
-                var viewName = viewType.FullName;
-                viewName = viewName.Replace(".Views.", ".ViewModels.");
-                var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-                var suffix = viewName.EndsWith("View") ? "Model" : "ViewModel";
-                var viewModelName = String.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", viewName, suffix, viewAssemblyName);
-                return Type.GetType(viewModelName);
-            };
+        static Func<Type, Type> _defaultViewTypeToViewModelTypeResolver = DefaultViewTypeToViewModel;
+
+        private static Type DefaultViewTypeToViewModel(Type viewType)
+        {
+            var viewName = viewType.FullName;
+            viewName = viewName.Replace(".Views.", ".ViewModels.");
+            var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+            var suffix = viewName.EndsWith("View") ? "Model" : "ViewModel";
+            var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", viewName, suffix, viewAssemblyName);
+            return Type.GetType(viewModelName);
+        }
 
         /// <summary>
         /// Sets the default view model factory.

@@ -22,6 +22,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <IsCoreProject>$(MSBuildProjectName.Equals('Prism.Core'))</IsCoreProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
@@ -42,6 +43,7 @@
     <IS_PREVIEW Condition=" '$(IS_PREVIEW)' == '' ">false</IS_PREVIEW>
     <IS_RELEASE Condition=" '$(IS_RELEASE)' == '' ">false</IS_RELEASE>
     <UseWpf>$(IsWpfProject)</UseWpf>
+    <MSBuildSdkExtrasVersion>3.0.44</MSBuildSdkExtrasVersion>
   </PropertyGroup>
 
   <!-- Versioning -->
@@ -53,9 +55,63 @@
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
   </PropertyGroup>
 
+  <Choose>
+		<When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+			<PropertyGroup>
+				<SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
+			</PropertyGroup>
+		</When>
+		<When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+			<PropertyGroup>
+				<SupportedOSPlatformVersion>14.2</SupportedOSPlatformVersion>
+				<RuntimeIdentifier Condition="'$(RuntimeIdentifier)'==''">iossimulator-x64</RuntimeIdentifier>
+			</PropertyGroup>
+		</When>
+		<When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'macos'">
+			<PropertyGroup>
+				<SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
+				<RuntimeIdentifier Condition="'$(RuntimeIdentifier)'==''">osx-x64</RuntimeIdentifier>
+			</PropertyGroup>
+		</When>
+		<When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
+			<PropertyGroup>
+				<SupportedOSPlatformVersion>14.0</SupportedOSPlatformVersion>
+				<RuntimeIdentifier Condition="'$(RuntimeIdentifier)'==''">maccatalyst-x64</RuntimeIdentifier>
+			</PropertyGroup>
+		</When>
+		<When Condition="$(TargetFramework.Contains('windows10'))">
+			<PropertyGroup>
+				<SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
+				<TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
+			</PropertyGroup>
+		</When>
+	</Choose>
+
   <ItemGroup Condition=" $(IsTestProject) ">
     <None Include="$(MSBuildThisFileDirectory)xunit.runner.json"
           CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(DISABLE_GITVERSIONING) != 'true' ">
+    <PackageReference Include="Nerdbank.GitVersioning"
+                      Condition=" !$(MSBuildProjectDirectory.Contains('e2e')) ">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(IsPackable) ">
+    <PackageReference Include="Microsoft.SourceLink.GitHub">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

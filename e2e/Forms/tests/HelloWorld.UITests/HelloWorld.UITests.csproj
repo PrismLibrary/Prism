@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net481</TargetFramework>
     <NoWarn>NU1201</NoWarn>
     <OutputPath>$(ArtifactStagingRoot)\UITests</OutputPath>
   </PropertyGroup>

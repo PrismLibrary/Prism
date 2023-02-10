@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 using Moq;
 using Prism.Ioc;
 using Prism.Regions;
@@ -168,7 +169,7 @@ namespace Prism.Wpf.Tests.Regions
         }
 
         [Fact]
-        public void ShouldNotPreventSubscribersToStaticEventFromBeingGarbageCollected()
+        public async Task ShouldNotPreventSubscribersToStaticEventFromBeingGarbageCollected()
         {
             var subscriber = new MySubscriberClass();
             RegionManager.UpdatingRegions += subscriber.OnUpdatingRegions;
@@ -177,6 +178,7 @@ namespace Prism.Wpf.Tests.Regions
             WeakReference subscriberWeakReference = new WeakReference(subscriber);
 
             subscriber = null;
+            await Task.Delay(50);
             GC.Collect();
 
             Assert.False(subscriberWeakReference.IsAlive);
