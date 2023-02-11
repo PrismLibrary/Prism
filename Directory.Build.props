@@ -29,6 +29,7 @@
     <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
     <IsUnoProject>$(MSBuildProjectName.Contains('Uno'))</IsUnoProject>
     <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
+    <IsMauiProject>$(MSBuildProjectName.Contains('Maui'))</IsMauiProject>
     <SignAssembly Condition=" ('$(IsCoreProject)' Or '$(IsWpfProject)') ">True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)prism.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
