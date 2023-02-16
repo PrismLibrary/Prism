@@ -1,6 +1,6 @@
 <Project>
   <ItemGroup>
-    <PackageVersion Include="DryIoc.dll" Version="5.3.2" />
+    <PackageVersion Include="DryIoc.dll" Version="5.3.3" />
     <PackageVersion Include="Unity.Container" Version="5.11.11" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
     <PackageVersion Include="System.Reactive" Version="5.0.0" />
