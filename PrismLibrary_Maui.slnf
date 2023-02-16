@@ -1,0 +1,17 @@
+{
+  "solution": {
+    "path": "PrismLibrary.sln",
+    "projects": [
+      "src\\Containers\\Prism.DryIoc.Shared\\Prism.DryIoc.Shared.shproj",
+      "src\\Maui\\Prism.DryIoc.Maui\\Prism.DryIoc.Maui.csproj",
+      "src\\Maui\\Prism.Maui.Rx\\Prism.Maui.Rx.csproj",
+      "src\\Maui\\Prism.Maui\\Prism.Maui.csproj",
+      "src\\Prism.Core\\Prism.Core.csproj",
+      "tests\\Containers\\Prism.Container.DryIoc.Tests\\Prism.Ioc.DryIoc.Tests.csproj",
+      "tests\\Containers\\Prism.Container.Shared\\Prism.Ioc.Shared.shproj",
+      "tests\\Maui\\Prism.DryIoc.Maui.Tests\\Prism.DryIoc.Maui.Tests.csproj",
+      "tests\\Maui\\Prism.Maui.Tests\\Prism.Maui.Tests.csproj",
+      "tests\\Prism.Core.Tests\\Prism.Core.Tests.csproj"
+    ]
+  }
+}

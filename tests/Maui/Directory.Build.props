@@ -1,0 +1,9 @@
+<Project>
+  <Import Project="../../Directory.Build.props" />
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <UseMaui>True</UseMaui>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiModule.Views.ViewA"
+             Title="{Binding Title}"
+             BackgroundColor="White">
+  <Grid RowDefinitions="*,Auto"
+        ColumnDefinitions="*,*">
+    <CollectionView ItemsSource="{Binding Messages}"
+                    Grid.ColumnSpan="2">
+      <CollectionView.Header>
+        <StackLayout Padding="0,20,0,0">
+          <Label Text="{Binding Title, StringFormat='Page: {0}'}"
+                 FontSize="Large"
+                 FontAttributes="Bold"
+                 HorizontalTextAlignment="Center"/>
+          <Label Text="Prism for .NET MAUI!"
+                   HorizontalTextAlignment="Center"
+                   Padding="0,0,0,20"/>
+          <Label Text="Navigation Events:"
+                 FontAttributes="Bold"
+                 Padding="10,0"/>
+        </StackLayout>
+      </CollectionView.Header>
+      <CollectionView.ItemTemplate>
+        <DataTemplate>
+          <Label Text="{Binding .}"
+                 Padding="20,5"/>
+        </DataTemplate>
+      </CollectionView.ItemTemplate>
+    </CollectionView>
+
+    <Button Text="ViewB" 
+            Command="{prism:NavigateTo 'ViewB'}"
+            Margin="10"
+            Grid.Row="1">
+      <Button.CommandParameter>
+        <prism:Parameter Key="Message" Value="Hi from View A!"/>
+      </Button.CommandParameter>
+    </Button>
+    <Button Text="Show Alert Dialog" 
+            Command="{Binding ShowPageDialog}"
+            Margin="10"
+            Grid.Row="1"
+            Grid.Column="1"/>
+  </Grid>
+</ContentPage>

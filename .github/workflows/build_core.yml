@@ -9,6 +9,7 @@ on:
       - .github/workflows/build_core.yml
       - Directory.Build.props
       - Directory.Build.targets
+      - Directory.Packages.props
       - xunit.runner.json
       - 'src/Prism.Core/**'
       - 'tests/Prism.Core.Tests/**'

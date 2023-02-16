@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<FlyoutPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiRegionsModule.Views.RegionHome"
+             Title="RegionHome">
+  <FlyoutPage.Flyout>
+    <ContentPage Title="Menu">
+      <StackLayout Spacing="15">
+        <Button Text="Content Region"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="NavigationPage/ContentRegionPage" />
+        <Button Text="Default View by Name"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="NavigationPage/DefaultViewNamedPage?Message=Initialized%20by%20NavigationParameters" />
+        <Button Text="Default View by Type"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="NavigationPage/DefaultViewTypePage" />
+        <Button Text="Default View by Instance"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="NavigationPage/DefaultViewInstancePage" />
+        <Button Text="Root Page"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="/RootPage" />
+      </StackLayout>
+    </ContentPage>
+  </FlyoutPage.Flyout>
+</FlyoutPage>

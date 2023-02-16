@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             x:Class="MauiRegionsModule.Views.ContentRegionPage"
+             Title="Content Region"
+             Padding="20">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <Style TargetType="Button">
+        <Setter Property="Margin" Value="0,10" />
+      </Style>
+    </ResourceDictionary>
+  </ContentPage.Resources>
+  <Grid RowDefinitions="*,Auto,Auto,Auto">
+    <ContentView prism:RegionManager.RegionName="ContentRegion" />
+
+    <Button Text="View A"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="RegionViewA"
+            Grid.Row="1" />
+    <Button Text="View B"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="RegionViewB"
+            Grid.Row="2" />
+    <Button Text="View C"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="RegionViewC"
+            Grid.Row="3" />
+  </Grid>
+</ContentPage>

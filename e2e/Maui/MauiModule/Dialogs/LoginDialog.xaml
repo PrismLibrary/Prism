@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Grid xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:vm="clr-namespace:MauiModule.ViewModels"
+      x:DataType="vm:LoginViewModel"
+      BackgroundColor="White"
+      RowDefinitions="Auto,*"
+      x:Class="MauiModule.Dialogs.LoginDialog">
+  <BoxView Color="Black" />
+  <Label Text="{Binding Title}"
+         HorizontalTextAlignment="Center"
+         TextColor="White"
+         Margin="0,8" />
+  <VerticalStackLayout Grid.Row="1"
+                       Padding="10,3,10,10">
+    <Label Text="Enter your name" />
+    <Entry Text="{Binding Name}"
+           Placeholder="John Doe"
+           WidthRequest="200"
+           PlaceholderColor="LightGray" />
+    <Button Text="Submit"
+            HorizontalOptions="Center"
+            Command="{Binding LoginCommand}" />
+  </VerticalStackLayout>
+</Grid>

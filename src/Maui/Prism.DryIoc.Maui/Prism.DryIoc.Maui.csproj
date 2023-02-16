@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <UseMaui>true</UseMaui>
+    <ImplicitUsings>true</ImplicitUsings>
+    <Description>Prism.DryIoc.Maui provides the implementation of Prism's IContainerExtension using the DryIoc container. This is currently the only supported container for .NET MAUI.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DryIoc.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Prism.Maui\Prism.Maui.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems" Label="Shared" />
+
+</Project>

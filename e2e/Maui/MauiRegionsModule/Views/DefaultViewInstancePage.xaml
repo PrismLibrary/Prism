@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:local="clr-namespace:MauiRegionsModule.Views"
+             x:Class="MauiRegionsModule.Views.DefaultViewInstancePage"
+             Title="DefaultViewInstancePage">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <ContentView x:Key="InstanceView">
+        <StackLayout>
+          <Label Text="This is an instance of a View" />
+          <Label Text="This has no View Model and is simply an instance we add by default." />
+        </StackLayout>
+      </ContentView>
+    </ResourceDictionary>
+  </ContentPage.Resources>
+
+  <ContentView prism:RegionManager.RegionName="DefaultViewInstance"
+               prism:RegionManager.DefaultView="{StaticResource InstanceView}" />
+</ContentPage>
