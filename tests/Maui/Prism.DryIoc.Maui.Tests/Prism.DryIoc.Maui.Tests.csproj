@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Prism.DryIoc.Maui\Prism.DryIoc.Maui.csproj" />
+    <ProjectReference Include="..\..\..\src\Maui\Prism.DryIoc.Maui\Prism.DryIoc.Maui.csproj" />
   </ItemGroup>
 
 </Project>

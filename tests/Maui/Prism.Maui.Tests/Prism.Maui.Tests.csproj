@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Prism.Maui\Prism.Maui.csproj" />
+    <ProjectReference Include="..\..\..\src\Maui\Prism.Maui\Prism.Maui.csproj" />
   </ItemGroup>
 
   <ItemGroup>
