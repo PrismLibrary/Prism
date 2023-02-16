@@ -3,6 +3,13 @@ name: Prism CI
 on:
   push:
     branches: [ master ]
+    paths:
+      - .github/workflows/ci.yml
+      - Directory.Build.props
+      - Directory.Build.targets
+      - Directory.Packages.props
+      - xunit.runner.json
+      - 'src/**'
 
 jobs:
   build-prism-core:
