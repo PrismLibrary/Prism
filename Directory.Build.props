@@ -45,6 +45,7 @@
     <IS_PREVIEW Condition=" '$(IS_PREVIEW)' == '' ">false</IS_PREVIEW>
     <IS_RELEASE Condition=" '$(IS_RELEASE)' == '' ">false</IS_RELEASE>
     <UseWpf>$(IsWpfProject)</UseWpf>
+    <UseMaui>$(IsMauiProject)</UseMaui>
     <MSBuildSdkExtrasVersion>3.0.44</MSBuildSdkExtrasVersion>
   </PropertyGroup>
 
@@ -58,36 +59,36 @@
   </PropertyGroup>
 
   <Choose>
-		<When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
-			<PropertyGroup>
-				<SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
-			</PropertyGroup>
-		</When>
-		<When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
-			<PropertyGroup>
-				<SupportedOSPlatformVersion>14.2</SupportedOSPlatformVersion>
-				<RuntimeIdentifier Condition="'$(RuntimeIdentifier)'==''">iossimulator-x64</RuntimeIdentifier>
-			</PropertyGroup>
-		</When>
-		<When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'macos'">
-			<PropertyGroup>
-				<SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
-				<RuntimeIdentifier Condition="'$(RuntimeIdentifier)'==''">osx-x64</RuntimeIdentifier>
-			</PropertyGroup>
-		</When>
-		<When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
-			<PropertyGroup>
-				<SupportedOSPlatformVersion>14.0</SupportedOSPlatformVersion>
-				<RuntimeIdentifier Condition="'$(RuntimeIdentifier)'==''">maccatalyst-x64</RuntimeIdentifier>
-			</PropertyGroup>
-		</When>
-		<When Condition="$(TargetFramework.Contains('windows10'))">
-			<PropertyGroup>
-				<SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
-				<TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
-			</PropertyGroup>
-		</When>
-	</Choose>
+    <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+      <PropertyGroup>
+        <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
+      </PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+      <PropertyGroup>
+        <SupportedOSPlatformVersion>14.2</SupportedOSPlatformVersion>
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)'==''">iossimulator-x64</RuntimeIdentifier>
+      </PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'macos'">
+      <PropertyGroup>
+        <SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)'==''">osx-x64</RuntimeIdentifier>
+      </PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
+      <PropertyGroup>
+        <SupportedOSPlatformVersion>14.0</SupportedOSPlatformVersion>
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)'==''">maccatalyst-x64</RuntimeIdentifier>
+      </PropertyGroup>
+    </When>
+    <When Condition="$(TargetFramework.Contains('windows10'))">
+      <PropertyGroup>
+        <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
+      </PropertyGroup>
+    </When>
+  </Choose>
 
   <ItemGroup Condition=" $(IsTestProject) ">
     <None Include="$(MSBuildThisFileDirectory)xunit.runner.json"

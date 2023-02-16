@@ -20,6 +20,7 @@
       <BinariesFolderName Condition=" '$(IsFormsProject)' ">Forms</BinariesFolderName>
       <BinariesFolderName Condition=" '$(IsWpfProject)' ">WPF</BinariesFolderName>
       <BinariesFolderName Condition=" '$(IsUnoProject)' ">Uno</BinariesFolderName>
+      <BinariesFolderName Condition=" '$(IsMauiProject)' ">Maui</BinariesFolderName>
       <ArtifactStaging>$([System.IO.Path]::Combine('$(ArtifactStagingRoot)', $(Configuration), '$(BinariesFolderName)', '$(TargetFramework)'))</ArtifactStaging>
     </PropertyGroup>
 
