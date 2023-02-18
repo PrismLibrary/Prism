@@ -8,18 +8,9 @@ public class PrismServiceProviderFactory : IServiceProviderFactory<IContainerExt
         _containerExtension = containerExtension;
     }
 
-    private Action<IContainerExtension> _registerTypes { get; }
-
-    public PrismServiceProviderFactory(Action<IContainerExtension> registerTypes)
-    {
-        _registerTypes = registerTypes;
-    }
-
     public IContainerExtension CreateBuilder(IServiceCollection services)
     {
         _containerExtension.Populate(services);
-        _registerTypes(_containerExtension);
-
         return _containerExtension;
     }
 
