@@ -14,9 +14,7 @@ using Prism.Properties;
 using Prism.Regions.Behaviors;
 using Prism.Ioc.Internals;
 
-#if HAS_UWP
-using Windows.UI.Xaml;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml;
 #else
 using System.Windows;
@@ -241,7 +239,7 @@ namespace Prism.Regions
 
         private static bool IsInDesignMode(DependencyObject element)
         {
-#if HAS_UWP || HAS_WINUI
+#if HAS_WINUI
             return Windows.ApplicationModel.DesignMode.DesignModeEnabled;
 #else
             return DesignerProperties.GetIsInDesignMode(element);

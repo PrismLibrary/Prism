@@ -9,9 +9,7 @@ namespace Prism.Modularity
     /// <summary>
     /// Defines the metadata that describes a module.
     /// </summary>
-#if HAS_UWP
-    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(DependsOn))]
-#elif HAS_WINUI
+#if HAS_WINUI
     [Microsoft.UI.Xaml.Markup.ContentProperty(Name = nameof(DependsOn))]
 #else
     [Xamarin.Forms.ContentProperty(nameof(DependsOn))]

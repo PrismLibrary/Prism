@@ -5,9 +5,7 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-#if HAS_UWP
-using Windows.UI.Xaml;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml;
 #else
 using System.Windows;
@@ -16,7 +14,7 @@ using System.Windows;
 namespace Prism.Regions.Behaviors
 {
     /// <summary>
-    /// Defines a behavior that forwards the <see cref="RegionManager.RegionContextProperty"/> 
+    /// Defines a behavior that forwards the <see cref="RegionManager.RegionContextProperty"/>
     /// to the views in the region.
     /// </summary>
     public class BindRegionContextToDependencyObjectBehavior : IRegionBehavior

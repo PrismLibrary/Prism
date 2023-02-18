@@ -1,13 +1,7 @@
 using System;
 using Windows.Foundation;
-
-#if HAS_UWP
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-#elif HAS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-#endif
 
 namespace Prism.Services.Dialogs
 {

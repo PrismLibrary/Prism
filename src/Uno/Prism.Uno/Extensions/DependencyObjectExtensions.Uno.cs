@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-#if HAS_UWP
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Data;
-#elif HAS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Windows.Foundation.Metadata;
-#endif
 
 namespace Prism
 {

@@ -4,9 +4,7 @@ using System;
 using Prism.Properties;
 using Prism.Common;
 
-#if HAS_UWP
-using Windows.UI.Xaml;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml;
 #else
 using System.Windows;
@@ -15,11 +13,11 @@ using System.Windows;
 namespace Prism.Regions.Behaviors
 {
     /// <summary>
-    /// Behavior that synchronizes the <see cref="IRegion.Context"/> property of a <see cref="IRegion"/> with 
-    /// the control that hosts the Region. It does this by setting the <see cref="RegionManager.RegionContextProperty"/> 
+    /// Behavior that synchronizes the <see cref="IRegion.Context"/> property of a <see cref="IRegion"/> with
+    /// the control that hosts the Region. It does this by setting the <see cref="RegionManager.RegionContextProperty"/>
     /// Dependency Property on the host control.
-    /// 
-    /// This behavior allows the usage of two way databinding of the RegionContext from XAML. 
+    ///
+    /// This behavior allows the usage of two way databinding of the RegionContext from XAML.
     /// </summary>
     public class SyncRegionContextWithHostBehavior : RegionBehavior, IHostAwareRegionBehavior
     {
@@ -27,7 +25,7 @@ namespace Prism.Regions.Behaviors
         private DependencyObject hostControl;
 
         /// <summary>
-        /// Name that identifies the SyncRegionContextWithHostBehavior behavior in a collection of RegionsBehaviors. 
+        /// Name that identifies the SyncRegionContextWithHostBehavior behavior in a collection of RegionsBehaviors.
         /// </summary>
         public static readonly string BehaviorKey = "SyncRegionContextWithHost";
 
@@ -69,7 +67,7 @@ namespace Prism.Regions.Behaviors
         {
             if (this.HostControl != null)
             {
-                // Sync values initially. 
+                // Sync values initially.
                 SynchronizeRegionContext();
 
                 // Now register for events to keep them in sync

@@ -1,10 +1,7 @@
 using System;
 using System.Windows.Input;
 
-#if HAS_UWP
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 #else
@@ -116,7 +113,7 @@ namespace Prism.Interactivity
             }
             else if (Command != null)
             {
-#if HAS_UWP || HAS_WINUI
+#if HAS_WINUI
                 if (AutoEnable && TargetObject is Control control)
                     control.IsEnabled = Command.CanExecute(CommandParameter);
 #else

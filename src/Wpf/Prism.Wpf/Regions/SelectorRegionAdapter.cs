@@ -1,9 +1,7 @@
 using Prism.Regions.Behaviors;
 using System;
 
-#if HAS_UWP
-using Windows.UI.Xaml.Controls.Primitives;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml.Controls.Primitives;
 #else
 using System.Windows.Controls.Primitives;

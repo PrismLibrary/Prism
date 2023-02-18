@@ -7,11 +7,7 @@ using System.Linq;
 using Prism.Properties;
 using Prism.Ioc;
 
-#if HAS_UWP
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;

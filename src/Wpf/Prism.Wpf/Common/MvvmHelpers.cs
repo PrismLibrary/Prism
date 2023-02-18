@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Prism.Mvvm;
-#if HAS_UWP
-using Windows.UI.Xaml;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml;
 #else
 using System.Windows;
@@ -18,7 +16,7 @@ namespace Prism.Common
     /// </summary>
     public static class MvvmHelpers
     {
-#if HAS_UWP || HAS_WINUI
+#if HAS_WINUI
         /// <summary>
         /// Sets the AutoWireViewModel property to true for the <paramref name="viewOrViewModel"/>.
         /// </summary>
