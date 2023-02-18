@@ -22,6 +22,8 @@ namespace Prism
     {
         private IContainerExtension? _containerExtension;
         private IModuleCatalog? _moduleCatalog;
+        private IHost? _host;
+        private IRegionManager? _regionManager;
 
         /// <summary>
         /// The dependency injection container used to resolve objects
@@ -29,14 +31,12 @@ namespace Prism
         public IContainerProvider Container => _containerExtension ??
             throw new InvalidOperationException("The Container has not yet been initialized.");
 
-        private IHost? _host;
         /// <summary>
         /// Gets the <see cref="IHost" /> built when the Shell is loaded.
         /// </summary>
         public IHost Host => _host ??
             throw new InvalidOperationException("The host has not yet been created. The Shell must first be loaded before the Host is created.");
 
-        private IRegionManager? _regionManager;
         /// <summary>
         /// Gets the <see cref="IRegionManager" /> which can be used in the OnInitialized method to Navigation in the Shell once it has loaded
         /// and the <see cref="IHost" /> has been built and all <see cref="IModule" />'s have been loaded by the <see cref="IModuleManager" />
@@ -50,9 +50,8 @@ namespace Prism
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            var builder = this.CreateBuilder(args);
             base.OnLaunched(args);
-            InitializeInternal(builder);
+            InitializeInternal(this.CreateBuilder(args));
         }
 
         /// <summary>
@@ -88,8 +87,12 @@ namespace Prism
         protected virtual void ConfigureHost(IHostBuilder builder) { }
 
         /// <summary>
-        /// Register Services with the <see cref="IServiceCollection" />
+        /// Register Services with the <see cref="IServiceCollection" />.
         /// </summary>
+        /// <remarks>
+        /// Services registered here will not be available in Prism's <see cref="IContainerProvider"/>
+        /// until the Shell has finished Loading.
+        /// </remarks>
         /// <param name="services">The <see cref="IServiceCollection" /></param>
         protected virtual void ConfigureServices(IServiceCollection services) { }
 
