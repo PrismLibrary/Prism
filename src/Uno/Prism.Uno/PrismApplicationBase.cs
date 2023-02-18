@@ -78,14 +78,20 @@ namespace Prism
         /// <summary>
         /// Allows you to configure the Application Host using the <see cref="IApplicationBuilder" />
         /// </summary>
-        /// <param name="builder"></param>
+        /// <param name="builder">The <see cref="IApplicationBuilder" />.</param>
         protected virtual void ConfigureApp(IApplicationBuilder builder) { }
 
         /// <summary>
         /// Allows you to configure the <see cref="IHostBuilder"/>
         /// </summary>
-        /// <param name="builder"></param>
+        /// <param name="builder">The <see cref="IHostBuilder" />.</param>
         protected virtual void ConfigureHost(IHostBuilder builder) { }
+
+        /// <summary>
+        /// Register Services with the <see cref="IServiceCollection" />
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection" /></param>
+        protected virtual void ConfigureServices(IServiceCollection services) { }
 
         /// <summary>
         /// Runs the initialization sequence to configure the Prism application.
@@ -96,7 +102,8 @@ namespace Prism
             _containerExtension = ContainerLocator.Current;
             ConfigureApp(builder);
             builder.Configure(ConfigureHost)
-                .Configure(x => x.UseServiceProviderFactory(new PrismServiceProviderFactory(_containerExtension)));
+                .Configure(x => x.ConfigureServices(ConfigureServices)
+                    .UseServiceProviderFactory(new PrismServiceProviderFactory(_containerExtension)));
 
             _moduleCatalog = CreateModuleCatalog();
             RegisterRequiredTypes(_containerExtension);
