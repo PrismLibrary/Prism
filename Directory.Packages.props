@@ -12,14 +12,14 @@
     <PackageVersion Include="Uno.UI" Version="4.7.37" />
     <PackageVersion Include="Uno.WinUI" Version="4.7.37" />
     <PackageVersion Include="Uno.Core" Version="4.0.1" />
-    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="2.3.0-dev.662" />
+    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="2.3.0-dev.690" />
     <PackageVersion Include="Uno.Wasm.Bootstrap" Version="7.0.17" />
     <PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="7.0.17" />
     <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.3.0" />
     <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.3.0" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.2.230118.102" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
   </ItemGroup>
   <!-- Tests -->

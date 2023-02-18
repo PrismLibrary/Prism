@@ -19,7 +19,7 @@ public static class MicrosoftDependencyInjectionExtensions
 
         return sca.CreateServiceProvider();
     }
-
+#if !UNO_WINUI_PROJECT
     public static IServiceCollection RegisterForNavigation<TView>(this IServiceCollection services, string name = null)
             where TView : Page =>
             services.RegisterForNavigation(typeof(TView), null, name);
@@ -50,4 +50,5 @@ public static class MicrosoftDependencyInjectionExtensions
 
         return services;
     }
+#endif
 }
