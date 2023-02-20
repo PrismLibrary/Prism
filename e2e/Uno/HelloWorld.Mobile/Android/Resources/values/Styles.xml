@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+	<style name="AppTheme" parent="Theme.AppCompat.Light">
+
+		<!-- This removes the ActionBar -->
+		<item name="windowActionBar">false</item>
+		<item name="android:windowActionBar">false</item>
+		<item name="windowNoTitle">true</item>
+		<item name="android:windowNoTitle">true</item>
+
+		<!-- This property is used for the splash screen -->
+		<item name="android:windowSplashScreenBackground">#FFFFFF</item>
+		<item name="android:windowBackground">@drawable/splash_screen</item>
+		<item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
+		<!--<item name="android:windowSplashScreenBehavior">1</item>-->
+
+	</style>
+	<style name="Theme.AppCompat.Translucent">
+		<item name="android:windowIsTranslucent">true</item>
+		<item name="android:windowAnimationStyle">@android:style/Animation</item>
+	</style>
+
+</resources>
