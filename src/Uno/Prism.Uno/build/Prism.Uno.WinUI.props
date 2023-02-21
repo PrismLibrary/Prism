@@ -8,5 +8,6 @@
     <Using Include="Prism.Modularity" />
     <Using Include="Prism.Navigation" />
     <Using Include="Prism.Regions" />
+    <Using Include="Prism.Services.Dialogs" />
   </ItemGroup>
 </Project>
