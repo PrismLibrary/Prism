@@ -5,10 +5,7 @@ using Prism.Regions.Behaviors;
 using System;
 using System.Globalization;
 
-#if HAS_UWP
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Data;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 #else

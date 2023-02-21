@@ -2,9 +2,7 @@
 
 using System;
 
-#if HAS_UWP
-using Windows.UI.Xaml;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml;
 #else
 using System.Windows;
@@ -28,7 +26,7 @@ namespace Prism.Regions
         /// Gets the value for the RegionName attached property.
         /// </summary>
         /// <param name="element">The object to adapt. This is typically a container (i.e a control).</param>
-        /// <returns>The name of the region that should be created when 
+        /// <returns>The name of the region that should be created when
         /// the RegionManager is also set in this element.</returns>
         string GetRegionName(DependencyObject element);
 

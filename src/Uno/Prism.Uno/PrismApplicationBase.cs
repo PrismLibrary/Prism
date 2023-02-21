@@ -1,26 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using System.ComponentModel;
+using Microsoft.Extensions.Hosting;
+using Microsoft.UI.Xaml;
 using Prism.Common;
-using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
-using Prism.Regions.Behaviors;
-using Prism.Services.Dialogs;
-using Windows.ApplicationModel;
+using Uno.Extensions.Hosting;
+using Application = Microsoft.UI.Xaml.Application;
 
-#if HAS_UWP
-using Windows.ApplicationModel.Activation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-#elif HAS_WINUI
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-#endif
-
+#nullable enable
 namespace Prism
 {
     /// <summary>
@@ -31,34 +20,47 @@ namespace Prism
     /// </remarks>
     public abstract class PrismApplicationBase : Application
     {
-        IContainerExtension _containerExtension;
-        IModuleCatalog _moduleCatalog;
-
-        public PrismApplicationBase()
-        {
-#if HAS_UWP
-            Suspending += (s, e) => OnSuspending(e);
-#endif
-        }
+        private IContainerExtension? _containerExtension;
+        private IModuleCatalog? _moduleCatalog;
+        private IHost? _host;
+        private IRegionManager? _regionManager;
 
         /// <summary>
         /// The dependency injection container used to resolve objects
         /// </summary>
-        public IContainerProvider Container => _containerExtension;
+        public IContainerProvider Container => _containerExtension ??
+            throw new InvalidOperationException("The Container has not yet been initialized.");
 
+        /// <summary>
+        /// Gets the <see cref="IHost" /> built when the Shell is loaded.
+        /// </summary>
+        public IHost Host => _host ??
+            throw new InvalidOperationException("The host has not yet been created. The Shell must first be loaded before the Host is created.");
+
+        /// <summary>
+        /// Gets the <see cref="IRegionManager" /> which can be used in the OnInitialized method to Navigation in the Shell once it has loaded
+        /// and the <see cref="IHost" /> has been built and all <see cref="IModule" />'s have been loaded by the <see cref="IModuleManager" />
+        /// </summary>
+        protected IRegionManager RegionManager => _regionManager ??= Container.Resolve<IRegionManager>();
+
+        /// <summary>
+        /// Invoked when the application is launched.
+        /// </summary>
+        /// <param name="args">Event data for the event.</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             base.OnLaunched(args);
-            InitializeInternal();
+            InitializeInternal(this.CreateBuilder(args));
         }
 
         /// <summary>
         /// Run the initialization process.
         /// </summary>
-        void InitializeInternal()
+        void InitializeInternal(IApplicationBuilder builder)
         {
             ConfigureViewModelLocator();
-            Initialize();
+            Initialize(builder);
         }
 
         /// <summary>
@@ -73,12 +75,39 @@ namespace Prism
         }
 
         /// <summary>
+        /// Allows you to configure the Application Host using the <see cref="IApplicationBuilder" />
+        /// </summary>
+        /// <param name="builder">The <see cref="IApplicationBuilder" />.</param>
+        protected virtual void ConfigureApp(IApplicationBuilder builder) { }
+
+        /// <summary>
+        /// Allows you to configure the <see cref="IHostBuilder"/>
+        /// </summary>
+        /// <param name="builder">The <see cref="IHostBuilder" />.</param>
+        protected virtual void ConfigureHost(IHostBuilder builder) { }
+
+        /// <summary>
+        /// Register Services with the <see cref="IServiceCollection" />.
+        /// </summary>
+        /// <remarks>
+        /// Services registered here will not be available in Prism's <see cref="IContainerProvider"/>
+        /// until the Shell has finished Loading.
+        /// </remarks>
+        /// <param name="services">The <see cref="IServiceCollection" /></param>
+        protected virtual void ConfigureServices(IServiceCollection services) { }
+
+        /// <summary>
         /// Runs the initialization sequence to configure the Prism application.
         /// </summary>
-        public virtual void Initialize()
+        protected virtual void Initialize(IApplicationBuilder builder)
         {
             ContainerLocator.SetContainerExtension(CreateContainerExtension);
             _containerExtension = ContainerLocator.Current;
+            ConfigureApp(builder);
+            builder.Configure(ConfigureHost)
+                .Configure(x => x.ConfigureServices(ConfigureServices)
+                    .UseServiceProviderFactory(new PrismServiceProviderFactory(_containerExtension)));
+
             _moduleCatalog = CreateModuleCatalog();
             RegisterRequiredTypes(_containerExtension);
             RegisterTypes(_containerExtension);
@@ -98,13 +127,14 @@ namespace Prism
             if (shell != null)
             {
                 MvvmHelpers.AutowireViewModel(shell);
-                InitializeShell(shell);
+                builder.Window.Content = shell;
+                builder.Window.Activate();
 
                 void FinalizeInitialization()
                 {
-                    RegionManager.SetRegionManager(shell, _containerExtension.Resolve<IRegionManager>());
-                    RegionManager.UpdateRegions();
-
+                    Regions.RegionManager.SetRegionManager(shell, _containerExtension.Resolve<IRegionManager>());
+                    Regions.RegionManager.UpdateRegions();
+                    _host = builder.Build();
                     InitializeModules();
                     OnInitialized();
                 }
@@ -117,19 +147,13 @@ namespace Prism
                         fe.Loaded -= OnLoaded;
                     }
 
-#if HAS_UNO
-                    // Uno currently loads items earlier than UWP, so we can check 
-                    // for the IsLoaded property. UWP got that property in SDK 17763,
-                    // meaning that the condition can be removed once the SDK is updated
-                    // in Prism.Uno.
                     if (fe.IsLoaded)
                     {
                         FinalizeInitialization();
                     }
                     else
-#endif
                     {
-                        // We need to delay the initialization after the shell has been loaded, otherwise 
+                        // We need to delay the initialization after the shell has been loaded, otherwise
                         // the visual tree is not materialized for the RegionManager to be available.
                         // See https://github.com/PrismLibrary/Prism/issues/2102 for more details.
                         fe.Loaded += OnLoaded;
@@ -174,8 +198,8 @@ namespace Prism
         protected abstract void RegisterTypes(IContainerRegistry containerRegistry);
 
         /// <summary>
-        /// Configures the <see cref="IRegionBehaviorFactory"/>. 
-        /// This will be the list of default behaviors that will be added to a region. 
+        /// Configures the <see cref="IRegionBehaviorFactory"/>.
+        /// This will be the list of default behaviors that will be added to a region.
         /// </summary>
         protected virtual void ConfigureDefaultRegionBehaviors(IRegionBehaviorFactory regionBehaviors)
         {
@@ -194,7 +218,7 @@ namespace Prism
         }
 
         /// <summary>
-        /// Registers the <see cref="Type"/>s of the Exceptions that are not considered 
+        /// Registers the <see cref="Type"/>s of the Exceptions that are not considered
         /// root exceptions by the <see cref="ExceptionExtensions"/>.
         /// </summary>
         protected virtual void RegisterFrameworkExceptionTypes()
@@ -206,26 +230,6 @@ namespace Prism
         /// </summary>
         /// <returns>The shell of the application.</returns>
         protected abstract UIElement CreateShell();
-
-        /// <summary>
-        /// Initializes the shell.
-        /// </summary>
-        protected virtual void InitializeShell(UIElement shell)
-        {
-#if HAS_UWP
-            Windows.UI.Xaml.Window.Current.Content = shell;
-
-            // Activate must be called immediately in order for the Loaded event to be raised
-            // in the shell.
-            Windows.UI.Xaml.Window.Current.Activate();
-#elif HAS_WINUI && !NETCOREAPP
-            Microsoft.UI.Xaml.Window.Current.Content = shell;
-
-            // Activate must be called immediately in order for the Loaded event to be raised
-            // in the shell.
-            Microsoft.UI.Xaml.Window.Current.Activate();
-#endif
-        }
 
         /// <summary>
         /// Contains actions that should occur last.
@@ -246,11 +250,5 @@ namespace Prism
         {
             PrismInitializationExtensions.RunModuleManager(Container);
         }
-
-#if HAS_UWP
-        protected virtual void OnSuspending(SuspendingEventArgs e)
-        {
-        }
-#endif
     }
 }

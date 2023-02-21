@@ -5,10 +5,7 @@ using System.ComponentModel;
 using Prism.Properties;
 using System.Globalization;
 
-#if HAS_UWP
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 #else
@@ -145,7 +142,7 @@ namespace Prism.Regions.Behaviors
             }
 
             DependencyObject parent = null;
-#if HAS_UWP || HAS_WINUI
+#if HAS_WINUI
             parent = VisualTreeHelper.GetParent(dependencyObject);
 #else
             parent = LogicalTreeHelper.GetParent(dependencyObject);

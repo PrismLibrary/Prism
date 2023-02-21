@@ -6,9 +6,7 @@ using System.Linq;
 using System.Collections.Specialized;
 using Prism.Common;
 
-#if HAS_UWP
-using Windows.UI.Xaml;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml;
 #else
 using System.Windows;
@@ -22,10 +20,10 @@ namespace Prism.Regions.Behaviors
     /// </summary>
     /// <remarks>
     /// The <see cref="RegionMemberLifetimeBehavior"/> monitors the <see cref="IRegion.ActiveViews"/>
-    /// collection to discover items that transition into a deactivated state.  
+    /// collection to discover items that transition into a deactivated state.
     /// <p/>
     /// The behavior checks the removed items for either the <see cref="IRegionMemberLifetime"/>
-    /// or the <see cref="RegionMemberLifetimeAttribute"/> (in that order) to determine if it should be kept 
+    /// or the <see cref="RegionMemberLifetimeAttribute"/> (in that order) to determine if it should be kept
     /// alive on removal.
     /// <p/>
     /// If the item in the collection is a <see cref="FrameworkElement"/>, it will

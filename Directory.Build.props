@@ -49,6 +49,10 @@
     <MSBuildSdkExtrasVersion>3.0.44</MSBuildSdkExtrasVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="$(IsUnoProject)">
+    <DefineConstants>$(DefineConstants);UNO_WINUI_PROJECT</DefineConstants>
+  </PropertyGroup>
+
   <!-- Versioning -->
   <PropertyGroup>
     <PackageReleaseNotes>https://github.com/PrismLibrary/Prism/releases/tag/v$(Version)</PackageReleaseNotes>

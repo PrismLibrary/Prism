@@ -6,9 +6,7 @@ using System.Linq;
 using System.Reflection;
 using Prism.Common;
 
-#if HAS_UWP
-using Windows.UI.Xaml;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml;
 #else
 using System.Windows;
@@ -17,9 +15,9 @@ using System.Windows;
 namespace Prism.Regions.Behaviors
 {
     /// <summary>
-    /// Behavior that monitors a <see cref="IRegion"/> object and 
+    /// Behavior that monitors a <see cref="IRegion"/> object and
     /// changes the value for the <see cref="IActiveAware.IsActive"/> property when
-    /// an object that implements <see cref="IActiveAware"/> gets added or removed 
+    /// an object that implements <see cref="IActiveAware"/> gets added or removed
     /// from the collection.
     /// </summary>
     /// <remarks>
@@ -94,7 +92,7 @@ namespace Prism.Regions.Behaviors
 
             if (dependencyObjectView != null)
             {
-                // We are assuming that any scoped region managers are attached directly to the 
+                // We are assuming that any scoped region managers are attached directly to the
                 // view.
                 var regionManager = RegionManager.GetRegionManager(dependencyObjectView);
 

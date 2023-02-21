@@ -2,9 +2,7 @@
 
 using System.ComponentModel;
 
-#if HAS_UWP
-using Windows.UI.Xaml;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml;
 #else
 using System.Windows;
@@ -13,11 +11,11 @@ using System.Windows;
 namespace Prism.Common
 {
     /// <summary>
-    /// Class that wraps an object, so that other classes can notify for Change events. Typically, this class is set as 
-    /// a Dependency Property on DependencyObjects, and allows other classes to observe any changes in the Value. 
+    /// Class that wraps an object, so that other classes can notify for Change events. Typically, this class is set as
+    /// a Dependency Property on DependencyObjects, and allows other classes to observe any changes in the Value.
     /// </summary>
     /// <remarks>
-    /// This class is required, because in Silverlight, it's not possible to receive Change notifications for Dependency properties that you do not own. 
+    /// This class is required, because in Silverlight, it's not possible to receive Change notifications for Dependency properties that you do not own.
     /// </remarks>
     /// <typeparam name="T">The type of the property that's wrapped in the Observable object</typeparam>
     public partial class ObservableObject<T> : FrameworkElement, INotifyPropertyChanged
@@ -30,7 +28,7 @@ namespace Prism.Common
                 DependencyProperty.Register("Value", typeof(T), typeof(ObservableObject<T>), new PropertyMetadata(null, ValueChangedCallback));
 
         /// <summary>
-        /// Event that gets invoked when the Value property changes. 
+        /// Event that gets invoked when the Value property changes.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 

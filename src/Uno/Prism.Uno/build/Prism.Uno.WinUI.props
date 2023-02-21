@@ -1,0 +1,13 @@
+﻿<Project>
+  <ItemGroup>
+    <Using Include="Prism" />
+    <Using Include="Prism.Commands" />
+    <Using Include="Prism.Events" />
+    <Using Include="Prism.Ioc" />
+    <Using Include="Prism.Mvvm" />
+    <Using Include="Prism.Modularity" />
+    <Using Include="Prism.Navigation" />
+    <Using Include="Prism.Regions" />
+    <Using Include="Prism.Services.Dialogs" />
+  </ItemGroup>
+</Project>

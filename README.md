@@ -17,11 +17,12 @@ Don't forget both Brian and Dan have content on YouTube and stream there from ti
 
 |          | Status |
 | -------- | ------ |
-| Full Build | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20Prism%20Library)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
-| Prism.Core | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Core)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
-| Prism.Wpf | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Wpf)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
-| Prism.Forms | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Forms)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
-| Prism.Uno | [![Build Status](https://dev.azure.com/prismlibrary/Prism/_apis/build/status/Prism-CI?branchName=master&stageName=Build%20%26%20Test&jobName=Prism.Uno)](https://dev.azure.com/prismlibrary/Prism/_build/latest?definitionId=9&branchName=master) |
+| Full Build | [![Prism CI](https://github.com/PrismLibrary/Prism/actions/workflows/ci.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/ci.yml) |
+| Prism.Core | [![build_core](https://github.com/PrismLibrary/Prism/actions/workflows/build_core.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_core.yml) |
+| Prism.Wpf | [![build_wpf](https://github.com/PrismLibrary/Prism/actions/workflows/build_wpf.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_wpf.yml) |
+| Prism.Forms | [![build_forms](https://github.com/PrismLibrary/Prism/actions/workflows/build_forms.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_forms.yml) |
+| Prism.Uno | [![build_uno](https://github.com/PrismLibrary/Prism/actions/workflows/build_uno.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_uno.yml) |
+| Prism.Maui | [![build_maui](https://github.com/PrismLibrary/Prism/actions/workflows/build_maui.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_maui.yml) |
 
 ## Support
 
@@ -130,6 +131,7 @@ For stable samples be sure to check out the samples repo for the platform you ar
 - [Prism for WPF Samples](https://github.com/PrismLibrary/Prism-Samples-Wpf)
 - [Prism for Xamarim.Forms](https://github.com/PrismLibrary/Prism-Samples-Forms)
 - [Prism for Uno Platform](#) (Coming soon)
+- [Prism for .NET MAUI](#) (Coming soon)
 
 ## Contributing
 

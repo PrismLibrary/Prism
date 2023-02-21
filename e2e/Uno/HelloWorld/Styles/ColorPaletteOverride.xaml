@@ -1,0 +1,62 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<ResourceDictionary.ThemeDictionaries>
+		<!-- Light Theme -->
+		<ResourceDictionary x:Key="Light">
+
+			<Color x:Key="PrimaryColor">#5B4CF5</Color>
+			<Color x:Key="SecondaryColor">#67E5AD</Color>
+			<Color x:Key="BackgroundColor">#F4F4F4</Color>
+			<Color x:Key="SurfaceColor">#FFFFFF</Color>
+			<Color x:Key="OnSurfaceColor">#000000</Color>
+			<Color x:Key="ErrorColor">#F85977</Color>
+
+			<!-- OnPrimary -->
+			<Color x:Key="OnPrimaryColor">#FFFFFF</Color>
+
+			<!-- OnSecondary -->
+			<Color x:Key="OnSecondaryColor">#000000</Color>
+
+			<!-- OnBackground -->
+			<Color x:Key="OnBackgroundColor">#000000</Color>
+
+			<!-- OnError -->
+			<Color x:Key="OnErrorColor">#FFFFFF</Color>
+		</ResourceDictionary>
+
+		<!-- Dark Theme -->
+		<ResourceDictionary x:Key="Dark">
+			<!-- Primary -->
+			<Color x:Key="PrimaryColor">#2F81D8</Color>
+
+			<!-- OnPrimary -->
+			<Color x:Key="OnPrimaryColor">#FFFFFF</Color>
+
+			<!-- Secondary -->
+			<Color x:Key="SecondaryColor">#FEB839</Color>
+
+			<!-- OnSecondary -->
+			<Color x:Key="OnSecondaryColor">#000000</Color>
+
+			<!-- Background -->
+			<Color x:Key="BackgroundColor">#000000</Color>
+
+			<!-- OnBackground -->
+			<Color x:Key="OnBackgroundColor">#FFFFFF</Color>
+
+			<!-- Surface -->
+			<Color x:Key="SurfaceColor">#0F0F0F</Color>
+
+			<!-- OnSurface -->
+			<Color x:Key="OnSurfaceColor">#FFFFFF</Color>
+
+			<!-- Error -->
+			<Color x:Key="ErrorColor">#B2213C</Color>
+
+			<!-- OnError -->
+			<Color x:Key="OnErrorColor">#FFFFFF</Color>
+		</ResourceDictionary>
+
+	</ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>

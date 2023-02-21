@@ -3,9 +3,7 @@
 using System;
 using System.ComponentModel;
 
-#if HAS_UWP
-using Windows.UI.Xaml;
-#elif HAS_WINUI
+#if HAS_WINUI
 using Microsoft.UI.Xaml;
 #else
 using System.Windows;
@@ -85,13 +83,13 @@ namespace Prism.Regions
         void RemoveAll();
 
         /// <summary>
-        /// Marks the specified view as active. 
+        /// Marks the specified view as active.
         /// </summary>
         /// <param name="view">The view to activate.</param>
         void Activate(object view);
 
         /// <summary>
-        /// Marks the specified view as inactive. 
+        /// Marks the specified view as inactive.
         /// </summary>
         /// <param name="view">The view to deactivate.</param>
         void Deactivate(object view);
@@ -112,7 +110,7 @@ namespace Prism.Regions
         IRegionManager RegionManager { get; set; }
 
         /// <summary>
-        /// Gets the collection of <see cref="IRegionBehavior"/>s that can extend the behavior of regions. 
+        /// Gets the collection of <see cref="IRegionBehavior"/>s that can extend the behavior of regions.
         /// </summary>
         IRegionBehaviorCollection Behaviors { get; }
 

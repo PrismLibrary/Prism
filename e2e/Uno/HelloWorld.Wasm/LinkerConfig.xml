@@ -1,0 +1,12 @@
+<linker>
+	<assembly fullname="HelloWorld" />
+	<assembly fullname="HelloWorld.Wasm" />
+	<assembly fullname="Uno.UI" />
+	<assembly fullname="Microsoft.Extensions.Options" />
+	<assembly fullname="Uno.Extensions.Hosting.WinUI" />
+
+	<assembly fullname="System.Core">
+		<!-- This is required by JSon.NET and any expression.Compile caller -->
+		<type fullname="System.Linq.Expressions*" />
+	</assembly>
+</linker>
