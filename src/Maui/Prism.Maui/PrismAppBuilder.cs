@@ -85,7 +85,7 @@ public sealed class PrismAppBuilder
 
     private void ConfigureViewModelLocator()
     {
-        ViewModelLocationProvider2.SetDefaultViewToViewModelTypeResolver(view =>
+        ViewModelLocationProvider.SetDefaultViewToViewModelTypeResolver(view =>
         {
             if (view is not BindableObject bindable)
                 return null;
@@ -93,7 +93,7 @@ public sealed class PrismAppBuilder
             return bindable.GetValue(ViewModelLocator.ViewModelProperty) as Type;
         });
 
-        ViewModelLocationProvider2.SetDefaultViewModelFactory(DefaultViewModelLocator);
+        ViewModelLocationProvider.SetDefaultViewModelFactory(DefaultViewModelLocator);
     }
 
     internal static object DefaultViewModelLocator(object view, Type viewModelType)
@@ -183,7 +183,7 @@ public sealed class PrismAppBuilder
     /// </summary>
     public PrismAppBuilder ConfigureDefaultViewModelFactory(Func<IContainerProvider, object, Type, object> viewModelFactory)
     {
-        ViewModelLocationProvider2.SetDefaultViewModelFactory((view, type) =>
+        ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
         {
             if (view is not BindableObject bindable)
                 return null;

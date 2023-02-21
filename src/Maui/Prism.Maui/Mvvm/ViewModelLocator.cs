@@ -72,7 +72,7 @@ public static class ViewModelLocator
             Autowire(navigationPage.RootPage);
         }
 
-        ViewModelLocationProvider2.AutoWireViewModelChanged(view, Bind);
+        ViewModelLocationProvider.AutoWireViewModelChanged(view, Bind);
 
         if (view is BindableObject bindable && bindable.BindingContext is null)
             bindable.BindingContext = new object();

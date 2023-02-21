@@ -68,6 +68,8 @@ namespace Prism.Mvvm
             return Type.GetType(viewModelName);
         }
 
+        static Func<object, Type> _defaultViewToViewModelTypeResolver = view => null;
+
         /// <summary>
         /// Sets the default view model factory.
         /// </summary>
@@ -96,6 +98,13 @@ namespace Prism.Mvvm
         }
 
         /// <summary>
+        /// Sets the default ViewModel Type Resolver given the View instance. This can be used to evaluate the View for
+        /// custom attributes or Attached Properties to determine the ViewModel Type.
+        /// </summary> 
+        public static void SetDefaultViewToViewModelTypeResolver(Func<object, Type> viewToViewModelTypeResolver) =>
+            _defaultViewToViewModelTypeResolver = viewToViewModelTypeResolver;
+
+        /// <summary>
         /// Automatically looks up the viewmodel that corresponds to the current view, using two strategies:
         /// It first looks to see if there is a mapping registered for that view, if not it will fallback to the convention based approach.
         /// </summary>
@@ -109,8 +118,12 @@ namespace Prism.Mvvm
             // try to use ViewModel type
             if (viewModel == null)
             {
-                //check type mappings
+                // check type mappings
                 var viewModelType = GetViewModelTypeForView(view.GetType());
+
+                // check platform View to ViewModel resolver
+                if (viewModelType == null)
+                    viewModelType = _defaultViewToViewModelTypeResolver(view);
 
                 // fallback to convention based
                 if (viewModelType == null)
@@ -121,7 +134,6 @@ namespace Prism.Mvvm
 
                 viewModel = _defaultViewModelFactoryWithViewParameter != null ? _defaultViewModelFactoryWithViewParameter(view, viewModelType) : _defaultViewModelFactory(viewModelType);
             }
-
 
             setDataContextCallback(view, viewModel);
         }
