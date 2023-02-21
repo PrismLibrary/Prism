@@ -97,6 +97,10 @@ namespace Prism.Mvvm
             _defaultViewTypeToViewModelTypeResolver = viewTypeToViewModelTypeResolver;
         }
 
+        /// <summary>
+        /// Sets the default ViewModel Type Resolver given the View instance. This can be used to evaluate the View for
+        /// custom attributes or Attached Properties to determine the ViewModel Type.
+        /// </summary> 
         public static void SetDefaultViewToViewModelTypeResolver(Func<object, Type> viewToViewModelTypeResolver) =>
             _defaultViewToViewModelTypeResolver = viewToViewModelTypeResolver;
 
