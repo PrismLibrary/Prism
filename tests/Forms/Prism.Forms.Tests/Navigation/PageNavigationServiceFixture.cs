@@ -9,6 +9,7 @@ using Prism.Forms.Tests.Mocks.Views;
 using Prism.Forms.Tests.Navigation.Mocks.Views;
 using Prism.Ioc;
 using Prism.Navigation;
+using Prism.Navigation.TabbedPages;
 using Xamarin.Forms;
 using Xunit;
 
@@ -1747,6 +1748,66 @@ namespace Prism.Forms.Tests.Navigation
             Assert.IsType<Tab2Mock>(navPage.CurrentPage);
 
             Assert.IsType<Tab3Mock>(tabbedPage.Children[2]);
+        }
+
+        [Fact]
+        public async Task NavigateToTab_FromTabChild()
+        {
+            var navigationService = new PageNavigationServiceMock( _container, _applicationProvider);
+            var currentTab = new Tab1Mock();
+            ((IPageAware)navigationService).Page = currentTab;
+            var tabbedPage = new TabbedPage();
+            tabbedPage.Children.Add(currentTab);
+            tabbedPage.Children.Add(new Tab2Mock());
+            tabbedPage.Children.Add(new Tab3Mock());
+
+            var result = await navigationService.SelectTabAsync("Tab3");
+
+            Assert.True(result.Success);
+            Assert.Null(result.Exception);
+
+            Assert.NotEqual(currentTab, tabbedPage.CurrentPage);
+            Assert.IsType<Tab3Mock>(tabbedPage.CurrentPage);
+        }
+
+        [Fact]
+        public async Task NavigateToTab_FromTabChild_WithNavigationPageParent()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var currentTab = new Tab1Mock();
+            ((IPageAware)navigationService).Page = currentTab;
+            var tabbedPage = new TabbedPage();
+            tabbedPage.Children.Add(new NavigationPage(currentTab));
+            tabbedPage.Children.Add(new Tab2Mock());
+            tabbedPage.Children.Add(new Tab3Mock());
+
+            var result = await navigationService.SelectTabAsync("Tab3");
+
+            Assert.True(result.Success);
+            Assert.Null(result.Exception);
+
+            Assert.NotEqual(currentTab, tabbedPage.CurrentPage);
+            Assert.IsType<Tab3Mock>(tabbedPage.CurrentPage);
+        }
+
+        [Fact]
+        public async Task NavigateToTab_FromTabbedPage()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _applicationProvider);
+            var tabbedPage = new TabbedPage();
+            var currentTab = new Tab1Mock();
+            ((IPageAware)navigationService).Page = tabbedPage;
+            tabbedPage.Children.Add(currentTab);
+            tabbedPage.Children.Add(new Tab2Mock());
+            tabbedPage.Children.Add(new Tab3Mock());
+
+            var result = await navigationService.SelectTabAsync("Tab3");
+
+            Assert.True(result.Success);
+            Assert.Null(result.Exception);
+
+            Assert.NotEqual(currentTab, tabbedPage.CurrentPage);
+            Assert.IsType<Tab3Mock>(tabbedPage.CurrentPage);
         }
 
         #endregion

@@ -17,6 +17,7 @@ namespace Prism.Navigation.TabbedPages
         {
             try
             {
+                parameters ??= new NavigationParameters();
                 var currentPage = ((IPageAware)navigationService).Page;
 
                 var canNavigate = await PageUtilities.CanNavigateAsync(currentPage, parameters);
