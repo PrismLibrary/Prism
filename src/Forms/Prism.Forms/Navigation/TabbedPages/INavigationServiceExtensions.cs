@@ -25,20 +25,17 @@ namespace Prism.Navigation.TabbedPages
 
                 TabbedPage tabbedPage = null;
 
-                if (currentPage is TabbedPage parent)
+                if (currentPage is TabbedPage currentAsTabbedPage)
+                {
+                    tabbedPage = currentAsTabbedPage;
+                }
+                else if (currentPage.Parent is TabbedPage parent)
                 {
                     tabbedPage = parent;
                 }
-                else if (currentPage.Parent is TabbedPage parent2)
+                else if (currentPage.Parent is NavigationPage navPage && navPage.Parent is TabbedPage navParentAsTabbedPage)
                 {
-                    tabbedPage = parent2;
-                }
-                else if (currentPage.Parent is NavigationPage navPage)
-                {
-                    if (navPage.Parent != null && navPage.Parent is TabbedPage parent3)
-                    {
-                        tabbedPage = parent3;
-                    }
+                    tabbedPage = navParentAsTabbedPage;
                 }
 
                 if (tabbedPage == null)
