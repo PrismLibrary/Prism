@@ -17,6 +17,7 @@ namespace Prism.Navigation.TabbedPages
         {
             try
             {
+                parameters ??= new NavigationParameters();
                 var currentPage = ((IPageAware)navigationService).Page;
 
                 var canNavigate = await PageUtilities.CanNavigateAsync(currentPage, parameters);
@@ -25,16 +26,17 @@ namespace Prism.Navigation.TabbedPages
 
                 TabbedPage tabbedPage = null;
 
-                if (currentPage.Parent is TabbedPage parent)
+                if (currentPage is TabbedPage currentAsTabbedPage)
+                {
+                    tabbedPage = currentAsTabbedPage;
+                }
+                else if (currentPage.Parent is TabbedPage parent)
                 {
                     tabbedPage = parent;
                 }
-                else if (currentPage.Parent is NavigationPage navPage)
+                else if (currentPage.Parent is NavigationPage navPage && navPage.Parent is TabbedPage navParentAsTabbedPage)
                 {
-                    if (navPage.Parent != null && navPage.Parent is TabbedPage parent2)
-                    {
-                        tabbedPage = parent2;
-                    }
+                    tabbedPage = navParentAsTabbedPage;
                 }
 
                 if (tabbedPage == null)
