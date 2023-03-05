@@ -10,6 +10,19 @@
     <ContinuousIntegrationBuild Condition="'$(BUILD_BUILDID)' != ''">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
+  <Choose>
+    <When Condition=" $(IsUnoProject) AND '$(TargetFramework)' == 'net7.0' ">
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <EmbeddedResource Include="LinkerDefinition.mono.xml">
+          <LogicalName>$(AssemblyName).xml</LogicalName>
+        </EmbeddedResource>
+      </ItemGroup>
+    </When>
+  </Choose>
+
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>$(IsPackable)</GeneratePackageOnBuild>

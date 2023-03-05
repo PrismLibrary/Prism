@@ -21,10 +21,6 @@ Prism provides an implementation of a collection of design patterns that are hel
     <PackageTags>prism;winui;windows;uno;mvvm;uwp;ios;android;macos;webassembly;linux;xaml;dryioc</PackageTags>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='net7.0'">
-    <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
-  </PropertyGroup>
-
   <ItemGroup>
     <Using Include="Microsoft.Extensions.DependencyInjection" />
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
@@ -34,6 +30,7 @@ Prism provides an implementation of a collection of design patterns that are hel
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="build\*.targets" Pack="true" PackagePath="buildTransitive" />
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
 
@@ -58,14 +55,6 @@ Prism provides an implementation of a collection of design patterns that are hel
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Prism.Uno\Prism.Uno.WinUI.csproj" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-    <EmbeddedResource Include="LinkerDefinition.mono.xml">
-      <LogicalName>$(AssemblyName).xml</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="build\" />
   </ItemGroup>
   <Import Project="..\..\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems" Label="Shared" />
 </Project>
