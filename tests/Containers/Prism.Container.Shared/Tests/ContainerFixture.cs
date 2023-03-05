@@ -438,6 +438,24 @@ namespace Prism.Ioc.Tests
             Assert.Equal(typeof(ServiceA), type);
         }
 
+        [Fact]
+        public void RegisterTransientDelegateReturnsNewInstanceEachTime()
+        {
+            var container = Setup.CreateContainer();
+            Setup.Registry.Register<ServiceA>(() => new ServiceA());
+
+            Assert.NotSame(container.Resolve<ServiceA>(), container.Resolve<ServiceA>());
+        }
+
+        [Fact]
+        public void RegisterTransientDelegateWithContainerReturnsNewInstanceEachTime()
+        {
+            var container = Setup.CreateContainer();
+            Setup.Registry.Register<ServiceA>(x => new ServiceA());
+
+            Assert.NotSame(container.Resolve<ServiceA>(), container.Resolve<ServiceA>());
+        }
+
         private static IServiceA CreateService() =>
             new ServiceA { SomeProperty = "Created through a factory" };
 
