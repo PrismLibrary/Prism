@@ -992,8 +992,9 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
 
         var pageOffset = currentPage.Navigation.NavigationStack.Count;
-        if (currentPage.Navigation.NavigationStack.Count > 2)
-            pageOffset = currentPage.Navigation.NavigationStack.Count - 1;
+        // NOTE: Disabled due to Issue 2232
+        //if (currentPage.Navigation.NavigationStack.Count > 2)
+        //    pageOffset = currentPage.Navigation.NavigationStack.Count - 1;
 
         var onNavigatedFromTarget = currentPage;
         if (currentPage is NavigationPage navPage && navPage.CurrentPage != null)
