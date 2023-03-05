@@ -18,13 +18,10 @@
     </Description>
     <PackageTags>prism;winui;windows;uno;mvvm;uwp;ios;android;macos;webassembly;linux;xaml</PackageTags>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-    <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
-  </PropertyGroup>
 
   <ItemGroup>
     <Using Include="Microsoft.Extensions.DependencyInjection" />
-    <None Include="build\*.props" Pack="true" PackagePath="buildTransitive" />
+    <None Include="build\*.targets" Pack="true" PackagePath="buildTransitive" />
   </ItemGroup>
 
   <ItemGroup Condition="!$(TargetFramework.Contains('windows10'))">
@@ -82,11 +79,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net7.0'">
-    <EmbeddedResource Include="LinkerDefinition.mono.xml">
-      <LogicalName>$(AssemblyName).xml</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">

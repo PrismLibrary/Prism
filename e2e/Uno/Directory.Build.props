@@ -1,5 +1,4 @@
 <Project ToolsVersion="15.0">
-  <Import Project="..\..\src\Uno\Prism.Uno\build\Prism.Uno.WinUI.props" />
   <PropertyGroup>
     <LangVersion>11</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
