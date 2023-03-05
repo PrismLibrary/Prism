@@ -1,3 +1,4 @@
+using Prism.Common;
 using Prism.Controls;
 using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Maui.Tests.Mocks.Views;
@@ -186,6 +187,33 @@ public class NavigationTests : TestBase
         Assert.True(result.Success);
 
         Assert.IsType<MockViewC>(navigationPage.CurrentPage);
+    }
+
+    [Fact]
+    public async Task GoBack_Issue2232()
+    {
+        var mauiApp = CreateBuilder(prism => prism.OnAppStart("NavigationPage/MockViewA"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        Assert.IsAssignableFrom<NavigationPage>(window.Page);
+        var navigationPage = (NavigationPage)window.Page;
+
+        await MvvmHelpers.InvokeViewAndViewModelActionAsync<MockViewModelBase>(navigationPage.CurrentPage, x => x.NavigateTo("MockViewB"));
+        Assert.IsType<MockViewB>(navigationPage.CurrentPage);
+        await MvvmHelpers.InvokeViewAndViewModelActionAsync<MockViewModelBase>(navigationPage.CurrentPage, x => x.NavigateTo("MockViewC"));
+        Assert.IsType<MockViewC>(navigationPage.CurrentPage);
+        await MvvmHelpers.InvokeViewAndViewModelActionAsync<MockViewModelBase>(navigationPage.CurrentPage, x => x.NavigateTo("MockViewD/MockViewE"));
+        Assert.IsType<MockViewE>(navigationPage.CurrentPage);
+
+        await MvvmHelpers.InvokeViewAndViewModelActionAsync<MockViewModelBase>(navigationPage.CurrentPage, x => x.GoBack());
+        Assert.IsType<MockViewD>(navigationPage.CurrentPage);
+        await MvvmHelpers.InvokeViewAndViewModelActionAsync<MockViewModelBase>(navigationPage.CurrentPage, x => x.GoBack());
+        Assert.IsType<MockViewC>(navigationPage.CurrentPage);
+        await MvvmHelpers.InvokeViewAndViewModelActionAsync<MockViewModelBase>(navigationPage.CurrentPage, x => x.GoBack());
+        Assert.IsType<MockViewB>(navigationPage.CurrentPage);
+        await MvvmHelpers.InvokeViewAndViewModelActionAsync<MockViewModelBase>(navigationPage.CurrentPage, x => x.GoBack());
+        Assert.IsType<MockViewA>(navigationPage.CurrentPage);
     }
 
     private void TestPage(Page page)

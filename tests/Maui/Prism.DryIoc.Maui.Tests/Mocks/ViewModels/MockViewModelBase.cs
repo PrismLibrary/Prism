@@ -14,6 +14,10 @@ public abstract class MockViewModelBase : IConfirmNavigation
 
     public INavigationService NavigationService { get; }
 
+    public Task<INavigationResult> GoBack() => NavigationService.GoBackAsync();
+
+    public Task<INavigationResult> NavigateTo(string uri) => NavigationService.NavigateAsync(uri);
+
     public Page Page => _pageAccessor.Page;
 
     public bool StopNavigation { get; set; }
