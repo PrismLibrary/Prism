@@ -235,7 +235,7 @@ namespace Prism.DryIoc
         /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
         public IContainerRegistry Register(Type type, Func<object> factoryMethod)
         {
-            Instance.RegisterDelegate(type, r => factoryMethod());
+            Instance.RegisterDelegate(type, r => factoryMethod(), Reuse.Transient);
             return this;
         }
 
@@ -247,7 +247,7 @@ namespace Prism.DryIoc
         /// <returns>The <see cref="IContainerRegistry" /> instance</returns>
         public IContainerRegistry Register(Type type, Func<IContainerProvider, object> factoryMethod)
         {
-            Instance.RegisterDelegate(type, factoryMethod);
+            Instance.RegisterDelegate(type, factoryMethod, Reuse.Transient);
             return this;
         }
 
