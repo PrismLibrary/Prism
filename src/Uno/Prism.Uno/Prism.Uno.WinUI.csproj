@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <Using Include="Microsoft.Extensions.DependencyInjection" />
-    <None Include="build\*.props" Pack="true" PackagePath="build" />
+    <None Include="build\*.props" Pack="true" PackagePath="buildTransitive" />
   </ItemGroup>
 
   <ItemGroup Condition="!$(TargetFramework.Contains('windows10'))">

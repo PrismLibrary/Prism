@@ -1,5 +1,5 @@
 ﻿<Project>
-  <ItemGroup>
+  <ItemGroup Condition=" '$(ImplicitUsings)' == 'true' OR '$(ImplicitUsings)' == 'enable' ">
     <Using Include="Prism" />
     <Using Include="Prism.Commands" />
     <Using Include="Prism.Events" />
