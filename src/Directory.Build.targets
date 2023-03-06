@@ -17,4 +17,7 @@
       <_PackageFiles Include="$(IntermediateOutputPath)\readme.txt" PackagePath="" />
     </ItemGroup>
   </Target>
+
+  <Import Project="$(MSBuildThisFileDirectory)winappsdk-workaround.targets"
+          Condition=" '$(IsUnoProject)' " />
 </Project>
