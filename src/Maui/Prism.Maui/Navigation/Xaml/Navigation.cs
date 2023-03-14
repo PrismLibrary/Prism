@@ -134,7 +134,7 @@ public static class Navigation
             return container;
         else if(bindable is Page page)
         {
-            if (page.Parent is FlyoutPage flyout && flyout.Flyout == page)
+            if (page.Parent is FlyoutPage flyout && flyout.Detail == page)
                 return flyout.GetContainerProvider();
         }
         else if (bindable is Element element && element.Parent is not null)
