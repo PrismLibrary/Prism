@@ -8,14 +8,20 @@ public class NavigationPageActiveAwareBehavior : BehaviorBase<NavigationPage>
 {
     protected override void OnAttachedTo(NavigationPage bindable)
     {
-        bindable.PropertyChanging += NavigationPage_PropertyChanging;
         bindable.PropertyChanged += NavigationPage_PropertyChanged;
+        if (bindable.Parent is null)
+            bindable.ParentChanged += OnParentChanged;
         base.OnAttachedTo(bindable);
+    }
+
+    private void OnParentChanged(object sender, EventArgs e)
+    {
+        AssociatedObject.ParentChanged -= OnParentChanged;
+        SetActiveAware();
     }
 
     protected override void OnDetachingFrom(NavigationPage bindable)
     {
-        bindable.PropertyChanging -= NavigationPage_PropertyChanging;
         bindable.PropertyChanged -= NavigationPage_PropertyChanged;
         base.OnDetachingFrom(bindable);
     }
@@ -24,15 +30,30 @@ public class NavigationPageActiveAwareBehavior : BehaviorBase<NavigationPage>
     {
         if (e.PropertyName == "CurrentPage")
         {
-            MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(AssociatedObject.CurrentPage, (obj) => obj.IsActive = true);
+            SetActiveAware();
         }
     }
 
-    private void NavigationPage_PropertyChanging(object sender, PropertyChangingEventArgs e)
+    private void SetActiveAware()
     {
-        if (e.PropertyName == "CurrentPage")
+        foreach(var page in AssociatedObject.Navigation.NavigationStack)
         {
-            MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(AssociatedObject.CurrentPage, (obj) => obj.IsActive = false);
+            if (page != AssociatedObject.CurrentPage || AssociatedObject.Parent is TabbedPage tabbed && tabbed.CurrentPage != AssociatedObject)
+                MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(page, SetNotActive);
+            else
+                MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(page, SetIsActive);
         }
+    }
+
+    private void SetNotActive(IActiveAware activeAware)
+    {
+        if (activeAware.IsActive)
+            activeAware.IsActive = false;
+    }
+
+    private void SetIsActive(IActiveAware activeAware)
+    {
+        if(!activeAware.IsActive)
+            activeAware.IsActive = true;
     }
 }
