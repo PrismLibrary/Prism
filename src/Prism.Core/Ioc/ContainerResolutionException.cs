@@ -46,13 +46,15 @@ namespace Prism.Ioc
         /// </remarks>
         public const string UnknownError = "You seem to have hit an edge case. Please file an issue with the Prism team along with a duplication.";
 
+        private IContainerProvider _instance { get; }
         /// <summary>
         /// Creates a new instance of the <see cref="ContainerResolutionException"/>
         /// </summary>
         /// <param name="serviceType">The failed Service <see cref="Type"/> that was attempted to be resolved.</param>
         /// <param name="innerException">The actual <see cref="Exception"/> thrown by the Container.</param>
-        public ContainerResolutionException(Type serviceType, Exception innerException)
-            : this(serviceType, null, innerException)
+        /// <param name="instance">The instance of the container that was used to resolve the service type.</param>
+        public ContainerResolutionException(Type serviceType, Exception innerException, IContainerProvider instance)
+            : this(serviceType, null, innerException, instance)
         {
         }
 
@@ -62,17 +64,20 @@ namespace Prism.Ioc
         /// <param name="serviceType">The failed Service <see cref="Type"/> that was attempted to be resolved.</param>
         /// <param name="serviceName">The Service Name/Key used to resolve the Service Type.</param>
         /// <param name="innerException">The actual <see cref="Exception"/> thrown by the Container.</param>
-        public ContainerResolutionException(Type serviceType, string serviceName, Exception innerException)
+        /// <param name="instance">The instance of the container that was used to resolve the service type.</param>
+        public ContainerResolutionException(Type serviceType, string serviceName, Exception innerException, IContainerProvider instance)
             : base(GetErrorMessage(serviceType, serviceName), innerException)
         {
+            _instance = instance;
             ServiceType = serviceType;
             ServiceName = serviceName;
         }
 
         // Used by GetErrors()
-        private ContainerResolutionException(Type serviceType, string message)
+        private ContainerResolutionException(Type serviceType, string message, IContainerProvider instance)
             : base(message)
         {
+            _instance = instance;
             ServiceType = serviceType;
         }
 
@@ -125,12 +130,12 @@ namespace Prism.Ioc
             var implementingType = TryFindImplementingType();
             if (implementingType is null)
             {
-                errors.Add(ServiceType, new ContainerResolutionException(ServiceType, MissingRegistration));
+                errors.Add(ServiceType, new ContainerResolutionException(ServiceType, MissingRegistration, _instance));
                 return errors;
             }
             else if (implementingType.IsAbstract)
             {
-                errors.Add(ServiceType, new ContainerResolutionException(implementingType, CannotResolveAbstractType));
+                errors.Add(ServiceType, new ContainerResolutionException(implementingType, CannotResolveAbstractType, _instance));
             }
 
             PopulateErrors(implementingType, ref errors);
@@ -139,7 +144,6 @@ namespace Prism.Ioc
 
         private Type TryFindImplementingType()
         {
-            var container = ContainerLocator.Current;
             var name = ServiceName;
 
             // A ViewModel generally isn't directly registered with the container
@@ -147,50 +151,53 @@ namespace Prism.Ioc
             var defaultValue = IsConcreteType(ServiceType) ? ServiceType : null;
             if (string.IsNullOrEmpty(name))
             {
-                if (!container.IsRegistered(ServiceType))
+                if (!_instance.IsRegistered(ServiceType))
                 {
                     return defaultValue;
                 }
 
-                return container.GetRegistrationType(ServiceType);
+                // RegistrationType must be retrieved from the Root Container
+                return ContainerLocator.Current.GetRegistrationType(ServiceType);
             }
-            else if (!container.IsRegistered(ServiceType, ServiceName))
+            else if (!_instance.IsRegistered(ServiceType, ServiceName))
             {
                 return defaultValue;
             }
 
-            return container.GetRegistrationType(name);
+            // RegistrationType must be retrieved from the Root Container
+            return ContainerLocator.Current.GetRegistrationType(name);
         }
 
         [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "This method is meant to collect any exception thrown.")]
-        private static void PopulateErrors(Type implementingType, ref ContainerResolutionErrorCollection errors)
+        private void PopulateErrors(Type implementingType, ref ContainerResolutionErrorCollection errors)
         {
             var ctors = implementingType.GetConstructors();
 
             if (ctors.Length > 1)
             {
-                errors.Add(implementingType, new ContainerResolutionException(implementingType, MultipleConstructors));
+                errors.Add(implementingType, new ContainerResolutionException(implementingType, MultipleConstructors, _instance));
             }
             else if (ctors.Length == 0)
             {
-                errors.Add(implementingType, new ContainerResolutionException(implementingType, NoPublicConstructors));
+                errors.Add(implementingType, new ContainerResolutionException(implementingType, NoPublicConstructors, _instance));
                 return;
             }
 
             var ctor = ctors.OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
             var parameters = ctor.GetParameters();
             var parameterInstances = new List<object>();
-            var container = ContainerLocator.Current;
             foreach (var parameter in parameters)
             {
                 try
                 {
                     var defaultImplementingType = IsConcreteType(parameter.ParameterType) ? parameter.ParameterType : null;
-                    var parameterImplementingType = container.GetRegistrationType(parameter.ParameterType);
-                    if (parameterImplementingType is null)
-                        throw new ContainerResolutionException(parameter.ParameterType, MissingRegistration);
 
-                    var instance = container.Resolve(parameter.ParameterType);
+                    // RegistrationType must be retrieved from the Root Container
+                    var parameterImplementingType = ContainerLocator.Current.GetRegistrationType(parameter.ParameterType);
+                    if (parameterImplementingType is null)
+                        throw new ContainerResolutionException(parameter.ParameterType, MissingRegistration, _instance);
+
+                    var instance = _instance.Resolve(parameter.ParameterType);
                     parameterInstances.Add(instance);
                 }
                 catch (Exception ex)
@@ -219,7 +226,7 @@ namespace Prism.Ioc
                 // If we managed to create an instance for every parameter and the
                 // constructor didn't throw an exception when activating the instance
                 // we really aren't sure what allowed us to get here...
-                throw new ContainerResolutionException(implementingType, UnknownError);
+                throw new ContainerResolutionException(implementingType, UnknownError, _instance);
             }
             catch (TargetInvocationException tie)
             {
