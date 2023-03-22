@@ -295,7 +295,7 @@ namespace Prism.Forms.Regions.Tests
         {
             var containerMock = new Mock<IContainerExtension>();
             containerMock.Setup(x => x.Resolve(typeof(object), typeof(TestView).Name))
-                .Throws(new ContainerResolutionException(typeof(object), typeof(TestView).Name, null));
+                .Throws(new ContainerResolutionException(typeof(object), typeof(TestView).Name, null, containerMock.Object));
             containerMock.Setup(x => x.Resolve(typeof(IActiveRegionHelper)))
                 .Returns(new RegionResolverOverrides());
 
