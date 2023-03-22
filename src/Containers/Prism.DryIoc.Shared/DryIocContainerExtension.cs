@@ -305,7 +305,7 @@ namespace Prism.DryIoc
             }
             catch (Exception ex)
             {
-                throw new ContainerResolutionException(type, ex);
+                throw new ContainerResolutionException(type, ex, this);
             }
         }
 
@@ -329,7 +329,7 @@ namespace Prism.DryIoc
             }
             catch (Exception ex)
             {
-                throw new ContainerResolutionException(type, name, ex);
+                throw new ContainerResolutionException(type, name, ex, this);
             }
         }
 
@@ -427,7 +427,7 @@ namespace Prism.DryIoc
                 }
                 catch (Exception ex)
                 {
-                    throw new ContainerResolutionException(type, ex);
+                    throw new ContainerResolutionException(type, ex, this);
                 }
             }
 
@@ -443,7 +443,7 @@ namespace Prism.DryIoc
                 }
                 catch (Exception ex)
                 {
-                    throw new ContainerResolutionException(type, name, ex);
+                    throw new ContainerResolutionException(type, name, ex, this);
                 }
             }
         }
