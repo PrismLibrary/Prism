@@ -340,9 +340,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
         var pageParameters = UriParsingHelper.GetSegmentParameters(nextSegment);
 
-        useModalNavigation =  pageParameters.ContainsKey(KnownNavigationParameters.UseModalNavigation) ? pageParameters.GetValue<bool>(KnownNavigationParameters.UseModalNavigation) : false;        
-        if (!useModalNavigation.Value && !MvvmHelpers.HasNavigationPageParent(currentPage))
-            useModalNavigation = true;
+        useModalNavigation = pageParameters.ContainsKey(KnownNavigationParameters.UseModalNavigation) ? pageParameters.GetValue<bool>(KnownNavigationParameters.UseModalNavigation) : useModalNavigation;
 
         animated = parameters.ContainsKey(KnownNavigationParameters.Animated) ?
             parameters.GetValue<bool>(KnownNavigationParameters.Animated) :
