@@ -134,8 +134,7 @@ public class NavigationTests : TestBase
         var currentPage = detailPage.CurrentPage;
         Assert.IsType<MockViewA>(currentPage);
         TestPage(currentPage);
-        var container = rootPage.GetContainerProvider();
-        var navService = container.Resolve<INavigationService>();
+        var navService = Prism.Navigation.Xaml.Navigation.GetNavigationService(rootPage);
         Assert.Empty(rootPage.Navigation.ModalStack);
         var result = await navService.NavigateAsync("./NavigationPage/MockViewB");
         Assert.True(result.Success);
