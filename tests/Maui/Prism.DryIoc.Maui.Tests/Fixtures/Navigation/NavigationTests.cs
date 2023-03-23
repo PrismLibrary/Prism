@@ -117,6 +117,37 @@ public class NavigationTests : TestBase
         Assert.IsType<MockViewB>(rootPage.Navigation.ModalStack.Last());
     }
 
+    [Fact]
+    public async Task FlyoutRelativeNavigation_RemovesPage_AndNavigatesNotModally()
+    {
+        var mauiApp = CreateBuilder(prism => prism.OnAppStart("MockHome/NavigationPage/MockViewA"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        var rootPage = window.Page as MockHome;
+        Assert.NotNull(rootPage);
+        TestPage(rootPage);
+        Assert.NotNull(rootPage.Detail);
+        var detailPage = rootPage.Detail as NavigationPage;
+        Assert.NotNull(detailPage);
+        TestPage(detailPage);
+        var currentPage = detailPage.CurrentPage;
+        Assert.IsType<MockViewA>(currentPage);
+        TestPage(currentPage);
+        var navService = Prism.Navigation.Xaml.Navigation.GetNavigationService(rootPage);
+        Assert.Empty(rootPage.Navigation.ModalStack);
+        var result = await navService.NavigateAsync("./NavigationPage/MockViewB");
+        Assert.True(result.Success);
+        Assert.Empty(rootPage.Navigation.ModalStack);
+        Assert.NotNull(rootPage.Detail);
+        detailPage = rootPage.Detail as NavigationPage;
+        Assert.NotNull(detailPage);
+        TestPage(detailPage);
+        currentPage = detailPage.CurrentPage;
+        Assert.IsType<MockViewB>(currentPage);
+        TestPage(currentPage);
+    }
+
     [Fact(Skip = "Blocked by dotnet/maui/issues/8157")]
     public async Task RelativeNavigation_RemovesPage_AndNavigatesModally()
     {
