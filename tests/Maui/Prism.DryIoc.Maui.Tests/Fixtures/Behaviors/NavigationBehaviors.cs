@@ -1,4 +1,4 @@
-﻿using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls;
 using Prism.Controls;
 using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Maui.Tests.Mocks.Views;
@@ -71,7 +71,11 @@ public class NavigationBehaviors : TestBase
     [Fact]
     public void TabPageSetsSecondTabIsActiveWithNavigationPage()
     {
-        var rootPage = StartAndGetRootPage(b => b.AddTabbedSegment(t => t.CreateTab(tb => tb.AddNavigationPage().AddSegment("MockViewA")).CreateTab(tb => tb.AddNavigationPage().AddSegment("MockViewB")).SelectedTab("MockViewB")));
+        var rootPage = StartAndGetRootPage(b =>
+            b.AddTabbedSegment(t =>
+                t.CreateTab(tb => tb.AddNavigationPage().AddSegment("MockViewA"))
+                 .CreateTab(tb => tb.AddNavigationPage().AddSegment("MockViewB"))
+                 .SelectedTab("MockViewB")));
 
         Assert.IsType<TabbedPage>(rootPage);
 
