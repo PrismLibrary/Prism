@@ -1,4 +1,5 @@
 ﻿using Prism.Common;
+using Prism.Extensions;
 
 namespace Prism.Behaviors;
 
@@ -54,37 +55,22 @@ public class MultiPageActiveAwareBehavior<T> : BehaviorBase<MultiPage<T>> where 
 
     private void SetActiveAware()
     {
-        foreach (var page in AssociatedObject.Children)
+        AssociatedObject.Children.ForEach(page => SetPageIsActive(page, AssociatedObject.CurrentPage == page));
+    }
+
+    private void SetPageIsActive(Page page, bool isActive)
+    {
+        MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(page, aa => SetIsActive(aa, isActive));
+
+        if (page is NavigationPage navPage)
         {
-            SetPageIsActive(page);
+            MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(navPage.CurrentPage, aa => SetIsActive(aa, isActive));
         }
     }
 
-    private void SetPageIsActive(Page page)
+    private static void SetIsActive(IActiveAware activeAware, bool isActive)
     {
-        if(AssociatedObject.CurrentPage == page)
-        {
-            MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(page, SetIsActive);
-            if (page is NavigationPage navPage)
-                MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(navPage.CurrentPage, SetIsActive);
-        }
-        else
-        {
-            MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(page, SetNotActive);
-            if (page is NavigationPage navPage)
-                MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(navPage.CurrentPage, SetNotActive);
-        }
-    }
-
-    private void SetNotActive(IActiveAware activeAware)
-    {
-        if (activeAware.IsActive)
-            activeAware.IsActive = false;
-    }
-
-    private void SetIsActive(IActiveAware activeAware)
-    {
-        if (!activeAware.IsActive)
-            activeAware.IsActive = true;
+        if (activeAware?.IsActive != isActive)
+            activeAware.IsActive = isActive;
     }
 }

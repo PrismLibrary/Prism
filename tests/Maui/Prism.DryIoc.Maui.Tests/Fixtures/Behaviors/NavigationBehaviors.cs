@@ -75,7 +75,7 @@ public class NavigationBehaviors : TestBase
             b.AddTabbedSegment(t =>
                 t.CreateTab(tb => tb.AddNavigationPage().AddSegment("MockViewA"))
                  .CreateTab(tb => tb.AddNavigationPage().AddSegment("MockViewB"))
-                 .SelectedTab("MockViewB")));
+                 .SelectedTab("NavigationPage|MockViewB")));
 
         Assert.IsType<TabbedPage>(rootPage);
 

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Prism.Common;
+using Prism.Extensions;
 using PropertyChangingEventArgs = Microsoft.Maui.Controls.PropertyChangingEventArgs;
 
 namespace Prism.Behaviors;
@@ -36,12 +37,20 @@ public class NavigationPageActiveAwareBehavior : BehaviorBase<NavigationPage>
 
     private void SetActiveAware()
     {
-        foreach(var page in AssociatedObject.Navigation.NavigationStack)
+        if(AssociatedObject.Parent is TabbedPage tabbed && tabbed.CurrentPage != AssociatedObject)
         {
-            if (page != AssociatedObject.CurrentPage || AssociatedObject.Parent is TabbedPage tabbed && tabbed.CurrentPage != AssociatedObject)
-                MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(page, SetNotActive);
-            else
-                MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(page, SetIsActive);
+            MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(AssociatedObject, SetNotActive);
+            AssociatedObject.Navigation.NavigationStack.ForEach(page => MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(page, SetNotActive));
+        }
+        else
+        {
+            AssociatedObject.Navigation.NavigationStack.ForEach(page =>
+            {
+                if (page != AssociatedObject.CurrentPage)
+                    MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(page, SetNotActive);
+                else
+                    MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(page, SetIsActive);
+            });
         }
     }
 
