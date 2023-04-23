@@ -21,6 +21,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Maui", "..\..\
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.DryIoc.Shared", "..\..\src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.shproj", "{6E7EC81D-DA39-4C4F-A898-0148558C34F4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E91F80AA-3D61-4C28-B876-3EDFB5921E7D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Maui.Tests", "..\..\tests\Maui\Prism.DryIoc.Maui.Tests\Prism.DryIoc.Maui.Tests.csproj", "{EE6F0C99-61D1-4E2E-8185-FBA0D246D5C7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Maui.Tests", "..\..\tests\Maui\Prism.Maui.Tests\Prism.Maui.Tests.csproj", "{F3D2DFDB-95FB-4CBB-A624-35EB6550854D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Core.Tests", "..\..\tests\Prism.Core.Tests\Prism.Core.Tests.csproj", "{E0F13AA9-8083-47CA-B10D-93C5285D1505}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +64,18 @@ Global
 		{2CE09D7A-B67C-4586-8432-64EA2D1A3CE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CE09D7A-B67C-4586-8432-64EA2D1A3CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CE09D7A-B67C-4586-8432-64EA2D1A3CE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE6F0C99-61D1-4E2E-8185-FBA0D246D5C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE6F0C99-61D1-4E2E-8185-FBA0D246D5C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE6F0C99-61D1-4E2E-8185-FBA0D246D5C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE6F0C99-61D1-4E2E-8185-FBA0D246D5C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3D2DFDB-95FB-4CBB-A624-35EB6550854D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3D2DFDB-95FB-4CBB-A624-35EB6550854D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3D2DFDB-95FB-4CBB-A624-35EB6550854D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3D2DFDB-95FB-4CBB-A624-35EB6550854D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0F13AA9-8083-47CA-B10D-93C5285D1505}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0F13AA9-8083-47CA-B10D-93C5285D1505}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0F13AA9-8083-47CA-B10D-93C5285D1505}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0F13AA9-8083-47CA-B10D-93C5285D1505}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +86,9 @@ Global
 		{CC05A6F0-D8FF-498C-80F0-59DC9AAEB08E} = {8202B92A-A573-4365-8A15-E246504A7CBD}
 		{2CE09D7A-B67C-4586-8432-64EA2D1A3CE4} = {8202B92A-A573-4365-8A15-E246504A7CBD}
 		{6E7EC81D-DA39-4C4F-A898-0148558C34F4} = {8202B92A-A573-4365-8A15-E246504A7CBD}
+		{EE6F0C99-61D1-4E2E-8185-FBA0D246D5C7} = {E91F80AA-3D61-4C28-B876-3EDFB5921E7D}
+		{F3D2DFDB-95FB-4CBB-A624-35EB6550854D} = {E91F80AA-3D61-4C28-B876-3EDFB5921E7D}
+		{E0F13AA9-8083-47CA-B10D-93C5285D1505} = {E91F80AA-3D61-4C28-B876-3EDFB5921E7D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {50B0D1F3-D832-4C6C-858E-24F5F3B33632}
