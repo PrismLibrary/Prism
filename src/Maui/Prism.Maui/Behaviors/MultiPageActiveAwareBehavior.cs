@@ -1,11 +1,10 @@
 ﻿using Prism.Common;
+using Prism.Extensions;
 
 namespace Prism.Behaviors;
 
 public class MultiPageActiveAwareBehavior<T> : BehaviorBase<MultiPage<T>> where T : Page
 {
-    protected T _lastSelectedPage;
-
     /// <inheritDoc/>
     protected override void OnAttachedTo(MultiPage<T> bindable)
     {
@@ -31,16 +30,7 @@ public class MultiPageActiveAwareBehavior<T> : BehaviorBase<MultiPage<T>> where 
     /// <param name="e">Event Args</param>
     protected void CurrentPageChangedHandler(object sender, EventArgs e)
     {
-        if (_lastSelectedPage == null)
-            _lastSelectedPage = AssociatedObject.CurrentPage;
-
-        //inactive 
-        SetIsActive(_lastSelectedPage, false);
-
-        _lastSelectedPage = AssociatedObject.CurrentPage;
-
-        //active
-        SetIsActive(_lastSelectedPage, true);
+        SetActiveAware();
     }
 
     /// <summary>
@@ -50,10 +40,7 @@ public class MultiPageActiveAwareBehavior<T> : BehaviorBase<MultiPage<T>> where 
     /// <param name="e">Event Args</param>
     protected void RootPageAppearingHandler(object sender, EventArgs e)
     {
-        if (_lastSelectedPage == null)
-            _lastSelectedPage = AssociatedObject.CurrentPage;
-
-        SetIsActive(_lastSelectedPage, true);
+        SetActiveAware();
     }
 
     /// <summary>
@@ -63,13 +50,27 @@ public class MultiPageActiveAwareBehavior<T> : BehaviorBase<MultiPage<T>> where 
     /// <param name="e">Event Args</param>
     protected void RootPageDisappearingHandler(object sender, EventArgs e)
     {
-        SetIsActive(_lastSelectedPage, false);
+        SetActiveAware();
     }
 
-    private static void SetIsActive(object view, bool isActive)
+    private void SetActiveAware()
     {
-        var pageToSetIsActive = view is NavigationPage page ? page.CurrentPage : view;
+        AssociatedObject.Children.ForEach(page => SetPageIsActive(page, AssociatedObject.CurrentPage == page));
+    }
 
-        MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(pageToSetIsActive, activeAware => activeAware.IsActive = isActive);
+    private void SetPageIsActive(Page page, bool isActive)
+    {
+        MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(page, aa => SetIsActive(aa, isActive));
+
+        if (page is NavigationPage navPage)
+        {
+            MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(navPage.CurrentPage, aa => SetIsActive(aa, isActive));
+        }
+    }
+
+    private static void SetIsActive(IActiveAware activeAware, bool isActive)
+    {
+        if (activeAware?.IsActive != isActive)
+            activeAware.IsActive = isActive;
     }
 }

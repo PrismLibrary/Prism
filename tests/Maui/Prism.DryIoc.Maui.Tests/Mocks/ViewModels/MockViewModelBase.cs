@@ -2,9 +2,11 @@
 
 namespace Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
 
-public abstract class MockViewModelBase : IConfirmNavigation
+public abstract class MockViewModelBase : IActiveAware, IConfirmNavigation
 {
     private readonly IPageAccessor _pageAccessor;
+
+    public event EventHandler IsActiveChanged;
 
     protected MockViewModelBase(IPageAccessor pageAccessor, INavigationService navigationService)
     {
@@ -21,6 +23,8 @@ public abstract class MockViewModelBase : IConfirmNavigation
     public Page Page => _pageAccessor.Page;
 
     public bool StopNavigation { get; set; }
+
+    public bool IsActive { get; set; }
 
     public bool CanNavigate(INavigationParameters parameters) =>
         !StopNavigation;

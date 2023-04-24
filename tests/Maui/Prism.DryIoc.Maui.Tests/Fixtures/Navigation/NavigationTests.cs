@@ -3,6 +3,7 @@ using Prism.Controls;
 using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Maui.Tests.Mocks.Views;
 using Prism.Navigation.Xaml;
+using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
 
 namespace Prism.DryIoc.Maui.Tests.Fixtures.Navigation;
 
@@ -245,6 +246,34 @@ public class NavigationTests : TestBase
         Assert.IsType<MockViewB>(navigationPage.CurrentPage);
         await MvvmHelpers.InvokeViewAndViewModelActionAsync<MockViewModelBase>(navigationPage.CurrentPage, x => x.GoBack());
         Assert.IsType<MockViewA>(navigationPage.CurrentPage);
+    }
+
+    [Fact]
+    public async Task TabbedPageSelectTabSetsCurrentTab()
+    {
+        var mauiApp = CreateBuilder(prism => prism.OnAppStart("TabbedPage?createTab=MockViewA&createTab=MockViewB&selectedTab=MockViewB"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        Assert.IsAssignableFrom<TabbedPage>(window.Page);
+        var tabbedPage = (TabbedPage)window.Page;
+        Assert.NotNull(tabbedPage);
+        Assert.IsType<MockViewB>(tabbedPage.CurrentPage);
+    }
+
+    [Fact]
+    public async Task TabbedPageSelectTabSetsCurrentTabWithNavigationPageTab()
+    {
+        var mauiApp = CreateBuilder(prism => prism.OnAppStart("TabbedPage?createTab=NavigationPage%2FMockViewA&createTab=NavigationPage%2FMockViewB&selectedTab=NavigationPage|MockViewB"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        Assert.IsAssignableFrom<TabbedPage>(window.Page);
+        var tabbedPage = (TabbedPage)window.Page;
+        Assert.NotNull(tabbedPage);
+        var navPage = tabbedPage.CurrentPage as NavigationPage;
+        Assert.NotNull(navPage);
+        Assert.IsType<MockViewB>(navPage.CurrentPage);
     }
 
     private void TestPage(Page page)
