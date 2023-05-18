@@ -5,6 +5,7 @@
       "src\\Containers\\Prism.DryIoc.Shared\\Prism.DryIoc.Shared.shproj",
       "src\\Containers\\Prism.Unity.Shared\\Prism.Unity.Shared.shproj",
       "src\\Prism.Core\\Prism.Core.csproj",
+      "src\\Prism.Events\\Prism.Events.csproj",
       "src\\Wpf\\Prism.DryIoc.Wpf\\Prism.DryIoc.Wpf.csproj",
       "src\\Wpf\\Prism.Unity.Wpf\\Prism.Unity.Wpf.csproj",
       "src\\Wpf\\Prism.Wpf\\Prism.Wpf.csproj",

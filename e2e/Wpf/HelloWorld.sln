@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Core", "HelloWor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{63541838-3D6A-4F2E-92EF-AC4953BB9B9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Events", "..\..\src\Prism.Events\Prism.Events.csproj", "{E35BF062-652E-4520-8DD8-55DC80012D57}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{a0842858-bfd5-41ae-bde7-cbd870bc9900}*SharedItemsImports = 5
@@ -65,6 +67,10 @@ Global
 		{F9541A8C-42DD-4340-AB57-54C7AAAC1BCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9541A8C-42DD-4340-AB57-54C7AAAC1BCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9541A8C-42DD-4340-AB57-54C7AAAC1BCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E35BF062-652E-4520-8DD8-55DC80012D57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E35BF062-652E-4520-8DD8-55DC80012D57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E35BF062-652E-4520-8DD8-55DC80012D57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E35BF062-652E-4520-8DD8-55DC80012D57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

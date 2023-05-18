@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using Prism.Properties;
+using Prism.Events.Properties;
 
 namespace Prism.Events
 {
