@@ -12,6 +12,7 @@ on:
       - Directory.Packages.props
       - xunit.runner.json
       - 'src/Prism.Core/**'
+      - 'src/Prism.Events/**'
       - 'tests/Prism.Core.Tests/**'
       - 'src/Forms/**'
       - 'tests/Forms/**'
