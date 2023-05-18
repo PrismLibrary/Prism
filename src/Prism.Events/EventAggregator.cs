@@ -10,19 +10,15 @@ namespace Prism.Events
     /// </summary>
     public class EventAggregator : IEventAggregator
     {
-        /// <summary>
-        /// Gets the Current Instance of the <see cref="IEventAggregator"/>
-        /// </summary>
-        public static IEventAggregator Current { get; private set; }
+        private static IEventAggregator _current;
 
         /// <summary>
-        /// Sets the <see cref="Current"/> event aggregator for Testing Purposes.
-        /// This should not be used outside of testing scenarios.
+        /// Gets or Sets the Current Instance of the <see cref="IEventAggregator"/>
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static void SetCurrent(IEventAggregator eventAggregator)
+        public static IEventAggregator Current
         {
-            Current = eventAggregator;
+            get => _current ??= new EventAggregator();
+            set => _current = value;
         }
 
         /// <summary>
@@ -30,7 +26,10 @@ namespace Prism.Events
         /// </summary>
         public EventAggregator()
         {
-            Current = this;
+            if(_current is null)
+            {
+                _current = this;
+            }
         }
 
         private readonly Dictionary<Type, EventBase> events = new Dictionary<Type, EventBase>();
