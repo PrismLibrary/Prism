@@ -7,6 +7,7 @@
       "src\\Maui\\Prism.Maui.Rx\\Prism.Maui.Rx.csproj",
       "src\\Maui\\Prism.Maui\\Prism.Maui.csproj",
       "src\\Prism.Core\\Prism.Core.csproj",
+      "src\\Prism.Events\\Prism.Events.csproj",
       "tests\\Containers\\Prism.Container.DryIoc.Tests\\Prism.Ioc.DryIoc.Tests.csproj",
       "tests\\Containers\\Prism.Container.Shared\\Prism.Ioc.Shared.shproj",
       "tests\\Maui\\Prism.DryIoc.Maui.Tests\\Prism.DryIoc.Maui.Tests.csproj",

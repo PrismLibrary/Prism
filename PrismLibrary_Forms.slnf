@@ -9,6 +9,7 @@
       "src\\Forms\\Prism.Forms\\Prism.Forms.csproj",
       "src\\Forms\\Prism.Unity.Forms\\Prism.Unity.Forms.csproj",
       "src\\Prism.Core\\Prism.Core.csproj",
+      "src\\Prism.Events\\Prism.Events.csproj",
       "tests\\Containers\\Prism.Container.DryIoc.Tests\\Prism.Ioc.DryIoc.Tests.csproj",
       "tests\\Containers\\Prism.Container.Shared\\Prism.Ioc.Shared.shproj",
       "tests\\Containers\\Prism.Container.Unity.Tests\\Prism.Ioc.Unity.Tests.csproj",

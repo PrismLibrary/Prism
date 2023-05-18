@@ -99,6 +99,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Maui.Tests", "tests\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Maui.Tests", "tests\Maui\Prism.DryIoc.Maui.Tests\Prism.DryIoc.Maui.Tests.csproj", "{8711D306-1118-4A11-9399-EF14AA13015E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Events", "src\Prism.Events\Prism.Events.csproj", "{8610485A-BE9F-4938-86D4-E9F1FA1739A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -421,6 +423,18 @@ Global
 		{8711D306-1118-4A11-9399-EF14AA13015E}.Release|x64.Build.0 = Release|Any CPU
 		{8711D306-1118-4A11-9399-EF14AA13015E}.Release|x86.ActiveCfg = Release|Any CPU
 		{8711D306-1118-4A11-9399-EF14AA13015E}.Release|x86.Build.0 = Release|Any CPU
+		{8610485A-BE9F-4938-86D4-E9F1FA1739A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8610485A-BE9F-4938-86D4-E9F1FA1739A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8610485A-BE9F-4938-86D4-E9F1FA1739A0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8610485A-BE9F-4938-86D4-E9F1FA1739A0}.Debug|x64.Build.0 = Debug|Any CPU
+		{8610485A-BE9F-4938-86D4-E9F1FA1739A0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8610485A-BE9F-4938-86D4-E9F1FA1739A0}.Debug|x86.Build.0 = Debug|Any CPU
+		{8610485A-BE9F-4938-86D4-E9F1FA1739A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8610485A-BE9F-4938-86D4-E9F1FA1739A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8610485A-BE9F-4938-86D4-E9F1FA1739A0}.Release|x64.ActiveCfg = Release|Any CPU
+		{8610485A-BE9F-4938-86D4-E9F1FA1739A0}.Release|x64.Build.0 = Release|Any CPU
+		{8610485A-BE9F-4938-86D4-E9F1FA1739A0}.Release|x86.ActiveCfg = Release|Any CPU
+		{8610485A-BE9F-4938-86D4-E9F1FA1739A0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -466,6 +480,7 @@ Global
 		{540CEEC1-D541-4614-BF0B-18056A83E434} = {00FFDC13-7397-46F1-897E-A62A7575D28A}
 		{7A1E157F-D4CD-4E6B-9CE3-1894EB2A15A7} = {540CEEC1-D541-4614-BF0B-18056A83E434}
 		{8711D306-1118-4A11-9399-EF14AA13015E} = {540CEEC1-D541-4614-BF0B-18056A83E434}
+		{8610485A-BE9F-4938-86D4-E9F1FA1739A0} = {F3664D7A-6FF5-4D1F-9F5F-26EE87F032D3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7433AE2-B1A0-4C1A-887E-5CAA7AAF67A6}
