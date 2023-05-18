@@ -10,7 +10,6 @@
 
 namespace Prism.Properties {
     using System;
-    using System.Reflection;
     
     
     /// <summary>
@@ -20,7 +19,7 @@ namespace Prism.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -40,7 +39,7 @@ namespace Prism.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Prism.Properties.Resources", typeof(Resources).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Prism.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -143,15 +142,6 @@ namespace Prism.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To use the UIThread option for subscribing, the EventAggregator must be constructed on the UI thread..
-        /// </summary>
-        internal static string EventAggregatorNotConstructedOnUIThread {
-            get {
-                return ResourceManager.GetString("EventAggregatorNotConstructedOnUIThread", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to An exception occurred while initializing module &apos;{0}&apos;. 
         ///    - The exception message was: {2}
         ///    - The Assembly that the module was trying to be loaded from was:{1}
@@ -183,15 +173,6 @@ namespace Prism.Properties {
         internal static string FailedToRetrieveModule {
             get {
                 return ResourceManager.GetString("FailedToRetrieveModule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid Delegate Reference Type Exception.
-        /// </summary>
-        internal static string InvalidDelegateRerefenceTypeException {
-            get {
-                return ResourceManager.GetString("InvalidDelegateRerefenceTypeException", resourceCulture);
             }
         }
         
