@@ -15,8 +15,11 @@ public class PrismNavigationPage : NavigationPage
         BackButtonPressed += HandleBackButtonPressed;
     }
 
+    /// <inheritdoc/>
     public event EventHandler BackButtonPressed;
 
+
+    /// <inheritdoc/>
     protected override bool OnBackButtonPressed()
     {
         BackButtonPressed.Invoke(this, EventArgs.Empty);

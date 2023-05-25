@@ -45,28 +45,23 @@ public sealed class PrismAppBuilder
                 {
                     var root = ContainerLocator.Container;
                     if (root is null)
-                        return true;
+                        return false;
 
                     var app = root.Resolve<IApplication>();
                     var windows = app.Windows.OfType<PrismWindow>();
                     if (!windows.Any(x => x.IsActive))
-                        return true;
+                        return false;
 
                     var window = windows.First(x => x.IsActive);
-                    var currentPage = window.CurrentPage;
-                    var container = currentPage.GetContainerProvider();
-                    if(currentPage is IDialogContainer dialogContainer)
+                    if(window.IsRootPage && app is Application application)
                     {
-                        if (dialogContainer.Dismiss.CanExecute(null))
-                            dialogContainer.Dismiss.Execute(null);
-                    }
-                    else
-                    {
-                        var navigation = container.Resolve<INavigationService>();
-                        navigation.GoBackAsync();
+                        application.Quit();
+                        return false;
                     }
 
-                    return false;
+                    window.OnSystemBack();
+
+                    return true;
                 });
             });
 #endif
