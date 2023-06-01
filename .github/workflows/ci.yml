@@ -10,6 +10,10 @@ on:
       - Directory.Packages.props
       - xunit.runner.json
       - 'src/**'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - .github/workflows/ci.yml
 
 jobs:
   build-prism-core:
