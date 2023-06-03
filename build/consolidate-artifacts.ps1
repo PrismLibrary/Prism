@@ -12,11 +12,12 @@ foreach($file in $files)
 {
     if ($file -match ($platforms -join '|') -and $file -match ($core -join '|'))
     {
+        # Ignore Prism.Core / Prism.Events built with platforms
         continue
     }
     elseif ($file -like "*.nupkg" -or $file -like "*.snupkg")
     {
-        Write-Information "Copying $file to .\artifacts\nuget"
+        Write-Host "Copying $file to .\artifacts\nuget"
         Copy-Item $file.FullName .\artifacts\nuget
     }
     else
@@ -31,17 +32,11 @@ foreach($file in $files)
 
         $copyPath = Join-Path .\artifacts\binaries -ChildPath $parentDirName
 
-        Write-Information "Creating $copyPath"
+        Write-Host "Creating $copyPath"
         New-Item -Path $copyPath -ItemType Directory -Force
-        Write-Information "Copying $file to $copyPath"
+        Write-Host "Copying $file to $copyPath"
         Copy-Item $file.FullName $copyPath
     }
 }
 
-Remove-Item artifacts\Core -Recurse
-Remove-Item artifacts\Wpf -Recurse
-Remove-Item artifacts\Forms -Recurse
-Remove-Item artifacts\Uno -Recurse
-Remove-Item artifacts\Maui -Recurse
-
-Get-ChildItem .\artifacts\nuget | ForEach-Object { Write-Host $_.FullName }
+Get-ChildItem .\artifacts | Where-Object { $_.Name -ne 'binaries' -and $_.Name -ne 'nuget' } | ForEach-Object { Remove-Item $_.FullName -Force -Recurse }
