@@ -113,6 +113,9 @@ jobs:
           name: Maui
           path: artifacts\Maui
 
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Consolidate Artifacts
         run: build\consolidate-artifacts.ps1
         shell: powershell
