@@ -52,7 +52,7 @@ public static class ViewModelLocator
         if (newValue == null || bindable.BindingContext != null)
             return;
         else if(newValue is Type)
-            bindable.SetValue(AutowireViewModelProperty, true);
+            bindable.SetValue(AutowireViewModelProperty, ViewModelLocatorBehavior.Automatic);
     }
 
     internal static void Autowire(object view)
