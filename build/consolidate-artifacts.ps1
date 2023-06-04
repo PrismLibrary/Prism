@@ -6,8 +6,8 @@ $binariesRoot = $executionRoot, 'artifacts', 'binaries' -join '\'
 $nugetRoot = $executionRoot, 'artifacts', 'nuget' -join '\'
 Get-ChildItem .\ -Include $binariesRoot -Recurse | ForEach-Object ($_) { Remove-Item $_.Fullname -Force -Recurse }
 Get-ChildItem .\ -Include $nugetRoot -Recurse | ForEach-Object ($_) { Remove-Item $_.Fullname -Force -Recurse }
-New-Item -Path $binariesRoot -ItemType Directory -Force
-New-Item -Path $nugetRoot -ItemType Directory -Force
+New-Item -Path $binariesRoot -ItemType Directory -Force > $null
+New-Item -Path $nugetRoot -ItemType Directory -Force > $null
 $platforms = @('Forms', 'Wpf', 'Uno', 'Maui')
 
 $core = @("Prism.Core", "Prism.Events", "Prism.dll", "Prism.pdb", "Prism.xml")
@@ -27,19 +27,23 @@ if ($files.Count -eq 0)
 
 foreach($file in $files)
 {
-    if ($file -match ($platforms -join '|') -and $file -match ($core -join '|'))
+    if ($file -match ($platforms -join '|') -and $file -match ($core -join '|' -replace '.', '\.'))
     {
         # Ignore Prism.Core / Prism.Events built with platforms
         continue
     }
     elseif ($file -like "*.nupkg" -or $file -like "*.snupkg")
     {
-        Write-Output "Copying $file to $nugetRoot"
+        Write-Output "Copying $($file.FullName) to $nugetRoot"
         Copy-Item $file.FullName $nugetRoot
     }
     else
     {
         $parent = Split-Path -Path $file -Parent
+        if($parent -eq $null) {
+            Write-Error "Parent is null for $($file.FullName)"
+            exit 1
+        }
         $parentDirName = Split-Path -Path $parent -Leaf
 
         if($parentDirName -like ($platforms -join '|') -or $parentDirName -like 'Core')
@@ -49,9 +53,11 @@ foreach($file in $files)
 
         $copyPath = Join-Path $binariesRoot -ChildPath $parentDirName
 
-        Write-Output "Creating $copyPath"
-        New-Item -Path $copyPath -ItemType Directory -Force
-        Write-Output "Copying $file to $copyPath"
+        if((Test-Path -Path $copyPath -PathType Container) -eq $false) {
+            Write-Output "Creating $copyPath"
+            New-Item -Path $copyPath -ItemType Directory -Force > $null
+        }
+        Write-Output "Copying $($file.FullName) to $copyPath"
         Copy-Item $file.FullName $copyPath
     }
 }
