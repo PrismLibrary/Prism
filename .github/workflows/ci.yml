@@ -95,6 +95,9 @@ jobs:
     needs: [build-prism-core, build-prism-wpf, build-prism-forms, build-prism-uno, build-prism-maui]
     runs-on: windows-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Download Core
         uses: actions/download-artifact@v3
         with:
@@ -124,9 +127,6 @@ jobs:
         with:
           name: Maui
           path: artifacts\Maui
-
-      - name: Checkout
-        uses: actions/checkout@v3
 
       - name: Consolidate Artifacts
         run: build\consolidate-artifacts.ps1
