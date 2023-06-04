@@ -11,9 +11,8 @@ New-Item -Path $nugetRoot -ItemType Directory -Force
 $platforms = @('Forms', 'Wpf', 'Uno', 'Maui')
 
 $core = @("Prism.Core", "Prism.Events", "Prism.dll", "Prism.pdb", "Prism.xml")
-$files = Get-ChildItem -Path $artifactsRoot -Filter "*" -Recurse | Where-Object {
-    (Test-Path -Path $_.FullName -PathType Leaf) -and $_.FullName -notmatch $binariesRoot -and $_.FullName -notmatch $nugetRoot
-}
+$allowedExtensions = @('.dll', '.pdb', '.xml', '.nupkg', '.snupkg')
+$files = Get-ChildItem -Path $artifactsRoot -Filter "*" -Recurse | Where-Object { (Test-Path -Path $_.FullName -PathType Leaf) -and $_.FullName.StartsWith($binariesRoot) -eq $false -and $_.FullName.StartsWith($nugetRoot) -eq $false -and ($allowedExtensions -contains [System.IO.Path]::GetExtension($_.FullName)) }
 
 if ($files.Count -eq 0)
 {
