@@ -1,12 +1,27 @@
 # Ensure artifacts directory is clean
-Get-ChildItem .\ -Include .\artifacts\binaries -Recurse | ForEach-Object ($_) { Remove-Item $_.Fullname -Force -Recurse }
-Get-ChildItem .\ -Include .\artifacts\nuget -Recurse | ForEach-Object ($_) { Remove-Item $_.Fullname -Force -Recurse }
-New-Item -Path artifacts\binaries -ItemType Directory -Force
-New-Item -Path artifacts\nuget -ItemType Directory -Force
+
+$executionRoot = Get-Location
+$artifactsRoot = $executionRoot, 'artifacts' -join '\'
+$binariesRoot = $executionRoot, 'artifacts', 'binaries' -join '\'
+$nugetRoot = $executionRoot, 'artifacts', 'nuget' -join '\'
+Get-ChildItem .\ -Include $binariesRoot -Recurse | ForEach-Object ($_) { Remove-Item $_.Fullname -Force -Recurse }
+Get-ChildItem .\ -Include $nugetRoot -Recurse | ForEach-Object ($_) { Remove-Item $_.Fullname -Force -Recurse }
+New-Item -Path $binariesRoot -ItemType Directory -Force
+New-Item -Path $nugetRoot -ItemType Directory -Force
 $platforms = @('Forms', 'Wpf', 'Uno', 'Maui')
 
 $core = @("Prism.Core", "Prism.Events", "Prism.dll", "Prism.pdb", "Prism.xml")
-$files = Get-ChildItem -Path .\artifacts -Filter "*" -Recurse | Where-Object { (Test-Path -Path $_.FullName -PathType Leaf) -and $_.FullName -notmatch "artifacts\\binaries|artifacts\\nuget" }
+$files = Get-ChildItem -Path $artifactsRoot -Filter "*" -Recurse | Where-Object {
+    (Test-Path -Path $_.FullName -PathType Leaf) -and $_.FullName -notmatch $binariesRoot -and $_.FullName -notmatch $nugetRoot
+}
+
+if ($files.Count -eq 0)
+{
+    Write-Error "Execution Root: $executionRoot"
+    Write-Error "Artifacts: $(Get-ChildItem $artifactsRoot)"
+    Write-Error "No files found to copy"
+    exit 1
+}
 
 foreach($file in $files)
 {
@@ -17,8 +32,8 @@ foreach($file in $files)
     }
     elseif ($file -like "*.nupkg" -or $file -like "*.snupkg")
     {
-        Write-Host "Copying $file to .\artifacts\nuget"
-        Copy-Item $file.FullName .\artifacts\nuget
+        Write-Host "Copying $file to $nugetRoot"
+        Copy-Item $file.FullName $nugetRoot
     }
     else
     {
@@ -30,7 +45,7 @@ foreach($file in $files)
             continue
         }
 
-        $copyPath = Join-Path .\artifacts\binaries -ChildPath $parentDirName
+        $copyPath = Join-Path $binariesRoot -ChildPath $parentDirName
 
         Write-Host "Creating $copyPath"
         New-Item -Path $copyPath -ItemType Directory -Force
@@ -39,4 +54,4 @@ foreach($file in $files)
     }
 }
 
-Get-ChildItem .\artifacts | Where-Object { $_.Name -ne 'binaries' -and $_.Name -ne 'nuget' } | ForEach-Object { Remove-Item $_.FullName -Force -Recurse }
+Get-ChildItem $artifactsRoot | Where-Object { $_.Name -ne 'binaries' -and $_.Name -ne 'nuget' } | ForEach-Object { Remove-Item $_.FullName -Force -Recurse }
