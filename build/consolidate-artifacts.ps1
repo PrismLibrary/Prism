@@ -17,9 +17,12 @@ $files = Get-ChildItem -Path $artifactsRoot -Filter "*" -Recurse | Where-Object 
 
 if ($files.Count -eq 0)
 {
-    Write-Error "Execution Root: $executionRoot"
-    Write-Error "Artifacts: $(Get-ChildItem $artifactsRoot)"
-    Write-Error "No files found to copy"
+    $stringBuilder = New-Object System.Text.StringBuilder
+    $stringBuilder.AppendLine("Execution Root: $executionRoot")
+    $stringBuilder.AppendLine("Artifacts:")
+    Get-ChildItem $artifactsRoot | ForEach-Object { $stringBuilder.AppendLine($_.FullName) }
+    $stringBuilder.AppendLine("No files found to copy")
+    Write-Error -Message $stringBuilder.ToString()
     exit 1
 }
 
@@ -32,7 +35,7 @@ foreach($file in $files)
     }
     elseif ($file -like "*.nupkg" -or $file -like "*.snupkg")
     {
-        Write-Host "Copying $file to $nugetRoot"
+        Write-Output "Copying $file to $nugetRoot"
         Copy-Item $file.FullName $nugetRoot
     }
     else
@@ -47,9 +50,9 @@ foreach($file in $files)
 
         $copyPath = Join-Path $binariesRoot -ChildPath $parentDirName
 
-        Write-Host "Creating $copyPath"
+        Write-Output "Creating $copyPath"
         New-Item -Path $copyPath -ItemType Directory -Force
-        Write-Host "Copying $file to $copyPath"
+        Write-Output "Copying $file to $copyPath"
         Copy-Item $file.FullName $copyPath
     }
 }
