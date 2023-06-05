@@ -39,12 +39,7 @@ foreach($file in $files)
     }
     elseif ($file -like "*.dll" -or $file -like "*.pdb" -or $file -like "*.xml" -or $file -like "*.pri")
     {
-        $parent = Split-Path -Path $file -Parent
-        if ($parent -eq $null -or $parent -eq '') {
-            Write-Error "Parent is null for $($file.FullName)"
-            exit 1
-        }
-        $parentDirName = Split-Path -Path $parent -Leaf
+        $parentDirName = Split-Path -Path (Split-Path -Path $file -Parent) -Leaf
 
         if($parentDirName -like ($platforms -join '|') -or $parentDirName -like 'Core')
         {
