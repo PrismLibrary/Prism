@@ -27,6 +27,7 @@ if ($files.Count -eq 0)
 
 foreach($file in $files)
 {
+    Write-Output "Processing $($file)"
     if ($file -match ($platforms -join '|') -and $file -match ($core -join '|'))
     {
         # Ignore Prism.Core / Prism.Events built with platforms
