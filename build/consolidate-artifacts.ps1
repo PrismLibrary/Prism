@@ -11,7 +11,7 @@ New-Item -Path $nugetRoot -ItemType Directory -Force > $null
 $platforms = @('Forms', 'Wpf', 'Uno', 'Maui')
 
 $core = @("Prism.Core", "Prism.Events", "Prism.dll", "Prism.pdb", "Prism.xml")
-$allowedExtensions = @('.dll', '.pdb', '.xml', '.nupkg', '.snupkg')
+$allowedExtensions = @('.dll', '.pdb', '.xml', '.pri', '.nupkg', '.snupkg')
 $files = Get-ChildItem -Path $artifactsRoot -Filter "*" -Recurse | Where-Object { (Test-Path -Path $_.FullName -PathType Leaf) -and $_.FullName.StartsWith($binariesRoot) -eq $false -and $_.FullName.StartsWith($nugetRoot) -eq $false -and ($allowedExtensions -contains [System.IO.Path]::GetExtension($_.FullName)) }
 
 if ($files.Count -eq 0)
@@ -27,7 +27,7 @@ if ($files.Count -eq 0)
 
 foreach($file in $files)
 {
-    if ($file -match ($platforms -join '|') -and $file -match ($core -join '|' -replace '.', '\.'))
+    if ($file -match ($platforms -join '|') -and $file -match ($core -join '|'))
     {
         # Ignore Prism.Core / Prism.Events built with platforms
         continue
@@ -37,10 +37,10 @@ foreach($file in $files)
         Write-Output "Copying $($file.FullName) to $nugetRoot"
         Copy-Item $file.FullName $nugetRoot
     }
-    else
+    elseif ($file -like "*.dll" -or $file -like "*.pdb" -or $file -like "*.xml" -or $file -like "*.pri")
     {
         $parent = Split-Path -Path $file -Parent
-        if($parent -eq $null) {
+        if ($parent -eq $null -or $parent -eq '') {
             Write-Error "Parent is null for $($file.FullName)"
             exit 1
         }
