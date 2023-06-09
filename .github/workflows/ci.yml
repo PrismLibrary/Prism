@@ -10,6 +10,10 @@ on:
       - Directory.Packages.props
       - xunit.runner.json
       - 'src/**'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - .github/workflows/ci.yml
 
 jobs:
   build-prism-core:
@@ -91,6 +95,9 @@ jobs:
     needs: [build-prism-core, build-prism-wpf, build-prism-forms, build-prism-uno, build-prism-maui]
     runs-on: windows-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Download Core
         uses: actions/download-artifact@v3
         with:
@@ -122,28 +129,9 @@ jobs:
           path: artifacts\Maui
 
       - name: Consolidate Artifacts
-        run: |
-          # Ensure artifacts directory is clean
-          Get-ChildItem .\ -Include artifacts -Recurse | ForEach-Object ($_) { Remove-Item $_.Fullname -Force -Recurse }
-          mkdir artifacts\binaries
-          mkdir artifacts\nuget
-          $platforms = @('Forms', 'Wpf', 'Uno', 'Maui')
-          $platformNuGet = $platforms | ForEach-Object { Join-Path -Path .\artifacts -ChildPath "$_\NuGet" }
-          $platformBinary = $platforms | ForEach-Object { Join-Path -Path .\artifacts -ChildPath "$_\Release" }
-          Get-ChildItem $platformNuGet -Filter '*.nupkg' | Where-Object { $_.Name.StartsWith('Prism.Core') -eq $false } | ForEach-Object { if(!(Test-Path -Path $_.FullName)) { Copy-Item $_.FullName .\artifacts\nuget }else { Write-Warning "File already exists: $($_.FullName)" } }
-          Get-ChildItem $platformNuGet -Filter '*.snupkg' | Where-Object { $_.Name.StartsWith('Prism.Core') -eq $false } | ForEach-Object { if(!(Test-Path -Path $_.FullName)) { Copy-Item $_.FullName .\artifacts\nuget }else { Write-Warning "File already exists: $($_.FullName)" } }
-          Get-ChildItem $platformBinary | Where-Object { $_.Name -ne 'Core' } | ForEach-Object { if(!(Test-Path -Path $_.FullName)) { Copy-Item $_.FullName .\artifacts\binaries }else { Write-Warning "File already exists: $($_.FullName)" } }
-          Get-ChildItem .\artifacts\Core\NuGet -Filter '*.nupkg' | ForEach-Object { if(!(Test-Path -Path $_.FullName)) { Copy-Item $_.FullName .\artifacts\nuget }else { Write-Warning "File already exists: $($_.FullName)" } }
-          Get-ChildItem .\artifacts\Core\NuGet -Filter '*.snupkg' | ForEach-Object { if(!(Test-Path -Path $_.FullName)) { Copy-Item $_.FullName .\artifacts\nuget }else { Write-Warning "File already exists: $($_.FullName)" } }
-          Get-ChildItem .\artifacts\Core\Release | ForEach-Object { if(!(Test-Path -Path $_.FullName)) { Copy-Item $_.FullName .\artifacts\binaries }else { Write-Warning "File already exists: $($_.FullName)" } }
+        run: build\consolidate-artifacts.ps1
+        shell: powershell
 
-          Remove-Item artifacts\Core -Recurse
-          Remove-Item artifacts\Wpf -Recurse
-          Remove-Item artifacts\Forms -Recurse
-          Remove-Item artifacts\Uno -Recurse
-          Remove-Item artifacts\Maui -Recurse
-
-          Get-ChildItem .\artifacts\nuget | ForEach-Object { Write-Host $_.FullName }
 
       - name: Upload Consolidated NuGets
         uses: actions/upload-artifact@v3

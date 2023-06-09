@@ -83,6 +83,9 @@ jobs:
     needs: [build-prism-core, build-prism-wpf, build-prism-forms, build-prism-uno]
     runs-on: windows-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Download Core
         uses: actions/download-artifact@v3
         with:
@@ -114,28 +117,8 @@ jobs:
           path: artifacts\Maui
 
       - name: Consolidate Artifacts
-        run: |
-          mkdir artifacts\binaries
-          $platforms = @('Forms', 'Wpf', 'Uno', 'Maui')
-          $platformNuGet = $platforms | ForEach-Object { Join-Path -Path .\artifacts -ChildPath "$_\NuGet" }
-          $platformBinary = $platforms | ForEach-Object { Join-Path -Path .\artifacts -ChildPath "$_\Release" }
-          Get-ChildItem $platformNuGet -Filter '*.nupkg' | Where-Object { $_.Name.StartsWith('Prism.Core') -eq $false } | ForEach-Object { Copy-Item $_.FullName .\artifacts }
-          Get-ChildItem $platformNuGet -Filter '*.snupkg' | Where-Object { $_.Name.StartsWith('Prism.Core') -eq $false } | ForEach-Object { Copy-Item $_.FullName .\artifacts }
-          Get-ChildItem $platformBinary | Where-Object { $_.Name -ne 'Core' } | ForEach-Object { Copy-Item $_.FullName .\artifacts\binaries -Recurse }
-          Get-ChildItem .\artifacts\Core\NuGet -Filter '*.nupkg' | ForEach-Object { Copy-Item $_.FullName .\artifacts }
-          Get-ChildItem .\artifacts\Core\NuGet -Filter '*.snupkg' | ForEach-Object { Copy-Item $_.FullName .\artifacts }
-          Get-ChildItem .\artifacts\Core\Release | ForEach-Object { Copy-Item $_.FullName .\artifacts\binaries -Recurse }
-
-          Compress-Archive -Path (Get-ChildItem .\artifacts\binaries) -DestinationPath .\artifacts\binaries.zip
-
-          Remove-Item artifacts\Core -Recurse
-          Remove-Item artifacts\Wpf -Recurse
-          Remove-Item artifacts\Forms -Recurse
-          Remove-Item artifacts\Uno -Recurse
-          Remove-Item artifacts\Maui -Recurse
-          Remove-Item artifacts\binaries -Recurse
-
-          Get-ChildItem .\artifacts | ForEach-Object { Write-Host $_.FullName }
+        run: build\consolidate-artifacts.ps1
+        shell: powershell
 
       - name: Upload Consolidated NuGets
         uses: actions/upload-artifact@v3
