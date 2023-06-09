@@ -46,7 +46,7 @@ foreach($file in $files)
         }
 
         Write-Output "Getting TFM Directory Name for $($file.FullName)"
-        $parentDirName = Split-Path -Path (Split-Path -Path $file -Parent) -Leaf
+        $parentDirName = Split-Path -Path (Split-Path -Path $file.FullName -Parent) -Leaf
 
         Write-Output "Determining Copy Path for $parentDirName"
         $copyPath = Join-Path $binariesRoot -ChildPath $parentDirName
