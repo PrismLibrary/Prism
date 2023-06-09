@@ -1,14 +1,13 @@
 using System;
 using System.Linq;
-using Prism.AppModel;
+using System.Threading.Tasks;
 using Prism.Common;
+using Prism.Dialogs.Xaml;
 using Prism.Ioc;
-using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Services.Dialogs.Xaml;
 using Xamarin.Forms;
 
-namespace Prism.Services.Dialogs
+namespace Prism.Dialogs
 {
     /// <summary>
     /// Provides the ability to display dialogs from ViewModels.
@@ -35,7 +34,7 @@ namespace Prism.Services.Dialogs
         }
 
         /// <inheritdoc/>
-        public void ShowDialog(string name, IDialogParameters parameters, Action<IDialogResult> callback)
+        public async void ShowDialog(string name, IDialogParameters parameters, DialogCallback callback)
         {
             try
             {
@@ -47,9 +46,10 @@ namespace Prism.Services.Dialogs
                 var currentPage = GetCurrentContentPage();
 
                 var dialogModal = new DialogPage();
-                dialogAware.RequestClose += DialogAware_RequestClose;
 
-                async void DialogAware_RequestClose(IDialogParameters outParameters)
+                dialogAware.RequestClose = new(DialogAware_RequestClose);
+
+                async Task DialogAware_RequestClose(IDialogParameters outParameters)
                 {
                     try
                     {
@@ -60,8 +60,7 @@ namespace Prism.Services.Dialogs
                             return;
                         }
 
-                        dialogAware.RequestClose -= DialogAware_RequestClose;
-                        callback?.Invoke(result);
+                        await callback.Invoke(result);
                         GC.Collect();
                     }
                     catch (DialogException dex)
@@ -75,7 +74,7 @@ namespace Prism.Services.Dialogs
 
                         if (dex.Message != DialogException.CanCloseIsFalse)
                         {
-                            callback?.Invoke(result);
+                            await callback.Invoke(result);
                         }
                     }
                     catch (Exception ex)
@@ -86,7 +85,7 @@ namespace Prism.Services.Dialogs
                             Parameters = parameters
                         };
                         dialogModal.RaiseDialogResult(result);
-                        callback?.Invoke(result);
+                        await callback.Invoke(result);
                     }
                 }
 
@@ -99,7 +98,7 @@ namespace Prism.Services.Dialogs
                     }
                 }
 
-                InsertPopupViewInCurrentPage(currentPage as ContentPage, dialogModal, view, closeOnBackgroundTapped, DialogAware_RequestClose);
+                InsertPopupViewInCurrentPage(currentPage as ContentPage, dialogModal, view, closeOnBackgroundTapped, dialogAware.RequestClose);
 
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(currentPage, aa => aa.IsActive = false);
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(view, aa => aa.IsActive = true);
@@ -107,7 +106,7 @@ namespace Prism.Services.Dialogs
             catch (Exception ex)
             {
                 var error = ex.ToString();
-                callback?.Invoke(new DialogResult { Exception = ex });
+                await callback.Invoke(new DialogResult { Exception = ex });
             }
         }
 
@@ -247,7 +246,7 @@ namespace Prism.Services.Dialogs
             }
         }
 
-        private async void InsertPopupViewInCurrentPage(ContentPage currentPage, DialogPage modalPage, View popupView, bool hideOnBackgroundTapped, Action<IDialogParameters> callback)
+        private async void InsertPopupViewInCurrentPage(ContentPage currentPage, DialogPage modalPage, View popupView, bool hideOnBackgroundTapped, DialogCloseEvent closeEvent)
         {
             View mask = DialogLayout.GetMask(popupView);
 
@@ -264,7 +263,7 @@ namespace Prism.Services.Dialogs
             mask.SetBinding(VisualElement.WidthRequestProperty, new Binding { Path = "Width", Source = modalPage });
             mask.SetBinding(VisualElement.HeightRequestProperty, new Binding { Path = "Height", Source = modalPage });
 
-            var dismissCommand = new Command(() => callback(new DialogParameters()));
+            var dismissCommand = new Command(closeEvent.Invoke);
             if (hideOnBackgroundTapped)
             {
                 mask.GestureRecognizers.Add(new TapGestureRecognizer

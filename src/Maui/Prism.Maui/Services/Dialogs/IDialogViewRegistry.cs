@@ -1,6 +1,6 @@
 ﻿using Prism.Mvvm;
 
-namespace Prism.Services;
+namespace Prism.Dialogs;
 
 public interface IDialogViewRegistry : IViewRegistry
 {

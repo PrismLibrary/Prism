@@ -1,5 +1,5 @@
 ﻿using Prism.Navigation;
-using Prism.Services;
+using Prism.Dialogs;
 
 namespace Prism.Xaml;
 

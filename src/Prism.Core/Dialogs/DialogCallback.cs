@@ -1,18 +1,25 @@
-﻿namespace Prism.Services;
+﻿using System;
+using System.ComponentModel;
+using System.Threading.Tasks;
+
+namespace Prism.Dialogs;
 
 public readonly struct DialogCallback
 {
     private MulticastDelegate _callback { get; }
-    
-    internal DialogCallback(MulticastDelegate callback)
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public DialogCallback(MulticastDelegate callback)
     {
         _callback = callback;
     }
 
-    internal Task Invoke(Exception ex) =>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public Task Invoke(Exception ex) =>
         Invoke(new DialogResult { Exception = ex });
 
-    internal async Task Invoke(IDialogResult result)
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public async Task Invoke(IDialogResult result)
     {
         if (_callback is null)
             return;

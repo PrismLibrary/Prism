@@ -4,7 +4,7 @@ using Prism.Ioc;
 using Prism.Navigation.Xaml;
 using Prism.Xaml;
 
-namespace Prism.Services.Xaml;
+namespace Prism.Dialogs.Xaml;
 
 [ContentProperty(nameof(Name))]
 public class ShowDialogExtension : TargetAwareExtensionBase<ICommand>, ICommand

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace Prism.Services;
+namespace Prism.Dialogs;
 
 public interface IDialogContainer
 {

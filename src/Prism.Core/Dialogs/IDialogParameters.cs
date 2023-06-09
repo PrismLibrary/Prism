@@ -1,6 +1,6 @@
 ﻿using Prism.Common;
 
-namespace Prism.Services;
+namespace Prism.Dialogs;
 
 /// <summary>
 /// Provides a way for the <see cref="IDialogService"/> to pass parameters when displaying a dialog.

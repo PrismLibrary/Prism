@@ -4,9 +4,8 @@ using Prism.Ioc;
 using Prism.Xaml;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
-using Xamarin.Forms.Xaml;
 
-namespace Prism.Services.Dialogs.Xaml
+namespace Prism.Dialogs.Xaml
 {
     [ContentProperty(nameof(Name))]
     public class ShowDialogExtension : Prism.Xaml.ParentPageAwareExtension<ICommand>, ICommand

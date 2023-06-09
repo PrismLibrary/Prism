@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace Prism.Services.Dialogs
+namespace Prism.Dialogs
 {
     public interface IDialogContainer
     {

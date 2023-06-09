@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 
-namespace Prism.Services.Dialogs.Xaml
+namespace Prism.Dialogs.Xaml
 {
     public static class DialogLayout
     {

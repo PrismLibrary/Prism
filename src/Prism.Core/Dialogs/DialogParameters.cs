@@ -1,6 +1,6 @@
 ﻿using Prism.Common;
 
-namespace Prism.Services;
+namespace Prism.Dialogs;
 
 public class DialogParameters : ParametersBase, IDialogParameters
 {

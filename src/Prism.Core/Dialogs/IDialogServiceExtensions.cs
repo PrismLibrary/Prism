@@ -1,4 +1,7 @@
-﻿namespace Prism.Services;
+﻿using System;
+using System.Threading.Tasks;
+
+namespace Prism.Dialogs;
 
 public static class IDialogServiceExtensions
 {

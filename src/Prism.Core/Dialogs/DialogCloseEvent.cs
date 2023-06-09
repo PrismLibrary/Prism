@@ -1,6 +1,8 @@
+using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
-namespace Prism.Services;
+namespace Prism.Dialogs;
 
 public struct DialogCloseEvent
 {

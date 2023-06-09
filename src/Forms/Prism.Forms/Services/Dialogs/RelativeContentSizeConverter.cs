@@ -2,7 +2,7 @@
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace Prism.Services.Dialogs
+namespace Prism.Dialogs
 {
     internal class RelativeContentSizeConverter : IValueConverter
     {

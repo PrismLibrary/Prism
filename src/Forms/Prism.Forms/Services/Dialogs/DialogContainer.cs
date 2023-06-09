@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace Prism.Services.Dialogs
+namespace Prism.Dialogs
 {
     internal class DialogContainer : ContentView
     {

@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Prism.Services;
+namespace Prism.Dialogs;
 
 internal class RelativeContentSizeConverter : IValueConverter
 {

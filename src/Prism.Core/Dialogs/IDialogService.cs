@@ -1,4 +1,4 @@
-﻿namespace Prism.Services;
+﻿namespace Prism.Dialogs;
 
 /// <summary>
 /// Defines a contract for displaying dialogs from ViewModels.

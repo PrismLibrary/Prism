@@ -1,5 +1,5 @@
 ﻿
-namespace Prism.Services;
+namespace Prism.Dialogs;
 
 public static class KnownDialogParameters
 {

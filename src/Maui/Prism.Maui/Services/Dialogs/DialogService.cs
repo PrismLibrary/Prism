@@ -2,9 +2,9 @@
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Navigation;
-using Prism.Services.Xaml;
+using Prism.Dialogs.Xaml;
 
-namespace Prism.Services;
+namespace Prism.Dialogs;
 
 /// <summary>
 /// Provides the ability to display dialogs from ViewModels.

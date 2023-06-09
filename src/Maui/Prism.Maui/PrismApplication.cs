@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
-using Prism.Navigation;
+﻿using Prism.Navigation;
 
 namespace Prism;
 

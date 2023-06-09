@@ -1,4 +1,6 @@
-﻿namespace Prism.Services;
+﻿using System;
+
+namespace Prism.Dialogs;
 
 public class DialogException : Exception
 {

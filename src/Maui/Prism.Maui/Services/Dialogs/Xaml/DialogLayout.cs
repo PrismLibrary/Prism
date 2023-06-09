@@ -1,4 +1,4 @@
-﻿namespace Prism.Services.Xaml;
+﻿namespace Prism.Dialogs.Xaml;
 
 public static class DialogLayout
 {

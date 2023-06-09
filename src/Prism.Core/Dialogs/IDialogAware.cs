@@ -1,4 +1,4 @@
-﻿namespace Prism.Services;
+﻿namespace Prism.Dialogs;
 
 public interface IDialogAware
 {

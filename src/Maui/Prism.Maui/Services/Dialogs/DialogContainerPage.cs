@@ -3,11 +3,11 @@ using System.Windows.Input;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Microsoft.Maui.Layouts;
-using Prism.Services.Xaml;
+using Prism.Dialogs.Xaml;
 using Application = Microsoft.Maui.Controls.Application;
 using Page = Microsoft.Maui.Controls.Page;
 
-namespace Prism.Services;
+namespace Prism.Dialogs;
 
 [EditorBrowsable(EditorBrowsableState.Never)]
 public class DialogContainerPage : ContentPage, IDialogContainer
