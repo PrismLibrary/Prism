@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 
-namespace Prism.Services.Dialogs
+namespace Prism.Dialogs
 {
     /// <summary>
     /// Interface for a dialog hosting window.

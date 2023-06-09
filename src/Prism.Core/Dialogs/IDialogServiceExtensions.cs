@@ -21,10 +21,10 @@ public static class IDialogServiceExtensions
         dialogService.ShowDialog(name, null, callback);
 
     public static void ShowDialog(this IDialogService dialogService, string name, IDialogParameters parameters, Action callback) =>
-        dialogService.ShowDialog(name, parameters, DialogCallback.OnClose(callback));
+        dialogService.ShowDialog(name, parameters, new DialogCallback().OnClose(callback));
 
     public static void ShowDialog(this IDialogService dialogService, string name, IDialogParameters parameters, Action<IDialogResult> callback) =>
-        dialogService.ShowDialog(name, parameters, DialogCallback.OnClose(callback));
+        dialogService.ShowDialog(name, parameters, new DialogCallback().OnClose(callback));
 
     public static Task<IDialogResult> ShowDialogAsync(this IDialogService dialogService, string name, IDialogParameters parameters)
     {

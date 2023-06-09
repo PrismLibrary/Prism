@@ -1,4 +1,4 @@
-﻿namespace Prism.Services.Dialogs
+﻿namespace Prism.Dialogs
 {
     /// <summary>
     /// The result of the dialog.

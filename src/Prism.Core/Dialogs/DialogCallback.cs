@@ -1,18 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Prism.Dialogs;
 
 public readonly struct DialogCallback
 {
-    private MulticastDelegate _callback { get; }
+    private readonly bool _empty = false;
+    private readonly List<MulticastDelegate> _callbacks = new List<MulticastDelegate>();
+    private readonly List<MulticastDelegate> _errorCallbacks = new List<MulticastDelegate>();
 
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public DialogCallback(MulticastDelegate callback)
+    /// <summary>
+    /// Creates a new instance of a DialogCallback
+    /// </summary>
+    public DialogCallback()
+        : this(false)
     {
-        _callback = callback;
     }
+
+    private DialogCallback(bool empty) => _empty = empty;
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     public Task Invoke(Exception ex) =>
@@ -21,37 +29,158 @@ public readonly struct DialogCallback
     [EditorBrowsable(EditorBrowsableState.Never)]
     public async Task Invoke(IDialogResult result)
     {
-        if (_callback is null)
+        if (_empty || (!_callbacks.Any() && !_errorCallbacks.Any()))
             return;
-        else if (_callback is Action action)
-            action();
-        else if (_callback is Action<IDialogResult> actionResult)
-            actionResult(result);
-        else if (_callback is Action<Exception> actionError && result.Exception is not null)
-            actionError(result.Exception);
-        else if (_callback is Func<Task> func)
-            await func();
-        else if (_callback is Func<IDialogResult, Task> funcResult)
-            await funcResult(result);
-        else if(_callback is Func<Exception, Task> funcError && result.Exception is not null)
-            await funcError(result.Exception);
+
+        if(result.Exception is not null)
+        {
+            // process error callbacks
+            if (_errorCallbacks.Any())
+            {
+                foreach(MulticastDelegate errorCallback in _errorCallbacks)
+                {
+                    await Process(errorCallback, result);
+                }
+                return;
+            }
+        }
+
+
+        foreach(var callback in  _callbacks)
+        {
+            await Process(callback, result);
+        }
     }
 
-    public static DialogCallback OnClose(Action action) =>
-        new (action);
+    private static async Task Process(MulticastDelegate @delegate, IDialogResult result)
+    {
+        if (@delegate is Action action)
+            action();
+        else if (@delegate is Action<IDialogResult> actionResult)
+            actionResult(result);
+        else if (@delegate is Action<Exception> actionException && result.Exception is not null)
+            actionException(result.Exception);
+        else if (@delegate is Func<Task> func)
+            await func();
+        else if (@delegate is Func<IDialogResult, Task> funcResult)
+            await funcResult(result);
+        else if (@delegate is Func<Exception, Task> taskException && result.Exception is not null)
+            await taskException(result.Exception);
+    }
 
-    public static DialogCallback OnClose(Action<IDialogResult> action) =>
-        new (action);
+    /// <summary>
+    /// Provides an empty DialogCallback that will not execute any 
+    /// </summary>
+    public static DialogCallback Empty => new DialogCallback(true);
 
-    public static DialogCallback OnError(Action<Exception> action) =>
-        new (action);
+    /// <summary>
+    /// Provides a delegate callback method when the Dialog is closed
+    /// </summary>
+    /// <param name="action">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnClose(Action action)
+    {
+        _callbacks.Add(action);
+        return this;
+    }
 
-    public static DialogCallback OnCloseAsync(Func<Task> func) =>
-        new(func);
 
-    public static DialogCallback OnCloseAsync(Func<IDialogResult, Task> func) =>
-        new(func);
+    /// <summary>
+    /// Provides a delegate callback method when the Dialog is closed
+    /// </summary>
+    /// <param name="action">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnClose(Action<IDialogResult> action)
+    {
+        _callbacks.Add(action);
+        return this;
+    }
 
-    public static DialogCallback OnErrorAsync(Func<Exception, Task> func) =>
-        new(func);
+    /// <summary>
+    /// Provides a delegate callback method when an Exception is encountered
+    /// </summary>
+    /// <param name="action">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnError(Action action)
+    {
+        _errorCallbacks.Add(action);
+        return this;
+    }
+
+    /// <summary>
+    /// Provides a delegate callback method when an Exception is encountered
+    /// </summary>
+    /// <param name="action">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnError(Action<Exception> action)
+    {
+        _errorCallbacks.Add(action);
+        return this;
+    }
+
+    /// <summary>
+    /// Provides a delegate callback method when an Exception is encountered
+    /// </summary>
+    /// <param name="action">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnError(Action<IDialogResult> action)
+    {
+        _errorCallbacks.Add(action);
+        return this;
+    }
+
+    /// <summary>
+    /// Provides an asynchronous delegate callback method when the Dialog is closed
+    /// </summary>
+    /// <param name="func">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnCloseAsync(Func<Task> func)
+    {
+        _callbacks.Add(func);
+        return this;
+    }
+
+    /// <summary>
+    /// Provides an asynchronous delegate callback method when the Dialog is closed
+    /// </summary>
+    /// <param name="func">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnCloseAsync(Func<IDialogResult, Task> func)
+    {
+        _callbacks.Add(func);
+        return this;
+    }
+
+    /// <summary>
+    /// Provides an asynchronous delegate callback method when an Exception is encountered
+    /// </summary>
+    /// <param name="func">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnErrorAsync(Func<Task> func)
+    {
+        _errorCallbacks.Add(func);
+        return this;
+    }
+
+    /// <summary>
+    /// Provides an asynchronous delegate callback method when an Exception is encountered
+    /// </summary>
+    /// <param name="func">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnErrorAsync(Func<Exception, Task> func)
+    {
+        _errorCallbacks.Add(func);
+        return this;
+    }
+
+    /// <summary>
+    /// Provides an asynchronous delegate callback method when an Exception is encountered
+    /// </summary>
+    /// <param name="func">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnErrorAsync(Func<IDialogResult, Task> func)
+    {
+        _errorCallbacks.Add(func);
+        return this;
+    }
 }

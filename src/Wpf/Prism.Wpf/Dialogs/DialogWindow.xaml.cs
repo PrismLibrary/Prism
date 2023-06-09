@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Prism.Services.Dialogs
+namespace Prism.Dialogs
 {
     /// <summary>
     /// Prism's default dialog host.

@@ -14,7 +14,7 @@ Prism.Wpf helps you more easily design and build rich, flexible, and easy to mai
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Services\Dialogs\DialogWindow.xaml" />
+    <None Remove="Dialogs\DialogWindow.xaml" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) ">

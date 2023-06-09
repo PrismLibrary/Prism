@@ -1,9 +1,8 @@
-using System;
-using Windows.Foundation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.Foundation;
 
-namespace Prism.Services.Dialogs
+namespace Prism.Dialogs
 {
     public interface IDialogWindow
     {

@@ -62,10 +62,10 @@
     <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\AssemblyInfo.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\Resources.Designer.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Properties\Settings.Designer.cs" />
-    <Compile Remove="..\..\Wpf\Prism.Wpf\Services\Dialogs\DialogService.cs" />
-    <Compile Remove="..\..\Wpf\Prism.Wpf\Services\Dialogs\DialogWindow.xaml.cs" />
-    <Compile Remove="..\..\Wpf\Prism.Wpf\Services\Dialogs\IDialogWindow.cs" />
-    <Compile Remove="..\..\Wpf\Prism.Wpf\Services\Dialogs\IDialogWindowExtensions.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Dialogs\DialogService.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Dialogs\DialogWindow.xaml.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Dialogs\IDialogWindow.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Dialogs\IDialogWindowExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Maui\Prism.Maui\Ioc\IServiceCollectionAware.cs" LinkBase="Ioc" />
@@ -88,8 +88,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Update="Services\Dialogs\DialogWindow.xaml">
+    <Page Update="Dialogs\DialogWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </None>
+    </Page>
   </ItemGroup>
 </Project>
