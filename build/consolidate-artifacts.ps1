@@ -40,16 +40,19 @@ foreach($file in $files)
     }
     elseif ($file -like "*.dll" -or $file -like "*.pdb" -or $file -like "*.xml" -or $file -like "*.pri")
     {
-        $parentDirName = Split-Path -Path (Split-Path -Path $file -Parent) -Leaf
-
-        if($parentDirName -like ($platforms -join '|') -or $parentDirName -like 'Core')
+        if($file.FullName-like ($platforms -join '|') -or $file.FullName -like 'Core')
         {
             continue
         }
 
+        Write-Output "Getting TFM Directory Name for $($file.FullName)"
+        $parentDirName = Split-Path -Path (Split-Path -Path $file -Parent) -Leaf
+
+        Write-Output "Determining Copy Path for $parentDirName"
         $copyPath = Join-Path $binariesRoot -ChildPath $parentDirName
 
-        if((Test-Path -Path $copyPath -PathType Container) -eq $false) {
+        if ((Test-Path -Path $copyPath -PathType Container) -eq $false)
+        {
             Write-Output "Creating $copyPath"
             New-Item -Path $copyPath -ItemType Directory -Force > $null
         }
