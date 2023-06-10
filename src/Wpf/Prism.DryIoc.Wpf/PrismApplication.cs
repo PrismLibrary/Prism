@@ -2,6 +2,7 @@
 using DryIoc;
 using Prism.Ioc;
 using Prism.Regions;
+using ExceptionExtensions = System.ExceptionExtensions;
 
 namespace Prism.DryIoc
 {
