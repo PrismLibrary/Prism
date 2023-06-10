@@ -24,6 +24,10 @@
     <None Include="build\*.targets" Pack="true" PackagePath="buildTransitive" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Uno.Extensions.Hosting.WinUI" />
+  </ItemGroup>
+
   <ItemGroup Condition="!$(TargetFramework.Contains('windows10'))">
     <PackageReference Include="Uno.WinUI" />
     <PackageReference Include="Uno.Core" />
@@ -66,9 +70,6 @@
   <ItemGroup>
     <Compile Include="..\..\Maui\Prism.Maui\Ioc\IServiceCollectionAware.cs" LinkBase="Ioc" />
     <Compile Include="..\..\Maui\Prism.Maui\Ioc\MicrosoftDependencyInjectionExtensions.cs" LinkBase="Ioc" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Uno.Extensions.Hosting.WinUI" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />

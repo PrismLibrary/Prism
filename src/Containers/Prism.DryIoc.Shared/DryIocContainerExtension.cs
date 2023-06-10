@@ -3,6 +3,7 @@ using System.Linq;
 using DryIoc;
 using Prism.Ioc;
 using Prism.Ioc.Internals;
+using ExceptionExtensions = System.ExceptionExtensions;
 using IContainer = DryIoc.IContainer;
 
 namespace Prism.DryIoc
