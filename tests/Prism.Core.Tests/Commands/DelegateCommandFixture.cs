@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -819,6 +820,148 @@ namespace Prism.Tests.Commands
             Assert.Equal(0, complexProp.GetPropertyChangedSubscribledLenght());
         }
 
+        [Fact]
+        public void DelegateCommand_Catch_CatchesException()
+        {
+            var caught = false;
+            var command = new DelegateCommand(() => { throw new Exception(); })
+                .Catch<Exception>(ex => caught = true);
+            command.Execute();
+
+            Assert.True(caught);
+        }
+
+        [Fact]
+        public void DelegateCommandT_Catch_CatchesException()
+        {
+            var caught = false;
+            var command = new DelegateCommand<MyClass>(x => { throw new Exception(); })
+                .Catch<Exception>(ex => caught = true);
+            command.Execute(new MyClass());
+
+            Assert.True(caught);
+        }
+
+        [Fact]
+        public void DelegateCommand_Catch_CatchesExceptionWithParameter()
+        {
+            var caught = false;
+            object parameter = new object();
+            var command = new DelegateCommand(() => { throw new Exception(); })
+                .Catch<Exception>((ex, value) =>
+                {
+                    caught = true;
+                    parameter = value;
+                });
+            command.Execute();
+
+            Assert.True(caught);
+            Assert.Null(parameter);
+        }
+
+        [Fact]
+        public void DelegateCommandT_Catch_InvalidCastException()
+        {
+            var caught = false;
+            ICommand command = new DelegateCommand<MyClass>(x => { })
+                .Catch<Exception>(ex =>
+                {
+                    Assert.IsType<InvalidCastException>(ex);
+                    caught = true;
+                });
+
+            command.Execute("Test");
+            Assert.True(caught);
+        }
+
+        [Fact]
+        public void DelegateCommandT_Catch_CatchesExceptionWithParameter()
+        {
+            var caught = false;
+            var parameter = new object();
+            var command = new DelegateCommand<MyClass>(x => { throw new Exception(); })
+                .Catch<Exception>((ex, value) =>
+                {
+                    caught = true;
+                    parameter = value;
+                });
+            command.Execute(new MyClass { Value = 3 });
+
+            Assert.True(caught);
+            Assert.IsType<MyClass>(parameter);
+            Assert.Equal(3, ((MyClass)parameter).Value);
+        }
+
+        [Fact]
+        public void DelegateCommand_Catch_CatchesSpecificException()
+        {
+            var caught = false;
+            var command = new DelegateCommand(() => { throw new FileNotFoundException(); })
+                .Catch<FileNotFoundException>(ex => caught = true);
+            command.Execute();
+
+            Assert.True(caught);
+        }
+
+        [Fact]
+        public void DelegateCommandT_Catch_CatchesSpecificException()
+        {
+            var caught = false;
+            var command = new DelegateCommand<MyClass>(x => { throw new FileNotFoundException(); })
+                .Catch<FileNotFoundException>(ex => caught = true);
+            command.Execute(new MyClass());
+
+            Assert.True(caught);
+        }
+
+        [Fact]
+        public void DelegateCommand_Catch_CatchesChildException()
+        {
+            var caught = false;
+            var command = new DelegateCommand(() => { throw new FileNotFoundException(); })
+                .Catch<IOException>(ex => caught = true);
+            command.Execute();
+
+            Assert.True(caught);
+        }
+
+        [Fact]
+        public void DelegateCommandT_Catch_CatchesChildException()
+        {
+            var caught = false;
+            var command = new DelegateCommand<MyClass>(x => { throw new FileNotFoundException(); })
+                .Catch<IOException>(ex => caught = true);
+            command.Execute(new MyClass());
+
+            Assert.True(caught);
+        }
+
+        [Fact]
+        public void DelegateCommand_Throws_CatchesException()
+        {
+            var caught = false;
+            var command = new DelegateCommand(() => { throw new Exception(); })
+                .Catch<FileNotFoundException>(ex => caught = true);
+            var ex = Record.Exception(() => command.Execute());
+
+            Assert.False(caught);
+            Assert.NotNull(ex);
+            Assert.IsType<Exception>(ex);
+        }
+
+        [Fact]
+        public void DelegateCommandT_Throws_CatchesException()
+        {
+            var caught = false;
+            var command = new DelegateCommand<MyClass>(x => { throw new Exception(); })
+                .Catch<FileNotFoundException>(ex => caught = true);
+            var ex = Record.Exception(() => command.Execute(new MyClass()));
+
+            Assert.False(caught);
+            Assert.NotNull(ex);
+            Assert.IsType<Exception>(ex);
+        }
+
         public class ComplexType : TestPurposeBindableBase
         {
             private int _intProperty;
@@ -891,5 +1034,6 @@ namespace Prism.Tests.Commands
 
     internal class MyClass
     {
+        public int Value { get; set; }
     }
 }
