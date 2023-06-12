@@ -1,4 +1,4 @@
-﻿namespace Prism.Common;
+﻿namespace Prism.Mvvm;
 
 public enum ViewType
 {

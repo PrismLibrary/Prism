@@ -1,5 +1,4 @@
-﻿using Prism.Common;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Mvvm;
 
 namespace Prism.Regions;

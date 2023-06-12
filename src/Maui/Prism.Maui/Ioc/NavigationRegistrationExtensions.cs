@@ -1,4 +1,4 @@
-﻿using Prism.Common;
+﻿using Prism.Mvvm;
 
 namespace Prism.Ioc;
 
