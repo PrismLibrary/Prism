@@ -2,6 +2,7 @@
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Ioc.Internals;
+using Prism.Mvvm;
 using Prism.Properties;
 
 namespace Prism.Regions.Navigation;

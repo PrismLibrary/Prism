@@ -1,5 +1,5 @@
 ﻿using Microsoft.Maui.Controls.Compatibility;
-using Prism.Common;
+using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Regions.Adapters;
 using Prism.Regions.Behaviors;

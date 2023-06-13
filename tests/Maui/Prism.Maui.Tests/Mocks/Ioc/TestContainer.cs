@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Prism.Common;
 
 namespace Prism.Maui.Tests.Mocks.Ioc;
 

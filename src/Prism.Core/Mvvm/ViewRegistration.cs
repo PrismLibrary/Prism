@@ -1,4 +1,6 @@
-﻿namespace Prism.Common;
+﻿using System;
+
+namespace Prism.Mvvm;
 
 public record ViewRegistration
 {

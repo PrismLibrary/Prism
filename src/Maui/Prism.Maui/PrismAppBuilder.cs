@@ -34,6 +34,14 @@ public sealed class PrismAppBuilder
         _registrations = new List<Action<IContainerRegistry>>();
         _initializations = new List<Action<IContainerProvider>>();
 
+        ViewModelCreationException.SetViewNameDelegate(view =>
+        {
+            if (view is BindableObject bindable)
+                return Mvvm.ViewModelLocator.GetNavigationName(bindable);
+
+            return $"View is not a BindableObject: '{view.GetType().FullName}";
+        });
+
         MauiBuilder = builder;
         MauiBuilder.ConfigureContainer(new PrismServiceProviderFactory(RegistrationCallback));
         MauiBuilder.ConfigureLifecycleEvents(lifecycle =>

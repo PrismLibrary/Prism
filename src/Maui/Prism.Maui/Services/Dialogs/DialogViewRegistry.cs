@@ -1,6 +1,5 @@
 ﻿using Prism.Ioc;
 using Prism.Mvvm;
-using Prism.Common;
 
 namespace Prism.Services;
 

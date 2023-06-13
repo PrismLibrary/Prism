@@ -1,4 +1,4 @@
-﻿using Prism.Common;
+﻿using System;
 
 namespace Prism.Mvvm;
 
