@@ -3,8 +3,8 @@ using NuGet.Frameworks;
 using Prism.Forms.Tests.Services.Mocks;
 using Prism.Forms.Tests.Services.Mocks.Dialogs;
 using Prism.Ioc;
-using Prism.Services.Dialogs;
-using Prism.Services.Dialogs.Xaml;
+using Prism.Dialogs;
+using Prism.Dialogs.Xaml;
 using Xamarin.Forms;
 using Xunit;
 
@@ -49,7 +49,7 @@ namespace Prism.Forms.Tests.Services
         {
             SetMainPage();
             var dialogService = CreateDialogService();
-            var ex = Record.Exception(() => dialogService.ShowDialog(DialogMockViewName, new DialogParameters(), null));
+            var ex = Record.Exception(() => dialogService.ShowDialog(DialogMockViewName, new DialogParameters()));
             Assert.Null(ex);
             ex = Record.Exception(() => DialogMock.Current.ViewModel.SendRequestClose());
             Assert.Null(ex);

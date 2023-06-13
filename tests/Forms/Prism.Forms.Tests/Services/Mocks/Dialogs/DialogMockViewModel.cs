@@ -1,7 +1,7 @@
 ﻿using System;
 using Prism.AppModel;
 using Prism.Mvvm;
-using Prism.Services.Dialogs;
+using Prism.Dialogs;
 
 namespace Prism.Forms.Tests.Services.Mocks.Dialogs
 {
@@ -14,7 +14,7 @@ namespace Prism.Forms.Tests.Services.Mocks.Dialogs
             set => SetProperty(ref _title, value);
         }
 
-        public event Action<IDialogParameters> RequestClose;
+        public DialogCloseEvent RequestClose { get; set; }
 
         public bool CanClose { get; set; } = true;
 
@@ -30,6 +30,6 @@ namespace Prism.Forms.Tests.Services.Mocks.Dialogs
 
         }
 
-        public void SendRequestClose(IDialogParameters parameters = null) => RequestClose(parameters);
+        public void SendRequestClose(IDialogParameters parameters = null) => RequestClose.Invoke(parameters);
     }
 }
