@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Maui.Tests", "..\..\t
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Core.Tests", "..\..\tests\Prism.Core.Tests\Prism.Core.Tests.csproj", "{E0F13AA9-8083-47CA-B10D-93C5285D1505}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Events", "..\..\src\Prism.Events\Prism.Events.csproj", "{5623CB62-59C1-49BC-BB16-4C5D63D82DAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Events", "..\..\src\Prism.Events\Prism.Events.csproj", "{5623CB62-59C1-49BC-BB16-4C5D63D82DAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +95,7 @@ Global
 		{EE6F0C99-61D1-4E2E-8185-FBA0D246D5C7} = {E91F80AA-3D61-4C28-B876-3EDFB5921E7D}
 		{F3D2DFDB-95FB-4CBB-A624-35EB6550854D} = {E91F80AA-3D61-4C28-B876-3EDFB5921E7D}
 		{E0F13AA9-8083-47CA-B10D-93C5285D1505} = {E91F80AA-3D61-4C28-B876-3EDFB5921E7D}
+		{5623CB62-59C1-49BC-BB16-4C5D63D82DAC} = {8202B92A-A573-4365-8A15-E246504A7CBD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {50B0D1F3-D832-4C6C-858E-24F5F3B33632}

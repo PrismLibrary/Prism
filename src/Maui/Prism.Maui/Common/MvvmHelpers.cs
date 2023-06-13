@@ -269,13 +269,42 @@ public static class MvvmHelpers
         if (lastModal != null)
             page = lastModal;
 
-        return GetOnNavigatedToTargetFromChild(page);
+        return EvaluateCurrentPage(page);
     };
+
+    private static Page EvaluateCurrentPage(Page target)
+    {
+        Page child = null;
+
+        if (target is FlyoutPage flyout)
+            child = flyout.Detail;
+        else if (target is TabbedPage tabbed)
+            child = tabbed.CurrentPage;
+        else if (target is NavigationPage np)
+            child = np.Navigation.NavigationStack.Last();
+
+        if (child != null)
+            target = GetOnNavigatedToTargetFromChild(child);
+
+        if (target is Page page)
+            return page.Parent switch
+            {
+                TabbedPage tab when tab.CurrentPage != target => EvaluateCurrentPage(tab.CurrentPage),
+                NavigationPage nav when nav.CurrentPage != target => EvaluateCurrentPage(nav.CurrentPage),
+                _ => target
+            };
+
+        return null;
+    }
 
     public static async Task HandleNavigationPageGoBack(NavigationPage navigationPage)
     {
         var navigationService = Navigation.Xaml.Navigation.GetNavigationService(navigationPage.CurrentPage);
-        await navigationService.GoBackAsync();
+        var result = await navigationService.GoBackAsync();
+        if(result.Exception is NavigationException navEx && navEx.Message == NavigationException.CannotPopApplicationMainPage)
+        {
+            Application.Current.Quit();
+        }
     }
 
     public static void HandleSystemGoBack(IView previousPage, IView currentPage)
