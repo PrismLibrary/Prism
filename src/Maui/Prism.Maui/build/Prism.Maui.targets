@@ -4,6 +4,7 @@
     <Using Include="Prism" />
     <Using Include="Prism.AppModel" />
     <Using Include="Prism.Commands" />
+    <Using Include="Prism.Dialogs" />
     <Using Include="Prism.Events" />
     <Using Include="Prism.Ioc" />
     <Using Include="Prism.Modularity" />

@@ -1,5 +1,5 @@
-using Prism.Common;
 using Prism.Dialogs;
+using Prism.Mvvm;
 
 namespace Prism.Ioc;
 
