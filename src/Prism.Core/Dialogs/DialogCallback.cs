@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Prism.Dialogs;
 
+/// <summary>
+/// Provides a container for one or more Callbacks which may target specific Error Handling or Delegates to invoke on the successful close of the Dialog
+/// </summary>
 public readonly struct DialogCallback
 {
     private readonly bool _empty = false;
@@ -22,10 +25,20 @@ public readonly struct DialogCallback
 
     private DialogCallback(bool empty) => _empty = empty;
 
+    /// <summary>
+    /// Invokes the Delegates based on a specific Exception that was encountered.
+    /// </summary>
+    /// <param name="ex"></param>
+    /// <returns></returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public Task Invoke(Exception ex) =>
         Invoke(new DialogResult { Exception = ex });
 
+    /// <summary>
+    /// Invokes the Delegates for a given <see cref="IDialogResult"/>
+    /// </summary>
+    /// <param name="result">The Result</param>
+    /// <returns>A <see cref="Task"/>.</returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public async Task Invoke(IDialogResult result)
     {
