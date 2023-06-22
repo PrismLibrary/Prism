@@ -99,7 +99,15 @@ public static class IDialogServiceExtensions
     public static Task<IDialogResult> ShowDialogAsync(this IDialogService dialogService, string name, IDialogParameters parameters)
     {
         var tcs = new TaskCompletionSource<IDialogResult>();
-        dialogService.ShowDialog(name, parameters, new DialogCallback().OnClose(result => tcs.TrySetResult(result)));
+        dialogService.ShowDialog(name, parameters, new DialogCallback().OnClose(result =>
+        {
+            if (result.Exception is DialogException de && de.Message == DialogException.CanCloseIsFalse)
+                return;
+            else if (result.Exception is not null)
+                tcs.TrySetException(result.Exception);
+            else
+                tcs.TrySetResult(result);
+        }));
         return tcs.Task;
     }
 }
