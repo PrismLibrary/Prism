@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,6 +9,7 @@ namespace Prism.Dialogs;
 /// <summary>
 /// Provides a container for one or more Callbacks which may target specific Error Handling or Delegates to invoke on the successful close of the Dialog
 /// </summary>
+#nullable enable
 public readonly struct DialogCallback
 {
     private readonly bool _empty = false;

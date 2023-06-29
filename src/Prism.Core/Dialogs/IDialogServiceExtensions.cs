@@ -15,7 +15,7 @@ public static class IDialogServiceExtensions
     /// <param name="name">The name of the dialog</param>
     /// <param name="parameters">The <see cref="IDialogParameters"/> to pass to the dialog</param>
     public static void ShowDialog(this IDialogService dialogService, string name, IDialogParameters parameters) =>
-        dialogService.ShowDialog(name, parameters, default);
+        dialogService.ShowDialog(name, parameters, DialogCallback.Empty);
 
     /// <summary>
     /// Shows the dialog with the given name and passes an empty set of DialogParameters
