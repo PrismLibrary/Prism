@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
+#nullable enable
 namespace Prism.Dialogs;
 
 /// <summary>
@@ -16,7 +17,7 @@ public struct DialogCloseEvent
     /// </summary>
     public DialogCloseEvent()
     {
-        _callback = null;
+        _callback = () => { };
     }
 
     /// <summary>
@@ -43,7 +44,7 @@ public struct DialogCloseEvent
     /// Invokes the initialized delegate with no <see cref="IDialogParameters"/>.
     /// </summary>
     public void Invoke() =>
-        Invoke(null);
+        Invoke(new DialogParameters());
 
     /// <summary>
     /// Invokes the initialized delegate with the specified <see cref="IDialogParameters"/>.
@@ -51,8 +52,6 @@ public struct DialogCloseEvent
     /// <param name="parameters">The <see cref="IDialogParameters"/>.</param>
     public async void Invoke(IDialogParameters parameters)
     {
-        parameters ??= new DialogParameters();
-
         switch(_callback)
         {
             case Action<IDialogParameters> actionCallback:
