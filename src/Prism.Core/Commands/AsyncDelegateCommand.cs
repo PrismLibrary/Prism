@@ -84,7 +84,7 @@ public class AsyncDelegateCommand : DelegateCommandBase, IAsyncCommand
             IsExecuting = true;
             await _executeMethod(cancellationToken);
         }
-        catch (TaskCanceledException)
+        catch (TaskCanceledException) when (cancellationToken.IsCancellationRequested)
         {
             // Do nothing... the Task was cancelled
         }
