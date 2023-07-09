@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Windows.Input;
+using Prism.Common;
 
 namespace Prism.Commands
 {
@@ -16,6 +17,11 @@ namespace Prism.Commands
 
         private SynchronizationContext _synchronizationContext;
         private readonly HashSet<string> _observedPropertiesExpressions = new HashSet<string>();
+
+        /// <summary>
+        /// Provides an Exception Handler to register callbacks or handle encountered exceptions within 
+        /// </summary>
+        protected readonly MulticastExceptionHandler ExceptionHandler = new MulticastExceptionHandler();
 
         /// <summary>
         /// Creates a new instance of a <see cref="DelegateCommandBase"/>, specifying both the execute action and the can execute function.
@@ -32,7 +38,7 @@ namespace Prism.Commands
 
         /// <summary>
         /// Raises <see cref="ICommand.CanExecuteChanged"/> so every 
-        /// command invoker can requery <see cref="ICommand.CanExecute"/>.
+        /// command invoker can re-query <see cref="ICommand.CanExecute"/>.
         /// </summary>
         protected virtual void OnCanExecuteChanged()
         {
@@ -48,7 +54,7 @@ namespace Prism.Commands
 
         /// <summary>
         /// Raises <see cref="CanExecuteChanged"/> so every command invoker
-        /// can requery to check if the command can execute.
+        /// can re-query to check if the command can execute.
         /// </summary>
         /// <remarks>Note that this will trigger the execution of <see cref="CanExecuteChanged"/> once for each invoker.</remarks>
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate")]
