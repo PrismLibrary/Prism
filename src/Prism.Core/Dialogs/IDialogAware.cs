@@ -23,8 +23,8 @@ public interface IDialogAware
     void OnDialogOpened(IDialogParameters parameters);
 
     /// <summary>
-    /// The <see cref="DialogCloseEvent"/> will be set by the <see cref="IDialogService"/> and can be called to
+    /// The <see cref="DialogCloseCallback"/> will be set by the <see cref="IDialogService"/> and can be called to
     /// invoke the close of the Dialog.
     /// </summary>
-    DialogCloseEvent RequestClose { get; set; }
+    DialogCloseCallback RequestClose { get; set; }
 }

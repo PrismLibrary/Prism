@@ -1,7 +1,5 @@
-﻿using System;
-using Prism.AppModel;
+﻿using Prism.Dialogs;
 using Prism.Mvvm;
-using Prism.Dialogs;
 
 namespace Prism.Forms.Tests.Services.Mocks.Dialogs
 {
@@ -14,7 +12,7 @@ namespace Prism.Forms.Tests.Services.Mocks.Dialogs
             set => SetProperty(ref _title, value);
         }
 
-        public DialogCloseEvent RequestClose { get; set; }
+        public DialogCloseCallback RequestClose { get; set; }
 
         public bool CanClose { get; set; } = true;
 

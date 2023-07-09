@@ -100,10 +100,9 @@ namespace Prism.Dialogs
         /// <param name="callback">The action to perform when the dialog is closed.</param>
         protected virtual void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, DialogCallback callback)
         {
-            Action<IDialogParameters> requestCloseHandler = null;
-            requestCloseHandler = (p) =>
+            Action<IDialogResult> requestCloseHandler = (r) =>
             {
-                dialogWindow.Result = new DialogResult { Parameters = p };
+                dialogWindow.Result = r;
                 dialogWindow.Close();
             };
 
@@ -111,7 +110,7 @@ namespace Prism.Dialogs
             loadedHandler = (o, e) =>
             {
                 dialogWindow.Loaded -= loadedHandler;
-                dialogWindow.GetDialogViewModel().RequestClose = new DialogCloseEvent(requestCloseHandler);
+                dialogWindow.GetDialogViewModel().RequestClose = new DialogCloseCallback(requestCloseHandler);
             };
             dialogWindow.Loaded += loadedHandler;
 

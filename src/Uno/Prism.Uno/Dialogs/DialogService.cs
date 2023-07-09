@@ -58,10 +58,9 @@ namespace Prism.Dialogs
         {
             IDialogResult result = null;
 
-            Action<IDialogParameters> requestCloseHandler = null;
-            requestCloseHandler = (p) =>
+            Action<IDialogResult> requestCloseHandler = (r) =>
             {
-                result = new DialogResult { Parameters = p };
+                result = r ?? new DialogResult();
                 contentDialog.Hide();
             };
 
@@ -72,7 +71,7 @@ namespace Prism.Dialogs
 
                 if (contentDialog.DataContext is IDialogAware dialogAware)
                 {
-                    dialogAware.RequestClose = new DialogCloseEvent(requestCloseHandler);
+                    dialogAware.RequestClose = new DialogCloseCallback(requestCloseHandler);
                 }
             };
 

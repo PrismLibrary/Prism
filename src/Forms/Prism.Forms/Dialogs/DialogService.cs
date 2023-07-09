@@ -49,11 +49,11 @@ namespace Prism.Dialogs
 
                 dialogAware.RequestClose = new(DialogAware_RequestClose);
 
-                async Task DialogAware_RequestClose(IDialogParameters outParameters)
+                async Task DialogAware_RequestClose(IDialogResult outResult)
                 {
                     try
                     {
-                        var result = await CloseDialogAsync(outParameters ?? new DialogParameters(), currentPage, dialogModal);
+                        var result = await CloseDialogAsync(outResult ?? new DialogResult(), currentPage, dialogModal);
                         dialogModal.RaiseDialogResult(result);
                         if (result.Exception is DialogException de && de.Message == DialogException.CanCloseIsFalse)
                         {
@@ -110,15 +110,21 @@ namespace Prism.Dialogs
             }
         }
 
-        private async System.Threading.Tasks.Task<IDialogResult> CloseDialogAsync(IDialogParameters parameters, ContentPage currentPage, DialogPage dialogModal)
+        private async System.Threading.Tasks.Task<IDialogResult> CloseDialogAsync(IDialogResult result, ContentPage currentPage, DialogPage dialogModal)
         {
             try
             {
                 PageNavigationService.NavigationSource = PageNavigationSource.DialogService;
 
-                if (parameters is null)
+                result ??= new DialogResult();
+                if (result.Parameters is null)
                 {
-                    parameters = new DialogParameters();
+                    result = new DialogResult
+                    {
+                        Exception = result.Exception,
+                        Parameters = new DialogParameters(),
+                        Result = result.Result
+                    };
                 }
 
                 var view = dialogModal.DialogView;
@@ -135,10 +141,7 @@ namespace Prism.Dialogs
                 PageUtilities.InvokeViewAndViewModelAction<IActiveAware>(currentPage, aa => aa.IsActive = true);
                 dialogAware.OnDialogClosed();
 
-                return new DialogResult
-                {
-                    Parameters = parameters
-                };
+                return result;
             }
             catch (DialogException)
             {
@@ -149,7 +152,8 @@ namespace Prism.Dialogs
                 return new DialogResult
                 {
                     Exception = ex,
-                    Parameters = parameters
+                    Parameters = result.Parameters,
+                    Result = result.Result
                 };
             }
             finally
@@ -246,7 +250,7 @@ namespace Prism.Dialogs
             }
         }
 
-        private async void InsertPopupViewInCurrentPage(ContentPage currentPage, DialogPage modalPage, View popupView, bool hideOnBackgroundTapped, DialogCloseEvent closeEvent)
+        private async void InsertPopupViewInCurrentPage(ContentPage currentPage, DialogPage modalPage, View popupView, bool hideOnBackgroundTapped, DialogCloseCallback closeEvent)
         {
             View mask = DialogLayout.GetMask(popupView);
 

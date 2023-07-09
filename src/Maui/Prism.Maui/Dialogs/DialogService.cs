@@ -14,12 +14,19 @@ public sealed class DialogService : IDialogService
     private readonly IContainerProvider _container;
     private readonly IPageAccessor _pageAccessor;
 
+    /// <summary>
+    /// Creates a new instance of the <see cref="DialogService"/> for Maui Applications
+    /// </summary>
+    /// <param name="container">The <see cref="IContainerProvider"/> that will be used to help resolve the Dialog Views.</param>
+    /// <param name="pageAccessor">The <see cref="IPageAccessor"/> used to determine where in the Navigation Stack we need to process the Dialog.</param>
+    /// <exception cref="ArgumentNullException">Throws when any constructor arguments are null.</exception>
     public DialogService(IContainerProvider container, IPageAccessor pageAccessor)
     {
         _container = container ?? throw new ArgumentNullException(nameof(container));
         _pageAccessor = pageAccessor ?? throw new ArgumentNullException(nameof(pageAccessor));
     }
 
+    /// <inheritdoc/>
     public void ShowDialog(string name, IDialogParameters parameters, DialogCallback callback)
     {
         try
@@ -35,11 +42,11 @@ public sealed class DialogService : IDialogService
             var dialogModal = _container.Resolve<IDialogContainer>();
             var dialogAware = GetDialogController(view);
 
-            async Task DialogAware_RequestClose(IDialogParameters outParameters)
+            async Task DialogAware_RequestClose(IDialogResult outResult)
             {
                 try
                 {
-                    var result = await CloseDialogAsync(outParameters ?? new DialogParameters(), currentPage, dialogModal);
+                    var result = await CloseDialogAsync(outResult ?? new DialogResult(), currentPage, dialogModal);
                     if (result.Exception is DialogException de && de.Message == DialogException.CanCloseIsFalse)
                     {
                         return;
@@ -53,7 +60,8 @@ public sealed class DialogService : IDialogService
                     var result = new DialogResult
                     {
                         Exception = dex,
-                        Parameters = parameters
+                        Parameters = parameters,
+                        Result = ButtonResult.None
                     };
 
                     if (dex.Message != DialogException.CanCloseIsFalse)
@@ -100,18 +108,28 @@ public sealed class DialogService : IDialogService
         var result = new DialogResult 
         {
             Parameters = parameters,
-            Exception = exception
+            Exception = exception,
+            Result = ButtonResult.None
         };
         await callback.Invoke(result);
     }
 
-    private static async Task<IDialogResult> CloseDialogAsync(IDialogParameters parameters, Page currentPage, IDialogContainer dialogModal)
+    private static async Task<IDialogResult> CloseDialogAsync(IDialogResult result, Page currentPage, IDialogContainer dialogModal)
     {
         try
         {
             PageNavigationService.NavigationSource = PageNavigationSource.DialogService;
 
-            parameters ??= new DialogParameters();
+            result ??= new DialogResult();
+            if (result.Parameters is null)
+            {
+                result = new DialogResult
+                {
+                    Exception = result.Exception,
+                    Parameters = new DialogParameters(),
+                    Result = result.Result
+                };
+            }
 
             var view = dialogModal.DialogView;
             var dialogAware = GetDialogController(view);
@@ -129,10 +147,7 @@ public sealed class DialogService : IDialogService
             MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(currentPage, aa => aa.IsActive = true);
             dialogAware.OnDialogClosed();
 
-            return new DialogResult
-            {
-                Parameters = parameters
-            };
+            return result;
         }
         catch (DialogException)
         {
@@ -143,7 +158,8 @@ public sealed class DialogService : IDialogService
             return new DialogResult
             {
                 Exception = ex,
-                Parameters = parameters
+                Parameters = result.Parameters,
+                Result = result.Result
             };
         }
         finally
