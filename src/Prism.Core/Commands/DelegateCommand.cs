@@ -66,7 +66,19 @@ namespace Prism.Commands
         /// <returns>Returns <see langword="true"/> if the command can execute,otherwise returns <see langword="false"/>.</returns>
         public bool CanExecute()
         {
-            return _canExecuteMethod();
+            try
+            {
+                return _canExecuteMethod();
+            }
+            catch (Exception ex)
+            {
+                if (!ExceptionHandler.CanHandle(ex))
+                    throw;
+
+                ExceptionHandler.Handle(ex, null);
+
+                return false;
+            }
         }
 
         /// <summary>

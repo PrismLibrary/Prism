@@ -102,7 +102,19 @@ namespace Prism.Commands
         ///</returns>
         public bool CanExecute(T parameter)
         {
-            return _canExecuteMethod(parameter);
+            try
+            {
+                return _canExecuteMethod(parameter);
+            }
+            catch (Exception ex)
+            {
+                if (!ExceptionHandler.CanHandle(ex))
+                    throw;
+
+                ExceptionHandler.Handle(ex, parameter);
+
+                return false;
+            }
         }
 
         /// <summary>
@@ -133,7 +145,21 @@ namespace Prism.Commands
         /// <returns><see langword="true"/> if the Command Can Execute, otherwise <see langword="false" /></returns>
         protected override bool CanExecute(object parameter)
         {
-            return CanExecute((T)parameter);
+            try
+            {
+                // Note: We don't call Execute because we would potentially invoke the Try/Catch twice.
+                // It is also needed here incase (T)parameter throws the exception
+                return CanExecute((T)parameter);
+            }
+            catch (Exception ex)
+            {
+                if (!ExceptionHandler.CanHandle(ex))
+                    throw;
+
+                ExceptionHandler.Handle(ex, parameter);
+
+                return false;
+            }
         }
 
         /// <summary>
