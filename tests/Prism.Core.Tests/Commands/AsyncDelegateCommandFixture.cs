@@ -1,5 +1,6 @@
-﻿using System.Threading.Tasks;
-using System.Threading;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Prism.Commands;
 using Xunit;
 
@@ -115,5 +116,20 @@ public class AsyncDelegateCommandFixture
         // Assert
         Assert.True(executionStarted);
         Assert.False(executed);
+    }
+
+    [Fact]
+    public async Task ICommandExecute_UsesDefaultTokenSourceFactory()
+    {
+        var cts = new CancellationTokenSource();
+        var command = new AsyncDelegateCommand((token) => Task.Delay(1000, token))
+            .CancellationTokenSourceFactory(() => cts.Token);
+        ICommand iCommand = command;
+        iCommand.Execute(null);
+
+        Assert.True(command.IsExecuting);
+        cts.Cancel();
+
+        Assert.False(command.IsExecuting);
     }
 }

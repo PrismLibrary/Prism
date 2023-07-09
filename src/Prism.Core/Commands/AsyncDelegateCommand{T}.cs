@@ -18,6 +18,7 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     private bool _isExecuting = false;
     private readonly Func<T, CancellationToken, Task> _executeMethod;
     private Func<T, bool> _canExecuteMethod;
+    private Func<CancellationToken> _getCancellationToken = () => CancellationToken.None;
 
     /// <summary>
     /// Creates a new instance of <see cref="AsyncDelegateCommand{T}"/> with the <see cref="Func{Task}"/> to invoke on execution.
@@ -135,7 +136,7 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     {
         try
         {
-            await Execute((T)parameter);
+            await Execute((T)parameter, _getCancellationToken());
         }
         catch (Exception ex)
         {
@@ -171,10 +172,21 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     /// <summary>
     /// Enables Parallel Execution of Async Tasks
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The current instance of <see cref="AsyncDelegateCommand{T}"/>.</returns>
     public AsyncDelegateCommand<T> EnableParallelExecution()
     {
         _enableParallelExecution = true;
+        return this;
+    }
+
+    /// <summary>
+    /// Provides a delegate callback to provide a default CancellationToken when the Command is invoked.
+    /// </summary>
+    /// <param name="factory">The default <see cref="CancellationToken"/> Factory.</param>
+    /// <returns>The current instance of <see cref="AsyncDelegateCommand{T}"/>.</returns>
+    public AsyncDelegateCommand<T> CancellationTokenSourceFactory(Func<CancellationToken> factory)
+    {
+        _getCancellationToken = factory;
         return this;
     }
 
@@ -183,7 +195,7 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     /// </summary>
     /// <typeparam name="TType">The type of the return value of the method that this delegate encapsulates</typeparam>
     /// <param name="propertyExpression">The property expression. Example: ObservesProperty(() => PropertyName).</param>
-    /// <returns>The current instance of DelegateCommand</returns>
+    /// <returns>The current instance of <see cref="AsyncDelegateCommand{T}"/>.</returns>
     public AsyncDelegateCommand<T> ObservesProperty<TType>(Expression<Func<TType>> propertyExpression)
     {
         ObservesPropertyInternal(propertyExpression);
@@ -194,7 +206,7 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     /// Observes a property that is used to determine if this command can execute, and if it implements INotifyPropertyChanged it will automatically call DelegateCommandBase.RaiseCanExecuteChanged on property changed notifications.
     /// </summary>
     /// <param name="canExecuteExpression">The property expression. Example: ObservesCanExecute(() => PropertyName).</param>
-    /// <returns>The current instance of DelegateCommand</returns>
+    /// <returns>The current instance of <see cref="AsyncDelegateCommand{T}"/>.</returns>
     public AsyncDelegateCommand<T> ObservesCanExecute(Expression<Func<bool>> canExecuteExpression)
     {
         Expression<Func<T, bool>> expression = Expression.Lambda<Func<T, bool>>(canExecuteExpression.Body, Expression.Parameter(typeof(T), "o"));
@@ -207,7 +219,7 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     /// Provides the ability to connect a delegate to catch exceptions encountered by CanExecute or the Execute methods of the DelegateCommand
     /// </summary>
     /// <param name="catch">TThe callback when a specific exception is encountered</param>
-    /// <returns>The current instance of DelegateCommand</returns>
+    /// <returns>The current instance of <see cref="AsyncDelegateCommand{T}"/>.</returns>
     public AsyncDelegateCommand<T> Catch<TException>(Action<TException> @catch)
         where TException : Exception
     {
@@ -219,7 +231,7 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     /// Provides the ability to connect a delegate to catch exceptions encountered by CanExecute or the Execute methods of the DelegateCommand
     /// </summary>
     /// <param name="catch">The generic / default callback when an exception is encountered</param>
-    /// <returns>The current instance of DelegateCommand</returns>
+    /// <returns>The current instance of <see cref="AsyncDelegateCommand{T}"/>.</returns>
     public AsyncDelegateCommand<T> Catch(Action<Exception> @catch)
     {
         ExceptionHandler.Register<Exception>(@catch);
@@ -231,7 +243,7 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
         try
         {
             // If T is not nullable this may throw an exception
-            await Execute((T)parameter, default);
+            await Execute((T)parameter, _getCancellationToken());
         }
         catch (Exception ex)
         {
