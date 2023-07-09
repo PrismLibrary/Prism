@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-#if NETSTANDARD || NET47
+#if NETSTANDARD || NET461_OR_GREATER
 namespace System.Runtime.CompilerServices;
 
 internal static class IsExternalInit

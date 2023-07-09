@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net47;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net461;net47;net6.0</TargetFrameworks>
     <AssemblyName>Prism</AssemblyName>
     <PackageId>Prism.Core</PackageId>
     <RootNamespace>Prism</RootNamespace>
@@ -14,6 +14,11 @@
     <Compile Update="Properties\Resources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Resources.resx" />
     <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
   </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework) == 'net461' ">
+    <PackageReference Include="System.ValueTuple" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Prism.Events\Prism.Events.csproj" />
   </ItemGroup>
