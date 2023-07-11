@@ -42,7 +42,7 @@ namespace Prism.Container.Wpf.Tests.Ioc
         public ContainerProviderExtensionFixture()
         {
             ContainerLocator.ResetContainer();
-            ContainerLocator.SetContainerExtension(() => _containerExtension);
+            ContainerLocator.SetContainerExtension(_containerExtension);
         }
 
         public void Dispose()

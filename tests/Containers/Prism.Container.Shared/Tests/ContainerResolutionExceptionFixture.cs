@@ -43,7 +43,7 @@ namespace Prism.Ioc.Tests
         {
             ContainerLocator.ResetContainer();
             var container = Setup.CreateContainer();
-            ContainerLocator.SetContainerExtension(() => Setup.Extension);
+            ContainerLocator.SetContainerExtension(Setup.Extension);
             Setup.Registry.Register<object, BadView>("BadView");
 
             var ex = Record.Exception(() => container.Resolve<object>("BadView"));
@@ -60,7 +60,7 @@ namespace Prism.Ioc.Tests
         {
             ContainerLocator.ResetContainer();
             var container = Setup.CreateContainer();
-            ContainerLocator.SetContainerExtension(() => Setup.Extension);
+            ContainerLocator.SetContainerExtension(Setup.Extension);
             Setup.Registry.Register<object, BadView>("BadView");
 
             var ex = Record.Exception(() => container.Resolve<object>("BadView"));
@@ -77,7 +77,7 @@ namespace Prism.Ioc.Tests
         {
             ContainerLocator.ResetContainer();
             var container = Setup.CreateContainer();
-            ContainerLocator.SetContainerExtension(() => Setup.Extension);
+            ContainerLocator.SetContainerExtension(Setup.Extension);
             Setup.Registry.Register<object, BadView>("BadView");
 
             var ex = Record.Exception(() => container.Resolve<object>("BadView"));
@@ -94,7 +94,7 @@ namespace Prism.Ioc.Tests
         {
             ContainerLocator.ResetContainer();
             var container = Setup.CreateContainer();
-            ContainerLocator.SetContainerExtension(() => Setup.Extension);
+            ContainerLocator.SetContainerExtension(Setup.Extension);
             Setup.Registry.Register<object, BadView>("BadView");
 
             var ex = Record.Exception(() => container.Resolve<object>("BadView"));
@@ -111,7 +111,7 @@ namespace Prism.Ioc.Tests
         {
             ContainerLocator.ResetContainer();
             var container = Setup.CreateContainer();
-            ContainerLocator.SetContainerExtension(() => Setup.Extension);
+            ContainerLocator.SetContainerExtension(Setup.Extension);
 
             var ex = Record.Exception(() => container.Resolve<ConstructorArgumentViewModel>());
 
@@ -127,7 +127,7 @@ namespace Prism.Ioc.Tests
         {
             ContainerLocator.ResetContainer();
             var container = Setup.CreateContainer();
-            ContainerLocator.SetContainerExtension(() => Setup.Extension);
+            ContainerLocator.SetContainerExtension(Setup.Extension);
 
             var ex = Record.Exception(() => container.Resolve<ConstructorArgumentViewModel>());
 

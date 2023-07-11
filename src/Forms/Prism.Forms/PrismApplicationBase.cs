@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Prism.AppModel;
 using Prism.Behaviors;
@@ -22,6 +23,8 @@ namespace Prism
     /// </summary>
     public abstract class PrismApplicationBase : Application
     {
+        private static bool _initialized;
+
         /// <summary>
         /// Gets the Current PrismApplication
         /// </summary>
@@ -140,20 +143,31 @@ namespace Prism
         /// </summary>
         protected virtual void Initialize()
         {
-            ContainerLocator.SetContainerExtension(CreateContainerExtension);
-            _containerExtension = ContainerLocator.Current;
-            RegisterRequiredTypes(_containerExtension);
-            PlatformInitializer?.RegisterTypes(_containerExtension);
-            RegisterTypes(_containerExtension);
-            _containerExtension.FinalizeExtension();
+            if(!_initialized)
+            {
+                ContainerLocator.TrySetContainerExtension(CreateContainerExtension());
+                _containerExtension = ContainerLocator.Current;
+                RegisterRequiredTypes(_containerExtension);
+                PlatformInitializer?.RegisterTypes(_containerExtension);
+                RegisterTypes(_containerExtension);
+                _containerExtension.FinalizeExtension();
 
-            _moduleCatalog = Container.Resolve<IModuleCatalog>();
-            ConfigureModuleCatalog(_moduleCatalog);
+                _moduleCatalog = Container.Resolve<IModuleCatalog>();
+                ConfigureModuleCatalog(_moduleCatalog);
 
-            _containerExtension.CreateScope();
-            NavigationService = _containerExtension.Resolve<INavigationService>();
+                _containerExtension.CreateScope();
+                NavigationService = _containerExtension.Resolve<INavigationService>();
 
-            InitializeModules();
+                InitializeModules();
+            }
+            else
+            {
+                _containerExtension = ContainerLocator.Current;
+                _containerExtension.CreateScope();
+                NavigationService = _containerExtension.Resolve<INavigationService>();
+            }
+
+            _initialized = true;
         }
 
         /// <summary>
@@ -258,6 +272,18 @@ namespace Prism
                 PageUtilities.HandleSystemGoBack(e.Modal, _previousPage);
                 _previousPage = null;
             }
+        }
+
+        /// <summary>
+        /// This method is for Unit Testing Purposes only. By default we do not reinitialize the container if the static
+        /// Initialization flag is already set to true. This could be the case on Android where the MainActivity is recreated
+        /// and the Application.Current was nulled out requiring a new instance of the Application to be created. This will preserve
+        /// the Registrations and Singletons that are already initialized in the initial container.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void ResetInitialization()
+        {
+            _initialized = false;
         }
     }
 }

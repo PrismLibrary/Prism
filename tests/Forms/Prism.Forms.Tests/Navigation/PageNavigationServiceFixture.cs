@@ -26,7 +26,7 @@ namespace Prism.Forms.Tests.Navigation
 
             ContainerLocator.ResetContainer();
             _container = new PageNavigationContainerMock();
-            ContainerLocator.SetContainerExtension(() => _container);
+            ContainerLocator.SetContainerExtension(_container);
 
             _container.Register("PageMock", typeof(PageMock));
 

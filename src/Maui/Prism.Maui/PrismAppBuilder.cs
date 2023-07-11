@@ -76,7 +76,7 @@ public sealed class PrismAppBuilder
         });
 
         ContainerLocator.ResetContainer();
-        ContainerLocator.SetContainerExtension(() => containerExtension);
+        ContainerLocator.SetContainerExtension(containerExtension);
 
         containerExtension.RegisterInstance(this);
         containerExtension.RegisterSingleton<IMauiInitializeService, PrismInitializationService>();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.ComponentModel;
 
 namespace Prism.Ioc
@@ -9,16 +10,14 @@ namespace Prism.Ioc
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class ContainerLocator
     {
-        private static Lazy<IContainerExtension> _lazyContainer;
-
-        private static IContainerExtension _current;
+        private static IContainerExtension? _current;
 
         /// <summary>
         /// Gets the current <see cref="IContainerExtension" />.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static IContainerExtension Current =>
-            _current ?? (_current = _lazyContainer?.Value);
+            _current ?? throw new InvalidOperationException("The `ContainerLocator.SetContainerExtension` method has not been invoked");
 
         /// <summary>
         /// Gets the <see cref="IContainerProvider" />
@@ -27,15 +26,34 @@ namespace Prism.Ioc
             Current;
 
         /// <summary>
-        /// Sets the Container Factory to use if the Current <see cref="IContainerProvider" /> is null
+        /// Sets the Container to use if the <see cref="IContainerProvider" /> is null. Otherwise this will throw an exception.
         /// </summary>
-        /// <param name="factory"></param>
+        /// <param name="instance">The current instance to set</param>
         /// <remarks>
-        /// NOTE: We want to use Lazy Initialization in case the container is first created
-        /// prior to Prism initializing which could be the case with Shiny
-        /// </remarks>
-        public static void SetContainerExtension(Func<IContainerExtension> factory) =>
-            _lazyContainer = new Lazy<IContainerExtension>(factory);
+        /// <exception cref="InvalidOperationException">Throws an exception if the Container has already been set.</exception>
+        public static void SetContainerExtension(IContainerExtension instance)
+        {
+            if (_current is not null)
+            {
+                throw new InvalidOperationException("The Container has already been initialized with the ContainerLocator. Please use TrySetContainerExtension or Reset the ContainerLocator prior to invoking the SetContainerExtensionMethod.");
+            }
+            _current = instance;
+        }
+
+        /// <summary>
+        /// Returns <c>True</c> and sets the Container if the <see cref="IContainerProvider"/> is null. Otherwise
+        /// will return <c>False</c>
+        /// </summary>
+        /// <param name="instance">The instance of the <see cref="IContainerExtension"/> to set.</param>
+        /// <returns><c>True</c> if the Container was set.</returns>
+        public static bool TrySetContainerExtension(IContainerExtension instance)
+        {
+            if (_current is not null)
+                return false;
+
+            _current = instance;
+            return true;
+        }
 
         /// <summary>
         /// Used for Testing to Reset the Current Container
@@ -44,7 +62,6 @@ namespace Prism.Ioc
         public static void ResetContainer()
         {
             _current = null;
-            _lazyContainer = null;
         }
     }
 }

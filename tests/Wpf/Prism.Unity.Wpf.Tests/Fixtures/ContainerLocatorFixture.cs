@@ -20,7 +20,7 @@ namespace Prism.Unity.Wpf.Tests
             mockContainer.Setup(c => c.Resolve(typeof(object), null, It.IsAny<ResolverOverride[]>())).Returns(myInstance);
             var containerExtension = new UnityContainerExtension(mockContainer.Object);
             ContainerLocator.ResetContainer();
-            ContainerLocator.SetContainerExtension(() => containerExtension);
+            ContainerLocator.SetContainerExtension(containerExtension);
             var resolved = ContainerLocator.Container.Resolve(typeof(object));
             mockContainer.Verify(c => c.Resolve(typeof(object), null, It.IsAny<ResolverOverride[]>()), Times.Once);
             Assert.Same(myInstance, resolved);

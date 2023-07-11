@@ -18,7 +18,7 @@ namespace Prism.DryIoc.Wpf.Tests
             // We register the IContainerExtension and IContainerProvider directly with the container in the ctor.
             Assert.Equal(2, mockContainer.Invocations.Count);
             ContainerLocator.ResetContainer();
-            ContainerLocator.SetContainerExtension(() => containerExtension);
+            ContainerLocator.SetContainerExtension(containerExtension);
 
             var resolved = ContainerLocator.Container.Resolve(typeof(object));
             Assert.Equal(3, mockContainer.Invocations.Count);

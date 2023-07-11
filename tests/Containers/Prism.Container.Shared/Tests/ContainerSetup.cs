@@ -20,7 +20,7 @@ namespace Prism.Ioc.Tests
         public IContainerProvider CreateContainer()
         {
             ContainerLocator.ResetContainer();
-            ContainerLocator.SetContainerExtension(() => CreateContainerInternal());
+            ContainerLocator.SetContainerExtension(CreateContainerInternal());
             var container = ContainerLocator.Current;
             container.CreateScope();
             return container;

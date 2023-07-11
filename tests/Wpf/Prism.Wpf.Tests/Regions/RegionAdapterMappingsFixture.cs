@@ -52,7 +52,7 @@ namespace Prism.Wpf.Tests.Regions
                 containerMock.Setup(c => c.Resolve(typeof(MockRegionAdapter)))
                              .Returns(regionAdapter);
                 ContainerLocator.ResetContainer();
-                ContainerLocator.SetContainerExtension(() => containerMock.Object);
+                ContainerLocator.SetContainerExtension(containerMock.Object);
 
                 regionAdapterMappings.RegisterMapping<ItemsControl, MockRegionAdapter>();
 
