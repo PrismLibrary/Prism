@@ -229,15 +229,7 @@ public sealed class PrismAppBuilder
         containerRegistry.RegisterScoped<IPageAccessor, PageAccessor>();
         containerRegistry.RegisterScoped<INavigationService, PageNavigationService>();
         containerRegistry.Register<INavigationRegistry, NavigationRegistry>();
-        containerRegistry.Register<IWindowManager>(c =>
-        {
-            var app = c.Resolve<IApplication>();
-            if (app is PrismApplication prismApp)
-                return prismApp;
-
-            throw new InvalidOperationException("The registered application does not inherit from PrismApplication.");
-        });
-
+        containerRegistry.RegisterManySingleton<PrismWindowManager>();
         containerRegistry.RegisterPageBehavior<NavigationPage, NavigationPageSystemGoBackBehavior>();
         containerRegistry.RegisterPageBehavior<NavigationPage, NavigationPageActiveAwareBehavior>();
         containerRegistry.RegisterPageBehavior<TabbedPage, TabbedPageActiveAwareBehavior>();
