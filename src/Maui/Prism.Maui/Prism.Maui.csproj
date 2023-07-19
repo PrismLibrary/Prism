@@ -14,6 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
+    <PackageReference Include="Microsoft.Maui.Controls" />
+  </ItemGroup>
+
+  <ItemGroup>
     <InternalsVisibleTo Include="Prism.Maui.Tests" />
     <InternalsVisibleTo Include="Prism.DryIoc.Maui.Tests" />
     <None Include="build\*.targets" Pack="True" PackagePath="buildTransitive" />
