@@ -7,6 +7,12 @@
     <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
+
+  <!-- Maui -->
+  <ItemGroup Condition=" $(UseMaui) == 'true' ">
+    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.0-preview.6.8686" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.0-preview.6.8686" />
+  </ItemGroup>
   <!-- Uno -->
   <ItemGroup Condition=" $(IsUnoProject) == 'true' ">
     <PackageVersion Include="Uno.WinUI" Version="4.9.26" />
