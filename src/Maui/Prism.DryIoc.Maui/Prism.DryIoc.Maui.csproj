@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <PackageReference Include="DryIoc.dll" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
+    <PackageReference Include="Microsoft.Maui.Controls" />
   </ItemGroup>
 
   <ItemGroup>

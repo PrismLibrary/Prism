@@ -50,6 +50,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
+    <PackageReference Include="Microsoft.Maui.Controls" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\src\Maui\Prism.DryIoc.Maui\Prism.DryIoc.Maui.csproj" />
     <ProjectReference Include="..\..\..\src\Maui\Prism.Maui.Rx\Prism.Maui.Rx.csproj" />
     <ProjectReference Include="..\..\..\src\Maui\Prism.Maui\Prism.Maui.csproj" />

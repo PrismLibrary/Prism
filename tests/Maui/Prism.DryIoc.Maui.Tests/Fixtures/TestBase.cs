@@ -21,7 +21,7 @@ public abstract class TestBase
     protected MauiAppBuilder CreateBuilder(Action<PrismAppBuilder> configurePrism)
     {
         return MauiApp.CreateBuilder()
-            .UseMauiApp<PrismApplication>()
+            .UseMauiApp<Application>()
             .UsePrism(prism =>
             {
                 prism.RegisterTypes(container =>
@@ -68,7 +68,7 @@ public abstract class TestBase
     {
         var app = mauiApp.Services.GetService<IApplication>();
         Assert.NotNull(app);
-        Assert.IsType<PrismApplication>(app);
+        Assert.IsType<Application>(app);
 
         var state = new ActivationState(new MauiContext(mauiApp.Services));
         var window = app.CreateWindow(state);

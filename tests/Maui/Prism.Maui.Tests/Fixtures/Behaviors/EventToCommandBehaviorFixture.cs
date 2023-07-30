@@ -39,7 +39,7 @@ public class EventToCommandBehaviorFixture
     {
         DispatcherProvider.SetCurrent(TestDispatcher.Provider);
         _ = MauiApp.CreateBuilder()
-            .UseMauiApp<ApplicationMock>()
+            .UseMauiApp<Application>()
             .Build();
     }
 
