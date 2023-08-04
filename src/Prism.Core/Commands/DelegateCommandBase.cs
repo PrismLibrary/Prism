@@ -5,13 +5,14 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Windows.Input;
 using Prism.Common;
+using Prism.Mvvm;
 
 namespace Prism.Commands
 {
     /// <summary>
     /// An <see cref="ICommand"/> whose delegates can be attached for <see cref="Execute"/> and <see cref="CanExecute"/>.
     /// </summary>
-    public abstract class DelegateCommandBase : ICommand, IActiveAware
+    public abstract class DelegateCommandBase : BindableBase, ICommand, IActiveAware
     {
         private bool _isActive;
 
@@ -113,15 +114,8 @@ namespace Prism.Commands
         /// <value><see langword="true" /> if the object is active; otherwise <see langword="false" />.</value>
         public bool IsActive
         {
-            get { return _isActive; }
-            set
-            {
-                if (_isActive != value)
-                {
-                    _isActive = value;
-                    OnIsActiveChanged();
-                }
-            }
+            get => _isActive;
+            set => SetProperty(ref _isActive, value, OnIsActiveChanged);
         }
 
         /// <summary>
