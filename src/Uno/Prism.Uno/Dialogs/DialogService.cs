@@ -71,7 +71,7 @@ namespace Prism.Dialogs
 
                 if (contentDialog.DataContext is IDialogAware dialogAware)
                 {
-                    dialogAware.RequestClose = new DialogCloseCallback(requestCloseHandler);
+                    dialogAware.RequestClose.Initialize(requestCloseHandler);
                 }
             };
 

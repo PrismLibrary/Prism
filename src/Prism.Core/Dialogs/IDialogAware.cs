@@ -1,4 +1,4 @@
-﻿namespace Prism.Dialogs;
+namespace Prism.Dialogs;
 
 /// <summary>
 /// Provides a way for objects involved in Dialogs to be notified of Dialog activities.
@@ -23,8 +23,8 @@ public interface IDialogAware
     void OnDialogOpened(IDialogParameters parameters);
 
     /// <summary>
-    /// The <see cref="DialogCloseCallback"/> will be set by the <see cref="IDialogService"/> and can be called to
+    /// The <see cref="DialogCloseListener"/> will be set by the <see cref="IDialogService"/> and can be called to
     /// invoke the close of the Dialog.
     /// </summary>
-    DialogCloseCallback RequestClose { get; set; }
+    DialogCloseListener RequestClose { get; }
 }

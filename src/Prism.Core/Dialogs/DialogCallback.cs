@@ -60,7 +60,7 @@ public readonly struct DialogCallback
         }
 
 
-        foreach(var callback in  _callbacks)
+        foreach(var callback in _callbacks)
         {
             await Process(callback, result);
         }

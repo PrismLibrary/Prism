@@ -47,7 +47,7 @@ namespace Prism.Dialogs
 
                 var dialogModal = new DialogPage();
 
-                dialogAware.RequestClose = new(DialogAware_RequestClose);
+                dialogAware.RequestClose.Initialize(DialogAware_RequestClose);
 
                 async Task DialogAware_RequestClose(IDialogResult outResult)
                 {
@@ -250,7 +250,7 @@ namespace Prism.Dialogs
             }
         }
 
-        private async void InsertPopupViewInCurrentPage(ContentPage currentPage, DialogPage modalPage, View popupView, bool hideOnBackgroundTapped, DialogCloseCallback closeEvent)
+        private async void InsertPopupViewInCurrentPage(ContentPage currentPage, DialogPage modalPage, View popupView, bool hideOnBackgroundTapped, DialogCloseListener closeEvent)
         {
             View mask = DialogLayout.GetMask(popupView);
 

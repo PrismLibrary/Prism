@@ -9,34 +9,34 @@ namespace Prism.Dialogs;
 /// This is set by the <see cref="IDialogService"/> on your <see cref="IDialogAware"/> ViewModel. This can then
 /// be invoked by either the DialogService or your code to initiate closing the Dialog.
 /// </summary>
-public struct DialogCloseCallback
+public struct DialogCloseListener
 {
-    private readonly MulticastDelegate _callback;
+    private MulticastDelegate _callback;
 
     /// <summary>
-    /// Creates a default instance of the <see cref="DialogCloseCallback"/>
+    /// Creates a default instance of the <see cref="DialogCloseListener"/>
     /// </summary>
-    public DialogCloseCallback()
+    public DialogCloseListener()
     {
         _callback = () => { };
     }
 
     /// <summary>
-    /// Creates an instance of the <see cref="DialogCloseCallback"/> with an <see cref="Action{IDialogResult}"/> callback.
+    /// Creates an instance of the <see cref="DialogCloseListener"/> with an <see cref="Action{IDialogResult}"/> callback.
     /// </summary>
     /// <param name="callback">The callback to invoke.</param>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public DialogCloseCallback(Action<IDialogResult> callback)
+    public void Initialize(Action<IDialogResult> callback)
     {
         _callback = callback;
     }
 
     /// <summary>
-    /// Creates an instance of the <see cref="DialogCloseCallback"/> with an <see cref="Func{IDialogResult, Task}"/> asynchronous callback.
+    /// Creates an instance of the <see cref="DialogCloseListener"/> with an <see cref="Func{IDialogResult, Task}"/> asynchronous callback.
     /// </summary>
     /// <param name="callback"></param>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public DialogCloseCallback(Func<IDialogResult, Task> callback)
+    public void Initialize(Func<IDialogResult, Task> callback)
     {
         _callback = callback;
     }

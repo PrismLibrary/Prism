@@ -12,7 +12,7 @@ namespace Prism.Forms.Tests.Services.Mocks.Dialogs
             set => SetProperty(ref _title, value);
         }
 
-        public DialogCloseCallback RequestClose { get; set; }
+        public DialogCloseListener RequestClose { get; set; }
 
         public bool CanClose { get; set; } = true;
 

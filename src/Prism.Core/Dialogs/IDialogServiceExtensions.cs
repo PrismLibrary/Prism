@@ -41,7 +41,6 @@ public static class IDialogServiceExtensions
     /// <param name="name">The name of the dialog</param>
     /// <param name="callback"></param>
     /// <remarks>This is for backwards compatibility. Use DialogCallback instead.</remarks>
-    [Obsolete("Use DialogCallback")]
     public static void ShowDialog(this IDialogService dialogService, string name, Action callback) =>
         dialogService.ShowDialog(name, null, callback);
 
@@ -52,7 +51,6 @@ public static class IDialogServiceExtensions
     /// <param name="name">The name of the dialog</param>
     /// <param name="callback"></param>
     /// <remarks>This is for backwards compatibility. Use DialogCallback instead.</remarks>
-    [Obsolete("Use DialogCallback")]
     public static void ShowDialog(this IDialogService dialogService, string name, Action<IDialogResult> callback) =>
         dialogService.ShowDialog(name, null, callback);
 
@@ -64,7 +62,6 @@ public static class IDialogServiceExtensions
     /// <param name="parameters">The <see cref="IDialogParameters"/> to pass to the dialog</param>
     /// <param name="callback"></param>
     /// <remarks>This is for backwards compatibility. Use DialogCallback instead.</remarks>
-    [Obsolete("Use DialogCallback")]
     public static void ShowDialog(this IDialogService dialogService, string name, IDialogParameters parameters, Action callback) =>
         dialogService.ShowDialog(name, parameters, new DialogCallback().OnClose(callback));
 
@@ -76,7 +73,6 @@ public static class IDialogServiceExtensions
     /// <param name="parameters">The <see cref="IDialogParameters"/> to pass to the dialog</param>
     /// <param name="callback"></param>
     /// <remarks>This is for backwards compatibility. Use DialogCallback instead.</remarks>
-    [Obsolete("Use DialogCallback")]
     public static void ShowDialog(this IDialogService dialogService, string name, IDialogParameters parameters, Action<IDialogResult> callback) =>
         dialogService.ShowDialog(name, parameters, new DialogCallback().OnClose(callback));
 
