@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Prism.Common;
 
 namespace Prism.Dialogs;
 
@@ -13,8 +14,8 @@ namespace Prism.Dialogs;
 public readonly struct DialogCallback
 {
     private readonly bool _empty = false;
-    private readonly List<MulticastDelegate> _callbacks = new List<MulticastDelegate>();
-    private readonly List<MulticastDelegate> _errorCallbacks = new List<MulticastDelegate>();
+    private readonly List<MulticastDelegate> _callbacks = new ();
+    private readonly MulticastExceptionHandler _errorCallbacks = new ();
 
     /// <summary>
     /// Creates a new instance of a DialogCallback
@@ -24,7 +25,10 @@ public readonly struct DialogCallback
     {
     }
 
-    private DialogCallback(bool empty) => _empty = empty;
+    private DialogCallback(bool empty)
+    {
+        _empty = empty;
+    }
 
     /// <summary>
     /// Invokes the Delegates based on a specific Exception that was encountered.
@@ -43,26 +47,21 @@ public readonly struct DialogCallback
     [EditorBrowsable(EditorBrowsableState.Never)]
     public async Task Invoke(IDialogResult result)
     {
-        if (_empty || (!_callbacks.Any() && !_errorCallbacks.Any()))
+        if (_empty)
+        {
             return;
-
-        if(result.Exception is not null)
-        {
-            // process error callbacks
-            if (_errorCallbacks.Any())
-            {
-                foreach(MulticastDelegate errorCallback in _errorCallbacks)
-                {
-                    await Process(errorCallback, result);
-                }
-                return;
-            }
         }
-
-
-        foreach(var callback in _callbacks)
+        else if (result.Exception is not null && _errorCallbacks.CanHandle(result.Exception))
         {
-            await Process(callback, result);
+            await _errorCallbacks.HandleAsync(result.Exception, result);
+            return;
+        }
+        else if(_callbacks.Any())
+        {
+            foreach(var callback in _callbacks)
+            {
+                await Process(callback, result);
+            }
         }
     }
 
@@ -72,14 +71,10 @@ public readonly struct DialogCallback
             action();
         else if (@delegate is Action<IDialogResult> actionResult)
             actionResult(result);
-        else if (@delegate is Action<Exception> actionException && result.Exception is not null)
-            actionException(result.Exception);
         else if (@delegate is Func<Task> func)
             await func();
         else if (@delegate is Func<IDialogResult, Task> funcResult)
             await funcResult(result);
-        else if (@delegate is Func<Exception, Task> taskException && result.Exception is not null)
-            await taskException(result.Exception);
     }
 
     /// <summary>
@@ -117,7 +112,19 @@ public readonly struct DialogCallback
     /// <returns></returns>
     public DialogCallback OnError(Action action)
     {
-        _errorCallbacks.Add(action);
+        _errorCallbacks.Register<Exception>(action);
+        return this;
+    }
+
+    /// <summary>
+    /// Provides a delegate callback method when an Exception is encountered
+    /// </summary>
+    /// <param name="action">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnError<TException>(Action action)
+        where TException : Exception
+    {
+        _errorCallbacks.Register<TException>(action);
         return this;
     }
 
@@ -128,7 +135,7 @@ public readonly struct DialogCallback
     /// <returns></returns>
     public DialogCallback OnError(Action<Exception> action)
     {
-        _errorCallbacks.Add(action);
+        _errorCallbacks.Register<Exception>(action);
         return this;
     }
 
@@ -137,9 +144,22 @@ public readonly struct DialogCallback
     /// </summary>
     /// <param name="action">The callback</param>
     /// <returns></returns>
-    public DialogCallback OnError(Action<IDialogResult> action)
+    public DialogCallback OnError<TException>(Action<TException> action)
+        where TException : Exception
     {
-        _errorCallbacks.Add(action);
+        _errorCallbacks.Register<TException>(action);
+        return this;
+    }
+
+    /// <summary>
+    /// Provides a delegate callback method when an Exception is encountered
+    /// </summary>
+    /// <param name="action">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnError<TException>(Action<TException, IDialogResult> action)
+        where TException : Exception
+    {
+        _errorCallbacks.Register<TException>(action);
         return this;
     }
 
@@ -172,7 +192,19 @@ public readonly struct DialogCallback
     /// <returns></returns>
     public DialogCallback OnErrorAsync(Func<Task> func)
     {
-        _errorCallbacks.Add(func);
+        _errorCallbacks.Register<Exception>(func);
+        return this;
+    }
+
+    /// <summary>
+    /// Provides an asynchronous delegate callback method when an Exception is encountered
+    /// </summary>
+    /// <param name="func">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnErrorAsync<TException>(Func<Task> func)
+        where TException : Exception
+    {
+        _errorCallbacks.Register<TException>(func);
         return this;
     }
 
@@ -183,7 +215,7 @@ public readonly struct DialogCallback
     /// <returns></returns>
     public DialogCallback OnErrorAsync(Func<Exception, Task> func)
     {
-        _errorCallbacks.Add(func);
+        _errorCallbacks.Register<Exception>(func);
         return this;
     }
 
@@ -192,9 +224,22 @@ public readonly struct DialogCallback
     /// </summary>
     /// <param name="func">The callback</param>
     /// <returns></returns>
-    public DialogCallback OnErrorAsync(Func<IDialogResult, Task> func)
+    public DialogCallback OnErrorAsync<TException>(Func<TException, Task> func)
+        where TException : Exception
     {
-        _errorCallbacks.Add(func);
+        _errorCallbacks.Register<TException>(func);
+        return this;
+    }
+
+    /// <summary>
+    /// Provides an asynchronous delegate callback method when an Exception is encountered
+    /// </summary>
+    /// <param name="func">The callback</param>
+    /// <returns></returns>
+    public DialogCallback OnErrorAsync<TException>(Func<TException, IDialogResult, Task> func)
+        where TException : Exception
+    {
+        _errorCallbacks.Register<TException>(func);
         return this;
     }
 }
