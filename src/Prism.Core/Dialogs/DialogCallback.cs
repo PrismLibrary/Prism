@@ -47,7 +47,7 @@ public readonly struct DialogCallback
     [EditorBrowsable(EditorBrowsableState.Never)]
     public async Task Invoke(IDialogResult result)
     {
-        if (_empty)
+        if (_empty || (result.Exception is DialogException && result.Exception.Message == DialogException.CanCloseIsFalse))
         {
             return;
         }

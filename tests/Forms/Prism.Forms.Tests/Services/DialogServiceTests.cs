@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Prism.Dialogs;
 using Prism.Dialogs.Xaml;
 using Prism.Forms.Tests.Services.Mocks;
@@ -101,7 +102,7 @@ namespace Prism.Forms.Tests.Services
         }
 
         [Fact]
-        public void CanClosePreventsCallbackAndClose()
+        public async void CanClosePreventsCallbackAndClose()
         {
             SetMainPage();
             var dialogService = CreateDialogService();
@@ -118,6 +119,7 @@ namespace Prism.Forms.Tests.Services
 
             vm.CanClose = true;
             vm.SendRequestClose();
+            await Task.Delay(50);
             Assert.True(didCallback);
             Assert.Empty(_currentApp.MainPage.Navigation.ModalStack);
         }
