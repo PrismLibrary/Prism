@@ -1,10 +1,7 @@
 ﻿using Prism.Commands;
+using Prism.Dialogs;
 using Prism.Mvvm;
 using Prism.Services;
-using Prism.Services.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HelloDialog.ViewModels
 {
