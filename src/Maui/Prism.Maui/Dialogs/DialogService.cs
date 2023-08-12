@@ -75,7 +75,7 @@ public sealed class DialogService : IDialogService
                 }
             }
 
-            dialogAware.RequestClose.Initialize(DialogAware_RequestClose);
+            DialogUtilities.InitializeListener(dialogAware, DialogAware_RequestClose);
 
             dialogAware.OnDialogOpened(parameters);
 

@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
 
 #nullable enable
@@ -11,32 +10,21 @@ namespace Prism.Dialogs;
 /// </summary>
 public struct DialogCloseListener
 {
-    private MulticastDelegate _callback;
+    private readonly MulticastDelegate? _callback;
 
     /// <summary>
     /// Creates a default instance of the <see cref="DialogCloseListener"/>
     /// </summary>
     public DialogCloseListener()
     {
-        _callback = () => { };
     }
 
-    /// <summary>
-    /// Creates an instance of the <see cref="DialogCloseListener"/> with an <see cref="Action{IDialogResult}"/> callback.
-    /// </summary>
-    /// <param name="callback">The callback to invoke.</param>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public void Initialize(Action<IDialogResult> callback)
+    internal DialogCloseListener(Action<IDialogResult> callback)
     {
         _callback = callback;
     }
 
-    /// <summary>
-    /// Creates an instance of the <see cref="DialogCloseListener"/> with an <see cref="Func{IDialogResult, Task}"/> asynchronous callback.
-    /// </summary>
-    /// <param name="callback"></param>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public void Initialize(Func<IDialogResult, Task> callback)
+    internal DialogCloseListener(Func<IDialogResult, Task> callback)
     {
         _callback = callback;
     }

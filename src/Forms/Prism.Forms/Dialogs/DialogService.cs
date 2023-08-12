@@ -47,7 +47,7 @@ namespace Prism.Dialogs
 
                 var dialogModal = new DialogPage();
 
-                dialogAware.RequestClose.Initialize(DialogAware_RequestClose);
+                DialogUtilities.InitializeListener(dialogAware, DialogAware_RequestClose);
 
                 async Task DialogAware_RequestClose(IDialogResult outResult)
                 {

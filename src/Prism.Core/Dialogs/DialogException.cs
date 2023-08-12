@@ -34,9 +34,14 @@ public class DialogException : Exception
     public const string NoViewModel = "No ViewModel could be found";
 
     /// <summary>
-    /// The <see cref="DialogException"/> Message returned when the ViewModel does not implment IDialogAware.
+    /// The <see cref="DialogException"/> Message returned when the ViewModel does not implement IDialogAware.
     /// </summary>
     public const string ImplementIDialogAware = "The ViewModel does not implement IDialogAware";
+
+    /// <summary>
+    /// The <see cref="DialogException"/> Message returned when Prism is unable to locate the backing field or setter for the <see cref="DialogCloseListener"/>.
+    /// </summary>
+    public const string UnableToSetTheDialogCloseListener = "Unable to locate the backing field or setter for IDialogAware.RequestClose";
 
     /// <summary>
     /// Initializes a new <see cref="DialogException"/> with a given message

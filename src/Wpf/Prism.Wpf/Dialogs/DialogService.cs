@@ -110,7 +110,7 @@ namespace Prism.Dialogs
             loadedHandler = (o, e) =>
             {
                 dialogWindow.Loaded -= loadedHandler;
-                dialogWindow.GetDialogViewModel().RequestClose.Initialize(requestCloseHandler);
+                DialogUtilities.InitializeListener(dialogWindow.GetDialogViewModel(), requestCloseHandler);
             };
             dialogWindow.Loaded += loadedHandler;
 
