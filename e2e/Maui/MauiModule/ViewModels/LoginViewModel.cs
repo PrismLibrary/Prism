@@ -20,9 +20,7 @@ public class LoginViewModel : BindableBase, IDialogAware
 
     public DelegateCommand LoginCommand { get; }
 
-    public DialogCloseEvent RequestClose { get; set; }
-
-    //public event Action<IDialogParameters> RequestClose;
+    public DialogCloseListener RequestClose { get; }
 
     public bool CanCloseDialog() => _canClose;
 
