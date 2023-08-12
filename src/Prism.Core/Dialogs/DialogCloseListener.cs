@@ -36,6 +36,13 @@ public struct DialogCloseListener
         Invoke(new DialogResult());
 
     /// <summary>
+    /// Invokes the initialized delegate with the specified <see cref="ButtonResult"/>.
+    /// </summary>
+    /// <param name="result">The <see cref="ButtonResult"/>.</param>
+    public void Invoke(ButtonResult result) =>
+        Invoke(new DialogResult(result));
+
+    /// <summary>
     /// Invokes the initialized delegate with the specified <see cref="IDialogParameters"/>.
     /// </summary>
     /// <param name="parameters">The <see cref="IDialogParameters"/>.</param>

@@ -38,29 +38,35 @@ public static class DialogUtilities
 
     private static void SetListener(IDialogAware dialogAware, DialogCloseListener listener)
     {
-        var type = dialogAware.GetType();
+        var setter = GetListenerSetter(dialogAware, dialogAware.GetType());
+        setter(listener);
+    }
+
+    private static Action<DialogCloseListener> GetListenerSetter(IDialogAware dialogAware, Type type)
+    {
         var propInfo = type.GetProperty(nameof(IDialogAware.RequestClose));
 
-        if(propInfo is not null && propInfo.PropertyType == typeof(DialogCloseListener) && propInfo.SetMethod is not null)
+        if (propInfo is not null && propInfo.PropertyType == typeof(DialogCloseListener) && propInfo.SetMethod is not null)
         {
-            propInfo.SetValue(dialogAware, listener);
-            return;
+            return x => propInfo.SetValue(dialogAware, x);
         }
 
         var fields = type.GetRuntimeFields().Where(x => x.FieldType == typeof(DialogCloseListener));
         var field = fields.FirstOrDefault(x => x.Name == $"<{nameof(IDialogAware.RequestClose)}>k__BackingField");
         if (field is not null)
         {
-            field.SetValue(dialogAware, listener);
+            return x => field.SetValue(dialogAware, x);
         }
         else if (fields.Any())
         {
             field = fields.First();
-            field.SetValue(dialogAware, listener);
+            return x => field.SetValue(dialogAware, x);
         }
-        else
-        {
+
+        var baseType = type.BaseType;
+        if (baseType is null || baseType == typeof(object))
             throw new DialogException(DialogException.UnableToSetTheDialogCloseListener);
-        }
+
+        return GetListenerSetter(dialogAware, baseType);
     }
 }

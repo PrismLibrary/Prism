@@ -1,6 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Services.Dialogs;
+using Prism.Dialogs;
 using System;
 
 namespace HelloWorld.Dialogs
@@ -18,18 +18,19 @@ namespace HelloWorld.Dialogs
             set { SetProperty(ref _title, value); }
         }
 
-        public event Action<IDialogResult> RequestClose;
+        public DialogCloseListener RequestClose { get; }
 
         protected virtual void CloseDialog(string parameter)
         {
-            ButtonResult result = ButtonResult.None;
+            var result = parameter?.ToLower() switch
+            {
+                "true" => ButtonResult.OK,
+                "false" => ButtonResult.Cancel,
+                _ => ButtonResult.None
+            };
 
-            if (parameter?.ToLower() == "true")
-                result = ButtonResult.OK;
-            else if (parameter?.ToLower() == "false")
-                result = ButtonResult.Cancel;
-
-            RequestClose?.Invoke(new DialogResult(result));
+            //RequestClose.Invoke(new DialogResult(result));
+            RequestClose.Invoke(result);
         }
 
         public virtual bool CanCloseDialog()

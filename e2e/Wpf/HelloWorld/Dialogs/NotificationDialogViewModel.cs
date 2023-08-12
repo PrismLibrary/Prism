@@ -1,4 +1,4 @@
-﻿using Prism.Services.Dialogs;
+﻿using Prism.Dialogs;
 
 namespace HelloWorld.Dialogs
 {
