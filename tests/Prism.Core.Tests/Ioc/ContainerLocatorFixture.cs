@@ -19,7 +19,7 @@ namespace Prism.Tests.Ioc
         public void FactoryCreatesContainerExtension()
         {
             Prism.Ioc.ContainerLocator.ResetContainer();
-            Assert.Null(Prism.Ioc.ContainerLocator.Current);
+            Assert.Throws<InvalidOperationException>(() => Prism.Ioc.ContainerLocator.Current);
             Prism.Ioc.ContainerLocator.SetContainerExtension(new Mock<IContainerExtension>().Object);
             Assert.NotNull(Prism.Ioc.ContainerLocator.Current);
         }
@@ -28,11 +28,11 @@ namespace Prism.Tests.Ioc
         public void ResetNullsCurrentContainer()
         {
             Prism.Ioc.ContainerLocator.ResetContainer();
-            Assert.Null(Prism.Ioc.ContainerLocator.Current);
+            Assert.Throws<InvalidOperationException>(() => Prism.Ioc.ContainerLocator.Current);
             Prism.Ioc.ContainerLocator.SetContainerExtension(new Mock<IContainerExtension>().Object);
             Assert.NotNull(Prism.Ioc.ContainerLocator.Current);
             Prism.Ioc.ContainerLocator.ResetContainer();
-            Assert.Null(Prism.Ioc.ContainerLocator.Current);
+            Assert.Throws<InvalidOperationException>(() => Prism.Ioc.ContainerLocator.Current);
         }
 
         [Fact]

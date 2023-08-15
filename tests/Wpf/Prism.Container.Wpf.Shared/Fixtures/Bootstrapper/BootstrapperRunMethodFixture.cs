@@ -1,3 +1,4 @@
+using System;
 using Moq;
 using Prism.Container.Wpf.Mocks;
 using Prism.Events;
@@ -154,7 +155,7 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
         public void SetsContainerLocatorCurrentContainer()
         {
             ContainerLocator.ResetContainer();
-            Assert.Null(ContainerLocator.Container);
+            Assert.Throws<InvalidOperationException>(() => ContainerLocator.Container);
             var bootstrapper = new MockBootstrapper();
 
             bootstrapper.Run();
