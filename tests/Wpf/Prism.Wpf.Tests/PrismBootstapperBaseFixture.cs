@@ -8,7 +8,7 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
-using Prism.Services.Dialogs;
+using Prism.Dialogs;
 using Xunit;
 
 namespace Prism.Wpf.Tests

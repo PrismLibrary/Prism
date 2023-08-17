@@ -24,7 +24,8 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <NoWarn>$(NoWarn);NU5104;NU5100;NU5118;NU5123;NU1603;CS1701;CS1702;XA0101;MSB3277;CS8785;CS8669;CS1998;NU1507</NoWarn>
-    <IsCoreProject>$(MSBuildProjectName.Equals('Prism.Core'))</IsCoreProject>
+    <IsCoreProject>false</IsCoreProject>
+    <IsCoreProject Condition=" $(MSBuildProjectName.Equals('Prism.Core')) OR $(MSBuildProjectName.Equals('Prism.Events'))">true</IsCoreProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsWpfProject>$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
     <IsUnoProject>$(MSBuildProjectName.Contains('Uno'))</IsUnoProject>

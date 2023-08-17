@@ -4,7 +4,7 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
-using Prism.Services.Dialogs;
+using Prism.Dialogs;
 
 #if HAS_WINUI
 using Microsoft.UI.Xaml.Controls;

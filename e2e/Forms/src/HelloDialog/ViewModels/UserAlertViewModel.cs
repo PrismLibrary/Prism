@@ -1,9 +1,7 @@
-﻿using Prism.Commands;
+﻿using System;
+using Prism.Commands;
+using Prism.Dialogs;
 using Prism.Mvvm;
-using Prism.Services.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HelloDialog.ViewModels
 {
@@ -24,7 +22,7 @@ namespace HelloDialog.ViewModels
 
         public DelegateCommand SubmitCommand { get; }
 
-        public event Action<IDialogParameters> RequestClose;
+        public DialogCloseListener RequestClose { get; }
 
         private void ExecuteSubmitCommand()
         {
@@ -32,7 +30,7 @@ namespace HelloDialog.ViewModels
             {
                 { "name", Name }
             };
-            RequestClose(dialogParams);
+            RequestClose.Invoke(dialogParams);
         }
 
         public bool CanCloseDialog()

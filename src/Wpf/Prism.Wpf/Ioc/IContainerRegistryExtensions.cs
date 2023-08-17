@@ -26,7 +26,7 @@ namespace Prism.Ioc
         /// <typeparam name="TViewModel">The ViewModel to use as the DataContext for the dialog</typeparam>
         /// <param name="containerRegistry"></param>
         /// <param name="name">The unique name to register with the dialog.</param>
-        public static void RegisterDialog<TView, TViewModel>(this IContainerRegistry containerRegistry, string name = null) where TViewModel : Services.Dialogs.IDialogAware
+        public static void RegisterDialog<TView, TViewModel>(this IContainerRegistry containerRegistry, string name = null) where TViewModel : Dialogs.IDialogAware
         {
             containerRegistry.RegisterForNavigation<TView, TViewModel>(name);
         }
@@ -36,9 +36,9 @@ namespace Prism.Ioc
         /// </summary>
         /// <typeparam name="TWindow">The Type of the Window class that will be used to host dialogs in the IDialogService</typeparam>
         /// <param name="containerRegistry"></param>
-        public static void RegisterDialogWindow<TWindow>(this IContainerRegistry containerRegistry) where TWindow : Services.Dialogs.IDialogWindow
+        public static void RegisterDialogWindow<TWindow>(this IContainerRegistry containerRegistry) where TWindow : Dialogs.IDialogWindow
         {
-            containerRegistry.Register(typeof(Services.Dialogs.IDialogWindow), typeof(TWindow));
+            containerRegistry.Register(typeof(Dialogs.IDialogWindow), typeof(TWindow));
         }
 
         /// <summary>
@@ -47,9 +47,9 @@ namespace Prism.Ioc
         /// <typeparam name="TWindow">The Type of the Window class that will be used to host dialogs in the IDialogService</typeparam>
         /// <param name="containerRegistry"></param>
         /// <param name="name">The name of the dialog window</param>
-        public static void RegisterDialogWindow<TWindow>(this IContainerRegistry containerRegistry, string name) where TWindow : Services.Dialogs.IDialogWindow
+        public static void RegisterDialogWindow<TWindow>(this IContainerRegistry containerRegistry, string name) where TWindow : Dialogs.IDialogWindow
         {
-            containerRegistry.Register(typeof(Services.Dialogs.IDialogWindow), typeof(TWindow), name);
+            containerRegistry.Register(typeof(Dialogs.IDialogWindow), typeof(TWindow), name);
         }
 
         /// <summary>

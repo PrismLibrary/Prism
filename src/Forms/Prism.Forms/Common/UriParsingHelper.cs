@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Prism.Dialogs;
 using Prism.Navigation;
-using Prism.Services.Dialogs;
 
 namespace Prism.Common
 {

@@ -4,6 +4,7 @@ using System.Linq;
 using Prism.AppModel;
 using Prism.Behaviors;
 using Prism.Common;
+using Prism.Dialogs;
 using Prism.Events;
 using Prism.Extensions;
 using Prism.Ioc;
@@ -11,7 +12,6 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using Prism.Services.Dialogs;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 

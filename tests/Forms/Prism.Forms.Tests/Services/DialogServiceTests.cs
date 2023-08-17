@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-using NuGet.Frameworks;
+using System.Threading.Tasks;
+using Prism.Dialogs;
+using Prism.Dialogs.Xaml;
 using Prism.Forms.Tests.Services.Mocks;
 using Prism.Forms.Tests.Services.Mocks.Dialogs;
-using Prism.Ioc;
-using Prism.Services.Dialogs;
-using Prism.Services.Dialogs.Xaml;
 using Xamarin.Forms;
 using Xunit;
 
@@ -37,7 +36,7 @@ namespace Prism.Forms.Tests.Services
         {
             SetMainPage();
             var dialogService = CreateDialogService();
-            var ex = Record.Exception(() => dialogService.ShowDialog(DialogMockViewName, null, p => { }));
+            var ex = Record.Exception(() => dialogService.ShowDialog(DialogMockViewName, null, DialogCallback.Empty));
             Assert.Null(ex);
             ex = Record.Exception(() => DialogMock.Current.ViewModel.SendRequestClose());
             Assert.Null(ex);
@@ -49,7 +48,7 @@ namespace Prism.Forms.Tests.Services
         {
             SetMainPage();
             var dialogService = CreateDialogService();
-            var ex = Record.Exception(() => dialogService.ShowDialog(DialogMockViewName, new DialogParameters(), null));
+            var ex = Record.Exception(() => dialogService.ShowDialog(DialogMockViewName, new DialogParameters()));
             Assert.Null(ex);
             ex = Record.Exception(() => DialogMock.Current.ViewModel.SendRequestClose());
             Assert.Null(ex);
@@ -103,13 +102,13 @@ namespace Prism.Forms.Tests.Services
         }
 
         [Fact]
-        public void CanClosePreventsCallbackAndClose()
+        public async void CanClosePreventsCallbackAndClose()
         {
             SetMainPage();
             var dialogService = CreateDialogService();
             bool didCallback = false;
 
-            dialogService.ShowDialog(DialogMockViewName, r => didCallback = true);
+            dialogService.ShowDialog(DialogMockViewName, new DialogCallback().OnClose(() => didCallback = true));
 
             var vm = DialogMock.Current.ViewModel;
             vm.CanClose = false;
@@ -120,12 +119,13 @@ namespace Prism.Forms.Tests.Services
 
             vm.CanClose = true;
             vm.SendRequestClose();
+            await Task.Delay(50);
             Assert.True(didCallback);
             Assert.Empty(_currentApp.MainPage.Navigation.ModalStack);
         }
 
         [Fact]
-        public void UseMaskFalseProhibitsMaskInsersion()
+        public void UseMaskFalseProhibitsMaskInsertion()
         {
             SetMainPage();
             var dialogService = CreateDialogService();
@@ -146,7 +146,7 @@ namespace Prism.Forms.Tests.Services
         }
 
         [Fact]
-        public void UseMaskTrueDefaultMaskInsersion()
+        public void UseMaskTrueDefaultMaskInsertion()
         {
             SetMainPage();
             var dialogService = CreateDialogService();

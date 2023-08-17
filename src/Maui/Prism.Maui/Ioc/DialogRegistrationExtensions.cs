@@ -1,5 +1,5 @@
-﻿using Prism.Mvvm;
-using Prism.Services;
+using Prism.Dialogs;
+using Prism.Mvvm;
 
 namespace Prism.Ioc;
 

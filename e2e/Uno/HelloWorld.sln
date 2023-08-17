@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32210.308
 MinimumVisualStudioVersion = 15.0.26124.0
@@ -39,7 +40,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{F67B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleA", "ModuleA\ModuleA.csproj", "{5AD22541-BC5D-45E0-9C95-87B51300FF1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Events", "..\..\src\Prism.Events\Prism.Events.csproj", "{ABC0F8AF-6FED-4C3E-80B3-54F1A7CC5930}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Events", "..\..\src\Prism.Events\Prism.Events.csproj", "{ABC0F8AF-6FED-4C3E-80B3-54F1A7CC5930}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -444,6 +445,7 @@ Global
 		{8D59D64C-EAF1-4BF7-9E69-556114C96A95} = {2C5D7523-6030-4B75-ABE0-3CB8AA0953CB}
 		{F67BA438-F236-460B-B279-A71AB8033B54} = {5E74EB0D-FBD3-4399-8F38-AD888DEFFC73}
 		{5AD22541-BC5D-45E0-9C95-87B51300FF1C} = {F67BA438-F236-460B-B279-A71AB8033B54}
+		{ABC0F8AF-6FED-4C3E-80B3-54F1A7CC5930} = {2C5D7523-6030-4B75-ABE0-3CB8AA0953CB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {757C5D89-969E-4F38-B8F1-3098C8E17307}

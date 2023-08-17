@@ -6,7 +6,7 @@ using Android.App;
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Navigation;
-using Prism.Services.Dialogs;
+using Prism.Dialogs;
 using Xamarin.Forms;
 
 namespace Prism

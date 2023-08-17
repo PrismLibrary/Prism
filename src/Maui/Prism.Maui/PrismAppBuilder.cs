@@ -13,6 +13,7 @@ using Prism.Regions.Behaviors;
 using Prism.Services;
 using Microsoft.Maui.LifecycleEvents;
 using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
+using Prism.Dialogs;
 
 namespace Prism;
 
