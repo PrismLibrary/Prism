@@ -1,6 +1,5 @@
-
-
 using System;
+using Prism.Navigation;
 using Prism.Regions;
 
 namespace Prism.Common
@@ -32,7 +31,7 @@ namespace Prism.Common
         /// Parses the query of <paramref name="uri"/> into a dictionary.
         /// </summary>
         /// <param name="uri">The URI.</param>
-        public static NavigationParameters ParseQuery(Uri uri)
+        public static INavigationParameters ParseQuery(Uri uri)
         {
             var query = GetQuery(uri);
 

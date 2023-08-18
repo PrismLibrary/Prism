@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using Prism.Regions;
+using Prism.Navigation;
 using Xunit;
 
-namespace Prism.Wpf.Tests.Regions
+namespace Prism.Tests.Navigation
 {
 
     public class NavigationParametersFixture

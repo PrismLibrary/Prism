@@ -1,8 +1,7 @@
-
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Prism.Navigation;
 using Prism.Regions;
 
 namespace Prism.Wpf.Tests.Mocks
@@ -63,22 +62,22 @@ namespace Prism.Wpf.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
         {
             throw new NotImplementedException();
         }
 
-        public void RequestNavigate(string regionName, string target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        public void RequestNavigate(string regionName, string target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
         {
             throw new NotImplementedException();
         }
 
-        public void RequestNavigate(string regionName, Uri target, NavigationParameters navigationParameters)
+        public void RequestNavigate(string regionName, Uri target, INavigationParameters navigationParameters)
         {
             throw new NotImplementedException();
         }
 
-        public void RequestNavigate(string regionName, string target, NavigationParameters navigationParameters)
+        public void RequestNavigate(string regionName, string target, INavigationParameters navigationParameters)
         {
             throw new NotImplementedException();
         }

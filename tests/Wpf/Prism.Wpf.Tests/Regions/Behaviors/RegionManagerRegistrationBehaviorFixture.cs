@@ -1,10 +1,9 @@
-
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Prism.Navigation;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
@@ -268,22 +267,22 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
                 throw new NotImplementedException();
             }
 
-            public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+            public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
             {
                 throw new NotImplementedException();
             }
 
-            public void RequestNavigate(string regionName, string target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+            public void RequestNavigate(string regionName, string target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
             {
                 throw new NotImplementedException();
             }
 
-            public void RequestNavigate(string regionName, Uri target, NavigationParameters navigationParameters)
+            public void RequestNavigate(string regionName, Uri target, INavigationParameters navigationParameters)
             {
                 throw new NotImplementedException();
             }
 
-            public void RequestNavigate(string regionName, string target, NavigationParameters navigationParameters)
+            public void RequestNavigate(string regionName, string target, INavigationParameters navigationParameters)
             {
                 throw new NotImplementedException();
             }

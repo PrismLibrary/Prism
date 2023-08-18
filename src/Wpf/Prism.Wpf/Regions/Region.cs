@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using Prism.Properties;
 using Prism.Ioc;
+using Prism.Navigation;
 
 #if HAS_WINUI
 using Microsoft.UI.Xaml;
@@ -359,7 +360,7 @@ namespace Prism.Regions
         /// <param name="target">The target.</param>
         /// <param name="navigationCallback">A callback to execute when the navigation request is completed.</param>
         /// <param name="navigationParameters">The navigation parameters specific to the navigation request.</param>
-        public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
         {
             this.NavigationService.RequestNavigate(target, navigationCallback, navigationParameters);
         }
