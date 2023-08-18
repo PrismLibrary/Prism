@@ -10,8 +10,8 @@
 
   <!-- Maui -->
   <ItemGroup Condition=" $(UseMaui) == 'true' ">
-    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.0-preview.6.8686" />
-    <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.0-preview.6.8686" />
+    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
   </ItemGroup>
   <!-- Uno -->
   <ItemGroup Condition=" $(IsUnoProject) == 'true' ">

@@ -8,4 +8,3 @@ public interface IWindowManager
     void OpenWindow(Window window);
     void CloseWindow(Window window);
 }
-

@@ -8,6 +8,7 @@
     <UseMaui>true</UseMaui>
     <SingleProject>true</SingleProject>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+    <AndroidManifest>Platforms/Android/AndroidManifest.xml</AndroidManifest>
 
     <!-- Display name -->
     <ApplicationTitle>Prism Maui</ApplicationTitle>
