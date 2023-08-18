@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
 </Project>

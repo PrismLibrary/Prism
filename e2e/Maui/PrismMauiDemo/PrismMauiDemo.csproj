@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
+    <TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net8.0-windows10.0.19041</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>PrismMauiDemo</RootNamespace>
     <UseMaui>true</UseMaui>
     <SingleProject>true</SingleProject>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+    <AndroidManifest>Platforms/Android/AndroidManifest.xml</AndroidManifest>
 
     <!-- Display name -->
     <ApplicationTitle>Prism Maui</ApplicationTitle>
@@ -47,6 +48,11 @@
 
     <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
+    <PackageReference Include="Microsoft.Maui.Controls" />
   </ItemGroup>
 
   <ItemGroup>

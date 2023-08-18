@@ -31,6 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Core.Tests", "..\..\t
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Events", "..\..\src\Prism.Events\Prism.Events.csproj", "{5623CB62-59C1-49BC-BB16-4C5D63D82DAC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{16C4C33B-CC0F-4FA4-A117-B9EF161CB7B8}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Directory.Packages.props = ..\..\Directory.Packages.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
