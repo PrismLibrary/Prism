@@ -291,11 +291,11 @@ namespace Prism.Unity
                 var c = _currentScope?.Container ?? Instance;
                 var overrides = parameters.Select(p => new DependencyOverride(p.Type, p.Instance)).ToArray();
 
-                if (typeof(IEnumerable).IsAssignableFrom(type) && type.GetGenericArguments().Length > 0)
+                /*if (typeof(IEnumerable).IsAssignableFrom(type) && type.GetGenericArguments().Length > 0)
                 {
                     type = type.GetGenericArguments()[0];
                     return c.ResolveAll(type, overrides);
-                }
+                }*/
 
                 return c.Resolve(type, overrides);
             }
