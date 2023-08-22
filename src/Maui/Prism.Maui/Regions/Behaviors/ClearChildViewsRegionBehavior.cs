@@ -57,7 +57,7 @@ public class ClearChildViewsRegionBehavior : RegionBehavior
 
     private static void ClearChildViews(IRegion region)
     {
-        foreach (var view in region.Views)
+        foreach (var view in region.Views.OfType<VisualElement>())
         {
             if (GetClearChildViews(view))
             {

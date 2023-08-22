@@ -1,6 +1,5 @@
 ﻿using System;
 using Prism.Properties;
-using Xamarin.Forms;
 
 namespace Prism.Regions
 {
@@ -20,7 +19,7 @@ namespace Prism.Regions
         /// </summary>
         /// <param name="view">The view to deactivate.</param>
         /// <exception cref="InvalidOperationException">Every time this method is called.</exception>
-        public override void Deactivate(VisualElement view)
+        public override void Deactivate(object view)
         {
             throw new InvalidOperationException(Resources.DeactiveNotPossibleException);
         }

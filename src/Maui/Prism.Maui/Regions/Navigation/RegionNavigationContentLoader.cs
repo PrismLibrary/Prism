@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using Prism.Common;
 using Prism.Ioc;
-using Prism.Ioc.Internals;
 using Prism.Mvvm;
 using Prism.Properties;
 
@@ -26,7 +25,7 @@ public class RegionNavigationContentLoader : IRegionNavigationContentLoader
     /// is created and added to the region.
     /// </remarks>
     /// <exception cref="ArgumentException">when a new view cannot be created for the navigation request.</exception>
-    public object LoadContent(IRegion region, INavigationContext navigationContext)
+    public object LoadContent(IRegion region, NavigationContext navigationContext)
     {
         if (region == null)
             throw new ArgumentNullException(nameof(region));
@@ -88,7 +87,7 @@ public class RegionNavigationContentLoader : IRegionNavigationContentLoader
     /// </summary>
     /// <param name="navigationContext">The navigation contract.</param>
     /// <returns>The candidate contract to seek within the <see cref="IRegion"/> and to use, if not found, when resolving from the container.</returns>
-    protected virtual string GetContractFromNavigationContext(INavigationContext navigationContext)
+    protected virtual string GetContractFromNavigationContext(NavigationContext navigationContext)
     {
         if (navigationContext == null) throw new ArgumentNullException(nameof(navigationContext));
 
@@ -134,7 +133,7 @@ public class RegionNavigationContentLoader : IRegionNavigationContentLoader
 
     private IEnumerable<VisualElement> GetCandidatesFromRegionViews(IRegion region, string candidateNavigationContract)
     {
-        return region.Views.Where(v => ViewIsMatch(v.GetType(), candidateNavigationContract));
+        return region.Views.OfType<VisualElement>().Where(v => ViewIsMatch(v.GetType(), candidateNavigationContract));
     }
 
     private static bool ViewIsMatch(Type viewType, string navigationSegment)

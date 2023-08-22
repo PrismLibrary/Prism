@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace Prism.Regions.Behaviors
@@ -60,7 +61,7 @@ namespace Prism.Regions.Behaviors
 
         private static void ClearChildViews(IRegion region)
         {
-            foreach (var view in region.Views)
+            foreach (var view in region.Views.OfType<VisualElement>())
             {
                 if (GetClearChildViews(view))
                 {

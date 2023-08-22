@@ -1,5 +1,3 @@
-
-
 using System;
 
 #if HAS_WINUI

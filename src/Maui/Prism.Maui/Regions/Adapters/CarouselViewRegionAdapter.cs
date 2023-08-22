@@ -47,7 +47,7 @@ public class CarouselViewRegionAdapter : RegionAdapterBase<CarouselView>
 
         region.ActiveViews.CollectionChanged += delegate
         {
-            var activeView = region.ActiveViews.FirstOrDefault();
+            var activeView = region.ActiveViews.OfType<VisualElement>().FirstOrDefault();
             regionBehavior.CurrentView = activeView;
             regionTarget.CurrentItem = activeView;
         };

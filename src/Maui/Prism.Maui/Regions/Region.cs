@@ -2,10 +2,9 @@
 using System.Globalization;
 using Prism.Ioc;
 using Prism.Mvvm;
+using Prism.Navigation;
 using Prism.Navigation.Xaml;
 using Prism.Properties;
-using Prism.Regions.Behaviors;
-using Prism.Regions.Navigation;
 
 namespace Prism.Regions;
 
@@ -17,7 +16,7 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
     private ObservableCollection<ItemMetadata> _itemMetadataCollection;
     private IRegionManager _regionManager;
     private readonly IRegionNavigationService _regionNavigationService;
-    private Comparison<VisualElement> _sort;
+    private Comparison<object> _sort;
 
     /// <summary>
     /// Initializes a new instance of <see cref="Region"/>.
@@ -122,7 +121,7 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
     /// Gets or sets the comparison used to sort the views.
     /// </summary>
     /// <value>The comparison to use.</value>
-    public Comparison<VisualElement> SortComparison
+    public Comparison<object> SortComparison
     {
         get => _sort;
         set
@@ -162,7 +161,11 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
     /// Gets the navigation service.
     /// </summary>
     /// <value>The navigation service.</value>
-    public IRegionNavigationService NavigationService => _regionNavigationService;
+    public IRegionNavigationService NavigationService
+    {
+        get => _regionNavigationService;
+        set => throw new NotImplementedException();
+    }
 
     /// <summary>
     /// Gets the collection with all the views along with their metadata.
@@ -185,7 +188,7 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
     /// Marks the specified view as active.
     /// </summary>
     /// <param name="view">The view to activate.</param>
-    public virtual void Activate(VisualElement view)
+    public virtual void Activate(object view)
     {
         var itemMetadata = GetItemMetadataOrThrow(view);
 
@@ -199,7 +202,7 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
     /// Marks the specified view as inactive.
     /// </summary>
     /// <param name="view">The view to deactivate.</param>
-    public virtual void Deactivate(VisualElement view)
+    public virtual void Deactivate(object view)
     {
         var itemMetadata = GetItemMetadataOrThrow(view);
 
@@ -223,7 +226,7 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
     /// </summary>
     /// <param name="view">The view to add.</param>
     /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="VisualElement"/>. It will be the current region manager when using this overload.</returns>
-    public IRegionManager Add(VisualElement view)
+    public IRegionManager Add(object view)
     {
         return Add(view, null, false);
     }
@@ -234,7 +237,7 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
     /// <param name="view">The view to add.</param>
     /// <param name="viewName">The name of the view. This can be used to retrieve it later by calling <see cref="IRegion.GetView"/>.</param>
     /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="VisualElement"/>. It will be the current region manager when using this overload.</returns>
-    public IRegionManager Add(VisualElement view, string viewName)
+    public IRegionManager Add(object view, string viewName)
     {
         if (string.IsNullOrEmpty(viewName))
         {
@@ -251,21 +254,26 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
     /// <param name="viewName">The name of the view. This can be used to retrieve it later by calling <see cref="IRegion.GetView"/>.</param>
     /// <param name="createRegionManagerScope">When <see langword="true"/>, the added view will receive a new instance of <see cref="IRegionManager"/>, otherwise it will use the current region manager for this region.</param>
     /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="VisualElement"/>.</returns>
-    public virtual IRegionManager Add(VisualElement view, string viewName, bool createRegionManagerScope)
+    public virtual IRegionManager Add(object view, string viewName, bool createRegionManagerScope)
     {
         IRegionManager manager = createRegionManagerScope ? RegionManager.CreateRegionManager() : RegionManager;
         InnerAdd(view, viewName, manager);
         return manager;
     }
 
-    private void InnerAdd(VisualElement view, string viewName, IRegionManager scopedRegionManager)
+    private void InnerAdd(object view, string viewName, IRegionManager scopedRegionManager)
     {
+        if (view is not VisualElement visualElement)
+        {
+            throw new Exception("The view must inherit from VisualElement.");
+        }
+
         if (ItemMetadataCollection.FirstOrDefault(x => x.Item == view) != null)
         {
             throw new InvalidOperationException(Resources.RegionViewExistsException);
         }
 
-        var itemMetadata = new ItemMetadata(view);
+        var itemMetadata = new ItemMetadata(visualElement);
         if (!string.IsNullOrEmpty(viewName))
         {
             if (ItemMetadataCollection.FirstOrDefault(x => x.Name == viewName) != null)
@@ -275,7 +283,7 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
             itemMetadata.Name = viewName;
         }
 
-        Xaml.RegionManager.SetRegionManager(view, scopedRegionManager);
+        Xaml.RegionManager.SetRegionManager(visualElement, scopedRegionManager);
 
         ItemMetadataCollection.Add(itemMetadata);
     }
@@ -285,7 +293,7 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
     /// </summary>
     /// <param name="viewName">The name used when adding the view to the region.</param>
     /// <returns>Returns the named view or <see langword="null"/> if the view with <paramref name="viewName"/> does not exist in the current region.</returns>
-    public virtual VisualElement GetView(string viewName)
+    public virtual object GetView(string viewName)
     {
         if (string.IsNullOrEmpty(viewName))
         {
@@ -306,15 +314,20 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
     /// Removes the specified view from the region.
     /// </summary>
     /// <param name="view">The view to remove.</param>
-    public void Remove(VisualElement view)
+    public void Remove(object view)
     {
+        if (view is not VisualElement visualElement)
+        {
+            throw new Exception("The view must inherit from VisualElement.");
+        }
+
         var itemMetadata = GetItemMetadataOrThrow(view);
 
         ItemMetadataCollection.Remove(itemMetadata);
 
-        if (Xaml.RegionManager.GetRegionManager(view) == RegionManager)
+        if (Xaml.RegionManager.GetRegionManager(visualElement) == RegionManager)
         {
-            view.ClearValue(Xaml.RegionManager.RegionManagerProperty);
+            visualElement.ClearValue(Xaml.RegionManager.RegionManagerProperty);
         }
     }
 
@@ -399,4 +412,7 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
             }
         }
     }
+
+    public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters) =>
+        NavigationService.RequestNavigate(target, navigationCallback, navigationParameters);
 }

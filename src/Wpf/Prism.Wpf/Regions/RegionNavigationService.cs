@@ -240,7 +240,7 @@ namespace Prism.Regions
                 Journal.RecordNavigation(journalEntry, persistInHistory);
 
                 // The view can be informed of navigation
-                Action<INavigationAware> action = (n) => n.OnNavigatedTo(navigationContext);
+                Action<IRegionAware> action = (n) => n.OnNavigatedTo(navigationContext);
                 MvvmHelpers.ViewAndViewModelAction(view, action);
 
                 navigationCallback(new NavigationResult(navigationContext, true));
@@ -275,7 +275,7 @@ namespace Prism.Regions
             InvokeOnNavigationAwareElements(activeViews, (n) => n.OnNavigatedFrom(navigationContext));
         }
 
-        private static void InvokeOnNavigationAwareElements(IEnumerable<object> items, Action<INavigationAware> invocation)
+        private static void InvokeOnNavigationAwareElements(IEnumerable<object> items, Action<IRegionAware> invocation)
         {
             foreach (var item in items)
             {

@@ -28,6 +28,7 @@ public class RegionViewRegistry : IRegionViewRegistry
     /// <summary>
     /// Returns the contents registered for a region.
     /// </summary>
+    /// <param name="container">The <see cref="IContainerProvider"/> to use.</param>
     /// <param name="regionName">Name of the region which content is being requested.</param>
     /// <returns>Collection of contents registered for the region.</returns>
     public IEnumerable<object> GetContents(string regionName, IContainerProvider container)

@@ -15,7 +15,7 @@ namespace Prism.Regions
     public class RegionViewRegistry : IRegionViewRegistry
     {
         private readonly IContainerProvider _container;
-        private readonly ListDictionary<string, Func<object>> _registeredContent = new ListDictionary<string, Func<object>>();
+        private readonly ListDictionary<string, Func<IContainerProvider, object>> _registeredContent = new ListDictionary<string, Func<IContainerProvider, object>>();
         private readonly WeakDelegatesManager _contentRegisteredListeners = new WeakDelegatesManager();
 
         /// <summary>
@@ -40,13 +40,14 @@ namespace Prism.Regions
         /// Returns the contents registered for a region.
         /// </summary>
         /// <param name="regionName">Name of the region which content is being requested.</param>
+        /// <param name="container">The <see cref="IContainerProvider"/> to use to get the View.</param>
         /// <returns>Collection of contents registered for the region.</returns>
-        public IEnumerable<object> GetContents(string regionName)
+        public IEnumerable<object> GetContents(string regionName, IContainerProvider container)
         {
-            List<object> items = new List<object>();
-            foreach (Func<object> getContentDelegate in _registeredContent[regionName])
+            var items = new List<object>();
+            foreach (Func<IContainerProvider, object> getContentDelegate in _registeredContent[regionName])
             {
-                items.Add(getContentDelegate());
+                items.Add(getContentDelegate(container));
             }
 
             return items;
@@ -59,7 +60,7 @@ namespace Prism.Regions
         /// <param name="viewType">Content type to be registered for the <paramref name="regionName"/>.</param>
         public void RegisterViewWithRegion(string regionName, Type viewType)
         {
-            RegisterViewWithRegion(regionName, () => CreateInstance(viewType));
+            RegisterViewWithRegion(regionName, _ => CreateInstance(viewType));
         }
 
         /// <summary>
@@ -67,11 +68,22 @@ namespace Prism.Regions
         /// </summary>
         /// <param name="regionName">Region name to which the <paramref name="getContentDelegate"/> will be registered.</param>
         /// <param name="getContentDelegate">Delegate used to retrieve the content associated with the <paramref name="regionName"/>.</param>
-        public void RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
+        public void RegisterViewWithRegion(string regionName, Func<IContainerProvider, object> getContentDelegate)
         {
             _registeredContent.Add(regionName, getContentDelegate);
             OnContentRegistered(new ViewRegisteredEventArgs(regionName, getContentDelegate));
         }
+
+        /// <summary>
+        /// Associate a view with a region, by registering a type. When the region get's displayed
+        /// this type will be resolved using the ServiceLocator into a concrete instance. The instance
+        /// will be added to the Views collection of the region
+        /// </summary>
+        /// <param name="regionName">The name of the region to associate the view with.</param>
+        /// <param name="targetName">The type of the view to register with the </param>
+        /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
+        public void RegisterViewWithRegion(string regionName, string targetName) =>
+            RegisterViewWithRegion(regionName, c => c.Resolve<object>(targetName));
 
         /// <summary>
         /// Creates an instance of a registered view <see cref="Type"/>. 

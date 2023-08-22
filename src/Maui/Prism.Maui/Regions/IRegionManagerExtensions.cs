@@ -26,7 +26,7 @@ public static class IRegionManagerExtensions
     /// <param name="regionName">The name of the Region to navigate to.</param>
     /// <param name="target">The navigation target</param>
     /// <param name="navigationCallback">The callback executed when the navigation request is completed.</param>
-    public static void RequestNavigate(this IRegionManager regionManager, string regionName, string target, Action<IRegionNavigationResult> navigationCallback)
+    public static void RequestNavigate(this IRegionManager regionManager, string regionName, string target, Action<NavigationResult> navigationCallback)
     {
         if (regionManager == null)
             throw new ArgumentNullException(nameof(regionManager));
@@ -61,7 +61,7 @@ public static class IRegionManagerExtensions
     /// <param name="target">The navigation target</param>
     /// <param name="navigationCallback">The callback executed when the navigation request is completed.</param>
     /// <param name="regionParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
-    public static void RequestNavigate(this IRegionManager regionManager, string regionName, string target, Action<IRegionNavigationResult> navigationCallback, INavigationParameters regionParameters)
+    public static void RequestNavigate(this IRegionManager regionManager, string regionName, string target, Action<NavigationResult> navigationCallback, INavigationParameters regionParameters)
     {
         if (regionManager == null)
             throw new ArgumentNullException(nameof(regionManager));

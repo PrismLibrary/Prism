@@ -6,8 +6,6 @@ using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Properties;
-using Prism.Regions.Behaviors;
-using Prism.Regions.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.Regions
@@ -21,7 +19,7 @@ namespace Prism.Regions
         private IRegionManager _regionManager;
         private IRegionNavigationService _regionNavigationService;
 
-        private Comparison<VisualElement> _sort;
+        private Comparison<object> _sort;
 
         /// <summary>
         /// Initializes a new instance of <see cref="Region"/>.
@@ -130,7 +128,7 @@ namespace Prism.Regions
         /// Gets or sets the comparison used to sort the views.
         /// </summary>
         /// <value>The comparison to use.</value>
-        public Comparison<VisualElement> SortComparison
+        public Comparison<object> SortComparison
         {
             get => _sort;
             set
@@ -207,7 +205,7 @@ namespace Prism.Regions
         /// Marks the specified view as active.
         /// </summary>
         /// <param name="view">The view to activate.</param>
-        public virtual void Activate(VisualElement view)
+        public virtual void Activate(object view)
         {
             var itemMetadata = GetItemMetadataOrThrow(view);
 
@@ -221,7 +219,7 @@ namespace Prism.Regions
         /// Marks the specified view as inactive.
         /// </summary>
         /// <param name="view">The view to deactivate.</param>
-        public virtual void Deactivate(VisualElement view)
+        public virtual void Deactivate(object view)
         {
             var itemMetadata = GetItemMetadataOrThrow(view);
 
@@ -237,7 +235,7 @@ namespace Prism.Regions
         /// </summary>
         /// <param name="view">The view to add.</param>
         /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="VisualElement"/>. It will be the current region manager when using this overload.</returns>
-        public IRegionManager Add(VisualElement view)
+        public IRegionManager Add(object view)
         {
             return Add(view, null, false);
         }
@@ -248,7 +246,7 @@ namespace Prism.Regions
         /// <param name="view">The view to add.</param>
         /// <param name="viewName">The name of the view. This can be used to retrieve it later by calling <see cref="IRegion.GetView"/>.</param>
         /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="VisualElement"/>. It will be the current region manager when using this overload.</returns>
-        public IRegionManager Add(VisualElement view, string viewName)
+        public IRegionManager Add(object view, string viewName)
         {
             if (string.IsNullOrEmpty(viewName))
             {
@@ -265,21 +263,26 @@ namespace Prism.Regions
         /// <param name="viewName">The name of the view. This can be used to retrieve it later by calling <see cref="IRegion.GetView"/>.</param>
         /// <param name="createRegionManagerScope">When <see langword="true"/>, the added view will receive a new instance of <see cref="IRegionManager"/>, otherwise it will use the current region manager for this region.</param>
         /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="VisualElement"/>.</returns>
-        public virtual IRegionManager Add(VisualElement view, string viewName, bool createRegionManagerScope)
+        public virtual IRegionManager Add(object view, string viewName, bool createRegionManagerScope)
         {
             IRegionManager manager = createRegionManagerScope ? RegionManager.CreateRegionManager() : RegionManager;
             InnerAdd(view, viewName, manager);
             return manager;
         }
 
-        private void InnerAdd(VisualElement view, string viewName, IRegionManager scopedRegionManager)
+        private void InnerAdd(object view, string viewName, IRegionManager scopedRegionManager)
         {
             if (ItemMetadataCollection.FirstOrDefault(x => x.Item == view) != null)
             {
                 throw new InvalidOperationException(Resources.RegionViewExistsException);
             }
 
-            var itemMetadata = new ItemMetadata(view);
+            if (view is not VisualElement visualElement)
+            {
+                throw new Exception("View is not a Visual Element");
+            }
+
+            var itemMetadata = new ItemMetadata(visualElement);
             if (!string.IsNullOrEmpty(viewName))
             {
                 if (ItemMetadataCollection.FirstOrDefault(x => x.Name == viewName) != null)
@@ -289,7 +292,7 @@ namespace Prism.Regions
                 itemMetadata.Name = viewName;
             }
 
-            Xaml.RegionManager.SetRegionManager(view, scopedRegionManager);
+            Xaml.RegionManager.SetRegionManager(visualElement, scopedRegionManager);
 
             ItemMetadataCollection.Add(itemMetadata);
         }
@@ -320,15 +323,20 @@ namespace Prism.Regions
         /// Removes the specified view from the region.
         /// </summary>
         /// <param name="view">The view to remove.</param>
-        public void Remove(VisualElement view)
+        public void Remove(object view)
         {
+            if (view is not VisualElement visualElement)
+            {
+                throw new Exception("View is not a Visual Element");
+            }
+
             var itemMetadata = GetItemMetadataOrThrow(view);
 
             ItemMetadataCollection.Remove(itemMetadata);
 
-            if (Xaml.RegionManager.GetRegionManager(view) == RegionManager)
+            if (Xaml.RegionManager.GetRegionManager(visualElement) == RegionManager)
             {
-                view.ClearValue(Xaml.RegionManager.RegionManagerProperty);
+                visualElement.ClearValue(Xaml.RegionManager.RegionManagerProperty);
             }
         }
 
@@ -412,6 +420,16 @@ namespace Prism.Regions
                     return string.Compare(x.Hint, y.Hint, StringComparison.Ordinal);
                 }
             }
+        }
+
+        object IRegion.GetView(string viewName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -45,7 +45,7 @@ public class RegionNavigationService : IRegionNavigationService
     /// </summary>
     public event EventHandler<RegionNavigationEventArgs> Navigating;
 
-    private void RaiseNavigating(INavigationContext navigationContext)
+    private void RaiseNavigating(NavigationContext navigationContext)
     {
         Navigating?.Invoke(this, new RegionNavigationEventArgs(navigationContext));
     }
@@ -55,7 +55,7 @@ public class RegionNavigationService : IRegionNavigationService
     /// </summary>
     public event EventHandler<RegionNavigationEventArgs> Navigated;
 
-    private void RaiseNavigated(INavigationContext navigationContext)
+    private void RaiseNavigated(NavigationContext navigationContext)
     {
         Navigated?.Invoke(this, new RegionNavigationEventArgs(navigationContext));
     }
@@ -65,7 +65,7 @@ public class RegionNavigationService : IRegionNavigationService
     /// </summary>
     public event EventHandler<RegionNavigationFailedEventArgs> NavigationFailed;
 
-    private void RaiseNavigationFailed(INavigationContext navigationContext, Exception error)
+    private void RaiseNavigationFailed(NavigationContext navigationContext, Exception error)
     {
         NavigationFailed?.Invoke(this, new RegionNavigationFailedEventArgs(navigationContext, error));
     }
@@ -75,7 +75,7 @@ public class RegionNavigationService : IRegionNavigationService
     /// </summary>
     /// <param name="target">The target.</param>
     /// <param name="navigationCallback">A callback to execute when the navigation request is completed.</param>
-    public void RequestNavigate(Uri target, Action<IRegionNavigationResult> navigationCallback)
+    public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback)
     {
         RequestNavigate(target, navigationCallback, null);
     }
@@ -86,7 +86,7 @@ public class RegionNavigationService : IRegionNavigationService
     /// <param name="target">The target.</param>
     /// <param name="navigationCallback">A callback to execute when the navigation request is completed.</param>
     /// <param name="regionParameters">The navigation parameters specific to the navigation request.</param>
-    public void RequestNavigate(Uri target, Action<IRegionNavigationResult> navigationCallback, INavigationParameters regionParameters)
+    public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, INavigationParameters regionParameters)
     {
         if (navigationCallback == null)
             throw new ArgumentNullException(nameof(navigationCallback));
@@ -101,7 +101,7 @@ public class RegionNavigationService : IRegionNavigationService
         }
     }
 
-    private void DoNavigate(Uri source, Action<IRegionNavigationResult> navigationCallback, INavigationParameters regionParameters)
+    private void DoNavigate(Uri source, Action<NavigationResult> navigationCallback, INavigationParameters regionParameters)
     {
         if (source == null)
             throw new ArgumentNullException(nameof(source));
@@ -115,19 +115,19 @@ public class RegionNavigationService : IRegionNavigationService
         RequestCanNavigateFromOnCurrentlyActiveView(
             _currentNavigationContext,
             navigationCallback,
-            Region.ActiveViews.ToArray(),
+            Region.ActiveViews.OfType<VisualElement>().ToArray(),
             0);
     }
 
     private void RequestCanNavigateFromOnCurrentlyActiveView(
-        INavigationContext navigationContext,
-        Action<IRegionNavigationResult> navigationCallback,
+        NavigationContext navigationContext,
+        Action<NavigationResult> navigationCallback,
         VisualElement[] activeViews,
         int currentViewIndex)
     {
         if (currentViewIndex < activeViews.Length)
         {
-            if (activeViews[currentViewIndex] is IConfirmRegionNavigationRequest vetoingView)
+            if (activeViews[currentViewIndex] is IConfirmNavigationRequest vetoingView)
             {
                 // the current active view implements IConfirmNavigationRequest, request confirmation
                 // providing a callback to resume the navigation request
@@ -165,12 +165,12 @@ public class RegionNavigationService : IRegionNavigationService
     }
 
     private void RequestCanNavigateFromOnCurrentlyActiveViewModel(
-        INavigationContext navigationContext,
-        Action<IRegionNavigationResult> navigationCallback,
+        NavigationContext navigationContext,
+        Action<NavigationResult> navigationCallback,
         VisualElement[] activeViews,
         int currentViewIndex)
     {
-        if (activeViews[currentViewIndex].BindingContext is IConfirmRegionNavigationRequest vetoingViewModel)
+        if (activeViews[currentViewIndex].BindingContext is IConfirmNavigationRequest vetoingViewModel)
         {
             // the data model for the current active view implements IConfirmNavigationRequest, request confirmation
             // providing a callback to resume the navigation request
@@ -202,7 +202,7 @@ public class RegionNavigationService : IRegionNavigationService
             currentViewIndex + 1);
     }
 
-    private void ExecuteNavigation(INavigationContext navigationContext, object[] activeViews, Action<IRegionNavigationResult> navigationCallback)
+    private void ExecuteNavigation(NavigationContext navigationContext, object[] activeViews, Action<NavigationResult> navigationCallback)
     {
         try
         {
@@ -227,7 +227,7 @@ public class RegionNavigationService : IRegionNavigationService
             // The view can be informed of navigation
             MvvmHelpers.OnNavigatedTo(view, navigationContext);
 
-            navigationCallback(new RegionNavigationResult(navigationContext, true));
+            navigationCallback(new NavigationResult(navigationContext, true));
 
             // Raise the navigated event when navigation is completed.
             RaiseNavigated(navigationContext);
@@ -245,16 +245,16 @@ public class RegionNavigationService : IRegionNavigationService
         return persist;
     }
 
-    private void NotifyNavigationFailed(INavigationContext navigationContext, Action<IRegionNavigationResult> navigationCallback, Exception e)
+    private void NotifyNavigationFailed(NavigationContext navigationContext, Action<NavigationResult> navigationCallback, Exception e)
     {
         var navigationResult =
-            e != null ? new RegionNavigationResult(navigationContext, e) : new RegionNavigationResult(navigationContext, false);
+            e != null ? new NavigationResult(navigationContext, e) : new NavigationResult(navigationContext, false);
 
         navigationCallback(navigationResult);
         RaiseNavigationFailed(navigationContext, e);
     }
 
-    private static void NotifyActiveViewsNavigatingFrom(INavigationContext navigationContext, object[] activeViews)
+    private static void NotifyActiveViewsNavigatingFrom(NavigationContext navigationContext, object[] activeViews)
     {
         foreach (var item in activeViews)
         {

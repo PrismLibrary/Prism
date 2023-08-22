@@ -65,7 +65,7 @@ namespace Prism.Regions
         /// </summary>
         /// <param name="value">The object to locate in the collection.</param>
         /// <returns><see langword="true" /> if <paramref name="value"/> is found in the collection; otherwise, <see langword="false" />.</returns>
-        public bool Contains(VisualElement value) => filteredItems.Contains(value);
+        public bool Contains(object value) => filteredItems.Contains(value);
 
         ///<summary>
         ///Returns an enumerator that iterates through the collection.
@@ -73,7 +73,7 @@ namespace Prism.Regions
         ///<returns>
         ///A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
         ///</returns>
-        public IEnumerator<VisualElement> GetEnumerator() => filteredItems.GetEnumerator();
+        public IEnumerator<object> GetEnumerator() => filteredItems.GetEnumerator();
 
         ///<summary>
         ///Returns an enumerator that iterates through a collection.

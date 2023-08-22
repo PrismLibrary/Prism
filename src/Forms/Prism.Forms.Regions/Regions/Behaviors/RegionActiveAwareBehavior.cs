@@ -90,7 +90,7 @@ namespace Prism.Regions.Behaviors
                 // then the view's region manager is a scoped region manager.
                 if (regionManager == null || regionManager == this.Region.RegionManager) return;
 
-                var activeViews = regionManager.Regions.SelectMany(e => e.ActiveViews);
+                var activeViews = regionManager.Regions.SelectMany(e => e.ActiveViews).OfType<VisualElement>();
 
                 var syncActiveViews = activeViews.Where(ShouldSyncActiveState);
 

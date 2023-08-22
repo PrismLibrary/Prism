@@ -123,6 +123,9 @@
   <data name="CannotRegisterSameCommandTwice" xml:space="preserve">
     <value>Cannot register the same command twice in the same CompositeCommand.</value>
   </data>
+  <data name="CanOnlyAddTypesThatInheritIFromRegionBehavior" xml:space="preserve">
+    <value>Type '{0}' does not implement from IRegionBehavior.</value>
+  </data>
   <data name="CyclicDependencyFound" xml:space="preserve">
     <value>At least one cyclic dependency has been found in the module catalog. Cycles in the module dependencies must be avoided.</value>
   </data>
@@ -176,10 +179,19 @@ Error was: {1}.</value>
   <data name="PropertySupport_StaticExpression_Exception" xml:space="preserve">
     <value>The referenced property is a static property.</value>
   </data>
+  <data name="RegionBehaviorAttachCannotBeCallWithNullRegion" xml:space="preserve">
+    <value>The Attach method cannot be called when Region property is null.</value>
+  </data>
+  <data name="RegionBehaviorRegionCannotBeSetAfterAttach" xml:space="preserve">
+    <value>The Region property cannot be set after Attach method has been called.</value>
+  </data>
   <data name="StartupModuleDependsOnAnOnDemandModule" xml:space="preserve">
     <value>Module {0} is marked for automatic initialization when the application starts, but it depends on modules that are marked as OnDemand initialization. To fix this error, mark the dependency modules for InitializationMode=WhenAvailable, or remove this validation by extending the ModuleCatalog class.</value>
   </data>
   <data name="StringCannotBeNullOrEmpty" xml:space="preserve">
     <value>The provided String argument {0} must not be null or empty.</value>
+  </data>
+  <data name="TypeWithKeyNotRegistered" xml:space="preserve">
+    <value>No BehaviorType with key '{0}' was registered.</value>
   </data>
 </root>

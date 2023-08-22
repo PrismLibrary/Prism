@@ -1,5 +1,3 @@
-
-
 using System;
 
 #if HAS_WINUI
@@ -19,13 +17,13 @@ namespace Prism.Regions
         /// The name of the wrapped item.
         /// </summary>
         public static readonly DependencyProperty NameProperty =
-            DependencyProperty.Register("Name", typeof(string), typeof(ItemMetadata), null);
+            DependencyProperty.Register(nameof(Name), typeof(string), typeof(ItemMetadata), null);
 
         /// <summary>
         /// Value indicating whether the wrapped item is considered active.
         /// </summary>
         public static readonly DependencyProperty IsActiveProperty =
-            DependencyProperty.Register("IsActive", typeof(bool), typeof(ItemMetadata), new PropertyMetadata(defaultValue: false, propertyChangedCallback: DependencyPropertyChanged));
+            DependencyProperty.Register(nameof(IsActive), typeof(bool), typeof(ItemMetadata), new PropertyMetadata(defaultValue: false, propertyChangedCallback: DependencyPropertyChanged));
 
         /// <summary>
         /// Initializes a new instance of <see cref="ItemMetadata"/>.
@@ -34,7 +32,7 @@ namespace Prism.Regions
         public ItemMetadata(object item)
         {
             // check for null
-            this.Item = item;
+            Item = item;
         }
 
         /// <summary>
@@ -49,8 +47,8 @@ namespace Prism.Regions
         /// <value>The name of the wrapped item.</value>
         public string Name
         {
-            get { return (string)GetValue(NameProperty); }
-            set { SetValue(NameProperty, value); }
+            get => (string)GetValue(NameProperty);
+            set => SetValue(NameProperty, value);
         }
 
         /// <summary>
@@ -59,8 +57,8 @@ namespace Prism.Regions
         /// <value><see langword="true" /> if the item should be considered active; otherwise <see langword="false" />.</value>
         public bool IsActive
         {
-            get { return (bool)GetValue(IsActiveProperty); }
-            set { SetValue(IsActiveProperty, value); }
+            get => (bool)GetValue(IsActiveProperty);
+            set => SetValue(IsActiveProperty, value);
         }
 
         /// <summary>

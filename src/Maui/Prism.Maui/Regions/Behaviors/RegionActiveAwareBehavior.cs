@@ -89,7 +89,7 @@ public class RegionActiveAwareBehavior : IRegionBehavior
 
             var activeViews = regionManager.Regions.SelectMany(e => e.ActiveViews);
 
-            var syncActiveViews = activeViews.Where(ShouldSyncActiveState);
+            var syncActiveViews = activeViews.OfType<VisualElement>().Where(ShouldSyncActiveState);
 
             foreach (var syncActiveView in syncActiveViews)
             {

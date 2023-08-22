@@ -2,6 +2,7 @@
 using System.Reflection;
 using Prism.Navigation;
 using Prism.Navigation.Xaml;
+using Prism.Regions;
 using Prism.Regions.Navigation;
 using NavigationMode = Prism.Navigation.NavigationMode;
 using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
@@ -120,7 +121,7 @@ public static class MvvmHelpers
         return null;
     }
 
-    public static bool IsNavigationTarget(object view, INavigationContext navigationContext)
+    public static bool IsNavigationTarget(object view, NavigationContext navigationContext)
     {
         var implementor = GetImplementerFromViewOrViewModel<IRegionAware>(view);
         if (implementor is not null)
@@ -135,12 +136,12 @@ public static class MvvmHelpers
         return path == viewType.Name || path == viewType.FullName;
     }
 
-    public static void OnNavigatedFrom(object view, INavigationContext navigationContext)
+    public static void OnNavigatedFrom(object view, NavigationContext navigationContext)
     {
         InvokeViewAndViewModelAction<IRegionAware>(view, x => x.OnNavigatedFrom(navigationContext));
     }
 
-    public static void OnNavigatedTo(object view, INavigationContext navigationContext)
+    public static void OnNavigatedTo(object view, NavigationContext navigationContext)
     {
         InvokeViewAndViewModelAction<IRegionAware>(view, x => x.OnNavigatedTo(navigationContext));
     }

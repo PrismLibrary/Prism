@@ -1,5 +1,4 @@
 ﻿using Prism.Properties;
-using Prism.Regions.Navigation;
 
 namespace Prism.Regions;
 
@@ -8,6 +7,10 @@ namespace Prism.Regions;
 /// </summary>
 public class AllActiveRegion : Region
 {
+    /// <summary>
+    /// Creates a new <see cref="AllActiveRegion"/>.
+    /// </summary>
+    /// <param name="regionNavigationService"></param>
     public AllActiveRegion(IRegionNavigationService regionNavigationService) 
         : base(regionNavigationService)
     {
@@ -24,7 +27,7 @@ public class AllActiveRegion : Region
     /// </summary>
     /// <param name="view">The view to deactivate.</param>
     /// <exception cref="InvalidOperationException">Every time this method is called.</exception>
-    public override void Deactivate(VisualElement view)
+    public override void Deactivate(object view)
     {
         throw new InvalidOperationException(Resources.DeactiveNotPossibleException);
     }

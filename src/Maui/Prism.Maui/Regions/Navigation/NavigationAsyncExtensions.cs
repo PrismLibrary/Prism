@@ -23,7 +23,7 @@ public static class NavigationAsyncExtensions
     /// <param name="navigation">The navigation object.</param>
     /// <param name="target">The navigation target</param>
     /// <param name="navigationCallback">The callback executed when the navigation request is completed.</param>
-    public static void RequestNavigate(this INavigateAsync navigation, string target, Action<IRegionNavigationResult> navigationCallback)
+    public static void RequestNavigate(this INavigateAsync navigation, string target, Action<NavigationResult> navigationCallback)
     {
         if (navigation == null)
             throw new ArgumentNullException(nameof(navigation));
@@ -56,7 +56,7 @@ public static class NavigationAsyncExtensions
     /// <param name="target">The navigation target</param>
     /// <param name="navigationCallback">The callback executed when the navigation request is completed.</param>
     /// <param name="regionParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
-    public static void RequestNavigate(this INavigateAsync navigation, string target, Action<IRegionNavigationResult> navigationCallback, INavigationParameters regionParameters)
+    public static void RequestNavigate(this INavigateAsync navigation, string target, Action<NavigationResult> navigationCallback, INavigationParameters regionParameters)
     {
         if (navigation == null)
             throw new ArgumentNullException(nameof(navigation));

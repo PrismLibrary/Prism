@@ -7,6 +7,10 @@ namespace Prism.Regions;
 /// </summary>
 public class SingleActiveRegion : Region
 {
+    /// <summary>
+    /// Creates a new <see cref="SingleActiveRegion"/>.
+    /// </summary>
+    /// <param name="regionNavigationService"></param>
     public SingleActiveRegion(IRegionNavigationService regionNavigationService)
         : base(regionNavigationService)
     {
@@ -18,7 +22,7 @@ public class SingleActiveRegion : Region
     /// <param name="view">The view to activate.</param>
     /// <remarks>If there is an active view before calling this method,
     /// that view will be deactivated automatically.</remarks>
-    public override void Activate(VisualElement view)
+    public override void Activate(object view)
     {
         var currentActiveView = ActiveViews.FirstOrDefault();
 

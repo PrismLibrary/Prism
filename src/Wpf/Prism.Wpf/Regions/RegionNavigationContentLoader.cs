@@ -62,7 +62,7 @@ namespace Prism.Regions
                 candidates.Where(
                     v =>
                     {
-                        if (v is INavigationAware navigationAware && !navigationAware.IsNavigationTarget(navigationContext))
+                        if (v is IRegionAware navigationAware && !navigationAware.IsNavigationTarget(navigationContext))
                         {
                             return false;
                         }
@@ -72,7 +72,7 @@ namespace Prism.Regions
                             return true;
                         }
 
-                        navigationAware = frameworkElement.DataContext as INavigationAware;
+                        navigationAware = frameworkElement.DataContext as IRegionAware;
                         return navigationAware == null || navigationAware.IsNavigationTarget(navigationContext);
                     });
 

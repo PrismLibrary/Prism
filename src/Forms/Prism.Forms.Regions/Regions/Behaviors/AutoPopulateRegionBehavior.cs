@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Prism.Ioc;
 using Xamarin.Forms;
 
 namespace Prism.Regions.Behaviors
@@ -93,7 +94,7 @@ namespace Prism.Regions.Behaviors
 
             if (e.RegionName == Region.Name)
             {
-                AddViewIntoRegion((VisualElement)e.GetView());
+                AddViewIntoRegion((VisualElement)e.GetView(ContainerLocator.Container));
             }
         }
     }

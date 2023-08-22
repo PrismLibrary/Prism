@@ -6,7 +6,6 @@ using Prism.Ioc;
 using Prism.Ioc.Internals;
 using Prism.Navigation;
 using Prism.Properties;
-using Prism.Regions.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.Regions
@@ -45,6 +44,20 @@ namespace Prism.Regions
                 throw new ArgumentException(string.Format(Thread.CurrentThread.CurrentCulture, Resources.RegionNotFound, regionName), nameof(regionName));
 
             var view = CreateNewRegionItem(targetName);
+
+            return Regions[regionName].Add(view);
+        }
+
+        /// <summary>
+        ///     Add a view to the Views collection of a Region. Note that the region must already exist in this <see cref="IRegionManager"/>.
+        /// </summary>
+        /// <param name="regionName">The name of the region to add a view to</param>
+        /// <param name="view">The view to add to the views collection</param>
+        /// <returns>The RegionManager, to easily add several views. </returns>
+        public IRegionManager AddToRegion(string regionName, object view)
+        {
+            if (!Regions.ContainsRegionWithName(regionName))
+                throw new ArgumentException(string.Format(Thread.CurrentThread.CurrentCulture, Resources.RegionNotFound, regionName), nameof(regionName));
 
             return Regions[regionName].Add(view);
         }
@@ -89,13 +102,21 @@ namespace Prism.Regions
         }
 
         /// <summary>
-        /// Navigates the specified region manager.
+        /// Associate a view with a region, using a delegate to resolve a concrete instance of the view.
+        /// When the region get's displayed, this delegate will be called and the result will be added to the
+        /// views collection of the region.
         /// </summary>
-        /// <param name="regionName">The name of the region to call Navigate on.</param>
-        /// <param name="target">The URI of the content to display.</param>
-        /// <param name="navigationCallback">The navigation callback.</param>
-        public void RequestNavigate(string regionName, Uri target, Action<IRegionNavigationResult> navigationCallback) =>
-            RequestNavigate(regionName, target, navigationCallback, null);
+        /// <param name="regionName">The name of the region to associate the view with.</param>
+        /// <param name="getContentDelegate">The delegate used to resolve a concrete instance of the view.</param>
+        /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
+        public IRegionManager RegisterViewWithRegion(string regionName, Func<IContainerProvider, object> getContentDelegate)
+        {
+            var regionViewRegistry = ContainerLocator.Container.Resolve<IRegionViewRegistry>();
+
+            regionViewRegistry.RegisterViewWithRegion(regionName, getContentDelegate);
+
+            return this;
+        }
 
         /// <summary>
         /// This method allows an <see cref="IRegionManager"/> to locate a specified region and navigate in it to the specified target <see cref="Uri"/>, passing a navigation callback and an instance of <see cref="INavigationParameters"/>, which holds a collection of object parameters.
@@ -104,7 +125,7 @@ namespace Prism.Regions
         /// <param name="target">A <see cref="Uri"/> that represents the target where the region will navigate.</param>
         /// <param name="navigationCallback">The navigation callback that will be executed after the navigation is completed.</param>
         /// <param name="navigationParameters">An instance of <see cref="INavigationParameters"/>, which holds a collection of object parameters.</param>
-        public void RequestNavigate(string regionName, Uri target, Action<IRegionNavigationResult> navigationCallback, INavigationParameters navigationParameters)
+        public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
         {
             try
             {
@@ -121,7 +142,7 @@ namespace Prism.Regions
             catch (Exception ex)
             {
                 var navigationContext = new NavigationContext(null, target, navigationParameters);
-                navigationCallback?.Invoke(new RegionNavigationResult(navigationContext, ex));
+                navigationCallback?.Invoke(new NavigationResult(navigationContext, ex));
             }
         }
 
