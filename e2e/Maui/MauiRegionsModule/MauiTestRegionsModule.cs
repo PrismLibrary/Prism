@@ -8,7 +8,7 @@ public class MauiTestRegionsModule : IModule
     public void OnInitialized(IContainerProvider containerProvider)
     {
         var regionManager = containerProvider.Resolve<IRegionManager>();
-        regionManager.RegisterViewWithRegion("ContentRegion", "RegionViewA");
+        regionManager.RegisterViewWithRegion<RegionViewA>("ContentRegion");
     }
 
     public void RegisterTypes(IContainerRegistry containerRegistry)
