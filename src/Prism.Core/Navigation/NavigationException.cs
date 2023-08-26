@@ -1,3 +1,5 @@
+using System;
+
 namespace Prism.Navigation;
 
 public class NavigationException : Exception
@@ -25,7 +27,7 @@ public class NavigationException : Exception
     {
     }
 
-    public NavigationException(string message, VisualElement view)
+    public NavigationException(string message, object view)
         : this(message, view, null)
     {
     }
@@ -40,18 +42,24 @@ public class NavigationException : Exception
     {
     }
 
-    public NavigationException(string message, VisualElement view, Exception innerException) 
+    public NavigationException(string message, object view, Exception innerException) 
         : this(message, null, view, innerException)
     {
     }
 
-    public NavigationException(string message, string navigationKey, VisualElement view, Exception innerException) : base(message, innerException)
+    public NavigationException(string message, string navigationKey, object view, Exception innerException) : base(message, innerException)
     {
         View = view;
         NavigationKey = navigationKey;
     }
 
-    public VisualElement View { get; }
+    /// <summary>
+    /// The View Instance
+    /// </summary>
+    public object View { get; }
 
+    /// <summary>
+    /// The key used for the failed navigation
+    /// </summary>
     public string NavigationKey { get; }
 }

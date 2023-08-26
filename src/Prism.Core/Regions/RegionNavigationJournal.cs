@@ -141,16 +141,16 @@ namespace Prism.Regions
 
         private void InternalNavigate(IRegionNavigationJournalEntry entry, Action<bool> callback)
         {
-            this.isNavigatingInternal = true;
-            this.NavigationTarget.RequestNavigate(
+            isNavigatingInternal = true;
+            NavigationTarget.RequestNavigate(
                 entry.Uri,
                 nr =>
                 {
-                    this.isNavigatingInternal = false;
+                    isNavigatingInternal = false;
 
-                    if (nr.Result.HasValue)
+                    if (nr.Success)
                     {
-                        callback(nr.Result.Value);
+                        callback(nr.Success);
                     }
                 },
                 entry.Parameters);

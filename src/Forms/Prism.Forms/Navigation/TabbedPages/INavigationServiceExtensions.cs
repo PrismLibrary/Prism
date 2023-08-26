@@ -80,7 +80,7 @@ namespace Prism.Navigation.TabbedPages
                 return new NavigationResult { Exception = ex };
             }
 
-            return new NavigationResult { Success = true };
+            return new NavigationResult();
         }
     }
 }
