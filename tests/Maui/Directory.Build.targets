@@ -1,5 +1,5 @@
 <Project>
-  <Import Project="../../src/Maui/Prism.Maui/build/Prism.Maui.targets" />
+  <Import Project="../../src/Maui/Prism.Maui/build/Package.targets" />
 
   <ItemGroup>
     <Using Include="Xunit" />
