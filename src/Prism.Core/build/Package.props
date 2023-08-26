@@ -2,7 +2,6 @@
 <Project>
   <ItemGroup Condition=" '$(ImplicitUsings)' == 'true' OR '$(ImplicitUsings)' == 'enable' ">
     <Using Include="Prism" />
-    <Using Include="Prism.AppModel" />
     <Using Include="Prism.Commands" />
     <Using Include="Prism.Dialogs" />
     <Using Include="Prism.Events" />
@@ -11,7 +10,5 @@
     <Using Include="Prism.Mvvm" />
     <Using Include="Prism.Navigation" />
     <Using Include="Prism.Regions" />
-    <Using Include="Prism.Regions.Navigation" />
-    <Using Include="Prism.Services" />
   </ItemGroup>
 </Project>
