@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Prism.Ioc;
 using Prism.Navigation;
 using Prism.Regions;
 using Prism.Regions.Behaviors;
@@ -242,7 +243,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
                 throw new NotImplementedException();
             }
 
-            public IRegionManager RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
+            public IRegionManager RegisterViewWithRegion(string regionName, Func<IContainerProvider, object> getContentDelegate)
             {
                 throw new NotImplementedException();
             }

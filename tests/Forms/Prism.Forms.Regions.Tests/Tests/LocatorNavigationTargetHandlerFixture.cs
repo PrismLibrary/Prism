@@ -124,7 +124,7 @@ namespace Prism.Forms.Regions.Tests
             var viewMock = new Mock<View>();
             viewMock
                 .As<IRegionAware>()
-                .Setup(v => v.IsNavigationTarget(It.IsAny<INavigationContext>()))
+                .Setup(v => v.IsNavigationTarget(It.IsAny<NavigationContext>()))
                 .Returns(true)
                 .Verifiable();
 
@@ -157,7 +157,7 @@ namespace Prism.Forms.Regions.Tests
 
             var bindingContextMock = new Mock<IRegionAware>();
             bindingContextMock
-                .Setup(v => v.IsNavigationTarget(It.IsAny<INavigationContext>()))
+                .Setup(v => v.IsNavigationTarget(It.IsAny<NavigationContext>()))
                 .Returns(true)
                 .Verifiable();
             var viewMock = new Mock<View>();
@@ -226,7 +226,7 @@ namespace Prism.Forms.Regions.Tests
             var viewMock = new Mock<View>();
             viewMock
                 .As<IRegionAware>()
-                .Setup(v => v.IsNavigationTarget(It.IsAny<INavigationContext>()))
+                .Setup(v => v.IsNavigationTarget(It.IsAny<NavigationContext>()))
                 .Returns(false)
                 .Verifiable();
 
@@ -265,7 +265,7 @@ namespace Prism.Forms.Regions.Tests
 
             var bindingContextMock = new Mock<IRegionAware>();
             bindingContextMock
-                .Setup(v => v.IsNavigationTarget(It.IsAny<INavigationContext>()))
+                .Setup(v => v.IsNavigationTarget(It.IsAny<NavigationContext>()))
                 .Returns(false)
                 .Verifiable();
             var viewMock = new Mock<View>();

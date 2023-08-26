@@ -44,7 +44,7 @@ namespace Prism.Wpf.Tests.Regions
             Assert.NotNull(listener.onViewRegisteredArguments);
             Assert.NotNull(listener.onViewRegisteredArguments.GetView);
 
-            var result = listener.onViewRegisteredArguments.GetView();
+            var result = listener.onViewRegisteredArguments.GetView(containerMock.Object);
             Assert.NotNull(result);
             Assert.IsType<MockContentObject>(result);
         }

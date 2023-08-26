@@ -471,7 +471,7 @@ namespace Prism.Wpf.Tests.Regions
                 throw new NotImplementedException();
             }
 
-            public IRegionManager RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
+            public IRegionManager RegisterViewWithRegion(string regionName, Func<IContainerProvider, object> getContentDelegate)
             {
                 throw new NotImplementedException();
             }

@@ -484,7 +484,7 @@ namespace Prism.Forms.Regions.Tests
                 region.Add(view);
 
                 var uri = new Uri(view.GetType().Name, UriKind.Relative);
-                Action<IRegionNavigationResult> navigationCallback = nr => { };
+                Action<NavigationResult> navigationCallback = nr => { };
                 var navigationParameters = new NavigationParameters();
 
                 var mockRegionNavigationService = new Mock<IRegionNavigationService>();

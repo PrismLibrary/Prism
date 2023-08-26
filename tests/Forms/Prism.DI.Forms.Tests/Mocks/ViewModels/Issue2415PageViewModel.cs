@@ -18,14 +18,14 @@ namespace Prism.DI.Forms.Tests.Mocks.ViewModels
             _regionManager = regionManager;
         }
 
-        public IRegionNavigationResult Result { get; private set; }
+        public NavigationResult Result { get; private set; }
 
         public void Initialize(INavigationParameters parameters)
         {
             _regionManager.RequestNavigate("ContentRegion", "Issue2415RegionView", NavigationCallback);
         }
 
-        private void NavigationCallback(IRegionNavigationResult result)
+        private void NavigationCallback(NavigationResult result)
         {
             Result = result;
         }

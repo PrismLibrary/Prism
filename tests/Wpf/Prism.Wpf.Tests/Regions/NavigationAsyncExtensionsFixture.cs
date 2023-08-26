@@ -2,6 +2,7 @@
 
 using System;
 using Moq;
+using Prism.Navigation;
 using Prism.Regions;
 using Xunit;
 

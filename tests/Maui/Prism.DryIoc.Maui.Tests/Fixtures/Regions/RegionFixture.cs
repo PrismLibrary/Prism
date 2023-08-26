@@ -101,7 +101,8 @@ public class RegionFixture : TestBase
         var region = regionManager.Regions.First(x => x.Name == "ContentRegion");
         var activeView = region.ActiveViews.First();
         Assert.IsType<MockRegionViewA>(activeView);
-        var viewModel = activeView.BindingContext as MockRegionViewAViewModel;
+        var activeViewAsMockRegionViewA = activeView as MockRegionViewA;
+        var viewModel = activeViewAsMockRegionViewA.BindingContext as MockRegionViewAViewModel;
         Assert.NotNull(viewModel);
 
         Assert.NotNull(viewModel.Page);

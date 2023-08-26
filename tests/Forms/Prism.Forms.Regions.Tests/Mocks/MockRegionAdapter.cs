@@ -11,14 +11,15 @@ namespace Prism.Forms.Regions.Mocks
         public MockRegionManagerAccessor Accessor;
 
 
-        public IRegion Initialize(VisualElement regionTarget, string regionName)
+        public IRegion Initialize(object regionTarget, string regionName)
         {
             CreatedRegions.Add(regionName);
 
             var region = new MockPresentationRegion();
-            Prism.Regions.Xaml.RegionManager.GetObservableRegion(regionTarget).Value = region;
+            if (regionTarget is VisualElement element)
+            Prism.Regions.Xaml.RegionManager.GetObservableRegion(element).Value = region;
 
-            // Fire update regions again. This also happens if a region is created and added to the regionmanager
+            // Fire update regions again. This also happens if a region is created and added to the RegionManager
             if (Accessor != null)
                 Accessor.UpdateRegions();
 

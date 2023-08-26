@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using Prism.Ioc;
+using Prism.Navigation;
 using Prism.Regions;
 using Prism.Regions.Navigation;
 using Xamarin.Forms;
@@ -41,7 +42,7 @@ namespace Prism.Forms.Regions.Tests
 
             // Act
             bool isNavigationSuccessful = false;
-            target.RequestNavigate(viewUri, nr => isNavigationSuccessful = nr.Result == true);
+            target.RequestNavigate(viewUri, nr => isNavigationSuccessful = nr.Success == true);
 
             // Verify
             Assert.True(isNavigationSuccessful);
@@ -77,7 +78,7 @@ namespace Prism.Forms.Regions.Tests
 
             // Act
             bool isNavigationSuccessful = false;
-            target.RequestNavigate(viewUri, nr => isNavigationSuccessful = nr.Result == true);
+            target.RequestNavigate(viewUri, nr => isNavigationSuccessful = nr.Success == true);
 
             // Verify
             Assert.True(isNavigationSuccessful);
@@ -102,7 +103,7 @@ namespace Prism.Forms.Regions.Tests
             IContainerExtension container = containerMock.Object;
 
             var targetHandlerMock = new Mock<IRegionNavigationContentLoader>();
-            targetHandlerMock.Setup(th => th.LoadContent(It.IsAny<IRegion>(), It.IsAny<INavigationContext>())).Throws<ArgumentException>();
+            targetHandlerMock.Setup(th => th.LoadContent(It.IsAny<IRegion>(), It.IsAny<NavigationContext>())).Throws<ArgumentException>();
 
             IRegionNavigationJournal journal = Mock.Of<IRegionNavigationJournal>();
 
@@ -117,7 +118,7 @@ namespace Prism.Forms.Regions.Tests
                 new Uri(otherType.GetType().Name, UriKind.Relative),
                 nr =>
                 {
-                    error = nr.Error;
+                    error = nr.Exception;
                 });
 
             // Verify
@@ -145,13 +146,13 @@ namespace Prism.Forms.Regions.Tests
             };
 
             // Act
-            IRegionNavigationResult navigationResult = null;
+            NavigationResult navigationResult = null;
             target.RequestNavigate((Uri)null, nr => navigationResult = nr);
 
             // Verify
-            Assert.False(navigationResult.Result.Value);
-            Assert.NotNull(navigationResult.Error);
-            Assert.IsType<ArgumentNullException>(navigationResult.Error);
+            Assert.False(navigationResult.Success);
+            Assert.NotNull(navigationResult.Exception);
+            Assert.IsType<ArgumentNullException>(navigationResult.Exception);
         }
 
         [Fact]
@@ -163,7 +164,7 @@ namespace Prism.Forms.Regions.Tests
             var viewMock = new Mock<View>();
             viewMock
                 .As<IRegionAware>()
-                .Setup(ina => ina.IsNavigationTarget(It.IsAny<INavigationContext>()))
+                .Setup(ina => ina.IsNavigationTarget(It.IsAny<NavigationContext>()))
                 .Returns(true);
             var view = viewMock.Object;
             region.Add(view);
@@ -188,7 +189,7 @@ namespace Prism.Forms.Regions.Tests
             // Verify
             viewMock
                 .As<IRegionAware>()
-                .Verify(v => v.OnNavigatedTo(It.Is<INavigationContext>(nc => nc.Uri == navigationUri && nc.NavigationService == target)));
+                .Verify(v => v.OnNavigatedTo(It.Is<NavigationContext>(nc => nc.Uri == navigationUri && nc.NavigationService == target)));
         }
 
         [Fact]
@@ -200,7 +201,7 @@ namespace Prism.Forms.Regions.Tests
             var mockView = new Mock<View>();
             var mockIRegionAwareBindingContext = new Mock<IRegionAware>();
             mockIRegionAwareBindingContext
-                .Setup(ina => ina.IsNavigationTarget(It.IsAny<INavigationContext>()))
+                .Setup(ina => ina.IsNavigationTarget(It.IsAny<NavigationContext>()))
                 .Returns(true);
             mockView.Object.BindingContext = mockIRegionAwareBindingContext.Object;
 
@@ -225,7 +226,7 @@ namespace Prism.Forms.Regions.Tests
             target.RequestNavigate(navigationUri, nr => { });
 
             // Verify
-            mockIRegionAwareBindingContext.Verify(v => v.OnNavigatedTo(It.Is<INavigationContext>(nc => nc.Uri == navigationUri)));
+            mockIRegionAwareBindingContext.Verify(v => v.OnNavigatedTo(It.Is<NavigationContext>(nc => nc.Uri == navigationUri)));
         }
 
         [Fact]
@@ -237,11 +238,11 @@ namespace Prism.Forms.Regions.Tests
             var mockView = new Mock<View>();
             var mockIRegionAwareView = mockView.As<IRegionAware>();
             mockIRegionAwareView
-                .Setup(ina => ina.IsNavigationTarget(It.IsAny<INavigationContext>()))
+                .Setup(ina => ina.IsNavigationTarget(It.IsAny<NavigationContext>()))
                 .Returns(true);
 
             var mockIRegionAwareBindingContext = new Mock<IRegionAware>();
-            mockIRegionAwareBindingContext.Setup(ina => ina.IsNavigationTarget(It.IsAny<INavigationContext>())).Returns(true);
+            mockIRegionAwareBindingContext.Setup(ina => ina.IsNavigationTarget(It.IsAny<NavigationContext>())).Returns(true);
             mockView.Object.BindingContext = mockIRegionAwareBindingContext.Object;
 
             var view = mockView.Object;
@@ -265,8 +266,8 @@ namespace Prism.Forms.Regions.Tests
             target.RequestNavigate(navigationUri, nr => { });
 
             // Verify
-            mockIRegionAwareView.Verify(v => v.OnNavigatedTo(It.Is<INavigationContext>(nc => nc.Uri == navigationUri)));
-            mockIRegionAwareBindingContext.Verify(v => v.OnNavigatedTo(It.Is<INavigationContext>(nc => nc.Uri == navigationUri)));
+            mockIRegionAwareView.Verify(v => v.OnNavigatedTo(It.Is<NavigationContext>(nc => nc.Uri == navigationUri)));
+            mockIRegionAwareBindingContext.Verify(v => v.OnNavigatedTo(It.Is<NavigationContext>(nc => nc.Uri == navigationUri)));
         }
 
         [Fact]
@@ -319,8 +320,8 @@ namespace Prism.Forms.Regions.Tests
 
             var viewMock = new Mock<View>();
             viewMock
-                .As<IConfirmRegionNavigationRequest>()
-                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()))
+                .As<IConfirmNavigationRequest>()
+                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
                 .Verifiable();
 
             var view = viewMock.Object;
@@ -356,9 +357,9 @@ namespace Prism.Forms.Regions.Tests
 
             var view1Mock = new Mock<View>();
             view1Mock
-                .As<IConfirmRegionNavigationRequest>()
-                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()))
-                .Callback<INavigationContext, Action<bool>>((nc, c) => c(true))
+                .As<IConfirmNavigationRequest>()
+                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
+                .Callback<NavigationContext, Action<bool>>((nc, c) => c(true))
                 .Verifiable();
 
             var view1 = view1Mock.Object;
@@ -366,7 +367,7 @@ namespace Prism.Forms.Regions.Tests
             region.Activate(view1);
 
             var view2Mock = new Mock<StackLayout>();
-            view2Mock.As<IConfirmRegionNavigationRequest>();
+            view2Mock.As<IConfirmNavigationRequest>();
 
             var view2 = view2Mock.Object;
             region.Add(view2);
@@ -380,9 +381,9 @@ namespace Prism.Forms.Regions.Tests
 
             var view4Mock = new Mock<Frame>();
             view4Mock
-                .As<IConfirmRegionNavigationRequest>()
-                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()))
-                .Callback<INavigationContext, Action<bool>>((nc, c) => c(true))
+                .As<IConfirmNavigationRequest>()
+                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
+                .Callback<NavigationContext, Action<bool>>((nc, c) => c(true))
                 .Verifiable();
 
             var view4 = view4Mock.Object;
@@ -409,8 +410,8 @@ namespace Prism.Forms.Regions.Tests
             // Verify
             view1Mock.VerifyAll();
             view2Mock
-                .As<IConfirmRegionNavigationRequest>()
-                .Verify(ina => ina.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()), Times.Never());
+                .As<IConfirmNavigationRequest>()
+                .Verify(ina => ina.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()), Times.Never());
             view3Mock.VerifyAll();
             view4Mock.VerifyAll();
         }
@@ -423,9 +424,9 @@ namespace Prism.Forms.Regions.Tests
 
             var view1Mock = new Mock<View>();
             view1Mock
-                .As<IConfirmRegionNavigationRequest>()
-                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()))
-                .Callback<INavigationContext, Action<bool>>((nc, c) => c(true))
+                .As<IConfirmNavigationRequest>()
+                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
+                .Callback<NavigationContext, Action<bool>>((nc, c) => c(true))
                 .Verifiable();
 
             var view1 = view1Mock.Object;
@@ -453,7 +454,7 @@ namespace Prism.Forms.Regions.Tests
 
             // Act
             var navigationSucceeded = false;
-            target.RequestNavigate(navigationUri, nr => { navigationSucceeded = nr.Result == true; });
+            target.RequestNavigate(navigationUri, nr => { navigationSucceeded = nr.Success == true; });
 
             // Verify
             view1Mock.VerifyAll();
@@ -469,9 +470,9 @@ namespace Prism.Forms.Regions.Tests
 
             var view1Mock = new Mock<View>();
             view1Mock
-                .As<IConfirmRegionNavigationRequest>()
-                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()))
-                .Callback<INavigationContext, Action<bool>>((nc, c) => c(false))
+                .As<IConfirmNavigationRequest>()
+                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
+                .Callback<NavigationContext, Action<bool>>((nc, c) => c(false))
                 .Verifiable();
 
             var view1 = view1Mock.Object;
@@ -499,7 +500,7 @@ namespace Prism.Forms.Regions.Tests
 
             // Act
             var navigationFailed = false;
-            target.RequestNavigate(navigationUri, nr => { navigationFailed = nr.Result == false; });
+            target.RequestNavigate(navigationUri, nr => { navigationFailed = nr.Success == false; });
 
             // Verify
             view1Mock.VerifyAll();
@@ -513,9 +514,9 @@ namespace Prism.Forms.Regions.Tests
             // Prepare
             var region = new Region();
 
-            var viewModelMock = new Mock<IConfirmRegionNavigationRequest>();
+            var viewModelMock = new Mock<IConfirmNavigationRequest>();
             viewModelMock
-                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()))
+                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
                 .Verifiable();
 
             var viewMock = new Mock<View>();
@@ -553,10 +554,10 @@ namespace Prism.Forms.Regions.Tests
             // Prepare
             var region = new Region();
 
-            var view1BindingContextMock = new Mock<IConfirmRegionNavigationRequest>();
+            var view1BindingContextMock = new Mock<IConfirmNavigationRequest>();
             view1BindingContextMock
-                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()))
-                .Callback<INavigationContext, Action<bool>>((nc, c) => c(true))
+                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
+                .Callback<NavigationContext, Action<bool>>((nc, c) => c(true))
                 .Verifiable();
 
             var view1Mock = new Mock<View>();
@@ -586,7 +587,7 @@ namespace Prism.Forms.Regions.Tests
 
             // Act
             var navigationSucceeded = false;
-            target.RequestNavigate(navigationUri, nr => { navigationSucceeded = nr.Result == true; });
+            target.RequestNavigate(navigationUri, nr => { navigationSucceeded = nr.Success == true; });
 
             // Verify
             view1BindingContextMock.VerifyAll();
@@ -600,10 +601,10 @@ namespace Prism.Forms.Regions.Tests
             // Prepare
             var region = new Region();
 
-            var view1BindingContextMock = new Mock<IConfirmRegionNavigationRequest>();
+            var view1BindingContextMock = new Mock<IConfirmNavigationRequest>();
             view1BindingContextMock
-                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()))
-                .Callback<INavigationContext, Action<bool>>((nc, c) => c(false))
+                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
+                .Callback<NavigationContext, Action<bool>>((nc, c) => c(false))
                 .Verifiable();
 
             var view1Mock = new Mock<View>();
@@ -633,7 +634,7 @@ namespace Prism.Forms.Regions.Tests
 
             // Act
             var navigationFailed = false;
-            target.RequestNavigate(navigationUri, nr => { navigationFailed = nr.Result == false; });
+            target.RequestNavigate(navigationUri, nr => { navigationFailed = nr.Success == false; });
 
             // Verify
             view1BindingContextMock.VerifyAll();
@@ -651,9 +652,9 @@ namespace Prism.Forms.Regions.Tests
             var confirmationRequests = new List<Action<bool>>();
 
             viewMock
-                .As<IConfirmRegionNavigationRequest>()
-                .Setup(icnr => icnr.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()))
-                .Callback<INavigationContext, Action<bool>>((nc, c) => { confirmationRequests.Add(c); });
+                .As<IConfirmNavigationRequest>()
+                .Setup(icnr => icnr.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
+                .Callback<NavigationContext, Action<bool>>((nc, c) => { confirmationRequests.Add(c); });
 
             var view = viewMock.Object;
             region.Add(view);
@@ -668,7 +669,7 @@ namespace Prism.Forms.Regions.Tests
 
             var contentLoaderMock = new Mock<IRegionNavigationContentLoader>();
             contentLoaderMock
-                .Setup(cl => cl.LoadContent(region, It.IsAny<INavigationContext>()))
+                .Setup(cl => cl.LoadContent(region, It.IsAny<NavigationContext>()))
                 .Returns(view);
 
             var container = containerMock.Object;
@@ -682,8 +683,8 @@ namespace Prism.Forms.Regions.Tests
 
             bool firstNavigation = false;
             bool secondNavigation = false;
-            target.RequestNavigate(navigationUri, nr => firstNavigation = nr.Result.Value);
-            target.RequestNavigate(navigationUri, nr => secondNavigation = nr.Result.Value);
+            target.RequestNavigate(navigationUri, nr => firstNavigation = nr.Success);
+            target.RequestNavigate(navigationUri, nr => secondNavigation = nr.Success);
 
             Assert.Equal(2, confirmationRequests.Count);
 
@@ -699,7 +700,7 @@ namespace Prism.Forms.Regions.Tests
         {
             var region = new Region();
 
-            var viewModelMock = new Mock<IConfirmRegionNavigationRequest>();
+            var viewModelMock = new Mock<IConfirmNavigationRequest>();
 
             var viewMock = new Mock<View>();
             var view = viewMock.Object;
@@ -708,8 +709,8 @@ namespace Prism.Forms.Regions.Tests
             var confirmationRequests = new List<Action<bool>>();
 
             viewModelMock
-                .Setup(icnr => icnr.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()))
-                .Callback<INavigationContext, Action<bool>>((nc, c) => { confirmationRequests.Add(c); });
+                .Setup(icnr => icnr.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
+                .Callback<NavigationContext, Action<bool>>((nc, c) => { confirmationRequests.Add(c); });
 
             region.Add(view);
             region.Activate(view);
@@ -723,7 +724,7 @@ namespace Prism.Forms.Regions.Tests
 
             var contentLoaderMock = new Mock<IRegionNavigationContentLoader>();
             contentLoaderMock
-                .Setup(cl => cl.LoadContent(region, It.IsAny<INavigationContext>()))
+                .Setup(cl => cl.LoadContent(region, It.IsAny<NavigationContext>()))
                 .Returns(view);
 
             var container = containerMock.Object;
@@ -735,8 +736,8 @@ namespace Prism.Forms.Regions.Tests
                 Region = region
             };
 
-            IRegionNavigationResult firstNavigation = null;
-            IRegionNavigationResult secondNavigation = null;
+            NavigationResult firstNavigation = null;
+            NavigationResult secondNavigation = null;
             target.RequestNavigate(navigationUri, nr => firstNavigation = nr);
             target.RequestNavigate(navigationUri, nr => secondNavigation = nr);
 
@@ -745,8 +746,8 @@ namespace Prism.Forms.Regions.Tests
             confirmationRequests[0](true);
             confirmationRequests[1](true);
 
-            Assert.False(firstNavigation.Result);
-            Assert.True(secondNavigation.Result.Value);
+            Assert.False(firstNavigation.Success);
+            Assert.True(secondNavigation.Success);
         }
 
         [Fact]
@@ -786,7 +787,7 @@ namespace Prism.Forms.Regions.Tests
 
             // Act
             bool isNavigationSuccessful = false;
-            target.RequestNavigate(viewUri, nr => isNavigationSuccessful = nr.Result == true);
+            target.RequestNavigate(viewUri, nr => isNavigationSuccessful = nr.Success == true);
 
             // Verify
             Assert.True(isNavigationSuccessful);
@@ -830,7 +831,7 @@ namespace Prism.Forms.Regions.Tests
 
             // Act
             bool isNavigationSuccessful = false;
-            target.RequestNavigate(viewUri, nr => isNavigationSuccessful = nr.Result == true);
+            target.RequestNavigate(viewUri, nr => isNavigationSuccessful = nr.Success == true);
 
             // Verify
             Assert.True(isNavigationSuccessful);
@@ -845,7 +846,7 @@ namespace Prism.Forms.Regions.Tests
             var targetException = new Exception();
             var targetHandlerMock = new Mock<IRegionNavigationContentLoader>();
             targetHandlerMock
-                .Setup(th => th.LoadContent(It.IsAny<IRegion>(), It.IsAny<INavigationContext>()))
+                .Setup(th => th.LoadContent(It.IsAny<IRegion>(), It.IsAny<NavigationContext>()))
                 .Throws(targetException);
 
             var journalMock = new Mock<IRegionNavigationJournal>();
@@ -853,9 +854,9 @@ namespace Prism.Forms.Regions.Tests
             Action<bool> navigationCallback = null;
             var viewMock = new Mock<View>();
             viewMock
-                .As<IConfirmRegionNavigationRequest>()
-                .Setup(v => v.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()))
-                .Callback<INavigationContext, Action<bool>>((nc, c) => { navigationCallback = c; });
+                .As<IConfirmNavigationRequest>()
+                .Setup(v => v.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
+                .Callback<NavigationContext, Action<bool>>((nc, c) => { navigationCallback = c; });
 
             var region = new Region();
             region.Add(viewMock.Object);
@@ -866,12 +867,12 @@ namespace Prism.Forms.Regions.Tests
                 Region = region
             };
 
-            IRegionNavigationResult result = null;
+            NavigationResult result = null;
             target.RequestNavigate(new Uri("", UriKind.Relative), nr => result = nr);
             navigationCallback(true);
 
             Assert.NotNull(result);
-            Assert.Same(targetException, result.Error);
+            Assert.Same(targetException, result.Exception);
         }
 
         [Fact]
@@ -908,7 +909,7 @@ namespace Prism.Forms.Regions.Tests
 
             // Verify
             viewMock.As<IRegionAware>()
-                .Verify(v => v.OnNavigatedFrom(It.Is<INavigationContext>(ctx => ctx.Uri == navigationUri && ctx.Parameters.Count() == 0)));
+                .Verify(v => v.OnNavigatedFrom(It.Is<NavigationContext>(ctx => ctx.Uri == navigationUri && ctx.Parameters.Count() == 0)));
         }
 
         [Fact]
@@ -923,7 +924,7 @@ namespace Prism.Forms.Regions.Tests
             var viewMock = new Mock<View>();
             viewMock
                 .As<IRegionAware>()
-                .Setup(x => x.OnNavigatedFrom(It.IsAny<INavigationContext>())).Callback(() => navigationFromInvoked = true);
+                .Setup(x => x.OnNavigatedFrom(It.IsAny<NavigationContext>())).Callback(() => navigationFromInvoked = true);
             var view = viewMock.Object;
             region.Add(view);
 
@@ -958,7 +959,7 @@ namespace Prism.Forms.Regions.Tests
         }
 
         [Fact]
-        public void WhenNavigatingFromActiveViewWithNavigatinAwareDataConext_NotifiesContextOfNavigatingFrom()
+        public void WhenNavigatingFromActiveViewWithNavigationAwareDataContext_NotifiesContextOfNavigatingFrom()
         {
             // Arrange
             var region = new Region();
@@ -993,7 +994,7 @@ namespace Prism.Forms.Regions.Tests
             target.RequestNavigate(navigationUri, nr => { });
 
             // Verify
-            mockBindingContext.Verify(v => v.OnNavigatedFrom(It.Is<INavigationContext>(ctx => ctx.Uri == navigationUri && ctx.Parameters.Count() == 0)));
+            mockBindingContext.Verify(v => v.OnNavigatedFrom(It.Is<NavigationContext>(ctx => ctx.Uri == navigationUri && ctx.Parameters.Count() == 0)));
         }
 
         [Fact]
@@ -1014,7 +1015,7 @@ namespace Prism.Forms.Regions.Tests
             ExceptionAssert.Throws<ArgumentNullException>(
                 () =>
                 {
-                    target.RequestNavigate(navigationUri, null);
+                    target.RequestNavigate(navigationUri);
                 });
         }
 
@@ -1029,7 +1030,7 @@ namespace Prism.Forms.Regions.Tests
             var target = new RegionNavigationService(container, contentLoader, journal);
 
             Exception error = null;
-            target.RequestNavigate(navigationUri, nr => error = nr.Error);
+            target.RequestNavigate(navigationUri, nr => error = nr.Exception);
 
             Assert.NotNull(error);
             Assert.IsType<InvalidOperationException>(error);
@@ -1048,7 +1049,7 @@ namespace Prism.Forms.Regions.Tests
             };
 
             Exception error = null;
-            target.RequestNavigate(null, nr => error = nr.Error);
+            target.RequestNavigate("", nr => error = nr.Exception);
 
             Assert.NotNull(error);
             Assert.IsType<ArgumentNullException>(error);
@@ -1066,7 +1067,7 @@ namespace Prism.Forms.Regions.Tests
 
             var contentLoaderMock = new Mock<IRegionNavigationContentLoader>();
             contentLoaderMock
-                .Setup(cl => cl.LoadContent(region, It.IsAny<INavigationContext>()))
+                .Setup(cl => cl.LoadContent(region, It.IsAny<NavigationContext>()))
                 .Throws<InvalidOperationException>();
 
             var container = containerMock.Object;
@@ -1089,7 +1090,7 @@ namespace Prism.Forms.Regions.Tests
 
             // Act
             bool? isNavigationSuccessful = null;
-            target.RequestNavigate(new Uri("invalid", UriKind.Relative), nr => isNavigationSuccessful = nr.Result);
+            target.RequestNavigate(new Uri("invalid", UriKind.Relative), nr => isNavigationSuccessful = nr.Success);
 
             // Verify
             Assert.False(isNavigationSuccessful.Value);
@@ -1105,9 +1106,9 @@ namespace Prism.Forms.Regions.Tests
 
             var view1Mock = new Mock<View>();
             view1Mock
-                .As<IConfirmRegionNavigationRequest>()
-                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()))
-                .Callback<INavigationContext, Action<bool>>((nc, c) => c(false))
+                .As<IConfirmNavigationRequest>()
+                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
+                .Callback<NavigationContext, Action<bool>>((nc, c) => c(false))
                 .Verifiable();
 
             var view1 = view1Mock.Object;
@@ -1126,7 +1127,7 @@ namespace Prism.Forms.Regions.Tests
 
             var contentLoaderMock = new Mock<IRegionNavigationContentLoader>();
             contentLoaderMock
-                .Setup(cl => cl.LoadContent(region, It.IsAny<INavigationContext>()))
+                .Setup(cl => cl.LoadContent(region, It.IsAny<NavigationContext>()))
                 .Returns(view2);
 
             var container = containerMock.Object;
@@ -1149,7 +1150,7 @@ namespace Prism.Forms.Regions.Tests
 
             // Act
             bool? isNavigationSuccessful = null;
-            target.RequestNavigate(navigationUri, nr => isNavigationSuccessful = nr.Result);
+            target.RequestNavigate(navigationUri, nr => isNavigationSuccessful = nr.Success);
 
             // Verify
             view1Mock.VerifyAll();
@@ -1164,10 +1165,10 @@ namespace Prism.Forms.Regions.Tests
             // Prepare
             var region = new Region { Name = "RegionName" };
 
-            var viewModel1Mock = new Mock<IConfirmRegionNavigationRequest>();
+            var viewModel1Mock = new Mock<IConfirmNavigationRequest>();
             viewModel1Mock
-                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<INavigationContext>(), It.IsAny<Action<bool>>()))
-                .Callback<INavigationContext, Action<bool>>((nc, c) => c(false))
+                .Setup(ina => ina.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
+                .Callback<NavigationContext, Action<bool>>((nc, c) => c(false))
                 .Verifiable();
 
             var view1Mock = new Mock<View>();
@@ -1188,7 +1189,7 @@ namespace Prism.Forms.Regions.Tests
 
             var contentLoaderMock = new Mock<IRegionNavigationContentLoader>();
             contentLoaderMock
-                .Setup(cl => cl.LoadContent(region, It.IsAny<INavigationContext>()))
+                .Setup(cl => cl.LoadContent(region, It.IsAny<NavigationContext>()))
                 .Returns(view2);
 
             var container = containerMock.Object;
@@ -1211,7 +1212,7 @@ namespace Prism.Forms.Regions.Tests
 
             // Act
             bool? isNavigationSuccessful = null;
-            target.RequestNavigate(navigationUri, nr => isNavigationSuccessful = nr.Result);
+            target.RequestNavigate(navigationUri, nr => isNavigationSuccessful = nr.Success);
 
             // Verify
             viewModel1Mock.VerifyAll();

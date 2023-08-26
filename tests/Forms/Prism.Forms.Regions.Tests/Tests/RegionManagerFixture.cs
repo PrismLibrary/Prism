@@ -479,11 +479,16 @@ namespace Prism.Forms.Regions.Tests
     internal class MockRegionContentRegistry : IRegionViewRegistry
     {
         public Func<string, Type, object> RegisterContentWithViewType;
-        public Func<string, Func<object>, object> RegisterContentWithDelegate;
+        public Func<string, Func<IContainerProvider, object>, object> RegisterContentWithDelegate;
         public event EventHandler<ViewRegisteredEventArgs> ContentRegistered;
-        public IEnumerable<object> GetContents(string regionName)
+        public IEnumerable<object> GetContents(string regionName, IContainerProvider container)
         {
             return null;
+        }
+
+        public void RegisterViewWithRegion(string regionName, string targetName)
+        {
+            throw new NotImplementedException();
         }
 
         void IRegionViewRegistry.RegisterViewWithRegion(string regionName, Type viewType)
@@ -491,7 +496,7 @@ namespace Prism.Forms.Regions.Tests
             RegisterContentWithViewType?.Invoke(regionName, viewType);
         }
 
-        void IRegionViewRegistry.RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
+        void IRegionViewRegistry.RegisterViewWithRegion(string regionName, Func<IContainerProvider, object> getContentDelegate)
         {
             RegisterContentWithDelegate?.Invoke(regionName, getContentDelegate);
 

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Moq;
-using Prism.Regions.Navigation;
+using Prism.Navigation;
+using Prism.Regions;
 using Xunit;
 
 namespace Prism.Forms.Regions.Tests
@@ -43,7 +44,7 @@ namespace Prism.Forms.Regions.Tests
                 .Setup(nv =>
                     nv.RequestNavigate(
                         It.Is<Uri>(u => !u.IsAbsoluteUri && u.OriginalString == "relative"),
-                        It.Is<Action<IRegionNavigationResult>>(c => c != null)))
+                        It.Is<Action<NavigationResult>>(c => c != null)))
                 .Verifiable();
 
             string target = "relative";
@@ -61,7 +62,7 @@ namespace Prism.Forms.Regions.Tests
                 .Setup(nv =>
                     nv.RequestNavigate(
                         It.Is<Uri>(u => u.IsAbsoluteUri && u.Host == "test" && u.AbsolutePath == "/path"),
-                        It.Is<Action<IRegionNavigationResult>>(c => c != null)))
+                        It.Is<Action<NavigationResult>>(c => c != null)))
                 .Verifiable();
 
             string target = "http://test/path";
@@ -94,7 +95,7 @@ namespace Prism.Forms.Regions.Tests
                 .Setup(nv =>
                     nv.RequestNavigate(
                         target,
-                        It.Is<Action<IRegionNavigationResult>>(c => c != null)))
+                        It.Is<Action<NavigationResult>>(c => c != null)))
                 .Verifiable();
 
 

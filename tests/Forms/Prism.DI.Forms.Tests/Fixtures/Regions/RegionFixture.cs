@@ -31,7 +31,7 @@ namespace Prism.DI.Forms.Tests.Fixtures.Regions
             var vm = _app.MainPage.BindingContext as Issue2415PageViewModel;
 
             Assert.NotNull(vm.Result);
-            Assert.True(vm.Result.Result);
+            Assert.True(vm.Result.Success);
         }
 
         void IPlatformInitializer.RegisterTypes(IContainerRegistry containerRegistry)
