@@ -1,7 +1,6 @@
-
-
 using System;
 using System.ComponentModel;
+using Prism.Navigation;
 using Prism.Regions;
 
 namespace Prism.Wpf.Tests.Mocks
@@ -78,7 +77,7 @@ namespace Prism.Wpf.Tests.Mocks
             }
         }
 
-        public NavigationParameters NavigationParameters
+        public INavigationParameters NavigationParameters
         {
             get { throw new System.NotImplementedException(); }
             set { throw new System.NotImplementedException(); }
@@ -115,7 +114,7 @@ namespace Prism.Wpf.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
         {
             throw new NotImplementedException();
         }

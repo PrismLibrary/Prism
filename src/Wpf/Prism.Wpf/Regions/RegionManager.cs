@@ -13,6 +13,7 @@ using Prism.Ioc;
 using Prism.Properties;
 using Prism.Regions.Behaviors;
 using Prism.Ioc.Internals;
+using Prism.Navigation;
 
 #if HAS_WINUI
 using Microsoft.UI.Xaml;
@@ -417,7 +418,7 @@ namespace Prism.Regions
         /// <param name="target">A Uri that represents the target where the region will navigate.</param>
         /// <param name="navigationCallback">The navigation callback that will be executed after the navigation is completed.</param>
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
-        public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
         {
             if (navigationCallback == null)
                 throw new ArgumentNullException(nameof(navigationCallback));
@@ -439,7 +440,7 @@ namespace Prism.Regions
         /// <param name="target">A string that represents the target where the region will navigate.</param>
         /// <param name="navigationCallback">The navigation callback that will be executed after the navigation is completed.</param>
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
-        public void RequestNavigate(string regionName, string target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        public void RequestNavigate(string regionName, string target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
         {
             RequestNavigate(regionName, new Uri(target, UriKind.RelativeOrAbsolute), navigationCallback, navigationParameters);
         }
@@ -450,7 +451,7 @@ namespace Prism.Regions
         /// <param name="regionName">The name of the region where the navigation will occur.</param>
         /// <param name="target">A Uri that represents the target where the region will navigate.</param>
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
-        public void RequestNavigate(string regionName, Uri target, NavigationParameters navigationParameters)
+        public void RequestNavigate(string regionName, Uri target, INavigationParameters navigationParameters)
         {
             RequestNavigate(regionName, target, nr => { }, navigationParameters);
         }
@@ -461,7 +462,7 @@ namespace Prism.Regions
         /// <param name="regionName">The name of the region where the navigation will occur.</param>
         /// <param name="target">A string that represents the target where the region will navigate.</param>
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
-        public void RequestNavigate(string regionName, string target, NavigationParameters navigationParameters)
+        public void RequestNavigate(string regionName, string target, INavigationParameters navigationParameters)
         {
             RequestNavigate(regionName, new Uri(target, UriKind.RelativeOrAbsolute), nr => { }, navigationParameters);
         }

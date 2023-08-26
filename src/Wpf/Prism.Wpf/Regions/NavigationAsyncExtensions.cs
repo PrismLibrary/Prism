@@ -1,6 +1,5 @@
-
-
 using System;
+using Prism.Navigation;
 
 namespace Prism.Regions
 {
@@ -58,7 +57,7 @@ namespace Prism.Regions
         /// <param name="target">The navigation target</param>
         /// <param name="navigationCallback">The callback executed when the navigation request is completed.</param>
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
-        public static void RequestNavigate(this INavigateAsync navigation, string target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+        public static void RequestNavigate(this INavigateAsync navigation, string target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
         {
             if (navigation == null)
                 throw new ArgumentNullException(nameof(navigation));
@@ -77,7 +76,7 @@ namespace Prism.Regions
         /// <param name="navigation">The navigation object.</param>
         /// <param name="target">A Uri that represents the target where the region will navigate.</param>
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
-        public static void RequestNavigate(this INavigateAsync navigation, Uri target, NavigationParameters navigationParameters)
+        public static void RequestNavigate(this INavigateAsync navigation, Uri target, INavigationParameters navigationParameters)
         {
             if (navigation == null)
                 throw new ArgumentNullException(nameof(navigation));
@@ -91,7 +90,7 @@ namespace Prism.Regions
         /// <param name="navigation">The navigation object.</param>
         /// <param name="target">A string that represents the target where the region will navigate.</param>
         /// <param name="navigationParameters">An instance of NavigationParameters, which holds a collection of object parameters.</param>
-        public static void RequestNavigate(this INavigateAsync navigation, string target, NavigationParameters navigationParameters)
+        public static void RequestNavigate(this INavigateAsync navigation, string target, INavigationParameters navigationParameters)
         {
             if (navigation == null)
                 throw new ArgumentNullException(nameof(navigation));

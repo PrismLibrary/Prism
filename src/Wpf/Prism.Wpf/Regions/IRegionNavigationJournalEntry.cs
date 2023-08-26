@@ -1,6 +1,6 @@
-
-
 using System;
+using Prism.Navigation;
+
 namespace Prism.Regions
 {
     /// <summary>
@@ -17,6 +17,6 @@ namespace Prism.Regions
         /// <summary>
         /// Gets or sets the NavigationParameters instance.
         /// </summary>
-        NavigationParameters Parameters { get; set; }
+        INavigationParameters Parameters { get; set; }
     }
 }

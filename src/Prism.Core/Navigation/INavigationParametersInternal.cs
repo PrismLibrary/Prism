@@ -1,7 +1,7 @@
 ﻿namespace Prism.Navigation;
 
 /// <summary>
-/// Used to set internal parameters used by Prism's <see cref="INavigationService"/>
+/// Used to set internal parameters used by Prism
 /// </summary>
 public interface INavigationParametersInternal
 {

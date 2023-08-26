@@ -205,7 +205,7 @@ public class UriParsingHelperFixture
     {
         var uri = UriParsingHelper.Parse(_absoluteUriWithOutProtocol);
         Assert.NotNull(uri);
-        Assert.Equal("app://prismapp.maui" + _absoluteUriWithOutProtocol, uri.OriginalString);
+        Assert.Equal("http://localhost" + _absoluteUriWithOutProtocol, uri.OriginalString);
         Assert.True(uri.IsAbsoluteUri);
     }
 

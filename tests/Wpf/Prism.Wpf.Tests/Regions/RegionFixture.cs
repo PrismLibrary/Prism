@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using Moq;
 using Prism.Ioc;
+using Prism.Navigation;
 using Prism.Regions;
 using Prism.Wpf.Tests.Mocks;
 using Xunit;
@@ -495,22 +496,22 @@ namespace Prism.Wpf.Tests.Regions
                 throw new NotImplementedException();
             }
 
-            public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+            public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
             {
                 throw new NotImplementedException();
             }
 
-            public void RequestNavigate(string regionName, string target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+            public void RequestNavigate(string regionName, string target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
             {
                 throw new NotImplementedException();
             }
 
-            public void RequestNavigate(string regionName, Uri target, NavigationParameters navigationParameters)
+            public void RequestNavigate(string regionName, Uri target, INavigationParameters navigationParameters)
             {
                 throw new NotImplementedException();
             }
 
-            public void RequestNavigate(string regionName, string target, NavigationParameters navigationParameters)
+            public void RequestNavigate(string regionName, string target, INavigationParameters navigationParameters)
             {
                 throw new NotImplementedException();
             }

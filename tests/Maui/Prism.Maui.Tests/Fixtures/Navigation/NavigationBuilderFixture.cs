@@ -43,7 +43,7 @@ public class NavigationBuilderFixture
             .UseAbsoluteNavigation()
             .Uri;
 
-        Assert.Equal("app://prismapp.maui/ViewA", uri.ToString());
+        Assert.Equal("http://localhost/ViewA", uri.ToString());
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class NavigationBuilderFixture
             .UseAbsoluteNavigation()
             .Uri;
 
-        Assert.Equal("app://prismapp.maui/ViewA/ViewB/ViewC", uri.ToString());
+        Assert.Equal("http://localhost/ViewA/ViewB/ViewC", uri.ToString());
     }
 
     [Fact]
