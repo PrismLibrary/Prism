@@ -77,7 +77,7 @@ namespace Prism.Navigation.TabbedPages
             }
             catch (Exception ex)
             {
-                return new NavigationResult { Exception = ex };
+                return new NavigationResult(ex);
             }
 
             return new NavigationResult();

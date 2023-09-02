@@ -78,7 +78,7 @@ public class NavigateToExtensionFixture
             {
                 parameters = navParameters;
             })
-            .ReturnsAsync(new NavigationResult { Exception = new Exception() });
+            .ReturnsAsync(new NavigationResult(new Exception()));
 
         var registry = container.Resolve<NavigationRegistry>();
         var page = registry.CreateView(container, "PageMock") as Page;

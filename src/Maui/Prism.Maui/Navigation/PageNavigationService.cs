@@ -1142,10 +1142,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
     private INavigationResult Notify(NavigationRequestType type, INavigationParameters parameters, Exception exception = null)
     {
-        var result = new NavigationResult
-        {
-            Exception = exception
-        };
+        var result = new NavigationResult(exception);
         _eventAggregator.GetEvent<NavigationRequestEvent>().Publish(new NavigationRequestContext
         {
             Parameters = parameters,
@@ -1158,10 +1155,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
     private INavigationResult Notify(Uri uri, INavigationParameters parameters, Exception exception = null)
     {
-        var result = new NavigationResult
-        {
-            Exception = exception
-        };
+        var result = new NavigationResult(exception);
 
         var temp = Regex.Replace(uri.ToString(), RemovePageInstruction, RemovePageRelativePath);
 

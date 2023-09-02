@@ -101,10 +101,7 @@ namespace Prism.Navigation
                 var canNavigate = await PageUtilities.CanNavigateAsync(page, segmentParameters);
                 if (!canNavigate)
                 {
-                    return new NavigationResult
-                    {
-                        Exception = new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page)
-                    };
+                    return new NavigationResult(new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page));
                 }
 
                 bool useModalForDoPop = UseModalGoBack(page, useModalNavigation);
@@ -122,17 +119,14 @@ namespace Prism.Navigation
             }
             catch (Exception ex)
             {
-                return new NavigationResult { Exception = ex };
+                return new NavigationResult(ex);
             }
             finally
             {
                 NavigationSource = PageNavigationSource.Device;
             }
 
-            return new NavigationResult
-            {
-                Exception = GetGoBackException(page, _applicationProvider.MainPage)
-            };
+            return new NavigationResult(GetGoBackException(page, _applicationProvider.MainPage));
         }
 
         private static Exception GetGoBackException(Page currentPage, Page mainPage)
@@ -209,10 +203,7 @@ namespace Prism.Navigation
                 var canNavigate = await PageUtilities.CanNavigateAsync(page, parameters);
                 if (!canNavigate)
                 {
-                    return new NavigationResult
-                    {
-                        Exception = new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page)
-                    };
+                    return new NavigationResult(new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page));
                 }
 
                 List<Page> pagesToDestroy = page.Navigation.NavigationStack.ToList(); // get all pages to destroy
@@ -234,7 +225,7 @@ namespace Prism.Navigation
             }
             catch (Exception ex)
             {
-                return new NavigationResult { Exception = ex };
+                return new NavigationResult(ex);
             }
         }
 
@@ -361,7 +352,7 @@ namespace Prism.Navigation
             }
             catch (Exception ex)
             {
-                return new NavigationResult { Exception = ex };
+                return new NavigationResult(ex);
             }
             finally
             {

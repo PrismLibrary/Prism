@@ -7,7 +7,7 @@ namespace Prism.Navigation;
 /// <summary>
 /// Default implementation for the <see cref="INavigationResult"/>
 /// </summary>
-public record NavigationResult : INavigationResult
+public class NavigationResult : INavigationResult
 {
     private readonly bool? _success;
 
@@ -25,6 +25,15 @@ public record NavigationResult : INavigationResult
     public NavigationResult(bool success)
     {
         _success = success;
+    }
+
+    /// <summary>
+    /// Initializes a new NavigationResult with an <see cref="Exception"/>
+    /// </summary>
+    /// <param name="ex">The <see cref="Exception"/> encountered as part of the navigation.</param>
+    public NavigationResult(Exception ex)
+    {
+        Exception = ex;
     }
 
     /// <summary>
@@ -58,8 +67,8 @@ public record NavigationResult : INavigationResult
         && navigationException.Message == NavigationException.IConfirmNavigationReturnedFalse;
 
     /// <inheritdoc />
-    public Exception? Exception { get; init; }
+    public Exception? Exception { get; }
 
     /// <inheritdoc />
-    public NavigationContext? Context { get; init; }
+    public NavigationContext? Context { get; }
 }
