@@ -42,6 +42,14 @@ namespace Prism.Regions
         /// <summary>
         /// Adds a new view to the region.
         /// </summary>
+        /// <param name="viewName">The view to add.</param>
+        /// <returns>The <see cref="IRegionManager"/> that is set on the view. It will be the current region manager when using this overload.</returns>
+        IRegionManager Add(string viewName);
+
+        ///<overloads>Adds a new view to the region.</overloads>
+        /// <summary>
+        /// Adds a new view to the region.
+        /// </summary>
         /// <param name="view">The view to add.</param>
         /// <returns>The <see cref="IRegionManager"/> that is set on the view. It will be the current region manager when using this overload.</returns>
         IRegionManager Add(object view);

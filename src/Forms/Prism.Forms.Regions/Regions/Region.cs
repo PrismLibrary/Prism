@@ -229,6 +229,15 @@ namespace Prism.Regions
             }
         }
 
+        /// <summary>
+        /// Add a View by name.
+        /// </summary>
+        /// <param name="viewName"></param>
+        /// <returns></returns>
+        /// <remarks>Xamarin.Forms is in maintenance mode. This feature is not being supported.</remarks>
+        /// <exception cref="NotImplementedException"></exception>
+        public IRegionManager Add(string viewName) => throw new NotImplementedException();
+
         /// <overloads>Adds a new view to the region.</overloads>
         /// <summary>
         /// Adds a new view to the region.

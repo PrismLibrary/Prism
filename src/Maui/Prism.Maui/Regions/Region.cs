@@ -265,7 +265,7 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
     {
         if (view is not VisualElement visualElement)
         {
-            throw new Exception("The view must inherit from VisualElement.");
+            throw new UpdateRegionsException("The view must inherit from VisualElement.");
         }
 
         if (ItemMetadataCollection.FirstOrDefault(x => x.Item == view) != null)

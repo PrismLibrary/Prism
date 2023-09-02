@@ -14,6 +14,9 @@ namespace Prism.Wpf.Tests.Mocks
         {
             Behaviors = new MockRegionBehaviorCollection();
         }
+
+        public IRegionManager Add(string viewName) => throw new NotImplementedException();
+
         public IRegionManager Add(object view)
         {
             MockViews.Items.Add(view);

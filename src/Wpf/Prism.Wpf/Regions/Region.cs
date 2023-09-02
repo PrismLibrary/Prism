@@ -32,6 +32,7 @@ namespace Prism.Regions
         private object _context;
         private IRegionManager _regionManager;
         private IRegionNavigationService _regionNavigationService;
+        private IContainerProvider _container;
 
         private Comparison<object> _sort;
 
@@ -41,6 +42,7 @@ namespace Prism.Regions
         public Region()
         {
             Behaviors = new RegionBehaviorCollection(this);
+            _container = ContainerLocator.Container;
 
             _sort = DefaultSortComparison;
         }
@@ -230,11 +232,23 @@ namespace Prism.Regions
         /// <summary>
         /// Adds a new view to the region.
         /// </summary>
+        /// <param name="viewName">The view to add.</param>
+        /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="DependencyObject"/>. It will be the current region manager when using this overload.</returns>
+        public IRegionManager Add(string viewName)
+        {
+            var view = _container.Resolve<object>(viewName);
+            return Add(view, viewName, false);
+        }
+
+        /// <overloads>Adds a new view to the region.</overloads>
+        /// <summary>
+        /// Adds a new view to the region.
+        /// </summary>
         /// <param name="view">The view to add.</param>
         /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="DependencyObject"/>. It will be the current region manager when using this overload.</returns>
         public IRegionManager Add(object view)
         {
-            return this.Add(view, null, false);
+            return Add(view, null, false);
         }
 
         /// <summary>
@@ -250,7 +264,7 @@ namespace Prism.Regions
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.StringCannotBeNullOrEmpty, "viewName"));
             }
 
-            return this.Add(view, viewName, false);
+            return Add(view, viewName, false);
         }
 
         /// <summary>
@@ -262,8 +276,8 @@ namespace Prism.Regions
         /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="DependencyObject"/>.</returns>
         public virtual IRegionManager Add(object view, string viewName, bool createRegionManagerScope)
         {
-            IRegionManager manager = createRegionManagerScope ? this.RegionManager.CreateRegionManager() : this.RegionManager;
-            this.InnerAdd(view, viewName, manager);
+            IRegionManager manager = createRegionManagerScope ? RegionManager.CreateRegionManager() : RegionManager;
+            InnerAdd(view, viewName, manager);
             return manager;
         }
 
@@ -273,11 +287,11 @@ namespace Prism.Regions
         /// <param name="view">The view to remove.</param>
         public virtual void Remove(object view)
         {
-            ItemMetadata itemMetadata = this.GetItemMetadataOrThrow(view);
+            ItemMetadata itemMetadata = GetItemMetadataOrThrow(view);
 
             ItemMetadataCollection.Remove(itemMetadata);
 
-            if (view is DependencyObject dependencyObject && Regions.RegionManager.GetRegionManager(dependencyObject) == this.RegionManager)
+            if (view is DependencyObject dependencyObject && Regions.RegionManager.GetRegionManager(dependencyObject) == RegionManager)
             {
                 dependencyObject.ClearValue(Regions.RegionManager.RegionManagerProperty);
             }
@@ -300,7 +314,7 @@ namespace Prism.Regions
         /// <param name="view">The view to activate.</param>
         public virtual void Activate(object view)
         {
-            ItemMetadata itemMetadata = this.GetItemMetadataOrThrow(view);
+            ItemMetadata itemMetadata = GetItemMetadataOrThrow(view);
 
             if (!itemMetadata.IsActive)
             {
@@ -314,7 +328,7 @@ namespace Prism.Regions
         /// <param name="view">The view to deactivate.</param>
         public virtual void Deactivate(object view)
         {
-            ItemMetadata itemMetadata = this.GetItemMetadataOrThrow(view);
+            ItemMetadata itemMetadata = GetItemMetadataOrThrow(view);
 
             if (itemMetadata.IsActive)
             {
@@ -334,7 +348,7 @@ namespace Prism.Regions
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.StringCannotBeNullOrEmpty, "viewName"));
             }
 
-            ItemMetadata metadata = this.ItemMetadataCollection.FirstOrDefault(x => x.Name == viewName);
+            ItemMetadata metadata = ItemMetadataCollection.FirstOrDefault(x => x.Name == viewName);
 
             if (metadata != null)
             {
@@ -351,7 +365,7 @@ namespace Prism.Regions
         /// <param name="navigationCallback">A callback to execute when the navigation request is completed.</param>
         public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback)
         {
-            this.RequestNavigate(target, navigationCallback, null);
+            RequestNavigate(target, navigationCallback, null);
         }
 
         /// <summary>
@@ -362,22 +376,22 @@ namespace Prism.Regions
         /// <param name="navigationParameters">The navigation parameters specific to the navigation request.</param>
         public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
         {
-            this.NavigationService.RequestNavigate(target, navigationCallback, navigationParameters);
+            NavigationService.RequestNavigate(target, navigationCallback, navigationParameters);
         }
 
         private void InnerAdd(object view, string viewName, IRegionManager scopedRegionManager)
         {
-            if (this.ItemMetadataCollection.FirstOrDefault(x => x.Item == view) != null)
+            if (ItemMetadataCollection.FirstOrDefault(x => x.Item == view) != null)
             {
                 throw new InvalidOperationException(Resources.RegionViewExistsException);
             }
 
-            ItemMetadata itemMetadata = new ItemMetadata(view);
+            var itemMetadata = new ItemMetadata(view);
             if (!string.IsNullOrEmpty(viewName))
             {
-                if (this.ItemMetadataCollection.FirstOrDefault(x => x.Name == viewName) != null)
+                if (ItemMetadataCollection.FirstOrDefault(x => x.Name == viewName) != null)
                 {
-                    throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, Resources.RegionViewNameExistsException, viewName));
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, Resources.RegionViewNameExistsException, viewName));
                 }
                 itemMetadata.Name = viewName;
             }
@@ -388,7 +402,7 @@ namespace Prism.Regions
                 Regions.RegionManager.SetRegionManager(dependencyObject, scopedRegionManager);
             }
 
-            this.ItemMetadataCollection.Add(itemMetadata);
+            ItemMetadataCollection.Add(itemMetadata);
         }
 
         private ItemMetadata GetItemMetadataOrThrow(object view)
@@ -396,7 +410,7 @@ namespace Prism.Regions
             if (view == null)
                 throw new ArgumentNullException(nameof(view));
 
-            ItemMetadata itemMetadata = this.ItemMetadataCollection.FirstOrDefault(x => x.Item == view);
+            ItemMetadata itemMetadata = ItemMetadataCollection.FirstOrDefault(x => x.Item == view);
 
             if (itemMetadata == null)
                 throw new ArgumentException(Resources.ViewNotInRegionException, nameof(view));

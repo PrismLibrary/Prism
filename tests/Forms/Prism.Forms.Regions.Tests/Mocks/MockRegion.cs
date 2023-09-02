@@ -33,6 +33,8 @@ namespace Prism.Forms.Regions.Mocks
 
         public string Name { get; set; }
 
+        public IRegionManager Add(string viewName) => throw new NotImplementedException();
+
         public IRegionManager Add(object view)
         {
             _views.Add(view);

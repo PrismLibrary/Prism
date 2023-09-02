@@ -36,6 +36,8 @@ namespace Prism.Wpf.Tests.Mocks
 
         public string Name { get; set; }
 
+        public IRegionManager Add(string viewName) => throw new NotImplementedException();
+
         public IRegionManager Add(object view)
         {
             this.views.Add(view);
