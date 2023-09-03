@@ -44,7 +44,8 @@ namespace Prism.Forms.Regions.Tests
                 .Setup(nv =>
                     nv.RequestNavigate(
                         It.Is<Uri>(u => !u.IsAbsoluteUri && u.OriginalString == "relative"),
-                        It.Is<Action<NavigationResult>>(c => c != null)))
+                        It.Is<Action<NavigationResult>>(c => c != null),
+                        It.Is<INavigationParameters>(p => p != null)))
                 .Verifiable();
 
             string target = "relative";
@@ -62,7 +63,8 @@ namespace Prism.Forms.Regions.Tests
                 .Setup(nv =>
                     nv.RequestNavigate(
                         It.Is<Uri>(u => u.IsAbsoluteUri && u.Host == "test" && u.AbsolutePath == "/path"),
-                        It.Is<Action<NavigationResult>>(c => c != null)))
+                        It.Is<Action<NavigationResult>>(c => c != null),
+                        It.Is<INavigationParameters>(p => p != null)))
                 .Verifiable();
 
             string target = "http://test/path";
@@ -95,7 +97,8 @@ namespace Prism.Forms.Regions.Tests
                 .Setup(nv =>
                     nv.RequestNavigate(
                         target,
-                        It.Is<Action<NavigationResult>>(c => c != null)))
+                        It.Is<Action<NavigationResult>>(c => c != null),
+                        It.Is<INavigationParameters>(p => p != null)))
                 .Verifiable();
 
 

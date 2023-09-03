@@ -76,14 +76,14 @@ namespace Prism.Forms.Regions.Tests
         public void DelegatesCallToRegion_RegionSource()
         {
             regionManager.RequestNavigate(region, source);
-            mockNavigation.Verify((r) => r.RequestNavigate(sourceUri, It.IsAny<Action<NavigationResult>>(), null));
+            mockNavigation.Verify((r) => r.RequestNavigate(sourceUri, It.IsAny<Action<NavigationResult>>(), It.IsAny<INavigationParameters>()));
         }
 
         [Fact]
         public void DelegatesCallToRegion_RegionTarget()
         {
             regionManager.RequestNavigate(region, sourceUri);
-            mockNavigation.Verify((r) => r.RequestNavigate(sourceUri, It.IsAny<Action<NavigationResult>>(), null));
+            mockNavigation.Verify((r) => r.RequestNavigate(sourceUri, It.IsAny<Action<NavigationResult>>(), It.IsAny<INavigationParameters>()));
         }
 
         [Fact]
@@ -104,14 +104,14 @@ namespace Prism.Forms.Regions.Tests
         public void DelegatesCallToRegion_RegionSourceCallback()
         {
             regionManager.RequestNavigate(region, source, callback);
-            mockNavigation.Verify((r) => r.RequestNavigate(sourceUri, callback, null));
+            mockNavigation.Verify((r) => r.RequestNavigate(sourceUri, callback, It.IsAny<INavigationParameters>()));
         }
 
         [Fact]
         public void DelegatesCallToRegion_RegionTargetCallback()
         {
             regionManager.RequestNavigate(region, sourceUri, callback);
-            mockNavigation.Verify((r) => r.RequestNavigate(sourceUri, callback, null));
+            mockNavigation.Verify((r) => r.RequestNavigate(sourceUri, callback, It.IsAny<INavigationParameters>()));
         }
 
         [Fact]

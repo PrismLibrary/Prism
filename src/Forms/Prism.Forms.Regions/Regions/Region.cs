@@ -311,7 +311,7 @@ namespace Prism.Regions
         /// </summary>
         /// <param name="viewName">The name used when adding the view to the region.</param>
         /// <returns>Returns the named view or <see langword="null"/> if the view with <paramref name="viewName"/> does not exist in the current region.</returns>
-        public virtual VisualElement GetView(string viewName)
+        public virtual object GetView(string viewName)
         {
             if (string.IsNullOrEmpty(viewName))
             {
@@ -431,14 +431,10 @@ namespace Prism.Regions
             }
         }
 
-        object IRegion.GetView(string viewName)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <inheritDoc />
         public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
         {
-            throw new NotImplementedException();
+            _regionNavigationService.RequestNavigate(target, navigationCallback, navigationParameters);
         }
     }
 }
