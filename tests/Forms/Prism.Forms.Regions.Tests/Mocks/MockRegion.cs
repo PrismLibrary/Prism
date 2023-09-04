@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using Prism.Navigation;
-using Prism.Regions;
-using Prism.Regions.Behaviors;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Behaviors;
+using Prism.Navigation.Regions.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.Forms.Regions.Mocks

@@ -1,9 +1,10 @@
 ﻿using Microsoft.Maui.Controls.Compatibility;
 using Prism.Mvvm;
-using Prism.Regions;
-using Prism.Regions.Adapters;
-using Prism.Regions.Behaviors;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Adapters;
+using Prism.Navigation.Regions.Behaviors;
+using Prism.Navigation.Regions.Navigation;
+using Prism.Navigation.Regions;
 
 namespace Prism.Ioc;
 
@@ -19,7 +20,7 @@ public static class RegionNavigationRegistrationExtensions
     /// <param name="containerRegistry"><see cref="IContainerRegistry"/> used to register type for Navigation.</param>
     /// <param name="name">The unique name to register with the View</param>
     public static IContainerRegistry RegisterForRegionNavigation<TView>(this IContainerRegistry containerRegistry, string name = null)
-        where TView : View => 
+        where TView : View =>
         containerRegistry.RegisterForNavigationWithViewModel(typeof(TView), null, name);
 
     /// <summary>
@@ -31,7 +32,7 @@ public static class RegionNavigationRegistrationExtensions
     /// <param name="containerRegistry"></param>
     public static IContainerRegistry RegisterForRegionNavigation<TView, TViewModel>(this IContainerRegistry containerRegistry, string name = null)
         where TView : View
-        where TViewModel : class => 
+        where TViewModel : class =>
         containerRegistry.RegisterForNavigationWithViewModel(typeof(TView), typeof(TViewModel), name);
 
     private static IContainerRegistry RegisterForNavigationWithViewModel(this IContainerRegistry containerRegistry, Type viewType, Type viewModelType, string name)
@@ -41,7 +42,7 @@ public static class RegionNavigationRegistrationExtensions
 
         if (viewModelType is not null)
             containerRegistry.Register(viewModelType);
-        
+
         containerRegistry.Register(viewType)
             .RegisterInstance(new ViewRegistration
             {

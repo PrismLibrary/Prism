@@ -1,7 +1,7 @@
 ﻿using System;
 using Moq;
 using Prism.Navigation;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Xunit;
 
 namespace Prism.Wpf.Tests.Regions

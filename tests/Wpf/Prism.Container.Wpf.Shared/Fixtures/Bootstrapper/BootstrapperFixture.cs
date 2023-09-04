@@ -2,7 +2,7 @@
 using Prism.Container.Wpf.Mocks;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Xunit;
 using static Prism.Container.Wpf.Tests.ContainerHelper;
 

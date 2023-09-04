@@ -2,8 +2,8 @@ using System;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Regions;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Navigation;
 
 namespace HelloRegions.ViewModels
 {

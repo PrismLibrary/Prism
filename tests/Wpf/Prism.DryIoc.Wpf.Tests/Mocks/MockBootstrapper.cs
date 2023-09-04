@@ -6,7 +6,7 @@ using DryIoc;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace Prism.Container.Wpf.Mocks
 {

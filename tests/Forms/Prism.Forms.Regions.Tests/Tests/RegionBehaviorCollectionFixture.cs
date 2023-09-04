@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Prism.Forms.Regions.Mocks;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Xunit;
 
 namespace Prism.Forms.Regions.Tests

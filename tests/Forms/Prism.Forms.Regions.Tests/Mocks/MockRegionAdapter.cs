@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Prism.Regions;
-using Prism.Regions.Adapters;
+using Prism.Navigation.Regions;
 using Xamarin.Forms;
+using RegionManager = Prism.Navigation.Regions.Xaml.RegionManager;
 
 namespace Prism.Forms.Regions.Mocks
 {
@@ -17,7 +17,7 @@ namespace Prism.Forms.Regions.Mocks
 
             var region = new MockPresentationRegion();
             if (regionTarget is VisualElement element)
-            Prism.Regions.Xaml.RegionManager.GetObservableRegion(element).Value = region;
+            RegionManager.GetObservableRegion(element).Value = region;
 
             // Fire update regions again. This also happens if a region is created and added to the RegionManager
             if (Accessor != null)

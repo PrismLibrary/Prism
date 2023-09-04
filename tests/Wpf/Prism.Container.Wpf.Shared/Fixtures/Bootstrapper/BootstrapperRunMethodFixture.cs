@@ -3,7 +3,7 @@ using Prism.Container.Wpf.Mocks;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Xunit;
 
 namespace Prism.Container.Wpf.Tests.Bootstrapper

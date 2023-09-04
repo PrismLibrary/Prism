@@ -5,8 +5,7 @@ using Prism.Common;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
-using Prism.Regions;
-using Uno.Extensions.Hosting;
+using Prism.Navigation.Regions;
 using Application = Microsoft.UI.Xaml.Application;
 
 #nullable enable
@@ -132,8 +131,8 @@ namespace Prism
 
                 void FinalizeInitialization()
                 {
-                    Regions.RegionManager.SetRegionManager(shell, _containerExtension.Resolve<IRegionManager>());
-                    Regions.RegionManager.UpdateRegions();
+                    Navigation.Regions.RegionManager.SetRegionManager(shell, _containerExtension.Resolve<IRegionManager>());
+                    Navigation.Regions.RegionManager.UpdateRegions();
                     _host = builder.Build();
                     InitializeModules();
                     OnInitialized();

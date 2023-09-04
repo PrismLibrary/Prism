@@ -1,6 +1,6 @@
 
 
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace Prism.Wpf.Tests.Mocks
 {

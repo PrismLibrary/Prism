@@ -1,7 +1,7 @@
 ﻿using System;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions.Navigation;
 
 namespace HelloRegions.ViewModels
 {

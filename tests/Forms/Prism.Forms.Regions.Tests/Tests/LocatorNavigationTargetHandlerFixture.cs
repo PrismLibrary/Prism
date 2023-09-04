@@ -4,11 +4,12 @@ using System.Text;
 using Moq;
 using Prism.Ioc;
 using Prism.Ioc.Internals;
-using Prism.Regions;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Navigation;
+using Prism.Navigation.Regions;
 using Xamarin.Forms;
 using Xunit;
-using Region = Prism.Regions.Region;
+using Region = Prism.Navigation.Regions.Region;
 
 namespace Prism.Forms.Regions.Tests
 {

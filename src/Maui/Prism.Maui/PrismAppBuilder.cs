@@ -9,9 +9,9 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Adapters;
 using Prism.Navigation.Xaml;
-using Prism.Regions;
-using Prism.Regions.Adapters;
 using Prism.Services;
 using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
 

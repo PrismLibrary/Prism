@@ -5,8 +5,8 @@ public class MockPageWithRegionAndDefaultView : ContentPage
     public MockPageWithRegionAndDefaultView()
     {
         var view = new ContentView();
-        view.SetValue(Prism.Regions.Xaml.RegionManager.RegionNameProperty, "Demo");
-        view.SetValue(Prism.Regions.Xaml.RegionManager.DefaultViewProperty, "MockRegionViewA");
+        view.SetValue(Prism.Navigation.Regions.Xaml.RegionManager.RegionNameProperty, "Demo");
+        view.SetValue(Prism.Navigation.Regions.Xaml.RegionManager.DefaultViewProperty, "MockRegionViewA");
         Content = view;
     }
 }

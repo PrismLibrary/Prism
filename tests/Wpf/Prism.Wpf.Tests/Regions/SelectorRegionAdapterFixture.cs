@@ -3,8 +3,8 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using Prism.Regions;
-using Prism.Regions.Behaviors;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Behaviors;
 using Xunit;
 
 namespace Prism.Wpf.Tests.Regions

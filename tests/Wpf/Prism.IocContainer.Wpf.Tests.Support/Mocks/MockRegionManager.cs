@@ -1,7 +1,7 @@
 using System;
 using Prism.Ioc;
 using Prism.Navigation;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace Prism.IocContainer.Wpf.Tests.Support.Mocks
 {

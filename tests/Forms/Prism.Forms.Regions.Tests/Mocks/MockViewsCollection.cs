@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Xamarin.Forms;
 
 namespace Prism.Forms.Regions.Mocks

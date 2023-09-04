@@ -5,10 +5,11 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using Prism.Forms.Regions.Mocks;
-using Prism.Regions;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions;
 using Xamarin.Forms;
 using Xunit;
-using Region = Prism.Regions.Region;
+using Region = Prism.Navigation.Regions.Region;
 
 namespace Prism.Forms.Regions.Tests
 {

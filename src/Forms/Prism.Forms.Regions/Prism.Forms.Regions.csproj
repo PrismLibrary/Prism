@@ -13,13 +13,13 @@ Prism.Forms.Regions helps you more easily design and build rich, flexible, and e
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\RegionViewRegistry.cs" Link="Regions\%(Filename)%(Extension)" />
-    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\*Exception.cs" Link="Regions\%(Filename)%(Extension)" />
-    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\*Exception.Desktop.cs" Link="Regions\%(Filename)%(Extension)" />
-    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\Behaviors\*Exception.cs" Link="Regions\Behaviors\%(Filename)%(Extension)" />
-    <Compile Include="..\..\Wpf\Prism.Wpf\Regions\Behaviors\*Exception.Desktop.cs" Link="Regions\Behaviors\%(Filename)%(Extension)" />
-    <Compile Remove="..\..\Wpf\Prism.Wpf\Regions\Behaviors\RegionCreationException.cs" />
-    <Compile Remove="..\..\Wpf\Prism.Wpf\Regions\Behaviors\RegionCreationException.Desktop.cs" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Navigation\Regions\RegionViewRegistry.cs" Link="Navigation\Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Navigation\Regions\*Exception.cs" Link="Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Navigation\Regions\*Exception.Desktop.cs" Link="Navigation\Regions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Navigation\Regions\Behaviors\*Exception.cs" Link="Navigation\Regions\Behaviors\%(Filename)%(Extension)" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Navigation\Regions\Behaviors\*Exception.Desktop.cs" Link="Navigation\Regions\Behaviors\%(Filename)%(Extension)" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Navigation\Regions\Behaviors\RegionCreationException.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Navigation\Regions\Behaviors\RegionCreationException.Desktop.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

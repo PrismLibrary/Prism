@@ -2,8 +2,7 @@
 using System.Reflection;
 using Prism.Navigation;
 using Prism.Navigation.Xaml;
-using Prism.Regions;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
 using NavigationMode = Prism.Navigation.NavigationMode;
 using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
 

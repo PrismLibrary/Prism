@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace Prism.Forms.Regions.Mocks
 {

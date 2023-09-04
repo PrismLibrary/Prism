@@ -1,4 +1,4 @@
-﻿using Prism.Regions.Navigation;
+﻿using Prism.Navigation.Regions.Navigation;
 
 namespace HelloRegions.ViewModels
 {

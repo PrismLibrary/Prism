@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Moq;
 using Prism.Ioc;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Prism.Wpf.Tests.Mvvm;
 using Xunit;
 

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Regions;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.DI.Forms.Tests.Mocks.ViewModels

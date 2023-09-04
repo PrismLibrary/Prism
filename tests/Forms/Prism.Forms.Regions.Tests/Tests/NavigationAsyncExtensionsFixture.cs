@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Moq;
 using Prism.Navigation;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Xunit;
 
 namespace Prism.Forms.Regions.Tests

@@ -1,14 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using Prism.Ioc;
 using Prism.Navigation;
-using Prism.Regions;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions.Navigation;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Navigation;
 using Xamarin.Forms;
 using Xunit;
-using Region = Prism.Regions.Region;
+using Region = Prism.Navigation.Regions.Region;
 
 namespace Prism.Forms.Regions.Tests
 {

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using Prism.Ioc;
 using Prism.Navigation;
-using Prism.Regions;
-using Prism.Regions.Behaviors;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
 using Xunit;
 

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using Prism.Forms.Regions.Mocks;
 using Prism.Ioc;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Xamarin.Forms;
 using Xunit;
-using Region = Prism.Regions.Region;
+using Region = Prism.Navigation.Regions.Region;
 
 namespace Prism.Forms.Regions.Tests
 {
@@ -129,7 +128,7 @@ namespace Prism.Forms.Regions.Tests
 
             try
             {
-                Prism.Regions.Xaml.RegionManager.UpdatingRegions += listener.OnUpdatingRegions;
+                Navigation.Regions.Xaml.RegionManager.UpdatingRegions += listener.OnUpdatingRegions;
                 var regionManager = new RegionManager();
                 regionManager.Regions.ContainsRegionWithName("TestRegion");
                 Assert.True(listener.OnUpdatingRegionsCalled);
@@ -152,7 +151,7 @@ namespace Prism.Forms.Regions.Tests
             }
             finally
             {
-                Prism.Regions.Xaml.RegionManager.UpdatingRegions -= listener.OnUpdatingRegions;
+                Navigation.Regions.Xaml.RegionManager.UpdatingRegions -= listener.OnUpdatingRegions;
             }
         }
 
@@ -168,7 +167,7 @@ namespace Prism.Forms.Regions.Tests
             observableObject.PropertyChanged += (sender, args) => propertyChangedCalled = true;
 
             Assert.Null(observableObject.Value);
-            Prism.Regions.Xaml.RegionManager.SetRegionContext(view, "MyContext");
+            Navigation.Regions.Xaml.RegionManager.SetRegionContext(view, "MyContext");
             Assert.True(propertyChangedCalled);
             Assert.Equal("MyContext", observableObject.Value);
         }
@@ -177,8 +176,8 @@ namespace Prism.Forms.Regions.Tests
         public async Task ShouldNotPreventSubscribersToStaticEventFromBeingGarbageCollected()
         {
             var subscriber = new MySubscriberClass();
-            Prism.Regions.Xaml.RegionManager.UpdatingRegions += subscriber.OnUpdatingRegions;
-            Prism.Regions.Xaml.RegionManager.UpdateRegions();
+            Navigation.Regions.Xaml.RegionManager.UpdatingRegions += subscriber.OnUpdatingRegions;
+            Navigation.Regions.Xaml.RegionManager.UpdateRegions();
             Assert.True(subscriber.OnUpdatingRegionsCalled);
             var subscriberWeakReference = new WeakReference(subscriber);
 
@@ -195,11 +194,11 @@ namespace Prism.Forms.Regions.Tests
             try
             {
                 ExceptionExtensions.RegisterFrameworkExceptionType(typeof(FrameworkException));
-                Prism.Regions.Xaml.RegionManager.UpdatingRegions += new EventHandler(RegionManager_UpdatingRegions);
+                Navigation.Regions.Xaml.RegionManager.UpdatingRegions += new EventHandler(RegionManager_UpdatingRegions);
 
                 try
                 {
-                    Prism.Regions.Xaml.RegionManager.UpdateRegions();
+                    Navigation.Regions.Xaml.RegionManager.UpdateRegions();
                     //Assert.Fail();
                 }
                 catch (Exception ex)
@@ -209,7 +208,7 @@ namespace Prism.Forms.Regions.Tests
             }
             finally
             {
-                Prism.Regions.Xaml.RegionManager.UpdatingRegions -= new EventHandler(RegionManager_UpdatingRegions);
+                Navigation.Regions.Xaml.RegionManager.UpdatingRegions -= new EventHandler(RegionManager_UpdatingRegions);
             }
         }
 
