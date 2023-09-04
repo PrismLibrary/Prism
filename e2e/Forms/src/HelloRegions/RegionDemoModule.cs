@@ -1,4 +1,3 @@
-using System;
 using HelloRegions.ViewModels;
 using HelloRegions.Views;
 using Prism.Ioc;

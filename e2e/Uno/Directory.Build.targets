@@ -1,4 +1,3 @@
 <Project ToolsVersion="15.0">
-  <Import Project="..\..\src\Prism.Core\build\Prism.Uno.WinUI.targets" />
-  <Import Project="..\..\src\Uno\Prism.Uno\build\Prism.Uno.WinUI.targets" />
+  <Import Project="..\..\src\Prism.Core\build\Package.targets" />
 </Project>
