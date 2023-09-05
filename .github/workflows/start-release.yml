@@ -51,7 +51,7 @@ jobs:
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
-      dotnet-version: 7.0.102
+      dotnet-version: 7.0.400
       windows-sdk-version: 18362
       uno-check: true
       uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip vsmac'
@@ -70,6 +70,8 @@ jobs:
     with:
       name: Build Prism.Maui
       solution-path: PrismLibrary_Maui.slnf
+      dotnet-version: 8.0.x
+      install-workload: maui maui-tizen
       code-sign: true
       artifact-name: Maui
     secrets:
