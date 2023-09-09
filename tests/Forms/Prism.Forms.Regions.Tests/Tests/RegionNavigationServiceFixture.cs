@@ -10,6 +10,7 @@ using Prism.Navigation.Regions.Navigation;
 using Xamarin.Forms;
 using Xunit;
 using Region = Prism.Navigation.Regions.Region;
+using NuGet.Frameworks;
 
 namespace Prism.Forms.Regions.Tests
 {
@@ -1004,7 +1005,10 @@ namespace Prism.Forms.Regions.Tests
             var region = new Region();
 
             var navigationUri = new Uri("/", UriKind.Relative);
-            IContainerExtension container = new Mock<IContainerExtension>().Object;
+            var containerMock = new Mock<IContainerExtension>();
+            containerMock.Setup(x => x.Resolve(typeof(IActiveRegionHelper)))
+                .Returns(new RegionResolverOverrides());
+            var container = containerMock.Object;
             var contentLoader = new Mock<RegionNavigationContentLoader>(container).Object;
             IRegionNavigationJournal journal = Mock.Of<IRegionNavigationJournal>();
 
@@ -1013,11 +1017,11 @@ namespace Prism.Forms.Regions.Tests
                 Region = region
             };
 
-            ExceptionAssert.Throws<ArgumentNullException>(
-                () =>
-                {
-                    target.RequestNavigate(navigationUri);
-                });
+            Exception ex = null;
+            target.RequestNavigate(navigationUri, x => ex = x.Exception);
+
+            Assert.NotNull(ex);
+            Assert.IsType<RegionViewException>(ex);
         }
 
         [Fact]
@@ -1040,7 +1044,11 @@ namespace Prism.Forms.Regions.Tests
         [Fact]
         public void WhenNavigatingWithNullUri_ThenMarshallExceptionToCallback()
         {
-            IContainerExtension container = new Mock<IContainerExtension>().Object;
+
+            var containerMock = new Mock<IContainerExtension>();
+            containerMock.Setup(x => x.Resolve(typeof(IActiveRegionHelper)))
+                .Returns(new RegionResolverOverrides());
+            var container = containerMock.Object;
             var contentLoader = new Mock<RegionNavigationContentLoader>(container).Object;
             IRegionNavigationJournal journal = Mock.Of<IRegionNavigationJournal>();
 
@@ -1053,7 +1061,7 @@ namespace Prism.Forms.Regions.Tests
             target.RequestNavigate("", nr => error = nr.Exception);
 
             Assert.NotNull(error);
-            Assert.IsType<ArgumentNullException>(error);
+            Assert.IsType<RegionViewException>(error);
         }
 
 

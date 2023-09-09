@@ -94,7 +94,7 @@ namespace Prism.Forms.Regions.Tests
         [Fact]
         public void AddingDuplicateNamedViewThrows()
         {
-            var ex = Assert.Throws<InvalidOperationException>(() =>
+            var ex = Assert.Throws<RegionViewException>(() =>
             {
                 IRegion region = new Region();
 

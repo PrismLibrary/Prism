@@ -282,12 +282,12 @@ namespace Prism.Navigation.Regions
         {
             if (ItemMetadataCollection.FirstOrDefault(x => x.Item == view) != null)
             {
-                throw new InvalidOperationException(Resources.RegionViewExistsException);
+                throw new RegionViewException(Resources.RegionViewExistsException);
             }
 
             if (view is not VisualElement visualElement)
             {
-                throw new Exception("View is not a Visual Element");
+                throw new RegionViewException(Resources.RegionViewIsNotVisualElementException);
             }
 
             var itemMetadata = new ItemMetadata(visualElement);
@@ -295,7 +295,7 @@ namespace Prism.Navigation.Regions
             {
                 if (ItemMetadataCollection.FirstOrDefault(x => x.Name == viewName) != null)
                 {
-                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, Resources.RegionViewNameExistsException, viewName));
+                    throw new RegionViewException(string.Format(CultureInfo.InvariantCulture, Resources.RegionViewNameExistsException, viewName));
                 }
                 itemMetadata.Name = viewName;
             }
