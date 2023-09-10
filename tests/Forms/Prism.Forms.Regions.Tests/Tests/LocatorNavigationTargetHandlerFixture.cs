@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Moq;
@@ -6,7 +6,6 @@ using Prism.Ioc;
 using Prism.Ioc.Internals;
 using Prism.Navigation.Regions;
 using Prism.Navigation.Regions.Navigation;
-using Prism.Navigation.Regions;
 using Xamarin.Forms;
 using Xunit;
 using Region = Prism.Navigation.Regions.Region;

@@ -117,7 +117,7 @@ namespace Prism.Wpf.Tests.Regions
             originalCollection.Remove(filteredInObject);
 
             Assert.NotNull(oldItemsPassed);
-            Assert.Equal(1, oldItemsPassed.Count);
+            Assert.Single(oldItemsPassed);
             Assert.Same(filteredInObject.Item, oldItemsPassed[0]);
         }
 
@@ -133,7 +133,7 @@ namespace Prism.Wpf.Tests.Regions
             originalCollection.Add(filteredInObject);
 
             Assert.NotNull(newItemsPassed);
-            Assert.Equal(1, newItemsPassed.Count);
+            Assert.Single(newItemsPassed);
             Assert.Same(filteredInObject.Item, newItemsPassed[0]);
         }
 

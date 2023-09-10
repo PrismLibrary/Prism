@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using Prism.Navigation.Regions;
 using Prism.Navigation.Regions.Adapters;
 using Prism.Navigation.Regions.Behaviors;
 using Prism.Navigation.Regions.Navigation;
-using Prism.Navigation.Regions;
 using Xamarin.Forms;
 
 namespace Prism.Ioc

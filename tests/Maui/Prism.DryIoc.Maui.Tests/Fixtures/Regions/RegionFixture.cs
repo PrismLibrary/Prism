@@ -112,7 +112,7 @@ public class RegionFixture : TestBase
     [Fact]
     public void RegionManager_HasTwoRegions()
     {
-        var mauiApp = CreateBuilder(prism => 
+        var mauiApp = CreateBuilder(prism =>
                 prism.RegisterTypes(container =>
                 {
                     container.RegisterForNavigation<MockContentRegionPage, MockContentRegionPageViewModel>();

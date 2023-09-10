@@ -14,6 +14,5 @@ namespace Prism.Navigation.Regions
         /// Attaches the behavior to the specified region.
         /// </summary>
         void Attach();
-
     }
 }
