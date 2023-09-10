@@ -21,10 +21,10 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Run dotnet format
-        id: format
-        uses: jfversluis/dotnet-format@v1.0.9
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          only-changed-files: false
-          workspace: "PrismLibrary.sln"
+      # - name: Run dotnet format
+      #   id: format
+      #   uses: jfversluis/dotnet-format@v1.0.9
+      #   with:
+      #     repo-token: ${{ secrets.GITHUB_TOKEN }}
+      #     only-changed-files: false
+      #     workspace: "PrismLibrary.sln"
