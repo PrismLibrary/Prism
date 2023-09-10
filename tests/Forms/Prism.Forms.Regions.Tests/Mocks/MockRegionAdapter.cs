@@ -17,7 +17,7 @@ namespace Prism.Forms.Regions.Mocks
 
             var region = new MockPresentationRegion();
             if (regionTarget is VisualElement element)
-            RegionManager.GetObservableRegion(element).Value = region;
+                RegionManager.GetObservableRegion(element).Value = region;
 
             // Fire update regions again. This also happens if a region is created and added to the RegionManager
             if (Accessor != null)

@@ -42,7 +42,7 @@ public class NavigationException : Exception
     {
     }
 
-    public NavigationException(string message, object view, Exception innerException) 
+    public NavigationException(string message, object view, Exception innerException)
         : this(message, null, view, innerException)
     {
     }
