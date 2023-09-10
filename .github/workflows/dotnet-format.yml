@@ -26,5 +26,5 @@ jobs:
         uses: jfversluis/dotnet-format@v1.0.9
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          only-changed-files: true
+          only-changed-files: false
           workspace: "PrismLibrary.sln"
