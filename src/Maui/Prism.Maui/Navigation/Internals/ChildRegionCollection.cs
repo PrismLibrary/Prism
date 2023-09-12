@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace Prism.Navigation.Internals;
 
@@ -16,6 +16,7 @@ public class ChildRegionCollection : IEnumerable<VisualElement>, IDisposable
 
     public IEnumerator<VisualElement> GetEnumerator() =>
         _regions.SelectMany(x => x.ActiveViews)
+            .OfType<VisualElement>()
             .Where(x => x is not null) // sanity check
             .GetEnumerator();
 

@@ -4,7 +4,7 @@ using System.Linq;
 using Moq;
 using Prism.Forms.Regions.Mocks;
 using Prism.Ioc;
-using Prism.Regions.Behaviors;
+using Prism.Navigation.Regions;
 using Xunit;
 
 namespace Prism.Forms.Regions.Tests

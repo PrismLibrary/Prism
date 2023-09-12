@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using Moq;
 using Prism.Ioc;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Prism.Wpf.Tests.Mocks;
 using Xunit;
 

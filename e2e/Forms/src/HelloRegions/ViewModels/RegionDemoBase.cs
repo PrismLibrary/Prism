@@ -1,9 +1,7 @@
-﻿using System;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Regions;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
 
 namespace HelloRegions.ViewModels
 {
@@ -26,7 +24,7 @@ namespace HelloRegions.ViewModels
             _regionManager.RequestNavigate(RegionName, target, NavigationCallback);
         }
 
-        private void NavigationCallback(IRegionNavigationResult result)
+        private void NavigationCallback(NavigationResult result)
         {
 
         }

@@ -6,8 +6,8 @@ using Moq;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
-using Prism.Regions.Behaviors;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Behaviors;
 using Prism.Dialogs;
 using Xunit;
 
@@ -253,7 +253,7 @@ namespace Prism.Wpf.Tests
         protected override void ConfigureViewModelLocator()
         {
             ConfigureViewModelLocatorWasCalled = true;
-            //setting this breaks other tests using VML. 
+            //setting this breaks other tests using VML.
             //We need to revist those tests to ensure it is being reset each time.
             //base.ConfigureViewModelLocator();
         }

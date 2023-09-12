@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Xamarin.Forms;
 using Xunit;
 

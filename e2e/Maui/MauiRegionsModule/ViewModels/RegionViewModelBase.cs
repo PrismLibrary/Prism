@@ -15,7 +15,7 @@ public abstract class RegionViewModelBase : BindableBase, IRegionAware, IPageLif
         _pageAccessor = pageAccessor;
     }
 
-    public bool IsNavigationTarget(INavigationContext navigationContext) =>
+    public bool IsNavigationTarget(NavigationContext navigationContext) =>
         navigationContext.NavigatedName() == Name;
 
     private string? _message;
@@ -34,12 +34,12 @@ public abstract class RegionViewModelBase : BindableBase, IRegionAware, IPageLif
 
     public string? PageName => _pageAccessor.Page?.GetType()?.Name;
 
-    public void OnNavigatedFrom(INavigationContext navigationContext)
+    public void OnNavigatedFrom(NavigationContext navigationContext)
     {
 
     }
 
-    public void OnNavigatedTo(INavigationContext navigationContext)
+    public void OnNavigatedTo(NavigationContext navigationContext)
     {
         if (navigationContext.Parameters.ContainsKey(nameof(Message)))
             Message = navigationContext.Parameters.GetValue<string>(nameof(Message));

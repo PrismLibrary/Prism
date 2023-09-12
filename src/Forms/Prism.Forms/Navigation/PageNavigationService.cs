@@ -86,7 +86,6 @@ namespace Prism.Navigation
         /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
         protected async virtual Task<INavigationResult> GoBackInternal(INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            var result = new NavigationResult();
             Page page = null;
             try
             {
@@ -102,8 +101,7 @@ namespace Prism.Navigation
                 var canNavigate = await PageUtilities.CanNavigateAsync(page, segmentParameters);
                 if (!canNavigate)
                 {
-                    result.Exception = new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page);
-                    return result;
+                    return new NavigationResult(new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page));
                 }
 
                 bool useModalForDoPop = UseModalGoBack(page, useModalNavigation);
@@ -116,22 +114,19 @@ namespace Prism.Navigation
                     PageUtilities.OnNavigatedTo(previousPage, segmentParameters);
                     PageUtilities.DestroyPage(poppedPage);
 
-                    result.Success = true;
-                    return result;
+                    return new NavigationResult();
                 }
             }
             catch (Exception ex)
             {
-                result.Exception = ex;
-                return result;
+                return new NavigationResult(ex);
             }
             finally
             {
                 NavigationSource = PageNavigationSource.Device;
             }
 
-            result.Exception = GetGoBackException(page, _applicationProvider.MainPage);
-            return result;
+            return new NavigationResult(GetGoBackException(page, _applicationProvider.MainPage));
         }
 
         private static Exception GetGoBackException(Page currentPage, Page mainPage)
@@ -196,7 +191,6 @@ namespace Prism.Navigation
         /// <remarks>Only works when called from a View within a NavigationPage</remarks>
         protected async virtual Task<INavigationResult> GoBackToRootInternal(INavigationParameters parameters)
         {
-            var result = new NavigationResult();
             Page page = null;
             try
             {
@@ -209,8 +203,7 @@ namespace Prism.Navigation
                 var canNavigate = await PageUtilities.CanNavigateAsync(page, parameters);
                 if (!canNavigate)
                 {
-                    result.Exception = new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page);
-                    return result;
+                    return new NavigationResult(new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page));
                 }
 
                 List<Page> pagesToDestroy = page.Navigation.NavigationStack.ToList(); // get all pages to destroy
@@ -228,13 +221,11 @@ namespace Prism.Navigation
 
                 PageUtilities.OnNavigatedTo(root, parameters);
 
-                result.Success = true;
-                return result;
+                return new NavigationResult();
             }
             catch (Exception ex)
             {
-                result.Exception = ex;
-                return result;
+                return new NavigationResult(ex);
             }
         }
 
@@ -341,7 +332,6 @@ namespace Prism.Navigation
         /// </example>
         protected async virtual Task<INavigationResult> NavigateInternal(Uri uri, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            var result = new NavigationResult();
             try
             {
                 NavigationSource = PageNavigationSource.NavigationService;
@@ -351,21 +341,18 @@ namespace Prism.Navigation
                 if (uri.IsAbsoluteUri)
                 {
                     await ProcessNavigationForAbsoulteUri(navigationSegments, parameters, useModalNavigation, animated);
-                    result.Success = true;
-                    return result;
+                    return new NavigationResult();
                 }
                 else
                 {
                     await ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, useModalNavigation, animated);
-                    result.Success = true;
-                    return result;
+                    return new NavigationResult();
                 }
 
             }
             catch (Exception ex)
             {
-                result.Exception = ex;
-                return result;
+                return new NavigationResult(ex);
             }
             finally
             {

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Moq;
-using Prism.Regions;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Navigation;
 using Xunit;
 
 namespace Prism.Forms.Regions.Tests

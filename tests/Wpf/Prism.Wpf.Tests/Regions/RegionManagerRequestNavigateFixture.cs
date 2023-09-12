@@ -1,7 +1,7 @@
 ﻿using System;
 using Moq;
 using Prism.Navigation;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
@@ -56,19 +56,19 @@ namespace Prism.Wpf.Tests.Regions
 
             result = null;
             regionManager.RequestNavigate(nonExistentRegion, source, (r) => result = r, parameters);
-            Assert.Equal(false, result.Result);
+            Assert.False(result.Success);
 
             result = null;
             regionManager.RequestNavigate(nonExistentRegion, source, (r) => result = r);
-            Assert.Equal(false, result.Result);
+            Assert.False(result.Success);
 
             result = null;
             regionManager.RequestNavigate(nonExistentRegion, sourceUri, (r) => result = r, parameters);
-            Assert.Equal(false, result.Result);
+            Assert.False(result.Success);
 
             result = null;
             regionManager.RequestNavigate(nonExistentRegion, sourceUri, (r) => result = r);
-            Assert.Equal(false, result.Result);
+            Assert.False(result.Success);
         }
 
         [Fact]

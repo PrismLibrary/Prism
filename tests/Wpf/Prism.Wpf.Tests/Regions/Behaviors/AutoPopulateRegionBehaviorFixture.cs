@@ -2,8 +2,9 @@
 
 using System;
 using System.Collections.Generic;
-using Prism.Regions;
-using Prism.Regions.Behaviors;
+using Prism.Ioc;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
 using Xunit;
 
@@ -94,7 +95,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
             public event EventHandler<ViewRegisteredEventArgs> ContentRegistered;
 
-            public IEnumerable<object> GetContents(string regionName)
+            public IEnumerable<object> GetContents(string regionName, IContainerProvider container)
             {
                 GetContentsCalled = true;
                 this.GetContentsArgumentRegionName = regionName;
@@ -103,7 +104,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
             public void RaiseContentRegistered(string regionName, object view)
             {
-                this.ContentRegistered(this, new ViewRegisteredEventArgs(regionName, () => view));
+                this.ContentRegistered(this, new ViewRegisteredEventArgs(regionName, _ => view));
             }
 
             public void RegisterViewWithRegion(string regionName, Type viewType)
@@ -111,7 +112,12 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
                 throw new NotImplementedException();
             }
 
-            public void RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
+            public void RegisterViewWithRegion(string regionName, Func<IContainerProvider, object> getContentDelegate)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void RegisterViewWithRegion(string regionName, string targetName)
             {
                 throw new NotImplementedException();
             }

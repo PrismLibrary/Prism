@@ -101,7 +101,8 @@ public class RegionFixture : TestBase
         var region = regionManager.Regions.First(x => x.Name == "ContentRegion");
         var activeView = region.ActiveViews.First();
         Assert.IsType<MockRegionViewA>(activeView);
-        var viewModel = activeView.BindingContext as MockRegionViewAViewModel;
+        var activeViewAsMockRegionViewA = activeView as MockRegionViewA;
+        var viewModel = activeViewAsMockRegionViewA.BindingContext as MockRegionViewAViewModel;
         Assert.NotNull(viewModel);
 
         Assert.NotNull(viewModel.Page);
@@ -111,7 +112,7 @@ public class RegionFixture : TestBase
     [Fact]
     public void RegionManager_HasTwoRegions()
     {
-        var mauiApp = CreateBuilder(prism => 
+        var mauiApp = CreateBuilder(prism =>
                 prism.RegisterTypes(container =>
                 {
                     container.RegisterForNavigation<MockContentRegionPage, MockContentRegionPageViewModel>();

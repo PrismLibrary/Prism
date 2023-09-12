@@ -1,7 +1,6 @@
 ﻿using System;
 using Prism.Ioc;
-using Prism.Regions;
-using Prism.Regions.Xaml;
+using Prism.Navigation.Regions;
 using Xamarin.Forms;
 
 namespace Prism.Behaviors

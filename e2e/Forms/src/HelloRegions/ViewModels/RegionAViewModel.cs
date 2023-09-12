@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Navigation;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions.Navigation;
 
 namespace HelloRegions.ViewModels
 {

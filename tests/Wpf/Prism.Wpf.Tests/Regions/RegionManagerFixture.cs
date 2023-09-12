@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Moq;
 using Prism.Ioc;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Prism.Wpf.Tests.Mocks;
 using Xunit;
 
@@ -408,9 +408,9 @@ namespace Prism.Wpf.Tests.Regions
                 var mockRegionContentRegistry = new MockRegionContentRegistry();
 
                 string regionName = null;
-                Func<object> contentDelegate = null;
+                Func<IContainerProvider, object> contentDelegate = null;
 
-                Func<object> expectedDelegate = () => true;
+                Func<IContainerProvider, object> expectedDelegate = _ => true;
                 mockRegionContentRegistry.RegisterContentWithDelegate = (name, usedDelegate) =>
                 {
                     regionName = name;
@@ -474,11 +474,16 @@ namespace Prism.Wpf.Tests.Regions
     internal class MockRegionContentRegistry : IRegionViewRegistry
     {
         public Func<string, Type, object> RegisterContentWithViewType;
-        public Func<string, Func<object>, object> RegisterContentWithDelegate;
+        public Func<string, Func<IContainerProvider, object>, object> RegisterContentWithDelegate;
         public event EventHandler<ViewRegisteredEventArgs> ContentRegistered;
-        public IEnumerable<object> GetContents(string regionName)
+        public IEnumerable<object> GetContents(string regionName, IContainerProvider container)
         {
             return null;
+        }
+
+        public void RegisterViewWithRegion(string regionName, string targetName)
+        {
+            throw new NotImplementedException();
         }
 
         void IRegionViewRegistry.RegisterViewWithRegion(string regionName, Type viewType)
@@ -486,7 +491,7 @@ namespace Prism.Wpf.Tests.Regions
             RegisterContentWithViewType?.Invoke(regionName, viewType);
         }
 
-        void IRegionViewRegistry.RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
+        void IRegionViewRegistry.RegisterViewWithRegion(string regionName, Func<IContainerProvider, object> getContentDelegate)
         {
             RegisterContentWithDelegate?.Invoke(regionName, getContentDelegate);
 

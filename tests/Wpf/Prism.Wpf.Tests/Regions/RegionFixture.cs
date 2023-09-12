@@ -4,7 +4,7 @@ using System.Linq;
 using Moq;
 using Prism.Ioc;
 using Prism.Navigation;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Prism.Wpf.Tests.Mocks;
 using Xunit;
 
@@ -471,7 +471,7 @@ namespace Prism.Wpf.Tests.Regions
                 throw new NotImplementedException();
             }
 
-            public IRegionManager RegisterViewWithRegion(string regionName, Func<object> getContentDelegate)
+            public IRegionManager RegisterViewWithRegion(string regionName, Func<IContainerProvider, object> getContentDelegate)
             {
                 throw new NotImplementedException();
             }

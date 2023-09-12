@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Prism.Navigation;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace Prism.Ioc
 {

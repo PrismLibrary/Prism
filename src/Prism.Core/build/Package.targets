@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+  <ItemGroup Condition=" '$(ImplicitUsings)' == 'true' OR '$(ImplicitUsings)' == 'enable' ">
+    <Using Include="Prism" />
+    <Using Include="Prism.Commands" />
+    <Using Include="Prism.Dialogs" />
+    <Using Include="Prism.Events" />
+    <Using Include="Prism.Ioc" />
+    <Using Include="Prism.Modularity" />
+    <Using Include="Prism.Mvvm" />
+    <Using Include="Prism.Navigation" />
+    <Using Include="Prism.Navigation.Regions" />
+  </ItemGroup>
+</Project>

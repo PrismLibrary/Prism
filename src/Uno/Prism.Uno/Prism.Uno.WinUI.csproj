@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Using Include="Microsoft.Extensions.DependencyInjection" />
-    <None Include="build\*.targets" Pack="true" PackagePath="buildTransitive" />
   </ItemGroup>
 
   <ItemGroup>

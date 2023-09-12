@@ -1,4 +1,4 @@
-﻿using Prism.Regions;
+﻿using Prism.Navigation.Regions;
 using Xamarin.Forms;
 
 namespace Prism.Forms.Regions.Mocks

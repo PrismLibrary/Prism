@@ -29,17 +29,17 @@ public class MockRegionViewAViewModel : BindableBase, IRegionAware, IInitialize
             Message = message;
     }
 
-    public bool IsNavigationTarget(INavigationContext navigationContext)
+    public bool IsNavigationTarget(NavigationContext navigationContext)
     {
         return navigationContext.NavigatedName() == "MockRegionViewA";
     }
 
-    public void OnNavigatedFrom(INavigationContext navigationContext)
+    public void OnNavigatedFrom(NavigationContext navigationContext)
     {
 
     }
 
-    public void OnNavigatedTo(INavigationContext navigationContext)
+    public void OnNavigatedTo(NavigationContext navigationContext)
     {
 
     }

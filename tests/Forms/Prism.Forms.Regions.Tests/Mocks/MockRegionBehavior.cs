@@ -1,6 +1,6 @@
 ﻿using System;
-using Prism.Regions;
-using Prism.Regions.Behaviors;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Behaviors;
 
 namespace Prism.Forms.Regions.Mocks
 {

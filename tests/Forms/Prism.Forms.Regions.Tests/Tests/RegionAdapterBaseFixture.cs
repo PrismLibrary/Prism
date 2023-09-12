@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Prism.Forms.Regions.Mocks;
-using Prism.Regions;
-using Prism.Regions.Adapters;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Adapters;
 using Xamarin.Forms;
 using Xunit;
 

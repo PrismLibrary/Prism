@@ -203,6 +203,9 @@
   <data name="RegionViewExistsException" xml:space="preserve">
     <value>View already exists in region.</value>
   </data>
+  <data name="RegionViewIsNotVisualElementException" xml:space="preserve">
+    <value>View is not a Visual Element.</value>
+  </data>
   <data name="RegionViewNameExistsException" xml:space="preserve">
     <value>View with name '{0}' already exists in the region.</value>
   </data>

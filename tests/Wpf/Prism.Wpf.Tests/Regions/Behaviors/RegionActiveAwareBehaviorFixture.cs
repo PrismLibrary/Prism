@@ -3,8 +3,8 @@
 using System;
 using System.Windows;
 using Moq;
-using Prism.Regions;
-using Prism.Regions.Behaviors;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
 using Xunit;
 

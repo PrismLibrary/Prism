@@ -1,19 +1,19 @@
+using Microsoft.Maui.LifecycleEvents;
 using Prism.AppModel;
 using Prism.Behaviors;
 using Prism.Common;
 using Prism.Controls;
+using Prism.Dialogs;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Adapters;
 using Prism.Navigation.Xaml;
-using Prism.Regions.Adapters;
-using Prism.Regions.Behaviors;
 using Prism.Services;
-using Microsoft.Maui.LifecycleEvents;
 using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
-using Prism.Dialogs;
 
 namespace Prism;
 

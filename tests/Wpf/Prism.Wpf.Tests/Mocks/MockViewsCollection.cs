@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace Prism.Wpf.Tests.Mocks
 {

@@ -5,10 +5,10 @@ public class MockContentRegionPage : ContentPage
     public MockContentRegionPage()
     {
         ContentRegion = new ContentView();
-        ContentRegion.SetValue(Prism.Regions.Xaml.RegionManager.RegionNameProperty, nameof(ContentRegion));
+        ContentRegion.SetValue(Prism.Navigation.Regions.Xaml.RegionManager.RegionNameProperty, nameof(ContentRegion));
 
         FrameRegion = new Frame();
-        FrameRegion.SetValue(Prism.Regions.Xaml.RegionManager.RegionNameProperty, nameof(FrameRegion));
+        FrameRegion.SetValue(Prism.Navigation.Regions.Xaml.RegionManager.RegionNameProperty, nameof(FrameRegion));
 
         Content = new StackLayout
         {

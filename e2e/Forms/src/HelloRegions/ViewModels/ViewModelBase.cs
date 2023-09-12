@@ -1,7 +1,7 @@
 ﻿using System;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
 
 namespace HelloRegions.ViewModels
 {
@@ -38,28 +38,28 @@ namespace HelloRegions.ViewModels
             set => SetProperty(ref _isActive, value, OnIsActiveChanged);
         }
 
-        private INavigationContext _context;
-        private INavigationContext Context
+        private NavigationContext _context;
+        private NavigationContext Context
         {
             get => _context;
             set => SetProperty(ref _context, value);
         }
 
-        public bool IsNavigationTarget(INavigationContext navigationContext)
+        public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             Console.WriteLine($"{GetType().Name} IsNavigationTarget called");
             var lookingFor = navigationContext.NavigatedName();
             return _contextName == lookingFor;
         }
 
-        public void OnNavigatedFrom(INavigationContext navigationContext)
+        public void OnNavigatedFrom(NavigationContext navigationContext)
         {
             Context = navigationContext;
             Console.WriteLine($"{GetType().Name} NavigatedFrom");
         }
 
         private string _contextName;
-        public void OnNavigatedTo(INavigationContext navigationContext)
+        public void OnNavigatedTo(NavigationContext navigationContext)
         {
             Context = navigationContext;
             _contextName = navigationContext.NavigatedName();

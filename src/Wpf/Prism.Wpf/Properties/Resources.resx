@@ -126,9 +126,6 @@
   <data name="CannotCreateNavigationTarget" xml:space="preserve">
     <value>Cannot create navigation target '{0}'.</value>
   </data>
-  <data name="CanOnlyAddTypesThatInheritIFromRegionBehavior" xml:space="preserve">
-    <value>Type '{0}' does not implement from IRegionBehavior.</value>
-  </data>
   <data name="ConfigurationStoreCannotBeNull" xml:space="preserve">
     <value>The ConfigurationStore cannot contain a null value. </value>
   </data>
@@ -221,12 +218,6 @@
   <data name="PropertySupport_StaticExpression_Exception" xml:space="preserve">
     <value>The referenced property is a static property.</value>
   </data>
-  <data name="RegionBehaviorAttachCannotBeCallWithNullRegion" xml:space="preserve">
-    <value>The Attach method cannot be called when Region property is null.</value>
-  </data>
-  <data name="RegionBehaviorRegionCannotBeSetAfterAttach" xml:space="preserve">
-    <value>The Region property cannot be set after Attach method has been called.</value>
-  </data>
   <data name="RegionCreationException" xml:space="preserve">
     <value>An exception occurred while creating a region with name '{0}'. The exception was: {1}. </value>
   </data>
@@ -256,9 +247,6 @@
   </data>
   <data name="StringCannotBeNullOrEmpty1" xml:space="preserve">
     <value>The provided String argument {0} must not be null or empty.</value>
-  </data>
-  <data name="TypeWithKeyNotRegistered" xml:space="preserve">
-    <value>No BehaviorType with key '{0}' was registered.</value>
   </data>
   <data name="UpdateRegionException" xml:space="preserve">
     <value>An exception occurred while trying to create region objects. 

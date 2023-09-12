@@ -1,5 +1,5 @@
 ﻿using System;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
 using Xamarin.Forms;
 
 namespace Prism.Common
@@ -34,7 +34,7 @@ namespace Prism.Common
             return null;
         }
 
-        public static bool IsNavigationTarget(object view, INavigationContext navigationContext)
+        public static bool IsNavigationTarget(object view, NavigationContext navigationContext)
         {
             if (view is IRegionAware viewAsRegionAware)
             {
@@ -55,12 +55,12 @@ namespace Prism.Common
             return path == viewType.Name || path == viewType.FullName;
         }
 
-        public static void OnNavigatedFrom(object view, INavigationContext navigationContext)
+        public static void OnNavigatedFrom(object view, NavigationContext navigationContext)
         {
             ViewAndViewModelAction<IRegionAware>(view, x => x.OnNavigatedFrom(navigationContext));
         }
 
-        public static void OnNavigatedTo(object view, INavigationContext navigationContext)
+        public static void OnNavigatedTo(object view, NavigationContext navigationContext)
         {
             ViewAndViewModelAction<IRegionAware>(view, x => x.OnNavigatedTo(navigationContext));
         }

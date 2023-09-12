@@ -4,7 +4,7 @@ using Prism.Container.Wpf.Mocks;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Prism.Unity;
 using Unity;
 using Unity.Lifetime;

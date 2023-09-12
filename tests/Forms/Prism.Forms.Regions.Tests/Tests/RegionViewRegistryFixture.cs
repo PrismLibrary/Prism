@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using Prism.Ioc;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Xamarin.Forms;
 using Xunit;
 
@@ -44,7 +44,7 @@ namespace Prism.Forms.Regions.Tests
             Assert.NotNull(listener.onViewRegisteredArguments);
             Assert.NotNull(listener.onViewRegisteredArguments.GetView);
 
-            var result = listener.onViewRegisteredArguments.GetView();
+            var result = listener.onViewRegisteredArguments.GetView(containerMock.Object);
             Assert.NotNull(result);
             Assert.IsType<MockContentObject>(result);
         }

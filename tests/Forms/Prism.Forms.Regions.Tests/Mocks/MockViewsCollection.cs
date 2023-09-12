@@ -2,26 +2,26 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Xamarin.Forms;
 
 namespace Prism.Forms.Regions.Mocks
 {
     internal class MockViewsCollection : IViewsCollection
     {
-        public ObservableCollection<VisualElement> Items = new ObservableCollection<VisualElement>();
+        public ObservableCollection<object> Items = new ObservableCollection<object>();
 
-        public void Add(VisualElement view)
+        public void Add(object view)
         {
             Items.Add(view);
         }
 
-        public bool Contains(VisualElement value)
+        public bool Contains(object value)
         {
             return Items.Contains(value);
         }
 
-        public IEnumerator<VisualElement> GetEnumerator()
+        public IEnumerator<object> GetEnumerator()
         {
             return Items.GetEnumerator();
         }

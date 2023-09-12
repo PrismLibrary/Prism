@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using Prism.Navigation;
-using Prism.Regions;
-using Prism.Regions.Behaviors;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Behaviors;
+using Prism.Navigation.Regions.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.Forms.Regions.Mocks
@@ -17,35 +17,38 @@ namespace Prism.Forms.Regions.Mocks
         {
             Behaviors = new MockRegionBehaviorCollection();
         }
-        public IRegionManager Add(VisualElement view)
+
+        public IRegionManager Add(string viewName) => throw new NotImplementedException();
+
+        public IRegionManager Add(object view)
         {
             MockViews.Items.Add(view);
 
             return null;
         }
 
-        public void Remove(VisualElement view)
+        public void Remove(object view)
         {
             MockViews.Items.Remove(view);
             MockActiveViews.Items.Remove(view);
         }
 
-        public void Activate(VisualElement view)
+        public void Activate(object view)
         {
             MockActiveViews.Items.Add(view);
         }
 
-        public IRegionManager Add(VisualElement view, string viewName)
+        public IRegionManager Add(object view, string viewName)
         {
             throw new NotImplementedException();
         }
 
-        public IRegionManager Add(VisualElement view, string viewName, bool createRegionManagerScope)
+        public IRegionManager Add(object view, string viewName, bool createRegionManagerScope)
         {
             throw new NotImplementedException();
         }
 
-        public VisualElement GetView(string viewName)
+        public object GetView(string viewName)
         {
             throw new NotImplementedException();
         }
@@ -103,17 +106,22 @@ namespace Prism.Forms.Regions.Mocks
             throw new NotImplementedException();
         }
 
-        public void RequestNavigate(Uri target, Action<IRegionNavigationResult> navigationCallback)
+        public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback)
         {
             throw new NotImplementedException();
         }
 
-        public void RequestNavigate(Uri target, Action<IRegionNavigationResult> navigationCallback, INavigationParameters navigationParameters)
+        public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
         {
             throw new NotImplementedException();
         }
 
         public void RemoveAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Deactivate(object view)
         {
             throw new NotImplementedException();
         }
@@ -125,7 +133,7 @@ namespace Prism.Forms.Regions.Mocks
         }
 
 
-        public Comparison<VisualElement> SortComparison
+        public Comparison<object> SortComparison
         {
             get => throw new NotImplementedException();
             set => throw new NotImplementedException();

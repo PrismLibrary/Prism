@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using Prism.Navigation;
-using Prism.Regions;
-using Prism.Regions.Behaviors;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Behaviors;
+using Prism.Navigation.Regions.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.Forms.Regions.Mocks
@@ -11,7 +11,7 @@ namespace Prism.Forms.Regions.Mocks
     internal class MockRegion : IRegion
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public Func<string, VisualElement> GetViewStringDelegate { get; set; }
+        public Func<string, object> GetViewStringDelegate { get; set; }
 
         private MockViewsCollection _views = new MockViewsCollection();
 
@@ -33,38 +33,40 @@ namespace Prism.Forms.Regions.Mocks
 
         public string Name { get; set; }
 
-        public IRegionManager Add(VisualElement view)
+        public IRegionManager Add(string viewName) => throw new NotImplementedException();
+
+        public IRegionManager Add(object view)
         {
             _views.Add(view);
             return null;
         }
 
-        public IRegionManager Add(VisualElement view, string viewName)
+        public IRegionManager Add(object view, string viewName)
         {
             return Add(view);
         }
 
-        public IRegionManager Add(VisualElement view, string viewName, bool createRegionManagerScope)
+        public IRegionManager Add(object view, string viewName, bool createRegionManagerScope)
         {
             throw new NotImplementedException();
         }
 
-        public void Remove(VisualElement view)
+        public void Remove(object view)
         {
             throw new NotImplementedException();
         }
 
-        public void Activate(VisualElement view)
+        public void Activate(object view)
         {
             throw new NotImplementedException();
         }
 
-        public void Deactivate(VisualElement view)
+        public void Deactivate(object view)
         {
             throw new NotImplementedException();
         }
 
-        public VisualElement GetView(string viewName)
+        public object GetView(string viewName)
         {
             return GetViewStringDelegate(viewName);
         }
@@ -82,12 +84,12 @@ namespace Prism.Forms.Regions.Mocks
         }
 
 
-        public void RequestNavigate(Uri target, Action<IRegionNavigationResult> navigationCallback)
+        public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback)
         {
             throw new NotImplementedException();
         }
 
-        public void RequestNavigate(Uri target, Action<IRegionNavigationResult> navigationCallback, INavigationParameters navigationParameters)
+        public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
         {
             throw new NotImplementedException();
         }
@@ -104,7 +106,7 @@ namespace Prism.Forms.Regions.Mocks
         }
 
 
-        public Comparison<VisualElement> SortComparison
+        public Comparison<object> SortComparison
         {
             get => throw new NotImplementedException();
             set => throw new NotImplementedException();

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Regions;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Navigation;
 using Xamarin.Forms;
 
 namespace Prism.DI.Forms.Tests.Mocks.ViewModels
@@ -18,14 +18,14 @@ namespace Prism.DI.Forms.Tests.Mocks.ViewModels
             _regionManager = regionManager;
         }
 
-        public IRegionNavigationResult Result { get; private set; }
+        public NavigationResult Result { get; private set; }
 
         public void Initialize(INavigationParameters parameters)
         {
             _regionManager.RequestNavigate("ContentRegion", "Issue2415RegionView", NavigationCallback);
         }
 
-        private void NavigationCallback(IRegionNavigationResult result)
+        private void NavigationCallback(NavigationResult result)
         {
             Result = result;
         }

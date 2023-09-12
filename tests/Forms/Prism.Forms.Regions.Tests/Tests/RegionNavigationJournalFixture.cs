@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Moq;
 using Prism.Navigation;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Navigation;
 using Xunit;
 
 namespace Prism.Forms.Regions.Tests
@@ -134,14 +135,14 @@ namespace Prism.Forms.Regions.Tests
 
 
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
 
             // Act
             target.GoBack();
@@ -151,9 +152,9 @@ namespace Prism.Forms.Regions.Tests
             Assert.True(target.CanGoForward);
             Assert.Same(entry2, target.CurrentEntry);
 
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Never());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Once());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
         }
 
         [Fact]
@@ -180,14 +181,14 @@ namespace Prism.Forms.Regions.Tests
 
 
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, false)));
+                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, false)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
 
             // Act
             target.GoBack();
@@ -197,9 +198,9 @@ namespace Prism.Forms.Regions.Tests
             Assert.False(target.CanGoForward);
             Assert.Same(entry3, target.CurrentEntry);
 
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Never());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Once());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
         }
 
         [Fact]
@@ -226,14 +227,14 @@ namespace Prism.Forms.Regions.Tests
 
 
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
 
             // Act
             target.GoBack();
@@ -244,9 +245,9 @@ namespace Prism.Forms.Regions.Tests
             Assert.True(target.CanGoForward);
             Assert.Same(entry1, target.CurrentEntry);
 
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Once());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Once());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
         }
 
         [Fact]
@@ -272,14 +273,14 @@ namespace Prism.Forms.Regions.Tests
             target.RecordNavigation(entry3, true);
 
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
 
             target.GoBack();
             target.GoBack();
@@ -292,9 +293,9 @@ namespace Prism.Forms.Regions.Tests
             Assert.True(target.CanGoForward);
             Assert.Same(entry2, target.CurrentEntry);
 
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Once());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Exactly(2));
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null), Times.Exactly(2));
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
         }
 
         [Fact]
@@ -320,14 +321,14 @@ namespace Prism.Forms.Regions.Tests
             target.RecordNavigation(entry3, true);
 
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, false)));
+                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, false)));
 
             target.GoBack();
 
@@ -339,9 +340,9 @@ namespace Prism.Forms.Regions.Tests
             Assert.True(target.CanGoForward);
             Assert.Same(entry2, target.CurrentEntry);
 
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Never());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Once());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
         }
 
         [Fact]
@@ -367,14 +368,14 @@ namespace Prism.Forms.Regions.Tests
             target.RecordNavigation(entry3, true);
 
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
 
             target.GoBack();
             target.GoBack();
@@ -388,9 +389,9 @@ namespace Prism.Forms.Regions.Tests
             Assert.False(target.CanGoForward);
             Assert.Same(entry3, target.CurrentEntry);
 
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Once());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Exactly(2));
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null), Times.Exactly(2));
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
         }
 
         [Fact]
@@ -418,14 +419,14 @@ namespace Prism.Forms.Regions.Tests
             target.RecordNavigation(entry2, true);
 
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
 
             target.GoBack();
 
@@ -466,17 +467,17 @@ namespace Prism.Forms.Regions.Tests
             target.RecordNavigation(entry4, true);
 
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
             mockNavigationTarget
-                .Setup(x => x.RequestNavigate(uri4, It.IsAny<Action<IRegionNavigationResult>>(), null))
-                .Callback<Uri, Action<IRegionNavigationResult>, INavigationParameters>((u, c, n) => c(new RegionNavigationResult(null, true)));
+                .Setup(x => x.RequestNavigate(uri4, It.IsAny<Action<NavigationResult>>(), null))
+                .Callback<Uri, Action<NavigationResult>, INavigationParameters>((u, c, n) => c(new NavigationResult(null, true)));
 
             Assert.Equal(entry4, target.CurrentEntry);
 
@@ -486,10 +487,10 @@ namespace Prism.Forms.Regions.Tests
             Assert.True(target.CanGoForward);
             Assert.Same(entry2, target.CurrentEntry);
 
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Never());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Once());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Never());
-            mockNavigationTarget.Verify(x => x.RequestNavigate(uri4, It.IsAny<Action<IRegionNavigationResult>>(), null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri1, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri2, It.IsAny<Action<NavigationResult>>(), null), Times.Once());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri3, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
+            mockNavigationTarget.Verify(x => x.RequestNavigate(uri4, It.IsAny<Action<NavigationResult>>(), null), Times.Never());
         }
     }
 }

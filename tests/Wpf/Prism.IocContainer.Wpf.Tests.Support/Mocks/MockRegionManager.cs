@@ -1,6 +1,7 @@
 using System;
+using Prism.Ioc;
 using Prism.Navigation;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 
 namespace Prism.IocContainer.Wpf.Tests.Support.Mocks
 {
@@ -86,6 +87,11 @@ namespace Prism.IocContainer.Wpf.Tests.Support.Mocks
         }
 
         public IRegionManager RegisterViewWithRegion(string regionName, string viewName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IRegionManager RegisterViewWithRegion(string regionName, Func<IContainerProvider, object> getContentDelegate)
         {
             throw new NotImplementedException();
         }

@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
 using Moq;
 using Prism.Ioc;
 using Prism.Navigation;
-using Prism.Regions;
-using Prism.Regions.Navigation;
+using Prism.Navigation.Regions;
 using Xamarin.Forms;
 using Xunit;
-using Region = Prism.Regions.Region;
+using Region = Prism.Navigation.Regions.Region;
+using RegionManager = Prism.Navigation.Regions.Xaml.RegionManager;
 
 namespace Prism.Forms.Regions.Tests
 {
@@ -96,7 +94,7 @@ namespace Prism.Forms.Regions.Tests
         [Fact]
         public void AddingDuplicateNamedViewThrows()
         {
-            var ex = Assert.Throws<InvalidOperationException>(() =>
+            var ex = Assert.Throws<RegionViewException>(() =>
             {
                 IRegion region = new Region();
 
@@ -174,7 +172,7 @@ namespace Prism.Forms.Regions.Tests
 
             region.Add(myView);
 
-            Assert.Same(regionManager, myView.GetValue(Prism.Regions.Xaml.RegionManager.RegionManagerProperty));
+            Assert.Same(regionManager, myView.GetValue(RegionManager.RegionManagerProperty));
         }
 
         [Fact]
@@ -189,7 +187,7 @@ namespace Prism.Forms.Regions.Tests
 
             region.Add(myView, "MyView");
 
-            Assert.Same(regionManager, myView.GetValue(Prism.Regions.Xaml.RegionManager.RegionManagerProperty));
+            Assert.Same(regionManager, myView.GetValue(RegionManager.RegionManagerProperty));
         }
 
         [Fact]
@@ -204,7 +202,7 @@ namespace Prism.Forms.Regions.Tests
 
             region.Add(myView, "MyView", true);
 
-            Assert.NotSame(regionManager, myView.GetValue(Prism.Regions.Xaml.RegionManager.RegionManagerProperty));
+            Assert.NotSame(regionManager, myView.GetValue(RegionManager.RegionManagerProperty));
         }
 
         [Fact]
@@ -484,7 +482,7 @@ namespace Prism.Forms.Regions.Tests
                 region.Add(view);
 
                 var uri = new Uri(view.GetType().Name, UriKind.Relative);
-                Action<IRegionNavigationResult> navigationCallback = nr => { };
+                Action<NavigationResult> navigationCallback = nr => { };
                 var navigationParameters = new NavigationParameters();
 
                 var mockRegionNavigationService = new Mock<IRegionNavigationService>();
@@ -542,7 +540,7 @@ namespace Prism.Forms.Regions.Tests
 
             region.Remove(view);
 
-            view.ClearValue(Prism.Regions.Xaml.RegionManager.RegionManagerProperty);
+            view.ClearValue(RegionManager.RegionManagerProperty);
 
             Assert.Empty(region.Views);
 
@@ -550,7 +548,7 @@ namespace Prism.Forms.Regions.Tests
 
             Assert.Equal(view, region.Views.First());
 
-            Assert.Same(newScopedRegion, view.GetValue(Prism.Regions.Xaml.RegionManager.RegionManagerProperty));
+            Assert.Same(newScopedRegion, view.GetValue(RegionManager.RegionManagerProperty));
         }
 
         [ViewSortHint("C")]

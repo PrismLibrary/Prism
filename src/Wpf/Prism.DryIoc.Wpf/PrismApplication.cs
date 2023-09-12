@@ -1,7 +1,7 @@
 ﻿using System;
 using DryIoc;
 using Prism.Ioc;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using ExceptionExtensions = System.ExceptionExtensions;
 
 namespace Prism.DryIoc
@@ -27,7 +27,7 @@ namespace Prism.DryIoc
         }
 
         /// <summary>
-        /// Registers the <see cref="Type"/>s of the Exceptions that are not considered 
+        /// Registers the <see cref="Type"/>s of the Exceptions that are not considered
         /// root exceptions by the <see cref="ExceptionExtensions"/>.
         /// </summary>
         protected override void RegisterFrameworkExceptionTypes()

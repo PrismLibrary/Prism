@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Data;
-using Prism.Regions;
+using Prism.Navigation.Regions;
 using Prism.Wpf.Tests.Mocks;
 using Xunit;
 
@@ -117,7 +117,7 @@ namespace Prism.Wpf.Tests.Regions
             originalCollection.Remove(filteredInObject);
 
             Assert.NotNull(oldItemsPassed);
-            Assert.Equal(1, oldItemsPassed.Count);
+            Assert.Single(oldItemsPassed);
             Assert.Same(filteredInObject.Item, oldItemsPassed[0]);
         }
 
@@ -133,7 +133,7 @@ namespace Prism.Wpf.Tests.Regions
             originalCollection.Add(filteredInObject);
 
             Assert.NotNull(newItemsPassed);
-            Assert.Equal(1, newItemsPassed.Count);
+            Assert.Single(newItemsPassed);
             Assert.Same(filteredInObject.Item, newItemsPassed[0]);
         }
 

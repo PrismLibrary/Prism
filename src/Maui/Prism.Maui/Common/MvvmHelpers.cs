@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 using Prism.Navigation;
+using Prism.Navigation.Regions;
 using Prism.Navigation.Xaml;
-using Prism.Regions.Navigation;
 using NavigationMode = Prism.Navigation.NavigationMode;
 using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
 
@@ -22,10 +22,10 @@ public static class MvvmHelpers
             action(viewModelAsT);
         }
 
-        if(view is Page page)
+        if (view is Page page)
         {
             var children = page.GetChildRegions();
-            if(children is not null)
+            if (children is not null)
                 foreach (var child in children)
                     InvokeViewAndViewModelAction<T>(child, action);
         }
@@ -46,7 +46,7 @@ public static class MvvmHelpers
         if (view is Page page)
         {
             var children = page.GetChildRegions();
-            if(children is not null)
+            if (children is not null)
                 foreach (var child in children)
                     await InvokeViewAndViewModelActionAsync<T>(child, action);
         }
@@ -60,7 +60,7 @@ public static class MvvmHelpers
 
             InvokeViewAndViewModelAction<IDestructible>(view, v => v.Destroy());
 
-            if(view is Page page)
+            if (view is Page page)
             {
                 page.Behaviors?.Clear();
                 page.BindingContext = null;
@@ -120,7 +120,7 @@ public static class MvvmHelpers
         return null;
     }
 
-    public static bool IsNavigationTarget(object view, INavigationContext navigationContext)
+    public static bool IsNavigationTarget(object view, NavigationContext navigationContext)
     {
         var implementor = GetImplementerFromViewOrViewModel<IRegionAware>(view);
         if (implementor is not null)
@@ -135,12 +135,12 @@ public static class MvvmHelpers
         return path == viewType.Name || path == viewType.FullName;
     }
 
-    public static void OnNavigatedFrom(object view, INavigationContext navigationContext)
+    public static void OnNavigatedFrom(object view, NavigationContext navigationContext)
     {
         InvokeViewAndViewModelAction<IRegionAware>(view, x => x.OnNavigatedFrom(navigationContext));
     }
 
-    public static void OnNavigatedTo(object view, INavigationContext navigationContext)
+    public static void OnNavigatedTo(object view, NavigationContext navigationContext)
     {
         InvokeViewAndViewModelAction<IRegionAware>(view, x => x.OnNavigatedTo(navigationContext));
     }
@@ -301,7 +301,7 @@ public static class MvvmHelpers
     {
         var navigationService = Navigation.Xaml.Navigation.GetNavigationService(navigationPage.CurrentPage);
         var result = await navigationService.GoBackAsync();
-        if(result.Exception is NavigationException navEx && navEx.Message == NavigationException.CannotPopApplicationMainPage)
+        if (result.Exception is NavigationException navEx && navEx.Message == NavigationException.CannotPopApplicationMainPage)
         {
             Application.Current.Quit();
         }
