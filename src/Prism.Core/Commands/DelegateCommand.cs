@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Properties;
 
+#nullable enable
 namespace Prism.Commands
 {
     /// <summary>
@@ -85,7 +86,7 @@ namespace Prism.Commands
         /// Handle the internal invocation of <see cref="ICommand.Execute(object)"/>
         /// </summary>
         /// <param name="parameter">Command Parameter</param>
-        protected override void Execute(object parameter)
+        protected override void Execute(object? parameter)
         {
             Execute();
         }
@@ -95,7 +96,7 @@ namespace Prism.Commands
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns><see langword="true"/> if the Command Can Execute, otherwise <see langword="false" /></returns>
-        protected override bool CanExecute(object parameter)
+        protected override bool CanExecute(object? parameter)
         {
             return CanExecute();
         }

@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Prism.Common;
 using Prism.Mvvm;
 
+#nullable enable
 namespace Prism.Commands
 {
     /// <summary>
@@ -16,13 +17,13 @@ namespace Prism.Commands
     {
         private bool _isActive;
 
-        private SynchronizationContext _synchronizationContext;
-        private readonly HashSet<string> _observedPropertiesExpressions = new HashSet<string>();
+        private SynchronizationContext? _synchronizationContext;
+        private readonly HashSet<string> _observedPropertiesExpressions = new();
 
         /// <summary>
         /// Provides an Exception Handler to register callbacks or handle encountered exceptions within 
         /// </summary>
-        protected readonly MulticastExceptionHandler ExceptionHandler = new MulticastExceptionHandler();
+        protected readonly MulticastExceptionHandler ExceptionHandler = new();
 
         /// <summary>
         /// Creates a new instance of a <see cref="DelegateCommandBase"/>, specifying both the execute action and the can execute function.
@@ -35,7 +36,7 @@ namespace Prism.Commands
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute.
         /// </summary>
-        public virtual event EventHandler CanExecuteChanged;
+        public virtual event EventHandler? CanExecuteChanged;
 
         /// <summary>
         /// Raises <see cref="ICommand.CanExecuteChanged"/> so every 
@@ -64,12 +65,12 @@ namespace Prism.Commands
             OnCanExecuteChanged();
         }
 
-        void ICommand.Execute(object parameter)
+        void ICommand.Execute(object? parameter)
         {
             Execute(parameter);
         }
 
-        bool ICommand.CanExecute(object parameter)
+        bool ICommand.CanExecute(object? parameter)
         {
             return CanExecute(parameter);
         }
@@ -78,14 +79,14 @@ namespace Prism.Commands
         /// Handle the internal invocation of <see cref="ICommand.Execute(object)"/>
         /// </summary>
         /// <param name="parameter">Command Parameter</param>
-        protected abstract void Execute(object parameter);
+        protected abstract void Execute(object? parameter);
 
         /// <summary>
         /// Handle the internal invocation of <see cref="ICommand.CanExecute(object)"/>
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns><see langword="true"/> if the Command Can Execute, otherwise <see langword="false" /></returns>
-        protected abstract bool CanExecute(object parameter);
+        protected abstract bool CanExecute(object? parameter);
 
         /// <summary>
         /// Observes a property that implements INotifyPropertyChanged, and automatically calls DelegateCommandBase.RaiseCanExecuteChanged on property changed notifications.
@@ -96,7 +97,7 @@ namespace Prism.Commands
         {
             if (_observedPropertiesExpressions.Contains(propertyExpression.ToString()))
             {
-                throw new ArgumentException($"{propertyExpression.ToString()} is already being observed.",
+                throw new ArgumentException($"{propertyExpression} is already being observed.",
                     nameof(propertyExpression));
             }
             else
@@ -121,10 +122,10 @@ namespace Prism.Commands
         /// <summary>
         /// Fired if the <see cref="IsActive"/> property changes.
         /// </summary>
-        public virtual event EventHandler IsActiveChanged;
+        public virtual event EventHandler? IsActiveChanged;
 
         /// <summary>
-        /// This raises the <see cref="DelegateCommandBase.IsActiveChanged"/> event.
+        /// This raises the <see cref="IsActiveChanged"/> event.
         /// </summary>
         protected virtual void OnIsActiveChanged()
         {
