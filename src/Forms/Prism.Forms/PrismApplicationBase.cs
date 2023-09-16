@@ -168,18 +168,18 @@ namespace Prism
         /// <param name="containerRegistry"></param>
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<IApplicationProvider, ApplicationProvider>();
-            containerRegistry.RegisterSingleton<IApplicationStore, ApplicationStore>();
-            containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
-            containerRegistry.RegisterSingleton<IKeyboardMapper, KeyboardMapper>();
-            containerRegistry.RegisterSingleton<IPageDialogService, PageDialogService>();
-            containerRegistry.RegisterSingleton<IDialogService, DialogService>();
-            containerRegistry.RegisterSingleton<IDeviceService, DeviceService>();
-            containerRegistry.RegisterSingleton<IPageBehaviorFactory, PageBehaviorFactory>();
-            containerRegistry.RegisterSingleton<IModuleCatalog, ModuleCatalog>();
-            containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
-            containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
-            containerRegistry.RegisterScoped<INavigationService, PageNavigationService>();
+            containerRegistry.TryRegisterSingleton<IApplicationProvider, ApplicationProvider>();
+            containerRegistry.TryRegisterSingleton<IApplicationStore, ApplicationStore>();
+            containerRegistry.TryRegisterSingleton<IEventAggregator, EventAggregator>();
+            containerRegistry.TryRegisterSingleton<IKeyboardMapper, KeyboardMapper>();
+            containerRegistry.TryRegisterSingleton<IPageDialogService, PageDialogService>();
+            containerRegistry.TryRegisterSingleton<IDialogService, DialogService>();
+            containerRegistry.TryRegisterSingleton<IDeviceService, DeviceService>();
+            containerRegistry.TryRegisterSingleton<IPageBehaviorFactory, PageBehaviorFactory>();
+            containerRegistry.TryRegisterSingleton<IModuleCatalog, ModuleCatalog>();
+            containerRegistry.TryRegisterSingleton<IModuleManager, ModuleManager>();
+            containerRegistry.TryRegisterSingleton<IModuleInitializer, ModuleInitializer>();
+            containerRegistry.TryRegisterScoped<INavigationService, PageNavigationService>();
             containerRegistry.Register<INavigationService, PageNavigationService>(NavigationServiceName);
         }
 
