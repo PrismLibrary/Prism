@@ -8,6 +8,141 @@ namespace Prism.Ioc
     public static class IContainerRegistryExtensions
     {
         /// <summary>
+        /// Will try to register the service if it has not already been registered
+        /// </summary>
+        /// <param name="from">The service type.</param>
+        /// <param name="to">The implementation type.</param>
+        /// <param name="containerRegistry">The <see cref="IContainerRegistry"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry"/>.</returns>
+        public static IContainerRegistry TryRegister(this IContainerRegistry containerRegistry, Type from, Type to)
+        {
+            if (!containerRegistry.IsRegistered(from))
+                containerRegistry.Register(from, to);
+
+            return containerRegistry;
+        }
+
+        /// <summary>
+        /// Will try to register the service if it has not already been registered
+        /// </summary>
+        /// <typeparam name="TFrom">The service type.</typeparam>
+        /// <typeparam name="TTo">The implementation type.</typeparam>
+        /// <param name="containerRegistry">The <see cref="IContainerRegistry"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry"/>.</returns>
+        public static IContainerRegistry TryRegister<TFrom, TTo>(this IContainerRegistry containerRegistry)
+            where TTo : TFrom
+        {
+            return containerRegistry.TryRegister(typeof(TFrom), typeof(TTo));
+        }
+
+        /// <summary>
+        /// Will try to register the service if it has not already been registered
+        /// </summary>
+        /// <typeparam name="T">The service type.</typeparam>
+        /// <param name="containerRegistry">The <see cref="IContainerRegistry"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry"/>.</returns>
+        public static IContainerRegistry TryRegister<T>(this IContainerRegistry containerRegistry)
+            where T : class
+        {
+            return containerRegistry.TryRegister(typeof(T), typeof(T));
+        }
+
+        /// <summary>
+        /// Will try to register the service if it has not already been registered
+        /// </summary>
+        /// <param name="from">The service type.</param>
+        /// <param name="to">The implementation type.</param>
+        /// <param name="containerRegistry">The <see cref="IContainerRegistry"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry"/>.</returns>
+        public static IContainerRegistry TryRegisterScoped(this IContainerRegistry containerRegistry, Type from, Type to)
+        {
+            if (!containerRegistry.IsRegistered(from))
+                containerRegistry.RegisterScoped(from, to);
+
+            return containerRegistry;
+        }
+
+        /// <summary>
+        /// Will try to register the service if it has not already been registered
+        /// </summary>
+        /// <typeparam name="T">The service type.</typeparam>
+        /// <param name="containerRegistry">The <see cref="IContainerRegistry"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry"/>.</returns>
+        public static IContainerRegistry TryRegisterScoped<T>(this IContainerRegistry containerRegistry)
+            where T : class
+        {
+            return containerRegistry.TryRegisterScoped(typeof(T), typeof(T));
+        }
+
+        /// <summary>
+        /// Will try to register the service if it has not already been registered
+        /// </summary>
+        /// <typeparam name="TFrom">The service type.</typeparam>
+        /// <typeparam name="TTo">The implementation type.</typeparam>
+        /// <param name="containerRegistry">The <see cref="IContainerRegistry"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry"/>.</returns>
+        public static IContainerRegistry TryRegisterScoped<TFrom, TTo>(this IContainerRegistry containerRegistry)
+            where TTo : TFrom
+        {
+            return containerRegistry.TryRegisterScoped(typeof(TFrom), typeof(TTo));
+        }
+
+        /// <summary>
+        /// Will try to register the service if it has not already been registered
+        /// </summary>
+        /// <param name="from">The service type.</param>
+        /// <param name="to">The implementation type.</param>
+        /// <param name="containerRegistry">The <see cref="IContainerRegistry"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry"/>.</returns>
+        public static IContainerRegistry TryRegisterSingleton(this IContainerRegistry containerRegistry, Type from, Type to)
+        {
+            if (!containerRegistry.IsRegistered(from))
+                containerRegistry.RegisterSingleton(from, to);
+
+            return containerRegistry;
+        }
+
+        /// <summary>
+        /// Will try to register the service if it has not already been registered
+        /// </summary>
+        /// <typeparam name="TFrom">The service type.</typeparam>
+        /// <typeparam name="TTo">The implementation type.</typeparam>
+        /// <param name="containerRegistry">The <see cref="IContainerRegistry"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry"/>.</returns>
+        public static IContainerRegistry TryRegisterSingleton<TFrom, TTo>(this IContainerRegistry containerRegistry)
+            where TTo : TFrom
+        {
+            return containerRegistry.TryRegisterSingleton(typeof(TFrom), typeof(TTo));
+        }
+
+        /// <summary>
+        /// Will try to register the service if it has not already been registered
+        /// </summary>
+        /// <typeparam name="T">The service type.</typeparam>
+        /// <param name="containerRegistry">The <see cref="IContainerRegistry"/>.</param>
+        /// <returns>The <see cref="IContainerRegistry"/>.</returns>
+        public static IContainerRegistry TryRegisterSingleton<T>(this IContainerRegistry containerRegistry)
+            where T : class
+        {
+            return containerRegistry.TryRegisterSingleton(typeof(T), typeof(T));
+        }
+
+        /// <summary>
+        /// Will try to register the service if it has not already been registered
+        /// </summary>
+        /// <typeparam name="T">The service type.</typeparam>
+        /// <param name="containerRegistry">The <see cref="IContainerRegistry"/>.</param>
+        /// <param name="instance">An instance of the service.</param>
+        /// <returns>The <see cref="IContainerRegistry"/>.</returns>
+        public static IContainerRegistry TryRegisterInstance<T>(this IContainerRegistry containerRegistry, T instance)
+        {
+            if (!containerRegistry.IsRegistered<T>())
+                containerRegistry.RegisterInstance(instance);
+
+            return containerRegistry;
+        }
+
+        /// <summary>
         /// Registers an instance of a given <see cref="Type"/>
         /// </summary>
         /// <typeparam name="TInterface">The service <see cref="Type"/> that is being registered</typeparam>

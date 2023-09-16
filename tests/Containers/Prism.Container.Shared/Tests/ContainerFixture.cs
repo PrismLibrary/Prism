@@ -741,5 +741,38 @@ namespace Prism.Ioc.Tests
         }
 
 #endif
+
+        [Fact]
+        public void TryRegisterTransientDoesNotReplaceOriginalRegistration()
+        {
+            Setup.CreateContainer();
+            Setup.Registry.TryRegister<IServiceA, ServiceA>();
+            Setup.Registry.TryRegister<IServiceA, CompositeService>();
+
+            var service = Setup.Container.Resolve<IServiceA>();
+            Assert.IsType<ServiceA>(service);
+        }
+
+        [Fact]
+        public void TryRegisterScopedDoesNotReplaceOriginalRegistration()
+        {
+            Setup.CreateContainer();
+            Setup.Registry.TryRegisterScoped<IServiceA, ServiceA>();
+            Setup.Registry.TryRegisterScoped<IServiceA, CompositeService>();
+
+            var service = Setup.Container.Resolve<IServiceA>();
+            Assert.IsType<ServiceA>(service);
+        }
+
+        [Fact]
+        public void TryRegisterSingletonDoesNotReplaceOriginalRegistration()
+        {
+            Setup.CreateContainer();
+            Setup.Registry.TryRegisterSingleton<IServiceA, ServiceA>();
+            Setup.Registry.TryRegisterSingleton<IServiceA, CompositeService>();
+
+            var service = Setup.Container.Resolve<IServiceA>();
+            Assert.IsType<ServiceA>(service);
+        }
     }
 }
