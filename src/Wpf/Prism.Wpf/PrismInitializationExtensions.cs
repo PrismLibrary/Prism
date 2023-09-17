@@ -28,20 +28,20 @@ namespace Prism
 
         internal static void RegisterRequiredTypes(this IContainerRegistry containerRegistry, IModuleCatalog moduleCatalog)
         {
-            containerRegistry.RegisterInstance(moduleCatalog);
-            containerRegistry.RegisterSingleton<IDialogService, DialogService>();
-            containerRegistry.RegisterSingleton<IModuleInitializer, ModuleInitializer>();
-            containerRegistry.RegisterSingleton<IModuleManager, ModuleManager>();
-            containerRegistry.RegisterSingleton<RegionAdapterMappings>();
-            containerRegistry.RegisterSingleton<IRegionManager, RegionManager>();
-            containerRegistry.RegisterSingleton<IRegionNavigationContentLoader, RegionNavigationContentLoader>();
-            containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
-            containerRegistry.RegisterSingleton<IRegionViewRegistry, RegionViewRegistry>();
-            containerRegistry.RegisterSingleton<IRegionBehaviorFactory, RegionBehaviorFactory>();
-            containerRegistry.Register<IRegionNavigationJournalEntry, RegionNavigationJournalEntry>();
-            containerRegistry.Register<IRegionNavigationJournal, RegionNavigationJournal>();
-            containerRegistry.Register<IRegionNavigationService, RegionNavigationService>();
-            containerRegistry.Register<IDialogWindow, DialogWindow>(); //default dialog host
+            containerRegistry.TryRegisterInstance(moduleCatalog);
+            containerRegistry.TryRegisterSingleton<IDialogService, DialogService>();
+            containerRegistry.TryRegisterSingleton<IModuleInitializer, ModuleInitializer>();
+            containerRegistry.TryRegisterSingleton<IModuleManager, ModuleManager>();
+            containerRegistry.TryRegisterSingleton<RegionAdapterMappings>();
+            containerRegistry.TryRegisterSingleton<IRegionManager, RegionManager>();
+            containerRegistry.TryRegisterSingleton<IRegionNavigationContentLoader, RegionNavigationContentLoader>();
+            containerRegistry.TryRegisterSingleton<IEventAggregator, EventAggregator>();
+            containerRegistry.TryRegisterSingleton<IRegionViewRegistry, RegionViewRegistry>();
+            containerRegistry.TryRegisterSingleton<IRegionBehaviorFactory, RegionBehaviorFactory>();
+            containerRegistry.TryRegister<IRegionNavigationJournalEntry, RegionNavigationJournalEntry>();
+            containerRegistry.TryRegister<IRegionNavigationJournal, RegionNavigationJournal>();
+            containerRegistry.TryRegister<IRegionNavigationService, RegionNavigationService>();
+            containerRegistry.TryRegister<IDialogWindow, DialogWindow>(); //default dialog host
         }
 
         internal static void RegisterDefaultRegionBehaviors(this IRegionBehaviorFactory regionBehaviors)

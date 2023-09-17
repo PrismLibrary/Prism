@@ -220,16 +220,16 @@ public sealed class PrismAppBuilder
 
     private void RegisterDefaultRequiredTypes(IContainerRegistry containerRegistry)
     {
-        containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
-        containerRegistry.RegisterSingleton<IKeyboardMapper, KeyboardMapper>();
-        containerRegistry.RegisterScoped<IPageDialogService, PageDialogService>();
-        containerRegistry.RegisterScoped<IDialogService, DialogService>();
-        containerRegistry.Register<IDialogViewRegistry, DialogViewRegistry>();
+        containerRegistry.TryRegisterSingleton<IEventAggregator, EventAggregator>();
+        containerRegistry.TryRegisterSingleton<IKeyboardMapper, KeyboardMapper>();
+        containerRegistry.TryRegisterScoped<IPageDialogService, PageDialogService>();
+        containerRegistry.TryRegisterScoped<IDialogService, DialogService>();
+        containerRegistry.TryRegister<IDialogViewRegistry, DialogViewRegistry>();
         containerRegistry.RegisterDialogContainer<DialogContainerPage>();
         //containerRegistry.RegisterSingleton<IDeviceService, DeviceService>();
-        containerRegistry.RegisterScoped<IPageAccessor, PageAccessor>();
-        containerRegistry.RegisterScoped<INavigationService, PageNavigationService>();
-        containerRegistry.Register<INavigationRegistry, NavigationRegistry>();
+        containerRegistry.TryRegisterScoped<IPageAccessor, PageAccessor>();
+        containerRegistry.TryRegisterScoped<INavigationService, PageNavigationService>();
+        containerRegistry.TryRegister<INavigationRegistry, NavigationRegistry>();
         containerRegistry.RegisterManySingleton<PrismWindowManager>();
         containerRegistry.RegisterPageBehavior<NavigationPage, NavigationPageSystemGoBackBehavior>();
         containerRegistry.RegisterPageBehavior<NavigationPage, NavigationPageActiveAwareBehavior>();

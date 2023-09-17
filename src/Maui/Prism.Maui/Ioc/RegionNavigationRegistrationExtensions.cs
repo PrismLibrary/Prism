@@ -98,7 +98,7 @@ public static class RegionNavigationRegistrationExtensions
 
     internal static IContainerRegistry RegisterRegionServices(this IContainerRegistry containerRegistry, Action<RegionAdapterMappings> configureAdapters = null, Action<IRegionBehaviorFactory> configureBehaviors = null)
     {
-        containerRegistry.Register<IRegionNavigationRegistry, RegionNavigationRegistry>();
+        containerRegistry.TryRegister<IRegionNavigationRegistry, RegionNavigationRegistry>();
         containerRegistry.RegisterSingleton<RegionAdapterMappings>(p =>
         {
             var regionAdapterMappings = new RegionAdapterMappings();
@@ -114,10 +114,10 @@ public static class RegionNavigationRegistrationExtensions
             return regionAdapterMappings;
         });
 
-        containerRegistry.RegisterSingleton<IRegionManager, RegionManager>();
-        containerRegistry.RegisterSingleton<IRegionNavigationContentLoader, RegionNavigationContentLoader>();
-        containerRegistry.RegisterSingleton<IRegionViewRegistry, RegionViewRegistry>();
-        containerRegistry.Register<RegionBehaviorFactory>();
+        containerRegistry.TryRegisterSingleton<IRegionManager, RegionManager>();
+        containerRegistry.TryRegisterSingleton<IRegionNavigationContentLoader, RegionNavigationContentLoader>();
+        containerRegistry.TryRegisterSingleton<IRegionViewRegistry, RegionViewRegistry>();
+        containerRegistry.TryRegister<RegionBehaviorFactory>();
         containerRegistry.RegisterSingleton<IRegionBehaviorFactory>(p =>
         {
             var regionBehaviors = p.Resolve<RegionBehaviorFactory>();
@@ -132,10 +132,10 @@ public static class RegionNavigationRegistrationExtensions
             configureBehaviors?.Invoke(regionBehaviors);
             return regionBehaviors;
         });
-        containerRegistry.Register<IRegionNavigationJournalEntry, RegionNavigationJournalEntry>();
-        containerRegistry.Register<IRegionNavigationJournal, RegionNavigationJournal>();
-        containerRegistry.Register<IRegionNavigationService, RegionNavigationService>();
+        containerRegistry.TryRegister<IRegionNavigationJournalEntry, RegionNavigationJournalEntry>();
+        containerRegistry.TryRegister<IRegionNavigationJournal, RegionNavigationJournal>();
+        containerRegistry.TryRegister<IRegionNavigationService, RegionNavigationService>();
         //containerRegistry.RegisterManySingleton<RegionResolverOverrides>(typeof(IResolverOverridesHelper), typeof(IActiveRegionHelper));
-        return containerRegistry.RegisterSingleton<IRegionManager, RegionManager>();
+        return containerRegistry.TryRegisterSingleton<IRegionManager, RegionManager>();
     }
 }
