@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
 
+#nullable enable
 namespace Prism.Commands
 {
     /// <summary>
@@ -20,16 +21,20 @@ namespace Prism.Commands
             SubscribeListeners(propertyExpression);
         }
 
-        private void SubscribeListeners(Expression propertyExpression)
+        private void SubscribeListeners(Expression? propertyExpression)
         {
             var propNameStack = new Stack<PropertyInfo>();
             while (propertyExpression is MemberExpression temp) // Gets the root of the property chain.
             {
                 propertyExpression = temp.Expression;
-                propNameStack.Push(temp.Member as PropertyInfo); // Records the member info as property info
+
+                if (temp.Member is PropertyInfo propertyInfo)
+                {
+                    propNameStack.Push(propertyInfo); // Records the member info as property info
+                }
             }
 
-            if (!(propertyExpression is ConstantExpression constantExpression))
+            if (propertyExpression is not ConstantExpression constantExpression)
                 throw new NotSupportedException("Operation not supported for the given expression type. " +
                                                 "Only MemberExpression and ConstantExpression are currently supported.");
 
@@ -42,9 +47,9 @@ namespace Prism.Commands
                 previousNode = currentNode;
             }
 
-            object propOwnerObject = constantExpression.Value;
+            object? propOwnerObject = constantExpression.Value;
 
-            if (!(propOwnerObject is INotifyPropertyChanged inpcObject))
+            if (propOwnerObject is not INotifyPropertyChanged inpcObject)
                 throw new InvalidOperationException("Trying to subscribe PropertyChanged listener in object that " +
                                                     $"owns '{propObserverNodeRoot.PropertyInfo.Name}' property, but the object does not implements INotifyPropertyChanged.");
 

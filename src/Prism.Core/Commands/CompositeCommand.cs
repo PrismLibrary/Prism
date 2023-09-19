@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Input;
 using Prism.Properties;
 
+#nullable enable
 namespace Prism.Commands
 {
     /// <summary>
@@ -12,17 +13,17 @@ namespace Prism.Commands
     /// </summary>
     public class CompositeCommand : ICommand
     {
-        private readonly List<ICommand> _registeredCommands = new List<ICommand>();
+        private readonly List<ICommand> _registeredCommands = new();
         private readonly bool _monitorCommandActivity;
         private readonly EventHandler _onRegisteredCommandCanExecuteChangedHandler;
-        private SynchronizationContext _synchronizationContext;
+        private readonly SynchronizationContext? _synchronizationContext;
 
         /// <summary>
         /// Initializes a new instance of <see cref="CompositeCommand"/>.
         /// </summary>
         public CompositeCommand()
         {
-            this._onRegisteredCommandCanExecuteChangedHandler = new EventHandler(this.OnRegisteredCommandCanExecuteChanged);
+            _onRegisteredCommandCanExecuteChangedHandler = new EventHandler(OnRegisteredCommandCanExecuteChanged);
             _synchronizationContext = SynchronizationContext.Current;
         }
 
@@ -33,7 +34,7 @@ namespace Prism.Commands
         public CompositeCommand(bool monitorCommandActivity)
             : this()
         {
-            this._monitorCommandActivity = monitorCommandActivity;
+            _monitorCommandActivity = monitorCommandActivity;
         }
 
         /// <summary>
@@ -53,24 +54,23 @@ namespace Prism.Commands
                 throw new ArgumentException(Resources.CannotRegisterCompositeCommandInItself);
             }
 
-            lock (this._registeredCommands)
+            lock (_registeredCommands)
             {
-                if (this._registeredCommands.Contains(command))
+                if (_registeredCommands.Contains(command))
                 {
                     throw new InvalidOperationException(Resources.CannotRegisterSameCommandTwice);
                 }
-                this._registeredCommands.Add(command);
+                _registeredCommands.Add(command);
             }
 
-            command.CanExecuteChanged += this._onRegisteredCommandCanExecuteChangedHandler;
-            this.OnCanExecuteChanged();
+            command.CanExecuteChanged += _onRegisteredCommandCanExecuteChangedHandler;
+            OnCanExecuteChanged();
 
-            if (this._monitorCommandActivity)
+            if (_monitorCommandActivity)
             {
-                var activeAwareCommand = command as IActiveAware;
-                if (activeAwareCommand != null)
+                if (command is IActiveAware activeAwareCommand)
                 {
-                    activeAwareCommand.IsActiveChanged += this.Command_IsActiveChanged;
+                    activeAwareCommand.IsActiveChanged += Command_IsActiveChanged;
                 }
             }
         }
@@ -83,30 +83,29 @@ namespace Prism.Commands
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
             bool removed;
-            lock (this._registeredCommands)
+            lock (_registeredCommands)
             {
-                removed = this._registeredCommands.Remove(command);
+                removed = _registeredCommands.Remove(command);
             }
 
             if (removed)
             {
-                command.CanExecuteChanged -= this._onRegisteredCommandCanExecuteChangedHandler;
-                this.OnCanExecuteChanged();
+                command.CanExecuteChanged -= _onRegisteredCommandCanExecuteChangedHandler;
+                OnCanExecuteChanged();
 
-                if (this._monitorCommandActivity)
+                if (_monitorCommandActivity)
                 {
-                    var activeAwareCommand = command as IActiveAware;
-                    if (activeAwareCommand != null)
+                    if (command is IActiveAware activeAwareCommand)
                     {
-                        activeAwareCommand.IsActiveChanged -= this.Command_IsActiveChanged;
+                        activeAwareCommand.IsActiveChanged -= Command_IsActiveChanged;
                     }
                 }
             }
         }
 
-        private void OnRegisteredCommandCanExecuteChanged(object sender, EventArgs e)
+        private void OnRegisteredCommandCanExecuteChanged(object? sender, EventArgs e)
         {
-            this.OnCanExecuteChanged();
+            OnCanExecuteChanged();
         }
 
 
@@ -118,18 +117,18 @@ namespace Prism.Commands
         /// If the command does not require data to be passed, this object can be set to <see langword="null" />.
         /// </param>
         /// <returns><see langword="true" /> if all of the commands return <see langword="true" />; otherwise, <see langword="false" />.</returns>
-        public virtual bool CanExecute(object parameter)
+        public virtual bool CanExecute(object? parameter)
         {
             bool hasEnabledCommandsThatShouldBeExecuted = false;
 
             ICommand[] commandList;
-            lock (this._registeredCommands)
+            lock (_registeredCommands)
             {
-                commandList = this._registeredCommands.ToArray();
+                commandList = _registeredCommands.ToArray();
             }
             foreach (ICommand command in commandList)
             {
-                if (this.ShouldExecute(command))
+                if (ShouldExecute(command))
                 {
                     if (!command.CanExecute(parameter))
                     {
@@ -146,7 +145,7 @@ namespace Prism.Commands
         /// <summary>
         /// Occurs when any of the registered commands raise <see cref="ICommand.CanExecuteChanged"/>.
         /// </summary>
-        public virtual event EventHandler CanExecuteChanged;
+        public virtual event EventHandler? CanExecuteChanged;
 
         /// <summary>
         /// Forwards <see cref="ICommand.Execute"/> to the registered commands.
@@ -154,12 +153,12 @@ namespace Prism.Commands
         /// <param name="parameter">Data used by the command.
         /// If the command does not require data to be passed, this object can be set to <see langword="null" />.
         /// </param>
-        public virtual void Execute(object parameter)
+        public virtual void Execute(object? parameter)
         {
             Queue<ICommand> commands;
-            lock (this._registeredCommands)
+            lock (_registeredCommands)
             {
-                commands = new Queue<ICommand>(this._registeredCommands.Where(this.ShouldExecute).ToList());
+                commands = new Queue<ICommand>(_registeredCommands.Where(ShouldExecute).ToList());
             }
 
             while (commands.Count > 0)
@@ -174,7 +173,7 @@ namespace Prism.Commands
         /// </summary>
         /// <param name="command">The command to evaluate.</param>
         /// <returns>A <see cref="bool"/> value indicating whether the command should be used 
-        /// when evaluating <see cref="CompositeCommand.CanExecute"/> and <see cref="CompositeCommand.Execute"/>.</returns>
+        /// when evaluating <see cref="CanExecute"/> and <see cref="Execute"/>.</returns>
         /// <remarks>
         /// If this command is set to monitor command activity, and <paramref name="command"/>
         /// implements the <see cref="IActiveAware"/> interface, 
@@ -182,9 +181,7 @@ namespace Prism.Commands
         /// property is <see langword="false" />; otherwise it always returns <see langword="true" />.</remarks>
         protected virtual bool ShouldExecute(ICommand command)
         {
-            var activeAwareCommand = command as IActiveAware;
-
-            if (this._monitorCommandActivity && activeAwareCommand != null)
+            if (_monitorCommandActivity && command is IActiveAware activeAwareCommand)
             {
                 return activeAwareCommand.IsActive;
             }
@@ -202,9 +199,9 @@ namespace Prism.Commands
             get
             {
                 IList<ICommand> commandList;
-                lock (this._registeredCommands)
+                lock (_registeredCommands)
                 {
-                    commandList = this._registeredCommands.ToList();
+                    commandList = _registeredCommands.ToList();
                 }
 
                 return commandList;
@@ -233,9 +230,9 @@ namespace Prism.Commands
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">EventArgs to pass to the event.</param>
-        private void Command_IsActiveChanged(object sender, EventArgs e)
+        private void Command_IsActiveChanged(object? sender, EventArgs e)
         {
-            this.OnCanExecuteChanged();
+            OnCanExecuteChanged();
         }
     }
 }

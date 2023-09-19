@@ -132,11 +132,11 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     /// Handle the internal invocation of <see cref="ICommand.Execute(object)"/>
     /// </summary>
     /// <param name="parameter">Command Parameter</param>
-    protected override async void Execute(object parameter)
+    protected override async void Execute(object? parameter)
     {
         try
         {
-            await Execute((T)parameter, _getCancellationToken());
+            await Execute((T)parameter!, _getCancellationToken());
         }
         catch (Exception ex)
         {
@@ -152,11 +152,11 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     /// </summary>
     /// <param name="parameter"></param>
     /// <returns><see langword="true"/> if the Command Can Execute, otherwise <see langword="false" /></returns>
-    protected override bool CanExecute(object parameter)
+    protected override bool CanExecute(object? parameter)
     {
         try
         {
-            return CanExecute((T)parameter);
+            return CanExecute((T)parameter!);
         }
         catch (Exception ex)
         {
@@ -243,7 +243,7 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
         try
         {
             // If T is not nullable this may throw an exception
-            await Execute((T)parameter, _getCancellationToken());
+            await Execute((T)parameter!, _getCancellationToken());
         }
         catch (Exception ex)
         {
@@ -259,7 +259,7 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
         try
         {
             // If T is not nullable this may throw an exception
-            await Execute((T)parameter, cancellationToken);
+            await Execute((T)parameter!, cancellationToken);
         }
         catch (Exception ex)
         {
