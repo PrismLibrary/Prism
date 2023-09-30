@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DryIoc.dll" />
+    <PackageReference Include="Prism.Container.DryIoc" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +23,5 @@
     <Compile Update="Properties\Resources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Resources.resx" />
     <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
   </ItemGroup>
-
-  <Import Project="..\..\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems" Label="Shared" />
 
 </Project>

@@ -2,13 +2,8 @@
   "solution": {
     "path": "PrismLibrary.sln",
     "projects": [
-      "src\\Containers\\Prism.DryIoc.Shared\\Prism.DryIoc.Shared.shproj",
-      "src\\Containers\\Prism.Unity.Shared\\Prism.Unity.Shared.shproj",
       "src\\Prism.Core\\Prism.Core.csproj",
       "src\\Prism.Events\\Prism.Events.csproj",
-      "tests\\Containers\\Prism.Container.DryIoc.Tests\\Prism.Ioc.DryIoc.Tests.csproj",
-      "tests\\Containers\\Prism.Container.Shared\\Prism.Ioc.Shared.shproj",
-      "tests\\Containers\\Prism.Container.Unity.Tests\\Prism.Ioc.Unity.Tests.csproj",
       "tests\\Prism.Core.Tests\\Prism.Core.Tests.csproj"
     ]
   }

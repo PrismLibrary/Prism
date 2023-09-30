@@ -21,7 +21,7 @@ namespace Prism.DryIoc
         /// <returns>A new <see cref="DryIocContainerExtension"/>.</returns>
         protected override IContainerExtension CreateContainerExtension()
         {
-            return new DryIocContainerExtension(new Container(CreateContainerRules()));
+            return new DryIocContainerExtension();
         }
 
         /// <summary>
