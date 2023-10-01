@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Moq;
 using Prism.Common;
@@ -51,7 +51,7 @@ namespace Prism.Forms.Tests.Navigation
 
             await navigationService.GoBackToRootAsync();
 
-            Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
+            Assert.Single(rootPage.Navigation.NavigationStack);
             Assert.Equal(page1, rootPage.Navigation.NavigationStack[0]);
         }
 
@@ -83,7 +83,7 @@ namespace Prism.Forms.Tests.Navigation
 
             await navigationService.GoBackToRootAsync();
 
-            Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
+            Assert.Single(rootPage.Navigation.NavigationStack);
             Assert.Equal(page1, rootPage.Navigation.NavigationStack[0]);
             Assert.Equal(14, recorder.Records.Count);
 
