@@ -1,17 +1,17 @@
-
-
 using System;
+using Moq;
+using Prism.Ioc;
 using Prism.Navigation.Regions;
 using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-
     public class AllActiveRegionFixture
     {
         [Fact]
         public void AddingViewsToRegionMarksThemAsActive()
         {
+            ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             IRegion region = new AllActiveRegion();
             var view = new object();
 
@@ -31,9 +31,6 @@ namespace Prism.Wpf.Tests.Regions
 
                 region.Deactivate(view);
             });
-
         }
-
-
     }
 }

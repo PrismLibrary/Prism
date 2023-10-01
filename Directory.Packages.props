@@ -1,9 +1,9 @@
 <Project>
   <ItemGroup>
     <PackageVersion Include="DryIoc.dll" Version="5.4.1" />
-    <PackageVersion Include="Prism.Container.Abstractions" Version="9.0.44-pre" />
-    <PackageVersion Include="Prism.Container.DryIoc" Version="9.0.44-pre" />
-    <PackageVersion Include="Prism.Container.Unity" Version="9.0.44-pre" />
+    <PackageVersion Include="Prism.Container.Abstractions" Version="9.0.53-pre" />
+    <PackageVersion Include="Prism.Container.DryIoc" Version="9.0.53-pre" />
+    <PackageVersion Include="Prism.Container.Unity" Version="9.0.53-pre" />
     <PackageVersion Include="Unity.Container" Version="5.11.11" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
     <PackageVersion Include="System.Reactive" Version="6.0.0" />
@@ -55,14 +55,14 @@
   <!-- Tests -->
   <ItemGroup>
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
-    <PackageVersion Include="GitHubActionsTestLogger" Version="2.3.2" />
+    <PackageVersion Include="GitHubActionsTestLogger" Version="2.3.3" />
     <PackageVersion Include="Xamarin.Forms.Mocks" Version="4.7.0.1" />
     <PackageVersion Include="Humanizer.Core" Version="2.14.1" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
-    <PackageVersion Include="Moq" Version="4.18.4" />
-    <PackageVersion Include="xunit" Version="2.5.0" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
+    <PackageVersion Include="Moq" Version="4.20.69" />
+    <PackageVersion Include="xunit" Version="2.5.1" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.1" />
     <PackageVersion Include="Xunit.StaFact" Version="1.1.11" />
   </ItemGroup>
   <ItemGroup Condition=" $(UseMaui) != 'true' ">

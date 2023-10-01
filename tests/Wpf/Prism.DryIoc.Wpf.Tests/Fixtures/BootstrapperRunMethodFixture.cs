@@ -1,6 +1,7 @@
 using System;
 using DryIoc;
 using Moq;
+using Prism.Container.DryIoc;
 using Prism.Container.Wpf.Mocks;
 using Prism.DryIoc;
 using Prism.Events;

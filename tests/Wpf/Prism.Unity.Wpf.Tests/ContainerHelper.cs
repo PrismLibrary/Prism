@@ -1,6 +1,6 @@
 ﻿using System;
+using Prism.Container.Unity;
 using Prism.Ioc;
-using Prism.Unity;
 using Unity;
 
 namespace Prism.Container.Wpf.Tests

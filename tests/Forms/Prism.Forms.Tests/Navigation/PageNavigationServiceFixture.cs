@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
@@ -26,7 +26,7 @@ namespace Prism.Forms.Tests.Navigation
 
             ContainerLocator.ResetContainer();
             _container = new PageNavigationContainerMock();
-            ContainerLocator.SetContainerExtension(() => _container);
+            ContainerLocator.SetContainerExtension(_container);
 
             _container.Register("PageMock", typeof(PageMock));
 

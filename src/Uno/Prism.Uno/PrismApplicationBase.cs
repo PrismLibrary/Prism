@@ -100,7 +100,7 @@ namespace Prism
         /// </summary>
         protected virtual void Initialize(IApplicationBuilder builder)
         {
-            ContainerLocator.SetContainerExtension(CreateContainerExtension);
+            ContainerLocator.SetContainerExtension(CreateContainerExtension());
             _containerExtension = ContainerLocator.Current;
             ConfigureApp(builder);
             builder.Configure(ConfigureHost)

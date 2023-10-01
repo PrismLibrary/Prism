@@ -140,15 +140,21 @@ namespace Prism
         /// </summary>
         protected virtual void Initialize()
         {
-            ContainerLocator.SetContainerExtension(CreateContainerExtension);
+            var initialize = ContainerLocator.TrySetContainerExtension(CreateContainerExtension());
             _containerExtension = ContainerLocator.Current;
-            RegisterRequiredTypes(_containerExtension);
-            PlatformInitializer?.RegisterTypes(_containerExtension);
-            RegisterTypes(_containerExtension);
-            _containerExtension.FinalizeExtension();
+            if (initialize)
+            {
+                RegisterRequiredTypes(_containerExtension);
+                PlatformInitializer?.RegisterTypes(_containerExtension);
+                RegisterTypes(_containerExtension);
 
-            _moduleCatalog = Container.Resolve<IModuleCatalog>();
-            ConfigureModuleCatalog(_moduleCatalog);
+                _containerExtension.FinalizeExtension();
+
+                _moduleCatalog = Container.Resolve<IModuleCatalog>();
+                ConfigureModuleCatalog(_moduleCatalog);
+            }
+
+            _moduleCatalog ??= Container.Resolve<IModuleCatalog>();
 
             _containerExtension.CreateScope();
             NavigationService = _containerExtension.Resolve<INavigationService>();

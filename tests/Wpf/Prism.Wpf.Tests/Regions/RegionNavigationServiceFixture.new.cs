@@ -280,6 +280,7 @@ namespace Prism.Wpf.Tests.Regions
             containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(journalEntry);
 
             IContainerExtension container = containerMock.Object;
+            ContainerLocator.SetContainerExtension(container);
             RegionNavigationContentLoader contentLoader = new RegionNavigationContentLoader(container);
 
             var journalMock = new Mock<IRegionNavigationJournal>();
@@ -733,6 +734,7 @@ namespace Prism.Wpf.Tests.Regions
         [Fact]
         public void BeforeNavigating_NavigatingEventIsRaised()
         {
+            ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             // Prepare
             object view = new object();
             Uri viewUri = new Uri(view.GetType().Name, UriKind.Relative);

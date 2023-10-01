@@ -1,16 +1,15 @@
-
-
+using Prism.Ioc;
 using Prism.Navigation.Regions;
 using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-
     public class SingleActiveRegionFixture
     {
         [Fact]
         public void ActivatingNewViewDeactivatesCurrent()
         {
+            ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             IRegion region = new SingleActiveRegion();
             var view = new object();
             region.Add(view);

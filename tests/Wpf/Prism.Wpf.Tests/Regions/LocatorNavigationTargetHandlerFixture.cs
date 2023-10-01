@@ -18,6 +18,7 @@ namespace Prism.Wpf.Tests.Regions
             // Arrange
 
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
 
             var region = new Region();
 
@@ -46,6 +47,7 @@ namespace Prism.Wpf.Tests.Regions
             // Arrange
 
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
 
             var region = new Region();
 
@@ -76,6 +78,7 @@ namespace Prism.Wpf.Tests.Regions
             // Arrange
 
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
 
             var region = new Region();
 
@@ -106,6 +109,7 @@ namespace Prism.Wpf.Tests.Regions
             // Arrange
 
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
 
             var region = new Region();
 
@@ -139,6 +143,7 @@ namespace Prism.Wpf.Tests.Regions
             // Arrange
 
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
 
             var region = new Region();
 
@@ -174,6 +179,7 @@ namespace Prism.Wpf.Tests.Regions
             // Arrange
 
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
 
             var region = new Region();
 
@@ -203,6 +209,7 @@ namespace Prism.Wpf.Tests.Regions
             // Arrange
 
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
 
             var region = new Region();
 
@@ -240,6 +247,7 @@ namespace Prism.Wpf.Tests.Regions
         {
             // Arrange
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
 
             var region = new Region();
 
@@ -274,6 +282,8 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenViewCannotBeCreated_ThenThrowsAnException()
         {
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
+
             containerMock.Setup(sl => sl.Resolve(typeof(object), typeof(TestView).Name)).Throws<ActivationException>();
 
             var region = new Region();
@@ -297,6 +307,7 @@ namespace Prism.Wpf.Tests.Regions
         {
             // Arrange
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
 
             var region = new Region();
 
@@ -340,6 +351,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenRequestingContentForNullContext_ThenThrows()
         {
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
 
             var region = new Region();
 

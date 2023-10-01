@@ -67,10 +67,6 @@
     <Compile Remove="..\..\Wpf\Prism.Wpf\Dialogs\IDialogWindowExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Maui\Prism.Maui\Ioc\IServiceCollectionAware.cs" LinkBase="Ioc" />
-    <Compile Include="..\..\Maui\Prism.Maui\Ioc\MicrosoftDependencyInjectionExtensions.cs" LinkBase="Ioc" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />
   </ItemGroup>
   <ItemGroup>

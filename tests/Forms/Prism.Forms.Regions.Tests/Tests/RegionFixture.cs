@@ -191,7 +191,7 @@ namespace Prism.Forms.Regions.Tests
         }
 
         [Fact]
-        public void AddViewPassesDiferentScopeWhenAdding()
+        public void AddViewPassesDifferentScopeWhenAdding()
         {
             var regionManager = Mock.Of<IRegionManager>();
             IRegion region = new Region
@@ -491,7 +491,7 @@ namespace Prism.Forms.Regions.Tests
                 var containerMock = new Mock<IContainerExtension>();
                 containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationService))).Returns(mockRegionNavigationService.Object);
                 ContainerLocator.ResetContainer();
-                ContainerLocator.SetContainerExtension(() => containerMock.Object);
+                ContainerLocator.SetContainerExtension(containerMock.Object);
 
                 // Act
                 region.NavigationService.RequestNavigate(uri, navigationCallback, navigationParameters);

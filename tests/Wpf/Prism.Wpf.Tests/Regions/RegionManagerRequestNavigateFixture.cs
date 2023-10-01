@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq;
+using Prism.Ioc;
 using Prism.Navigation;
 using Prism.Navigation.Regions;
 using Xunit;

@@ -1,7 +1,7 @@
 ﻿using System;
 using DryIoc;
+using Prism.Container.DryIoc;
 using Prism.Ioc;
-using Prism.Navigation.Regions;
 using ExceptionExtensions = System.ExceptionExtensions;
 
 namespace Prism.DryIoc
@@ -23,7 +23,7 @@ namespace Prism.DryIoc
         /// <returns>A new <see cref="DryIocContainerExtension"/>.</returns>
         protected override IContainerExtension CreateContainerExtension()
         {
-            return new DryIocContainerExtension(new Container(CreateContainerRules()));
+            return new DryIocContainerExtension(CreateContainerRules());
         }
 
         /// <summary>

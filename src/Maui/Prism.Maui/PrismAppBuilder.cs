@@ -5,7 +5,6 @@ using Prism.Common;
 using Prism.Controls;
 using Prism.Dialogs;
 using Prism.Events;
-using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -77,7 +76,7 @@ public sealed class PrismAppBuilder
         });
 
         ContainerLocator.ResetContainer();
-        ContainerLocator.SetContainerExtension(() => containerExtension);
+        ContainerLocator.SetContainerExtension(containerExtension);
 
         containerExtension.RegisterInstance(this);
         containerExtension.RegisterSingleton<IMauiInitializeService, PrismInitializationService>();
@@ -85,6 +84,9 @@ public sealed class PrismAppBuilder
         ConfigureViewModelLocator();
     }
 
+    /// <summary>
+    /// Gets the associated <see cref="MauiAppBuilder"/>.
+    /// </summary>
     public MauiAppBuilder MauiBuilder { get; }
 
     private void ConfigureViewModelLocator()
@@ -117,12 +119,22 @@ public sealed class PrismAppBuilder
         }
     }
 
+    /// <summary>
+    /// Provides a Delegate to register services with the <see cref="PrismAppBuilder"/>
+    /// </summary>
+    /// <param name="registerTypes">The delegate to register your services.</param>
+    /// <returns>The <see cref="PrismAppBuilder"/>.</returns>
     public PrismAppBuilder RegisterTypes(Action<IContainerRegistry> registerTypes)
     {
         _registrations.Add(registerTypes);
         return this;
     }
 
+    /// <summary>
+    /// Provides a Delegate to invoke when the App is initialized.
+    /// </summary>
+    /// <param name="action">The delegate to invoke.</param>
+    /// <returns>The <see cref="PrismAppBuilder"/>.</returns>
     public PrismAppBuilder OnInitialized(Action<IContainerProvider> action)
     {
         _initializations.Add(action);
@@ -176,6 +188,12 @@ public sealed class PrismAppBuilder
         onStart.Wait();
     }
 
+    /// <summary>
+    /// When the <see cref="Application"/> is started and the native platform calls <see cref="IApplication.CreateWindow(IActivationState?)"/>
+    /// this delegate will be invoked to do your initial Navigation.
+    /// </summary>
+    /// <param name="onAppStarted">The Navigation Delegate.</param>
+    /// <returns>The <see cref="PrismAppBuilder"/>.</returns>
     public PrismAppBuilder OnAppStart(Func<IContainerProvider, INavigationService, Task> onAppStarted)
     {
         _onAppStarted = onAppStarted;
@@ -206,12 +224,22 @@ public sealed class PrismAppBuilder
         _registrations.ForEach(action => action(container));
     }
 
+    /// <summary>
+    /// Configures <see cref="RegionAdapterMappings"/> for Region Navigation with the <see cref="IRegionManager"/>.
+    /// </summary>
+    /// <param name="configureMappings">Delegate to configure the <see cref="RegionAdapterMappings"/>.</param>
+    /// <returns>The <see cref="PrismAppBuilder"/>.</returns>
     public PrismAppBuilder ConfigureRegionAdapters(Action<RegionAdapterMappings> configureMappings)
     {
         _configureAdapters = configureMappings;
         return this;
     }
 
+    /// <summary>
+    /// Configures the <see cref="IRegionBehaviorFactory"/>.
+    /// </summary>
+    /// <param name="configureBehaviors">Delegate to configure the <see cref="IRegionBehaviorFactory"/>.</param>
+    /// <returns>The <see cref="PrismAppBuilder"/>.</returns>
     public PrismAppBuilder ConfigureRegionBehaviors(Action<IRegionBehaviorFactory> configureBehaviors)
     {
         _configureBehaviors = configureBehaviors;

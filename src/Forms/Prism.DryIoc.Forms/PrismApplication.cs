@@ -1,4 +1,5 @@
 ﻿using DryIoc;
+using Prism.Container.DryIoc;
 using Prism.Ioc;
 using Xamarin.Forms.Internals;
 
@@ -40,7 +41,7 @@ namespace Prism.DryIoc
         /// <returns></returns>
         protected override IContainerExtension CreateContainerExtension()
         {
-            return new DryIocContainerExtension(new Container(CreateContainerRules()));
+            return new DryIocContainerExtension(CreateContainerRules());
         }
 
         /// <summary>
