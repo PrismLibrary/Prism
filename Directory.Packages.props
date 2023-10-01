@@ -1,10 +1,8 @@
 <Project>
   <ItemGroup>
-    <PackageVersion Include="DryIoc.dll" Version="5.4.1" />
-    <PackageVersion Include="Prism.Container.Abstractions" Version="9.0.53-pre" />
-    <PackageVersion Include="Prism.Container.DryIoc" Version="9.0.53-pre" />
-    <PackageVersion Include="Prism.Container.Unity" Version="9.0.53-pre" />
-    <PackageVersion Include="Unity.Container" Version="5.11.11" />
+    <PackageVersion Include="Prism.Container.Abstractions" Version="9.0.57-pre" />
+    <PackageVersion Include="Prism.Container.DryIoc" Version="9.0.57-pre" />
+    <PackageVersion Include="Prism.Container.Unity" Version="9.0.57-pre" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
     <PackageVersion Include="System.Reactive" Version="6.0.0" />
     <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2401" />
