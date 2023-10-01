@@ -215,10 +215,7 @@ namespace Prism.Navigation.Regions
         {
             get
             {
-                if (_itemMetadataCollection == null)
-                {
-                    _itemMetadataCollection = new ObservableCollection<ItemMetadata>();
-                }
+                _itemMetadataCollection ??= new ObservableCollection<ItemMetadata>();
 
                 return _itemMetadataCollection;
             }

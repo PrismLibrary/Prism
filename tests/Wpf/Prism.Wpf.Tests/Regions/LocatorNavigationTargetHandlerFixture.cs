@@ -1,9 +1,8 @@
-
-
 using System;
 using System.Windows;
 using Moq;
 using Prism.Ioc;
+using Prism.Ioc.Internals;
 using Prism.Navigation.Regions;
 using Xunit;
 

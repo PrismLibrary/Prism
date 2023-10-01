@@ -10,7 +10,6 @@ using Xunit;
 
 namespace Prism.Wpf.Tests.Regions
 {
-
     public class RegionNavigationServiceFixture
     {
         [Fact]
