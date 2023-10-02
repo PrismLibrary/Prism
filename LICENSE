@@ -1,48 +1,10 @@
-Prism Library
-Version 1.0, August 2023
-Copyright (c) Prism Library
+Prism can be licensed either under the Prism Community License or the Prism Commercial license.
 
-TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+To be qualified for the Prism Community License you must have an annual gross revenue of less than one (1) million U.S. dollars ($1,000,000.00 USD) per year or have never received more than $3 million USD in capital from an outside source, such as private equity or venture capital, and agree to be bound by Prism's terms and conditions.
 
-1. Definitions.
+Customers who do not qualify for the community license can visit the Prism Library website (https://prismlibrary.com/) for commercial licensing options.
 
-   "You" (or "Your") shall mean an individual or Legal Entity exercising permissions granted by this License.
+Under no circumstances can you use this product without (1) either a Community License or a Commercial License and (2) without agreeing and abiding by Prism's license containing all terms and conditions. 
 
-   "Source" form shall mean the preferred form for making modifications, including but not limited to software source
-    code, documentation source, and configuration files.
-
-   "Object" form shall mean any form resulting from mechanical transformation or translation of a Source form, including
-    but not limited to compiled object code, generated documentation, and conversions to other media types.
-
-   "Work" (or "Works") shall mean any Prism Library software made available under the License, as indicated by a
-   copyright notice that is included in or attached to the work.
-
-   "Direct Package Dependency" shall mean any Work in Source or Object form that is installed directly by You.
-
-   "Transitive Package Dependency" shall mean any Work in Object form that is installed indirectly by a third party
-    dependency unrelated to Prism Library.
-
-2. License
-
-   Works in Source or Object form are split licensed and may be licensed under the MIT or a Prism Library Commercial
-   Use License. Works will be subject to the License terms whether using a Direct Package Dependency or a Transitive
-   Package Dependency.
-
-   Licenses are granted based upon You meeting the qualified criteria as stated. Once granted,
-   You must reference the granted license only in all documentation.
-
-   Works in Source or Object form are licensed to You under the MIT if:
-
-   - You are consuming the Work in for use in software licensed under an Open Source or Source Available license.
-   - You are consuming the Work for the purposes of education.
-   - You are consuming the Work in the capacity of a For-profit company/individual with
-     less than 1,000,000.00 USD annual gross revenue.
-   - You are consuming the Work in the capacity of a Non-profit organization
-     or Registered Charity that is actively engaged in disaster response (i.e. The Red Cross).
-
-   For all other scenarios, Works in Source or Object form are licensed to You under the Prism Library Commercial License
-   which may be purchased by visiting https://avantipoint.com/contact/.
-
-3. Restrictions
-
-   The Source may be forked and modified for private use only. It is a violation of the terms of the Prism License to publicly publish a fork of the Prism codebase.
+The Prism license that contains the terms and conditions can be found at
+https://prismlibrary.com/
