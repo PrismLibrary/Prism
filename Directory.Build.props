@@ -6,7 +6,7 @@
     <PackageProjectUrl>https://github.com/PrismLibrary/Prism</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>prism-logo.png</PackageIcon>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/PrismLibrary/Prism</RepositoryUrl>
     <IncludeSymbols>True</IncludeSymbols>
