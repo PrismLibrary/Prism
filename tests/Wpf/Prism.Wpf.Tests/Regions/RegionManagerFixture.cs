@@ -234,6 +234,7 @@ namespace Prism.Wpf.Tests.Regions
         [Fact]
         public void WhenAddingRegions_ThenRegionsCollectionNotifiesUpdate()
         {
+            ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             var regionManager = new RegionManager();
 
             var region1 = new Region { Name = "region1" };
@@ -262,6 +263,7 @@ namespace Prism.Wpf.Tests.Regions
         [Fact]
         public void WhenRemovingRegions_ThenRegionsCollectionNotifiesUpdate()
         {
+            ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             var regionManager = new RegionManager();
 
             var region1 = new Region { Name = "region1" };
@@ -293,6 +295,7 @@ namespace Prism.Wpf.Tests.Regions
         [Fact]
         public void WhenRemovingNonExistingRegion_ThenRegionsCollectionDoesNotNotifyUpdate()
         {
+            ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             var regionManager = new RegionManager();
 
             var region1 = new Region { Name = "region1" };
@@ -346,7 +349,7 @@ namespace Prism.Wpf.Tests.Regions
                 };
                 var containerMock = new Mock<IContainerExtension>();
                 containerMock.Setup(c => c.Resolve(typeof(IRegionViewRegistry))).Returns(mockRegionContentRegistry);
-                ContainerLocator.SetContainerExtension(() => containerMock.Object);
+                ContainerLocator.SetContainerExtension(containerMock.Object);
 
                 var regionManager = new RegionManager();
 
@@ -382,7 +385,7 @@ namespace Prism.Wpf.Tests.Regions
                 var containerMock = new Mock<IContainerExtension>();
                 containerMock.Setup(c => c.Resolve(typeof(IRegionViewRegistry))).Returns(mockRegionContentRegistry);
                 ContainerLocator.ResetContainer();
-                ContainerLocator.SetContainerExtension(() => containerMock.Object);
+                ContainerLocator.SetContainerExtension(containerMock.Object);
 
                 var regionManager = new RegionManager();
 
@@ -419,7 +422,7 @@ namespace Prism.Wpf.Tests.Regions
                 };
                 var containerMock = new Mock<IContainerExtension>();
                 containerMock.Setup(c => c.Resolve(typeof(IRegionViewRegistry))).Returns(mockRegionContentRegistry);
-                ContainerLocator.SetContainerExtension(() => containerMock.Object);
+                ContainerLocator.SetContainerExtension(containerMock.Object);
 
                 var regionManager = new RegionManager();
 

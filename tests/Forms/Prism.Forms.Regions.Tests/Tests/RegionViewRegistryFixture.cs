@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using Prism.Ioc;
@@ -16,7 +14,9 @@ namespace Prism.Forms.Regions.Tests
         [Fact]
         public void CanRegisterContentAndRetrieveIt()
         {
+            ContainerLocator.ResetContainer();
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
             containerMock.Setup(c => c.Resolve(typeof(MockContentObject))).Returns(new MockContentObject());
             var registry = new RegionViewRegistry(containerMock.Object);
 
@@ -52,6 +52,8 @@ namespace Prism.Forms.Regions.Tests
         [Fact]
         public void CanRegisterContentAsDelegateAndRetrieveIt()
         {
+            ContainerLocator.ResetContainer();
+            ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             var registry = new RegionViewRegistry(null);
             var content = new MockContentObject();
 

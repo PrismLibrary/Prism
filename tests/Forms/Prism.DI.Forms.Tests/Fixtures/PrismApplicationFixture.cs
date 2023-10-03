@@ -222,7 +222,7 @@ namespace Prism.Unity.Forms.Tests.Fixtures
         }
 
         [Fact]
-        public async Task XamlNavigation_NaviateTo()
+        public async Task XamlNavigation_NavigateTo()
         {
             var app = CreateMockApplication();
             await app.NavigationService.NavigateAsync("NavigationPage/XamlViewMockA");

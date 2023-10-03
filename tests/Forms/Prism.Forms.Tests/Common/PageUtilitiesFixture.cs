@@ -36,7 +36,7 @@ namespace Prism.Forms.Tests.Common
 
             Assert.Equal(page, recorder.Records[0].Sender);
             Assert.Null(page.BindingContext);
-            Assert.Equal(0, page.Behaviors.Count);
+            Assert.Empty(page.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[0].Event);
 
             Assert.Equal(viewModel, recorder.Records[1].Sender);
@@ -62,7 +62,7 @@ namespace Prism.Forms.Tests.Common
             // contentPage2
             Assert.Equal(contentPage2, recorder.Records[0].Sender);
             Assert.Null(contentPage2.BindingContext);
-            Assert.Equal(0, contentPage2.Behaviors.Count);
+            Assert.Empty(contentPage2.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[0].Event);
 
             Assert.Equal(contentPage2ViewModel, recorder.Records[1].Sender);
@@ -71,7 +71,7 @@ namespace Prism.Forms.Tests.Common
             // contentPage1
             Assert.Equal(contentPage1, recorder.Records[2].Sender);
             Assert.Null(contentPage1.BindingContext);
-            Assert.Equal(0, contentPage1.Behaviors.Count);
+            Assert.Empty(contentPage1.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[2].Event);
 
             Assert.Equal(contentPage1ViewModel, recorder.Records[3].Sender);
@@ -80,7 +80,7 @@ namespace Prism.Forms.Tests.Common
             // navigationPage
             Assert.Equal(navigationPage, recorder.Records[4].Sender);
             Assert.Null(navigationPage.BindingContext);
-            Assert.Equal(0, navigationPage.Behaviors.Count);
+            Assert.Empty(navigationPage.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[4].Event);
 
             Assert.Equal(navigationPageViewModel, recorder.Records[5].Sender);
@@ -104,7 +104,7 @@ namespace Prism.Forms.Tests.Common
             var record = recorder.TakeFirst();
             Assert.Equal(masterPage, record.Sender);
             Assert.Null(masterPage.BindingContext);
-            Assert.Equal(0, masterPage.Behaviors.Count);
+            Assert.Empty(masterPage.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
             record = recorder.TakeFirst();
@@ -115,7 +115,7 @@ namespace Prism.Forms.Tests.Common
             record = recorder.TakeFirst();
             Assert.Equal(detailPage, record.Sender);
             Assert.Null(detailPage.BindingContext);
-            Assert.Equal(0, detailPage.Behaviors.Count);
+            Assert.Empty(detailPage.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
             record = recorder.TakeFirst();
@@ -126,7 +126,7 @@ namespace Prism.Forms.Tests.Common
             record = recorder.TakeFirst();
             Assert.Equal(masterDetailPage, record.Sender);
             Assert.Null(masterDetailPage.BindingContext);
-            Assert.Equal(0, masterDetailPage.Behaviors.Count);
+            Assert.Empty(masterDetailPage.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, record.Event);
 
             record = recorder.TakeFirst();
@@ -167,7 +167,7 @@ namespace Prism.Forms.Tests.Common
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[0].Event);
 
             Assert.Equal(tab5, recorder.Records[1].Sender);
-            Assert.Equal(0, tab5.Behaviors.Count);
+            Assert.Empty(tab5.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[1].Event);
 
             Assert.Equal(tab5ChildViewModel, recorder.Records[2].Sender);
@@ -175,14 +175,14 @@ namespace Prism.Forms.Tests.Common
 
             //tab 4
             Assert.Equal(tab4Child, recorder.Records[3].Sender);
-            Assert.Equal(0, tab4Child.Behaviors.Count);
+            Assert.Empty(tab4Child.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[3].Event);
 
             Assert.Equal(tab4ChildViewModel, recorder.Records[4].Sender);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[4].Event);
 
             Assert.Equal(tab4, recorder.Records[5].Sender);
-            Assert.Equal(0, tab4.Behaviors.Count);
+            Assert.Empty(tab4.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[5].Event);
 
             Assert.Equal(tab4ViewModel, recorder.Records[6].Sender);
@@ -191,7 +191,7 @@ namespace Prism.Forms.Tests.Common
             //tab 3
             Assert.Equal(tab3, recorder.Records[7].Sender);
             Assert.Null(tab3.BindingContext);
-            Assert.Equal(0, tab3.Behaviors.Count);
+            Assert.Empty(tab3.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[7].Event);
 
             Assert.Equal(tab3ViewModel, recorder.Records[8].Sender);
@@ -202,7 +202,7 @@ namespace Prism.Forms.Tests.Common
             //tab 1
             Assert.Equal(tab1, recorder.Records[9].Sender);
             Assert.Null(tab1.BindingContext);
-            Assert.Equal(0, tab1.Behaviors.Count);
+            Assert.Empty(tab1.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[9].Event);
 
             Assert.Equal(tab1ViewModel, recorder.Records[10].Sender);
@@ -211,7 +211,7 @@ namespace Prism.Forms.Tests.Common
             //TabbedPage
             Assert.Equal(tabbedPage, recorder.Records[11].Sender);
             Assert.Null(tabbedPage.BindingContext);
-            Assert.Equal(0, tabbedPage.Behaviors.Count);
+            Assert.Empty(tabbedPage.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[11].Event);
 
             Assert.Equal(tabbedPageViewModel, recorder.Records[12].Sender);
@@ -238,7 +238,7 @@ namespace Prism.Forms.Tests.Common
             // childPage2
             Assert.Equal(childPage2, recorder.Records[1].Sender);
             Assert.Null(childPage2.BindingContext);
-            Assert.Equal(0, childPage2.Behaviors.Count);
+            Assert.Empty(childPage2.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[1].Event);
 
             Assert.Equal(childPage2ViewModel, recorder.Records[2].Sender);
@@ -251,7 +251,7 @@ namespace Prism.Forms.Tests.Common
             // tabbedPage
             Assert.Equal(carouselPage, recorder.Records[4].Sender);
             Assert.Null(carouselPage.BindingContext);
-            Assert.Equal(0, carouselPage.Behaviors.Count);
+            Assert.Empty(carouselPage.Behaviors);
             Assert.Equal(PageNavigationEvent.Destroy, recorder.Records[4].Event);
 
             Assert.Equal(carouselPageViewModel, recorder.Records[5].Sender);

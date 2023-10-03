@@ -17,6 +17,7 @@ namespace Prism.Wpf.Tests.Regions
         public void CanRegisterContentAndRetrieveIt()
         {
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
             containerMock.Setup(c => c.Resolve(typeof(MockContentObject))).Returns(new MockContentObject());
             var registry = new RegionViewRegistry(containerMock.Object);
 
@@ -52,6 +53,7 @@ namespace Prism.Wpf.Tests.Regions
         [Fact]
         public void CanRegisterContentAsDelegateAndRetrieveIt()
         {
+            ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             var registry = new RegionViewRegistry(null);
             var content = new MockContentObject();
 
@@ -121,6 +123,7 @@ namespace Prism.Wpf.Tests.Regions
             ViewModelLocatorFixture.ResetViewModelLocationProvider();
 
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
             containerMock.Setup(c => c.Resolve(typeof(Mocks.Views.Mock))).Returns(new Mocks.Views.Mock());
             containerMock.Setup(c => c.Resolve(typeof(Mocks.ViewModels.MockViewModel))).Returns(new Mocks.ViewModels.MockViewModel());
             var registry = new RegionViewRegistry(containerMock.Object);
@@ -143,6 +146,7 @@ namespace Prism.Wpf.Tests.Regions
             ViewModelLocatorFixture.ResetViewModelLocationProvider();
 
             var containerMock = new Mock<IContainerExtension>();
+            ContainerLocator.SetContainerExtension(containerMock.Object);
             containerMock.Setup(c => c.Resolve(typeof(Mocks.Views.MockOptOut))).Returns(new Mocks.Views.MockOptOut());
             containerMock.Setup(c => c.Resolve(typeof(Mocks.ViewModels.MockOptOutViewModel))).Returns(new Mocks.ViewModels.MockOptOutViewModel());
             var registry = new RegionViewRegistry(containerMock.Object);
