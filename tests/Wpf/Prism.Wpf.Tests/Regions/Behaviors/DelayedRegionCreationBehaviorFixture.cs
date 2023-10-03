@@ -1,7 +1,6 @@
-
-
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Prism.Navigation.Regions;
 using Prism.Navigation.Regions.Behaviors;
@@ -103,7 +102,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         }
 
         [StaFact]
-        public void BehaviorDoesNotPreventControlFromBeingGarbageCollected()
+        public async Task BehaviorDoesNotPreventControlFromBeingGarbageCollected()
         {
             var control = new MockFrameworkElement();
             WeakReference controlWeakReference = new WeakReference(control);
@@ -120,13 +119,14 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             GC.KeepAlive(control);
 
             control = null;
+            await Task.Delay(10);
             GC.Collect();
 
             Assert.False(controlWeakReference.IsAlive);
         }
 
         [StaFact]
-        public void BehaviorDoesNotPreventControlFromBeingGarbageCollectedWhenRegionWasCreated()
+        public async Task BehaviorDoesNotPreventControlFromBeingGarbageCollectedWhenRegionWasCreated()
         {
             var control = new MockFrameworkElement();
             WeakReference controlWeakReference = new WeakReference(control);
@@ -144,6 +144,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             GC.KeepAlive(control);
 
             control = null;
+            await Task.Delay(10);
             GC.Collect();
 
             Assert.False(controlWeakReference.IsAlive);
