@@ -8,7 +8,7 @@ Prism’s licensing terms have recently changed. It's essential to understand an
 
 ## Licensing Options:
 
-1. **Prism Community License**: 
+### Prism Community License
 For customers that qualify for the Community License, Prism can be used free of charge.
 
 This license is available to those who either:
@@ -18,7 +18,7 @@ This license is available to those who either:
 
 *Note*: To use Prism under the Community License, you must also agree to be bound by Prism's terms and conditions.
 
-2. **Prism Commercial License**: 
+### Prism Commercial License 
 For customers who do not qualify for the community license, a Commercial License must be purchased.
 
 To explore our commercial licensing options, visit the [Prism Library website](https://prismlibrary.com/).
