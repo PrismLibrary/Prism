@@ -1,23 +1,44 @@
 
-Thank you for installing Prism 9.0! Please note Prism's License has changed.
 
-## Help Support Prism
+# Prism Licensing Update
 
-While Prism is, and will continue to be totally free to download, Open Source is not free. If you or your company have the resources, please consider becoming a GitHub Sponsor. GitHub Sponsorships help to make Open Source Development more sustainable. Depending on your Sponsorship Tier, you may also get access to some great benefits on Sponsor Connect (https://sponsorconnect.dev) including:
+Hello and thank you for using **Prism**!
 
-- The Sponsor Only Discord server
-- CI Packages for Prism (get bug fixes as they are merged!)
-- Training available ONLY to sponsors on Sponsor Connect
+Prism’s licensing terms have recently changed. It's essential to understand and abide by these changes before continuing to use our software.
 
-https://xam.dev/sponsorbrian
-https://xam.dev/sponsordan
+## Licensing Options:
 
-## Support & FAQ
+1. **Prism Community License**: 
+For customers that qualify for the Community License, Prism can be used free of charge.
 
-1) Support: Prism is distributed under the MIT License this means "AS IS", WITHOUT WARRANTY OF ANY KIND. If you require code level support, architectural guidance, or custom builds of Prism, please reach out at https://avantipoint.com/contact to inquire about Enterprise support options.
+This license is available to those who either:
+* Have an annual gross revenue of less than one (1) million U.S. dollars ($1,000,000.00 USD) per year.
+* Have less than five (5) total developers.
+* Have never received more than $3 million USD in capital from outside sources, such as private equity or venture capital.
 
-2) Community Support: GitHub issues are not the place to ask questions, these are reserved for feature requests and legitimate bug reports. You are free to ask questions on Stack Overflow however the Prism team does not monitor questions posted there. We do encourage you to post questions using GitHub Discussions on the main Prism repo. If you see a question that you know the answer to please pay it forward and help other developers that may just be starting out. https://github.com/PrismLibrary/Prism/discussions
+*Note*: To use Prism under the Community License, you must also agree to be bound by Prism's terms and conditions.
 
-3) Reporting Bugs: If you believe you have encountered a bug, please be sure to search the open and closed issues as you may find the issue has already been fixed as and is awaiting release. If you find that you have a new issue, please create a new project that focuses on ONLY the necessary steps to reproduce the issue you are facing. Issues that are opened which do not have a sample app reproducing the issue will be closed. In addition to this being required by the Prism team, this is just good etiquette for any Open Source project. Additionally we ask that you do not try to be an Archaeologist, trying to comment on PR's, commits and issues from long ago, if there is a legitimate issue, open a new issue referencing what you need to reference. Archaeologists will be ignored.
+2. **Prism Commercial License**: 
+For customers who do not qualify for the community license, a Commercial License must be purchased.
 
-4) Samples: Currently the Prism team maintains a wide variety of samples for WPF and Xamarin.Forms. If you would like to help give back, and help build out a samples repo for Uno Platform, WinUI, or .NET Maui please contact the Prism team via Twitter or Discord.
+To explore our commercial licensing options, visit the [Prism Library website](https://prismlibrary.com/).
+
+## Important Reminders:
+You **cannot** use this product without:
+1. Possessing either a Community License or a Commercial License.
+2. Agreeing and abiding by Prism's license containing all terms and conditions.
+
+To view the full Prism license containing the terms and conditions, please visit [this link](https://prismlibrary.com/downloads/prism_license.pdf).
+
+## How to Purchase Your License:
+1. Determine if you qualify for the Prism Community License by reviewing the criteria above.
+2. If you qualify, make sure to read, understand, and agree to Prism's terms and conditions found in the [Prism License](https://prismlibrary.com/downloads/prism_license.pdf).
+3. If you do not qualify for the Community License, visit the [Prism Library website](https://prismlibrary.com/) for commercial licensing options and further instructions.
+
+Thank you for your attention to this matter. We're committed to delivering the best experience with Prism and appreciate your understanding and cooperation.
+
+If you have any questions, please don't hesitate to reach out to our support team at support@prismlibrary.com.
+
+Best Regards,
+
+The Prism Team
