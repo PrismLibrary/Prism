@@ -11,7 +11,7 @@ Prism’s licensing terms have recently changed. It's essential to understand an
 ### Prism Community License
 For customers that qualify for the Community License, Prism can be used free of charge.
 
-This license is available to those who either:
+This license is available to those who:
 * Have an annual gross revenue of less than one (1) million U.S. dollars ($1,000,000.00 USD) per year.
 * Have less than five (5) total developers.
 * Have never received more than $3 million USD in capital from outside sources, such as private equity or venture capital.
