@@ -135,4 +135,5 @@ jobs:
       contents: write
     with:
       package-name: Prism.Core
-      artifacts: "Artifacts/*.nupkg,Artifacts/*.snupkg,Artifacts/*.zip"
+      artifacts: "Artifacts/NuGet/*.nupkg,Artifacts/NuGet/*.snupkg,Artifacts/*.zip"
+      zipPath: 'Artifacts/Release'
