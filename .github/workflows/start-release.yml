@@ -136,4 +136,3 @@ jobs:
     with:
       package-name: Prism.Core
       artifacts: "Artifacts/NuGet/*.nupkg,Artifacts/NuGet/*.snupkg,Artifacts/*.zip"
-      zipPath: 'Artifacts/Release'

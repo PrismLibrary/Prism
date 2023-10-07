@@ -3,6 +3,7 @@
 $executionRoot = Get-Location
 $artifactsRoot = $executionRoot, 'artifacts' -join '\'
 $binariesRoot = $executionRoot, 'artifacts', 'binaries' -join '\'
+$artifactsZipPath = $executionRoot, 'artifacts', 'Release.zip' -join '\'
 $nugetRoot = $executionRoot, 'artifacts', 'nuget' -join '\'
 Get-ChildItem .\ -Include $binariesRoot -Recurse | ForEach-Object ($_) { Remove-Item $_.Fullname -Force -Recurse }
 Get-ChildItem .\ -Include $nugetRoot -Recurse | ForEach-Object ($_) { Remove-Item $_.Fullname -Force -Recurse }
@@ -62,3 +63,6 @@ foreach($file in $files)
 }
 
 Get-ChildItem $artifactsRoot | Where-Object { $_.Name -ne 'binaries' -and $_.Name -ne 'nuget' } | ForEach-Object { Remove-Item $_.FullName -Force -Recurse }
+
+Compress-Archive -Path $binariesRoot -DestinationPath $artifactsZipPath -Force
+Remove-Item -Path $binariesRoot -Recurse -Force
