@@ -10,11 +10,9 @@
     d:DesignWidth="400">
 
   <StackPanel>
-    <TextBlock Text="{Binding Title}"
-               FontSize="20"
-               FontWeight="Bold" />
     <TextBlock Text="{Binding Message}" />
     <Button Content="OK"
-            Command="{Binding CloseCommand}" />
+            Command="{Binding CloseCommand}"
+            Margin="0,15"/>
   </StackPanel>
 </UserControl>
