@@ -1,4 +1,6 @@
+using ModuleA.Dialogs;
 using ModuleA.Views;
+using AlertDialog = ModuleA.Dialogs.AlertDialog;
 
 namespace ModuleA;
 
@@ -15,6 +17,7 @@ public class ModuleAModule : IModule
     {
         containerRegistry.RegisterForNavigation<ViewA>();
         containerRegistry.RegisterForNavigation<ViewB>();
+        containerRegistry.RegisterDialog<AlertDialog, AlertDialogViewModel>();
     }
 
     public void OnInitialized(IContainerProvider containerProvider)
