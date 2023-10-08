@@ -20,16 +20,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Using Include="Microsoft.Extensions.DependencyInjection" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Uno.WinUI" />
     <PackageReference Include="Uno.Extensions.Hosting.WinUI" />
   </ItemGroup>
 
   <ItemGroup Condition="!$(TargetFramework.Contains('windows10'))">
-    <PackageReference Include="Uno.WinUI" />
-    <PackageReference Include="Uno.Core" />
     <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.Contains('windows10'))">
