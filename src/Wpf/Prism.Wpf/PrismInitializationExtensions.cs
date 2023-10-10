@@ -26,9 +26,15 @@ namespace Prism
             });
         }
 
+#if HAS_WINUI
+        internal static void RegisterRequiredTypes(this IContainerRegistry containerRegistry)
+        {
+            containerRegistry.TryRegisterSingleton<IModuleCatalog, ModuleCatalog>();
+#else
         internal static void RegisterRequiredTypes(this IContainerRegistry containerRegistry, IModuleCatalog moduleCatalog)
         {
             containerRegistry.TryRegisterInstance(moduleCatalog);
+#endif
             containerRegistry.TryRegisterSingleton<IDialogService, DialogService>();
             containerRegistry.TryRegisterSingleton<IModuleInitializer, ModuleInitializer>();
             containerRegistry.TryRegisterSingleton<IModuleManager, ModuleManager>();
