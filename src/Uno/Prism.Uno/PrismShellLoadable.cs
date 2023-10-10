@@ -1,20 +1,20 @@
-﻿using Uno.Toolkit;
-
-namespace Prism;
+﻿namespace Prism;
 
 #nullable enable
-internal sealed class PrismShellLoadable : ILoadable
+internal sealed class PrismShellLoadable : Uno.ILoadable, Uno.Toolkit.ILoadable
 {
-    private bool _isExecuting = true;
-    public bool IsExecuting
-    {
-        get => _isExecuting;
-        set
-        {
-            _isExecuting = value;
-            IsExecutingChanged?.Invoke(this, EventArgs.Empty);
-        }
-    }
+    public bool IsExecuting { get; private set; } = true;
+
+    public bool IsLoaded { get; private set; }
 
     public event EventHandler? IsExecutingChanged;
+    public event EventHandler<EventArgs>? Loaded;
+
+    public void FinishLoading()
+    {
+        IsExecuting = false;
+        IsLoaded = true;
+        IsExecutingChanged?.Invoke(this, EventArgs.Empty);
+        Loaded?.Invoke(this, EventArgs.Empty);
+    }
 }

@@ -144,7 +144,8 @@ namespace Prism
                     _host = builder.Build();
                     InitializeModules();
                     OnInitialized();
-                    loadable.IsExecuting = false;
+                    loadable.FinishLoading();
+                    MvvmHelpers.ViewAndViewModelAction<IActiveAware>(shell, x => x.IsActive = true);
                 }
 
                 if (shell is FrameworkElement fe)
