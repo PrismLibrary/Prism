@@ -5,6 +5,7 @@ using Prism.Common;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation.Regions;
+using Uno.Toolkit;
 using Application = Microsoft.UI.Xaml.Application;
 
 #nullable enable
@@ -122,9 +123,16 @@ namespace Prism
 
             RegisterFrameworkExceptionTypes();
 
+            var loadable = new PrismShellLoadable();
             var shell = CreateShell();
+
             if (shell != null)
             {
+                if (shell is ILoadableShell loadableShell)
+                {
+                    loadableShell.Source = loadable;
+                }
+
                 MvvmHelpers.AutowireViewModel(shell);
                 builder.Window.Content = shell;
                 builder.Window.Activate();
@@ -136,6 +144,7 @@ namespace Prism
                     _host = builder.Build();
                     InitializeModules();
                     OnInitialized();
+                    loadable.IsExecuting = false;
                 }
 
                 if (shell is FrameworkElement fe)
