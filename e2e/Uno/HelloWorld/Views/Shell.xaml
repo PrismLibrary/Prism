@@ -4,27 +4,52 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:pr="using:Prism.Navigation.Regions"
     xmlns:pvm="using:Prism.Mvvm"
+    xmlns:toolkit="using:Uno.Toolkit.UI"
     pvm:ViewModelLocator.AutowireViewModel="true"
     xmlns:local="using:HelloWorld.Views"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
 
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="auto"/>
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
-    <StackPanel Margin="20"
+  <toolkit:ExtendedSplashScreen x:Name="Splash"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch">
+    <toolkit:ExtendedSplashScreen.LoadingContentTemplate>
+      <DataTemplate>
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+
+          <ProgressRing IsActive="True"
+                  Grid.Row="1"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
+                  Height="100"
+                  Width="100" />
+        </Grid>
+      </DataTemplate>
+    </toolkit:ExtendedSplashScreen.LoadingContentTemplate>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <StackPanel Margin="20"
                 HorizontalAlignment="Center"
                 Spacing="15">
-      <Image Source="ms-appx:///HelloWorld/Assets/prism.png"
+        <Image Source="ms-appx:///HelloWorld/Assets/prism.png"
              MaxHeight="80"/>
-      <TextBlock Text="{Binding Title}" FontSize="30" />
-      <StackPanel Orientation="Horizontal"
+        <TextBlock Text="{Binding Title}" FontSize="30" />
+        <StackPanel Orientation="Horizontal"
                   Spacing="15">
-        <Button Command="{Binding NavigateCommand}" CommandParameter="ViewA">Navigate to View A</Button>
-        <Button Command="{Binding NavigateCommand}" CommandParameter="ViewB">Navigate to View B</Button>
+          <Button Command="{Binding NavigateCommand}" CommandParameter="ViewA">Navigate to View A</Button>
+          <Button Command="{Binding NavigateCommand}" CommandParameter="ViewB">Navigate to View B</Button>
+        </StackPanel>
       </StackPanel>
-    </StackPanel>
-    <ContentControl Grid.Row="1" pr:RegionManager.RegionName="ContentRegion" />
-  </Grid>
+      <ContentControl Grid.Row="1" pr:RegionManager.RegionName="ContentRegion" />
+    </Grid>
+  </toolkit:ExtendedSplashScreen>
+
 </Page>
