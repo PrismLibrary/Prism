@@ -4,7 +4,8 @@
     "projects": [
       "HelloWorld.Mobile\\HelloWorld.Mobile.csproj",
       "HelloWorld.Skia.Gtk\\HelloWorld.Skia.Gtk.csproj",
-      "HelloWorld.Wasm\\HelloWorld.Wasm.csproj",
+      "HelloWorld.Wasm\\HelloWorld.Wasm.csproj",,
+      "HelloWorld.Base\\HelloWorld.Base.csproj",
       "HelloWorld\\HelloWorld.csproj"
     ]
   }
