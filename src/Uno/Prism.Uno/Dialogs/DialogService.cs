@@ -16,16 +16,27 @@ namespace Prism.Dialogs
             _containerProvider = containerProvider;
         }
 
-        public void ShowDialog(string name, IDialogParameters parameters, DialogCallback callback)
+        public async void ShowDialog(string name, IDialogParameters parameters, DialogCallback callback)
         {
-            parameters ??= new DialogParameters();
-            var windowName = parameters.TryGetValue<string>(KnownDialogParameters.WindowName, out var wName) ? wName : null;
+            try
+            {
+                parameters ??= new DialogParameters();
+                var windowName = parameters.TryGetValue<string>(KnownDialogParameters.WindowName, out var wName) ? wName : null;
 
-            IDialogWindow contentDialog = CreateDialogWindow(windowName);
-            ConfigureDialogWindowEvents(contentDialog, callback);
-            ConfigureDialogWindowContent(name, contentDialog, parameters);
+                IDialogWindow contentDialog = CreateDialogWindow(windowName);
+                ConfigureDialogWindowEvents(contentDialog, callback);
+                ConfigureDialogWindowContent(name, contentDialog, parameters);
 
-            _ = contentDialog.ShowAsync();
+                var placement = parameters.ContainsKey(KnownDialogParameters.DialogPlacement) ?
+                    (parameters[KnownDialogParameters.DialogPlacement] is ContentDialogPlacement placementValue ? placementValue : Enum.Parse<ContentDialogPlacement>(parameters[KnownDialogParameters.DialogPlacement].ToString() ?? string.Empty)) : ContentDialogPlacement.Popup;
+
+                await contentDialog.ShowAsync(placement);
+            }
+            catch (Exception ex)
+            {
+                var str = ex.ToString();
+                await callback.Invoke(ex);
+            }
         }
 
         IDialogWindow CreateDialogWindow(string? name)

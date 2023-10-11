@@ -20,7 +20,7 @@ namespace Prism.Dialogs
 
         object? Content { get; set; }
 
-        IAsyncOperation<ContentDialogResult> ShowAsync();
+        IAsyncOperation<ContentDialogResult> ShowAsync(ContentDialogPlacement placement);
 
         void Hide();
     }

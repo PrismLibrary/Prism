@@ -109,6 +109,7 @@ namespace Prism
                 .Configure(x => x.ConfigureServices(ConfigureServices)
                     .UseServiceProviderFactory(new PrismServiceProviderFactory(_containerExtension)));
 
+            _containerExtension.RegisterInstance(builder.Window);
             RegisterRequiredTypes(_containerExtension);
             RegisterTypes(_containerExtension);
             _containerExtension.FinalizeExtension();
