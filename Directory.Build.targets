@@ -1,4 +1,5 @@
 <Project>
+  <Import Project="winappsdk-workarounds.targets" Condition=" $(IsUnoProject) == 'true' " />
   <PropertyGroup>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
   </PropertyGroup>
@@ -10,14 +11,5 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
-
-  <!-- <Choose>
-    <When Condition="$(IsUnoProject)">
-      <ItemGroup>
-        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.28" />
-        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.28" />
-      </ItemGroup>
-    </When>
-  </Choose> -->
 
 </Project>

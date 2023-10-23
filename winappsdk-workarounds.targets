@@ -1,0 +1,27 @@
+<Project>
+  <!--
+    Workaround to avoid including Uno.Toolkit.UI XBFs in the PRI file:
+      > C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(5097,5):
+      > error MSB3030: Could not copy the file "D:\a\1\s\src\Uno.Toolkit.UI\obj\Uno.Toolkit.WinUI\Release\net5.0-windows10.0.19041\Controls\AutoLayout\AutoLayout.xbf" because it was not found.
+      > [D:\a\1\s\src\Uno.Toolkit.RuntimeTests\Uno.Toolkit.RuntimeTests.WinUI.csproj]
+    Just <Import /> this file into the winui project appearing in the `[]` bracket.
+  -->
+  <Target Name="AdjustGetPackagingOutput1" AfterTargets="GetMrtPackagingOutputs">
+    <Message Importance="high" Text="Applying NuGet packaging workaround for dependent PRI files exclusion" />
+    <ItemGroup>
+      <_OtherPriFiles Include="@(PackagingOutputs)" Condition="'%(Extension)' == '.pri' and ('%(PackagingOutputs.ReferenceSourceTarget)' == 'ProjectReference' or '%(PackagingOutputs.NugetSourceType)'=='Package')" />
+      <PackagingOutputs Remove="@(_OtherPriFiles)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="AdjustGetPackagingOutput2" BeforeTargets="AddPriPayloadFilesToCopyToOutputDirectoryItems">
+    <Message Importance="high" Text="Applying NuGet packaging workaround for dependent PRI files exclusion" />
+    <ItemGroup>
+      <_OtherPriFiles1 Include="@(_ReferenceRelatedPaths)" Condition="'%(Extension)' == '.pri' and ('%(_ReferenceRelatedPaths.ReferenceSourceTarget)' == 'ProjectReference' or '%(_ReferenceRelatedPaths.NugetSourceType)'=='Package')" />
+      <_ReferenceRelatedPaths Remove="@(_OtherPriFiles1)" />
+
+      <_OtherPriFiles2 Include="@(ReferenceCopyLocalPaths)" Condition="'%(Extension)' == '.pri' and ('%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' == 'ProjectReference' or '%(ReferenceCopyLocalPaths.NugetSourceType)'=='Package')" />
+      <ReferenceCopyLocalPaths Remove="@(_OtherPriFiles2)" />
+    </ItemGroup>
+  </Target>
+</Project>
