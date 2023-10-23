@@ -5,7 +5,6 @@ using Prism.Common;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation.Regions;
-using Uno.Toolkit;
 using Application = Microsoft.UI.Xaml.Application;
 
 #nullable enable
