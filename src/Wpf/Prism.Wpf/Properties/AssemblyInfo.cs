@@ -19,4 +19,6 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Interactivity")]
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Dialogs")]
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Ioc")]
+[assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Commands")]
+[assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Converters")]
 
