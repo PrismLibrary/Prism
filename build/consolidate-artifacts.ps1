@@ -2,17 +2,14 @@
 
 $executionRoot = Get-Location
 $artifactsRoot = $executionRoot, 'artifacts' -join '\'
-$binariesRoot = $executionRoot, 'artifacts', 'binaries' -join '\'
 $nugetRoot = $executionRoot, 'artifacts', 'nuget' -join '\'
-Get-ChildItem .\ -Include $binariesRoot -Recurse | ForEach-Object ($_) { Remove-Item $_.Fullname -Force -Recurse }
 Get-ChildItem .\ -Include $nugetRoot -Recurse | ForEach-Object ($_) { Remove-Item $_.Fullname -Force -Recurse }
-New-Item -Path $binariesRoot -ItemType Directory -Force > $null
 New-Item -Path $nugetRoot -ItemType Directory -Force > $null
 $platforms = @('Forms', 'Wpf', 'Uno', 'Maui')
 
 $core = @("Prism.Core", "Prism.Events", "Prism.dll", "Prism.pdb", "Prism.xml")
 $allowedExtensions = @('.dll', '.pdb', '.xml', '.pri', '.nupkg', '.snupkg')
-$files = Get-ChildItem -Path $artifactsRoot -Filter "*" -Recurse | Where-Object { (Test-Path -Path $_.FullName -PathType Leaf) -and $_.FullName.StartsWith($binariesRoot) -eq $false -and $_.FullName.StartsWith($nugetRoot) -eq $false -and ($allowedExtensions -contains [System.IO.Path]::GetExtension($_.FullName)) }
+$files = Get-ChildItem -Path $artifactsRoot -Filter "*" -Recurse | Where-Object { (Test-Path -Path $_.FullName -PathType Leaf) -and $_.FullName.StartsWith($nugetRoot) -eq $false -and ($allowedExtensions -contains [System.IO.Path]::GetExtension($_.FullName)) }
 
 if ($files.Count -eq 0)
 {
@@ -49,8 +46,6 @@ foreach($file in $files)
         $parentDirName = Split-Path -Path (Split-Path -Path $file.FullName -Parent) -Leaf
 
         Write-Output "Determining Copy Path for $parentDirName"
-        $copyPath = Join-Path $binariesRoot -ChildPath $parentDirName
-
         if ((Test-Path -Path $copyPath -PathType Container) -eq $false)
         {
             Write-Output "Creating $copyPath"
@@ -61,4 +56,4 @@ foreach($file in $files)
     }
 }
 
-Get-ChildItem $artifactsRoot | Where-Object { $_.Name -ne 'binaries' -and $_.Name -ne 'nuget' } | ForEach-Object { Remove-Item $_.FullName -Force -Recurse }
+Get-ChildItem $artifactsRoot | Where-Object { $_.Name -ne 'nuget' } | ForEach-Object { Remove-Item $_.FullName -Force -Recurse }

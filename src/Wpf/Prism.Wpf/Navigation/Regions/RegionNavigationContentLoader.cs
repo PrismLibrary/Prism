@@ -176,7 +176,7 @@ namespace Prism.Navigation.Regions
 
         private IEnumerable<object> GetCandidatesFromRegionViews(IRegion region, string candidateNavigationContract)
         {
-            return region.Views.Where(v => ViewIsMatch(v.GetType(), candidateNavigationContract));
+            return region.Views.Where(v => v is not null && ViewIsMatch(v.GetType(), candidateNavigationContract));
         }
 
         private static bool ViewIsMatch(Type viewType, string navigationSegment)

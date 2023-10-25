@@ -843,7 +843,7 @@ namespace Prism.Navigation
             }
             catch (Exception ex)
             {
-                if (((IContainerRegistry)_container).IsRegistered<object>(segmentName))
+                if (_container.IsRegistered<object>(segmentName))
                     throw new NavigationException(NavigationException.ErrorCreatingPage, _page, ex);
 
                 throw new NavigationException(NavigationException.NoPageIsRegistered, _page, ex);

@@ -1,7 +1,6 @@
-
-
 using System;
 using System.Collections.Generic;
+using Moq;
 using Prism.Ioc;
 using Prism.Navigation.Regions;
 using Prism.Navigation.Regions.Behaviors;
@@ -16,6 +15,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         [Fact]
         public void ShouldGetViewsFromRegistryOnAttach()
         {
+            ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             var region = new MockPresentationRegion() { Name = "MyRegion" };
             var viewFactory = new MockRegionContentRegistry();
             var view = new object();
@@ -35,6 +35,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         [Fact]
         public void ShouldGetViewsFromRegistryWhenRegisteringItAfterAttach()
         {
+            ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             var region = new MockPresentationRegion() { Name = "MyRegion" };
             var viewFactory = new MockRegionContentRegistry();
             var behavior = new AutoPopulateRegionBehavior(viewFactory)
@@ -67,6 +68,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         [Fact]
         public void CanAttachBeforeSettingName()
         {
+            ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             var region = new MockPresentationRegion() { Name = null };
             var viewFactory = new MockRegionContentRegistry();
             var view = new object();

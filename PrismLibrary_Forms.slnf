@@ -2,17 +2,12 @@
   "solution": {
     "path": "PrismLibrary.sln",
     "projects": [
-      "src\\Containers\\Prism.DryIoc.Shared\\Prism.DryIoc.Shared.shproj",
-      "src\\Containers\\Prism.Unity.Shared\\Prism.Unity.Shared.shproj",
       "src\\Forms\\Prism.DryIoc.Forms\\Prism.DryIoc.Forms.csproj",
       "src\\Forms\\Prism.Forms.Regions\\Prism.Forms.Regions.csproj",
       "src\\Forms\\Prism.Forms\\Prism.Forms.csproj",
       "src\\Forms\\Prism.Unity.Forms\\Prism.Unity.Forms.csproj",
       "src\\Prism.Core\\Prism.Core.csproj",
       "src\\Prism.Events\\Prism.Events.csproj",
-      "tests\\Containers\\Prism.Container.DryIoc.Tests\\Prism.Ioc.DryIoc.Tests.csproj",
-      "tests\\Containers\\Prism.Container.Shared\\Prism.Ioc.Shared.shproj",
-      "tests\\Containers\\Prism.Container.Unity.Tests\\Prism.Ioc.Unity.Tests.csproj",
       "tests\\Forms\\Prism.DI.Forms.Tests\\Prism.DI.Forms.Tests.shproj",
       "tests\\Forms\\Prism.DryIoc.Forms.Tests\\Prism.DryIoc.Forms.Tests.csproj",
       "tests\\Forms\\Prism.Forms.Regions.Tests\\Prism.Forms.Regions.Tests.csproj",

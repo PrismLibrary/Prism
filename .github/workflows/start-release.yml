@@ -126,7 +126,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: NuGet
-          path: .\artifacts
+          path: .\artifacts\nuget
 
   release:
     uses: avantipoint/workflow-templates/.github/workflows/generate-release.yml@master
@@ -135,4 +135,3 @@ jobs:
       contents: write
     with:
       package-name: Prism.Core
-      artifacts: "Artifacts/*.nupkg,Artifacts/*.snupkg,Artifacts/*.zip"

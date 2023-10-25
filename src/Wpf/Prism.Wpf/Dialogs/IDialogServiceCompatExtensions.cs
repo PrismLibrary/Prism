@@ -72,43 +72,5 @@ namespace Prism.Dialogs
             return parameters;
         }
 #endif
-        /// <summary>
-        /// Shows a modal dialog.
-        /// </summary>
-        /// <param name="dialogService">The DialogService</param>
-        /// <param name="name">The name of the dialog to show.</param>
-        public static void ShowDialog(this IDialogService dialogService, string name)
-        {
-            dialogService.ShowDialog(name, new DialogParameters(), DialogCallback.Empty);
-        }
-
-        /// <summary>
-        /// Shows a modal dialog.
-        /// </summary>
-        /// <param name="dialogService">The DialogService</param>
-        /// <param name="name">The name of the dialog to show.</param>
-        /// <param name="callback">The action to perform when the dialog is closed.</param>
-        public static void ShowDialog(this IDialogService dialogService, string name, Action<IDialogResult> callback)
-        {
-            dialogService.ShowDialog(name, new DialogParameters(), new DialogCallback().OnClose(callback));
-        }
-
-        /// <summary>
-        /// Shows a modal dialog.
-        /// </summary>
-        /// <param name="dialogService">The DialogService</param>
-        /// <param name="name">The name of the dialog to show.</param>
-        /// <param name="parameters">The parameters to pass to the dialog.</param>
-        /// <param name="callback">The action to perform when the dialog is closed.</param>
-        /// <param name="windowName">The name of the hosting window registered with the IContainerRegistry.</param>
-        public static void ShowDialog(this IDialogService dialogService, string name, IDialogParameters parameters, Action<IDialogResult> callback, string windowName)
-        {
-            parameters ??= new DialogParameters();
-
-            if (!string.IsNullOrEmpty(windowName))
-                parameters.Add(KnownDialogParameters.WindowName, windowName);
-
-            dialogService.ShowDialog(name, parameters, new DialogCallback().OnClose(callback));
-        }
     }
 }

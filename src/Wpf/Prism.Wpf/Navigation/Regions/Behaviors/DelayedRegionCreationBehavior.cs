@@ -35,7 +35,7 @@ namespace Prism.Navigation.Regions.Behaviors
         /// </summary>
         /// <param name="regionAdapterMappings">
         /// The region adapter mappings, that are used to find the correct adapter for
-        /// a given controltype. The controltype is determined by the <see name="TargetElement"/> value.
+        /// a given control type. The control type is determined by the <see name="TargetElement"/> value.
         /// </param>
         public DelayedRegionCreationBehavior(RegionAdapterMappings regionAdapterMappings)
         {

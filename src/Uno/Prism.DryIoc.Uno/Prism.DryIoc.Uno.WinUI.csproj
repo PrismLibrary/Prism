@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net7.0;net7.0-android;net7.0-ios;net7.0-maccatalyst;net7.0-macos</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net6.0-windows10.0.18362;net7.0-windows10.0.18362</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <AssemblyName>Prism.DryIoc.Uno</AssemblyName>
     <PackageId>Prism.DryIoc.Uno.WinUI</PackageId>
@@ -35,6 +35,10 @@ Prism provides an implementation of a collection of design patterns that are hel
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Prism.Container.DryIoc" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\..\Wpf\Prism.DryIoc.Wpf\**\*.cs" Exclude="..\..\Wpf\Prism.DryIoc.Wpf\bin\**\*.cs;..\..\Wpf\Prism.DryIoc.Wpf\obj\**\*.cs" />
     <EmbeddedResource Include="..\..\Wpf\Prism.Unity.Wpf\Properties\**\*.resx" Link="Properties\%(FileName)%(Extension)" />
   </ItemGroup>
@@ -45,16 +49,6 @@ Prism provides an implementation of a collection of design patterns that are hel
     <Compile Remove="..\..\Wpf\Prism.DryIoc.Wpf\Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Maui\Prism.DryIoc.Maui\DryIocContainerExtension.cs" Link="DryIocContainerExtension.cs" />
-    <Compile Include="..\..\Maui\Prism.DryIoc.Maui\DryIocServiceProviderCapabilities.cs" Link="DryIocServiceProviderCapabilities.cs" />
-    <Compile Include="..\..\Maui\Prism.DryIoc.Maui\DryIocServiceScope.cs" Link="DryIocServiceScope.cs" />
-    <Compile Include="..\..\Maui\Prism.DryIoc.Maui\DryIocServiceScopeFactory.cs" Link="DryIocServiceScopeFactory.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="DryIoc.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Prism.Uno\Prism.Uno.WinUI.csproj" />
   </ItemGroup>
-  <Import Project="..\..\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems" Label="Shared" />
 </Project>

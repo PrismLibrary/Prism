@@ -9,7 +9,8 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-  <Grid>
+  <StackPanel>
     <TextBlock Text="View A" FontSize="72" />
-  </Grid>
+    <Button Content="Show Dialog" Command="{Binding ShowAlertCommand}" />
+  </StackPanel>
 </UserControl>

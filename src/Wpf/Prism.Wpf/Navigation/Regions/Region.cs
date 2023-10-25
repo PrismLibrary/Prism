@@ -30,7 +30,6 @@ namespace Prism.Navigation.Regions
         private object _context;
         private IRegionManager _regionManager;
         private IRegionNavigationService _regionNavigationService;
-        private IContainerProvider _container;
 
         private Comparison<object> _sort;
 
@@ -40,7 +39,6 @@ namespace Prism.Navigation.Regions
         public Region()
         {
             Behaviors = new RegionBehaviorCollection(this);
-            _container = ContainerLocator.Container;
 
             _sort = DefaultSortComparison;
         }
@@ -217,10 +215,7 @@ namespace Prism.Navigation.Regions
         {
             get
             {
-                if (_itemMetadataCollection == null)
-                {
-                    _itemMetadataCollection = new ObservableCollection<ItemMetadata>();
-                }
+                _itemMetadataCollection ??= new ObservableCollection<ItemMetadata>();
 
                 return _itemMetadataCollection;
             }
@@ -234,7 +229,7 @@ namespace Prism.Navigation.Regions
         /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="DependencyObject"/>. It will be the current region manager when using this overload.</returns>
         public IRegionManager Add(string viewName)
         {
-            var view = _container.Resolve<object>(viewName);
+            var view = ContainerLocator.Container.Resolve<object>(viewName);
             return Add(view, viewName, false);
         }
 

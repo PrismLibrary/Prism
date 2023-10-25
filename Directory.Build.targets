@@ -1,4 +1,5 @@
 <Project>
+  <Import Project="winappsdk-workarounds.targets" Condition=" $(IsUnoProject) == 'true' " />
   <PropertyGroup>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
   </PropertyGroup>
@@ -10,52 +11,5 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
-
-  <Target Name="_ReleaseBinaryCopy"
-          Condition=" !'$(IsTestProject)' And '$(IsPackable)' "
-          BeforeTargets="AfterBuild;WpfPack">
-
-    <PropertyGroup>
-      <BinariesFolderName Condition=" '$(IsCoreProject)' ">Core</BinariesFolderName>
-      <BinariesFolderName Condition=" '$(IsFormsProject)' ">Forms</BinariesFolderName>
-      <BinariesFolderName Condition=" '$(IsWpfProject)' ">WPF</BinariesFolderName>
-      <BinariesFolderName Condition=" '$(IsUnoProject)' ">Uno</BinariesFolderName>
-      <BinariesFolderName Condition=" '$(IsMauiProject)' ">Maui</BinariesFolderName>
-      <ArtifactStaging>$([System.IO.Path]::Combine('$(ArtifactStagingRoot)', $(Configuration), '$(BinariesFolderName)', '$(TargetFramework)'))</ArtifactStaging>
-    </PropertyGroup>
-
-    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll"
-          DestinationFolder="$(ArtifactStaging)"
-          Condition=" Exists('$(OutputPath)$(AssemblyName).dll') " />
-    <Copy SourceFiles="$(OutputPath)$(AssemblyName).xml"
-          DestinationFolder="$(ArtifactStaging)"
-          Condition=" Exists('$(OutputPath)$(AssemblyName).xml') " />
-    <Copy SourceFiles="$(OutputPath)$(AssemblyName).pdb"
-          DestinationFolder="$(ArtifactStaging)"
-          Condition=" Exists('$(OutputPath)$(AssemblyName).pdb') " />
-    <Copy SourceFiles="$(OutputPath)$(AssemblyName).pri"
-          DestinationFolder="$(ArtifactStaging)"
-          Condition=" Exists('$(OutputPath)$(AssemblyName).pri') " />
-
-  </Target>
-
-
-  <Choose>
-    <When Condition="$(IsUnoProject)">
-      <ItemGroup>
-        <!--
-        If you encounter this error message:
-
-          error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll. Please update to a newer .NET SDK in order to reference this assembly.
-
-        This means that the two packages below must be aligned with the "build" version number of
-        the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
-        must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
-        -->
-        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.28" />
-        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.28" />
-      </ItemGroup>
-    </When>
-  </Choose>
 
 </Project>

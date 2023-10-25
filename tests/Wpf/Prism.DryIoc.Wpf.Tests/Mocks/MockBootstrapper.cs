@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using DryIoc;
+using Prism.Container.DryIoc;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;

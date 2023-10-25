@@ -26,7 +26,7 @@ namespace Prism.Forms.Tests.Navigation
 
             ContainerLocator.ResetContainer();
             _container = new PageNavigationContainerMock();
-            ContainerLocator.SetContainerExtension(() => _container);
+            ContainerLocator.SetContainerExtension(_container);
 
             _container.Register("PageMock", typeof(PageMock));
 
@@ -575,8 +575,8 @@ namespace Prism.Forms.Tests.Navigation
             ((IPageAware)navigationService).Page = navigationPage;
             await navigationService.NavigateAsync("ContentPage");
 
-            Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
-            Assert.Equal(1, navigationPage.Navigation.NavigationStack.Count);
+            Assert.Empty(navigationPage.Navigation.ModalStack);
+            Assert.Single(navigationPage.Navigation.NavigationStack);
             var contentPage = navigationPage.Navigation.NavigationStack.Last();
             Assert.IsType<ContentPageMock>(contentPage);
 
@@ -627,7 +627,7 @@ namespace Prism.Forms.Tests.Navigation
             ((IPageAware)navigationService).Page = contentPageMock;
             await navigationService.NavigateAsync("SecondContentPageMock");
 
-            Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
+            Assert.Empty(navigationPage.Navigation.ModalStack);
             Assert.Equal(2, navigationPage.Navigation.NavigationStack.Count);
 
             var pageMock = navigationPage.Navigation.NavigationStack.Last();
@@ -691,8 +691,8 @@ namespace Prism.Forms.Tests.Navigation
             ((IPageAware)navigationService).Page = navigationPage;
             await navigationService.NavigateAsync("ContentPage");
 
-            Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
-            Assert.Equal(1, navigationPage.Navigation.NavigationStack.Count);
+            Assert.Empty(navigationPage.Navigation.ModalStack);
+            Assert.Single(navigationPage.Navigation.NavigationStack);
 
             var rootPage = navigationPage.Navigation.NavigationStack.Last();
             Assert.Equal(contentPageMock, rootPage);
@@ -884,7 +884,7 @@ namespace Prism.Forms.Tests.Navigation
             ((IPageAware)navigationService).Page = navigationPage;
             await navigationService.NavigateAsync("SecondContentPageMock");
 
-            Assert.Equal(0, navigationPage.Navigation.ModalStack.Count);
+            Assert.Empty(navigationPage.Navigation.ModalStack);
             Assert.Equal(2, navigationPage.Navigation.NavigationStack.Count);
 
             var currentPage = navigationPage.Navigation.NavigationStack.Last();
@@ -994,7 +994,7 @@ namespace Prism.Forms.Tests.Navigation
 
             await navigationService.NavigateAsync("/NavigationPage/ContentPage");
 
-            Assert.Equal(0, rootPage.Navigation.ModalStack.Count);
+            Assert.Empty(rootPage.Navigation.ModalStack);
 
             var navPage = _applicationProvider.MainPage;
             Assert.IsType<NavigationPageMock>(navPage);
@@ -1010,7 +1010,7 @@ namespace Prism.Forms.Tests.Navigation
 
             await navigationService.NavigateAsync(new Uri("http://localhost/NavigationPage/ContentPage", UriKind.Absolute));
 
-            Assert.Equal(0, rootPage.Navigation.ModalStack.Count);
+            Assert.Empty(rootPage.Navigation.ModalStack);
 
             var navPage = _applicationProvider.MainPage;
             Assert.IsType<NavigationPageMock>(navPage);
@@ -1106,7 +1106,7 @@ namespace Prism.Forms.Tests.Navigation
             await navigationService.NavigateAsync("ContentPage/NavigationPageWithStackNoMatch/ContentPage");
 
             var navPage = rootPage.Navigation.ModalStack[0].Navigation.ModalStack[0];
-            Assert.Equal(1, navPage.Navigation.NavigationStack.Count);
+            Assert.Single(navPage.Navigation.NavigationStack);
         }
 
         [Fact]
@@ -1197,8 +1197,8 @@ namespace Prism.Forms.Tests.Navigation
 
             await navigationService.NavigateAsync("MasterDetailPage-Empty/ContentPage");
 
-            Assert.Equal(1, rootPage.Navigation.ModalStack.Count);
-            Assert.Equal(0, rootPage.Navigation.NavigationStack.Count);
+            Assert.Single(rootPage.Navigation.ModalStack);
+            Assert.Empty(rootPage.Navigation.NavigationStack);
 
             var masterDetail = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
             Assert.NotNull(masterDetail);
@@ -1216,8 +1216,8 @@ namespace Prism.Forms.Tests.Navigation
             //await navigationService.NavigateAsync("MasterDetailPage-Empty/ContentPage", useModalNavigation: true);
             await navigationService.NavigateAsync("MasterDetailPage-Empty/ContentPage");
 
-            Assert.Equal(1, rootPage.Navigation.ModalStack.Count);
-            Assert.Equal(0, rootPage.Navigation.NavigationStack.Count);
+            Assert.Single(rootPage.Navigation.ModalStack);
+            Assert.Empty(rootPage.Navigation.NavigationStack);
             var masterDetail = rootPage.Navigation.ModalStack[0] as MasterDetailPageEmptyMock;
             Assert.NotNull(masterDetail);
             Assert.NotNull(masterDetail.Detail);
@@ -1232,12 +1232,12 @@ namespace Prism.Forms.Tests.Navigation
             var navigationPage = new NavigationPage(rootPage);
             ((IPageAware)navigationService).Page = rootPage;
 
-            Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
+            Assert.Single(rootPage.Navigation.NavigationStack);
             Assert.IsType<ContentPageMock>(navigationPage.CurrentPage);
 
             await navigationService.NavigateAsync("MasterDetailPage-Empty/ContentPage");
 
-            Assert.Equal(0, rootPage.Navigation.ModalStack.Count);
+            Assert.Empty(rootPage.Navigation.ModalStack);
             Assert.Equal(2, rootPage.Navigation.NavigationStack.Count);
             var masterDetail = rootPage.Navigation.NavigationStack[1] as MasterDetailPageEmptyMock;
             Assert.NotNull(masterDetail);
@@ -1272,10 +1272,10 @@ namespace Prism.Forms.Tests.Navigation
             Assert.NotNull(masterDetail);
             Assert.NotNull(masterDetail.Detail);
             Assert.IsType<NavigationPageEmptyMock>(masterDetail.Detail);
-            Assert.Equal(0, masterDetail.Navigation.ModalStack.Count);
-            Assert.Equal(0, masterDetail.Navigation.NavigationStack.Count);
-            Assert.Equal(0, masterDetail.Detail.Navigation.ModalStack.Count);
-            Assert.Equal(1, masterDetail.Detail.Navigation.NavigationStack.Count);
+            Assert.Empty(masterDetail.Navigation.ModalStack);
+            Assert.Empty(masterDetail.Navigation.NavigationStack);
+            Assert.Empty(masterDetail.Detail.Navigation.ModalStack);
+            Assert.Single(masterDetail.Detail.Navigation.NavigationStack);
             Assert.IsType<ContentPageMock>(masterDetail.Detail.Navigation.NavigationStack.Last());
         }
 
@@ -1291,10 +1291,10 @@ namespace Prism.Forms.Tests.Navigation
             Assert.NotNull(masterDetail);
             Assert.NotNull(masterDetail.Detail);
             Assert.IsType<NavigationPageMock>(masterDetail.Detail);
-            Assert.Equal(0, masterDetail.Navigation.ModalStack.Count);
-            Assert.Equal(0, masterDetail.Navigation.NavigationStack.Count);
-            Assert.Equal(0, masterDetail.Detail.Navigation.ModalStack.Count);
-            Assert.Equal(1, masterDetail.Detail.Navigation.NavigationStack.Count);
+            Assert.Empty(masterDetail.Navigation.ModalStack);
+            Assert.Empty(masterDetail.Navigation.NavigationStack);
+            Assert.Empty(masterDetail.Detail.Navigation.ModalStack);
+            Assert.Single(masterDetail.Detail.Navigation.NavigationStack);
             Assert.IsType<PageMock>(masterDetail.Detail.Navigation.NavigationStack.Last());
         }
 
@@ -1948,7 +1948,7 @@ namespace Prism.Forms.Tests.Navigation
 
             await navigationService.NavigateAsync("../../../../PageMock");
 
-            Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
+            Assert.Single(rootPage.Navigation.NavigationStack);
             Assert.IsType<PageMock>(rootPage.Navigation.NavigationStack[0]);
         }
 
@@ -2018,7 +2018,7 @@ namespace Prism.Forms.Tests.Navigation
 
             await navigationService.NavigateAsync("../../../");
 
-            Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
+            Assert.Single(rootPage.Navigation.NavigationStack);
             Assert.IsType<ContentPageMock>(rootPage.Navigation.NavigationStack.Last());
         }
 

@@ -6,13 +6,6 @@ using System.Windows.Markup;
 
 [assembly: CLSCompliant(true)]
 
-// -----  Legacy -----
-[assembly: XmlnsDefinition("http://www.codeplex.com/prism", "Prism.Navigation.Regions")]
-[assembly: XmlnsDefinition("http://www.codeplex.com/prism", "Prism.Navigation.Regions.Behaviors")]
-[assembly: XmlnsDefinition("http://www.codeplex.com/prism", "Prism.Mvvm")]
-[assembly: XmlnsDefinition("http://www.codeplex.com/prism", "Prism.Interactivity")]
-// -----  Legacy -----
-
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Navigation.Regions")]
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Navigation.Regions.Behaviors")]
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Mvvm")]
@@ -21,4 +14,3 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Ioc")]
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Commands")]
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Converters")]
-

@@ -165,11 +165,11 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         public virtual void RemovesOnlyDeactivatedItemsInRegionBasedOnDataContextKeepAlive()
         {
             // Arrange
-            var retionItemDataContextToKeepAlive = new Mock<IRegionMemberLifetime>();
-            retionItemDataContextToKeepAlive.Setup(i => i.KeepAlive).Returns(true);
+            var regionItemDataContextToKeepAlive = new Mock<IRegionMemberLifetime>();
+            regionItemDataContextToKeepAlive.Setup(i => i.KeepAlive).Returns(true);
 
             var regionItemToKeepAlive = new MockFrameworkElement();
-            regionItemToKeepAlive.DataContext = retionItemDataContextToKeepAlive.Object;
+            regionItemToKeepAlive.DataContext = regionItemDataContextToKeepAlive.Object;
             Region.Add(regionItemToKeepAlive);
             Region.Activate(regionItemToKeepAlive);
 

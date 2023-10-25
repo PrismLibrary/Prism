@@ -10,6 +10,10 @@
     <Description>Prism is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices.  Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared code base in a Portable Class Library targeting these platforms; WPF, and Xamarin Forms. Features that need to be platform specific are implemented in the respective libraries for the target platform.</Description>
     <PackageTags>prism;wpf;xamarin;dotnet maui;maui;uno;unoplatform;mvvm;xaml</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Container.Abstractions" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Resources.resx" />
     <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />

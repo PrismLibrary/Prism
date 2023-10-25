@@ -2,7 +2,6 @@ using System.Text.RegularExpressions;
 using System.Web;
 using Prism.Common;
 using Prism.Events;
-using Prism.Ioc;
 using Prism.Mvvm;
 using Application = Microsoft.Maui.Controls.Application;
 using XamlTab = Prism.Navigation.Xaml.TabbedPage;

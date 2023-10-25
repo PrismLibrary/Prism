@@ -4,6 +4,7 @@ using Prism.Common;
 using Prism.Ioc;
 using Windows.Foundation;
 
+#nullable enable
 namespace Prism.Dialogs
 {
     public class DialogService : IDialogService
@@ -15,18 +16,30 @@ namespace Prism.Dialogs
             _containerProvider = containerProvider;
         }
 
-        public void ShowDialog(string name, IDialogParameters parameters, DialogCallback callback)
+        public async void ShowDialog(string name, IDialogParameters parameters, DialogCallback callback)
         {
-            parameters ??= new DialogParameters();
-            var windowName = parameters.TryGetValue<string>(KnownDialogParameters.WindowName, out var wName) ? wName : null;
-            IDialogWindow contentDialog = CreateDialogWindow(windowName);
-            ConfigureDialogWindowEvents(contentDialog, callback);
-            ConfigureDialogWindowContent(name, contentDialog, parameters);
+            try
+            {
+                parameters ??= new DialogParameters();
+                var windowName = parameters.TryGetValue<string>(KnownDialogParameters.WindowName, out var wName) ? wName : null;
 
-            _ = contentDialog.ShowAsync();
+                IDialogWindow contentDialog = CreateDialogWindow(windowName);
+                ConfigureDialogWindowEvents(contentDialog, callback);
+                ConfigureDialogWindowContent(name, contentDialog, parameters);
+
+                var placement = parameters.ContainsKey(KnownDialogParameters.DialogPlacement) ?
+                    (parameters[KnownDialogParameters.DialogPlacement] is ContentDialogPlacement placementValue ? placementValue : Enum.Parse<ContentDialogPlacement>(parameters[KnownDialogParameters.DialogPlacement].ToString() ?? string.Empty)) : ContentDialogPlacement.Popup;
+
+                await contentDialog.ShowAsync(placement);
+            }
+            catch (Exception ex)
+            {
+                var str = ex.ToString();
+                await callback.Invoke(ex);
+            }
         }
 
-        IDialogWindow CreateDialogWindow(string name)
+        IDialogWindow CreateDialogWindow(string? name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return _containerProvider.Resolve<IDialogWindow>();
@@ -37,26 +50,26 @@ namespace Prism.Dialogs
         void ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)
         {
             var content = _containerProvider.Resolve<object>(dialogName);
-            if (!(content is FrameworkElement dialogContent))
+            if (content is not FrameworkElement dialogContent)
             {
                 throw new NullReferenceException("A dialog's content must be a FrameworkElement");
             }
 
             MvvmHelpers.AutowireViewModel(content);
 
-            if (!(dialogContent.DataContext is IDialogAware viewModel))
+            if (dialogContent.DataContext is not IDialogAware viewModel)
             {
                 throw new NullReferenceException($"A dialog's ViewModel must implement the IDialogAware interface ({dialogContent.DataContext})");
             }
 
-            ConfigureDialogWindowProperties(window, dialogContent, viewModel);
+            DialogService.ConfigureDialogWindowProperties(window, dialogContent, viewModel);
 
             MvvmHelpers.ViewAndViewModelAction<IDialogAware>(viewModel, d => d.OnDialogOpened(parameters));
         }
 
         void ConfigureDialogWindowEvents(IDialogWindow contentDialog, DialogCallback callback)
         {
-            IDialogResult result = null;
+            IDialogResult? result = null;
 
             void RequestCloseHandler(IDialogResult r)
             {
@@ -64,7 +77,7 @@ namespace Prism.Dialogs
                 contentDialog.Hide();
             }
 
-            RoutedEventHandler loadedHandler = null;
+            RoutedEventHandler loadedHandler = null!;
             loadedHandler = (o, e) =>
             {
                 contentDialog.Loaded -= loadedHandler;
@@ -77,32 +90,29 @@ namespace Prism.Dialogs
 
             contentDialog.Loaded += loadedHandler;
 
-            TypedEventHandler<ContentDialog, ContentDialogClosingEventArgs> closingHandler = null;
-
-            closingHandler = (o, e) =>
+            void ClosingHandler(ContentDialog o, ContentDialogClosingEventArgs e)
             {
                 if (contentDialog.DataContext is IDialogAware dialogAware
                     && !dialogAware.CanCloseDialog())
                 {
                     e.Cancel = true;
                 }
-            };
+            }
 
-            contentDialog.Closing += closingHandler;
+            contentDialog.Closing += ClosingHandler;
 
-            TypedEventHandler<ContentDialog, ContentDialogClosedEventArgs> closedHandler = null;
+            TypedEventHandler<ContentDialog, ContentDialogClosedEventArgs> closedHandler = null!;
             closedHandler = async (o, e) =>
             {
                 contentDialog.Closed -= closedHandler;
-                contentDialog.Closing -= closingHandler;
+                contentDialog.Closing -= ClosingHandler;
 
                 if (contentDialog.DataContext is IDialogAware dialogAware)
                 {
                     dialogAware.OnDialogClosed();
                 }
 
-                if (result == null)
-                    result = new DialogResult();
+                result ??= new DialogResult();
 
                 await callback.Invoke(result);
 
@@ -112,7 +122,7 @@ namespace Prism.Dialogs
             contentDialog.Closed += closedHandler;
         }
 
-        void ConfigureDialogWindowProperties(IDialogWindow window, FrameworkElement dialogContent, IDialogAware viewModel)
+        private static void ConfigureDialogWindowProperties(IDialogWindow window, FrameworkElement dialogContent, IDialogAware viewModel)
         {
             var windowStyle = Dialog.GetWindowStyle(dialogContent);
             if (windowStyle != null)

@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
 
+#nullable enable
 namespace Prism.Dialogs
 {
     /// <summary>
@@ -9,11 +10,12 @@ namespace Prism.Dialogs
     /// </summary>
     public partial class DialogWindow : ContentDialog, IDialogWindow
     {
-        public DialogWindow()
+        public DialogWindow(Window window)
         {
             this.InitializeComponent();
+            XamlRoot = window.Content.XamlRoot;
         }
-        public IDialogResult Result { get; set; }
+        public IDialogResult? Result { get; set; }
 
         event RoutedEventHandler IDialogWindow.Loaded
         {

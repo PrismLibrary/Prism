@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Unity.Container" />
+    <PackageReference Include="Prism.Container.Unity" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +25,5 @@
     <Compile Update="Properties\Settings.Designer.cs" DesignTimeSharedInput="True" AutoGen="True" DependentUpon="Settings.settings" />
     <None Update="Properties\Settings.settings" Generator="SettingsSingleFileGenerator" LastGenOutput="Settings.Designer.cs" />
   </ItemGroup>
-
-  <Import Project="..\..\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems" Label="Shared" />
 
 </Project>

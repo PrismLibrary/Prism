@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DryIoc.dll" />
+    <PackageReference Include="Prism.Container.DryIoc" />
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" />
     <PackageReference Include="Microsoft.Maui.Controls" />
   </ItemGroup>
@@ -17,7 +17,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Prism.Maui\Prism.Maui.csproj" />
   </ItemGroup>
-
-  <Import Project="..\..\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems" Label="Shared" />
 
 </Project>

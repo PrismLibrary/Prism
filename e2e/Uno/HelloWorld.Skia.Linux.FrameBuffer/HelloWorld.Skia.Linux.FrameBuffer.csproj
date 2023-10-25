@@ -12,7 +12,7 @@
 		<PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
 		<PackageReference Include="SkiaSharp.Skottie" />
 		<PackageReference Include="Uno.WinUI.Skia.Linux.FrameBuffer" />
-		<PackageReference Include="Uno.WinUI.RemoteControl" />
+		<PackageReference Include="Uno.WinUI.DevServer" />
 		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
 		<PackageReference Include="Uno.Material.WinUI" />
 		<PackageReference Include="Uno.Toolkit.WinUI.Material" />
