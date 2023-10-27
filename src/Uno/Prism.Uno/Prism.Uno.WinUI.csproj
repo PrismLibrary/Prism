@@ -45,6 +45,8 @@
     <Compile Include="..\..\Forms\Prism.Forms\Modularity\*.cs" LinkBase="Modularity" />
     <Compile Remove="**\*.net45.cs" />
     <Compile Remove="**\*.netcore.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Commands\**" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Converters\**" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Modularity\**" />
   </ItemGroup>
   <ItemGroup>
