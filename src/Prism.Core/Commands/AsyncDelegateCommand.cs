@@ -164,6 +164,14 @@ public class AsyncDelegateCommand : DelegateCommandBase, IAsyncCommand
     }
 
     /// <summary>
+    /// Sets the <see cref="CancellationTokenSourceFactory(Func{CancellationToken})"/> based on the specified timeout.
+    /// </summary>
+    /// <param name="timeout">A specified timeout.</param>
+    /// <returns>The current instance of <see cref="AsyncDelegateCommand{T}"/>.</returns>
+    public AsyncDelegateCommand CancelAfter(TimeSpan timeout) =>
+        CancellationTokenSourceFactory(() => new CancellationTokenSource(timeout).Token);
+
+    /// <summary>
     /// Provides a delegate callback to provide a default CancellationToken when the Command is invoked.
     /// </summary>
     /// <param name="factory">The default <see cref="CancellationToken"/> Factory.</param>
