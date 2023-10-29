@@ -1,4 +1,4 @@
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -86,17 +86,19 @@ public class AsyncDelegateCommand : DelegateCommandBase, IAsyncCommand
     ///<summary>
     /// Executes the command.
     ///</summary>
-    public async Task Execute(CancellationToken cancellationToken = default)
+    public async Task Execute(CancellationToken? cancellationToken)
     {
+        var token = cancellationToken ?? _getCancellationToken();
         try
         {
             if (!_enableParallelExecution && IsExecuting)
                 return;
 
             IsExecuting = true;
-            await _executeMethod(cancellationToken);
+            await _executeMethod(token)
+                .ConfigureAwait(false);
         }
-        catch (TaskCanceledException) when (cancellationToken.IsCancellationRequested)
+        catch (TaskCanceledException) when (token.IsCancellationRequested)
         {
             // Do nothing... the Task was cancelled
         }
