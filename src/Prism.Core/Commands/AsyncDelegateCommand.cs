@@ -90,6 +90,9 @@ public class AsyncDelegateCommand : DelegateCommandBase, IAsyncCommand
     {
         try
         {
+            if (!_enableParallelExecution && IsExecuting)
+                return;
+
             IsExecuting = true;
             await _executeMethod(cancellationToken);
         }
