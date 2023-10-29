@@ -142,9 +142,15 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     /// <param name="parameter">Command Parameter</param>
     protected override async void Execute(object? parameter)
     {
+        var cancellationToken = _getCancellationToken();
         try
         {
-            await Execute((T)parameter!, _getCancellationToken());
+            await Execute((T)parameter!, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (TaskCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            // Do nothing... the Task was cancelled
         }
         catch (Exception ex)
         {
