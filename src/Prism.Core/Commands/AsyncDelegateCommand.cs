@@ -1,4 +1,4 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,7 +24,11 @@ public class AsyncDelegateCommand : DelegateCommandBase, IAsyncCommand
     /// </summary>
     /// <param name="executeMethod">The <see cref="Func{Task}"/> to invoke when <see cref="ICommand.Execute(object)"/> is called.</param>
     public AsyncDelegateCommand(Func<Task> executeMethod)
+#if NET6_0_OR_GREATER
+        : this (c => executeMethod().WaitAsync(c), () => true)
+#else
         : this(c => executeMethod(), () => true)
+#endif
     {
 
     }
@@ -46,7 +50,11 @@ public class AsyncDelegateCommand : DelegateCommandBase, IAsyncCommand
     /// <param name="executeMethod">The <see cref="Func{Task}"/> to invoke when <see cref="ICommand.Execute"/> is called.</param>
     /// <param name="canExecuteMethod">The delegate to invoke when <see cref="ICommand.CanExecute"/> is called</param>
     public AsyncDelegateCommand(Func<Task> executeMethod, Func<bool> canExecuteMethod)
+#if NET6_0_OR_GREATER
+        : this(c => executeMethod().WaitAsync(c), canExecuteMethod)
+#else
         : this(c => executeMethod(), canExecuteMethod)
+#endif
     {
     }
 
