@@ -86,7 +86,7 @@ public class AsyncDelegateCommand : DelegateCommandBase, IAsyncCommand
     ///<summary>
     /// Executes the command.
     ///</summary>
-    public async Task Execute(CancellationToken? cancellationToken)
+    public async Task Execute(CancellationToken? cancellationToken = null)
     {
         var token = cancellationToken ?? _getCancellationToken();
         try
