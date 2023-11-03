@@ -129,6 +129,7 @@ public class AsyncDelegateCommandFixture
 
         Assert.True(command.IsExecuting);
         cts.Cancel();
+        await Task.Delay(10);
 
         Assert.False(command.IsExecuting);
     }
