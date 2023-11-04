@@ -1,9 +1,7 @@
-﻿using Uno.Toolkit;
-
-namespace Prism;
+﻿namespace Prism;
 
 #nullable enable
 public interface ILoadableShell
 {
-    ILoadable Source { get; set; }
+    void FinishLoading();
 }
