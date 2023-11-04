@@ -1,41 +1,41 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
-		<OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
-		<TargetFramework>net7.0-windows</TargetFramework>
-		<UseWPF>true</UseWPF>
-	</PropertyGroup>
-	<ItemGroup Label="AssemblyInfo">
-		<AssemblyAttribute Include="System.Runtime.InteropServices.ComVisibleAttribute">
-			<_Parameter1>false</_Parameter1>
-		</AssemblyAttribute>
-		<AssemblyAttribute Include="System.Windows.ThemeInfo">
-			<_Parameter1>System.Windows.ResourceDictionaryLocation.None</_Parameter1>
-			<_Parameter1_IsLiteral>true</_Parameter1_IsLiteral>
-			<_Parameter2>System.Windows.ResourceDictionaryLocation.SourceAssembly</_Parameter2>
-			<_Parameter2_IsLiteral>true</_Parameter2_IsLiteral>
-		</AssemblyAttribute>
-	</ItemGroup>
+  <PropertyGroup>
+    <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+    <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup Label="AssemblyInfo">
+    <AssemblyAttribute Include="System.Runtime.InteropServices.ComVisibleAttribute">
+      <_Parameter1>false</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Windows.ThemeInfo">
+      <_Parameter1>System.Windows.ResourceDictionaryLocation.None</_Parameter1>
+      <_Parameter1_IsLiteral>true</_Parameter1_IsLiteral>
+      <_Parameter2>System.Windows.ResourceDictionaryLocation.SourceAssembly</_Parameter2>
+      <_Parameter2_IsLiteral>true</_Parameter2_IsLiteral>
+    </AssemblyAttribute>
+  </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
-		<PackageReference Include="SkiaSharp.Skottie" />
-		<PackageReference Include="Uno.WinUI.Skia.Wpf" />
-		<PackageReference Include="Uno.WinUI.DevServer" />
-		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
-		<PackageReference Include="Uno.Material.WinUI" />
-		<PackageReference Include="Uno.Toolkit.WinUI.Material" />
-		<PackageReference Include="Uno.Toolkit.WinUI" />
-		<PackageReference Include="Uno.Extensions.Hosting.WinUI" />
-		<PackageReference Include="Uno.Extensions.Logging.WinUI" />
-		<PackageReference Include="Uno.Extensions.Logging.Serilog" />
-		<PackageReference Include="Uno.Extensions.Core" />
-	</ItemGroup>
-	<ItemGroup>
-		<ApplicationDefinition Include="Wpf\App.xaml" XamlRuntime="Wpf" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\HelloWorld\HelloWorld.csproj" />
-	</ItemGroup>
-	<Import Project="..\HelloWorld.Base\base.props" />
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
+    <PackageReference Include="SkiaSharp.Skottie" />
+    <PackageReference Include="Uno.WinUI.Skia.Wpf" />
+    <PackageReference Include="Uno.WinUI.DevServer" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
+    <PackageReference Include="Uno.Material.WinUI" />
+    <PackageReference Include="Uno.Toolkit.WinUI.Material" />
+    <PackageReference Include="Uno.Toolkit.WinUI" />
+    <PackageReference Include="Uno.Extensions.Hosting.WinUI" />
+    <PackageReference Include="Uno.Extensions.Logging.WinUI" />
+    <PackageReference Include="Uno.Extensions.Logging.Serilog" />
+    <PackageReference Include="Uno.Extensions.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="Wpf\App.xaml" XamlRuntime="Wpf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HelloWorld\HelloWorld.csproj" />
+  </ItemGroup>
+  <Import Project="..\HelloWorld.Base\base.props" />
 </Project>

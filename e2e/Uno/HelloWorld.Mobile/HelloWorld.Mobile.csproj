@@ -1,71 +1,71 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFrameworks>net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
-		<SingleProject>true</SingleProject>
-		<OutputType>Exe</OutputType>
-		<!-- Display name -->
-		<ApplicationTitle>HelloWorld</ApplicationTitle>
-		<!-- App Identifier -->
-		<ApplicationId>com.prismlibrary.unoe2e</ApplicationId>
-		<ApplicationIdGuid>99E7FC0B-E6B5-4000-B84D-21FBA59E0E45</ApplicationIdGuid>
-		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>1</ApplicationVersion>
+  <PropertyGroup>
+    <TargetFrameworks>net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
+    <SingleProject>true</SingleProject>
+    <OutputType>Exe</OutputType>
+    <!-- Display name -->
+    <ApplicationTitle>HelloWorld</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.prismlibrary.unoe2e</ApplicationId>
+    <ApplicationIdGuid>99E7FC0B-E6B5-4000-B84D-21FBA59E0E45</ApplicationIdGuid>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
 
-		<!-- Debugger workaround https://github.com/dotnet/maui-samples/blob/8aa6b8780b12e97b157514c3bdc54bb4a13001cd/HelloMacCatalyst/HelloMacCatalyst.csproj#L7 -->
-		<!-- <MtouchExtraArgs Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">$(MtouchExtraArgs) -setenv:MONO_THREADS_SUSPEND=preemptive</MtouchExtraArgs> -->
-		<!-- Required for C# Hot Reload -->
-		<UseInterpreter Condition="'$(Configuration)' == 'Debug' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'maccatalyst'">True</UseInterpreter>
-		<IsUnoHead>true</IsUnoHead>
-	</PropertyGroup>
+    <!-- Debugger workaround https://github.com/dotnet/maui-samples/blob/8aa6b8780b12e97b157514c3bdc54bb4a13001cd/HelloMacCatalyst/HelloMacCatalyst.csproj#L7 -->
+    <!-- <MtouchExtraArgs Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">$(MtouchExtraArgs) -setenv:MONO_THREADS_SUSPEND=preemptive</MtouchExtraArgs> -->
+    <!-- Required for C# Hot Reload -->
+    <UseInterpreter Condition="'$(Configuration)' == 'Debug' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'maccatalyst'">True</UseInterpreter>
+    <IsUnoHead>true</IsUnoHead>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Uno.WinUI" />
-		<PackageReference Include="Uno.WinUI.DevServer" />
-		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
-		<PackageReference Include="Uno.Material.WinUI" />
-		<PackageReference Include="Uno.Toolkit.WinUI.Material" />
-		<PackageReference Include="Uno.Toolkit.WinUI" />
-		<PackageReference Include="Uno.Extensions.Hosting.WinUI" />
-		<PackageReference Include="Uno.Extensions.Logging.OSLog" />
-		<PackageReference Include="Uno.Extensions.Logging.WinUI" />
-		<PackageReference Include="Uno.Extensions.Logging.Serilog" />
-		<PackageReference Include="Uno.Extensions.Core" />
-	</ItemGroup>
-	<Choose>
-		<When Condition="$(IsAndroid)">
-			<ItemGroup>
-				<PackageReference Include="Xamarin.Google.Android.Material" />
-				<PackageReference Include="Uno.UniversalImageLoader" />
-			</ItemGroup>
-			<ItemGroup>
-				<AndroidEnvironment Include="Android/environment.conf" />
-			</ItemGroup>
-		</When>
-		<When Condition="$(IsIOS)">
-			<PropertyGroup>
-				<MtouchExtraArgs>$(MtouchExtraArgs) --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
-				<!-- See https://github.com/unoplatform/uno/issues/9430 for more details. -->
-				<MtouchExtraArgs>$(MtouchExtraArgs) --registrar:static</MtouchExtraArgs>
-				<!-- https://github.com/xamarin/xamarin-macios/issues/14812 -->
-				<MtouchExtraArgs>$(MtouchExtraArgs) --marshal-objectivec-exceptions:disable</MtouchExtraArgs>
-			</PropertyGroup>
-		</When>
-		<When Condition="$(IsMacCatalyst)">
-			<PropertyGroup>
-				<!-- Configure the GC -->
-				<MtouchExtraArgs>$(MtouchExtraArgs) --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
-				<!-- Required for unknown crash as of .NET 6 Mobile Preview 13 -->
-				<MtouchExtraArgs>$(MtouchExtraArgs) --registrar:static</MtouchExtraArgs>
-				<!-- https://github.com/xamarin/xamarin-macios/issues/14812 -->
-				<MtouchExtraArgs>$(MtouchExtraArgs) --marshal-objectivec-exceptions:disable</MtouchExtraArgs>
-				<!-- Full globalization is required for Uno -->
-				<InvariantGlobalization>false</InvariantGlobalization>
-			</PropertyGroup>
-		</When>
-	</Choose>
-	<ItemGroup>
-		<ProjectReference Include="..\HelloWorld\HelloWorld.csproj" />
-	</ItemGroup>
-	<Import Project="..\HelloWorld.Base\base.props" />
+  <ItemGroup>
+    <PackageReference Include="Uno.WinUI" />
+    <PackageReference Include="Uno.WinUI.DevServer" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
+    <PackageReference Include="Uno.Material.WinUI" />
+    <PackageReference Include="Uno.Toolkit.WinUI.Material" />
+    <PackageReference Include="Uno.Toolkit.WinUI" />
+    <PackageReference Include="Uno.Extensions.Hosting.WinUI" />
+    <PackageReference Include="Uno.Extensions.Logging.OSLog" />
+    <PackageReference Include="Uno.Extensions.Logging.WinUI" />
+    <PackageReference Include="Uno.Extensions.Logging.Serilog" />
+    <PackageReference Include="Uno.Extensions.Core" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="$(IsAndroid)">
+      <ItemGroup>
+        <PackageReference Include="Xamarin.Google.Android.Material" />
+        <PackageReference Include="Uno.UniversalImageLoader" />
+      </ItemGroup>
+      <ItemGroup>
+        <AndroidEnvironment Include="Android/environment.conf" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(IsIOS)">
+      <PropertyGroup>
+        <MtouchExtraArgs>$(MtouchExtraArgs) --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
+        <!-- See https://github.com/unoplatform/uno/issues/9430 for more details. -->
+        <MtouchExtraArgs>$(MtouchExtraArgs) --registrar:static</MtouchExtraArgs>
+        <!-- https://github.com/xamarin/xamarin-macios/issues/14812 -->
+        <MtouchExtraArgs>$(MtouchExtraArgs) --marshal-objectivec-exceptions:disable</MtouchExtraArgs>
+      </PropertyGroup>
+    </When>
+    <When Condition="$(IsMacCatalyst)">
+      <PropertyGroup>
+        <!-- Configure the GC -->
+        <MtouchExtraArgs>$(MtouchExtraArgs) --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
+        <!-- Required for unknown crash as of .NET 6 Mobile Preview 13 -->
+        <MtouchExtraArgs>$(MtouchExtraArgs) --registrar:static</MtouchExtraArgs>
+        <!-- https://github.com/xamarin/xamarin-macios/issues/14812 -->
+        <MtouchExtraArgs>$(MtouchExtraArgs) --marshal-objectivec-exceptions:disable</MtouchExtraArgs>
+        <!-- Full globalization is required for Uno -->
+        <InvariantGlobalization>false</InvariantGlobalization>
+      </PropertyGroup>
+    </When>
+  </Choose>
+  <ItemGroup>
+    <ProjectReference Include="..\HelloWorld\HelloWorld.csproj" />
+  </ItemGroup>
+  <Import Project="..\HelloWorld.Base\base.props" />
 </Project>
