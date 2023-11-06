@@ -7,14 +7,19 @@ namespace HelloWorld.Views;
 /// </summary>
 public sealed partial class Shell : Page, ILoadableShell
 {
+    private readonly CompositeLoadableSource _loadable;
     public Shell()
     {
         this.InitializeComponent();
+        _loadable = new ()
+        {
+            IsExecuting = true
+        };
+        Splash.Source = _loadable;
     }
 
-    public ILoadable Source
+    public void FinishLoading()
     {
-        get => Splash.Source;
-        set => Splash.Source = value;
+        _loadable.IsExecuting = false;
     }
 }

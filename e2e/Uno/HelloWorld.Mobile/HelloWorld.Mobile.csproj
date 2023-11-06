@@ -12,6 +12,8 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
 
+		<AndroidManifest>Android\AndroidManifest.xml</AndroidManifest>
+
     <!-- Debugger workaround https://github.com/dotnet/maui-samples/blob/8aa6b8780b12e97b157514c3bdc54bb4a13001cd/HelloMacCatalyst/HelloMacCatalyst.csproj#L7 -->
     <!-- <MtouchExtraArgs Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">$(MtouchExtraArgs) -setenv:MONO_THREADS_SUSPEND=preemptive</MtouchExtraArgs> -->
     <!-- Required for C# Hot Reload -->

@@ -20,7 +20,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Uno.Toolkit.WinUI" />
     <PackageReference Include="Uno.WinUI" />
     <PackageReference Include="Uno.Extensions.Hosting.WinUI" />
   </ItemGroup>

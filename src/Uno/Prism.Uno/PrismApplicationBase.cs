@@ -123,16 +123,10 @@ namespace Prism
 
             RegisterFrameworkExceptionTypes();
 
-            var loadable = new PrismShellLoadable();
             var shell = CreateShell();
 
             if (shell != null)
             {
-                if (shell is ILoadableShell loadableShell)
-                {
-                    loadableShell.Source = loadable;
-                }
-
                 MvvmHelpers.AutowireViewModel(shell);
                 builder.Window.Content = shell;
                 builder.Window.Activate();
@@ -144,7 +138,8 @@ namespace Prism
                     _host = builder.Build();
                     InitializeModules();
                     OnInitialized();
-                    loadable.FinishLoading();
+                    if (shell is ILoadableShell loadableShell)
+                        loadableShell.FinishLoading();
                     MvvmHelpers.ViewAndViewModelAction<IActiveAware>(shell, x => x.IsActive = true);
                 }
 
