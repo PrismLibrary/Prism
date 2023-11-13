@@ -67,6 +67,9 @@ namespace Prism
             regionAdapterMappings.RegisterMapping<Selector, SelectorRegionAdapter>();
             regionAdapterMappings.RegisterMapping<ItemsControl, ItemsControlRegionAdapter>();
             regionAdapterMappings.RegisterMapping<ContentControl, ContentControlRegionAdapter>();
+#if HAS_WINUI
+            regionAdapterMappings.RegisterMapping<NavigationView, NavigationViewRegionAdapter>();
+#endif
         }
 
         internal static void RunModuleManager(IContainerProvider containerProvider)

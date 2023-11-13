@@ -32,7 +32,7 @@
       </DataTemplate>
     </toolkit:ExtendedSplashScreen.LoadingContentTemplate>
     <Grid>
-      <Grid.RowDefinitions>
+      <!--<Grid.RowDefinitions>
         <RowDefinition Height="auto"/>
         <RowDefinition Height="*" />
       </Grid.RowDefinitions>
@@ -48,7 +48,15 @@
           <Button Command="{Binding NavigateCommand}" CommandParameter="ViewB">Navigate to View B</Button>
         </StackPanel>
       </StackPanel>
-      <ContentControl Grid.Row="1" pr:RegionManager.RegionName="ContentRegion" />
+      <ContentControl Grid.Row="1" pr:RegionManager.RegionName="ContentRegion" />-->
+      <NavigationView pr:RegionManager.RegionName="ContentRegion"
+                      IsSettingsVisible="false">
+        <NavigationView.MenuItems>
+          <NavigationViewItem Content="View A" Tag="ViewA" />
+          <NavigationViewItem Content="View B" Tag="ViewB" />
+        </NavigationView.MenuItems>
+      </NavigationView>
+
     </Grid>
   </toolkit:ExtendedSplashScreen>
 
