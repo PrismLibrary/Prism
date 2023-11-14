@@ -101,10 +101,6 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
             await _executeMethod(parameter, token)
                 .ConfigureAwait(false);
         }
-        catch (TaskCanceledException) when (token.IsCancellationRequested)
-        {
-            // Do nothing... the Task was cancelled
-        }
         catch (Exception ex)
         {
             if (!ExceptionHandler.CanHandle(ex))
@@ -149,14 +145,10 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     protected override async void Execute(object? parameter)
     {
         var cancellationToken = _getCancellationToken();
+        T parameterAsT;
         try
         {
-            await Execute((T)parameter!, cancellationToken)
-                .ConfigureAwait(false);
-        }
-        catch (TaskCanceledException) when (cancellationToken.IsCancellationRequested)
-        {
-            // Do nothing... the Task was cancelled
+            parameterAsT = (T)parameter!;
         }
         catch (Exception ex)
         {
@@ -164,7 +156,14 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
                 throw;
 
             ExceptionHandler.Handle(ex, parameter);
+            return;
         }
+
+        // If we had an exception casting the parameter to T ,
+        // we would have already returned. We want to surface any
+        // exceptions thrown by the Execute method.
+        await Execute(parameterAsT, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <summary>

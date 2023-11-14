@@ -98,10 +98,6 @@ public class AsyncDelegateCommand : DelegateCommandBase, IAsyncCommand
             await _executeMethod(token)
                 .ConfigureAwait(false);
         }
-        catch (TaskCanceledException) when (token.IsCancellationRequested)
-        {
-            // Do nothing... the Task was cancelled
-        }
         catch (Exception ex)
         {
             if (!ExceptionHandler.CanHandle(ex))
@@ -145,23 +141,11 @@ public class AsyncDelegateCommand : DelegateCommandBase, IAsyncCommand
     /// <param name="parameter">Command Parameter</param>
     protected override async void Execute(object? parameter)
     {
+        // We don't want to wrap this in a try/catch because we already handle
+        // or mean to rethrow the exception in the call with the CancellationToken.
         var cancellationToken = _getCancellationToken();
-        try
-        {
-            await Execute(cancellationToken)
-                .ConfigureAwait(false);
-        }
-        catch (TaskCanceledException) when (cancellationToken.IsCancellationRequested)
-        {
-            // Do nothing... the Task was cancelled
-        }
-        catch (Exception ex)
-        {
-            if (!ExceptionHandler.CanHandle(ex))
-                throw;
-
-            ExceptionHandler.Handle(ex, parameter);
-        }
+        await Execute(cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <summary>
