@@ -2,10 +2,8 @@
     x:Class="HelloWorld.Views.Shell"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:pr="using:Prism.Navigation.Regions"
-    xmlns:pvm="using:Prism.Mvvm"
+    xmlns:prism="using:Prism.Navigation.Regions"
     xmlns:toolkit="using:Uno.Toolkit.UI"
-    pvm:ViewModelLocator.AutowireViewModel="true"
     xmlns:local="using:HelloWorld.Views"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
 
@@ -48,8 +46,8 @@
           <Button Command="{Binding NavigateCommand}" CommandParameter="ViewB">Navigate to View B</Button>
         </StackPanel>
       </StackPanel>
-      <ContentControl Grid.Row="1" pr:RegionManager.RegionName="ContentRegion" />-->
-      <NavigationView pr:RegionManager.RegionName="ContentRegion"
+      <ContentControl Grid.Row="1" prism:RegionManager.RegionName="ContentRegion" />-->
+      <NavigationView prism:RegionManager.RegionName="ContentRegion"
                       IsSettingsVisible="false">
         <NavigationView.MenuItems>
           <NavigationViewItem Content="View A" Tag="ViewA" />

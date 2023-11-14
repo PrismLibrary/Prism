@@ -10,10 +10,9 @@ namespace Prism.Dialogs
     /// </summary>
     public partial class DialogWindow : ContentDialog, IDialogWindow
     {
-        public DialogWindow(Window window)
+        public DialogWindow()
         {
             this.InitializeComponent();
-            XamlRoot = window.Content.XamlRoot;
         }
         public IDialogResult? Result { get; set; }
 

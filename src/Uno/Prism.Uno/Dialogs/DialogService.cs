@@ -23,14 +23,18 @@ namespace Prism.Dialogs
                 parameters ??= new DialogParameters();
                 var windowName = parameters.TryGetValue<string>(KnownDialogParameters.WindowName, out var wName) ? wName : null;
 
-                IDialogWindow contentDialog = CreateDialogWindow(windowName);
-                ConfigureDialogWindowEvents(contentDialog, callback);
-                ConfigureDialogWindowContent(name, contentDialog, parameters);
+                var dialogWindow = CreateDialogWindow(windowName);
+                if (dialogWindow is ContentDialog contentDialog)
+                {
+                    contentDialog.XamlRoot = _containerProvider.Resolve<Window>().Content.XamlRoot;
+                }
+                ConfigureDialogWindowEvents(dialogWindow, callback);
+                ConfigureDialogWindowContent(name, dialogWindow, parameters);
 
                 var placement = parameters.ContainsKey(KnownDialogParameters.DialogPlacement) ?
                     (parameters[KnownDialogParameters.DialogPlacement] is ContentDialogPlacement placementValue ? placementValue : Enum.Parse<ContentDialogPlacement>(parameters[KnownDialogParameters.DialogPlacement].ToString() ?? string.Empty)) : ContentDialogPlacement.Popup;
 
-                await contentDialog.ShowAsync(placement);
+                await dialogWindow.ShowAsync(placement);
             }
             catch (Exception ex)
             {
