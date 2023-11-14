@@ -97,7 +97,12 @@ public class AsyncDelegateCommandFixture
         // Arrange
         bool executionStarted = false;
         bool executed = false;
-        var command = new AsyncDelegateCommand(Execute);
+        bool taskCancelled = false;
+        var command = new AsyncDelegateCommand(Execute)
+            .Catch<TaskCanceledException>(ex =>
+            {
+                taskCancelled = true;
+            });
 
         async Task Execute(CancellationToken token)
         {
@@ -116,6 +121,7 @@ public class AsyncDelegateCommandFixture
         // Assert
         Assert.True(executionStarted);
         Assert.False(executed);
+        Assert.True(taskCancelled);
     }
 
     [Fact]
