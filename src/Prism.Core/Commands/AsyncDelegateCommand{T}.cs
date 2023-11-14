@@ -25,7 +25,11 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     /// </summary>
     /// <param name="executeMethod">The <see cref="Func{T, Task}"/> to invoke when <see cref="ICommand.Execute(object)"/> is called.</param>
     public AsyncDelegateCommand(Func<T, Task> executeMethod)
+#if NET6_0_OR_GREATER
+        : this((p,t) => executeMethod(p).WaitAsync(t), _ => true)
+#else
         : this((p, t) => executeMethod(p), _ => true)
+#endif
     {
 
     }
@@ -47,7 +51,11 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     /// <param name="executeMethod">The <see cref="Func{T, Task}"/> to invoke when <see cref="ICommand.Execute"/> is called.</param>
     /// <param name="canExecuteMethod">The delegate to invoke when <see cref="ICommand.CanExecute"/> is called</param>
     public AsyncDelegateCommand(Func<T, Task> executeMethod, Func<T, bool> canExecuteMethod)
+#if NET6_0_OR_GREATER
+        : this((p, c) => executeMethod(p).WaitAsync(c), canExecuteMethod)
+#else
         : this((p, c) => executeMethod(p), canExecuteMethod)
+#endif
     {
 
     }
@@ -80,16 +88,18 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     ///<summary>
     /// Executes the command.
     ///</summary>
-    public async Task Execute(T parameter, CancellationToken cancellationToken = default)
+    public async Task Execute(T parameter, CancellationToken? cancellationToken = null)
     {
+        var token = cancellationToken ?? _getCancellationToken();
+
         try
         {
+            if (!_enableParallelExecution && IsExecuting)
+                return;
+
             IsExecuting = true;
-            await _executeMethod(parameter, cancellationToken);
-        }
-        catch (TaskCanceledException) when (cancellationToken.IsCancellationRequested)
-        {
-            // Do nothing... the Task was cancelled
+            await _executeMethod(parameter, token)
+                .ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -134,9 +144,11 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     /// <param name="parameter">Command Parameter</param>
     protected override async void Execute(object? parameter)
     {
+        var cancellationToken = _getCancellationToken();
+        T parameterAsT;
         try
         {
-            await Execute((T)parameter!, _getCancellationToken());
+            parameterAsT = (T)parameter!;
         }
         catch (Exception ex)
         {
@@ -144,7 +156,14 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
                 throw;
 
             ExceptionHandler.Handle(ex, parameter);
+            return;
         }
+
+        // If we had an exception casting the parameter to T ,
+        // we would have already returned. We want to surface any
+        // exceptions thrown by the Execute method.
+        await Execute(parameterAsT, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -178,6 +197,14 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
         _enableParallelExecution = true;
         return this;
     }
+
+    /// <summary>
+    /// Sets the <see cref="CancellationTokenSourceFactory(Func{CancellationToken})"/> based on the specified timeout.
+    /// </summary>
+    /// <param name="timeout">A specified timeout.</param>
+    /// <returns>The current instance of <see cref="AsyncDelegateCommand{T}"/>.</returns>
+    public AsyncDelegateCommand<T> CancelAfter(TimeSpan timeout) =>
+        CancellationTokenSourceFactory(() => new CancellationTokenSource(timeout).Token);
 
     /// <summary>
     /// Provides a delegate callback to provide a default CancellationToken when the Command is invoked.
