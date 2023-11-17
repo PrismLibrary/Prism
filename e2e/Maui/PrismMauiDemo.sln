@@ -19,8 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8202B92A-A57
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Maui", "..\..\src\Maui\Prism.DryIoc.Maui\Prism.DryIoc.Maui.csproj", "{2CE09D7A-B67C-4586-8432-64EA2D1A3CE4}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Prism.DryIoc.Shared", "..\..\src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.shproj", "{6E7EC81D-DA39-4C4F-A898-0148558C34F4}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E91F80AA-3D61-4C28-B876-3EDFB5921E7D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Maui.Tests", "..\..\tests\Maui\Prism.DryIoc.Maui.Tests\Prism.DryIoc.Maui.Tests.csproj", "{EE6F0C99-61D1-4E2E-8185-FBA0D246D5C7}"
@@ -96,7 +94,6 @@ Global
 		{2B756425-AB8D-4A78-80C5-13EA97C1AC73} = {8202B92A-A573-4365-8A15-E246504A7CBD}
 		{CC05A6F0-D8FF-498C-80F0-59DC9AAEB08E} = {8202B92A-A573-4365-8A15-E246504A7CBD}
 		{2CE09D7A-B67C-4586-8432-64EA2D1A3CE4} = {8202B92A-A573-4365-8A15-E246504A7CBD}
-		{6E7EC81D-DA39-4C4F-A898-0148558C34F4} = {8202B92A-A573-4365-8A15-E246504A7CBD}
 		{EE6F0C99-61D1-4E2E-8185-FBA0D246D5C7} = {E91F80AA-3D61-4C28-B876-3EDFB5921E7D}
 		{F3D2DFDB-95FB-4CBB-A624-35EB6550854D} = {E91F80AA-3D61-4C28-B876-3EDFB5921E7D}
 		{E0F13AA9-8083-47CA-B10D-93C5285D1505} = {E91F80AA-3D61-4C28-B876-3EDFB5921E7D}
@@ -107,6 +104,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{2ce09d7a-b67c-4586-8432-64ea2d1a3ce4}*SharedItemsImports = 5
-		..\..\src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{6e7ec81d-da39-4c4f-a898-0148558c34f4}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
