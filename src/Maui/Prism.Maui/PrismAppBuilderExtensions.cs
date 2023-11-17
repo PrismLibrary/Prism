@@ -1,7 +1,7 @@
-﻿using Prism.Ioc;
+﻿using Microsoft.Extensions.Logging;
 using Prism.Modularity;
+using Prism.Mvvm;
 using Prism.Navigation;
-using Microsoft.Extensions.Logging;
 
 namespace Prism;
 
@@ -70,6 +70,75 @@ public static class PrismAppBuilderExtensions
     public static PrismAppBuilder ConfigureLogging(this PrismAppBuilder builder, Action<ILoggingBuilder> configureLogging)
     {
         configureLogging(builder.MauiBuilder.Logging);
+        return builder;
+    }
+
+    public static PrismAppBuilder ConfigureViewTypeToViewModelTypeResolver(this PrismAppBuilder builder, Func<Type, Type> viewModelTypeResolver)
+    {
+        ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewModelTypeResolver);
+        return builder;
+    }
+
+    /// <summary>
+    /// Registers an <see cref="AppAction"/> with a callback that will be invoked on the UI thread for the specified <see cref="AppAction"/>.
+    /// </summary>
+    /// <param name="builder">The <see cref="PrismAppBuilder"/>.</param>
+    /// <param name="appAction">An <see cref="AppAction"/></param>
+    /// <param name="callback">The callback to invoke when the <see cref="AppAction"/> is triggered.</param>
+    /// <returns>The <see cref="PrismAppBuilder"/>.</returns>
+    public static PrismAppBuilder RegisterAppAction(this PrismAppBuilder builder, AppAction appAction, Func<IContainerProvider, INavigationService, AppAction, Task> callback)
+    {
+        builder.MauiBuilder.ConfigureEssentials(essentials =>
+        {
+            essentials.AddAppAction(appAction)
+                .OnAppAction(async action =>
+                {
+                    if (appAction.Id != action.Id)
+                        return;
+
+                    var app = Application.Current;
+                    if (app?.Handler?.MauiContext?.Services is null || app.Dispatcher is null)
+                        return;
+
+                    var container = app.Handler.MauiContext.Services.GetRequiredService<IContainerProvider>();
+                    var navigation = container.Resolve<INavigationService>();
+                    await app.Dispatcher.DispatchAsync(() =>
+                    {
+                        return callback(container, navigation, action);
+                    });
+                });
+        });
+        return builder;
+    }
+
+    /// <summary>
+    /// Registers an <see cref="AppAction"/> with a callback that will be invoked on the UI thread for the specified <see cref="AppAction"/>.
+    /// </summary>
+    /// <param name="builder">The <see cref="PrismAppBuilder"/>.</param>
+    /// <param name="appAction">An <see cref="AppAction"/></param>
+    /// <param name="callback">The callback to invoke when the <see cref="AppAction"/> is triggered.</param>
+    /// <returns>The <see cref="PrismAppBuilder"/>.</returns>
+    public static PrismAppBuilder RegisterAppAction(this PrismAppBuilder builder, AppAction appAction, Func<INavigationService, AppAction, Task> callback)
+    {
+        builder.MauiBuilder.ConfigureEssentials(essentials =>
+        {
+            essentials.AddAppAction(appAction)
+                .OnAppAction(async action =>
+                {
+                    if (appAction.Id != action.Id)
+                        return;
+
+                    var app = Application.Current;
+                    if (app?.Handler?.MauiContext?.Services is null || app.Dispatcher is null)
+                        return;
+
+                    var navigation = app.Handler.MauiContext.Services.GetRequiredService<INavigationService>();
+                    await app.Dispatcher.DispatchAsync(() =>
+                    {
+                        return callback(navigation, action);
+                    });
+                });
+        });
         return builder;
     }
 }
