@@ -20,7 +20,6 @@
     <PackageReference Include="Uno.Extensions.Hosting.WinUI" />
     <PackageReference Include="Uno.Extensions.Logging.WinUI" />
     <PackageReference Include="Uno.Extensions.Logging.Serilog" />
-    <PackageReference Include="Uno.Extensions.Core" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HelloWorld\HelloWorld.csproj" />

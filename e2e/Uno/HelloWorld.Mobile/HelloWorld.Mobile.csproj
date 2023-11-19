@@ -32,7 +32,6 @@
     <PackageReference Include="Uno.Extensions.Logging.OSLog" />
     <PackageReference Include="Uno.Extensions.Logging.WinUI" />
     <PackageReference Include="Uno.Extensions.Logging.Serilog" />
-    <PackageReference Include="Uno.Extensions.Core" />
   </ItemGroup>
   <Choose>
     <When Condition="$(IsAndroid)">

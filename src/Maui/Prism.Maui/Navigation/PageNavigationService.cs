@@ -345,7 +345,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
         animated = parameters.ContainsKey(KnownNavigationParameters.Animated) ?
             parameters.GetValue<bool>(KnownNavigationParameters.Animated) :
-                pageParameters.ContainsKey(KnownNavigationParameters.Animated) ? pageParameters.GetValue<bool>(KnownNavigationParameters.Animated) : true;        
+                pageParameters.ContainsKey(KnownNavigationParameters.Animated) ? pageParameters.GetValue<bool>(KnownNavigationParameters.Animated) : true;
 
         if (nextSegment == RemovePageSegment)
         {
@@ -837,7 +837,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             {
                 var tabSegment = tabSegments[i];
                 var child = CreatePageFromSegment(tabSegment);
-                var childParameters = UriParsingHelper.GetSegmentParameters(tabSegment, parameters);                
+                var childParameters = UriParsingHelper.GetSegmentParameters(tabSegment, parameters);
                 if (i == 0 && child is NavigationPage navPage)
                 {
                     navigationPage = navPage;

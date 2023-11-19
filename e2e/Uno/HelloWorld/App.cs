@@ -1,5 +1,6 @@
 using HelloWorld.Views;
 using ModuleA;
+using Uno.UI;
 
 namespace HelloWorld;
 
@@ -33,6 +34,13 @@ public class App : PrismApplication
                     // TODO: Register your services
                     //services.AddSingleton<IMyService, MyService>();
                 });
+    }
+
+    protected override void ConfigureWindow(Window window)
+    {
+#if DEBUG
+        window.EnableHotReload();
+#endif
     }
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
