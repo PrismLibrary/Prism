@@ -35,6 +35,10 @@ public class PageNavigationService : INavigationService, IRegistryAware
             {
                 _window = _pageAccessor.Page.GetParentWindow();
             }
+            else
+            {
+                _window = _windowManager.Windows.OfType<PrismWindow>().FirstOrDefault();
+            }
 
             return _window;
         }
@@ -49,6 +53,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// <param name="container">The <see cref="IContainerProvider"/> that will be used to resolve pages for navigation.</param>
     /// <param name="windowManager">The <see cref="IWindowManager"/> that will let the NavigationService retrieve, open or close the app Windows.</param>
     /// <param name="eventAggregator">The <see cref="IEventAggregator"/> that will raise <see cref="NavigationRequestEvent"/>.</param>
+    /// <param name="pageAccessor">The <see cref="IPageAccessor"/> that will let the NavigationService retrieve the <see cref="Page"/> for the current scope.</param>q
     public PageNavigationService(IContainerProvider container,
         IWindowManager windowManager,
         IEventAggregator eventAggregator,
@@ -316,6 +321,56 @@ public class PageNavigationService : INavigationService, IRegistryAware
             _lastNavigate = DateTime.Now;
             NavigationSource = PageNavigationSource.Device;
             _semaphore.Release();
+        }
+    }
+
+    /// <summary>
+    /// Selects a Tab of the TabbedPage parent.
+    /// </summary>
+    /// <param name="tabName">The name of the tab to select</param>
+    /// <param name="parameters">The navigation parameters</param>
+    /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+    public virtual async Task<INavigationResult> SelectTabAsync(string tabName, INavigationParameters parameters)
+    {
+        try
+        {
+            var tabbedPage = GetTabbedPage(_pageAccessor.Page);
+            TabbedPage GetTabbedPage(Element page) =>
+                page switch
+                {
+                    TabbedPage tabbedPage => tabbedPage,
+                    null => null,
+                    _ => GetTabbedPage(page.Parent)
+                };
+
+            if (tabbedPage is null)
+                throw new NullReferenceException("The Page is null.");
+
+            var parts = tabName.Split('|');
+            Page selectedChild = null;
+            if (parts.Length == 1)
+                selectedChild = tabbedPage.Children.FirstOrDefault(x => ViewModelLocator.GetNavigationName(x) == tabName || (x is NavigationPage navPage && ViewModelLocator.GetNavigationName(navPage.RootPage) == tabName));
+            else if (parts.Length == 2)
+                selectedChild = tabbedPage.Children.FirstOrDefault(x => x is NavigationPage navPage && ViewModelLocator.GetNavigationName(navPage) == parts[0] && ViewModelLocator.GetNavigationName(navPage.RootPage) == parts[1]);
+            else
+                throw new NavigationException($"Invalid Tab Name: {tabName}");
+
+            if (selectedChild is null)
+                throw new NavigationException($"No Tab found with the Name: {tabName}");
+
+            var navigatedFromPage = _pageAccessor.Page;
+            if (!await MvvmHelpers.CanNavigateAsync(navigatedFromPage, parameters))
+                throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, navigatedFromPage);
+
+            tabbedPage.CurrentPage = selectedChild;
+            MvvmHelpers.OnNavigatedFrom(navigatedFromPage, parameters);
+            MvvmHelpers.OnNavigatedTo(selectedChild, parameters);
+
+            return new NavigationResult();
+        }
+        catch (Exception ex)
+        {
+            return new NavigationResult(ex);
         }
     }
 
@@ -605,7 +660,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
         var nextSegmentType = Registry.GetViewType(UriParsingHelper.GetSegmentName(nextSegment));
 
-        //we must recreate the NavigationPage everytime or the transitions on iOS will not work properly, unless we meet the two scenarios below
+        //we must recreate the NavigationPage every time or the transitions on iOS will not work properly, unless we meet the two scenarios below
         bool detailIsNavPage = false;
         bool reuseNavPage = false;
         if (detail is NavigationPage navPage)
