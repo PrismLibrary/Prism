@@ -180,6 +180,19 @@ public class PageNavigationService : INavigationService, IRegistryAware
         return Notify(NavigationRequestType.GoBack, parameters, GetGoBackException(page, GetPageFromWindow()));
     }
 
+    /// <inheritdoc />
+    public virtual async Task<INavigationResult> GoBackAsync(string viewName)
+    {
+        return await GoBackAsync(viewName, null);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<INavigationResult> GoBackAsync(string viewName, INavigationParameters parameters)
+    {
+        throw new NotImplementedException();
+    }
+
+
     private static Exception GetGoBackException(Page currentPage, IView mainPage)
     {
         if (IsMainPage(currentPage, mainPage))
@@ -1256,5 +1269,17 @@ public class PageNavigationService : INavigationService, IRegistryAware
             return null;
         }
 #endif
+    }
+
+    /// <inheritdoc />
+    public  virtual async Task<INavigationResult> NavigateFromAsync(string viewName, Uri route)
+    {
+        return await NavigateFromAsync(viewName, route, null);
+    }
+
+    /// <inheritdoc />
+    public  virtual async Task<INavigationResult> NavigateFromAsync(string viewName, Uri route, INavigationParameters parameters)
+    {
+        throw new NotImplementedException();
     }
 }
