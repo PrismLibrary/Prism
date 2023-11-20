@@ -11,7 +11,6 @@
   <ItemGroup>
     <PackageReference Include="Uno.WinUI" />
     <PackageReference Include="Uno.Resizetizer" />
-    <PackageReference Include="Uno.Extensions.Core" />
     <PackageReference Include="Uno.Extensions.Logging.WinUI" />
     <PackageReference Include="Uno.Extensions.Logging.Serilog" />
     <PackageReference Include="Uno.Material.WinUI" />
@@ -19,6 +18,7 @@
     <PackageReference Include="Uno.Toolkit.WinUI" />
     <PackageReference Include="Uno.Extensions.Hosting.WinUI" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+    <PackageReference Include="Uno.WinUI.DevServer" Condition=" $(Configuration) == 'Debug' " />
   </ItemGroup>
 
   <Choose>

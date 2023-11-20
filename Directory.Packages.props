@@ -15,38 +15,38 @@
   </ItemGroup>
   <!-- Uno -->
   <ItemGroup Condition=" $(IsUnoProject) == 'true' ">
-    <PackageVersion Include="Uno.WinUI" Version="5.0.19" />
-    <PackageVersion Include="Uno.WinUI.Skia.Gtk" Version="5.0.19" />
-    <PackageVersion Include="Uno.WinUI.Skia.Linux.FrameBuffer" Version="5.0.19" />
-    <PackageVersion Include="Uno.WinUI.Skia.Wpf" Version="5.0.19" />
-    <PackageVersion Include="Uno.Wasm.Bootstrap" Version="8.0.0" />
-    <PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="8.0.0" />
-    <PackageVersion Include="Uno.WinUI.WebAssembly" Version="5.0.19" />
-    <PackageVersion Include="Uno.WinUI.DevServer" Version="5.0.19" />
-    <PackageVersion Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="5.0.19" />
+    <PackageVersion Include="Uno.WinUI" Version="5.0.48" />
+    <PackageVersion Include="Uno.WinUI.Skia.Gtk" Version="5.0.48" />
+    <PackageVersion Include="Uno.WinUI.Skia.Linux.FrameBuffer" Version="5.0.48" />
+    <PackageVersion Include="Uno.WinUI.Skia.Wpf" Version="5.0.48" />
+    <PackageVersion Include="Uno.Wasm.Bootstrap" Version="8.0.4" />
+    <PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="8.0.4" />
+    <PackageVersion Include="Uno.WinUI.WebAssembly" Version="5.0.48" />
+    <PackageVersion Include="Uno.WinUI.DevServer" Version="5.0.48" />
+    <PackageVersion Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="5.0.48" />
     <PackageVersion Include="Uno.Core" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
     <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.4.2" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" Condition="$(MSBuildProjectName.Contains('Prism'))" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" Condition="!$(MSBuildProjectName.Contains('Prism'))" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" Condition="!$(MSBuildProjectName.Contains('Prism'))" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
     <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.6" />
     <PackageVersion Include="SkiaSharp.Skottie" Version="2.88.6" />
-    <PackageVersion Include="Uno.Resizetizer" Version="1.2.0" />
+    <PackageVersion Include="Uno.Resizetizer" Version="1.2.1" />
     <PackageVersion Include="Uno.Extensions.Core" Version="3.0.10" />
     <PackageVersion Include="Uno.Extensions.Logging.OSLog" Version="1.7.0" />
-    <PackageVersion Include="Uno.Extensions.Logging.WinUI" Version="3.0.10" />
-    <PackageVersion Include="Uno.Extensions.Logging.Serilog" Version="3.0.10" />
+    <PackageVersion Include="Uno.Extensions.Logging.WinUI" Version="3.0.11" />
+    <PackageVersion Include="Uno.Extensions.Logging.Serilog" Version="3.0.11" />
     <PackageVersion Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.7.0" />
-    <PackageVersion Include="Uno.Material.WinUI" Version="4.0.4" />
-    <PackageVersion Include="Uno.Toolkit.WinUI.Material" Version="5.0.15" />
-    <PackageVersion Include="Uno.Toolkit.WinUI" Version="5.0.15" />
-    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="3.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+    <PackageVersion Include="Uno.Material.WinUI" Version="4.0.6" />
+    <PackageVersion Include="Uno.Toolkit.WinUI.Material" Version="5.0.17" />
+    <PackageVersion Include="Uno.Toolkit.WinUI" Version="5.0.17" />
+    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="3.0.11" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
     <PackageVersion Include="Xamarin.Google.Android.Material" Version="1.10.0.1" />
     <PackageVersion Include="Uno.UniversalImageLoader" Version="1.9.36" />
-    <PackageVersion Include="Microsoft.Windows.Compatibility" Version="7.0.5" />
+    <PackageVersion Include="Microsoft.Windows.Compatibility" Version="8.0.0" />
   </ItemGroup>
   <!-- Tests -->
   <ItemGroup>
@@ -77,6 +77,6 @@
     <!-- Global Packages -->
     <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" />
     <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.133" />
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
   </ItemGroup>
 </Project>

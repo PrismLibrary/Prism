@@ -89,6 +89,20 @@ namespace Prism
         protected virtual void ConfigureHost(IHostBuilder builder) { }
 
         /// <summary>
+        /// Provides an opportunity to initialize services or otherwise prepare the application Window.
+        /// </summary>
+        /// <param name="window">The primary application <see cref="Window"/></param>
+        /// <example>
+        /// protected override void ConfigureWindow(Window window)
+        /// {
+        ///     #if DEBUG
+        ///     window.EnableHotReload();
+        ///     #endif
+        /// }
+        /// </example>
+        protected virtual void ConfigureWindow(Window window) { }
+
+        /// <summary>
         /// Register Services with the <see cref="IServiceCollection" />.
         /// </summary>
         /// <remarks>
@@ -104,6 +118,7 @@ namespace Prism
         protected virtual void Initialize(IApplicationBuilder builder)
         {
             ConfigureApp(builder);
+            ConfigureWindow(builder.Window);
             builder.Configure(ConfigureHost)
                 .Configure(x => x.ConfigureServices(ConfigureServices)
                     .UseServiceProviderFactory(new PrismServiceProviderFactory(_containerExtension)));
