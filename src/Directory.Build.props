@@ -16,7 +16,7 @@
         <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
       </PropertyGroup>
       <ItemGroup>
-        <EmbeddedResource Include="LinkerDefinition.mono.xml">
+        <EmbeddedResource Include="LinkerDefinition.mono.xml" Condition="Exists('LinkerDefinition.mono.xml')">
           <LogicalName>$(AssemblyName).xml</LogicalName>
         </EmbeddedResource>
       </ItemGroup>

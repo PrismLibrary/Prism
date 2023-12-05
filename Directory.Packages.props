@@ -5,6 +5,8 @@
     <PackageVersion Include="Prism.Container.Unity" Version="9.0.61-pre" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
     <PackageVersion Include="System.Reactive" Version="6.0.0" />
+    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="5.0.13" />
+    <PackageVersion Include="Uno.WinUI.Markup" Version="5.0.13" />
     <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
