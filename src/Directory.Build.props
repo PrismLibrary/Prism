@@ -23,6 +23,11 @@
     </When>
   </Choose>
 
+  <PropertyGroup Condition=" $(IsUnoProject) ">
+    <UnoTargetFrameworks>net7.0;net7.0-android;net7.0-ios;net7.0-maccatalyst;net7.0-macos</UnoTargetFrameworks>
+    <UnoTargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(UnoTargetFrameworks);net7.0-windows10.0.19041</UnoTargetFrameworks>
+  </PropertyGroup>
+
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>$(IsPackable)</GeneratePackageOnBuild>
