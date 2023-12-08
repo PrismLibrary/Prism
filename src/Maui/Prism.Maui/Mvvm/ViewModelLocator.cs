@@ -1,7 +1,9 @@
-﻿namespace Prism.Mvvm;
+﻿using System.ComponentModel;
+
+namespace Prism.Mvvm;
 
 /// <summary>
-/// This class defines the attached property and related change handler that calls the <see cref="Prism.Mvvm.ViewModelLocationProvider2"/>.
+/// This class defines the attached property and related change handler that calls the <see cref="Prism.Mvvm.ViewModelLocationProvider"/>.
 /// </summary>
 public static class ViewModelLocator
 {
@@ -9,7 +11,7 @@ public static class ViewModelLocator
     /// Instructs Prism whether or not to automatically create an instance of a ViewModel using a convention, and assign the associated View's <see cref="BindableObject.BindingContext"/> to that instance.
     /// </summary>
     public static readonly BindableProperty AutowireViewModelProperty =
-        BindableProperty.CreateAttached("AutowireViewModel", typeof(ViewModelLocatorBehavior), typeof(ViewModelLocator), ViewModelLocatorBehavior.Automatic);
+        BindableProperty.CreateAttached("AutowireViewModel", typeof(ViewModelLocatorBehavior), typeof(ViewModelLocator), ViewModelLocatorBehavior.Automatic, propertyChanged: OnAutowireViewModelChanged);
 
     internal static readonly BindableProperty ViewModelProperty =
         BindableProperty.CreateAttached("ViewModelType",
@@ -55,6 +57,45 @@ public static class ViewModelLocator
             bindable.SetValue(AutowireViewModelProperty, ViewModelLocatorBehavior.Automatic);
     }
 
+    private static void OnAutowireViewModelChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if (newValue is not ViewModelLocatorBehavior behavior)
+        {
+            return;
+        }
+        else if (behavior == ViewModelLocatorBehavior.ForceLoaded)
+        {
+            AutowireInternal(bindable);
+        }
+        else if (behavior == ViewModelLocatorBehavior.WhenAvailable)
+        {
+            if (bindable is Page page)
+            {
+                MonitorPage(page, () => AutowireInternal(page));
+            }
+        }
+    }
+
+    private static void MonitorPage(Page page, Action autowireCallback)
+    {
+        var container = Navigation.Xaml.Navigation.GetContainerProvider(page);
+        if (container is not null)
+        {
+            autowireCallback();
+            return;
+        }
+
+        page.PropertyChanged += OnContainerProviderSet;
+        void OnContainerProviderSet(object view, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName != Navigation.Xaml.Navigation.NavigationScopeProperty.PropertyName)
+                return;
+
+            page.PropertyChanged -= OnContainerProviderSet;
+            autowireCallback();
+        }
+    }
+
     internal static void Autowire(object view)
     {
         if (view is Element element &&
@@ -72,6 +113,11 @@ public static class ViewModelLocator
             Autowire(navigationPage.RootPage);
         }
 
+        AutowireInternal(view);
+    }
+
+    private static void AutowireInternal(object view)
+    {
         ViewModelLocationProvider.AutoWireViewModelChanged(view, Bind);
 
         if (view is BindableObject bindable && bindable.BindingContext is null)

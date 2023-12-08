@@ -20,6 +20,8 @@ public static class NavigationRegistrationExtensions
         if (string.IsNullOrEmpty(name))
             name = view.Name;
 
+        ViewModelLocationProvider.Register(view.ToString(), viewModel);
+
         container.RegisterInstance(new ViewRegistration
             {
                 Type = ViewType.Page,

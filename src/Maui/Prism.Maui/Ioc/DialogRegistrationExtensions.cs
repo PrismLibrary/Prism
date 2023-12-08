@@ -60,6 +60,8 @@ public static class DialogRegistrationExtensions
         if (string.IsNullOrEmpty(name))
             name = view.Name;
 
+        ViewModelLocationProvider.Register(view.ToString(), viewModel);
+
         return new ViewRegistration
         {
             Type = ViewType.Dialog,
