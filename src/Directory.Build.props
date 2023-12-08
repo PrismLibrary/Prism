@@ -24,8 +24,8 @@
   </Choose>
 
   <PropertyGroup Condition=" $(IsUnoProject) ">
-    <UnoTargetFrameworks>net7.0;net7.0-android;net7.0-ios;net7.0-maccatalyst;net7.0-macos</UnoTargetFrameworks>
-    <UnoTargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(UnoTargetFrameworks);net7.0-windows10.0.19041</UnoTargetFrameworks>
+    <UnoTargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst;net8.0-macos</UnoTargetFrameworks>
+    <UnoTargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(UnoTargetFrameworks);net8.0-windows10.0.19041</UnoTargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
