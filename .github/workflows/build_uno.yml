@@ -25,7 +25,7 @@ jobs:
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
-      dotnet-version: 7.0.400
+      dotnet-version: 8.0.x
       windows-sdk-version: 18362
       uno-check: true
       uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip vsmac'
