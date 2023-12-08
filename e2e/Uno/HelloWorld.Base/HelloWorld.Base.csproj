@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.Build.NoTargets/3.7.0">
   <PropertyGroup>
     <!-- NOTE: The TargetFramework is required by MSBuild but not used as this project is not built. -->
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>$(DotNetVersion)</TargetFramework>
     <EnableDefaultItems>false</EnableDefaultItems>
   </PropertyGroup>
 
