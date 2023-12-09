@@ -87,6 +87,7 @@
     </When>
     <When Condition="$(TargetFramework.Contains('windows10'))">
       <PropertyGroup>
+        <UseRidGraph Condition=" $(TargetFramework.Contains('net8.0')) ">true</UseRidGraph>
         <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
         <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
       </PropertyGroup>
