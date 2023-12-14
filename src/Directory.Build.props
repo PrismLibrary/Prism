@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <Choose>
-    <When Condition=" $(IsUnoProject) AND '$(TargetFramework)' == 'net7.0' ">
+    <When Condition=" $(IsUnoProject) AND '$(TargetFramework)' == 'net8.0' ">
       <PropertyGroup>
         <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
       </PropertyGroup>
@@ -25,7 +25,8 @@
 
   <PropertyGroup Condition=" $(IsUnoProject) ">
     <UnoTargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst;net8.0-macos</UnoTargetFrameworks>
-    <UnoTargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(UnoTargetFrameworks);net7.0-windows10.0.19041</UnoTargetFrameworks>
+    <UnoTargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(UnoTargetFrameworks);net8.0-windows10.0.19041</UnoTargetFrameworks>
+    <RuntimeIdentifiers Condition="$(TargetFramework.Contains('windows10'))">win-x64;win-x86;win-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <PropertyGroup>

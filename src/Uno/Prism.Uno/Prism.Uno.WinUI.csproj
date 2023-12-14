@@ -8,7 +8,6 @@
     <DefineConstants>$(DefineConstants);HAS_WINUI</DefineConstants>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <PackageId>Prism.Uno.WinUI</PackageId>
-    <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <ImplicitUsings>true</ImplicitUsings>
     <Description>
       Prism provides an implementation of a collection of design patterns that are helpful in writing well structured, maintainable, and testable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET. Features that need to be platform specific are implemented in the respective libraries for the target platform (WPF, Uno Platform, .NET MAUI and Xamarin Forms).
