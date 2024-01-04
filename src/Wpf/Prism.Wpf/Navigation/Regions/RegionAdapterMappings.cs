@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Ioc;
 using Prism.Properties;
@@ -49,7 +50,7 @@ namespace Prism.Navigation.Regions
         /// </summary>
         /// <typeparam name="TControl">The type of the control</typeparam>
         /// <typeparam name="TAdapter">The type of the IRegionAdapter to use with the TControl</typeparam>
-        public void RegisterMapping<TControl, TAdapter>() where TAdapter : IRegionAdapter
+        public void RegisterMapping<TControl, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TAdapter>() where TAdapter : IRegionAdapter
         {
             RegisterMapping(typeof(TControl), ContainerLocator.Container.Resolve<TAdapter>());
         }
