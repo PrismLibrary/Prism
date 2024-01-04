@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiModule.Views.ViewC"
              Title="{Binding Title}"
+             IconImageSource="setting.png"
              BackgroundColor="White">
   <Grid RowDefinitions="*,Auto"
         ColumnDefinitions="*,*">

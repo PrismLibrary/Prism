@@ -261,6 +261,7 @@ public sealed class PrismAppBuilder
         containerRegistry.RegisterManySingleton<PrismWindowManager>();
         containerRegistry.RegisterPageBehavior<NavigationPage, NavigationPageSystemGoBackBehavior>();
         containerRegistry.RegisterPageBehavior<NavigationPage, NavigationPageActiveAwareBehavior>();
+        containerRegistry.RegisterPageBehavior<NavigationPage, NavigationPageTabbedParentBehavior>();
         containerRegistry.RegisterPageBehavior<TabbedPage, TabbedPageActiveAwareBehavior>();
         containerRegistry.RegisterPageBehavior<PageLifeCycleAwareBehavior>();
         containerRegistry.RegisterPageBehavior<PageScopeBehavior>();
