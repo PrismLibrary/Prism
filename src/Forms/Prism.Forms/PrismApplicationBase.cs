@@ -102,7 +102,7 @@ namespace Prism
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                List<(Type Type, object Instance)> overrides = new List<(Type, object)>();
+                List<(Type Type, object Instance)> overrides = [];
                 if (Container.IsRegistered<IResolverOverridesHelper>())
                 {
                     var resolver = Container.Resolve<IResolverOverridesHelper>();
@@ -147,8 +147,6 @@ namespace Prism
                 RegisterRequiredTypes(_containerExtension);
                 PlatformInitializer?.RegisterTypes(_containerExtension);
                 RegisterTypes(_containerExtension);
-
-                _containerExtension.FinalizeExtension();
 
                 _moduleCatalog = Container.Resolve<IModuleCatalog>();
                 ConfigureModuleCatalog(_moduleCatalog);

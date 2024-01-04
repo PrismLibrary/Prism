@@ -1,5 +1,5 @@
-﻿using System.Globalization;
-using Prism.Ioc;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Prism.Properties;
 
 namespace Prism.Navigation.Regions.Adapters;
@@ -9,7 +9,7 @@ namespace Prism.Navigation.Regions.Adapters;
 /// </summary>
 public class RegionAdapterMappings
 {
-    private readonly Dictionary<Type, IRegionAdapter> mappings = new Dictionary<Type, IRegionAdapter>();
+    private readonly Dictionary<Type, IRegionAdapter> mappings = [];
 
     /// <summary>
     /// Registers the mapping between a type and an adapter.
@@ -17,7 +17,7 @@ public class RegionAdapterMappings
     /// <typeparam name="TControl">The type of the control</typeparam>
     /// <typeparam name="TAdapter">The type of the IRegionAdapter to use with the TControl</typeparam>
     /// <exception cref="InvalidOperationException">Throws <see cref="InvalidOperationException"/> when a mapping has already been defined for a specified control type.</exception>
-    public void RegisterMapping<TControl, TAdapter>() where TAdapter : IRegionAdapter
+    public void RegisterMapping<TControl, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TAdapter>() where TAdapter : IRegionAdapter
     {
         var controlType = typeof(TControl);
 
@@ -35,7 +35,7 @@ public class RegionAdapterMappings
     /// </summary>
     /// <typeparam name="TControl">The type of the control</typeparam>
     /// <typeparam name="TAdapter">The type of the IRegionAdapter to use with the TControl</typeparam>
-    public void RegisterOrReplaceMapping<TControl, TAdapter>() where TAdapter : IRegionAdapter
+    public void RegisterOrReplaceMapping<TControl, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TAdapter>() where TAdapter : IRegionAdapter
     {
         var controlType = typeof(TControl);
         var adapter = ContainerLocator.Container.Resolve<TAdapter>();
@@ -46,7 +46,7 @@ public class RegionAdapterMappings
         mappings.Add(controlType, adapter);
     }
 
-    internal void RegisterDefaultMapping<TControl, TAdapter>() where TAdapter : IRegionAdapter
+    internal void RegisterDefaultMapping<TControl, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TAdapter>() where TAdapter : IRegionAdapter
     {
         var controlType = typeof(TControl);
 
@@ -74,9 +74,9 @@ public class RegionAdapterMappings
 
         while (currentType != null)
         {
-            if (mappings.ContainsKey(currentType))
+            if (mappings.TryGetValue(currentType, out IRegionAdapter value))
             {
-                return mappings[currentType];
+                return value;
             }
             currentType = currentType.BaseType;
         }

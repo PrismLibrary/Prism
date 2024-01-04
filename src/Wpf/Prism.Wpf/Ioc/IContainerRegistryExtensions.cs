@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Prism.Mvvm;
 
 namespace Prism.Ioc
@@ -14,7 +15,7 @@ namespace Prism.Ioc
         /// <typeparam name="TView">The Type of object to register as the dialog</typeparam>
         /// <param name="containerRegistry"></param>
         /// <param name="name">The unique name to register with the dialog.</param>
-        public static void RegisterDialog<TView>(this IContainerRegistry containerRegistry, string name = null)
+        public static void RegisterDialog<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView>(this IContainerRegistry containerRegistry, string name = null)
         {
             containerRegistry.RegisterForNavigation<TView>(name);
         }
@@ -26,7 +27,7 @@ namespace Prism.Ioc
         /// <typeparam name="TViewModel">The ViewModel to use as the DataContext for the dialog</typeparam>
         /// <param name="containerRegistry"></param>
         /// <param name="name">The unique name to register with the dialog.</param>
-        public static void RegisterDialog<TView, TViewModel>(this IContainerRegistry containerRegistry, string name = null) where TViewModel : Dialogs.IDialogAware
+        public static void RegisterDialog<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IContainerRegistry containerRegistry, string name = null) where TViewModel : Dialogs.IDialogAware
         {
             containerRegistry.RegisterForNavigation<TView, TViewModel>(name);
         }
@@ -36,7 +37,7 @@ namespace Prism.Ioc
         /// </summary>
         /// <typeparam name="TWindow">The Type of the Window class that will be used to host dialogs in the IDialogService</typeparam>
         /// <param name="containerRegistry"></param>
-        public static void RegisterDialogWindow<TWindow>(this IContainerRegistry containerRegistry) where TWindow : Dialogs.IDialogWindow
+        public static void RegisterDialogWindow<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TWindow>(this IContainerRegistry containerRegistry) where TWindow : Dialogs.IDialogWindow
         {
             containerRegistry.Register(typeof(Dialogs.IDialogWindow), typeof(TWindow));
         }
@@ -47,7 +48,7 @@ namespace Prism.Ioc
         /// <typeparam name="TWindow">The Type of the Window class that will be used to host dialogs in the IDialogService</typeparam>
         /// <param name="containerRegistry"></param>
         /// <param name="name">The name of the dialog window</param>
-        public static void RegisterDialogWindow<TWindow>(this IContainerRegistry containerRegistry, string name) where TWindow : Dialogs.IDialogWindow
+        public static void RegisterDialogWindow<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TWindow>(this IContainerRegistry containerRegistry, string name) where TWindow : Dialogs.IDialogWindow
         {
             containerRegistry.Register(typeof(Dialogs.IDialogWindow), typeof(TWindow), name);
         }
@@ -69,7 +70,7 @@ namespace Prism.Ioc
         /// <typeparam name="T">The Type of the object to register as the view</typeparam>
         /// <param name="containerRegistry"></param>
         /// <param name="name">The unique name to register with the object.</param>
-        public static void RegisterForNavigation<T>(this IContainerRegistry containerRegistry, string name = null)
+        public static void RegisterForNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] T>(this IContainerRegistry containerRegistry, string name = null)
         {
             Type type = typeof(T);
             string viewName = string.IsNullOrWhiteSpace(name) ? type.Name : name;
@@ -83,12 +84,12 @@ namespace Prism.Ioc
         /// <typeparam name="TViewModel">The ViewModel to use as the DataContext for the view</typeparam>
         /// <param name="containerRegistry"></param>
         /// <param name="name">The unique name to register with the view</param>
-        public static void RegisterForNavigation<TView, TViewModel>(this IContainerRegistry containerRegistry, string name = null)
+        public static void RegisterForNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IContainerRegistry containerRegistry, string name = null)
         {
             containerRegistry.RegisterForNavigationWithViewModel<TViewModel>(typeof(TView), name);
         }
 
-        private static void RegisterForNavigationWithViewModel<TViewModel>(this IContainerRegistry containerRegistry, Type viewType, string name)
+        private static void RegisterForNavigationWithViewModel<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IContainerRegistry containerRegistry, Type viewType, string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 name = viewType.Name;

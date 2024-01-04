@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using System.Diagnostics.CodeAnalysis;
+using Prism.Mvvm;
 
 namespace Prism.Ioc;
 
@@ -10,11 +11,11 @@ public static class MicrosoftDependencyInjectionExtensions
 #if !UNO_WINUI_PROJECT
     private static readonly Type PageType = typeof(Page);
 
-    public static IServiceCollection RegisterForNavigation<TView>(this IServiceCollection services, string name = null)
+    public static IServiceCollection RegisterForNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView>(this IServiceCollection services, string name = null)
             where TView : Page =>
             services.RegisterForNavigation(typeof(TView), null, name);
 
-    public static IServiceCollection RegisterForNavigation<TView, TViewModel>(this IServiceCollection services, string name = null)
+    public static IServiceCollection RegisterForNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IServiceCollection services, string name = null)
         where TView : Page =>
         services.RegisterForNavigation(typeof(TView), typeof(TViewModel), name);
 

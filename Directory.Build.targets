@@ -12,4 +12,27 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
+  <!-- Generate the NotTrimmable.cs file -->
+  <Target Name="AddNotTrimmableFile" BeforeTargets="BeforeCompile" Condition=" $(IsPackable) ">
+    <PropertyGroup>
+      <!-- Define the file path -->
+      <NotTrimmableFilePath>$(IntermediateOutputPath)NotTrimmable.g.cs</NotTrimmableFilePath>
+    </PropertyGroup>
+
+    <!-- Ensure the intermediate output directory exists -->
+    <MakeDir Directories="$(IntermediateOutputPath)" />
+
+    <!-- Write the contents to the file -->
+    <WriteLinesToFile
+      File="$(NotTrimmableFilePath)"
+      Lines="[assembly: System.Reflection.AssemblyMetadata(&quot;IsTrimmable&quot;, &quot;False&quot;)]"
+      Overwrite="true"
+      Encoding="UTF-8" />
+
+    <!-- Include the generated file in the compilation -->
+    <ItemGroup>
+      <Compile Include="$(NotTrimmableFilePath)" />
+    </ItemGroup>
+  </Target>
+
 </Project>

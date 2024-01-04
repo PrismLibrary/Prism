@@ -1,4 +1,5 @@
-﻿using Prism.Behaviors;
+﻿using System.Diagnostics.CodeAnalysis;
+using Prism.Behaviors;
 
 namespace Prism.Ioc;
 
@@ -31,7 +32,7 @@ public static class BehaviorFactoryRegistrationExtensions
     /// <typeparam name="TBehavior"></typeparam>
     /// <param name="container"></param>
     /// <returns></returns>
-    public static IContainerRegistry RegisterPageBehavior<TBehavior>(this IContainerRegistry container)
+    public static IContainerRegistry RegisterPageBehavior<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TBehavior>(this IContainerRegistry container)
         where TBehavior : Behavior =>
         container
             .Register<TBehavior>()
@@ -44,7 +45,7 @@ public static class BehaviorFactoryRegistrationExtensions
     /// <typeparam name="TBehavior">The type of Behavior</typeparam>
     /// <param name="container"></param>
     /// <returns></returns>
-    public static IContainerRegistry RegisterPageBehavior<TPage, TBehavior>(this IContainerRegistry container)
+    public static IContainerRegistry RegisterPageBehavior<TPage, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TBehavior>(this IContainerRegistry container)
         where TPage : Page
         where TBehavior : Behavior =>
         container
@@ -81,7 +82,7 @@ public static class BehaviorFactoryRegistrationExtensions
     /// <typeparam name="TBehavior">The <see cref="Behavior"/> type.</typeparam>
     /// <param name="services">The <see cref="IServiceCollection"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/>.</returns>
-    public static IServiceCollection RegisterPageBehavior<TBehavior>(this IServiceCollection services)
+    public static IServiceCollection RegisterPageBehavior<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TBehavior>(this IServiceCollection services)
         where TBehavior : Behavior =>
         services
             .AddTransient<TBehavior>()
@@ -94,7 +95,7 @@ public static class BehaviorFactoryRegistrationExtensions
     /// <typeparam name="TBehavior">The <see cref="Behavior"/> type.</typeparam>
     /// <param name="services">The <see cref="IServiceCollection"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/>.</returns>
-    public static IServiceCollection RegisterPageBehavior<TPage, TBehavior>(this IServiceCollection services)
+    public static IServiceCollection RegisterPageBehavior<TPage, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TBehavior>(this IServiceCollection services)
         where TPage : Page
         where TBehavior : Behavior =>
         services
