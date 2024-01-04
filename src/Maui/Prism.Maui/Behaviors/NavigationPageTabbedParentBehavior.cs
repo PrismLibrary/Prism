@@ -31,6 +31,8 @@ public sealed class NavigationPageTabbedParentBehavior : BehaviorBase<Navigation
         SetNavigationPageRootPageMonitorTitle(bindable, !bindable.IsSet(NavigationPage.TitleProperty));
         SetNavigationPageRootPageMonitorIconImageSource(bindable, !bindable.IsSet(NavigationPage.IconImageSourceProperty));
         bindable.ParentChanged += OnParentChanged;
+        if (bindable.Parent is TabbedPage)
+            OnParentChanged(bindable, EventArgs.Empty);
     }
 
     /// <inheritdoc />
