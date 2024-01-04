@@ -126,7 +126,6 @@ namespace Prism
             _containerExtension.RegisterInstance(builder.Window);
             RegisterRequiredTypes(_containerExtension);
             RegisterTypes(_containerExtension);
-            _containerExtension.FinalizeExtension();
 
             ConfigureModuleCatalog(Container.Resolve<IModuleCatalog>());
 

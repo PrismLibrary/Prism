@@ -36,7 +36,6 @@ namespace Prism.Container.Wpf.Tests.Ioc
             {
                 _containerExtension.RegisterInstance<IService>(kvp.Value, kvp.Key);
             }
-            _containerExtension.FinalizeExtension();
         }
 
         public ContainerProviderExtensionFixture()

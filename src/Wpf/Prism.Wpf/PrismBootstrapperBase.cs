@@ -58,7 +58,6 @@ namespace Prism
             _moduleCatalog = CreateModuleCatalog();
             RegisterRequiredTypes(_containerExtension);
             RegisterTypes(_containerExtension);
-            _containerExtension.FinalizeExtension();
 
             ConfigureModuleCatalog(_moduleCatalog);
 

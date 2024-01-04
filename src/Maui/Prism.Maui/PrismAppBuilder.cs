@@ -27,12 +27,12 @@ public sealed class PrismAppBuilder
 
     internal PrismAppBuilder(IContainerExtension containerExtension, MauiAppBuilder builder)
     {
-        if (containerExtension is null)
-            throw new ArgumentNullException(nameof(containerExtension));
+        ArgumentNullException.ThrowIfNull(containerExtension);
+        ArgumentNullException.ThrowIfNull(builder);
 
         _container = containerExtension;
-        _registrations = new List<Action<IContainerRegistry>>();
-        _initializations = new List<Action<IContainerProvider>>();
+        _registrations = [];
+        _initializations = [];
 
         ViewModelCreationException.SetViewNameDelegate(view =>
         {
@@ -89,7 +89,7 @@ public sealed class PrismAppBuilder
     /// </summary>
     public MauiAppBuilder MauiBuilder { get; }
 
-    private void ConfigureViewModelLocator()
+    private static void ConfigureViewModelLocator()
     {
         ViewModelLocationProvider.SetDefaultViewToViewModelTypeResolver(view =>
         {
