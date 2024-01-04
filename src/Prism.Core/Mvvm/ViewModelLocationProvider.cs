@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 
@@ -194,7 +195,7 @@ namespace Prism.Mvvm
         /// </summary>
         /// <typeparam name="T">The View</typeparam>
         /// <typeparam name="VM">The ViewModel</typeparam>
-        public static void Register<T, VM>()
+        public static void Register<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] T, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] VM>()
         {
             var viewType = typeof(T);
             var viewModelType = typeof(VM);

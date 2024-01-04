@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Maui.Controls.Compatibility;
 using Prism.Mvvm;
 using Prism.Navigation.Regions;
@@ -18,7 +19,7 @@ public static class RegionNavigationRegistrationExtensions
     /// <typeparam name="TView">The Type of <see cref="View"/> to register</typeparam>
     /// <param name="containerRegistry"><see cref="IContainerRegistry"/> used to register type for Navigation.</param>
     /// <param name="name">The unique name to register with the View</param>
-    public static IContainerRegistry RegisterForRegionNavigation<TView>(this IContainerRegistry containerRegistry, string name = null)
+    public static IContainerRegistry RegisterForRegionNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView>(this IContainerRegistry containerRegistry, string name = null)
         where TView : View =>
         containerRegistry.RegisterForNavigationWithViewModel(typeof(TView), null, name);
 
@@ -29,7 +30,7 @@ public static class RegionNavigationRegistrationExtensions
     /// <typeparam name="TViewModel">The ViewModel to use as the BindingContext for the View</typeparam>
     /// <param name="name">The unique name to register with the View</param>
     /// <param name="containerRegistry"></param>
-    public static IContainerRegistry RegisterForRegionNavigation<TView, TViewModel>(this IContainerRegistry containerRegistry, string name = null)
+    public static IContainerRegistry RegisterForRegionNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IContainerRegistry containerRegistry, string name = null)
         where TView : View
         where TViewModel : class =>
         containerRegistry.RegisterForNavigationWithViewModel(typeof(TView), typeof(TViewModel), name);
@@ -60,7 +61,7 @@ public static class RegionNavigationRegistrationExtensions
     /// <typeparam name="TView">The Type of <see cref="View"/> to register</typeparam>
     /// <param name="services"><see cref="IServiceCollection"/> used to register type for Navigation.</param>
     /// <param name="name">The unique name to register with the View</param>
-    public static IServiceCollection RegisterForRegionNavigation<TView>(this IServiceCollection services, string name = null)
+    public static IServiceCollection RegisterForRegionNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView>(this IServiceCollection services, string name = null)
         where TView : View =>
         services.RegisterForNavigationWithViewModel(typeof(TView), null, name);
 
@@ -71,7 +72,7 @@ public static class RegionNavigationRegistrationExtensions
     /// <typeparam name="TViewModel">The ViewModel to use as the BindingContext for the View</typeparam>
     /// <param name="name">The unique name to register with the View</param>
     /// <param name="services"></param>
-    public static IServiceCollection RegisterForRegionNavigation<TView, TViewModel>(this IServiceCollection services, string name = null)
+    public static IServiceCollection RegisterForRegionNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IServiceCollection services, string name = null)
         where TView : View
         where TViewModel : class =>
         services.RegisterForNavigationWithViewModel(typeof(TView), typeof(TViewModel), name);
