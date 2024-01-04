@@ -15,6 +15,10 @@ Prism for Xamarin.Forms helps you more easily design and build rich, flexible, a
 
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" />
+    <PackageReference Include="PolySharp">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

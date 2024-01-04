@@ -17,6 +17,12 @@
     <PrismPackageIcon>$(MSBuildThisFileDirectory)images/prism-logo.png</PrismPackageIcon>
     <PrismLicenseFile>$(MSBuildThisFileDirectory)LICENSE</PrismLicenseFile>
     <LangVersion>latest</LangVersion>
+    <PolySharpIncludeGeneratedTypes>
+      System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembersAttribute;
+      System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes;
+      System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute;
+      System.Runtime.CompilerServices.IsExternalInit;
+    </PolySharpIncludeGeneratedTypes>
   </PropertyGroup>
 
   <PropertyGroup>
