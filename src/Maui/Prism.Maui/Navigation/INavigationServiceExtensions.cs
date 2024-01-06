@@ -117,6 +117,15 @@ public static class INavigationServiceExtensions
         });
     }
 
+    /// <summary>
+    /// Selects a tab programatically
+    /// </summary>
+    /// <param name="navigationService"></param>
+    /// <param name="tabName">The name of the tab to select</param>
+    /// <returns>The <see cref="INavigationResult"/>.</returns>
+    public static Task<INavigationResult> SelectTabAsync(this INavigationService navigationService, string tabName) =>
+        navigationService.SelectTabAsync(tabName, new NavigationParameters());
+
     private static INavigationParameters GetNavigationParameters((string Key, object Value)[] parameters)
     {
         var navParams = new NavigationParameters();
