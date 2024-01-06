@@ -13,7 +13,7 @@ public class DynamicTabbedPageNavigationFixture : TestBase
     [Fact]
     public void CreatesTabs_WithSingleContentPage()
     {
-        var mauiApp = CreateBuilder(prism => prism.OnAppStart(navigation =>
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow(navigation =>
         navigation.CreateBuilder()
             .AddTabbedSegment(t =>
                 t.CreateTab("MockViewA")
@@ -33,7 +33,7 @@ public class DynamicTabbedPageNavigationFixture : TestBase
     [Fact]
     public void CreatesTabs_WithNavigationPageAndContentPage()
     {
-        var mauiApp = CreateBuilder(prism => prism.OnAppStart(navigation =>
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow(navigation =>
             navigation.CreateBuilder()
                 .AddTabbedSegment(t =>
                     t.CreateTab(ct => ct.AddNavigationPage().AddSegment("MockViewA"))

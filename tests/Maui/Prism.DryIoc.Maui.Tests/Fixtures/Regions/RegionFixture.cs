@@ -18,7 +18,7 @@ public class RegionFixture : TestBase
         {
             container.RegisterForNavigation<MockContentRegionPage, MockContentRegionPageViewModel>();
             container.RegisterForRegionNavigation<MockRegionViewA, MockRegionViewAViewModel>();
-        }).OnAppStart(nav => nav.NavigateAsync("MockContentRegionPage"))).Build();
+        }).CreateWindow(nav => nav.NavigateAsync("MockContentRegionPage"))).Build();
         var window = GetWindow(mauiApp);
 
         Assert.IsType<MockContentRegionPage>(window.Page);
@@ -42,7 +42,7 @@ public class RegionFixture : TestBase
                     var regionManager = container.Resolve<IRegionManager>();
                     regionManager.RegisterViewWithRegion("FrameRegion", "MockRegionViewA");
                 })
-                .OnAppStart("MockContentRegionPage"))
+                .CreateWindow("MockContentRegionPage"))
             .Build();
         var window = GetWindow(mauiApp);
 
@@ -67,7 +67,7 @@ public class RegionFixture : TestBase
                     var regionManager = container.Resolve<IRegionManager>();
                     regionManager.RegisterViewWithRegion("FrameRegion", "MockRegionViewA");
                 })
-                .OnAppStart("MockContentRegionPage"))
+                .CreateWindow("MockContentRegionPage"))
             .Build();
         var window = GetWindow(mauiApp);
 
@@ -93,7 +93,7 @@ public class RegionFixture : TestBase
                     container.RegisterForNavigation<MockContentRegionPage, MockContentRegionPageViewModel>();
                     container.RegisterForRegionNavigation<MockRegionViewA, MockRegionViewAViewModel>();
                 })
-                .OnAppStart("MockContentRegionPage"))
+                .CreateWindow("MockContentRegionPage"))
             .Build();
         var window = GetWindow(mauiApp);
 
@@ -117,7 +117,7 @@ public class RegionFixture : TestBase
                 {
                     container.RegisterForNavigation<MockContentRegionPage, MockContentRegionPageViewModel>();
                 })
-                .OnAppStart("MockContentRegionPage"))
+                .CreateWindow("MockContentRegionPage"))
             .Build();
         var window = GetWindow(mauiApp);
 
@@ -139,7 +139,7 @@ public class RegionFixture : TestBase
                     var regionManager = container.Resolve<IRegionManager>();
                     regionManager.RegisterViewWithRegion("FrameRegion", "MockRegionViewA");
                 })
-                .OnAppStart("MockContentRegionPage"))
+                .CreateWindow("MockContentRegionPage"))
             .Build();
         var window = GetWindow(mauiApp);
 
@@ -161,7 +161,7 @@ public class RegionFixture : TestBase
                     container.RegisterForNavigation<MockPageWithRegionAndDefaultView>("MainPage");
                     container.RegisterForRegionNavigation<MockRegionViewA, MockRegionViewAViewModel>();
                 })
-                .OnAppStart("MainPage", ex => Assert.Null(ex)))
+                .CreateWindow("MainPage", ex => Assert.Null(ex)))
             .Build();
         var window = GetWindow(mauiApp);
 

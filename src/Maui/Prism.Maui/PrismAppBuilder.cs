@@ -194,7 +194,7 @@ public sealed class PrismAppBuilder
     /// </summary>
     /// <param name="onAppStarted">The Navigation Delegate.</param>
     /// <returns>The <see cref="PrismAppBuilder"/>.</returns>
-    public PrismAppBuilder OnAppStart(Func<IContainerProvider, INavigationService, Task> onAppStarted)
+    public PrismAppBuilder CreateWindow(Func<IContainerProvider, INavigationService, Task> onAppStarted)
     {
         _onAppStarted = onAppStarted;
         return this;
