@@ -2,6 +2,7 @@
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Navigation.Builder;
 
 namespace Prism;
 
@@ -44,22 +45,28 @@ public static class PrismAppBuilderExtensions
         });
     }
 
-    public static PrismAppBuilder OnAppStart(this PrismAppBuilder builder, string uri) =>
-        builder.OnAppStart(navigation => navigation.NavigateAsync(uri));
+    public static PrismAppBuilder CreateWindow(this PrismAppBuilder builder, string uri) =>
+        builder.CreateWindow(navigation => navigation.NavigateAsync(uri));
 
-    public static PrismAppBuilder OnAppStart(this PrismAppBuilder builder, string uri, Action<Exception> onError) =>
-        builder.OnAppStart(async navigation =>
+    public static PrismAppBuilder CreateWindow(this PrismAppBuilder builder, string uri, Action<Exception> onError) =>
+        builder.CreateWindow(async navigation =>
         {
             var result = await navigation.NavigateAsync(uri);
             if (result.Exception is not null)
                 onError(result.Exception);
         });
 
-    public static PrismAppBuilder OnAppStart(this PrismAppBuilder builder, Func<IContainerProvider, INavigationService, Task> onAppStarted) =>
-        builder.OnAppStart((c, n) => onAppStarted(c, n));
+    public static PrismAppBuilder CreateWindow(this PrismAppBuilder builder, Func<IContainerProvider, INavigationService, Task> CreateWindowed) =>
+        builder.CreateWindow((c, n) => CreateWindowed(c, n));
 
-    public static PrismAppBuilder OnAppStart(this PrismAppBuilder builder, Func<INavigationService, Task> onAppStarted) =>
-        builder.OnAppStart((_, n) => onAppStarted(n));
+    public static PrismAppBuilder CreateWindow(this PrismAppBuilder builder, Func<INavigationService, Task> CreateWindowed) =>
+        builder.CreateWindow((_, n) => CreateWindowed(n));
+
+    public static PrismAppBuilder CreateWindow(this PrismAppBuilder builder, Func<INavigationService, INavigationBuilder> CreateWindowed) =>
+        builder.CreateWindow(n => CreateWindowed(n).NavigateAsync());
+
+    public static PrismAppBuilder CreateWindow(this PrismAppBuilder builder, Func<IContainerProvider, INavigationService, INavigationBuilder> CreateWindowed) =>
+        builder.CreateWindow((c, n) => CreateWindowed(c, n).NavigateAsync());
 
     public static PrismAppBuilder ConfigureServices(this PrismAppBuilder builder, Action<IServiceCollection> configureServices)
     {
