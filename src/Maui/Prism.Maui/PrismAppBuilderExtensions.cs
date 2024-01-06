@@ -2,6 +2,7 @@
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Navigation.Builder;
 
 namespace Prism;
 
@@ -60,6 +61,12 @@ public static class PrismAppBuilderExtensions
 
     public static PrismAppBuilder OnAppStart(this PrismAppBuilder builder, Func<INavigationService, Task> onAppStarted) =>
         builder.OnAppStart((_, n) => onAppStarted(n));
+
+    public static PrismAppBuilder OnAppStart(this PrismAppBuilder builder, Func<INavigationService, INavigationBuilder> onAppStarted) =>
+        builder.OnAppStart(n => onAppStarted(n).NavigateAsync());
+
+    public static PrismAppBuilder OnAppStart(this PrismAppBuilder builder, Func<IContainerProvider, INavigationService, INavigationBuilder> onAppStarted) =>
+        builder.OnAppStart((c, n) => onAppStarted(c, n).NavigateAsync());
 
     public static PrismAppBuilder ConfigureServices(this PrismAppBuilder builder, Action<IServiceCollection> configureServices)
     {
