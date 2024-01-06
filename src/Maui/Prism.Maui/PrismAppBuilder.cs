@@ -21,7 +21,7 @@ public sealed class PrismAppBuilder
     private List<Action<IContainerRegistry>> _registrations { get; }
     private List<Action<IContainerProvider>> _initializations { get; }
     private IContainerProvider _container { get; }
-    private Func<IContainerProvider, INavigationService, Task> _onAppStarted;
+    private Func<IContainerProvider, INavigationService, Task> _createWindow;
     private Action<RegionAdapterMappings> _configureAdapters;
     private Action<IRegionBehaviorFactory> _configureBehaviors;
 
@@ -181,14 +181,14 @@ public sealed class PrismAppBuilder
         }
     }
 
-    internal void OnAppStarted()
+    internal void OnCreateWindow()
     {
-        if (_onAppStarted is null)
-            throw new ArgumentException("You must call OnAppStart on the PrismAppBuilder.");
+        if (_createWindow is null)
+            throw new ArgumentException("You must call CreateWindow on the PrismAppBuilder.");
 
         // Ensure that this is executed before we navigate.
         OnInitialized();
-        var onStart = _onAppStarted(_container, _container.Resolve<INavigationService>());
+        var onStart = _createWindow(_container, _container.Resolve<INavigationService>());
         onStart.Wait();
     }
 
@@ -196,11 +196,11 @@ public sealed class PrismAppBuilder
     /// When the <see cref="Application"/> is started and the native platform calls <see cref="IApplication.CreateWindow(IActivationState?)"/>
     /// this delegate will be invoked to do your initial Navigation.
     /// </summary>
-    /// <param name="onAppStarted">The Navigation Delegate.</param>
+    /// <param name="createWindow">The Navigation Delegate.</param>
     /// <returns>The <see cref="PrismAppBuilder"/>.</returns>
-    public PrismAppBuilder CreateWindow(Func<IContainerProvider, INavigationService, Task> onAppStarted)
+    public PrismAppBuilder CreateWindow(Func<IContainerProvider, INavigationService, Task> createWindow)
     {
-        _onAppStarted = onAppStarted;
+        _createWindow = createWindow;
         return this;
     }
 
