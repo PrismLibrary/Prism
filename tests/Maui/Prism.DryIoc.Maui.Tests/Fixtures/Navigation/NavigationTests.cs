@@ -276,6 +276,49 @@ public class NavigationTests : TestBase
         Assert.IsType<MockViewB>(navPage.CurrentPage);
     }
 
+    [Fact]
+    public async Task NavigationPage_DoesNotHave_MauiPage_AsRootPage()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .OnAppStart("NavigationPage/MockViewA"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        Assert.IsAssignableFrom<NavigationPage>(window.Page);
+        var navPage = window.Page as NavigationPage;
+
+        Assert.NotNull(navPage);
+        Assert.IsNotType<Page>(navPage.RootPage);
+        Assert.IsType<MockViewA>(navPage.RootPage);
+
+        Assert.Same(navPage.RootPage, navPage.CurrentPage);
+    }
+
+    [Fact]
+    public async Task NavigationPage_UsesRootPageTitle_WithTabbedParent()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .OnAppStart(n => n.CreateBuilder()
+                .AddTabbedSegment(s => s
+                    .CreateTab(t => t.AddNavigationPage()
+                                                .AddSegment("MockViewA")))
+                .NavigateAsync()))
+            .Build();
+        var window = GetWindow(mauiApp);
+        Assert.IsAssignableFrom<TabbedPage>(window.Page);
+        var tabbed = window.Page as TabbedPage;
+
+        Assert.NotNull(tabbed);
+
+        Assert.Single(tabbed.Children);
+        var child = tabbed.Children[0];
+        Assert.IsAssignableFrom<NavigationPage>(child);
+        var navPage = child as NavigationPage;
+
+        Assert.Equal(navPage.Title, navPage.RootPage.Title);
+        Assert.Equal(MockViewA.ExpectedTitle, navPage.Title);
+    }
+
     private void TestPage(Page page)
     {
         Assert.NotNull(page.BindingContext);
