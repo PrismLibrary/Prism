@@ -280,7 +280,7 @@ public class NavigationTests : TestBase
     public async Task TabbedPage_SelectsNewTab()
     {
         var mauiApp = CreateBuilder(prism => prism
-            .OnAppStart(nav => nav.CreateBuilder()
+            .CreateWindow(nav => nav.CreateBuilder()
                 .AddTabbedSegment(s => s.CreateTab("MockViewA")
                                                        .CreateTab("MockViewB")
                                                        .CreateTab("MockViewC"))
@@ -306,7 +306,7 @@ public class NavigationTests : TestBase
     public async Task TabbedPage_SelectsNewTab_WithNavigationParameters()
     {
         var mauiApp = CreateBuilder(prism => prism
-            .OnAppStart(nav => nav.CreateBuilder()
+            .CreateWindow(nav => nav.CreateBuilder()
                 .AddTabbedSegment(s => s.CreateTab("MockViewA")
                                                        .CreateTab("MockViewB")
                                                        .CreateTab("MockViewC"))
@@ -336,7 +336,7 @@ public class NavigationTests : TestBase
     public async Task NavigationPage_DoesNotHave_MauiPage_AsRootPage()
     {
         var mauiApp = CreateBuilder(prism => prism
-            .OnAppStart("NavigationPage/MockViewA"))
+            .CreateWindow("NavigationPage/MockViewA"))
             .Build();
         var window = GetWindow(mauiApp);
 
@@ -354,7 +354,7 @@ public class NavigationTests : TestBase
     public async Task NavigationPage_UsesRootPageTitle_WithTabbedParent()
     {
         var mauiApp = CreateBuilder(prism => prism
-            .OnAppStart(n => n.CreateBuilder()
+            .CreateWindow(n => n.CreateBuilder()
                 .AddTabbedSegment(s => s
                     .CreateTab(t => t.AddNavigationPage()
                                                 .AddSegment("MockViewA")))
