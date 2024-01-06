@@ -1,10 +1,17 @@
-﻿using Prism.Ioc;
-using Prism.Navigation.Xaml;
+﻿using Prism.Navigation.Xaml;
 
 namespace Prism.Mvvm;
 
+/// <summary>
+/// The Base class for .NET Maui's ViewModel Registry
+/// </summary>
 public abstract class ViewRegistryBase : ViewRegistryBase<BindableObject>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ViewRegistryBase"/>
+    /// </summary>
+    /// <param name="registryType">The Registry Type</param>
+    /// <param name="registrations">The ViewRegistration collection</param>
     protected ViewRegistryBase(ViewType registryType, IEnumerable<ViewRegistration> registrations)
         : base(registryType, registrations)
     {

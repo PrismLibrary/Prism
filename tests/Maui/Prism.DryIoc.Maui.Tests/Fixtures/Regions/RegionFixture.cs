@@ -173,4 +173,55 @@ public class RegionFixture : TestBase
         Assert.NotNull(region.Content);
         Assert.IsType<MockRegionViewA>(region.Content);
     }
+
+    [Fact]
+    public async Task Region_IsDestroyed_OnNavigatedAway()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+                .RegisterTypes(container =>
+                {
+                    container.RegisterForNavigation<MockPageWithRegionAndDefaultView>("MainPage");
+                    container.RegisterForRegionNavigation<MockRegionViewA, MockRegionViewAViewModel>();
+                })
+                .CreateWindow("MainPage"))
+            .Build();
+
+        var window = GetWindow(mauiApp);
+
+        var navigationService = Prism.Navigation.Xaml.Navigation.GetNavigationService(window.Page);
+        var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
+
+        Assert.Single(regionManager.Regions);
+        await navigationService.NavigateAsync("/MockViewA");
+        Assert.Empty(regionManager.Regions);
+    }
+
+    [Fact]
+    public async Task Region_IsDestroyed_OnNavigationGoBack()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+                .RegisterTypes(container =>
+                {
+                    container.RegisterForNavigation<MockPageWithRegionAndDefaultView>("RegionPage");
+                    container.RegisterForRegionNavigation<MockRegionViewA, MockRegionViewAViewModel>();
+                })
+                .CreateWindow("NavigationPage/MockViewA"))
+            .Build();
+
+        var window = GetWindow(mauiApp);
+        var navPage = window.Page as NavigationPage;
+
+        var navigationService = Prism.Navigation.Xaml.Navigation.GetNavigationService(navPage.RootPage);
+        var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
+
+        Assert.Empty(regionManager.Regions);
+        await navigationService.NavigateAsync("RegionPage");
+        Assert.Single(regionManager.Regions);
+
+        await Prism.Navigation.Xaml.Navigation.GetNavigationService(navPage.CurrentPage).GoBackAsync();
+        Assert.Empty(regionManager.Regions);
+
+        var result = await navigationService.NavigateAsync("RegionPage");
+        Assert.True(result.Success);
+    }
 }
