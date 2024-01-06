@@ -21,6 +21,7 @@ jobs:
     with:
       name: Build Prism.Core
       solution-path: PrismLibrary_Core.slnf
+      dotnet-version: 8.0.x
       code-sign: true
       artifact-name: Core
     secrets:
@@ -35,6 +36,7 @@ jobs:
     with:
       name: Build Prism.Wpf
       solution-path: PrismLibrary_Wpf.slnf
+      dotnet-version: 8.0.x
       code-sign: true
       artifact-name: Wpf
     secrets:
