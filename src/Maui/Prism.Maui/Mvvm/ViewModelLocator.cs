@@ -1,4 +1,4 @@
-﻿namespace Prism.Mvvm;
+namespace Prism.Mvvm;
 
 /// <summary>
 /// This class defines the attached property and related change handler that calls the <see cref="ViewModelLocationProvider"/>.
@@ -9,7 +9,15 @@ public static class ViewModelLocator
     /// Instructs Prism whether or not to automatically create an instance of a ViewModel using a convention, and assign the associated View's <see cref="BindableObject.BindingContext"/> to that instance.
     /// </summary>
     public static readonly BindableProperty AutowireViewModelProperty =
-        BindableProperty.CreateAttached("AutowireViewModel", typeof(ViewModelLocatorBehavior), typeof(ViewModelLocator), ViewModelLocatorBehavior.Automatic);
+        BindableProperty.CreateAttached("AutowireViewModel", typeof(ViewModelLocatorBehavior), typeof(ViewModelLocator), ViewModelLocatorBehavior.Automatic, propertyChanged: OnViewModelLocatorBehaviorChanged);
+
+    private static void OnViewModelLocatorBehaviorChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if (newValue is ViewModelLocatorBehavior behavior && behavior == ViewModelLocatorBehavior.Forced)
+        {
+            Autowire(bindable);
+        }
+    }
 
     internal static readonly BindableProperty ViewModelProperty =
         BindableProperty.CreateAttached("ViewModelType",

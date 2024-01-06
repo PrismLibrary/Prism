@@ -41,6 +41,23 @@ public class NavigationTests : TestBase
     }
 
     [Fact]
+    public async Task ViewModelLocator_Forced_SetsContainer_ResolvedViewModel()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .RegisterTypes(c => c.RegisterForNavigation<ForcedView>())
+            .CreateWindow("ForcedView"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        Assert.IsType<ForcedView>(window.Page);
+        Assert.IsType<ForcedViewModel>(window.Page.BindingContext);
+
+        var viewModel = (ForcedViewModel)window.Page.BindingContext;
+        Assert.NotNull(viewModel.Page);
+        Assert.IsType<ForcedView>(viewModel.Page);
+    }
+
+    [Fact]
     public async Task AddsPageFromRelativeURI()
     {
         var mauiApp = CreateBuilder(prism => prism.CreateWindow("NavigationPage/MockViewA"))

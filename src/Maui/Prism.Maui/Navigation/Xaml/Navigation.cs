@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using Prism.Common;
 using Prism.Navigation.Internals;
 
@@ -154,6 +154,15 @@ public static class Navigation
         {
             if (page.Parent is FlyoutPage flyout && flyout.Flyout == page)
                 return flyout.GetContainerProvider();
+
+            if (Mvvm.ViewModelLocator.GetAutowireViewModel(page) == Mvvm.ViewModelLocatorBehavior.Forced)
+            {
+                container = ContainerLocator.Container.CreateScope();
+                var accessor = container.Resolve<IPageAccessor>();
+                accessor.Page = page;
+                SetContainerProvider(page, container);
+                return container;
+            }
         }
         else if (bindable is Element element && element.Parent is not null)
             return GetContainerProvider(element.Parent);
