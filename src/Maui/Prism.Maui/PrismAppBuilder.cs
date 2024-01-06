@@ -106,12 +106,16 @@ public sealed class PrismAppBuilder
     {
         try
         {
-            if (view is not BindableObject bindable)
+            if (view is not BindableObject bindable || bindable.BindingContext is not null)
                 return null;
 
             var container = bindable.GetContainerProvider();
 
-            return container.Resolve(viewModelType);
+            return container.Resolve(viewModelType, (typeof(IDispatcher), bindable.Dispatcher));
+        }
+        catch (ViewModelCreationException)
+        {
+            throw;
         }
         catch (Exception ex)
         {
