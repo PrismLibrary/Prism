@@ -3,6 +3,7 @@ using Prism.DryIoc.Maui.Tests.Mocks;
 using Prism.DryIoc.Maui.Tests.Mocks.Logging;
 using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Maui.Tests.Mocks.Views;
+using Prism.Events;
 
 namespace Prism.DryIoc.Maui.Tests.Fixtures;
 
