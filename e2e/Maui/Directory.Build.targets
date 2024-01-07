@@ -1,4 +1,5 @@
 <Project>
   <Import Project="..\..\src\Prism.Core\build\Package.targets" />
+  <Import Project="..\..\src\Prism.Events\build\Package.targets" />
   <Import Project="..\..\src\Maui\Prism.Maui\build\Package.targets" />
 </Project>
