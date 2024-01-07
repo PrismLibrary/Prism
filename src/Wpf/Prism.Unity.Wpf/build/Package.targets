@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+  <ItemGroup Condition=" '$(ImplicitUsings)' == 'true' OR '$(ImplicitUsings)' == 'enable' ">
+    <Using Include="Unity" />
+    <Using Include="Prism.Unity" />
+  </ItemGroup>
+</Project>
