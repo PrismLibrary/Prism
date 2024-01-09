@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using Prism.Container.Unity;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Navigation.Regions;

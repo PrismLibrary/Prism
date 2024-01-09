@@ -18,7 +18,7 @@ public class RegionFixture : TestBase
         {
             container.RegisterForNavigation<MockContentRegionPage, MockContentRegionPageViewModel>();
             container.RegisterForRegionNavigation<MockRegionViewA, MockRegionViewAViewModel>();
-        }).OnAppStart(nav => nav.NavigateAsync("MockContentRegionPage"))).Build();
+        }).CreateWindow(nav => nav.NavigateAsync("MockContentRegionPage"))).Build();
         var window = GetWindow(mauiApp);
 
         Assert.IsType<MockContentRegionPage>(window.Page);
@@ -42,7 +42,7 @@ public class RegionFixture : TestBase
                     var regionManager = container.Resolve<IRegionManager>();
                     regionManager.RegisterViewWithRegion("FrameRegion", "MockRegionViewA");
                 })
-                .OnAppStart("MockContentRegionPage"))
+                .CreateWindow("MockContentRegionPage"))
             .Build();
         var window = GetWindow(mauiApp);
 
@@ -67,7 +67,7 @@ public class RegionFixture : TestBase
                     var regionManager = container.Resolve<IRegionManager>();
                     regionManager.RegisterViewWithRegion("FrameRegion", "MockRegionViewA");
                 })
-                .OnAppStart("MockContentRegionPage"))
+                .CreateWindow("MockContentRegionPage"))
             .Build();
         var window = GetWindow(mauiApp);
 
@@ -93,7 +93,7 @@ public class RegionFixture : TestBase
                     container.RegisterForNavigation<MockContentRegionPage, MockContentRegionPageViewModel>();
                     container.RegisterForRegionNavigation<MockRegionViewA, MockRegionViewAViewModel>();
                 })
-                .OnAppStart("MockContentRegionPage"))
+                .CreateWindow("MockContentRegionPage"))
             .Build();
         var window = GetWindow(mauiApp);
 
@@ -117,7 +117,7 @@ public class RegionFixture : TestBase
                 {
                     container.RegisterForNavigation<MockContentRegionPage, MockContentRegionPageViewModel>();
                 })
-                .OnAppStart("MockContentRegionPage"))
+                .CreateWindow("MockContentRegionPage"))
             .Build();
         var window = GetWindow(mauiApp);
 
@@ -139,7 +139,7 @@ public class RegionFixture : TestBase
                     var regionManager = container.Resolve<IRegionManager>();
                     regionManager.RegisterViewWithRegion("FrameRegion", "MockRegionViewA");
                 })
-                .OnAppStart("MockContentRegionPage"))
+                .CreateWindow("MockContentRegionPage"))
             .Build();
         var window = GetWindow(mauiApp);
 
@@ -161,7 +161,7 @@ public class RegionFixture : TestBase
                     container.RegisterForNavigation<MockPageWithRegionAndDefaultView>("MainPage");
                     container.RegisterForRegionNavigation<MockRegionViewA, MockRegionViewAViewModel>();
                 })
-                .OnAppStart("MainPage", ex => Assert.Null(ex)))
+                .CreateWindow("MainPage", ex => Assert.Null(ex)))
             .Build();
         var window = GetWindow(mauiApp);
 
@@ -172,5 +172,56 @@ public class RegionFixture : TestBase
 
         Assert.NotNull(region.Content);
         Assert.IsType<MockRegionViewA>(region.Content);
+    }
+
+    [Fact]
+    public async Task Region_IsDestroyed_OnNavigatedAway()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+                .RegisterTypes(container =>
+                {
+                    container.RegisterForNavigation<MockPageWithRegionAndDefaultView>("MainPage");
+                    container.RegisterForRegionNavigation<MockRegionViewA, MockRegionViewAViewModel>();
+                })
+                .CreateWindow("MainPage"))
+            .Build();
+
+        var window = GetWindow(mauiApp);
+
+        var navigationService = Prism.Navigation.Xaml.Navigation.GetNavigationService(window.Page);
+        var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
+
+        Assert.Single(regionManager.Regions);
+        await navigationService.NavigateAsync("/MockViewA");
+        Assert.Empty(regionManager.Regions);
+    }
+
+    [Fact]
+    public async Task Region_IsDestroyed_OnNavigationGoBack()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+                .RegisterTypes(container =>
+                {
+                    container.RegisterForNavigation<MockPageWithRegionAndDefaultView>("RegionPage");
+                    container.RegisterForRegionNavigation<MockRegionViewA, MockRegionViewAViewModel>();
+                })
+                .CreateWindow("NavigationPage/MockViewA"))
+            .Build();
+
+        var window = GetWindow(mauiApp);
+        var navPage = window.Page as NavigationPage;
+
+        var navigationService = Prism.Navigation.Xaml.Navigation.GetNavigationService(navPage.RootPage);
+        var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
+
+        Assert.Empty(regionManager.Regions);
+        await navigationService.NavigateAsync("RegionPage");
+        Assert.Single(regionManager.Regions);
+
+        await Prism.Navigation.Xaml.Navigation.GetNavigationService(navPage.CurrentPage).GoBackAsync();
+        Assert.Empty(regionManager.Regions);
+
+        var result = await navigationService.NavigateAsync("RegionPage");
+        Assert.True(result.Success);
     }
 }

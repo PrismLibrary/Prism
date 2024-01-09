@@ -1,65 +1,64 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-	<PropertyGroup>
-		<OutputType>Exe</OutputType>
-		<TargetFramework>net7.0</TargetFramework>
-		<NoWarn>$(NoWarn);NU1504;NU1505;NU1701</NoWarn>
-		<!-- Disabled due to issue with Central Package Management with implicit using -->
-		<ImplicitUsings>disable</ImplicitUsings>
-		<WasmPWAManifestFile>manifest.json</WasmPWAManifestFile>
-		<AppDesignerFolder>Properties</AppDesignerFolder>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
-		<MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
-		<DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
-		<DebugType>portable</DebugType>
-		<DebugSymbols>true</DebugSymbols>
-		<!--
-			IL Linking is disabled in Debug configuration.
-			When building in Release, see https://platform.uno/docs/articles/features/using-il-linker-WebAssembly.html
-		-->
-		<WasmShellILLinkerEnabled>false</WasmShellILLinkerEnabled>
-	</PropertyGroup>
-	<ItemGroup>
-		<Content Include="Assets\SplashScreen.png" />
-		<Content Include="Assets\AppIcon-*.png" />
-	</ItemGroup>
-	<ItemGroup>
-		<EmbeddedResource Include="WasmCSS\Fonts.css" />
-		<EmbeddedResource Include="WasmScripts\AppManifest.js" />
-	</ItemGroup>
-	<ItemGroup>
-		<LinkerDescriptor Include="LinkerConfig.xml" />
-	</ItemGroup>
-	<ItemGroup>
-		<!--
-		This item group is required by the project template because of the
-		new SDK-Style project, otherwise some files are not added automatically.
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>$(DotNetVersion)</TargetFramework>
+    <NoWarn>$(NoWarn);NU1504;NU1505;NU1701</NoWarn>
+    <!-- Disabled due to issue with Central Package Management with implicit using -->
+    <ImplicitUsings>disable</ImplicitUsings>
+    <WasmPWAManifestFile>manifest.json</WasmPWAManifestFile>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <!--
+      IL Linking is disabled in Debug configuration.
+      When building in Release, see https://platform.uno/docs/articles/features/using-il-linker-WebAssembly.html
+    -->
+    <WasmShellILLinkerEnabled>false</WasmShellILLinkerEnabled>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Assets\SplashScreen.png" />
+    <Content Include="Assets\AppIcon-*.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WasmCSS\Fonts.css" />
+    <EmbeddedResource Include="WasmScripts\AppManifest.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <LinkerDescriptor Include="LinkerConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <!--
+    This item group is required by the project template because of the
+    new SDK-Style project, otherwise some files are not added automatically.
 
-		You can safely remove this ItemGroup completely.
-		-->
-		<None Include="Program.cs" />
-		<None Include="LinkerConfig.xml" />
-		<None Include="wwwroot\web.config" />
-	</ItemGroup>
+    You can safely remove this ItemGroup completely.
+    -->
+    <None Include="Program.cs" />
+    <None Include="LinkerConfig.xml" />
+    <None Include="wwwroot\web.config" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Windows.Compatibility" />
-		<PackageReference Include="Uno.Wasm.Bootstrap" />
-		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" />
-		<PackageReference Include="Uno.WinUI.WebAssembly" />
-		<PackageReference Include="Uno.WinUI.RemoteControl" />
-		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
-		<PackageReference Include="Uno.Material.WinUI" />
-		<PackageReference Include="Uno.Toolkit.WinUI.Material" />
-		<PackageReference Include="Uno.Toolkit.WinUI" />
-		<PackageReference Include="Uno.Extensions.Hosting.WinUI" />
-		<PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" />
-		<PackageReference Include="Uno.Extensions.Logging.WinUI" />
-		<PackageReference Include="Uno.Extensions.Logging.Serilog" />
-		<PackageReference Include="Uno.Extensions.Core" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\HelloWorld\HelloWorld.csproj" />
-	</ItemGroup>
-	<Import Project="..\HelloWorld.Base\base.props" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.Compatibility" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" />
+    <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" />
+    <PackageReference Include="Uno.WinUI.WebAssembly" />
+    <PackageReference Include="Uno.WinUI.DevServer" />
+    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
+    <PackageReference Include="Uno.Material.WinUI" />
+    <PackageReference Include="Uno.Toolkit.WinUI.Material" />
+    <PackageReference Include="Uno.Toolkit.WinUI" />
+    <PackageReference Include="Uno.Extensions.Hosting.WinUI" />
+    <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" />
+    <PackageReference Include="Uno.Extensions.Logging.WinUI" />
+    <PackageReference Include="Uno.Extensions.Logging.Serilog" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HelloWorld\HelloWorld.csproj" />
+  </ItemGroup>
+  <Import Project="..\HelloWorld.Base\base.props" />
 </Project>

@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
 
+#nullable enable
 namespace Prism.Dialogs
 {
     /// <summary>
@@ -13,7 +14,7 @@ namespace Prism.Dialogs
         {
             this.InitializeComponent();
         }
-        public IDialogResult Result { get; set; }
+        public IDialogResult? Result { get; set; }
 
         event RoutedEventHandler IDialogWindow.Loaded
         {

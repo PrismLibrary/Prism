@@ -11,13 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DryIoc.dll" />
+    <PackageReference Include="Prism.Container.DryIoc" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../Prism.Forms/Prism.Forms.csproj" />
   </ItemGroup>
-
-  <Import Project="..\..\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems" Label="Shared" />
   <Import Project="Sdk.targets" Sdk="MSBuild.Sdk.Extras" Version="$(MSBuildSdkExtrasVersion)" Condition="'$(MSBuildRuntimeType)' != 'Core'" />
 </Project>

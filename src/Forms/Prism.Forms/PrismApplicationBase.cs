@@ -102,7 +102,7 @@ namespace Prism
         {
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                List<(Type Type, object Instance)> overrides = new List<(Type, object)>();
+                List<(Type Type, object Instance)> overrides = [];
                 if (Container.IsRegistered<IResolverOverridesHelper>())
                 {
                     var resolver = Container.Resolve<IResolverOverridesHelper>();
@@ -140,15 +140,19 @@ namespace Prism
         /// </summary>
         protected virtual void Initialize()
         {
-            ContainerLocator.SetContainerExtension(CreateContainerExtension);
+            var initialize = ContainerLocator.TrySetContainerExtension(CreateContainerExtension());
             _containerExtension = ContainerLocator.Current;
-            RegisterRequiredTypes(_containerExtension);
-            PlatformInitializer?.RegisterTypes(_containerExtension);
-            RegisterTypes(_containerExtension);
-            _containerExtension.FinalizeExtension();
+            if (initialize)
+            {
+                RegisterRequiredTypes(_containerExtension);
+                PlatformInitializer?.RegisterTypes(_containerExtension);
+                RegisterTypes(_containerExtension);
 
-            _moduleCatalog = Container.Resolve<IModuleCatalog>();
-            ConfigureModuleCatalog(_moduleCatalog);
+                _moduleCatalog = Container.Resolve<IModuleCatalog>();
+                ConfigureModuleCatalog(_moduleCatalog);
+            }
+
+            _moduleCatalog ??= Container.Resolve<IModuleCatalog>();
 
             _containerExtension.CreateScope();
             NavigationService = _containerExtension.Resolve<INavigationService>();

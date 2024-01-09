@@ -142,7 +142,7 @@ namespace Prism.Forms.Tests.Services
             Assert.NotNull(dialogPage);
             var layout = dialogPage.Content as AbsoluteLayout;
 
-            Assert.Equal(1, layout.Children.Count);
+            Assert.Single(layout.Children);
         }
 
         [Fact]

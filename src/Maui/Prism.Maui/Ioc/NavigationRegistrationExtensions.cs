@@ -1,14 +1,15 @@
-﻿using Prism.Mvvm;
+﻿using System.Diagnostics.CodeAnalysis;
+using Prism.Mvvm;
 
 namespace Prism.Ioc;
 
 public static class NavigationRegistrationExtensions
 {
-    public static IContainerRegistry RegisterForNavigation<TView>(this IContainerRegistry container, string name = null)
+    public static IContainerRegistry RegisterForNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView>(this IContainerRegistry container, string name = null)
         where TView : Page =>
         container.RegisterForNavigation(typeof(TView), null, name);
 
-    public static IContainerRegistry RegisterForNavigation<TView, TViewModel>(this IContainerRegistry container, string name = null)
+    public static IContainerRegistry RegisterForNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IContainerRegistry container, string name = null)
         where TView : Page =>
         container.RegisterForNavigation(typeof(TView), typeof(TViewModel), name);
 

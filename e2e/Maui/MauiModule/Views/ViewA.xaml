@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiModule.Views.ViewA"
              Title="{Binding Title}"
+             IconImageSource="home.png"
              BackgroundColor="White">
   <Grid RowDefinitions="*,Auto"
         ColumnDefinitions="*,*">
@@ -31,7 +32,7 @@
       </CollectionView.ItemTemplate>
     </CollectionView>
 
-    <Button Text="ViewB" 
+    <Button Text="ViewB"
             Command="{prism:NavigateTo 'ViewB'}"
             Margin="10"
             Grid.Row="1">
@@ -39,7 +40,7 @@
         <prism:Parameter Key="Message" Value="Hi from View A!"/>
       </Button.CommandParameter>
     </Button>
-    <Button Text="Show Alert Dialog" 
+    <Button Text="Show Alert Dialog"
             Command="{Binding ShowPageDialog}"
             Margin="10"
             Grid.Row="1"

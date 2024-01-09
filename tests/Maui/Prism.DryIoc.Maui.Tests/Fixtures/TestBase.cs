@@ -1,9 +1,9 @@
-﻿using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
-using Prism.DryIoc.Maui.Tests.Mocks.Views;
 using Microsoft.Extensions.Logging;
-using Prism.DryIoc.Maui.Tests.Mocks.Logging;
-using Microsoft.Maui.Dispatching;
 using Prism.DryIoc.Maui.Tests.Mocks;
+using Prism.DryIoc.Maui.Tests.Mocks.Logging;
+using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
+using Prism.DryIoc.Maui.Tests.Mocks.Views;
+using Prism.Events;
 
 namespace Prism.DryIoc.Maui.Tests.Fixtures;
 
@@ -64,7 +64,7 @@ public abstract class TestBase
             });
     }
 
-    protected Window GetWindow(MauiApp mauiApp)
+    protected static Window GetWindow(MauiApp mauiApp)
     {
         var app = mauiApp.Services.GetService<IApplication>();
         Assert.NotNull(app);

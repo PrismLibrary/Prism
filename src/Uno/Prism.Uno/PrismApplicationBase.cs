@@ -1,8 +1,7 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
 using Prism.Common;
-using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation.Regions;
@@ -19,16 +18,20 @@ namespace Prism
     /// </remarks>
     public abstract class PrismApplicationBase : Application
     {
-        private IContainerExtension? _containerExtension;
-        private IModuleCatalog? _moduleCatalog;
+        private readonly IContainerExtension _containerExtension;
         private IHost? _host;
         private IRegionManager? _regionManager;
+
+        protected PrismApplicationBase()
+        {
+            _containerExtension = CreateContainerExtension();
+            ContainerLocator.SetContainerExtension(_containerExtension);
+        }
 
         /// <summary>
         /// The dependency injection container used to resolve objects
         /// </summary>
-        public IContainerProvider Container => _containerExtension ??
-            throw new InvalidOperationException("The Container has not yet been initialized.");
+        public IContainerProvider Container => _containerExtension;
 
         /// <summary>
         /// Gets the <see cref="IHost" /> built when the Shell is loaded.
@@ -46,8 +49,8 @@ namespace Prism
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Event data for the event.</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected override void OnLaunched(LaunchActivatedEventArgs args)
+        /// <remarks>If you need to change the behavior here you should override <see cref="Initialize(IApplicationBuilder)"/>.</remarks>
+        protected sealed override void OnLaunched(LaunchActivatedEventArgs args)
         {
             base.OnLaunched(args);
             InitializeInternal(this.CreateBuilder(args));
@@ -86,6 +89,20 @@ namespace Prism
         protected virtual void ConfigureHost(IHostBuilder builder) { }
 
         /// <summary>
+        /// Provides an opportunity to initialize services or otherwise prepare the application Window.
+        /// </summary>
+        /// <param name="window">The primary application <see cref="Window"/></param>
+        /// <example>
+        /// protected override void ConfigureWindow(Window window)
+        /// {
+        ///     #if DEBUG
+        ///     window.EnableHotReload();
+        ///     #endif
+        /// }
+        /// </example>
+        protected virtual void ConfigureWindow(Window window) { }
+
+        /// <summary>
         /// Register Services with the <see cref="IServiceCollection" />.
         /// </summary>
         /// <remarks>
@@ -100,29 +117,28 @@ namespace Prism
         /// </summary>
         protected virtual void Initialize(IApplicationBuilder builder)
         {
-            ContainerLocator.SetContainerExtension(CreateContainerExtension);
-            _containerExtension = ContainerLocator.Current;
             ConfigureApp(builder);
+            ConfigureWindow(builder.Window);
             builder.Configure(ConfigureHost)
                 .Configure(x => x.ConfigureServices(ConfigureServices)
                     .UseServiceProviderFactory(new PrismServiceProviderFactory(_containerExtension)));
 
-            _moduleCatalog = CreateModuleCatalog();
+            _containerExtension.RegisterInstance(builder.Window);
             RegisterRequiredTypes(_containerExtension);
             RegisterTypes(_containerExtension);
-            _containerExtension.FinalizeExtension();
 
-            ConfigureModuleCatalog(_moduleCatalog);
+            ConfigureModuleCatalog(Container.Resolve<IModuleCatalog>());
 
-            var regionAdapterMappings = _containerExtension.Resolve<RegionAdapterMappings>();
+            var regionAdapterMappings = Container.Resolve<RegionAdapterMappings>();
             ConfigureRegionAdapterMappings(regionAdapterMappings);
 
-            var defaultRegionBehaviors = _containerExtension.Resolve<IRegionBehaviorFactory>();
+            var defaultRegionBehaviors = Container.Resolve<IRegionBehaviorFactory>();
             ConfigureDefaultRegionBehaviors(defaultRegionBehaviors);
 
             RegisterFrameworkExceptionTypes();
 
             var shell = CreateShell();
+
             if (shell != null)
             {
                 MvvmHelpers.AutowireViewModel(shell);
@@ -131,11 +147,14 @@ namespace Prism
 
                 void FinalizeInitialization()
                 {
-                    Navigation.Regions.RegionManager.SetRegionManager(shell, _containerExtension.Resolve<IRegionManager>());
+                    Navigation.Regions.RegionManager.SetRegionManager(shell, Container.Resolve<IRegionManager>());
                     Navigation.Regions.RegionManager.UpdateRegions();
                     _host = builder.Build();
                     InitializeModules();
                     OnInitialized();
+                    if (shell is ILoadableShell loadableShell)
+                        loadableShell.FinishLoading();
+                    MvvmHelpers.ViewAndViewModelAction<IActiveAware>(shell, x => x.IsActive = true);
                 }
 
                 if (shell is FrameworkElement fe)
@@ -172,23 +191,12 @@ namespace Prism
         protected abstract IContainerExtension CreateContainerExtension();
 
         /// <summary>
-        /// Creates the <see cref="IModuleCatalog"/> used by Prism.
-        /// </summary>
-        ///  <remarks>
-        /// The base implementation returns a new ModuleCatalog.
-        /// </remarks>
-        protected virtual IModuleCatalog CreateModuleCatalog()
-        {
-            return new ModuleCatalog();
-        }
-
-        /// <summary>
         /// Registers all types that are required by Prism to function with the container.
         /// </summary>
         /// <param name="containerRegistry"></param>
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterRequiredTypes(_moduleCatalog);
+            containerRegistry.RegisterRequiredTypes();
         }
 
         /// <summary>

@@ -63,7 +63,7 @@ jobs:
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
-      dotnet-version: 7.0.400
+      dotnet-version: 8.0.x
       windows-sdk-version: 18362
       uno-check: true
       uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip vsmac'
@@ -134,18 +134,11 @@ jobs:
         run: build\consolidate-artifacts.ps1
         shell: powershell
 
-
       - name: Upload Consolidated NuGets
         uses: actions/upload-artifact@v3
         with:
           name: NuGet
           path: .\artifacts\nuget
-
-      - name: Upload Consolidated Binaries
-        uses: actions/upload-artifact@v3
-        with:
-          name: Binaries
-          path: .\artifacts\binaries
 
   deploy-internal:
     uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master
@@ -156,6 +149,16 @@ jobs:
     secrets:
       feedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
       apiKey: ${{ secrets.IN_HOUSE_API_KEY }}
+
+  deploy-prism-ci:
+    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master
+    needs: generate-consolidated-artifacts
+    if: ${{ github.event_name == 'push' }}
+    with:
+      name: Deploy Internal
+    secrets:
+      feedUrl: ${{ secrets.PRISM_CI_NUGET_FEED }}
+      apiKey: ${{ secrets.PRISM_CI_NUGET_TOKEN }}
 
   deploy-sponsors:
     uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master

@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(DotNetVersion)-windows10.0.22621</TargetFrameworks>
+    <TargetFrameworks>$(TargetFrameworks);$(DotNetVersion);$(DotNetVersion)-ios;$(DotNetVersion)-android;$(DotNetVersion)-maccatalyst</TargetFrameworks>
 
     <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
@@ -11,7 +11,6 @@
   <ItemGroup>
     <PackageReference Include="Uno.WinUI" />
     <PackageReference Include="Uno.Resizetizer" />
-    <PackageReference Include="Uno.Extensions.Core" />
     <PackageReference Include="Uno.Extensions.Logging.WinUI" />
     <PackageReference Include="Uno.Extensions.Logging.Serilog" />
     <PackageReference Include="Uno.Material.WinUI" />
@@ -19,6 +18,7 @@
     <PackageReference Include="Uno.Toolkit.WinUI" />
     <PackageReference Include="Uno.Extensions.Hosting.WinUI" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+    <PackageReference Include="Uno.WinUI.DevServer" Condition=" $(Configuration) == 'Debug' " />
   </ItemGroup>
 
   <Choose>
@@ -38,8 +38,8 @@
         the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
         must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
         -->
-        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.28" />
-        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.28" />
+        <!-- <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.22621.30" />
+        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.22621.30" /> -->
       </ItemGroup>
     </When>
     <Otherwise>

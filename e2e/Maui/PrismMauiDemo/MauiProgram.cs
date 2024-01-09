@@ -38,7 +38,7 @@ public static class MauiProgram
                     if (status == "Failed" && !string.IsNullOrEmpty(x.Result?.Exception?.Message))
                         Console.Error.WriteLine(x.Result.Exception.Message);
                 }))
-                //.OnAppStart(nav => nav.CreateBuilder()
+                //.CreateWindow(nav => nav.CreateBuilder()
                 //    .AddTabbedSegment(page =>
                 //        page.CreateTab("ViewC")
                 //            .CreateTab(t =>
@@ -49,8 +49,8 @@ public static class MauiProgram
                 //            .SelectedTab("NavigationPage|ViewB"))
                 //    .AddParameter("message_global", "This is a Global Message")
                 //    .Navigate())
-                //.OnAppStart("ViewA/ViewB/ViewC")
-                .OnAppStart(navigationService => navigationService.CreateBuilder()
+                //.CreateWindow("ViewA/ViewB/ViewC")
+                .CreateWindow(navigationService => navigationService.CreateBuilder()
                     .AddSegment<SplashPageViewModel>()
                     .NavigateAsync(HandleNavigationError))
             )

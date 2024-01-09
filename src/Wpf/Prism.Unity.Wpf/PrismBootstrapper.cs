@@ -1,4 +1,5 @@
 ﻿using System;
+using Prism.Container.Unity;
 using Prism.Ioc;
 using Unity;
 

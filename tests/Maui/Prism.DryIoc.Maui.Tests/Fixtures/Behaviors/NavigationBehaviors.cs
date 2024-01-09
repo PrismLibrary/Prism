@@ -100,7 +100,7 @@ public class NavigationBehaviors : TestBase
 
     private Page StartAndGetRootPage(Action<INavigationBuilder> initialNav)
     {
-        var mauiApp = CreateBuilder(prism => prism.OnAppStart((_, nav) =>
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow((_, nav) =>
         {
             var navBuilder = nav.CreateBuilder();
             initialNav(navBuilder);
@@ -117,7 +117,7 @@ public class NavigationBehaviors : TestBase
 
     private Page StartAndGetRootPage(string uri)
     {
-        var mauiApp = CreateBuilder(prism => prism.OnAppStart(uri))
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow(uri))
             .Build();
         var window = GetWindow(mauiApp);
 

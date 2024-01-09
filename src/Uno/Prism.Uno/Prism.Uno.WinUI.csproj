@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net7.0-android;net7.0-ios;net7.0-maccatalyst;net7.0-macos</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net6.0-windows10.0.18362;net7.0-windows10.0.18362</TargetFrameworks>
+    <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <AssemblyName>Prism.Uno</AssemblyName>
     <RootNamespace>Prism</RootNamespace>
     <DefineConstants>$(DefineConstants);HAS_WINUI</DefineConstants>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <PackageId>Prism.Uno.WinUI</PackageId>
-    <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <ImplicitUsings>true</ImplicitUsings>
     <Description>
-      Prism is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices. Prism provides an implementation of a collection of design patterns that are helpful in writing well structured, maintainable, and testable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET Standard. Features that need to be platform specific are implemented in the respective libraries for the target platform (WPF, Uno Platform, and Xamarin Forms).
+      Prism provides an implementation of a collection of design patterns that are helpful in writing well structured, maintainable, and testable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET. Features that need to be platform specific are implemented in the respective libraries for the target platform (WPF, Uno Platform, .NET MAUI and Xamarin Forms).
 
       Prism for Uno Platform helps you more easily design and build rich, flexible, and easy to maintain Windows UWP, WinUI &amp; cross platform Uno applications. This library provides user interface composition as well as modularity support.
     </Description>
@@ -20,16 +18,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Using Include="Microsoft.Extensions.DependencyInjection" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Uno.WinUI" />
     <PackageReference Include="Uno.Extensions.Hosting.WinUI" />
   </ItemGroup>
 
   <ItemGroup Condition="!$(TargetFramework.Contains('windows10'))">
-    <PackageReference Include="Uno.WinUI" />
-    <PackageReference Include="Uno.Core" />
     <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.Contains('windows10'))">
@@ -65,10 +58,6 @@
     <Compile Remove="..\..\Wpf\Prism.Wpf\Dialogs\DialogWindow.xaml.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Dialogs\IDialogWindow.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Dialogs\IDialogWindowExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\Maui\Prism.Maui\Ioc\IServiceCollectionAware.cs" LinkBase="Ioc" />
-    <Compile Include="..\..\Maui\Prism.Maui\Ioc\MicrosoftDependencyInjectionExtensions.cs" LinkBase="Ioc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />

@@ -20,7 +20,7 @@ internal sealed class PrismWindowManager : IWindowCreator, IWindowManager
         else if (app.Windows.OfType<PrismWindow>().Any())
             return _initialWindow = app.Windows.OfType<PrismWindow>().First();
 
-        activationState.Context.Services.GetRequiredService<PrismAppBuilder>().OnAppStarted();
+        activationState.Context.Services.GetRequiredService<PrismAppBuilder>().OnCreateWindow();
 
         return _initialWindow ?? throw new InvalidNavigationException("Expected Navigation Failed. No Root Window has been created.");
     }

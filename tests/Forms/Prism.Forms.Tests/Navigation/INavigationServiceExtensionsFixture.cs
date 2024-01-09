@@ -21,7 +21,7 @@ namespace Prism.Forms.Tests.Navigation
             ContainerLocator.ResetContainer();
             var container = new Mock<IContainerExtension>();
             container.Setup(x => x.CreateScope()).Returns(Mock.Of<IScopedProvider>());
-            ContainerLocator.SetContainerExtension(() => container.Object);
+            ContainerLocator.SetContainerExtension(container.Object);
             PageNavigationRegistry.ClearRegistrationCache();
 
             PageNavigationRegistry.Register("NavigationPage", typeof(NavigationPage));
@@ -51,7 +51,7 @@ namespace Prism.Forms.Tests.Navigation
 
             await navigationService.GoBackToRootAsync();
 
-            Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
+            Assert.Single(rootPage.Navigation.NavigationStack);
             Assert.Equal(page1, rootPage.Navigation.NavigationStack[0]);
         }
 
@@ -83,7 +83,7 @@ namespace Prism.Forms.Tests.Navigation
 
             await navigationService.GoBackToRootAsync();
 
-            Assert.Equal(1, rootPage.Navigation.NavigationStack.Count);
+            Assert.Single(rootPage.Navigation.NavigationStack);
             Assert.Equal(page1, rootPage.Navigation.NavigationStack[0]);
             Assert.Equal(14, recorder.Records.Count);
 

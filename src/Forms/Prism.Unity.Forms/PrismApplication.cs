@@ -1,4 +1,5 @@
-﻿using Prism.Ioc;
+﻿using Prism.Container.Unity;
+using Prism.Ioc;
 using Unity;
 
 [assembly: Xamarin.Forms.XmlnsDefinition("http://prismlibrary.com", "Prism.Unity")]

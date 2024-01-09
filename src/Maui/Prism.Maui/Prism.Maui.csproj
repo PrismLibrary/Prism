@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net8.0-android</TargetFrameworks>
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041</TargetFrameworks>
+    <Description>Prism provides an implementation of a collection of design patterns that are helpful in writing well structured, maintainable, and testable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET. Features that need to be platform specific are implemented in the respective libraries for the target platform (WPF, Uno Platform, .NET MAUI and Xamarin Forms).
+
+Prism for .NET MAUI helps you more easily design and build rich, flexible, and easy to maintain .NET MAUI applications. This library provides user interface composition as well as modularity support.
+    </Description>
     <RootNamespace>Prism</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <UseMaui>true</UseMaui>

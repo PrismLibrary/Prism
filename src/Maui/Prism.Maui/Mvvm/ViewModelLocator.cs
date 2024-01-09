@@ -1,7 +1,7 @@
 ﻿namespace Prism.Mvvm;
 
 /// <summary>
-/// This class defines the attached property and related change handler that calls the <see cref="Prism.Mvvm.ViewModelLocationProvider2"/>.
+/// This class defines the attached property and related change handler that calls the <see cref="ViewModelLocationProvider"/>.
 /// </summary>
 public static class ViewModelLocator
 {
@@ -60,9 +60,11 @@ public static class ViewModelLocator
         if (view is Element element &&
             ((ViewModelLocatorBehavior)element.GetValue(AutowireViewModelProperty) == ViewModelLocatorBehavior.Disabled
             || (element.BindingContext is not null && element.BindingContext != element.Parent)))
+        {
             return;
+        }
 
-        else if(view is TabbedPage tabbed)
+        if (view is TabbedPage tabbed)
         {
             foreach (var child in tabbed.Children)
                 Autowire(child);
@@ -75,7 +77,9 @@ public static class ViewModelLocator
         ViewModelLocationProvider.AutoWireViewModelChanged(view, Bind);
 
         if (view is BindableObject bindable && bindable.BindingContext is null)
+        {
             bindable.BindingContext = new object();
+        }
     }
 
     /// <summary>
@@ -86,6 +90,8 @@ public static class ViewModelLocator
     private static void Bind(object view, object viewModel)
     {
         if (view is BindableObject element)
+        {
             element.BindingContext = viewModel;
+        }
     }
 }

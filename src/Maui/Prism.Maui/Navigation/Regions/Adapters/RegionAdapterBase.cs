@@ -63,7 +63,7 @@ public abstract class RegionAdapterBase<T> : IRegionAdapter where T : VisualElem
     /// is of type <typeparamref name="T"/>.</remarks>
     /// <exception cref="ArgumentNullException">When <paramref name="regionTarget"/> is <see langword="null" />.</exception>
     /// <exception cref="InvalidOperationException">When <paramref name="regionTarget"/> is not of type <typeparamref name="T"/>.</exception>
-    IRegion IRegionAdapter.Initialize(VisualElement regionTarget, string regionName)
+    IRegion IRegionAdapter.Initialize(object regionTarget, string regionName)
     {
         return Initialize(GetCastedObject(regionTarget), regionName);
     }

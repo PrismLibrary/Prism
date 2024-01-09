@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Moq;
+using Prism.Ioc;
 using Prism.Navigation.Regions;
 using Prism.Wpf.Tests.Mocks;
 using Xunit;
@@ -30,6 +32,7 @@ namespace Prism.Wpf.Tests.Regions
         [StaFact]
         public void AdapterAssignsARegionThatHasAllViewsActive()
         {
+            ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             var control = new ItemsControl();
             IRegionAdapter adapter = new ItemsControlRegionAdapter(null);
 

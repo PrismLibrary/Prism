@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using Prism.Common;
-using Prism.Ioc;
 using Prism.Navigation.Internals;
 
 namespace Prism.Navigation.Xaml;
@@ -79,13 +78,19 @@ public static class Navigation
     /// <param name="value">The Can Navigate value</param>
     public static void SetCanNavigate(BindableObject view, bool value) => view.SetValue(CanNavigateProperty, value);
 
+    /// <summary>
+    /// Gets the Child Regions for a given <see cref="Page"/>
+    /// </summary>
+    /// <param name="page">The <see cref="Page"/> host.</param>
+    /// <param name="setIfNull">Initializes the <see cref="ChildRegionCollection"/> if it has not been set.</param>
+    /// <returns>The <see cref="ChildRegionCollection"/>.</returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static ChildRegionCollection GetChildRegions(this Page page, bool setIfNull = false)
     {
         var value = page.GetValue(ChildMvvmViewsProperty) as ChildRegionCollection;
         if (value is null && setIfNull)
         {
-            value = new ChildRegionCollection();
+            value = [];
             page.SetValue(ChildMvvmViewsProperty, value);
         }
 
@@ -111,18 +116,31 @@ public static class Navigation
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static INavigationService GetNavigationService(Page page)
     {
-        if (page == null) throw new ArgumentNullException(nameof(page));
+        ArgumentNullException.ThrowIfNull(page);
 
         var container = page.GetContainerProvider();
         return container.Resolve<INavigationService>();
     }
 
+    /// <summary>
+    /// Sets the <see cref="IContainerProvider"/> for the given <see cref="BindableObject"/>
+    /// </summary>
+    /// <param name="bindable">The <see cref="BindableObject"/>.</param>
+    /// <param name="container">The <see cref="IContainerProvider"/>.</param>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void SetContainerProvider(this BindableObject bindable, IContainerProvider container)
     {
         bindable.SetValue(NavigationScopeProperty, container);
     }
 
+    /// <summary>
+    /// Gets the Container for the given View
+    /// </summary>
+    /// <param name="bindable">The View</param>
+    /// <returns>The <see cref="IContainerProvider"/>.</returns>
+    /// <remarks>
+    /// Will initialize a new Container Scope if the <see cref="Mvvm.ViewModelLocatorBehavior"/> is Forced.
+    /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static IContainerProvider GetContainerProvider(this BindableObject bindable)
     {

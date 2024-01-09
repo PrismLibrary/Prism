@@ -10,7 +10,12 @@ public static class KnownDialogParameters
     /// </summary>
     public const string WindowName = "windowName";
 
-#if !HAS_WINUI
+#if HAS_WINUI
+    /// <summary>
+    /// The <see cref="Microsoft.UI.Xaml.Controls.ContentDialogPlacement"/> to use when showing the dialog
+    /// </summary>
+    public const string DialogPlacement = "dialogPlacement";
+#else
     /// <summary>
     /// Flag to show the Dialog Modally or Non-Modally
     /// </summary>

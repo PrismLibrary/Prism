@@ -28,21 +28,15 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
     {
         try
         {
-            var registration = GetRegistration(name);
-            if (registration is null)
-                throw new KeyNotFoundException($"No view with the name '{name}' has been registered");
-
+            var registration = GetRegistration(name) ?? throw new KeyNotFoundException($"No view with the name '{name}' has been registered");
             var view = container.Resolve(registration.View) as TBaseView;
             SetNavigationNameProperty(view, registration.Name);
-            //;
 
-            //;
             SetContainerProvider(view, container);
             ConfigureView(view, container);
 
             if (registration.ViewModel is not null)
                 SetViewModelProperty(view, registration.ViewModel);
-                //
 
             Autowire(view);
 

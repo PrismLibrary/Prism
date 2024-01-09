@@ -1,9 +1,13 @@
 <Project>
   <ItemGroup>
-    <PackageVersion Include="DryIoc.dll" Version="5.4.1" />
-    <PackageVersion Include="Unity.Container" Version="5.11.11" />
+    <PackageVersion Include="PolySharp" Version="1.14.1" />
+    <PackageVersion Include="Prism.Container.Abstractions" Version="9.0.80-pre" />
+    <PackageVersion Include="Prism.Container.DryIoc" Version="9.0.80-pre" />
+    <PackageVersion Include="Prism.Container.Unity" Version="9.0.80-pre" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
     <PackageVersion Include="System.Reactive" Version="6.0.0" />
+    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="5.0.13" />
+    <PackageVersion Include="Uno.WinUI.Markup" Version="5.0.13" />
     <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
@@ -14,52 +18,50 @@
   </ItemGroup>
   <!-- Uno -->
   <ItemGroup Condition=" $(IsUnoProject) == 'true' ">
-    <PackageVersion Include="Uno.WinUI" Version="4.9.45" />
-    <PackageVersion Include="Uno.WinUI.Skia.Gtk" Version="4.9.45" />
-    <PackageVersion Include="Uno.WinUI.Skia.Linux.FrameBuffer" Version="4.9.45" />
-    <PackageVersion Include="Uno.WinUI.Skia.Wpf" Version="4.9.45" />
-    <PackageVersion Include="Uno.Wasm.Bootstrap" Version="7.0.27" />
-    <PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="7.0.27" />
-    <PackageVersion Include="Uno.WinUI.WebAssembly" Version="4.9.45" />
-    <PackageVersion Include="Uno.WinUI.RemoteControl" Version="4.9.45" />
-    <PackageVersion Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.9.45" />
+    <PackageVersion Include="Uno.WinUI" Version="5.0.48" />
+    <PackageVersion Include="Uno.WinUI.Skia.Gtk" Version="5.0.48" />
+    <PackageVersion Include="Uno.WinUI.Skia.Linux.FrameBuffer" Version="5.0.48" />
+    <PackageVersion Include="Uno.WinUI.Skia.Wpf" Version="5.0.48" />
+    <PackageVersion Include="Uno.Wasm.Bootstrap" Version="8.0.4" />
+    <PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="8.0.4" />
+    <PackageVersion Include="Uno.WinUI.WebAssembly" Version="5.0.48" />
+    <PackageVersion Include="Uno.WinUI.DevServer" Version="5.0.48" />
+    <PackageVersion Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="5.0.48" />
     <PackageVersion Include="Uno.Core" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
-    <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.3.0" />
-    <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.3.0" />
-    <PackageVersion Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
+    <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.4.2" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" Condition="$(MSBuildProjectName.Contains('Prism'))" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.3.230724000" Condition="!$(MSBuildProjectName.Contains('Prism'))" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
-    <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.5" />
-    <PackageVersion Include="SkiaSharp.Skottie" Version="2.88.5" />
-    <PackageVersion Include="Uno.Resizetizer" Version="1.1.2" />
-    <PackageVersion Include="Uno.Extensions.Core" Version="2.4.2" />
-    <PackageVersion Include="Uno.Extensions.Logging.OSLog" Version="1.4.0" />
-    <PackageVersion Include="Uno.Extensions.Logging.WinUI" Version="2.4.2" />
-    <PackageVersion Include="Uno.Extensions.Logging.Serilog" Version="2.4.2" />
-    <PackageVersion Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.4.0" />
-    <PackageVersion Include="Uno.Material.WinUI" Version="2.6.1" />
-    <PackageVersion Include="Uno.Toolkit.WinUI.Material" Version="3.0.5" />
-    <PackageVersion Include="Uno.Toolkit.WinUI" Version="3.0.5" />
-    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="2.4.2" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
-    <PackageVersion Include="Xamarin.Google.Android.Material" Version="1.7.0.2" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" Condition="!$(MSBuildProjectName.Contains('Prism'))" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+    <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.6" />
+    <PackageVersion Include="SkiaSharp.Skottie" Version="2.88.6" />
+    <PackageVersion Include="Uno.Resizetizer" Version="1.2.1" />
+    <PackageVersion Include="Uno.Extensions.Core" Version="3.0.10" />
+    <PackageVersion Include="Uno.Extensions.Logging.OSLog" Version="1.7.0" />
+    <PackageVersion Include="Uno.Extensions.Logging.WinUI" Version="3.0.11" />
+    <PackageVersion Include="Uno.Extensions.Logging.Serilog" Version="3.0.11" />
+    <PackageVersion Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.7.0" />
+    <PackageVersion Include="Uno.Material.WinUI" Version="4.0.6" />
+    <PackageVersion Include="Uno.Toolkit.WinUI.Material" Version="5.0.17" />
+    <PackageVersion Include="Uno.Toolkit.WinUI" Version="5.0.17" />
+    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="3.0.11" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+    <PackageVersion Include="Xamarin.Google.Android.Material" Version="1.10.0.1" />
     <PackageVersion Include="Uno.UniversalImageLoader" Version="1.9.36" />
-    <PackageVersion Include="Microsoft.Windows.Compatibility" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.Windows.Compatibility" Version="8.0.0" />
   </ItemGroup>
   <!-- Tests -->
   <ItemGroup>
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
-    <PackageVersion Include="GitHubActionsTestLogger" Version="2.3.2" />
+    <PackageVersion Include="GitHubActionsTestLogger" Version="2.3.3" />
     <PackageVersion Include="Xamarin.Forms.Mocks" Version="4.7.0.1" />
     <PackageVersion Include="Humanizer.Core" Version="2.14.1" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
-    <PackageVersion Include="Moq" Version="4.18.4" />
-    <PackageVersion Include="xunit" Version="2.5.0" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
+    <PackageVersion Include="Moq" Version="4.20.69" />
+    <PackageVersion Include="xunit" Version="2.6.1" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3" />
     <PackageVersion Include="Xunit.StaFact" Version="1.1.11" />
   </ItemGroup>
   <ItemGroup Condition=" $(UseMaui) != 'true' ">
@@ -78,6 +80,6 @@
     <!-- Global Packages -->
     <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" />
     <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.133" />
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
   </ItemGroup>
 </Project>
