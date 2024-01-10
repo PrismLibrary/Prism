@@ -10,9 +10,9 @@ namespace Prism.Common
     /// <summary>
     /// This is a generic parameters base class used for Dialog Parameters and Navigation Parameters.
     /// </summary>
-    public abstract class ParametersBase : IParameters, IEnumerable<KeyValuePair<string, object>>
+    public abstract class ParametersBase : IParameters
     {
-        private readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();
+        private readonly List<KeyValuePair<string, object>> _entries = [];
 
         /// <summary>
         /// Default constructor.
@@ -99,7 +99,7 @@ namespace Prism.Common
         /// Returns an IEnumerable of the Keys in the collection.
         /// </summary>
         public IEnumerable<string> Keys =>
-            _entries.Select(x => x.Key);
+            _entries.Select(x => x.Key).Distinct();
 
         /// <summary>
         /// Adds the key and value to the parameters collection.
@@ -180,7 +180,7 @@ namespace Prism.Common
 
                     queryBuilder.Append(Uri.EscapeDataString(kvp.Key));
                     queryBuilder.Append('=');
-                    queryBuilder.Append(Uri.EscapeDataString(kvp.Value != null ? kvp.Value.ToString() : ""));
+                    queryBuilder.Append(Uri.EscapeDataString(kvp.Value?.ToString() is string str ? str : string.Empty));
                 }
             }
 
