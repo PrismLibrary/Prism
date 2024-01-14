@@ -63,6 +63,7 @@ public interface INavigationService
     /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
     Task<INavigationResult> SelectTabAsync(string name, INavigationParameters parameters);
 
+    /// <summary>
     /// Initiates navigation to the target specified by the <paramref name="viewName"/> from the <paramref name="route"/>. 
     /// </summary>
     /// <param name="viewName">The name of the View to navigate to</param>
