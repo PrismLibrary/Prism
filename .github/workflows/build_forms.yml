@@ -23,4 +23,3 @@ jobs:
     with:
       name: Build Prism.Forms
       solution-path: PrismLibrary_Forms.slnf
-      android-version: 29
