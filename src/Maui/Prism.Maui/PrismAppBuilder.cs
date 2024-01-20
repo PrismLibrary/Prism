@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Prism.AppModel;
 using Prism.Behaviors;
@@ -16,11 +17,14 @@ using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
 
 namespace Prism;
 
+/// <summary>
+/// A builder for Prism with .NET MAUI cross-platform applications and services.
+/// </summary>
 public sealed class PrismAppBuilder
 {
-    private List<Action<IContainerRegistry>> _registrations { get; }
-    private List<Action<IContainerProvider>> _initializations { get; }
-    private IContainerProvider _container { get; }
+    private readonly List<Action<IContainerRegistry>> _registrations;
+    private readonly List<Action<IContainerProvider>> _initializations;
+    private readonly IContainerProvider _container;
     private Func<IContainerProvider, INavigationService, Task> _createWindow;
     private Action<RegionAdapterMappings> _configureAdapters;
     private Action<IRegionBehaviorFactory> _configureBehaviors;
@@ -152,12 +156,43 @@ public sealed class PrismAppBuilder
             return;
 
         _initialized = true;
-        _initializations.ForEach(action => action(_container));
+        var logger = _container.Resolve<ILogger<PrismAppBuilder>>();
+        var errors = new List<Exception>();
+
+        _initializations.ForEach(action =>
+        {
+            try
+            {
+                action(_container);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error executing Initialization Delegate.");
+                errors.Add(ex);
+            }
+        });
+
+        if (errors.Count == 1)
+        {
+            throw new PrismInitializationException("An error was encountered while invoking the OnInitialized Delegates", errors[0]);
+        }
+        else if (errors.Count > 1)
+        {
+            throw new AggregateException("One or more errors were encountered while executing the OnInitialized Delegates", [.. errors]);
+        }
 
         if (_container.IsRegistered<IModuleCatalog>() && _container.Resolve<IModuleCatalog>().Modules.Any())
         {
-            var manager = _container.Resolve<IModuleManager>();
-            manager.Run();
+            try
+            {
+                var manager = _container.Resolve<IModuleManager>();
+                manager.Run();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error ocurred while initializing the Modules.");
+                throw new PrismInitializationException("An error occurred while initializing the Modules.", ex);
+            }
         }
 
         var navRegistry = _container.Resolve<INavigationRegistry>();
