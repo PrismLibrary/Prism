@@ -405,9 +405,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
         var pageParameters = UriParsingHelper.GetSegmentParameters(nextSegment);
 
-        useModalNavigation = pageParameters.ContainsKey(KnownNavigationParameters.UseModalNavigation) ? pageParameters.GetValue<bool>(KnownNavigationParameters.UseModalNavigation) : false;
-        if (!useModalNavigation.Value && !MvvmHelpers.HasNavigationPageParent(currentPage) && (currentPage is not FlyoutPage || (currentPage.Parent is FlyoutPage parentFlyout && parentFlyout.Flyout == currentPage)))
-            useModalNavigation = true;
+        if (pageParameters.TryGetValue<bool>(KnownNavigationParameters.UseModalNavigation, out var parameterModal))
+            useModalNavigation = parameterModal;
 
         bool? pageAnimation = animated;
         if (animated is null && pageParameters.TryGetValue<bool>(KnownNavigationParameters.Animated, out var parameterAnimation))
@@ -1163,8 +1162,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
     internal static bool UseModalNavigation(Page currentPage, bool? useModalNavigationDefault)
     {
-        bool useModalNavigation = true;
-
+        bool useModalNavigation;
         if (useModalNavigationDefault.HasValue)
             useModalNavigation = useModalNavigationDefault.Value;
         else if (currentPage is NavigationPage)

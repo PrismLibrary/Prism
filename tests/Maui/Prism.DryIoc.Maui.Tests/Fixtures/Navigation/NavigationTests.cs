@@ -500,6 +500,37 @@ public class NavigationTests : TestBase
         Assert.False(push.Animated);
     }
 
+    [Theory]
+    [InlineData("MockViewA", "MockViewB", null)]
+    [InlineData("NavigationPage/MockViewA", "MockViewB?useModalNavigation=true", true)]
+    public async Task PushesModally(string startUri, string requestUri, bool? expectedUseModal)
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .CreateWindow(n => n.NavigateAsync(startUri)))
+            .Build();
+        var window = GetWindow(mauiApp);
+        var page = window.Page;
+        if (page is NavigationPage navPage)
+            page = navPage.RootPage;
+
+        var navService = Prism.Navigation.Xaml.Navigation.GetNavigationService(page);
+
+        var result = await navService.NavigateAsync(requestUri);
+        Assert.True(result.Success);
+
+        var pushes = navService.GetPushes();
+        Assert.Single(pushes);
+        var push = pushes[0];
+
+        var parameters = UriParsingHelper.GetSegmentParameters(requestUri);
+        bool? useModalNavigation = null;
+        if (parameters.TryGetValue<bool>(KnownNavigationParameters.UseModalNavigation, out var parameterModal))
+            useModalNavigation = parameterModal;
+
+        Assert.Equal(expectedUseModal, push.UseModalNavigation);
+        Assert.True(PageNavigationService.UseModalNavigation(push.CurrentPage, useModalNavigation));
+    }
+
     private static void TestPage(Page page)
     {
         Assert.NotNull(page.BindingContext);
