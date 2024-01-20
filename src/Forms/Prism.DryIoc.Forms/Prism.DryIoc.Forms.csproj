@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="Sdk.props" Sdk="MSBuild.Sdk.Extras" Version="$(MSBuildSdkExtrasVersion)" Condition="'$(MSBuildRuntimeType)' != 'Core'" />
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <TargetFrameworks Condition="$(MSBuildRuntimeType) != 'Core'">$(TargetFrameworks);Xamarin.iOS10</TargetFrameworks>
     <Title>DryIoc for Prism for Xamarin.Forms</Title>
     <!-- Summary is not actually supported at this time. Including the summary for future support. -->
     <!--<Summary>DryIoc extensions for Prism for Xamarin.Forms.</Summary>-->
@@ -17,5 +15,4 @@
   <ItemGroup>
     <ProjectReference Include="../Prism.Forms/Prism.Forms.csproj" />
   </ItemGroup>
-  <Import Project="Sdk.targets" Sdk="MSBuild.Sdk.Extras" Version="$(MSBuildSdkExtrasVersion)" Condition="'$(MSBuildRuntimeType)' != 'Core'" />
 </Project>

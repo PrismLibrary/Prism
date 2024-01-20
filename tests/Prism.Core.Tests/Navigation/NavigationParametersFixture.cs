@@ -199,15 +199,16 @@ namespace Prism.Tests.Navigation
         [Fact]
         public void GetValuesReturnsArrayWhenNotUsingQuery()
         {
-            var parameters = new NavigationParameters();
-            parameters.Add("id", new Person());
-            parameters.Add("id", new Person());
-            parameters.Add("id", null);
+            var parameters = new NavigationParameters
+            {
+                { "id", new Person() },
+                { "id", new Person() },
+                { "id", null } // null value should be ignored
+            };
             var result = parameters.GetValues<Person>("id").ToArray();
-            Assert.Equal(3, result.Count());
+            Assert.Equal(2, result.Count());
             Assert.IsType<Person>(result[0]);
             Assert.IsType<Person>(result[1]);
-            Assert.Null(result[2]);
         }
 
         [Fact]

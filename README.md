@@ -1,17 +1,10 @@
 # Prism
 
-Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Xamarin Forms, Uno Platform and WinUI. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base supported in .NET Standard 2.0, .NET Framework 4.5 / 4.7. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform. For example, Prism for Xamarin Forms allows you to use an abstraction for navigation that is unit testable, but that layers on top of the platform concepts and APIs for navigation so that you can fully leverage what the platform itself has to offer, but done in the MVVM way.
+Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Xamarin Forms, Uno Platform and WinUI. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base supported in .NET Standard 2.0, .NET Framework 4.6 / 4.7, and .NET6.0/.NET8.0. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform.
 
-## Help Support Prism
+## Licensing
 
-As most of you know, it takes a lot of time and effort for our small team to manage and maintain Prism in our spare time. Even though Prism is open source and hosted on GitHub, there are a number of costs associated with maintaining a project such as Prism.  Please be sure to Star the Prism repo and help sponsor Dan and Brian on GitHub. As a bonus GitHub sponsors get access to Sponsor Connect where you can access exclusive training content, all Prism CI builds, and a Sponsor Only Discord with Brian and Dan!
-
-Don't forget both Brian and Dan have content on YouTube and stream there from time to time. Be sure to subscribe to their channels and turn on notifications so you know when they do a Live Stream!
-
-| | Sponsor | Twitter | YouTube |
-|:-:|:--:|:--:|:--:|
-| Brian Lagunas | [![GitHub][OctoSponsor]](https://xam.dev/sponsor-prism-brian) | [![Twitter][TwitterLogo]](https://twitter.com/brianlagunas)<br /><span style="font-size:9px">Follow</span> | [![YouTube][YouTubeLogo]](https://youtube.com/brianlagunas)<br /><span style="font-size:9px">Subcribe & Ring the Bell</span>
-| Dan Siegel | [![GitHub][OctoSponsor]](https://xam.dev/sponsor-prism-dan) | [![Twitter][TwitterLogo]](https://twitter.com/DanJSiegel)<br /><span style="font-size:9px">Follow</span> | [![YouTube][YouTubeLogo]](https://youtube.com/dansiegel)<br /><span style="font-size:9px">Subscribe & Ring the Bell</span>
+The Prism Team would first and foremost like to thank all of those developers who have stepped up over the past 4 years with GitHub Sponsors. We are committed to ensuring the longevity and success of the Prism Library. As a result Prism 9.0 is now [Dual License](LICENSE). We continue to offer a FREE Community License for the vast majority of our community, while the Commercial License will now be required by larger organizations to help fund and support the development of Prism. We additionally have the Commercial Plus License which grants access to a number of additional support libraries that build on top of Prism as well as a private Discord channel where you can ask questions and interact with the Prism Team.
 
 ## Build Status
 
@@ -27,9 +20,10 @@ Don't forget both Brian and Dan have content on YouTube and stream there from ti
 ## Support
 
 - Documentation is maintained in [the Prism-Documentation repo](https://github.com/PrismLibrary/Prism-Documentation) under /docs and can be found in a readable format on [the website](http://prismlibrary.com/docs/).
-- For general questions and support, post your questions on [StackOverflow](http://stackoverflow.com/questions/tagged/prism).
+- StackOverflow: **NOTE** The Prism Team no longer supports or engages with questions posted on StackOverflow. Questions posted there may or may not receive correct answers.
+- For general questions and support, post your questions in [GitHub Discussions](https://github.com/PrismLibrary/Prism/discussions).
 - You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues/new/choose).
-- [Enterprise Support](https://avantipoint.com/contact?utm_source=github&utm_medium=prism-readme) is available exclusively from AvantiPoint, and helps to support this project.
+- Enterprise Support: If you are interested in Enterprise Support please email the Prism Team at <support@prismlibrary.com>
 
 ## Videos &amp; Training
 
@@ -47,15 +41,19 @@ We appreciate your support.
 
 ## NuGet Packages
 
-Official Prism releases are available on NuGet. Prism packages are also available on the SponsorConnect feed which will be updated with each merged PR. If you want to take advantage of a new feature as soon as it's merged into the code base, or if there is a critical bug you need fixed we invite you to try the packages on this feed. The SponsorConnect package feed is available to Sponsors only.
+Official Prism releases are available on NuGet. Prism packages are also available on the private Commercial Plus Feed which will be updated with each merged PR. If you want to take advantage of a new feature as soon as it's merged into the code base, or if there is a critical bug you need fixed we invite you to purchase the Commercial Plus License to take advantage of these packages.
 
 ### Core Packages
 
 These are the base packages for each platform, together with the Prism's Core assembly as a cross-platform PCL.
 
-| Platform | Package | NuGet | SponsorConnect |
+| Platform | Package | NuGet | Commercial Plus Feed |
 | -------- | ------- | ------- | ----- |
 | Cross Platform | [Prism.Core][CoreNuGet] | [![CoreNuGetShield]][CoreNuGet] | [![CoreSponsorConnectShield]][CoreSponsorConnect] |
+| Cross Platform | [Prism.Events][EventsNuGet] | [![EventsNuGetShield]][EventsNuGet] | [![CoreSponsorConnectShield]][CoreSponsorConnect] |
+| Cross Platform | [Prism.Container.Abstractions][ContainerAbstractionsNuGet] | [![ContainerAbstractionsNuGetShield]][ContainerAbstractionsNuGet] | [![CoreSponsorConnectShield]][CoreSponsorConnect] |
+| Cross Platform | [Prism.Container.DryIoc][ContainerDryIocNuGet] | [![ContainerDryIocNuGetShield]][ContainerDryIocNuGet] | [![CoreSponsorConnectShield]][CoreSponsorConnect] |
+| Cross Platform | [Prism.Container.Unity][ContainerUnityNuGet] | [![ContainerUnityNuGetShield]][ContainerUnityNuGet] | [![CoreSponsorConnectShield]][CoreSponsorConnect] |
 | WPF | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfSponsorConnectShield]][WpfSponsorConnect] |
 | Xamarin.Forms | [Prism.Forms][FormsNuGet] | [![FormsNuGetShield]][FormsNuGet] | [![FormsSponsorConnectShield]][FormsSponsorConnect] |
 | Uno Platform and WinUI | [Prism.Uno][UnoNuGet] | [![UnoNuGetShield]][UnoNuGet] | [![UnoSponsorConnectShield]][UnoSponsorConnect] |
@@ -66,14 +64,14 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 #### WPF
 
-| Package | NuGet | SponsorConnect |
+| Package | NuGet | Commercial Plus Feed |
 |---------|-------|-------|
 | [Prism.DryIoc][DryIocWpfNuGet] | [![DryIocWpfNuGetShield]][DryIocWpfNuGet] | [![DryIocWpfSponsorConnectShield]][DryIocWpfSponsorConnect] |
 | [Prism.Unity][UnityWpfNuGet] | [![UnityWpfNuGetShield]][UnityWpfNuGet] | [![UnityWpfSponsorConnectShield]][UnityWpfSponsorConnect] |
 
 #### Xamarin Forms
 
-| Package | NuGet | SponsorConnect |
+| Package | NuGet | Commercial Plus Feed |
 |---------|-------|-------|
 | [Prism.DryIoc.Forms][DryIocFormsNuGet] | [![DryIocFormsNuGetShield]][DryIocFormsNuGet] | [![DryIocFormsSponsorConnectShield]][DryIocFormsSponsorConnect] |
 | [Prism.Unity.Forms][UnityFormsNuGet] | [![UnityFormsNuGetShield]][UnityFormsNuGet] | [![UnityFormsSponsorConnectShield]][UnityFormsSponsorConnect] |
@@ -81,48 +79,13 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 #### Uno Platform
 
-| Package | NuGet | SponsorConnect |
+| Package | NuGet | Commercial Plus Feed |
 |---------|-------|-------|
 | [Prism.DryIoc.Uno][DryIocUnoPlatformNuGet] | [![DryIocUnoPlatformNuGetShield]][DryIocUnoPlatformNuGet] | [![DryIocUnoPlatformSponsorConnectShield]][DryIocUnoPlatformSponsorConnect] |
-| [Prism.Unity.Uno][UnityUnoPlatformNuGet] | [![UnityUnoPlatformNuGetShield]][UnityUnoPlatformNuGet] | [![UnityUnoPlatformSponsorConnectShield]][UnityUnoPlatformSponsorConnect] |
 
 ![NuGet package tree](images/NuGetPackageTree.png)
 
 A detailed overview of each assembly per package is available [here](http://prismlibrary.github.io/docs/getting-started/NuGet-Packages.html).
-
-## Prism Template Pack
-
-Prism integrates with Visual Studio to enable a highly productive developer workflow for creating WPF, and native iOS and Android applications using Xamarin.Forms.  Jump start your Prism apps with code snippets, item templates, and project templates for your IDE of choice.
-
-> **NOTE**
->
-> The Prism Templates are open source and available at
->
-> https://github.com/PrismLibrary/Prism.Templates
-
-### Visual Studio Gallery
-
-The Prism Template Pack is available on the [Visual Studio Gallery](https://marketplace.visualstudio.com/items?itemName=BrianLagunas.PrismTemplatePack).  To install, just go to Visual Studio -> Tools -> Extensions and Updates... then search for **Prism** in the online gallery:
-
-![Visual Studio Gallery](images/prism-visual-studio-gallery.jpg)
-
-## Plugins
-
-There are certain things that cannot be added directly into Prism for various reasons. To handle these common tasks such as supporting PopupPage's in Xamarin Forms, there are Prism Plugins. You can find a number of Plugins available on NuGet from our maintainer [@DanJSiegel](https://twitter.com/DanJSiegel).
-
-- [Prism.Plugin.Popups](https://github.com/dansiegel/Prism.Plugin.Popups) (Forms Only)
-- [Prism.Popups.XCT](https://github.com/FileOnQ/Prism.Popups.XCT) (Forms Only)
-  - Adds support for native popups using Xamarin Community Toolkits Popup API
-- [Prism.Plugin.Logging](https://github.com/dansiegel/Prism.Plugin.Logging) (Works on all Platforms)
-  - Adds support for Syslog, Loggly, Graylog, Application Insights, &amp; App Center
-- [Prism.Container.Extensions](https://github.com/dansiegel/Prism.Container.Extensions)
-  - Adds advanced Container Registration abstractions
-  - Adds DryIoc & Unity ContainerExtension with support for Microsoft.DependencyInjection.Extensions. Uses a singleton pattern to allow initialization from a native platform
-  - Provides an extended PrismApplication with additional error handling and platform specifics support for Prism.Forms
-- [Prism.Magician](https://sponsorconnect.dev/nuget/package/prism.magician) (Works with ALL Platforms)
-  - The Magician works to reduce the amount of code you need to write with a collection of intelligent code generators that evaluate your codebase and references
-  - It additionally provides a series of Roslyn Analyzers to help prevent you from making common mistakes
-  - **NOTE:** This package is only available to Dan's [GitHub Sponsors](https://xam.dev/sponsor-prism-dan) and [Enterprise Support](https://avantipoint.com/contact) customers.
 
 ## Samples
 
@@ -140,14 +103,18 @@ We strongly encourage you to get involved and help us evolve the code base.
 - You can see what our expectations are for pull requests [here](https://github.com/PrismLibrary/Prism/blob/master/.github/CONTRIBUTING.md).
 
 [CoreNuGet]: https://www.nuget.org/packages/Prism.Core/
+[EventsNuGet]: https://www.nuget.org/packages/Prism.Events/
+[ContainerAbstractionsNuGet]: https://www.nuget.org/packages/Prism.Container.Abstractions/
+[ContainerDryIocNuGet]: https://www.nuget.org/packages/Prism.Container.DryIoc/
+[ContainerUnityNuGet]: https://www.nuget.org/packages/Prism.Container.Unity/
 [WpfNuGet]: https://www.nuget.org/packages/Prism.Wpf/
 [FormsNuGet]: https://www.nuget.org/packages/Prism.Forms/
-[UnoNuGet]: https://www.nuget.org/packages/Prism.Uno/
+[UnoNuGet]: https://www.nuget.org/packages/Prism.Uno.WinUI/
 
 [PrismFormsRegionsNuGet]: https://www.nuget.org/packages/Prism.Forms.Regions/
 [PrismFormsRegionsSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Forms.Regions
 [PrismFormsRegionsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Forms.Regions.svg
-[PrismFormsRegionsSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Forms.Regions%2Fvpre
+[PrismFormsRegionsSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Forms.Regions/vpre
 
 [DryIocWpfNuGet]: https://www.nuget.org/packages/Prism.DryIoc/
 [UnityWpfNuGet]: https://www.nuget.org/packages/Prism.Unity/
@@ -155,13 +122,16 @@ We strongly encourage you to get involved and help us evolve the code base.
 [UnityFormsNuGet]: https://www.nuget.org/packages/Prism.Unity.Forms/
 [DryIocFormsNuGet]: https://www.nuget.org/packages/Prism.DryIoc.Forms/
 
-[DryIocUnoPlatformNuGet]: https://www.nuget.org/packages/Prism.DryIoc.Uno/
-[UnityUnoPlatformNuGet]: https://www.nuget.org/packages/Prism.Unity.Uno/
+[DryIocUnoPlatformNuGet]: https://www.nuget.org/packages/Prism.DryIoc.Uno.WinUI/
 
 [CoreNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Core.svg
+[EventsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Events.svg
+[ContainerAbstractionsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Container.Abstractions.svg
+[ContainerDryIocNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Container.DryIoc.svg
+[ContainerUnityNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Container.Unity.svg
 [WpfNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Wpf.svg
 [FormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Forms.svg
-[UnoNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Uno.svg
+[UnoNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Uno.WinUI.svg
 
 [DryIocWpfNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.svg
 [UnityWpfNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.svg
@@ -169,13 +139,12 @@ We strongly encourage you to get involved and help us evolve the code base.
 [DryIocFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Forms.svg
 [UnityFormsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Forms.svg
 
-[DryIocUnoPlatformNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Uno.svg
-[UnityUnoPlatformNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Unity.Uno.svg
+[DryIocUnoPlatformNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Uno.WinUI.svg
 
 [CoreSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Core
 [WpfSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Wpf
 [FormsSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Forms
-[UnoSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Uno
+[UnoSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Uno.WinUI
 
 [DryIocWpfSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.DryIoc
 [UnityWpfSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Unity
@@ -183,22 +152,20 @@ We strongly encourage you to get involved and help us evolve the code base.
 [UnityFormsSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Unity.Forms
 [DryIocFormsSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.DryIoc.Forms
 
-[DryIocUnoPlatformSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.DryIoc.Uno
-[UnityUnoPlatformSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Unity.Uno
+[DryIocUnoPlatformSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.DryIoc.Uno.WinUI
 
-[CoreSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Core%2Fvpre
-[WpfSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Wpf%2Fvpre
-[FormsSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Forms%2Fvpre
-[UnoSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Uno%2Fvpre
+[CoreSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Core/vpre
+[WpfSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Wpf/vpre
+[FormsSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Forms/vpre
+[UnoSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Uno.WinUI/vpre
 
-[DryIocWpfSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.DryIoc%2Fvpre
-[UnityWpfSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Unity%2Fvpre
+[DryIocWpfSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.DryIoc/vpre
+[UnityWpfSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Unity/vpre
 
-[DryIocFormsSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.DryIoc.Forms%2Fvpre
-[UnityFormsSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Unity.Forms%2Fvpre
+[DryIocFormsSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.DryIoc.Forms/vpre
+[UnityFormsSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Unity.Forms/vpre
 
-[DryIocUnoPlatformSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.DryIoc.Uno%2Fvpre
-[UnityUnoPlatformSponsorConnectShield]: https://img.shields.io/endpoint?url=https%3A%2F%2Fsponsorconnect.dev%2Fshield%2FPrism.Unity.Uno%2Fvpre
+[DryIocUnoPlatformSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.DryIoc.Uno.WinUI/vpre
 
 [TwitterLogo]: https://dansiegelgithubsponsors.blob.core.windows.net/images/twitter.png
 [TwitchLogo]: https://dansiegelgithubsponsors.blob.core.windows.net/images/twitch.png

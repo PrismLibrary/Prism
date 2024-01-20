@@ -91,7 +91,7 @@ public sealed class DialogService : IDialogService
             var dismissCommand = new DelegateCommand(() => dialogAware.RequestClose.Invoke(), dialogAware.CanCloseDialog);
 
             PageNavigationService.NavigationSource = PageNavigationSource.DialogService;
-            dialogModal.ConfigureLayout(_pageAccessor.Page, view, closeOnBackgroundTapped, dismissCommand);
+            dialogModal.ConfigureLayout(_pageAccessor.Page, view, closeOnBackgroundTapped, dismissCommand, parameters);
             PageNavigationService.NavigationSource = PageNavigationSource.Device;
 
             MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(currentPage, aa => aa.IsActive = false);

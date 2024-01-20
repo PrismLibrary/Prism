@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Prism.DryIoc.Maui.Tests.Mocks;
 using Prism.DryIoc.Maui.Tests.Mocks.Logging;
+using Prism.DryIoc.Maui.Tests.Mocks.Navigation;
 using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Maui.Tests.Mocks.Views;
 using Prism.Events;
@@ -26,6 +27,7 @@ public abstract class TestBase
             {
                 prism.RegisterTypes(container =>
                 {
+                    container.RegisterScoped<INavigationService, TestPageNavigationService>();
                     container.RegisterForNavigation<MockHome, MockHomeViewModel>()
                         .RegisterForNavigation<MockViewA, MockViewAViewModel>()
                         .RegisterForNavigation<MockViewB, MockViewBViewModel>()

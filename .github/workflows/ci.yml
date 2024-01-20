@@ -51,6 +51,7 @@ jobs:
       solution-path: PrismLibrary_Forms.slnf
       code-sign: true
       artifact-name: Forms
+      jdk-version: 13
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
