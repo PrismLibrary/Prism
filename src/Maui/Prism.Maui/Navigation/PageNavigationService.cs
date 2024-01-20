@@ -137,6 +137,16 @@ public class PageNavigationService : INavigationService, IRegistryAware
     public virtual async Task<INavigationResult> GoBackAsync(INavigationParameters parameters)
     {
         await _semaphore.WaitAsync();
+
+        INavigationResult result = await GoBackInternalAsync(parameters);
+
+        _semaphore.Release();
+
+        return result;
+    }
+
+    private async Task<INavigationResult> GoBackInternalAsync(INavigationParameters parameters)
+    {
         Page page = null;
         try
         {
@@ -177,7 +187,6 @@ public class PageNavigationService : INavigationService, IRegistryAware
         finally
         {
             NavigationSource = PageNavigationSource.Device;
-            _semaphore.Release();
         }
 
         return Notify(NavigationRequestType.GoBack, parameters, GetGoBackException(page, GetPageFromWindow()));
@@ -472,7 +481,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
         RemovePagesFromNavigationPage(currentPage, pagesToRemove);
 
-        return GoBackAsync(parameters);
+        return GoBackInternalAsync(parameters);
     }
 
     private async Task RemoveAndPush(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)

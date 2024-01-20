@@ -90,6 +90,28 @@ public class NavigationTests : TestBase
         Assert.Equal(2, rootPage.Navigation.NavigationStack.Count);
     }
 
+    [Fact(Timeout = 5000)]
+    public async Task Issue3047_RelativeNavigation_RemovesPage_AndGoBack()
+    {
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow("NavigationPage/MockViewA/MockViewB"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        var rootPage = window.Page as NavigationPage;
+        Assert.NotNull(rootPage);
+        TestPage(rootPage);
+        var currentPage = rootPage.CurrentPage;
+        Assert.IsType<MockViewB>(currentPage);
+        TestPage(currentPage);
+        var container = currentPage.GetContainerProvider();
+        var navService = container.Resolve<INavigationService>();
+        Assert.Equal(2, rootPage.Navigation.NavigationStack.Count);
+        await navService.NavigateAsync("../");
+        Assert.IsType<MockViewA>(rootPage.CurrentPage);
+        TestPage(rootPage.CurrentPage);
+        Assert.Single(rootPage.Navigation.NavigationStack);
+    }
+
     [Fact]
     public async Task AbsoluteNavigation_ResetsWindowPage()
     {
