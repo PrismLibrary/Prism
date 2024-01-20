@@ -74,17 +74,15 @@ public class PageNavigationService : INavigationService, IRegistryAware
     public virtual async Task<INavigationResult> GoBackToAsync(string name, INavigationParameters parameters)
     {
         await _semaphore.WaitAsync();
-        Page page = null;
         try
         {
             parameters ??= new NavigationParameters();
             NavigationSource = PageNavigationSource.NavigationService;
-            if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("No Navigation Key was specified to Navigate Back To");
-            else if (!Registry.IsRegistered(name))
+            ArgumentException.ThrowIfNullOrEmpty(name);
+            if (!Registry.IsRegistered(name))
                 throw new NavigationException(NavigationException.NoPageIsRegistered, name);
 
-            page = GetCurrentPage();
+            var page = GetCurrentPage();
             parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
 
             while (page is not null && ViewModelLocator.GetNavigationName(page) != name)
@@ -98,11 +96,16 @@ public class PageNavigationService : INavigationService, IRegistryAware
                     throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page);
                 }
 
-                bool useModalForDoPop = UseModalGoBack(page, parameters);
-                Page previousPage = MvvmHelpers.GetOnNavigatedToTarget(page, Window?.Page, useModalForDoPop);
+                var useModalForDoPop = UseModalGoBack(page, parameters);
+                var previousPage = MvvmHelpers.GetOnNavigatedToTarget(page, Window?.Page, useModalForDoPop);
 
-                bool animated = parameters.ContainsKey(KnownNavigationParameters.Animated) ? parameters.GetValue<bool>(KnownNavigationParameters.Animated) : true;
-                var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
+                bool? animated = null;
+                if (!parameters.TryGetValue<bool>(KnownNavigationParameters.Animated, out var globalAnimated))
+                {
+                    animated = true;
+                }
+
+                var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated ?? true);
                 if (poppedPage != null)
                 {
                     MvvmHelpers.OnNavigatedFrom(page, parameters);
@@ -156,8 +159,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
             bool useModalForDoPop = UseModalGoBack(page, parameters);
             Page previousPage = MvvmHelpers.GetOnNavigatedToTarget(page, Window?.Page, useModalForDoPop);
 
-            bool animated = parameters.ContainsKey(KnownNavigationParameters.Animated) ? parameters.GetValue<bool>(KnownNavigationParameters.Animated) : true;
-            var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated);
+            bool? animated = parameters.ContainsKey(KnownNavigationParameters.Animated) ? parameters.GetValue<bool>(KnownNavigationParameters.Animated) : null;
+            var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated ?? true);
             if (poppedPage != null)
             {
                 MvvmHelpers.OnNavigatedFrom(page, parameters);
@@ -294,8 +297,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
         try
         {
-            if (parameters is null)
-                parameters = new NavigationParameters();
+            parameters ??= new NavigationParameters();
 
             NavigationSource = PageNavigationSource.NavigationService;
 
@@ -303,11 +305,11 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
             if (uri.IsAbsoluteUri)
             {
-                await ProcessNavigationForAbsoluteUri(navigationSegments, parameters, null, true);
+                await ProcessNavigationForAbsoluteUri(navigationSegments, parameters, null, null);
             }
             else
             {
-                await ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, null, true);
+                await ProcessNavigation(GetCurrentPage(), navigationSegments, parameters, null, null);
             }
 
             return Notify(uri, parameters);
@@ -383,7 +385,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// <param name="useModalNavigation"><see cref="Nullable{Boolean}"/> flag if we should force Modal Navigation.</param>
     /// <param name="animated">If <c>true</c>, the navigation will be animated.</param>
     /// <returns></returns>
-    protected virtual async Task ProcessNavigation(Page currentPage, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+    protected virtual async Task ProcessNavigation(Page currentPage, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         if (segments.Count == 0)
         {
@@ -398,41 +400,43 @@ public class PageNavigationService : INavigationService, IRegistryAware
         if (!useModalNavigation.Value && !MvvmHelpers.HasNavigationPageParent(currentPage) && (currentPage is not FlyoutPage || (currentPage.Parent is FlyoutPage parentFlyout && parentFlyout.Flyout == currentPage)))
             useModalNavigation = true;
 
-        animated = parameters.ContainsKey(KnownNavigationParameters.Animated) ?
-            parameters.GetValue<bool>(KnownNavigationParameters.Animated) :
-                pageParameters.ContainsKey(KnownNavigationParameters.Animated) ? pageParameters.GetValue<bool>(KnownNavigationParameters.Animated) : true;
+        bool? pageAnimation = animated;
+        if (animated is null && pageParameters.TryGetValue<bool>(KnownNavigationParameters.Animated, out var parameterAnimation))
+        {
+            pageAnimation = parameterAnimation;
+        }
 
         if (nextSegment == RemovePageSegment)
         {
-            await ProcessNavigationForRemovePageSegments(currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+            await ProcessNavigationForRemovePageSegments(currentPage, nextSegment, segments, parameters, useModalNavigation, pageAnimation);
             return;
         }
 
         if (currentPage is null)
         {
-            await ProcessNavigationForRootPage(nextSegment, segments, parameters, useModalNavigation, animated);
+            await ProcessNavigationForRootPage(nextSegment, segments, parameters, useModalNavigation, pageAnimation);
             return;
         }
 
         if (currentPage is ContentPage)
         {
-            await ProcessNavigationForContentPage(currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
+            await ProcessNavigationForContentPage(currentPage, nextSegment, segments, parameters, useModalNavigation, pageAnimation);
         }
         else if (currentPage is NavigationPage nav)
         {
-            await ProcessNavigationForNavigationPage(nav, nextSegment, segments, parameters, useModalNavigation, animated);
+            await ProcessNavigationForNavigationPage(nav, nextSegment, segments, parameters, useModalNavigation, pageAnimation);
         }
         else if (currentPage is TabbedPage tabbed)
         {
-            await ProcessNavigationForTabbedPage(tabbed, nextSegment, segments, parameters, useModalNavigation, animated);
+            await ProcessNavigationForTabbedPage(tabbed, nextSegment, segments, parameters, useModalNavigation, pageAnimation);
         }
         else if (currentPage is FlyoutPage flyout)
         {
-            await ProcessNavigationForFlyoutPage(flyout, nextSegment, segments, parameters, useModalNavigation, animated);
+            await ProcessNavigationForFlyoutPage(flyout, nextSegment, segments, parameters, useModalNavigation, pageAnimation);
         }
     }
 
-    protected virtual Task ProcessNavigationForRemovePageSegments(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+    protected virtual Task ProcessNavigationForRemovePageSegments(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         if (!MvvmHelpers.HasDirectNavigationPageParent(currentPage))
         {
@@ -449,7 +453,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         return !segments.All(x => x == RemovePageSegment);
     }
 
-    private Task RemoveAndGoBack(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+    private Task RemoveAndGoBack(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         var pagesToRemove = new List<Page>();
 
@@ -471,7 +475,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         return GoBackAsync(parameters);
     }
 
-    private async Task RemoveAndPush(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+    private async Task RemoveAndPush(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         var pagesToRemove = new List<Page>
         {
@@ -506,12 +510,12 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
-    protected virtual Task ProcessNavigationForAbsoluteUri(Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+    protected virtual Task ProcessNavigationForAbsoluteUri(Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         return ProcessNavigation(null, segments, parameters, useModalNavigation, animated);
     }
 
-    protected virtual async Task ProcessNavigationForRootPage(string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+    protected virtual async Task ProcessNavigationForRootPage(string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         var nextPage = CreatePageFromSegment(nextSegment);
         if (nextPage is TabbedPage tabbedPage)
@@ -531,7 +535,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
-    protected virtual async Task ProcessNavigationForContentPage(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+    protected virtual async Task ProcessNavigationForContentPage(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         var nextPageType = Registry.GetViewType(UriParsingHelper.GetSegmentName(nextSegment));
         bool useReverse = UseReverseNavigation(currentPage, nextPageType) && !(useModalNavigation.HasValue && useModalNavigation.Value);
@@ -554,7 +558,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
-    protected virtual async Task ProcessNavigationForNavigationPage(NavigationPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+    protected virtual async Task ProcessNavigationForNavigationPage(NavigationPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         if (currentPage.Navigation.NavigationStack.Count == 0)
         {
@@ -613,7 +617,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
-    protected virtual async Task ProcessNavigationForTabbedPage(TabbedPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+    protected virtual async Task ProcessNavigationForTabbedPage(TabbedPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         var nextPage = CreatePageFromSegment(nextSegment);
         if (nextPage is TabbedPage tabbedPage)
@@ -625,7 +629,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         });
     }
 
-    protected virtual async Task ProcessNavigationForFlyoutPage(FlyoutPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+    protected virtual async Task ProcessNavigationForFlyoutPage(FlyoutPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         bool isPresented = GetFlyoutPageIsPresented(currentPage);
 
@@ -997,7 +1001,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             tabbedPage.CurrentPage = child;
     }
 
-    protected virtual async Task UseReverseNavigation(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
+    protected virtual async Task UseReverseNavigation(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         var navigationStack = new Stack<string>();
 
@@ -1073,16 +1077,14 @@ public class PageNavigationService : INavigationService, IRegistryAware
             await ProcessNavigation(currentPage.Navigation.NavigationStack.Last(), illegalSegments, parameters, true, animated);
     }
 
-    protected virtual async Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool animated, bool insertBeforeLast = false, int navigationOffset = 0)
+    protected virtual async Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool? animated, bool insertBeforeLast = false, int navigationOffset = 0)
     {
-        if (page is null)
-            throw new ArgumentNullException(nameof(page));
+        ArgumentNullException.ThrowIfNull(page);
 
         try
         {
             // Prevent Page from using Parent's ViewModel
-            if (page.BindingContext is null)
-                page.BindingContext = new object();
+            page.BindingContext ??= new object();
 
             if (currentPage is null)
             {
@@ -1109,7 +1111,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
                 if (useModalForPush)
                 {
-                    await currentPage.Navigation.PushModalAsync(page, animated);
+                    await currentPage.Navigation.PushModalAsync(page, animated ?? true);
                 }
                 else
                 {
@@ -1119,7 +1121,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
                     }
                     else
                     {
-                        await currentPage.Navigation.PushAsync(page, animated);
+                        await currentPage.Navigation.PushAsync(page, animated ?? true);
                     }
                 }
             }
