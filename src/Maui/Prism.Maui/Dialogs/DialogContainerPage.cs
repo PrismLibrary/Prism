@@ -25,11 +25,11 @@ public class DialogContainerPage : ContentPage, IDialogContainer
 
     public ICommand Dismiss { get; private set; }
 
-    public async Task ConfigureLayout(Page currentPage, View dialogView, bool hideOnBackgroundTapped, ICommand dismissCommand)
+    public async Task ConfigureLayout(Page currentPage, View dialogView, bool hideOnBackgroundTapped, ICommand dismissCommand, IDialogParameters parameters)
     {
         Dismiss = dismissCommand;
         DialogView = dialogView;
-        Content = GetContentLayout(currentPage, dialogView, hideOnBackgroundTapped, dismissCommand);
+        Content = GetContentLayout(currentPage, dialogView, hideOnBackgroundTapped, dismissCommand, parameters);
 
         await DoPush(currentPage);
     }
@@ -44,7 +44,7 @@ public class DialogContainerPage : ContentPage, IDialogContainer
         await currentPage.Navigation.PopModalAsync(false);
     }
 
-    protected virtual View GetContentLayout(Page currentPage, View dialogView, bool hideOnBackgroundTapped, ICommand dismissCommand)
+    protected virtual View GetContentLayout(Page currentPage, View dialogView, bool hideOnBackgroundTapped, ICommand dismissCommand, IDialogParameters parameters)
     {
         var overlay = new AbsoluteLayout();
         var popupContainer = new DialogContainerView
