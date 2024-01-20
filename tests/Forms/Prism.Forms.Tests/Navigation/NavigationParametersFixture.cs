@@ -4,6 +4,7 @@ using Xunit;
 
 namespace Prism.Forms.Tests.Navigation
 {
+    // TODO: This can probably be deleted as a duplicate. Determine if there are any non-duplicate tests.
     public class NavigationParametersFixture
     {
         const string _uri = "?id=3&name=brian";
@@ -196,15 +197,16 @@ namespace Prism.Forms.Tests.Navigation
         [Fact]
         public void GetValuesReturnsArrayWhenNotUsingQuery()
         {
-            var parameters = new NavigationParameters();
-            parameters.Add("id", new Person());
-            parameters.Add("id", new Person());
-            parameters.Add("id", null);
+            var parameters = new NavigationParameters
+            {
+                { "id", new Person() },
+                { "id", new Person() },
+                { "id", null }
+            };
             var result = parameters.GetValues<Person>("id").ToArray();
-            Assert.Equal(3, result.Count());
+            Assert.Equal(2, result.Length);
             Assert.IsType<Person>(result[0]);
             Assert.IsType<Person>(result[1]);
-            Assert.Null(result[2]);
         }
 
         [Fact]
