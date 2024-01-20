@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
@@ -148,7 +149,7 @@ namespace Prism.Common
         /// <typeparam name="T">The type for the values to be returned.</typeparam>
         /// <param name="key">The key for the value to be returned.</param>
         /// <param name="value">Value of the returned parameter if it exists.</param>
-        public bool TryGetValue<T>(string key, out T value) =>
+        public bool TryGetValue<T>(string key, [MaybeNullWhen(false)] out T value) =>
             _entries.TryGetValue(key, out value);
 
         IEnumerator IEnumerable.GetEnumerator() =>
