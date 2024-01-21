@@ -53,4 +53,38 @@ public class DynamicTabbedPageNavigationFixture : TestBase
 
         Assert.Same(tabbedPage.Children[0], tabbedPage.CurrentPage);
     }
+
+    [Fact]
+    public async Task NavigatesModally_FromChild_OfNavigationPageTab()
+    {
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow(navigation =>
+            navigation.CreateBuilder()
+                .AddTabbedSegment(t =>
+                    t.CreateTab(ct => ct.AddNavigationPage().AddSegment("MockViewA"))
+                     .CreateTab(ct => ct.AddNavigationPage().AddSegment("MockViewB")))
+                .NavigateAsync())).Build();
+        var window = GetWindow(mauiApp);
+        Assert.IsType<TabbedPage>(window.Page);
+        var tabbedPage = window.Page as TabbedPage;
+
+        Assert.IsType<PrismNavigationPage>(tabbedPage.CurrentPage);
+        var navPage = (PrismNavigationPage)tabbedPage.CurrentPage;
+        Assert.Empty(navPage.Navigation.ModalStack);
+
+        var navService = Prism.Navigation.Xaml.Navigation.GetNavigationService(navPage.CurrentPage);
+        var result = await navService.CreateBuilder()
+            .AddSegment("MockViewC", useModalNavigation: true)
+            .NavigateAsync();
+
+        Assert.True(result.Success);
+
+        Assert.Single(navPage.Navigation.ModalStack);
+
+        var modalNavService = Prism.Navigation.Xaml.Navigation.GetNavigationService(navPage.Navigation.ModalStack[0]);
+
+        result = await modalNavService.NavigateAsync("MockViewD");
+        Assert.True(result.Success);
+
+        Assert.Equal(2, navPage.Navigation.ModalStack.Count);
+    }
 }

@@ -1,5 +1,6 @@
 using Prism.Common;
 using Prism.Controls;
+using Prism.DryIoc.Maui.Tests.Mocks.Navigation;
 using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Maui.Tests.Mocks.Views;
 using Prism.Navigation.Xaml;
@@ -40,6 +41,23 @@ public class NavigationTests : TestBase
     }
 
     [Fact]
+    public async Task ViewModelLocator_Forced_SetsContainer_ResolvedViewModel()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .RegisterTypes(c => c.RegisterForNavigation<ForcedView>())
+            .CreateWindow("ForcedView"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        Assert.IsType<ForcedView>(window.Page);
+        Assert.IsType<ForcedViewModel>(window.Page.BindingContext);
+
+        var viewModel = (ForcedViewModel)window.Page.BindingContext;
+        Assert.NotNull(viewModel.Page);
+        Assert.IsType<ForcedView>(viewModel.Page);
+    }
+
+    [Fact]
     public async Task AddsPageFromRelativeURI()
     {
         var mauiApp = CreateBuilder(prism => prism.CreateWindow("NavigationPage/MockViewA"))
@@ -59,6 +77,12 @@ public class NavigationTests : TestBase
         Assert.IsType<MockViewB>(rootPage.CurrentPage);
         TestPage(rootPage.CurrentPage);
         Assert.Equal(2, rootPage.Navigation.NavigationStack.Count);
+
+        var pushes = navService.GetPushes();
+        Assert.Single(pushes);
+        Assert.Equal(currentPage, pushes[0].CurrentPage);
+        Assert.Equal(rootPage.CurrentPage, pushes[0].Page);
+        Assert.Null(pushes[0].Animated);
     }
 
     [Fact]
@@ -81,6 +105,28 @@ public class NavigationTests : TestBase
         Assert.IsType<MockViewC>(rootPage.CurrentPage);
         TestPage(rootPage.CurrentPage);
         Assert.Equal(2, rootPage.Navigation.NavigationStack.Count);
+    }
+
+    [Fact(Timeout = 5000)]
+    public async Task Issue3047_RelativeNavigation_RemovesPage_AndGoBack()
+    {
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow("NavigationPage/MockViewA/MockViewB"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        var rootPage = window.Page as NavigationPage;
+        Assert.NotNull(rootPage);
+        TestPage(rootPage);
+        var currentPage = rootPage.CurrentPage;
+        Assert.IsType<MockViewB>(currentPage);
+        TestPage(currentPage);
+        var container = currentPage.GetContainerProvider();
+        var navService = container.Resolve<INavigationService>();
+        Assert.Equal(2, rootPage.Navigation.NavigationStack.Count);
+        await navService.NavigateAsync("../");
+        Assert.IsType<MockViewA>(rootPage.CurrentPage);
+        TestPage(rootPage.CurrentPage);
+        Assert.Single(rootPage.Navigation.NavigationStack);
     }
 
     [Fact]
@@ -375,7 +421,134 @@ public class NavigationTests : TestBase
         Assert.Equal(MockViewA.ExpectedTitle, navPage.Title);
     }
 
-    private void TestPage(Page page)
+    [Fact]
+    public async Task Navigation_HasDefault_AnimatedIsNull()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .CreateWindow(n => n.CreateBuilder()
+                .AddNavigationPage()
+                .AddSegment("MockViewA")))
+            .Build();
+        var window = GetWindow(mauiApp);
+        var navigationPage = (NavigationPage)window.Page;
+        var rootPage = navigationPage.RootPage;
+
+        var navigationService = Prism.Navigation.Xaml.Navigation.GetNavigationService(rootPage);
+        var pushes = navigationService.GetPushes();
+
+        Assert.Empty(pushes);
+
+        var result = await navigationService.NavigateAsync("MockViewB");
+
+        Assert.True(result.Success);
+        Assert.Single(pushes);
+        var push = pushes[0];
+
+        Assert.IsType<MockViewA>(push.CurrentPage);
+        Assert.IsType<MockViewB>(push.Page);
+
+        Assert.Equal(navigationPage.RootPage, push.CurrentPage);
+        Assert.Equal(navigationPage.CurrentPage, push.Page);
+
+        Assert.Null(push.Animated);
+    }
+
+    [Fact]
+    public async Task Navigation_Animation_IsTrue()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .CreateWindow(n => n.CreateBuilder()
+                .AddNavigationPage()
+                .AddSegment("MockViewA")))
+            .Build();
+        var window = GetWindow(mauiApp);
+        var navigationPage = (NavigationPage)window.Page;
+        var rootPage = navigationPage.RootPage;
+
+        var navigationService = Prism.Navigation.Xaml.Navigation.GetNavigationService(rootPage);
+        var pushes = navigationService.GetPushes();
+
+        Assert.Empty(pushes);
+
+        var result = await navigationService.NavigateAsync($"MockViewB?{KnownNavigationParameters.Animated}=true");
+
+        Assert.True(result.Success);
+        Assert.Single(pushes);
+        var push = pushes[0];
+
+        Assert.IsType<MockViewA>(push.CurrentPage);
+        Assert.IsType<MockViewB>(push.Page);
+
+        Assert.Equal(navigationPage.RootPage, push.CurrentPage);
+        Assert.Equal(navigationPage.CurrentPage, push.Page);
+
+        Assert.True(push.Animated);
+    }
+
+    [Fact]
+    public async Task Navigation_Animation_IsFalse()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .CreateWindow(n => n.CreateBuilder()
+                .AddNavigationPage()
+                .AddSegment("MockViewA")))
+            .Build();
+        var window = GetWindow(mauiApp);
+        var navigationPage = (NavigationPage)window.Page;
+        var rootPage = navigationPage.RootPage;
+
+        var navigationService = Prism.Navigation.Xaml.Navigation.GetNavigationService(rootPage);
+        var pushes = navigationService.GetPushes();
+
+        Assert.Empty(pushes);
+
+        var result = await navigationService.NavigateAsync($"MockViewB?{KnownNavigationParameters.Animated}=false");
+
+        Assert.True(result.Success);
+        Assert.Single(pushes);
+        var push = pushes[0];
+
+        Assert.IsType<MockViewA>(push.CurrentPage);
+        Assert.IsType<MockViewB>(push.Page);
+
+        Assert.Equal(navigationPage.RootPage, push.CurrentPage);
+        Assert.Equal(navigationPage.CurrentPage, push.Page);
+
+        Assert.False(push.Animated);
+    }
+
+    [Theory]
+    [InlineData("MockViewA", "MockViewB", null)]
+    [InlineData("NavigationPage/MockViewA", "MockViewB?useModalNavigation=true", true)]
+    public async Task PushesModally(string startUri, string requestUri, bool? expectedUseModal)
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .CreateWindow(n => n.NavigateAsync(startUri)))
+            .Build();
+        var window = GetWindow(mauiApp);
+        var page = window.Page;
+        if (page is NavigationPage navPage)
+            page = navPage.RootPage;
+
+        var navService = Prism.Navigation.Xaml.Navigation.GetNavigationService(page);
+
+        var result = await navService.NavigateAsync(requestUri);
+        Assert.True(result.Success);
+
+        var pushes = navService.GetPushes();
+        Assert.Single(pushes);
+        var push = pushes[0];
+
+        var parameters = UriParsingHelper.GetSegmentParameters(requestUri);
+        bool? useModalNavigation = null;
+        if (parameters.TryGetValue<bool>(KnownNavigationParameters.UseModalNavigation, out var parameterModal))
+            useModalNavigation = parameterModal;
+
+        Assert.Equal(expectedUseModal, push.UseModalNavigation);
+        Assert.True(PageNavigationService.UseModalNavigation(push.CurrentPage, useModalNavigation));
+    }
+
+    private static void TestPage(Page page)
     {
         Assert.NotNull(page.BindingContext);
         if(page.Parent is not null)

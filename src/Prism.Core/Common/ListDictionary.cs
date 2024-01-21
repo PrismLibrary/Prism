@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Collections.Generic;
 
@@ -12,7 +10,7 @@ namespace Prism.Common
     /// <typeparam name="TValue">The type of the value held by lists.</typeparam>
     public sealed class ListDictionary<TKey, TValue> : IDictionary<TKey, IList<TValue>>
     {
-        Dictionary<TKey, IList<TValue>> innerValues = new Dictionary<TKey, IList<TValue>>();
+        readonly Dictionary<TKey, IList<TValue>> innerValues = [];
 
         #region Public Methods
 
