@@ -182,12 +182,6 @@ public class PageNavigationService : INavigationService, IRegistryAware
     }
 
     /// <inheritdoc />
-    public virtual async Task<INavigationResult> GoBackAsync(string viewName)
-    {
-        return await GoBackAsync(viewName, null);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<INavigationResult> GoBackAsync(string viewName, INavigationParameters parameters)
     {
         await _semaphore.WaitAsync();
