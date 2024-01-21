@@ -62,21 +62,4 @@ public interface INavigationService
     /// <param name="parameters">The navigation parameters</param>
     /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
     Task<INavigationResult> SelectTabAsync(string name, INavigationParameters parameters);
-
-    /// <summary>
-    /// Initiates navigation to the target specified by the <paramref name="viewName"/> from the <paramref name="route"/>. 
-    /// </summary>
-    /// <param name="viewName">The name of the View to navigate to</param>
-    /// <param name="route">The route Uri to navigate to</param>
-    /// <returns>If <c>true</c> a navigate from operation was successful. If <c>false</c> the navigate from operation failed.</returns>
-    Task<INavigationResult> NavigateFromAsync(string viewName, Uri route);
-
-    /// <summary>
-    /// Initiates navigation to the target specified by the <paramref name="viewName"/> from the <paramref name="route"/>. 
-    /// </summary>
-    /// <param name="viewName">The name of the View to navigate to</param>
-    /// <param name="route">The route Uri to navigate to</param>
-    /// <param name="parameters">The navigation parameters</param>
-    /// <returns>If <c>true</c> a navigate from operation was successful. If <c>false</c> the navigate from operation failed.</returns>
-    Task<INavigationResult> NavigateFromAsync(string viewName, Uri route, INavigationParameters parameters);
 }
