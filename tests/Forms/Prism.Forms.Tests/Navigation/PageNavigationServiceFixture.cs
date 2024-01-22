@@ -2050,8 +2050,10 @@ namespace Prism.Forms.Tests.Navigation
 
             ((IPageAware)navigationService).Page = rootPage.Navigation.NavigationStack.Last();
 
-            var navParameters = new NavigationParameters();
-            navParameters.Add("id", 3);
+            var navParameters = new NavigationParameters
+            {
+                { "id", 3 }
+            };
 
             await navigationService.NavigateAsync("../", navParameters);
 
