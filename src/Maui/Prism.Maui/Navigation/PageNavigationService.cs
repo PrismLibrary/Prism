@@ -403,7 +403,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
         var nextSegment = segments.Dequeue();
 
-        var pageParameters = UriParsingHelper.GetSegmentParameters(nextSegment);
+        var pageParameters = UriParsingHelper.GetSegmentParameters(nextSegment, parameters);
 
         if (pageParameters.TryGetValue<bool>(KnownNavigationParameters.UseModalNavigation, out var parameterModal))
             useModalNavigation = parameterModal;
@@ -604,7 +604,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             {
                 if (nextSegment.Contains(KnownNavigationParameters.SelectedTab))
                 {
-                    var segmentParams = UriParsingHelper.GetSegmentParameters(nextSegment);
+                    var segmentParams = UriParsingHelper.GetSegmentParameters(nextSegment, parameters);
                     SelectPageTab(topPage, segmentParams);
                 }
             });
@@ -706,7 +706,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             {
                 if (detail is TabbedPage && nextSegment.Contains(KnownNavigationParameters.SelectedTab))
                 {
-                    var segmentParams = UriParsingHelper.GetSegmentParameters(nextSegment);
+                    var segmentParams = UriParsingHelper.GetSegmentParameters(nextSegment, parameters);
                     SelectPageTab(detail, segmentParams);
                 }
 
@@ -891,7 +891,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
     async Task ConfigureTabbedPage(TabbedPage tabbedPage, string segment, INavigationParameters parameters)
     {
-        var tabParameters = UriParsingHelper.GetSegmentParameters(segment);
+        var tabParameters = UriParsingHelper.GetSegmentParameters(segment, parameters);
 
         var tabsToCreate = tabParameters.GetValues<string>(KnownNavigationParameters.CreateTab);
         foreach (var tabToCreateEncoded in tabsToCreate ?? Array.Empty<string>())
@@ -1029,7 +1029,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             }
 
             //if any page decide to go modal, we need to consider it and all pages after it an illegal page
-            var pageParameters = UriParsingHelper.GetSegmentParameters(item);
+            var pageParameters = UriParsingHelper.GetSegmentParameters(item, parameters);
             if (pageParameters.ContainsKey(KnownNavigationParameters.UseModalNavigation))
             {
                 if (pageParameters.GetValue<bool>(KnownNavigationParameters.UseModalNavigation))
