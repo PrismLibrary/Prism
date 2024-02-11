@@ -12,7 +12,7 @@ public static class IWindowManagerExtensions
     /// <returns>The <see cref="INavigationService"/> for the current <see cref="Page"/>.</returns>
     public static INavigationService GetCurrentNavigationService(this IWindowManager windowManager)
     {
-        var window = windowManager.Windows.OfType<PrismWindow>().First(x => x.IsActive);
+        var window = windowManager.Windows.OfType<PrismWindow>().First();
 
         if (window.CurrentPage is null)
             throw new InvalidOperationException("No current page has been set.");
