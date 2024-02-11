@@ -49,14 +49,14 @@ These are the base packages for each platform, together with the Prism's Core as
 
 | Platform | Package | NuGet | Commercial Plus Feed |
 | -------- | ------- | ------- | ----- |
-| Cross Platform | [Prism.Core][CoreNuGet] | [![CoreNuGetShield]][CoreNuGet] | [![CoreSponsorConnectShield]][CoreSponsorConnect] |
-| Cross Platform | [Prism.Events][EventsNuGet] | [![EventsNuGetShield]][EventsNuGet] | [![CoreSponsorConnectShield]][CoreSponsorConnect] |
-| Cross Platform | [Prism.Container.Abstractions][ContainerAbstractionsNuGet] | [![ContainerAbstractionsNuGetShield]][ContainerAbstractionsNuGet] | [![CoreSponsorConnectShield]][CoreSponsorConnect] |
-| Cross Platform | [Prism.Container.DryIoc][ContainerDryIocNuGet] | [![ContainerDryIocNuGetShield]][ContainerDryIocNuGet] | [![CoreSponsorConnectShield]][CoreSponsorConnect] |
-| Cross Platform | [Prism.Container.Unity][ContainerUnityNuGet] | [![ContainerUnityNuGetShield]][ContainerUnityNuGet] | [![CoreSponsorConnectShield]][CoreSponsorConnect] |
-| WPF | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfSponsorConnectShield]][WpfSponsorConnect] |
-| Xamarin.Forms | [Prism.Forms][FormsNuGet] | [![FormsNuGetShield]][FormsNuGet] | [![FormsSponsorConnectShield]][FormsSponsorConnect] |
-| Uno Platform and WinUI | [Prism.Uno][UnoNuGet] | [![UnoNuGetShield]][UnoNuGet] | [![UnoSponsorConnectShield]][UnoSponsorConnect] |
+| Cross Platform | [Prism.Core][CoreNuGet] | [![CoreNuGetShield]][CoreNuGet] | [![CorePrismNuGetShield]][CorePrismNuGet] |
+| Cross Platform | [Prism.Events][EventsNuGet] | [![EventsNuGetShield]][EventsNuGet] | [![EventsPrismNuGetShield]][CorePrismNuGet] |
+| Cross Platform | [Prism.Container.Abstractions][ContainerAbstractionsNuGet] | [![ContainerAbstractionsNuGetShield]][ContainerAbstractionsNuGet] | [![ContainerAbstractionsPrismNuGetShield]][CorePrismNuGet] |
+| Cross Platform | [Prism.Container.DryIoc][ContainerDryIocNuGet] | [![ContainerDryIocNuGetShield]][ContainerDryIocNuGet] | [![ContainerDryIocPrismNuGetShield]][CorePrismNuGet] |
+| Cross Platform | [Prism.Container.Unity][ContainerUnityNuGet] | [![ContainerUnityNuGetShield]][ContainerUnityNuGet] | [![ContainerUnityPrismNuGetShield]][CorePrismNuGet] |
+| WPF | [Prism.Wpf][WpfNuGet] | [![WpfNuGetShield]][WpfNuGet] | [![WpfPrismNuGetShield]][WpfPrismNuGet] |
+| Xamarin.Forms | [Prism.Forms][FormsNuGet] | [![FormsNuGetShield]][FormsNuGet] | [![FormsPrismNuGetShield]][FormsPrismNuGet] |
+| Uno Platform and WinUI | [Prism.Uno][UnoNuGet] | [![UnoNuGetShield]][UnoNuGet] | [![UnoPrismNuGetShield]][UnoPrismNuGet] |
 
 ### Container-specific packages
 
@@ -66,22 +66,22 @@ Each supported IoC container has its own package assisting in the setup and usag
 
 | Package | NuGet | Commercial Plus Feed |
 |---------|-------|-------|
-| [Prism.DryIoc][DryIocWpfNuGet] | [![DryIocWpfNuGetShield]][DryIocWpfNuGet] | [![DryIocWpfSponsorConnectShield]][DryIocWpfSponsorConnect] |
-| [Prism.Unity][UnityWpfNuGet] | [![UnityWpfNuGetShield]][UnityWpfNuGet] | [![UnityWpfSponsorConnectShield]][UnityWpfSponsorConnect] |
+| [Prism.DryIoc][DryIocWpfNuGet] | [![DryIocWpfNuGetShield]][DryIocWpfNuGet] | [![DryIocWpfPrismNuGetShield]][DryIocWpfPrismNuGet] |
+| [Prism.Unity][UnityWpfNuGet] | [![UnityWpfNuGetShield]][UnityWpfNuGet] | [![UnityWpfPrismNuGetShield]][UnityWpfPrismNuGet] |
 
 #### Xamarin Forms
 
 | Package | NuGet | Commercial Plus Feed |
 |---------|-------|-------|
-| [Prism.DryIoc.Forms][DryIocFormsNuGet] | [![DryIocFormsNuGetShield]][DryIocFormsNuGet] | [![DryIocFormsSponsorConnectShield]][DryIocFormsSponsorConnect] |
-| [Prism.Unity.Forms][UnityFormsNuGet] | [![UnityFormsNuGetShield]][UnityFormsNuGet] | [![UnityFormsSponsorConnectShield]][UnityFormsSponsorConnect] |
-| [Prism.Forms.Regions][PrismFormsRegionsNuget] | [![PrismFormsRegionsNuGetShield]][PrismFormsRegionsNuGet] | [![PrismFormsRegionsSponsorConnectShield]][PrismFormsRegionsSponsorConnect] |
+| [Prism.DryIoc.Forms][DryIocFormsNuGet] | [![DryIocFormsNuGetShield]][DryIocFormsNuGet] | [![DryIocFormsPrismNuGetShield]][DryIocFormsPrismNuGet] |
+| [Prism.Unity.Forms][UnityFormsNuGet] | [![UnityFormsNuGetShield]][UnityFormsNuGet] | [![UnityFormsPrismNuGetShield]][UnityFormsPrismNuGet] |
+| [Prism.Forms.Regions][PrismFormsRegionsNuget] | [![PrismFormsRegionsNuGetShield]][PrismFormsRegionsNuGet] | [![PrismFormsRegionsPrismNuGetShield]][PrismFormsRegionsPrismNuGet] |
 
 #### Uno Platform
 
 | Package | NuGet | Commercial Plus Feed |
 |---------|-------|-------|
-| [Prism.DryIoc.Uno][DryIocUnoPlatformNuGet] | [![DryIocUnoPlatformNuGetShield]][DryIocUnoPlatformNuGet] | [![DryIocUnoPlatformSponsorConnectShield]][DryIocUnoPlatformSponsorConnect] |
+| [Prism.DryIoc.Uno][DryIocUnoPlatformNuGet] | [![DryIocUnoPlatformNuGetShield]][DryIocUnoPlatformNuGet] | [![DryIocUnoPlatformPrismNuGetShield]][DryIocUnoPlatformPrismNuGet] |
 
 ![NuGet package tree](images/NuGetPackageTree.png)
 
@@ -112,9 +112,9 @@ We strongly encourage you to get involved and help us evolve the code base.
 [UnoNuGet]: https://www.nuget.org/packages/Prism.Uno.WinUI/
 
 [PrismFormsRegionsNuGet]: https://www.nuget.org/packages/Prism.Forms.Regions/
-[PrismFormsRegionsSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Forms.Regions
+[PrismFormsRegionsPrismNuGet]: #
 [PrismFormsRegionsNuGetShield]: https://img.shields.io/nuget/vpre/Prism.Forms.Regions.svg
-[PrismFormsRegionsSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Forms.Regions/vpre
+[PrismFormsRegionsPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Forms.Regions/vpre
 
 [DryIocWpfNuGet]: https://www.nuget.org/packages/Prism.DryIoc/
 [UnityWpfNuGet]: https://www.nuget.org/packages/Prism.Unity/
@@ -141,31 +141,35 @@ We strongly encourage you to get involved and help us evolve the code base.
 
 [DryIocUnoPlatformNuGetShield]: https://img.shields.io/nuget/vpre/Prism.DryIoc.Uno.WinUI.svg
 
-[CoreSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Core
-[WpfSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Wpf
-[FormsSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Forms
-[UnoSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Uno.WinUI
+[CorePrismNuGet]: #
+[WpfPrismNuGet]: #
+[FormsPrismNuGet]: #
+[UnoPrismNuGet]: #
 
-[DryIocWpfSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.DryIoc
-[UnityWpfSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Unity
+[DryIocWpfPrismNuGet]: #
+[UnityWpfPrismNuGet]: #
 
-[UnityFormsSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.Unity.Forms
-[DryIocFormsSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.DryIoc.Forms
+[UnityFormsPrismNuGet]: #
+[DryIocFormsPrismNuGet]: #
 
-[DryIocUnoPlatformSponsorConnect]: https://sponsorconnect.dev/nuget/package/Prism.DryIoc.Uno.WinUI
+[DryIocUnoPlatformPrismNuGet]: #
 
-[CoreSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Core/vpre
-[WpfSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Wpf/vpre
-[FormsSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Forms/vpre
-[UnoSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Uno.WinUI/vpre
+[CorePrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Core/vpre
+[EventsPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Events/vpre
+[ContainerAbstractionsPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Container.Abstractions/vpre
+[ContainerDryIocPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Container.DryIoc/vpre
+[ContainerUnityPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Container.Unity/vpre
+[WpfPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Wpf/vpre
+[FormsPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Forms/vpre
+[UnoPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Uno.WinUI/vpre
 
-[DryIocWpfSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.DryIoc/vpre
-[UnityWpfSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Unity/vpre
+[DryIocWpfPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.DryIoc/vpre
+[UnityWpfPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Unity/vpre
 
-[DryIocFormsSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.DryIoc.Forms/vpre
-[UnityFormsSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.Unity.Forms/vpre
+[DryIocFormsPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.DryIoc.Forms/vpre
+[UnityFormsPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Unity.Forms/vpre
 
-[DryIocUnoPlatformSponsorConnectShield]: https://ci.nuget.prismlibrary.com/shield/Prism.DryIoc.Uno.WinUI/vpre
+[DryIocUnoPlatformPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.DryIoc.Uno.WinUI/vpre
 
 [TwitterLogo]: https://dansiegelgithubsponsors.blob.core.windows.net/images/twitter.png
 [TwitchLogo]: https://dansiegelgithubsponsors.blob.core.windows.net/images/twitch.png

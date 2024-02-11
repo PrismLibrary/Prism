@@ -69,7 +69,7 @@ jobs:
       windows-sdk-version: 18362
       install-workload: maui maui-tizen macos maui-windows maui-maccatalyst maccatalyst maui-ios ios android maui-android wasm-tools tvos
       uno-check: false
-      uno-check-version: 1.18.1
+      uno-check-version: 1.19.0
       uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip vsmac'
       run-tests: false
       code-sign: true
@@ -154,15 +154,15 @@ jobs:
       feedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
       apiKey: ${{ secrets.IN_HOUSE_API_KEY }}
 
-  deploy-prism-ci:
+  deploy-commercial-plus:
     uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master
     needs: generate-consolidated-artifacts
     if: ${{ github.event_name == 'push' }}
     with:
-      name: Deploy Internal
+      name: Deploy Commercial Plus
     secrets:
-      feedUrl: ${{ secrets.PRISM_CI_NUGET_FEED }}
-      apiKey: ${{ secrets.PRISM_CI_NUGET_TOKEN }}
+      feedUrl: ${{ secrets.PRISM_NUGET_FEED }}
+      apiKey: ${{ secrets.PRISM_NUGET_TOKEN }}
 
   deploy-sponsors:
     uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master

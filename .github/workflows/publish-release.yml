@@ -5,7 +5,25 @@ on:
     types: [published]
 
 jobs:
-  publish-release:
+  publish-internal:
+    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@master
+    secrets:
+      feedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
+      apiKey: ${{ secrets.IN_HOUSE_API_KEY }}
+
+  publish-commercial-plus:
+    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@master
+    secrets:
+      feedUrl: ${{ secrets.PRISM_NUGET_FEED }}
+      apiKey: ${{ secrets.PRISM_NUGET_TOKEN }}
+
+  publish-nuget:
     uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@master
     secrets:
       apiKey: ${{ secrets.NUGET_API_KEY }}
+
+  publish-sponsors:
+    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@master
+    secrets:
+      feedUrl: ${{ secrets.SPONSOR_CONNECT_NUGET_FEED }}
+      apiKey: ${{ secrets.SPONSOR_CONNECT_TOKEN }}
