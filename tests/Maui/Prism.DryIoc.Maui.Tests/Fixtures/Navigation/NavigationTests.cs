@@ -295,6 +295,59 @@ public class NavigationTests : TestBase
     }
 
     [Fact]
+    public async Task GoBack_Name_PopsToSpecifiedViewWithoutPoppingEachPage()
+    {
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow("NavigationPage/MockViewA/MockViewB/MockViewC/MockViewD/MockViewE"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        Assert.IsAssignableFrom<NavigationPage>(window.Page);
+        var navigationPage = (NavigationPage)window.Page;
+        var withoutPoppingPage = (MockViewD)navigationPage.Navigation.NavigationStack.First(p => ViewModelLocator.GetNavigationName(p) == nameof(MockViewD));
+        var withoutPoppingPageVm = (MockViewModelBase)withoutPoppingPage.BindingContext;
+
+        Assert.IsType<MockViewA>(navigationPage.RootPage);
+        Assert.IsType<MockViewE>(navigationPage.CurrentPage);
+
+        var result = await navigationPage.CurrentPage.GetContainerProvider()
+            .Resolve<INavigationService>()
+            .GoBackAsync("MockViewC");
+
+        Assert.True(result.Success);
+
+        Assert.IsType<MockViewC>(navigationPage.CurrentPage);
+
+        // In the GoBackAsync method, the OnNavigatedTo method is not called for pages that are not popped.
+        Assert.True(withoutPoppingPageVm.Actions.Last() == nameof(MockViewModelBase.OnNavigatedFrom));
+    }
+
+    [Fact]
+    public async Task GoBack_Name_PopsToSpecifiedViewWithoutPoppingEachPageOfLimitation()
+    {
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow("NavigationPage/MockViewA/MockViewA/MockViewB/MockViewC/MockViewD/MockViewE"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        Assert.IsAssignableFrom<NavigationPage>(window.Page);
+        var navigationPage = (NavigationPage)window.Page;
+
+        Assert.IsType<MockViewA>(navigationPage.RootPage);
+        Assert.IsType<MockViewE>(navigationPage.CurrentPage);
+
+        var result = await navigationPage.CurrentPage.GetContainerProvider()
+            .Resolve<INavigationService>()
+            .GoBackAsync("MockViewA");
+
+        Assert.True(result.Success);
+
+        Assert.IsType<MockViewA>(navigationPage.CurrentPage);
+
+        // If there are two instances of MockViewA, it will return to the instance closest to the current page.
+        // Therefore, the current modal stack will be in the state of NavigationPage/MockViewA/MockViewA.
+        Assert.Equal(2, navigationPage.Navigation.NavigationStack.Count);
+    }
+
+    [Fact]
     public async Task TabbedPage_SelectTabSets_CurrentTab()
     {
         var mauiApp = CreateBuilder(prism => prism.CreateWindow("TabbedPage?createTab=MockViewA&createTab=MockViewB&selectedTab=MockViewB"))

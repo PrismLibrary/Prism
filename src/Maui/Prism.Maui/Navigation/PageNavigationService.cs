@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using Prism.Common;
 using Prism.Events;
+using Prism.Extensions;
 using Prism.Mvvm;
 using Application = Microsoft.Maui.Controls.Application;
 using XamlTab = Prism.Navigation.Xaml.TabbedPage;
@@ -191,6 +192,66 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
         return Notify(NavigationRequestType.GoBack, parameters, GetGoBackException(page, GetPageFromWindow()));
     }
+
+    /// <inheritdoc />
+    public virtual async Task<INavigationResult> GoBackAsync(string viewName, INavigationParameters parameters)
+    {
+        await _semaphore.WaitAsync();
+        try
+        {
+            if (parameters is null)
+                parameters = new NavigationParameters();
+
+            parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
+
+            var page = GetCurrentPage();
+            var canNavigate = await MvvmHelpers.CanNavigateAsync(page, parameters);
+            if (!canNavigate)
+            {
+                throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page);
+            }
+
+            var pagesToDestroy = page.Navigation.NavigationStack.ToList(); // get all pages to destroy
+            pagesToDestroy.Reverse(); // destroy them in reverse order
+            var goBackPage = pagesToDestroy.FirstOrDefault(p => ViewModelLocator.GetNavigationName(p) == viewName); // find the go back page
+            if (goBackPage is null)
+            {
+                throw new NavigationException(NavigationException.GoBackRequiresNavigationPage);
+            }
+            var index = pagesToDestroy.IndexOf(goBackPage);
+            pagesToDestroy.RemoveRange(index, pagesToDestroy.Count - index); // don't destroy pages from the go back page to the root page
+            var pagesToRemove = pagesToDestroy.Skip(1).ToList(); // exclude the current page from the destroy pages
+
+            bool animated = parameters.ContainsKey(KnownNavigationParameters.Animated) ? parameters.GetValue<bool>(KnownNavigationParameters.Animated) : true;
+            NavigationSource = PageNavigationSource.NavigationService;
+            foreach(var removePage in pagesToRemove)
+            {
+                page.Navigation.RemovePage(removePage);
+            }
+            await page.Navigation.PopAsync(animated);
+            NavigationSource = PageNavigationSource.Device;
+
+            foreach (var destroyPage in pagesToDestroy)
+            {
+                MvvmHelpers.OnNavigatedFrom(destroyPage, parameters);
+                MvvmHelpers.DestroyPage(destroyPage);
+            }
+
+            MvvmHelpers.OnNavigatedTo(goBackPage, parameters);
+
+            return Notify(NavigationRequestType.GoBack, parameters);
+        }
+        catch (Exception ex)
+        {
+            return Notify(NavigationRequestType.GoBack, parameters, ex);
+        }
+        finally
+        {
+            NavigationSource = PageNavigationSource.Device;
+            _semaphore.Release();
+        }
+    }
+
 
     private static Exception GetGoBackException(Page currentPage, IView mainPage)
     {

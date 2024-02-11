@@ -18,6 +18,11 @@ public class NavigationException : Exception
     public const string CannotGoBackFromRoot = "Cannot GoBack from NavigationPage Root.";
 
     /// <summary>
+    /// The <see cref="NavigationException"/> Message returned when GoBackAsync can only be called when the calling Page has been navigated.
+    /// </summary>
+    public const string GoBackRequiresNavigationPage = "GoBackAsync can only be called when the calling Page has been navigated.";
+
+    /// <summary>
     /// The <see cref="NavigationException"/> Message returned when GoBackToRootAsync can only be called when the calling Page is within a NavigationPage.
     /// </summary>
     public const string GoBackToRootRequiresNavigationPage = "GoBackToRootAsync can only be called when the calling Page is within a NavigationPage.";

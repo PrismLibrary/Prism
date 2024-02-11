@@ -7,7 +7,7 @@
              x:DataType="loc:ViewModelBase"
              Title="{Binding Title}"
              BackgroundColor="White">
-  <Grid RowDefinitions="*,Auto,Auto,Auto"
+  <Grid RowDefinitions="*,Auto,Auto,Auto,Auto"
         ColumnDefinitions="*,*">
     <CollectionView ItemsSource="{Binding Messages}"
                     Grid.ColumnSpan="2">
@@ -57,5 +57,11 @@
             Margin="10"
             Grid.Row="3"
             Grid.Column="1"/>
+    <Button Text="Go Back View B"
+            Command="{Binding GoBack}"
+            CommandParameter="ViewB"
+            Margin="10"
+            Grid.Row="4"
+            Grid.Column="0"/>
   </Grid>
 </ContentPage>

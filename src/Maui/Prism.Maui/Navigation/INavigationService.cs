@@ -21,6 +21,14 @@ public interface INavigationService
     Task<INavigationResult> GoBackAsync(INavigationParameters parameters);
 
     /// <summary>
+    /// Navigates to the most recent entry in the back navigation history for the <paramref name="viewName"/>.
+    /// </summary>
+    /// <param name="viewName">The name of the View to navigate back to</param>
+    /// <param name="parameters">The navigation parameters</param>
+    /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
+    Task<INavigationResult> GoBackAsync(string viewName, INavigationParameters parameters);
+
+    /// <summary>
     /// When navigating inside a NavigationPage: Pops all but the root Page off the navigation stack
     /// </summary>
     /// <param name="parameters">The navigation parameters</param>

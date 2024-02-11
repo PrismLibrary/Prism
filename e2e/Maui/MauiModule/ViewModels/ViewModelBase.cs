@@ -29,6 +29,7 @@ public abstract class ViewModelBase : BindableBase, IInitialize, INavigatedAware
         SelectedDialog = AvailableDialogs.FirstOrDefault();
         ShowDialog = new DelegateCommand(OnShowDialogCommand, () => !string.IsNullOrEmpty(SelectedDialog))
             .ObservesProperty(() => SelectedDialog);
+        GoBack = new DelegateCommand<string>(OnGoBack);
     }
 
     public IEnumerable<string> AvailableDialogs { get; }
@@ -52,6 +53,8 @@ public abstract class ViewModelBase : BindableBase, IInitialize, INavigatedAware
 
     public DelegateCommand ShowDialog { get; }
 
+    public DelegateCommand<string> GoBack { get; }
+
     private void OnNavigateCommandExecuted(string uri)
     {
         Messages.Add($"OnNavigateCommandExecuted: {uri}");
@@ -73,6 +76,12 @@ public abstract class ViewModelBase : BindableBase, IInitialize, INavigatedAware
 
     private void DialogCallback(IDialogResult result) =>
         Messages.Add("Dialog Closed");
+
+    private void OnGoBack(string viewName)
+    {
+        Messages.Add($"On Go Back {viewName}");
+        _navigationService.GoBackAsync(viewName);
+    }
 
     public void Initialize(INavigationParameters parameters)
     {
