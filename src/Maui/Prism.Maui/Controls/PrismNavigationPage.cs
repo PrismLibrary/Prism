@@ -42,6 +42,7 @@ public class PrismNavigationPage : NavigationPage
         await MvvmHelpers.HandleNavigationPageGoBack(this);
     }
 
+#if IOS
     protected override async void OnDisappearing()
     {
         var presentationStyle = Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific.Page.GetModalPresentationStyle(this);
@@ -53,5 +54,6 @@ public class PrismNavigationPage : NavigationPage
 
         base.OnDisappearing();
     }
+#endif
 }
 
