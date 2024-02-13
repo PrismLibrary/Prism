@@ -1,4 +1,6 @@
 ﻿using Prism.Common;
+using Prism.Navigation;
+using UIModalPresentationStyle = Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific.UIModalPresentationStyle;
 
 namespace Prism.Controls;
 
@@ -39,4 +41,17 @@ public class PrismNavigationPage : NavigationPage
     {
         await MvvmHelpers.HandleNavigationPageGoBack(this);
     }
+
+    protected override async void OnDisappearing()
+    {
+        var presentationStyle = Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific.Page.GetModalPresentationStyle(this);
+
+        if (presentationStyle != UIModalPresentationStyle.FullScreen && PageNavigationService.NavigationSource == PageNavigationSource.Device)
+        {
+            await MvvmHelpers.HandleNavigationPageSwipedAway(this);
+        }
+
+        base.OnDisappearing();
+    }
 }
+
