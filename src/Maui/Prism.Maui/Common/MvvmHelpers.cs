@@ -307,6 +307,22 @@ public static class MvvmHelpers
         }
     }
 
+    public static async Task HandleNavigationPageSwipedAway(NavigationPage navigationPage)
+    {
+        var navigationService = Navigation.Xaml.Navigation.GetNavigationService(navigationPage.CurrentPage);
+        var navParams = new NavigationParameters()
+        {
+            {
+                KnownNavigationParameters.UseModalNavigation, true
+            },
+        };
+        var result = await navigationService.GoBackAsync(navParams);
+        if (result.Exception is NavigationException navEx && navEx.Message == NavigationException.CannotPopApplicationMainPage)
+        {
+            Application.Current.Quit();
+        }
+    }
+
     public static void HandleSystemGoBack(IView previousPage, IView currentPage)
     {
         var parameters = new NavigationParameters();
