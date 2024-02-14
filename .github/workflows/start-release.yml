@@ -39,6 +39,7 @@ jobs:
       solution-path: PrismLibrary_Forms.slnf
       code-sign: true
       artifact-name: Forms
+      jdk-version: 13
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
@@ -51,10 +52,9 @@ jobs:
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
-      dotnet-version: 7.0.400
       windows-sdk-version: 18362
       uno-check: true
-      uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip vsmac'
+      uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip androidemulator --skip androidsdk --skip vsmac --skip dotnetnewunotemplates'
       run-tests: false
       code-sign: true
       artifact-name: Uno
