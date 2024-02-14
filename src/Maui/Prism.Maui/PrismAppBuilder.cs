@@ -289,7 +289,7 @@ public sealed class PrismAppBuilder
     {
         containerRegistry.TryRegisterSingleton<IEventAggregator, EventAggregator>();
         containerRegistry.TryRegisterSingleton<IKeyboardMapper, KeyboardMapper>();
-        containerRegistry.TryRegisterScoped<IPageDialogService, PageDialogService>();
+        containerRegistry.TryRegisterSingleton<IPageDialogService, PageDialogService>();
         containerRegistry.TryRegisterScoped<IDialogService, DialogService>();
         containerRegistry.TryRegister<IDialogViewRegistry, DialogViewRegistry>();
         containerRegistry.RegisterDialogContainer<DialogContainerPage>();
