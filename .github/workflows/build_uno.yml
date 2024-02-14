@@ -29,5 +29,4 @@ jobs:
       dotnet-version: 8.0.x
       uno-check: true
       uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip vsmac'
-      uno-check-version: 1.20.0-dev.7
       run-tests: false

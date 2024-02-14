@@ -23,6 +23,3 @@ jobs:
     with:
       name: Build Prism.Wpf
       solution-path: PrismLibrary_Wpf.slnf
-      dotnet-version: |
-        6.0.x
-        8.0.x
