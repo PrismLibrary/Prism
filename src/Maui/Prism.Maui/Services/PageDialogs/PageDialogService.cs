@@ -1,5 +1,6 @@
 ﻿using Prism.AppModel;
 using Prism.Common;
+using Prism.Navigation;
 using FlowDirection = Prism.AppModel.FlowDirection;
 using MauiFlow = Microsoft.Maui.FlowDirection;
 
@@ -10,7 +11,7 @@ namespace Prism.Services;
 /// </summary>
 public class PageDialogService : IPageDialogService
 {
-    private IPageAccessor _pageAccessor { get; }
+    private IWindowManager _windowManager { get; }
     /// <summary>
     /// Gets the <see cref="IKeyboardMapper"/>.
     /// </summary>
@@ -19,11 +20,11 @@ public class PageDialogService : IPageDialogService
     /// <summary>
     /// Creates a new <see cref="IPageDialogService"/>
     /// </summary>
-    /// <param name="pageAccessor">The <see cref="IPageAccessor"/>.</param>
+    /// <param name="windowManager">The <see cref="IWindowManager"/>.</param>
     /// <param name="keyboardMapper">The <see cref="IKeyboardMapper"/>.</param>
-    public PageDialogService(IPageAccessor pageAccessor, IKeyboardMapper keyboardMapper)
+    public PageDialogService(IWindowManager windowManager, IKeyboardMapper keyboardMapper)
     {
-        _pageAccessor = pageAccessor;
+        _windowManager = windowManager;
         _keyboardMapper = keyboardMapper;
     }
 
@@ -57,7 +58,7 @@ public class PageDialogService : IPageDialogService
     /// <returns><c>true</c> if non-destructive button pressed; otherwise <c>false</c>/></returns>
     public virtual Task<bool> DisplayAlertAsync(string title, string message, string acceptButton, string cancelButton, FlowDirection flowDirection)
     {
-        return _pageAccessor.Page.DisplayAlert(title, message, acceptButton, cancelButton, (MauiFlow)flowDirection);
+        return GetPage().DisplayAlert(title, message, acceptButton, cancelButton, (MauiFlow)flowDirection);
     }
 
     /// <summary>
@@ -72,7 +73,7 @@ public class PageDialogService : IPageDialogService
     /// <returns></returns>
     public virtual Task DisplayAlertAsync(string title, string message, string cancelButton)
     {
-        return _pageAccessor.Page.DisplayAlert(title, message, cancelButton);
+        return GetPage().DisplayAlert(title, message, cancelButton);
     }
 
     /// <summary>
@@ -88,7 +89,7 @@ public class PageDialogService : IPageDialogService
     /// <returns></returns>
     public virtual Task DisplayAlertAsync(string title, string message, string cancelButton, FlowDirection flowDirection)
     {
-        return _pageAccessor.Page.DisplayAlert(title, message, cancelButton, (MauiFlow)flowDirection);
+        return GetPage().DisplayAlert(title, message, cancelButton, (MauiFlow)flowDirection);
     }
 
     /// <summary>
@@ -115,7 +116,7 @@ public class PageDialogService : IPageDialogService
     /// <returns>Text for the pressed button</returns>
     public virtual Task<string> DisplayActionSheetAsync(string title, string cancelButton, string destroyButton, FlowDirection flowDirection, params string[] otherButtons)
     {
-        return _pageAccessor.Page.DisplayActionSheet(title, cancelButton, destroyButton, (MauiFlow)flowDirection, otherButtons);
+        return GetPage().DisplayActionSheet(title, cancelButton, destroyButton, (MauiFlow)flowDirection, otherButtons);
     }
 
     /// <summary>
@@ -177,6 +178,8 @@ public class PageDialogService : IPageDialogService
     public virtual Task<string> DisplayPromptAsync(string title, string message, string accept = "OK", string cancel = "Cancel", string placeholder = default, int maxLength = -1, KeyboardType keyboardType = KeyboardType.Default, string initialValue = "")
     {
         var keyboard = _keyboardMapper.Map(keyboardType);
-        return _pageAccessor.Page.DisplayPromptAsync(title, message, accept, cancel, placeholder, maxLength, keyboard, initialValue);
+        return GetPage().DisplayPromptAsync(title, message, accept, cancel, placeholder, maxLength, keyboard, initialValue);
     }
+
+    private Page GetPage() => _windowManager.Windows.OfType<PrismWindow>().First().CurrentPage;
 }
