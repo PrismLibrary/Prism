@@ -2,19 +2,22 @@
   <Import Project="..\Directory.Build.targets" />
 
   <Target Name="CopyNuGetReadme"
-          BeforeTargets="_GetPackageFiles"
+          BeforeTargets="Build;CoreCompile"
           Condition=" $(IsPackable) == 'true' ">
-    <Exec Command="echo # $(PackageId) > $(IntermediateOutputPath)\readme.txt"
+    <Exec Command="echo # $(PackageId) > $(IntermediateOutputPath)\ReadMe.md"
           ConsoleToMsBuild="true" />
 
-    <Exec Command="type $(MSBuildThisFileDirectory)ReadMe.md >> $(IntermediateOutputPath)\readme.txt"
+    <Exec Command="type $(MSBuildThisFileDirectory)ReadMe.md >> $(IntermediateOutputPath)\ReadMe.md"
           ConsoleToMsBuild="true" />
   </Target>
 
   <Target Name="PackNuGetReadMe"
           AfterTargets="CopyNuGetReadme">
+    <PropertyGroup>
+      <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+    </PropertyGroup>
     <ItemGroup>
-      <_PackageFiles Include="$(IntermediateOutputPath)\readme.txt" PackagePath="" />
+      <None Include="$(IntermediateOutputPath)\ReadMe.md" PackagePath="\" Pack="true" />
     </ItemGroup>
   </Target>
 
