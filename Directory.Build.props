@@ -76,19 +76,16 @@
     <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
       <PropertyGroup>
         <SupportedOSPlatformVersion>14.2</SupportedOSPlatformVersion>
-        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)'==''">iossimulator-x64</RuntimeIdentifier>
       </PropertyGroup>
     </When>
     <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'macos'">
       <PropertyGroup>
         <SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
-        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)'==''">osx-x64</RuntimeIdentifier>
       </PropertyGroup>
     </When>
     <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
       <PropertyGroup>
         <SupportedOSPlatformVersion>14.0</SupportedOSPlatformVersion>
-        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)'==''">maccatalyst-x64</RuntimeIdentifier>
       </PropertyGroup>
     </When>
     <When Condition="$(TargetFramework.Contains('windows10'))">
