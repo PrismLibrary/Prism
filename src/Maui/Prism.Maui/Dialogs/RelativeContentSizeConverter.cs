@@ -28,6 +28,9 @@ internal class RelativeContentSizeConverter : IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var pageSize = double.Parse(value.ToString());
+        if (pageSize < 0)
+            return pageSize;
+
         return RelativeSize * pageSize;
     }
 
