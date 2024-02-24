@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +8,7 @@ namespace Prism.Common;
 /// <summary>
 /// Provides a wrapper for managing multicast delegates for handling specific errors
 /// </summary>
-public struct MulticastExceptionHandler
+public readonly struct MulticastExceptionHandler
 {
     private readonly Dictionary<Type, MulticastDelegate> _handlers;
 
@@ -17,9 +17,14 @@ public struct MulticastExceptionHandler
     /// </summary>
     public MulticastExceptionHandler()
     {
-        _handlers = new Dictionary<Type, MulticastDelegate>();
+        _handlers = [];
     }
 
+    /// <summary>
+    /// Registers a callback to handle the specified exception
+    /// </summary>
+    /// <typeparam name="TException">The <see cref="Exception"/> type.</typeparam>
+    /// <param name="callback">The callback to invoke for the given <see cref="Exception"/> type.</param>
     public void Register<TException>(MulticastDelegate callback)
         where TException : Exception
     {
@@ -42,6 +47,13 @@ public struct MulticastExceptionHandler
     public async void Handle(Exception exception, object? parameter = null) =>
         await HandleAsync(exception, parameter);
 
+    /// <summary>
+    /// Handles a specified <see cref="Exception"/> asynchronously with a given optional parameter
+    /// </summary>
+    /// <param name="exception">The <see cref="Exception"/> encountered.</param>
+    /// <param name="parameter">An optional parameter which may be passed to a registered callback delegate.</param>
+    /// <returns>An asynchronus Task.</returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task HandleAsync(Exception exception, object? parameter = null)
     {
         var multicastDelegate = GetDelegate(exception.GetType());

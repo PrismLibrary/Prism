@@ -1,12 +1,15 @@
 ﻿using System.ComponentModel;
 using Prism.Common;
 using Prism.Extensions;
-using PropertyChangingEventArgs = Microsoft.Maui.Controls.PropertyChangingEventArgs;
 
 namespace Prism.Behaviors;
 
+/// <summary>
+/// Provides activation and deactivation for <see cref="IActiveAware"/> ViewModels that may be set as the CurrentPage.
+/// </summary>
 public class NavigationPageActiveAwareBehavior : BehaviorBase<NavigationPage>
 {
+    /// <inheritDoc/>
     protected override void OnAttachedTo(NavigationPage bindable)
     {
         bindable.PropertyChanged += NavigationPage_PropertyChanged;
@@ -21,6 +24,7 @@ public class NavigationPageActiveAwareBehavior : BehaviorBase<NavigationPage>
         SetActiveAware();
     }
 
+    /// <inheritDoc/>
     protected override void OnDetachingFrom(NavigationPage bindable)
     {
         bindable.PropertyChanged -= NavigationPage_PropertyChanged;

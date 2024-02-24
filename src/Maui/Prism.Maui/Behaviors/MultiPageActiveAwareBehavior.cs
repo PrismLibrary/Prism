@@ -3,6 +3,10 @@ using Prism.Extensions;
 
 namespace Prism.Behaviors;
 
+/// <summary>
+/// Provides behaviors for types of <see cref="MultiPage{T}"/>
+/// </summary>
+/// <typeparam name="T">The typeof <see cref="Page"/>.</typeparam>
 public class MultiPageActiveAwareBehavior<T> : BehaviorBase<MultiPage<T>> where T : Page
 {
     /// <inheritDoc/>

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Prism.Navigation.Regions
 {
     /// <summary>
-    /// Exception that's thrown when something goes wrong while Registering a View with a region name in the <see cref="RegionViewRegistry"/> class.
+    /// Exception that's thrown when something goes wrong while Registering a View with a region name in the <see cref="IRegionViewRegistry"/> class.
     /// </summary>
     [Serializable]
     public partial class ViewRegistrationException : Exception
