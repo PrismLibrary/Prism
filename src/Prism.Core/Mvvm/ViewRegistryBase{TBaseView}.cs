@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -6,24 +6,50 @@ using Prism.Ioc;
 
 namespace Prism.Mvvm;
 
+/// <summary>
+/// Base class for registering and creating views based on a specified view type.
+/// </summary>
+/// <typeparam name="TBaseView">The base type of all view classes managed by this registry.</typeparam>
 public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
     where TBaseView : class
 {
     private readonly IEnumerable<ViewRegistration> _registrations;
     private readonly ViewType _registryType;
 
+    /// <summary>
+    /// Initializes a new instance of the ViewRegistryBase class.
+    /// </summary>
+    /// <param name="registryType">The type of view this registry manages (Page, Region, or Dialog).</param>
+    /// <param name="registrations">The collection of view registrations.</param>
     protected ViewRegistryBase(ViewType registryType, IEnumerable<ViewRegistration> registrations)
     {
         _registrations = registrations;
         _registryType = registryType;
     }
 
+    /// <summary>
+    /// Gets a read-only collection of registered views filtered by the current registry type.
+    /// </summary>
     public IEnumerable<ViewRegistration> Registrations => 
         _registrations.Where(x => x.Type == _registryType);
 
+    /// <summary>
+    /// Gets the view type associated with the specified name, or null if not found.
+    /// </summary>
+    /// <param name="name">The name of the view to retrieve.</param>
+    /// <returns>The type of the view, or null if not found.</returns>
     public Type GetViewType(string name) =>
         GetRegistration(name)?.View;
 
+    /// <summary>
+    /// Creates an instance of the specified view using the provided container.
+    /// </summary>
+    /// <param name="container">The container used to resolve dependencies.</param>
+    /// <param name="name">The name of the view to create.</param>
+    /// <returns>An instance of the created view.</returns>
+    /// <exception cref="KeyNotFoundException">Thrown if the specified view is not registered.</exception>
+    /// <exception cref="ViewModelCreationException">Thrown if an error occurs while creating the view model.</exception>
+    /// <exception cref="ViewCreationException">Thrown if an error occurs while creating the view.</exception>
     public object CreateView(IContainerProvider container, string name)
     {
         try
@@ -73,27 +99,27 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
 
         names = names.Where(x => !x.EndsWith("PagePage")).ToList();
 
-        var namespaces = _registryType switch
+        string[] namespaces = _registryType switch
         {
-            ViewType.Page => new[]
-            {
+            ViewType.Page =>
+            [
                 viewModelType.Namespace.Replace("ViewModels", "Views"),
                 viewModelType.Namespace.Replace("ViewModels", "Pages")
-            },
-            ViewType.Region => new[]
-            {
+            ],
+            ViewType.Region =>
+            [
                 viewModelType.Namespace.Replace("ViewModels", "Views"),
                 viewModelType.Namespace.Replace("ViewModels", "Regions")
-            },
-            ViewType.Dialog => new[]
-            {
+            ],
+            ViewType.Dialog =>
+            [
                 viewModelType.Namespace.Replace("ViewModels", "Views"),
                 viewModelType.Namespace.Replace("ViewModels", "Dialogs")
-            },
-            _ => new[]
-            {
+            ],
+            _ =>
+            [
                 viewModelType.Namespace.Replace("ViewModels", "Views"),
-            }
+            ]
         };
 
         var candidates = namespaces.Select(@namespace => names.Select(name => $"{@namespace}.{name}"))
@@ -104,6 +130,12 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
             .Where(x => x is not null);
     }
 
+    /// <summary>
+    /// Gets the navigation key associated with the specified view model type, or throws an exception if not found.
+    /// </summary>
+    /// <param name="viewModelType">The type of the view model.</param>
+    /// <returns>The navigation key for the view associated with the view model.</returns>
+    /// <exception cref="KeyNotFoundException">Thrown if no view is registered for the specified view model.</exception>
     public string GetViewModelNavigationKey(Type viewModelType)
     {
         var registration = Registrations.LastOrDefault(x => x.ViewModel == viewModelType);
@@ -120,15 +152,35 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
         throw new KeyNotFoundException($"No View with the ViewModel '{viewModelType.Name}' has been registered");
     }
 
+    /// <summary>
+    /// Gets a collection of registered views that inherit from or implement the specified base type.
+    /// </summary>
+    /// <param name="baseType">The base type to filter by.</param>
+    /// <returns>A collection of matching view registrations.</returns>
     public IEnumerable<ViewRegistration> ViewsOfType(Type baseType) =>
         Registrations.Where(x => x.View == baseType || baseType.IsAssignableFrom(x.View));
 
+    /// <summary>
+    /// Checks if a view is registered with the specified name.
+    /// </summary>
+    /// <param name="name">The name of the view to check.</param>
+    /// <returns>True if the view is registered, false otherwise.</returns>
     public bool IsRegistered(string name) =>
         GetRegistration(name) is not null;
 
+    /// <summary>
+    /// Gets the registration information for a view with the specified name, or null if not found.
+    /// </summary>
+    /// <param name="name">The name of the view to look up.</param>
+    /// <returns>The view registration object, or null if not found.</returns>
     protected ViewRegistration GetRegistration(string name) =>
         Registrations.LastOrDefault(x => x.Name == name);
 
+    /// <summary>
+    /// Allows subclasses to perform custom configuration on the created view instance.
+    /// </summary>
+    /// <param name="view">The created view instance.</param>
+    /// <param name="container">The container used to resolve dependencies.</param>
     protected abstract void ConfigureView(TBaseView view, IContainerProvider container);
 
     /// <summary>
@@ -157,15 +209,4 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
     /// <param name="view"></param>
     /// <param name="container"></param>
     protected abstract void SetContainerProvider(TBaseView view, IContainerProvider container);
-
-    //public static Type GetPageType(string name)
-    //{
-    //    var registrations = _registrations.Where(x => x.Name == name);
-    //    if (!registrations.Any())
-    //        throw new KeyNotFoundException(name);
-    //    if (registrations.Count() > 1)
-    //        throw new InvalidOperationException(string.Format(Resources.MultipleViewsRegisteredForNavigationKey, name, string.Join(", ", registrations.Select(x => x.View.FullName))));
-
-    //    return registrations.First().View;
-    //}
 }

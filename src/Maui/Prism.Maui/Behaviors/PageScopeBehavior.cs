@@ -7,6 +7,7 @@ namespace Prism.Behaviors;
 /// </summary>
 public sealed class PageScopeBehavior : BehaviorBase<Page>
 {
+    /// <inheritdoc />
     protected override void OnAttachedTo(Page page)
     {
         base.OnAttachedTo(page);
@@ -14,6 +15,7 @@ public sealed class PageScopeBehavior : BehaviorBase<Page>
         Navigation.Xaml.Navigation.GetNavigationService(page);
     }
 
+    /// <inheritdoc />
     protected override void OnDetachingFrom(Page page)
     {
         base.OnDetachingFrom(page);

@@ -3,8 +3,12 @@ using Prism.Common;
 
 namespace Prism.Behaviors;
 
+/// <summary>
+/// Provides lifecycle events for <see cref="Page"/> and <see cref="IPageLifecycleAware"/> ViewModels.
+/// </summary>
 public class PageLifeCycleAwareBehavior : BehaviorBase<Page>
 {
+    /// <inheritdoc />
     protected override void OnAttachedTo(Page bindable)
     {
         base.OnAttachedTo(bindable);
@@ -12,6 +16,7 @@ public class PageLifeCycleAwareBehavior : BehaviorBase<Page>
         bindable.Disappearing += OnDisappearing;
     }
 
+    /// <inheritdoc />
     protected override void OnDetachingFrom(Page bindable)
     {
         base.OnDetachingFrom(bindable);
