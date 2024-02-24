@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
     <NoWarn>$(NoWarn);1591</NoWarn>
@@ -22,15 +22,10 @@ Prism provides an implementation of a collection of design patterns that are hel
 
   <ItemGroup>
     <Using Include="Microsoft.Extensions.DependencyInjection" />
-    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
-    <Compile Update="**\*.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <None Include="build\*.targets" Pack="true" PackagePath="buildTransitive" />
-    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
 
   <ItemGroup>

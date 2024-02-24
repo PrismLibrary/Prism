@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
@@ -27,15 +27,6 @@
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.Contains('windows10'))">
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" />
-  </ItemGroup>
-  <ItemGroup Condition="!$(TargetFramework.Contains('windows10'))">
-    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
-    <Compile Update="**\*.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Wpf\Prism.Wpf\**\*.cs" Exclude="..\..\Wpf\Prism.Wpf\bin\**\*.cs;..\..\Wpf\Prism.Wpf\obj\**\*.cs" />
@@ -74,10 +65,5 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Dialogs\DialogWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
 </Project>
