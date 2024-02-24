@@ -99,27 +99,27 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
 
         names = names.Where(x => !x.EndsWith("PagePage")).ToList();
 
-        var namespaces = _registryType switch
+        string[] namespaces = _registryType switch
         {
-            ViewType.Page => new[]
-            {
+            ViewType.Page =>
+            [
                 viewModelType.Namespace.Replace("ViewModels", "Views"),
                 viewModelType.Namespace.Replace("ViewModels", "Pages")
-            },
-            ViewType.Region => new[]
-            {
+            ],
+            ViewType.Region =>
+            [
                 viewModelType.Namespace.Replace("ViewModels", "Views"),
                 viewModelType.Namespace.Replace("ViewModels", "Regions")
-            },
-            ViewType.Dialog => new[]
-            {
+            ],
+            ViewType.Dialog =>
+            [
                 viewModelType.Namespace.Replace("ViewModels", "Views"),
                 viewModelType.Namespace.Replace("ViewModels", "Dialogs")
-            },
-            _ => new[]
-            {
+            ],
+            _ =>
+            [
                 viewModelType.Namespace.Replace("ViewModels", "Views"),
-            }
+            ]
         };
 
         var candidates = namespaces.Select(@namespace => names.Select(name => $"{@namespace}.{name}"))
@@ -209,15 +209,4 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
     /// <param name="view"></param>
     /// <param name="container"></param>
     protected abstract void SetContainerProvider(TBaseView view, IContainerProvider container);
-
-    //public static Type GetPageType(string name)
-    //{
-    //    var registrations = _registrations.Where(x => x.Name == name);
-    //    if (!registrations.Any())
-    //        throw new KeyNotFoundException(name);
-    //    if (registrations.Count() > 1)
-    //        throw new InvalidOperationException(string.Format(Resources.MultipleViewsRegisteredForNavigationKey, name, string.Join(", ", registrations.Select(x => x.View.FullName))));
-
-    //    return registrations.First().View;
-    //}
 }

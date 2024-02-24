@@ -133,11 +133,8 @@ public static class DialogLayout
     /// <returns>True if a mask is used for the dialog, false if not, or null if not explicitly set.</returns>
     public static bool? GetUseMask(BindableObject bindable)
     {
-        var value = bindable.GetValue(UseMaskProperty);
-        if (value is bool boolean)
-            return boolean;
-
-        return true; // Default to using a mask if not explicitly set
+        // Default to using a mask if not explicitly set
+        return bindable.GetValue(UseMaskProperty) is bool boolean ? boolean : true;
     }
 
     /// <summary>

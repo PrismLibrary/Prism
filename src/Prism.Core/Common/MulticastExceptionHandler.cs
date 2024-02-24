@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -62,17 +62,15 @@ public readonly struct MulticastExceptionHandler
             return;
 
         // Get Invoke() method of the delegate
-        var invokeMethod = multicastDelegate.GetType().GetMethod("Invoke");
-
-        if (invokeMethod == null)
-            throw new InvalidOperationException($"Could not find Invoke() method for delegate of type {multicastDelegate.GetType().Name}");
+        var invokeMethod = multicastDelegate.GetType().GetMethod("Invoke")
+            ?? throw new InvalidOperationException($"Could not find Invoke() method for delegate of type {multicastDelegate.GetType().Name}");
 
         var parameters = invokeMethod.GetParameters();
         var arguments = parameters.Length switch
         {
             0 => Array.Empty<object?>(),
-            1 => typeof(Exception).IsAssignableFrom(parameters[0].ParameterType) ? new object?[] { exception } : new object?[] { parameter },
-            2 => typeof(Exception).IsAssignableFrom(parameters[0].ParameterType) ? new object?[] { exception, parameter } : new object?[] { parameter, exception },
+            1 => typeof(Exception).IsAssignableFrom(parameters[0].ParameterType) ? [exception] : [parameter],
+            2 => typeof(Exception).IsAssignableFrom(parameters[0].ParameterType) ? [exception, parameter] : [parameter, exception],
             _ => throw new InvalidOperationException($"Handler of type {multicastDelegate.GetType().Name} is not supported", exception)
         };
 
