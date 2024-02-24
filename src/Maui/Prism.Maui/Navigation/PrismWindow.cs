@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using Prism.AppModel;
 using Prism.Common;
 using Prism.Dialogs;
@@ -79,8 +79,17 @@ internal class PrismWindow : Window
         if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
         {
             e.Cancel = true;
-            var navService = Xaml.Navigation.GetNavigationService(e.Modal);
-            await navService.GoBackAsync();
+            var dialogModal = IDialogContainer.DialogStack.LastOrDefault();
+            if (dialogModal is not null)
+            {
+                if (dialogModal.Dismiss.CanExecute(null))
+                    dialogModal.Dismiss.Execute(null);
+            }
+            else
+            {
+                var navService = Xaml.Navigation.GetNavigationService(e.Modal);
+                await navService.GoBackAsync();
+            }
         }
     }
 
