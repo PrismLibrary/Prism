@@ -1,18 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
     <TargetFramework>$(DotNetVersion)</TargetFramework>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
-  <ItemGroup Condition="exists('Platforms\Windows')">
-    <EmbeddedResource Include="Platforms\Windows\Package.appxmanifest" LogicalName="Package.appxmanifest" />
+  <ItemGroup>
+    <EmbeddedResource Include="Package.appxmanifest" />
+    <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Uno.WinUI.Skia.Gtk" />
     <PackageReference Include="SkiaSharp.Views.Uno.WinUI" />
     <PackageReference Include="SkiaSharp.Skottie" />
-    <PackageReference Include="Uno.WinUI.Skia.Gtk" />
-    <PackageReference Include="Uno.WinUI.DevServer" />
+    <PackageReference Include="Uno.WinUI.DevServer" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
     <PackageReference Include="Uno.Material.WinUI" />
     <PackageReference Include="Uno.Toolkit.WinUI.Material" />
@@ -24,5 +26,11 @@
   <ItemGroup>
     <ProjectReference Include="..\HelloWorld\HelloWorld.csproj" />
   </ItemGroup>
-  <Import Project="..\HelloWorld.Base\base.props" />
+  <Import Project="..\HelloWorld.Shared\base.props" />
+
+  <Target Name="ValidateOverrides" BeforeTargets="Restore;_CheckForUnsupportedTargetFramework" Condition="'$(OverrideTargetFramework)' != ''">
+    <Error
+        Text="OverrideTargetFramework set to '$(OverrideTargetFramework)' is invalid. Set OverrideTargetFramework to $([MSBuild]::Escape('$'))(DotNetVersion) or skip building this project (eg unload the project in Visual Studio)"
+        Condition="'$(OverrideTargetFramework)'!='$(DotNetVersion)'" />
+  </Target>
 </Project>

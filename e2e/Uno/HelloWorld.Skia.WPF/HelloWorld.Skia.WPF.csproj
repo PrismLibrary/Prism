@@ -36,5 +36,5 @@
   <ItemGroup>
     <ProjectReference Include="..\HelloWorld\HelloWorld.csproj" />
   </ItemGroup>
-  <Import Project="..\HelloWorld.Base\base.props" />
+  <Import Project="..\HelloWorld.Shared\base.props" />
 </Project>

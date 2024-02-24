@@ -18,13 +18,14 @@
       "name": "Debug (Chrome, WebAssembly)",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:5000",
+      "url": "http://localhost:5001",
       "webRoot": "${workspaceFolder}/e2e/Uno/HelloWorld.Wasm",
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
       "timeout": 30000,
       "server": {
         "runtimeExecutable": "dotnet",
         "program": "run",
+        "args": ["--no-build"],
         "outputCapture": "std",
         "timeout": 30000,
         "cwd": "${workspaceFolder}/e2e/Uno/HelloWorld.Wasm"
@@ -39,7 +40,7 @@
       "request": "launch",
       "preLaunchTask": "build-skia-gtk",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/e2e/Uno/HelloWorld.Skia.Gtk/bin/Debug/net7.0/HelloWorld.Skia.Gtk.dll",
+      "program": "${workspaceFolder}/e2e/Uno/HelloWorld.Skia.Gtk/bin/Debug/net8.0/HelloWorld.Skia.Gtk.dll",
       "args": [],
       "env": {
         "DOTNET_MODIFIABLE_ASSEMBLIES": "debug"

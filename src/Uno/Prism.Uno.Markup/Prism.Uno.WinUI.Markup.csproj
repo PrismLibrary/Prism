@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>

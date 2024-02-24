@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/HelloWorld.Wasm/HelloWorld.Wasm.csproj",
+        "${workspaceFolder}/e2e/Uno/HelloWorld.Wasm/HelloWorld.Wasm.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -19,7 +19,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/HelloWorld.Wasm/HelloWorld.Wasm.csproj",
+        "${workspaceFolder}/e2e/Uno/HelloWorld.Wasm/HelloWorld.Wasm.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -31,7 +31,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/HelloWorld.Skia.Gtk/HelloWorld.Skia.Gtk.csproj",
+        "${workspaceFolder}/e2e/Uno/HelloWorld.Skia.Gtk/HelloWorld.Skia.Gtk.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -43,7 +43,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/HelloWorld.Skia.Gtk/HelloWorld.Skia.Gtk.csproj",
+        "${workspaceFolder}/e2e/Uno/HelloWorld.Skia.Gtk/HelloWorld.Skia.Gtk.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
