@@ -46,6 +46,9 @@ public sealed class PrismAppBuilder
             return $"View is not a BindableObject: '{view.GetType().FullName}";
         });
 
+        // Ensure that the DialogStack is cleared when the Application is started.
+        // This is primarily to help with Unit Tests
+        IDialogContainer.DialogStack.Clear();
         MauiBuilder = builder;
         MauiBuilder.ConfigureContainer(new PrismServiceProviderFactory(RegistrationCallback));
         MauiBuilder.ConfigureLifecycleEvents(lifecycle =>
@@ -55,6 +58,15 @@ public sealed class PrismAppBuilder
             {
                 android.OnBackPressed(activity =>
                 {
+                    var dialogModal = IDialogContainer.DialogStack.LastOrDefault();
+                    if (dialogModal is not null)
+                    {
+                        if (dialogModal.Dismiss.CanExecute(null))
+                            dialogModal.Dismiss.Execute(null);
+
+                        return true;
+                    }
+
                     var root = ContainerLocator.Container;
                     if (root is null)
                         return false;

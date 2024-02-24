@@ -1,4 +1,4 @@
-﻿using Prism.Commands;
+using Prism.Commands;
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Navigation;
@@ -29,6 +29,7 @@ public sealed class DialogService : IDialogService
     /// <inheritdoc/>
     public void ShowDialog(string name, IDialogParameters parameters, DialogCallback callback)
     {
+        IDialogContainer? dialogModal = null;
         try
         {
             parameters = UriParsingHelper.GetSegmentParameters(name, parameters ?? new DialogParameters());
@@ -39,16 +40,19 @@ public sealed class DialogService : IDialogService
             var view = registry.CreateView(_container, UriParsingHelper.GetSegmentName(name)) as View;
 
             var currentPage = _pageAccessor.Page;
-            var dialogModal = _container.Resolve<IDialogContainer>();
+            dialogModal = _container.Resolve<IDialogContainer>();
+            IDialogContainer.DialogStack.Add(dialogModal);
             var dialogAware = GetDialogController(view);
 
             async Task DialogAware_RequestClose(IDialogResult outResult)
             {
+                bool didCloseDialog = true;
                 try
                 {
                     var result = await CloseDialogAsync(outResult ?? new DialogResult(), currentPage, dialogModal);
                     if (result.Exception is DialogException de && de.Message == DialogException.CanCloseIsFalse)
                     {
+                        didCloseDialog = false;
                         return;
                     }
 
@@ -57,6 +61,12 @@ public sealed class DialogService : IDialogService
                 }
                 catch (DialogException dex)
                 {
+                    if (dex.Message == DialogException.CanCloseIsFalse)
+                    {
+                        didCloseDialog = false;
+                        return;
+                    }
+
                     var result = new DialogResult
                     {
                         Exception = dex,
@@ -72,6 +82,13 @@ public sealed class DialogService : IDialogService
                 catch (Exception ex)
                 {
                     await InvokeError(callback, ex, parameters);
+                }
+                finally
+                {
+                    if (didCloseDialog && dialogModal is not null)
+                    {
+                        IDialogContainer.DialogStack.Remove(dialogModal);
+                    }
                 }
             }
 
