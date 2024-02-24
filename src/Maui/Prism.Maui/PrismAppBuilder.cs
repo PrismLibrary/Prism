@@ -72,14 +72,14 @@ public sealed class PrismAppBuilder
                         return false;
 
                     var app = root.Resolve<IApplication>();
-                    var windows = app.Windows.OfType<PrismWindow>();
-                    if (!windows.Any(x => x.IsActive))
+                    var window = app.Windows.OfType<PrismWindow>()
+                        .FirstOrDefault(x => x.IsActive);
+
+                    if (window is null)
                         return false;
 
-                    var window = windows.First(x => x.IsActive);
-                    if(window.IsRootPage && app is Application application)
+                    if(window.IsRootPage)
                     {
-                        application.Quit();
                         return false;
                     }
 
