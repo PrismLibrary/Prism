@@ -1,7 +1,8 @@
-﻿using Prism.Common;
+using Prism.Common;
 
 namespace Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
 
+#pragma warning disable CS0067 // The event is never used because this is a Mock
 public abstract class MockViewModelBase : IActiveAware, INavigationAware, IConfirmNavigation
 {
     private readonly IPageAccessor _pageAccessor;
@@ -49,3 +50,4 @@ public abstract class MockViewModelBase : IActiveAware, INavigationAware, IConfi
             Message = message;
     }
 }
+#pragma warning restore CS0067 // The event is never used because this is a Mock
