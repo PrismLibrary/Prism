@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace Prism.Common
     {
 #if HAS_WINUI
         /// <summary>
-        /// Sets the AutoWireViewModel property to true for the <paramref name="viewOrViewModel"/>.
+        /// Sets the AutowireViewModel property to true for the <paramref name="viewOrViewModel"/>.
         /// </summary>
         /// <remarks>
         /// The AutoWireViewModel property will only be set to true if the view

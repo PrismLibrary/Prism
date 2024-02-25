@@ -232,11 +232,7 @@ namespace Prism.Navigation.Regions
 
         private static bool IsInDesignMode(DependencyObject element)
         {
-#if HAS_WINUI
-            return Windows.ApplicationModel.DesignMode.DesignModeEnabled;
-#else
             return DesignerProperties.GetIsInDesignMode(element);
-#endif
         }
 
         #endregion

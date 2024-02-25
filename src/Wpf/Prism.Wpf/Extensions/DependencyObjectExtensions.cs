@@ -12,11 +12,7 @@ namespace Prism
         /// <param name="instance">The to use to search for the property</param>
         /// <param name="property">The property to search</param>
         /// <returns><c>true</c> if there is an active binding, otherwise <c>false</c></returns>
-        public static bool HasBinding(this FrameworkElement instance, DependencyProperty property)
-#if HAS_WINUI
-            => instance.GetBindingExpression(property) != null;
-#else
-            => BindingOperations.GetBinding(instance, property) != null;
-#endif
+        public static bool HasBinding(this FrameworkElement instance, DependencyProperty property) =>
+            BindingOperations.GetBinding(instance, property) is not null;
     }
 }

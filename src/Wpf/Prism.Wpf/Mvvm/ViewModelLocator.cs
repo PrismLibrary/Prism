@@ -40,9 +40,7 @@ namespace Prism.Mvvm
 
         private static void AutoWireViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-#if !HAS_WINUI
             if (!DesignerProperties.GetIsInDesignMode(d))
-#endif
             {
                 var value = (bool?)e.NewValue;
                 if (value.HasValue && value.Value)
