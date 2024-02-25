@@ -1,14 +1,6 @@
 using System;
 using System.Windows.Input;
 
-#if HAS_WINUI
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-#else
-using System.Windows;
-using System.Windows.Controls;
-#endif
-
 namespace Prism.Interactivity
 {
     /// <summary>

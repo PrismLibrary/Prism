@@ -54,9 +54,30 @@
     <MSBuildSdkExtrasVersion>3.0.44</MSBuildSdkExtrasVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(IsUnoProject)">
-    <DefineConstants>$(DefineConstants);UNO_WINUI_PROJECT</DefineConstants>
-  </PropertyGroup>
+  <!--
+    -->
+  <Choose>
+    <When Condition="$(IsWpfProject)">
+      <ItemGroup>
+        <Using Include="System.Windows" />
+        <Using Include="System.Windows.Controls" />
+        <Using Include="System.Windows.Controls.Primitives" />
+        <Using Include="System.Windows.Data" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(IsUnoProject)">
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);UNO_WINUI_PROJECT</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Using Include="Microsoft.UI.Xaml" />
+        <Using Include="Microsoft.UI.Xaml.Controls" />
+        <Using Include="Microsoft.UI.Xaml.Controls.Primitives" />
+        <Using Include="Microsoft.UI.Xaml.Data" />
+        <Using Include="Microsoft.UI.Xaml.Media" />
+      </ItemGroup>
+    </When>
+  </Choose>
 
   <!-- Versioning -->
   <PropertyGroup>

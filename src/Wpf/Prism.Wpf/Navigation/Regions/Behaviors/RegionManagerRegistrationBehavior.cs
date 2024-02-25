@@ -2,13 +2,6 @@ using System;
 using System.ComponentModel;
 using Prism.Properties;
 
-#if HAS_WINUI
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
-#else
-using System.Windows;
-#endif
-
 namespace Prism.Navigation.Regions.Behaviors
 {
     /// <summary>

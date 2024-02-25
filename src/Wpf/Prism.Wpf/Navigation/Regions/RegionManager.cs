@@ -14,13 +14,6 @@ using Prism.Properties;
 using Prism.Navigation.Regions.Behaviors;
 using Prism.Ioc.Internals;
 
-#if HAS_WINUI
-using Microsoft.UI.Xaml;
-#else
-using System.Windows;
-#endif
-
-
 namespace Prism.Navigation.Regions
 {
     /// <summary>

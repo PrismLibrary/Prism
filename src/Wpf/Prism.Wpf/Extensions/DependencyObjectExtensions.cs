@@ -2,14 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-#if HAS_WINUI
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Data;
-#else
-using System.Windows;
-using System.Windows.Data;
-#endif
-
 namespace Prism
 {
     internal static partial class DependencyObjectExtensions

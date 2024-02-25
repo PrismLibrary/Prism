@@ -6,14 +6,6 @@ using Prism.Navigation.Regions;
 using Prism.Navigation.Regions.Behaviors;
 using Prism.Dialogs;
 
-#if HAS_WINUI
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-#else
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-#endif
-
 namespace Prism
 {
     internal static class PrismInitializationExtensions
