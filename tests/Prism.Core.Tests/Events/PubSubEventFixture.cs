@@ -575,7 +575,7 @@ namespace Prism.Tests.Events
             Action<string> action = delegate { };
             var token = PubSubEvent.Subscribe(action, true);
 
-            Assert.Equal(1, PubSubEvent.BaseSubscriptions.Count);
+            Assert.Single(PubSubEvent.BaseSubscriptions);
             Assert.Equal(typeof(EventSubscription<string>), PubSubEvent.BaseSubscriptions.ElementAt(0).GetType());
         }
 
@@ -586,7 +586,7 @@ namespace Prism.Tests.Events
             Action action = delegate { };
             var token = pubSubEvent.Subscribe(action, true);
 
-            Assert.Equal(1, pubSubEvent.BaseSubscriptions.Count);
+            Assert.Single(pubSubEvent.BaseSubscriptions);
             Assert.Equal(typeof(EventSubscription), pubSubEvent.BaseSubscriptions.ElementAt(0).GetType());
         }
 
