@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 using Prism.Common;
 
 namespace Prism.Navigation.Regions.Behaviors;
@@ -11,7 +11,7 @@ namespace Prism.Navigation.Regions.Behaviors;
 /// </summary>
 /// <remarks>
 /// This class can also sync the active state for any scoped regions directly on the view based on the <see cref="SyncActiveStateAttribute"/>.
-/// If you use the <see cref="Regions.Region.Add(VisualElement,string,bool)" /> method with the createRegionManagerScope option, the scoped manager will be attached to the view.
+/// If you use the <see cref="Regions.Region.Add(object,string,bool)" /> method with the createRegionManagerScope option, the scoped manager will be attached to the view.
 /// </remarks>
 public class RegionActiveAwareBehavior : IRegionBehavior
 {

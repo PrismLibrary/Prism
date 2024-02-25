@@ -1,5 +1,6 @@
-﻿#if !HAS_UNO_WINUI && !HAS_WINUI
+﻿#if WPF
 
+// NOTE: This is for Legacy support for WPF apps only
 namespace Prism.Navigation.Regions
 {
     /// <summary>

@@ -8,7 +8,7 @@ namespace Prism.Ioc;
 /// </summary>
 public static class MicrosoftDependencyInjectionExtensions
 {
-#if !UNO_WINUI_PROJECT
+#if !UNO_WINUI
     private static readonly Type PageType = typeof(Page);
 
     public static IServiceCollection RegisterForNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView>(this IServiceCollection services, string name = null)

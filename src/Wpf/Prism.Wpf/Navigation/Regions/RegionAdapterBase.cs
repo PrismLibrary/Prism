@@ -3,13 +3,6 @@ using Prism.Navigation.Regions.Behaviors;
 using System;
 using System.Globalization;
 
-#if HAS_WINUI
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Data;
-#else
-using System.Windows;
-#endif
-
 namespace Prism.Navigation.Regions
 {
     /// <summary>

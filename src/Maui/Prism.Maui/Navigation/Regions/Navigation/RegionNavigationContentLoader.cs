@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Mvvm;
@@ -27,11 +27,8 @@ public class RegionNavigationContentLoader : IRegionNavigationContentLoader
     /// <exception cref="ArgumentException">when a new view cannot be created for the navigation request.</exception>
     public object LoadContent(IRegion region, NavigationContext navigationContext)
     {
-        if (region == null)
-            throw new ArgumentNullException(nameof(region));
-
-        if (navigationContext == null)
-            throw new ArgumentNullException(nameof(navigationContext));
+        ArgumentNullException.ThrowIfNull(region);
+        ArgumentNullException.ThrowIfNull(navigationContext);
 
         string candidateTargetContract = GetContractFromNavigationContext(navigationContext);
 
@@ -58,6 +55,7 @@ public class RegionNavigationContentLoader : IRegionNavigationContentLoader
     /// Provides a new item for the region based on the supplied candidate target contract name.
     /// </summary>
     /// <param name="candidateTargetContract">The target contract to build.</param>
+    /// <param name="region">The <see cref="IRegion"/> to create the new Region Item in.</param>
     /// <returns>An instance of an item to put into the <see cref="IRegion"/>.</returns>
     protected virtual object CreateNewRegionItem(string candidateTargetContract, IRegion region)
     {
@@ -89,7 +87,7 @@ public class RegionNavigationContentLoader : IRegionNavigationContentLoader
     /// <returns>The candidate contract to seek within the <see cref="IRegion"/> and to use, if not found, when resolving from the container.</returns>
     protected virtual string GetContractFromNavigationContext(NavigationContext navigationContext)
     {
-        if (navigationContext == null) throw new ArgumentNullException(nameof(navigationContext));
+        ArgumentNullException.ThrowIfNull(navigationContext);
 
         var candidateTargetContract = UriParsingHelper.EnsureAbsolute(navigationContext.Uri).AbsolutePath;
         candidateTargetContract = candidateTargetContract.TrimStart('/');
@@ -104,17 +102,14 @@ public class RegionNavigationContentLoader : IRegionNavigationContentLoader
     /// <returns>An enumerable of candidate objects from the <see cref="IRegion"/></returns>
     protected virtual IEnumerable<VisualElement> GetCandidatesFromRegion(IRegion region, string candidateNavigationContract)
     {
-        if (region is null)
-        {
-            throw new ArgumentNullException(nameof(region));
-        }
+        ArgumentNullException.ThrowIfNull(region);
 
         if (string.IsNullOrEmpty(candidateNavigationContract))
         {
             throw new ArgumentNullException(nameof(candidateNavigationContract));
         }
 
-        var contractCandidates = GetCandidatesFromRegionViews(region, candidateNavigationContract);
+        var contractCandidates = RegionNavigationContentLoader.GetCandidatesFromRegionViews(region, candidateNavigationContract);
 
         if (!contractCandidates.Any())
         {
@@ -122,16 +117,16 @@ public class RegionNavigationContentLoader : IRegionNavigationContentLoader
             var registration = registry.Registrations.FirstOrDefault(x => x.Type == ViewType.Region && (x.Name == candidateNavigationContract || x.View.Name == candidateNavigationContract || x.View.FullName == candidateNavigationContract));
             if (registration is null)
             {
-                GetCandidatesFromRegionViews(region, registration.View.FullName);
+                RegionNavigationContentLoader.GetCandidatesFromRegionViews(region, registration.View.FullName);
             }
 
-            return Array.Empty<VisualElement>();
+            return [];
         }
 
         return contractCandidates;
     }
 
-    private IEnumerable<VisualElement> GetCandidatesFromRegionViews(IRegion region, string candidateNavigationContract)
+    private static IEnumerable<VisualElement> GetCandidatesFromRegionViews(IRegion region, string candidateNavigationContract)
     {
         return region.Views.OfType<VisualElement>().Where(v => ViewIsMatch(v.GetType(), candidateNavigationContract));
     }

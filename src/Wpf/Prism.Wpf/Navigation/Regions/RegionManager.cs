@@ -14,13 +14,6 @@ using Prism.Properties;
 using Prism.Navigation.Regions.Behaviors;
 using Prism.Ioc.Internals;
 
-#if HAS_WINUI
-using Microsoft.UI.Xaml;
-#else
-using System.Windows;
-#endif
-
-
 namespace Prism.Navigation.Regions
 {
     /// <summary>
@@ -239,11 +232,7 @@ namespace Prism.Navigation.Regions
 
         private static bool IsInDesignMode(DependencyObject element)
         {
-#if HAS_WINUI
-            return Windows.ApplicationModel.DesignMode.DesignModeEnabled;
-#else
             return DesignerProperties.GetIsInDesignMode(element);
-#endif
         }
 
         #endregion

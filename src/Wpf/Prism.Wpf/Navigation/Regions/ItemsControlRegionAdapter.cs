@@ -1,16 +1,6 @@
 using Prism.Properties;
 using System;
 
-#if HAS_WINUI
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
-#else
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-#endif
-
 namespace Prism.Navigation.Regions
 {
     /// <summary>

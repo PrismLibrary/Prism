@@ -1,14 +1,6 @@
 using System;
 using System.Windows.Input;
 
-#if HAS_WINUI
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-#else
-using System.Windows;
-using System.Windows.Controls;
-#endif
-
 namespace Prism.Interactivity
 {
     /// <summary>
@@ -113,7 +105,7 @@ namespace Prism.Interactivity
             }
             else if (Command != null)
             {
-#if HAS_WINUI
+#if UNO_WINUI
                 if (AutoEnable && TargetObject is Control control)
                     control.IsEnabled = Command.CanExecute(CommandParameter);
 #else

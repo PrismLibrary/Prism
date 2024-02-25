@@ -4,12 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-#if HAS_WINUI
-using Microsoft.UI.Xaml;
-#else
-using System.Windows;
-#endif
-
 namespace Prism.Navigation.Regions.Behaviors
 {
     /// <summary>
@@ -155,7 +149,7 @@ namespace Prism.Navigation.Regions.Behaviors
                 return;
             }
 
-#if !HAS_WINUI
+#if !UNO_WINUI
             FrameworkContentElement fcElement = this.TargetElement as FrameworkContentElement;
             if (fcElement != null)
             {
@@ -184,7 +178,7 @@ namespace Prism.Navigation.Regions.Behaviors
                 return;
             }
 
-#if !HAS_WINUI
+#if !UNO_WINUI
             FrameworkContentElement fcElement = this.TargetElement as FrameworkContentElement;
             if (fcElement != null)
             {

@@ -1,4 +1,4 @@
-﻿using Prism.Common;
+using Prism.Common;
 
 namespace Prism.Navigation;
 
@@ -10,6 +10,7 @@ public static class INavigationServiceExtensions
     /// <summary>
     /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
     /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views</param>
     /// <param name="name">The name of the View to navigate back to</param>
     /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
     public static Task<INavigationResult> GoBackToAsync(this INavigationService navigationService, string name) =>
@@ -52,6 +53,7 @@ public static class INavigationServiceExtensions
     /// <summary>
     /// Initiates navigation to the target specified by the <paramref name="uri"/>.
     /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views</param>
     /// <param name="uri">The Uri to navigate to</param>
     /// <example>
     /// NavigateAsync(new Uri("MainPage?id=3&amp;name=brian", UriKind.RelativeSource));
@@ -78,6 +80,7 @@ public static class INavigationServiceExtensions
     /// <summary>
     /// Initiates navigation to the target specified by the <paramref name="name"/>.
     /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views</param>
     /// <param name="name">The name of the target to navigate to.</param>
     public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, string name) =>
         navigationService.NavigateAsync(name, default(INavigationParameters));
@@ -85,6 +88,7 @@ public static class INavigationServiceExtensions
     /// <summary>
     /// Initiates navigation to the target specified by the <paramref name="name"/>.
     /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views</param>
     /// <param name="name">The name of the target to navigate to.</param>
     /// <param name="parameters">The navigation parameters</param>
     public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, string name, INavigationParameters parameters)

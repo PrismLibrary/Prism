@@ -1,12 +1,4 @@
-
-
 using System.ComponentModel;
-
-#if HAS_WINUI
-using Microsoft.UI.Xaml;
-#else
-using System.Windows;
-#endif
 
 namespace Prism.Common
 {
@@ -25,7 +17,7 @@ namespace Prism.Common
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "This is the pattern for WPF dependency properties")]
         public static readonly DependencyProperty ValueProperty =
-                DependencyProperty.Register("Value", typeof(T), typeof(ObservableObject<T>), new PropertyMetadata(null, ValueChangedCallback));
+                DependencyProperty.Register(nameof(Value), typeof(T), typeof(ObservableObject<T>), new PropertyMetadata(null, ValueChangedCallback));
 
         /// <summary>
         /// Event that gets invoked when the Value property changes.
@@ -38,18 +30,14 @@ namespace Prism.Common
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods")]
         public T Value
         {
-            get { return (T)this.GetValue(ValueProperty); }
-            set { this.SetValue(ValueProperty, value); }
+            get => (T)GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
         }
 
         private static void ValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ObservableObject<T> thisInstance = ((ObservableObject<T>)d);
-            PropertyChangedEventHandler eventHandler = thisInstance.PropertyChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(thisInstance, new PropertyChangedEventArgs("Value"));
-            }
+            thisInstance.PropertyChanged?.Invoke(thisInstance, new PropertyChangedEventArgs(nameof(Value)));
         }
     }
 }

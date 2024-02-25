@@ -1,9 +1,10 @@
 using Prism.Commands;
 using Prism.Common;
-using Prism.Ioc;
-using Prism.Navigation;
 using Prism.Dialogs.Xaml;
+using Prism.Mvvm;
+using Prism.Navigation;
 
+#nullable enable
 namespace Prism.Dialogs;
 
 /// <summary>
@@ -22,8 +23,10 @@ public sealed class DialogService : IDialogService
     /// <exception cref="ArgumentNullException">Throws when any constructor arguments are null.</exception>
     public DialogService(IContainerProvider container, IPageAccessor pageAccessor)
     {
-        _container = container ?? throw new ArgumentNullException(nameof(container));
-        _pageAccessor = pageAccessor ?? throw new ArgumentNullException(nameof(pageAccessor));
+        ArgumentNullException.ThrowIfNull(container);
+        ArgumentNullException.ThrowIfNull(pageAccessor);
+        _container = container;
+        _pageAccessor = pageAccessor;
     }
 
     /// <inheritdoc/>
@@ -37,7 +40,8 @@ public sealed class DialogService : IDialogService
             // This needs to be resolved when called as a Module could load any time
             // and register new dialogs
             var registry = _container.Resolve<IDialogViewRegistry>();
-            var view = registry.CreateView(_container, UriParsingHelper.GetSegmentName(name)) as View;
+            var view = registry.CreateView(_container, UriParsingHelper.GetSegmentName(name)) as View 
+                ?? throw new ViewCreationException(name, ViewType.Dialog);
 
             var currentPage = _pageAccessor.Page;
             dialogModal = _container.Resolve<IDialogContainer>();
@@ -76,12 +80,12 @@ public sealed class DialogService : IDialogService
 
                     if (dex.Message != DialogException.CanCloseIsFalse)
                     {
-                        await InvokeError(callback, dex, parameters);
+                        await DialogService.InvokeError(callback, dex, parameters);
                     }
                 }
                 catch (Exception ex)
                 {
-                    await InvokeError(callback, ex, parameters);
+                    await DialogService.InvokeError(callback, ex, parameters);
                 }
                 finally
                 {
@@ -120,7 +124,7 @@ public sealed class DialogService : IDialogService
         }
     }
 
-    private async Task InvokeError(DialogCallback callback, Exception exception, IDialogParameters parameters)
+    private static async Task InvokeError(DialogCallback callback, Exception exception, IDialogParameters parameters)
     {
         var result = new DialogResult 
         {

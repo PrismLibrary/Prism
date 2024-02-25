@@ -5,7 +5,6 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
     <AssemblyName>Prism.DryIoc.Uno</AssemblyName>
     <PackageId>Prism.DryIoc.Uno.WinUI</PackageId>
-    <DefineConstants>$(DefineConstants);HAS_WINUI</DefineConstants>
     <ImplicitUsings>enable</ImplicitUsings>
 
     <!--

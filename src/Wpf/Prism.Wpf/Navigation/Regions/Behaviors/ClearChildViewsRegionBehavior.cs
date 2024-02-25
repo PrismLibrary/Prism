@@ -1,11 +1,5 @@
 using System;
 
-#if HAS_WINUI
-using Microsoft.UI.Xaml;
-#else
-using System.Windows;
-#endif
-
 namespace Prism.Navigation.Regions.Behaviors
 {
     /// <summary>

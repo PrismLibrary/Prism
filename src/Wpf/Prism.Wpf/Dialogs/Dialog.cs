@@ -1,9 +1,3 @@
-﻿#if HAS_WINUI
-using Microsoft.UI.Xaml;
-#else
-using System.Windows;
-#endif
-
 namespace Prism.Dialogs
 {
     /// <summary>
@@ -40,7 +34,7 @@ namespace Prism.Dialogs
             obj.SetValue(WindowStyleProperty, value);
         }
 
-#if !HAS_WINUI
+#if !UNO_WINUI
         /// <summary>
         /// Identifies the WindowStartupLocation attached property.
         /// </summary>

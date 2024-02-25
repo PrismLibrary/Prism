@@ -2,13 +2,6 @@ using System;
 using System.ComponentModel;
 using Prism.Properties;
 
-#if HAS_WINUI
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
-#else
-using System.Windows;
-#endif
-
 namespace Prism.Navigation.Regions.Behaviors
 {
     /// <summary>
@@ -139,7 +132,7 @@ namespace Prism.Navigation.Regions.Behaviors
             }
 
             DependencyObject parent = null;
-#if HAS_WINUI
+#if UNO_WINUI
             parent = VisualTreeHelper.GetParent(dependencyObject);
 #else
             parent = LogicalTreeHelper.GetParent(dependencyObject);

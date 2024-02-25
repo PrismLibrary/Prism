@@ -1,13 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Prism.Mvvm;
-#if HAS_WINUI
-using Microsoft.UI.Xaml;
-#else
-using System.Windows;
-#endif
 
 namespace Prism.Common
 {
@@ -16,9 +11,9 @@ namespace Prism.Common
     /// </summary>
     public static class MvvmHelpers
     {
-#if HAS_WINUI
+#if UNO_WINUI
         /// <summary>
-        /// Sets the AutoWireViewModel property to true for the <paramref name="viewOrViewModel"/>.
+        /// Sets the AutowireViewModel property to true for the <paramref name="viewOrViewModel"/>.
         /// </summary>
         /// <remarks>
         /// The AutoWireViewModel property will only be set to true if the view

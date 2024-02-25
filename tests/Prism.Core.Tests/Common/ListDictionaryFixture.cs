@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Collections.Generic;
 using Prism.Common;
@@ -78,7 +76,7 @@ namespace Prism.Wpf.Tests
             list.Add("foo", value);
             list.RemoveValue("foo", value);
 
-            Assert.Equal(0, list["foo"].Count);
+            Assert.Empty(list["foo"]);
         }
 
         [Fact]
@@ -90,7 +88,7 @@ namespace Prism.Wpf.Tests
 
             list.RemoveValue(value);
 
-            Assert.Equal(0, list.Values.Count);
+            Assert.Empty(list.Values);
         }
 
         [Fact]
@@ -125,20 +123,19 @@ namespace Prism.Wpf.Tests
             bool removed = list.Remove("foo");
 
             Assert.True(removed);
-            Assert.Equal(0, list.Keys.Count);
+            Assert.Empty(list.Keys);
         }
 
         [Fact]
         public void CanSetList()
         {
-            List<object> values = new List<object>();
-            values.Add(new object());
+            List<object> values = [new object()];
             list.Add("foo", new object());
             list.Add("foo", new object());
 
             list["foo"] = values;
 
-            Assert.Equal(1, list["foo"].Count);
+            Assert.Single(list["foo"]);
         }
 
         [Fact]
