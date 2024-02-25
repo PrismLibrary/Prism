@@ -132,7 +132,7 @@ namespace Prism.Navigation.Regions.Behaviors
             }
 
             DependencyObject parent = null;
-#if HAS_WINUI
+#if UNO_WINUI
             parent = VisualTreeHelper.GetParent(dependencyObject);
 #else
             parent = LogicalTreeHelper.GetParent(dependencyObject);

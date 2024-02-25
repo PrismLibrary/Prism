@@ -149,7 +149,7 @@ namespace Prism.Navigation.Regions.Behaviors
                 return;
             }
 
-#if !HAS_WINUI
+#if !UNO_WINUI
             FrameworkContentElement fcElement = this.TargetElement as FrameworkContentElement;
             if (fcElement != null)
             {
@@ -178,7 +178,7 @@ namespace Prism.Navigation.Regions.Behaviors
                 return;
             }
 
-#if !HAS_WINUI
+#if !UNO_WINUI
             FrameworkContentElement fcElement = this.TargetElement as FrameworkContentElement;
             if (fcElement != null)
             {

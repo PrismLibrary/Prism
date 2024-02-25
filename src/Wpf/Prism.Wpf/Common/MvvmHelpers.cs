@@ -11,7 +11,7 @@ namespace Prism.Common
     /// </summary>
     public static class MvvmHelpers
     {
-#if HAS_WINUI
+#if UNO_WINUI
         /// <summary>
         /// Sets the AutowireViewModel property to true for the <paramref name="viewOrViewModel"/>.
         /// </summary>

@@ -9,7 +9,7 @@ namespace Prism.Modularity
     /// <summary>
     /// Defines the metadata that describes a module.
     /// </summary>
-#if HAS_WINUI
+#if UNO_WINUI
     [Microsoft.UI.Xaml.Markup.ContentProperty(Name = nameof(DependsOn))]
 #else
     [Xamarin.Forms.ContentProperty(nameof(DependsOn))]

@@ -18,7 +18,7 @@ namespace Prism
             });
         }
 
-#if HAS_WINUI
+#if UNO_WINUI
         internal static void RegisterRequiredTypes(this IContainerRegistry containerRegistry)
         {
             containerRegistry.TryRegisterSingleton<IModuleCatalog, ModuleCatalog>();
@@ -59,7 +59,7 @@ namespace Prism
             regionAdapterMappings.RegisterMapping<Selector, SelectorRegionAdapter>();
             regionAdapterMappings.RegisterMapping<ItemsControl, ItemsControlRegionAdapter>();
             regionAdapterMappings.RegisterMapping<ContentControl, ContentControlRegionAdapter>();
-#if HAS_WINUI
+#if UNO_WINUI
             regionAdapterMappings.RegisterMapping<NavigationView, NavigationViewRegionAdapter>();
 #endif
         }

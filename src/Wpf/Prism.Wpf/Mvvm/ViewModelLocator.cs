@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-#if HAS_WINUI
+#if UNO_WINUI
 using Windows.UI.Xaml;
 #else
 using System.Windows;
