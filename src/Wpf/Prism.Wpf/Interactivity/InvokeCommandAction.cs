@@ -17,7 +17,7 @@ namespace Prism.Interactivity
         /// Dependency property identifying if the associated element should automatically be enabled or disabled based on the result of the Command's CanExecute
         /// </summary>
         public static readonly DependencyProperty AutoEnableProperty =
-            DependencyProperty.Register("AutoEnable", typeof(bool), typeof(InvokeCommandAction),
+            DependencyProperty.Register(nameof(AutoEnable), typeof(bool), typeof(InvokeCommandAction),
                 new PropertyMetadata(true, (d, e) => ((InvokeCommandAction)d).OnAllowDisableChanged((bool)e.NewValue)));
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Prism.Interactivity
         /// Dependency property identifying the command to execute when invoked.
         /// </summary>
         public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof(ICommand), typeof(InvokeCommandAction),
+            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(InvokeCommandAction),
                 new PropertyMetadata(null, (d, e) => ((InvokeCommandAction)d).OnCommandChanged((ICommand)e.NewValue)));
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Prism.Interactivity
         /// Dependency property identifying the command parameter to supply on command execution.
         /// </summary>
         public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(InvokeCommandAction),
+            DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(InvokeCommandAction),
                 new PropertyMetadata(null, (d, e) => ((InvokeCommandAction)d).OnCommandParameterChanged(e.NewValue)));
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Prism.Interactivity
         /// Dependency property identifying the TriggerParameterPath to be parsed to identify the child property of the trigger parameter to be used as the command parameter.
         /// </summary>
         public static readonly DependencyProperty TriggerParameterPathProperty =
-            DependencyProperty.Register("TriggerParameterPath", typeof(string), typeof(InvokeCommandAction),
+            DependencyProperty.Register(nameof(TriggerParameterPath), typeof(string), typeof(InvokeCommandAction),
                 new PropertyMetadata(null, (d, e) => { }));
 
         /// <summary>

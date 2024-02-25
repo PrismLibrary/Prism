@@ -17,7 +17,7 @@ namespace Prism.Common
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "This is the pattern for WPF dependency properties")]
         public static readonly DependencyProperty ValueProperty =
-                DependencyProperty.Register("Value", typeof(T), typeof(ObservableObject<T>), new PropertyMetadata(null, ValueChangedCallback));
+                DependencyProperty.Register(nameof(Value), typeof(T), typeof(ObservableObject<T>), new PropertyMetadata(null, ValueChangedCallback));
 
         /// <summary>
         /// Event that gets invoked when the Value property changes.
