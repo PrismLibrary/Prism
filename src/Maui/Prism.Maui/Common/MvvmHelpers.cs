@@ -1,5 +1,6 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Reflection;
+using Prism.Dialogs;
 using Prism.Navigation;
 using Prism.Navigation.Regions;
 using Prism.Navigation.Xaml;
@@ -272,27 +273,44 @@ public static class MvvmHelpers
         return EvaluateCurrentPage(page);
     };
 
+    private static Page GetTarget(Page target)
+    {
+        return target switch
+        {
+            FlyoutPage flyout => GetTarget(flyout.Detail),
+            TabbedPage tabbed => GetTarget(tabbed.CurrentPage),
+            NavigationPage navigation => GetTarget(navigation.CurrentPage),
+            ContentPage page => page,
+            _ => throw new NotSupportedException($"The page type '{target.GetType().FullName}' is not supported.")
+        };
+    }
+
     private static Page EvaluateCurrentPage(Page target)
     {
-        Page child = null;
+        Page child = GetTarget(target);
 
-        if (target is FlyoutPage flyout)
-            child = flyout.Detail;
-        else if (target is TabbedPage tabbed)
-            child = tabbed.CurrentPage;
-        else if (target is NavigationPage np)
-            child = np.Navigation.NavigationStack.Last();
-
-        if (child != null)
+        if (child is not null)
             target = GetOnNavigatedToTargetFromChild(child);
 
         if (target is Page page)
+        {
+            if (target is IDialogContainer)
+            {
+                if (page.Parent is Page parentPage)
+                {
+                    return GetTarget(parentPage);
+                }
+
+                throw new InvalidOperationException("Unable to determine the current page.");
+            }
+
             return page.Parent switch
             {
                 TabbedPage tab when tab.CurrentPage != target => EvaluateCurrentPage(tab.CurrentPage),
                 NavigationPage nav when nav.CurrentPage != target => EvaluateCurrentPage(nav.CurrentPage),
                 _ => target
             };
+        }
 
         return null;
     }

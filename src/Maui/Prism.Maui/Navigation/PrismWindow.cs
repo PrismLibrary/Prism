@@ -20,7 +20,7 @@ internal class PrismWindow : Window
 
     public string Name { get; }
 
-    public bool IsActive { get; private set; }
+    public bool IsActive { get; internal set; }
 
     internal Page CurrentPage => Page is null ? null : MvvmHelpers.GetCurrentPage(Page);
 
