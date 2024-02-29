@@ -1,5 +1,4 @@
-﻿using Prism.AppModel;
-using Prism.Common;
+using Prism.AppModel;
 using Prism.Navigation;
 using FlowDirection = Prism.AppModel.FlowDirection;
 using MauiFlow = Microsoft.Maui.FlowDirection;
@@ -181,5 +180,11 @@ public class PageDialogService : IPageDialogService
         return GetPage().DisplayPromptAsync(title, message, accept, cancel, placeholder, maxLength, keyboard, initialValue);
     }
 
-    private Page GetPage() => _windowManager.Windows.OfType<PrismWindow>().First().CurrentPage;
+    private Page GetPage()
+    {
+        if (_windowManager.Current is not PrismWindow window)
+            throw new InvalidOperationException("There is no Prism Window currently displayed.");
+
+        return window.CurrentPage;
+    }
 }

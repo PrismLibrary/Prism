@@ -1,4 +1,7 @@
-﻿namespace Prism.Navigation;
+using Prism.Behaviors;
+using Prism.Extensions;
+
+namespace Prism.Navigation;
 
 internal sealed class PrismWindowManager : IWindowCreator, IWindowManager
 {
@@ -10,6 +13,9 @@ internal sealed class PrismWindowManager : IWindowCreator, IWindowManager
     }
 
     private Window _initialWindow;
+
+    private Window _current;
+    public Window Current => _current ?? _initialWindow;
 
     public IReadOnlyList<Window> Windows => _application.Windows.OfType<Window>().ToList();
 
@@ -31,6 +37,11 @@ internal sealed class PrismWindowManager : IWindowCreator, IWindowManager
             _initialWindow = window;
         else
             _application.OpenWindow(window);
+
+        foreach(var pWindow in Windows.OfType<PrismWindow>().Where(x => x.IsActive))
+        {
+            pWindow.IsActive = window.Equals(pWindow);
+        }
     }
 
     public void CloseWindow(Window window)
