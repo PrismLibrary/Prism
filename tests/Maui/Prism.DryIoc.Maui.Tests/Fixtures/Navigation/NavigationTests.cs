@@ -223,7 +223,7 @@ public class NavigationTests : TestBase
     }
 
     [Fact]
-    public async Task GoBackTo_Name_PopsToSpecifiedView()
+    public async Task GoBack_Name_PopsToSpecifiedView()
     {
         var mauiApp = CreateBuilder(prism => prism.CreateWindow("NavigationPage/MockViewA/MockViewB/MockViewC/MockViewD/MockViewE"))
             .Build();
@@ -237,7 +237,7 @@ public class NavigationTests : TestBase
 
         var result = await navigationPage.CurrentPage.GetContainerProvider()
             .Resolve<INavigationService>()
-            .GoBackToAsync("MockViewC");
+            .GoBackAsync("MockViewC");
 
         Assert.True(result.Success);
 
@@ -245,7 +245,7 @@ public class NavigationTests : TestBase
     }
 
     [Fact]
-    public async Task GoBackTo_ViewModel_PopsToSpecifiedView()
+    public async Task GoBack_ViewModel_PopsToSpecifiedView()
     {
         var mauiApp = CreateBuilder(prism => prism.CreateWindow("NavigationPage/MockViewA/MockViewB/MockViewC/MockViewD/MockViewE"))
             .Build();
@@ -260,7 +260,7 @@ public class NavigationTests : TestBase
         var result = await navigationPage.CurrentPage.GetContainerProvider()
             .Resolve<INavigationService>()
             .CreateBuilder()
-            .GoBackTo<MockViewCViewModel>();
+            .GoBackAsync<MockViewCViewModel>();
 
         Assert.True(result.Success);
 

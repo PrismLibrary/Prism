@@ -13,8 +13,9 @@ public static class INavigationServiceExtensions
     /// <param name="navigationService">Service for handling navigation between views</param>
     /// <param name="name">The name of the View to navigate back to</param>
     /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+    [Obsolete($"Use {nameof(GoBackAsync)} instead.")]
     public static Task<INavigationResult> GoBackToAsync(this INavigationService navigationService, string name) =>
-        navigationService.GoBackToAsync(name, null);
+        navigationService.GoBackAsync(name, null);
 
     /// <summary>
     /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.

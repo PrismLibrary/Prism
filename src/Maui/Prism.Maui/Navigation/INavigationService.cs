@@ -1,18 +1,10 @@
-﻿namespace Prism.Navigation;
+namespace Prism.Navigation;
 
 /// <summary>
 /// Provides page based navigation for ViewModels.
 /// </summary>
 public interface INavigationService
 {
-    /// <summary>
-    /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
-    /// </summary>
-    /// <param name="name">The name of the View to navigate back to</param>
-    /// <param name="parameters">The navigation parameters</param>
-    /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
-    Task<INavigationResult> GoBackToAsync(string name, INavigationParameters parameters);
-
     /// <summary>
     /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
     /// </summary>

@@ -72,63 +72,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// <param name="name">The name of the View to navigate back to</param>
     /// <param name="parameters">The navigation parameters</param>
     /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
-    public virtual async Task<INavigationResult> GoBackToAsync(string name, INavigationParameters parameters)
-    {
-        await _semaphore.WaitAsync();
-        try
-        {
-            parameters ??= new NavigationParameters();
-            NavigationSource = PageNavigationSource.NavigationService;
-            ArgumentException.ThrowIfNullOrEmpty(name);
-            if (!Registry.IsRegistered(name))
-                throw new NavigationException(NavigationException.NoPageIsRegistered, name);
-
-            var page = GetCurrentPage();
-            parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
-
-            while (page is not null && ViewModelLocator.GetNavigationName(page) != name)
-            {
-                if (IsRoot(GetPageFromWindow(), page))
-                    throw new NavigationException(NavigationException.CannotPopApplicationMainPage, page);
-
-                var canNavigate = await MvvmHelpers.CanNavigateAsync(page, parameters);
-                if (!canNavigate)
-                {
-                    throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page);
-                }
-
-                var useModalForDoPop = UseModalGoBack(page, parameters);
-                var previousPage = MvvmHelpers.GetOnNavigatedToTarget(page, Window?.Page, useModalForDoPop);
-
-                bool? animated = null;
-                if (!parameters.TryGetValue<bool>(KnownNavigationParameters.Animated, out var globalAnimated))
-                {
-                    animated = true;
-                }
-
-                var poppedPage = await DoPop(page.Navigation, useModalForDoPop, animated ?? true);
-                if (poppedPage != null)
-                {
-                    MvvmHelpers.OnNavigatedFrom(page, parameters);
-                    MvvmHelpers.OnNavigatedTo(previousPage, parameters);
-                    MvvmHelpers.DestroyPage(poppedPage);
-                }
-
-                page = previousPage;
-            }
-
-            return Notify(NavigationRequestType.GoBack, parameters);
-        }
-        catch (Exception ex)
-        {
-            return Notify(NavigationRequestType.GoBack, parameters, ex);
-        }
-        finally
-        {
-            NavigationSource = PageNavigationSource.Device;
-            _semaphore.Release();
-        }
-    }
+    public virtual Task<INavigationResult> GoBackToAsync(string name, INavigationParameters parameters)
+        => GoBackAsync(name, parameters);
 
     /// <summary>
     /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
