@@ -53,13 +53,6 @@ internal class NavigationBuilder : INavigationBuilder, IRegistryAware
         return this;
     }
 
-    [Obsolete($"Use {nameof(GoBackAsync)} instead.")]
-    public async Task<INavigationResult> GoBackTo<TViewModel>(INavigationParameters parameters)
-    {
-        var name = NavigationBuilderExtensions.GetNavigationKey<TViewModel>(this);
-        return await _navigationService.GoBackAsync(name, parameters);
-    }
-
     public async Task<INavigationResult> GoBackAsync<TViewModel>()
     {
         var name = NavigationBuilderExtensions.GetNavigationKey<TViewModel>(this);

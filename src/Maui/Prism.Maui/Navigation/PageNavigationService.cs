@@ -69,15 +69,6 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// <summary>
     /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
     /// </summary>
-    /// <param name="name">The name of the View to navigate back to</param>
-    /// <param name="parameters">The navigation parameters</param>
-    /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
-    public virtual Task<INavigationResult> GoBackToAsync(string name, INavigationParameters parameters)
-        => GoBackAsync(name, parameters);
-
-    /// <summary>
-    /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
-    /// </summary>
     /// <param name="parameters">The navigation parameters</param>
     /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
     public virtual async Task<INavigationResult> GoBackAsync(INavigationParameters parameters)

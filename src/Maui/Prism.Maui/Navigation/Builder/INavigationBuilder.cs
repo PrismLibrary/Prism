@@ -12,8 +12,6 @@ public interface INavigationBuilder
     INavigationBuilder UseAbsoluteNavigation(bool absolute);
     INavigationBuilder UseRelativeNavigation();
 
-    [Obsolete($"Use {nameof(GoBackAsync)} instead.")]
-    Task<INavigationResult> GoBackTo<TViewModel>(INavigationParameters parameters);
     Task<INavigationResult> GoBackAsync<TViewModel>();
     Task<INavigationResult> NavigateAsync();
     Task NavigateAsync(Action<Exception> onError);
