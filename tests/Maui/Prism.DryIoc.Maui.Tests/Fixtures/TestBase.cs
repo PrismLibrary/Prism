@@ -66,7 +66,7 @@ public abstract class TestBase
             });
     }
 
-    protected static Window GetWindow(MauiApp mauiApp)
+    protected static PrismWindow GetWindow(MauiApp mauiApp)
     {
         var app = mauiApp.Services.GetService<IApplication>();
         Assert.NotNull(app);
