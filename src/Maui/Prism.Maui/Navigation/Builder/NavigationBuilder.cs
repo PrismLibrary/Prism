@@ -1,4 +1,4 @@
-﻿using Prism.Common;
+using Prism.Common;
 using Prism.Mvvm;
 
 namespace Prism.Navigation.Builder;
@@ -53,10 +53,10 @@ internal class NavigationBuilder : INavigationBuilder, IRegistryAware
         return this;
     }
 
-    public async Task<INavigationResult> GoBackTo<TViewModel>(INavigationParameters parameters)
+    public async Task<INavigationResult> GoBackAsync<TViewModel>()
     {
         var name = NavigationBuilderExtensions.GetNavigationKey<TViewModel>(this);
-        return await _navigationService.GoBackToAsync(name, parameters);
+        return await _navigationService.GoBackAsync(name, _navigationParameters);
     }
 
     public Task<INavigationResult> NavigateAsync()

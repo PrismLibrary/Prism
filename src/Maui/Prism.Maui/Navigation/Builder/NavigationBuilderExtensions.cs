@@ -1,4 +1,4 @@
-﻿using Prism.Common;
+using Prism.Common;
 using Prism.Navigation.Builder;
 
 namespace Prism.Navigation;
@@ -12,9 +12,6 @@ public static class NavigationBuilderExtensions
     /// <returns><see cref="INavigationBuilder"/></returns>
     public static INavigationBuilder CreateBuilder(this INavigationService navigationService) =>
            new NavigationBuilder(navigationService);
-
-    public static Task<INavigationResult> GoBackTo<TViewModel>(this INavigationBuilder builder) =>
-        builder.GoBackTo<TViewModel>(null);
 
     internal static string GetNavigationKey<TViewModel>(object builder)
     {

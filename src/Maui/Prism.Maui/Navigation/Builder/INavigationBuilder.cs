@@ -1,4 +1,4 @@
-﻿namespace Prism.Navigation.Builder;
+namespace Prism.Navigation.Builder;
 
 public interface INavigationBuilder
 {
@@ -12,7 +12,7 @@ public interface INavigationBuilder
     INavigationBuilder UseAbsoluteNavigation(bool absolute);
     INavigationBuilder UseRelativeNavigation();
 
-    Task<INavigationResult> GoBackTo<TViewModel>(INavigationParameters parameters);
+    Task<INavigationResult> GoBackAsync<TViewModel>();
     Task<INavigationResult> NavigateAsync();
     Task NavigateAsync(Action<Exception> onError);
     Task NavigateAsync(Action onSuccess, Action<Exception> onError);
