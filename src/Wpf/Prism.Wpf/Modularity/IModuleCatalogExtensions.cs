@@ -1,4 +1,3 @@
-using System;
 using Prism.Properties;
 
 namespace Prism.Modularity

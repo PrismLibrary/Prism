@@ -1,7 +1,4 @@
-﻿using System;
 using DryIoc;
-using Prism.Container.DryIoc;
-using Prism.Ioc;
 using ExceptionExtensions = System.ExceptionExtensions;
 
 namespace Prism.DryIoc

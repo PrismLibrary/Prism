@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using Prism.Properties;
 
@@ -22,7 +20,7 @@ namespace Prism.Navigation.Regions.Behaviors
         /// </summary>
         public static readonly string BehaviorKey = "SelectorItemsSourceSyncBehavior";
         private bool updatingActiveViewsInHostControlSelectionChanged;
-        private Selector hostControl;
+        private Selector _hostControl;
 
         /// <summary>
         /// Gets or sets the <see cref="DependencyObject"/> that the <see cref="IRegion"/> is attached to.
@@ -35,12 +33,12 @@ namespace Prism.Navigation.Regions.Behaviors
         {
             get
             {
-                return this.hostControl;
+                return _hostControl;
             }
 
             set
             {
-                this.hostControl = value as Selector;
+                _hostControl = value as Selector;
             }
         }
 
@@ -49,19 +47,19 @@ namespace Prism.Navigation.Regions.Behaviors
         /// </summary>
         protected override void OnAttach()
         {
-            bool itemsSourceIsSet = this.hostControl.ItemsSource != null;
-            itemsSourceIsSet = itemsSourceIsSet || this.hostControl.HasBinding(ItemsControl.ItemsSourceProperty);
+            bool itemsSourceIsSet = _hostControl.ItemsSource != null;
+            itemsSourceIsSet = itemsSourceIsSet || _hostControl.HasBinding(ItemsControl.ItemsSourceProperty);
 
             if (itemsSourceIsSet)
             {
                 throw new InvalidOperationException(Resources.ItemsControlHasItemsSourceException);
             }
 
-            this.SynchronizeItems();
+            SynchronizeItems();
 
-            this.hostControl.SelectionChanged += this.HostControlSelectionChanged;
-            this.Region.ActiveViews.CollectionChanged += this.ActiveViews_CollectionChanged;
-            this.Region.Views.CollectionChanged += this.Views_CollectionChanged;
+            _hostControl.SelectionChanged += HostControlSelectionChanged;
+            Region.ActiveViews.CollectionChanged += ActiveViews_CollectionChanged;
+            Region.Views.CollectionChanged += Views_CollectionChanged;
         }
 
         private void Views_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -71,43 +69,41 @@ namespace Prism.Navigation.Regions.Behaviors
                 int startIndex = e.NewStartingIndex;
                 foreach (object newItem in e.NewItems)
                 {
-                    this.hostControl.Items.Insert(startIndex++, newItem);
+                    _hostControl.Items.Insert(startIndex++, newItem);
                 }
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 foreach (object oldItem in e.OldItems)
                 {
-                    this.hostControl.Items.Remove(oldItem);
+                    _hostControl.Items.Remove(oldItem);
                 }
             }
         }
 
         private void SynchronizeItems()
         {
-            List<object> existingItems = new List<object>();
+            List<object> existingItems =
+            [
+                // Control must be empty before "Binding" to a region
+                .. _hostControl.Items,
+            ];
 
-            // Control must be empty before "Binding" to a region
-            foreach (object childItem in this.hostControl.Items)
+            foreach (object view in Region.Views)
             {
-                existingItems.Add(childItem);
-            }
-
-            foreach (object view in this.Region.Views)
-            {
-                this.hostControl.Items.Add(view);
+                _hostControl.Items.Add(view);
             }
 
             foreach (object existingItem in existingItems)
             {
-                this.Region.Add(existingItem);
+                Region.Add(existingItem);
             }
         }
 
 
         private void ActiveViews_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (this.updatingActiveViewsInHostControlSelectionChanged)
+            if (updatingActiveViewsInHostControlSelectionChanged)
             {
                 // If we are updating the ActiveViews collection in the HostControlSelectionChanged, that
                 // means the user has set the SelectedItem or SelectedItems himself and we don't need to do that here now
@@ -116,19 +112,19 @@ namespace Prism.Navigation.Regions.Behaviors
 
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                if (this.hostControl.SelectedItem != null
-                    && this.hostControl.SelectedItem != e.NewItems[0]
-                    && this.Region.ActiveViews.Contains(this.hostControl.SelectedItem))
+                if (_hostControl.SelectedItem != null
+                    && _hostControl.SelectedItem != e.NewItems[0]
+                    && Region.ActiveViews.Contains(_hostControl.SelectedItem))
                 {
-                    this.Region.Deactivate(this.hostControl.SelectedItem);
+                    Region.Deactivate(_hostControl.SelectedItem);
                 }
 
-                this.hostControl.SelectedItem = e.NewItems[0];
+                _hostControl.SelectedItem = e.NewItems[0];
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove &&
-                     e.OldItems.Contains(this.hostControl.SelectedItem))
+                     e.OldItems.Contains(_hostControl.SelectedItem))
             {
-                this.hostControl.SelectedItem = null;
+                _hostControl.SelectedItem = null;
             }
         }
 
@@ -138,7 +134,7 @@ namespace Prism.Navigation.Regions.Behaviors
             {
                 // Record the fact that we are now updating active views in the HostControlSelectionChanged method.
                 // This is needed to prevent the ActiveViews_CollectionChanged() method from firing.
-                this.updatingActiveViewsInHostControlSelectionChanged = true;
+                updatingActiveViewsInHostControlSelectionChanged = true;
 
                 object source;
                 source = e.OriginalSource;
@@ -148,24 +144,24 @@ namespace Prism.Navigation.Regions.Behaviors
                     foreach (object item in e.RemovedItems)
                     {
                         // check if the view is in both Views and ActiveViews collections (there may be out of sync)
-                        if (this.Region.Views.Contains(item) && this.Region.ActiveViews.Contains(item))
+                        if (Region.Views.Contains(item) && Region.ActiveViews.Contains(item))
                         {
-                            this.Region.Deactivate(item);
+                            Region.Deactivate(item);
                         }
                     }
 
                     foreach (object item in e.AddedItems)
                     {
-                        if (this.Region.Views.Contains(item) && !this.Region.ActiveViews.Contains(item))
+                        if (Region.Views.Contains(item) && !Region.ActiveViews.Contains(item))
                         {
-                            this.Region.Activate(item);
+                            Region.Activate(item);
                         }
                     }
                 }
             }
             finally
             {
-                this.updatingActiveViewsInHostControlSelectionChanged = false;
+                updatingActiveViewsInHostControlSelectionChanged = false;
             }
         }
     }

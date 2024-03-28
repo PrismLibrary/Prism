@@ -1,7 +1,5 @@
-using Prism.Properties;
-using System;
 using System.Collections.Specialized;
-using System.Linq;
+using Prism.Properties;
 
 namespace Prism.Navigation.Regions
 {

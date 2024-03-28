@@ -1,18 +1,13 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using System.Threading;
 using Prism.Common;
 using Prism.Events;
-using Prism.Ioc;
-using Prism.Properties;
-using Prism.Navigation.Regions.Behaviors;
 using Prism.Ioc.Internals;
+using Prism.Navigation.Regions.Behaviors;
+using Prism.Properties;
 
 namespace Prism.Navigation.Regions
 {
@@ -416,13 +411,13 @@ namespace Prism.Navigation.Regions
 
         private class RegionCollection : IRegionCollection
         {
-            private readonly IRegionManager regionManager;
-            private readonly List<IRegion> regions;
+            private readonly IRegionManager _regionManager;
+            private readonly List<IRegion> _regions;
 
             public RegionCollection(IRegionManager regionManager)
             {
-                this.regionManager = regionManager;
-                this.regions = new List<IRegion>();
+                _regionManager = regionManager;
+                _regions = new List<IRegion>();
             }
 
             public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -431,7 +426,7 @@ namespace Prism.Navigation.Regions
             {
                 UpdateRegions();
 
-                return this.regions.GetEnumerator();
+                return _regions.GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -467,16 +462,16 @@ namespace Prism.Navigation.Regions
                     throw new InvalidOperationException(Resources.RegionNameCannotBeEmptyException);
                 }
 
-                if (this.GetRegionByName(region.Name) != null)
+                if (GetRegionByName(region.Name) != null)
                 {
                     throw new ArgumentException(string.Format(CultureInfo.InvariantCulture,
                                                               Resources.RegionNameExistsException, region.Name));
                 }
 
-                this.regions.Add(region);
-                region.RegionManager = this.regionManager;
+                _regions.Add(region);
+                region.RegionManager = _regionManager;
 
-                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, region, 0));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, region, 0));
             }
 
             public bool Remove(string regionName)
@@ -489,10 +484,10 @@ namespace Prism.Navigation.Regions
                 if (region != null)
                 {
                     removed = true;
-                    this.regions.Remove(region);
+                    _regions.Remove(region);
                     region.RegionManager = null;
 
-                    this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, region, 0));
+                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, region, 0));
                 }
 
                 return removed;
@@ -528,12 +523,12 @@ namespace Prism.Navigation.Regions
 
             private IRegion GetRegionByName(string regionName)
             {
-                return this.regions.FirstOrDefault(r => r.Name == regionName);
+                return _regions.FirstOrDefault(r => r.Name == regionName);
             }
 
             private void OnCollectionChanged(NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
             {
-                var handler = this.CollectionChanged;
+                var handler = CollectionChanged;
 
                 if (handler != null)
                 {

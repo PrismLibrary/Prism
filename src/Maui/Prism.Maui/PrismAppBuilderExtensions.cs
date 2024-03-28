@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation;

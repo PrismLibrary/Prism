@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using Prism.Ioc;
 using Prism.Properties;
 
 namespace Prism.Navigation.Regions

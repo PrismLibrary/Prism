@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using Prism.Common;
-using Prism.Ioc;
 using Prism.Ioc.Internals;
 using Prism.Properties;
 

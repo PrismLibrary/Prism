@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Security.Policy;
 using Prism.Properties;
@@ -33,14 +30,14 @@ namespace Prism.Modularity
         /// </summary>
         protected override void InnerLoad()
         {
-            if (string.IsNullOrEmpty(this.ModulePath))
+            if (string.IsNullOrEmpty(ModulePath))
                 throw new InvalidOperationException(Resources.ModulePathCannotBeNullOrEmpty);
 
-            if (!Directory.Exists(this.ModulePath))
+            if (!Directory.Exists(ModulePath))
                 throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentCulture, Resources.DirectoryNotFound, this.ModulePath));
+                    string.Format(CultureInfo.CurrentCulture, Resources.DirectoryNotFound, ModulePath));
 
-            AppDomain childDomain = this.BuildChildDomain(AppDomain.CurrentDomain);
+            AppDomain childDomain = BuildChildDomain(AppDomain.CurrentDomain);
 
             try
             {
@@ -66,7 +63,7 @@ namespace Prism.Modularity
                         (InnerModuleInfoLoader)
                         childDomain.CreateInstanceFrom(loaderType.Assembly.Location, loaderType.FullName).Unwrap();
                     loader.LoadAssemblies(loadedAssemblies);
-                    this.Items.AddRange(loader.GetModuleInfos(this.ModulePath));
+                    Items.AddRange(loader.GetModuleInfos(ModulePath));
                 }
             }
             finally

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Prism.Modularity
@@ -13,8 +11,8 @@ namespace Prism.Modularity
     {
         private const string RefFilePrefix = "file://";
 
-        private readonly IAssemblyResolver assemblyResolver;
-        private HashSet<Uri> downloadedUris = new HashSet<Uri>();
+        private readonly IAssemblyResolver _assemblyResolver;
+        private HashSet<Uri> _downloadedUris = new HashSet<Uri>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileModuleTypeLoader"/> class.
@@ -31,7 +29,7 @@ namespace Prism.Modularity
         /// <param name="assemblyResolver">The assembly resolver.</param>
         public FileModuleTypeLoader(IAssemblyResolver assemblyResolver)
         {
-            this.assemblyResolver = assemblyResolver;
+            _assemblyResolver = assemblyResolver;
         }
 
         /// <summary>
@@ -41,7 +39,7 @@ namespace Prism.Modularity
 
         private void RaiseModuleDownloadProgressChanged(IModuleInfo moduleInfo, long bytesReceived, long totalBytesToReceive)
         {
-            this.RaiseModuleDownloadProgressChanged(new ModuleDownloadProgressChangedEventArgs(moduleInfo, bytesReceived, totalBytesToReceive));
+            RaiseModuleDownloadProgressChanged(new ModuleDownloadProgressChangedEventArgs(moduleInfo, bytesReceived, totalBytesToReceive));
         }
 
         private void RaiseModuleDownloadProgressChanged(ModuleDownloadProgressChangedEventArgs e)
@@ -56,12 +54,12 @@ namespace Prism.Modularity
 
         private void RaiseLoadModuleCompleted(IModuleInfo moduleInfo, Exception error)
         {
-            this.RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(moduleInfo, error));
+            RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(moduleInfo, error));
         }
 
         private void RaiseLoadModuleCompleted(LoadModuleCompletedEventArgs e)
         {
-            this.LoadModuleCompleted?.Invoke(this, e);
+            LoadModuleCompleted?.Invoke(this, e);
         }
 
         /// <summary>
@@ -102,9 +100,9 @@ namespace Prism.Modularity
                 Uri uri = new Uri(moduleInfo.Ref, UriKind.RelativeOrAbsolute);
 
                 // If this module has already been downloaded, I fire the completed event.
-                if (this.IsSuccessfullyDownloaded(uri))
+                if (IsSuccessfullyDownloaded(uri))
                 {
-                    this.RaiseLoadModuleCompleted(moduleInfo, null);
+                    RaiseLoadModuleCompleted(moduleInfo, null);
                 }
                 else
                 {
@@ -118,38 +116,38 @@ namespace Prism.Modularity
                     }
 
                     // Although this isn't asynchronous, nor expected to take very long, I raise progress changed for consistency.
-                    this.RaiseModuleDownloadProgressChanged(moduleInfo, 0, fileSize);
+                    RaiseModuleDownloadProgressChanged(moduleInfo, 0, fileSize);
 
-                    this.assemblyResolver.LoadAssemblyFrom(moduleInfo.Ref);
+                    _assemblyResolver.LoadAssemblyFrom(moduleInfo.Ref);
 
                     // Although this isn't asynchronous, nor expected to take very long, I raise progress changed for consistency.
-                    this.RaiseModuleDownloadProgressChanged(moduleInfo, fileSize, fileSize);
+                    RaiseModuleDownloadProgressChanged(moduleInfo, fileSize, fileSize);
 
                     // I remember the downloaded URI.
-                    this.RecordDownloadSuccess(uri);
+                    RecordDownloadSuccess(uri);
 
-                    this.RaiseLoadModuleCompleted(moduleInfo, null);
+                    RaiseLoadModuleCompleted(moduleInfo, null);
                 }
             }
             catch (Exception ex)
             {
-                this.RaiseLoadModuleCompleted(moduleInfo, ex);
+                RaiseLoadModuleCompleted(moduleInfo, ex);
             }
         }
 
         private bool IsSuccessfullyDownloaded(Uri uri)
         {
-            lock (this.downloadedUris)
+            lock (_downloadedUris)
             {
-                return this.downloadedUris.Contains(uri);
+                return _downloadedUris.Contains(uri);
             }
         }
 
         private void RecordDownloadSuccess(Uri uri)
         {
-            lock (this.downloadedUris)
+            lock (_downloadedUris)
             {
-                this.downloadedUris.Add(uri);
+                _downloadedUris.Add(uri);
             }
         }
 
@@ -162,7 +160,7 @@ namespace Prism.Modularity
         /// <filterpriority>2</filterpriority>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -172,7 +170,7 @@ namespace Prism.Modularity
         /// <param name="disposing">When <see langword="true"/>, it is being called from the Dispose method.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (this.assemblyResolver is IDisposable disposableResolver)
+            if (_assemblyResolver is IDisposable disposableResolver)
             {
                 disposableResolver.Dispose();
             }

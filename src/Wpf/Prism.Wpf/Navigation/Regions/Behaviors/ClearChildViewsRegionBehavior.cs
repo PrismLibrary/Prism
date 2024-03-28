@@ -1,5 +1,3 @@
-using System;
-
 namespace Prism.Navigation.Regions.Behaviors
 {
     /// <summary>
@@ -54,7 +52,7 @@ namespace Prism.Navigation.Regions.Behaviors
         /// </summary>
         protected override void OnAttach()
         {
-            this.Region.PropertyChanged += Region_PropertyChanged;
+            Region.PropertyChanged += Region_PropertyChanged;
         }
 
         private static void ClearChildViews(IRegion region)
@@ -76,9 +74,9 @@ namespace Prism.Navigation.Regions.Behaviors
         {
             if (e.PropertyName == "RegionManager")
             {
-                if (this.Region.RegionManager == null)
+                if (Region.RegionManager == null)
                 {
-                    ClearChildViews(this.Region);
+                    ClearChildViews(Region);
                 }
             }
         }

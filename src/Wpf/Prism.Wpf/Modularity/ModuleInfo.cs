@@ -1,4 +1,3 @@
-using System;
 using System.Collections.ObjectModel;
 
 namespace Prism.Modularity
@@ -12,7 +11,7 @@ namespace Prism.Modularity
         /// Initializes a new empty instance of <see cref="ModuleInfo"/>.
         /// </summary>
         public ModuleInfo()
-            : this(null, null, new string[0])
+            : this(null, null, [])
         {
         }
 
@@ -28,13 +27,9 @@ namespace Prism.Modularity
             if (dependsOn == null)
                 throw new ArgumentNullException(nameof(dependsOn));
 
-            this.ModuleName = name;
-            this.ModuleType = type;
-            this.DependsOn = new Collection<string>();
-            foreach (string dependency in dependsOn)
-            {
-                this.DependsOn.Add(dependency);
-            }
+            ModuleName = name;
+            ModuleType = type;
+            DependsOn = [.. dependsOn];
         }
 
         /// <summary>
@@ -42,7 +37,7 @@ namespace Prism.Modularity
         /// </summary>
         /// <param name="name">The module's name.</param>
         /// <param name="type">The module's type.</param>
-        public ModuleInfo(string name, string type) : this(name, type, new string[0])
+        public ModuleInfo(string name, string type) : this(name, type, [])
         {
         }
 

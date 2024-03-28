@@ -1,11 +1,5 @@
 using System.ComponentModel;
 
-#if UNO_WINUI
-using Windows.UI.Xaml;
-#else
-using System.Windows;
-#endif
-
 namespace Prism.Mvvm
 {
     /// <summary>

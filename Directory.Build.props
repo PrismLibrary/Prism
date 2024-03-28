@@ -23,6 +23,8 @@
       System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute;
       System.Runtime.CompilerServices.IsExternalInit;
     </PolySharpIncludeGeneratedTypes>
+    <WarningsAsErrors>$(WarningsAsErrors);IDE0003</WarningsAsErrors>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup>

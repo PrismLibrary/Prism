@@ -1,6 +1,5 @@
-﻿using System;
-
 namespace Prism.Navigation;
+
 
 public interface IGlobalNavigationObserver
 {

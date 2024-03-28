@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using Prism.Ioc;
-
 namespace Prism.Navigation.Regions.Behaviors
 {
     /// <summary>
@@ -31,24 +27,24 @@ namespace Prism.Navigation.Regions.Behaviors
         /// </summary>
         protected override void OnAttach()
         {
-            if (string.IsNullOrEmpty(this.Region.Name))
+            if (string.IsNullOrEmpty(Region.Name))
             {
-                this.Region.PropertyChanged += this.Region_PropertyChanged;
+                Region.PropertyChanged += Region_PropertyChanged;
             }
             else
             {
-                this.StartPopulatingContent();
+                StartPopulatingContent();
             }
         }
 
         private void StartPopulatingContent()
         {
-            foreach (object view in this.CreateViewsToAutoPopulate())
+            foreach (object view in CreateViewsToAutoPopulate())
             {
                 AddViewIntoRegion(view);
             }
 
-            this.regionViewRegistry.ContentRegistered += this.OnViewRegistered;
+            regionViewRegistry.ContentRegistered += OnViewRegistered;
         }
 
         /// <summary>
@@ -58,7 +54,7 @@ namespace Prism.Navigation.Regions.Behaviors
         /// <returns></returns>
         protected virtual IEnumerable<object> CreateViewsToAutoPopulate()
         {
-            return this.regionViewRegistry.GetContents(this.Region.Name);
+            return regionViewRegistry.GetContents(Region.Name);
         }
 
         /// <summary>
@@ -67,15 +63,15 @@ namespace Prism.Navigation.Regions.Behaviors
         /// <param name="viewToAdd"></param>
         protected virtual void AddViewIntoRegion(object viewToAdd)
         {
-            this.Region.Add(viewToAdd);
+            Region.Add(viewToAdd);
         }
 
         private void Region_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Name" && !string.IsNullOrEmpty(this.Region.Name))
+            if (e.PropertyName == "Name" && !string.IsNullOrEmpty(Region.Name))
             {
-                this.Region.PropertyChanged -= this.Region_PropertyChanged;
-                this.StartPopulatingContent();
+                Region.PropertyChanged -= Region_PropertyChanged;
+                StartPopulatingContent();
             }
         }
 
@@ -91,7 +87,7 @@ namespace Prism.Navigation.Regions.Behaviors
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
 
-            if (e.RegionName == this.Region.Name)
+            if (e.RegionName == Region.Name)
             {
                 AddViewIntoRegion(e.GetView(ContainerLocator.Container));
             }

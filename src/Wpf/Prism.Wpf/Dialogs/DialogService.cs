@@ -1,9 +1,5 @@
-﻿using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Windows;
 using Prism.Common;
-using Prism.Ioc;
 
 namespace Prism.Dialogs
 {

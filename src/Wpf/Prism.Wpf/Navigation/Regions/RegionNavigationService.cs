@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using Prism.Common;
 using Prism.Properties;
-using Prism.Ioc;
 
 namespace Prism.Navigation.Regions
 {

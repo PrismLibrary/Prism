@@ -1,5 +1,3 @@
-
-
 namespace Prism.Modularity
 {
     /// <summary>

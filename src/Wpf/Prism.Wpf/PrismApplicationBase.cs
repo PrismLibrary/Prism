@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows;
 using Prism.Common;
-using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Navigation.Regions;
 
