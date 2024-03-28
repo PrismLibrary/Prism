@@ -19,7 +19,7 @@ The Prism Team would first and foremost like to thank all of those developers wh
 
 ## Support
 
-- Documentation is maintained in [the Prism-Documentation repo](https://github.com/PrismLibrary/Prism-Documentation) under /docs and can be found in a readable format on [the website](http://prismlibrary.com/docs/).
+- Documentation is maintained in [the Prism-Documentation repo](https://github.com/PrismLibrary/Prism-Documentation) under /docs and can be found in a readable format on [the website](https://docs.prismlibrary.com/).
 - StackOverflow: **NOTE** The Prism Team no longer supports or engages with questions posted on StackOverflow. Questions posted there may or may not receive correct answers.
 - For general questions and support, post your questions in [GitHub Discussions](https://github.com/PrismLibrary/Prism/discussions).
 - You can enter bugs and feature requests in our [Issues](https://github.com/PrismLibrary/Prism/issues/new/choose).
