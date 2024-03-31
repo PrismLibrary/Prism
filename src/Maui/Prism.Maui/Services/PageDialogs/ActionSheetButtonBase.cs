@@ -5,33 +5,34 @@
 /// </summary>
 public abstract class ActionSheetButtonBase : IActionSheetButton
 {
+    /// <summary>
+    /// Base class for action sheet buttons.
+    /// </summary>
     protected ActionSheetButtonBase()
     {
 
     }
 
     /// <summary>
-    /// Gets a value indicating whether this <see cref="IActionSheetButton"/>
-    /// is cancel.
+    /// Gets a value indicating whether this <see cref="IActionSheetButton"/> is cancel.
     /// </summary>
     /// <value><c>true</c> if is cancel; otherwise, <c>false</c>.</value>
     protected bool _isCancel { get; private set; }
 
     /// <summary>
-    /// Gets a value indicating whether this <see cref="IActionSheetButton"/>
-    /// is destroy.
+    /// Gets a value indicating whether this <see cref="IActionSheetButton"/> is destroy.
     /// </summary>
     /// <value><c>true</c> if is destroy; otherwise, <c>false</c>.</value>
     protected bool _isDestroy { get; private set; }
 
     /// <summary>
-    /// The backing text for <see cref="IActionSheetButton"/>
+    /// The backing text for <see cref="IActionSheetButton"/>.
     /// </summary>
     /// <value>The text.</value>
     protected string _text { get; private set; }
 
     /// <summary>
-    /// The button will be used as a Cancel Button
+    /// Gets or sets a value indicating whether the button will be used as a Cancel Button.
     /// </summary>
     /// <value><c>true</c> if is cancel; otherwise, <c>false</c>.</value>
     public bool IsCancel
@@ -45,7 +46,7 @@ public abstract class ActionSheetButtonBase : IActionSheetButton
     }
 
     /// <summary>
-    /// The button will be used as a Destroy Button
+    /// Gets or sets a value indicating whether the button will be used as a Destroy Button.
     /// </summary>
     /// <value><c>true</c> if is destroy; otherwise, <c>false</c>.</value>
     public bool IsDestroy
@@ -59,7 +60,7 @@ public abstract class ActionSheetButtonBase : IActionSheetButton
     }
 
     /// <summary>
-    /// Executes the action to take when the button is pressed
+    /// Gets or sets the text of the button.
     /// </summary>
     /// <value>The text.</value>
     public string Text
@@ -69,20 +70,20 @@ public abstract class ActionSheetButtonBase : IActionSheetButton
     }
 
     /// <summary>
-    /// Executes the action.
+    /// Executes the action to take when the button is pressed.
     /// </summary>
     protected abstract Task OnButtonPressed();
 
-    /// <inheritDoc />
+    /// <inheritdoc />
     bool IActionSheetButton.IsCancel => _isCancel;
 
-    /// <inheritDoc />
+    /// <inheritdoc />
     bool IActionSheetButton.IsDestroy => _isDestroy;
 
-    /// <inheritDoc />
+    /// <inheritdoc />
     string IActionSheetButton.Text => _text;
 
-    /// <inheritDoc />
+    /// <inheritdoc />
     Task IActionSheetButton.PressButton() =>
        OnButtonPressed();
 }
