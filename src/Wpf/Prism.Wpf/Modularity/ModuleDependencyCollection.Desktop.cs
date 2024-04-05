@@ -1,6 +1,3 @@
-
-
-using System;
 using System.Configuration;
 
 namespace Prism.Modularity

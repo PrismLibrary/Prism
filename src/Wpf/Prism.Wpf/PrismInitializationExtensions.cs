@@ -1,10 +1,9 @@
-﻿using Prism.Events;
-using Prism.Ioc;
+using Prism.Dialogs;
+using Prism.Events;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Navigation.Regions;
 using Prism.Navigation.Regions.Behaviors;
-using Prism.Dialogs;
 
 namespace Prism
 {

@@ -1,5 +1,4 @@
 using Prism.Common;
-using System;
 
 namespace Prism.Navigation.Regions
 {

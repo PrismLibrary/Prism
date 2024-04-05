@@ -1,4 +1,6 @@
-﻿namespace PrismMauiDemo.ViewModels;
+using MauiModule.ViewModels;
+
+namespace PrismMauiDemo.ViewModels;
 
 public class RootPageViewModel
 {
@@ -7,14 +9,31 @@ public class RootPageViewModel
     public RootPageViewModel(INavigationService navigationService)
     {
         _navigationService = navigationService;
-        NavigateCommand = new DelegateCommand<string>(OnNavigateCommandExecuted);
+        NavigateCommand = new AsyncDelegateCommand<string>(OnNavigateCommandExecuted);
     }
 
-    public DelegateCommand<string> NavigateCommand { get; }
+    public AsyncDelegateCommand<string> NavigateCommand { get; }
 
-    private void OnNavigateCommandExecuted(string uri)
+    private async Task OnNavigateCommandExecuted(string uri)
     {
-        _navigationService.NavigateAsync(uri)
-            .OnNavigationError(ex => Console.WriteLine(ex));
+        if (uri == "TabbedPage")
+        {
+            var result = await _navigationService.CreateBuilder()
+                .AddTabbedSegment(s => s.CreateTab<ViewAViewModel>()
+                    .CreateTab(t => t.AddNavigationPage().AddSegment<ViewBViewModel>())
+                    .CreateTab("ViewC")
+                    .CreateTab("ViewD"))
+                .NavigateAsync();
+            if (result.Exception is not null)
+            {
+                Console.WriteLine(result.Exception);
+                System.Diagnostics.Debugger.Break();
+            }
+        }
+        else
+        {
+            _navigationService.NavigateAsync(uri)
+                .OnNavigationError(ex => Console.WriteLine(ex));
+        }
     }
 }

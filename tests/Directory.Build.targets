@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CS0067</NoWarn>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+</Project>

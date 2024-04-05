@@ -1,7 +1,3 @@
-
-
-using System;
-
 namespace Prism.Modularity
 {
     [Serializable]

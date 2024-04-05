@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using Prism.Common;
 using Prism.Events;
-using Prism.Ioc;
 using Prism.Properties;
 
 namespace Prism.Navigation.Regions

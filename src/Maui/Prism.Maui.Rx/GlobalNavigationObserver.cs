@@ -1,4 +1,3 @@
-﻿using System;
 using System.Reactive.Subjects;
 using Prism.Events;
 

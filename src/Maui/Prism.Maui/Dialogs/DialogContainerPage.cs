@@ -9,11 +9,20 @@ using Page = Microsoft.Maui.Controls.Page;
 
 namespace Prism.Dialogs;
 
+/// <summary>
+/// Represents a page that serves as a container for dialogs in Prism.
+/// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public class DialogContainerPage : ContentPage, IDialogContainer
 {
+    /// <summary>
+    /// The name of the automation ID for the dialog container page.
+    /// </summary>
     public const string AutomationIdName = "PrismDialogModal";
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DialogContainerPage"/> class.
+    /// </summary>
     public DialogContainerPage()
     {
         AutomationId = AutomationIdName;
@@ -21,10 +30,25 @@ public class DialogContainerPage : ContentPage, IDialogContainer
         On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.OverFullScreen);
     }
 
+    /// <summary>
+    /// Gets the dialog view displayed in the container page.
+    /// </summary>
     public View DialogView { get; private set; }
 
+    /// <summary>
+    /// Gets the command used to dismiss the dialog.
+    /// </summary>
     public ICommand Dismiss { get; private set; }
 
+    /// <summary>
+    /// Configures the layout of the dialog container page.
+    /// </summary>
+    /// <param name="currentPage">The current page.</param>
+    /// <param name="dialogView">The dialog view to be displayed.</param>
+    /// <param name="hideOnBackgroundTapped">A flag indicating whether the dialog should be hidden when the background is tapped.</param>
+    /// <param name="dismissCommand">The command to be executed when the dialog is dismissed.</param>
+    /// <param name="parameters">The parameters passed to the dialog.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task ConfigureLayout(Page currentPage, View dialogView, bool hideOnBackgroundTapped, ICommand dismissCommand, IDialogParameters parameters)
     {
         Dismiss = dismissCommand;
@@ -34,16 +58,35 @@ public class DialogContainerPage : ContentPage, IDialogContainer
         await DoPush(currentPage);
     }
 
+    /// <summary>
+    /// Performs the push operation to display the dialog container page.
+    /// </summary>
+    /// <param name="currentPage">The current page.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     protected virtual async Task DoPush(Page currentPage)
     {
         await currentPage.Navigation.PushModalAsync(this, false);
     }
 
+    /// <summary>
+    /// Performs the pop operation to dismiss the dialog container page.
+    /// </summary>
+    /// <param name="currentPage">The current page.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public virtual async Task DoPop(Page currentPage)
     {
         await currentPage.Navigation.PopModalAsync(false);
     }
 
+    /// <summary>
+    /// Gets the content layout for the dialog container page.
+    /// </summary>
+    /// <param name="currentPage">The current page.</param>
+    /// <param name="dialogView">The dialog view to be displayed.</param>
+    /// <param name="hideOnBackgroundTapped">A flag indicating whether the dialog should be hidden when the background is tapped.</param>
+    /// <param name="dismissCommand">The command to be executed when the dialog is dismissed.</param>
+    /// <param name="parameters">The parameters passed to the dialog.</param>
+    /// <returns>The content layout for the dialog container page.</returns>
     protected virtual View GetContentLayout(Page currentPage, View dialogView, bool hideOnBackgroundTapped, ICommand dismissCommand, IDialogParameters parameters)
     {
         var overlay = new AbsoluteLayout();
@@ -92,6 +135,14 @@ public class DialogContainerPage : ContentPage, IDialogContainer
         return overlay;
     }
 
+    /// <summary>
+    /// Gets the mask view for the dialog container page.
+    /// </summary>
+    /// <param name="currentPage">The current page.</param>
+    /// <param name="dialogView">The dialog view to be displayed.</param>
+    /// <param name="hideOnBackgroundTapped">A flag indicating whether the dialog should be hidden when the background is tapped.</param>
+    /// <param name="dismissCommand">The command to be executed when the dialog is dismissed.</param>
+    /// <returns>The mask view for the dialog container page.</returns>
     private View GetMask(Page currentPage, View dialogView, bool hideOnBackgroundTapped, ICommand dismissCommand)
     {
         View mask = DialogLayout.GetMask(dialogView);
@@ -130,6 +181,12 @@ public class DialogContainerPage : ContentPage, IDialogContainer
         return mask;
     }
 
+    /// <summary>
+    /// Gets the overlay style for the dialog container page.
+    /// </summary>
+    /// <param name="popupView">The popup view.</param>
+    /// <param name="currentPage">The current page.</param>
+    /// <returns>The overlay style for the dialog container page.</returns>
     private Style GetOverlayStyle(View popupView, Page currentPage)
     {
         var style = DialogLayout.GetMaskStyle(popupView);
@@ -141,6 +198,11 @@ public class DialogContainerPage : ContentPage, IDialogContainer
         return GetStyle(currentPage);
     }
 
+    /// <summary>
+    /// Gets the style for the specified element.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <returns>The style for the specified element.</returns>
     private static Style GetStyle(Element element)
     {
         if (element is Page page && page.Resources.ContainsKey(DialogLayout.PopupOverlayStyle) && page.Resources[DialogLayout.PopupOverlayStyle] is Style pageStyle)
@@ -165,6 +227,10 @@ public class DialogContainerPage : ContentPage, IDialogContainer
             return GetStyle(element.Parent);
     }
 
+    /// <summary>
+    /// Gets the default overlay style for the dialog container page.
+    /// </summary>
+    /// <returns>The default overlay style for the dialog container page.</returns>
     private static Style DefaultStyle()
     {
         var overlayStyle = new Style(typeof(BoxView));

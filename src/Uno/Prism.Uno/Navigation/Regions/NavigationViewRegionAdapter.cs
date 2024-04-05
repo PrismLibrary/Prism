@@ -1,6 +1,3 @@
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-
 namespace Prism.Navigation.Regions;
 
 public sealed class NavigationViewRegionAdapter : RegionAdapterBase<NavigationView>

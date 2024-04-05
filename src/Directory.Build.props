@@ -8,6 +8,7 @@
     <IsPackable Condition=" '$(IsFormsProject)' ">!$(DisableFormsPublish)</IsPackable>
     <IsPackable Condition=" '$(IsUnoProject)' ">!$(DisableUnoPublish)</IsPackable>
     <ContinuousIntegrationBuild Condition="'$(BUILD_BUILDID)' != ''">true</ContinuousIntegrationBuild>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <Choose>

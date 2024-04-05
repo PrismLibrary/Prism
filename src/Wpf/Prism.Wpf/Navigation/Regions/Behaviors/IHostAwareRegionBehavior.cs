@@ -1,5 +1,3 @@
-
-
 namespace Prism.Navigation.Regions.Behaviors
 {
     /// <summary>

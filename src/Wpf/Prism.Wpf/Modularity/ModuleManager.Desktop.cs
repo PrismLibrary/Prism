@@ -1,7 +1,3 @@
-
-
-using System.Collections.Generic;
-
 namespace Prism.Modularity
 {
     /// <summary>
@@ -16,23 +12,8 @@ namespace Prism.Modularity
         /// <value>The module type loaders.</value>
         public virtual IEnumerable<IModuleTypeLoader> ModuleTypeLoaders
         {
-            get
-            {
-                if (this.typeLoaders == null)
-                {
-                    this.typeLoaders = new List<IModuleTypeLoader>
-                                          {
-                                              new FileModuleTypeLoader()
-                                          };
-                }
-
-                return this.typeLoaders;
-            }
-
-            set
-            {
-                this.typeLoaders = value;
-            }
+            get => _typeLoaders ??= [new FileModuleTypeLoader()];
+            set => _typeLoaders = value;
         }
 
     }
