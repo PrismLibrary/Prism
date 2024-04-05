@@ -702,6 +702,29 @@ public class NavigationTests : TestBase
         Assert.IsType<MockViewB>(window.CurrentPage);
     }
 
+    [Theory]
+    [InlineData("NavigationPage|MockViewB", typeof(MockViewB))]
+    [InlineData("MockViewC", typeof(MockViewC))]
+    public void Navigate_And_SelectTab(string selectTab, Type viewType)
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .CreateWindow(n => n.NavigateAsync($"MockExplicitTabbedPage?{KnownNavigationParameters.SelectedTab}={selectTab}")))
+            .Build();
+        var window = GetWindow(mauiApp);
+        var page = window.Page;
+
+        Assert.IsType<MockExplicitTabbedPage>(page);
+        var tabbed = page as MockExplicitTabbedPage;
+
+        var child = tabbed.CurrentPage;
+        if (child is NavigationPage navPage)
+        {
+            child = navPage.RootPage;
+        }
+
+        Assert.IsType(viewType, child);
+    }
+
     private static void TestPage(Page page, bool ignoreNavigationPage = false)
     {
         Assert.NotNull(page.BindingContext);

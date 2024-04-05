@@ -973,37 +973,56 @@ public class PageNavigationService : INavigationService, IRegistryAware
     {
         var registry = Registry;
         var selectRegistration = registry.Registrations.FirstOrDefault(x => x.Name == selectedTab);
+        Page child = null;
         if (selectRegistration is null)
-            throw new KeyNotFoundException($"No Registration found to select tab '{selectedTab}'.");
-
-        var child = tabbedPage.Children
-            .FirstOrDefault(x => IsPage(x, selectRegistration));
-        if (child is not null)
         {
-            tabbedPage.CurrentPage = child;
+            child = tabbedPage.Children.FirstOrDefault(x => x.GetType().Name == selectedTab) ??
+                throw new KeyNotFoundException($"No Registration found to select tab '{selectedTab}'.");
         }
-    }
+        else
+        {
+            child = tabbedPage.Children.FirstOrDefault(x => IsPage(x, selectRegistration, selectedTab)) ??
+                throw new KeyNotFoundException($"No Child Page was found with the key '{selectedTab}'.");
+        }
 
-    private static bool IsPage(Page page, ViewRegistration registration) =>
-        (string)page.GetValue(ViewModelLocator.NavigationNameProperty) == registration.Name || page.GetType() == registration.View;
+        tabbedPage.CurrentPage = child;
+    }
 
     private void TabbedPageSelectNavigationChildTab(TabbedPage tabbedPage, string rootTab, string selectedTab)
     {
         var registry = Registry;
         var rootRegistration = registry.Registrations.FirstOrDefault(x => x.Name == rootTab);
         var selectRegistration = registry.Registrations.FirstOrDefault(x => x.Name == selectedTab);
-        if (rootRegistration is null)
-            throw new KeyNotFoundException($"No Registration found to select tab '{rootTab}'.");
-        else if (selectRegistration is null)
-            throw new KeyNotFoundException($"No Registration found to select tab '{selectedTab}'.");
-        else if (!rootRegistration.View.IsAssignableTo(typeof(NavigationPage)))
-            throw new InvalidOperationException($"Could not select Tab with a root type '{rootRegistration.View.FullName}'. This must inherit from NavigationPage.");
 
-        var child = tabbedPage.Children
-            .FirstOrDefault(x => x is NavigationPage navPage && IsPage(x, rootRegistration) && (IsPage(navPage.RootPage, selectRegistration) || IsPage(navPage.CurrentPage, selectRegistration)));
+        var candidates = tabbedPage.Children
+            .OfType<NavigationPage>()
+            .Where(x => IsPage(x, rootRegistration, rootTab));
+        var child = candidates.SingleOrDefault(x => IsPage(x.RootPage, selectRegistration, selectedTab)) ??
+            candidates.SingleOrDefault(x => IsPage(x.CurrentPage, selectRegistration, selectedTab));
 
         if (child is not null)
             tabbedPage.CurrentPage = child;
+    }
+
+    // This provides a fallback if we did not find a registration for the Page
+    private static bool IsPage(Page referencePage, string name) =>
+        ViewModelLocator.GetNavigationName(referencePage) == name || referencePage.GetType().Name == name || referencePage.GetType().FullName == name;
+
+    private static bool IsPage(Page referencePage, ViewRegistration registration, string name)
+    {
+        var referenceType = referencePage.GetType();
+        if (registration is not null)
+        {
+            // We're allowing an empty string here for cases where someone has a manually constructed TabbedPage
+            var navigationName = ViewModelLocator.GetNavigationName(referencePage);
+            if (registration.View == referenceType && (string.IsNullOrEmpty(navigationName) || navigationName == name))
+                return true;
+
+            // This is an override for cases where someone may have a NavigationPage
+            return name == nameof(NavigationPage) && referenceType == typeof(NavigationPage);
+        }
+
+        return IsPage(referencePage, name);
     }
 
     protected virtual async Task UseReverseNavigation(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
