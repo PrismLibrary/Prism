@@ -29,6 +29,7 @@ public abstract class TestBase
                 {
                     container.RegisterScoped<INavigationService, TestPageNavigationService>();
                     container.RegisterForNavigation<MockHome, MockHomeViewModel>()
+                        .RegisterForNavigation<MockExplicitTabbedPage>()
                         .RegisterForNavigation<MockViewA, MockViewAViewModel>()
                         .RegisterForNavigation<MockViewB, MockViewBViewModel>()
                         .RegisterForNavigation<MockViewC, MockViewCViewModel>()

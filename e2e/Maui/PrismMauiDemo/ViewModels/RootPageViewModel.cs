@@ -18,12 +18,17 @@ public class RootPageViewModel
     {
         if (uri == "TabbedPage")
         {
-            await _navigationService.CreateBuilder()
+            var result = await _navigationService.CreateBuilder()
                 .AddTabbedSegment(s => s.CreateTab<ViewAViewModel>()
                     .CreateTab(t => t.AddNavigationPage().AddSegment<ViewBViewModel>())
                     .CreateTab("ViewC")
                     .CreateTab("ViewD"))
                 .NavigateAsync();
+            if (result.Exception is not null)
+            {
+                Console.WriteLine(result.Exception);
+                System.Diagnostics.Debugger.Break();
+            }
         }
         else
         {

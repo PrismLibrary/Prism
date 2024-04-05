@@ -1,9 +1,11 @@
+using Prism.Behaviors;
 using Prism.Common;
 using Prism.Controls;
 using Prism.DryIoc.Maui.Tests.Mocks.Navigation;
 using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Maui.Tests.Mocks.Views;
 using Prism.Navigation.Xaml;
+using Prism.Xaml;
 using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
 
 namespace Prism.DryIoc.Maui.Tests.Fixtures.Navigation;
@@ -18,6 +20,8 @@ public class NavigationTests : TestBase
     [Theory]
     [InlineData("NavigationPage/MockViewA/MockViewB/MockViewC")]
     [InlineData("MockHome/NavigationPage/MockViewA")]
+    [InlineData("MockExplicitTabbedPage")]
+    [InlineData("TabbedPage?createTab=NavigationPage%2FMockViewA%2FMockViewB%3Fid%3D5%2FMockViewC&createTab=MockViewD")]
     public void PagesInjectScopedInstanceOfIPageAccessor(string uri)
     {
         var mauiApp = CreateBuilder(prism => prism.CreateWindow(uri))
@@ -624,9 +628,92 @@ public class NavigationTests : TestBase
         Assert.True(push.UseModalNavigation);
     }
 
-    private static void TestPage(Page page)
+    [Fact]
+    public async Task DeepLinked_ModalNavigationPage_GoesBackToPreviousPage()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .CreateWindow(n => n.CreateBuilder()
+                .AddSegment("MockViewA")
+                .AddNavigationPage()
+                .AddSegment("MockViewB")
+                .AddSegment("MockViewC")
+                .AddSegment("MockViewD")
+                .NavigateAsync()))
+            .Build();
+
+        var window = GetWindow(mauiApp);
+        var page = window.CurrentPage;
+
+        Assert.IsType<MockViewA>(window.Page);
+        Assert.IsType<MockViewD>(page);
+        var navigationService = Prism.Navigation.Xaml.Navigation.GetNavigationService(page);
+        var result = await navigationService.GoBackAsync();
+
+        Assert.True(result.Success);
+        Assert.IsType<MockViewC>(window.CurrentPage);
+    }
+
+    [Fact]
+    public async Task DeepLinked_ModalNavigationPage_GoesBackToRoot()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .CreateWindow(n => n.CreateBuilder()
+                .AddSegment("MockViewA")
+                .AddNavigationPage()
+                .AddSegment("MockViewB")
+                .AddSegment("MockViewC")
+                .AddSegment("MockViewD")
+                .NavigateAsync()))
+            .Build();
+
+        var window = GetWindow(mauiApp);
+        var page = window.CurrentPage;
+
+        Assert.IsType<MockViewA>(window.Page);
+        Assert.IsType<MockViewD>(page);
+        var navigationService = Prism.Navigation.Xaml.Navigation.GetNavigationService(page);
+        var result = await navigationService.GoBackToRootAsync();
+
+        Assert.True(result.Success);
+        Assert.IsType<MockViewB>(window.CurrentPage);
+    }
+
+    [Fact]
+    public async Task DeepLinked_ModalNavigationPage_GoesBackToPreviousPage_AsTabbedChild()
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .CreateWindow(n => n.CreateBuilder()
+                .AddSegment("MockViewA")
+                .AddTabbedSegment(s => s.CreateTab(t =>
+                    t.AddNavigationPage().AddSegment("MockViewB").AddSegment("MockViewC"))
+                    .CreateTab("MockViewD"))
+                .NavigateAsync()))
+            .Build();
+
+        var window = GetWindow(mauiApp);
+        var page = window.CurrentPage;
+
+        Assert.IsType<MockViewA>(window.Page);
+        Assert.IsType<MockViewC>(page);
+        var navigationService = Prism.Navigation.Xaml.Navigation.GetNavigationService(page);
+        var result = await navigationService.GoBackAsync();
+
+        Assert.True(result.Success);
+        Assert.IsType<MockViewB>(window.CurrentPage);
+    }
+
+    private static void TestPage(Page page, bool ignoreNavigationPage = false)
     {
         Assert.NotNull(page.BindingContext);
+        var container = Prism.Navigation.Xaml.Navigation.GetContainerProvider(page);
+        Assert.IsAssignableFrom<IScopedProvider>(container);
+
+        TestPageBehaviors(page);
+
+        var accessor = container.Resolve<IPageAccessor>();
+        Assert.NotNull(accessor.Page);
+        Assert.Same(page, accessor.Page);
+
         if(page.Parent is not null)
         {
             Assert.False(page.BindingContext == page);
@@ -636,12 +723,84 @@ public class NavigationTests : TestBase
 
         if (page is NavigationPage)
         {
-            Assert.IsType<PrismNavigationPage>(page);
+            if (!ignoreNavigationPage)
+            {
+                Assert.IsType<PrismNavigationPage>(page);
+            }
+
+            return;
+        }
+
+        if (page is TabbedPage tabbedPage)
+        {
+            foreach(var child in tabbedPage.Children)
+            {
+                TestPage(child, tabbedPage is MockExplicitTabbedPage);
+
+                if (child is NavigationPage childNavigationPage)
+                {
+                    var root = childNavigationPage.RootPage;
+                    Assert.Equal(DynamicTab.GetTitle(root), childNavigationPage.Title);
+                    Assert.Equal(DynamicTab.GetIconImageSource(root), child.IconImageSource);
+
+                    switch (root)
+                    {
+                        case MockViewA viewA:
+                            Assert.Equal(MockViewA.ExpectedTitle, DynamicTab.GetTitle(viewA));
+                            break;
+                        case MockViewB viewB:
+                            Assert.Equal(MockViewB.ExpectedTitle, DynamicTab.GetTitle(viewB));
+                            break;
+                        case MockViewC viewC:
+                            Assert.NotEqual(MockViewC.ExpectedTitle, DynamicTab.GetTitle(viewC));
+                            Assert.Equal(MockViewC.ExpectedDynamicTitle, DynamicTab.GetTitle(viewC));
+                            break;
+                    }
+                }
+            }
             return;
         }
 
         var viewModel = page.BindingContext as MockViewModelBase;
         Assert.NotNull(viewModel);
         Assert.Same(page, viewModel!.Page);
+    }
+
+    private static void TestPageBehaviors(Page page)
+    {
+        var expectedBehaviors = page switch
+        {
+            TabbedPage => 4,
+            NavigationPage => 6,
+            _ => 3
+        };
+
+        Assert.Equal(expectedBehaviors, page.Behaviors.Count);
+
+        switch(page)
+        {
+            case TabbedPage:
+                TestTabbedPageBehaviors(page);
+                break;
+            case NavigationPage:
+                TestNavigationPageBehaviors(page);
+                break;
+        }
+
+        Assert.NotNull(page.Behaviors.OfType<PageScopeBehavior>().SingleOrDefault());
+        Assert.NotNull(page.Behaviors.OfType<RegionCleanupBehavior>().SingleOrDefault());
+        Assert.NotNull(page.Behaviors.OfType<PageLifeCycleAwareBehavior>().SingleOrDefault());
+    }
+
+    private static void TestTabbedPageBehaviors(Page page)
+    {
+        Assert.NotNull(page.Behaviors.OfType<TabbedPageActiveAwareBehavior>().SingleOrDefault());
+    }
+
+    private static void TestNavigationPageBehaviors(Page page)
+    {
+        Assert.NotNull(page.Behaviors.OfType<NavigationPageActiveAwareBehavior>().SingleOrDefault());
+        Assert.NotNull(page.Behaviors.OfType<NavigationPageSystemGoBackBehavior>().SingleOrDefault());
+        Assert.NotNull(page.Behaviors.OfType<NavigationPageTabbedParentBehavior>().SingleOrDefault());
     }
 }
