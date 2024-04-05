@@ -62,11 +62,11 @@ public interface INavigationBuilder
     INavigationBuilder UseRelativeNavigation();
 
     /// <summary>
-    /// Navigates back to the previous view model asynchronously.
+    /// Navigates back to the specified view asynchronously.
     /// </summary>
-    /// <typeparam name="TViewModel">The type of the view model to navigate back to.</typeparam>
+    /// <param name="name">The name of the View to navigate back to.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task<INavigationResult> GoBackAsync<TViewModel>();
+    Task<INavigationResult> GoBackToAsync(string name);
 
     /// <summary>
     /// Navigates to the specified view model asynchronously.

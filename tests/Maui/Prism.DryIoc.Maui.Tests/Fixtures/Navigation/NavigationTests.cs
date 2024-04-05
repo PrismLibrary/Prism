@@ -241,7 +241,7 @@ public class NavigationTests : TestBase
 
         var result = await navigationPage.CurrentPage.GetContainerProvider()
             .Resolve<INavigationService>()
-            .GoBackAsync("MockViewC");
+            .GoBackToAsync("MockViewC");
 
         Assert.True(result.Success);
 
@@ -264,7 +264,7 @@ public class NavigationTests : TestBase
         var result = await navigationPage.CurrentPage.GetContainerProvider()
             .Resolve<INavigationService>()
             .CreateBuilder()
-            .GoBackAsync<MockViewCViewModel>();
+            .GoBackToAsync<MockViewCViewModel>();
 
         Assert.True(result.Success);
 
@@ -315,7 +315,7 @@ public class NavigationTests : TestBase
 
         var result = await navigationPage.CurrentPage.GetContainerProvider()
             .Resolve<INavigationService>()
-            .GoBackAsync("MockViewC");
+            .GoBackToAsync("MockViewC");
 
         Assert.True(result.Success);
 
@@ -340,7 +340,7 @@ public class NavigationTests : TestBase
 
         var result = await navigationPage.CurrentPage.GetContainerProvider()
             .Resolve<INavigationService>()
-            .GoBackAsync("MockViewA");
+            .GoBackToAsync("MockViewA");
 
         Assert.True(result.Success);
 

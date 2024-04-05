@@ -130,7 +130,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
     }
 
     /// <inheritdoc />
-    public virtual async Task<INavigationResult> GoBackAsync(string viewName, INavigationParameters parameters)
+    public virtual async Task<INavigationResult> GoBackToAsync(string viewName, INavigationParameters parameters)
     {
         await _semaphore.WaitAsync();
         try

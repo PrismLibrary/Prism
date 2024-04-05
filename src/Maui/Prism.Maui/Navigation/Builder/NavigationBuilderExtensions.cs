@@ -114,6 +114,15 @@ public static class NavigationBuilderExtensions
     public static INavigationBuilder AddNavigationPage(this INavigationBuilder builder, bool useModalNavigation) =>
         builder.AddNavigationPage(o => o.UseModalNavigation(useModalNavigation));
 
+    /// <summary>
+    /// Navigates back to the specified view model asynchronously.
+    /// </summary>
+    /// <typeparam name="TViewModel">The ViewModel to navigate to.</typeparam>
+    /// <param name="builder">The <see cref="INavigationBuilder"/>.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public static Task<INavigationResult> GoBackToAsync<TViewModel>(this INavigationBuilder builder) =>
+        builder.GoBackToAsync(GetNavigationKey<TViewModel>(builder));
+
     //public static INavigationBuilder AddSegment(this INavigationBuilder builder, string segmentName, params string[] createTabs)
     //{
     //    return builder;

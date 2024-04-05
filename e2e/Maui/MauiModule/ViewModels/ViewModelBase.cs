@@ -80,7 +80,7 @@ public abstract class ViewModelBase : BindableBase, IInitialize, INavigatedAware
     private void OnGoBack(string viewName)
     {
         Messages.Add($"On Go Back {viewName}");
-        _navigationService.GoBackAsync(viewName);
+        _navigationService.GoBackToAsync(viewName);
     }
 
     public void Initialize(INavigationParameters parameters)

@@ -31,7 +31,7 @@ public static class INavigationServiceExtensions
     /// <param name="navigationService">Service for handling navigation between views</param>
     /// <param name="viewName">The name of the View to navigate back to</param>
     /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-    public static Task<INavigationResult> GoBackAsync(this INavigationService navigationService, string viewName) => navigationService.GoBackAsync(viewName, new NavigationParameters());
+    public static Task<INavigationResult> GoBackToAsync(this INavigationService navigationService, string viewName) => navigationService.GoBackToAsync(viewName, new NavigationParameters());
 
     /// <summary>
     /// When navigating inside a NavigationPage: Pops all but the root Page off the navigation stack
