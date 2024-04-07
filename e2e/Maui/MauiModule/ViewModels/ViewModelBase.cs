@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 
 namespace MauiModule.ViewModels;
@@ -29,7 +29,7 @@ public abstract class ViewModelBase : BindableBase, IInitialize, INavigatedAware
         SelectedDialog = AvailableDialogs.FirstOrDefault();
         ShowDialog = new DelegateCommand(OnShowDialogCommand, () => !string.IsNullOrEmpty(SelectedDialog))
             .ObservesProperty(() => SelectedDialog);
-        GoBack = new DelegateCommand<string>(OnGoBack);
+        GoBack = new DelegateCommand<string>(OnGoToBack);
     }
 
     public IEnumerable<string> AvailableDialogs { get; }
@@ -77,10 +77,10 @@ public abstract class ViewModelBase : BindableBase, IInitialize, INavigatedAware
     private void DialogCallback(IDialogResult result) =>
         Messages.Add("Dialog Closed");
 
-    private void OnGoBack(string viewName)
+    private void OnGoToBack(string viewName)
     {
         Messages.Add($"On Go Back {viewName}");
-        _navigationService.GoBackAsync(viewName);
+        _navigationService.GoBackToAsync(viewName);
     }
 
     public void Initialize(INavigationParameters parameters)

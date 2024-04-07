@@ -199,7 +199,26 @@ public class NavigationTests : TestBase
         TestPage(currentPage);
     }
 
-    [Fact(Skip = "Blocked by dotnet/maui/issues/8157")]
+    [Fact]
+    public void MAUI_Issue_8157_InitialNavigation_PushesModals()
+    {
+        Exception startupEx = null;
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow("MockViewA/MockViewB", ex =>
+        {
+            startupEx = ex;
+        }))
+            .Build();
+        Assert.Null(startupEx);
+        var window = GetWindow(mauiApp);
+
+        Assert.IsType<MockViewA>(window.Page);
+        TestPage(window.Page);
+        var currentPage = window.CurrentPage;
+        Assert.IsType<MockViewB>(currentPage);
+        TestPage(currentPage);
+    }
+
+    [Fact(Skip = "No longer blocked by dotnet/maui/issues/8157. Not yet implemented.")]
     public async Task RelativeNavigation_RemovesPage_AndNavigatesModally()
     {
         Exception startupEx = null;
@@ -211,19 +230,18 @@ public class NavigationTests : TestBase
         Assert.Null(startupEx);
         var window = GetWindow(mauiApp);
 
-        var rootPage = window.Page as MockViewA;
-        Assert.NotNull(rootPage);
-        TestPage(rootPage);
-        var currentPage = rootPage.Navigation.ModalStack.Last();
+        Assert.IsType<MockViewA>(window.Page);
+        TestPage(window.Page);
+        var currentPage = window.CurrentPage;
         Assert.IsType<MockViewB>(currentPage);
         TestPage(currentPage);
-        var container = currentPage.GetContainerProvider();
-        var navService = container.Resolve<INavigationService>();
-        Assert.Equal(2, rootPage.Navigation.ModalStack.Count);
-        await navService.NavigateAsync("../MockViewC");
-        var viewC = window.Page.Navigation.ModalStack.Last();
-        Assert.IsType<MockViewC>(viewC);
-        Assert.Equal(2, rootPage.Navigation.ModalStack.Count);
+        var navService = Prism.Navigation.Xaml.Navigation.GetNavigationService(currentPage);
+        Assert.Single(window.Page.Navigation.ModalStack);
+        var result = await navService.NavigateAsync("../MockViewC");
+        Assert.True(result.Success);
+        Assert.Null(result.Exception);
+        Assert.IsType<MockViewC>(window.CurrentPage);
+        Assert.Single(window.Page.Navigation.ModalStack);
     }
 
     [Fact]
@@ -241,7 +259,7 @@ public class NavigationTests : TestBase
 
         var result = await navigationPage.CurrentPage.GetContainerProvider()
             .Resolve<INavigationService>()
-            .GoBackAsync("MockViewC");
+            .GoBackToAsync("MockViewC");
 
         Assert.True(result.Success);
 
@@ -264,7 +282,7 @@ public class NavigationTests : TestBase
         var result = await navigationPage.CurrentPage.GetContainerProvider()
             .Resolve<INavigationService>()
             .CreateBuilder()
-            .GoBackAsync<MockViewCViewModel>();
+            .GoBackToAsync<MockViewCViewModel>();
 
         Assert.True(result.Success);
 
@@ -315,7 +333,7 @@ public class NavigationTests : TestBase
 
         var result = await navigationPage.CurrentPage.GetContainerProvider()
             .Resolve<INavigationService>()
-            .GoBackAsync("MockViewC");
+            .GoBackToAsync("MockViewC");
 
         Assert.True(result.Success);
 
@@ -340,7 +358,7 @@ public class NavigationTests : TestBase
 
         var result = await navigationPage.CurrentPage.GetContainerProvider()
             .Resolve<INavigationService>()
-            .GoBackAsync("MockViewA");
+            .GoBackToAsync("MockViewA");
 
         Assert.True(result.Success);
 
@@ -349,90 +367,6 @@ public class NavigationTests : TestBase
         // If there are two instances of MockViewA, it will return to the instance closest to the current page.
         // Therefore, the current modal stack will be in the state of NavigationPage/MockViewA/MockViewA.
         Assert.Equal(2, navigationPage.Navigation.NavigationStack.Count);
-    }
-
-    [Fact]
-    public async Task TabbedPage_SelectTabSets_CurrentTab()
-    {
-        var mauiApp = CreateBuilder(prism => prism.CreateWindow("TabbedPage?createTab=MockViewA&createTab=MockViewB&selectedTab=MockViewB"))
-            .Build();
-        var window = GetWindow(mauiApp);
-
-        Assert.IsAssignableFrom<TabbedPage>(window.Page);
-        var tabbedPage = (TabbedPage)window.Page;
-        Assert.NotNull(tabbedPage);
-        Assert.IsType<MockViewB>(tabbedPage.CurrentPage);
-    }
-
-    [Fact]
-    public async Task TabbedPage_SelectTab_SetsCurrentTab_WithNavigationPageTab()
-    {
-        var mauiApp = CreateBuilder(prism => prism.CreateWindow("TabbedPage?createTab=NavigationPage%2FMockViewA&createTab=NavigationPage%2FMockViewB&selectedTab=NavigationPage|MockViewB"))
-            .Build();
-        var window = GetWindow(mauiApp);
-
-        Assert.IsAssignableFrom<TabbedPage>(window.Page);
-        var tabbedPage = (TabbedPage)window.Page;
-        Assert.NotNull(tabbedPage);
-        var navPage = tabbedPage.CurrentPage as NavigationPage;
-        Assert.NotNull(navPage);
-        Assert.IsType<MockViewB>(navPage.CurrentPage);
-    }
-
-    [Fact]
-    public async Task TabbedPage_SelectsNewTab()
-    {
-        var mauiApp = CreateBuilder(prism => prism
-            .CreateWindow(nav => nav.CreateBuilder()
-                .AddTabbedSegment(s => s.CreateTab("MockViewA")
-                                                       .CreateTab("MockViewB")
-                                                       .CreateTab("MockViewC"))
-                .NavigateAsync()))
-            .Build();
-        var window = GetWindow(mauiApp);
-        Assert.IsAssignableFrom<TabbedPage>(window.Page);
-        var tabbed = window.Page as TabbedPage;
-
-        Assert.NotNull(tabbed);
-
-        Assert.IsType<MockViewA>(tabbed.CurrentPage);
-        var mockViewA = tabbed.CurrentPage;
-        var mockViewANav = Prism.Navigation.Xaml.Navigation.GetNavigationService(mockViewA);
-
-        await mockViewANav.SelectTabAsync("MockViewB");
-
-        Assert.IsNotType<MockViewA>(tabbed.CurrentPage);
-        Assert.IsType<MockViewB>(tabbed.CurrentPage);
-    }
-
-    [Fact]
-    public async Task TabbedPage_SelectsNewTab_WithNavigationParameters()
-    {
-        var mauiApp = CreateBuilder(prism => prism
-            .CreateWindow(nav => nav.CreateBuilder()
-                .AddTabbedSegment(s => s.CreateTab("MockViewA")
-                                                       .CreateTab("MockViewB")
-                                                       .CreateTab("MockViewC"))
-                .NavigateAsync()))
-            .Build();
-        var window = GetWindow(mauiApp);
-        Assert.IsAssignableFrom<TabbedPage>(window.Page);
-        var tabbed = window.Page as TabbedPage;
-
-        Assert.NotNull(tabbed);
-
-        Assert.IsType<MockViewA>(tabbed.CurrentPage);
-        var mockViewA = tabbed.CurrentPage;
-        var mockViewANav = Prism.Navigation.Xaml.Navigation.GetNavigationService(mockViewA);
-
-        var expectedMessage = nameof(TabbedPage_SelectsNewTab_WithNavigationParameters);
-        await mockViewANav.SelectTabAsync("MockViewB", new NavigationParameters { { "Message", expectedMessage } });
-
-        Assert.IsNotType<MockViewA>(tabbed.CurrentPage);
-        Assert.IsType<MockViewB>(tabbed.CurrentPage);
-
-        var viewModel = tabbed.CurrentPage.BindingContext as MockViewBViewModel;
-        Assert.Equal(expectedMessage, viewModel?.Message);
     }
 
     [Fact]
@@ -700,6 +634,29 @@ public class NavigationTests : TestBase
 
         Assert.True(result.Success);
         Assert.IsType<MockViewB>(window.CurrentPage);
+    }
+
+    [Theory]
+    [InlineData("NavigationPage|MockViewB", typeof(MockViewB))]
+    [InlineData("MockViewC", typeof(MockViewC))]
+    public void Navigate_And_SelectTab(string selectTab, Type viewType)
+    {
+        var mauiApp = CreateBuilder(prism => prism
+            .CreateWindow(n => n.NavigateAsync($"MockExplicitTabbedPage?{KnownNavigationParameters.SelectedTab}={selectTab}")))
+            .Build();
+        var window = GetWindow(mauiApp);
+        var page = window.Page;
+
+        Assert.IsType<MockExplicitTabbedPage>(page);
+        var tabbed = page as MockExplicitTabbedPage;
+
+        var child = tabbed.CurrentPage;
+        if (child is NavigationPage navPage)
+        {
+            child = navPage.RootPage;
+        }
+
+        Assert.IsType(viewType, child);
     }
 
     private static void TestPage(Page page, bool ignoreNavigationPage = false)

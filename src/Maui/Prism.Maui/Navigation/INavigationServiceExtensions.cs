@@ -31,7 +31,7 @@ public static class INavigationServiceExtensions
     /// <param name="navigationService">Service for handling navigation between views</param>
     /// <param name="viewName">The name of the View to navigate back to</param>
     /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
-    public static Task<INavigationResult> GoBackAsync(this INavigationService navigationService, string viewName) => navigationService.GoBackAsync(viewName, new NavigationParameters());
+    public static Task<INavigationResult> GoBackToAsync(this INavigationService navigationService, string viewName) => navigationService.GoBackToAsync(viewName, new NavigationParameters());
 
     /// <summary>
     /// When navigating inside a NavigationPage: Pops all but the root Page off the navigation stack
@@ -121,9 +121,50 @@ public static class INavigationServiceExtensions
     }
 
     /// <summary>
+    /// Selects a Tab of the TabbedPage parent.
+    /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views</param>
+    /// <param name="name">The name of the tab to select</param>
+    /// <param name="parameters">The navigation parameters</param>
+    /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+    public static Task<INavigationResult> SelectTabAsync(this INavigationService navigationService, string name, INavigationParameters parameters) =>
+        navigationService.SelectTabAsync(name, null, parameters);
+
+    /// <summary>
+    /// Selects a Tab of the TabbedPage parent.
+    /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views</param>
+    /// <param name="name">The name of the tab to select</param>
+    /// <param name="uri">The Uri to navigate to</param>
+    /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+    public static Task<INavigationResult> SelectTabAsync(this INavigationService navigationService, string name, Uri uri) =>
+        navigationService.SelectTabAsync(name, uri, new NavigationParameters());
+
+    /// <summary>
+    /// Selects a Tab of the TabbedPage parent.
+    /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views</param>
+    /// <param name="name">The name of the tab to select</param>
+    /// <param name="uri">The Uri to navigate to</param>
+    /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+    public static Task<INavigationResult> SelectTabAsync(this INavigationService navigationService, string name, string uri) =>
+        navigationService.SelectTabAsync(name, UriParsingHelper.Parse(uri), new NavigationParameters());
+
+    /// <summary>
+    /// Selects a Tab of the TabbedPage parent.
+    /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views</param>
+    /// <param name="name">The name of the tab to select</param>
+    /// <param name="uri">The Uri to navigate to</param>
+    /// <param name="parameters">The navigation parameters</param>
+    /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
+    public static Task<INavigationResult> SelectTabAsync(this INavigationService navigationService, string name, string uri, INavigationParameters parameters) =>
+        navigationService.SelectTabAsync(name, UriParsingHelper.Parse(uri), parameters);
+
+    /// <summary>
     /// Selects a tab programatically
     /// </summary>
-    /// <param name="navigationService"></param>
+    /// <param name="navigationService">Service for handling navigation between views</param>
     /// <param name="tabName">The name of the tab to select</param>
     /// <returns>The <see cref="INavigationResult"/>.</returns>
     public static Task<INavigationResult> SelectTabAsync(this INavigationService navigationService, string tabName) =>

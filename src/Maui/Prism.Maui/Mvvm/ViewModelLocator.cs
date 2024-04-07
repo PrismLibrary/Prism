@@ -27,7 +27,9 @@ public static class ViewModelLocator
             propertyChanged: OnViewModelPropertyChanged);
 
     public static readonly BindableProperty NavigationNameProperty =
-        BindableProperty.CreateAttached("NavigationName", typeof(string), typeof(ViewModelLocator), null);
+        BindableProperty.CreateAttached("NavigationName", typeof(string), typeof(ViewModelLocator), null, defaultValueCreator: CreateDefaultNavigationName);
+
+    private static object CreateDefaultNavigationName(BindableObject bindable) => bindable.GetType().Name;
 
     public static string GetNavigationName(BindableObject bindable) =>
         (string)bindable.GetValue(NavigationNameProperty);
