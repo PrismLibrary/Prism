@@ -199,7 +199,26 @@ public class NavigationTests : TestBase
         TestPage(currentPage);
     }
 
-    [Fact(Skip = "Blocked by dotnet/maui/issues/8157")]
+    [Fact]
+    public void MAUI_Issue_8157_InitialNavigation_PushesModals()
+    {
+        Exception startupEx = null;
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow("MockViewA/MockViewB", ex =>
+        {
+            startupEx = ex;
+        }))
+            .Build();
+        Assert.Null(startupEx);
+        var window = GetWindow(mauiApp);
+
+        Assert.IsType<MockViewA>(window.Page);
+        TestPage(window.Page);
+        var currentPage = window.CurrentPage;
+        Assert.IsType<MockViewB>(currentPage);
+        TestPage(currentPage);
+    }
+
+    [Fact(Skip = "No longer blocked by dotnet/maui/issues/8157. Not yet implemented.")]
     public async Task RelativeNavigation_RemovesPage_AndNavigatesModally()
     {
         Exception startupEx = null;
