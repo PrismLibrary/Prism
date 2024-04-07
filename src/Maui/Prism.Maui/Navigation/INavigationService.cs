@@ -41,10 +41,11 @@ public interface INavigationService
     Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters);
 
     /// <summary>
-    /// Selects a Tab of the TabbedPage parent.
+    /// Selects a Tab of the TabbedPage parent and Navigates to a specified Uri
     /// </summary>
     /// <param name="name">The name of the tab to select</param>
+    /// <param name="uri">The Uri to navigate to</param>
     /// <param name="parameters">The navigation parameters</param>
     /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
-    Task<INavigationResult> SelectTabAsync(string name, INavigationParameters parameters);
+    Task<INavigationResult> SelectTabAsync(string name, Uri uri, INavigationParameters parameters);
 }

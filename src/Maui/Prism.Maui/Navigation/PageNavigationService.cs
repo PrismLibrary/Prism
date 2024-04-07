@@ -46,6 +46,9 @@ public class PageNavigationService : INavigationService, IRegistryAware
     }
 
     // This should be resolved by the container when accessed as a Module could register views after the NavigationService was resolved
+    /// <summary>
+    /// Gets the <see cref="IViewRegistry"/>
+    /// </summary>
     public IViewRegistry Registry => _container.Resolve<INavigationRegistry>();
 
     /// <summary>
@@ -73,13 +76,17 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// <returns>If <c>true</c> a go back operation was successful. If <c>false</c> the go back operation failed.</returns>
     public virtual async Task<INavigationResult> GoBackAsync(INavigationParameters parameters)
     {
-        await _semaphore.WaitAsync();
-
-        INavigationResult result = await GoBackInternalAsync(parameters);
-
-        _semaphore.Release();
-
-        return result;
+        try
+        {
+            await WaitForPendingNavigationRequests();
+            return await GoBackInternalAsync(parameters);
+        }
+        finally
+        {
+            _lastNavigate = DateTime.Now;
+            NavigationSource = PageNavigationSource.Device;
+            _semaphore.Release();
+        }
     }
 
     private async Task<INavigationResult> GoBackInternalAsync(INavigationParameters parameters)
@@ -132,11 +139,10 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// <inheritdoc />
     public virtual async Task<INavigationResult> GoBackToAsync(string viewName, INavigationParameters parameters)
     {
-        await _semaphore.WaitAsync();
+        await WaitForPendingNavigationRequests();
         try
         {
-            if (parameters is null)
-                parameters = new NavigationParameters();
+            parameters ??= new NavigationParameters();
 
             parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
 
@@ -149,16 +155,13 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
             var pagesToDestroy = page.Navigation.NavigationStack.ToList(); // get all pages to destroy
             pagesToDestroy.Reverse(); // destroy them in reverse order
-            var goBackPage = pagesToDestroy.FirstOrDefault(p => ViewModelLocator.GetNavigationName(p) == viewName); // find the go back page
-            if (goBackPage is null)
-            {
-                throw new NavigationException(NavigationException.GoBackRequiresNavigationPage);
-            }
+            var goBackPage = pagesToDestroy.FirstOrDefault(p => ViewModelLocator.GetNavigationName(p) == viewName) 
+                ?? throw new NavigationException(NavigationException.GoBackRequiresNavigationPage); // find the go back page
             var index = pagesToDestroy.IndexOf(goBackPage);
             pagesToDestroy.RemoveRange(index, pagesToDestroy.Count - index); // don't destroy pages from the go back page to the root page
             var pagesToRemove = pagesToDestroy.Skip(1).ToList(); // exclude the current page from the destroy pages
 
-            bool animated = parameters.ContainsKey(KnownNavigationParameters.Animated) ? parameters.GetValue<bool>(KnownNavigationParameters.Animated) : true;
+            bool animated = !parameters.ContainsKey(KnownNavigationParameters.Animated) || parameters.GetValue<bool>(KnownNavigationParameters.Animated);
             NavigationSource = PageNavigationSource.NavigationService;
             foreach(var removePage in pagesToRemove)
             {
@@ -183,13 +186,13 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
         finally
         {
+            _lastNavigate = DateTime.Now;
             NavigationSource = PageNavigationSource.Device;
             _semaphore.Release();
         }
     }
 
-
-    private static Exception GetGoBackException(Page currentPage, IView mainPage)
+    private static NavigationException GetGoBackException(Page currentPage, IView mainPage)
     {
         if (IsMainPage(currentPage, mainPage))
         {
@@ -237,11 +240,10 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// <remarks>Only works when called from a View within a NavigationPage</remarks>
     public virtual async Task<INavigationResult> GoBackToRootAsync(INavigationParameters parameters)
     {
-        await _semaphore.WaitAsync();
         try
         {
-            if (parameters is null)
-                parameters = new NavigationParameters();
+            await WaitForPendingNavigationRequests();
+            parameters ??= new NavigationParameters();
 
             parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
 
@@ -257,7 +259,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             var root = pagesToDestroy.Last();
             pagesToDestroy.Remove(root); //don't destroy the root page
 
-            bool animated = parameters.ContainsKey(KnownNavigationParameters.Animated) ? parameters.GetValue<bool>(KnownNavigationParameters.Animated) : true;
+            bool animated = !parameters.ContainsKey(KnownNavigationParameters.Animated) || parameters.GetValue<bool>(KnownNavigationParameters.Animated);
             NavigationSource = PageNavigationSource.NavigationService;
             await page.Navigation.PopToRootAsync(animated);
             NavigationSource = PageNavigationSource.Device;
@@ -278,6 +280,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
         finally
         {
+            _lastNavigate = DateTime.Now;
             NavigationSource = PageNavigationSource.Device;
             _semaphore.Release();
         }
@@ -294,12 +297,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// </example>
     public virtual async Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters)
     {
-        await _semaphore.WaitAsync();
-        // Ensure adequate time has passed since last navigation so that UI Refresh can Occur
-        if (DateTime.Now - _lastNavigate < TimeSpan.FromMilliseconds(150))
-        {
-            await Task.Delay(150);
-        }
+        await WaitForPendingNavigationRequests();
 
         try
         {
@@ -336,14 +334,21 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// Selects a Tab of the TabbedPage parent.
     /// </summary>
     /// <param name="tabName">The name of the tab to select</param>
+    /// <param name="uri">The Uri to navigate to</param>
     /// <param name="parameters">The navigation parameters</param>
     /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
-    public virtual async Task<INavigationResult> SelectTabAsync(string tabName, INavigationParameters parameters)
+    public virtual async Task<INavigationResult> SelectTabAsync(string tabName, Uri uri, INavigationParameters parameters)
     {
         try
         {
+            ArgumentException.ThrowIfNullOrWhiteSpace(tabName);
+
+            await PageNavigationService.WaitForPendingNavigationRequests();
+            NavigationSource = PageNavigationSource.NavigationService;
+
             var tabbedPage = GetTabbedPage(_pageAccessor.Page);
-            TabbedPage GetTabbedPage(Element page) =>
+
+            static TabbedPage GetTabbedPage(Element page) =>
                 page switch
                 {
                     TabbedPage tabbedPage => tabbedPage,
@@ -370,15 +375,46 @@ public class PageNavigationService : INavigationService, IRegistryAware
             if (!await MvvmHelpers.CanNavigateAsync(navigatedFromPage, parameters))
                 throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, navigatedFromPage);
 
-            tabbedPage.CurrentPage = selectedChild;
-            MvvmHelpers.OnNavigatedFrom(navigatedFromPage, parameters);
-            MvvmHelpers.OnNavigatedTo(selectedChild, parameters);
+            var navigatedToTarget = selectedChild is NavigationPage navPage ? navPage.CurrentPage : selectedChild;
+            if (uri is not null)
+            {
+                if (uri.IsAbsoluteUri)
+                {
+                    throw new NavigationException("Cannot process an absolute Navigation Uri when navigating within a specified Tab");
+                }
+
+                var navigationSegments = UriParsingHelper.GetUriSegments(uri);
+                await ProcessNavigation(navigatedToTarget, navigationSegments, parameters, null, null);
+                tabbedPage.CurrentPage = selectedChild;
+            }
+            else
+            {
+                tabbedPage.CurrentPage = selectedChild;
+                MvvmHelpers.OnNavigatedFrom(navigatedFromPage, parameters);
+                MvvmHelpers.OnNavigatedTo(navigatedToTarget, parameters);
+            }
 
             return new NavigationResult();
         }
         catch (Exception ex)
         {
             return new NavigationResult(ex);
+        }
+        finally
+        {
+            _lastNavigate = DateTime.Now;
+            NavigationSource = PageNavigationSource.Device;
+            _semaphore.Release();
+        }
+    }
+
+    private static async Task WaitForPendingNavigationRequests()
+    {
+        await _semaphore.WaitAsync();
+        // Ensure adequate time has passed since last navigation so that UI Refresh can Occur
+        if (DateTime.Now - _lastNavigate < TimeSpan.FromMilliseconds(150))
+        {
+            await Task.Delay(150);
         }
     }
 
