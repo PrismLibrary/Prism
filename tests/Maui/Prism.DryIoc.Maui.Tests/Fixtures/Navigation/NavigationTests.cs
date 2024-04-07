@@ -230,19 +230,18 @@ public class NavigationTests : TestBase
         Assert.Null(startupEx);
         var window = GetWindow(mauiApp);
 
-        var rootPage = window.Page as MockViewA;
-        Assert.NotNull(rootPage);
-        TestPage(rootPage);
-        var currentPage = rootPage.Navigation.ModalStack.Last();
+        Assert.IsType<MockViewA>(window.Page);
+        TestPage(window.Page);
+        var currentPage = window.CurrentPage;
         Assert.IsType<MockViewB>(currentPage);
         TestPage(currentPage);
-        var container = currentPage.GetContainerProvider();
-        var navService = container.Resolve<INavigationService>();
-        Assert.Equal(2, rootPage.Navigation.ModalStack.Count);
-        await navService.NavigateAsync("../MockViewC");
-        var viewC = window.Page.Navigation.ModalStack.Last();
-        Assert.IsType<MockViewC>(viewC);
-        Assert.Equal(2, rootPage.Navigation.ModalStack.Count);
+        var navService = Prism.Navigation.Xaml.Navigation.GetNavigationService(currentPage);
+        Assert.Single(window.Page.Navigation.ModalStack);
+        var result = await navService.NavigateAsync("../MockViewC");
+        Assert.True(result.Success);
+        Assert.Null(result.Exception);
+        Assert.IsType<MockViewC>(window.CurrentPage);
+        Assert.Single(window.Page.Navigation.ModalStack);
     }
 
     [Fact]
