@@ -63,8 +63,14 @@ public static class MvvmHelpers
 
             if (view is Page page)
             {
-                page.Behaviors?.Clear();
-                page.BindingContext = null;
+                page.Unloaded += Page_Unloaded;
+                void Page_Unloaded(object sender, EventArgs args)
+                {
+                    page.Behaviors?.Clear();
+                    page.BindingContext = null;
+                    page.Unloaded -= Page_Unloaded;
+                }
+
             }
         }
         catch (Exception ex)
