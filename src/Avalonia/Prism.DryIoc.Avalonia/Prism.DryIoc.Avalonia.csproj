@@ -1,8 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <Import Project="../../build/Library.props" />
-  <Import Project="../../build/AvaloniaDependency.props" />
-  <Import Project="../../build/PrismDependency.props" />
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>Prism.DryIoc</RootNamespace>
@@ -17,22 +13,45 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\images\Prism.Avalonia.png">
+    <!--<None Include="..\..\images\Prism.Avalonia.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
-    </None>
+    </None>-->
     <None Include="..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
+  <!--<Import Project="../../build/Library.props" />-->
   <ItemGroup>
-    <PackageReference Include="DryIoc.dll" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <!--<Import Project="../../build/AvaloniaDependency.props" />-->
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
+    <PackageReference Include="Avalonia.ReactiveUI" />
+  </ItemGroup>
+
+  <!--<Import Project="../../build/PrismDependency.props" />-->
+  <ItemGroup>
+    <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />
     <ProjectReference Include="..\Prism.Avalonia\Prism.Avalonia.csproj" />
+    <PackageReference Include="Prism.Container.DryIoc" />
+    <PackageReference Include="DryIoc.dll" />
   </ItemGroup>
 
 </Project>
