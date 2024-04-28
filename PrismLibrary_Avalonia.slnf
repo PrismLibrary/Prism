@@ -1,0 +1,14 @@
+{
+  "solution": {
+    "path": "Prism.Avalonia.sln",
+    "projects": [
+      "src\\Containers\\Prism.DryIoc.Shared\\Prism.DryIoc.Shared.shproj",
+      "src\\Avalonia\\Prism.Avalonia\\Prism.Avalonia.csproj",
+      "src\\Avalonia\\Prism.DryIoc.Avalonia\\Prism.DryIoc.Avalonia.csproj",
+      "tests\\Avalonia\\Prism.Avalonia.Tests\\Prism.Avalonia.Tests.csproj",
+      "tests\\Avalonia\\Prism.Container.Avalonia.Shared\\Prism.Container.Avalonia.Shared.shproj",
+      "tests\\Avalonia\\Prism.DryIoc.Avalonia.Tests\\Prism.DryIoc.Avalonia.Tests.csproj",
+      "tests\\Avalonia\\Prism.IocContainer.Avalonia.Tests.Support\\Prism.IocContainer.Avalonia.Tests.Support.csproj"
+    ]
+  }
+}

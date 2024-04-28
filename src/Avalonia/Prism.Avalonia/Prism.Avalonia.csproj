@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../../build/Library.props" />
+  <Import Project="../../build/AvaloniaDependency.props" />
+  <Import Project="../../build/PrismDependency.props" />
+  
+  <PropertyGroup>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Prism</RootNamespace>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <Description>Prism.Avalonia is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices. Prism.Avalonia provides an implementation of a collection of design patterns that are helpful in writing well structured, maintainable, and testable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET Standard. Features that need to be platform specific are implemented in the respective libraries for the target platform (Avalonia, WPF, Uno Platform, and Xamarin Forms).
+
+Prism.Avalonia helps you more easily design and build rich, flexible, and easy to maintain cross-platform Avalonia desktop applications. This library provides user interface composition as well as modularity support.</Description>
+    <PackageTags>prism;mvvm;xaml;avalonia;navigation;dialog;prismavalonia;</PackageTags>
+    <Copyright>Copyright (c) 2024 Xeno Innovations, Inc.</Copyright>
+    <Authors>Damian Suess, Suess Labs, various contributors</Authors>
+    <Title>Prism.Avalonia</Title>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>Prism.Avalonia.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) ">
+    <Compile Remove="**\*.netcore.cs" />
+    <None Include="**\*.netcore.cs" />
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+
+  <!--<ItemGroup Condition=" $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' ">-->
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcore')) OR $(TargetFramework.StartsWith('net6')) OR $(TargetFramework.StartsWith('net7')) OR $(TargetFramework.StartsWith('net8'))">
+    <Compile Remove="**\*.net45.cs" />
+    <None Include="**\*.net45.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\images\Prism.Avalonia.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+
+</Project>

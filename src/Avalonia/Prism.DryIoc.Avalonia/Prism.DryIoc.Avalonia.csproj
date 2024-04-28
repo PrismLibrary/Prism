@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../../build/Library.props" />
+  <Import Project="../../build/AvaloniaDependency.props" />
+  <Import Project="../../build/PrismDependency.props" />
+
+  <PropertyGroup>
+    <RootNamespace>Prism.DryIoc</RootNamespace>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <Description>This extension is used to build Prism.Avalonia applications based on DryIoc. Users must install the Prism.Avalonia NuGet package as well.</Description>
+    <Authors>Damian Suess, Suess Labs, various contributors</Authors>
+    <Copyright>Copyright (c) 2024 Xeno Innovations, Inc.</Copyright>
+    <Title>Prism.DryIoc.Avalonia</Title>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>prism;mvvm;xaml;avalonia;dryioc;dependencyinjection;navigation;dialog;prismavalonia;</PackageTags>
+    <PackageIcon>Prism.Avalonia.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\images\Prism.Avalonia.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DryIoc.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Prism.Avalonia\Prism.Avalonia.csproj" />
+  </ItemGroup>
+
+</Project>
