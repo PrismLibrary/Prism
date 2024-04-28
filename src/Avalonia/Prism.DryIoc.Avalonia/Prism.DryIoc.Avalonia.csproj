@@ -17,7 +17,6 @@
     </None>
   </ItemGroup>
 
-  <!--<Import Project="../../build/Library.props" />-->
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -33,19 +32,14 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <!--<Import Project="../../build/AvaloniaDependency.props" />-->
   <ItemGroup>
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
     <PackageReference Include="Avalonia.ReactiveUI" />
-  </ItemGroup>
+    <PackageReference Include="Prism.Container.DryIoc" />
 
-  <!--<Import Project="../../build/PrismDependency.props" />-->
-  <ItemGroup>
     <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />
     <ProjectReference Include="..\Prism.Avalonia\Prism.Avalonia.csproj" />
-    <PackageReference Include="Prism.Container.DryIoc" />
-    <PackageReference Include="DryIoc.dll" />
   </ItemGroup>
 
 </Project>

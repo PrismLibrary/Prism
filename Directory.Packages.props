@@ -66,7 +66,6 @@
     <PackageVersion Include="Avalonia.ReactiveUI" Version="11.0.7" />
     <PackageVersion Include="Avalonia.Themes.Simple" Version="11.0.7" />
     <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.0.7" />
-    <PackageVersion Include="DryIoc.dll" Version="5.4.3" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
     <!-- Tests -->

@@ -33,14 +33,9 @@ Prism.Avalonia helps you more easily design and build rich, flexible, and easy t
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Configuration.ConfigurationManager" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="PresentationFramework" />
   </ItemGroup>
 
-  <!--<Import Project="../../build/Library.props" />-->
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -56,17 +51,13 @@ Prism.Avalonia helps you more easily design and build rich, flexible, and easy t
     </EmbeddedResource>
   </ItemGroup>
 
-  <!--<Import Project="../../build/AvaloniaDependency.props" />-->
   <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
     <PackageReference Include="Avalonia.ReactiveUI" />
-  </ItemGroup>
-
-  <!--<Import Project="../../build/PrismDependency.props" />-->
-  <ItemGroup>
-  <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />
     <PackageReference Include="Prism.Container.DryIoc" />
+    
+    <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />
   </ItemGroup>
-
 </Project>
