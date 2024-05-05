@@ -1,5 +1,6 @@
 #nullable enable
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Prism.Dialogs;
 using Prism.Navigation;
@@ -176,9 +177,9 @@ public static class MvvmHelpers
         await InvokeViewAndViewModelActionAsync<IInitializeAsync>(page, async v => await v.InitializeAsync(parameters));
     }
 
-    private static bool HasKey(this IEnumerable<KeyValuePair<string, object>> parameters, string name, out string key)
+    private static bool HasKey(this IEnumerable<KeyValuePair<string, object>> parameters, string name, [MaybeNullWhen(returnValue: false)] out string key)
     {
-        key = parameters.Select(x => x.Key).FirstOrDefault(k => k.Equals(name, StringComparison.InvariantCultureIgnoreCase)) ?? string.Empty;
+        key = parameters.Select(x => x.Key).FirstOrDefault(k => k.Equals(name, StringComparison.InvariantCultureIgnoreCase));
         return !string.IsNullOrEmpty(key);
     }
 
