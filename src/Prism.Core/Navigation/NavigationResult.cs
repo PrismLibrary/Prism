@@ -31,7 +31,7 @@ public class NavigationResult : INavigationResult
     /// Initializes a new NavigationResult with an <see cref="Exception"/>
     /// </summary>
     /// <param name="ex">The <see cref="Exception"/> encountered as part of the navigation.</param>
-    public NavigationResult(Exception ex)
+    public NavigationResult(Exception? ex)
     {
         Exception = ex;
     }
