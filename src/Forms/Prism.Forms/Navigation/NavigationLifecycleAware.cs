@@ -15,12 +15,14 @@ public class NavigationLifecycleAware : INavigationLifecycleAware
         await OnInitializedAsync(page, parameters);
     }
     
+    /// <inheritdoc />
     void INavigationLifecycleAware.OnNavigatedTo(Page page, INavigationParameters parameters)
     {
         OnNavigatedToInternal(page, parameters);
         OnNavigatedTo(page, parameters);
     }
     
+    /// <inheritdoc />
     void INavigationLifecycleAware.OnNavigatedFrom(Page page, INavigationParameters parameters)
     {
         OnNavigatedFromInternal(page, parameters);
