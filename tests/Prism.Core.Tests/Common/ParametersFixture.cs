@@ -2,7 +2,7 @@
 using Prism.Core.Tests.Common.Mocks;
 using Xunit;
 
-namespace Prism.Core.Tests.Common
+namespace Prism.Tests.Common
 {
     public class ParametersFixture
     {

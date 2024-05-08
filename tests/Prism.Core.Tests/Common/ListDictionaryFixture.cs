@@ -1,7 +1,7 @@
 using Prism.Common;
 using Xunit;
 
-namespace Prism.Core.Tests.Common
+namespace Prism.Tests.Common
 {
 
     public class ListDictionaryFixture
