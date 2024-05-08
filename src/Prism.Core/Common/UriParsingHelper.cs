@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Prism.Dialogs;
 using Prism.Navigation;
 
+#nullable enable
 namespace Prism.Common
 {
     /// <summary>
@@ -10,7 +9,7 @@ namespace Prism.Common
     /// </summary>
     public static class UriParsingHelper
     {
-        private static readonly char[] _pathDelimiter = { '/' };
+        private static readonly char[] _pathDelimiter = ['/'];
 
         /// <summary>
         /// Gets the Uri segments from a deep linked Navigation Uri
@@ -40,10 +39,7 @@ namespace Prism.Common
         /// </summary>
         /// <param name="segment">A Navigation Segment</param>
         /// <returns>The navigation segment name from the provided segment.</returns>
-        public static string GetSegmentName(string segment)
-        {
-            return segment.Split('?')[0];
-        }
+        public static string GetSegmentName(string segment) => segment.Split('?')[0];
 
         /// <summary>
         /// Gets the Segment Parameters from a Navigation Segment that may contain a querystring
@@ -72,7 +68,7 @@ namespace Prism.Common
         /// <param name="uriSegment">The <see cref="Uri"/> segment</param>
         /// <param name="parameters">The existing <see cref="INavigationParameters"/>.</param>
         /// <returns>The combined <see cref="INavigationParameters"/>.</returns>
-        public static INavigationParameters GetSegmentParameters(string uriSegment, INavigationParameters parameters)
+        public static INavigationParameters GetSegmentParameters(string uriSegment, INavigationParameters? parameters)
         {
             var navParameters = GetSegmentParameters(uriSegment);
 
@@ -114,7 +110,7 @@ namespace Prism.Common
         /// <param name="uriSegment">A navigation segment which may contain a querystring.</param>
         /// <param name="parameters">Existing <see cref="IDialogParameters"/>.</param>
         /// <returns></returns>
-        public static IDialogParameters GetSegmentParameters(string uriSegment, IDialogParameters parameters)
+        public static IDialogParameters GetSegmentParameters(string uriSegment, IDialogParameters? parameters)
         {
             var dialogParameters = GetSegmentDialogParameters(uriSegment);
 
@@ -133,19 +129,13 @@ namespace Prism.Common
         /// Gets the query part of <paramref name="uri"/>.
         /// </summary>
         /// <param name="uri">The Uri.</param>
-        public static string GetQuery(Uri uri)
-        {
-            return EnsureAbsolute(uri).Query;
-        }
+        public static string GetQuery(Uri uri) => EnsureAbsolute(uri).Query;
 
         /// <summary>
         /// Gets the AbsolutePath part of <paramref name="uri"/>.
         /// </summary>
         /// <param name="uri">The Uri.</param>
-        public static string GetAbsolutePath(Uri uri)
-        {
-            return EnsureAbsolute(uri).AbsolutePath;
-        }
+        public static string GetAbsolutePath(Uri uri) => EnsureAbsolute(uri).AbsolutePath;
 
         /// <summary>
         /// Parses the query of <paramref name="uri"/> into a dictionary.
@@ -164,19 +154,7 @@ namespace Prism.Common
         /// <param name="uri">A uri string.</param>
         /// <returns>A <see cref="Uri"/>.</returns>
         /// <exception cref="ArgumentNullException">Throws an <see cref="ArgumentNullException"/> when the string is null or empty.</exception>
-        public static Uri Parse(string uri)
-        {
-            if (uri == null) throw new ArgumentNullException(nameof(uri));
-
-            if (uri.StartsWith("/", StringComparison.Ordinal))
-            {
-                return new Uri("http://localhost" + uri, UriKind.Absolute);
-            }
-            else
-            {
-                return new Uri(uri, UriKind.RelativeOrAbsolute);
-            }
-        }
+        public static Uri Parse(string uri) => uri.StartsWith("/", StringComparison.Ordinal) ? new Uri("http://localhost" + uri, UriKind.Absolute) : new Uri(uri, UriKind.RelativeOrAbsolute);
 
         /// <summary>
         /// This will provide the existing <see cref="Uri"/> if it is already Absolute, otherwise
@@ -191,11 +169,7 @@ namespace Prism.Common
                 return uri;
             }
 
-            if ((uri != null) && !uri.OriginalString.StartsWith("/", StringComparison.Ordinal))
-            {
-                return new Uri("http://localhost/" + uri, UriKind.Absolute);
-            }
-            return new Uri("http://localhost" + uri, UriKind.Absolute);
+            return !uri.OriginalString.StartsWith("/", StringComparison.Ordinal) ? new Uri("http://localhost/" + uri, UriKind.Absolute) : new Uri("http://localhost" + uri, UriKind.Absolute);
         }
     }
 }

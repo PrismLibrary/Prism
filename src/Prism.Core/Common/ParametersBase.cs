@@ -1,11 +1,8 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Text;
-
+#nullable enable
 namespace Prism.Common
 {
     /// <summary>
@@ -13,7 +10,7 @@ namespace Prism.Common
     /// </summary>
     public abstract class ParametersBase : IParameters
     {
-        private readonly List<KeyValuePair<string, object>> _entries = [];
+        private readonly List<KeyValuePair<string, object?>> _entries = [];
 
         /// <summary>
         /// Default constructor.
@@ -51,7 +48,7 @@ namespace Prism.Common
                         }
                         i++;
                     }
-                    string key = null;
+                    string? key = null;
                     string value;
                     if (num4 >= 0)
                     {
@@ -75,7 +72,7 @@ namespace Prism.Common
         /// </summary>
         /// <param name="key">The key for the value to be returned.</param>
         /// <returns>The value of the parameter referenced by the key; otherwise <c>null</c>.</returns>
-        public object this[string key]
+        public object? this[string key]
         {
             get
             {
@@ -108,7 +105,7 @@ namespace Prism.Common
         /// <param name="key">The key to reference this value in the parameters collection.</param>
         /// <param name="value">The value of the parameter to store.</param>
         public void Add(string key, object value) =>
-            _entries.Add(new KeyValuePair<string, object>(key, value));
+            _entries.Add(new KeyValuePair<string, object?>(key, value));
 
         /// <summary>
         /// Checks collection for presence of key.
@@ -122,7 +119,7 @@ namespace Prism.Common
         /// Gets an enumerator for the KeyValuePairs in parameter collection.
         /// </summary>
         /// <returns>Enumerator.</returns>
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator() =>
+        public IEnumerator<KeyValuePair<string, object?>> GetEnumerator() =>
             _entries.GetEnumerator();
 
         /// <summary>
@@ -181,7 +178,7 @@ namespace Prism.Common
 
                     queryBuilder.Append(Uri.EscapeDataString(kvp.Key));
                     queryBuilder.Append('=');
-                    queryBuilder.Append(Uri.EscapeDataString(kvp.Value?.ToString() is string str ? str : string.Empty));
+                    queryBuilder.Append(Uri.EscapeDataString(kvp.Value?.ToString() ?? string.Empty));
                 }
             }
 
@@ -193,7 +190,7 @@ namespace Prism.Common
         /// </summary>
         /// <param name="parameters">An IEnumerable of KeyValuePairs to add to the current parameter list.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void FromParameters(IEnumerable<KeyValuePair<string, object>> parameters) =>
+        public void FromParameters(IEnumerable<KeyValuePair<string, object?>> parameters) =>
             _entries.AddRange(parameters);
     }
 }

@@ -1,10 +1,10 @@
 ﻿using Prism.Common;
 
-namespace Prism.Tests.Common.Mocks
+namespace Prism.Core.Tests.Common.Mocks
 {
     internal class MockParameters : ParametersBase
     {
-        public MockParameters() : base() { }
+        public MockParameters() { }
         public MockParameters(string query) : base(query) { }
     }
 }

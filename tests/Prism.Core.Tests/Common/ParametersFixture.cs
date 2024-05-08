@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Prism.Tests.Common.Mocks;
+﻿#nullable enable
+using Prism.Core.Tests.Common.Mocks;
 using Xunit;
 
-namespace Prism.Tests.Common
+namespace Prism.Core.Tests.Common
 {
     public class ParametersFixture
     {
@@ -28,7 +27,7 @@ namespace Prism.Tests.Common
         {
             var parameters = new MockParameters("mock=Foo&mock=2&mock=Fizz");
 
-            IEnumerable<MockEnum> values = default;
+            IEnumerable<MockEnum> values = Enumerable.Empty<MockEnum>();
 
             var ex = Record.Exception(() => values = parameters.GetValues<MockEnum>("mock"));
             Assert.Null(ex);

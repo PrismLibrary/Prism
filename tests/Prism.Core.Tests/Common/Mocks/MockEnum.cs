@@ -1,4 +1,4 @@
-﻿namespace Prism.Tests.Common.Mocks
+﻿namespace Prism.Core.Tests.Common.Mocks
 {
     internal enum MockEnum
     {
