@@ -156,7 +156,10 @@ namespace Prism.Common
         /// <exception cref="ArgumentNullException">Throws an <see cref="ArgumentNullException"/> when the string is null or empty.</exception>
         public static Uri Parse(string uri)
         {
-            ArgumentNullException.ThrowIfNull(uri);
+            if (uri == null)
+            {
+                throw new ArgumentNullException(nameof(uri));
+            }
 
             return uri.StartsWith("/", StringComparison.Ordinal)
                 ? new Uri("http://localhost" + uri, UriKind.Absolute)
