@@ -72,7 +72,7 @@ namespace Prism.Common
         {
             var navParameters = GetSegmentParameters(uriSegment);
 
-            if (parameters != null)
+            if (parameters is not null)
             {
                 foreach (KeyValuePair<string, object> navigationParameter in parameters)
                 {
@@ -154,7 +154,14 @@ namespace Prism.Common
         /// <param name="uri">A uri string.</param>
         /// <returns>A <see cref="Uri"/>.</returns>
         /// <exception cref="ArgumentNullException">Throws an <see cref="ArgumentNullException"/> when the string is null or empty.</exception>
-        public static Uri Parse(string uri) => uri.StartsWith("/", StringComparison.Ordinal) ? new Uri("http://localhost" + uri, UriKind.Absolute) : new Uri(uri, UriKind.RelativeOrAbsolute);
+        public static Uri Parse(string uri)
+        {
+            ArgumentNullException.ThrowIfNull(uri);
+
+            return uri.StartsWith("/", StringComparison.Ordinal)
+                ? new Uri("http://localhost" + uri, UriKind.Absolute)
+                : new Uri(uri, UriKind.RelativeOrAbsolute);
+        }
 
         /// <summary>
         /// This will provide the existing <see cref="Uri"/> if it is already Absolute, otherwise

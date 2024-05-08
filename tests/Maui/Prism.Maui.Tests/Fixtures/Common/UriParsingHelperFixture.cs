@@ -93,6 +93,13 @@ public class UriParsingHelperFixture
     }
 
     [Fact]
+    public void TargetNameParsedFromEmptySegment()
+    {
+        var target = UriParsingHelper.GetSegmentName(string.Empty);
+        Assert.Equal(string.Empty, target);
+    }
+
+    [Fact]
     public void TargetNameParsedFromSingleSegment()
     {
         var target = UriParsingHelper.GetSegmentName(_relativeUri);
