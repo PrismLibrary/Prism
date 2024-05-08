@@ -96,7 +96,10 @@ namespace Prism
             OnInitialized();
         }
         
-        protected virtual void ConfigureNavigationLifecycleEvents() => NavigationLifecycleAwareFactory.Create(() => new NavigationLifecycleAware());
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void ConfigureNavigationLifecycleEvents() => NavigationLifecycleAwareFactory.SetDefaultNavigationLifecycleFactory(() => new NavigationLifecycleAware());
         
         /// <summary>
         /// Configures the <see cref="ViewModelLocator"/> used by Prism.

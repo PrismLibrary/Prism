@@ -9,7 +9,7 @@ public static class NavigationLifecycleAwareFactory
     /// 
     /// </summary>
     /// <param name="factory"></param>
-    public static void Create(Func<NavigationLifecycleAware> factory) => _factory = factory;
+    public static void SetDefaultNavigationLifecycleFactory(Func<NavigationLifecycleAware> factory) => _factory = factory;
     internal static INavigationLifecycleAware NavigationLifecycleAware => _navigationLifeCycleAware ??= _factory.Invoke();
     
     private static Func<NavigationLifecycleAware> _factory;
