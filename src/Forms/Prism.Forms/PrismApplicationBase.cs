@@ -26,38 +26,38 @@ namespace Prism
         /// Gets the Current PrismApplication
         /// </summary>
         public new static PrismApplicationBase Current => (PrismApplicationBase)Application.Current;
-
+        
         /// <summary>
         /// The registration name to create a new transient instance of the <see cref="INavigationService"/>
         /// </summary>
         public const string NavigationServiceName = "PageNavigationService";
-
+        
         private IContainerExtension _containerExtension;
         private IModuleCatalog _moduleCatalog;
         private Page _previousPage = null;
-
+        
         /// <summary>
         /// The dependency injection container used to resolve objects
         /// </summary>
         public IContainerProvider Container => _containerExtension;
-
+        
         /// <summary>
         /// Gets the <see cref="INavigationService"/> for the application.
         /// </summary>
         protected INavigationService NavigationService { get; set; }
-
+        
         /// <summary>
         /// Get the Platform Initializer
         /// </summary>
         protected IPlatformInitializer PlatformInitializer { get; }
-
+        
         /// <summary>
         /// Initializes a new instance of <see cref="PrismApplicationBase" /> using the default constructor
         /// </summary>
         protected PrismApplicationBase() : this(null)
         {
         }
-
+        
         /// <summary>
         /// Initializes a new instance of <see cref="PrismApplicationBase" /> with a <see cref="IPlatformInitializer" />.
         /// Used when there are specific types that need to be registered on the platform.
@@ -67,11 +67,11 @@ namespace Prism
         {
             base.ModalPopping += PrismApplicationBase_ModalPopping;
             base.ModalPopped += PrismApplicationBase_ModalPopped;
-
+            
             PlatformInitializer = platformInitializer;
             InitializeInternal();
         }
-
+        
         /// <summary>
         /// Initializes a new instance of <see cref="PrismApplicationBase" /> with a <see cref="IPlatformInitializer" />.
         /// Used when there are specific types that need to be registered on the platform.
@@ -84,17 +84,20 @@ namespace Prism
             : this(platformInitializer)
         {
         }
-
+        
         /// <summary>
         /// Run the initialization process.
         /// </summary>
         private void InitializeInternal()
         {
             ConfigureViewModelLocator();
+            ConfigureNavigationLifecycleEvents();
             Initialize();
             OnInitialized();
         }
-
+        
+        protected virtual void ConfigureNavigationLifecycleEvents() => NavigationLifecycleAwareFactory.Create(() => new NavigationLifecycleAware());
+        
         /// <summary>
         /// Configures the <see cref="ViewModelLocator"/> used by Prism.
         /// </summary>
@@ -110,17 +113,17 @@ namespace Prism
                     if (resolverOverrides.Any())
                         overrides.AddRange(resolverOverrides);
                 }
-
+                
                 if (!overrides.Any(x => x.Type == typeof(INavigationService)))
                 {
                     var navService = CreateNavigationService(view);
                     overrides.Add((typeof(INavigationService), navService));
                 }
-
+                
                 return Container.Resolve(type, overrides.ToArray());
             });
         }
-
+        
         private INavigationService CreateNavigationService(object view)
         {
             if (view is Page page)
@@ -131,10 +134,10 @@ namespace Prism
             {
                 return Navigation.Xaml.Navigation.GetNavigationService(parent);
             }
-
+            
             return Container.Resolve<INavigationService>();
         }
-
+        
         /// <summary>
         /// Run the bootstrapper process.
         /// </summary>
@@ -147,25 +150,25 @@ namespace Prism
                 RegisterRequiredTypes(_containerExtension);
                 PlatformInitializer?.RegisterTypes(_containerExtension);
                 RegisterTypes(_containerExtension);
-
+                
                 _moduleCatalog = Container.Resolve<IModuleCatalog>();
                 ConfigureModuleCatalog(_moduleCatalog);
             }
-
+            
             _moduleCatalog ??= Container.Resolve<IModuleCatalog>();
-
+            
             _containerExtension.CreateScope();
             NavigationService = _containerExtension.Resolve<INavigationService>();
-
+            
             InitializeModules();
         }
-
+        
         /// <summary>
         /// Creates the container used by Prism.
         /// </summary>
         /// <returns>The container</returns>
         protected abstract IContainerExtension CreateContainerExtension();
-
+        
         /// <summary>
         /// Registers all types that are required by Prism to function with the container.
         /// </summary>
@@ -186,18 +189,20 @@ namespace Prism
             containerRegistry.TryRegisterScoped<INavigationService, PageNavigationService>();
             containerRegistry.Register<INavigationService, PageNavigationService>(NavigationServiceName);
         }
-
+        
         /// <summary>
         /// Used to register types with the container that will be used by your application.
         /// </summary>
         protected abstract void RegisterTypes(IContainerRegistry containerRegistry);
-
+        
         /// <summary>
         /// Configures the <see cref="IModuleCatalog"/> used by Prism.
         /// </summary>
         /// <param name="moduleCatalog">The ModuleCatalog to configure</param>
-        protected virtual void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) { }
-
+        protected virtual void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+        }
+        
         /// <summary>
         /// Initializes the modules.
         /// </summary>
@@ -209,12 +214,12 @@ namespace Prism
                 manager.Run();
             }
         }
-
+        
         /// <summary>
         /// Called when the PrismApplication has completed it's initialization process.
         /// </summary>
         protected abstract void OnInitialized();
-
+        
         /// <summary>
         /// Application developers override this method to perform actions when the application
         /// resumes from a sleeping state
@@ -230,7 +235,7 @@ namespace Prism
                 PageUtilities.InvokeViewAndViewModelAction<IApplicationLifecycleAware>(page, x => x.OnResume());
             }
         }
-
+        
         /// <summary>
         /// Application developers override this method to perform actions when the application
         /// enters the sleeping state
@@ -246,7 +251,7 @@ namespace Prism
                 PageUtilities.InvokeViewAndViewModelAction<IApplicationLifecycleAware>(page, x => x.OnSleep());
             }
         }
-
+        
         private void PrismApplicationBase_ModalPopping(object sender, ModalPoppingEventArgs e)
         {
             if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
@@ -254,7 +259,7 @@ namespace Prism
                 _previousPage = PageUtilities.GetOnNavigatedToTarget(e.Modal, MainPage, true);
             }
         }
-
+        
         private void PrismApplicationBase_ModalPopped(object sender, ModalPoppedEventArgs e)
         {
             if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
