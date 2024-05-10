@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+#nullable enable
 namespace Prism.Common
 {
     /// <summary>
@@ -65,6 +65,6 @@ namespace Prism.Common
         /// </summary>
         /// <param name="key">The key of the parameter to get.</param>
         /// <returns>A matching value if it exists.</returns>
-        object this[string key] { get; }
+        object? this[string key] { get; }
     }
 }

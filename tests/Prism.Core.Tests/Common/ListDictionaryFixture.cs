@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Prism.Common;
 using Xunit;
 
-namespace Prism.Wpf.Tests
+namespace Prism.Tests.Common
 {
 
     public class ListDictionaryFixture
