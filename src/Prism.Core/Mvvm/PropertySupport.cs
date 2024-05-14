@@ -1,10 +1,8 @@
-
-
-using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using Prism.Properties;
 
+#nullable enable
 namespace Prism.Mvvm
 {
     ///<summary>

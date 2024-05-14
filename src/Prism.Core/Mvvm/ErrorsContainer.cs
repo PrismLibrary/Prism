@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
+#nullable enable
 namespace Prism.Mvvm
 {
     /// <summary>
@@ -53,10 +51,7 @@ namespace Prism.Mvvm
         /// Returns all the errors in the container.
         /// </summary>
         /// <returns>The dictionary of errors per property.</returns>
-        public Dictionary<string, List<T>> GetErrors()
-        {
-            return validationResults;
-        }
+        public Dictionary<string, List<T>> GetErrors() => validationResults;
 
         /// <summary>
         /// Gets the validation errors for a specified property.
@@ -65,9 +60,8 @@ namespace Prism.Mvvm
         /// <returns>The validation errors of type <typeparamref name="T"/> for the property.</returns>
         public IEnumerable<T> GetErrors(string propertyName)
         {
-            var localPropertyName = propertyName ?? string.Empty;
-            List<T> currentValidationResults = null;
-            if (this.validationResults.TryGetValue(localPropertyName, out currentValidationResults))
+            var localPropertyName = propertyName;
+            if (this.validationResults.TryGetValue(localPropertyName, out var currentValidationResults))
             {
                 return currentValidationResults;
             }
@@ -110,10 +104,7 @@ namespace Prism.Mvvm
         /// <example>
         /// container.ClearErrors("SomeProperty");
         /// </example>
-        public void ClearErrors(string propertyName)
-        {
-            this.SetErrors(propertyName, new List<T>());
-        }
+        public void ClearErrors(string propertyName) => this.SetErrors(propertyName, new List<T>());
 
         /// <summary>
         /// Sets the validation errors for the specified property.
@@ -140,7 +131,7 @@ namespace Prism.Mvvm
         {
             var localPropertyName = propertyName ?? string.Empty;
             var hasCurrentValidationResults = this.validationResults.ContainsKey(localPropertyName);
-            var hasNewValidationResults = newValidationResults != null && newValidationResults.Count() > 0;
+            var hasNewValidationResults = newValidationResults.Count() > 0;
 
             if (hasCurrentValidationResults || hasNewValidationResults)
             {

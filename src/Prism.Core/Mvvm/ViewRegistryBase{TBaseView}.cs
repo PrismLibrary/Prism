@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using Prism.Ioc;
 
+#nullable enable
 namespace Prism.Mvvm;
 
 /// <summary>
@@ -30,15 +27,15 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
     /// <summary>
     /// Gets a read-only collection of registered views filtered by the current registry type.
     /// </summary>
-    public IEnumerable<ViewRegistration> Registrations => 
-        _registrations.Where(x => x.Type == _registryType);
+    public IEnumerable<ViewRegistration> Registrations =>
+        _registrations.Where(viewRegistration => viewRegistration.Type == _registryType);
 
     /// <summary>
     /// Gets the view type associated with the specified name, or null if not found.
     /// </summary>
     /// <param name="name">The name of the view to retrieve.</param>
     /// <returns>The type of the view, or null if not found.</returns>
-    public Type GetViewType(string name) =>
+    public Type? GetViewType(string name) =>
         GetRegistration(name)?.View;
 
     /// <summary>
@@ -50,7 +47,7 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
     /// <exception cref="KeyNotFoundException">Thrown if the specified view is not registered.</exception>
     /// <exception cref="ViewModelCreationException">Thrown if an error occurs while creating the view model.</exception>
     /// <exception cref="ViewCreationException">Thrown if an error occurs while creating the view.</exception>
-    public object CreateView(IContainerProvider container, string name)
+    public object? CreateView(IContainerProvider container, string name)
     {
         try
         {
@@ -76,7 +73,7 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
         {
             throw;
         }
-        catch (Exception ex)
+        catch (Exception? ex)
         {
             throw new ViewCreationException(name, _registryType, ex);
         }
@@ -99,35 +96,43 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
 
         names = names.Where(x => !x.EndsWith("PagePage")).ToList();
 
-        string[] namespaces = _registryType switch
+        if (viewModelType.Namespace != null)
         {
-            ViewType.Page =>
-            [
-                viewModelType.Namespace.Replace("ViewModels", "Views"),
-                viewModelType.Namespace.Replace("ViewModels", "Pages")
-            ],
-            ViewType.Region =>
-            [
-                viewModelType.Namespace.Replace("ViewModels", "Views"),
-                viewModelType.Namespace.Replace("ViewModels", "Regions")
-            ],
-            ViewType.Dialog =>
-            [
-                viewModelType.Namespace.Replace("ViewModels", "Views"),
-                viewModelType.Namespace.Replace("ViewModels", "Dialogs")
-            ],
-            _ =>
-            [
-                viewModelType.Namespace.Replace("ViewModels", "Views"),
-            ]
-        };
+            string[] namespaces = _registryType switch
+            {
+                ViewType.Page =>
+                [
+                    viewModelType.Namespace.Replace("ViewModels", "Views"),
+                    viewModelType.Namespace.Replace("ViewModels", "Pages")
+                ],
+                ViewType.Region =>
+                [
+                    viewModelType.Namespace.Replace("ViewModels", "Views"),
+                    viewModelType.Namespace.Replace("ViewModels", "Regions")
+                ],
+                ViewType.Dialog =>
+                [
+                    viewModelType.Namespace.Replace("ViewModels", "Views"),
+                    viewModelType.Namespace.Replace("ViewModels", "Dialogs")
+                ],
+                _ =>
+                [
+                    viewModelType.Namespace.Replace("ViewModels", "Views"),
+                ]
+            };
 
-        var candidates = namespaces.Select(@namespace => names.Select(name => $"{@namespace}.{name}"))
-            .SelectMany(x => x)
-            .Select(x => viewModelType.AssemblyQualifiedName.Replace(viewModelType.FullName, x));
-        return candidates
-            .Select(x => Type.GetType(x, false))
-            .Where(x => x is not null);
+            var candidates = namespaces.Select(@namespace => names.Select(name => $"{@namespace}.{name}"))
+                .SelectMany(x => x)
+                .Select(x =>
+                    viewModelType.AssemblyQualifiedName?.Replace(viewModelType.FullName ?? string.Empty, x) ??
+                    string.Empty);
+
+            return candidates
+                .Select(x => Type.GetType(x, false))
+                .Where(x => x is not null);
+        }
+
+        return [];
     }
 
     /// <summary>
@@ -158,7 +163,7 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
     /// <param name="baseType">The base type to filter by.</param>
     /// <returns>A collection of matching view registrations.</returns>
     public IEnumerable<ViewRegistration> ViewsOfType(Type baseType) =>
-        Registrations.Where(x => x.View == baseType || baseType.IsAssignableFrom(x.View));
+        Registrations.Where(viewRegistration => viewRegistration.View == baseType || baseType.IsAssignableFrom(viewRegistration.View));
 
     /// <summary>
     /// Checks if a view is registered with the specified name.
@@ -173,40 +178,40 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
     /// </summary>
     /// <param name="name">The name of the view to look up.</param>
     /// <returns>The view registration object, or null if not found.</returns>
-    protected ViewRegistration GetRegistration(string name) =>
-        Registrations.LastOrDefault(x => x.Name == name);
+    protected ViewRegistration? GetRegistration(string name) =>
+        Registrations.LastOrDefault(viewRegistration => viewRegistration.Name == name);
 
     /// <summary>
     /// Allows subclasses to perform custom configuration on the created view instance.
     /// </summary>
     /// <param name="view">The created view instance.</param>
     /// <param name="container">The container used to resolve dependencies.</param>
-    protected abstract void ConfigureView(TBaseView view, IContainerProvider container);
+    protected abstract void ConfigureView(TBaseView? view, IContainerProvider container);
 
     /// <summary>
     /// Calls the platform code to Autowire the View if it does not have a ViewModel already
     /// </summary>
     /// <param name="view"></param>
-    protected abstract void Autowire(TBaseView view);
+    protected abstract void Autowire(TBaseView? view);
 
     /// <summary>
     /// Sets the specified navigation name that was used to Navigate. This can be useful for back navigation
     /// </summary>
     /// <param name="view"></param>
     /// <param name="name"></param>
-    protected abstract void SetNavigationNameProperty(TBaseView view, string name);
+    protected abstract void SetNavigationNameProperty(TBaseView? view, string name);
 
     /// <summary>
     /// Sets the ViewModel Type to resolve
     /// </summary>
     /// <param name="view"></param>
     /// <param name="viewModelType"></param>
-    protected abstract void SetViewModelProperty(TBaseView view, Type viewModelType);
+    protected abstract void SetViewModelProperty(TBaseView? view, Type viewModelType);
 
     /// <summary>
     /// Sets the IContainerProvider making it easier to access on the given View
     /// </summary>
     /// <param name="view"></param>
     /// <param name="container"></param>
-    protected abstract void SetContainerProvider(TBaseView view, IContainerProvider container);
+    protected abstract void SetContainerProvider(TBaseView? view, IContainerProvider container);
 }
