@@ -208,3 +208,9 @@ FakesAssemblies/
 
 # Binlog
 *.binlog
+
+# macOS
+.DS_Store
+
+# VSCode
+.mono

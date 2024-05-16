@@ -1,8 +1,7 @@
-﻿using System;
-using Prism.Common;
+﻿using Prism.Common;
 
 namespace Prism.Maui.Tests.Fixtures.Common;
-
+#nullable enable
 public class UriParsingHelperFixture
 {
     const string _relativeUri = "MainPage?id=3&name=dan";
@@ -14,7 +13,7 @@ public class UriParsingHelperFixture
     [Fact]
     public void ParametersParsedFromNullSegment()
     {
-        var parameters = UriParsingHelper.GetSegmentParameters(null);
+        var parameters = UriParsingHelper.GetSegmentParameters(null!);
         Assert.NotNull(parameters);
     }
 
@@ -62,7 +61,7 @@ public class UriParsingHelperFixture
                 { "name", "dan" }
             };
 
-        var parameters = UriParsingHelper.GetSegmentParameters("MainPage" + navParameters.ToString());
+        var parameters = UriParsingHelper.GetSegmentParameters("MainPage" + navParameters);
 
         Assert.NotEmpty(parameters);
 
@@ -82,7 +81,7 @@ public class UriParsingHelperFixture
                 { "name", "dan" }
             };
 
-        var parameters = UriParsingHelper.GetSegmentParameters("http://www.dansiegel.net/MainPage" + navParameters.ToString());
+        var parameters = UriParsingHelper.GetSegmentParameters("http://www.dansiegel.net/MainPage" + navParameters);
 
         Assert.NotEmpty(parameters);
 
@@ -91,6 +90,13 @@ public class UriParsingHelperFixture
 
         Assert.Equal("3", parameters["id"]);
         Assert.Equal("dan", parameters["name"]);
+    }
+
+    [Fact]
+    public void TargetNameParsedFromEmptySegment()
+    {
+        var target = UriParsingHelper.GetSegmentName(string.Empty);
+        Assert.Equal(string.Empty, target);
     }
 
     [Fact]
@@ -177,7 +183,7 @@ public class UriParsingHelperFixture
     [Fact]
     public void ParseForNull()
     {
-        var actual = Assert.Throws<ArgumentNullException>(() => UriParsingHelper.Parse(null));
+        var actual = Assert.Throws<ArgumentNullException>(() => UriParsingHelper.Parse(null!));
         Assert.NotNull(actual);
         Assert.Equal("uri", actual.ParamName);
     }

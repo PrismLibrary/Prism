@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -156,13 +157,6 @@ namespace Prism.Common
         public static bool ContainsKey(this IEnumerable<KeyValuePair<string, object>> parameters, string key) =>
             parameters.Any(x => string.Compare(x.Key, key, StringComparison.Ordinal) == 0);
 
-        private static object GetDefault(Type type)
-        {
-            if (type.IsValueType)
-            {
-                return Activator.CreateInstance(type);
-            }
-            return null;
-        }
+        private static object? GetDefault(Type type) => type.IsValueType ? Activator.CreateInstance(type) : null;
     }
 }

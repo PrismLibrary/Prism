@@ -28,11 +28,11 @@ You **cannot** use this product without:
 1. Possessing either a Community License or a Commercial License.
 2. Agreeing and abiding by Prism's license containing all terms and conditions.
 
-To view the full Prism license containing the terms and conditions, please visit [this link](https://prismlibrary.com/downloads/prism_license.pdf).
+To view the full Prism license containing the terms and conditions, please visit [this link](https://cdn.prismlibrary.com/downloads/prism_license.pdf).
 
 ## How to Purchase Your License:
 1. Determine if you qualify for the Prism Community License by reviewing the criteria above.
-2. If you qualify, make sure to read, understand, and agree to Prism's terms and conditions found in the [Prism License](https://prismlibrary.com/downloads/prism_license.pdf).
+2. If you qualify, make sure to read, understand, and agree to Prism's terms and conditions found in the [Prism License](https://cdn.prismlibrary.com/downloads/prism_license.pdf).
 3. If you do not qualify for the Community License, visit the [Prism Library website](https://prismlibrary.com/) for commercial licensing options and further instructions.
 
 Thank you for your attention to this matter. We're committed to delivering the best experience with Prism and appreciate your understanding and cooperation.
