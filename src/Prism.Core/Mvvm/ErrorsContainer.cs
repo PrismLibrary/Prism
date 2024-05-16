@@ -58,9 +58,9 @@ namespace Prism.Mvvm
         /// </summary>
         /// <param name="propertyName">The name of the property.</param>
         /// <returns>The validation errors of type <typeparamref name="T"/> for the property.</returns>
-        public IEnumerable<T> GetErrors(string propertyName)
+        public IEnumerable<T> GetErrors(string? propertyName)
         {
-            var localPropertyName = propertyName;
+            var localPropertyName = propertyName ?? string.Empty;
             if (this.validationResults.TryGetValue(localPropertyName, out var currentValidationResults))
             {
                 return currentValidationResults;
@@ -104,7 +104,7 @@ namespace Prism.Mvvm
         /// <example>
         /// container.ClearErrors("SomeProperty");
         /// </example>
-        public void ClearErrors(string propertyName) => this.SetErrors(propertyName, new List<T>());
+        public void ClearErrors(string? propertyName) => this.SetErrors(propertyName, new List<T>());
 
         /// <summary>
         /// Sets the validation errors for the specified property.
@@ -113,7 +113,7 @@ namespace Prism.Mvvm
         /// <param name="propertyExpression">The <see cref="Expression"/> indicating the property.</param>
         /// <param name="propertyErrors">The list of errors to set for the property.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
-        public void SetErrors<TProperty>(Expression<Func<TProperty>> propertyExpression, IEnumerable<T> propertyErrors)
+        public void SetErrors<TProperty>(Expression<Func<TProperty>> propertyExpression, IEnumerable<T>? propertyErrors)
         {
             var propertyName = PropertySupport.ExtractPropertyName(propertyExpression);
             this.SetErrors(propertyName, propertyErrors);
@@ -127,11 +127,11 @@ namespace Prism.Mvvm
         /// </remarks>
         /// <param name="propertyName">The name of the property.</param>
         /// <param name="newValidationResults">The new validation errors.</param>
-        public void SetErrors(string propertyName, IEnumerable<T> newValidationResults)
+        public void SetErrors(string? propertyName, IEnumerable<T>? newValidationResults)
         {
             var localPropertyName = propertyName ?? string.Empty;
             var hasCurrentValidationResults = this.validationResults.ContainsKey(localPropertyName);
-            var hasNewValidationResults = newValidationResults.Count() > 0;
+            var hasNewValidationResults = newValidationResults != null && newValidationResults.Count() > 0;
 
             if (hasCurrentValidationResults || hasNewValidationResults)
             {
