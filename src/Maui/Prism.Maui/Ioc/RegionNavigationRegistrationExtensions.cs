@@ -35,7 +35,7 @@ public static class RegionNavigationRegistrationExtensions
         where TViewModel : class =>
         containerRegistry.RegisterForNavigationWithViewModel(typeof(TView), typeof(TViewModel), name);
 
-    private static IContainerRegistry RegisterForNavigationWithViewModel(this IContainerRegistry containerRegistry, Type viewType, Type viewModelType, string name)
+    public static IContainerRegistry RegisterForNavigationWithViewModel(this IContainerRegistry containerRegistry, Type viewType, Type viewModelType, string name)
     {
         if (string.IsNullOrWhiteSpace(name))
             name = viewType.Name;
