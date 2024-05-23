@@ -88,12 +88,14 @@ public static class MvvmHelpers
                 {
                     DestroyPage(item);
                 }
+
                 break;
             case NavigationPage navigationPage:
                 foreach (var item in navigationPage.Navigation.NavigationStack.Reverse())
                 {
                     DestroyPage(item);
                 }
+
                 break;
         }
     }
@@ -104,11 +106,12 @@ public static class MvvmHelpers
         {
             DestroyPage(childPage);
         }
+
         DestroyPage(page);
     }
 
     public static T? GetImplementerFromViewOrViewModel<T>(object view)
-            where T : class
+        where T : class
     {
         if (view is T viewAsT)
         {
@@ -301,6 +304,11 @@ public static class MvvmHelpers
                 if (page.Parent is Page parentPage)
                 {
                     return GetTarget(parentPage);
+                }
+
+                if (page.Parent is PrismWindow prismWindow)
+                {
+                    return GetTarget(prismWindow.Page);
                 }
 
                 throw new InvalidOperationException("Unable to determine the current page.");
