@@ -299,10 +299,18 @@ public static class MvvmHelpers
 
         if (target is { } page)
         {
+            if (target is IDialogContainer)
+            {
+                return page.Parent switch
+                {
+                    Page parentPage => GetTarget(parentPage),
+                    PrismWindow prismWindow => GetTarget(prismWindow.Page),
+                    _ => throw new InvalidOperationException("Unable to determine the current page.")
+                };
+            }
+
             return page.Parent switch
             {
-                Page parent when page is IDialogContainer => GetTarget(parent),
-                PrismWindow prismWindow when page is IDialogContainer => GetTarget(prismWindow.Page),
                 TabbedPage tab when tab.CurrentPage != target => EvaluateCurrentPage(tab.CurrentPage),
                 NavigationPage nav when nav.CurrentPage != target => EvaluateCurrentPage(nav.CurrentPage),
                 _ => target
