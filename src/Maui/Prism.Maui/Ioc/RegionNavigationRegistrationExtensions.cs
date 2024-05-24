@@ -35,7 +35,10 @@ public static class RegionNavigationRegistrationExtensions
         where TViewModel : class =>
         containerRegistry.RegisterForNavigationWithViewModel(typeof(TView), typeof(TViewModel), name);
 
-    public static IContainerRegistry RegisterForNavigationWithViewModel(this IContainerRegistry containerRegistry, Type viewType, Type viewModelType, string name)
+    public static IContainerRegistry RegisterForRegionNavigation(this IContainerRegistry containerRegistry, Type viewType, Type viewModelType, string name = null)
+        => containerRegistry.RegisterForNavigationWithViewModel(viewType, viewModelType, name);
+
+    private static IContainerRegistry RegisterForNavigationWithViewModel(this IContainerRegistry containerRegistry, Type viewType, Type viewModelType, string name)
     {
         if (string.IsNullOrWhiteSpace(name))
             name = viewType.Name;
@@ -76,6 +79,9 @@ public static class RegionNavigationRegistrationExtensions
         where TView : View
         where TViewModel : class =>
         services.RegisterForNavigationWithViewModel(typeof(TView), typeof(TViewModel), name);
+
+    public static IServiceCollection RegisterForRegionNavigation(this IServiceCollection services, Type viewType, Type viewModelType, string name = null)
+        => services.RegisterForNavigationWithViewModel(viewType, viewModelType, name);
 
     private static IServiceCollection RegisterForNavigationWithViewModel(this IServiceCollection services, Type viewType, Type viewModelType, string name)
     {
