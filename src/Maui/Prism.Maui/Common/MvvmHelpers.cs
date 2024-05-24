@@ -284,8 +284,9 @@ public static class MvvmHelpers
         {
             FlyoutPage flyout => GetTarget(flyout.Detail),
             TabbedPage tabbed => GetTarget(tabbed.CurrentPage),
-            NavigationPage navigation => GetTarget(navigation.CurrentPage),
+            NavigationPage navigation => GetTarget(navigation.CurrentPage) ?? navigation,
             ContentPage page => page,
+            null => null,
             _ => throw new NotSupportedException($"The page type '{target.GetType().FullName}' is not supported.")
         };
     }
