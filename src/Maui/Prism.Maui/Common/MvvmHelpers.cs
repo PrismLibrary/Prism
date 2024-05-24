@@ -304,7 +304,7 @@ public static class MvvmHelpers
                 return page.Parent switch
                 {
                     Page parentPage => GetTarget(parentPage),
-                    PrismWindow prismWindow => GetTarget(prismWindow.Page),
+                    Window window => GetTarget(window.Page),
                     _ => throw new InvalidOperationException("Unable to determine the current page.")
                 };
             }
