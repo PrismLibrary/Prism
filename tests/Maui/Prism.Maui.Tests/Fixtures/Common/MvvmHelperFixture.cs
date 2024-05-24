@@ -12,16 +12,16 @@ public class MvvmHelperFixture
     public async Task GetCurrentPageFromFlyoutPageWithModalReturnsDetailPage()
     {
         // Given
-        FlyoutPage flyout = new FlyoutPage
+        var flyout = new FlyoutPage
             { Flyout = new ContentPage { Title = "Title" }, Detail = new NavigationPage(), };
-        PrismWindow window = new PrismWindow { Page = flyout };
+        var window = new PrismWindow { Page = flyout };
         await window.Navigation.PushModalAsync(new DialogContainerPage());
 
         // When
         var result = MvvmHelpers.GetCurrentPage(window.Page);
 
         // Then
-        Assert.Equal(result, flyout.Detail);
+        Assert.Equal(flyout.Detail, result);
     }
 
     /// <summary>
@@ -32,14 +32,14 @@ public class MvvmHelperFixture
     public async Task GetCurrentPageFromComplexFlyoutPageWithModalReturnsCorrectPage()
     {
         // Given
-        ContentPage current = new ContentPage { Title = "D" };
+        var expected = new ContentPage { Title = "D" };
         var navigationPage = new NavigationPage();
         await navigationPage.PushAsync(new ContentPage { Title = "A" });
         await navigationPage.PushAsync(new ContentPage { Title = "B" });
         await navigationPage.PushAsync(new ContentPage { Title = "C" });
-        await navigationPage.PushAsync(current);
+        await navigationPage.PushAsync(expected);
 
-        PrismWindow window = new PrismWindow
+        var window = new Window
         {
             Page = new FlyoutPage
                 { Flyout = new ContentPage { Title = "Title" }, Detail = navigationPage, }
@@ -51,7 +51,7 @@ public class MvvmHelperFixture
         var result = MvvmHelpers.GetCurrentPage(window.Page);
 
         // Then
-        Assert.Equal(result, current);
+        Assert.Equal(expected, result);
     }
 
     /// <summary>
@@ -62,16 +62,15 @@ public class MvvmHelperFixture
     public async Task GetCurrentPageFromNavigationPageWithModalReturnsContentPage()
     {
         // Given
-        var contentPage = new ContentPage();
-        NavigationPage navigationPage = new NavigationPage(contentPage);
-        PrismWindow window = new PrismWindow { Page = navigationPage };
+        var expected = new ContentPage();
+        var window = new Window { Page = new NavigationPage(expected) };
         await window.Navigation.PushModalAsync(new DialogContainerPage());
 
         // When
         var result = MvvmHelpers.GetCurrentPage(window.Page);
 
         // Then
-        Assert.Equal(result, contentPage);
+        Assert.Equal(expected, result);
     }
 
     /// <summary>
@@ -82,14 +81,55 @@ public class MvvmHelperFixture
     public async Task GetCurrentPageFromContentPageWithModalReturnsContentPage()
     {
         // Given
-        ContentPage contentPage = new ContentPage { Title = "Title" };
-        PrismWindow window = new PrismWindow { Page = contentPage };
+        var expected = new ContentPage { Title = "Title" };
+        var window = new Window { Page = expected };
         await window.Navigation.PushModalAsync(new DialogContainerPage());
 
         // When
         var result = MvvmHelpers.GetCurrentPage(window.Page);
 
         // Then
-        Assert.Equal(result, contentPage);
+        Assert.Equal(expected, result);
+    }
+
+    /// <summary>
+    /// This test was introduced to verify GH3143
+    /// </summary>
+    /// <a href="https://github.com/PrismLibrary/Prism/issues/3143">Git Hub Issue 3143</a>
+    [Fact(Skip = "System.InvalidOperationException\nBindableObject was not instantiated on a thread with a dispatcher nor does the current application have a dispatcher.")]
+    public async Task GetCurrentPageFromTabbedPageWithModalReturnsContentPage()
+    {
+        // Given
+        var expected = new ContentPage();
+        var tabbedPage = new TabbedPage { Title = "Tab", Children = { expected }};
+        var window = new Window { Page = tabbedPage };
+        await window.Navigation.PushModalAsync(new DialogContainerPage());
+
+        // When
+        var result = MvvmHelpers.GetCurrentPage(window.Page);
+
+        // Then
+        Assert.Equal(expected, result);
+    }
+
+    /// <summary>
+    /// This test was introduced to verify GH3143
+    /// </summary>
+    /// <a href="https://github.com/PrismLibrary/Prism/issues/3143">Git Hub Issue 3143</a>
+    [Fact(Skip = "System.InvalidOperationException\nBindableObject was not instantiated on a thread with a dispatcher nor does the current application have a dispatcher.")]
+    public async Task GetCurrentPageFromTabbedNavigationPageWithModalReturnsContentPage()
+    {
+        // Given
+        var expected = new ContentPage();
+        var navigationPage = new NavigationPage(expected);
+        var tabbedPage = new TabbedPage { Title = "Tab", Children = { navigationPage }};
+        var window = new Window { Page = tabbedPage };
+        await window.Navigation.PushModalAsync(new DialogContainerPage());
+
+        // When
+        var result = MvvmHelpers.GetCurrentPage(window.Page);
+
+        // Then
+        Assert.Equal(expected, result);
     }
 }
