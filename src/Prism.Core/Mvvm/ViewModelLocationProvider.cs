@@ -1,12 +1,9 @@
-
-
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 
+#nullable enable
 namespace Prism.Mvvm
 {
     /// <summary>
@@ -52,24 +49,24 @@ namespace Prism.Mvvm
         /// <summary>
         /// ViewModelFactory that provides the View instance and ViewModel type as parameters.
         /// </summary>
-        static Func<object, Type, object> _defaultViewModelFactoryWithViewParameter;
+        static Func<object, Type, object>? _defaultViewModelFactoryWithViewParameter;
 
         /// <summary>
         /// Default view type to view model type resolver, assumes the view model is in same assembly as the view type, but in the "ViewModels" namespace.
         /// </summary>
-        static Func<Type, Type> _defaultViewTypeToViewModelTypeResolver = DefaultViewTypeToViewModel;
+        static Func<Type, Type?> _defaultViewTypeToViewModelTypeResolver = DefaultViewTypeToViewModel;
 
-        private static Type DefaultViewTypeToViewModel(Type viewType)
+        private static Type? DefaultViewTypeToViewModel(Type viewType)
         {
             var viewName = viewType.FullName;
-            viewName = viewName.Replace(".Views.", ".ViewModels.");
+            viewName = viewName?.Replace(".Views.", ".ViewModels.");
             var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-            var suffix = viewName.EndsWith("View") ? "Model" : "ViewModel";
+            var suffix = viewName != null && viewName.EndsWith("View") ? "Model" : "ViewModel";
             var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", viewName, suffix, viewAssemblyName);
             return Type.GetType(viewModelName);
         }
 
-        static Func<object, Type> _defaultViewToViewModelTypeResolver = view => null;
+        static Func<object, Type?> _defaultViewToViewModelTypeResolver = view => null;
 
         /// <summary>
         /// Sets the default view model factory.
@@ -93,7 +90,7 @@ namespace Prism.Mvvm
         /// Sets the default view type to view model type resolver.
         /// </summary>
         /// <param name="viewTypeToViewModelTypeResolver">The view type to view model type resolver.</param>
-        public static void SetDefaultViewTypeToViewModelTypeResolver(Func<Type, Type> viewTypeToViewModelTypeResolver)
+        public static void SetDefaultViewTypeToViewModelTypeResolver(Func<Type, Type?> viewTypeToViewModelTypeResolver)
         {
             _defaultViewTypeToViewModelTypeResolver = viewTypeToViewModelTypeResolver;
         }
@@ -102,7 +99,7 @@ namespace Prism.Mvvm
         /// Sets the default ViewModel Type Resolver given the View instance. This can be used to evaluate the View for
         /// custom attributes or Attached Properties to determine the ViewModel Type.
         /// </summary> 
-        public static void SetDefaultViewToViewModelTypeResolver(Func<object, Type> viewToViewModelTypeResolver) =>
+        public static void SetDefaultViewToViewModelTypeResolver(Func<object, Type?> viewToViewModelTypeResolver) =>
             _defaultViewToViewModelTypeResolver = viewToViewModelTypeResolver;
 
         /// <summary>
@@ -114,7 +111,7 @@ namespace Prism.Mvvm
         public static void AutoWireViewModelChanged(object view, Action<object, object> setDataContextCallback)
         {
             // Try mappings first
-            object viewModel = GetViewModelForView(view);
+            object? viewModel = GetViewModelForView(view);
 
             // try to use ViewModel type
             if (viewModel == null)
@@ -144,15 +141,12 @@ namespace Prism.Mvvm
         /// </summary>
         /// <param name="view">The view that the view model wants.</param>
         /// <returns>The ViewModel that corresponds to the view passed as a parameter.</returns>
-        private static object GetViewModelForView(object view)
+        private static object? GetViewModelForView(object view)
         {
             var viewKey = view.GetType().ToString();
 
             // Mapping of view models base on view type (or instance) goes here
-            if (_factories.ContainsKey(viewKey))
-                return _factories[viewKey]();
-
-            return null;
+            return _factories.ContainsKey(viewKey) ? _factories[viewKey]() : null;
         }
 
         /// <summary>
@@ -160,14 +154,11 @@ namespace Prism.Mvvm
         /// </summary>
         /// <param name="view">The View that the ViewModel wants.</param>
         /// <returns>The ViewModel type that corresponds to the View.</returns>
-        private static Type GetViewModelTypeForView(Type view)
+        private static Type? GetViewModelTypeForView(Type view)
         {
             var viewKey = view.ToString();
 
-            if (_typeFactories.ContainsKey(viewKey))
-                return _typeFactories[viewKey];
-
-            return null;
+            return _typeFactories.ContainsKey(viewKey) ? _typeFactories[viewKey] : null;
         }
 
         /// <summary>

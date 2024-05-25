@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Prism.Mvvm;
+﻿namespace Prism.Mvvm;
 
 /// <summary>
 /// Represents information about a registered view.

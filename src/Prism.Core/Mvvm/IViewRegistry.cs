@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Prism.Ioc;
-
-namespace Prism.Mvvm;
+﻿namespace Prism.Mvvm;
 
 /// <summary>
 /// Provides an abstraction layer for ViewRegistration that can be mocked
