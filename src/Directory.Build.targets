@@ -9,7 +9,7 @@
 
     <Exec Command="type $(MSBuildThisFileDirectory)ReadMe.md >> $(IntermediateOutputPath)\ReadMe.md"
           ConsoleToMsBuild="true"
-          Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'" />
+          Condition="$([MSBuild]::IsOSPlatform('windows'))" />
   </Target>
 
   <Target Name="PackNuGetReadMe"
