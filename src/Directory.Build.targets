@@ -14,7 +14,7 @@
 
   <Target Name="PackNuGetReadMe"
           AfterTargets="CopyNuGetReadme"
-          Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">
+          Condition="$([MSBuild]::IsOSPlatform('windows'))">
     <PropertyGroup>
       <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
     </PropertyGroup>
