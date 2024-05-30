@@ -88,12 +88,14 @@ public static class MvvmHelpers
                 {
                     DestroyPage(item);
                 }
+
                 break;
             case NavigationPage navigationPage:
                 foreach (var item in navigationPage.Navigation.NavigationStack.Reverse())
                 {
                     DestroyPage(item);
                 }
+
                 break;
         }
     }
@@ -104,11 +106,12 @@ public static class MvvmHelpers
         {
             DestroyPage(childPage);
         }
+
         DestroyPage(page);
     }
 
     public static T? GetImplementerFromViewOrViewModel<T>(object view)
-            where T : class
+        where T : class
     {
         if (view is T viewAsT)
         {
@@ -281,8 +284,9 @@ public static class MvvmHelpers
         {
             FlyoutPage flyout => GetTarget(flyout.Detail),
             TabbedPage tabbed => GetTarget(tabbed.CurrentPage),
-            NavigationPage navigation => GetTarget(navigation.CurrentPage),
+            NavigationPage navigation => GetTarget(navigation.CurrentPage) ?? navigation,
             ContentPage page => page,
+            null => null,
             _ => throw new NotSupportedException($"The page type '{target.GetType().FullName}' is not supported.")
         };
     }
@@ -298,12 +302,12 @@ public static class MvvmHelpers
         {
             if (target is IDialogContainer)
             {
-                if (page.Parent is Page parentPage)
+                return page.Parent switch
                 {
-                    return GetTarget(parentPage);
-                }
-
-                throw new InvalidOperationException("Unable to determine the current page.");
+                    Page parentPage => GetTarget(parentPage),
+                    Window window => GetTarget(window.Page),
+                    _ => throw new InvalidOperationException("Unable to determine the current page.")
+                };
             }
 
             return page.Parent switch
