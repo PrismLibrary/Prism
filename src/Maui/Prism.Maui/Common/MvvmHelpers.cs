@@ -63,10 +63,20 @@ public static class MvvmHelpers
 
             InvokeViewAndViewModelAction<IDestructible>(view, v => v.Destroy());
 
-            if (view is Page page)
+            if (view is VisualElement visualElement)
             {
-                page.Behaviors?.Clear();
-                page.BindingContext = null;
+#if ANDROID
+                visualElement.Unloaded += VisualElementUnloaded;
+                void VisualElementUnloaded(object? sender, EventArgs e)
+                {
+                    visualElement.Unloaded -= VisualElementUnloaded;
+                    visualElement.Behaviors?.Clear();
+                    visualElement.BindingContext = null;
+                }
+#else
+                visualElement.Behaviors?.Clear();
+                visualElement.BindingContext = null;
+#endif
             }
         }
         catch (Exception ex)
@@ -75,7 +85,7 @@ public static class MvvmHelpers
         }
     }
 
-    private static void DestroyChildren(IView page)
+    private static void DestroyChildren(IView? page)
     {
         switch (page)
         {
