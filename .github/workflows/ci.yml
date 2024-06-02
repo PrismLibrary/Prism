@@ -22,7 +22,7 @@ jobs:
     with:
       name: Build Prism.Core
       solution-path: PrismLibrary_Core.slnf
-      code-sign: true
+      code-sign: false
       artifact-name: Core
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
@@ -36,7 +36,7 @@ jobs:
     with:
       name: Build Prism.Wpf
       solution-path: PrismLibrary_Wpf.slnf
-      code-sign: true
+      code-sign: false
       artifact-name: Wpf
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
@@ -50,7 +50,7 @@ jobs:
     with:
       name: Build Prism.Forms
       solution-path: PrismLibrary_Forms.slnf
-      code-sign: true
+      code-sign: false
       artifact-name: Forms
       jdk-version: 13
     secrets:
@@ -69,7 +69,7 @@ jobs:
       uno-check: true
       uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip androidemulator --skip androidsdk --skip vsmac --skip dotnetnewunotemplates'
       run-tests: false
-      code-sign: true
+      code-sign: false
       artifact-name: Uno
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
@@ -84,7 +84,7 @@ jobs:
       name: Build Prism.Maui
       solution-path: PrismLibrary_Maui.slnf
       install-workload: maui maui-tizen
-      code-sign: true
+      code-sign: false
       artifact-name: Maui
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
