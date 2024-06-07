@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿#nullable enable
 namespace Prism.Mvvm;
 
 /// <summary>
@@ -23,7 +22,7 @@ public class ViewCreationException : Exception
     /// <param name="viewName">The name of the view that failed to create.</param>
     /// <param name="viewType">The type of view that failed to create (Page, Region, or Dialog).</param>
     /// <param name="innerException">The inner exception that caused the view creation to fail.</param>
-    public ViewCreationException(string viewName, ViewType viewType, Exception innerException)
+    public ViewCreationException(string viewName, ViewType viewType, Exception? innerException)
         : base($"Unable to create {viewType} '{viewName}'.", innerException)
     {
         ViewName = viewName;

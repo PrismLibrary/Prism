@@ -1,4 +1,6 @@
+#nullable enable
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Prism.Dialogs;
 using Prism.Navigation;
@@ -11,14 +13,14 @@ namespace Prism.Common;
 
 public static class MvvmHelpers
 {
-    public static void InvokeViewAndViewModelAction<T>(object view, Action<T> action) where T : class
+    public static void InvokeViewAndViewModelAction<T>(object? view, Action<T> action) where T : class
     {
         if (view is T viewAsT)
         {
             action(viewAsT);
         }
 
-        if (view is BindableObject element && element.BindingContext is T viewModelAsT)
+        if (view is BindableObject { BindingContext: T viewModelAsT })
         {
             action(viewModelAsT);
         }
@@ -32,14 +34,14 @@ public static class MvvmHelpers
         }
     }
 
-    public static async Task InvokeViewAndViewModelActionAsync<T>(object view, Func<T, Task> action) where T : class
+    public static async Task InvokeViewAndViewModelActionAsync<T>(object? view, Func<T, Task> action) where T : class
     {
         if (view is T viewAsT)
         {
             await action(viewAsT);
         }
 
-        if (view is BindableObject element && element.BindingContext is T viewModelAsT)
+        if (view is BindableObject { BindingContext: T viewModelAsT })
         {
             await action(viewModelAsT);
         }
@@ -49,11 +51,11 @@ public static class MvvmHelpers
             var children = page.GetChildRegions();
             if (children is not null)
                 foreach (var child in children)
-                    await InvokeViewAndViewModelActionAsync<T>(child, action);
+                    await InvokeViewAndViewModelActionAsync(child, action);
         }
     }
 
-    public static void DestroyPage(IView view)
+    public static void DestroyPage(IView? view)
     {
         try
         {
@@ -61,10 +63,20 @@ public static class MvvmHelpers
 
             InvokeViewAndViewModelAction<IDestructible>(view, v => v.Destroy());
 
-            if (view is Page page)
+            if (view is VisualElement visualElement)
             {
-                page.Behaviors?.Clear();
-                page.BindingContext = null;
+#if ANDROID
+                visualElement.Unloaded += VisualElementUnloaded;
+                void VisualElementUnloaded(object? sender, EventArgs e)
+                {
+                    visualElement.Unloaded -= VisualElementUnloaded;
+                    visualElement.Behaviors?.Clear();
+                    visualElement.BindingContext = null;
+                }
+#else
+                visualElement.Behaviors?.Clear();
+                visualElement.BindingContext = null;
+#endif
             }
         }
         catch (Exception ex)
@@ -73,7 +85,7 @@ public static class MvvmHelpers
         }
     }
 
-    private static void DestroyChildren(IView page)
+    private static void DestroyChildren(IView? page)
     {
         switch (page)
         {
@@ -86,34 +98,37 @@ public static class MvvmHelpers
                 {
                     DestroyPage(item);
                 }
+
                 break;
             case NavigationPage navigationPage:
                 foreach (var item in navigationPage.Navigation.NavigationStack.Reverse())
                 {
                     DestroyPage(item);
                 }
+
                 break;
         }
     }
 
-    public static void DestroyWithModalStack(Page page, IList<Page> modalStack)
+    public static void DestroyWithModalStack(Page? page, IList<Page?> modalStack)
     {
         foreach (var childPage in modalStack.Reverse())
         {
             DestroyPage(childPage);
         }
+
         DestroyPage(page);
     }
 
-    public static T GetImplementerFromViewOrViewModel<T>(object view)
-            where T : class
+    public static T? GetImplementerFromViewOrViewModel<T>(object view)
+        where T : class
     {
         if (view is T viewAsT)
         {
             return viewAsT;
         }
 
-        if (view is VisualElement element && element.BindingContext is T vmAsT)
+        if (view is VisualElement { BindingContext: T vmAsT })
         {
             return vmAsT;
         }
@@ -136,12 +151,12 @@ public static class MvvmHelpers
         return path == viewType.Name || path == viewType.FullName;
     }
 
-    public static void OnNavigatedFrom(object view, NavigationContext navigationContext)
+    public static void OnNavigatedFrom(object? view, NavigationContext navigationContext)
     {
         InvokeViewAndViewModelAction<IRegionAware>(view, x => x.OnNavigatedFrom(navigationContext));
     }
 
-    public static void OnNavigatedTo(object view, NavigationContext navigationContext)
+    public static void OnNavigatedTo(object? view, NavigationContext navigationContext)
     {
         InvokeViewAndViewModelAction<IRegionAware>(view, x => x.OnNavigatedTo(navigationContext));
     }
@@ -161,13 +176,13 @@ public static class MvvmHelpers
         return implementer?.CanNavigate(parameters) ?? true;
     }
 
-    public static void OnNavigatedFrom(object page, INavigationParameters parameters)
+    public static void OnNavigatedFrom(object? page, INavigationParameters parameters)
     {
         if (page != null)
             InvokeViewAndViewModelAction<INavigatedAware>(page, v => v.OnNavigatedFrom(parameters));
     }
 
-    public static async Task OnInitializedAsync(object page, INavigationParameters parameters)
+    public static async Task OnInitializedAsync(object? page, INavigationParameters parameters)
     {
         if (page is null) return;
 
@@ -175,21 +190,21 @@ public static class MvvmHelpers
         await InvokeViewAndViewModelActionAsync<IInitializeAsync>(page, async v => await v.InitializeAsync(parameters));
     }
 
-    private static bool HasKey(this IEnumerable<KeyValuePair<string, object>> parameters, string name, out string key)
+    private static bool HasKey(this IEnumerable<KeyValuePair<string, object>> parameters, string name, [MaybeNullWhen(returnValue: false)] out string key)
     {
         key = parameters.Select(x => x.Key).FirstOrDefault(k => k.Equals(name, StringComparison.InvariantCultureIgnoreCase));
         return !string.IsNullOrEmpty(key);
     }
 
-    public static void OnNavigatedTo(object page, INavigationParameters parameters)
+    public static void OnNavigatedTo(object? page, INavigationParameters parameters)
     {
         if (page != null)
             InvokeViewAndViewModelAction<INavigatedAware>(page, v => v.OnNavigatedTo(parameters));
     }
 
-    public static Page GetOnNavigatedToTarget(Page page, IView mainPage, bool useModalNavigation)
+    public static Page? GetOnNavigatedToTarget(Page page, IView? mainPage, bool useModalNavigation)
     {
-        Page target;
+        Page? target;
         if (useModalNavigation)
         {
             var previousPage = GetPreviousPage(page, page.Navigation.ModalStack);
@@ -210,9 +225,9 @@ public static class MvvmHelpers
         return target;
     }
 
-    public static Page GetOnNavigatedToTargetFromChild(IView target)
+    public static Page? GetOnNavigatedToTargetFromChild(IView? target)
     {
-        Page child = null;
+        Page? child = null;
 
         if (target is FlyoutPage flyout)
             child = flyout.Detail;
@@ -230,9 +245,9 @@ public static class MvvmHelpers
         return null;
     }
 
-    public static Page GetPreviousPage(Page currentPage, System.Collections.Generic.IReadOnlyList<Page> navStack)
+    public static Page? GetPreviousPage(Page currentPage, IReadOnlyList<Page?> navStack)
     {
-        Page previousPage = null;
+        Page? previousPage = null;
 
         int currentPageIndex = GetCurrentPageIndex(currentPage, navStack);
         int previousPageIndex = currentPageIndex - 1;
@@ -242,7 +257,7 @@ public static class MvvmHelpers
         return previousPage;
     }
 
-    public static int GetCurrentPageIndex(Page currentPage, System.Collections.Generic.IReadOnlyList<Page> navStack)
+    public static int GetCurrentPageIndex(Page currentPage, IReadOnlyList<Page?> navStack)
     {
         int stackCount = navStack.Count;
         for (int x = 0; x < stackCount; x++)
@@ -255,14 +270,14 @@ public static class MvvmHelpers
         return stackCount - 1;
     }
 
-    public static Page GetCurrentPage(Page mainPage) =>
+    public static Page? GetCurrentPage(Page mainPage) =>
         _getCurrentPage(mainPage);
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void SetCurrentPageDelegate(Func<Page, Page> getCurrentPageDelegate) =>
+    public static void SetCurrentPageDelegate(Func<Page, Page?> getCurrentPageDelegate) =>
         _getCurrentPage = getCurrentPageDelegate;
 
-    private static Func<Page, Page> _getCurrentPage = mainPage =>
+    private static Func<Page, Page?> _getCurrentPage = mainPage =>
     {
         var page = mainPage;
 
@@ -273,35 +288,36 @@ public static class MvvmHelpers
         return EvaluateCurrentPage(page);
     };
 
-    private static Page GetTarget(Page target)
+    private static Page? GetTarget(Page? target)
     {
         return target switch
         {
             FlyoutPage flyout => GetTarget(flyout.Detail),
             TabbedPage tabbed => GetTarget(tabbed.CurrentPage),
-            NavigationPage navigation => GetTarget(navigation.CurrentPage),
+            NavigationPage navigation => GetTarget(navigation.CurrentPage) ?? navigation,
             ContentPage page => page,
+            null => null,
             _ => throw new NotSupportedException($"The page type '{target.GetType().FullName}' is not supported.")
         };
     }
 
-    private static Page EvaluateCurrentPage(Page target)
+    private static Page? EvaluateCurrentPage(Page? target)
     {
-        Page child = GetTarget(target);
+        Page? child = GetTarget(target);
 
         if (child is not null)
             target = GetOnNavigatedToTargetFromChild(child);
 
-        if (target is Page page)
+        if (target is { } page)
         {
             if (target is IDialogContainer)
             {
-                if (page.Parent is Page parentPage)
+                return page.Parent switch
                 {
-                    return GetTarget(parentPage);
-                }
-
-                throw new InvalidOperationException("Unable to determine the current page.");
+                    Page parentPage => GetTarget(parentPage),
+                    Window window => GetTarget(window.Page),
+                    _ => throw new InvalidOperationException("Unable to determine the current page.")
+                };
             }
 
             return page.Parent switch
@@ -319,9 +335,9 @@ public static class MvvmHelpers
     {
         var navigationService = Navigation.Xaml.Navigation.GetNavigationService(navigationPage.CurrentPage);
         var result = await navigationService.GoBackAsync();
-        if (result.Exception is NavigationException navEx && navEx.Message == NavigationException.CannotPopApplicationMainPage)
+        if (result.Exception is NavigationException { Message: NavigationException.CannotPopApplicationMainPage })
         {
-            Application.Current.Quit();
+            Application.Current?.Quit();
         }
     }
 
@@ -335,13 +351,13 @@ public static class MvvmHelpers
             },
         };
         var result = await navigationService.GoBackAsync(navParams);
-        if (result.Exception is NavigationException navEx && navEx.Message == NavigationException.CannotPopApplicationMainPage)
+        if (result.Exception is NavigationException { Message: NavigationException.CannotPopApplicationMainPage })
         {
-            Application.Current.Quit();
+            Application.Current?.Quit();
         }
     }
 
-    public static void HandleSystemGoBack(IView previousPage, IView currentPage)
+    public static void HandleSystemGoBack(IView? previousPage, IView? currentPage)
     {
         var parameters = new NavigationParameters();
         parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
@@ -352,22 +368,22 @@ public static class MvvmHelpers
 
     internal static bool HasDirectNavigationPageParent(Page page)
     {
-        return page?.Parent != null && page?.Parent is NavigationPage;
+        return page.Parent is NavigationPage;
     }
 
     internal static bool HasNavigationPageParent(Page page) =>
         HasNavigationPageParent(page, out var _);
 
-    internal static bool HasNavigationPageParent(Page page, out NavigationPage navigationPage)
+    internal static bool HasNavigationPageParent(Page page, out NavigationPage? navigationPage)
     {
-        if (page?.Parent != null)
+        if (page.Parent != null)
         {
             if (page.Parent is NavigationPage navParent)
             {
                 navigationPage = navParent;
                 return true;
             }
-            else if ((page.Parent is TabbedPage) && page.Parent?.Parent is NavigationPage navigationParent)
+            else if (page.Parent is TabbedPage && page.Parent?.Parent is NavigationPage navigationParent)
             {
                 navigationPage = navigationParent;
                 return true;

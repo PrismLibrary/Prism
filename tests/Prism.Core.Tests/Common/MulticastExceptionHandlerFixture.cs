@@ -1,10 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using Prism.Common;
+﻿using Prism.Common;
 using Xunit;
 
-namespace Prism.Core.Tests.Common;
+namespace Prism.Tests.Common;
 
 #nullable enable
 public class MulticastExceptionHandlerFixture

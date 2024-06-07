@@ -1,10 +1,8 @@
-
-
-using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using Prism.Properties;
 
+#nullable enable
 namespace Prism.Mvvm
 {
     ///<summary>
@@ -24,7 +22,7 @@ namespace Prism.Mvvm
         ///     The <see cref="MemberExpression"/> does not represent a property.<br/>
         ///     Or, the property is static.
         /// </exception>
-        public static string ExtractPropertyName<T>(Expression<Func<T>> propertyExpression)
+        public static string? ExtractPropertyName<T>(Expression<Func<T>> propertyExpression)
         {
             if (propertyExpression == null)
                 throw new ArgumentNullException(nameof(propertyExpression));
@@ -42,7 +40,7 @@ namespace Prism.Mvvm
         ///     The <see cref="MemberExpression"/> does not represent a property.<br/>
         ///     Or, the property is static.
         /// </exception>
-        internal static string ExtractPropertyNameFromLambda(LambdaExpression expression)
+        internal static string? ExtractPropertyNameFromLambda(LambdaExpression expression)
         {
             if (expression == null)
                 throw new ArgumentNullException(nameof(expression));

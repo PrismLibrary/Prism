@@ -1,6 +1,6 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
+#nullable enable
 namespace Prism.Mvvm;
 
 /// <summary>
@@ -8,7 +8,7 @@ namespace Prism.Mvvm;
 /// </summary>
 public class ViewModelCreationException : Exception
 {
-    private static Func<object, string> _viewNameDelegate = null;
+    private static Func<object, string>? _viewNameDelegate;
 
     /// <summary>
     /// Gets the name of the view associated with the exception, based on platform-specific logic.
