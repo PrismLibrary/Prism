@@ -1,29 +1,28 @@
-using Microsoft.Maui.Controls.Compatibility;
 using Prism.Properties;
 
 namespace Prism.Navigation.Regions.Adapters;
 
 /// <summary>
 /// Adapter that creates a new <see cref="Region"/> and monitors its
-/// active view to set it on the adapted <see cref="Layout{View}"/>.
+/// active view to set it on the adapted <see cref="Layout"/>.
 /// </summary>
-public class LayoutViewRegionAdapter : RegionAdapterBase<Layout<View>>
+public class LayoutRegionAdapter : RegionAdapterBase<Layout>
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="LayoutViewRegionAdapter"/>.
+    /// Initializes a new instance of <see cref="LayoutRegionAdapter"/>.
     /// </summary>
     /// <param name="regionBehaviorFactory">The factory used to create the region behaviors to attach to the created regions.</param>
-    public LayoutViewRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
+    public LayoutRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
         : base(regionBehaviorFactory)
     {
     }
 
     /// <summary>
-    /// Adapts a <see cref="Layout{View}"/> to an <see cref="IRegion"/>.
+    /// Adapts a <see cref="Layout"/> to an <see cref="IRegion"/>.
     /// </summary>
     /// <param name="region">The new region being used.</param>
     /// <param name="regionTarget">The object to adapt.</param>
-    protected override void Adapt(IRegion region, Layout<View> regionTarget)
+    protected override void Adapt(IRegion region, Layout regionTarget)
     {
         if (region == null)
             throw new ArgumentNullException(nameof(region));
