@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFrameworks>net472;net8.0-windows</TargetFrameworks>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
@@ -63,6 +63,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup Condition=" !$(TargetFramework.StartsWith('net4')) ">
+    <!-- TODO: Update for proper .NET 8 testing -->
+    <Compile Remove="Modularity/DirectoryModuleCatalogFixture.Desktop.cs" />
   </ItemGroup>
 
 </Project>
