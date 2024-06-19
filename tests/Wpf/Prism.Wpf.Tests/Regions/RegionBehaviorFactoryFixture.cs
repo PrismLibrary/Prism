@@ -85,7 +85,7 @@ namespace Prism.Wpf.Tests.Regions
             RegionBehaviorFactory factory = new RegionBehaviorFactory(containerMock.Object);
 
             factory.AddIfMissing<MockRegionBehavior>("key1");
-            factory.AddOrReplaceIfMissing<MockRegionBehaviorB>("key1");
+            factory.AddOrReplace<MockRegionBehaviorB>("key1");
 
             Assert.Single(factory);
             Assert.True(factory.ContainsKey("key1"));
@@ -101,7 +101,7 @@ namespace Prism.Wpf.Tests.Regions
 
             RegionBehaviorFactory factory = new RegionBehaviorFactory(containerMock.Object);
 
-            factory.AddOrReplaceIfMissing<MockRegionBehaviorB>("key1");
+            factory.AddOrReplace<MockRegionBehaviorB>("key1");
 
             Assert.Single(factory);
             Assert.True(factory.ContainsKey("key1"));
