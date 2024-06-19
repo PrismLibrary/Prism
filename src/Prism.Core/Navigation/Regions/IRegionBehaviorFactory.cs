@@ -17,6 +17,13 @@ namespace Prism.Navigation.Regions
         void AddIfMissing(string behaviorKey, Type behaviorType);
 
         /// <summary>
+        /// Adds or replaces a particular type of RegionBehavior. the <paramref name="behaviorKey"/> string is used to check if the behavior is already present
+        /// </summary>
+        /// <param name="behaviorKey">The behavior key that's used to find if a certain behavior is already added.</param>
+        /// <param name="behaviorType">Type of the behavior to add.</param>
+        void AddOrReplace(string behaviorKey, Type behaviorType);
+
+        /// <summary>
         /// Determines whether a behavior with the specified key already exists
         /// </summary>
         /// <param name="behaviorKey">The behavior key.</param>
