@@ -5,8 +5,10 @@ using Prism.DryIoc.Maui.Tests.Mocks.Navigation;
 using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Maui.Tests.Mocks.Views;
 using Prism.Navigation.Xaml;
+using Prism.Navigation;
 using Prism.Xaml;
 using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
+using Microsoft.Maui.LifecycleEvents;
 
 namespace Prism.DryIoc.Maui.Tests.Fixtures.Navigation;
 
@@ -30,7 +32,7 @@ public class NavigationTests : TestBase
 
         var rootPage = window.Page;
 
-        if(rootPage is FlyoutPage flyoutPage)
+        if (rootPage is FlyoutPage flyoutPage)
         {
             TestPage(flyoutPage);
             rootPage = flyoutPage.Detail;
@@ -659,6 +661,53 @@ public class NavigationTests : TestBase
         Assert.IsType(viewType, child);
     }
 
+    [Fact]
+    public async Task Issue3123_GoBack_SendsAppToBackground()
+    {
+        var errorInvoked = false;
+        var mauiApp = CreateBuilder(prism => prism
+        .AddGlobalNavigationObserver(context => context.Subscribe(x =>
+        {
+            //this error message is used in this unit test to know that the SendAppToBackground method was called
+            //for Android we send the app to the background and do not throw the exception, otherwise we throw and quit the app
+            if (!x.Result.Success && x.Result?.Exception?.Message == NavigationException.CannotPopApplicationMainPage)
+                errorInvoked = true;
+        }))
+        .CreateWindow(nav => nav.CreateBuilder()
+            .AddTabbedSegment(page =>
+                    page.CreateTab(t =>
+                        t.AddNavigationPage()
+                            .AddSegment("MockViewA")
+                            .AddSegment("MockViewB")))
+            .NavigateAsync()))
+        .Build();
+        var window = GetWindow(mauiApp);
+
+        var tabbedPage = window.Page as TabbedPage;
+        Assert.NotNull(tabbedPage);
+
+        var currentPage = tabbedPage.CurrentPage;
+        Assert.IsType<PrismNavigationPage>(currentPage);
+        Assert.Equal(2, currentPage.Navigation.NavigationStack.Count);
+
+        var navPage = (PrismNavigationPage)currentPage;
+        Assert.IsType<MockViewB>(navPage.CurrentPage);
+
+        var container = navPage.CurrentPage.GetContainerProvider();
+        var navService = container.Resolve<INavigationService>();
+        await navService.GoBackAsync();
+
+        Assert.False(errorInvoked);
+        Assert.IsType<MockViewA>(navPage.CurrentPage);
+        Assert.Single(currentPage.Navigation.NavigationStack);
+
+        container = navPage.CurrentPage.GetContainerProvider();
+        navService = container.Resolve<INavigationService>();
+        await navService.GoBackAsync();
+
+        Assert.True(errorInvoked);
+    }
+
     private static void TestPage(Page page, bool ignoreNavigationPage = false)
     {
         Assert.NotNull(page.BindingContext);
@@ -671,7 +720,7 @@ public class NavigationTests : TestBase
         Assert.NotNull(accessor.Page);
         Assert.Same(page, accessor.Page);
 
-        if(page.Parent is not null)
+        if (page.Parent is not null)
         {
             Assert.False(page.BindingContext == page);
             Assert.False(page.BindingContext == page.Parent);
@@ -690,7 +739,7 @@ public class NavigationTests : TestBase
 
         if (page is TabbedPage tabbedPage)
         {
-            foreach(var child in tabbedPage.Children)
+            foreach (var child in tabbedPage.Children)
             {
                 TestPage(child, tabbedPage is MockExplicitTabbedPage);
 
@@ -734,7 +783,7 @@ public class NavigationTests : TestBase
 
         Assert.Equal(expectedBehaviors, page.Behaviors.Count);
 
-        switch(page)
+        switch (page)
         {
             case TabbedPage:
                 TestTabbedPageBehaviors(page);
