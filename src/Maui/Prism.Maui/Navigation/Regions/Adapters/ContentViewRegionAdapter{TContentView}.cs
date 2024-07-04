@@ -1,5 +1,4 @@
-﻿using System.Collections.Specialized;
-using Prism.Ioc;
+using System.Collections.Specialized;
 using Prism.Properties;
 
 namespace Prism.Navigation.Regions.Adapters;
@@ -27,8 +26,8 @@ public class ContentViewRegionAdapter<TContentView> : RegionAdapterBase<TContent
     /// <param name="regionTarget">The object to adapt.</param>
     protected override void Adapt(IRegion region, TContentView regionTarget)
     {
-        if (regionTarget == null)
-            throw new ArgumentNullException(nameof(regionTarget));
+        ArgumentNullException.ThrowIfNull(region);
+        ArgumentNullException.ThrowIfNull(regionTarget);
 
         bool contentIsSet = regionTarget.Content != null || regionTarget.IsSet(ContentView.ContentProperty);
 

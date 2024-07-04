@@ -25,11 +25,8 @@ public class LayoutViewRegionAdapter : RegionAdapterBase<Layout<View>>
     /// <param name="regionTarget">The object to adapt.</param>
     protected override void Adapt(IRegion region, Layout<View> regionTarget)
     {
-        if (region == null)
-            throw new ArgumentNullException(nameof(region));
-
-        if (regionTarget == null)
-            throw new ArgumentNullException(nameof(regionTarget));
+        ArgumentNullException.ThrowIfNull(region);
+        ArgumentNullException.ThrowIfNull(regionTarget);
 
         bool itemsSourceIsSet = regionTarget.Children?.Any() ?? false || regionTarget.IsSet(BindableLayout.ItemsSourceProperty);
 
