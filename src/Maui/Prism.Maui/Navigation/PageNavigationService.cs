@@ -846,7 +846,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             {
                 MvvmHelpers.OnNavigatedTo(navigationPage.CurrentPage, parameters);
             }
-            else if (tabbedPage.BindingContext != tabbedPage.CurrentPage.BindingContext)
+            else if (tabbedPage.BindingContext != tabbedPage.CurrentPage?.BindingContext)
             {
                 MvvmHelpers.OnNavigatedTo(tabbedPage.CurrentPage, parameters);
             }
