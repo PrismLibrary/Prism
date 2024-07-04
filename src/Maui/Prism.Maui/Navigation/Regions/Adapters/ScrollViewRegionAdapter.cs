@@ -1,5 +1,4 @@
-﻿using System.Collections.Specialized;
-using Prism.Ioc;
+using System.Collections.Specialized;
 using Prism.Properties;
 
 namespace Prism.Navigation.Regions.Adapters;
@@ -26,8 +25,8 @@ public class ScrollViewRegionAdapter : RegionAdapterBase<ScrollView>
     /// <param name="regionTarget">The object to adapt.</param>
     protected override void Adapt(IRegion region, ScrollView regionTarget)
     {
-        if (regionTarget == null)
-            throw new ArgumentNullException(nameof(regionTarget));
+        ArgumentNullException.ThrowIfNull(region);
+        ArgumentNullException.ThrowIfNull(regionTarget);
 
         // No binding check required as the ContentProperty is not Bindable
         bool contentIsSet = regionTarget.Content != null;
