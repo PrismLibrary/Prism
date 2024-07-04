@@ -1,4 +1,4 @@
-﻿using Prism.Common;
+using Prism.Common;
 using Prism.Navigation;
 using UIModalPresentationStyle = Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific.UIModalPresentationStyle;
 
@@ -12,10 +12,7 @@ public class PrismNavigationPage : NavigationPage
     /// <summary>
     /// Creates a new instance of the <see cref="PrismNavigationPage"/>
     /// </summary>
-    public PrismNavigationPage()
-    {
-        BackButtonPressed += HandleBackButtonPressed;
-    }
+    public PrismNavigationPage() { }
 
     /// <summary>
     /// Creates a new instance of the <see cref="PrismNavigationPage"/> with a specified <see cref="Page"/> at the Root
@@ -23,23 +20,14 @@ public class PrismNavigationPage : NavigationPage
     /// <param name="page"></param>
     public PrismNavigationPage(Page page)
         : base(page)
-    {
-        BackButtonPressed += HandleBackButtonPressed;
-    }
+    { }
 
     /// <inheritdoc/>
-    public event EventHandler BackButtonPressed;
-
-    /// <inheritdoc/>
-    protected override bool OnBackButtonPressed()
+    protected sealed override bool OnBackButtonPressed()
     {
-        BackButtonPressed.Invoke(this, EventArgs.Empty);
-        return false;
-    }
-
-    private async void HandleBackButtonPressed(object sender, EventArgs args)
-    {
-        await MvvmHelpers.HandleNavigationPageGoBack(this);
+        var result = RootPage != CurrentPage; //fixes: #3178
+        MvvmHelpers.HandleNavigationPageGoBack(this).ConfigureAwait(false);
+        return result;
     }
 
 #if IOS
