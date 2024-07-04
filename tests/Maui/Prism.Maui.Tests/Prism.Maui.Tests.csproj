@@ -33,8 +33,4 @@
     <ProjectReference Include="..\..\..\src\Maui\Prism.Maui\Prism.Maui.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Fixtures\Mvvm\" />
-  </ItemGroup>
-
 </Project>
