@@ -1261,13 +1261,13 @@ public class PageNavigationService : INavigationService, IRegistryAware
     private INavigationResult SendAppToBackground(Page page)
     {
 #if ANDROID
-        MauiAppCompatActivity activity = Window.Handler.PlatformView as MauiAppCompatActivity;
-        activity.MoveTaskToBack(true);
-
-        return new NavigationResult();
-#else
-        throw new NavigationException(NavigationException.CannotPopApplicationMainPage, page);
+        if (Window.Handler.PlatformView is MauiAppCompatActivity activity)
+        {
+            activity.MoveTaskToBack(true);
+            return new NavigationResult();
+        }
 #endif
+        throw new NavigationException(NavigationException.CannotPopApplicationMainPage, page);
     }
 
     private INavigationResult Notify(NavigationRequestType type, INavigationParameters parameters, Exception exception = null)
