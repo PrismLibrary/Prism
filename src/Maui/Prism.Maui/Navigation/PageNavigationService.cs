@@ -2,9 +2,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using Prism.Common;
 using Prism.Events;
-using Prism.Extensions;
 using Prism.Mvvm;
-using Prism.Navigation.Regions;
 using Application = Microsoft.Maui.Controls.Application;
 using XamlTab = Prism.Navigation.Xaml.TabbedPage;
 
@@ -100,10 +98,6 @@ public class PageNavigationService : INavigationService, IRegistryAware
             NavigationSource = PageNavigationSource.NavigationService;
 
             page = GetCurrentPage();
-            if (IsRoot(GetPageFromWindow(), page))
-            {
-                return SendAppToBackground(page);
-            }
 
             parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
 
@@ -111,6 +105,11 @@ public class PageNavigationService : INavigationService, IRegistryAware
             if (!canNavigate)
             {
                 throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page);
+            }
+
+            if (IsRoot(GetPageFromWindow(), page))
+            {
+                return SendAppToBackground(page);
             }
 
             bool useModalForDoPop = UseModalGoBack(page, parameters);
@@ -1248,6 +1247,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
         else if (navPage.CurrentPage == navPage.RootPage && navPage.Parent is Application && rootPage != navPage)
             return true;
         else if (navPage.Parent is TabbedPage tabbed && tabbed != rootPage)
+            return true;
+        else if (rootPage != navPage || IsRoot(rootPage, navPage.CurrentPage))
             return true;
 
         return false;

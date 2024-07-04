@@ -25,9 +25,8 @@ public class PrismNavigationPage : NavigationPage
     /// <inheritdoc/>
     protected sealed override bool OnBackButtonPressed()
     {
-        var result = RootPage != CurrentPage; //fixes: #3178
         MvvmHelpers.HandleNavigationPageGoBack(this).ConfigureAwait(false);
-        return result;
+        return true; //Prism will always handle the navigation
     }
 
 #if IOS

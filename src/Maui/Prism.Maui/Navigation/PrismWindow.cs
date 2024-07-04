@@ -84,14 +84,14 @@ namespace Prism.Navigation
                 if (dialogContainer.Dismiss.CanExecute(null))
                     dialogContainer.Dismiss.Execute(null);
             }
-            else
+            else if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
             {
                 var navigation = container.Resolve<INavigationService>();
                 navigation.GoBackAsync();
             }
         }
 
-        private bool IsRoot(Page page)
+        internal bool IsRoot(Page page)
         {
             if (page == Page) return true;
 
