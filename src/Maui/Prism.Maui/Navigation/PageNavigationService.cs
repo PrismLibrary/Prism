@@ -4,6 +4,7 @@ using Prism.Common;
 using Prism.Events;
 using Prism.Extensions;
 using Prism.Mvvm;
+using Prism.Navigation.Regions;
 using Application = Microsoft.Maui.Controls.Application;
 using XamlTab = Prism.Navigation.Xaml.TabbedPage;
 
@@ -100,7 +101,9 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
             page = GetCurrentPage();
             if (IsRoot(GetPageFromWindow(), page))
-                throw new NavigationException(NavigationException.CannotPopApplicationMainPage, page);
+            {
+                return SendAppToBackground(page);
+            }
 
             parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
 
@@ -1253,6 +1256,18 @@ public class PageNavigationService : INavigationService, IRegistryAware
     internal static bool UseReverseNavigation(Page currentPage, Type nextPageType)
     {
         return MvvmHelpers.HasNavigationPageParent(currentPage) && MvvmHelpers.IsSameOrSubclassOf<ContentPage>(nextPageType);
+    }
+
+    private INavigationResult SendAppToBackground(Page page)
+    {
+#if ANDROID
+        MauiAppCompatActivity activity = Window.Handler.PlatformView as MauiAppCompatActivity;
+        activity.MoveTaskToBack(true);
+
+        return new NavigationResult();
+#else
+        throw new NavigationException(NavigationException.CannotPopApplicationMainPage, page);
+#endif
     }
 
     private INavigationResult Notify(NavigationRequestType type, INavigationParameters parameters, Exception exception = null)
