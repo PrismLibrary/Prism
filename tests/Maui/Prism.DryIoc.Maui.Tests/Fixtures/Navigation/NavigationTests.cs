@@ -558,6 +558,62 @@ public class NavigationTests : TestBase
         Assert.False(push.Animated);
     }
 
+    [Fact]
+    public async Task Navigation_FromPageUsingRoot()
+    {
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow("MockHome/NavigationPage/MockViewA"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        Assert.IsAssignableFrom<MockHome>(window.Page);
+        var rootPage = (MockHome)window.Page;
+        Assert.NotNull(rootPage);
+
+        Assert.NotNull(rootPage.Detail);
+        Assert.IsAssignableFrom<NavigationPage>(rootPage.Detail);
+        var navigatingPage = (NavigationPage)rootPage.Detail;
+        Assert.NotNull(navigatingPage);
+        Assert.IsType<MockViewA>(navigatingPage.CurrentPage);
+
+        var result = await navigatingPage.CurrentPage.GetContainerProvider()
+            .Resolve<INavigationService>()
+            .NavigateFromAsync("MockHome", UriParsingHelper.Parse("NavigationPage/MockViewB"), null);
+
+        Assert.True(result.Success);
+
+        Assert.NotNull(rootPage.Detail);
+        var navigatedPage = (NavigationPage)rootPage.Detail;
+        Assert.IsType<MockViewB>(navigatedPage.CurrentPage);
+    }
+
+    [Fact]
+    public async Task Navigation_FromNotRootPageUsingRoot()
+    {
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow("MockHome/NavigationPage/MockViewA"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        Assert.IsAssignableFrom<MockHome>(window.Page);
+        var rootPage = (MockHome)window.Page;
+        Assert.NotNull(rootPage);
+
+        Assert.NotNull(rootPage.Detail);
+        Assert.IsAssignableFrom<NavigationPage>(rootPage.Detail);
+        var navigatingPage = (NavigationPage)rootPage.Detail;
+        Assert.NotNull(navigatingPage);
+        Assert.IsType<MockViewA>(navigatingPage.CurrentPage);
+
+        var result = await navigatingPage.CurrentPage.GetContainerProvider()
+            .Resolve<INavigationService>()
+            .NavigateFromAsync("NavigationPage", UriParsingHelper.Parse("MockViewB"), null);
+
+        Assert.True(result.Success);
+
+        Assert.NotNull(rootPage.Detail);
+        var navigatedPage = (NavigationPage)rootPage.Detail;
+        Assert.IsType<MockViewB>(navigatedPage.CurrentPage);
+    }
+
     [Theory]
     [InlineData("MockViewA", "MockViewB", null)]
     [InlineData("NavigationPage/MockViewA", "MockViewB?useModalNavigation=true", true)]

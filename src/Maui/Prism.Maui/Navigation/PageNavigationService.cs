@@ -333,6 +333,47 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
+    /// <inheritdoc />
+    public virtual async Task<INavigationResult> NavigateFromAsync(string viewName, Uri route, INavigationParameters parameters)
+    {
+        await WaitForPendingNavigationRequests();
+
+        try
+        {
+            parameters ??= new NavigationParameters();
+
+            NavigationSource = PageNavigationSource.NavigationService;
+
+            var routeSegments = UriParsingHelper.GetUriSegments(route);
+
+            var page = GetPageFromWindow();
+            if (page is not null && ViewModelLocator.GetNavigationName(page) == viewName)
+            {
+                await ProcessNavigation(page, routeSegments, parameters, null, null);
+            }
+            else
+            {
+                var viewNameSegment = new Queue<string>();
+                viewNameSegment.Enqueue(viewName);
+                var navigationSegments = new Queue<string>(viewNameSegment.Concat(routeSegments));
+
+                await ProcessNavigationForAbsoluteUri(navigationSegments, parameters, null, null);
+            }
+
+            return Notify(route, parameters);
+        }
+        catch (Exception ex)
+        {
+            return Notify(route, parameters, ex);
+        }
+        finally
+        {
+            _lastNavigate = DateTime.Now;
+            NavigationSource = PageNavigationSource.Device;
+            _semaphore.Release();
+        }
+    }
+
     /// <summary>
     /// Selects a Tab of the TabbedPage parent.
     /// </summary>
