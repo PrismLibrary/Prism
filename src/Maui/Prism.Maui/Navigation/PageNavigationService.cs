@@ -346,19 +346,16 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
             var routeSegments = UriParsingHelper.GetUriSegments(route);
 
-            var page = GetPageFromWindow();
-            if (page is not null && ViewModelLocator.GetNavigationName(page) == viewName)
+            // Find a page that matches the viewName.
+            var page = GetCurrentPage();
+            while (page != null)
             {
-                await ProcessNavigation(page, routeSegments, parameters, null, null);
+                if (page is not null && ViewModelLocator.GetNavigationName(page) == viewName)
+                    break;
+                page = page.GetParentPage();
             }
-            else
-            {
-                var viewNameSegment = new Queue<string>();
-                viewNameSegment.Enqueue(viewName);
-                var navigationSegments = new Queue<string>(viewNameSegment.Concat(routeSegments));
 
-                await ProcessNavigationForAbsoluteUri(navigationSegments, parameters, null, null);
-            }
+            await ProcessNavigation(page, routeSegments, parameters, null, null);
 
             return Notify(route, parameters);
         }
