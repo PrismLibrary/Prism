@@ -112,6 +112,7 @@ public abstract class ViewModelBase : BindableBase, IInitialize, INavigatedAware
 
     public virtual bool CanNavigate(INavigationParameters parameters)
     {
+        Messages.Add("Can Navigate");
         return true;
     }
 }
