@@ -559,59 +559,54 @@ public class NavigationTests : TestBase
     }
 
     [Fact]
-    public async Task Navigation_FromPageUsingRoot()
+    public async Task Navigation_FromPageUsingRoute()
     {
         var mauiApp = CreateBuilder(prism => prism.CreateWindow("MockHome/NavigationPage/MockViewA"))
             .Build();
         var window = GetWindow(mauiApp);
 
-        Assert.IsAssignableFrom<MockHome>(window.Page);
-        var rootPage = (MockHome)window.Page;
-        Assert.NotNull(rootPage);
+        var pageNavigatingFrom = (MockHome)window.Page;
+        var navigationPage = (NavigationPage)pageNavigatingFrom.Detail;
+        Assert.IsType<MockViewA>(navigationPage.CurrentPage);
 
-        Assert.NotNull(rootPage.Detail);
-        Assert.IsAssignableFrom<NavigationPage>(rootPage.Detail);
-        var navigatingPage = (NavigationPage)rootPage.Detail;
-        Assert.NotNull(navigatingPage);
-        Assert.IsType<MockViewA>(navigatingPage.CurrentPage);
-
-        var result = await navigatingPage.CurrentPage.GetContainerProvider()
+        var result = await navigationPage.CurrentPage.GetContainerProvider()
             .Resolve<INavigationService>()
             .NavigateFromAsync("MockHome", UriParsingHelper.Parse("NavigationPage/MockViewB"), null);
 
         Assert.True(result.Success);
 
-        Assert.NotNull(rootPage.Detail);
-        var navigatedPage = (NavigationPage)rootPage.Detail;
-        Assert.IsType<MockViewB>(navigatedPage.CurrentPage);
+        // MockHome(FlyoutPage) has not been replaced.
+        var pageNavigatedFrom = (MockHome)window.Page;
+        Assert.Equal(pageNavigatingFrom, pageNavigatedFrom);
+
+        // Navigation should be succeeded.
+        navigationPage = (NavigationPage)pageNavigatedFrom.Detail;
+        Assert.IsType<MockViewB>(navigationPage.CurrentPage);
     }
 
     [Fact]
-    public async Task Navigation_FromNotRootPageUsingRoot()
+    public async Task Navigation_FromIntermediatePageUsingRoute()
     {
         var mauiApp = CreateBuilder(prism => prism.CreateWindow("MockHome/NavigationPage/MockViewA"))
             .Build();
         var window = GetWindow(mauiApp);
 
-        Assert.IsAssignableFrom<MockHome>(window.Page);
-        var rootPage = (MockHome)window.Page;
-        Assert.NotNull(rootPage);
+        var mockHome = (MockHome)window.Page;
+        var pageNavigatingFrom = (NavigationPage)mockHome.Detail;
+        Assert.IsType<MockViewA>(pageNavigatingFrom.CurrentPage);
 
-        Assert.NotNull(rootPage.Detail);
-        Assert.IsAssignableFrom<NavigationPage>(rootPage.Detail);
-        var navigatingPage = (NavigationPage)rootPage.Detail;
-        Assert.NotNull(navigatingPage);
-        Assert.IsType<MockViewA>(navigatingPage.CurrentPage);
-
-        var result = await navigatingPage.CurrentPage.GetContainerProvider()
+        var result = await pageNavigatingFrom.CurrentPage.GetContainerProvider()
             .Resolve<INavigationService>()
             .NavigateFromAsync("NavigationPage", UriParsingHelper.Parse("MockViewB"), null);
 
         Assert.True(result.Success);
 
-        Assert.NotNull(rootPage.Detail);
-        var navigatedPage = (NavigationPage)rootPage.Detail;
-        Assert.IsType<MockViewB>(navigatedPage.CurrentPage);
+        // NavigationPage has not been replaced.
+        var pageNavigatedFrom = (NavigationPage)mockHome.Detail;
+        Assert.Equal(pageNavigatingFrom, pageNavigatedFrom); 
+
+        // Navigation should be succeeded.
+        Assert.IsType<MockViewB>(pageNavigatedFrom.CurrentPage);
     }
 
     [Theory]
