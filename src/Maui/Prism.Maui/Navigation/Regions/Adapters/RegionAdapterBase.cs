@@ -1,6 +1,5 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Prism.Extensions;
-using Prism.Ioc;
 using Prism.Navigation.Regions.Behaviors;
 using Prism.Navigation.Xaml;
 using Prism.Properties;
@@ -75,11 +74,8 @@ public abstract class RegionAdapterBase<T> : IRegionAdapter where T : VisualElem
     /// <param name="regionTarget">The object to adapt.</param>
     protected virtual void AttachDefaultBehaviors(IRegion region, T regionTarget)
     {
-        if (region == null)
-            throw new ArgumentNullException(nameof(region));
-
-        if (regionTarget == null)
-            throw new ArgumentNullException(nameof(regionTarget));
+        ArgumentNullException.ThrowIfNull(region);
+        ArgumentNullException.ThrowIfNull(regionTarget);
 
         IRegionBehaviorFactory behaviorFactory = RegionBehaviorFactory;
         if (behaviorFactory != null)

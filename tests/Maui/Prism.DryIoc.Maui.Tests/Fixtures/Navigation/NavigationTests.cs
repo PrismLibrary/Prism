@@ -22,6 +22,7 @@ public class NavigationTests : TestBase
     [InlineData("MockHome/NavigationPage/MockViewA")]
     [InlineData("MockExplicitTabbedPage")]
     [InlineData("TabbedPage?createTab=NavigationPage%2FMockViewA%2FMockViewB%3Fid%3D5%2FMockViewC&createTab=MockViewD")]
+    [InlineData("NavigationPage/MockViewB/TabbedPage?createTab=MockViewA/MockViewC")]
     public void PagesInjectScopedInstanceOfIPageAccessor(string uri)
     {
         var mauiApp = CreateBuilder(prism => prism.CreateWindow(uri))

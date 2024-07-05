@@ -1,4 +1,3 @@
-﻿using Prism.Ioc;
 using Prism.Properties;
 
 namespace Prism.Navigation.Regions.Adapters;
@@ -25,11 +24,8 @@ public class CollectionViewRegionAdapter : RegionAdapterBase<CollectionView>
     /// <param name="regionTarget">The object to adapt.</param>
     protected override void Adapt(IRegion region, CollectionView regionTarget)
     {
-        if (region == null)
-            throw new ArgumentNullException(nameof(region));
-
-        if (regionTarget == null)
-            throw new ArgumentNullException(nameof(regionTarget));
+        ArgumentNullException.ThrowIfNull(region);
+        ArgumentNullException.ThrowIfNull(regionTarget);
 
         bool itemsSourceIsSet = regionTarget.ItemsSource != null || regionTarget.IsSet(ItemsView.ItemsSourceProperty);
 

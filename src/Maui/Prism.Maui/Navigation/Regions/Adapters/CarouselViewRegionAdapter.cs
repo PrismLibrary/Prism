@@ -1,7 +1,6 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 using Prism.Behaviors;
 using Prism.Common;
-using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Properties;
 
@@ -29,8 +28,8 @@ public class CarouselViewRegionAdapter : RegionAdapterBase<CarouselView>
     /// <param name="regionTarget">The object to adapt.</param>
     protected override void Adapt(IRegion region, CarouselView regionTarget)
     {
-        if (regionTarget == null)
-            throw new ArgumentNullException(nameof(regionTarget));
+        ArgumentNullException.ThrowIfNull(region);
+        ArgumentNullException.ThrowIfNull(regionTarget);
 
         bool itemsSourceIsSet = regionTarget.ItemsSource != null || regionTarget.IsSet(ItemsView.ItemsSourceProperty);
 
