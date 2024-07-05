@@ -52,17 +52,17 @@ public static class MauiProgram
             //.CreateWindow("ViewA/ViewB") //broken
             //.CreateWindow("NavigationPage/TabbedPage?createTab=ViewB/ViewC") //works
             //.CreateWindow("ViewA/NavigationPage/TabbedPage?createTab=ViewB/ViewC") //works
-            //.CreateWindow(navigationService => navigationService.CreateBuilder()
-            //    .AddSegment<SplashPageViewModel>()
-            //    .NavigateAsync(HandleNavigationError))
-            .CreateWindow(nav => nav
-                .CreateBuilder()
-                .AddTabbedSegment(page =>
-                        page.CreateTab(t =>
-                            t.AddNavigationPage()
-                             .AddSegment("ViewA")
-                             .AddSegment("ViewB")))
-                .NavigateAsync()) //works
+            //.CreateWindow(nav => nav
+            //    .CreateBuilder()
+            //    .AddTabbedSegment(page =>
+            //            page.CreateTab(t =>
+            //                t.AddNavigationPage()
+            //                 .AddSegment("ViewA")
+            //                 .AddSegment("ViewB")))
+            //    .NavigateAsync()) //works
+            .CreateWindow(navigationService => navigationService.CreateBuilder()
+                .AddSegment<SplashPageViewModel>()
+                .NavigateAsync(HandleNavigationError))
             )
             .ConfigureFonts(fonts =>
             {
