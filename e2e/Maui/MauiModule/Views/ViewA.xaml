@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:prism="http://prismlibrary.com"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -8,6 +8,7 @@
              BackgroundColor="White">
   <Grid RowDefinitions="*,Auto"
         ColumnDefinitions="*,*">
+    
     <CollectionView ItemsSource="{Binding Messages}"
                     Grid.ColumnSpan="2">
       <CollectionView.Header>
@@ -19,6 +20,11 @@
           <Label Text="Prism for .NET MAUI!"
                    HorizontalTextAlignment="Center"
                    Padding="0,0,0,20"/>
+          <StackLayout Orientation="Horizontal" >
+            <Label Text="Can Navigate Result:"/>
+            <CheckBox IsChecked="{Binding CanNavigateResult}" />
+          </StackLayout>
+          
           <Label Text="Navigation Events:"
                  FontAttributes="Bold"
                  Padding="10,0"/>

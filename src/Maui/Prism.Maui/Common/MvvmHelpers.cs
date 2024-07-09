@@ -170,7 +170,7 @@ public static class MvvmHelpers
         return implementer.CanNavigateAsync(parameters);
     }
 
-    private static bool CanNavigate(object page, INavigationParameters parameters)
+    public static bool CanNavigate(object page, INavigationParameters parameters)
     {
         var implementer = GetImplementerFromViewOrViewModel<IConfirmNavigation>(page);
         return implementer?.CanNavigate(parameters) ?? true;
@@ -288,7 +288,7 @@ public static class MvvmHelpers
         return EvaluateCurrentPage(page);
     };
 
-    private static Page? GetTarget(Page? target)
+    internal static Page? GetTarget(Page? target)
     {
         return target switch
         {

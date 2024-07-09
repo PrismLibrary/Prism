@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Microsoft.Extensions.Logging;
 using Prism.Xaml;
@@ -67,7 +67,9 @@ public abstract class NavigationExtensionBase : TargetAwareExtensionBase<IComman
     protected void AddKnownNavigationParameters(INavigationParameters parameters)
     {
         parameters.Add(KnownNavigationParameters.Animated, Animated);
-        parameters.Add(KnownNavigationParameters.UseModalNavigation, UseModalNavigation);
+
+        if (UseModalNavigation.HasValue)
+            parameters.Add(KnownNavigationParameters.UseModalNavigation, UseModalNavigation);
     }
 
     protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)

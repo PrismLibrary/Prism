@@ -49,17 +49,6 @@ public static class MauiProgram
             //            .SelectedTab("NavigationPage|ViewB"))
             //    .AddParameter("message_global", "This is a Global Message")
             //    .Navigate())
-            //.CreateWindow("ViewA/ViewB") //broken
-            //.CreateWindow("NavigationPage/TabbedPage?createTab=ViewB/ViewC") //works
-            //.CreateWindow("ViewA/NavigationPage/TabbedPage?createTab=ViewB/ViewC") //works
-            //.CreateWindow(nav => nav
-            //    .CreateBuilder()
-            //    .AddTabbedSegment(page =>
-            //            page.CreateTab(t =>
-            //                t.AddNavigationPage()
-            //                 .AddSegment("ViewA")
-            //                 .AddSegment("ViewB")))
-            //    .NavigateAsync()) //works
             .CreateWindow(navigationService => navigationService.CreateBuilder()
                 .AddSegment<SplashPageViewModel>()
                 .NavigateAsync(HandleNavigationError))
