@@ -1499,6 +1499,36 @@ namespace Prism.Maui.Tests.Navigation
             Assert.NotNull(tabbedPage.CurrentPage);
             Assert.IsType<Tab2Mock>(tabbedPage.CurrentPage);
         }
+        
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_WithTitleWithSelectedTab()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _app);
+            var rootPage = new ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.SelectedTab}=Tab2&{KnownNavigationParameters.Title}=MyTitle");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
+            Assert.NotNull(tabbedPage);
+            Assert.NotNull(tabbedPage.CurrentPage);
+            Assert.IsType<Tab2Mock>(tabbedPage.CurrentPage);
+            Assert.Equal("MyTitle", tabbedPage.Title);
+        }
+        
+        [Fact]
+        public async void Navigate_FromContentPage_ToTabbedPage_WithTitle()
+        {
+            var navigationService = new PageNavigationServiceMock(_container, _app);
+            var rootPage = new ContentPage();
+            ((IPageAware)navigationService).Page = rootPage;
+
+            await navigationService.NavigateAsync($"TabbedPage?{KnownNavigationParameters.Title}=MyTitle");
+
+            var tabbedPage = rootPage.Navigation.ModalStack[0] as TabbedPageMock;
+            Assert.NotNull(tabbedPage);
+            Assert.Equal("MyTitle", tabbedPage.Title);
+        }
 
         [Fact]
         public async void Navigate_FromContentPage_ToTabbedPage_SelectedTab_NavigationPage()
