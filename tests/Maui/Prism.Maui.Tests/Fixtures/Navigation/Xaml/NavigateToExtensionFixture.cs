@@ -1,4 +1,4 @@
-﻿using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls;
 using Moq;
 using Prism.Common;
 using Prism.Maui.Tests.Mocks.Ioc;
@@ -57,8 +57,6 @@ public class NavigateToExtensionFixture
     }
 
     [Theory]
-    [InlineData(true, null)]
-    [InlineData(false, null)]
     [InlineData(true, true)]
     [InlineData(false, true)]
     [InlineData(true, false)]

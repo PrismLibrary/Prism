@@ -58,39 +58,6 @@ namespace Prism.Navigation
                 _ => page
             };
 
-        /// <summary>
-        /// Handles the system back button press.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public void OnSystemBack()
-        {
-            var currentPage = CurrentPage;
-            if (currentPage?.Parent is NavigationPage navPage)
-            {
-                // The NavigationPage has already taken care of the GoBack
-                return;
-            }
-
-            var container = currentPage.GetContainerProvider();
-
-            if (IsRoot(currentPage))
-            {
-                var app = container.Resolve<IApplication>() as Application;
-                app.Quit();
-                return;
-            }
-            else if (currentPage is IDialogContainer dialogContainer)
-            {
-                if (dialogContainer.Dismiss.CanExecute(null))
-                    dialogContainer.Dismiss.Execute(null);
-            }
-            else if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
-            {
-                var navigation = container.Resolve<INavigationService>();
-                navigation.GoBackAsync();
-            }
-        }
-
         internal bool IsRoot(Page page)
         {
             if (page == Page) return true;

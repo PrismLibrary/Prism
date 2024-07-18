@@ -90,7 +90,7 @@ public abstract class ViewModelBase : BindableBase, IInitialize, INavigatedAware
             Messages.Add(parameter.Value.ToString());
     }
 
-    public void OnNavigatedFrom(INavigationParameters parameters)
+    public virtual void OnNavigatedFrom(INavigationParameters parameters)
     {
         Messages.Add("ViewModel NavigatedFrom");
     }
