@@ -67,7 +67,8 @@ jobs:
       solution-path: PrismLibrary_Uno.slnf
       windows-sdk-version: 18362
       dotnet-version: 8.0.300
-      uno-check: true
+      install-workload: ios android macos maccatalyst wasm-tools
+      uno-check: false
       uno-check-version: 1.24.0
       uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip androidemulator --skip androidsdk --skip vsmac --skip dotnetnewunotemplates'
       run-tests: false
