@@ -20,6 +20,7 @@ jobs:
     secrets:
       feedUrl: ${{ secrets.PRISM_NUGET_FEED }}
       apiKey: ${{ secrets.PRISM_NUGET_TOKEN }}
+<<<<<<< HEAD
 
   publish-nuget:
     uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@v1
@@ -31,3 +32,5 @@ jobs:
     secrets:
       feedUrl: ${{ secrets.SPONSOR_CONNECT_NUGET_FEED }}
       apiKey: ${{ secrets.SPONSOR_CONNECT_TOKEN }}
+=======
+>>>>>>> 1891bfaf (ci: remove public push)
