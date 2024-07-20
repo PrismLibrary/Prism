@@ -12,7 +12,20 @@ jobs:
       apiKey: ${{ secrets.IN_HOUSE_API_KEY }}
 
   publish-commercial-plus:
+<<<<<<< HEAD
     uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@v1
     secrets:
       feedUrl: ${{ secrets.PRISM_NUGET_FEED }}
       apiKey: ${{ secrets.PRISM_NUGET_TOKEN }}
+=======
+    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@master
+    environment: NuGet
+    secrets:
+      feedUrl: ${{ secrets.PRISM_NUGET_FEED }}
+      apiKey: ${{ secrets.PRISM_NUGET_TOKEN }}
+
+  publish-nuget:
+    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@master
+    secrets:
+      apiKey: ${{ secrets.NUGET_API_KEY }}
+>>>>>>> 919a2209 (ci: remove SponsorConnect)
