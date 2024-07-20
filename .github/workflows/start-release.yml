@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-prism-core:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Core
       solution-path: PrismLibrary_Core.slnf
@@ -19,7 +19,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-wpf:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Wpf
       solution-path: PrismLibrary_Wpf.slnf
@@ -33,7 +33,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-forms:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v1
     with:
       name: Build Prism.Forms
       solution-path: PrismLibrary_Forms.slnf
@@ -48,7 +48,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-uno:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v1
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
@@ -66,7 +66,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-maui:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Maui
       solution-path: PrismLibrary_Maui.slnf
@@ -129,7 +129,7 @@ jobs:
           path: .\artifacts\nuget
 
   release:
-    uses: avantipoint/workflow-templates/.github/workflows/generate-release.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/generate-release.yml@v1
     needs: [generate-consolidated-artifacts]
     permissions:
       contents: write

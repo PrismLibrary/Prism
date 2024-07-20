@@ -17,7 +17,7 @@ on:
 
 jobs:
   build-prism-core:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Core
       solution-path: PrismLibrary_Core.slnf
