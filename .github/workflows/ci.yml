@@ -2,7 +2,9 @@ name: Prism CI
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - release/stable/*
     paths:
       - .github/workflows/ci.yml
       - Directory.Build.props
@@ -11,7 +13,9 @@ on:
       - xunit.runner.json
       - 'src/**'
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+      - release/stable/*
     paths:
       - .github/workflows/ci.yml
   workflow_dispatch:
@@ -157,7 +161,7 @@ jobs:
     uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master
     needs: generate-consolidated-artifacts
     if: ${{ github.event_name == 'push' }}
-    environment: NuGet
+    # environment: NuGet
     with:
       name: Deploy Commercial Plus
     secrets:
