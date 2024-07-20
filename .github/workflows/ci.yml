@@ -2,7 +2,9 @@ name: Prism CI
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - release/stable/*
     paths:
       - .github/workflows/ci.yml
       - Directory.Build.props
@@ -11,14 +13,16 @@ on:
       - xunit.runner.json
       - 'src/**'
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+      - release/stable/*
     paths:
       - .github/workflows/ci.yml
   workflow_dispatch:
 
 jobs:
   build-prism-core:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Core
       solution-path: PrismLibrary_Core.slnf
@@ -32,7 +36,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-wpf:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Wpf
       solution-path: PrismLibrary_Wpf.slnf
@@ -46,7 +50,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-forms:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v1
     with:
       name: Build Prism.Forms
       solution-path: PrismLibrary_Forms.slnf
@@ -61,7 +65,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-uno:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v1
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
@@ -82,7 +86,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-maui:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Maui
       solution-path: PrismLibrary_Maui.slnf
@@ -144,7 +148,7 @@ jobs:
           path: .\artifacts\nuget
 
   deploy-internal:
-    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@v1
     needs: generate-consolidated-artifacts
     if: ${{ github.event_name == 'push' }}
     with:
@@ -154,10 +158,9 @@ jobs:
       apiKey: ${{ secrets.IN_HOUSE_API_KEY }}
 
   deploy-commercial-plus:
-    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@v1
     needs: generate-consolidated-artifacts
     if: ${{ github.event_name == 'push' }}
-    environment: NuGet
     with:
       name: Deploy Commercial Plus
     secrets:
