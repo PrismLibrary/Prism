@@ -21,7 +21,7 @@ on:
 
 jobs:
   build-prism-uno:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@dev/update-netsdkinstaller
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v1
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
