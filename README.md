@@ -108,7 +108,6 @@ We strongly encourage you to get involved and help us evolve the code base.
 [ContainerDryIocNuGet]: https://www.nuget.org/packages/Prism.Container.DryIoc/
 [ContainerUnityNuGet]: https://www.nuget.org/packages/Prism.Container.Unity/
 [WpfNuGet]: https://www.nuget.org/packages/Prism.Wpf/
-[FormsNuGet]: https://www.nuget.org/packages/Prism.Forms/
 [UnoNuGet]: https://www.nuget.org/packages/Prism.Uno.WinUI/
 
 [PrismFormsRegionsNuGet]: https://www.nuget.org/packages/Prism.Forms.Regions/
@@ -118,9 +117,6 @@ We strongly encourage you to get involved and help us evolve the code base.
 
 [DryIocWpfNuGet]: https://www.nuget.org/packages/Prism.DryIoc/
 [UnityWpfNuGet]: https://www.nuget.org/packages/Prism.Unity/
-
-[UnityFormsNuGet]: https://www.nuget.org/packages/Prism.Unity.Forms/
-[DryIocFormsNuGet]: https://www.nuget.org/packages/Prism.DryIoc.Forms/
 
 [DryIocUnoPlatformNuGet]: https://www.nuget.org/packages/Prism.DryIoc.Uno.WinUI/
 
@@ -160,14 +156,10 @@ We strongly encourage you to get involved and help us evolve the code base.
 [ContainerDryIocPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Container.DryIoc/vpre
 [ContainerUnityPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Container.Unity/vpre
 [WpfPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Wpf/vpre
-[FormsPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Forms/vpre
 [UnoPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Uno.WinUI/vpre
 
 [DryIocWpfPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.DryIoc/vpre
 [UnityWpfPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Unity/vpre
-
-[DryIocFormsPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.DryIoc.Forms/vpre
-[UnityFormsPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.Unity.Forms/vpre
 
 [DryIocUnoPlatformPrismNuGetShield]: https://nuget.prismlibrary.com/shield/Prism.DryIoc.Uno.WinUI/vpre
 
