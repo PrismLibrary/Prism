@@ -13,6 +13,7 @@ jobs:
 
   publish-commercial-plus:
     uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@master
+    environment: NuGet
     secrets:
       feedUrl: ${{ secrets.PRISM_NUGET_FEED }}
       apiKey: ${{ secrets.PRISM_NUGET_TOKEN }}
@@ -21,9 +22,3 @@ jobs:
     uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@master
     secrets:
       apiKey: ${{ secrets.NUGET_API_KEY }}
-
-  publish-sponsors:
-    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@master
-    secrets:
-      feedUrl: ${{ secrets.SPONSOR_CONNECT_NUGET_FEED }}
-      apiKey: ${{ secrets.SPONSOR_CONNECT_TOKEN }}

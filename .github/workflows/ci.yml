@@ -157,18 +157,9 @@ jobs:
     uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master
     needs: generate-consolidated-artifacts
     if: ${{ github.event_name == 'push' }}
+    environment: NuGet
     with:
       name: Deploy Commercial Plus
     secrets:
       feedUrl: ${{ secrets.PRISM_NUGET_FEED }}
       apiKey: ${{ secrets.PRISM_NUGET_TOKEN }}
-
-  deploy-sponsors:
-    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master
-    needs: generate-consolidated-artifacts
-    if: ${{ github.event_name == 'push' }}
-    with:
-      name: Deploy Sponsor Connect
-    secrets:
-      feedUrl: ${{ secrets.SPONSOR_CONNECT_NUGET_FEED }}
-      apiKey: ${{ secrets.SPONSOR_CONNECT_TOKEN }}
