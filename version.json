@@ -6,6 +6,6 @@
   },
   "publicReleaseRefSpec": [
     "^refs/heads/master$",
-    "^refs/heads/rel$"
+    "^refs/heads/release/stable/\\d+\\.\\d+$"
   ]
 }
