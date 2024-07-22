@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - release/stable/**
+      - 'release/stable/**'
     paths:
       - .github/workflows/ci.yml
       - Directory.Build.props
@@ -15,7 +15,7 @@ on:
   pull_request:
     branches:
       - master
-      - release/stable/**
+      - 'release/stable/**'
     paths:
       - .github/workflows/ci.yml
   workflow_dispatch:
