@@ -12,25 +12,7 @@ jobs:
       apiKey: ${{ secrets.IN_HOUSE_API_KEY }}
 
   publish-commercial-plus:
-<<<<<<< HEAD
-    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@master
-=======
     uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@v1
->>>>>>> f6e48324 (ci: set version for templates)
     secrets:
       feedUrl: ${{ secrets.PRISM_NUGET_FEED }}
       apiKey: ${{ secrets.PRISM_NUGET_TOKEN }}
-<<<<<<< HEAD
-
-  publish-nuget:
-    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@v1
-    secrets:
-      apiKey: ${{ secrets.NUGET_API_KEY }}
-
-  publish-sponsors:
-    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget-from-release.yml@master
-    secrets:
-      feedUrl: ${{ secrets.SPONSOR_CONNECT_NUGET_FEED }}
-      apiKey: ${{ secrets.SPONSOR_CONNECT_TOKEN }}
-=======
->>>>>>> 1891bfaf (ci: remove public push)

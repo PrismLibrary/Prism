@@ -161,13 +161,6 @@ jobs:
     uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@v1
     needs: generate-consolidated-artifacts
     if: ${{ github.event_name == 'push' }}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    # environment: NuGet
->>>>>>> ae7ff2b8 (ci: add release branches to build)
-=======
->>>>>>> f6e48324 (ci: set version for templates)
     with:
       name: Deploy Commercial Plus
     secrets:
