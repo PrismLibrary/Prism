@@ -19,7 +19,7 @@ on:
 
 jobs:
   build-prism-forms:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v1
     with:
       name: Build Prism.Forms
       solution-path: PrismLibrary_Forms.slnf
