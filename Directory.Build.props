@@ -84,6 +84,7 @@
       </ItemGroup>
     </When>
   </Choose>
+  <!-- Test Build -->
 
   <!-- Versioning -->
   <PropertyGroup>
