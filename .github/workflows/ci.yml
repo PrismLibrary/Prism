@@ -11,6 +11,9 @@ on:
       - Directory.Build.targets
       - Directory.Packages.props
       - xunit.runner.json
+      - version.json
+      - LICENSE
+      - global.json
       - 'src/**'
   pull_request:
     branches:
