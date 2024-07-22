@@ -5,7 +5,7 @@ namespace Prism.Modularity;
 /// application. Each module is described in a <see cref="ModuleInfo"/> class, that records the
 /// name and type of the module.
 /// </summary>
-#if PRISMUNO
+#if UNO_WINUI
 [Microsoft.UI.Xaml.Markup.ContentProperty(Name = nameof(Items))]
 #else
 [ContentProperty(nameof(Items))]
