@@ -83,6 +83,53 @@ public class NavigationBuilderFixture
 
         Assert.Equal("TabbedPage?createTab=ViewA&createTab=ViewB&createTab=ViewC", uri.ToString());
     }
+    
+    [Fact]
+    public void GeneratesTabbedPageUriWithTitle()
+    {
+        var container = new TestContainer();
+        container.RegisterForNavigation<TabbedPage>();
+
+        var navigationService = new Mock<INavigationService>();
+        navigationService
+            .As<IRegistryAware>()
+            .Setup(x => x.Registry)
+            .Returns(container.Resolve<NavigationRegistry>());
+        var uri = navigationService.Object
+            .CreateBuilder()
+            .AddTabbedSegment(b =>
+            {
+                b.Title("MyTitle");
+            })
+            .Uri;
+
+        Assert.Equal("TabbedPage?title=MyTitle", uri.ToString());
+    }
+    
+    [Fact]
+    public void GeneratesTabbedPageUriWithCreatedTabsWithTitle()
+    {
+        var container = new TestContainer();
+        container.RegisterForNavigation<TabbedPage>();
+
+        var navigationService = new Mock<INavigationService>();
+        navigationService
+            .As<IRegistryAware>()
+            .Setup(x => x.Registry)
+            .Returns(container.Resolve<NavigationRegistry>());
+        var uri = navigationService.Object
+            .CreateBuilder()
+            .AddTabbedSegment(b =>
+            {
+                b.CreateTab("ViewA")
+                    .CreateTab("ViewB")
+                    .CreateTab("ViewC");
+                b.Title("MyTitle");
+            })
+            .Uri;
+
+        Assert.Equal("TabbedPage?createTab=ViewA&createTab=ViewB&createTab=ViewC&title=MyTitle", uri.ToString());
+    }
 
     [Fact]
     public void GeneratesTabbedPageUriWithCreatedTabsWithParameters()
@@ -114,6 +161,39 @@ public class NavigationBuilderFixture
         Assert.Contains(parameters, x => HttpUtility.UrlDecode(x.Value.ToString()) == "ViewA?id=5");
         Assert.Contains(parameters, x => HttpUtility.UrlDecode(x.Value.ToString()) == "ViewB?foo=bar");
     }
+    
+    [Fact]
+    public void GeneratesTabbedPageUriWithCreatedTabsWithParametersWithTitle()
+    {
+        var container = new TestContainer();
+        container.RegisterForNavigation<TabbedPage>();
+
+        var navigationService = new Mock<INavigationService>();
+        navigationService
+            .As<IRegistryAware>()
+            .Setup(x => x.Registry)
+            .Returns(container.Resolve<NavigationRegistry>());
+        var uri = navigationService.Object
+            .CreateBuilder()
+            .AddTabbedSegment(b =>
+            {
+                b.CreateTab("ViewA", t => t.AddParameter("id", 5))
+                    .CreateTab("ViewB", t => t.AddParameter("foo", "bar"))
+                    .CreateTab("ViewC");
+                b.Title("MyTitle");
+            })
+            .Uri;
+
+        Assert.Equal("TabbedPage?createTab=ViewA%3Fid%3D5&createTab=ViewB%3Ffoo%3Dbar&createTab=ViewC&title=MyTitle", uri.ToString());
+
+        var parameters = UriParsingHelper.GetSegmentParameters(uri.ToString());
+        Assert.Equal(4, parameters.Count);
+        Assert.True(parameters.ContainsKey(KnownNavigationParameters.CreateTab));
+        Assert.True(parameters.ContainsKey(KnownNavigationParameters.Title));
+
+        Assert.Contains(parameters, x => HttpUtility.UrlDecode(x.Value.ToString()) == "ViewA?id=5");
+        Assert.Contains(parameters, x => HttpUtility.UrlDecode(x.Value.ToString()) == "ViewB?foo=bar");
+    }
 
     [Fact]
     public void GeneratesCustomTabbedPageUriWithCreatedTabs()
@@ -138,6 +218,29 @@ public class NavigationBuilderFixture
             .Uri;
 
         Assert.Equal("TabbedPageEmptyMock?createTab=ViewA&createTab=ViewB&createTab=ViewC", uri.ToString());
+    }
+    
+    [Fact]
+    public void GeneratesCustomTabbedPageUriWithTitle()
+    {
+        var container = new TestContainer();
+        container.RegisterForNavigation<TabbedPage>();
+        container.RegisterForNavigation<TabbedPageEmptyMock>();
+
+        var navigationService = new Mock<INavigationService>();
+        navigationService
+            .As<IRegistryAware>()
+            .Setup(x => x.Registry)
+            .Returns(container.Resolve<NavigationRegistry>());
+        var uri = navigationService.Object
+            .CreateBuilder()
+            .AddTabbedSegment("TabbedPageEmptyMock", b =>
+            {
+                b.Title("MyTitle");
+            })
+            .Uri;
+
+        Assert.Equal("TabbedPageEmptyMock?title=MyTitle", uri.ToString());
     }
 
     [Fact]
@@ -167,6 +270,40 @@ public class NavigationBuilderFixture
         var parameters = UriParsingHelper.GetSegmentParameters(uri.ToString());
         Assert.Equal(3, parameters.Count);
         Assert.True(parameters.All(x => x.Key == KnownNavigationParameters.CreateTab));
+
+        Assert.Contains(parameters, x => HttpUtility.UrlDecode(x.Value.ToString()) == "ViewA?id=5");
+        Assert.Contains(parameters, x => HttpUtility.UrlDecode(x.Value.ToString()) == "ViewB?foo=bar");
+    }
+    
+    [Fact]
+    public void GeneratesCustomTabbedPageUriWithCreatedTabsWithTitleWithParameters()
+    {
+        var container = new TestContainer();
+        container.RegisterForNavigation<TabbedPage>();
+        container.RegisterForNavigation<TabbedPageEmptyMock>();
+
+        var navigationService = new Mock<INavigationService>();
+        navigationService
+            .As<IRegistryAware>()
+            .Setup(x => x.Registry)
+            .Returns(container.Resolve<NavigationRegistry>());
+        var uri = navigationService.Object
+            .CreateBuilder()
+            .AddTabbedSegment("TabbedPageEmptyMock", b =>
+            {
+                b.CreateTab("ViewA", t => t.AddParameter("id", 5))
+                    .CreateTab("ViewB", t => t.AddParameter("foo", "bar"))
+                    .CreateTab("ViewC");
+                b.Title("MyTitle");
+            })
+            .Uri;
+
+        Assert.Equal("TabbedPageEmptyMock?createTab=ViewA%3Fid%3D5&createTab=ViewB%3Ffoo%3Dbar&createTab=ViewC&title=MyTitle", uri.ToString());
+
+        var parameters = UriParsingHelper.GetSegmentParameters(uri.ToString());
+        Assert.Equal(4, parameters.Count);
+        Assert.True(parameters.ContainsKey(KnownNavigationParameters.CreateTab));
+        Assert.True(parameters.ContainsKey(KnownNavigationParameters.Title));
 
         Assert.Contains(parameters, x => HttpUtility.UrlDecode(x.Value.ToString()) == "ViewA?id=5");
         Assert.Contains(parameters, x => HttpUtility.UrlDecode(x.Value.ToString()) == "ViewB?foo=bar");
