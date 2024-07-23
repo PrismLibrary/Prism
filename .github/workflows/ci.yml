@@ -52,21 +52,6 @@ jobs:
       codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
-  build-prism-forms:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v1
-    with:
-      name: Build Prism.Forms
-      solution-path: PrismLibrary_Forms.slnf
-      code-sign: true
-      artifact-name: Forms
-      jdk-version: 13
-    secrets:
-      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
-      codeSignClientId: ${{ secrets.CodeSignClientId }}
-      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
-      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
-      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
-
   build-prism-uno:
     uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v1
     with:
@@ -104,7 +89,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   generate-consolidated-artifacts:
-    needs: [build-prism-core, build-prism-wpf, build-prism-forms, build-prism-uno, build-prism-maui]
+    needs: [build-prism-core, build-prism-wpf, build-prism-uno, build-prism-maui]
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -121,12 +106,6 @@ jobs:
         with:
           name: Wpf
           path: artifacts\Wpf
-
-      - name: Download Forms
-        uses: actions/download-artifact@v3
-        with:
-          name: Forms
-          path: artifacts\Forms
 
       - name: Download Uno
         uses: actions/download-artifact@v3
