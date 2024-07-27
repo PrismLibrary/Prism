@@ -218,7 +218,7 @@ namespace Prism.Avalonia.Tests.Regions
             mockINavigationAwareDataContext.Verify(v => v.OnNavigatedTo(It.Is<NavigationContext>(nc => nc.Uri == navigationUri)));
         }
 
-        [StaFact]
+        [StaFact(Skip = "Type to mock (Avalonia.Controls.Control) must be an interface, a delegate, or a non-sealed, non-static class.")]
         public void WhenNavigatingAndBothViewAndDataContextImplementINavigationAware_ThenNavigatedIsInvokesOnNavigation()
         {
             // Prepare

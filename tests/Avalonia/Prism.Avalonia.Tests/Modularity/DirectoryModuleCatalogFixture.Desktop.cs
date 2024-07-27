@@ -1,4 +1,4 @@
-/*
+﻿/*
 #if DEBUG
 
 using System;
@@ -78,7 +78,7 @@ namespace Prism.Avalonia.Tests.Modularity
         [Fact]
         public void ShouldReturnAListOfModuleInfo()
         {
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockModuleA.cs",
                                        ModulesDirectory1 + @"\MockModuleA.dll");
 
             DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
@@ -95,14 +95,14 @@ namespace Prism.Avalonia.Tests.Modularity
             Assert.StartsWith("file://", modules[0].Ref);
             Assert.Contains(@"MockModuleA.dll", modules[0].Ref);
             Assert.NotNull(modules[0].ModuleType);
-            Assert.Contains("Prism.Wpf.Tests.Mocks.Modules.MockModuleA", modules[0].ModuleType);
+            Assert.Contains("Prism.Avalonia.Tests.Mocks.Modules.MockModuleA", modules[0].ModuleType);
         }
 
         [Fact]
         public void ShouldCorrectlyEscapeRef()
         {
             string assemblyPath = ModulesDirectory6 + @"\Mock Module #.dll";
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs", assemblyPath);
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockModuleA.cs", assemblyPath);
             string fullAssemblyPath = Path.GetFullPath(assemblyPath);
 
             DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
@@ -151,7 +151,7 @@ namespace Prism.Avalonia.Tests.Modularity
         //[DeploymentItem(@"Modularity\NotAValidDotNetDll.txt.dll", InvalidModulesDirectory)]
         //public void LoadsValidAssembliesWhenInvalidDllsArePresent()
         //{
-        //    CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
+        //    CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockModuleA.cs",
         //                               InvalidModulesDirectory + @"\MockModuleA.dll");
 
         //    DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
@@ -175,7 +175,7 @@ namespace Prism.Avalonia.Tests.Modularity
         //    Assert.StartsWith(modules[0].Ref, "file://");
         //    Assert.True(modules[0].Ref.Contains(@"MockModuleA.dll"));
         //    Assert.NotNull(modules[0].ModuleType);
-        //    Assert.Contains(modules[0].ModuleType, "Prism.Wpf.Tests.Mocks.Modules.MockModuleA");
+        //    Assert.Contains(modules[0].ModuleType, "Prism.Avalonia.Tests.Mocks.Modules.MockModuleA");
         //}
 
         [Fact]
@@ -183,10 +183,10 @@ namespace Prism.Avalonia.Tests.Modularity
         {
             CompilerHelper.CleanUpDirectory(@".\CompileOutput\");
             CompilerHelper.CleanUpDirectory(@".\IgnoreLoadFromByteAssembliesTestDir\");
-            var results = CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
+            var results = CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockModuleA.cs",
                                                      @".\CompileOutput\MockModuleA.dll");
 
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockAttributedModule.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockAttributedModule.cs",
                                        @".\IgnoreLoadFromByteAssembliesTestDir\MockAttributedModule.dll");
 
             string path = @".\IgnoreLoadFromByteAssembliesTestDir";
@@ -204,7 +204,7 @@ namespace Prism.Avalonia.Tests.Modularity
                 var infos = remoteEnum.DoEnumeration(path);
 
                 Assert.NotNull(
-                    infos.FirstOrDefault(x => x.ModuleType.IndexOf("Prism.Wpf.Tests.Mocks.Modules.MockAttributedModule") >= 0)
+                    infos.FirstOrDefault(x => x.ModuleType.IndexOf("Prism.Avalonia.Tests.Mocks.Modules.MockAttributedModule") >= 0)
                     );
             }
             finally
@@ -217,7 +217,7 @@ namespace Prism.Avalonia.Tests.Modularity
         [Fact]
         public void ShouldGetModuleNameFromAttribute()
         {
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockAttributedModule.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockAttributedModule.cs",
                                        ModulesDirectory2 + @"\MockAttributedModule.dll");
 
             DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
@@ -235,10 +235,10 @@ namespace Prism.Avalonia.Tests.Modularity
         [Fact]
         public void ShouldGetDependantModulesFromAttribute()
         {
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockDependencyModule.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockDependencyModule.cs",
                                        ModulesDirectory3 + @"\DependencyModule.dll");
 
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockDependantModule.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockDependantModule.cs",
                                        ModulesDirectory3 + @"\DependantModule.dll");
 
             DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
@@ -262,7 +262,7 @@ namespace Prism.Avalonia.Tests.Modularity
         [Fact]
         public void UseClassNameAsModuleNameWhenNotSpecifiedInAttribute()
         {
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockModuleA.cs",
                                        ModulesDirectory1 + @"\MockModuleA.dll");
 
             DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
@@ -280,7 +280,7 @@ namespace Prism.Avalonia.Tests.Modularity
         [Fact]
         public void ShouldDefaultInitializationModeToWhenAvailable()
         {
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockModuleA.cs",
                                        ModulesDirectory1 + @"\MockModuleA.dll");
 
             DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
@@ -298,7 +298,7 @@ namespace Prism.Avalonia.Tests.Modularity
         [Fact]
         public void ShouldGetOnDemandFromAttribute()
         {
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockAttributedModule.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockAttributedModule.cs",
                                        ModulesDirectory3 + @"\MockAttributedModule.dll");
 
             DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
@@ -317,7 +317,7 @@ namespace Prism.Avalonia.Tests.Modularity
         [Fact]
         public void ShouldNotLoadAssembliesInCurrentAppDomain()
         {
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockModuleA.cs",
                                        ModulesDirectory4 + @"\MockModuleA.dll");
 
             DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
@@ -353,10 +353,10 @@ namespace Prism.Avalonia.Tests.Modularity
         [Fact]
         public void ShouldLoadAssemblyEvenIfTheyAreReferencingEachOther()
         {
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockModuleA.cs",
                                        ModulesDirectory4 + @"\MockModuleZZZ.dll");
 
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleReferencingOtherModule.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockModuleReferencingOtherModule.cs",
                                        ModulesDirectory4 + @"\MockModuleReferencingOtherModule.dll", ModulesDirectory4 + @"\MockModuleZZZ.dll");
 
             DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
@@ -402,7 +402,7 @@ namespace Prism.Avalonia.Tests.Modularity
         {
             CompilerHelper.CleanUpDirectory(@".\CompileOutput\");
             CompilerHelper.CleanUpDirectory(@".\IgnoreDynamicGeneratedFilesTestDir\");
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockAttributedModule.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockAttributedModule.cs",
                                        @".\IgnoreDynamicGeneratedFilesTestDir\MockAttributedModule.dll");
 
             string path = @".\IgnoreDynamicGeneratedFilesTestDir";
@@ -418,7 +418,7 @@ namespace Prism.Avalonia.Tests.Modularity
                 var infos = remoteEnum.DoEnumeration(path);
 
                 Assert.NotNull(
-                    infos.FirstOrDefault(x => x.ModuleType.IndexOf("Prism.Wpf.Tests.Mocks.Modules.MockAttributedModule") >= 0)
+                    infos.FirstOrDefault(x => x.ModuleType.IndexOf("Prism.Avalonia.Tests.Mocks.Modules.MockAttributedModule") >= 0)
                     );
             }
             finally
@@ -431,7 +431,7 @@ namespace Prism.Avalonia.Tests.Modularity
         [Fact]
         public void ShouldLoadAssemblyEvenIfIsExposingTypesFromAnAssemblyInTheGac()
         {
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockExposingTypeFromGacAssemblyModule.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockExposingTypeFromGacAssemblyModule.cs",
                                        ModulesDirectory4 + @"\MockExposingTypeFromGacAssemblyModule.dll", @"System.Transactions.dll");
 
             DirectoryModuleCatalog catalog = new DirectoryModuleCatalog
@@ -448,7 +448,7 @@ namespace Prism.Avalonia.Tests.Modularity
         [Fact]
         public void ShouldNotFailWhenAlreadyLoadedAssembliesAreAlsoFoundOnTargetDirectory()
         {
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockModuleA.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockModuleA.cs",
                                        ModulesDirectory1 + @"\MockModuleA.dll");
 
             string filename = typeof(DirectoryModuleCatalog).Assembly.Location;
@@ -469,7 +469,7 @@ namespace Prism.Avalonia.Tests.Modularity
         public void ShouldIgnoreAbstractClassesThatImplementIModule()
         {
             CompilerHelper.CleanUpDirectory(ModulesDirectory1);
-            CompilerHelper.CompileFile(@"Prism.Wpf.Tests.Mocks.Modules.MockAbstractModule.cs",
+            CompilerHelper.CompileFile(@"Prism.Avalonia.Tests.Mocks.Modules.MockAbstractModule.cs",
                                      ModulesDirectory1 + @"\MockAbstractModule.dll");
 
             string filename = typeof(DirectoryModuleCatalog).Assembly.Location;

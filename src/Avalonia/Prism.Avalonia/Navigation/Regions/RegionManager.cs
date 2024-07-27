@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Threading;
 using Prism.Common;
 using Prism.Events;
+using Prism.Extensions;
 using Prism.Ioc;
 using Prism.Properties;
 using Prism.Ioc.Internals;

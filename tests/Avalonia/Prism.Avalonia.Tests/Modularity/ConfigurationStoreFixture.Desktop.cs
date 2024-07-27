@@ -1,4 +1,4 @@
-using Prism.Modularity;
+﻿using Prism.Modularity;
 using Xunit;
 
 namespace Prism.Avalonia.Tests.Modularity
@@ -20,7 +20,7 @@ namespace Prism.Avalonia.Tests.Modularity
             Assert.Contains(@"MocksModules\MockModuleA.dll", section.Modules[0].AssemblyFile);
             Assert.NotNull(section.Modules[0].ModuleType);
             Assert.True(section.Modules[0].StartupLoaded);
-            Assert.Equal("Prism.Wpf.Tests.Mocks.Modules.MockModuleA", section.Modules[0].ModuleType);
+            Assert.Equal("Prism.Avalonia.Tests.Mocks.Modules.MockModuleA", section.Modules[0].ModuleType);
         }
     }
 }

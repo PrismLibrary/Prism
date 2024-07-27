@@ -60,7 +60,7 @@ namespace Prism.Avalonia.Tests.Modularity
             Assert.True(exceptionThrown);
         }
 
-        [Fact]
+        [Fact(Skip = "Operation is not supported on this platform")]
         public void ShouldResolveTypeFromAbsoluteUriToAssembly()
         {
             string assemblyPath = CompilerHelper.GenerateDynamicModule("ModuleInLoadedFromContext1", "Module", ModulesDirectory1 + @"\ModuleInLoadedFromContext1.dll");
@@ -87,7 +87,7 @@ namespace Prism.Avalonia.Tests.Modularity
             Assert.NotNull(resolvedType);
         }
 
-        [Fact]
+        [Fact(Skip = "Operation is not supported on this platform")]
         public void ShouldResolvePartialAssemblyName()
         {
             string assemblyPath = CompilerHelper.GenerateDynamicModule("ModuleInLoadedFromContext2", "Module", ModulesDirectory1 + @"\ModuleInLoadedFromContext2.dll");

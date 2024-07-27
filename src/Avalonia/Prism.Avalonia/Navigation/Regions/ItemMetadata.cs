@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using Prism.Extensions;
 
 namespace Prism.Navigation.Regions
 {

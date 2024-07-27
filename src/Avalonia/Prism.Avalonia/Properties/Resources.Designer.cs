@@ -19,10 +19,10 @@ namespace Prism.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Prism.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Prism.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Prism.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The object must be of type &apos;{0}&apos; in order to use the current region adapter..
         /// </summary>
-        public static string AdapterInvalidTypeException {
+        internal static string AdapterInvalidTypeException {
             get {
                 return ResourceManager.GetString("AdapterInvalidTypeException", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot change the region name once is set. The current region name is &apos;{0}&apos;..
         /// </summary>
-        public static string CannotChangeRegionNameException {
+        internal static string CannotChangeRegionNameException {
             get {
                 return ResourceManager.GetString("CannotChangeRegionNameException", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot create navigation target &apos;{0}&apos;..
         /// </summary>
-        public static string CannotCreateNavigationTarget {
+        internal static string CannotCreateNavigationTarget {
             get {
                 return ResourceManager.GetString("CannotCreateNavigationTarget", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Type &apos;{0}&apos; does not implement from IRegionBehavior..
         /// </summary>
-        public static string CanOnlyAddTypesThatInheritIFromRegionBehavior {
+        internal static string CanOnlyAddTypesThatInheritIFromRegionBehavior {
             get {
                 return ResourceManager.GetString("CanOnlyAddTypesThatInheritIFromRegionBehavior", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The ConfigurationStore cannot contain a null value. .
         /// </summary>
-        public static string ConfigurationStoreCannotBeNull {
+        internal static string ConfigurationStoreCannotBeNull {
             get {
                 return ResourceManager.GetString("ConfigurationStoreCannotBeNull", resourceCulture);
             }
@@ -111,7 +111,7 @@ namespace Prism.Properties {
         ///    If you did not explicitly set the control&apos;s Content property, 
         ///    this exception may be caused by a change in the value of the inherited RegionManager attached property..
         /// </summary>
-        public static string ContentControlHasContentException {
+        internal static string ContentControlHasContentException {
             get {
                 return ResourceManager.GetString("ContentControlHasContentException", resourceCulture);
             }
@@ -120,7 +120,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Deactivation is not possible in this type of region..
         /// </summary>
-        public static string DeactiveNotPossibleException {
+        internal static string DeactiveNotPossibleException {
             get {
                 return ResourceManager.GetString("DeactiveNotPossibleException", resourceCulture);
             }
@@ -129,7 +129,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {1}: {2}. Priority: {3}. Timestamp:{0:u}..
         /// </summary>
-        public static string DefaultTextLoggerPattern {
+        internal static string DefaultTextLoggerPattern {
             get {
                 return ResourceManager.GetString("DefaultTextLoggerPattern", resourceCulture);
             }
@@ -138,7 +138,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Neither the executeMethod nor the canExecuteMethod delegates can be null..
         /// </summary>
-        public static string DelegateCommandDelegatesCannotBeNull {
+        internal static string DelegateCommandDelegatesCannotBeNull {
             get {
                 return ResourceManager.GetString("DelegateCommandDelegatesCannotBeNull", resourceCulture);
             }
@@ -147,7 +147,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to T for DelegateCommand&lt;T&gt; is not an object nor Nullable..
         /// </summary>
-        public static string DelegateCommandInvalidGenericPayloadType {
+        internal static string DelegateCommandInvalidGenericPayloadType {
             get {
                 return ResourceManager.GetString("DelegateCommandInvalidGenericPayloadType", resourceCulture);
             }
@@ -156,7 +156,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Directory {0} was not found..
         /// </summary>
-        public static string DirectoryNotFound {
+        internal static string DirectoryNotFound {
             get {
                 return ResourceManager.GetString("DirectoryNotFound", resourceCulture);
             }
@@ -165,7 +165,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to A duplicated module group with name {0} has been found by the loader..
         /// </summary>
-        public static string DuplicatedModuleGroup {
+        internal static string DuplicatedModuleGroup {
             get {
                 return ResourceManager.GetString("DuplicatedModuleGroup", resourceCulture);
             }
@@ -174,7 +174,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Unable to retrieve the module type {0} from the loaded assemblies.  You may need to specify a more fully-qualified type name..
         /// </summary>
-        public static string FailedToGetType {
+        internal static string FailedToGetType {
             get {
                 return ResourceManager.GetString("FailedToGetType", resourceCulture);
             }
@@ -183,7 +183,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to HostControl cannot have null value when behavior attaches. .
         /// </summary>
-        public static string HostControlCannotBeNull {
+        internal static string HostControlCannotBeNull {
             get {
                 return ResourceManager.GetString("HostControlCannotBeNull", resourceCulture);
             }
@@ -192,7 +192,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The HostControl property cannot be set after Attach method has been called..
         /// </summary>
-        public static string HostControlCannotBeSetAfterAttach {
+        internal static string HostControlCannotBeSetAfterAttach {
             get {
                 return ResourceManager.GetString("HostControlCannotBeSetAfterAttach", resourceCulture);
             }
@@ -201,7 +201,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to HostControl type must be a TabControl..
         /// </summary>
-        public static string HostControlMustBeATabControl {
+        internal static string HostControlMustBeATabControl {
             get {
                 return ResourceManager.GetString("HostControlMustBeATabControl", resourceCulture);
             }
@@ -210,7 +210,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The IModuleEnumerator interface is no longer used and has been replaced by ModuleCatalog..
         /// </summary>
-        public static string IEnumeratorObsolete {
+        internal static string IEnumeratorObsolete {
             get {
                 return ResourceManager.GetString("IEnumeratorObsolete", resourceCulture);
             }
@@ -219,7 +219,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The argument must be a valid absolute Uri to an assembly file..
         /// </summary>
-        public static string InvalidArgumentAssemblyUri {
+        internal static string InvalidArgumentAssemblyUri {
             get {
                 return ResourceManager.GetString("InvalidArgumentAssemblyUri", resourceCulture);
             }
@@ -228,7 +228,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The Target of the IDelegateReference should be of type {0}..
         /// </summary>
-        public static string InvalidDelegateRerefenceTypeException {
+        internal static string InvalidDelegateRerefenceTypeException {
             get {
                 return ResourceManager.GetString("InvalidDelegateRerefenceTypeException", resourceCulture);
             }
@@ -240,7 +240,7 @@ namespace Prism.Properties {
         ///    If you did not explicitly set the control&apos;s ItemSource property, 
         ///    this exception may be caused by a change in the value of the inherited RegionManager attached property..
         /// </summary>
-        public static string ItemsControlHasItemsSourceException {
+        internal static string ItemsControlHasItemsSourceException {
             get {
                 return ResourceManager.GetString("ItemsControlHasItemsSourceException", resourceCulture);
             }
@@ -249,7 +249,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Mapping with the given type is already registered: {0}..
         /// </summary>
-        public static string MappingExistsException {
+        internal static string MappingExistsException {
             get {
                 return ResourceManager.GetString("MappingExistsException", resourceCulture);
             }
@@ -258,7 +258,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Module {0} was not found in the catalog..
         /// </summary>
-        public static string ModuleNotFound {
+        internal static string ModuleNotFound {
             get {
                 return ResourceManager.GetString("ModuleNotFound", resourceCulture);
             }
@@ -267,7 +267,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The ModulePath cannot contain a null value or be empty.
         /// </summary>
-        public static string ModulePathCannotBeNullOrEmpty {
+        internal static string ModulePathCannotBeNullOrEmpty {
             get {
                 return ResourceManager.GetString("ModulePathCannotBeNullOrEmpty", resourceCulture);
             }
@@ -276,7 +276,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Failed to load type &apos;{0}&apos; from assembly &apos;{1}&apos;..
         /// </summary>
-        public static string ModuleTypeNotFound {
+        internal static string ModuleTypeNotFound {
             get {
                 return ResourceManager.GetString("ModuleTypeNotFound", resourceCulture);
             }
@@ -285,7 +285,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The ModuleCatalog must implement IModuleGroupCatalog to add groups.
         /// </summary>
-        public static string MustBeModuleGroupCatalog {
+        internal static string MustBeModuleGroupCatalog {
             get {
                 return ResourceManager.GetString("MustBeModuleGroupCatalog", resourceCulture);
             }
@@ -294,7 +294,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Navigation is already in progress on region with name &apos;{0}&apos;..
         /// </summary>
-        public static string NavigationInProgress {
+        internal static string NavigationInProgress {
             get {
                 return ResourceManager.GetString("NavigationInProgress", resourceCulture);
             }
@@ -303,7 +303,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Navigation cannot proceed until a region is set for the RegionNavigationService..
         /// </summary>
-        public static string NavigationServiceHasNoRegion {
+        internal static string NavigationServiceHasNoRegion {
             get {
                 return ResourceManager.GetString("NavigationServiceHasNoRegion", resourceCulture);
             }
@@ -312,7 +312,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The IRegionAdapter for the type {0} is not registered in the region adapter mappings. You can register an IRegionAdapter for this control by overriding the ConfigureRegionAdapterMappings method in the bootstrapper..
         /// </summary>
-        public static string NoRegionAdapterException {
+        internal static string NoRegionAdapterException {
             get {
                 return ResourceManager.GetString("NoRegionAdapterException", resourceCulture);
             }
@@ -321,7 +321,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to There is currently no moduleTypeLoader in the ModuleManager that can retrieve the specified module..
         /// </summary>
-        public static string NoRetrieverCanRetrieveModule {
+        internal static string NoRetrieverCanRetrieveModule {
             get {
                 return ResourceManager.GetString("NoRetrieverCanRetrieveModule", resourceCulture);
             }
@@ -332,7 +332,7 @@ namespace Prism.Properties {
         ///    - The most likely causing exception was was: &apos;{1}&apos;.
         ///    But also check the InnerExceptions for more detail or call .GetRootException(). .
         /// </summary>
-        public static string OnViewRegisteredException {
+        internal static string OnViewRegisteredException {
             get {
                 return ResourceManager.GetString("OnViewRegisteredException", resourceCulture);
             }
@@ -341,7 +341,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The member access expression does not access a property..
         /// </summary>
-        public static string PropertySupport_ExpressionNotProperty_Exception {
+        internal static string PropertySupport_ExpressionNotProperty_Exception {
             get {
                 return ResourceManager.GetString("PropertySupport_ExpressionNotProperty_Exception", resourceCulture);
             }
@@ -350,7 +350,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The expression is not a member access expression..
         /// </summary>
-        public static string PropertySupport_NotMemberAccessExpression_Exception {
+        internal static string PropertySupport_NotMemberAccessExpression_Exception {
             get {
                 return ResourceManager.GetString("PropertySupport_NotMemberAccessExpression_Exception", resourceCulture);
             }
@@ -359,7 +359,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The referenced property is a static property..
         /// </summary>
-        public static string PropertySupport_StaticExpression_Exception {
+        internal static string PropertySupport_StaticExpression_Exception {
             get {
                 return ResourceManager.GetString("PropertySupport_StaticExpression_Exception", resourceCulture);
             }
@@ -368,7 +368,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The Attach method cannot be called when Region property is null..
         /// </summary>
-        public static string RegionBehaviorAttachCannotBeCallWithNullRegion {
+        internal static string RegionBehaviorAttachCannotBeCallWithNullRegion {
             get {
                 return ResourceManager.GetString("RegionBehaviorAttachCannotBeCallWithNullRegion", resourceCulture);
             }
@@ -377,7 +377,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The Region property cannot be set after Attach method has been called..
         /// </summary>
-        public static string RegionBehaviorRegionCannotBeSetAfterAttach {
+        internal static string RegionBehaviorRegionCannotBeSetAfterAttach {
             get {
                 return ResourceManager.GetString("RegionBehaviorRegionCannotBeSetAfterAttach", resourceCulture);
             }
@@ -386,7 +386,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to An exception occurred while creating a region with name &apos;{0}&apos;. The exception was: {1}. .
         /// </summary>
-        public static string RegionCreationException {
+        internal static string RegionCreationException {
             get {
                 return ResourceManager.GetString("RegionCreationException", resourceCulture);
             }
@@ -395,7 +395,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The region being added already has a name of &apos;{0}&apos; and cannot be added to the region manager with a different name (&apos;{1}&apos;)..
         /// </summary>
-        public static string RegionManagerWithDifferentNameException {
+        internal static string RegionManagerWithDifferentNameException {
             get {
                 return ResourceManager.GetString("RegionManagerWithDifferentNameException", resourceCulture);
             }
@@ -404,7 +404,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The region name cannot be null or empty..
         /// </summary>
-        public static string RegionNameCannotBeEmptyException {
+        internal static string RegionNameCannotBeEmptyException {
             get {
                 return ResourceManager.GetString("RegionNameCannotBeEmptyException", resourceCulture);
             }
@@ -413,7 +413,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Region with the given name is already registered: {0}.
         /// </summary>
-        public static string RegionNameExistsException {
+        internal static string RegionNameExistsException {
             get {
                 return ResourceManager.GetString("RegionNameExistsException", resourceCulture);
             }
@@ -422,7 +422,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to This RegionManager does not contain a Region with the name &apos;{0}&apos;..
         /// </summary>
-        public static string RegionNotFound {
+        internal static string RegionNotFound {
             get {
                 return ResourceManager.GetString("RegionNotFound", resourceCulture);
             }
@@ -431,7 +431,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The region manager does not contain the {0} region..
         /// </summary>
-        public static string RegionNotInRegionManagerException {
+        internal static string RegionNotInRegionManagerException {
             get {
                 return ResourceManager.GetString("RegionNotInRegionManagerException", resourceCulture);
             }
@@ -440,7 +440,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to View already exists in region..
         /// </summary>
-        public static string RegionViewExistsException {
+        internal static string RegionViewExistsException {
             get {
                 return ResourceManager.GetString("RegionViewExistsException", resourceCulture);
             }
@@ -449,7 +449,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to View with name &apos;{0}&apos; already exists in the region..
         /// </summary>
-        public static string RegionViewNameExistsException {
+        internal static string RegionViewNameExistsException {
             get {
                 return ResourceManager.GetString("RegionViewNameExistsException", resourceCulture);
             }
@@ -458,7 +458,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The provided String argument {0} must not be null or empty..
         /// </summary>
-        public static string StringCannotBeNullOrEmpty {
+        internal static string StringCannotBeNullOrEmpty {
             get {
                 return ResourceManager.GetString("StringCannotBeNullOrEmpty", resourceCulture);
             }
@@ -467,7 +467,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The provided String argument {0} must not be null or empty..
         /// </summary>
-        public static string StringCannotBeNullOrEmpty1 {
+        internal static string StringCannotBeNullOrEmpty1 {
             get {
                 return ResourceManager.GetString("StringCannotBeNullOrEmpty1", resourceCulture);
             }
@@ -476,7 +476,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No BehaviorType with key &apos;{0}&apos; was registered..
         /// </summary>
-        public static string TypeWithKeyNotRegistered {
+        internal static string TypeWithKeyNotRegistered {
             get {
                 return ResourceManager.GetString("TypeWithKeyNotRegistered", resourceCulture);
             }
@@ -487,7 +487,7 @@ namespace Prism.Properties {
         ///    - The most likely causing exception was: &apos;{0}&apos;.
         ///    But also check the InnerExceptions for more detail or call .GetRootException(). .
         /// </summary>
-        public static string UpdateRegionException {
+        internal static string UpdateRegionException {
             get {
                 return ResourceManager.GetString("UpdateRegionException", resourceCulture);
             }
@@ -496,7 +496,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The value must be of type ModuleInfo..
         /// </summary>
-        public static string ValueMustBeOfTypeModuleInfo {
+        internal static string ValueMustBeOfTypeModuleInfo {
             get {
                 return ResourceManager.GetString("ValueMustBeOfTypeModuleInfo", resourceCulture);
             }
@@ -505,7 +505,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0} not found..
         /// </summary>
-        public static string ValueNotFound {
+        internal static string ValueNotFound {
             get {
                 return ResourceManager.GetString("ValueNotFound", resourceCulture);
             }
@@ -514,7 +514,7 @@ namespace Prism.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The region does not contain the specified view..
         /// </summary>
-        public static string ViewNotInRegionException {
+        internal static string ViewNotInRegionException {
             get {
                 return ResourceManager.GetString("ViewNotInRegionException", resourceCulture);
             }

@@ -32,12 +32,12 @@ namespace Prism.Modularity
         /// </summary>
         protected override void InnerLoad()
         {
-            if (string.IsNullOrEmpty(ModulePath))
+            if (string.IsNullOrEmpty(this.ModulePath))
                 throw new InvalidOperationException(Resources.ModulePathCannotBeNullOrEmpty);
 
-            if (!Directory.Exists(ModulePath))
+            if (!Directory.Exists(this.ModulePath))
                 throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentCulture, Resources.DirectoryNotFound, ModulePath));
+                    string.Format(CultureInfo.CurrentCulture, Resources.DirectoryNotFound, this.ModulePath));
 
             AppDomain childDomain = AppDomain.CurrentDomain;
 
@@ -63,7 +63,7 @@ namespace Prism.Modularity
                         (InnerModuleInfoLoader)
                         childDomain.CreateInstanceFrom(loaderType.Assembly.Location, loaderType.FullName).Unwrap();
 
-                    Items.AddRange(loader.GetModuleInfos(ModulePath));
+                    this.Items.AddRange(loader.GetModuleInfos(this.ModulePath));
                 }
             }
             catch (Exception ex)

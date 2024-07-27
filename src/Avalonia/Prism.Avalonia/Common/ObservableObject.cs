@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Prism.Extensions;
 using Avalonia;
 using Avalonia.Controls;
 

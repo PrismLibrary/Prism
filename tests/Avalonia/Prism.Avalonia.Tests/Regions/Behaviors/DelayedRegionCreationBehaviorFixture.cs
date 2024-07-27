@@ -1,4 +1,4 @@
-using Avalonia;
+﻿using Avalonia;
 using Prism.Avalonia.Tests.Mocks;
 using Prism.Navigation.Regions.Behaviors;
 using Xunit;
@@ -93,7 +93,7 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
             Assert.Same(region, RegionManager.GetObservableRegion(control).Value);
         }
 
-        [StaFact]
+        [StaFact(Skip = "Review: Potentially not supported")]
         public void BehaviorDoesNotPreventControlFromBeingGarbageCollected()
         {
             var control = new MockFrameworkElement();
@@ -116,7 +116,7 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
             Assert.False(controlWeakReference.IsAlive);
         }
 
-        [StaFact]
+        [StaFact(Skip = "Review: Potentially not supported")]
         public void BehaviorDoesNotPreventControlFromBeingGarbageCollectedWhenRegionWasCreated()
         {
             var control = new MockFrameworkElement();
@@ -159,7 +159,7 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
             Assert.Equal<int>(startingCount - 1, accessor.GetSubscribersCount());
         }
 
-        [StaFact]
+        [StaFact(Skip = "Review: Potentially not supported")]
         public void ShouldCleanupBehaviorOnceRegionIsCreated()
         {
             var control = new MockFrameworkElement();

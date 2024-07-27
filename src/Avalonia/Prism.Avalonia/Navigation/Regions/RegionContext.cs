@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using Avalonia;
 using Prism.Common;
+using Prism.Extensions;
 
 namespace Prism.Navigation.Regions
 {

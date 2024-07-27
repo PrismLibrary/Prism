@@ -63,7 +63,6 @@
     <PackageVersion Include="Avalonia.Diagnostics" Version="11.0.7" />
     <PackageVersion Include="Avalonia.LinuxFramebuffer" Version="11.0.7" />
     <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="11.0.7" />
-    <PackageVersion Include="Avalonia.ReactiveUI" Version="11.0.7" />
     <PackageVersion Include="Avalonia.Themes.Simple" Version="11.0.7" />
     <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.0.7" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="4.7.0" />

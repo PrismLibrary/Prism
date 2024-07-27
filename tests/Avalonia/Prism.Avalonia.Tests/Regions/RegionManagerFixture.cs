@@ -150,7 +150,7 @@ namespace Prism.Avalonia.Tests.Regions
             }
         }
 
-        [StaFact]
+        [StaFact(Skip = "Avalonia doesn't auto-create ObservableObject in RegionContext")]
         public void ShouldSetObservableRegionContextWhenRegionContextChanges()
         {
             var region = new MockPresentationRegion();

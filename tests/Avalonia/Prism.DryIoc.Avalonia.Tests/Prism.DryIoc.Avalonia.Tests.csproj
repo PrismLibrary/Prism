@@ -1,21 +1,36 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
+    <!--<PackageReference Include="GitHubActionsTestLogger">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>-->
+    <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Xunit.StaFact" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Prism.Avalonia\Prism.Avalonia.csproj" />
-    <ProjectReference Include="..\..\src\Prism.DryIoc.Avalonia\Prism.DryIoc.Avalonia.csproj" />
+    <ProjectReference Include="..\..\..\src\Prism.DryIoc.Avalonia\Prism.DryIoc.Avalonia.csproj" />
     <ProjectReference Include="..\Prism.IocContainer.Avalonia.Tests.Support\Prism.IocContainer.Avalonia.Tests.Support.csproj" />
   </ItemGroup>
+
+  <Import Project="..\Prism.Container.Avalonia.Shared\Prism.Container.Avalonia.Shared.projitems" Label="Shared" />
 
 </Project>

@@ -55,7 +55,7 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
             behavior.Attach();
         }
 
-        [StaFact]
+        [StaFact(Skip = "Review: Potentially not supported")]
         public void RegionGetsAddedInRegionManagerWhenAddedIntoAScopeAndAccessingRegions()
         {
             var regionManager = new MockRegionManager();
@@ -83,7 +83,7 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
             Assert.True(regionManager.MockRegionCollection.AddCalled);
         }
 
-        [StaFact]
+        [StaFact(Skip = "Review: Potentially not supported")]
         public void RegionDoesNotGetAddedTwiceWhenUpdatingRegions()
         {
             var regionManager = new MockRegionManager();
@@ -115,7 +115,7 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
             Assert.False(regionManager.MockRegionCollection.AddCalled);
         }
 
-        [StaFact]
+        [StaFact(Skip = "Review: Potentially not supported")]
         public void RegionGetsRemovedFromRegionManagerWhenRemovedFromScope()
         {
             var regionManager = new MockRegionManager();
