@@ -355,6 +355,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             var foundPage = navigationPages.FirstOrDefault(page => ViewModelLocator.GetNavigationName(page) == viewName);
             if (foundPage is null)
             {
+                // Find a page from parents.
                 var page = currentPage;
                 while (page != null)
                 {
@@ -366,14 +367,19 @@ public class PageNavigationService : INavigationService, IRegistryAware
             }
             else
             {
+                // Insert RemovePageSegment.
                 var removePageCount = navigationPages.IndexOf(foundPage);
 
-                // Insert RemovePageSegment.
-                var routeString = route.ToString();
+                var tempQueue = new Queue<string>();
                 for (int i = 0; i < removePageCount; i++)
                 {
-                    AddToFront(navigationSegments, RemovePageSegment);
+                    tempQueue.Enqueue(RemovePageSegment);
                 }
+                while(navigationSegments.Count > 0)
+                {
+                    tempQueue.Enqueue(navigationSegments.Dequeue());
+                }
+                navigationSegments = tempQueue;
             }
 
             await ProcessNavigation(currentPage, navigationSegments, parameters, null, null);
@@ -389,23 +395,6 @@ public class PageNavigationService : INavigationService, IRegistryAware
             _lastNavigate = DateTime.Now;
             NavigationSource = PageNavigationSource.Device;
             _semaphore.Release();
-        }
-    }
-
-    private static void AddToFront<T>(Queue<T> queue, T element)
-    {
-        var tempQueue = new Queue<T>();
-
-        while (queue.Count > 0)
-        {
-            tempQueue.Enqueue(queue.Dequeue());
-        }
-
-        queue.Enqueue(element);
-
-        while (tempQueue.Count > 0)
-        {
-            queue.Enqueue(tempQueue.Dequeue());
         }
     }
 
