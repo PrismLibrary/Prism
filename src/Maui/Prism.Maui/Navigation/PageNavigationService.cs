@@ -340,22 +340,29 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
         try
         {
+            if (route.IsAbsoluteUri) throw new NavigationException(NavigationException.UnsupportedAbsoluteUri);
+
             parameters ??= new NavigationParameters();
 
             NavigationSource = PageNavigationSource.NavigationService;
 
-            var routeSegments = UriParsingHelper.GetUriSegments(route);
+            var navigationSegments = UriParsingHelper.GetUriSegments(route);
 
             // Find a page that matches the viewName.
-            var page = GetCurrentPage();
-            while (page != null)
+            var currentPage = GetCurrentPage();
+            var navigationPages = currentPage.Navigation.NavigationStack.ToList();
+            navigationPages.Reverse();
+            var foundPage = navigationPages.FirstOrDefault(page => ViewModelLocator.GetNavigationName(page) == viewName);
+            var removePageCount = navigationPages.IndexOf(foundPage);
+
+            // Insert RemovePageSegment.
+            var routeString = route.ToString();
+            for (int i = 0; i < removePageCount; i++)
             {
-                if (page is not null && ViewModelLocator.GetNavigationName(page) == viewName)
-                    break;
-                page = page.GetParentPage();
+                AddToFront(navigationSegments, RemovePageSegment);
             }
 
-            await ProcessNavigation(page, routeSegments, parameters, null, null);
+            await ProcessNavigation(currentPage, navigationSegments, parameters, null, null);
 
             return Notify(route, parameters);
         }
@@ -368,6 +375,23 @@ public class PageNavigationService : INavigationService, IRegistryAware
             _lastNavigate = DateTime.Now;
             NavigationSource = PageNavigationSource.Device;
             _semaphore.Release();
+        }
+    }
+
+    private static void AddToFront<T>(Queue<T> queue, T element)
+    {
+        var tempQueue = new Queue<T>();
+
+        while (queue.Count > 0)
+        {
+            tempQueue.Enqueue(queue.Dequeue());
+        }
+
+        queue.Enqueue(element);
+
+        while (tempQueue.Count > 0)
+        {
+            queue.Enqueue(tempQueue.Dequeue());
         }
     }
 
