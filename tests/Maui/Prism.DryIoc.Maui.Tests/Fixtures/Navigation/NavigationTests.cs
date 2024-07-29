@@ -559,7 +559,7 @@ public class NavigationTests : TestBase
     }
 
     [Fact]
-    public async Task Navigation_FromPageUsingRoute_OnNavigationPage()
+    public async Task Navigation_FromPageUsingRoute()
     {
         var mauiApp = CreateBuilder(prism => prism.CreateWindow("NavigationPage/MockViewA/MockViewB/MockViewC"))
             .Build();
@@ -573,6 +573,23 @@ public class NavigationTests : TestBase
         Assert.True(result.Success);
         currentNavigationStackUri = string.Join("/", window.CurrentPage.Navigation.NavigationStack.Select(v => v.GetType().Name));
         Assert.Equal("MockViewA/MockViewD/MockViewE", currentNavigationStackUri);
+    }
+
+    [Fact]
+    public async Task Navigation_FromRootNavigationPageUsingRoute()
+    {
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow("NavigationPage/MockViewA/MockViewB/MockViewC"))
+            .Build();
+        var window = GetWindow(mauiApp);
+        var navigationService = Prism.Navigation.Xaml.Navigation.GetNavigationService(window.CurrentPage);
+        var currentNavigationStackUri = string.Join("/", window.CurrentPage.Navigation.NavigationStack.Select(v => v.GetType().Name));
+        Assert.Equal("MockViewA/MockViewB/MockViewC", currentNavigationStackUri);
+
+        var result = await navigationService.NavigateFromAsync("NavigationPage", UriParsingHelper.Parse("MockViewD/MockViewE"), null);
+
+        Assert.True(result.Success);
+        currentNavigationStackUri = string.Join("/", window.CurrentPage.Navigation.NavigationStack.Select(v => v.GetType().Name));
+        Assert.Equal("MockViewD/MockViewE", currentNavigationStackUri);
     }
 
     [Fact]

@@ -353,13 +353,27 @@ public class PageNavigationService : INavigationService, IRegistryAware
             var navigationPages = currentPage.Navigation.NavigationStack.ToList();
             navigationPages.Reverse();
             var foundPage = navigationPages.FirstOrDefault(page => ViewModelLocator.GetNavigationName(page) == viewName);
-            var removePageCount = navigationPages.IndexOf(foundPage);
-
-            // Insert RemovePageSegment.
-            var routeString = route.ToString();
-            for (int i = 0; i < removePageCount; i++)
+            if (foundPage is null)
             {
-                AddToFront(navigationSegments, RemovePageSegment);
+                var page = currentPage;
+                while (page != null)
+                {
+                    if (page is not null && ViewModelLocator.GetNavigationName(page) == viewName)
+                        break;
+                    page = page.GetParentPage();
+                }
+                currentPage = page;
+            }
+            else
+            {
+                var removePageCount = navigationPages.IndexOf(foundPage);
+
+                // Insert RemovePageSegment.
+                var routeString = route.ToString();
+                for (int i = 0; i < removePageCount; i++)
+                {
+                    AddToFront(navigationSegments, RemovePageSegment);
+                }
             }
 
             await ProcessNavigation(currentPage, navigationSegments, parameters, null, null);
