@@ -593,28 +593,21 @@ public class NavigationTests : TestBase
     }
 
     [Fact]
-    public async Task Navigation_FromIntermediatePageUsingRoute()
+    public async Task Navigation_FromFlyoutPageUsingRoute()
     {
         var mauiApp = CreateBuilder(prism => prism.CreateWindow("MockHome/NavigationPage/MockViewA"))
             .Build();
         var window = GetWindow(mauiApp);
 
-        var mockHome = (MockHome)window.Page;
-        var pageNavigatingFrom = (NavigationPage)mockHome.Detail;
-        Assert.IsType<MockViewA>(pageNavigatingFrom.CurrentPage);
+        var mockHome = (FlyoutPage)window.Page;
+        var navigationPage = (NavigationPage)mockHome.Detail;
+        Assert.IsType<MockViewA>(navigationPage.CurrentPage);
 
-        var result = await pageNavigatingFrom.CurrentPage.GetContainerProvider()
-            .Resolve<INavigationService>()
-            .NavigateFromAsync("NavigationPage", UriParsingHelper.Parse("MockViewB"), null);
+        var navigationService = Prism.Navigation.Xaml.Navigation.GetNavigationService(window.CurrentPage);
+        var result = await  navigationService.NavigateFromAsync("MockHome", UriParsingHelper.Parse("MockViewB"), null);
 
         Assert.True(result.Success);
-
-        // NavigationPage has not been replaced.
-        var pageNavigatedFrom = (NavigationPage)mockHome.Detail;
-        Assert.Equal(pageNavigatingFrom, pageNavigatedFrom); 
-
-        // Navigation should be succeeded.
-        Assert.IsType<MockViewB>(pageNavigatedFrom.CurrentPage);
+        Assert.IsType<MockViewB>(mockHome.Detail);
     }
 
     [Theory]
