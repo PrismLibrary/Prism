@@ -1,4 +1,4 @@
-namespace Prism.Extensions;
+﻿namespace Prism.Extensions;
 
 internal static class VisualElementExtensions
 {
@@ -17,7 +17,7 @@ internal static class VisualElementExtensions
         };
     }
 
-    public static Page GetParentPage(this Element visualElement)
+    internal static Page GetParentPage(this Element visualElement)
     {
         return visualElement.Parent switch
         {
