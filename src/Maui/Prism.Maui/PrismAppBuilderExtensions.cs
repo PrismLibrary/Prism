@@ -47,10 +47,12 @@ public static class PrismAppBuilderExtensions
     {
         if (!s_didRegisterModules)
         {
-            var services = builder.MauiBuilder.Services;
-            services.AddSingleton<IModuleCatalog, ModuleCatalog>();
-            services.AddSingleton<IModuleManager, ModuleManager>();
-            services.AddSingleton<IModuleInitializer, ModuleInitializer>();
+            builder.RegisterTypes(container =>
+            {
+                container.TryRegisterSingleton<IModuleCatalog, ModuleCatalog>();
+                container.TryRegisterSingleton<IModuleManager, ModuleManager>();
+                container.TryRegisterSingleton<IModuleInitializer, ModuleInitializer>();
+            });
         }
 
         s_didRegisterModules = true;
