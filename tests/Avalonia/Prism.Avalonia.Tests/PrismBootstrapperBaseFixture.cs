@@ -33,6 +33,7 @@ namespace Prism
         }
     }
 
+    /// <summary>Bootstrapping base fixture</summary>
     public class PrismBootstapperBaseFixture : IClassFixture<PrismBootstapperSetup>
     {
         PrismBootstrapper bootstrapper = null;
