@@ -205,14 +205,20 @@ public sealed class PrismAppBuilder
         {
             try
             {
+                logger.LogDebug("Initializing modules.");
                 var manager = _container.Resolve<IModuleManager>();
                 manager.Run();
+                logger.LogDebug("Modules Initialized.");
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "An error ocurred while initializing the Modules.");
                 throw new PrismInitializationException("An error occurred while initializing the Modules.", ex);
             }
+        }
+        else
+        {
+            logger.LogDebug("No Modules found to initialize.");
         }
 
         var navRegistry = _container.Resolve<INavigationRegistry>();
