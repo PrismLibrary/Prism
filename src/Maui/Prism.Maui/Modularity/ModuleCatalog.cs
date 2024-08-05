@@ -10,7 +10,7 @@ namespace Prism.Modularity;
 #else
 [ContentProperty(nameof(Items))]
 #endif
-public class ModuleCatalog : ModuleCatalogBase
+public class ModuleCatalog(IEnumerable<IModuleInfo> modules) : ModuleCatalogBase(modules)
 {
 
 }
