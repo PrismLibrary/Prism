@@ -1,18 +1,20 @@
 <Project>
   <ItemGroup>
     <PackageVersion Include="PolySharp" Version="1.14.1" />
-    <PackageVersion Include="Prism.Container.Abstractions" Version="9.0.88" />
-    <PackageVersion Include="Prism.Container.DryIoc" Version="9.0.88" />
-    <PackageVersion Include="Prism.Container.Unity" Version="9.0.88" />
+    <PackageVersion Include="Prism.Container.Abstractions" Version="9.0.106" />
+    <PackageVersion Include="Prism.Container.DryIoc" Version="9.0.106" />
+    <PackageVersion Include="Prism.Container.Unity" Version="9.0.106" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
-    <PackageVersion Include="System.Reactive" Version="6.0.0" />
+    <PackageVersion Include="System.Reactive" Version="6.0.1" />
     <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2401" />
-    <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
+    <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
   </ItemGroup>
   <!-- Maui -->
   <ItemGroup Condition=" $(UseMaui) == 'true' ">
-    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
-    <PackageVersion Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.20" Condition="$(MSBuildProjectName.StartsWith('Prism.'))" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.20" Condition="$(MSBuildProjectName.StartsWith('Prism.'))" />
+    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" Condition="!$(MSBuildProjectName.StartsWith('Prism.'))" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" Condition="!$(MSBuildProjectName.StartsWith('Prism.'))" />
   </ItemGroup>
   <!-- Uno
     Note that the $(UnoVersion) comes from the Uno.Sdk. You should not update it manually. To update the version of Uno,
@@ -21,19 +23,18 @@
     See https://aka.platform.uno/upgrade-uno-packages for more information.
   -->
   <ItemGroup Condition=" $(IsUnoProject) == 'true' ">
-    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="5.2.14" />
-    <PackageVersion Include="Uno.WinUI.Markup" Version="5.2.14" />
+    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="5.3.12" />
+    <PackageVersion Include="Uno.WinUI.Markup" Version="5.3.12" />
     <PackageVersion Include="Uno.WinUI" Version="$(UnoVersion)" />
     <PackageVersion Include="Uno.WinUI.Lottie" Version="$(UnoVersion)" />
     <PackageVersion Include="Uno.WinUI.Skia.Gtk" Version="$(UnoVersion)" />
     <PackageVersion Include="Uno.WinUI.Skia.Linux.FrameBuffer" Version="$(UnoVersion)" />
     <PackageVersion Include="Uno.WinUI.Skia.Wpf" Version="$(UnoVersion)" />
-    <PackageVersion Include="Uno.Wasm.Bootstrap" Version="8.0.15" />
-    <PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="8.0.15" />
+    <PackageVersion Include="Uno.Wasm.Bootstrap" Version="8.0.20" />
+    <PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="8.0.20" />
     <PackageVersion Include="Uno.WinUI.WebAssembly" Version="$(UnoVersion)" />
     <PackageVersion Include="Uno.WinUI.DevServer" Version="$(UnoVersion)" />
     <PackageVersion Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="$(UnoVersion)" />
-    <PackageVersion Include="Uno.Core" Version="4.0.1" />
     <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
     <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.4.2" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
@@ -50,7 +51,7 @@
     <PackageVersion Include="Uno.Material.WinUI" Version="5.0.13" />
     <PackageVersion Include="Uno.Toolkit.WinUI.Material" Version="6.0.24" />
     <PackageVersion Include="Uno.Toolkit.WinUI" Version="6.0.24" />
-    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="4.1.24" />
+    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="4.2.2" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
     <PackageVersion Include="Xamarin.Google.Android.Material" Version="1.10.0.3" />
     <PackageVersion Include="Uno.UniversalImageLoader" Version="1.9.36" />
@@ -84,7 +85,7 @@
   <ItemGroup>
     <!-- Global Packages -->
     <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" />
-    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.139" />
+    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.141" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
   </ItemGroup>
 </Project>
