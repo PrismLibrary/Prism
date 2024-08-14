@@ -11,8 +11,6 @@ namespace Prism;
 /// </summary>
 public static class PrismAppBuilderExtensions
 {
-    private static bool s_didRegisterModules = false;
-
     /// <summary>
     /// Configures the <see cref="MauiAppBuilder"/> to use Prism with a callback for the <see cref="PrismAppBuilder"/>
     /// </summary>
@@ -45,15 +43,13 @@ public static class PrismAppBuilderExtensions
     /// <param name="configureCatalog">Delegate to configure the <see cref="IModuleCatalog"/>.</param>
     public static PrismAppBuilder ConfigureModuleCatalog(this PrismAppBuilder builder, Action<IModuleCatalog> configureCatalog)
     {
-        if (!s_didRegisterModules)
+        builder.RegisterTypes(container =>
         {
-            var services = builder.MauiBuilder.Services;
-            services.AddSingleton<IModuleCatalog, ModuleCatalog>();
-            services.AddSingleton<IModuleManager, ModuleManager>();
-            services.AddSingleton<IModuleInitializer, ModuleInitializer>();
-        }
+            container.TryRegisterSingleton<IModuleCatalog, ModuleCatalog>();
+            container.TryRegisterSingleton<IModuleManager, ModuleManager>();
+            container.TryRegisterSingleton<IModuleInitializer, ModuleInitializer>();
+        });
 
-        s_didRegisterModules = true;
         return builder.OnInitialized(container =>
         {
             var moduleCatalog = container.Resolve<IModuleCatalog>();
