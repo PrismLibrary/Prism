@@ -1,9 +1,9 @@
 <Project>
   <ItemGroup>
     <PackageVersion Include="PolySharp" Version="1.14.1" />
-    <PackageVersion Include="Prism.Container.Abstractions" Version="9.0.106" />
-    <PackageVersion Include="Prism.Container.DryIoc" Version="9.0.106" />
-    <PackageVersion Include="Prism.Container.Unity" Version="9.0.106" />
+    <PackageVersion Include="Prism.Container.Abstractions" Version="9.0.107" />
+    <PackageVersion Include="Prism.Container.DryIoc" Version="9.0.107" />
+    <PackageVersion Include="Prism.Container.Unity" Version="9.0.107" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
     <PackageVersion Include="System.Reactive" Version="6.0.1" />
     <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2401" />
