@@ -85,6 +85,25 @@
         <Using Include="Microsoft.UI.Xaml.Media" />
       </ItemGroup>
     </When>
+    <When Condition="$(IsAvaloniaProject)">
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);AVALONIA</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Using Include="Avalonia" />
+        <Using Include="Avalonia.Controls" />
+        <Using Include="Avalonia.Controls.ApplicationLifetimes" />
+        <Using Include="Avalonia.Controls.Primitives" />
+        <Using Include="Avalonia.Interactivity" />
+        <Using Include="Avalonia.Markup.Xaml"/>
+        <!--
+        <Using Include="Avalonia.Metadata" />
+        <Using Include="Avalonia.Threading" />
+        <Using Include="Avalonia.Styling" />
+        <Using Include="Avalonia.VisualTree" />
+        -->
+      </ItemGroup>
+    </When>
   </Choose>
 
   <!-- Versioning -->
