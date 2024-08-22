@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Prism.DryIoc.Avalonia\Prism.DryIoc.Avalonia.csproj" />
+    <ProjectReference Include="..\..\..\src\Avalonia\Prism.DryIoc.Avalonia\Prism.DryIoc.Avalonia.csproj" />
     <ProjectReference Include="..\Prism.IocContainer.Avalonia.Tests.Support\Prism.IocContainer.Avalonia.Tests.Support.csproj" />
   </ItemGroup>
 

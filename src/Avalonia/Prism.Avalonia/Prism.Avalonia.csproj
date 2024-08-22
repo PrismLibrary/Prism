@@ -55,7 +55,6 @@ Prism.Avalonia helps you more easily design and build rich, flexible, and easy t
     <PackageReference Include="System.Configuration.ConfigurationManager" />
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
-    <PackageReference Include="Prism.Container.DryIoc" />
     
     <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />
   </ItemGroup>

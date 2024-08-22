@@ -13,11 +13,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\images\Prism.Avalonia.png">
+    <None Include="..\..\..\images\Prism.Avalonia.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="..\..\README.md">
+    <None Include="..\..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
@@ -41,7 +41,6 @@
   <ItemGroup>
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
-    <PackageReference Include="Avalonia.ReactiveUI" />
     <PackageReference Include="Prism.Container.DryIoc" />
 
     <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />

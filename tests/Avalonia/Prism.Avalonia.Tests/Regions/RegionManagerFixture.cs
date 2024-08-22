@@ -329,7 +329,7 @@ namespace Prism.Avalonia.Tests.Regions
             Assert.True(regionManager.Regions["RegionName"].Views.Contains(view2));
         }
 
-        [Fact]
+        [Fact(DisplayName = "Flaky test. Run by itself not as a group.")]
         public void CanRegisterViewType()
         {
             try

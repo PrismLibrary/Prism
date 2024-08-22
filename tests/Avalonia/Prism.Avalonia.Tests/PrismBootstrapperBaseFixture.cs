@@ -34,6 +34,7 @@ namespace Prism
     }
 
     /// <summary>Bootstrapping base fixture</summary>
+    /// <remarks>This passes when running by itself; fails when ran as a whole.</remarks>
     public class PrismBootstapperBaseFixture : IClassFixture<PrismBootstapperSetup>
     {
         PrismBootstrapper bootstrapper = null;
