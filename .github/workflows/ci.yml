@@ -2,23 +2,30 @@ name: Prism CI
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - 'releases/**'
     paths:
       - .github/workflows/ci.yml
       - Directory.Build.props
       - Directory.Build.targets
       - Directory.Packages.props
       - xunit.runner.json
+      - version.json
+      - LICENSE
+      - global.json
       - 'src/**'
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+      - 'releases/**'
     paths:
       - .github/workflows/ci.yml
   workflow_dispatch:
 
 jobs:
   build-prism-core:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Core
       solution-path: PrismLibrary_Core.slnf
@@ -32,7 +39,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-wpf:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Wpf
       solution-path: PrismLibrary_Wpf.slnf
@@ -45,28 +52,16 @@ jobs:
       codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
-  build-prism-forms:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
-    with:
-      name: Build Prism.Forms
-      solution-path: PrismLibrary_Forms.slnf
-      code-sign: true
-      artifact-name: Forms
-      jdk-version: 13
-    secrets:
-      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
-      codeSignClientId: ${{ secrets.CodeSignClientId }}
-      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
-      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
-      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
-
   build-prism-uno:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v1
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
       windows-sdk-version: 18362
-      uno-check: true
+      dotnet-version: 8.0.300
+      install-workload: ios android macos maccatalyst wasm-tools
+      uno-check: false
+      uno-check-version: 1.24.0
       uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip androidemulator --skip androidsdk --skip vsmac --skip dotnetnewunotemplates'
       run-tests: false
       code-sign: true
@@ -79,7 +74,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-maui:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Maui
       solution-path: PrismLibrary_Maui.slnf
@@ -94,7 +89,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   generate-consolidated-artifacts:
-    needs: [build-prism-core, build-prism-wpf, build-prism-forms, build-prism-uno, build-prism-maui]
+    needs: [build-prism-core, build-prism-wpf, build-prism-uno, build-prism-maui]
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -111,12 +106,6 @@ jobs:
         with:
           name: Wpf
           path: artifacts\Wpf
-
-      - name: Download Forms
-        uses: actions/download-artifact@v3
-        with:
-          name: Forms
-          path: artifacts\Forms
 
       - name: Download Uno
         uses: actions/download-artifact@v3
@@ -141,7 +130,7 @@ jobs:
           path: .\artifacts\nuget
 
   deploy-internal:
-    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@v1
     needs: generate-consolidated-artifacts
     if: ${{ github.event_name == 'push' }}
     with:
@@ -151,7 +140,7 @@ jobs:
       apiKey: ${{ secrets.IN_HOUSE_API_KEY }}
 
   deploy-commercial-plus:
-    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@v1
     needs: generate-consolidated-artifacts
     if: ${{ github.event_name == 'push' }}
     with:
@@ -159,13 +148,3 @@ jobs:
     secrets:
       feedUrl: ${{ secrets.PRISM_NUGET_FEED }}
       apiKey: ${{ secrets.PRISM_NUGET_TOKEN }}
-
-  deploy-sponsors:
-    uses: avantipoint/workflow-templates/.github/workflows/deploy-nuget.yml@master
-    needs: generate-consolidated-artifacts
-    if: ${{ github.event_name == 'push' }}
-    with:
-      name: Deploy Sponsor Connect
-    secrets:
-      feedUrl: ${{ secrets.SPONSOR_CONNECT_NUGET_FEED }}
-      apiKey: ${{ secrets.SPONSOR_CONNECT_TOKEN }}

@@ -1,9 +1,18 @@
+using Moq;
 using Prism.Common;
 
 namespace Prism.Maui.Tests.Fixtures.Common;
 
 public class MvvmHelperFixture
 {
+    public MvvmHelperFixture()
+    {
+        var provider = new Mock<IDispatcherProvider>();
+        provider.Setup(x => x.GetForCurrentThread()).Returns(Mock.Of<IDispatcher>());
+
+        DispatcherProvider.SetCurrent(provider.Object);
+    }
+
     /// <summary>
     /// This test was introduced to verify GH3143
     /// </summary>
@@ -96,12 +105,12 @@ public class MvvmHelperFixture
     /// This test was introduced to verify GH3143
     /// </summary>
     /// <a href="https://github.com/PrismLibrary/Prism/issues/3143">Git Hub Issue 3143</a>
-    [Fact(Skip = "System.InvalidOperationException\nBindableObject was not instantiated on a thread with a dispatcher nor does the current application have a dispatcher.")]
+    [Fact]
     public async Task GetCurrentPageFromTabbedPageWithModalReturnsContentPage()
     {
         // Given
         var expected = new ContentPage();
-        var tabbedPage = new TabbedPage { Title = "Tab", Children = { expected }};
+        var tabbedPage = new TabbedPage { Title = "Tab", Children = { expected } };
         var window = new Window { Page = tabbedPage };
         await window.Navigation.PushModalAsync(new DialogContainerPage());
 
@@ -116,13 +125,13 @@ public class MvvmHelperFixture
     /// This test was introduced to verify GH3143
     /// </summary>
     /// <a href="https://github.com/PrismLibrary/Prism/issues/3143">Git Hub Issue 3143</a>
-    [Fact(Skip = "System.InvalidOperationException\nBindableObject was not instantiated on a thread with a dispatcher nor does the current application have a dispatcher.")]
+    [Fact]
     public async Task GetCurrentPageFromTabbedNavigationPageWithModalReturnsContentPage()
     {
         // Given
         var expected = new ContentPage();
         var navigationPage = new NavigationPage(expected);
-        var tabbedPage = new TabbedPage { Title = "Tab", Children = { navigationPage }};
+        var tabbedPage = new TabbedPage { Title = "Tab", Children = { navigationPage } };
         var window = new Window { Page = tabbedPage };
         await window.Navigation.PushModalAsync(new DialogContainerPage());
 

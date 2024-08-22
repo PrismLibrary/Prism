@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls;
 using Moq;
 using Prism.Common;
@@ -37,8 +37,6 @@ public class GoBackExtensionFixture
     }
 
     [Theory]
-    [InlineData(true, null)]
-    [InlineData(false, null)]
     [InlineData(true, true)]
     [InlineData(false, true)]
     [InlineData(true, false)]

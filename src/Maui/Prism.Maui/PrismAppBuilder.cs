@@ -58,14 +58,11 @@ public sealed class PrismAppBuilder
             {
                 android.OnBackPressed(activity =>
                 {
-                    var dialogModal = IDialogContainer.DialogStack.LastOrDefault();
-                    if (dialogModal is not null)
-                    {
-                        if (dialogModal.Dismiss.CanExecute(null))
-                            dialogModal.Dismiss.Execute(null);
-
-                        return true;
-                    }
+                    //the PrismWindow and PrismNavigationPage have their own back press logic and intercepts the hardware back button behavior
+                    //when this happens the PageNavigationService will take over and handle the navigation and decides whether to allow GoBack or not
+                    //this means we need to check if the PageNavigationService is handling the navigation and if it is, we need to prevent the OnBackPressed logic
+                    if (PageNavigationService.NavigationSource == PageNavigationSource.NavigationService)
+                        return true; 
 
                     var root = ContainerLocator.Container;
                     if (root is null)
@@ -78,17 +75,23 @@ public sealed class PrismAppBuilder
                     if (window is null)
                         return false;
 
-                    if (window.CurrentPage?.Parent is NavigationPage)
+                    //we are on the root page and the user pressed the hardward back button. the app has nowhere to navigation except to the background.
+                    //neither the PrismNavigationPage or the PrismWindow can handle this scenario, so we need to handle it here
+                    if (window.IsRootPage)
                     {
-                        return true;
-                    }
+                        //when showing a dialog on the root page, if the user presses the hardware back button, we need to make sure the dialog
+                        //decides either to dismiss the dialog or keep it open
+                        var dialogModal = IDialogContainer.DialogStack.LastOrDefault();
+                        if (dialogModal is not null)
+                        {
+                            return true;
+                        }
 
-                    if(window.IsRootPage)
-                    {
-                        return false;
+                        //note: if the PageNavigationService sends the android app to the background, this can cause the CanNavigate to be called twice.
+                        //if this becomes a problem, we may need to add an additional static flag to know when we are sending the app to the background to prevent the double call
+                        var canNavigate = MvvmHelpers.CanNavigate(MvvmHelpers.GetTarget(window.Page), new NavigationParameters());
+                        return !canNavigate;                        
                     }
-
-                    window.OnSystemBack();
 
                     return true;
                 });
@@ -202,14 +205,20 @@ public sealed class PrismAppBuilder
         {
             try
             {
+                logger.LogDebug("Initializing modules.");
                 var manager = _container.Resolve<IModuleManager>();
                 manager.Run();
+                logger.LogDebug("Modules Initialized.");
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "An error ocurred while initializing the Modules.");
                 throw new PrismInitializationException("An error occurred while initializing the Modules.", ex);
             }
+        }
+        else
+        {
+            logger.LogDebug("No Modules found to initialize.");
         }
 
         var navRegistry = _container.Resolve<INavigationRegistry>();

@@ -2,7 +2,6 @@ using System.Text.RegularExpressions;
 using System.Web;
 using Prism.Common;
 using Prism.Events;
-using Prism.Extensions;
 using Prism.Mvvm;
 using Application = Microsoft.Maui.Controls.Application;
 using XamlTab = Prism.Navigation.Xaml.TabbedPage;
@@ -99,8 +98,6 @@ public class PageNavigationService : INavigationService, IRegistryAware
             NavigationSource = PageNavigationSource.NavigationService;
 
             page = GetCurrentPage();
-            if (IsRoot(GetPageFromWindow(), page))
-                throw new NavigationException(NavigationException.CannotPopApplicationMainPage, page);
 
             parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
 
@@ -108,6 +105,11 @@ public class PageNavigationService : INavigationService, IRegistryAware
             if (!canNavigate)
             {
                 throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page);
+            }
+
+            if (IsRoot(GetPageFromWindow(), page))
+            {
+                return SendAppToBackground(page);
             }
 
             bool useModalForDoPop = UseModalGoBack(page, parameters);
@@ -843,7 +845,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             {
                 MvvmHelpers.OnNavigatedTo(navigationPage.CurrentPage, parameters);
             }
-            else if (tabbedPage.BindingContext != tabbedPage.CurrentPage.BindingContext)
+            else if (tabbedPage.BindingContext != tabbedPage.CurrentPage?.BindingContext)
             {
                 MvvmHelpers.OnNavigatedTo(tabbedPage.CurrentPage, parameters);
             }
@@ -1246,6 +1248,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
             return true;
         else if (navPage.Parent is TabbedPage tabbed && tabbed != rootPage)
             return true;
+        else if (rootPage != navPage || IsRoot(rootPage, navPage.CurrentPage))
+            return true;
 
         return false;
     }
@@ -1253,6 +1257,18 @@ public class PageNavigationService : INavigationService, IRegistryAware
     internal static bool UseReverseNavigation(Page currentPage, Type nextPageType)
     {
         return MvvmHelpers.HasNavigationPageParent(currentPage) && MvvmHelpers.IsSameOrSubclassOf<ContentPage>(nextPageType);
+    }
+
+    private INavigationResult SendAppToBackground(Page page)
+    {
+#if ANDROID
+        if (Window.Handler.PlatformView is MauiAppCompatActivity activity)
+        {
+            activity.MoveTaskToBack(true);
+            return new NavigationResult();
+        }
+#endif
+        throw new NavigationException(NavigationException.CannotPopApplicationMainPage, page);
     }
 
     private INavigationResult Notify(NavigationRequestType type, INavigationParameters parameters, Exception exception = null)

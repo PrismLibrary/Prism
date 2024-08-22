@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.Maui.Controls.Compatibility;
 using Prism.Mvvm;
 using Prism.Navigation.Regions;
 using Prism.Navigation.Regions.Adapters;
@@ -115,7 +114,8 @@ public static class RegionNavigationRegistrationExtensions
             // TODO: CollectionView is buggy with only last View showing despite multiple Active Views
             // BUG: iOS Crash with CollectionView https://github.com/xamarin/Xamarin.Forms/issues/9970
             //regionAdapterMappings.RegisterDefaultMapping<CollectionView, CollectionViewRegionAdapter>();
-            regionAdapterMappings.RegisterDefaultMapping<Layout<View>, LayoutViewRegionAdapter>();
+            regionAdapterMappings.RegisterDefaultMapping<Microsoft.Maui.Controls.Compatibility.Layout<View>, LayoutViewRegionAdapter>();
+            regionAdapterMappings.RegisterDefaultMapping<Layout, LayoutRegionAdapter>();
             regionAdapterMappings.RegisterDefaultMapping<ScrollView, ScrollViewRegionAdapter>();
             regionAdapterMappings.RegisterDefaultMapping<ContentView, ContentViewRegionAdapter>();
             return regionAdapterMappings;

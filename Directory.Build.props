@@ -89,7 +89,7 @@
 
   <!-- Versioning -->
   <PropertyGroup>
-    <PackageReleaseNotes>https://github.com/PrismLibrary/Prism/releases/tag/v$(Version)</PackageReleaseNotes>
+    <PackageReleaseNotes Condition="$(OfficialRelease) == 'true'">https://github.com/PrismLibrary/Prism/releases/tag/$(Version)</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">

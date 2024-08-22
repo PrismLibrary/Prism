@@ -4,7 +4,14 @@ using Prism.Properties;
 
 namespace Prism.Modularity;
 
+/// <summary>
+/// Defines the metadata that describes a module.
+/// </summary>
+#if UNO_WINUI
+[Microsoft.UI.Xaml.Markup.ContentProperty(Name = nameof(DependsOn))]
+#else
 [ContentProperty(nameof(DependsOn))]
+#endif
 public partial class ModuleInfo : IModuleInfo
 {
     /// <summary>

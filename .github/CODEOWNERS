@@ -13,7 +13,3 @@ global.json @dansiegel
 /src/Wpf/ @brianlagunas
 /tests/Wpf/ @brianlagunas
 /e2e/Wpf/ @brianlagunas
-
-# Xamarin.Forms
-/src/Forms/ @dansiegel
-/tests/Forms/ @dansiegel

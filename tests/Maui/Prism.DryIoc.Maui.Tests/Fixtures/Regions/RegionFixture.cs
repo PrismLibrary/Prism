@@ -1,4 +1,4 @@
-﻿using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
+using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Maui.Tests.Mocks.Views;
 using Prism.Navigation.Xaml;
 
@@ -54,6 +54,33 @@ public class RegionFixture : TestBase
     }
 
     [Fact]
+    public void Issue3159_LayoutRegion_CreatedBy_RegisterViewWithRegion()
+    {
+        var mauiApp = CreateBuilder(prism =>
+                prism.RegisterTypes(container =>
+                {
+                    container.RegisterForNavigation<MockContentRegionPage, MockContentRegionPageViewModel>();
+                    container.RegisterForRegionNavigation<MockRegionViewA, MockRegionViewAViewModel>();
+                })
+                .OnInitialized(container =>
+                {
+                    var regionManager = container.Resolve<IRegionManager>();
+                    regionManager.RegisterViewWithRegion("LayoutRegion", "MockRegionViewA");
+                })
+                .CreateWindow("MockContentRegionPage"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        Assert.IsType<MockContentRegionPage>(window.Page);
+        var page = window.Page as MockContentRegionPage;
+
+        Assert.NotNull(page.LayoutRegion.Children);
+        Assert.NotEmpty(page.LayoutRegion.Children);
+        Assert.IsType<ContentView>(page.LayoutRegion.Children.First());
+        Assert.IsType<MockRegionViewAViewModel>(((ContentView)page.LayoutRegion.First()).Content.BindingContext);
+    }
+
+    [Fact]
     public void RegionsShareContainer_WithPage()
     {
         var mauiApp = CreateBuilder(prism =>
@@ -76,7 +103,7 @@ public class RegionFixture : TestBase
 
         var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
         var regions = regionManager.Regions.Cast<ITargetAwareRegion>();
-        Assert.Equal(2, regions.Count());
+        Assert.Equal(3, regions.Count());
         foreach (var region in regions)
         {
             Assert.Same(page.GetContainerProvider(), region.Container);
@@ -110,7 +137,7 @@ public class RegionFixture : TestBase
     }
 
     [Fact]
-    public void RegionManager_HasTwoRegions()
+    public void RegionManager_HasRegionsAmount()
     {
         var mauiApp = CreateBuilder(prism =>
                 prism.RegisterTypes(container =>
@@ -122,7 +149,7 @@ public class RegionFixture : TestBase
         var window = GetWindow(mauiApp);
 
         var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
-        Assert.Equal(2, regionManager.Regions.Count());
+        Assert.Equal(3, regionManager.Regions.Count());
     }
 
     [Fact]

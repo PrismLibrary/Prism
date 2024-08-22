@@ -5,12 +5,13 @@ on:
 
 jobs:
   build-prism-core:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Core
       solution-path: PrismLibrary_Core.slnf
       code-sign: true
       artifact-name: Core
+      build-args: /p:OfficialRelease=true
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
@@ -19,27 +20,13 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-wpf:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Wpf
       solution-path: PrismLibrary_Wpf.slnf
       code-sign: true
       artifact-name: Wpf
-    secrets:
-      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
-      codeSignClientId: ${{ secrets.CodeSignClientId }}
-      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
-      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
-      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
-
-  build-prism-forms:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
-    with:
-      name: Build Prism.Forms
-      solution-path: PrismLibrary_Forms.slnf
-      code-sign: true
-      artifact-name: Forms
-      jdk-version: 13
+      build-args: /p:OfficialRelease=true
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
@@ -48,16 +35,20 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-uno:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v1
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
       windows-sdk-version: 18362
-      uno-check: true
+      dotnet-version: 8.0.300
+      install-workload: ios android macos maccatalyst wasm-tools
+      uno-check: false
+      uno-check-version: 1.25.1
       uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip androidemulator --skip androidsdk --skip vsmac --skip dotnetnewunotemplates'
       run-tests: false
       code-sign: true
       artifact-name: Uno
+      build-args: /p:OfficialRelease=true
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
@@ -66,7 +57,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-maui:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Maui
       solution-path: PrismLibrary_Maui.slnf
@@ -74,6 +65,7 @@ jobs:
       install-workload: maui maui-tizen
       code-sign: true
       artifact-name: Maui
+      build-args: /p:OfficialRelease=true
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
@@ -82,7 +74,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   generate-consolidated-artifacts:
-    needs: [build-prism-core, build-prism-wpf, build-prism-forms, build-prism-uno]
+    needs: [build-prism-core, build-prism-wpf, build-prism-uno]
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -99,12 +91,6 @@ jobs:
         with:
           name: Wpf
           path: artifacts\Wpf
-
-      - name: Download Forms
-        uses: actions/download-artifact@v3
-        with:
-          name: Forms
-          path: artifacts\Forms
 
       - name: Download Uno
         uses: actions/download-artifact@v3
@@ -129,7 +115,7 @@ jobs:
           path: .\artifacts\nuget
 
   release:
-    uses: avantipoint/workflow-templates/.github/workflows/generate-release.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/generate-release.yml@v1
     needs: [generate-consolidated-artifacts]
     permissions:
       contents: write

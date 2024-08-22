@@ -19,7 +19,7 @@ on:
 
 jobs:
   build-prism-wpf:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@master
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
     with:
       name: Build Prism.Wpf
       solution-path: PrismLibrary_Wpf.slnf

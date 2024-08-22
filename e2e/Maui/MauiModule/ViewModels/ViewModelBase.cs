@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace MauiModule.ViewModels;
 
-public abstract class ViewModelBase : BindableBase, IInitialize, INavigatedAware, IPageLifecycleAware
+public abstract class ViewModelBase : BindableBase, IInitialize, INavigatedAware, IPageLifecycleAware, IConfirmNavigation
 {
     protected INavigationService _navigationService { get; }
     protected IPageDialogService _pageDialogs { get; }
@@ -90,7 +90,7 @@ public abstract class ViewModelBase : BindableBase, IInitialize, INavigatedAware
             Messages.Add(parameter.Value.ToString());
     }
 
-    public void OnNavigatedFrom(INavigationParameters parameters)
+    public virtual void OnNavigatedFrom(INavigationParameters parameters)
     {
         Messages.Add("ViewModel NavigatedFrom");
     }
@@ -108,5 +108,11 @@ public abstract class ViewModelBase : BindableBase, IInitialize, INavigatedAware
     public void OnDisappearing()
     {
         Messages.Add("View Disappearing");
+    }
+
+    public virtual bool CanNavigate(INavigationParameters parameters)
+    {
+        Messages.Add("Can Navigate");
+        return true;
     }
 }
