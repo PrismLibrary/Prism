@@ -32,4 +32,10 @@
     <ProjectReference Include="..\..\..\src\Maui\Prism.Maui.Rx\Prism.Maui.Rx.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <MauiXaml Update="Mocks\Views\MockXamlView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+  </ItemGroup>
+
 </Project>
