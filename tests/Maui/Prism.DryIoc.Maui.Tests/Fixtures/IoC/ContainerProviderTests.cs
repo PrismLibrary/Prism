@@ -12,10 +12,8 @@ public class ContainerProviderTests(ITestOutputHelper testOutputHelper) : TestBa
     [Fact]
     public void CanResolveUnamedType()
     {
-        var builder = CreateBuilder(prism => { });
-        var app = builder.Build();
-
         var containerProvider = new ContainerProvider<ConcreteTypeMock>();
+
         ConcreteTypeMock type = (ConcreteTypeMock)containerProvider;
 
         Assert.NotNull(type);
@@ -25,8 +23,6 @@ public class ContainerProviderTests(ITestOutputHelper testOutputHelper) : TestBa
     [Fact]
     public void CanResolvedNamedType()
     {
-        var builder = CreateBuilder(prism => { });
-        var app = builder.Build();
         var containerProvider = new ContainerProvider<ConcreteTypeMock>
         {
             Name = ConcreteTypeMock.Key
