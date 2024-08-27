@@ -1,3 +1,4 @@
+#nullable enable
 namespace Prism.IoC;
 
 /// <summary>
@@ -9,8 +10,9 @@ namespace Prism.IoC;
 /// <code>
 /// public class MyValueConverter : IValueConverter
 /// {
-///     private ILoggerFacade _logger { get; }
-///     public MyValueConverter(ILoggerFacade logger)
+///     private readonly ILogger _logger { get; }
+///     
+///     public MyValueConverter(ILogger logger)
 ///     {
 ///         _logger = logger;
 ///     }
@@ -45,7 +47,7 @@ public class ContainerProvider<T>
     /// <summary>
     /// The Name used to register the type with the Container
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Resolves the specified type from the Application's Container
