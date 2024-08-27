@@ -332,6 +332,71 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
+    /// <inheritdoc />
+    public virtual async Task<INavigationResult> NavigateFromAsync(string viewName, Uri route, INavigationParameters parameters)
+    {
+        await WaitForPendingNavigationRequests();
+
+        try
+        {
+            if (route.IsAbsoluteUri) throw new NavigationException(NavigationException.UnsupportedAbsoluteUri);
+
+            parameters ??= new NavigationParameters();
+
+            NavigationSource = PageNavigationSource.NavigationService;
+
+            var navigationSegments = UriParsingHelper.GetUriSegments(route);
+
+            // Find a page that matches the viewName.
+            var currentPage = GetCurrentPage();
+            var navigationPages = currentPage.Navigation.NavigationStack.ToList();
+            navigationPages.Reverse();
+            var foundPage = navigationPages.FirstOrDefault(page => ViewModelLocator.GetNavigationName(page) == viewName);
+            if (foundPage is null)
+            {
+                // Find a page from parents.
+                var page = currentPage;
+                while (page != null)
+                {
+                    if (page is not null && ViewModelLocator.GetNavigationName(page) == viewName)
+                        break;
+                    page = page.GetParentPage();
+                }
+                currentPage = page;
+            }
+            else
+            {
+                // Insert RemovePageSegment.
+                var removePageCount = navigationPages.IndexOf(foundPage);
+
+                var tempQueue = new Queue<string>();
+                for (int i = 0; i < removePageCount; i++)
+                {
+                    tempQueue.Enqueue(RemovePageSegment);
+                }
+                while(navigationSegments.Count > 0)
+                {
+                    tempQueue.Enqueue(navigationSegments.Dequeue());
+                }
+                navigationSegments = tempQueue;
+            }
+
+            await ProcessNavigation(currentPage, navigationSegments, parameters, null, null);
+
+            return Notify(route, parameters);
+        }
+        catch (Exception ex)
+        {
+            return Notify(route, parameters, ex);
+        }
+        finally
+        {
+            _lastNavigate = DateTime.Now;
+            NavigationSource = PageNavigationSource.Device;
+            _semaphore.Release();
+        }
+    }
+
     /// <summary>
     /// Selects a Tab of the TabbedPage parent.
     /// </summary>

@@ -41,6 +41,15 @@ public interface INavigationService
     Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters);
 
     /// <summary>
+    /// Initiates navigation from the <paramref name="viewName"/> using the specified <paramref name="route"/>. 
+    /// </summary>
+    /// <param name="viewName">The name of the View to navigate from</param>
+    /// <param name="route">The route Uri to navigate from that view</param>
+    /// <param name="parameters">The navigation parameters</param>
+    /// <returns>If <c>true</c> a navigate from operation was successful. If <c>false</c> the navigate from operation failed.</returns>
+    Task<INavigationResult> NavigateFromAsync(string viewName, Uri route, INavigationParameters parameters);
+
+    /// <summary>
     /// Selects a Tab of the TabbedPage parent and Navigates to a specified Uri
     /// </summary>
     /// <param name="name">The name of the tab to select</param>
