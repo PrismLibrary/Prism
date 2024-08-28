@@ -7,10 +7,8 @@
     <Description>Prism.Avalonia is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices. Prism.Avalonia provides an implementation of a collection of design patterns that are helpful in writing well structured, maintainable, and testable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET Standard. Features that need to be platform specific are implemented in the respective libraries for the target platform (Avalonia, WPF, Uno Platform, and Xamarin Forms).
 
 Prism.Avalonia helps you more easily design and build rich, flexible, and easy to maintain cross-platform Avalonia desktop applications. This library provides user interface composition as well as modularity support.</Description>
-    <Copyright>Copyright (c) 2024 Xeno Innovations, Inc.</Copyright>
-    <Authors>Damian Suess, Suess Labs, various contributors</Authors>
+
     <Title>Prism.Avalonia</Title>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) ">
@@ -24,12 +22,19 @@ Prism.Avalonia helps you more easily design and build rich, flexible, and easy t
     <Compile Remove="**\*.net45.cs" />
     <None Include="**\*.net45.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Wpf\Prism.Wpf\Common\MvvmHelpers.cs" LinkBase="Common" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\PrismInitializationExtensions.cs" Link="PrismInitializationExtensions.cs" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Ioc\*.cs" LinkBase="Ioc" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Mvvm\*.cs" LinkBase="Mvvm" />
+
+    <Using Include="Prism.Extensions" />
+  </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
+    <!-- We probably don't want to support this in Avalonia projects keeping for now -->
+    <Compile Remove="PrismBootstrapperBase.cs" />
+    <None Include="PrismBootstrapperBase.cs" />
   </ItemGroup>
 
   <ItemGroup>

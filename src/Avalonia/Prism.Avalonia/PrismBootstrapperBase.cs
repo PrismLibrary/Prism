@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Prism.Common;

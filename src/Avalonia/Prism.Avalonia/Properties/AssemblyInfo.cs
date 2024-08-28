@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Avalonia.Metadata;
 
 [assembly: ComVisible(false)]
-[assembly: CLSCompliant(true)]
+[assembly: CLSCompliant(false)]
 
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Navigation.Regions")]
 [assembly: XmlnsDefinition("http://prismlibrary.com/", "Prism.Navigation.Regions.Behaviors")]

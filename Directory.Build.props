@@ -102,6 +102,9 @@
         <Using Include="Avalonia.Styling" />
         <Using Include="Avalonia.VisualTree" />
         -->
+        <Using Include="Avalonia.Controls.Control" Alias="FrameworkElement" />
+        <Using Include="Avalonia.AvaloniaObject" Alias="DependencyObject" />
+        <Using Include="Avalonia.AvaloniaPropertyChangedEventArgs" Alias="DependencyPropertyChangedEventArgs" />
       </ItemGroup>
     </When>
   </Choose>

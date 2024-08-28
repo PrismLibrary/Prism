@@ -43,7 +43,12 @@ namespace Prism
 
         internal static void RegisterDefaultRegionBehaviors(this IRegionBehaviorFactory regionBehaviors)
         {
+#if AVALONIA
+            //// Avalonia to WPF Equivilant: BindRegionContextToAvaloniaObjectBehavior == BindRegionContextToDependencyObjectBehavior
+            regionBehaviors.AddIfMissing<BindRegionContextToAvaloniaObjectBehavior>(BindRegionContextToAvaloniaObjectBehavior.BehaviorKey);
+#else
             regionBehaviors.AddIfMissing<BindRegionContextToDependencyObjectBehavior>(BindRegionContextToDependencyObjectBehavior.BehaviorKey);
+#endif
             regionBehaviors.AddIfMissing<RegionActiveAwareBehavior>(RegionActiveAwareBehavior.BehaviorKey);
             regionBehaviors.AddIfMissing<SyncRegionContextWithHostBehavior>(SyncRegionContextWithHostBehavior.BehaviorKey);
             regionBehaviors.AddIfMissing<RegionManagerRegistrationBehavior>(RegionManagerRegistrationBehavior.BehaviorKey);
@@ -55,7 +60,9 @@ namespace Prism
 
         internal static void RegisterDefaultRegionAdapterMappings(this RegionAdapterMappings regionAdapterMappings)
         {
+#if !AVALONIA
             regionAdapterMappings.RegisterMapping<Selector, SelectorRegionAdapter>();
+#endif
             regionAdapterMappings.RegisterMapping<ItemsControl, ItemsControlRegionAdapter>();
             regionAdapterMappings.RegisterMapping<ContentControl, ContentControlRegionAdapter>();
 #if UNO_WINUI
