@@ -116,7 +116,7 @@ namespace Prism.Avalonia.Tests.Regions
             Assert.Contains("R1", ex.Message);
         }
 
-        [StaFact]
+        [StaFact(DisplayName = "Flaky test, runs alone but not in a group")]
         public void RegisterViewWithRegion_ShouldHaveViewModel_ByDefault()
         {
             ViewModelLocatorFixture.ResetViewModelLocationProvider();
@@ -139,7 +139,7 @@ namespace Prism.Avalonia.Tests.Regions
             Assert.IsType<Mocks.ViewModels.MockViewModel>(view.DataContext);
         }
 
-        [StaFact]
+        [StaFact(DisplayName = "Flaky test, runs alone but not in a group")]
         public void RegisterViewWithRegion_ShouldNotHaveViewModel_OnOptOut()
         {
             ViewModelLocatorFixture.ResetViewModelLocationProvider();

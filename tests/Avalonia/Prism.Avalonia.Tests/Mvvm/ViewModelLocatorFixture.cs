@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using Prism.Mvvm;
 using Prism.Avalonia.Tests.Mocks.ViewModels;

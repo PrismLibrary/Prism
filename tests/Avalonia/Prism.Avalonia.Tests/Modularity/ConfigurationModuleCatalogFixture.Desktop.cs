@@ -1,4 +1,6 @@
+using System;
 using System.Configuration;
+using System.Linq;
 using Prism.Avalonia.Tests.Mocks;
 using Prism.Modularity;
 using Xunit;

@@ -32,6 +32,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\..\src\Wpf\Prism.Wpf\Mvvm\*.cs" LinkBase="Mvvm" />
+    <Using Include="Prism.Extensions" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Modularity\ModuleCatalogXaml\InvalidDependencyModuleCatalog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>

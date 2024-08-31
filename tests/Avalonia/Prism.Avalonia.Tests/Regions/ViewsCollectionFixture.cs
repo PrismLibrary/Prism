@@ -1,4 +1,4 @@
-﻿// NOTE:
+// NOTE:
 //  Avalonia.Data.CollectionViewSource control does not exist in Avalonia.
 //  This feature was apart of a legacy build:
 //  https://github.com/grokys/Avalonia/blob/master/Avalonia/Data/CollectionViewSource.cs
@@ -7,7 +7,9 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using Prism.Avalonia.Tests.Mocks;
+using Prism.Navigation.Regions;
 using Xunit;
 
 namespace Prism.Avalonia.Tests.Regions

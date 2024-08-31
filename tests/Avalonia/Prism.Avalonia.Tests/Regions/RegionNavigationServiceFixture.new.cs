@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using Avalonia.Controls;
 using Moq;
 using Prism.Ioc;
+using Prism.Navigation;
+using Prism.Navigation.Regions;
 using Xunit;
 namespace Prism.Avalonia.Tests.Regions
 {

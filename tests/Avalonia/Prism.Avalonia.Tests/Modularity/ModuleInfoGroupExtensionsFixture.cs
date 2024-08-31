@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Prism.Ioc;
 using Prism.Modularity;
 using Xunit;

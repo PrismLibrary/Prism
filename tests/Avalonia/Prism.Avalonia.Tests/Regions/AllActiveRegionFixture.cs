@@ -1,4 +1,6 @@
-﻿using Xunit;
+using System;
+using Prism.Navigation.Regions;
+using Xunit;
 
 namespace Prism.Avalonia.Tests.Regions
 {

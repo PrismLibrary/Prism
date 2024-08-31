@@ -17,7 +17,6 @@ Prism.Avalonia helps you more easily design and build rich, flexible, and easy t
     <Reference Include="System.Configuration" />
   </ItemGroup>
 
-  <!--<ItemGroup Condition=" $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' ">-->
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netcore')) OR $(TargetFramework.StartsWith('net6')) OR $(TargetFramework.StartsWith('net7')) OR $(TargetFramework.StartsWith('net8'))">
     <Compile Remove="**\*.net45.cs" />
     <None Include="**\*.net45.cs" />
@@ -31,11 +30,13 @@ Prism.Avalonia helps you more easily design and build rich, flexible, and easy t
     <Using Include="Prism.Extensions" />
   </ItemGroup>
 
+  <!--
   <ItemGroup>
-    <!-- We probably don't want to support this in Avalonia projects keeping for now -->
+    < ! - - We probably don't want to support this in Avalonia projects keeping for now - - >
     <Compile Remove="PrismBootstrapperBase.cs" />
     <None Include="PrismBootstrapperBase.cs" />
   </ItemGroup>
+  -->
 
   <ItemGroup>
     <Reference Include="PresentationFramework" />

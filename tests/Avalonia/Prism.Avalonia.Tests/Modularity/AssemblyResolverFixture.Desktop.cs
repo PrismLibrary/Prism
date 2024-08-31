@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Prism.Modularity;
 using Xunit;
 

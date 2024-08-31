@@ -1,4 +1,4 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 using Prism.Mvvm;
 
 namespace Prism.Avalonia.Tests.Mocks.Views

@@ -1,3 +1,4 @@
+using Prism.Navigation.Regions;
 using Prism.Avalonia.Tests.Mocks;
 using Prism.Navigation.Regions.Behaviors;
 using Xunit;

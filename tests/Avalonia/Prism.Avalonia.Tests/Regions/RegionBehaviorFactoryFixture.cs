@@ -2,6 +2,9 @@ using Prism.Avalonia.Tests.Mocks;
 using Moq;
 using Prism.Ioc;
 using Xunit;
+using Prism.Navigation.Regions;
+using System.Linq;
+using System;
 
 namespace Prism.Avalonia.Tests.Regions
 {

@@ -1,9 +1,11 @@
-﻿using Prism.Navigation.Regions;
+using Prism.Navigation.Regions;
 using Prism.Avalonia.Tests.Mocks;
 using Avalonia.Controls;
 using Moq;
 using Prism.Ioc;
 using Xunit;
+using System;
+using System.Collections.Generic;
 
 namespace Prism.Avalonia.Tests.Regions
 {
