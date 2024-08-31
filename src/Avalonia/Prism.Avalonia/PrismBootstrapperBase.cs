@@ -106,7 +106,7 @@ namespace Prism
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
             if (_moduleCatalog == null)
-                throw new InvalidOperationException("IModuleCatalog");
+                throw new InvalidOperationException("IModuleCatalog was null");
 
             containerRegistry.RegisterRequiredTypes(_moduleCatalog);
         }

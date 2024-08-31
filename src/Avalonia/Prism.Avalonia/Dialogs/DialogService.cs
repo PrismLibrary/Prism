@@ -82,7 +82,7 @@ namespace Prism.Dialogs
         {
             var content = _containerExtension.Resolve<object>(dialogName);
             if (!(content is Avalonia.Controls.Control dialogContent))
-                throw new NullReferenceException("A dialog's content must be a FrameworkElement");
+                throw new NullReferenceException("A dialog's content must be an Avalonia.Controls.Control");
 
             MvvmHelpers.AutowireViewModel(dialogContent);
 
