@@ -1,6 +1,11 @@
-﻿using Avalonia.Controls;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Avalonia.Controls;
 using Moq;
 using Prism.Avalonia.Tests.Mvvm;
+using Prism.Ioc;
+using Prism.Navigation.Regions;
 using Xunit;
 
 namespace Prism.Avalonia.Tests.Regions

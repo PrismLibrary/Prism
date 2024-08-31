@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Prism.Ioc;
 
 namespace Prism.Avalonia.Tests.Mocks
@@ -106,14 +108,14 @@ namespace Prism.Avalonia.Tests.Mocks
         public object Resolve(Type type)
         {
             object resolvedInstance;
-            if (!this.ResolvedInstances.ContainsKey(type))
+            if (!ResolvedInstances.ContainsKey(type))
             {
                 resolvedInstance = Activator.CreateInstance(type);
-                this.ResolvedInstances.Add(type, resolvedInstance);
+                ResolvedInstances.Add(type, resolvedInstance);
             }
             else
             {
-                resolvedInstance = this.ResolvedInstances[type];
+                resolvedInstance = ResolvedInstances[type];
             }
 
             return resolvedInstance;

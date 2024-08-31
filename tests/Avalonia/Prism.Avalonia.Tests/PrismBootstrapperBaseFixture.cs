@@ -1,4 +1,4 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Controls;
 using Moq;
 using Prism.Events;
@@ -7,6 +7,8 @@ using Prism.Modularity;
 using Prism.Dialogs;
 using Xunit;
 using Prism.Navigation.Regions.Behaviors;
+using Prism.Navigation.Regions;
+using System;
 
 namespace Prism
 {

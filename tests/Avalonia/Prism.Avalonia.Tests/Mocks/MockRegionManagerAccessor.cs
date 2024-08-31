@@ -1,4 +1,6 @@
+using System;
 using Avalonia;
+using Prism.Navigation.Regions;
 
 namespace Prism.Avalonia.Tests.Mocks
 {
@@ -11,30 +13,26 @@ namespace Prism.Avalonia.Tests.Mocks
 
         string IRegionManagerAccessor.GetRegionName(AvaloniaObject element)
         {
-            return this.GetRegionName(element);
+            return GetRegionName(element);
         }
 
         IRegionManager IRegionManagerAccessor.GetRegionManager(AvaloniaObject element)
         {
-            if (this.GetRegionManager != null)
-            {
-                return this.GetRegionManager(element);
-            }
+            if (GetRegionManager != null)
+                return GetRegionManager(element);
 
             return null;
         }
 
         public void UpdateRegions()
         {
-            if (this.UpdatingRegions != null)
-            {
-                this.UpdatingRegions(this, EventArgs.Empty);
-            }
+            if (UpdatingRegions != null)
+                UpdatingRegions(this, EventArgs.Empty);
         }
 
         public int GetSubscribersCount()
         {
-            return this.UpdatingRegions != null ? this.UpdatingRegions.GetInvocationList().Length : 0;
+            return UpdatingRegions != null ? UpdatingRegions.GetInvocationList().Length : 0;
         }
     }
 }

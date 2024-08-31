@@ -412,7 +412,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		tests\Avalonia\Prism.Container.Avalonia.Shared\Prism.Container.Avalonia.Shared.projitems*{03b9c775-9582-409f-b67f-6b8a0ce0c7af}*SharedItemsImports = 5
-		tests\Forms\Prism.DI.Forms.Tests\Prism.DI.Forms.Tests.projitems*{089c5e84-52c3-409e-924c-bd8f4833594b}*SharedItemsImports = 5
 		tests\Wpf\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.projitems*{367be810-5b34-4894-be47-1c8dcc67de81}*SharedItemsImports = 5
 		tests\Avalonia\Prism.Container.Avalonia.Shared\Prism.Container.Avalonia.Shared.projitems*{6fda7d49-df44-4e8f-a182-0eb73dd3c452}*SharedItemsImports = 13
 		tests\Wpf\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.projitems*{ba05687e-2317-4a65-805b-c596f52f7203}*SharedItemsImports = 5

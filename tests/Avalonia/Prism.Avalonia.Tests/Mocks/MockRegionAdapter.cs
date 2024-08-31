@@ -1,4 +1,6 @@
-﻿using Avalonia;
+using System.Collections.Generic;
+using Avalonia;
+using Prism.Navigation.Regions;
 
 namespace Prism.Avalonia.Tests.Mocks
 {
@@ -15,7 +17,7 @@ namespace Prism.Avalonia.Tests.Mocks
             RegionManager.GetObservableRegion(regionTarget as AvaloniaObject).Value = region;
 
             // Fire update regions again. This also happens if a region is created and added to the regionmanager
-            if (this.Accessor != null)
+            if (Accessor != null)
                 Accessor.UpdateRegions();
 
             return region;

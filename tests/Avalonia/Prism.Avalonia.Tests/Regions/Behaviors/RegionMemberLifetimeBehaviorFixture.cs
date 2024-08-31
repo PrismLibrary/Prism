@@ -1,5 +1,6 @@
-﻿using Moq;
+using Moq;
 using Prism.Avalonia.Tests.Mocks;
+using Prism.Navigation.Regions;
 using Prism.Navigation.Regions.Behaviors;
 using Xunit;
 
@@ -7,8 +8,9 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
 {
     public class RegionMemberLifetimeBehaviorFixture
     {
-        protected Region Region { get; set; }
-        protected RegionMemberLifetimeBehavior Behavior { get; set; }
+        protected Region Region { get; set; } = new();
+
+        protected RegionMemberLifetimeBehavior Behavior { get; set; } = new();
 
         public RegionMemberLifetimeBehaviorFixture()
         {

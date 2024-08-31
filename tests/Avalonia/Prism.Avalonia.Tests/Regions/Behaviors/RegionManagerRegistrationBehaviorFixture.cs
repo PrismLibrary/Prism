@@ -1,6 +1,12 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Prism.Avalonia.Tests.Mocks;
+using Prism.Ioc;
+using Prism.Navigation;
+using Prism.Navigation.Regions;
 using Prism.Navigation.Regions.Behaviors;
 using Xunit;
 
@@ -228,7 +234,7 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
 
             public IRegionCollection Regions
             {
-                get { return this.MockRegionCollection; }
+                get { return MockRegionCollection; }
             }
 
             IRegionManager IRegionManager.CreateRegionManager()

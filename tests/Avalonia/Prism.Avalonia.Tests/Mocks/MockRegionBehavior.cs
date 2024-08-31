@@ -1,3 +1,6 @@
+using System;
+using Prism.Navigation.Regions;
+
 namespace Prism.Avalonia.Tests.Mocks
 {
     public class MockRegionBehavior : IRegionBehavior

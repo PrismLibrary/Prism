@@ -1,6 +1,9 @@
-﻿using Avalonia.Controls;
+using System;
+using System.Linq;
+using Avalonia.Controls;
 using Avalonia.Data;
 using Prism.Avalonia.Tests.Mocks;
+using Prism.Navigation.Regions;
 using Xunit;
 
 namespace Prism.Avalonia.Tests.Regions

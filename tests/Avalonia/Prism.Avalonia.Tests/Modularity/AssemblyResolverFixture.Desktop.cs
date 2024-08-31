@@ -1,4 +1,5 @@
-﻿using Prism.Modularity;
+using System;
+using Prism.Modularity;
 using Xunit;
 
 namespace Prism.Avalonia.Tests.Modularity

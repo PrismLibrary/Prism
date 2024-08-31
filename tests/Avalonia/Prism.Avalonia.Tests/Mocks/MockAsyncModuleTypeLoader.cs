@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using Prism.Modularity;
 
 namespace Prism.Avalonia.Tests.Mocks
@@ -26,7 +28,7 @@ namespace Prism.Avalonia.Tests.Mocks
             {
                 Thread.Sleep(SleepTimeOut);
 
-                this.RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(moduleInfo, CallbackArgumentError));
+                RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(moduleInfo, CallbackArgumentError));
                 callbackEvent.Set();
             });
             retrieverThread.Start();
@@ -36,14 +38,14 @@ namespace Prism.Avalonia.Tests.Mocks
 
         private void RaiseLoadModuleProgressChanged(ModuleDownloadProgressChangedEventArgs e)
         {
-            this.ModuleDownloadProgressChanged?.Invoke(this, e);
+            ModuleDownloadProgressChanged?.Invoke(this, e);
         }
 
         public event EventHandler<LoadModuleCompletedEventArgs> LoadModuleCompleted;
 
         private void RaiseLoadModuleCompleted(LoadModuleCompletedEventArgs e)
         {
-            this.LoadModuleCompleted?.Invoke(this, e);
+            LoadModuleCompleted?.Invoke(this, e);
         }
     }
 }

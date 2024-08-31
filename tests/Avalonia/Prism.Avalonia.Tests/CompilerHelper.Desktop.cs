@@ -11,6 +11,10 @@ using Xunit;
 
 namespace Prism.Avalonia.Tests
 {
+    // Warning:
+    //  CompileCode() method is not supported by .NET 6
+    //  DotNet Runtime Issue 18768 - https://github.com/dotnet/runtime/issues/18768#issuecomment-265381303
+    // Workaround: Upgrade to RosylnCompiler (https://github.com/npolyak/RoslynAssembly)
     public class CompilerHelper
     {
         private static string moduleTemplate =

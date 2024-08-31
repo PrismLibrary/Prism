@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Prism.Modularity;
 
 namespace Prism.Avalonia.Tests.Mocks
@@ -15,27 +17,27 @@ namespace Prism.Avalonia.Tests.Mocks
 
         public void LoadModuleType(IModuleInfo moduleInfo)
         {
-            this.LoadedModules.Add(moduleInfo);
-            this.RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(moduleInfo, this.LoadCompletedError));
+            LoadedModules.Add(moduleInfo);
+            RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(moduleInfo, LoadCompletedError));
         }
 
         public event EventHandler<ModuleDownloadProgressChangedEventArgs> ModuleDownloadProgressChanged;
 
         public void RaiseLoadModuleProgressChanged(ModuleDownloadProgressChangedEventArgs e)
         {
-            this.ModuleDownloadProgressChanged?.Invoke(this, e);
+            ModuleDownloadProgressChanged?.Invoke(this, e);
         }
 
         public event EventHandler<LoadModuleCompletedEventArgs> LoadModuleCompleted;
 
         public void RaiseLoadModuleCompleted(ModuleInfo moduleInfo, Exception error)
         {
-            this.RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(moduleInfo, error));
+            RaiseLoadModuleCompleted(new LoadModuleCompletedEventArgs(moduleInfo, error));
         }
 
         public void RaiseLoadModuleCompleted(LoadModuleCompletedEventArgs e)
         {
-            this.LoadModuleCompleted?.Invoke(this, e);
+            LoadModuleCompleted?.Invoke(this, e);
         }
     }
 }

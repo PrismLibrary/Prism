@@ -1,10 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Specialized;
 using System.Linq;
 using Moq;
 using Prism.Ioc;
 using Prism.Avalonia.Tests.Mocks;
 using Xunit;
+using Prism.Navigation.Regions;
+using Prism.Navigation;
 
 namespace Prism.Avalonia.Tests.Regions
 {

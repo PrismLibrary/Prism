@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+using System;
+using System.ComponentModel;
+using Prism.Navigation;
+using Prism.Navigation.Regions;
 
 namespace Prism.Avalonia.Tests.Mocks
 {
@@ -38,7 +41,7 @@ namespace Prism.Avalonia.Tests.Mocks
 
         public IRegionManager Add(object view)
         {
-            this.views.Add(view);
+            views.Add(view);
             return null;
         }
 

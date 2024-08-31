@@ -1,4 +1,6 @@
-﻿namespace Prism.Avalonia.Tests.Mocks
+using Prism.Navigation.Regions;
+
+namespace Prism.Avalonia.Tests.Mocks
 {
     [ViewSortHint("01")]
     internal class MockSortableView1

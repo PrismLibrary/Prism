@@ -1,6 +1,8 @@
-﻿using Avalonia.Controls;
+using System;
+using Avalonia.Controls;
 using Moq;
 using Prism.Ioc;
+using Prism.Navigation.Regions;
 using Xunit;
 using static Prism.Avalonia.Tests.Regions.LocatorNavigationTargetHandlerFixture;
 

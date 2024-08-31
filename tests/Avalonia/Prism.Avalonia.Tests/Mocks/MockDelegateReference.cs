@@ -1,3 +1,4 @@
+using System;
 using Prism.Events;
 
 namespace Prism.Avalonia.Tests.Mocks

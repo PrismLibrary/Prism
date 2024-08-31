@@ -1,5 +1,9 @@
-﻿using Moq;
+using System;
+using System.Collections.Generic;
+using Moq;
 using Prism.Avalonia.Tests.Mocks;
+using Prism.Ioc;
+using Prism.Navigation.Regions;
 using Prism.Navigation.Regions.Behaviors;
 using Xunit;
 
@@ -96,13 +100,13 @@ namespace Prism.Avalonia.Tests.Regions.Behaviors
             public IEnumerable<object> GetContents(string regionName, IContainerProvider container)
             {
                 GetContentsCalled = true;
-                this.GetContentsArgumentRegionName = regionName;
-                return this.GetContentsReturnValue;
+                GetContentsArgumentRegionName = regionName;
+                return GetContentsReturnValue;
             }
 
             public void RaiseContentRegistered(string regionName, object view)
             {
-                this.ContentRegistered(this, new ViewRegisteredEventArgs(regionName, _ => view));
+                ContentRegistered(this, new ViewRegisteredEventArgs(regionName, _ => view));
             }
 
             public void RegisterViewWithRegion(string regionName, Type viewType)

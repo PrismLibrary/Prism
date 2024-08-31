@@ -1,9 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 using Moq;
 using Prism.Avalonia.Tests.Mocks;
 using Prism.Ioc;
+using Prism.Navigation.Regions;
 using Xunit;
 
 namespace Prism.Avalonia.Tests.Regions

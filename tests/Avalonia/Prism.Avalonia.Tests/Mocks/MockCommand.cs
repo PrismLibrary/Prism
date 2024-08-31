@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Input;
 
 namespace Prism.Avalonia.Tests.Mocks
@@ -27,8 +28,8 @@ namespace Prism.Avalonia.Tests.Mocks
 
         public void RaiseCanExecuteChanged()
         {
-            if (this.CanExecuteChanged != null)
-                this.CanExecuteChanged(this, EventArgs.Empty);
+            if (CanExecuteChanged != null)
+                CanExecuteChanged(this, EventArgs.Empty);
         }
     }
 }

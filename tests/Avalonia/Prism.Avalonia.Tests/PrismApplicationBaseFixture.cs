@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +12,7 @@ using Prism.Modularity;
 using Prism.Dialogs;
 using Xunit;
 using Prism.Navigation.Regions.Behaviors;
+using Prism.Navigation.Regions;
 
 namespace Prism.Avalonia.Tests
 {

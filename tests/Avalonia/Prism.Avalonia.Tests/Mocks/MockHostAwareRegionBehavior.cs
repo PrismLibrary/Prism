@@ -1,4 +1,5 @@
-﻿using Avalonia;
+using Avalonia;
+using Prism.Navigation.Regions;
 using Prism.Navigation.Regions.Behaviors;
 
 namespace Prism.Avalonia.Tests.Mocks

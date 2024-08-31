@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using DryIoc;
 using Prism.Container.DryIoc;
 using Prism.Ioc;

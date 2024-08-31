@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+using System;
+using System.ComponentModel;
+using Prism.Navigation;
+using Prism.Navigation.Regions;
 
 namespace Prism.Avalonia.Tests.Mocks
 {

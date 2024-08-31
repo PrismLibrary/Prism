@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
@@ -36,8 +37,8 @@ namespace Prism.Avalonia.Tests.Interactivity
         /// </summary>
         public bool AutoEnable
         {
-            get { return (bool)this.GetValue(AutoEnableProperty); }
-            set { this.SetValue(AutoEnableProperty, value); }
+            get { return (bool)GetValue(AutoEnableProperty); }
+            set { SetValue(AutoEnableProperty, value); }
         }
 
         public ICommand? Command { get; set; }
@@ -365,7 +366,7 @@ namespace Prism.Avalonia.Tests.Interactivity
     {
         public TestEventArgs(string name)
         {
-            this.Thing1 = new Thing1 { Thing2 = new Thing2 { Name = name } };
+            Thing1 = new Thing1 { Thing2 = new Thing2 { Name = name } };
         }
 
         public Thing1 Thing1 { get; set; }

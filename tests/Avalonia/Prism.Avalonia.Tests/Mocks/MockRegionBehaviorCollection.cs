@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using Prism.Navigation.Regions;
 
 namespace Prism.Avalonia.Tests.Mocks
 {

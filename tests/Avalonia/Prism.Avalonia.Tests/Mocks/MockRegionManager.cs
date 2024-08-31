@@ -1,4 +1,9 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Prism.Ioc;
+using Prism.Navigation;
+using Prism.Navigation.Regions;
 
 namespace Prism.Avalonia.Tests.Mocks
 {
@@ -113,7 +118,7 @@ namespace Prism.Avalonia.Tests.Mocks
 
         void IRegionCollection.Add(IRegion region)
         {
-            this.Add(region);
+            Add(region);
         }
 
         public bool Remove(string regionName)
