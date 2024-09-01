@@ -1,0 +1,86 @@
+# Copyright CURRENT_YEAR COMPANY_NAME
+# Template for C#
+
+# Generic Visual Studio files
+*.bak
+*.csproj.user
+*.suo
+*.vshost.exe
+*.vshost.exe.manifest
+*.exe.config
+*.exp
+*.lib
+*.pdb
+*.pfx
+*.user
+*.vbw
+*.scc
+*.oca
+*.userprefs
+*.userosscache
+*.sln.docstates
+*.autorecover
+*.coverage
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+
+# SQLite datbases
+*.db3
+
+# Xamarin.Android Resource.Designer.cs files
+**/*.Android/**/[Rr]esource.[Dd]esigner.cs
+**/*.Droid/**/[Rr]esource.[Dd]esigner.cs
+**/Android/**/[Rr]esource.[Dd]esigner.cs
+**/Droid/**/[Rr]esource.[Dd]esigner.cs
+
+# Build results
+[Oo]utput/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+.vs/
+
+# NuGet Packages
+*.nupkg
+## The packages folder can be ignored because of Package Restore
+**/packages/*
+## Except build/, which is used as an MSBuild target.
+!**/packages/build/
+## Uncomment if necessary however generally it will be regenerated when needed
+!**/packages/repositories.config
+## NuGet v3's project.json files produces more ignorable files
+*.nuget.props
+*.nuget.targets
+
+# NUnit
+*.VisualState.xml
+TestResult.xml
+
+# Installer Folder
+/installer/*.exe
+!/installer/autorun.exe
+
+# Lib folder
+/lib/*
+!/lib/readme.txt
+!/lib/readme.md
+
+# Output
+!/[Oo]utput/readme.txt
+!/[Oo]utput/readme.md
+
+## USER DEFINED
+/[Dd]ocs/*.csv
+/[Dd]ocs/backup
+/[Tt]ools
