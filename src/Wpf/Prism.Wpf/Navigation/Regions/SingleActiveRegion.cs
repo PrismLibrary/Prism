@@ -3,7 +3,7 @@ namespace Prism.Navigation.Regions
     /// <summary>
     /// Region that allows a maximum of one active view at a time.
     /// </summary>
-    public class SingleActiveRegion : Region
+    public class SingleActiveRegion(object target) : Region(target)
     {
         /// <summary>
         /// Marks the specified view as active.

@@ -5,7 +5,7 @@ namespace Prism.Navigation.Regions
     /// <summary>
     /// Region that keeps all the views in it as active. Deactivation of views is not allowed.
     /// </summary>
-    public class AllActiveRegion : Region
+    public class AllActiveRegion(object target) : Region(target)
     {
         /// <summary>
         /// Gets a readonly view of the collection of all the active views in the region. These are all the added views.

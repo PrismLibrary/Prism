@@ -35,7 +35,7 @@ namespace Prism.Navigation.Regions
             if (regionName == null)
                 throw new ArgumentNullException(nameof(regionName));
 
-            IRegion region = CreateRegion();
+            IRegion region = CreateRegion(regionTarget);
             region.Name = regionName;
 
             SetObservableRegionOnHostingControl(region, regionTarget);
@@ -121,7 +121,7 @@ namespace Prism.Navigation.Regions
         /// that will be used to adapt the object.
         /// </summary>
         /// <returns>A new instance of <see cref="IRegion"/>.</returns>
-        protected abstract IRegion CreateRegion();
+        protected abstract IRegion CreateRegion(object regionTarget);
 
         private static T GetCastedObject(object regionTarget)
         {

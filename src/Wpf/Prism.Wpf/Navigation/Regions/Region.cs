@@ -8,7 +8,7 @@ namespace Prism.Navigation.Regions
     /// <summary>
     /// Implementation of <see cref="IRegion"/> that allows multiple active views.
     /// </summary>
-    public class Region : IRegion
+    public class Region : ITargetAwareRegion
     {
         private ObservableCollection<ItemMetadata> _itemMetadataCollection;
         private string _name;
@@ -23,12 +23,19 @@ namespace Prism.Navigation.Regions
         /// <summary>
         /// Initializes a new instance of <see cref="Region"/>.
         /// </summary>
-        public Region()
+        /// <param name="target">The target view of the Region</param>
+        public Region(object target)
         {
             Behaviors = new RegionBehaviorCollection(this);
+            Target = target;
 
             _sort = DefaultSortComparison;
         }
+
+        /// <summary>
+        /// Gets the target view of the Region.
+        /// </summary>
+        public object Target { get; }
 
         /// <summary>
         /// Occurs when a property value changes.

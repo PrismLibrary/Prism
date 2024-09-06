@@ -111,7 +111,7 @@ namespace Prism.Wpf.Tests.Regions
 
             private MockPresentationRegion region = new MockPresentationRegion();
 
-            protected override IRegion CreateRegion()
+            protected override IRegion CreateRegion(object regionTarget)
             {
                 return region;
             }

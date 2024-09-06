@@ -131,7 +131,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         public void WhenParentViewGetsActivatedOrDeactivated_ThenChildViewIsNotUpdated()
         {
             var scopedRegionManager = new RegionManager();
-            var scopedRegion = new Region { Name = "MyScopedRegion", RegionManager = scopedRegionManager };
+            var scopedRegion = new Region(new ContentControl()) { Name = "MyScopedRegion", RegionManager = scopedRegionManager };
             scopedRegionManager.Regions.Add(scopedRegion);
             var behaviorForScopedRegion = new RegionActiveAwareBehavior { Region = scopedRegion };
             behaviorForScopedRegion.Attach();
@@ -160,7 +160,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         public void WhenParentViewGetsActivatedOrDeactivated_ThenSyncedChildViewIsUpdated()
         {
             var scopedRegionManager = new RegionManager();
-            var scopedRegion = new Region { Name = "MyScopedRegion", RegionManager = scopedRegionManager };
+            var scopedRegion = new Region(new ContentControl()) { Name = "MyScopedRegion", RegionManager = scopedRegionManager };
             scopedRegionManager.Regions.Add(scopedRegion);
             var behaviorForScopedRegion = new RegionActiveAwareBehavior { Region = scopedRegion };
             behaviorForScopedRegion.Attach();
@@ -189,7 +189,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         public void WhenParentViewGetsActivatedOrDeactivated_ThenSyncedChildViewWithAttributeInVMIsUpdated()
         {
             var scopedRegionManager = new RegionManager();
-            var scopedRegion = new Region { Name = "MyScopedRegion", RegionManager = scopedRegionManager };
+            var scopedRegion = new Region(new ContentControl()) { Name = "MyScopedRegion", RegionManager = scopedRegionManager };
             scopedRegionManager.Regions.Add(scopedRegion);
             var behaviorForScopedRegion = new RegionActiveAwareBehavior { Region = scopedRegion };
             behaviorForScopedRegion.Attach();
@@ -219,7 +219,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         public void WhenParentViewGetsActivatedOrDeactivated_ThenSyncedChildViewModelThatIsNotAFrameworkElementIsNotUpdated()
         {
             var scopedRegionManager = new RegionManager();
-            var scopedRegion = new Region { Name = "MyScopedRegion", RegionManager = scopedRegionManager };
+            var scopedRegion = new Region(new ContentControl()) { Name = "MyScopedRegion", RegionManager = scopedRegionManager };
             scopedRegionManager.Regions.Add(scopedRegion);
             var behaviorForScopedRegion = new RegionActiveAwareBehavior { Region = scopedRegion };
             behaviorForScopedRegion.Attach();
@@ -248,7 +248,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         public void WhenParentViewGetsActivatedOrDeactivated_ThenSyncedChildViewNotInActiveViewsIsNotUpdated()
         {
             var scopedRegionManager = new RegionManager();
-            var scopedRegion = new Region { Name = "MyScopedRegion", RegionManager = scopedRegionManager };
+            var scopedRegion = new Region(new ContentControl()) { Name = "MyScopedRegion", RegionManager = scopedRegionManager };
             scopedRegionManager.Regions.Add(scopedRegion);
             var behaviorForScopedRegion = new RegionActiveAwareBehavior { Region = scopedRegion };
             behaviorForScopedRegion.Attach();
@@ -281,7 +281,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         public void WhenParentViewWithoutScopedRegionGetsActivatedOrDeactivated_ThenSyncedChildViewIsNotUpdated()
         {
             var commonRegionManager = new RegionManager();
-            var nonScopedRegion = new Region { Name = "MyRegion", RegionManager = commonRegionManager };
+            var nonScopedRegion = new Region(new ContentControl()) { Name = "MyRegion", RegionManager = commonRegionManager };
             commonRegionManager.Regions.Add(nonScopedRegion);
             var behaviorForScopedRegion = new RegionActiveAwareBehavior { Region = nonScopedRegion };
             behaviorForScopedRegion.Attach();

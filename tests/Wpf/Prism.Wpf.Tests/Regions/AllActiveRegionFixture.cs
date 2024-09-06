@@ -12,7 +12,7 @@ namespace Prism.Wpf.Tests.Regions
         public void AddingViewsToRegionMarksThemAsActive()
         {
             ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
-            IRegion region = new AllActiveRegion();
+            IRegion region = new AllActiveRegion(new ItemsControl());
             var view = new object();
 
             region.Add(view);
@@ -25,7 +25,7 @@ namespace Prism.Wpf.Tests.Regions
         {
             var ex = Assert.Throws<InvalidOperationException>(() =>
             {
-                IRegion region = new AllActiveRegion();
+                IRegion region = new AllActiveRegion(new ItemsControl());
                 var view = new object();
                 region.Add(view);
 

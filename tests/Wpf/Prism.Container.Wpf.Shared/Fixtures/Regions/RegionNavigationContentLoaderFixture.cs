@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Prism.Ioc;
 using Prism.IocContainer.Wpf.Tests.Support.Mocks.Views;
 using Prism.Navigation.Regions;
@@ -31,7 +31,7 @@ namespace Prism.Container.Wpf.Tests.Regions
 
             // We cannot access the UnityRegionNavigationContentLoader directly so we need to call its
             // GetCandidatesFromRegion method through a navigation request.
-            IRegion testRegion = new Region();
+            IRegion testRegion = new Region(new ContentControl());
 
             MockView view = new MockView();
             testRegion.Add(view);
@@ -54,7 +54,7 @@ namespace Prism.Container.Wpf.Tests.Regions
 
             // We cannot access the Container specific RegionNavigationContentLoader directly so we need to call its
             // GetCandidatesFromRegion method through a navigation request.
-            IRegion testRegion = new Region();
+            IRegion testRegion = new Region(new ContentControl());
 
             var view = _container.Resolve<object>("SomeView") as MockView;
             testRegion.Add(view);
