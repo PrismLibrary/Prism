@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using Prism.Ioc;
 
 namespace Prism.Navigation.Regions.Behaviors;
@@ -61,7 +61,7 @@ public class AutoPopulateRegionBehavior : RegionBehavior
                 var registration = registry.Registrations.FirstOrDefault(x => x.View == type);
                 if (registration is not null)
                 {
-                    var view = registry.CreateView(container, registration.Name) as VisualElement;
+                    var view = registry.CreateView(container, registration.Name);
                     Region.Add(view);
                 }
             }

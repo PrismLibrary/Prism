@@ -11,7 +11,7 @@ namespace Prism.Wpf.Tests.Regions
         public void ActivatingNewViewDeactivatesCurrent()
         {
             ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
-            IRegion region = new SingleActiveRegion();
+            IRegion region = new SingleActiveRegion(new ContentControl());
             var view = new object();
             region.Add(view);
             region.Activate(view);

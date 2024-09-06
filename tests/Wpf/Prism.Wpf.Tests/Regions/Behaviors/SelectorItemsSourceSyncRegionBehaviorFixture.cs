@@ -208,7 +208,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
         private SelectorItemsSourceSyncBehavior CreateBehavior()
         {
-            Region region = new Region();
+            Region region = new Region(new ContentControl());
             Selector selector = new TabControl();
 
             var behavior = new SelectorItemsSourceSyncBehavior();

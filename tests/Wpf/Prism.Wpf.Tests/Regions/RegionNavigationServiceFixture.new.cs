@@ -19,7 +19,7 @@ namespace Prism.Wpf.Tests.Regions
             object view = new object();
             Uri viewUri = new Uri(view.GetType().Name, UriKind.Relative);
 
-            IRegion region = new Region();
+            IRegion region = new Region(new ContentControl());
             region.Add(view);
 
             string regionName = "RegionName";
@@ -55,7 +55,7 @@ namespace Prism.Wpf.Tests.Regions
             object view = new object();
             Uri viewUri = new Uri(view.GetType().Name + "?MyQuery=true", UriKind.Relative);
 
-            IRegion region = new Region();
+            IRegion region = new Region(new ContentControl());
             region.Add(view);
 
             string regionName = "RegionName";
@@ -91,7 +91,7 @@ namespace Prism.Wpf.Tests.Regions
             object view = new object();
             Uri viewUri = new Uri(view.GetType().Name, UriKind.Relative);
 
-            IRegion region = new Region();
+            IRegion region = new Region(new ContentControl());
             region.Add(view);
 
             string otherType = "OtherType";
@@ -129,7 +129,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenNavigatingWithNullUri_Throws()
         {
             // Prepare
-            IRegion region = new Region();
+            IRegion region = new Region(new ContentControl());
 
             var containerMock = new Mock<IContainerExtension>();
             containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
@@ -157,7 +157,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenNavigatingAndViewImplementsINavigationAware_ThenNavigatedIsInvokedOnNavigation()
         {
             // Prepare
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var viewMock = new Mock<INavigationAware>();
             viewMock.Setup(ina => ina.IsNavigationTarget(It.IsAny<NavigationContext>())).Returns(true);
@@ -189,7 +189,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenNavigatingAndDataContextImplementsINavigationAware_ThenNavigatedIsInvokesOnNavigation()
         {
             // Prepare
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             Mock<FrameworkElement> mockFrameworkElement = new Mock<FrameworkElement>();
             Mock<INavigationAware> mockINavigationAwareDataContext = new Mock<INavigationAware>();
@@ -224,7 +224,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenNavigatingAndBothViewAndDataContextImplementINavigationAware_ThenNavigatedIsInvokesOnNavigation()
         {
             // Prepare
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             Mock<FrameworkElement> mockFrameworkElement = new Mock<FrameworkElement>();
             Mock<INavigationAware> mockINavigationAwareView = mockFrameworkElement.As<INavigationAware>();
@@ -266,7 +266,7 @@ namespace Prism.Wpf.Tests.Regions
             object view = new object();
             Uri viewUri = new Uri(view.GetType().Name, UriKind.Relative);
 
-            IRegion region = new Region();
+            IRegion region = new Region(new ContentControl());
             region.Add(view);
 
             string regionName = "RegionName";
@@ -306,7 +306,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenNavigatingAndCurrentlyActiveViewImplementsINavigateWithVeto_ThenNavigationRequestQueriesForVeto()
         {
             // Prepare
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var viewMock = new Mock<IConfirmNavigationRequest>();
             viewMock
@@ -342,7 +342,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenNavigating_ThenNavigationRequestQueriesForVetoOnAllActiveViewsIfAllSucceed()
         {
             // Prepare
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var view1Mock = new Mock<IConfirmNavigationRequest>();
             view1Mock
@@ -403,7 +403,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenRequestNavigateAwayAcceptsThroughCallback_ThenNavigationProceeds()
         {
             // Prepare
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var view1Mock = new Mock<IConfirmNavigationRequest>();
             view1Mock
@@ -448,7 +448,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenRequestNavigateAwayRejectsThroughCallback_ThenNavigationDoesNotProceed()
         {
             // Prepare
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var view1Mock = new Mock<IConfirmNavigationRequest>();
             view1Mock
@@ -493,7 +493,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenNavigatingAndDataContextOnCurrentlyActiveViewImplementsINavigateWithVeto_ThenNavigationRequestQueriesForVeto()
         {
             // Prepare
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var viewModelMock = new Mock<IConfirmNavigationRequest>();
             viewModelMock
@@ -533,7 +533,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenRequestNavigateAwayOnDataContextAcceptsThroughCallback_ThenNavigationProceeds()
         {
             // Prepare
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var view1DataContextMock = new Mock<IConfirmNavigationRequest>();
             view1DataContextMock
@@ -580,7 +580,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenRequestNavigateAwayOnDataContextRejectsThroughCallback_ThenNavigationDoesNotProceed()
         {
             // Prepare
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var view1DataContextMock = new Mock<IConfirmNavigationRequest>();
             view1DataContextMock
@@ -626,7 +626,7 @@ namespace Prism.Wpf.Tests.Regions
         [Fact]
         public void WhenViewAcceptsNavigationOutAfterNewIncomingRequestIsReceived_ThenOriginalRequestIsIgnored()
         {
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var viewMock = new Mock<IConfirmNavigationRequest>();
             var view = viewMock.Object;
@@ -678,7 +678,7 @@ namespace Prism.Wpf.Tests.Regions
         [StaFact]
         public void WhenViewModelAcceptsNavigationOutAfterNewIncomingRequestIsReceived_ThenOriginalRequestIsIgnored()
         {
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var viewModelMock = new Mock<IConfirmNavigationRequest>();
 
@@ -738,7 +738,7 @@ namespace Prism.Wpf.Tests.Regions
             object view = new object();
             Uri viewUri = new Uri(view.GetType().Name, UriKind.Relative);
 
-            IRegion region = new Region();
+            IRegion region = new Region(new ContentControl());
             region.Add(view);
 
             string regionName = "RegionName";
@@ -782,7 +782,7 @@ namespace Prism.Wpf.Tests.Regions
             object view = new object();
             Uri viewUri = new Uri(view.GetType().Name, UriKind.Relative);
 
-            IRegion region = new Region();
+            IRegion region = new Region(new ContentControl());
             region.Add(view);
 
             string regionName = "RegionName";
@@ -838,7 +838,7 @@ namespace Prism.Wpf.Tests.Regions
                 .Setup(v => v.ConfirmNavigationRequest(It.IsAny<NavigationContext>(), It.IsAny<Action<bool>>()))
                 .Callback<NavigationContext, Action<bool>>((nc, c) => { navigationCallback = c; });
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
             region.Add(viewMock.Object);
             region.Activate(viewMock.Object);
 
@@ -859,7 +859,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenNavigatingFromViewThatIsNavigationAware_ThenNotifiesActiveViewNavigatingFrom()
         {
             // Arrange
-            var region = new Region();
+            var region = new Region(new ContentControl());
             var viewMock = new Mock<INavigationAware>();
             var view = viewMock.Object;
             region.Add(view);
@@ -896,7 +896,7 @@ namespace Prism.Wpf.Tests.Regions
 
             bool navigationFromInvoked = false;
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var viewMock = new Mock<INavigationAware>();
             viewMock
@@ -936,7 +936,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenNavigatingFromActiveViewWithNavigatinAwareDataConext_NotifiesContextOfNavigatingFrom()
         {
             // Arrange
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var mockDataContext = new Mock<INavigationAware>();
 
@@ -974,7 +974,7 @@ namespace Prism.Wpf.Tests.Regions
         [Fact]
         public void WhenNavigatingWithNullCallback_ThenThrows()
         {
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var navigationUri = new Uri("/", UriKind.Relative);
             IContainerExtension container = new Mock<IContainerExtension>().Object;
@@ -1019,7 +1019,7 @@ namespace Prism.Wpf.Tests.Regions
 
             RegionNavigationService target = new RegionNavigationService(container, contentLoader, journal)
             {
-                Region = new Region()
+                Region = new Region(new ContentControl())
             };
 
             Exception error = null;
@@ -1034,7 +1034,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenNavigationFailsBecauseTheContentViewCannotBeRetrieved_ThenNavigationFailedIsRaised()
         {
             // Prepare
-            var region = new Region { Name = "RegionName" };
+            var region = new Region(new ContentControl()) { Name = "RegionName" };
 
             var containerMock = new Mock<IContainerExtension>();
             containerMock.Setup(x => x.Resolve(typeof(IRegionNavigationJournalEntry))).Returns(new RegionNavigationJournalEntry());
@@ -1076,7 +1076,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenNavigationFailsBecauseActiveViewRejectsIt_ThenNavigationFailedIsRaised()
         {
             // Prepare
-            var region = new Region { Name = "RegionName" };
+            var region = new Region(new ContentControl()) { Name = "RegionName" };
 
             var view1Mock = new Mock<IConfirmNavigationRequest>();
             view1Mock
@@ -1136,7 +1136,7 @@ namespace Prism.Wpf.Tests.Regions
         public void WhenNavigationFailsBecauseDataContextForActiveViewRejectsIt_ThenNavigationFailedIsRaised()
         {
             // Prepare
-            var region = new Region { Name = "RegionName" };
+            var region = new Region(new ContentControl()) { Name = "RegionName" };
 
             var viewModel1Mock = new Mock<IConfirmNavigationRequest>();
             viewModel1Mock

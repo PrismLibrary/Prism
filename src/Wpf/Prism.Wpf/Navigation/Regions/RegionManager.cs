@@ -67,6 +67,40 @@ namespace Prism.Navigation.Regions
             return regionTarget.GetValue(RegionNameProperty) as string;
         }
 
+        /// <summary>
+        /// Sets the DefaultView on the specified region
+        /// </summary>
+        public static readonly DependencyProperty DefaultViewProperty =
+            DependencyProperty.RegisterAttached("DefaultView", typeof(object), typeof(RegionManager), null);
+
+        /// <summary>
+        /// Gets the Default View Instance, Type or Name
+        /// </summary>
+        /// <param name="regionTarget">The Region Target View</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static object GetDefaultView(DependencyObject regionTarget)
+        {
+            if (regionTarget == null)
+                throw new ArgumentNullException(nameof(regionTarget));
+
+            return regionTarget.GetValue(DefaultViewProperty);
+        }
+
+        /// <summary>
+        /// Sets the Default Region View Instance, Type or Name.
+        /// </summary>
+        /// <param name="regionTarget">The Region Target.</param>
+        /// <param name="viewNameTypeOrInstance">The view instance, type or name.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static void SetDefaultView(DependencyObject regionTarget, object viewNameTypeOrInstance)
+        {
+            if (regionTarget == null)
+                throw new ArgumentNullException(nameof(regionTarget));
+
+            regionTarget.SetValue(DefaultViewProperty, viewNameTypeOrInstance);
+        }
+
         private static readonly DependencyProperty ObservableRegionProperty =
             DependencyProperty.RegisterAttached("ObservableRegion", typeof(ObservableObject<IRegion>), typeof(RegionManager), null);
 

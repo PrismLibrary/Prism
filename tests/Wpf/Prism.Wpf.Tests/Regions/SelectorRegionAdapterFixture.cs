@@ -108,9 +108,9 @@ namespace Prism.Wpf.Tests.Regions
             }
 
 
-            protected override IRegion CreateRegion()
+            protected override IRegion CreateRegion(object regionTarget)
             {
-                return new Region();
+                return new Region(regionTarget);
             }
         }
     }

@@ -27,8 +27,8 @@ public sealed class NavigationViewRegionAdapter : RegionAdapterBase<NavigationVi
         };
     }
 
-    protected override IRegion CreateRegion()
+    protected override IRegion CreateRegion(object regionTarget)
     {
-        return new SingleActiveRegion();
+        return new SingleActiveRegion(regionTarget);
     }
 }

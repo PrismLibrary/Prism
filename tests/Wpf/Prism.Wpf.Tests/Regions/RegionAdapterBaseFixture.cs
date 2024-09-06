@@ -94,7 +94,7 @@ namespace Prism.Wpf.Tests.Regions
                 adaptArgumentRegionTarget = regionTarget;
             }
 
-            protected override IRegion CreateRegion()
+            protected override IRegion CreateRegion(object regionTarget)
             {
                 return CreateRegionReturnValue;
             }

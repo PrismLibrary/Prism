@@ -44,6 +44,22 @@ namespace Prism.Navigation.Regions.Behaviors
                 AddViewIntoRegion(view);
             }
 
+            if (Region is ITargetAwareRegion targetAware && targetAware.Target is FrameworkElement target 
+                && target.GetValue(RegionManager.DefaultViewProperty) != null)
+            {
+                var defaultView = target.GetValue(RegionManager.DefaultViewProperty);
+                if (defaultView is string targetName)
+                    Region.Add(targetName);
+                else if (defaultView is UIElement element)
+                    Region.Add(element);
+                else if (defaultView is Type type)
+                {
+                    var container = ContainerLocator.Container;
+                    var view = container.Resolve(type);
+                    Region.Add(view);
+                }
+            }
+
             regionViewRegistry.ContentRegistered += OnViewRegistered;
         }
 

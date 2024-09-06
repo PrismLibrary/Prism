@@ -19,7 +19,7 @@ namespace Prism.Wpf.Tests.Regions
             var containerMock = new Mock<IContainerExtension>();
             ContainerLocator.SetContainerExtension(containerMock.Object);
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var view = new TestView();
 
@@ -48,7 +48,7 @@ namespace Prism.Wpf.Tests.Regions
             var containerMock = new Mock<IContainerExtension>();
             ContainerLocator.SetContainerExtension(containerMock.Object);
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var view1 = new TestView();
             var view2 = new Test2View();
@@ -79,7 +79,7 @@ namespace Prism.Wpf.Tests.Regions
             var containerMock = new Mock<IContainerExtension>();
             ContainerLocator.SetContainerExtension(containerMock.Object);
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var view1 = new TestView();
             var view2 = new Test2View();
@@ -110,7 +110,7 @@ namespace Prism.Wpf.Tests.Regions
             var containerMock = new Mock<IContainerExtension>();
             ContainerLocator.SetContainerExtension(containerMock.Object);
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var viewMock = new Mock<INavigationAware>();
             viewMock
@@ -144,7 +144,7 @@ namespace Prism.Wpf.Tests.Regions
             var containerMock = new Mock<IContainerExtension>();
             ContainerLocator.SetContainerExtension(containerMock.Object);
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var dataContextMock = new Mock<INavigationAware>();
             dataContextMock
@@ -180,7 +180,7 @@ namespace Prism.Wpf.Tests.Regions
             var containerMock = new Mock<IContainerExtension>();
             ContainerLocator.SetContainerExtension(containerMock.Object);
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var view = new TestView();
 
@@ -210,7 +210,7 @@ namespace Prism.Wpf.Tests.Regions
             var containerMock = new Mock<IContainerExtension>();
             ContainerLocator.SetContainerExtension(containerMock.Object);
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var viewMock = new Mock<INavigationAware>();
             viewMock
@@ -248,7 +248,7 @@ namespace Prism.Wpf.Tests.Regions
             var containerMock = new Mock<IContainerExtension>();
             ContainerLocator.SetContainerExtension(containerMock.Object);
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var dataContextMock = new Mock<INavigationAware>();
             dataContextMock
@@ -285,7 +285,7 @@ namespace Prism.Wpf.Tests.Regions
 
             containerMock.Setup(sl => sl.Resolve(typeof(object), typeof(TestView).Name)).Throws<ActivationException>();
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var navigationContext = new NavigationContext(null, new Uri(typeof(TestView).Name, UriKind.Relative));
 
@@ -308,7 +308,7 @@ namespace Prism.Wpf.Tests.Regions
             var containerMock = new Mock<IContainerExtension>();
             ContainerLocator.SetContainerExtension(containerMock.Object);
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var view = new TestView();
 
@@ -352,7 +352,7 @@ namespace Prism.Wpf.Tests.Regions
             var containerMock = new Mock<IContainerExtension>();
             ContainerLocator.SetContainerExtension(containerMock.Object);
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
 
             var navigationTargetHandler = new TestRegionNavigationContentLoader(containerMock.Object);
 

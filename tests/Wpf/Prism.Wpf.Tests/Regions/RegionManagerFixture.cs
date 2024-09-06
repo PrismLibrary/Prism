@@ -237,8 +237,8 @@ namespace Prism.Wpf.Tests.Regions
             ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             var regionManager = new RegionManager();
 
-            var region1 = new Region { Name = "region1" };
-            var region2 = new Region { Name = "region2" };
+            var region1 = new Region(new ContentControl()) { Name = "region1" };
+            var region2 = new Region(new ContentControl()) { Name = "region2" };
 
             NotifyCollectionChangedEventArgs args = null;
             regionManager.Regions.CollectionChanged += (s, e) => args = e;
@@ -266,8 +266,8 @@ namespace Prism.Wpf.Tests.Regions
             ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             var regionManager = new RegionManager();
 
-            var region1 = new Region { Name = "region1" };
-            var region2 = new Region { Name = "region2" };
+            var region1 = new Region(new ContentControl()) { Name = "region1" };
+            var region2 = new Region(new ContentControl()) { Name = "region2" };
 
             regionManager.Regions.Add(region1);
             regionManager.Regions.Add(region2);
@@ -298,7 +298,7 @@ namespace Prism.Wpf.Tests.Regions
             ContainerLocator.SetContainerExtension(Mock.Of<IContainerExtension>());
             var regionManager = new RegionManager();
 
-            var region1 = new Region { Name = "region1" };
+            var region1 = new Region(new ContentControl()) { Name = "region1" };
 
             regionManager.Regions.Add(region1);
 

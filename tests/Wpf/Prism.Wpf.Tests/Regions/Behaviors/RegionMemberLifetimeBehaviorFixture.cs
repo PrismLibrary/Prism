@@ -21,10 +21,10 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
 
         protected virtual void Arrange()
         {
-            this.Region = new Region();
-            this.Behavior = new RegionMemberLifetimeBehavior();
-            this.Behavior.Region = this.Region;
-            this.Behavior.Attach();
+            Region = new Region(new ContentControl());
+            Behavior = new RegionMemberLifetimeBehavior();
+            Behavior.Region = Region;
+            Behavior.Attach();
         }
 
         [Fact]
@@ -257,10 +257,10 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
     {
         protected override void Arrange()
         {
-            this.Region = new SingleActiveRegion();
-            this.Behavior = new RegionMemberLifetimeBehavior();
-            this.Behavior.Region = this.Region;
-            this.Behavior.Attach();
+            Region = new SingleActiveRegion(new ContentControl());
+            Behavior = new RegionMemberLifetimeBehavior();
+            Behavior.Region = Region;
+            Behavior.Attach();
         }
     }
 }

@@ -56,9 +56,9 @@ namespace Prism.Navigation.Regions
         /// Creates a new instance of <see cref="AllActiveRegion"/>.
         /// </summary>
         /// <returns>A new instance of <see cref="AllActiveRegion"/>.</returns>
-        protected override IRegion CreateRegion()
+        protected override IRegion CreateRegion(object regionTarget)
         {
-            return new AllActiveRegion();
+            return new AllActiveRegion(regionTarget);
         }
     }
 }

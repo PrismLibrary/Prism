@@ -15,7 +15,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         {
             var regionManager = new MockRegionManager();
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
             region.RegionManager = regionManager;
 
             var behavior = new ClearChildViewsRegionBehavior();
@@ -37,7 +37,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         {
             var regionManager = new MockRegionManager();
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
             region.RegionManager = regionManager;
 
             var behavior = new ClearChildViewsRegionBehavior();
@@ -61,7 +61,7 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
         {
             var regionManager = new MockRegionManager();
 
-            var region = new Region();
+            var region = new Region(new ContentControl());
             region.RegionManager = regionManager;
 
             var behavior = new ClearChildViewsRegionBehavior();

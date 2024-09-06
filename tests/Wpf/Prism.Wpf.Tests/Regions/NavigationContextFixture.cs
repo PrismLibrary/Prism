@@ -17,7 +17,7 @@ namespace Prism.Wpf.Tests.Regions
             var navigationJournalMock = new Mock<IRegionNavigationJournal>();
             var navigationServiceMock = new Mock<IRegionNavigationService>();
 
-            IRegion region = new Region();
+            IRegion region = new Region(new ContentControl());
             navigationServiceMock.SetupGet(n => n.Region).Returns(region);
             navigationServiceMock.SetupGet(x => x.Journal).Returns(navigationJournalMock.Object);
 
