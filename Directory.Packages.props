@@ -64,7 +64,6 @@
     <PackageVersion Include="Avalonia.Diagnostics" Version="11.1.3" />
     <PackageVersion Include="Avalonia.LinuxFramebuffer" Version="11.1.3" />
     <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="11.1.3" />
-    <PackageVersion Include="Avalonia.ReactiveUI" Version="11.1.3" />     <!-- Remove Avalonia.ReactiveUI -->
     <PackageVersion Include="Avalonia.Themes.Simple" Version="11.1.3" />
     <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.1.3" />
     <PackageVersion Include="Avalonia.Fonts.Inter" Version="11.1.3" />
