@@ -1,13 +1,41 @@
+using Prism.Commands;
+using Prism.Navigation.Regions;
+
+using SampleApp.Views;
+
 namespace SampleApp.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public MainWindowViewModel()
+    private readonly IRegionManager _regionManager;
+    private bool _isPaneOpened;
+
+    public MainWindowViewModel(IRegionManager regionManager)
     {
-        Title = "Welcome to Prism.Avalonia!";
+        // Since this is a basic ShellWindow, there's not much to do here.
+        // For enterprise apps, you could register up subscriptions
+        // or other startup background tasks so that they get triggered
+        // on startup, rather than putting them in the DashboardViewModel.
+        //
+        // For example, initiate the pulling of News Feeds, etc.
+
+        _regionManager = regionManager;
+        Title = "Sample Prism.Avalonia SplitView!";
+        IsPaneOpened = true;
     }
 
-#pragma warning disable CA1822 // Mark members as static
-    public string Greeting => "Hello from, Prism.Avalonia!";
-#pragma warning restore CA1822 // Mark members as static
+    public DelegateCommand CmdDashboard => new(() =>
+    {
+        // _journal.Clear();
+        _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(DashboardView));
+    });
+
+    public DelegateCommand CmdFlyoutMenu => new(() =>
+    {
+        IsPaneOpened = !IsPaneOpened;
+    });
+
+    public DelegateCommand CmdSettings => new(() => _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(SettingsView)));
+
+    public bool IsPaneOpened { get => _isPaneOpened; set => SetProperty(ref _isPaneOpened, value); }
 }
