@@ -3,11 +3,11 @@
              x:Class="SampleApp.App"
              RequestedThemeVariant="Default">
   <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-  
   <Application.Styles>
     <FluentTheme />
 
     <!-- Custom SVG glyphs -->
-    <StyleInclude Source="avares://SampleApp/Styles/Icons.axaml" />
+    <!-- NOTE: The namespace may be 'SampleApp' but Assembly name is, 'PrismAvaloniaDemo' -->
+    <StyleInclude Source="avares://PrismAvaloniaDemo/Styles/Icons.axaml" />
   </Application.Styles>
 </Application>
