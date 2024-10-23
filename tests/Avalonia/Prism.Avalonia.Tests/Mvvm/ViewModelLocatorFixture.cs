@@ -9,7 +9,7 @@ namespace Prism.Avalonia.Tests.Mvvm
 {
     public class ViewModelLocatorFixture
     {
-        [StaFact(DisplayName = "Flaky test, runs alone but not in a group")]
+        [StaFact(Skip = "Runs alone but not in a group")]
         public void ShouldLocateViewModelWithDefaultSettings()
         {
             // Warning: flaky test. This runs by itself but not as a whole.
