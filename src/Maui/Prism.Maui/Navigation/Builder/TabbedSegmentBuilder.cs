@@ -73,6 +73,11 @@ internal class TabbedSegmentBuilder : ITabbedSegmentBuilder, IConfigurableSegmen
         return AddSegmentParameter(KnownNavigationParameters.SelectedTab, segmentName);
     }
 
+    public ITabbedSegmentBuilder Title(string title)
+    {
+        return AddSegmentParameter(KnownNavigationParameters.Title, title);
+    }
+
     private string BuildSegment()
     {
         if (!_parameters.Any())
