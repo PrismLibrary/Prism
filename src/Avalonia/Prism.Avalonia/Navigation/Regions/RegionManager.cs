@@ -377,7 +377,7 @@ namespace Prism.Navigation.Regions
         /// <param name="regionName">The name of the region where the navigation will occur.</param>
         /// <param name="target">A Uri that represents the target where the region will navigate.</param>
         /// <param name="navigationCallback">The navigation callback that will be executed after the navigation is completed.</param>
-        /// <param name="navigationParameters">An instance of <see cref="NavigationParameters">, which holds a collection of object parameters.</param>
+        /// <param name="navigationParameters">An instance of <see cref="NavigationParameters"/>, which holds a collection of object parameters.</param>
         public void RequestNavigate(string regionName, Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters)
         {
             if (navigationCallback == null)

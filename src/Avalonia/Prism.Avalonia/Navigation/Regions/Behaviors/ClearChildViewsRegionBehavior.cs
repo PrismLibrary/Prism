@@ -1,4 +1,4 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Controls;
 using Prism.Navigation.Regions;
 using System;
@@ -52,9 +52,7 @@ namespace Prism.Navigation.Regions.Behaviors
             target.SetValue(ClearChildViewsRegionBehavior.ClearChildViewsProperty, value);
         }
 
-        /// <summary>
-        /// Subscribes to the <see cref="Region"/>'s PropertyChanged method to monitor its <see cref="RegionManager"> property.
-        /// </summary>
+        /// <summary>Subscribes to the <see cref="Region"/>'s PropertyChanged method to monitor its <see cref="RegionManager"/> property.</summary>
         protected override void OnAttach()
         {
             Region.PropertyChanged += Region_PropertyChanged;

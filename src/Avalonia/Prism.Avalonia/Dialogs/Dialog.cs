@@ -1,13 +1,11 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Styling;
 using Prism.Extensions;
 
 namespace Prism.Dialogs
 {
-    /// <summary>
-    /// This class contains <see cref="IDialogWindow"/> attached properties.
-    /// </summary>
+    /// <summary>This class contains <see cref="IDialogWindow"/> attached properties.</summary>
     public class Dialog
     {
         /// <summary>Identifies the WindowStyle attached property.</summary>
@@ -22,6 +20,7 @@ namespace Prism.Dialogs
                 name: "WindowStartupLocation",
                 ownerType: typeof(Dialog));
 
+        /// <summary>Creates an instance of the Dialog class.</summary>
         public Dialog()
         {
             WindowStartupLocationProperty.Changed.Subscribe(args => OnWindowStartupLocationChanged(args?.Sender, args));

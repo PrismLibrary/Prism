@@ -15,17 +15,13 @@ namespace Prism
         private IContainerExtension _containerExtension;
         private IModuleCatalog _moduleCatalog;
 
-        // FROM Prism.Avalonia7.1.2
+        /// <summary>Main window.</summary>
         public AvaloniaObject MainWindow { get; private set; }
 
-        /// <summary>
-        /// The dependency injection container used to resolve objects
-        /// </summary>
+        /// <summary>The dependency injection container used to resolve objects.</summary>
         public IContainerProvider Container => _containerExtension;
 
-        /// <summary>
-        /// Configures the <see cref="Prism.Mvvm.ViewModelLocator"/> used by Prism.
-        /// </summary>
+        /// <summary>Configures the <see cref="Prism.Mvvm.ViewModelLocator"/> used by Prism.</summary>
         protected virtual void ConfigureViewModelLocator()
         {
             PrismInitializationExtensions.ConfigureViewModelLocator();
@@ -75,6 +71,7 @@ namespace Prism
             OnInitialized();
         }
 
+        /// <summary>Framework initialization has completed.</summary>
         public override void OnFrameworkInitializationCompleted()
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
@@ -85,26 +82,18 @@ namespace Prism
             base.OnFrameworkInitializationCompleted();
         }
 
-        /// <summary>
-        /// Creates the container used by Prism.
-        /// </summary>
+        /// <summary>Creates the container used by Prism.</summary>
         /// <returns>The container</returns>
         protected abstract IContainerExtension CreateContainerExtension();
 
-        /// <summary>
-        /// Creates the <see cref="IModuleCatalog"/> used by Prism.
-        /// </summary>
-        ///  <remarks>
-        /// The base implementation returns a new ModuleCatalog.
-        /// </remarks>
+        /// <summary>Creates the <see cref="IModuleCatalog"/> used by Prism.</summary>
+        ///  <remarks>The base implementation returns a new ModuleCatalog.</remarks>
         protected virtual IModuleCatalog CreateModuleCatalog()
         {
             return new ModuleCatalog();
         }
 
-        /// <summary>
-        /// Registers all types that are required by Prism to function with the container.
-        /// </summary>
+        /// <summary>Registers all types that are required by Prism to function with the container.</summary>
         /// <param name="containerRegistry"></param>
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {

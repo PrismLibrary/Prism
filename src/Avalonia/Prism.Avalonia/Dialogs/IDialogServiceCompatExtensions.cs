@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Avalonia.Controls;
 
 namespace Prism.Dialogs
@@ -9,6 +9,8 @@ namespace Prism.Dialogs
         /// <summary>Shows a non-modal dialog.</summary>
         /// <param name="dialogService">The DialogService</param>
         /// <param name="name">The name of the dialog to show.</param>
+        /// <param name="parameters">Parameters that the dialog can use for custom functionality.</param>
+        /// <param name="callback">The action to be invoked upon successful or failed completion of displaying the dialog.</param>
         public static void Show(this IDialogService dialogService, string name, IDialogParameters parameters, Action<IDialogResult> callback)
         {
             parameters = EnsureShowNonModalParameter(parameters);

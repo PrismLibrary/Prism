@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -20,6 +20,10 @@ namespace Prism.Dialogs
             _containerExtension = containerExtension;
         }
 
+        /// <summary>Show dialog.</summary>
+        /// <param name="name">Name of the dialog window to show.</param>
+        /// <param name="parameters"><see cref="IDialogParameters"/>.</param>
+        /// <param name="callback">The action to perform when the dialog is closed.</param>
         public void ShowDialog(string name, IDialogParameters parameters, DialogCallback callback)
         {
             parameters ??= new DialogParameters();
