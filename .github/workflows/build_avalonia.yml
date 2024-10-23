@@ -1,0 +1,25 @@
+name: build_avalonia
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - .github/workflows/build_forms.yml
+      - Directory.Build.props
+      - Directory.Build.targets
+      - Directory.Packages.props
+      - xunit.runner.json
+      - 'src/Prism.Core/**'
+      - 'src/Prism.Events/**'
+      - 'tests/Prism.Core.Tests/**'
+      - 'src/Avalonia/**'
+      - 'tests/Avalonia/**'
+
+jobs:
+  build-prism-wpf:
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
+    with:
+      name: Build Prism.Avalonia
+      solution-path: PrismLibrary_Avalonia.slnf
