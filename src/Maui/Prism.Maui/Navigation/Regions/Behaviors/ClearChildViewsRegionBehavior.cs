@@ -1,4 +1,4 @@
-﻿namespace Prism.Navigation.Regions.Behaviors;
+namespace Prism.Navigation.Regions.Behaviors;
 
 /// <summary>
 /// Behavior that removes the RegionManager attached property of all the views in a region once the RegionManager property of a region becomes null.
@@ -28,8 +28,7 @@ public class ClearChildViewsRegionBehavior : RegionBehavior
     /// <returns>The value of the ClearChildViews attached property in the target specified.</returns>
     public static bool GetClearChildViews(BindableObject target)
     {
-        if (target == null)
-            throw new ArgumentNullException(nameof(target));
+        ArgumentNullException.ThrowIfNull(target);
 
         return (bool)target.GetValue(ClearChildViewsProperty);
     }
@@ -41,8 +40,7 @@ public class ClearChildViewsRegionBehavior : RegionBehavior
     /// <param name="value">The value of to set in the target object's ClearChildViews attached property.</param>
     public static void SetClearChildViews(BindableObject target, bool value)
     {
-        if (target == null)
-            throw new ArgumentNullException(nameof(target));
+        ArgumentNullException.ThrowIfNull(target);
 
         target.SetValue(ClearChildViewsProperty, value);
     }

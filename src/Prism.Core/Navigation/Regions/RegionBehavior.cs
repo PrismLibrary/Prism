@@ -1,4 +1,3 @@
-using System;
 using Prism.Properties;
 
 namespace Prism.Navigation.Regions
@@ -8,7 +7,7 @@ namespace Prism.Navigation.Regions
     /// </summary>
     public abstract class RegionBehavior : IRegionBehavior
     {
-        private IRegion region;
+        private IRegion _region;
 
         /// <summary>
         /// Behavior's attached region.
@@ -17,16 +16,16 @@ namespace Prism.Navigation.Regions
         {
             get
             {
-                return region;
+                return _region;
             }
             set
             {
-                if (this.IsAttached)
+                if (IsAttached)
                 {
                     throw new InvalidOperationException(Resources.RegionBehaviorRegionCannotBeSetAfterAttach);
                 }
 
-                this.region = value;
+                _region = value;
             }
         }
 
@@ -40,7 +39,7 @@ namespace Prism.Navigation.Regions
         /// </summary>
         public void Attach()
         {
-            if (this.region == null)
+            if (Region == null)
             {
                 throw new InvalidOperationException(Resources.RegionBehaviorAttachCannotBeCallWithNullRegion);
             }

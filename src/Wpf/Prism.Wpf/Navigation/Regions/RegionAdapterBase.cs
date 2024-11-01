@@ -87,8 +87,7 @@ namespace Prism.Navigation.Regions
 
                         if (dependencyObjectRegionTarget != null)
                         {
-                            IHostAwareRegionBehavior hostAwareRegionBehavior = behavior as IHostAwareRegionBehavior;
-                            if (hostAwareRegionBehavior != null)
+                            if (behavior is IHostAwareRegionBehavior hostAwareRegionBehavior)
                             {
                                 hostAwareRegionBehavior.HostControl = dependencyObjectRegionTarget;
                             }
