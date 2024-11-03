@@ -95,13 +95,7 @@
         <Using Include="Avalonia.Controls.ApplicationLifetimes" />
         <Using Include="Avalonia.Controls.Primitives" />
         <Using Include="Avalonia.Interactivity" />
-        <Using Include="Avalonia.Markup.Xaml"/>
-        <!--
-        <Using Include="Avalonia.Metadata" />
-        <Using Include="Avalonia.Threading" />
-        <Using Include="Avalonia.Styling" />
-        <Using Include="Avalonia.VisualTree" />
-        -->
+        <Using Include="Avalonia.Markup.Xaml" />
         <Using Include="Avalonia.Controls.Control" Alias="FrameworkElement" />
         <Using Include="Avalonia.AvaloniaObject" Alias="DependencyObject" />
         <Using Include="Avalonia.AvaloniaPropertyChangedEventArgs" Alias="DependencyPropertyChangedEventArgs" />
