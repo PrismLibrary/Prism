@@ -418,7 +418,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         TimeSpan timeSinceLastNav = DateTime.Now - _lastNavigate;
         if (timeSinceLastNav < _minTimeBetweenNavigations)
         {
-            await Task.Delay(_minTimeBetweenNavigations - timePassedSinceLastNav);
+            await Task.Delay(_minTimeBetweenNavigations - timeSinceLastNav);
         }
     }
 
