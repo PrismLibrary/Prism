@@ -47,4 +47,10 @@
     <ProjectReference Include="..\Prism.Avalonia\Prism.Avalonia.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\..\Wpf\Prism.DryIoc.Wpf\GlobalSuppressions.cs" LinkBase="" />
+    <Compile Include="..\..\Wpf\Prism.DryIoc.Wpf\PrismApplication.cs" LinkBase="" />
+    <Compile Include="..\..\Wpf\Prism.DryIoc.Wpf\PrismBootstrapper.cs" LinkBase="" />
+  </ItemGroup>
+
 </Project>
