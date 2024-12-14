@@ -44,7 +44,6 @@ namespace Prism
         internal static void RegisterDefaultRegionBehaviors(this IRegionBehaviorFactory regionBehaviors)
         {
 #if AVALONIA
-            //// Avalonia to WPF Equivilant: BindRegionContextToAvaloniaObjectBehavior == BindRegionContextToDependencyObjectBehavior
             regionBehaviors.AddIfMissing<BindRegionContextToAvaloniaObjectBehavior>(BindRegionContextToAvaloniaObjectBehavior.BehaviorKey);
 #else
             regionBehaviors.AddIfMissing<BindRegionContextToDependencyObjectBehavior>(BindRegionContextToDependencyObjectBehavior.BehaviorKey);

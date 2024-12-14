@@ -26,6 +26,8 @@ Prism.Avalonia helps you more easily design and build rich, flexible, and easy t
     <Compile Include="..\..\Wpf\Prism.Wpf\PrismInitializationExtensions.cs" Link="PrismInitializationExtensions.cs" />
     <Compile Include="..\..\Wpf\Prism.Wpf\Ioc\*.cs" LinkBase="Ioc" />
     <Compile Include="..\..\Wpf\Prism.Wpf\Mvvm\*.cs" LinkBase="Mvvm" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Navigation\Regions\AllActiveRegion.cs" LinkBase="Navigation\Regions" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Navigation\Regions\ContentControlRegionAdapter.cs" LinkBase="Navigation\Regions" />
 
     <Using Include="Prism.Extensions" />
   </ItemGroup>
