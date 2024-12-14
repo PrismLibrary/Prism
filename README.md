@@ -13,9 +13,9 @@ The Prism Team would first and foremost like to thank all of those developers wh
 | Full Build | [![Prism CI](https://github.com/PrismLibrary/Prism/actions/workflows/ci.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/ci.yml) |
 | Prism.Core | [![build_core](https://github.com/PrismLibrary/Prism/actions/workflows/build_core.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_core.yml) |
 | Prism.Wpf | [![build_wpf](https://github.com/PrismLibrary/Prism/actions/workflows/build_wpf.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_wpf.yml) |
-| Prism.Forms | [![build_forms](https://github.com/PrismLibrary/Prism/actions/workflows/build_forms.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_forms.yml) |
 | Prism.Uno | [![build_uno](https://github.com/PrismLibrary/Prism/actions/workflows/build_uno.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_uno.yml) |
 | Prism.Maui | [![build_maui](https://github.com/PrismLibrary/Prism/actions/workflows/build_maui.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_maui.yml) |
+| Prism.Avalonia | [![build_avalonia](https://github.com/PrismLibrary/Prism/actions/workflows/build_avalonia.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_avalonia.yml) |
 
 ## Support
 
