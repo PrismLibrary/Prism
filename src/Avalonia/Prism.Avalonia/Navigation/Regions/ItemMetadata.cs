@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Avalonia;
 using Prism.Extensions;
 
@@ -36,16 +36,16 @@ namespace Prism.Navigation.Regions
         /// <value>The name of the wrapped item.</value>
         public string Name
         {
-            get { return GetValue(NameProperty); }
-            set { SetValue(NameProperty, value); }
+            get => (string)GetValue(NameProperty);
+            set => SetValue(NameProperty, value);
         }
 
         /// <summary>Gets or sets a value indicating whether the wrapped item is considered active.</summary>
         /// <value><see langword="true" /> if the item should be considered active; otherwise <see langword="false" />.</value>
         public bool IsActive
         {
-            get { return GetValue(IsActiveProperty); }
-            set { SetValue(IsActiveProperty, value); }
+            get => (bool)GetValue(IsActiveProperty);
+            set => SetValue(IsActiveProperty, value);
         }
 
         /// <summary>Occurs when metadata on the item changes.</summary>

@@ -30,6 +30,8 @@ namespace Prism.Navigation.Regions
             if (regionTarget == null)
                 throw new ArgumentNullException(nameof(regionTarget));
 
+            // NOTE: In Avalonia, regionTarget.ItemsSource will not be null. Keep it rollin' baby!
+#if !AVALONIA
             bool itemsSourceIsSet = regionTarget.ItemsSource != null;
             itemsSourceIsSet = itemsSourceIsSet || regionTarget.HasBinding(ItemsControl.ItemsSourceProperty);
 
@@ -50,6 +52,31 @@ namespace Prism.Navigation.Regions
             }
 
             regionTarget.ItemsSource = region.Views;
+#else
+            // If control has child items, move them to the region and then bind control to region. Can't set ItemsSource if child items exist.
+            if (regionTarget.ItemCount > 0)
+            {
+                foreach (object childItem in regionTarget.Items)
+                    region.Add(childItem);
+
+                // Control must be empty before setting ItemsSource
+                regionTarget.Items.Clear();
+            }
+
+            // Detect when an item has been added/removed to the ItemsControl's backing region. Copy
+            // all items to a new collection and bind to the region's ItemsSource
+            region.Views.CollectionChanged += (s, e) =>
+            {
+                var enumerator = region.Views.GetEnumerator();
+                List<object> items = new();
+                while (enumerator.MoveNext())
+                {
+                    items.Add(enumerator.Current);
+                }
+
+                regionTarget.ItemsSource = items;
+            };
+#endif
         }
 
         /// <summary>

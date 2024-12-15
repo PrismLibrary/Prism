@@ -3,6 +3,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Properties;
 
+#if AVALONIA
+using Avalonia;
+#endif
+
 namespace Prism.Navigation.Regions
 {
     /// <summary>
@@ -213,7 +217,11 @@ namespace Prism.Navigation.Regions
         /// Adds a new view to the region.
         /// </summary>
         /// <param name="viewName">The view to add.</param>
+#if !AVALONIA
         /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="DependencyObject"/>. It will be the current region manager when using this overload.</returns>
+#else
+        /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="AvaloniaObject"/>. It will be the current region manager when using this overload.</returns>
+#endif
         public IRegionManager Add(string viewName)
         {
             var view = ContainerLocator.Container.Resolve<object>(viewName);
@@ -225,7 +233,12 @@ namespace Prism.Navigation.Regions
         /// Adds a new view to the region.
         /// </summary>
         /// <param name="view">The view to add.</param>
+
+#if !AVALONIA
         /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="DependencyObject"/>. It will be the current region manager when using this overload.</returns>
+#else
+        /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="AvaloniaObject"/>. It will be the current region manager when using this overload.</returns>
+#endif
         public IRegionManager Add(object view)
         {
             return Add(view, null, false);
@@ -236,7 +249,12 @@ namespace Prism.Navigation.Regions
         /// </summary>
         /// <param name="view">The view to add.</param>
         /// <param name="viewName">The name of the view. This can be used to retrieve it later by calling <see cref="IRegion.GetView"/>.</param>
+
+#if !AVALONIA
         /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="DependencyObject"/>. It will be the current region manager when using this overload.</returns>
+#else
+        /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="AvaloniaObject"/>. It will be the current region manager when using this overload.</returns>
+#endif
         public IRegionManager Add(object view, string viewName)
         {
             if (string.IsNullOrEmpty(viewName))
@@ -253,7 +271,12 @@ namespace Prism.Navigation.Regions
         /// <param name="view">The view to add.</param>
         /// <param name="viewName">The name of the view. This can be used to retrieve it later by calling <see cref="IRegion.GetView"/>.</param>
         /// <param name="createRegionManagerScope">When <see langword="true"/>, the added view will receive a new instance of <see cref="IRegionManager"/>, otherwise it will use the current region manager for this region.</param>
+
+#if !AVALONIA
         /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="DependencyObject"/>.</returns>
+#else
+        /// <returns>The <see cref="IRegionManager"/> that is set on the view if it is a <see cref="AvaloniaObject"/>.</returns>
+#endif
         public virtual IRegionManager Add(object view, string viewName, bool createRegionManagerScope)
         {
             IRegionManager manager = createRegionManagerScope ? RegionManager.CreateRegionManager() : RegionManager;
@@ -271,10 +294,17 @@ namespace Prism.Navigation.Regions
 
             ItemMetadataCollection.Remove(itemMetadata);
 
+#if !AVALONIA
             if (view is DependencyObject dependencyObject && Regions.RegionManager.GetRegionManager(dependencyObject) == RegionManager)
             {
                 dependencyObject.ClearValue(Regions.RegionManager.RegionManagerProperty);
             }
+#else
+            if (view is AvaloniaObject avaloniaObject && Regions.RegionManager.GetRegionManager(avaloniaObject) == RegionManager)
+            {
+                avaloniaObject.ClearValue(Regions.RegionManager.RegionManagerProperty);
+            }
+#endif
         }
 
         /// <summary>
@@ -373,14 +403,21 @@ namespace Prism.Navigation.Regions
                 {
                     throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, Resources.RegionViewNameExistsException, viewName));
                 }
+
                 itemMetadata.Name = viewName;
             }
 
-
+#if !AVALONIA
             if (view is DependencyObject dependencyObject)
             {
                 Regions.RegionManager.SetRegionManager(dependencyObject, scopedRegionManager);
             }
+#else
+            if (view is AvaloniaObject avaloniaObject)
+            {
+                Regions.RegionManager.SetRegionManager(avaloniaObject, scopedRegionManager);
+            }
+#endif
 
             ItemMetadataCollection.Add(itemMetadata);
         }

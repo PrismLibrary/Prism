@@ -29,10 +29,10 @@ namespace Prism.Navigation.Regions
                 throw new ArgumentNullException(nameof(regionTarget));
 
             bool contentIsSet = regionTarget.Content != null;
-#if AVALONIA
-            contentIsSet = contentIsSet || regionTarget[ContentControl.ContentProperty] != null;
-#else
+#if !AVALONIA
             contentIsSet = contentIsSet || regionTarget.HasBinding(ContentControl.ContentProperty);
+#else
+            contentIsSet = contentIsSet || regionTarget[ContentControl.ContentProperty] != null;
 #endif
 
             if (contentIsSet)

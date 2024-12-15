@@ -422,13 +422,13 @@ namespace Prism.Navigation.Regions
 
         private class RegionCollection : IRegionCollection
         {
-            private readonly IRegionManager regionManager;
-            private readonly List<IRegion> regions;
+            private readonly IRegionManager _regionManager;
+            private readonly List<IRegion> _regions;
 
             public RegionCollection(IRegionManager regionManager)
             {
-                this.regionManager = regionManager;
-                regions = new List<IRegion>();
+                _regionManager = regionManager;
+                _regions = new List<IRegion>();
             }
 
             public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -437,7 +437,7 @@ namespace Prism.Navigation.Regions
             {
                 UpdateRegions();
 
-                return regions.GetEnumerator();
+                return _regions.GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -479,8 +479,8 @@ namespace Prism.Navigation.Regions
                                                               Resources.RegionNameExistsException, region.Name));
                 }
 
-                regions.Add(region);
-                region.RegionManager = regionManager;
+                _regions.Add(region);
+                region.RegionManager = _regionManager;
 
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, region, 0));
             }
@@ -495,7 +495,7 @@ namespace Prism.Navigation.Regions
                 if (region != null)
                 {
                     removed = true;
-                    regions.Remove(region);
+                    _regions.Remove(region);
                     region.RegionManager = null;
 
                     OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, region, 0));
@@ -526,25 +526,19 @@ namespace Prism.Navigation.Regions
                 if (region.Name != null && region.Name != regionName)
                     throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.RegionManagerWithDifferentNameException, region.Name, regionName), nameof(regionName));
 
-                if (region.Name == null)
-                    region.Name = regionName;
+                region.Name ??= regionName;
 
                 Add(region);
             }
 
             private IRegion GetRegionByName(string regionName)
             {
-                return regions.FirstOrDefault(r => r.Name == regionName);
+                return _regions.FirstOrDefault(r => r.Name == regionName);
             }
 
             private void OnCollectionChanged(NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
             {
-                var handler = CollectionChanged;
-
-                if (handler != null)
-                {
-                    handler(this, notifyCollectionChangedEventArgs);
-                }
+                CollectionChanged?.Invoke(this, notifyCollectionChangedEventArgs);
             }
         }
     }
