@@ -29,6 +29,26 @@ public class DynamicTabbedPageNavigationFixture : TestBase
 
         Assert.Same(tabbedPage.Children[0], tabbedPage.CurrentPage);
     }
+    
+    [Fact]
+    public void CreatesTab_WithTitleAndSingleContentPage()
+    {
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow(navigation =>
+            navigation.CreateBuilder()
+                .AddTabbedSegment(t =>
+                {
+                    t.Title("MyTitle");
+                    t.CreateTab("MockViewA");
+                })
+                .NavigateAsync())).Build();
+        
+        var window = GetWindow(mauiApp);
+        Assert.IsType<TabbedPage>(window.Page);
+        var tabbedPage = (TabbedPage)window.Page;
+        Assert.Single(tabbedPage.Children);
+        Assert.IsType<MockViewA>(tabbedPage.Children[0]);
+        Assert.Equal("MyTitle", window.Page.Title);
+    }
 
     [Fact]
     public void CreatesTabs_WithNavigationPageAndContentPage()
@@ -52,6 +72,36 @@ public class DynamicTabbedPageNavigationFixture : TestBase
         Assert.IsType<MockViewB>(tab1.CurrentPage);
 
         Assert.Same(tabbedPage.Children[0], tabbedPage.CurrentPage);
+    }
+    
+    [Fact]
+    public void CreatesTabs_WithNavigationPageAndContentPageTitlesSet()
+    {
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow(navigation =>
+            navigation.CreateBuilder()
+                .AddTabbedSegment(t =>
+                {
+                    t.Title("MyTitle");
+                    t.CreateTab(ct => ct.AddNavigationPage().AddSegment("MockViewA"))
+                        .CreateTab(ct => ct.AddNavigationPage().AddSegment("MockViewB"));
+                })
+                .NavigateAsync())).Build();
+        var window = GetWindow(mauiApp);
+        Assert.IsType<TabbedPage>(window.Page);
+        var tabbedPage = (TabbedPage)window.Page;
+
+        Assert.Equal(2, tabbedPage.Children.Count);
+        Assert.IsType<PrismNavigationPage>(tabbedPage.Children[0]);
+        var tab0 = (NavigationPage)tabbedPage.Children[0];
+        Assert.IsType<MockViewA>(tab0.CurrentPage);
+        Assert.IsType<PrismNavigationPage>(tabbedPage.Children[1]);
+        var tab1 = (NavigationPage)tabbedPage.Children[1];
+        Assert.IsType<MockViewB>(tab1.CurrentPage);
+
+        Assert.Same(tabbedPage.Children[0], tabbedPage.CurrentPage);
+        Assert.Equal("MyTitle", tabbedPage.Title);
+        Assert.Equal(MockViewA.ExpectedTitle, tab0.Title);
+        Assert.Equal(MockViewB.ExpectedTitle, tab1.Title);
     }
 
     [Fact]

@@ -930,6 +930,10 @@ public class PageNavigationService : INavigationService, IRegistryAware
     {
         var tabParameters = UriParsingHelper.GetSegmentParameters(segment, parameters);
 
+        if (tabParameters.GetValue<string>(KnownNavigationParameters.Title) is string title)
+        {
+            tabbedPage.Title = title;
+        }
         var tabsToCreate = tabParameters.GetValues<string>(KnownNavigationParameters.CreateTab);
         foreach (var tabToCreateEncoded in tabsToCreate ?? Array.Empty<string>())
         {
