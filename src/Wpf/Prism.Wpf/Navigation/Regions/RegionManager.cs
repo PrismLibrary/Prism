@@ -34,11 +34,17 @@ namespace Prism.Navigation.Regions
         /// will create and adapt a new region for that control, and register it
         /// in the <see cref="IRegionManager"/> with the specified region name.
         /// </remarks>
+#if !AVALONIA
         public static readonly DependencyProperty RegionNameProperty = DependencyProperty.RegisterAttached(
             "RegionName",
             typeof(string),
             typeof(RegionManager),
             new PropertyMetadata(defaultValue: null, propertyChangedCallback: OnSetRegionNameCallback));
+#else
+        public static readonly AvaloniaProperty RegionNameProperty = AvaloniaProperty.RegisterAttached<AvaloniaObject, string>(
+            "RegionName",
+            typeof(RegionManager));
+#endif
 
         /// <summary>
         /// Sets the <see cref="RegionNameProperty"/> attached property.
@@ -67,9 +73,13 @@ namespace Prism.Navigation.Regions
             return regionTarget.GetValue(RegionNameProperty) as string;
         }
 
+#if !AVALONIA
         private static readonly DependencyProperty ObservableRegionProperty =
-            DependencyProperty.RegisterAttached("ObservableRegion", typeof(ObservableObject<IRegion>), typeof(RegionManager), null);
-
+        DependencyProperty.RegisterAttached("ObservableRegion", typeof(ObservableObject<IRegion>), typeof(RegionManager), null);
+#else
+        private static readonly AvaloniaProperty ObservableRegionProperty =
+            AvaloniaProperty.RegisterAttached<AvaloniaObject, ObservableObject<IRegion>>("ObservableRegion", typeof(RegionManager));
+#endif
 
         /// <summary>
         /// Returns an <see cref="ObservableObject{T}"/> wrapper that can hold an <see cref="IRegion"/>. Using this wrapper
@@ -123,8 +133,13 @@ namespace Prism.Navigation.Regions
         /// will create and adapt a new region for that control, and register it
         /// in the <see cref="IRegionManager"/> with the specified region name.
         /// </remarks>
+#if !AVALONIA
         public static readonly DependencyProperty RegionManagerProperty =
             DependencyProperty.RegisterAttached("RegionManager", typeof(IRegionManager), typeof(RegionManager), null);
+#else
+        public static readonly AvaloniaProperty RegionManagerProperty =
+            AvaloniaProperty.RegisterAttached<AvaloniaObject, IRegionManager>("RegionManager", typeof(RegionManager));
+#endif
 
         /// <summary>
         /// Gets the value of the <see cref="RegionNameProperty"/> attached property.
@@ -155,8 +170,13 @@ namespace Prism.Navigation.Regions
         /// <summary>
         /// Identifies the RegionContext attached property.
         /// </summary>
+#if !AVALONIA
         public static readonly DependencyProperty RegionContextProperty =
-            DependencyProperty.RegisterAttached("RegionContext", typeof(object), typeof(RegionManager), new PropertyMetadata(defaultValue: null, propertyChangedCallback: OnRegionContextChanged));
+        DependencyProperty.RegisterAttached("RegionContext", typeof(object), typeof(RegionManager), new PropertyMetadata(defaultValue: null, propertyChangedCallback: OnRegionContextChanged));
+#else
+        public static readonly AvaloniaProperty RegionContextProperty =
+                    AvaloniaProperty.RegisterAttached<AvaloniaObject, object>("RegionContext", typeof(RegionManager));
+#endif
 
         private static void OnRegionContextChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
         {
@@ -227,7 +247,11 @@ namespace Prism.Navigation.Regions
 
         private static bool IsInDesignMode(DependencyObject element)
         {
+#if !AVALONIA
             return DesignerProperties.GetIsInDesignMode(element);
+#else
+            return Design.IsDesignMode;
+#endif
         }
 
         #endregion
@@ -241,6 +265,15 @@ namespace Prism.Navigation.Regions
         {
             regionCollection = new RegionCollection(this);
         }
+
+#if AVALONIA
+        static RegionManager()
+        {
+            // TODO: Could this go into the default constructor?
+            RegionNameProperty.Changed.Subscribe(args => OnSetRegionNameCallback(args?.Sender, args));
+            RegionContextProperty.Changed.Subscribe(args => OnRegionContextChanged(args?.Sender, args));
+        }
+#endif
 
         /// <summary>
         /// Gets a collection of <see cref="IRegion"/> that identify each region by name. You can use this collection to add or remove regions to the current region manager.
@@ -515,8 +548,7 @@ namespace Prism.Navigation.Regions
                 if (region.Name != null && region.Name != regionName)
                     throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.RegionManagerWithDifferentNameException, region.Name, regionName), nameof(regionName));
 
-                if (region.Name == null)
-                    region.Name = regionName;
+                region.Name ??= regionName;
 
                 Add(region);
             }
@@ -528,12 +560,7 @@ namespace Prism.Navigation.Regions
 
             private void OnCollectionChanged(NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
             {
-                var handler = CollectionChanged;
-
-                if (handler != null)
-                {
-                    handler(this, notifyCollectionChangedEventArgs);
-                }
+                CollectionChanged?.Invoke(this, notifyCollectionChangedEventArgs);
             }
         }
     }
