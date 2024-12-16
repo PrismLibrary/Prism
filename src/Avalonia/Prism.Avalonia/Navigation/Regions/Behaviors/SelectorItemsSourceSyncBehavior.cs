@@ -1,4 +1,4 @@
-﻿// TODO: 2022-07-08 - Feature disabled until a workaround can be created
+// TODO: 2022-07-08 - Feature disabled until a workaround can be created
 // Consider using Avalonia.Styling.IStylable or Avalonia.Styling.Selector
 // in place of WPF's `Selector` object or AvaloniaObject.
 // This theory is untested and causes issues on code such as, `hostControl.Items`

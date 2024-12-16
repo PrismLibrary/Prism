@@ -1,4 +1,4 @@
-﻿namespace Prism.Dialogs;
+namespace Prism.Dialogs;
 
 /// <summary>Provides Dialog Parameter Keys for well known parameters used by the <see cref="IDialogService"/></summary>
 public static class KnownDialogParameters

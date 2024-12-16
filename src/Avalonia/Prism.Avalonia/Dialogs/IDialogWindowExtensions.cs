@@ -1,4 +1,4 @@
-﻿namespace Prism.Dialogs
+namespace Prism.Dialogs
 {
     /// <summary>
     /// <see cref="IDialogWindow"/> extensions.
