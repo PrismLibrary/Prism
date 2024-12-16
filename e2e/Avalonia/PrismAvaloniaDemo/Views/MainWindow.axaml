@@ -9,8 +9,8 @@
         x:DataType="vm:MainWindowViewModel"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}"
-        Width="700"
-        Height="400"
+        Width="800"
+        Height="500"
         Background="Transparent"
         TransparencyLevelHint="AcrylicBlur">
   <Window.Styles>
@@ -63,15 +63,17 @@
             </Button.Content>
           </Button>
 
-          <!--<Button DockPanel.Dock="Top"
-        Command="{Binding CmdFlyoutMenu}"
-        ToolTip.Tip="Expand/Collapse"
-        Height="25">
-      <StackPanel Orientation="Horizontal">
-        <PathIcon Data="{StaticResource MenuClose}" />
-        <TextBlock Text="" />
-      </StackPanel>
-    </Button>-->
+          <!--
+          <Button DockPanel.Dock="Top"
+                  Command="{Binding CmdFlyoutMenu}"
+                  ToolTip.Tip="Expand/Collapse"
+                  Height="25">
+            <StackPanel Orientation="Horizontal">
+              <PathIcon Data="{StaticResource MenuClose}" />
+              <TextBlock Text="" />
+            </StackPanel>
+          </Button>
+          -->
 
           <!-- Dock the Settings button to the bottom -->
           <Button Command="{Binding CmdSettings}"
@@ -92,7 +94,7 @@
                 </StackPanel>
               </Button>
 
-              <!-- Place additionals buttons here... -->
+              <!-- Place additional buttons here... -->
               <Button Command="{Binding .}" ToolTip.Tip="Dashboard">
                 <StackPanel Orientation="Horizontal">
                   <PathIcon Data="{StaticResource lock_regular}" />

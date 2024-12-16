@@ -7,6 +7,9 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <Title>Sample Prism.Avalonia App</Title>
+    <Authors>Damian Suess</Authors>
+    <Description>Prism.Avalonia end-to-end demonstration application.</Description>
   </PropertyGroup>
 
   <ItemGroup>

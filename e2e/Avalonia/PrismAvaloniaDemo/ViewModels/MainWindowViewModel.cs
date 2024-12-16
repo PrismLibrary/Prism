@@ -20,7 +20,7 @@ public class MainWindowViewModel : ViewModelBase
         // For example, initiate the pulling of News Feeds, etc.
 
         _regionManager = regionManager;
-        Title = "Sample Prism.Avalonia SplitView!";
+        Title = "Sample Prism.Avalonia";
         IsPaneOpened = true;
     }
 
