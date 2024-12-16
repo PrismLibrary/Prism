@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Controls.Notifications;
 
 namespace SampleApp.Services;
