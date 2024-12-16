@@ -1,5 +1,11 @@
 using System.IO;
+#if !AVALONIA
 using System.Windows.Markup;
+#else
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Avalonia.Metadata;
+#endif
 
 namespace Prism.Modularity
 {
@@ -20,7 +26,10 @@ namespace Prism.Modularity
     /// </list>
     /// The <see cref="ModuleCatalog"/> also serves as a baseclass for more specialized Catalogs .
     /// </summary>
+    /// <remarks>Avalonia does use, System.Windows.Markup. See property, `Items` below.</remarks>
+#if !AVALONIA
     [ContentProperty("Items")]
+#endif
     public class ModuleCatalog : ModuleCatalogBase, IModuleGroupsCatalog
     {
         /// <summary>
@@ -38,6 +47,16 @@ namespace Prism.Modularity
         public ModuleCatalog(IEnumerable<ModuleInfo> modules) : base(modules)
         {
         }
+
+#if AVALONIA
+        /// <summary>
+        /// Gets the items in the Prism.Modularity.IModuleCatalog. This property is mainly
+        /// used to add Prism.Modularity.IModuleInfoGroups or Prism.Modularity.IModuleInfos
+        /// through XAML.
+        /// </summary>
+        [Content]
+        public new Collection<IModuleCatalogItem> Items => base.Items;
+#endif
 
         /// <summary>
         /// Creates a valid file uri to locate the module assembly file

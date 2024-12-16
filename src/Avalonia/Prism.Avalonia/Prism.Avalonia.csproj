@@ -17,24 +17,27 @@ Prism.Avalonia helps you more easily design and build rich, flexible, and easy t
     <Reference Include="System.Configuration" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcore')) OR $(TargetFramework.StartsWith('net6')) OR $(TargetFramework.StartsWith('net7')) OR $(TargetFramework.StartsWith('net8'))">
-    <Compile Remove="**\*.net45.cs" />
-    <None Include="**\*.net45.cs" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Wpf\Prism.Wpf\Common\MvvmHelpers.cs" LinkBase="Common" />
     <Compile Include="..\..\Wpf\Prism.Wpf\PrismInitializationExtensions.cs" Link="PrismInitializationExtensions.cs" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Extensions\CollectionExtensions.cs" LinkBase="Extensions" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Interactivity\*.cs" LinkBase="Interactivity" />
     <Compile Include="..\..\Wpf\Prism.Wpf\Ioc\*.cs" LinkBase="Ioc" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Modularity\*.cs" LinkBase="Modularity" />
     <Compile Include="..\..\Wpf\Prism.Wpf\Mvvm\*.cs" LinkBase="Mvvm" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Navigation\Regions\**\*.cs" LinkBase="Navigation\Regions" />
 
-    <Compile Include="..\..\Wpf\Prism.Wpf\Navigation\Regions\*.cs" LinkBase="Navigation\Regions" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Interactivity\InvokeCommandAction.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Navigation\Regions\ItemMetadata.cs" />
-
-    <Compile Include="..\..\Wpf\Prism.Wpf\Navigation\Regions\Behaviors\*.cs" LinkBase="Navigation\Regions\Behaviors" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Navigation\Regions\Behaviors\BindRegionContextToDependencyObjectBehavior.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Navigation\Regions\Behaviors\SelectorItemsSourceSyncBehavior.cs" />
-        
+
     <Using Include="Prism.Extensions" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcore')) OR $(TargetFramework.StartsWith('net6')) OR $(TargetFramework.StartsWith('net7')) OR $(TargetFramework.StartsWith('net8'))">
+    <Compile Remove="**\*.net45.cs" />
+    <None Include="**\*.net45.cs" />
   </ItemGroup>
 
   <!--

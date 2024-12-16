@@ -1,4 +1,7 @@
 using System.Windows.Input;
+#if AVALONIA
+using Avalonia.Controls;
+#endif
 
 namespace Prism.Interactivity
 {
@@ -9,7 +12,11 @@ namespace Prism.Interactivity
     /// <remarks>
     /// CommandBehaviorBase can be used to provide new behaviors for commands.
     /// </remarks>
+#if !AVALONIA
     public class CommandBehaviorBase<T> where T : UIElement
+#else
+    public class CommandBehaviorBase<T> where T : Control
+#endif
     {
         private ICommand _command;
         private object _commandParameter;
@@ -90,7 +97,6 @@ namespace Prism.Interactivity
                 return _targetObject.Target as T;
             }
         }
-
 
         /// <summary>
         /// Updates the target object's IsEnabled property based on the commands ability to execute.
