@@ -11,12 +11,32 @@ namespace Prism.Dialogs
         /// </summary>
         /// <param name="dialogService">The DialogService</param>
         /// <param name="name">The name of the dialog to show.</param>
+        public static void Show(this IDialogService dialogService, string name)
+        {
+            Show(dialogService, name, null, null, null);
+        }
+
+        /// <summary>
+        /// Shows a non-modal dialog.
+        /// </summary>
+        /// <param name="dialogService">The DialogService</param>
+        /// <param name="name">The name of the dialog to show.</param>
+        /// <param name="callback">The action to perform when the dialog is closed.</param>
+        public static void Show(this IDialogService dialogService, string name, Action<IDialogResult> callback)
+        {
+            Show(dialogService, name, null, callback, null);
+        }
+
+        /// <summary>
+        /// Shows a non-modal dialog.
+        /// </summary>
+        /// <param name="dialogService">The DialogService</param>
+        /// <param name="name">The name of the dialog to show.</param>
         /// <param name="parameters">The parameters to pass to the dialog.</param>
         /// <param name="callback">The action to perform when the dialog is closed.</param>
         public static void Show(this IDialogService dialogService, string name, IDialogParameters parameters, Action<IDialogResult> callback)
         {
-            parameters = EnsureShowNonModalParameter(parameters);
-            dialogService.ShowDialog(name, parameters, new DialogCallback().OnClose(callback));
+            Show(dialogService, name, parameters, callback, null);
         }
 
         /// <summary>
@@ -29,45 +49,33 @@ namespace Prism.Dialogs
         /// <param name="windowName">The name of the hosting window registered with the IContainerRegistry.</param>
         public static void Show(this IDialogService dialogService, string name, IDialogParameters parameters, Action<IDialogResult> callback, string windowName)
         {
-            parameters = EnsureShowNonModalParameter(parameters);
-
-            if(!string.IsNullOrEmpty(windowName))
-                parameters.Add(KnownDialogParameters.WindowName, windowName);
-
-            dialogService.ShowDialog(name, parameters, new DialogCallback().OnClose(callback));
+            ShowDialogInternal(dialogService, name, parameters, callback, windowName, true);
         }
 
         /// <summary>
-        /// Shows a non-modal dialog.
+        /// Shows a modal dialog.
         /// </summary>
         /// <param name="dialogService">The DialogService</param>
         /// <param name="name">The name of the dialog to show.</param>
-        public static void Show(this IDialogService dialogService, string name)
-        {
-            var parameters = EnsureShowNonModalParameter(null);
-            dialogService.Show(name, parameters, null);
-        }
-
-        /// <summary>
-        /// Shows a non-modal dialog.
-        /// </summary>
-        /// <param name="dialogService">The DialogService</param>
-        /// <param name="name">The name of the dialog to show.</param>
+        /// <param name="parameters">The parameters to pass to the dialog.</param>
         /// <param name="callback">The action to perform when the dialog is closed.</param>
-        public static void Show(this IDialogService dialogService, string name, Action<IDialogResult> callback)
+        /// <param name="windowName">The name of the hosting window registered with the IContainerRegistry.</param>
+        public static void ShowDialog(this IDialogService dialogService, string name, IDialogParameters parameters, Action<IDialogResult> callback, string windowName)
         {
-            var parameters = EnsureShowNonModalParameter(null);
-            dialogService.Show(name, parameters, callback);
+            ShowDialogInternal(dialogService, name, parameters, callback, windowName, false);
         }
 
-        private static IDialogParameters EnsureShowNonModalParameter(IDialogParameters parameters)
+        private static void ShowDialogInternal(IDialogService dialogService, string name, IDialogParameters parameters, Action<IDialogResult> callback, string windowName, bool isNonModal)
         {
             parameters ??= new DialogParameters();
 
-            if (!parameters.ContainsKey(KnownDialogParameters.ShowNonModal))
+            if (!string.IsNullOrEmpty(windowName))
+                parameters.Add(KnownDialogParameters.WindowName, windowName);
+
+            if (isNonModal)
                 parameters.Add(KnownDialogParameters.ShowNonModal, true);
 
-            return parameters;
+            dialogService.ShowDialog(name, parameters, new DialogCallback().OnClose(callback));
         }
 #endif
     }
