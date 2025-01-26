@@ -74,7 +74,7 @@ namespace Prism.Events
         /// </summary>
         /// <param name="action">The action to execute.</param>
         /// <exception cref="ArgumentNullException">An <see cref="ArgumentNullException"/> is thrown if <paramref name="action"/> is null.</exception>
-        public virtual void InvokeAction(Action action)
+        protected virtual void InvokeAction(Action action)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
 

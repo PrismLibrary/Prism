@@ -28,7 +28,7 @@ namespace Prism.Events
         /// Invokes the specified <see cref="System.Action{TPayload}"/> asynchronously in the specified <see cref="SynchronizationContext"/>.
         /// </summary>
         /// <param name="action">The action to execute.</param>
-        public override void InvokeAction(Action action)
+        protected override void InvokeAction(Action action)
         {
             syncContext.Post((o) => action(), null);
         }
