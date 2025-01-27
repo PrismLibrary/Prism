@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
@@ -234,7 +234,7 @@ public class EventToCommandBehavior : BehaviorBase<BindableObject>
             parameter = propertyValue;
         }
 
-        if (parameter == null && eventArgs != null && eventArgs != EventArgs.Empty && EventArgsConverter != null)
+        if (parameter == null && eventArgs != null && EventArgsConverter != null)
         {
             parameter = EventArgsConverter.Convert(eventArgs, typeof(object), EventArgsConverterParameter,
                 CultureInfo.CurrentUICulture);
