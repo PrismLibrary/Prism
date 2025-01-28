@@ -2,6 +2,7 @@ using Prism.Navigation.Regions.Behaviors;
 
 namespace Prism.Navigation.Regions
 {
+#if !AVALONIA
     /// <summary>
     /// Adapter that creates a new <see cref="Region"/> and binds all
     /// the views to the adapted <see cref="Selector"/>.
@@ -60,4 +61,5 @@ namespace Prism.Navigation.Regions
             return new Region();
         }
     }
+#endif
 }

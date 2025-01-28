@@ -55,7 +55,20 @@
     <PackageVersion Include="Uno.UniversalImageLoader" Version="1.9.36" />
     <PackageVersion Include="Microsoft.Windows.Compatibility" Version="8.0.0" />
   </ItemGroup>
-  <!-- Tests -->
+  <!-- Avalonia -->
+  <ItemGroup Condition=" $(IsAvaloniaProject) == 'true' ">
+    <PackageVersion Include="Avalonia" Version="11.1.3" />
+    <PackageVersion Include="Avalonia.Desktop" Version="11.1.3" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="11.1.3" />
+    <PackageVersion Include="Avalonia.LinuxFramebuffer" Version="11.1.3" />
+    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="11.1.3" />
+    <PackageVersion Include="Avalonia.Themes.Simple" Version="11.1.3" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.1.3" />
+    <PackageVersion Include="Avalonia.Fonts.Inter" Version="11.1.3" />
+    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+    <PackageVersion Include="System.CodeDom" Version="8.0.0" />
+  </ItemGroup>
+    <!-- Tests -->
   <ItemGroup>
     <PackageVersion Include="coverlet.collector" Version="6.0.2" />
     <PackageVersion Include="GitHubActionsTestLogger" Version="2.4.1" />

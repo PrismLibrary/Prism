@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrismAvaloniaDemo", "PrismAvaloniaDemo\PrismAvaloniaDemo.csproj", "{89EF9B20-B80E-4B4C-A202-170CC0C0B62A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prism Library", "Prism Library", "{7EEF2BF7-98F5-432B-B36D-DB4915CF4A3D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Avalonia", "..\..\src\Avalonia\Prism.Avalonia\Prism.Avalonia.csproj", "{CD50461C-B394-433A-86CA-3DBCD13E8B22}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DryIoc.Avalonia", "..\..\src\Avalonia\Prism.DryIoc.Avalonia\Prism.DryIoc.Avalonia.csproj", "{FF15E73E-5D71-48DD-80D5-DDCA6A59A6B2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Core", "..\..\src\Prism.Core\Prism.Core.csproj", "{62ADE0CF-751D-4AC6-9C2C-21DC12CBD338}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.Events", "..\..\src\Prism.Events\Prism.Events.csproj", "{FE27B57B-F986-44B7-90CE-421034A891B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{89EF9B20-B80E-4B4C-A202-170CC0C0B62A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89EF9B20-B80E-4B4C-A202-170CC0C0B62A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89EF9B20-B80E-4B4C-A202-170CC0C0B62A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89EF9B20-B80E-4B4C-A202-170CC0C0B62A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD50461C-B394-433A-86CA-3DBCD13E8B22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD50461C-B394-433A-86CA-3DBCD13E8B22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD50461C-B394-433A-86CA-3DBCD13E8B22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD50461C-B394-433A-86CA-3DBCD13E8B22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF15E73E-5D71-48DD-80D5-DDCA6A59A6B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF15E73E-5D71-48DD-80D5-DDCA6A59A6B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF15E73E-5D71-48DD-80D5-DDCA6A59A6B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF15E73E-5D71-48DD-80D5-DDCA6A59A6B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62ADE0CF-751D-4AC6-9C2C-21DC12CBD338}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62ADE0CF-751D-4AC6-9C2C-21DC12CBD338}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62ADE0CF-751D-4AC6-9C2C-21DC12CBD338}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62ADE0CF-751D-4AC6-9C2C-21DC12CBD338}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE27B57B-F986-44B7-90CE-421034A891B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE27B57B-F986-44B7-90CE-421034A891B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE27B57B-F986-44B7-90CE-421034A891B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE27B57B-F986-44B7-90CE-421034A891B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CD50461C-B394-433A-86CA-3DBCD13E8B22} = {7EEF2BF7-98F5-432B-B36D-DB4915CF4A3D}
+		{FF15E73E-5D71-48DD-80D5-DDCA6A59A6B2} = {7EEF2BF7-98F5-432B-B36D-DB4915CF4A3D}
+		{62ADE0CF-751D-4AC6-9C2C-21DC12CBD338} = {7EEF2BF7-98F5-432B-B36D-DB4915CF4A3D}
+		{FE27B57B-F986-44B7-90CE-421034A891B9} = {7EEF2BF7-98F5-432B-B36D-DB4915CF4A3D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E70249F-C31B-4FB3-A901-E3767E3A9FF5}
+	EndGlobalSection
+EndGlobal

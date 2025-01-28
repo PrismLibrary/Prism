@@ -19,6 +19,7 @@ namespace Prism.Navigation.Regions
             {
                 base.Deactivate(currentActiveView);
             }
+
             base.Activate(view);
         }
     }
