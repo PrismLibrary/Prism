@@ -340,7 +340,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
         try
         {
-            if (route.IsAbsoluteUri) throw new NavigationException(NavigationException.UnsupportedAbsoluteUri);
+            if (route.IsAbsoluteUri)
+                throw new NavigationException(NavigationException.UnsupportedAbsoluteUri);
 
             parameters ??= new NavigationParameters();
 
