@@ -75,7 +75,7 @@ public class NavigationException : Exception
     /// <summary>
     /// The <see cref="NavigationException"/> Message returned when an absolute path is specified but not supported.
     /// </summary>
-    public const string UnsupportedAbsoluteUri = "An unsupported absolute uri. Please use a relative URI.";
+    public const string UnsupportedAbsoluteUri = "Absolute Uri's are not supported when Navigated from a named source View. Please use a relative Uri.";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NavigationException"/>
