@@ -349,41 +349,9 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
             var navigationSegments = UriParsingHelper.GetUriSegments(route);
 
-            // Find a page that matches the viewName.
-            var currentPage = GetCurrentPage();
-            var navigationPages = currentPage.Navigation.NavigationStack.ToList();
-            navigationPages.Reverse();
-            var foundPage = navigationPages.FirstOrDefault(page => ViewModelLocator.GetNavigationName(page) == viewName);
-            if (foundPage is null)
-            {
-                // Find a page from parents.
-                var page = currentPage;
-                while (page != null)
-                {
-                    if (page is not null && ViewModelLocator.GetNavigationName(page) == viewName)
-                        break;
-                    page = page.GetParentPage();
-                }
-                currentPage = page;
-            }
-            else
-            {
-                // Insert RemovePageSegment.
-                var removePageCount = navigationPages.IndexOf(foundPage);
+            var targetPage = await MvvmHelpers.FindPageByNameAsync(GetCurrentPage(), viewName);
 
-                var tempQueue = new Queue<string>();
-                for (int i = 0; i < removePageCount; i++)
-                {
-                    tempQueue.Enqueue(RemovePageSegment);
-                }
-                while(navigationSegments.Count > 0)
-                {
-                    tempQueue.Enqueue(navigationSegments.Dequeue());
-                }
-                navigationSegments = tempQueue;
-            }
-
-            await ProcessNavigation(currentPage, navigationSegments, parameters, null, null);
+            await ProcessNavigation(targetPage, navigationSegments, parameters, null, null);
 
             return Notify(route, parameters);
         }
