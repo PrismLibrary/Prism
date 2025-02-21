@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
@@ -50,8 +50,8 @@ namespace Prism.Commands
             object? propOwnerObject = constantExpression.Value;
 
             if (propOwnerObject is not INotifyPropertyChanged inpcObject)
-                throw new InvalidOperationException("Trying to subscribe PropertyChanged listener in object that " +
-                                                    $"owns '{propObserverNodeRoot.PropertyInfo.Name}' property, but the object does not implements INotifyPropertyChanged.");
+                throw new InvalidOperationException("Tried to subscribe to PropertyChanged in the object that " +
+                                                    $"defines the '{propObserverNodeRoot.PropertyInfo.Name}' property, but the object does not implement INotifyPropertyChanged.");
 
             propObserverNodeRoot.SubscribeListenerFor(inpcObject);
         }
