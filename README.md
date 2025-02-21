@@ -1,6 +1,6 @@
 # Prism
 
-Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Xamarin Forms, Uno Platform and WinUI. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base supported in .NET Standard 2.0, .NET Framework 4.6 / 4.7, and .NET6.0/.NET8.0. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform.
+Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Avalonia, MAUI, Uno Platform and WinUI. Separate releases are available for each platform and those will be developed on independent timelines. Prism provides an implementation of a collection of design patterns that are helpful in writing well-structured and maintainable XAML applications, including MVVM, dependency injection, commands, EventAggregator, and others. Prism's core functionality is a shared code base supported in .NET Standard 2.0, .NET Framework 4.6 / 4.7, and .NET6.0/.NET8.0. Those things that need to be platform specific are implemented in the respective libraries for the target platform. Prism also provides great integration of these patterns with the target platform.
 
 ## Licensing
 
@@ -13,7 +13,7 @@ The Prism Team would first and foremost like to thank all of those developers wh
 | Full Build | [![Prism CI](https://github.com/PrismLibrary/Prism/actions/workflows/ci.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/ci.yml) |
 | Prism.Core | [![build_core](https://github.com/PrismLibrary/Prism/actions/workflows/build_core.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_core.yml) |
 | Prism.Wpf | [![build_wpf](https://github.com/PrismLibrary/Prism/actions/workflows/build_wpf.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_wpf.yml) |
-| Prism.Forms | [![build_forms](https://github.com/PrismLibrary/Prism/actions/workflows/build_forms.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_forms.yml) |
+| Prism.Avalonia | [![build_avalonia](https://github.com/PrismLibrary/Prism/actions/workflows/build_avalonia.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_avalonia.yml) |
 | Prism.Uno | [![build_uno](https://github.com/PrismLibrary/Prism/actions/workflows/build_uno.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_uno.yml) |
 | Prism.Maui | [![build_maui](https://github.com/PrismLibrary/Prism/actions/workflows/build_maui.yml/badge.svg)](https://github.com/PrismLibrary/Prism/actions/workflows/build_maui.yml) |
 

@@ -95,8 +95,7 @@ namespace Prism.Navigation.Regions
         /// <param name="e"></param>
         private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            NotifyCollectionChangedEventHandler handler = CollectionChanged;
-            if (handler != null) handler(this, e);
+            CollectionChanged?.Invoke(this, e);
         }
 
         private void NotifyReset()

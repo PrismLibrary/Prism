@@ -8,7 +8,7 @@ namespace Prism.Navigation.Regions.Behaviors
     /// the control that hosts the Region. It does this by setting the <see cref="RegionManager.RegionContextProperty"/>
     /// Dependency Property on the host control.
     ///
-    /// This behavior allows the usage of two way databinding of the RegionContext from XAML.
+    /// This behavior allows the usage of two way data binding of the RegionContext from XAML.
     /// </summary>
     public class SyncRegionContextWithHostBehavior : RegionBehavior, IHostAwareRegionBehavior
     {
@@ -47,6 +47,7 @@ namespace Prism.Navigation.Regions.Behaviors
                 {
                     throw new InvalidOperationException(Resources.HostControlCannotBeSetAfterAttach);
                 }
+
                 _hostControl = value;
             }
         }
@@ -67,7 +68,7 @@ namespace Prism.Navigation.Regions.Behaviors
             }
         }
 
-        void Region_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Region_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == RegionContextPropertyName)
             {
@@ -80,7 +81,7 @@ namespace Prism.Navigation.Regions.Behaviors
             }
         }
 
-        void RegionContextObservableObject_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void RegionContextObservableObject_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Value")
             {

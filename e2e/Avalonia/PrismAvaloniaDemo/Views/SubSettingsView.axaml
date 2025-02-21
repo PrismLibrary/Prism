@@ -1,0 +1,42 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:vm="clr-namespace:SampleApp.ViewModels"
+             x:Class="SampleApp.Views.SubSettingsView"
+             x:DataType="vm:SubSettingsViewModel"
+             d:DesignHeight="350"
+             d:DesignWidth="500"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d">
+  <DockPanel>
+    <StackPanel DockPanel.Dock="Top" Spacing="5">
+      <Grid Background="LightGray" ColumnDefinitions="Auto, *">
+        <Button Command="{Binding CmdNavigateBack}" CornerRadius="10">
+          <PathIcon Data="{StaticResource arrow_reply_regular}" />
+        </Button>
+        <TextBlock Text="{Binding Title}"
+                   Grid.Column="1"
+                   Margin="5"
+                   VerticalAlignment="Center"
+                   FontWeight="Bold" />
+      </Grid>
+    </StackPanel>
+
+    <ScrollViewer Margin="5">
+      <StackPanel>
+        <Label Content="Our passed-in parameters" FontWeight="Bold" />
+        <StackPanel Orientation="Horizontal">
+          <Label Content="Key 1 - Text:" />
+          <Label Content="{Binding MessageText}" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+          <Label Content="Key 2 - Number:" />
+          <Label Content="{Binding MessageNumber}" />
+        </StackPanel>
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
+</UserControl>

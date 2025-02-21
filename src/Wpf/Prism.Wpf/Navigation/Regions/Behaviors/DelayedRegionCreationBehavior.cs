@@ -1,6 +1,9 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using Prism.Properties;
+#if AVALONIA
+using Avalonia.Threading;
+#endif
 
 namespace Prism.Navigation.Regions.Behaviors
 {
@@ -94,7 +97,11 @@ namespace Prism.Navigation.Regions.Behaviors
                 return;
             }
 
+#if !AVALONIA
             if (targetElement.CheckAccess())
+#else
+            if (Dispatcher.UIThread.CheckAccess())
+#endif
             {
                 Detach();
 
@@ -132,7 +139,11 @@ namespace Prism.Navigation.Regions.Behaviors
             }
         }
 
+#if !AVALONIA
         private void ElementLoaded(object sender, RoutedEventArgs e)
+#else
+        private void ElementLoaded(object sender, VisualTreeAttachmentEventArgs e)
+#endif
         {
             UnWireTargetElement();
             TryCreateRegion();
@@ -143,11 +154,15 @@ namespace Prism.Navigation.Regions.Behaviors
             FrameworkElement element = TargetElement as FrameworkElement;
             if (element != null)
             {
+#if !AVALONIA
                 element.Loaded += ElementLoaded;
+#else
+                element.AttachedToVisualTree += ElementLoaded;
+#endif
                 return;
             }
 
-#if !UNO_WINUI
+#if (!UNO_WINUI && !AVALONIA)
             FrameworkContentElement fcElement = TargetElement as FrameworkContentElement;
             if (fcElement != null)
             {
@@ -156,7 +171,7 @@ namespace Prism.Navigation.Regions.Behaviors
             }
 #endif
 
-            //if the element is a dependency object, and not a FrameworkElement, nothing is holding onto the reference after the DelayedRegionCreationBehavior
+            //if the element is a dependency/avalonia object, and not a FrameworkElement/Avalonia.Control, nothing is holding onto the reference after the DelayedRegionCreationBehavior
             //is instantiated inside RegionManager.CreateRegion(DependencyObject element). If the GC runs before RegionManager.UpdateRegions is called, the region will
             //never get registered because it is gone from the updatingRegionsListeners list inside RegionManager. So we need to hold on to it. This should be rare.
             DependencyObject depObj = TargetElement as DependencyObject;
@@ -172,11 +187,15 @@ namespace Prism.Navigation.Regions.Behaviors
             FrameworkElement element = TargetElement as FrameworkElement;
             if (element != null)
             {
+#if !AVALONIA
                 element.Loaded -= ElementLoaded;
+#else
+                element.AttachedToVisualTree -= ElementLoaded;
+#endif
                 return;
             }
 
-#if !UNO_WINUI
+#if (!UNO_WINUI && !AVALONIA)
             FrameworkContentElement fcElement = TargetElement as FrameworkContentElement;
             if (fcElement != null)
             {
@@ -192,7 +211,6 @@ namespace Prism.Navigation.Regions.Behaviors
                 return;
             }
         }
-
 
         /// <summary>
         /// Add the instance of this class to <see cref="_instanceTracker"/> to keep it alive
