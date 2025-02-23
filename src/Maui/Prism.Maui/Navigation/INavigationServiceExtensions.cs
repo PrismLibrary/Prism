@@ -134,7 +134,7 @@ public static class INavigationServiceExtensions
     /// <param name="route">The route as a string to navigate to</param>
     /// <param name="parameters">Additional parameters for the navigation.</param>
     /// <returns>If <c>true</c> a navigate from operation was successful. If <c>false</c> the navigate from operation failed.</returns>
-    public static Task<INavigationResult> NavigateFromAsync(this INavigationService navigationService, string viewName, string route, NavigationParameters parameters) =>
+    public static Task<INavigationResult> NavigateFromAsync(this INavigationService navigationService, string viewName, string route, INavigationParameters parameters) =>
         navigationService.NavigateFromAsync(viewName, new Uri(route, UriKind.RelativeOrAbsolute), parameters);
 
     /// <summary>
