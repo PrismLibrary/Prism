@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Prism.Dialogs;
+using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Navigation.Regions;
 using Prism.Navigation.Xaml;
@@ -403,5 +404,67 @@ public static class MvvmHelpers
 
         return potentialDescendant.GetTypeInfo().IsSubclassOf(potentialBase)
                || potentialDescendant == potentialBase;
+    }
+
+    internal static async Task<Page?> FindPageByNameAsync(Page? current, string name)
+    {
+        if (current == null) return null;
+
+        Page? navPage = current.Navigation.NavigationStack.LastOrDefault();
+        if(navPage == null)
+        {
+            navPage = current.Parent switch
+            {
+                Page parentPage => parentPage,
+                Window window => window.Page,
+                _ => null,
+            };
+        }
+
+        var modal = current.Navigation.ModalStack.LastOrDefault();
+        while (modal != null)
+        {
+            var target = await FindPageRecursivelyAsync(modal, name);
+            if (target != null) return target;
+
+            modal = GetPreviousPage(modal, modal.Navigation.ModalStack);
+            if(modal != null) await modal.Navigation.PopModalAsync();
+        }
+
+        return await FindPageRecursivelyAsync(navPage, name);
+    }
+
+    private static async Task<Page?> FindPageRecursivelyAsync(Page? target, string name)
+    {
+        if (target != null && ViewModelLocator.GetNavigationName(target) == name) return target;
+
+        switch (target)
+        {
+            case NavigationPage navigation:
+                var page = navigation.Navigation.NavigationStack.LastOrDefault();
+                while (page != null)
+                {
+                    if (ViewModelLocator.GetNavigationName(page) == name) return page;
+                    if (navigation.Navigation.NavigationStack.Count == 1) break;
+
+                    await navigation.Navigation.PopAsync();
+                    page = navigation.Navigation.NavigationStack.LastOrDefault();
+                }
+                return navigation.Parent switch
+                {
+                    Page parentPage => await FindPageRecursivelyAsync(parentPage, name),
+                    _ => null,
+                };
+            case TabbedPage:
+            case FlyoutPage:
+            case ContentPage:
+                return target.Parent switch
+                {
+                    Page parentPage => await FindPageRecursivelyAsync(parentPage, name),
+                    _ => null,
+                };
+        }
+
+        return null;
     }
 }
