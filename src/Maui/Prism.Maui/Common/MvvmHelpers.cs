@@ -410,17 +410,28 @@ public static class MvvmHelpers
     {
         if (current == null) return null;
 
+        Page? navPage = current.Navigation.NavigationStack.LastOrDefault();
+        if(navPage == null)
+        {
+            navPage = current.Parent switch
+            {
+                Page parentPage => parentPage,
+                Window window => window.Page,
+                _ => null,
+            };
+        }
+
         var modal = current.Navigation.ModalStack.LastOrDefault();
         while (modal != null)
         {
             var target = await FindPageRecursivelyAsync(modal, name);
             if (target != null) return target;
 
-            await current.Navigation.PopModalAsync();
-            modal = current.Navigation.ModalStack.LastOrDefault();
+            modal = GetPreviousPage(modal, modal.Navigation.ModalStack);
+            if(modal != null) await modal.Navigation.PopModalAsync();
         }
 
-        return await FindPageRecursivelyAsync(current, name);
+        return await FindPageRecursivelyAsync(navPage, name);
     }
 
     private static async Task<Page?> FindPageRecursivelyAsync(Page? target, string name)
