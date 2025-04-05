@@ -1,0 +1,37 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:vm="clr-namespace:SampleApp.ViewModels"
+             x:Class="SampleApp.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel"
+             d:DesignHeight="350"
+             d:DesignWidth="500"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d">
+  <DockPanel>
+    <StackPanel DockPanel.Dock="Top" Spacing="5">
+      <Grid Background="LightGray" ColumnDefinitions="Auto, *">
+        <!--
+        <Button Content="Back" Command="{Binding CmdNavigateBack}" CornerRadius="10">
+          <PathIcon Data="{StaticResource arrow_reply_regular}" />
+        </Button>
+        -->
+        <TextBlock Text="{Binding Title}"
+                   Grid.Column="1"
+                   Margin="5"
+                   VerticalAlignment="Center"
+                   FontWeight="Bold" />
+      </Grid>
+    </StackPanel>
+
+    <ScrollViewer Margin="5">
+      <StackPanel>
+
+        <Label Content="Some content here for SettingsView" FontSize="18" />
+        <Button Command="{Binding CmdNavigateToChild}" Content="Navigate using Journaling" />
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
+</UserControl>

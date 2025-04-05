@@ -82,7 +82,6 @@ namespace Prism.Modularity
             return moduleInfo.Ref != null && moduleInfo.Ref.StartsWith(RefFilePrefix, StringComparison.Ordinal);
         }
 
-
         /// <summary>
         /// Retrieves the <paramref name="moduleInfo"/>.
         /// </summary>
