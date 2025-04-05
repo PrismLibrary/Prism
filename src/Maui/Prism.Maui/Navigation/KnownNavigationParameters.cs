@@ -11,6 +11,11 @@ public static class KnownNavigationParameters
     /// Used to select an existing Tab when navigating to a TabbedPage.
     /// </summary>
     public const string SelectedTab = "selectedTab";
+    
+    /// <summary>
+    /// Used to set the title to a TabbedPage.
+    /// </summary>
+    public const string Title = "title";
 
     /// <summary>
     /// Used to control the navigation stack. If <c>true</c> uses PopModalAsync, if <c>false</c> uses PopAsync.

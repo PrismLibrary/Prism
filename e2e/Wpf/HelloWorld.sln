@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28729.10
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "HelloWorld\HelloWorld.csproj", "{B03C14CC-8DE9-40EE-9562-12B976E4CEE8}"
 EndProject
@@ -26,10 +26,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Events", "..\..\src\Prism.Events\Prism.Events.csproj", "{E35BF062-652E-4520-8DD8-55DC80012D57}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\..\src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{a0842858-bfd5-41ae-bde7-cbd870bc9900}*SharedItemsImports = 5
-		..\..\src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{debadaab-5c78-444e-aa77-336a43b49ec3}*SharedItemsImports = 5
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -81,8 +77,13 @@ Global
 		{A0842858-BFD5-41AE-BDE7-CBD870BC9900} = {15CF1FE1-D78E-4E3D-A9F8-FA0FCC56A83A}
 		{DEBADAAB-5C78-444E-AA77-336A43B49EC3} = {15CF1FE1-D78E-4E3D-A9F8-FA0FCC56A83A}
 		{D16AADD5-6EAA-446A-83F5-9DFC36DD4108} = {63541838-3D6A-4F2E-92EF-AC4953BB9B9B}
+		{E35BF062-652E-4520-8DD8-55DC80012D57} = {15CF1FE1-D78E-4E3D-A9F8-FA0FCC56A83A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D877B086-37FD-4AA5-8AB3-CF7E87E27425}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\src\Containers\Prism.DryIoc.Shared\Prism.DryIoc.Shared.projitems*{a0842858-bfd5-41ae-bde7-cbd870bc9900}*SharedItemsImports = 5
+		..\..\src\Containers\Prism.Unity.Shared\Prism.Unity.Shared.projitems*{debadaab-5c78-444e-aa77-336a43b49ec3}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

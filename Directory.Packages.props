@@ -11,9 +11,7 @@
   </ItemGroup>
   <!-- Maui -->
   <ItemGroup Condition=" $(UseMaui) == 'true' ">
-    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.20" Condition="$(MSBuildProjectName.StartsWith('Prism.'))" />
     <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.20" Condition="$(MSBuildProjectName.StartsWith('Prism.'))" />
-    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" Condition="!$(MSBuildProjectName.StartsWith('Prism.'))" />
     <PackageVersion Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" Condition="!$(MSBuildProjectName.StartsWith('Prism.'))" />
   </ItemGroup>
   <!-- Uno

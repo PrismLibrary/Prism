@@ -110,13 +110,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download Core
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Core
           path: artifacts\Core
 
       - name: Download Wpf
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Wpf
           path: artifacts\Wpf
@@ -128,13 +128,13 @@ jobs:
           path: artifacts\Avalonia
 
       - name: Download Uno
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Uno
           path: artifacts\Uno
 
       - name: Download Maui
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Maui
           path: artifacts\Maui
@@ -144,7 +144,7 @@ jobs:
         shell: powershell
 
       - name: Upload Consolidated NuGets
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: NuGet
           path: .\artifacts\nuget

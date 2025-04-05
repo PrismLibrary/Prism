@@ -14,6 +14,7 @@ namespace Prism.Navigation;
 public class PageNavigationService : INavigationService, IRegistryAware
 {
     private static readonly SemaphoreSlim _semaphore = new (1, 1);
+    private static readonly TimeSpan _minTimeBetweenNavigations = TimeSpan.FromMilliseconds(150);
     private static DateTime _lastNavigate;
     internal const string RemovePageRelativePath = "../";
     internal const string RemovePageInstruction = "__RemovePage/";
@@ -414,9 +415,10 @@ public class PageNavigationService : INavigationService, IRegistryAware
     {
         await _semaphore.WaitAsync();
         // Ensure adequate time has passed since last navigation so that UI Refresh can Occur
-        if (DateTime.Now - _lastNavigate < TimeSpan.FromMilliseconds(150))
+        TimeSpan timeSinceLastNav = DateTime.Now - _lastNavigate;
+        if (timeSinceLastNav < _minTimeBetweenNavigations)
         {
-            await Task.Delay(150);
+            await Task.Delay(_minTimeBetweenNavigations - timeSinceLastNav);
         }
     }
 
@@ -928,6 +930,10 @@ public class PageNavigationService : INavigationService, IRegistryAware
     {
         var tabParameters = UriParsingHelper.GetSegmentParameters(segment, parameters);
 
+        if (tabParameters.GetValue<string>(KnownNavigationParameters.Title) is string title)
+        {
+            tabbedPage.Title = title;
+        }
         var tabsToCreate = tabParameters.GetValues<string>(KnownNavigationParameters.CreateTab);
         foreach (var tabToCreateEncoded in tabsToCreate ?? Array.Empty<string>())
         {

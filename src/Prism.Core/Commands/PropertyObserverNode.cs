@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -42,8 +42,8 @@ namespace Prism.Commands
             var nextProperty = PropertyInfo.GetValue(_inpcObject);
             if (nextProperty == null) return;
             if (nextProperty is not INotifyPropertyChanged nextInpcObject)
-                throw new InvalidOperationException("Trying to subscribe PropertyChanged listener in object that " +
-                                                    $"owns '{Next?.PropertyInfo.Name}' property, but the object does not implements INotifyPropertyChanged.");
+                throw new InvalidOperationException("Tried to subscribe to PropertyChanged in the object that " +
+                                                    $"defines the '{Next?.PropertyInfo.Name}' property, but the object does not implement INotifyPropertyChanged.");
 
             Next?.SubscribeListenerFor(nextInpcObject);
         }
