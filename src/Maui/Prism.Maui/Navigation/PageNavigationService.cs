@@ -333,6 +333,40 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
+    /// <inheritdoc />
+    public virtual async Task<INavigationResult> NavigateFromAsync(string viewName, Uri route, INavigationParameters parameters)
+    {
+        await WaitForPendingNavigationRequests();
+
+        try
+        {
+            if (route.IsAbsoluteUri)
+                throw new NavigationException(NavigationException.UnsupportedAbsoluteUri);
+
+            parameters ??= new NavigationParameters();
+
+            NavigationSource = PageNavigationSource.NavigationService;
+
+            var navigationSegments = UriParsingHelper.GetUriSegments(route);
+
+            var targetPage = await MvvmHelpers.FindPageByNameAsync(GetCurrentPage(), viewName);
+
+            await ProcessNavigation(targetPage, navigationSegments, parameters, null, null);
+
+            return Notify(route, parameters);
+        }
+        catch (Exception ex)
+        {
+            return Notify(route, parameters, ex);
+        }
+        finally
+        {
+            _lastNavigate = DateTime.Now;
+            NavigationSource = PageNavigationSource.Device;
+            _semaphore.Release();
+        }
+    }
+
     /// <summary>
     /// Selects a Tab of the TabbedPage parent.
     /// </summary>
