@@ -115,7 +115,7 @@ public class RegionNavigationContentLoader : IRegionNavigationContentLoader
         {
             var registry = region.Container().Resolve<IRegionNavigationRegistry>();
             var registration = registry.Registrations.FirstOrDefault(x => x.Type == ViewType.Region && (x.Name == candidateNavigationContract || x.View.Name == candidateNavigationContract || x.View.FullName == candidateNavigationContract));
-            if (registration is null)
+            if (registration is not null)
             {
                 RegionNavigationContentLoader.GetCandidatesFromRegionViews(region, registration.View.FullName);
             }
