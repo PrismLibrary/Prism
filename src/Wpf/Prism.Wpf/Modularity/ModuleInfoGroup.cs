@@ -187,7 +187,6 @@ namespace Prism.Modularity
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
-
             if (!(value is IModuleInfo moduleInfo))
                 throw new ArgumentException(Resources.ValueMustBeOfTypeModuleInfo, nameof(value));
 
@@ -227,7 +226,6 @@ namespace Prism.Modularity
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
-
 
             if (!(value is IModuleInfo moduleInfo))
                 throw new ArgumentException(Resources.ValueMustBeOfTypeModuleInfo, nameof(value));
