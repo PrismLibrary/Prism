@@ -1,4 +1,4 @@
-using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
+﻿using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
 using Prism.DryIoc.Maui.Tests.Mocks.Views;
 using Prism.Navigation.Xaml;
 
@@ -250,5 +250,40 @@ public class RegionFixture : TestBase
 
         var result = await navigationService.NavigateAsync("RegionPage");
         Assert.True(result.Success);
+    }
+
+    [Fact]
+    public void Issue3328_WhenNavigatingToUnregisteredView_ShouldFailWithKeyNotFoundException()
+    {
+        // Arrange
+        var mauiApp = CreateBuilder(prism => prism.RegisterTypes(container =>
+        {
+            container.RegisterForNavigation<MockContentRegionPage, MockContentRegionPageViewModel>();
+            container.RegisterForRegionNavigation<MockRegionViewA, MockRegionViewAViewModel>();
+        }).CreateWindow(nav => nav.NavigateAsync("MockContentRegionPage"))).Build();
+        var window = GetWindow(mauiApp);
+
+        Assert.IsType<MockContentRegionPage>(window.Page);
+        var page = window.Page as MockContentRegionPage;
+        Assert.NotNull(page.ContentRegion.Content);
+        Assert.IsType<MockRegionViewA>(page.ContentRegion.Content);
+        Assert.IsType<MockRegionViewAViewModel>(page.ContentRegion.Content.BindingContext);
+        
+        // Act
+        var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
+        INavigationResult result = null;
+        
+        regionManager.RequestNavigate("ContentRegion", "UnregisteredRegion", navResult =>
+        {
+            result = navResult;
+        });
+        
+        // Assert
+        Assert.False(result.Success);
+        var ex = Assert.IsType<KeyNotFoundException>(result.Exception);
+        Assert.Equal("No view with the name 'UnregisteredRegion' has been registered", ex.Message);
+        
+        Assert.IsType<MockRegionViewA>(page.ContentRegion.Content);
+        Assert.IsType<MockRegionViewAViewModel>(page.ContentRegion.Content.BindingContext);
     }
 }
