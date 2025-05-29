@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Prism.Navigation;
 using Xunit;
 
@@ -289,5 +289,9 @@ namespace Prism.Tests.Navigation
     { }
 
     public class Child : Person
+    { }
+
+    //added this just to submit a test a PR
+    public class Person2
     { }
 }
