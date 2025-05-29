@@ -88,8 +88,22 @@ jobs:
       codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
+  build-prism-avalonia:
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
+    with:
+      name: Build Prism.Avalonia
+      solution-path: PrismLibrary_Avalonia.slnf
+      code-sign: true
+      artifact-name: Avalonia
+    secrets:
+      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
+      codeSignClientId: ${{ secrets.CodeSignClientId }}
+      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
+      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
+      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
+
   generate-consolidated-artifacts:
-    needs: [build-prism-core, build-prism-wpf, build-prism-uno, build-prism-maui]
+    needs: [build-prism-core, build-prism-wpf, build-prism-uno, build-prism-maui, build-prism-avalonia]
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -118,6 +132,12 @@ jobs:
         with:
           name: Maui
           path: artifacts\Maui
+
+      - name: Download Avalonia
+        uses: actions/download-artifact@v4
+        with:
+          name: Avalonia
+          path: artifacts\Avalonia
 
       - name: Consolidate Artifacts
         run: build\consolidate-artifacts.ps1
