@@ -32,6 +32,7 @@ Prism.Avalonia helps you more easily design and build rich, flexible, and easy t
     <Compile Remove="..\..\Wpf\Prism.Wpf\Navigation\Regions\ItemMetadata.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Navigation\Regions\Behaviors\BindRegionContextToDependencyObjectBehavior.cs" />
     <Compile Remove="..\..\Wpf\Prism.Wpf\Navigation\Regions\Behaviors\SelectorItemsSourceSyncBehavior.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Navigation\Regions\SelectorRegionAdapter.cs" />
 
     <Using Include="Prism.Extensions" />
   </ItemGroup>
