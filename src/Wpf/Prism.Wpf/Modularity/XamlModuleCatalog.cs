@@ -1,7 +1,5 @@
-#if !AVALONIA
 using System.IO;
 using System.Windows.Markup;
-//// using Avalonia.Markup.Xaml;
 
 namespace Prism.Modularity
 {
@@ -95,11 +93,7 @@ namespace Prism.Modularity
                 throw new ArgumentNullException(nameof(xamlStream));
             }
 
-#if !AVALONIA
             return XamlReader.Load(xamlStream) as ModuleCatalog;
-#else
-            return AvaloniaRuntimeXamlLoader.Load(xamlStream, null) as ModuleCatalog;
-#endif
         }
 
         /// <summary>
@@ -120,5 +114,3 @@ namespace Prism.Modularity
         }
     }
 }
-#endif
-
