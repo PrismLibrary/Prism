@@ -107,6 +107,37 @@ public static class INavigationServiceExtensions
     }
 
     /// <summary>
+    /// Initiates navigation to the target specified by the <paramref name="viewName"/> from the <paramref name="route"/>. 
+    /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views</param>
+    /// <param name="viewName">The name of the View to navigate to</param>
+    /// <param name="route">The route Uri to navigate to</param>
+    /// <returns>If <c>true</c> a navigate from operation was successful. If <c>false</c> the navigate from operation failed.</returns>
+    public static Task<INavigationResult> NavigateFromAsync(this INavigationService navigationService, string viewName, Uri route) =>
+        navigationService.NavigateFromAsync(viewName, route, new NavigationParameters());
+
+    /// <summary>
+    /// Initiates navigation to the target specified by the <paramref name="viewName"/> from the <paramref name="route"/>.
+    /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views</param>
+    /// <param name="viewName">The name of the View to navigate to</param>
+    /// <param name="route">The route as a string to navigate to</param>
+    /// <returns>If <c>true</c> a navigate from operation was successful. If <c>false</c> the navigate from operation failed.</returns>
+    public static Task<INavigationResult> NavigateFromAsync(this INavigationService navigationService, string viewName, string route) =>
+        navigationService.NavigateFromAsync(viewName, new Uri(route, UriKind.RelativeOrAbsolute), new NavigationParameters());
+
+    /// <summary>
+    /// Initiates navigation to the target specified by the <paramref name="viewName"/> from the <paramref name="route"/>.
+    /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views</param>
+    /// <param name="viewName">The name of the View to navigate to</param>
+    /// <param name="route">The route as a string to navigate to</param>
+    /// <param name="parameters">Additional parameters for the navigation.</param>
+    /// <returns>If <c>true</c> a navigate from operation was successful. If <c>false</c> the navigate from operation failed.</returns>
+    public static Task<INavigationResult> NavigateFromAsync(this INavigationService navigationService, string viewName, string route, INavigationParameters parameters) =>
+        navigationService.NavigateFromAsync(viewName, new Uri(route, UriKind.RelativeOrAbsolute), parameters);
+
+    /// <summary>
     /// Provides an easy to use way to provide an Error Callback without using await NavigationService
     /// </summary>
     /// <param name="navigationTask">The current Navigation Task</param>
