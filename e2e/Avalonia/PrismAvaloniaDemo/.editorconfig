@@ -1,0 +1,378 @@
+# Copyright 2024 Xeno Innovations, Inc.
+#
+# This EditorConfig file provides consistent coding styles and formatting structure based on
+# C# standards by Xeno Innovations for your team's projects while preserving your personal defaults.
+#
+# For more info:
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options
+#
+
+# Remove the line below if you want to inherit .editorconfig settings from higher directories
+root = true
+
+[*]
+# All generic files should use MSDOS style endings, not Unix (lf)
+# end_of_line = crlf
+indent_style = space
+
+[*.{cs,csx}]
+indent_style = space
+indent_size = 4
+tab_width = 4
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{xml,xaml,axml,axaml}]
+indent_style = space
+indent_size = 2
+charset = utf-8-bom
+trim_trailing_whitespace = true
+
+[*.json]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+[*.sln]
+indent_size = 2
+
+# Xml project files
+[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+# Xml config files
+[*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+[*.svg]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+# PList Files
+[*.plist]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+# YAML files
+[*.{yaml,yml}]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+# Shell script files
+[*.sh]
+end_of_line = lf
+indent_style = space
+indent_size = 2
+
+# Powershell
+[*.{ps1,psd1,psm1}]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+[*.md]
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# C# Ruleset
+[*.{cs,csx}]
+# Indentation preferences
+csharp_indent_block_contents = true
+csharp_indent_braces = false
+csharp_indent_case_contents = true
+csharp_indent_case_contents_when_block = false
+csharp_indent_labels = one_less_than_current
+csharp_indent_switch_labels = true
+
+## Formatting - new line options
+### Require braces to be on a new line for (also known as "Allman" style)
+### accessors, methods, object_collection, control_blocks, types, properties, lambdas
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_catch = true
+csharp_new_line_before_else = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
+
+## Spaces
+csharp_space_after_cast = false
+csharp_space_after_colon_in_inheritance_clause = true
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_before_colon_in_inheritance_clause = true
+csharp_space_before_comma = false
+csharp_space_before_dot = false
+csharp_space_before_open_square_brackets = false
+csharp_space_before_semicolon_in_for_statement = false
+csharp_space_between_method_call_empty_parameter_list_parentheses = false
+csharp_space_between_method_call_name_and_opening_parenthesis = false
+csharp_space_between_method_call_parameter_list_parentheses = false
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+
+# Modifier preferences
+csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:suggestion
+
+# Organize Usings
+dotnet_separate_import_directive_groups = false
+dotnet_sort_system_directives_first = true
+file_header_template = unset
+# file_header_template = Copyright Xeno Innovations, Inc. 2022\nSee the LICENSE file in the project root for more information.
+
+# this. and Me. preferences
+dotnet_style_qualification_for_event = false
+dotnet_style_qualification_for_field = false
+dotnet_style_qualification_for_method = false
+dotnet_style_qualification_for_property = false
+
+# Language keywords vs BCL types preferences
+dotnet_style_predefined_type_for_locals_parameters_members = true
+dotnet_style_predefined_type_for_member_access = true
+
+# Parentheses preferences
+dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity
+dotnet_style_parentheses_in_other_binary_operators = always_for_clarity
+dotnet_style_parentheses_in_other_operators = never_if_unnecessary
+dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity
+
+# Modifier preferences
+dotnet_style_predefined_type_for_locals_parameters_members = true
+dotnet_style_require_accessibility_modifiers = for_non_interface_members
+dotnet_style_readonly_field = true
+
+# Expression-level preferences
+dotnet_style_coalesce_expression = true
+dotnet_style_collection_initializer = true
+dotnet_style_explicit_tuple_names = true
+dotnet_style_namespace_match_folder = true
+dotnet_style_null_propagation = true
+dotnet_style_object_initializer = true
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+dotnet_style_prefer_auto_properties = true
+dotnet_style_prefer_compound_assignment = true
+dotnet_style_prefer_conditional_expression_over_assignment = true
+dotnet_style_prefer_conditional_expression_over_return = true
+dotnet_style_prefer_inferred_anonymous_type_member_names = true
+dotnet_style_prefer_inferred_tuple_names = true
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true
+dotnet_style_prefer_simplified_boolean_expressions = true
+dotnet_style_prefer_simplified_interpolation = true
+
+# Parameter preferences
+dotnet_code_quality_unused_parameters = all
+
+# Suppression preferences
+dotnet_remove_unnecessary_suppression_exclusions = none
+
+# New line preferences
+#dotnet_diagnostic.IDE2000.severity = warning
+dotnet_style_allow_multiple_blank_lines_experimental = false:error
+
+# dotnet_diagnostic.IDE2001.severity = none
+csharp_style_allow_embedded_statements_on_same_line_experimental = false
+
+# dotnet_diagnostic.IDE2002.severity = warning
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false
+
+# dotnet_diagnostic.IDE2003.severity = error
+dotnet_style_allow_statement_immediately_after_block_experimental = false:error
+
+# Naming Conventions
+## Async methods must use "Async" suffix
+dotnet_naming_rule.async_methods_end_in_async.symbols = any_async_methods
+dotnet_naming_rule.async_methods_end_in_async.style = end_in_async
+dotnet_naming_rule.async_methods_end_in_async.severity = error
+dotnet_naming_symbols.any_async_methods.applicable_kinds = method
+dotnet_naming_symbols.any_async_methods.applicable_accessibilities = *
+dotnet_naming_symbols.any_async_methods.required_modifiers = async
+dotnet_naming_style.end_in_async.capitalization = pascal_case
+dotnet_naming_style.end_in_async.required_prefix =
+dotnet_naming_style.end_in_async.required_suffix = Async
+dotnet_naming_style.end_in_async.word_separator =
+
+## private fields must prefix with an underscore
+dotnet_naming_rule.private_members_with_underscore.symbols  = private_fields
+dotnet_naming_rule.private_members_with_underscore.style    = prefix_underscore
+dotnet_naming_rule.private_members_with_underscore.severity = error
+dotnet_naming_symbols.private_fields.applicable_kinds       = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_style.prefix_underscore.capitalization = camel_case
+dotnet_naming_style.prefix_underscore.required_prefix = _
+
+## private static fields must use PascalCase (overrides '_' based on SA1311)
+dotnet_naming_rule.private_static_field_naming.symbols  = private_static_field_naming
+dotnet_naming_rule.private_static_field_naming.style    = pascal_case_style
+dotnet_naming_rule.private_static_field_naming.severity = error
+dotnet_naming_symbols.private_static_field_naming.applicable_kinds   = field
+dotnet_naming_symbols.private_static_field_naming.applicable_accessibilities = private
+dotnet_naming_symbols.private_static_field_naming.required_modifiers = static, readonly
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+## Constant fields must use PascalCase
+dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
+dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = error
+dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_style
+dotnet_naming_symbols.constant_fields.applicable_kinds            = field
+dotnet_naming_symbols.constant_fields.applicable_accessibilities  = *
+dotnet_naming_symbols.constant_fields.required_modifiers          = const
+dotnet_naming_style.pascal_case_style.capitalization              = pascal_case
+
+## Interfaces must have an I suffix
+dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = error
+dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.interface.required_modifiers =
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
+dotnet_naming_style.begins_with_i.required_prefix = I
+dotnet_naming_style.begins_with_i.required_suffix =
+dotnet_naming_style.begins_with_i.word_separator =
+
+## Types and Non-Field Members must be PascalCase
+dotnet_naming_rule.types_should_be_pascal_case.severity = error
+dotnet_naming_rule.types_should_be_pascal_case.symbols = types
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
+dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.types.required_modifiers =
+
+dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = error
+dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
+dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
+dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.non_field_members.required_modifiers =
+
+## Code Style Rules
+# IDE1005: Use conditional delegate call
+csharp_style_conditional_delegate_call = true
+# IDE1005: Delegate invocation can be simplified.
+dotnet_diagnostic.IDE1005.severity = warning
+# IDE1006: Naming Styles
+dotnet_diagnostic.IDE1006.severity = error
+# IDEOOO8: Use of var
+dotnet_diagnostic.IDE0008.severity = none
+# IDE0010: Add missing cases
+dotnet_diagnostic.IDE0010.severity = none
+# IDE0011: Add braces
+csharp_prefer_braces = when_multiline
+# IDE0025: Use expression body for properties
+csharp_style_expression_bodied_properties = true
+# IDE0026: Use expression body for indexers
+csharp_style_expression_bodied_indexers = true
+# IDE0027: Use expression body for accessors
+csharp_style_expression_bodied_accessors = true
+# IDE0046: Convert to conditional expression
+dotnet_diagnostic.IDE0046.severity = none
+# IDE0058: Expression value is never used
+# csharp_style_unused_value_expression_statement_preference = discard_variable
+dotnet_diagnostic.IDE0058.severity = none
+
+## Code Quality Rules
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = none
+# CA1822: Mark members as static
+##dotnet_diagnostic.CA1822.severity = none
+# CA1507: Use nameof to express symbol names
+dotnet_diagnostic.CA1507.severity = error
+
+## Compiler
+# CS0618: Type or member is obsolete
+##dotnet_diagnostic.CS0618.severity = error
+dotnet_diagnostic.CS0618.severity = warning
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none
+
+## StyleCop.Analyzers
+# SA1000: Keywords should be spaced correctly
+dotnet_diagnostic.SA1000.severity = error
+# SA1005: Single line comments should begin with single space
+dotnet_diagnostic.SA1005.severity = error
+# SA1008
+# SA1025: Spacing??
+# SA1101: PrefixLocalCallsWithThis
+dotnet_diagnostic.SA1101.severity = none
+# SA1116: Split parameters should start on line after declaration
+dotnet_diagnostic.SA1116.severity = none
+# SA1118: Parameter should not span multiple lines
+dotnet_diagnostic.SA1118.severity = warning
+# SA1137: Elements should have the same indentation
+dotnet_diagnostic.SA1137.severity = error
+# SA1124: Do not use regions
+dotnet_diagnostic.SA1124.severity = error
+# SA1200: UsingDirectivesMustBePlacedWithinNamespace
+dotnet_diagnostic.SA1200.severity = none
+# SA1201: Elements should appear in the correct order
+dotnet_diagnostic.SA1201.severity = error
+# SA1202: Elements should be ordered by access
+dotnet_diagnostic.SA1202.severity = error
+# SA1203: Constants should appear before fields
+dotnet_diagnostic.SA1203.severity = error
+# SA1204: Static elements should appear before instance elements
+dotnet_diagnostic.SA1204.severity = error
+# SA1214: Readonly fields should appear before non-readonly fields
+dotnet_diagnostic.SA1214.severity = error
+# SA1306: Field names should begin with lower-case letter
+dotnet_diagnostic.SA1306.severity = error
+# SA1309: FieldNamesMustNotBeginWithUnderscore
+dotnet_diagnostic.SA1309.severity = none
+# SA1313: Parameter names should begin with lower-case letter
+dotnet_diagnostic.SA1313.severity = error
+# SA1414: Tuple types in signatures should have element names
+dotnet_diagnostic.SA1414.severity = silent
+# SA1503: Braces should not be omitted
+dotnet_diagnostic.SA1503.severity = none
+# SA1505: Opening braces should not be floowed by a blank line
+dotnet_diagnostic.SA1505.severity= error
+# SA1507: Code should not contain multiple blank lines in a row
+dotnet_diagnostic.SA1507.severity = error
+# SA1508: Closing brac should not be preceded by a blank line
+dotnet_diagnostic.SA1508.severity= error
+# SA1513: Closing brace should be followed by blank line
+dotnet_diagnostic.SA1513.severity = error
+# SA1514: Element documentation header should be preceded by blank line
+dotnet_diagnostic.SA1514.severity = error
+# SA1515: Single-line comment should be preceded by blank line
+dotnet_diagnostic.SA1515.severity = warning
+# SA1516: Elements should be separated by blank line
+dotnet_diagnostic.SA1516.severity = error
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = none
+# SA1602: Enumeration items should not be documented
+dotnet_diagnostic.SA1602.severity = none
+# SA1623: Property summary documentation should match accessors
+dotnet_diagnostic.SA1623.severity = warning
+# SA1633: FileMustHaveHeader
+dotnet_diagnostic.SA1633.severity = silent
+# SA1636: File header copyright text should match
+dotnet_diagnostic.SA1636.severity = none
+
+# Default severity for analyzer diagnostics with category 'StyleCop.CSharp.SpacingRules' SA1028: Code should not contain trailing whitespace
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.SpacingRules.severity = error
+
+dotnet_diagnostic.VSSpell001.severity = suggestion
+dotnet_diagnostic.VSSpell002.severity = none
+
+# SA0001: XML comment analysis is disabled due to project configuration
+dotnet_diagnostic.SA0001.severity = none
+
+# Ignore Generated XAML
+[*.sg.cs]
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none
+dotnet_analyzer_diagnostic.CS1591.severity = none
+# generated_code = true
+
+[WindowsAppSDK-VersionInfo.cs]
+dotnet_diagnostic.CS1591.severity = none

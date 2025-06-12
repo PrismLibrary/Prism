@@ -46,12 +46,12 @@ namespace Prism.Modularity
                 List<string> loadedAssemblies = new List<string>();
 
                 var assemblies = (
-                                     from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
-                                     where !(assembly is System.Reflection.Emit.AssemblyBuilder)
-                                        && assembly.GetType().FullName != "System.Reflection.Emit.InternalAssemblyBuilder"
-                                        && !String.IsNullOrEmpty(assembly.Location)
-                                     select assembly.Location
-                                 );
+                    from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
+                    where !(assembly is System.Reflection.Emit.AssemblyBuilder)
+                        && assembly.GetType().FullName != "System.Reflection.Emit.InternalAssemblyBuilder"
+                        && !String.IsNullOrEmpty(assembly.Location)
+                    select assembly.Location
+                );
 
                 loadedAssemblies.AddRange(assemblies);
 
@@ -132,12 +132,14 @@ namespace Prism.Modularity
                 {
                     return loadedAssembly;
                 }
+
                 AssemblyName assemblyName = new AssemblyName(args.Name);
                 string dependentAssemblyFilename = Path.Combine(directory.FullName, assemblyName.Name + ".dll");
                 if (File.Exists(dependentAssemblyFilename))
                 {
                     return Assembly.ReflectionOnlyLoadFrom(dependentAssemblyFilename);
                 }
+
                 return Assembly.ReflectionOnlyLoad(args.Name);
             }
 
@@ -202,6 +204,7 @@ namespace Prism.Modularity
                     InitializationMode = onDemand ? InitializationMode.OnDemand : InitializationMode.WhenAvailable,
                     Ref = type.Assembly.EscapedCodeBase,
                 };
+
                 moduleInfo.DependsOn.AddRange(dependsOn);
                 return moduleInfo;
             }

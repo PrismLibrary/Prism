@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Prism</RootNamespace>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <Description>Prism.Avalonia is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices. Prism.Avalonia provides an implementation of a collection of design patterns that are helpful in writing well structured, maintainable, and testable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET Standard. Features that need to be platform specific are implemented in the respective libraries for the target platform (Avalonia, WPF, Uno Platform, and Xamarin Forms).
+
+Prism.Avalonia helps you more easily design and build rich, flexible, and easy to maintain cross-platform Avalonia desktop applications. This library provides user interface composition as well as modularity support.</Description>
+
+    <Title>Prism.Avalonia</Title>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) ">
+    <Compile Remove="**\*.netcore.cs" />
+    <None Include="**\*.netcore.cs" />
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\Wpf\Prism.Wpf\Common\MvvmHelpers.cs" LinkBase="Common" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\PrismInitializationExtensions.cs" Link="PrismInitializationExtensions.cs" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Extensions\CollectionExtensions.cs" LinkBase="Extensions" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Interactivity\*.cs" LinkBase="Interactivity" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Ioc\*.cs" LinkBase="Ioc" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Modularity\*.cs" LinkBase="Modularity" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Mvvm\*.cs" LinkBase="Mvvm" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Navigation\Regions\**\*.cs" LinkBase="Navigation\Regions" />
+
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Interactivity\InvokeCommandAction.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Modularity\XamlModuleCatalog.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Navigation\Regions\ItemMetadata.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Navigation\Regions\Behaviors\BindRegionContextToDependencyObjectBehavior.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Navigation\Regions\Behaviors\SelectorItemsSourceSyncBehavior.cs" />
+    <Compile Remove="..\..\Wpf\Prism.Wpf\Navigation\Regions\SelectorRegionAdapter.cs" />
+
+    <Using Include="Prism.Extensions" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcore')) OR $(TargetFramework.StartsWith('net6')) OR $(TargetFramework.StartsWith('net7')) OR $(TargetFramework.StartsWith('net8'))">
+    <Compile Remove="**\*.net45.cs" />
+    <None Include="**\*.net45.cs" />
+  </ItemGroup>
+
+  <!--
+  <ItemGroup>
+    < ! - - We probably don't want to support this in Avalonia projects keeping for now - - >
+    <Compile Remove="PrismBootstrapperBase.cs" />
+    <None Include="PrismBootstrapperBase.cs" />
+  </ItemGroup>
+  -->
+
+  <ItemGroup>
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
+    
+    <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />
+  </ItemGroup>
+</Project>

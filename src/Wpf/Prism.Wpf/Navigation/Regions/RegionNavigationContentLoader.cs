@@ -65,7 +65,6 @@ namespace Prism.Navigation.Regions
                         return navigationAware == null || navigationAware.IsNavigationTarget(navigationContext);
                     });
 
-
             var view = acceptingCandidates.FirstOrDefault();
 
             if (view != null)

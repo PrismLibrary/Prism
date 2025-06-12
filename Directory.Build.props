@@ -37,6 +37,7 @@
     <IsUnoProject>$(MSBuildProjectName.Contains('Uno'))</IsUnoProject>
     <IsFormsProject>$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
     <IsMauiProject>$(MSBuildProjectName.Contains('Maui'))</IsMauiProject>
+    <IsAvaloniaProject>$(MSBuildProjectName.Contains('Avalonia'))</IsAvaloniaProject>
     <SignAssembly Condition=" ('$(IsCoreProject)' Or '$(IsWpfProject)') ">True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)prism.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
@@ -49,6 +50,7 @@
     <PackageTags Condition=" '$(IsWpfProject)' == 'True' ">prism;mvvm;wpf;dependency injection;di</PackageTags>
     <PackageTags Condition=" '$(IsUnoProject)' == 'True' ">prism;mvvm;winui;uno-platform;xamarin;webassembly;android;ios;macos;dependency injection;di</PackageTags>
     <PackageTags Condition=" '$(IsFormsProject)' == 'True' ">prism;mvvm;uwp;android;ios;xamarin;xamarin.forms;dependency injection;di</PackageTags>
+    <PackageTags Condition=" '$(IsAvaloniaProject)' == 'True' ">prism;mvvm;axaml;xaml;desktop;navigation;prismavalonia;dialog;linux;macos;avalonia;dependency injection;di</PackageTags>
     <IS_PREVIEW Condition=" '$(IS_PREVIEW)' == '' ">false</IS_PREVIEW>
     <IS_RELEASE Condition=" '$(IS_RELEASE)' == '' ">false</IS_RELEASE>
     <UseWpf>$(IsWpfProject)</UseWpf>
@@ -81,6 +83,22 @@
         <Using Include="Microsoft.UI.Xaml.Controls.Primitives" />
         <Using Include="Microsoft.UI.Xaml.Data" />
         <Using Include="Microsoft.UI.Xaml.Media" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(IsAvaloniaProject)">
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);AVALONIA</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Using Include="Avalonia" />
+        <Using Include="Avalonia.Controls" />
+        <Using Include="Avalonia.Controls.ApplicationLifetimes" />
+        <Using Include="Avalonia.Controls.Primitives" />
+        <Using Include="Avalonia.Interactivity" />
+        <Using Include="Avalonia.Markup.Xaml" />
+        <Using Include="Avalonia.Controls.Control" Alias="FrameworkElement" />
+        <Using Include="Avalonia.AvaloniaObject" Alias="DependencyObject" />
+        <Using Include="Avalonia.AvaloniaPropertyChangedEventArgs" Alias="DependencyPropertyChangedEventArgs" />
       </ItemGroup>
     </When>
   </Choose>

@@ -1,4 +1,9 @@
 using System.ComponentModel;
+#if AVALONIA
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.VisualTree;
+#endif
 using Prism.Properties;
 
 namespace Prism.Navigation.Regions.Behaviors
@@ -49,6 +54,7 @@ namespace Prism.Navigation.Regions.Behaviors
                 {
                     throw new InvalidOperationException(Resources.HostControlCannotBeSetAfterAttach);
                 }
+
                 hostControl = value;
             }
         }
@@ -133,6 +139,8 @@ namespace Prism.Navigation.Regions.Behaviors
             DependencyObject parent = null;
 #if UNO_WINUI
             parent = VisualTreeHelper.GetParent(dependencyObject);
+#elif AVALONIA
+            parent = ((dependencyObject as Avalonia.Visual)?.GetVisualParent() ?? null) as Avalonia.AvaloniaObject;
 #else
             parent = LogicalTreeHelper.GetParent(dependencyObject);
 #endif

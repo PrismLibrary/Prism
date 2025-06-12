@@ -1,0 +1,113 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:core="clr-namespace:SampleApp;assembly=PrismAvaloniaDemo"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:vm="clr-namespace:SampleApp.ViewModels"
+        x:Class="SampleApp.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        Title="{Binding Title}"
+        Width="800"
+        Height="500"
+        Background="Transparent"
+        TransparencyLevelHint="AcrylicBlur">
+  <Window.Styles>
+    <Style Selector="Button">
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+
+    <!-- Center the icons so that it is centered in the SplitView when it is collapsed. -->
+    <Style Selector="PathIcon">
+      <Setter Property="Margin" Value="5,0,15,0" />
+    </Style>
+  </Window.Styles>
+
+  <Panel>
+    <ExperimentalAcrylicBorder IsHitTestVisible="true">
+      <ExperimentalAcrylicBorder.Material>
+        <ExperimentalAcrylicMaterial BackgroundSource="Digger"
+                                     MaterialOpacity="0.65"
+                                     TintColor="LightGray"
+                                     TintOpacity="1" />
+      </ExperimentalAcrylicBorder.Material>
+    </ExperimentalAcrylicBorder>
+
+    <SplitView DisplayMode="CompactInline"
+               IsPaneOpen="{Binding IsPaneOpened}"
+               OpenPaneLength="200">
+      <SplitView.Pane>
+        <!--
+          You may directly reference the user control when there is only one View, like so.
+          EX: `<views:SidebarView />`
+
+          Or, you can implement Prism RegionManager if the sidebar pane requires dynamic content.
+          EX: `<ContentControl prism:RegionManager.RegionName={x:Static core:RegionNames.ContentSidebar}" />`
+
+          In this example, we are using the MainWindow's ViewModel to handle the SplitView collasping
+        -->
+
+        <DockPanel>
+
+          <!-- Dock the hamburger menu button to the top with no text -->
+          <Button Height="25"
+                  HorizontalContentAlignment="Left"
+                  Command="{Binding CmdFlyoutMenu}"
+                  DockPanel.Dock="Top"
+                  ToolTip.Tip="Expand/Collapse">
+            <Button.Content>
+              <StackPanel Orientation="Horizontal">
+                <PathIcon Data="{StaticResource Menu}" />
+              </StackPanel>
+            </Button.Content>
+          </Button>
+
+          <!--
+          <Button DockPanel.Dock="Top"
+                  Command="{Binding CmdFlyoutMenu}"
+                  ToolTip.Tip="Expand/Collapse"
+                  Height="25">
+            <StackPanel Orientation="Horizontal">
+              <PathIcon Data="{StaticResource MenuClose}" />
+              <TextBlock Text="" />
+            </StackPanel>
+          </Button>
+          -->
+
+          <!-- Dock the Settings button to the bottom -->
+          <Button Command="{Binding CmdSettings}"
+                  DockPanel.Dock="Bottom"
+                  ToolTip.Tip="Settings">
+            <StackPanel Orientation="Horizontal">
+              <PathIcon Data="{StaticResource settings_regular}" />
+              <TextBlock Text="Navigation Sample" />
+            </StackPanel>
+          </Button>
+
+          <ScrollViewer>
+            <StackPanel>
+              <Button Command="{Binding CmdDashboard}" ToolTip.Tip="Dashboard">
+                <StackPanel Orientation="Horizontal">
+                  <PathIcon Data="{StaticResource home_regular}" />
+                  <TextBlock Text="Dashboard" />
+                </StackPanel>
+              </Button>
+
+              <!-- Place additional buttons here... -->
+              <Button Command="{Binding .}" ToolTip.Tip="Dashboard">
+                <StackPanel Orientation="Horizontal">
+                  <PathIcon Data="{StaticResource lock_regular}" />
+                  <TextBlock Text="Something Else" />
+                </StackPanel>
+              </Button>
+            </StackPanel>
+          </ScrollViewer>
+        </DockPanel>
+      </SplitView.Pane>
+
+      <!-- Prism Region for page navigation and back/forward journaling -->
+      <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
+    </SplitView>
+  </Panel>
+</Window>

@@ -1,0 +1,13 @@
+﻿<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="SampleApp.App"
+             RequestedThemeVariant="Default">
+  <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+  <Application.Styles>
+    <FluentTheme />
+
+    <!-- Custom SVG glyphs -->
+    <!-- NOTE: The namespace may be 'SampleApp' but Assembly name is, 'PrismAvaloniaDemo' -->
+    <StyleInclude Source="avares://PrismAvaloniaDemo/Styles/Icons.axaml" />
+  </Application.Styles>
+</Application>

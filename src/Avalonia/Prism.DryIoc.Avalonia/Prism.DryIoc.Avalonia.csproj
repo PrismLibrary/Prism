@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Prism.DryIoc</RootNamespace>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <Description>This extension is used to build Prism.Avalonia applications based on DryIoc. Users must install the Prism.Avalonia NuGet package as well.</Description>
+    <Authors>Damian Suess, Suess Labs, various contributors</Authors>
+    <Copyright>Copyright (c) 2024 Xeno Innovations, Inc.</Copyright>
+    <Title>Prism.DryIoc.Avalonia</Title>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>prism;mvvm;xaml;avalonia;dryioc;dependencyinjection;navigation;dialog;prismavalonia;</PackageTags>
+    <PackageIcon>Prism.Avalonia.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\images\Prism.Avalonia.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
+    <PackageReference Include="Prism.Container.DryIoc" />
+
+    <ProjectReference Include="..\..\Prism.Core\Prism.Core.csproj" />
+    <ProjectReference Include="..\Prism.Avalonia\Prism.Avalonia.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\Wpf\Prism.DryIoc.Wpf\GlobalSuppressions.cs" LinkBase="" />
+    <Compile Include="..\..\Wpf\Prism.DryIoc.Wpf\PrismApplication.cs" LinkBase="" />
+    <Compile Include="..\..\Wpf\Prism.DryIoc.Wpf\PrismBootstrapper.cs" LinkBase="" />
+  </ItemGroup>
+
+</Project>
