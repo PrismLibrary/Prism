@@ -1,6 +1,10 @@
 <Project>
 
   <PropertyGroup>
+  <NetVersion>net9.0</NetVersion>
+  </PropertyGroup>
+  
+  <PropertyGroup>
     <NeutralLanguage>en</NeutralLanguage>
     <Authors>Brian Lagunas;Dan Siegel</Authors>
     <PackageProjectUrl>https://github.com/PrismLibrary/Prism</PackageProjectUrl>
