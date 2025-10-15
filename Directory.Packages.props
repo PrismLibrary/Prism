@@ -1,17 +1,17 @@
 <Project>
   <ItemGroup>
-    <PackageVersion Include="PolySharp" Version="1.14.1" />
+    <PackageVersion Include="PolySharp" Version="1.15.0" />
     <PackageVersion Include="Prism.Container.Abstractions" Version="9.0.114" />
     <PackageVersion Include="Prism.Container.DryIoc" Version="9.0.114" />
     <PackageVersion Include="Prism.Container.Unity" Version="9.0.114" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
-    <PackageVersion Include="System.Reactive" Version="6.0.1" />
+    <PackageVersion Include="System.Reactive" Version="6.1.0" />
     <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
   </ItemGroup>
   <!-- Maui -->
   <ItemGroup Condition=" $(UseMaui) == 'true' ">
-    <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.20" Condition="$(MSBuildProjectName.StartsWith('Prism.'))" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.0-rc.2.25504.7" Condition="$(MSBuildProjectName.StartsWith('Prism.'))" />
     <PackageVersion Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" Condition="!$(MSBuildProjectName.StartsWith('Prism.'))" />
   </ItemGroup>
   <!-- Uno
@@ -68,7 +68,7 @@
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
     <PackageVersion Include="System.CodeDom" Version="8.0.0" />
   </ItemGroup>
-    <!-- Tests -->
+  <!-- Tests -->
   <ItemGroup>
     <PackageVersion Include="coverlet.collector" Version="6.0.2" />
     <PackageVersion Include="GitHubActionsTestLogger" Version="2.4.1" />
