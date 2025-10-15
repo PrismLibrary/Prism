@@ -2,11 +2,7 @@
   <Import Project="..\Directory.Build.props" />
 
   <PropertyGroup>
-    <IsPackable>true</IsPackable>
-    <IsPackable Condition=" '$(IsCoreProject)' ">!$(DisableCorePublish)</IsPackable>
-    <IsPackable Condition=" '$(IsWpfProject)' ">!$(DisableWpfPublish)</IsPackable>
-    <IsPackable Condition=" '$(IsFormsProject)' ">!$(DisableFormsPublish)</IsPackable>
-    <IsPackable Condition=" '$(IsUnoProject)' ">!$(DisableUnoPublish)</IsPackable>
+    <IsPackable>false</IsPackable>
     <ContinuousIntegrationBuild Condition="'$(BUILD_BUILDID)' != ''">true</ContinuousIntegrationBuild>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -33,7 +29,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <GeneratePackageOnBuild>$(IsPackable)</GeneratePackageOnBuild>
   </PropertyGroup>
 

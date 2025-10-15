@@ -4,7 +4,7 @@
     <TargetFramework>$(NetVersion)</TargetFramework>
     <ImplicitUsings>true</ImplicitUsings>
     <Description>Prism.Maui.Rx is a support package for .NET MAUI developers. This package provides some helpers to access an IObservable for globally handling Navigation Request Results.</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <UseMaui>true</UseMaui>
   </PropertyGroup>
 

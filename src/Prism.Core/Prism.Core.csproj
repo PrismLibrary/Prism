@@ -12,6 +12,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Using Include="Prism" />
+    <Using Include="Prism.Commands" />
+    <Using Include="Prism.Dialogs" />
+    <Using Include="Prism.Ioc" />
+    <Using Include="Prism.Modularity" />
+    <Using Include="Prism.Mvvm" />
+    <Using Include="Prism.Navigation" />
+    <Using Include="Prism.Navigation.Regions" />
     <PackageReference Include="PolySharp">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
