@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33213.308
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11012.119 d18.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F3664D7A-6FF5-4D1F-9F5F-26EE87F032D3}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,7 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 		Directory.build.targets = Directory.build.targets
 		Directory.Packages.props = Directory.Packages.props
-		global.json = global.json
 		xunit.runner.json = xunit.runner.json
 	EndProjectSection
 EndProject

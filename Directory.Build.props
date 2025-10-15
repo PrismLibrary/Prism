@@ -1,8 +1,6 @@
 <Project>
 
-  <PropertyGroup>
-  <NetVersion>net9.0</NetVersion>
-  </PropertyGroup>
+
   
   <PropertyGroup>
     <NeutralLanguage>en</NeutralLanguage>

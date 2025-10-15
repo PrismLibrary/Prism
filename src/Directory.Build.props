@@ -10,7 +10,9 @@
     <ContinuousIntegrationBuild Condition="'$(BUILD_BUILDID)' != ''">true</ContinuousIntegrationBuild>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <NetVersion>net10.0</NetVersion>
+  </PropertyGroup>
   <Choose>
     <When Condition=" $(IsUnoProject) AND '$(TargetFramework)' == 'net8.0' ">
       <PropertyGroup>
