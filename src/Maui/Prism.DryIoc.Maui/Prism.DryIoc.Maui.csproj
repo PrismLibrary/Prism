@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>$(NetVersion)</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <UseMaui>true</UseMaui>
     <ImplicitUsings>true</ImplicitUsings>
     <Description>Prism.DryIoc.Maui provides the implementation of Prism's IContainerExtension using the DryIoc container. This is currently the only supported container for .NET MAUI.</Description>
