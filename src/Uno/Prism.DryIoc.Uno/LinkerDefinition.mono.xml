@@ -1,4 +1,0 @@
-﻿<linker>
-  <assembly fullname="DryIoc" />
-  <assembly fullname="Prism.DryIoc.Uno" />
-</linker>

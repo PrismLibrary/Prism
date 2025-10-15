@@ -1,5 +1,6 @@
 <Project>
   <ItemGroup>
+    <PackageVersion Include="DryIoc.dll" Version="6.0.0-preview-09" />
     <PackageVersion Include="PolySharp" Version="1.15.0" />
     <PackageVersion Include="Prism.Container.Abstractions" Version="9.0.114" />
     <PackageVersion Include="Prism.Container.DryIoc" Version="9.0.114" />
