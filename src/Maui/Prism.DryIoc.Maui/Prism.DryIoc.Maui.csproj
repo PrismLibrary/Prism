@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DryIoc.dll" />
     <PackageReference Include="Prism.Container.DryIoc" />
     <PackageReference Include="Microsoft.Maui.Controls" />
   </ItemGroup>
