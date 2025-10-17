@@ -97,7 +97,7 @@
   <ItemGroup>
     <!-- Global Packages -->
     <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" />
-    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.141" />
+    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.9.17-alpha" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
   </ItemGroup>
 </Project>
