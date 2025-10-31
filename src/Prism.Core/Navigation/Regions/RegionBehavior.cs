@@ -6,9 +6,10 @@ namespace Prism.Navigation.Regions
     /// <summary>
     /// Provides a base class for region's behaviors.
     /// </summary>
-    public abstract class RegionBehavior : IRegionBehavior
+    public abstract class RegionBehavior : IRegionBehavior, IDisposable
     {
         private IRegion region;
+        private bool _disposed;
 
         /// <summary>
         /// Behavior's attached region.
@@ -53,5 +54,39 @@ namespace Prism.Navigation.Regions
         /// Override this method to perform the logic after the behavior has been attached.
         /// </summary>
         protected abstract void OnAttach();
+
+        /// <summary>
+        /// Override this method to perform cleanup when the behavior is being disposed.
+        /// </summary>
+        protected virtual void OnDetach()
+        {
+        }
+
+        /// <summary>
+        /// Disposes the behavior and detaches it from the region.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes the behavior.
+        /// </summary>
+        /// <param name="disposing">True if disposing, false if finalizing.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                OnDetach();
+                IsAttached = false;
+            }
+
+            _disposed = true;
+        }
     }
 }

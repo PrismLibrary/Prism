@@ -40,6 +40,24 @@ public class AutoPopulateRegionBehavior : RegionBehavior
         }
     }
 
+    /// <summary>
+    /// Detaches the AutoPopulateRegionBehavior from the Region and unsubscribes from events.
+    /// </summary>
+    protected override void OnDetach()
+    {
+        if (Region != null)
+        {
+            Region.PropertyChanged -= Region_PropertyChanged;
+        }
+
+        if (regionViewRegistry != null)
+        {
+            regionViewRegistry.ContentRegistered -= OnViewRegistered;
+        }
+
+        base.OnDetach();
+    }
+
     private void StartPopulatingContent()
     {
         foreach (VisualElement view in CreateViewsToAutoPopulate())

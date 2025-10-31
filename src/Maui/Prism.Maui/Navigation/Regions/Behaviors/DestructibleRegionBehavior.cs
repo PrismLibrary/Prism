@@ -21,6 +21,19 @@ public class DestructibleRegionBehavior : RegionBehavior
         Region.Views.CollectionChanged += Views_CollectionChanged;
     }
 
+    /// <summary>
+    /// Detaches the behavior from the region and unsubscribes from events.
+    /// </summary>
+    protected override void OnDetach()
+    {
+        if (Region?.Views != null)
+        {
+            Region.Views.CollectionChanged -= Views_CollectionChanged;
+        }
+
+        base.OnDetach();
+    }
+
     private void Views_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.Action == NotifyCollectionChangedAction.Remove)

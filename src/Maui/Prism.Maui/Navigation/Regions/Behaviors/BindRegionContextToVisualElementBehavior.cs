@@ -32,6 +32,22 @@ public class BindRegionContextToVisualElementBehavior : IRegionBehavior
         AttachNotifyChangeEvent(Region.Views);
     }
 
+    /// <summary>
+    /// Detaches the behavior from the region and unsubscribes from events.
+    /// </summary>
+    public void Detach()
+    {
+        if (Region != null)
+        {
+            if (Region.Views != null)
+            {
+                Region.Views.CollectionChanged -= Views_CollectionChanged;
+                DetachNotifyChangeEvent(Region.Views);
+            }
+            Region.PropertyChanged -= Region_PropertyChanged;
+        }
+    }
+
     private static void SetContextToViews(IEnumerable views, object context)
     {
         foreach (var view in views)
