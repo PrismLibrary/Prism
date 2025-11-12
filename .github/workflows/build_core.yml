@@ -21,3 +21,4 @@ jobs:
     with:
       name: Build Prism.Core
       solution-path: PrismLibrary_Core.slnf
+      dotnet-version: 10.0.100

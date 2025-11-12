@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net6.0-windows;net462</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows;net462</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <RootNamespace>HelloWorld</RootNamespace>
     <ApplicationIcon>..\HelloWorld\prism-sandbox.ico</ApplicationIcon>

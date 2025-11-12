@@ -25,3 +25,4 @@ jobs:
       name: Build Prism.Maui
       solution-path: PrismLibrary_Maui.slnf
       install-workload: maui maui-tizen
+      dotnet-version: 10.0.100

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Prism</RootNamespace>
-    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
     <Description>Prism.Avalonia is a fully open source version of the Prism guidance originally produced by Microsoft Patterns &amp; Practices. Prism.Avalonia provides an implementation of a collection of design patterns that are helpful in writing well structured, maintainable, and testable XAML applications, including MVVM, dependency injection, commanding, event aggregation, and more. Prism's core functionality is a shared library targeting the .NET Framework and .NET Standard. Features that need to be platform specific are implemented in the respective libraries for the target platform (Avalonia, WPF, Uno Platform, and Xamarin Forms).
 
 Prism.Avalonia helps you more easily design and build rich, flexible, and easy to maintain cross-platform Avalonia desktop applications. This library provides user interface composition as well as modularity support.</Description>
@@ -11,11 +11,11 @@ Prism.Avalonia helps you more easily design and build rich, flexible, and easy t
     <Title>Prism.Avalonia</Title>
   </PropertyGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) ">
+  <!--<ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) ">
     <Compile Remove="**\*.netcore.cs" />
     <None Include="**\*.netcore.cs" />
     <Reference Include="System.Configuration" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
     <Compile Include="..\..\Wpf\Prism.Wpf\Common\MvvmHelpers.cs" LinkBase="Common" />
@@ -37,7 +37,7 @@ Prism.Avalonia helps you more easily design and build rich, flexible, and easy t
     <Using Include="Prism.Extensions" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcore')) OR $(TargetFramework.StartsWith('net6')) OR $(TargetFramework.StartsWith('net7')) OR $(TargetFramework.StartsWith('net8'))">
+  <ItemGroup>
     <Compile Remove="**\*.net45.cs" />
     <None Include="**\*.net45.cs" />
   </ItemGroup>

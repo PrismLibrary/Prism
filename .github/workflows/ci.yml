@@ -31,6 +31,7 @@ jobs:
       solution-path: PrismLibrary_Core.slnf
       code-sign: true
       artifact-name: Core
+      dotnet-version: 10.0.100
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
@@ -45,6 +46,7 @@ jobs:
       solution-path: PrismLibrary_Wpf.slnf
       code-sign: true
       artifact-name: Wpf
+      dotnet-version: 10.0.100
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
@@ -58,7 +60,7 @@ jobs:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
       windows-sdk-version: 18362
-      dotnet-version: 8.0.300
+      dotnet-version: 10.0.100
       install-workload: ios android macos maccatalyst wasm-tools
       uno-check: false
       uno-check-version: 1.24.0
@@ -81,6 +83,7 @@ jobs:
       install-workload: maui maui-tizen
       code-sign: true
       artifact-name: Maui
+      dotnet-version: 10.0.100
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
@@ -95,6 +98,7 @@ jobs:
       solution-path: PrismLibrary_Avalonia.slnf
       code-sign: true
       artifact-name: Avalonia
+      dotnet-version: 10.0.100
     secrets:
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}

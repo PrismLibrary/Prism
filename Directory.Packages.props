@@ -11,7 +11,10 @@
   </ItemGroup>
   <!-- Maui -->
   <ItemGroup Condition=" $(UseMaui) == 'true' ">
-    <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.20" Condition="$(MSBuildProjectName.StartsWith('Prism.'))" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="9.0.110"
+                    Condition="$(MSBuildProjectName.StartsWith('Prism.')) AND $(TargetFramework.StartsWith('net9.0'))" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.10"
+                    Condition="$(MSBuildProjectName.StartsWith('Prism.')) AND $(TargetFramework.StartsWith('net10.0'))" />
     <PackageVersion Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" Condition="!$(MSBuildProjectName.StartsWith('Prism.'))" />
   </ItemGroup>
   <!-- Uno
@@ -21,51 +24,52 @@
     See https://aka.platform.uno/upgrade-uno-packages for more information.
   -->
   <ItemGroup Condition=" $(IsUnoProject) == 'true' ">
-    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="5.3.12" />
-    <PackageVersion Include="Uno.WinUI.Markup" Version="5.3.12" />
+    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="6.4.11" />
+    <PackageVersion Include="Uno.WinUI.Markup" Version="6.4.11" />
     <PackageVersion Include="Uno.WinUI" Version="$(UnoVersion)" />
     <PackageVersion Include="Uno.WinUI.Lottie" Version="$(UnoVersion)" />
     <PackageVersion Include="Uno.WinUI.Skia.Gtk" Version="$(UnoVersion)" />
     <PackageVersion Include="Uno.WinUI.Skia.Linux.FrameBuffer" Version="$(UnoVersion)" />
     <PackageVersion Include="Uno.WinUI.Skia.Wpf" Version="$(UnoVersion)" />
-    <PackageVersion Include="Uno.Wasm.Bootstrap" Version="8.0.20" />
-    <PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="8.0.20" />
+    <PackageVersion Include="Uno.Wasm.Bootstrap" Version="9.0.20" />
+    <PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="9.0.20" />
     <PackageVersion Include="Uno.WinUI.WebAssembly" Version="$(UnoVersion)" />
     <PackageVersion Include="Uno.WinUI.DevServer" Version="$(UnoVersion)" />
     <PackageVersion Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="$(UnoVersion)" />
-    <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
+    <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.1.1" />
     <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.4.2" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" Condition="$(MSBuildProjectName.Contains('Prism'))" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" Condition="!$(MSBuildProjectName.Contains('Prism'))" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
-    <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.7" />
-    <PackageVersion Include="SkiaSharp.Skottie" Version="2.88.7" />
-    <PackageVersion Include="Uno.Resizetizer" Version="1.4.10" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.7.250909003" Condition="!$(MSBuildProjectName.Contains('Prism'))" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.6901" />
+    <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="3.119.1" />
+    <PackageVersion Include="SkiaSharp.Skottie" Version="3.119.1" />
+    <PackageVersion Include="Uno.Resizetizer" Version="1.12.1" />
     <PackageVersion Include="Uno.Extensions.Logging.OSLog" Version="1.7.0" />
-    <PackageVersion Include="Uno.Extensions.Logging.WinUI" Version="4.1.24" />
-    <PackageVersion Include="Uno.Extensions.Logging.Serilog" Version="4.1.24" />
+    <PackageVersion Include="Uno.Extensions.Logging.WinUI" Version="7.0.4" />
+    <PackageVersion Include="Uno.Extensions.Logging.Serilog" Version="7.0.4" />
     <PackageVersion Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.7.0" />
-    <PackageVersion Include="Uno.Material.WinUI" Version="5.0.13" />
-    <PackageVersion Include="Uno.Toolkit.WinUI.Material" Version="6.0.24" />
-    <PackageVersion Include="Uno.Toolkit.WinUI" Version="6.0.24" />
-    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="4.2.2" />
+    <PackageVersion Include="Uno.Material.WinUI" Version="6.0.2" />
+    <PackageVersion Include="Uno.Toolkit.WinUI.Material" Version="8.3.2" />
+    <PackageVersion Include="Uno.Toolkit.WinUI" Version="8.3.2" />
+    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="7.0.4" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
-    <PackageVersion Include="Xamarin.Google.Android.Material" Version="1.10.0.3" />
-    <PackageVersion Include="Uno.UniversalImageLoader" Version="1.9.36" />
+    <PackageVersion Include="Xamarin.Google.Android.Material" Version="1.12.0.4" />
+    <PackageVersion Include="Xamarin.Google.Android.Material" Version="1.12.0.5" Condition="$(TargetFramework.StartsWith('net10.0'))" />
+    <PackageVersion Include="Uno.UniversalImageLoader" Version="1.9.37" />
     <PackageVersion Include="Microsoft.Windows.Compatibility" Version="8.0.0" />
   </ItemGroup>
   <!-- Avalonia -->
   <ItemGroup Condition=" $(IsAvaloniaProject) == 'true' ">
-    <PackageVersion Include="Avalonia" Version="11.3.5" />
-    <PackageVersion Include="Avalonia.Desktop" Version="11.3.5" />
-    <PackageVersion Include="Avalonia.Diagnostics" Version="11.3.5" />
-    <PackageVersion Include="Avalonia.LinuxFramebuffer" Version="11.3.5" />
-    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="11.3.5" />
-    <PackageVersion Include="Avalonia.Themes.Simple" Version="11.3.5" />
-    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.3.5" />
-    <PackageVersion Include="Avalonia.Fonts.Inter" Version="11.3.5" />
-    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+    <PackageVersion Include="Avalonia" Version="11.3.8" />
+    <PackageVersion Include="Avalonia.Desktop" Version="11.3.8" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="11.3.8" />
+    <PackageVersion Include="Avalonia.LinuxFramebuffer" Version="11.3.8" />
+    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="11.3.8" />
+    <PackageVersion Include="Avalonia.Themes.Simple" Version="11.3.8" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.3.8" />
+    <PackageVersion Include="Avalonia.Fonts.Inter" Version="11.3.8" />
+    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="10.0.0" />
     <PackageVersion Include="System.CodeDom" Version="8.0.0" />
   </ItemGroup>
     <!-- Tests -->
@@ -96,7 +100,7 @@
   <ItemGroup>
     <!-- Global Packages -->
     <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" />
-    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.141" />
+    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.9.50" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
   </ItemGroup>
 </Project>

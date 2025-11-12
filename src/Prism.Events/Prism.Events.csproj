@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net462;net47;net6.0</TargetFrameworks>
+    <TargetFrameworks>net462;net47;net8.0;net9.0;net10.0</TargetFrameworks>
     <!-- Summary is not actually supported at this time. Including the summary for future support. -->
     <!--<Summary>Prism provides an implementation of a collection of design patterns that are helpful in writing well structured and maintainable applications.</Summary>-->
     <Description>Prism.Events is a library that facilitates communication between loosely coupled components in an application. It provides an event aggregator service that allows publishers and subscribers to interact through events without direct references. With multicast publish/subscribe functionality, multiple publishers can raise the same event, and multiple subscribers can listen to it, enabling flexible and efficient communication.</Description>

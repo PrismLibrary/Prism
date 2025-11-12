@@ -23,3 +23,4 @@ jobs:
     with:
       name: Build Prism.Avalonia
       solution-path: PrismLibrary_Avalonia.slnf
+      dotnet-version: 10.0.100
