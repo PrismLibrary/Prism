@@ -10,11 +10,23 @@
 
   <ItemGroup>
     <PackageReference Include="Prism.Container.DryIoc" />
-    <PackageReference Include="Microsoft.Maui.Controls" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Prism.Maui\Prism.Maui.csproj" />
   </ItemGroup>
+
+  <Choose>
+    <When Condition="$(TargetFramework.StartsWith('net9'))">
+      <ItemGroup>
+        <PackageReference Include="Microsoft.Maui.Controls" VersionOverride="9.0.110" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFramework.StartsWith('net10'))">
+      <ItemGroup>
+        <PackageReference Include="Microsoft.Maui.Controls" VersionOverride="10.0.10" />
+      </ItemGroup>
+    </When>
+  </Choose>
 
 </Project>

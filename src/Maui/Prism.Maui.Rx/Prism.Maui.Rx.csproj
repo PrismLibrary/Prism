@@ -13,8 +13,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Maui.Controls" />
     <PackageReference Include="System.Reactive" />
   </ItemGroup>
+
+  <Choose>
+    <When Condition="$(TargetFramework.StartsWith('net9'))">
+      <ItemGroup>
+        <PackageReference Include="Microsoft.Maui.Controls" VersionOverride="9.0.110" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFramework.StartsWith('net10'))">
+      <ItemGroup>
+        <PackageReference Include="Microsoft.Maui.Controls" VersionOverride="10.0.10" />
+      </ItemGroup>
+    </When>
+  </Choose>
 
 </Project>

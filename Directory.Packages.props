@@ -10,13 +10,13 @@
     <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
   </ItemGroup>
   <!-- Maui -->
-  <ItemGroup Condition=" $(UseMaui) == 'true' ">
+  <!--<ItemGroup Condition=" $(UseMaui) == 'true' ">
     <PackageVersion Include="Microsoft.Maui.Controls" Version="9.0.110"
                     Condition="$(MSBuildProjectName.StartsWith('Prism.')) AND $(TargetFramework.StartsWith('net9.0'))" />
     <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.10"
                     Condition="$(MSBuildProjectName.StartsWith('Prism.')) AND $(TargetFramework.StartsWith('net10.0'))" />
     <PackageVersion Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" Condition="!$(MSBuildProjectName.StartsWith('Prism.'))" />
-  </ItemGroup>
+  </ItemGroup>-->
   <!-- Uno
     Note that the $(UnoVersion) comes from the Uno.Sdk. You should not update it manually. To update the version of Uno,
     you should instead update the Sdk version in the global.json file.
