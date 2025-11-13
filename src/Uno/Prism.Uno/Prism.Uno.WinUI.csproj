@@ -2,6 +2,7 @@
 <Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
+    <OutputType>Library</OutputType>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <AssemblyName>Prism.Uno</AssemblyName>
     <RootNamespace>Prism</RootNamespace>

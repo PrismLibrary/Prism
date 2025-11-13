@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
+    <OutputType>Library</OutputType>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
   </PropertyGroup>
 
