@@ -14,7 +14,7 @@ namespace Prism.Navigation.Regions.Xaml;
 /// </summary>
 public static class RegionManager
 {
-    private static readonly WeakDelegatesManager updatingRegionsListeners = new WeakDelegatesManager();
+    private static readonly WeakDelegatesManager updatingRegionsListeners = new ();
 
     private static readonly BindableProperty ObservableRegionProperty =
         BindableProperty.CreateAttached("ObservableRegion", typeof(ObservableObject<IRegion>), typeof(RegionManager), null);

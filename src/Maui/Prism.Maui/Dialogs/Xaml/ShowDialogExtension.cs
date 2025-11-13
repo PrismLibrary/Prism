@@ -1,4 +1,4 @@
-﻿using System.Windows.Input;
+using System.Windows.Input;
 using Microsoft.Extensions.Logging;
 using Prism.Ioc;
 using Prism.Navigation.Xaml;
@@ -7,6 +7,7 @@ using Prism.Xaml;
 namespace Prism.Dialogs.Xaml;
 
 [ContentProperty(nameof(Name))]
+[RequireService([typeof(IProvideValueTarget)])]
 public class ShowDialogExtension : TargetAwareExtensionBase<ICommand>, ICommand
 {
     public static readonly BindableProperty NameProperty =

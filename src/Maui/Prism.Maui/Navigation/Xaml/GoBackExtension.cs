@@ -1,8 +1,9 @@
-﻿
+
 namespace Prism.Navigation.Xaml;
 
 [ContentProperty(nameof(GoBackType))]
-public class GoBackExtension : NavigationExtensionBase
+[RequireService([typeof(IProvideValueTarget)])]
+public partial class GoBackExtension : NavigationExtensionBase
 {
     public static readonly BindableProperty GoBackTypeProperty =
         BindableProperty.Create(nameof(GoBackType), typeof(GoBackType), typeof(GoBackExtension), GoBackType.Default);
