@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls;
 using Moq;
 using Prism.Common;
@@ -15,10 +16,14 @@ public class NavigateToExtensionFixture
     public void Execute_NameIsNull_DoesNotNavigateToPage()
     {
         var mockNavigation = Mock.Of<INavigationService>();
+        var logFactory = new Mock<ILoggerFactory>();
+        logFactory.Setup(x => x.CreateLogger(It.IsAny<string>()))
+            .Returns(Mock.Of<ILogger>());
         var container = new TestContainer();
         container.RegisterInstance(mockNavigation);
         container.RegisterInstance(new PageAccessor());
         container.RegisterForNavigation<PageMock, PageMockViewModel>();
+        container.RegisterInstance<ILoggerFactory>(logFactory.Object);
 
         var registry = container.Resolve<NavigationRegistry>();
         var page = registry.CreateView(container, "PageMock") as Page;
@@ -64,10 +69,15 @@ public class NavigateToExtensionFixture
     public void Execute_NavigationParameters_HasKnownNavigationParameters(bool animated, bool? useModalNavigation)
     {
         var mockNavigation = Mock.Of<INavigationService>();
+        var logFactory = new Mock<ILoggerFactory>();
+        logFactory.Setup(x => x.CreateLogger(It.IsAny<string>()))
+            .Returns(Mock.Of<ILogger>());
+
         var container = new TestContainer();
         container.RegisterInstance(mockNavigation);
         container.RegisterInstance(new PageAccessor());
         container.RegisterForNavigation<PageMock, PageMockViewModel>();
+        container.RegisterInstance(logFactory.Object);
 
         INavigationParameters parameters = default;
         Mock.Get(mockNavigation)
