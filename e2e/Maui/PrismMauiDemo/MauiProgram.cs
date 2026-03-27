@@ -24,6 +24,8 @@ public static class MauiProgram
                     containerRegistry.RegisterForNavigation<RootPage>();
                     containerRegistry.RegisterForNavigation<SamplePage>();
                     containerRegistry.RegisterForNavigation<SplashPage>();
+
+                    //containerRegistry.RegisterDialog<DialogView, DialogViewModel>();
                 })
                 .AddGlobalNavigationObserver(context => context.Subscribe(x =>
                 {
@@ -38,6 +40,12 @@ public static class MauiProgram
                     if (status == "Failed" && !string.IsNullOrEmpty(x.Result?.Exception?.Message))
                         Console.Error.WriteLine(x.Result.Exception.Message);
                 }))
+            .CreateWindow(nav => nav.CreateBuilder()
+                .AddTabbedSegment(page =>
+                    page.CreateTab(t => t.AddNavigationPage().AddSegment("ViewB").AddSegment("ViewA"))
+                    .CreateTab(t => t.AddNavigationPage().AddSegment("ViewA"))
+                ).NavigateAsync(HandleNavigationError))
+            )
             //.CreateWindow(nav => nav.CreateBuilder()
             //    .AddTabbedSegment(page =>
             //        page.CreateTab("ViewC")
@@ -49,10 +57,11 @@ public static class MauiProgram
             //            .SelectedTab("NavigationPage|ViewB"))
             //    .AddParameter("message_global", "This is a Global Message")
             //    .Navigate())
-            .CreateWindow(navigationService => navigationService.CreateBuilder()
-                .AddSegment<SplashPageViewModel>()
-                .NavigateAsync(HandleNavigationError))
-            )
+            //.CreateWindow(navigationService => navigationService.CreateBuilder()
+            //    .AddSegment<SplashPageViewModel>()
+            //    .NavigateAsync(HandleNavigationError))
+            //)
+
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

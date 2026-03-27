@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using System.Web;
 using Prism.Common;
+using Prism.Dialogs;
 using Prism.Events;
 using Prism.Mvvm;
 using Application = Microsoft.Maui.Controls.Application;
@@ -106,6 +107,15 @@ public class PageNavigationService : INavigationService, IRegistryAware
             if (!canNavigate)
             {
                 throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page);
+            }
+
+            var dialogModal = IDialogContainer.DialogStack.LastOrDefault();
+            if (dialogModal is not null)
+            {
+                if (dialogModal.Dismiss.CanExecute(null))
+                    dialogModal.Dismiss.Execute(null);
+
+                return Notify(NavigationRequestType.GoBack, parameters);
             }
 
             if (IsRoot(GetPageFromWindow(), page))

@@ -62,4 +62,10 @@
     <ProjectReference Include="..\MauiRegionsModule\MauiRegionsModule.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <MauiXaml Update="Views\DialogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+  </ItemGroup>
+
 </Project>
