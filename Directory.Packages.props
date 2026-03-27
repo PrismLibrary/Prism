@@ -9,7 +9,7 @@
     <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
   </ItemGroup>
-  <!-- Maui -->
+  <!-- Maui: Prism.Maui uses VersionOverride in its csproj; e2e samples opt out of CPM -->
   <!--<ItemGroup Condition=" $(UseMaui) == 'true' ">
     <PackageVersion Include="Microsoft.Maui.Controls" Version="9.0.110"
                     Condition="$(MSBuildProjectName.StartsWith('Prism.')) AND $(TargetFramework.StartsWith('net9.0'))" />
