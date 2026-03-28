@@ -125,7 +125,7 @@ namespace Prism.Navigation.Regions
 
             var candidateTargetContract = UriParsingHelper.GetAbsolutePath(navigationContext.Uri);
             candidateTargetContract = candidateTargetContract.TrimStart('/');
-            return candidateTargetContract;
+            return Uri.UnescapeDataString(candidateTargetContract);
         }
 
         /// <summary>

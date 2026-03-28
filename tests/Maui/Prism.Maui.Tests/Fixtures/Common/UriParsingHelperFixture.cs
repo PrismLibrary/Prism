@@ -232,4 +232,27 @@ public class UriParsingHelperFixture
         Assert.Equal(_deepLinkRelativeUri, uri.OriginalString);
         Assert.False(uri.IsAbsoluteUri);
     }
+
+    [Theory]
+    [InlineData("TestäöüView")]
+    [InlineData("MøbëlList")]
+    [InlineData("Ñoño")]
+    public void GetAbsolutePathUnescapesDiacritics(string viewName)
+    {
+        var uri = UriParsingHelper.Parse(viewName);
+        var absolutePath = UriParsingHelper.GetAbsolutePath(uri);
+        var result = Uri.UnescapeDataString(absolutePath.TrimStart('/'));
+        Assert.Equal(viewName, result);
+    }
+
+    [Theory]
+    [InlineData("TestäöüView")]
+    [InlineData("MøbëlList")]
+    public void GetUriSegmentsUnescapesDiacritics(string viewName)
+    {
+        var uri = new Uri(viewName, UriKind.Relative);
+        var segments = UriParsingHelper.GetUriSegments(uri);
+        var segmentName = UriParsingHelper.GetSegmentName(segments.Dequeue());
+        Assert.Equal(viewName, segmentName);
+    }
 }
