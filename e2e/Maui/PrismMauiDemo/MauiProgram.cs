@@ -38,13 +38,13 @@ public static class MauiProgram
                     if (status == "Failed" && !string.IsNullOrEmpty(x.Result?.Exception?.Message))
                         Console.Error.WriteLine(x.Result.Exception.Message);
                 }))
-                .CreateWindow(navigationService => navigationService.CreateBuilder()
-                    .AddSegment<SplashPageViewModel>()
-                //.CreateWindow(nav => nav.CreateBuilder()
-                //    .AddTabbedSegment(page =>
-                //        page.CreateTab(t => t.AddNavigationPage().AddSegment("ViewB").AddSegment("ViewA"))
-                //        .CreateTab(t => t.AddNavigationPage().AddSegment("ViewA"))
-                //    )
+                //.CreateWindow(navigationService => navigationService.CreateBuilder()
+                //    .AddSegment<SplashPageViewModel>()
+                .CreateWindow(nav => nav.CreateBuilder()
+                    .AddTabbedSegment(page =>
+                        page.CreateTab(t => t.AddNavigationPage().AddSegment("ViewA").AddSegment("ViewB"))
+                        .CreateTab(t => t.AddNavigationPage().AddSegment("ViewA"))
+                    )
                     .NavigateAsync(HandleNavigationError))
             )
             //.CreateWindow(nav => nav.CreateBuilder()
