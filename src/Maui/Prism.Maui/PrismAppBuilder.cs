@@ -84,6 +84,8 @@ public sealed class PrismAppBuilder
                         var dialogModal = IDialogContainer.DialogStack.LastOrDefault();
                         if (dialogModal is not null)
                         {
+                            if (dialogModal.Dismiss.CanExecute(null))
+                                dialogModal.Dismiss.Execute(null);
                             return true;
                         }
 

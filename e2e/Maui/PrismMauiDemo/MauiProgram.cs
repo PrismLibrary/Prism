@@ -12,7 +12,7 @@ public static class MauiProgram
     {
         return MauiApp.CreateBuilder()
             .UseMauiApp<App>()
-            .UsePrism(prism => 
+            .UsePrism(prism =>
                 prism.ConfigureModuleCatalog(moduleCatalog =>
                 {
                     moduleCatalog.AddModule<MauiAppModule>();
@@ -38,6 +38,15 @@ public static class MauiProgram
                     if (status == "Failed" && !string.IsNullOrEmpty(x.Result?.Exception?.Message))
                         Console.Error.WriteLine(x.Result.Exception.Message);
                 }))
+                .CreateWindow(navigationService => navigationService.CreateBuilder()
+                    .AddSegment<SplashPageViewModel>()
+                //.CreateWindow(nav => nav.CreateBuilder()
+                //    .AddTabbedSegment(page =>
+                //        page.CreateTab(t => t.AddNavigationPage().AddSegment("ViewB").AddSegment("ViewA"))
+                //        .CreateTab(t => t.AddNavigationPage().AddSegment("ViewA"))
+                //    )
+                    .NavigateAsync(HandleNavigationError))
+            )
             //.CreateWindow(nav => nav.CreateBuilder()
             //    .AddTabbedSegment(page =>
             //        page.CreateTab("ViewC")
@@ -49,10 +58,7 @@ public static class MauiProgram
             //            .SelectedTab("NavigationPage|ViewB"))
             //    .AddParameter("message_global", "This is a Global Message")
             //    .Navigate())
-            .CreateWindow(navigationService => navigationService.CreateBuilder()
-                .AddSegment<SplashPageViewModel>()
-                .NavigateAsync(HandleNavigationError))
-            )
+
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
