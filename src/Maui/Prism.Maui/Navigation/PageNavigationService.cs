@@ -1181,7 +1181,23 @@ public class PageNavigationService : INavigationService, IRegistryAware
                 }
                 else
                 {
+#if ANDROID
+                    // Preserve Android SoftInputMode across root page replacement (Issue #3298)
+                    Android.Views.SoftInput? softInputMode = null;
+                    if (Window?.Handler?.PlatformView is Android.App.Activity activity)
+                    {
+                        softInputMode = activity.Window?.Attributes?.SoftInputMode;
+                    }
+#endif
+
                     Window.Page = page;
+
+#if ANDROID
+                    if (softInputMode.HasValue && Window?.Handler?.PlatformView is Android.App.Activity restoredActivity)
+                    {
+                        restoredActivity.Window?.SetSoftInputMode(softInputMode.Value);
+                    }
+#endif
                 }
             }
             else
