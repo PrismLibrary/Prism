@@ -403,6 +403,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             else
             {
                 tabbedPage.CurrentPage = selectedChild;
+                parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.New);
                 MvvmHelpers.OnNavigatedFrom(navigatedFromPage, parameters);
                 MvvmHelpers.OnNavigatedTo(navigatedToTarget, parameters);
             }
