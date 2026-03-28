@@ -24,6 +24,7 @@ public sealed class PrismAppBuilder
 {
     private readonly List<Action<IContainerRegistry>> _registrations;
     private readonly List<Action<IContainerProvider>> _initializations;
+    private readonly List<Action<IContainerProvider>> _moduleCatalogActions;
     private readonly IContainerProvider _container;
     private Func<IContainerProvider, INavigationService, Task> _createWindow;
     private Action<RegionAdapterMappings> _configureAdapters;
@@ -37,6 +38,7 @@ public sealed class PrismAppBuilder
         _container = containerExtension;
         _registrations = [];
         _initializations = [];
+        _moduleCatalogActions = [];
 
         ViewModelCreationException.SetViewNameDelegate(view =>
         {
@@ -171,6 +173,12 @@ public sealed class PrismAppBuilder
         return this;
     }
 
+    internal PrismAppBuilder AddModuleCatalogAction(Action<IContainerProvider> action)
+    {
+        _moduleCatalogActions.Add(action);
+        return this;
+    }
+
     private bool _initialized;
     internal void OnInitialized()
     {
@@ -181,6 +189,51 @@ public sealed class PrismAppBuilder
         var logger = _container.Resolve<ILogger<PrismAppBuilder>>();
         var errors = new List<Exception>();
 
+        // Phase 1: Configure the module catalog
+        _moduleCatalogActions.ForEach(action =>
+        {
+            try
+            {
+                action(_container);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error executing Module Catalog Configuration Delegate.");
+                errors.Add(ex);
+            }
+        });
+
+        if (errors.Count == 1)
+        {
+            throw new PrismInitializationException("An error was encountered while configuring the Module Catalog", errors[0]);
+        }
+        else if (errors.Count > 1)
+        {
+            throw new AggregateException("One or more errors were encountered while configuring the Module Catalog", [.. errors]);
+        }
+
+        // Phase 2: Initialize modules so their services are registered
+        if (_container.IsRegistered<IModuleCatalog>() && _container.Resolve<IModuleCatalog>().Modules.Any())
+        {
+            try
+            {
+                logger.LogDebug("Initializing modules.");
+                var manager = _container.Resolve<IModuleManager>();
+                manager.Run();
+                logger.LogDebug("Modules Initialized.");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error ocurred while initializing the Modules.");
+                throw new PrismInitializationException("An error occurred while initializing the Modules.", ex);
+            }
+        }
+        else
+        {
+            logger.LogDebug("No Modules found to initialize.");
+        }
+
+        // Phase 3: Run OnInitialized delegates (module services are now available)
         _initializations.ForEach(action =>
         {
             try
@@ -201,26 +254,6 @@ public sealed class PrismAppBuilder
         else if (errors.Count > 1)
         {
             throw new AggregateException("One or more errors were encountered while executing the OnInitialized Delegates", [.. errors]);
-        }
-
-        if (_container.IsRegistered<IModuleCatalog>() && _container.Resolve<IModuleCatalog>().Modules.Any())
-        {
-            try
-            {
-                logger.LogDebug("Initializing modules.");
-                var manager = _container.Resolve<IModuleManager>();
-                manager.Run();
-                logger.LogDebug("Modules Initialized.");
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "An error ocurred while initializing the Modules.");
-                throw new PrismInitializationException("An error occurred while initializing the Modules.", ex);
-            }
-        }
-        else
-        {
-            logger.LogDebug("No Modules found to initialize.");
         }
 
         var navRegistry = _container.Resolve<INavigationRegistry>();

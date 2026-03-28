@@ -50,7 +50,7 @@ public static class PrismAppBuilderExtensions
             container.TryRegisterSingleton<IModuleInitializer, ModuleInitializer>();
         });
 
-        return builder.OnInitialized(container =>
+        return builder.AddModuleCatalogAction(container =>
         {
             var moduleCatalog = container.Resolve<IModuleCatalog>();
             configureCatalog(moduleCatalog);
