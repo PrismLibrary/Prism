@@ -63,6 +63,10 @@ public static class MvvmHelpers
 
             InvokeViewAndViewModelAction<IDestructible>(view, v => v.Destroy());
 
+            //I'm actually not sure if this is necessary, but it seems like a good idea to clear the child regions of the page before we clear the behaviors and binding context of the page itself.
+            if (view is Page page)
+                page.ClearChildRegions();
+
             if (view is VisualElement visualElement)
             {
                 DeferredCleanup(visualElement);
