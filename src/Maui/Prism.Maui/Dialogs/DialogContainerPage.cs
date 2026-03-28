@@ -89,7 +89,12 @@ public class DialogContainerPage : ContentPage, IDialogContainer
     /// <returns>The content layout for the dialog container page.</returns>
     protected virtual View GetContentLayout(Page currentPage, View dialogView, bool hideOnBackgroundTapped, ICommand dismissCommand, IDialogParameters parameters)
     {
-        var overlay = new AbsoluteLayout();
+        // Use a Grid so the mask fills the page naturally without needing
+        // AbsoluteLayout proportional sizing, which conflicted with the
+        // WidthRequest/HeightRequest bindings and caused tap gestures on
+        // the mask to not fire reliably across MAUI platforms.
+        var overlay = new Grid();
+
         var popupContainer = new DialogContainerView
         {
             IsPopupContent = true,
@@ -118,20 +123,21 @@ public class DialogContainerPage : ContentPage, IDialogContainer
                             source: this));
         }
 
-        AbsoluteLayout.SetLayoutFlags(popupContainer, AbsoluteLayoutFlags.PositionProportional);
-        var popupBounds = DialogLayout.GetLayoutBounds(dialogView);
-        AbsoluteLayout.SetLayoutBounds(popupContainer, popupBounds);
-
-        var useMask = DialogLayout.GetUseMask(popupContainer.Content) ?? true;
+        var useMask = DialogLayout.GetUseMask(dialogView) ?? true;
         if (useMask)
         {
             var mask = GetMask(currentPage, dialogView, hideOnBackgroundTapped, dismissCommand);
-            AbsoluteLayout.SetLayoutFlags(mask, AbsoluteLayoutFlags.All);
-            AbsoluteLayout.SetLayoutBounds(mask, new Rect(0, 0, 1, 1));
             overlay.Children.Add(mask);
         }
 
-        overlay.Children.Add(popupContainer);
+        // Keep an AbsoluteLayout for the popup so LayoutBounds positioning still works
+        var popupArea = new AbsoluteLayout();
+        AbsoluteLayout.SetLayoutFlags(popupContainer, AbsoluteLayoutFlags.PositionProportional);
+        var popupBounds = DialogLayout.GetLayoutBounds(dialogView);
+        AbsoluteLayout.SetLayoutBounds(popupContainer, popupBounds);
+        popupArea.Children.Add(popupContainer);
+
+        overlay.Children.Add(popupArea);
         return overlay;
     }
 
@@ -146,7 +152,6 @@ public class DialogContainerPage : ContentPage, IDialogContainer
     private View GetMask(Page currentPage, View dialogView, bool hideOnBackgroundTapped, ICommand dismissCommand)
     {
         View mask = DialogLayout.GetMask(dialogView);
-        var reference = currentPage.GetParentWindow().Page;
         if (mask is null)
         {
             Style overlayStyle = GetOverlayStyle(dialogView, currentPage);
@@ -154,21 +159,11 @@ public class DialogContainerPage : ContentPage, IDialogContainer
             mask = new BoxView
             {
                 Style = overlayStyle,
-                //HeightRequest = reference.Height,
-                //WidthRequest = reference.Width
             };
         }
 
-        mask.SetBinding(WidthRequestProperty, new Binding
-        {
-            Path = nameof(Width),
-            Source = reference
-        });
-        mask.SetBinding(HeightRequestProperty, new Binding
-        {
-            Path = nameof(Height),
-            Source = reference
-        });
+        // No explicit WidthRequest/HeightRequest needed — the Grid parent
+        // sizes the mask to fill the page automatically.
 
         if (hideOnBackgroundTapped)
         {
