@@ -91,7 +91,7 @@ public class RegionNavigationContentLoader : IRegionNavigationContentLoader
 
         var candidateTargetContract = UriParsingHelper.EnsureAbsolute(navigationContext.Uri).AbsolutePath;
         candidateTargetContract = candidateTargetContract.TrimStart('/');
-        return candidateTargetContract;
+        return Uri.UnescapeDataString(candidateTargetContract);
     }
 
     /// <summary>
