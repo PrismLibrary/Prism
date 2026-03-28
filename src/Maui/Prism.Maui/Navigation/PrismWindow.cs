@@ -105,7 +105,7 @@ namespace Prism.Navigation
         protected override void OnDeactivated()
         {
             IsActive = false;
-            MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(CurrentPage, x => x.IsActive = true);
+            MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(CurrentPage, x => x.IsActive = false);
         }
 
         /// <summary>

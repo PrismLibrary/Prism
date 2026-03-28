@@ -97,12 +97,23 @@ public abstract class DialogServiceBase : IDialogService
 
             var dismissCommand = new DelegateCommand(() => dialogAware.RequestClose.Invoke(), dialogAware.CanCloseDialog);
 
+            // ConfigureLayout is async (it awaits DoPush internally). Since ShowDialog is void,
+            // we use ContinueWith to defer post-push work until the modal is actually displayed.
+            // Without this, NavigationSource resets and IsActive updates race ahead of the push.
             PageNavigationService.NavigationSource = PageNavigationSource.DialogService;
-            dialogModal.ConfigureLayout(currentPage, view, closeOnBackgroundTapped, dismissCommand, parameters);
-            PageNavigationService.NavigationSource = PageNavigationSource.Device;
+            dialogModal.ConfigureLayout(currentPage, view, closeOnBackgroundTapped, dismissCommand, parameters)
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        callback.Invoke(t.Exception?.InnerException ?? t.Exception);
+                        return;
+                    }
 
-            MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(currentPage, aa => aa.IsActive = false);
-            MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(view, aa => aa.IsActive = true);
+                    PageNavigationService.NavigationSource = PageNavigationSource.Device;
+                    MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(currentPage, aa => aa.IsActive = false);
+                    MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(view, aa => aa.IsActive = true);
+                }, TaskScheduler.FromCurrentSynchronizationContext());
         }
         catch (Exception ex)
         {
