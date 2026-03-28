@@ -63,26 +63,33 @@ public static class MvvmHelpers
 
             InvokeViewAndViewModelAction<IDestructible>(view, v => v.Destroy());
 
+            //I'm actually not sure if this is necessary, but it seems like a good idea to clear the child regions of the page before we clear the behaviors and binding context of the page itself.
+            if (view is Page page)
+                page.ClearChildRegions();
+
             if (view is VisualElement visualElement)
             {
-#if ANDROID
-                visualElement.Unloaded += VisualElementUnloaded;
-                void VisualElementUnloaded(object? sender, EventArgs e)
-                {
-                    visualElement.Unloaded -= VisualElementUnloaded;
-                    visualElement.Behaviors?.Clear();
-                    visualElement.BindingContext = null;
-                }
-#else
-                visualElement.Behaviors?.Clear();
-                visualElement.BindingContext = null;
-#endif
+                DeferredCleanup(visualElement);
             }
         }
         catch (Exception ex)
         {
             throw new Exception($"Cannot destroy {view}.", ex);
         }
+    }
+
+    private static void DeferredCleanup(VisualElement visualElement)
+    {
+        // Delay cleanup until after page transition animations have completed.
+        // We cannot clear BindingContext immediately because the page is still
+        // visible during the pop animation, causing a visual flicker.
+        // Neither Unloaded nor ParentChanged fire reliably across all platforms,
+        // so a dispatcher delay is the only consistent approach.
+        visualElement.Dispatcher?.DispatchDelayed(TimeSpan.FromMilliseconds(800), () =>
+        {
+            visualElement.Behaviors?.Clear();
+            visualElement.BindingContext = null;
+        });
     }
 
     private static void DestroyChildren(IView? page)
