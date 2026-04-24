@@ -31,4 +31,4 @@ jobs:
       uno-check: false
       uno-check-version: 1.33.1
       uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip androidemulator --skip androidsdk --skip vsmac --skip dotnetnewunotemplates'
-      run-tests: false
+      run-tests: true
