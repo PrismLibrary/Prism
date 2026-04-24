@@ -7,7 +7,9 @@
       "src\\Uno\\Prism.DryIoc.Uno\\Prism.DryIoc.Uno.WinUI.csproj",
       "src\\Uno\\Prism.Uno\\Prism.Uno.WinUI.csproj",
       "src\\Uno\\Prism.Uno.Markup\\Prism.Uno.WinUI.Markup.csproj",
-      "tests\\Prism.Core.Tests\\Prism.Core.Tests.csproj"
+      "tests\\Prism.Core.Tests\\Prism.Core.Tests.csproj",
+      "tests\\Uno\\Prism.DryIoc.Uno.WinUI.Tests\\Prism.DryIoc.Uno.WinUI.Tests.csproj",
+      "tests\\Uno\\Prism.Uno.WinUI.Tests\\Prism.Uno.WinUI.Tests.csproj"
     ]
   }
 }
