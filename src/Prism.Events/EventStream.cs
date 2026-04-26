@@ -50,7 +50,9 @@ public class EventStream<TPayload> : EventBase
     /// <param name="action">The callback invoked for each future published event.</param>
     /// <param name="backlogAction">
     /// The callback invoked once for each event currently in the backlog at the time of
-    /// subscription. May be <see langword="null"/> to skip backlog replay.
+    /// subscription. Always invoked synchronously on the caller's (publisher's) thread,
+    /// regardless of <see cref="ThreadOption"/>. May be <see langword="null"/> to skip
+    /// backlog replay.
     /// </param>
     /// <returns>
     /// A <see cref="SubscriptionToken"/> that can be used to unsubscribe from the event stream.
@@ -68,7 +70,9 @@ public class EventStream<TPayload> : EventBase
     /// <param name="action">The callback invoked for each future published event.</param>
     /// <param name="backlogAction">
     /// The callback invoked once for each event currently in the backlog at the time of
-    /// subscription. May be <see langword="null"/> to skip backlog replay.
+    /// subscription. Always invoked synchronously on the caller's (publisher's) thread,
+    /// regardless of <paramref name="threadOption"/>. May be <see langword="null"/> to skip
+    /// backlog replay.
     /// </param>
     /// <param name="threadOption">
     /// Specifies the thread on which <paramref name="action"/> is invoked.
@@ -91,7 +95,9 @@ public class EventStream<TPayload> : EventBase
     /// <param name="action">The callback invoked for each future published event.</param>
     /// <param name="backlogAction">
     /// The callback invoked once for each event currently in the backlog at the time of
-    /// subscription. May be <see langword="null"/> to skip backlog replay.
+    /// subscription. Always invoked synchronously on the caller's (publisher's) thread,
+    /// regardless of <paramref name="threadOption"/>. May be <see langword="null"/> to skip
+    /// backlog replay.
     /// </param>
     /// <param name="threadOption">
     /// Specifies the thread on which <paramref name="action"/> is invoked.
@@ -116,13 +122,22 @@ public class EventStream<TPayload> : EventBase
     /// Any events currently held in the backlog that satisfy <paramref name="filter"/> are
     /// immediately delivered to <paramref name="backlogAction"/>.
     /// </summary>
+    /// <remarks>
+    /// <paramref name="backlogAction"/> is always invoked synchronously on the caller's
+    /// (publisher's) thread before this method returns, regardless of
+    /// <paramref name="threadOption"/>. Only future events delivered via
+    /// <paramref name="action"/> are marshalled according to <paramref name="threadOption"/>.
+    /// </remarks>
     /// <param name="action">The callback invoked for each future published event.</param>
     /// <param name="backlogAction">
     /// The callback invoked once for each matching event currently in the backlog at the time
-    /// of subscription. May be <see langword="null"/> to skip backlog replay.
+    /// of subscription. Always invoked synchronously on the caller's (publisher's) thread,
+    /// regardless of <paramref name="threadOption"/>. May be <see langword="null"/> to skip
+    /// backlog replay.
     /// </param>
     /// <param name="threadOption">
     /// Specifies the thread on which <paramref name="action"/> is invoked.
+    /// Does <em>not</em> affect the thread used to invoke <paramref name="backlogAction"/>.
     /// </param>
     /// <param name="keepSubscriberReferenceAlive">
     /// When <see langword="true"/>, the event stream holds a strong reference to
@@ -177,8 +192,8 @@ public class EventStream<TPayload> : EventBase
 
     /// <summary>
     /// Registers an already-constructed <see cref="EventSubscription{TPayload}"/>, assigns it a
-    /// new <see cref="SubscriptionToken"/>, and replays the current backlog via
-    /// <paramref name="backlogAction"/> while holding the subscription lock.
+    /// new <see cref="SubscriptionToken"/>, builds the backlog snapshot under the lock, then invokes
+    /// <paramref name="backlogAction"/> outside the lock.
     /// </summary>
     /// <param name="eventSubscription">The subscription to register.</param>
     /// <param name="backlogAction">
@@ -318,7 +333,8 @@ public class EventStream<TPayload> : EventBase
     }
 
     /// <summary>
-    /// Overrides <see cref="EventBase.InternalSubscribe"/> to route subscriptions through
+    /// Overrides <see cref="EventBase.InternalSubscribe"/> to route
+    /// subscriptions through
     /// the backlog-aware <c>Subscribe</c> overload. Backlog replay is skipped (<c>null</c>
     /// backlog action) when subscribing via the base-class path.
     /// </summary>
