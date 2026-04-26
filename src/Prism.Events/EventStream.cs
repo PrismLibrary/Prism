@@ -31,7 +31,7 @@ public class EventStream<TPayload> : EventBase
 {
     private const int DefaultBacklogSize = 10;
 
-    private Backlog<TPayload> recentEvents;
+    private Backlog<TPayload> _recentEvents;
 
     /// <summary>
     /// Initializes a new instance of <see cref="EventStream{TPayload}"/> with the default
@@ -39,7 +39,7 @@ public class EventStream<TPayload> : EventBase
     /// </summary>
     public EventStream()
     {
-        recentEvents = new Backlog<TPayload>((int)BacklogSize());
+        _recentEvents = new Backlog<TPayload>((int)BacklogSize());
     }
 
     /// <summary>
@@ -205,7 +205,7 @@ public class EventStream<TPayload> : EventBase
             lock (Subscriptions)
             {
                 Subscriptions.Add(eventSubscription);
-                var ring = recentEvents.CurrentState(out uint readPosition, out uint writePosition);
+                var ring = _recentEvents.CurrentState(out uint readPosition, out uint writePosition);
                 backlog = ArrayPool<TPayload>.Shared.Rent(ring.Length);
                 int index = 0;
                 TPayload item = default;
@@ -297,7 +297,7 @@ public class EventStream<TPayload> : EventBase
 
         lock (Subscriptions)
         {
-            recentEvents.Write((TPayload)arguments[0]);
+            _recentEvents.Write((TPayload)arguments[0]);
 
             strategies = new List<Action<object[]>>(Subscriptions.Count);
 
@@ -346,10 +346,10 @@ public class EventStream<TPayload> : EventBase
     /// <typeparam name="T">The element type stored in the ring buffer.</typeparam>
     private class Backlog<T>
     {
-        private readonly int size;
-        private readonly T[] ring;
-        private uint writePosition;
-        private uint readPosition;
+        private readonly int _size;
+        private readonly T[] _ring;
+        private uint _writePosition;
+        private uint _readPosition;
 
         /// <summary>
         /// Initializes a new <see cref="Backlog{T}"/> with the specified capacity.
@@ -357,10 +357,10 @@ public class EventStream<TPayload> : EventBase
         /// <param name="capacity">Maximum number of items the ring buffer can hold.</param>
         public Backlog(int capacity)
         {
-            size = capacity;
-            ring = new T[capacity];
-            writePosition = 0;
-            readPosition = 0;
+            _size = capacity;
+            _ring = new T[capacity];
+            _writePosition = 0;
+            _readPosition = 0;
         }
 
         /// <summary>
@@ -370,16 +370,16 @@ public class EventStream<TPayload> : EventBase
         /// <param name="item">The item to write.</param>
         public void Write(T item)
         {
-            bool isFull = writePosition - readPosition >= ring.Length;
+            bool isFull = _writePosition - _readPosition >= _ring.Length;
 
 
             if (isFull)
             {
-                readPosition++;
+                _readPosition++;
             }
 
-            ring[writePosition % size] = item;
-            writePosition++;
+            _ring[_writePosition % _size] = item;
+            _writePosition++;
         }
 
         /// <summary>
@@ -396,8 +396,8 @@ public class EventStream<TPayload> : EventBase
         /// </returns>
         public bool TryRead(out T item)
         {
-            var span = new ReadOnlySpan<T>(ring);
-            return TryRead(ref span, ref readPosition, writePosition, out item);
+            var span = new ReadOnlySpan<T>(_ring);
+            return TryRead(ref span, ref _readPosition, _writePosition, out item);
         }
 
         /// <summary>
@@ -418,9 +418,9 @@ public class EventStream<TPayload> : EventBase
         /// <returns>A <see cref="ReadOnlySpan{T}"/> over the internal ring array.</returns>
         public ReadOnlySpan<T> CurrentState(out uint readPosition, out uint writePosition)
         {
-            readPosition = this.readPosition;
-            writePosition = this.writePosition;
-            return ring;
+            readPosition = _readPosition;
+            writePosition = _writePosition;
+            return _ring;
         }
 
         /// <summary>
