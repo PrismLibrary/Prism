@@ -1,5 +1,7 @@
 ﻿using System;
+#if NETFRAMEWORK
 using System.Runtime.Serialization;
+#endif
 
 namespace Prism.Navigation.Regions;
 
@@ -18,10 +20,12 @@ public abstract class RegionException : Exception
     {
     }
 
-    /// <inheritdoc />
+#if NETFRAMEWORK
+    /// <inheritdoc cref="Exception(SerializationInfo, StreamingContext)" />
     protected RegionException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
+#endif
 
     /// <inheritdoc />
     protected RegionException(string message, Exception innerException) : base(message, innerException)

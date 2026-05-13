@@ -1,4 +1,6 @@
-﻿namespace Prism.Navigation;
+﻿#nullable enable
+
+namespace Prism.Navigation;
 
 /// <summary>
 /// Used to set internal parameters used by Prism
@@ -10,7 +12,7 @@ public interface INavigationParametersInternal
     /// </summary>
     /// <param name="key">The key to reference this value in the parameters collection.</param>
     /// <param name="value">The value of the parameter to store</param>
-    void Add(string key, object value);
+    void Add(string key, object? value);
 
     /// <summary>
     /// Checks collection for presence of key

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Prism.Common;
 
+#nullable enable
+
 namespace Prism.Navigation;
 
 /// <summary>
@@ -11,7 +13,7 @@ namespace Prism.Navigation;
 /// </remarks>
 public class NavigationParameters : ParametersBase, INavigationParameters, INavigationParametersInternal
 {
-    private readonly Dictionary<string, object> _internalParameters = new Dictionary<string, object>();
+    private readonly Dictionary<string, object?> _internalParameters = new Dictionary<string, object?>();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NavigationParameters"/> class.
@@ -30,7 +32,7 @@ public class NavigationParameters : ParametersBase, INavigationParameters, INavi
     }
 
     #region INavigationParametersInternal
-    void INavigationParametersInternal.Add(string key, object value)
+    void INavigationParametersInternal.Add(string key, object? value)
     {
         _internalParameters.Add(key, value);
     }
@@ -42,7 +44,7 @@ public class NavigationParameters : ParametersBase, INavigationParameters, INavi
 
     T INavigationParametersInternal.GetValue<T>(string key)
     {
-        return _internalParameters.GetValue<T>(key);
+        return _internalParameters.GetValue<T>(key)!;
     }
     #endregion
 }

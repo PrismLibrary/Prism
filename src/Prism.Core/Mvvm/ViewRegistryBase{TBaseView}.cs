@@ -129,7 +129,8 @@ public abstract class ViewRegistryBase<TBaseView> : IViewRegistry
 
             return candidates
                 .Select(x => Type.GetType(x, false))
-                .Where(x => x is not null);
+                .Where(x => x is not null)
+                .Cast<Type>();
         }
 
         return [];

@@ -6,14 +6,14 @@ namespace Prism.Common
     /// <summary>
     /// Defines a contract for specifying values associated with a unique key.
     /// </summary>
-    public interface IParameters : IEnumerable<KeyValuePair<string, object>>
+    public interface IParameters : IEnumerable<KeyValuePair<string, object?>>
     {
         /// <summary>
         /// Adds the specified key and value to the parameter collection.
         /// </summary>
         /// <param name="key">The key of the parameter to add.</param>
         /// <param name="value">The value of the parameter to add.</param>
-        void Add(string key, object value);
+        void Add(string key, object? value);
 
         /// <summary>
         /// Determines whether the <see cref="IParameters"/> contains the specified <paramref name="key"/>.

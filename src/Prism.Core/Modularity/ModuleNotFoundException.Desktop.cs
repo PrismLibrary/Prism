@@ -1,4 +1,4 @@
-
+#if NETFRAMEWORK
 
 using System;
 using System.Runtime.Serialization;
@@ -22,3 +22,5 @@ namespace Prism.Modularity
         }
     }
 }
+
+#endif

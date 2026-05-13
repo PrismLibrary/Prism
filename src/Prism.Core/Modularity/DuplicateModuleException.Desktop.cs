@@ -1,4 +1,4 @@
-
+#if NETFRAMEWORK
 
 using System;
 using System.Runtime.Serialization;
@@ -17,3 +17,5 @@ namespace Prism.Modularity
         protected DuplicateModuleException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }
+
+#endif

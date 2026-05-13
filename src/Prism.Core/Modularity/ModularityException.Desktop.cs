@@ -1,4 +1,4 @@
-
+#if NETFRAMEWORK
 
 using System;
 using System.Runtime.Serialization;
@@ -25,9 +25,7 @@ namespace Prism.Modularity
         /// </summary>
         /// <param name="info">The <see cref="System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
         /// <param name="context">The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
-#if !NET6_0_OR_GREATER
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.SerializationFormatter)]
-#endif
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
@@ -35,3 +33,5 @@ namespace Prism.Modularity
         }
     }
 }
+
+#endif

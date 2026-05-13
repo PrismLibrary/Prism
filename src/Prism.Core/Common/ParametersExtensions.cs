@@ -21,8 +21,13 @@ namespace Prism.Common
         /// <param name="key">The key of the parameter to find</param>
         /// <returns>A matching value of <typeparamref name="T"/> if it exists</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static T GetValue<T>(this IEnumerable<KeyValuePair<string, object>> parameters, string key) =>
-            (T)GetValue(parameters, key, typeof(T));
+        public static T GetValue<T>(this IEnumerable<KeyValuePair<string, object?>> parameters, string key)
+        {
+            object? value = GetValue(parameters, key, typeof(T));
+            if (value is null)
+                return default!;
+            return (T)value;
+        }
 
         /// <summary>
         /// Searches <paramref name="parameters"/> for value referenced by <paramref name="key"/>
@@ -33,7 +38,7 @@ namespace Prism.Common
         /// <returns>A matching value of <paramref name="type"/> if it exists</returns>
         /// <exception cref="InvalidCastException">Unable to convert the value of Type</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static object GetValue(this IEnumerable<KeyValuePair<string, object>> parameters, string key, Type type)
+        public static object? GetValue(this IEnumerable<KeyValuePair<string, object?>> parameters, string key, Type type)
         {
             foreach (var kvp in parameters)
             {
@@ -42,7 +47,7 @@ namespace Prism.Common
                     if (TryGetValueInternal(kvp, type, out var value))
                         return value;
 
-                    throw new InvalidCastException($"Unable to convert the value of Type '{kvp.Value.GetType().FullName}' to '{type.FullName}' for the key '{key}' ");
+                    throw new InvalidCastException($"Unable to convert the value of Type '{kvp.Value!.GetType().FullName}' to '{type.FullName}' for the key '{key}' ");
                 }
             }
 
@@ -58,7 +63,7 @@ namespace Prism.Common
         /// <param name="value">The value of parameter to return</param>
         /// <returns>Success if value is found; otherwise returns <c>false</c></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static bool TryGetValue<T>(this IEnumerable<KeyValuePair<string, object>> parameters, string key, out T value)
+        public static bool TryGetValue<T>(this IEnumerable<KeyValuePair<string, object?>> parameters, string key, [MaybeNullWhen(false)] out T value)
         {
             var type = typeof(T);
 
@@ -75,7 +80,7 @@ namespace Prism.Common
                 }
             }
 
-            value = default;
+            value = default!;
             return false;
         }
 
@@ -87,7 +92,7 @@ namespace Prism.Common
         /// <param name="key">The key of the parameter to find</param>
         /// <returns>An IEnumerable{T} of all the values referenced by key</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static IEnumerable<T> GetValues<T>(this IEnumerable<KeyValuePair<string, object>> parameters, string key)
+        public static IEnumerable<T> GetValues<T>(this IEnumerable<KeyValuePair<string, object?>> parameters, string key)
         {
             List<T> values = [];
             var type = typeof(T);
@@ -105,7 +110,7 @@ namespace Prism.Common
             return values.ToArray();
         }
 
-        private static bool TryGetValueInternal(KeyValuePair<string, object> kvp, Type type, out object value)
+        private static bool TryGetValueInternal(KeyValuePair<string, object?> kvp, Type type, out object? value)
         {
             value = GetDefault(type);
             var valueAsString = kvp.Value is string str ? str : kvp.Value?.ToString();
@@ -141,7 +146,7 @@ namespace Prism.Common
             if (!success && type.GetInterface("System.IConvertible") != null)
             {
                 success = true;
-                value = Convert.ChangeType(kvp.Value, type);
+                value = Convert.ChangeType(kvp.Value, type)!;
             }
 
             return success;
@@ -154,7 +159,7 @@ namespace Prism.Common
         /// <param name="key">The key to search the <paramref name="parameters"/> for existence</param>
         /// <returns><c>true</c> if key exists; <c>false</c> otherwise</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static bool ContainsKey(this IEnumerable<KeyValuePair<string, object>> parameters, string key) =>
+        public static bool ContainsKey(this IEnumerable<KeyValuePair<string, object?>> parameters, string key) =>
             parameters.Any(x => string.Compare(x.Key, key, StringComparison.Ordinal) == 0);
 
         private static object? GetDefault(Type type) => type.IsValueType ? Activator.CreateInstance(type) : null;

@@ -26,7 +26,7 @@ namespace Prism.Mvvm
         {
             _factories = new Dictionary<string, Func<object>>();
             _typeFactories = new Dictionary<string, Type>();
-            _defaultViewModelFactory = type => Activator.CreateInstance(type);
+            _defaultViewModelFactory = type => Activator.CreateInstance(type)!;
             _defaultViewModelFactoryWithViewParameter = null;
             _defaultViewTypeToViewModelTypeResolver = DefaultViewTypeToViewModel;
         }
@@ -44,7 +44,7 @@ namespace Prism.Mvvm
         /// <summary>
         /// The default view model factory which provides the ViewModel type as a parameter.
         /// </summary>
-        static Func<Type, object> _defaultViewModelFactory = type => Activator.CreateInstance(type);
+        static Func<Type, object> _defaultViewModelFactory = type => Activator.CreateInstance(type)!;
 
         /// <summary>
         /// ViewModelFactory that provides the View instance and ViewModel type as parameters.
