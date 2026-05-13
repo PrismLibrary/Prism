@@ -9,7 +9,7 @@ namespace Prism.Mvvm
     /// <typeparam name="T">The type of the error object.</typeparam>
     public class ErrorsContainer<T>
     {
-        private static readonly T[] noErrors = new T[0];
+        private static readonly T[] noErrors = [];
 
         /// <summary>
         /// Delegate to be called when raiseErrorsChanged is invoked.
@@ -27,25 +27,23 @@ namespace Prism.Mvvm
         /// <param name="raiseErrorsChanged">The action that is invoked when errors are added for an object.</param>
         public ErrorsContainer(Action<string> raiseErrorsChanged)
         {
+#if NETFRAMEWORK
             if (raiseErrorsChanged == null)
             {
                 throw new ArgumentNullException(nameof(raiseErrorsChanged));
             }
+#else
+            ArgumentNullException.ThrowIfNull(raiseErrorsChanged);
+#endif
 
             this.raiseErrorsChanged = raiseErrorsChanged;
-            this.validationResults = new Dictionary<string, List<T>>();
+            validationResults = [];
         }
 
         /// <summary>
         /// Gets a value indicating whether the object has validation errors. 
         /// </summary>
-        public bool HasErrors
-        {
-            get
-            {
-                return this.validationResults.Count != 0;
-            }
-        }
+        public bool HasErrors => validationResults.Count != 0;
 
         /// <summary>
         /// Returns all the errors in the container.
@@ -61,7 +59,7 @@ namespace Prism.Mvvm
         public IEnumerable<T> GetErrors(string? propertyName)
         {
             var localPropertyName = propertyName ?? string.Empty;
-            if (this.validationResults.TryGetValue(localPropertyName, out var currentValidationResults))
+            if (validationResults.TryGetValue(localPropertyName, out var currentValidationResults))
             {
                 return currentValidationResults;
             }
@@ -76,7 +74,7 @@ namespace Prism.Mvvm
         /// </summary>
         public void ClearErrors()
         {
-            foreach (var key in this.validationResults.Keys.ToArray())
+            foreach (var key in validationResults.Keys.ToArray())
             {
                 ClearErrors(key);
             }
@@ -94,7 +92,7 @@ namespace Prism.Mvvm
         public void ClearErrors<TProperty>(Expression<Func<TProperty>> propertyExpression)
         {
             var propertyName = PropertySupport.ExtractPropertyName(propertyExpression);
-            this.ClearErrors(propertyName);
+            ClearErrors(propertyName);
         }
 
         /// <summary>
@@ -104,7 +102,7 @@ namespace Prism.Mvvm
         /// <example>
         /// container.ClearErrors("SomeProperty");
         /// </example>
-        public void ClearErrors(string? propertyName) => this.SetErrors(propertyName, new List<T>());
+        public void ClearErrors(string? propertyName) => SetErrors(propertyName, new List<T>());
 
         /// <summary>
         /// Sets the validation errors for the specified property.
@@ -116,7 +114,7 @@ namespace Prism.Mvvm
         public void SetErrors<TProperty>(Expression<Func<TProperty>> propertyExpression, IEnumerable<T>? propertyErrors)
         {
             var propertyName = PropertySupport.ExtractPropertyName(propertyExpression);
-            this.SetErrors(propertyName, propertyErrors);
+            SetErrors(propertyName, propertyErrors);
         }
 
         /// <summary>
@@ -130,20 +128,20 @@ namespace Prism.Mvvm
         public void SetErrors(string? propertyName, IEnumerable<T>? newValidationResults)
         {
             var localPropertyName = propertyName ?? string.Empty;
-            var hasCurrentValidationResults = this.validationResults.ContainsKey(localPropertyName);
+            var hasCurrentValidationResults = validationResults.ContainsKey(localPropertyName);
             var hasNewValidationResults = newValidationResults != null && newValidationResults.Count() > 0;
 
             if (hasCurrentValidationResults || hasNewValidationResults)
             {
                 if (hasNewValidationResults)
                 {
-                    this.validationResults[localPropertyName] = new List<T>(newValidationResults!);
-                    this.raiseErrorsChanged(localPropertyName);
+                    validationResults[localPropertyName] = new List<T>(newValidationResults!);
+                    raiseErrorsChanged(localPropertyName);
                 }
                 else
                 {
-                    this.validationResults.Remove(localPropertyName);
-                    this.raiseErrorsChanged(localPropertyName);
+                    validationResults.Remove(localPropertyName);
+                    raiseErrorsChanged(localPropertyName);
                 }
             }
         }
