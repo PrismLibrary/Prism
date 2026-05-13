@@ -156,13 +156,13 @@
 
   <!-- Versions: Directory.Packages.props (Central Package Management). PrivateAssets=all is implicit. -->
   <ItemGroup>
-    <GlobalPackageReference Include="Microsoft.NETFramework.ReferenceAssemblies"
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies"
                             Condition=" $(UseMaui) != 'true' " />
-    <GlobalPackageReference Include="Nerdbank.GitVersioning"
+    <PackageReference Include="Nerdbank.GitVersioning"
                             Condition=" $(DISABLE_GITVERSIONING) != 'true' AND !$(MSBuildProjectDirectory.Contains('e2e')) " />
-    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub"
+    <PackageReference Include="Microsoft.SourceLink.GitHub"
                             Condition=" $(IsPackable) " />
-    <GlobalPackageReference Include="Microsoft.Sbom.Targets"
+    <PackageReference Include="Microsoft.Sbom.Targets"
                             Condition=" $(IsPackable) " />
   </ItemGroup>
 
