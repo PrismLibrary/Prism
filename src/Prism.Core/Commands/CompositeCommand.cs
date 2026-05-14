@@ -11,6 +11,19 @@ namespace Prism.Commands
     /// <summary>
     /// The CompositeCommand composes one or more ICommands.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <see cref="CompositeCommand"/> allows you to register multiple commands and execute them all with a single call.
+    /// This is useful for scenarios where an action should trigger multiple operations across different parts of an application.
+    /// </para>
+    /// <para>
+    /// The composite command can optionally monitor the activity of its registered commands if they implement <see cref="IActiveAware"/>.
+    /// When monitoring is enabled, the composite command will only execute commands that are active.
+    /// </para>
+    /// <para>
+    /// The <see cref="CanExecute(object)"/> method returns <see langword="true"/> only if all registered commands can execute.
+    /// </para>
+    /// </remarks>
     public class CompositeCommand : ICommand
     {
         private readonly List<ICommand> _registeredCommands = new();
@@ -21,6 +34,9 @@ namespace Prism.Commands
         /// <summary>
         /// Initializes a new instance of <see cref="CompositeCommand"/>.
         /// </summary>
+        /// <remarks>
+        /// By default, the composite command will not monitor the activity of registered commands.
+        /// </remarks>
         public CompositeCommand()
         {
             _onRegisteredCommandCanExecuteChangedHandler = new EventHandler(OnRegisteredCommandCanExecuteChanged);
@@ -30,7 +46,11 @@ namespace Prism.Commands
         /// <summary>
         /// Initializes a new instance of <see cref="CompositeCommand"/>.
         /// </summary>
-        /// <param name="monitorCommandActivity">Indicates when the command activity is going to be monitored.</param>
+        /// <param name="monitorCommandActivity">Indicates when the command activity is going to be monitored.
+        /// When <see langword="true"/>, the composite command will only execute registered commands that are active (if they implement <see cref="IActiveAware"/>).</param>
+        /// <remarks>
+        /// When activity monitoring is enabled, only commands that are active will be executed.
+        /// </remarks>
         public CompositeCommand(bool monitorCommandActivity)
             : this()
         {
@@ -41,11 +61,19 @@ namespace Prism.Commands
         /// Adds a command to the collection and signs up for the <see cref="ICommand.CanExecuteChanged"/> event of it.
         /// </summary>
         ///  <remarks>
+        /// <para>
         /// If this command is set to monitor command activity, and <paramref name="command"/> 
         /// implements the <see cref="IActiveAware"/> interface, this method will subscribe to its
         /// <see cref="IActiveAware.IsActiveChanged"/> event.
+        /// </para>
+        /// <para>
+        /// The same command cannot be registered twice, and a composite command cannot be registered within itself.
+        /// </para>
         /// </remarks>
         /// <param name="command">The command to register.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="command"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown when attempting to register a composite command within itself.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the same command is registered twice.</exception>
         public virtual void RegisterCommand(ICommand command)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
@@ -79,6 +107,7 @@ namespace Prism.Commands
         /// Removes a command from the collection and removes itself from the <see cref="ICommand.CanExecuteChanged"/> event of it.
         /// </summary>
         /// <param name="command">The command to unregister.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="command"/> is <see langword="null"/>.</exception>
         public virtual void UnregisterCommand(ICommand command)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
