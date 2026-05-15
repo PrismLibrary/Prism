@@ -6,6 +6,16 @@ namespace Prism.Mvvm
     /// <summary>
     /// Manages validation errors for an object, notifying when the error state changes.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <see cref="ErrorsContainer{T}"/> is a utility class for ViewModels that need to manage and track validation errors.
+    /// It implements the <see cref="INotifyDataErrorInfo"/> pattern, maintaining a collection of errors per property
+    /// and notifying when the error state changes.
+    /// </para>
+    /// <para>
+    /// This class is typically used with data validation frameworks to maintain error state and notify the UI when validation fails.
+    /// </para>
+    /// </remarks>
     /// <typeparam name="T">The type of the error object.</typeparam>
     public class ErrorsContainer<T>
     {
@@ -24,7 +34,8 @@ namespace Prism.Mvvm
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorsContainer{T}"/> class.
         /// </summary>
-        /// <param name="raiseErrorsChanged">The action that is invoked when errors are added for an object.</param>
+        /// <param name="raiseErrorsChanged">The action that is invoked when errors are added or removed for a property.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="raiseErrorsChanged"/> is <see langword="null"/>.</exception>
         public ErrorsContainer(Action<string> raiseErrorsChanged)
         {
             if (raiseErrorsChanged == null)
@@ -39,6 +50,10 @@ namespace Prism.Mvvm
         /// <summary>
         /// Gets a value indicating whether the object has validation errors. 
         /// </summary>
+        /// <value><see langword="true"/> if there are any errors; otherwise, <see langword="false"/>.</value>
+        /// <remarks>
+        /// This property returns <see langword="true"/> only if there is at least one error for any property.
+        /// </remarks>
         public bool HasErrors
         {
             get
@@ -51,13 +66,19 @@ namespace Prism.Mvvm
         /// Returns all the errors in the container.
         /// </summary>
         /// <returns>The dictionary of errors per property.</returns>
+        /// <remarks>
+        /// The returned dictionary maps property names to lists of errors for those properties.
+        /// </remarks>
         public Dictionary<string, List<T>> GetErrors() => validationResults;
 
         /// <summary>
         /// Gets the validation errors for a specified property.
         /// </summary>
-        /// <param name="propertyName">The name of the property.</param>
+        /// <param name="propertyName">The name of the property. If <see langword="null"/> or empty, returns errors for the object itself.</param>
         /// <returns>The validation errors of type <typeparamref name="T"/> for the property.</returns>
+        /// <remarks>
+        /// If the property has no errors, an empty enumerable is returned.
+        /// </remarks>
         public IEnumerable<T> GetErrors(string? propertyName)
         {
             var localPropertyName = propertyName ?? string.Empty;
@@ -74,6 +95,9 @@ namespace Prism.Mvvm
         /// <summary>
         /// Clears all errors.
         /// </summary>
+        /// <remarks>
+        /// This removes all errors from all properties and raises the ErrorsChanged event for each property that had errors.
+        /// </remarks>
         public void ClearErrors()
         {
             foreach (var key in this.validationResults.Keys.ToArray())
