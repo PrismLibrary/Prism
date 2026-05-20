@@ -47,42 +47,22 @@ public class AutoPopulateRegionBehavior : RegionBehavior
             AddViewIntoRegion(view);
         }
 
-        if (Region is ITargetAwareRegion targetAware && targetAware.TargetElement.GetValue(Xaml.RegionManager.DefaultViewProperty) is { } defaultView)
+        if (Region is ITargetAwareRegion targetAware && targetAware.TargetElement.GetValue(Xaml.RegionManager.DefaultViewProperty) != null)
         {
+            var defaultView = targetAware.TargetElement.GetValue(Xaml.RegionManager.DefaultViewProperty);
             if (defaultView is string targetName)
-            {
-                if (Region.GetView(targetName) != null)
-                {
-                    return;
-                }
-
-                var container = targetAware.Container;
-                var registry = container.Resolve<IRegionNavigationRegistry>();
-                var view = registry.CreateView(container, targetName) as VisualElement;
-                if (view != null && !Region.Views.Contains(view))
-                {
-                    Region.Add(view, targetName);
-                }
-            }
+                Region.Add(targetName);
             else if (defaultView is VisualElement element)
-            {
-                if (!Region.Views.Contains(element))
-                {
-                    Region.Add(element);
-                }
-            }
+                Region.Add(element);
             else if (defaultView is Type type)
             {
-                if (!RegionContainsViewOfType(type))
+                var container = targetAware.Container;
+                var registry = container.Resolve<IRegionNavigationRegistry>();
+                var registration = registry.Registrations.FirstOrDefault(x => x.View == type);
+                if (registration is not null)
                 {
-                    var container = targetAware.Container;
-                    var registry = container.Resolve<IRegionNavigationRegistry>();
-                    var registration = registry.Registrations.FirstOrDefault(x => x.View == type);
-                    if (registration is not null)
-                    {
-                        var view = registry.CreateView(container, registration.Name) as VisualElement;
-                        Region.Add(view);
-                    }
+                    var view = registry.CreateView(container, registration.Name) as VisualElement;
+                    Region.Add(view);
                 }
             }
         }
@@ -107,19 +87,6 @@ public class AutoPopulateRegionBehavior : RegionBehavior
     protected virtual void AddViewIntoRegion(VisualElement viewToAdd)
     {
         Region.Add(viewToAdd);
-    }
-
-    private bool RegionContainsViewOfType(Type viewType)
-    {
-        foreach (var view in Region.Views)
-        {
-            if (view != null && viewType.IsInstanceOfType(view))
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private void Region_PropertyChanged(object sender, PropertyChangedEventArgs e)

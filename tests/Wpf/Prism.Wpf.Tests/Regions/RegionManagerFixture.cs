@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Moq;
 using Prism.Ioc;
 using Prism.Navigation.Regions;
+using Prism.Navigation.Regions.Behaviors;
 using Prism.Wpf.Tests.Mocks;
 using Xunit;
 
@@ -447,6 +448,108 @@ namespace Prism.Wpf.Tests.Regions
 
             Assert.Single(regionManager.Regions);
             Assert.Equal("region", region.Name);
+        }
+
+        [StaFact]
+        public void SettingDefaultViewType_RegistersViewWithRegion()
+        {
+            try
+            {
+                var mockRegionContentRegistry = new MockRegionContentRegistry();
+                string regionName = null;
+                Type viewType = null;
+                mockRegionContentRegistry.RegisterContentWithViewType = (name, type) =>
+                {
+                    regionName = name;
+                    viewType = type;
+                    return null;
+                };
+
+                var containerMock = new Mock<IContainerExtension>();
+                containerMock.Setup(c => c.Resolve(typeof(IRegionViewRegistry))).Returns(mockRegionContentRegistry);
+                containerMock.Setup(c => c.Resolve(typeof(DelayedRegionCreationBehavior)))
+                    .Returns(new DelayedRegionCreationBehavior(new RegionAdapterMappings()));
+                ContainerLocator.SetContainerExtension(containerMock.Object);
+
+                var host = new System.Windows.Controls.ContentControl();
+                RegionManager.SetRegionName(host, "MyRegion");
+                RegionManager.SetDefaultView(host, typeof(object));
+
+                Assert.Equal("MyRegion", regionName);
+                Assert.Equal(typeof(object), viewType);
+            }
+            finally
+            {
+                ContainerLocator.ResetContainer();
+            }
+        }
+
+        [StaFact]
+        public void SettingDefaultViewBeforeRegionName_RegistersWhenRegionNameIsSet()
+        {
+            try
+            {
+                var mockRegionContentRegistry = new MockRegionContentRegistry();
+                string regionName = null;
+                Type viewType = null;
+                mockRegionContentRegistry.RegisterContentWithViewType = (name, type) =>
+                {
+                    regionName = name;
+                    viewType = type;
+                    return null;
+                };
+
+                var containerMock = new Mock<IContainerExtension>();
+                containerMock.Setup(c => c.Resolve(typeof(IRegionViewRegistry))).Returns(mockRegionContentRegistry);
+                containerMock.Setup(c => c.Resolve(typeof(DelayedRegionCreationBehavior)))
+                    .Returns(new DelayedRegionCreationBehavior(new RegionAdapterMappings()));
+                ContainerLocator.SetContainerExtension(containerMock.Object);
+
+                var host = new System.Windows.Controls.ContentControl();
+                RegionManager.SetDefaultView(host, typeof(object));
+                RegionManager.SetRegionName(host, "MyRegion");
+
+                Assert.Equal("MyRegion", regionName);
+                Assert.Equal(typeof(object), viewType);
+            }
+            finally
+            {
+                ContainerLocator.ResetContainer();
+            }
+        }
+
+        [StaFact]
+        public void SettingDefaultViewTwiceWithDuplicateRegistry_RegionAutoPopulatesSingleView()
+        {
+            try
+            {
+                var containerMock = new Mock<IContainerExtension>();
+                ContainerLocator.SetContainerExtension(containerMock.Object);
+                containerMock.Setup(c => c.Resolve(typeof(MockContentObject))).Returns(new MockContentObject());
+                containerMock.Setup(c => c.Resolve(typeof(DelayedRegionCreationBehavior)))
+                    .Returns(new DelayedRegionCreationBehavior(new RegionAdapterMappings()));
+                var registry = new RegionViewRegistry(containerMock.Object);
+                containerMock.Setup(c => c.Resolve(typeof(IRegionViewRegistry))).Returns(registry);
+
+                var host = new System.Windows.Controls.ContentControl();
+                RegionManager.SetRegionName(host, "MyRegion");
+                RegionManager.SetDefaultView(host, typeof(MockContentObject));
+                RegionManager.SetDefaultView(host, typeof(MockContentObject));
+
+                var region = new Region { Name = "MyRegion" };
+                var behavior = new AutoPopulateRegionBehavior(registry) { Region = region };
+                behavior.Attach();
+
+                Assert.Single(region.Views);
+            }
+            finally
+            {
+                ContainerLocator.ResetContainer();
+            }
+        }
+
+        private class MockContentObject
+        {
         }
 
         [Fact]

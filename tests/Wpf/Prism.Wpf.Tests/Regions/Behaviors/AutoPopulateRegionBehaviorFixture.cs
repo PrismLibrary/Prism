@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Controls;
 using Moq;
 using Prism.Ioc;
 using Prism.Navigation.Regions;
@@ -85,54 +83,6 @@ namespace Prism.Wpf.Tests.Regions.Behaviors
             var behavior = new AutoPopulateRegionBehavior(registry)
             {
                 Region = region
-            };
-
-            behavior.Attach();
-
-            Assert.Single(region.Views);
-        }
-
-        [StaFact]
-        public void ShouldAddDefaultViewByNameWhenRegionIsPopulated()
-        {
-            var containerMock = new Mock<IContainerExtension>();
-            ContainerLocator.SetContainerExtension(containerMock.Object);
-            var content = new object();
-            containerMock.Setup(c => c.Resolve(typeof(object), "MyView")).Returns(content);
-            var registry = new RegionViewRegistry(containerMock.Object);
-            var host = new ContentControl();
-            RegionManager.SetDefaultView(host, "MyView");
-
-            var region = new Region { Name = "MyRegion" };
-            var behavior = new AutoPopulateRegionBehavior(registry)
-            {
-                Region = region,
-                HostControl = host
-            };
-
-            behavior.Attach();
-
-            Assert.Single(region.Views);
-            Assert.Same(content, region.Views.ElementAt(0));
-        }
-
-        [StaFact]
-        public void WhenDefaultViewMatchesRegisteredView_RegionContainsSingleView()
-        {
-            var containerMock = new Mock<IContainerExtension>();
-            ContainerLocator.SetContainerExtension(containerMock.Object);
-            var content = new object();
-            containerMock.Setup(c => c.Resolve(typeof(object), "MyView")).Returns(content);
-            var registry = new RegionViewRegistry(containerMock.Object);
-            registry.RegisterViewWithRegion("MyRegion", "MyView");
-            var host = new ContentControl();
-            RegionManager.SetDefaultView(host, "MyView");
-
-            var region = new Region { Name = "MyRegion" };
-            var behavior = new AutoPopulateRegionBehavior(registry)
-            {
-                Region = region,
-                HostControl = host
             };
 
             behavior.Attach();
