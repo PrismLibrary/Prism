@@ -1,9 +1,15 @@
+using System;
+using System.Collections.Generic;
+using Prism.Common;
+using Prism.Ioc;
+using Prism.Properties;
+
 namespace Prism.Navigation.Regions.Behaviors
 {
     /// <summary>
     /// Populates the target region with the views registered to it in the <see cref="IRegionViewRegistry"/>.
     /// </summary>
-    public class AutoPopulateRegionBehavior : RegionBehavior
+    public class AutoPopulateRegionBehavior : RegionBehavior, IHostAwareRegionBehavior
     {
         /// <summary>
         /// The key of this behavior.
@@ -11,6 +17,8 @@ namespace Prism.Navigation.Regions.Behaviors
         public const string BehaviorKey = "AutoPopulate";
 
         private readonly IRegionViewRegistry regionViewRegistry;
+        private DependencyObject hostControl;
+        private bool isAttached;
 
         /// <summary>
         /// Creates a new instance of the AutoPopulateRegionBehavior
@@ -20,6 +28,23 @@ namespace Prism.Navigation.Regions.Behaviors
         public AutoPopulateRegionBehavior(IRegionViewRegistry regionViewRegistry)
         {
             this.regionViewRegistry = regionViewRegistry;
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="DependencyObject"/> that the <see cref="IRegion"/> is attached to.
+        /// </summary>
+        public DependencyObject HostControl
+        {
+            get => hostControl;
+            set
+            {
+                if (isAttached)
+                {
+                    throw new InvalidOperationException(Resources.HostControlCannotBeSetAfterAttach);
+                }
+
+                hostControl = value;
+            }
         }
 
         /// <summary>
@@ -39,10 +64,14 @@ namespace Prism.Navigation.Regions.Behaviors
 
         private void StartPopulatingContent()
         {
+            isAttached = true;
+
             foreach (object view in CreateViewsToAutoPopulate())
             {
                 AddViewIntoRegion(view);
             }
+
+            TryAddDefaultView();
 
             regionViewRegistry.ContentRegistered += OnViewRegistered;
         }
@@ -54,7 +83,7 @@ namespace Prism.Navigation.Regions.Behaviors
         /// <returns></returns>
         protected virtual IEnumerable<object> CreateViewsToAutoPopulate()
         {
-            return regionViewRegistry.GetContents(Region.Name);
+            return regionViewRegistry.GetContents(Region.Name, ContainerLocator.Container);
         }
 
         /// <summary>
@@ -64,6 +93,63 @@ namespace Prism.Navigation.Regions.Behaviors
         protected virtual void AddViewIntoRegion(object viewToAdd)
         {
             Region.Add(viewToAdd);
+        }
+
+        private void TryAddDefaultView()
+        {
+            if (HostControl == null)
+            {
+                return;
+            }
+
+            var defaultView = RegionManager.GetDefaultView(HostControl);
+            if (defaultView == null)
+            {
+                return;
+            }
+
+            if (defaultView is string targetName)
+            {
+                if (Region.GetView(targetName) != null)
+                {
+                    return;
+                }
+
+                var view = ContainerLocator.Container.Resolve(typeof(object), targetName);
+                if (!Region.Views.Contains(view))
+                {
+                    Region.Add(view, targetName);
+                }
+            }
+            else if (defaultView is Type viewType)
+            {
+                if (!RegionContainsViewOfType(viewType))
+                {
+                    var view = ContainerLocator.Container.Resolve(viewType);
+                    MvvmHelpers.AutowireViewModel(view);
+                    Region.Add(view);
+                }
+            }
+            else
+            {
+                if (!Region.Views.Contains(defaultView))
+                {
+                    Region.Add(defaultView);
+                }
+            }
+        }
+
+        private bool RegionContainsViewOfType(Type viewType)
+        {
+            foreach (object view in Region.Views)
+            {
+                if (view != null && viewType.IsInstanceOfType(view))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void Region_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

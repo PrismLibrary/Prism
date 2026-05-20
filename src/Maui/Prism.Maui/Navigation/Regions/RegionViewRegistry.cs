@@ -14,6 +14,8 @@ namespace Prism.Navigation.Regions;
 public class RegionViewRegistry : IRegionViewRegistry
 {
     private readonly ListDictionary<string, Func<IContainerProvider, object>> _registeredContent = new();
+    private readonly Dictionary<string, HashSet<Type>> _registeredViewTypes = new();
+    private readonly Dictionary<string, HashSet<string>> _registeredTargetNames = new();
     private readonly WeakDelegatesManager _contentRegisteredListeners = new();
 
     /// <summary>
@@ -49,6 +51,11 @@ public class RegionViewRegistry : IRegionViewRegistry
     /// <param name="viewType">Content type to be registered for the <paramref name="regionName"/>.</param>
     public void RegisterViewWithRegion(string regionName, Type viewType)
     {
+        if (!TryAddRegisteredViewType(regionName, viewType))
+        {
+            return;
+        }
+
         RegisterViewWithRegion(regionName, c =>
         {
             var registry = c.Resolve<IRegionNavigationRegistry>();
@@ -67,6 +74,11 @@ public class RegionViewRegistry : IRegionViewRegistry
     /// <param name="targetName">Content type to be registered for the <paramref name="regionName"/>.</param>
     public void RegisterViewWithRegion(string regionName, string targetName)
     {
+        if (!TryAddRegisteredTargetName(regionName, targetName))
+        {
+            return;
+        }
+
         RegisterViewWithRegion(regionName, c =>
         {
             var registry = c.Resolve<IRegionNavigationRegistry>();
@@ -81,8 +93,48 @@ public class RegionViewRegistry : IRegionViewRegistry
     /// <param name="getContentDelegate">Delegate used to retrieve the content associated with the <paramref name="regionName"/>.</param>
     public void RegisterViewWithRegion(string regionName, Func<IContainerProvider, object> getContentDelegate)
     {
+        if (IsContentDelegateRegistered(regionName, getContentDelegate))
+        {
+            return;
+        }
+
         _registeredContent.Add(regionName, getContentDelegate);
         OnContentRegistered(new ViewRegisteredEventArgs(regionName, getContentDelegate));
+    }
+
+    private bool TryAddRegisteredViewType(string regionName, Type viewType)
+    {
+        if (!_registeredViewTypes.TryGetValue(regionName, out HashSet<Type> viewTypes))
+        {
+            viewTypes = new HashSet<Type>();
+            _registeredViewTypes.Add(regionName, viewTypes);
+        }
+
+        return viewTypes.Add(viewType);
+    }
+
+    private bool TryAddRegisteredTargetName(string regionName, string targetName)
+    {
+        if (!_registeredTargetNames.TryGetValue(regionName, out HashSet<string> targetNames))
+        {
+            targetNames = new HashSet<string>();
+            _registeredTargetNames.Add(regionName, targetNames);
+        }
+
+        return targetNames.Add(targetName);
+    }
+
+    private bool IsContentDelegateRegistered(string regionName, Func<IContainerProvider, object> getContentDelegate)
+    {
+        foreach (var existingDelegate in _registeredContent[regionName])
+        {
+            if (existingDelegate == getContentDelegate)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void OnContentRegistered(ViewRegisteredEventArgs e)

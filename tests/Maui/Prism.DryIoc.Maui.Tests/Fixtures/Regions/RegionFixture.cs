@@ -33,6 +33,31 @@ public class RegionFixture : TestBase
     }
 
     [Fact]
+    public void FrameRegion_DuplicateRegisterViewWithRegion_ContainsSingleView()
+    {
+        var mauiApp = CreateBuilder(prism =>
+                prism.RegisterTypes(container =>
+                {
+                    container.RegisterForNavigation<MockContentRegionPage, MockContentRegionPageViewModel>();
+                    container.RegisterForRegionNavigation<MockRegionViewA, MockRegionViewAViewModel>();
+                })
+                .OnInitialized(container =>
+                {
+                    var regionManager = container.Resolve<IRegionManager>();
+                    regionManager.RegisterViewWithRegion("FrameRegion", "MockRegionViewA");
+                    regionManager.RegisterViewWithRegion("FrameRegion", "MockRegionViewA");
+                })
+                .CreateWindow("MockContentRegionPage"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        Assert.IsType<MockContentRegionPage>(window.Page);
+        var page = window.Page as MockContentRegionPage;
+        Assert.NotNull(page.FrameRegion.Content);
+        Assert.IsType<MockRegionViewA>(page.FrameRegion.Content);
+    }
+
+    [Fact]
     public void FrameRegion_CreatedBy_RegisterViewWithRegion()
     {
         var mauiApp = CreateBuilder(prism =>

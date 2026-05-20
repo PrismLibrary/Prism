@@ -13,6 +13,8 @@ namespace Prism.Navigation.Regions
     {
         private readonly IContainerProvider _container;
         private readonly ListDictionary<string, Func<IContainerProvider, object>> _registeredContent = new ListDictionary<string, Func<IContainerProvider, object>>();
+        private readonly Dictionary<string, HashSet<Type>> _registeredViewTypes = new Dictionary<string, HashSet<Type>>();
+        private readonly Dictionary<string, HashSet<string>> _registeredTargetNames = new Dictionary<string, HashSet<string>>();
         private readonly WeakDelegatesManager _contentRegisteredListeners = new WeakDelegatesManager();
 
         /// <summary>
@@ -57,6 +59,11 @@ namespace Prism.Navigation.Regions
         /// <param name="viewType">Content type to be registered for the <paramref name="regionName"/>.</param>
         public void RegisterViewWithRegion(string regionName, Type viewType)
         {
+            if (!TryAddRegisteredViewType(regionName, viewType))
+            {
+                return;
+            }
+
             RegisterViewWithRegion(regionName, _ => CreateInstance(viewType));
         }
 
@@ -67,6 +74,11 @@ namespace Prism.Navigation.Regions
         /// <param name="getContentDelegate">Delegate used to retrieve the content associated with the <paramref name="regionName"/>.</param>
         public void RegisterViewWithRegion(string regionName, Func<IContainerProvider, object> getContentDelegate)
         {
+            if (IsContentDelegateRegistered(regionName, getContentDelegate))
+            {
+                return;
+            }
+
             _registeredContent.Add(regionName, getContentDelegate);
             OnContentRegistered(new ViewRegisteredEventArgs(regionName, getContentDelegate));
         }
@@ -79,8 +91,15 @@ namespace Prism.Navigation.Regions
         /// <param name="regionName">The name of the region to associate the view with.</param>
         /// <param name="targetName">The type of the view to register with the </param>
         /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
-        public void RegisterViewWithRegion(string regionName, string targetName) =>
+        public void RegisterViewWithRegion(string regionName, string targetName)
+        {
+            if (!TryAddRegisteredTargetName(regionName, targetName))
+            {
+                return;
+            }
+
             RegisterViewWithRegion(regionName, c => c.Resolve<object>(targetName));
+        }
 
         /// <summary>
         /// Creates an instance of a registered view <see cref="Type"/>.
@@ -92,6 +111,41 @@ namespace Prism.Navigation.Regions
             var view = _container.Resolve(type);
             MvvmHelpers.AutowireViewModel(view);
             return view;
+        }
+
+        private bool TryAddRegisteredViewType(string regionName, Type viewType)
+        {
+            if (!_registeredViewTypes.TryGetValue(regionName, out HashSet<Type> viewTypes))
+            {
+                viewTypes = new HashSet<Type>();
+                _registeredViewTypes.Add(regionName, viewTypes);
+            }
+
+            return viewTypes.Add(viewType);
+        }
+
+        private bool TryAddRegisteredTargetName(string regionName, string targetName)
+        {
+            if (!_registeredTargetNames.TryGetValue(regionName, out HashSet<string> targetNames))
+            {
+                targetNames = new HashSet<string>();
+                _registeredTargetNames.Add(regionName, targetNames);
+            }
+
+            return targetNames.Add(targetName);
+        }
+
+        private bool IsContentDelegateRegistered(string regionName, Func<IContainerProvider, object> getContentDelegate)
+        {
+            foreach (Func<IContainerProvider, object> existingDelegate in _registeredContent[regionName])
+            {
+                if (existingDelegate == getContentDelegate)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void OnContentRegistered(ViewRegisteredEventArgs e)
