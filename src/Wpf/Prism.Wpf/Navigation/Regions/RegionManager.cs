@@ -111,6 +111,48 @@ namespace Prism.Navigation.Regions
             if (!IsInDesignMode(element))
             {
                 CreateRegion(element);
+                RegisterDefaultViewWithRegion(element);
+            }
+        }
+
+        private static void OnDefaultViewChanged(DependencyObject element, DependencyPropertyChangedEventArgs args)
+        {
+            if (!IsInDesignMode(element) && args.NewValue != null)
+            {
+                RegisterDefaultViewWithRegion(element, args.NewValue);
+            }
+        }
+
+        private static void RegisterDefaultViewWithRegion(DependencyObject element)
+        {
+            var defaultView = GetDefaultView(element);
+            if (defaultView != null)
+            {
+                RegisterDefaultViewWithRegion(element, defaultView);
+            }
+        }
+
+        private static void RegisterDefaultViewWithRegion(DependencyObject element, object defaultView)
+        {
+            var regionName = GetRegionName(element);
+            if (string.IsNullOrEmpty(regionName))
+            {
+                return;
+            }
+
+            var regionViewRegistry = ContainerLocator.Container.Resolve<IRegionViewRegistry>();
+
+            if (defaultView is string targetName)
+            {
+                regionViewRegistry.RegisterViewWithRegion(regionName, targetName);
+            }
+            else if (defaultView is Type viewType)
+            {
+                regionViewRegistry.RegisterViewWithRegion(regionName, viewType);
+            }
+            else
+            {
+                regionViewRegistry.RegisterViewWithRegion(regionName, _ => defaultView);
             }
         }
 
@@ -165,6 +207,52 @@ namespace Prism.Navigation.Regions
                 throw new ArgumentNullException(nameof(target));
 
             target.SetValue(RegionManagerProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the DefaultView attached property.
+        /// </summary>
+        /// <remarks>
+        /// Sets the default view to be displayed in a region when it is created.
+        /// This can be a view name, a type, or an instance of the view.
+        /// </remarks>
+#if !AVALONIA
+        public static readonly DependencyProperty DefaultViewProperty =
+            DependencyProperty.RegisterAttached("DefaultView", typeof(object), typeof(RegionManager),
+                new PropertyMetadata(defaultValue: null, propertyChangedCallback: OnDefaultViewChanged));
+#else
+        public static readonly AvaloniaProperty DefaultViewProperty =
+            AvaloniaProperty.RegisterAttached<AvaloniaObject, object>("DefaultView", typeof(RegionManager));
+#endif
+
+        /// <summary>
+        /// Sets the <see cref="DefaultViewProperty"/> attached property for the specified region target.
+        /// </summary>
+        /// <param name="regionTarget">The object that will host the default view.</param>
+        /// <param name="viewNameTypeOrInstance">
+        /// The default view to display in the region. This can be a view name, a type, or an instance of the view.
+        /// </param>
+        public static void SetDefaultView(DependencyObject regionTarget, object viewNameTypeOrInstance)
+        {
+            if (regionTarget == null)
+                throw new ArgumentNullException(nameof(regionTarget));
+
+            regionTarget.SetValue(DefaultViewProperty, viewNameTypeOrInstance);
+        }
+
+        /// <summary>
+        /// Gets the value of the <see cref="DefaultViewProperty"/> attached property for the specified region target.
+        /// </summary>
+        /// <param name="regionTarget">The object that hosts the default view.</param>
+        /// <returns>
+        /// The default view associated with the region. This can be a view name, a type, or an instance of the view.
+        /// </returns>
+        public static object GetDefaultView(DependencyObject regionTarget)
+        {
+            if (regionTarget == null)
+                throw new ArgumentNullException(nameof(regionTarget));
+
+            return regionTarget.GetValue(DefaultViewProperty);
         }
 
         /// <summary>
@@ -272,6 +360,7 @@ namespace Prism.Navigation.Regions
             // TODO: Could this go into the default constructor?
             RegionNameProperty.Changed.Subscribe(args => OnSetRegionNameCallback(args?.Sender, args));
             RegionContextProperty.Changed.Subscribe(args => OnRegionContextChanged(args?.Sender, args));
+            DefaultViewProperty.Changed.Subscribe(args => OnDefaultViewChanged(args?.Sender, args));
         }
 #endif
 
