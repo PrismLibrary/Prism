@@ -468,7 +468,7 @@ namespace Prism.Avalonia.Tests.Regions
                 var containerMock = new Mock<IContainerExtension>();
                 containerMock.Setup(c => c.Resolve(typeof(IRegionViewRegistry))).Returns(mockRegionContentRegistry);
                 containerMock.Setup(c => c.Resolve(typeof(DelayedRegionCreationBehavior)))
-                    .Returns(new DelayedRegionCreationBehavior(new RegionAdapterMappings()));
+                    .Returns(() => new DelayedRegionCreationBehavior(CreateRegionAdapterMappings()));
                 ContainerLocator.SetContainerExtension(containerMock.Object);
 
                 var host = new ContentControl();
@@ -502,7 +502,7 @@ namespace Prism.Avalonia.Tests.Regions
                 var containerMock = new Mock<IContainerExtension>();
                 containerMock.Setup(c => c.Resolve(typeof(IRegionViewRegistry))).Returns(mockRegionContentRegistry);
                 containerMock.Setup(c => c.Resolve(typeof(DelayedRegionCreationBehavior)))
-                    .Returns(new DelayedRegionCreationBehavior(new RegionAdapterMappings()));
+                    .Returns(() => new DelayedRegionCreationBehavior(CreateRegionAdapterMappings()));
                 ContainerLocator.SetContainerExtension(containerMock.Object);
 
                 var host = new ContentControl();
@@ -527,7 +527,7 @@ namespace Prism.Avalonia.Tests.Regions
                 ContainerLocator.SetContainerExtension(containerMock.Object);
                 containerMock.Setup(c => c.Resolve(typeof(MockContentObject))).Returns(new MockContentObject());
                 containerMock.Setup(c => c.Resolve(typeof(DelayedRegionCreationBehavior)))
-                    .Returns(new DelayedRegionCreationBehavior(new RegionAdapterMappings()));
+                    .Returns(() => new DelayedRegionCreationBehavior(CreateRegionAdapterMappings()));
                 var registry = new RegionViewRegistry(containerMock.Object);
                 containerMock.Setup(c => c.Resolve(typeof(IRegionViewRegistry))).Returns(registry);
 
@@ -550,6 +550,13 @@ namespace Prism.Avalonia.Tests.Regions
 
         private class MockContentObject
         {
+        }
+
+        private static RegionAdapterMappings CreateRegionAdapterMappings()
+        {
+            var mappings = new RegionAdapterMappings();
+            mappings.RegisterMapping(typeof(ContentControl), new ContentControlRegionAdapter(null));
+            return mappings;
         }
 
         [Fact]

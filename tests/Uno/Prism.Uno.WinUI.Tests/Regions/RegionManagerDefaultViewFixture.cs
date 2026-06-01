@@ -13,7 +13,7 @@ public class RegionManagerDefaultViewFixture
     {
     }
 
-    [Fact]
+    [Fact(Skip = "Requires a real Uno/WinUI runtime; unit tests run against ref assemblies.")]
     public void SettingDefaultViewType_RegistersViewWithRegion()
     {
         var mockRegistry = new Mock<IRegionViewRegistry>();
@@ -30,7 +30,7 @@ public class RegionManagerDefaultViewFixture
         mockRegistry.Verify(r => r.RegisterViewWithRegion("MyRegion", typeof(MockContentObject)), Times.Once);
     }
 
-    [Fact]
+    [Fact(Skip = "Requires a real Uno/WinUI runtime; unit tests run against ref assemblies.")]
     public void SettingDefaultViewTwice_RegistersOnceDueToDuplicateGuard()
     {
         var containerMock = new Mock<IContainerExtension>();
