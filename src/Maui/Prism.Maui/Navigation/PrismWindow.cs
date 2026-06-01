@@ -75,15 +75,16 @@ namespace Prism.Navigation
         {
             if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
             {
-                e.Cancel = true;
                 var dialogModal = IDialogContainer.DialogStack.LastOrDefault();
                 if (dialogModal is not null)
                 {
+                    e.Cancel = true;
                     if (dialogModal.Dismiss.CanExecute(null))
                         dialogModal.Dismiss.Execute(null);
                 }
-                else
+                else if (e.Modal.GetContainerProvider() is not null)
                 {
+                    e.Cancel = true;
                     var navService = Xaml.Navigation.GetNavigationService(e.Modal);
                     await navService.GoBackAsync();
                 }
