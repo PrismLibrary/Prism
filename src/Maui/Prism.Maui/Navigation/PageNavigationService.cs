@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Web;
 using Prism.Common;
@@ -14,7 +15,8 @@ namespace Prism.Navigation;
 public class PageNavigationService : INavigationService, IRegistryAware
 {
     private static readonly SemaphoreSlim _semaphore = new (1, 1);
-    private static DateTime _lastNavigate;
+    private static readonly TimeSpan _minTimeBetweenNavigations = TimeSpan.FromMilliseconds(150);
+    private static long _lastNavigateTimestamp;
     internal const string RemovePageRelativePath = "../";
     internal const string RemovePageInstruction = "__RemovePage/";
     internal const string RemovePageSegment = "__RemovePage";
@@ -82,7 +84,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
         finally
         {
-            _lastNavigate = DateTime.Now;
+            _lastNavigateTimestamp = Stopwatch.GetTimestamp();
             NavigationSource = PageNavigationSource.Device;
             _semaphore.Release();
         }
@@ -188,7 +190,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
         finally
         {
-            _lastNavigate = DateTime.Now;
+            _lastNavigateTimestamp = Stopwatch.GetTimestamp();
             NavigationSource = PageNavigationSource.Device;
             _semaphore.Release();
         }
@@ -282,7 +284,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
         finally
         {
-            _lastNavigate = DateTime.Now;
+            _lastNavigateTimestamp = Stopwatch.GetTimestamp();
             NavigationSource = PageNavigationSource.Device;
             _semaphore.Release();
         }
@@ -326,7 +328,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
         finally
         {
-            _lastNavigate = DateTime.Now;
+            _lastNavigateTimestamp = Stopwatch.GetTimestamp();
             NavigationSource = PageNavigationSource.Device;
             _semaphore.Release();
         }
@@ -404,7 +406,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
         finally
         {
-            _lastNavigate = DateTime.Now;
+            _lastNavigateTimestamp = Stopwatch.GetTimestamp();
             NavigationSource = PageNavigationSource.Device;
             _semaphore.Release();
         }
@@ -414,10 +416,40 @@ public class PageNavigationService : INavigationService, IRegistryAware
     {
         await _semaphore.WaitAsync();
         // Ensure adequate time has passed since last navigation so that UI Refresh can Occur
-        if (DateTime.Now - _lastNavigate < TimeSpan.FromMilliseconds(150))
+        var delay = GetRemainingNavigationDelay(_lastNavigateTimestamp, Stopwatch.GetTimestamp());
+        if (delay > TimeSpan.Zero)
         {
-            await Task.Delay(150);
+            await Task.Delay(delay);
         }
+    }
+
+    /// <summary>
+    /// Exposes the minimum interval enforced between navigations. Used by tests.
+    /// </summary>
+    internal static TimeSpan MinTimeBetweenNavigations => _minTimeBetweenNavigations;
+
+    /// <summary>
+    /// Calculates how long the next navigation should wait so that at least
+    /// <see cref="_minTimeBetweenNavigations"/> elapses between navigations, giving the native
+    /// platform time to push/pop a page before the next request begins.
+    /// </summary>
+    /// <param name="lastNavigateTimestamp">The <see cref="Stopwatch.GetTimestamp"/> value captured after the previous navigation.</param>
+    /// <param name="currentTimestamp">The current <see cref="Stopwatch.GetTimestamp"/> value.</param>
+    internal static TimeSpan GetRemainingNavigationDelay(long lastNavigateTimestamp, long currentTimestamp)
+    {
+        var elapsed = Stopwatch.GetElapsedTime(lastNavigateTimestamp, currentTimestamp);
+
+        // A monotonic timestamp should always move forward, so elapsed is normally non-negative.
+        // If it ever regresses (e.g. a device clock/timezone change producing a backward reading),
+        // treat it as "no time elapsed" and wait the full minimum rather than the size of the
+        // backward jump. This keeps navigation responsive instead of freezing for the duration of
+        // the jump - e.g. an hour when travelling Eastern -> Central. See issue #3405.
+        if (elapsed < TimeSpan.Zero)
+            return _minTimeBetweenNavigations;
+
+        return elapsed < _minTimeBetweenNavigations
+            ? _minTimeBetweenNavigations - elapsed
+            : TimeSpan.Zero;
     }
 
     /// <summary>
