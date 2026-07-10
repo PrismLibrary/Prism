@@ -135,7 +135,12 @@ public class AsyncDelegateCommandFixture
 
         Assert.True(command.IsExecuting);
         cts.Cancel();
-        await Task.Delay(10);
+
+        // Cancellation propagates asynchronously; a fixed delay races on slower CI agents.
+        // Poll until the command stops executing, bounded by a generous timeout.
+        var timeout = Task.Delay(2000);
+        while (command.IsExecuting && !timeout.IsCompleted)
+            await Task.Delay(10);
 
         Assert.False(command.IsExecuting);
     }
