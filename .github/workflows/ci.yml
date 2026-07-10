@@ -55,6 +55,10 @@ jobs:
   build-prism-forms:
     uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v1
     with:
+      # Prism.Forms builds the Xamarin.Android (MonoAndroid) target, whose language targets
+      # ship only with Visual Studio's Xamarin component. That component was dropped from
+      # windows-latest (VS 18) and windows-2025, so pin to windows-2022 which still includes it.
+      runs-on: windows-2022
       name: Build Prism.Forms
       solution-path: PrismLibrary_Forms.slnf
       code-sign: true

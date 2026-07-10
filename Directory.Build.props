@@ -25,6 +25,15 @@
     </PolySharpIncludeGeneratedTypes>
     <WarningsAsErrors>$(WarningsAsErrors);IDE0003</WarningsAsErrors>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!--
+      Prism 9.0 is a maintenance branch that intentionally targets .NET 8 and its platform
+      workloads (net8.0-android, net8.0-ios, net8.0-maccatalyst, net8.0-macos). Current .NET
+      SDKs flag these as end-of-life - NETSDK1202 for the workloads and NETSDK1138 for the
+      target framework - which fails the build. Opt out of the EOL checks so the branch keeps
+      building on current SDKs; shipping these targets for the 9.0 lifecycle is intentional.
+    -->
+    <CheckEolWorkloads>false</CheckEolWorkloads>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
