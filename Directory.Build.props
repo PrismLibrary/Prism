@@ -138,6 +138,17 @@
     <None Include="build\Package.targets" Pack="true" PackagePath="buildTransitive\$(PackageId).targets" Condition="exists('build\Package.targets')"/>
   </ItemGroup>
 
+  <!--
+    The test projects target net6.0, which is end-of-life and no longer present on the CI
+    runner images (only newer runtimes are installed). Roll the test host forward to the
+    newest installed major runtime so the tests can execute; without this the testhost aborts
+    with "You must install or update .NET to run this application". This affects runtime
+    selection only - the test assemblies are still built against net6.0.
+  -->
+  <PropertyGroup Condition=" $(IsTestProject) ">
+    <RollForward>Major</RollForward>
+  </PropertyGroup>
+
   <ItemGroup Condition=" $(IsTestProject) ">
     <None Include="$(MSBuildThisFileDirectory)xunit.runner.json"
           CopyToOutputDirectory="PreserveNewest" />
