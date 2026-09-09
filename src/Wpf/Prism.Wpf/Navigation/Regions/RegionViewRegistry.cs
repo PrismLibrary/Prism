@@ -80,7 +80,13 @@ namespace Prism.Navigation.Regions
         /// <param name="targetName">The type of the view to register with the </param>
         /// <returns>The <see cref="IRegionManager"/>, for adding several views easily</returns>
         public void RegisterViewWithRegion(string regionName, string targetName) =>
-            RegisterViewWithRegion(regionName, c => c.Resolve<object>(targetName));
+            RegisterViewWithRegion(regionName, c =>
+            {
+                if (_container is IContainerRegistry container && container.IsRegistered<IRegionNavigationRegistry>())
+                    return _container.Resolve<IRegionNavigationRegistry>().CreateView(c, targetName);
+
+                return c.Resolve<object>(targetName);
+            });
 
         /// <summary>
         /// Creates an instance of a registered view <see cref="Type"/>.
@@ -89,6 +95,13 @@ namespace Prism.Navigation.Regions
         /// <returns>Instance of the registered view.</returns>
         protected virtual object CreateInstance(Type type)
         {
+            if (_container is IContainerRegistry container && container.IsRegistered<IRegionNavigationRegistry>())
+            {
+                var registry = _container.Resolve<IRegionNavigationRegistry>();
+                var registration = registry.Registrations.LastOrDefault(x => x.View == type);
+                if (registration is not null)
+                    return registry.CreateView(_container, registration.Name);
+            }
             var view = _container.Resolve(type);
             MvvmHelpers.AutowireViewModel(view);
             return view;

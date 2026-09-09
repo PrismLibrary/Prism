@@ -138,7 +138,7 @@ public class RegionViewRegistryFixture
         Assert.IsType<Mocks.ViewModels.MockViewModel>(view.DataContext);
     }
 
-    [StaFact(DisplayName = "Flaky test, runs alone but not in a group")]
+    [StaFact]
     public void RegisterViewWithRegion_ShouldNotHaveViewModel_OnOptOut()
     {
         ViewModelLocatorFixture.ResetViewModelLocationProvider();
@@ -157,7 +157,7 @@ public class RegionViewRegistryFixture
 
         var view = result.ElementAt(0) as Control;
         Assert.IsType<Mocks.Views.MockOptOut>(view);
-        Assert.NotNull(view.DataContext);
+        Assert.Null(view.DataContext);
     }
 
     private void FailWithFrameworkException(object sender, ViewRegisteredEventArgs e)

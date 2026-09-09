@@ -11,13 +11,16 @@ namespace Prism.Dialogs
     /// <remarks>The dialog's ViewModel must implement IDialogAware.</remarks>
     public class DialogService : IDialogService
     {
+        private readonly IDialogViewRegistry _dialogViewRegistry;
         private readonly IContainerExtension _containerExtension;
 
         /// <summary>Initializes a new instance of the <see cref="DialogService"/> class.</summary>
         /// <param name="containerExtension">The <see cref="IContainerExtension" /></param>
-        public DialogService(IContainerExtension containerExtension)
+        /// <param name="dialogViewRegistry">The registry used to create dialog content.</param>
+        public DialogService(IContainerExtension containerExtension, IDialogViewRegistry dialogViewRegistry)
         {
             _containerExtension = containerExtension;
+            _dialogViewRegistry = dialogViewRegistry ?? throw new ArgumentNullException(nameof(dialogViewRegistry));
         }
 
         /// <summary>Show dialog.</summary>
@@ -84,11 +87,9 @@ namespace Prism.Dialogs
         /// <param name="parameters">The parameters to pass to the dialog.</param>
         protected virtual void ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)
         {
-            var content = _containerExtension.Resolve<object>(dialogName);
+            var content = _dialogViewRegistry.CreateView(_containerExtension, dialogName);
             if (!(content is Avalonia.Controls.Control dialogContent))
                 throw new NullReferenceException("A dialog's content must be an Avalonia.Controls.Control");
-
-            MvvmHelpers.AutowireViewModel(dialogContent);
 
             if (!(dialogContent.DataContext is IDialogAware viewModel))
                 throw new NullReferenceException("A dialog's ViewModel must implement the IDialogAware interface");

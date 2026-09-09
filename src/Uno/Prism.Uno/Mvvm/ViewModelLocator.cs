@@ -3,7 +3,7 @@ namespace Prism.Mvvm
     /// <summary>
     /// This class defines the attached property and related change handler that calls the ViewModelLocator in Prism.Mvvm.
     /// </summary>
-    public static class ViewModelLocator
+    public static partial class ViewModelLocator
     {
         /// <summary>
         /// The AutowireViewModel attached property.
@@ -35,19 +35,8 @@ namespace Prism.Mvvm
             var value = (bool?)e.NewValue;
             if (value.HasValue && value.Value)
             {
-                ViewModelLocationProvider.AutoWireViewModelChanged(d, Bind);
+                Autowire(d, true);
             }
-        }
-
-        /// <summary>
-        /// Sets the DataContext of a View.
-        /// </summary>
-        /// <param name="view">The View to set the DataContext on.</param>
-        /// <param name="viewModel">The object to use as the DataContext for the View.</param>
-        static void Bind(object view, object viewModel)
-        {
-            if (view is FrameworkElement element)
-                element.DataContext = viewModel;
         }
     }
 }

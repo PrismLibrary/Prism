@@ -54,7 +54,7 @@ public class DialogAndInteractivityFixture
     {
         var container = new Moq.Mock<Prism.Ioc.IContainerProvider>();
         container.Setup(x => x.Resolve(typeof(IDialogWindow), "MainWindow")).Returns(new TestDialogWindow());
-        var service = new DialogService(container.Object);
+        var service = new DialogService(container.Object, new Moq.Mock<IDialogViewRegistry>().Object);
         var method = typeof(DialogService).GetMethod("CreateDialogWindow", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 
         var result = method!.Invoke(service, new object?[] { "MainWindow" });
@@ -67,14 +67,17 @@ public class DialogAndInteractivityFixture
     public void ConfigureDialogWindowContentThrowsForNonFrameworkElement()
     {
         var container = new Moq.Mock<Prism.Ioc.IContainerProvider>();
-        container.Setup(x => x.Resolve(typeof(object), "SampleDialog")).Returns(new object());
-        var service = new DialogService(container.Object);
+        var registry = new Moq.Mock<IDialogViewRegistry>();
+        registry.Setup(x => x.CreateView(container.Object, "SampleDialog")).Returns(new object());
+        var service = new DialogService(container.Object, registry.Object);
         var method = typeof(DialogService).GetMethod("ConfigureDialogWindowContent", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 
         var ex = Assert.Throws<System.Reflection.TargetInvocationException>(() =>
             method!.Invoke(service, new object[] { "SampleDialog", new TestDialogWindow(), new DialogParameters() }));
 
         Assert.IsType<NullReferenceException>(ex.InnerException);
+        registry.Verify(x => x.CreateView(container.Object, "SampleDialog"), Moq.Times.Once);
+        container.Verify(x => x.Resolve(typeof(IDialogViewRegistry)), Moq.Times.Never);
     }
 
     private sealed class TestDialogWindow : IDialogWindow

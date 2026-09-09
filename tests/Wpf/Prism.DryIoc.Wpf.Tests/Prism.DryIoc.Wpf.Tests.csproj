@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
@@ -31,5 +31,9 @@
   </ItemGroup>
 
   <Import Project="..\Prism.Container.Wpf.Shared\Prism.Container.Wpf.Shared.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <Compile Include="..\..\Prism.ViewRegistry.Shared\ViewRegistryFixture.cs" Link="ViewRegistryFixture.cs" />
+  </ItemGroup>
 
 </Project>

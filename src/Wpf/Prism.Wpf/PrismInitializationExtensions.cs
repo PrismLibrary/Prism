@@ -11,9 +11,14 @@ namespace Prism
     {
         internal static void ConfigureViewModelLocator()
         {
+            ViewModelCreationException.SetViewNameDelegate(view => view is DependencyObject obj
+                ? ViewModelLocator.GetNavigationName(obj)
+                : view.GetType().Name);
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                return ContainerLocator.Container.Resolve(type);
+                var container = (view as DependencyObject)?.GetValue(ViewModelLocator.ContainerProviderProperty)
+                    as IContainerProvider ?? ContainerLocator.Container;
+                return container.Resolve(type);
             });
         }
 
@@ -26,6 +31,10 @@ namespace Prism
         {
             containerRegistry.TryRegisterInstance(moduleCatalog);
 #endif
+            if (!containerRegistry.IsRegistered<IRegionNavigationRegistry>())
+                containerRegistry.RegisterSingleton<IRegionNavigationRegistry>(c => new RegionNavigationRegistry(GetViewRegistrations(c)));
+            if (!containerRegistry.IsRegistered<IDialogViewRegistry>())
+                containerRegistry.RegisterSingleton<IDialogViewRegistry>(c => new DialogViewRegistry(GetViewRegistrations(c)));
             containerRegistry.TryRegisterSingleton<IDialogService, DialogService>();
             containerRegistry.TryRegisterSingleton<IModuleInitializer, ModuleInitializer>();
             containerRegistry.TryRegisterSingleton<IModuleManager, ModuleManager>();
@@ -67,6 +76,13 @@ namespace Prism
 #if UNO_WINUI
             regionAdapterMappings.RegisterMapping<NavigationView, NavigationViewRegionAdapter>();
 #endif
+        }
+
+        // Enumerate on each lookup so registries resolved before modules load see their registrations.
+        private static IEnumerable<ViewRegistration> GetViewRegistrations(IContainerProvider container)
+        {
+            foreach (var registration in container.Resolve<IEnumerable<ViewRegistration>>())
+                yield return registration;
         }
 
         internal static void RunModuleManager(IContainerProvider containerProvider)

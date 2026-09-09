@@ -1,4 +1,4 @@
-﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Prism.Common;
 using Prism.Ioc;
@@ -9,11 +9,13 @@ namespace Prism.Dialogs
 {
     public class DialogService : IDialogService
     {
+        private readonly IDialogViewRegistry _dialogViewRegistry;
         private readonly IContainerProvider _containerProvider;
 
-        public DialogService(IContainerProvider containerProvider)
+        public DialogService(IContainerProvider containerProvider, IDialogViewRegistry dialogViewRegistry)
         {
             _containerProvider = containerProvider;
+            _dialogViewRegistry = dialogViewRegistry ?? throw new ArgumentNullException(nameof(dialogViewRegistry));
         }
 
         public async void ShowDialog(string name, IDialogParameters parameters, DialogCallback callback)
@@ -53,13 +55,11 @@ namespace Prism.Dialogs
 
         void ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)
         {
-            var content = _containerProvider.Resolve<object>(dialogName);
+            var content = _dialogViewRegistry.CreateView(_containerProvider, dialogName);
             if (content is not FrameworkElement dialogContent)
             {
                 throw new NullReferenceException("A dialog's content must be a FrameworkElement");
             }
-
-            MvvmHelpers.AutowireViewModel(content);
 
             if (dialogContent.DataContext is not IDialogAware viewModel)
             {
