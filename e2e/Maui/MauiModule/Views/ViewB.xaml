@@ -4,6 +4,8 @@
              xmlns:prism="http://prismlibrary.com"
              prism:DynamicTab.Title="Tab B"
              prism:DynamicTab.IconImageSource="profile.png"
+             xmlns:vm="clr-namespace:MauiModule.ViewModels"
+             x:DataType="vm:ViewBViewModel"
              x:Class="MauiModule.Views.ViewB"
              Title="{Binding Title}"
              IconImageSource="home.png"
@@ -27,7 +29,7 @@
         </StackLayout>
       </CollectionView.Header>
       <CollectionView.ItemTemplate>
-        <DataTemplate>
+        <DataTemplate x:DataType="x:String">
           <Label Text="{Binding .}"
                  Padding="20,5"/>
         </DataTemplate>

@@ -26,7 +26,7 @@
         </StackLayout>
       </CollectionView.Header>
       <CollectionView.ItemTemplate>
-        <DataTemplate>
+        <DataTemplate x:DataType="x:String">
           <Label Text="{Binding .}"
                  Padding="20,5"/>
         </DataTemplate>

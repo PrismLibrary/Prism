@@ -15,11 +15,11 @@ public static class MicrosoftDependencyInjectionExtensions
             where TView : Page =>
             services.RegisterForNavigation(typeof(TView), null, name);
 
-    public static IServiceCollection RegisterForNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IServiceCollection services, string name = null)
+    public static IServiceCollection RegisterForNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] TViewModel>(this IServiceCollection services, string name = null)
         where TView : Page =>
         services.RegisterForNavigation(typeof(TView), typeof(TViewModel), name);
 
-    public static IServiceCollection RegisterForNavigation(this IServiceCollection services, Type view, Type viewModel, string name = null)
+    public static IServiceCollection RegisterForNavigation(this IServiceCollection services, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type view, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModel, string name = null)
     {
         if (view is null)
             throw new ArgumentNullException(nameof(view));

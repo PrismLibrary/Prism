@@ -1,4 +1,5 @@
-﻿using Prism.Common;
+﻿using System.Diagnostics.CodeAnalysis;
+using Prism.Common;
 using Prism.Extensions;
 
 namespace Prism.Behaviors;
@@ -7,7 +8,7 @@ namespace Prism.Behaviors;
 /// Provides behaviors for types of <see cref="MultiPage{T}"/>
 /// </summary>
 /// <typeparam name="T">The typeof <see cref="Page"/>.</typeparam>
-public class MultiPageActiveAwareBehavior<T> : BehaviorBase<MultiPage<T>> where T : Page
+public class MultiPageActiveAwareBehavior<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor | DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.PublicProperties)] T> : BehaviorBase<MultiPage<T>> where T : Page
 {
     /// <inheritDoc/>
     protected override void OnAttachedTo(MultiPage<T> bindable)

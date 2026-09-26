@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Prism.Common;
 
@@ -8,7 +9,7 @@ namespace Prism.Common;
 /// a Bindable Property on BindableObjects, and allows other classes to observe any changes in the Value.
 /// </summary>
 /// <typeparam name="T">The type of the property that's wrapped in the Observable object</typeparam>
-public class ObservableObject<T> : BindableObject, INotifyPropertyChanged
+public class ObservableObject<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : BindableObject, INotifyPropertyChanged
 {
     /// <summary>
     /// Identifies the Value property of the ObservableObject

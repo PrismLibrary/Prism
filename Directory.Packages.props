@@ -1,9 +1,9 @@
 <Project>
   <ItemGroup>
     <PackageVersion Include="PolySharp" Version="1.15.0" />
-    <PackageVersion Include="Prism.Container.Abstractions" Version="9.0.114" />
-    <PackageVersion Include="Prism.Container.DryIoc" Version="9.0.114" />
-    <PackageVersion Include="Prism.Container.Unity" Version="9.0.114" />
+    <PackageVersion Include="Prism.Container.Abstractions" Version="9.1.69-pre" />
+    <PackageVersion Include="Prism.Container.DryIoc" Version="9.1.69-pre" />
+    <PackageVersion Include="Prism.Container.Unity" Version="9.1.69-pre" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
     <PackageVersion Include="System.Reactive" Version="6.0.1" />
     <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2401" />
@@ -46,13 +46,13 @@
     <PackageVersion Include="SkiaSharp.Skottie" Version="3.119.1" />
     <PackageVersion Include="Uno.Resizetizer" Version="1.12.1" />
     <PackageVersion Include="Uno.Extensions.Logging.OSLog" Version="1.7.0" />
-    <PackageVersion Include="Uno.Extensions.Logging.WinUI" Version="7.0.4" />
-    <PackageVersion Include="Uno.Extensions.Logging.Serilog" Version="7.0.4" />
+    <PackageVersion Include="Uno.Extensions.Logging.WinUI" Version="7.2.3" />
+    <PackageVersion Include="Uno.Extensions.Logging.Serilog" Version="7.2.3" />
     <PackageVersion Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.7.0" />
-    <PackageVersion Include="Uno.Material.WinUI" Version="6.0.2" />
-    <PackageVersion Include="Uno.Toolkit.WinUI.Material" Version="8.3.2" />
-    <PackageVersion Include="Uno.Toolkit.WinUI" Version="8.3.2" />
-    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="7.0.4" />
+    <PackageVersion Include="Uno.Material.WinUI" Version="7.0.3" />
+    <PackageVersion Include="Uno.Toolkit.WinUI.Material" Version="9.0.3" />
+    <PackageVersion Include="Uno.Toolkit.WinUI" Version="9.0.3" />
+    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="7.2.3" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
     <PackageVersion Include="Xamarin.Google.Android.Material" Version="1.12.0.4" Condition="$(TargetFramework.StartsWith('net9.0'))" />
     <PackageVersion Include="Xamarin.Google.Android.Material" Version="1.12.0.5" Condition="$(TargetFramework.StartsWith('net10.0'))" />

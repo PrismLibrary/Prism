@@ -9,11 +9,11 @@ public static class NavigationRegistrationExtensions
         where TView : Page =>
         container.RegisterForNavigation(typeof(TView), null, name);
 
-    public static IContainerRegistry RegisterForNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IContainerRegistry container, string name = null)
+    public static IContainerRegistry RegisterForNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] TViewModel>(this IContainerRegistry container, string name = null)
         where TView : Page =>
         container.RegisterForNavigation(typeof(TView), typeof(TViewModel), name);
 
-    public static IContainerRegistry RegisterForNavigation(this IContainerRegistry container, Type view, Type viewModel, string name = null)
+    public static IContainerRegistry RegisterForNavigation(this IContainerRegistry container, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type view, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModel, string name = null)
     {
         if (view is null)
             throw new ArgumentNullException(nameof(view));

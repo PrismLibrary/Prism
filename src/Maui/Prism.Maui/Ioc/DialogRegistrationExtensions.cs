@@ -34,7 +34,7 @@ public static class DialogRegistrationExtensions
     /// <remarks>
     /// The view type must inherit from <see cref="View"/>.
     /// </remarks>
-    public static IContainerRegistry RegisterDialog<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IContainerRegistry containerRegistry, string name = null)
+    public static IContainerRegistry RegisterDialog<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] TViewModel>(this IContainerRegistry containerRegistry, string name = null)
         where TView : View =>
         containerRegistry.RegisterDialog(typeof(TView), typeof(TViewModel), name);
 
@@ -49,7 +49,7 @@ public static class DialogRegistrationExtensions
     /// <remarks>
     /// The view type must inherit from <see cref="View"/>.
     /// </remarks>
-    public static IContainerRegistry RegisterDialog(this IContainerRegistry container, Type view, Type viewModel, string name = null)
+    public static IContainerRegistry RegisterDialog(this IContainerRegistry container, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type view, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModel, string name = null)
     {
         container.RegisterInstance(GetViewRegistration(view, viewModel, name))
             .Register(view);
@@ -94,7 +94,7 @@ public static class DialogRegistrationExtensions
     /// <remarks>
     /// The view type must inherit from <see cref="View"/>.
     /// </remarks>
-    public static IServiceCollection RegisterDialog<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IServiceCollection services, string name = null)
+    public static IServiceCollection RegisterDialog<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] TViewModel>(this IServiceCollection services, string name = null)
         where TView : View =>
         services.RegisterDialog(typeof(TView), typeof(TViewModel), name);
 
@@ -109,7 +109,7 @@ public static class DialogRegistrationExtensions
     /// <remarks>
     /// The view type must inherit from <see cref="View"/>.
     /// </remarks>
-    public static IServiceCollection RegisterDialog(this IServiceCollection services, Type view, Type viewModel, string name = null)
+    public static IServiceCollection RegisterDialog(this IServiceCollection services, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type view, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModel, string name = null)
     {
         services.AddSingleton(GetViewRegistration(view, viewModel, name))
             .AddTransient(view);
@@ -129,7 +129,7 @@ public static class DialogRegistrationExtensions
         where T : class, IDialogContainer =>
         services.AddTransient<IDialogContainer, T>();
 
-    private static ViewRegistration GetViewRegistration(Type view, Type viewModel, string name)
+    private static ViewRegistration GetViewRegistration([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type view, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModel, string name)
     {
         ArgumentNullException.ThrowIfNull(view);
 

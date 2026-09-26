@@ -20,10 +20,10 @@ public static class MauiProgram
                 })
                 .RegisterTypes(containerRegistry =>
                 {
-                    containerRegistry.RegisterForNavigation<MainPage>();
-                    containerRegistry.RegisterForNavigation<RootPage>();
+                    containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+                    containerRegistry.RegisterForNavigation<RootPage, RootPageViewModel>();
                     containerRegistry.RegisterForNavigation<SamplePage>();
-                    containerRegistry.RegisterForNavigation<SplashPage>();
+                    containerRegistry.RegisterForNavigation<SplashPage, SplashPageViewModel>();
                 })
                 .AddGlobalNavigationObserver(context => context.Subscribe(x =>
                 {

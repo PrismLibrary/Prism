@@ -24,7 +24,7 @@ namespace Prism.Ioc
         /// <typeparam name="TViewModel">The ViewModel to use as the DataContext for the dialog</typeparam>
         /// <param name="containerRegistry"></param>
         /// <param name="name">The unique name to register with the dialog.</param>
-        public static IContainerRegistry RegisterDialog<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IContainerRegistry containerRegistry, string name = null) where TViewModel : Dialogs.IDialogAware =>
+        public static IContainerRegistry RegisterDialog<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] TViewModel>(this IContainerRegistry containerRegistry, string name = null) where TViewModel : Dialogs.IDialogAware =>
             containerRegistry.RegisterView(typeof(TView), typeof(TViewModel), name, ViewType.Dialog);
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Prism.Ioc
         /// <param name="containerRegistry"></param>
         /// <param name="type">The type of object to register</param>
         /// <param name="name">The unique name to register with the object.</param>
-        public static IContainerRegistry RegisterForNavigation(this IContainerRegistry containerRegistry, Type type, string name) =>
+        public static IContainerRegistry RegisterForNavigation(this IContainerRegistry containerRegistry, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type type, string name) =>
             containerRegistry.RegisterView(type, null, name, ViewType.Region);
 
         /// <summary>
@@ -73,10 +73,10 @@ namespace Prism.Ioc
         /// <typeparam name="TViewModel">The ViewModel to use as the DataContext for the view</typeparam>
         /// <param name="containerRegistry"></param>
         /// <param name="name">The unique name to register with the view</param>
-        public static IContainerRegistry RegisterForNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IContainerRegistry containerRegistry, string name = null) =>
+        public static IContainerRegistry RegisterForNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] TViewModel>(this IContainerRegistry containerRegistry, string name = null) =>
             containerRegistry.RegisterForNavigationWithViewModel<TViewModel>(typeof(TView), name);
 
-        private static IContainerRegistry RegisterForNavigationWithViewModel<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IContainerRegistry containerRegistry, Type viewType, string name)
+        private static IContainerRegistry RegisterForNavigationWithViewModel<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] TViewModel>(this IContainerRegistry containerRegistry, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type viewType, string name)
         {
             return containerRegistry.RegisterView(viewType, typeof(TViewModel), name, ViewType.Region);
         }

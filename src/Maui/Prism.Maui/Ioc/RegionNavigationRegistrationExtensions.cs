@@ -29,15 +29,15 @@ public static class RegionNavigationRegistrationExtensions
     /// <typeparam name="TViewModel">The ViewModel to use as the BindingContext for the View</typeparam>
     /// <param name="name">The unique name to register with the View</param>
     /// <param name="containerRegistry"></param>
-    public static IContainerRegistry RegisterForRegionNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IContainerRegistry containerRegistry, string name = null)
+    public static IContainerRegistry RegisterForRegionNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] TViewModel>(this IContainerRegistry containerRegistry, string name = null)
         where TView : View
         where TViewModel : class =>
         containerRegistry.RegisterForNavigationWithViewModel(typeof(TView), typeof(TViewModel), name);
 
-    public static IContainerRegistry RegisterForRegionNavigation(this IContainerRegistry containerRegistry, Type viewType, Type viewModelType, string name = null)
+    public static IContainerRegistry RegisterForRegionNavigation(this IContainerRegistry containerRegistry, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type viewType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModelType, string name = null)
         => containerRegistry.RegisterForNavigationWithViewModel(viewType, viewModelType, name);
 
-    private static IContainerRegistry RegisterForNavigationWithViewModel(this IContainerRegistry containerRegistry, Type viewType, Type viewModelType, string name)
+    private static IContainerRegistry RegisterForNavigationWithViewModel(this IContainerRegistry containerRegistry, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type viewType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModelType, string name)
     {
         if (string.IsNullOrWhiteSpace(name))
             name = viewType.Name;
@@ -74,15 +74,15 @@ public static class RegionNavigationRegistrationExtensions
     /// <typeparam name="TViewModel">The ViewModel to use as the BindingContext for the View</typeparam>
     /// <param name="name">The unique name to register with the View</param>
     /// <param name="services"></param>
-    public static IServiceCollection RegisterForRegionNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TViewModel>(this IServiceCollection services, string name = null)
+    public static IServiceCollection RegisterForRegionNavigation<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] TView, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] TViewModel>(this IServiceCollection services, string name = null)
         where TView : View
         where TViewModel : class =>
         services.RegisterForNavigationWithViewModel(typeof(TView), typeof(TViewModel), name);
 
-    public static IServiceCollection RegisterForRegionNavigation(this IServiceCollection services, Type viewType, Type viewModelType, string name = null)
+    public static IServiceCollection RegisterForRegionNavigation(this IServiceCollection services, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type viewType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModelType, string name = null)
         => services.RegisterForNavigationWithViewModel(viewType, viewModelType, name);
 
-    private static IServiceCollection RegisterForNavigationWithViewModel(this IServiceCollection services, Type viewType, Type viewModelType, string name)
+    private static IServiceCollection RegisterForNavigationWithViewModel(this IServiceCollection services, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type viewType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModelType, string name)
     {
         if (string.IsNullOrWhiteSpace(name))
             name = viewType.Name;
