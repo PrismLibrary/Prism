@@ -20,7 +20,7 @@ on:
 
 jobs:
   build-prism-maui:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@8fa02d57679e5db1fc83aebdac99fd494c4e510e # v2 with private feed URL secret support
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@61adf86e5d3b2836b2b76fdb67cb71076521a9d7 # v2 with private feed URL secret support
     with:
       name: Build Prism.Maui
       solution-path: PrismLibrary_Maui.slnf

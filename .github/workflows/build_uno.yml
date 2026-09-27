@@ -21,7 +21,7 @@ on:
 
 jobs:
   build-prism-uno:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@8fa02d57679e5db1fc83aebdac99fd494c4e510e # v2 with private feed URL secret support
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@61adf86e5d3b2836b2b76fdb67cb71076521a9d7 # v2 with private feed URL secret support
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
