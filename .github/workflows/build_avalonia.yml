@@ -6,7 +6,7 @@ on:
     branches:
       - master
     paths:
-      - .github/workflows/build_forms.yml
+      - .github/workflows/build_avalonia.yml
       - Directory.Build.props
       - Directory.Build.targets
       - Directory.Packages.props
@@ -19,7 +19,7 @@ on:
 
 jobs:
   build-prism-avalonia:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v2
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@8fa02d57679e5db1fc83aebdac99fd494c4e510e # v2 with private feed URL secret support
     with:
       name: Build Prism.Avalonia
       solution-path: PrismLibrary_Avalonia.slnf
@@ -27,3 +27,7 @@ jobs:
         tests/Avalonia/Prism.Avalonia.Tests/Prism.Avalonia.Tests.csproj
         tests/Avalonia/Prism.DryIoc.Avalonia.Tests/Prism.DryIoc.Avalonia.Tests.csproj
       dotnet-version: 10.0.100
+    secrets:
+      nugetFeedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
+      nugetUserName: ${{ secrets.IN_HOUSE_USER }}
+      nugetToken: ${{ secrets.IN_HOUSE_API_KEY }}

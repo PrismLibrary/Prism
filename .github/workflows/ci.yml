@@ -25,7 +25,7 @@ on:
 
 jobs:
   build-prism-core:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v2
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@8fa02d57679e5db1fc83aebdac99fd494c4e510e # v2 with private feed URL secret support
     with:
       name: Build Prism.Core
       solution-path: PrismLibrary_Core.slnf
@@ -35,6 +35,9 @@ jobs:
       artifact-name: Core
       dotnet-version: 10.0.100
     secrets:
+      nugetFeedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
+      nugetUserName: ${{ secrets.IN_HOUSE_USER }}
+      nugetToken: ${{ secrets.IN_HOUSE_API_KEY }}
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
       codeSignTenantId: ${{ secrets.CodeSignTenantId }}
@@ -42,7 +45,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-wpf:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v2
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@8fa02d57679e5db1fc83aebdac99fd494c4e510e # v2 with private feed URL secret support
     with:
       name: Build Prism.Wpf
       solution-path: PrismLibrary_Wpf.slnf
@@ -54,6 +57,9 @@ jobs:
       artifact-name: Wpf
       dotnet-version: 10.0.100
     secrets:
+      nugetFeedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
+      nugetUserName: ${{ secrets.IN_HOUSE_USER }}
+      nugetToken: ${{ secrets.IN_HOUSE_API_KEY }}
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
       codeSignTenantId: ${{ secrets.CodeSignTenantId }}
@@ -61,7 +67,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-uno:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v2
+    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@8fa02d57679e5db1fc83aebdac99fd494c4e510e # v2 with private feed URL secret support
     with:
       name: Build Prism.Uno
       solution-path: PrismLibrary_Uno.slnf
@@ -77,6 +83,9 @@ jobs:
       code-sign: false
       artifact-name: Uno
     secrets:
+      nugetFeedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
+      nugetUserName: ${{ secrets.IN_HOUSE_USER }}
+      nugetToken: ${{ secrets.IN_HOUSE_API_KEY }}
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
       codeSignTenantId: ${{ secrets.CodeSignTenantId }}
@@ -84,7 +93,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-maui:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v2
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@8fa02d57679e5db1fc83aebdac99fd494c4e510e # v2 with private feed URL secret support
     with:
       name: Build Prism.Maui
       solution-path: PrismLibrary_Maui.slnf
@@ -96,6 +105,9 @@ jobs:
       artifact-name: Maui
       dotnet-version: 10.0.100
     secrets:
+      nugetFeedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
+      nugetUserName: ${{ secrets.IN_HOUSE_USER }}
+      nugetToken: ${{ secrets.IN_HOUSE_API_KEY }}
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
       codeSignTenantId: ${{ secrets.CodeSignTenantId }}
@@ -103,7 +115,7 @@ jobs:
       codeSignCertificate: ${{ secrets.CodeSignCertificate }}
 
   build-prism-avalonia:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v2
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@8fa02d57679e5db1fc83aebdac99fd494c4e510e # v2 with private feed URL secret support
     with:
       name: Build Prism.Avalonia
       solution-path: PrismLibrary_Avalonia.slnf
@@ -114,6 +126,9 @@ jobs:
       artifact-name: Avalonia
       dotnet-version: 10.0.100
     secrets:
+      nugetFeedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
+      nugetUserName: ${{ secrets.IN_HOUSE_USER }}
+      nugetToken: ${{ secrets.IN_HOUSE_API_KEY }}
       codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
       codeSignClientId: ${{ secrets.CodeSignClientId }}
       codeSignTenantId: ${{ secrets.CodeSignTenantId }}
