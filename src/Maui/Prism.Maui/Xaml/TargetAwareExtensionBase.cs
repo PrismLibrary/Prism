@@ -134,7 +134,7 @@ public abstract class TargetAwareExtensionBase<T> : BindableObject, IMarkupExten
         {
             var source = TargetBindingContext == TargetBindingContext.Element ? TargetElement : Page;
             if (source is not null)
-                SetBinding(BindingContextProperty, new Binding(nameof(BindingContext), BindingMode.OneWay, source: source));
+                SetBinding(BindingContextProperty, Binding.Create(static (VisualElement element) => element.BindingContext, BindingMode.OneWay, source: source));
         }
     }
 }

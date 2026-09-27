@@ -144,7 +144,7 @@ public class DialogContainerPage : ContentPage, IDialogContainer
         if (relativeWidth != null)
         {
             popupContainer.SetBinding(WidthRequestProperty,
-                new Binding(nameof(Width),
+                Binding.Create(static (DialogContainerPage page) => page.Width,
                             BindingMode.OneWay,
                             new RelativeContentSizeConverter { RelativeSize = relativeWidth.Value },
                             source: this));
@@ -154,7 +154,7 @@ public class DialogContainerPage : ContentPage, IDialogContainer
         if (relativeHeight != null)
         {
             popupContainer.SetBinding(HeightRequestProperty,
-                new Binding(nameof(Height),
+                Binding.Create(static (DialogContainerPage page) => page.Height,
                             BindingMode.OneWay,
                             new RelativeContentSizeConverter { RelativeSize = relativeHeight.Value },
                             source: this));

@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:prism="http://prismlibrary.com"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiModule.ViewModels"
+             x:DataType="vm:ViewAViewModel"
              x:Class="MauiModule.Views.ViewA"
              Title="{Binding Title}"
              IconImageSource="home.png"
@@ -31,7 +33,7 @@
         </StackLayout>
       </CollectionView.Header>
       <CollectionView.ItemTemplate>
-        <DataTemplate>
+        <DataTemplate x:DataType="x:String">
           <Label Text="{Binding .}"
                  Padding="20,5"/>
         </DataTemplate>

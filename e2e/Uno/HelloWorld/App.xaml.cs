@@ -1,5 +1,6 @@
 using HelloWorld.Views;
 using Playground.Module;
+using Serilog;
 using Uno.UI;
 
 namespace HelloWorld;
@@ -29,7 +30,11 @@ public partial class App : PrismApplication
                         LogLevel.Information :
                         LogLevel.Warning);
             }, enableUnoLogging: true)
-            .UseSerilog(consoleLoggingEnabled: true, fileLoggingEnabled: true)
+            .ConfigureLogging((context, logging) => logging.AddSerilog(
+                new LoggerConfiguration()
+                    .WriteTo.Console()
+                    .WriteTo.File(Path.Combine(context.HostingEnvironment.GetAppDataPath(), "HelloWorld.log"))
+                    .CreateLogger(), dispose: true))
             .UseSerialization()
             .ConfigureServices((context, services) =>
             {

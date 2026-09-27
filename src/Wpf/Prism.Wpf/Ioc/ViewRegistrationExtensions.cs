@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Prism.Mvvm;
 
 namespace Prism.Ioc;
@@ -5,7 +6,7 @@ namespace Prism.Ioc;
 public static partial class IContainerRegistryExtensions
 {
     private static IContainerRegistry RegisterView(this IContainerRegistry containerRegistry,
-        Type viewType, Type viewModelType, string name, ViewType registryType)
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type viewType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModelType, string name, ViewType registryType)
     {
         if (viewType is null)
             throw new ArgumentNullException(nameof(viewType));
@@ -37,6 +38,6 @@ public static partial class IContainerRegistryExtensions
             Name = name,
             View = viewType,
             ViewModel = viewModelType
-        }, Guid.NewGuid().ToString()); // Preserve multiple entries with both DryIoc and Unity.
+        }); // Metadata participates in the unkeyed collection; view aliases remain named above.
     }
 }

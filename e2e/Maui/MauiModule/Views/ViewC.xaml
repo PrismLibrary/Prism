@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiModule.ViewModels"
+             x:DataType="vm:ViewCViewModel"
              x:Class="MauiModule.Views.ViewC"
              Title="{Binding Title}"
              IconImageSource="setting.png"
@@ -24,7 +26,7 @@
         </StackLayout>
       </CollectionView.Header>
       <CollectionView.ItemTemplate>
-        <DataTemplate>
+        <DataTemplate x:DataType="x:String">
           <Label Text="{Binding .}"
                  Padding="20,5"/>
         </DataTemplate>

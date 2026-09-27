@@ -35,7 +35,7 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterInstance(typeof(IModuleCatalog), null, It.IsAny<object>(), It.IsAny<IInstanceLifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterInstance(typeof(IModuleCatalog), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<IInstanceLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -48,7 +48,7 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(IModuleInitializer), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IModuleInitializer), It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<ITypeLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -61,7 +61,7 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionManager), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionManager), It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<ITypeLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -74,7 +74,7 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(RegionAdapterMappings), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterType(typeof(RegionAdapterMappings), It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<ITypeLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -87,7 +87,7 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionViewRegistry), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionViewRegistry), It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<ITypeLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -100,7 +100,7 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionBehaviorFactory), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionBehaviorFactory), It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<ITypeLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -113,7 +113,7 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
 
             bootstrapper.Run();
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(IEventAggregator), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Once());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IEventAggregator), It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<ITypeLifetimeManager>()), Times.Once());
         }
 
         [StaFact]
@@ -125,10 +125,10 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
             var bootstrapper = new MockedContainerBootstrapper(mockedContainer.Object);
             bootstrapper.Run(false);
 
-            mockedContainer.Verify(c => c.RegisterType(typeof(IEventAggregator), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
-            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionManager), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
-            mockedContainer.Verify(c => c.RegisterType(typeof(RegionAdapterMappings), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
-            mockedContainer.Verify(c => c.RegisterType(typeof(IModuleInitializer), It.IsAny<Type>(), null, It.IsAny<ITypeLifetimeManager>()), Times.Never());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IEventAggregator), It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<ITypeLifetimeManager>()), Times.Never());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IRegionManager), It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<ITypeLifetimeManager>()), Times.Never());
+            mockedContainer.Verify(c => c.RegisterType(typeof(RegionAdapterMappings), It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<ITypeLifetimeManager>()), Times.Never());
+            mockedContainer.Verify(c => c.RegisterType(typeof(IModuleInitializer), It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<ITypeLifetimeManager>()), Times.Never());
         }
 
         private static void SetupMockedContainerForVerificationTests(Mock<IUnityContainer> mockedContainer)
@@ -142,25 +142,25 @@ namespace Prism.Container.Wpf.Tests.Bootstrapper
 
             mockedContainer.Setup(c => c.RegisterInstance(It.IsAny<Type>(), It.IsAny<string>(), It.IsAny<object>(), It.IsAny<IInstanceLifetimeManager>()));
 
-            mockedContainer.Setup(c => c.Resolve(typeof(IModuleCatalog), (string)null)).Returns(
+            mockedContainer.Setup(c => c.Resolve(typeof(IModuleCatalog), It.IsAny<string>())).Returns(
                 new ModuleCatalog());
 
-            mockedContainer.Setup(c => c.Resolve(typeof(IModuleInitializer), (string)null)).Returns(
+            mockedContainer.Setup(c => c.Resolve(typeof(IModuleInitializer), It.IsAny<string>())).Returns(
                 mockedModuleInitializer.Object);
 
-            mockedContainer.Setup(c => c.Resolve(typeof(IModuleManager), (string)null)).Returns(
+            mockedContainer.Setup(c => c.Resolve(typeof(IModuleManager), It.IsAny<string>())).Returns(
                 mockedModuleManager.Object);
 
-            mockedContainer.Setup(c => c.Resolve(typeof(RegionAdapterMappings), (string)null)).Returns(
+            mockedContainer.Setup(c => c.Resolve(typeof(RegionAdapterMappings), It.IsAny<string>())).Returns(
                 regionAdapterMappings);
 
-            mockedContainer.Setup(c => c.Resolve(typeof(SelectorRegionAdapter), (string)null)).Returns(
+            mockedContainer.Setup(c => c.Resolve(typeof(SelectorRegionAdapter), It.IsAny<string>())).Returns(
                 new SelectorRegionAdapter(regionBehaviorFactory));
 
-            mockedContainer.Setup(c => c.Resolve(typeof(ItemsControlRegionAdapter), (string)null)).Returns(
+            mockedContainer.Setup(c => c.Resolve(typeof(ItemsControlRegionAdapter), It.IsAny<string>())).Returns(
                 new ItemsControlRegionAdapter(regionBehaviorFactory));
 
-            mockedContainer.Setup(c => c.Resolve(typeof(ContentControlRegionAdapter), (string)null)).Returns(
+            mockedContainer.Setup(c => c.Resolve(typeof(ContentControlRegionAdapter), It.IsAny<string>())).Returns(
                 new ContentControlRegionAdapter(regionBehaviorFactory));
         }
     }

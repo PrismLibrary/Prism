@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:vm="clr-namespace:MauiRegionsModule.ViewModels"
+             x:DataType="vm:ContentRegionPageViewModel"
              x:Class="MauiRegionsModule.Views.ContentRegionPage"
              Title="Content Region"
              Padding="20">

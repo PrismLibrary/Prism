@@ -197,7 +197,7 @@ namespace Prism.Mvvm
         /// </summary>
         /// <typeparam name="T">The View</typeparam>
         /// <typeparam name="VM">The ViewModel</typeparam>
-        public static void Register<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] T, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] VM>()
+        public static void Register<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] T, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] VM>()
         {
             var viewType = typeof(T);
             var viewModelType = typeof(VM);
@@ -210,7 +210,7 @@ namespace Prism.Mvvm
         /// </summary>
         /// <param name="viewTypeName">The View type name</param>
         /// <param name="viewModelType">The ViewModel type</param>
-        public static void Register(string viewTypeName, Type viewModelType)
+        public static void Register(string viewTypeName, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModelType)
         {
             _typeFactories[viewTypeName] = viewModelType;
         }

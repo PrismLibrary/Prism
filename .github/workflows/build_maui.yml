@@ -20,7 +20,7 @@ on:
 
 jobs:
   build-prism-maui:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v2
+    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@61adf86e5d3b2836b2b76fdb67cb71076521a9d7 # v2 with private feed URL secret support
     with:
       name: Build Prism.Maui
       solution-path: PrismLibrary_Maui.slnf
@@ -29,3 +29,7 @@ jobs:
         tests/Maui/Prism.Maui.Tests/Prism.Maui.Tests.csproj
         tests/Maui/Prism.DryIoc.Maui.Tests/Prism.DryIoc.Maui.Tests.csproj
       dotnet-version: 10.0.100
+    secrets:
+      nugetFeedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
+      nugetUserName: ${{ secrets.IN_HOUSE_USER }}
+      nugetToken: ${{ secrets.IN_HOUSE_API_KEY }}
