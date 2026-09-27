@@ -37,4 +37,8 @@
 
   <Import Project="..\Prism.Container.Avalonia.Shared\Prism.Container.Avalonia.Shared.projitems" Label="Shared" />
 
+  <ItemGroup>
+    <Compile Include="..\..\Prism.ViewRegistry.Shared\ViewRegistryFixture.cs" Link="ViewRegistryFixture.cs" />
+  </ItemGroup>
+
 </Project>

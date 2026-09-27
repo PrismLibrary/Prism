@@ -69,9 +69,14 @@ namespace Prism
         /// </summary>
         protected virtual void ConfigureViewModelLocator()
         {
+            ViewModelCreationException.SetViewNameDelegate(view => view is DependencyObject obj
+                ? ViewModelLocator.GetNavigationName(obj)
+                : view.GetType().Name);
             ViewModelLocationProvider.SetDefaultViewModelFactory((view, type) =>
             {
-                return Container.Resolve(type);
+                var container = (view as DependencyObject)?.GetValue(ViewModelLocator.ContainerProviderProperty)
+                    as IContainerProvider ?? Container;
+                return container.Resolve(type);
             });
         }
 

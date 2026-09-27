@@ -36,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\..\src\Wpf\Prism.Wpf\Mvvm\*.cs" LinkBase="Mvvm" />
     <Using Include="Prism.Extensions" />
   </ItemGroup>
 

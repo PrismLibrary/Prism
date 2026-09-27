@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Uno.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net10.0-desktop</TargetFramework>
+    <OutputType>Library</OutputType>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -30,6 +31,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Uno\Prism.DryIoc.Uno\Prism.DryIoc.Uno.WinUI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\Prism.ViewRegistry.Shared\ViewRegistryFixture.cs" Link="ViewRegistryFixture.cs" />
   </ItemGroup>
 
 </Project>

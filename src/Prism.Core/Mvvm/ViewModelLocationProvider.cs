@@ -110,6 +110,17 @@ namespace Prism.Mvvm
         /// <param name="setDataContextCallback">The call back to use to create the binding between the View and ViewModel</param>
         public static void AutoWireViewModelChanged(object view, Action<object, object> setDataContextCallback)
         {
+            AutoWireViewModelChanged(view, setDataContextCallback, null);
+        }
+
+        /// <summary>
+        /// Wires a view using an explicit ViewModel type while honoring registered and default ViewModel factories.
+        /// </summary>
+        /// <param name="view">The view whose ViewModel should be created.</param>
+        /// <param name="setDataContextCallback">The callback used to assign the ViewModel.</param>
+        /// <param name="viewModelType">The ViewModel type supplied by the view registration, or null to use mappings and conventions.</param>
+        public static void AutoWireViewModelChanged(object view, Action<object, object> setDataContextCallback, Type? viewModelType)
+        {
             // Try mappings first
             object? viewModel = GetViewModelForView(view);
 
@@ -117,7 +128,7 @@ namespace Prism.Mvvm
             if (viewModel == null)
             {
                 // check type mappings
-                var viewModelType = GetViewModelTypeForView(view.GetType());
+                viewModelType ??= GetViewModelTypeForView(view.GetType());
 
                 // check platform View to ViewModel resolver
                 if (viewModelType == null)

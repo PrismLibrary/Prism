@@ -19,6 +19,8 @@ Prism.Avalonia helps you more easily design and build rich, flexible, and easy t
 
   <ItemGroup>
     <Compile Include="..\..\Wpf\Prism.Wpf\Common\MvvmHelpers.cs" LinkBase="Common" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Dialogs\DialogViewRegistry.cs" LinkBase="Dialogs" />
+    <Compile Include="..\..\Wpf\Prism.Wpf\Dialogs\IDialogViewRegistry.cs" LinkBase="Dialogs" />
     <Compile Include="..\..\Wpf\Prism.Wpf\PrismInitializationExtensions.cs" Link="PrismInitializationExtensions.cs" />
     <Compile Include="..\..\Wpf\Prism.Wpf\Extensions\CollectionExtensions.cs" LinkBase="Extensions" />
     <Compile Include="..\..\Wpf\Prism.Wpf\Interactivity\*.cs" LinkBase="Interactivity" />

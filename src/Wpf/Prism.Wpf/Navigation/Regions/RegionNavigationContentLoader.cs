@@ -98,6 +98,9 @@ namespace Prism.Navigation.Regions
         {
             try
             {
+                if (((IContainerRegistry)_container).IsRegistered<IRegionNavigationRegistry>())
+                    return _container.Resolve<IRegionNavigationRegistry>().CreateView(_container, candidateTargetContract);
+
                 var newRegionItem = _container.Resolve<object>(candidateTargetContract);
                 MvvmHelpers.AutowireViewModel(newRegionItem);
                 return newRegionItem;
@@ -146,6 +149,24 @@ namespace Prism.Navigation.Regions
                 throw new ArgumentNullException(nameof(candidateNavigationContract));
             }
 
+            if (((IContainerRegistry)_container).IsRegistered<IRegionNavigationRegistry>())
+            {
+                var registry = _container.Resolve<IRegionNavigationRegistry>();
+                var matchingType = registry.GetViewType(candidateNavigationContract);
+                return region.Views.Where(view =>
+                {
+                    if (view is null)
+                        return false;
+
+                    if (view is FrameworkElement element &&
+                        element.GetValue(Mvvm.ViewModelLocator.NavigationNameProperty) is string name)
+                        return name == candidateNavigationContract && view.GetType() == matchingType;
+
+                    return matchingType is not null
+                        ? view.GetType() == matchingType
+                        : ViewIsMatch(view.GetType(), candidateNavigationContract);
+                });
+            }
             var contractCandidates = GetCandidatesFromRegionViews(region, candidateNavigationContract);
 
             if (!contractCandidates.Any())
