@@ -14,4 +14,8 @@
     <ProjectReference Include="..\..\..\src\Maui\Prism.Maui\Prism.Maui.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <MauiXaml Remove="**\*.xaml" />
+    <MauiXaml Include="**\*.xaml" Exclude="$(DefaultItemExcludes)" />
+  </ItemGroup>
 </Project>

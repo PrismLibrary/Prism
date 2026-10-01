@@ -3,4 +3,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
   </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Microsoft.Maui.Controls" />
+  </ItemGroup>
 </Project>

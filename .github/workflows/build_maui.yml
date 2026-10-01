@@ -17,6 +17,7 @@ on:
       - 'src/Maui/**'
       - 'tests/Containers/**'
       - 'tests/Maui/**'
+      - 'e2e/Maui/**'
 
 jobs:
   build-prism-maui:

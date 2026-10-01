@@ -18,3 +18,11 @@ Raw local logs live beside this worktree: compat-net10-tests.log, compat-net11-t
 API review: https://learn.microsoft.com/en-us/dotnet/maui/whats-new/dotnet-11 and https://github.com/dotnet/maui/releases/tag/11.0.0-preview.4.26230.3. Preview 4 still contains obsolete Compatibility.Layout<View>; retain this public adapter contract rather than apply later-preview removals. Android minimum 24 applies only to net11; net9/net10 keep 21. Page dialogs call Async APIs under NET10_0_OR_GREATER and retain net9 calls.
 
 Apple compilation and iOS visual/runtime checks are unverified (Mac offline). Android API35 AVD exists; emulator/demo runtime smoke is tracked separately and is not implied by the library build results above. No toolchain installs, source pushes, merges or package publication were performed.
+
+## Android demo smoke (2026-10-01)
+
+Existing .NET10 Android demo builds with 0 errors using SDK11 Preview4; its neutral modules needed a shared Microsoft.Maui.Controls import and explicit MauiXaml items (separate .NET10 sample fix). Restore both `net10.0;net10.0-android` using `-p:TargetFrameworks=net10.0%3Bnet10.0-android -r android-x64`, then build `-f net10.0-android -r android-x64 --no-restore`.
+
+Signed APK installed successfully on existing pixel_7_-_api_35 (emulator-5554). Launcher event succeeded; PID5493 and resumed MainActivity confirmed. Crash buffer was empty. This is a .NET10 launch smoke, not .NET11 runtime validation, UI interaction coverage, or AOT evidence. Raw logs: compat-demo-net10-android.log, compat-demo-crash.log; UI dump: compat-demo-ui.xml, beside worktree.
+
+User subsequently required latest .NET11 RC; Preview4 matrix is baseline evidence only. Latest RC toolchain/API validation and rerunning matrix are pending and must precede any RC support claim.
