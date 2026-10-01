@@ -1,40 +1,39 @@
 # MAUI compatibility validation (dev-01, 2026-10-01)
 
-Branch: codex/maui-net11-compatibility, based on e7cf2b9d.
+Branch codex/maui-net11-compatibility, based on e7cf2b9d. This report supersedes the earlier Preview4 and missing-API37 checkpoints.
 
-| Check | .NET 10 | .NET 11 Preview 4 |
+| Check | .NET10 baseline (Debug) | Latest official .NET11 RC1 (Release) |
 |---|---|---|
-| SDK | 10.0.401 | 11.0.100-preview.4.26230.115 |
-| MAUI package | 10.0.10 | 11.0.0-preview.4.26230.3 |
+| SDK | 10.0.401 | 11.0.100-rc.1.26425.128 |
+| Controls package | 10.0.10 | 11.0.0-rc.1.26451.6 |
+| Workload set | Existing machine installation | 11.0.100-rc.1.26458.5 |
 | Prism.Maui.Tests | 195 passed | 195 passed |
 | Prism.DryIoc.Maui.Tests | 88 passed, 1 existing skip | 88 passed, 1 existing skip |
-| Prism.Maui Android library build | passed, 0 errors | passed, 0 errors |
-| Prism.Maui Windows library build | passed, 0 errors | passed, 0 errors |
+| Prism.Maui.Rx neutral build | Covered by DryIoc suite | Explicit Release build, 0 errors |
+| Default Android library build | 0 errors | 0 errors, native API37.0 |
+| Windows library build | 0 errors | 0 errors |
+| Android demo | APK built, API35 emulator launch confirmed | Release APK0errors; API35 emulator launch confirmed |
 
-Commands use `-f <framework> -p:TargetFrameworks=<framework> -p:DISABLE_GITVERSIONING=true` to restrict restore to installed platform workloads. The SDK was selected temporarily through global.json; the committed root file does not impose a preview SDK on unrelated platform workflows. CI selects each SDK explicitly and runs Android/Windows Release builds and both neutral test suites. CI YAML parsed with PyYAML; GitHub execution remains pending. This replaces the all-target reusable MAUI job with the explicit Windows-hosted matrix; Apple compilation and package aggregation still require a separate capable runner.
+Current RC Release matrix log: ../compat-rc1-release-matrix.log. It was run through build/rc1/Validate.ps1 with the isolated official RC host and native SDK. Earlier RC Debug results also pass (../compat-rc1-pinned-matrix.log). Before/after comparison is deliberately labelled by configuration. Raw .NET10 logs: compat-net10-tests.log, compat-dryioc-net10.log, compat-net10-android.log, compat-net10-windows.log, compat-demo-net10-android.log.
 
-Raw local logs live beside this worktree: compat-net10-tests.log, compat-net11-tests.log, compat-dryioc-net10.log, compat-dryioc-net11.log, compat-net10-android.log, compat-net11-android.log, compat-net10-windows.log, compat-net11-windows.log.
+## Reproducible version selection
 
-API review: https://learn.microsoft.com/en-us/dotnet/maui/whats-new/dotnet-11 and https://github.com/dotnet/maui/releases/tag/11.0.0-preview.4.26230.3. Preview 4 still contains obsolete Compatibility.Layout<View>; retain this public adapter contract rather than apply later-preview removals. Android minimum 24 applies only to net11; net9/net10 keep 21. Page dialogs call Async APIs under NET10_0_OR_GREATER and retain net9 calls.
+build/rc1/global.json pins SDK11.0.100-rc.1.26425.128 with rollForward: disable and workloadVersion11.0.100-rc.1.26458.5. Validate.ps1 defaults to the normal installed ProgramFiles/dotnet/dotnet.exe, verifies exact SDK/workload versions, temporarily selects its runtime host, then restores process environment/location. Explicit DotnetPath overrides support the isolated SDK. The root global.json stays unpinned to avoid changing other platform workflows. The user subsequently requested normal RC installation and removal of Preview4; a separate installation worker owns that machine transition. Its final verification is not implied by this branch's isolated SDK tests.
 
-Apple compilation and iOS visual/runtime checks are unverified (Mac offline). Android API35 AVD exists; emulator/demo runtime smoke is tracked separately and is not implied by the library build results above. No toolchain installs, source pushes, merges or package publication were performed.
+Run `pwsh -File build/rc1/Validate.ps1` for Release tests, Rx, Android and Windows builds. Add `-Demo` for the RC Android x64 demo. Demo restore includes net10 Core references and Release ReadyToRun assets. The script does not install tooling or accept licenses. CI prepares explicit SDK10/11 jobs, exact RC workload set, JDK21.0.8 and stable native API37; YAML parses successfully, GitHub execution pending.
 
-## Android demo smoke (2026-10-01)
+## Tooling and API evidence
 
-Existing .NET10 Android demo builds with 0 errors using SDK11 Preview4; its neutral modules needed a shared Microsoft.Maui.Controls import and explicit MauiXaml items (separate .NET10 sample fix). Restore both `net10.0;net10.0-android` using `-p:TargetFrameworks=net10.0%3Bnet10.0-android -r android-x64`, then build `-f net10.0-android -r android-x64 --no-restore`.
+Official sources: https://builds.dotnet.microsoft.com/dotnet/release-metadata/11.0/releases.json and https://github.com/dotnet/maui/releases. SDK ZIP SHA512 matched official metadata: c3eed164874adc524c36345f74b0d865520f44278c1e429daea5b54b94d38bb8f386b75daeb689a0d6bf85ea07f7959c8999ebc5e1e95f2c1665054689823c2f. Isolated host .toolchains/dotnet11-rc1/dotnet.exe installed exact maui-android/maui-windows workload set FileBased. Logs: compat-rc1-sdk.log and compat-rc1-workload-install.log.
 
-Signed APK installed successfully on existing pixel_7_-_api_35 (emulator-5554). Launcher event succeeded; PID5493 and resumed MainActivity confirmed. Crash buffer was empty. This is a .NET10 launch smoke, not .NET11 runtime validation, UI interaction coverage, or AOT evidence. Raw logs: compat-demo-net10-android.log, compat-demo-crash.log; UI dump: compat-demo-ui.xml, beside worktree.
+The RC Android SDK37.0.0-rc.1.2257 requires platform37.0; platform36 is rejected with NETSDK1140 despite MAUI release overview listing API36. Initial default build failed XA5207; that blocker is resolved by stable official platform37.0 rev2 and build-tools37.0.0 in .toolchains/android-rc1. SDKmanager confirms PreviewSdkInt=0. Existing accepted license files were copied; no --licenses command, affirmative license input, or new legal acceptance occurred. JDK21.0.8 and command-line tools19 were already installed. Native SDK installation log: compat-rc1-native-install.log. .toolchains is ignored and must be excluded from source archives.
 
-User subsequently required latest .NET11 RC; Preview4 matrix is baseline evidence only. Latest RC toolchain/API validation and rerunning matrix are pending and must precede any RC support claim.
+Actual RC builds still expose obsolete Compatibility.Layout<View>; retain the public region adapter rather than remove it based on the standalone compatibility package's removal. net11 Android minimum24; net9/net10 retain21. PageDialogService uses Async APIs under NET10_0_OR_GREATER and retains net9 calls. Sample .NET10 fixes (Controls using and explicit module XAML items) were committed separately from RC targets.
 
-## Latest official RC1 checkpoint (2026-10-01)
+## Runtime and remaining checks
 
-Official metadata https://builds.dotnet.microsoft.com/dotnet/release-metadata/11.0/releases.json reports latest SDK11.0.100-rc.1.26425.128. https://github.com/dotnet/maui/releases reports MAUI11.0.0-rc.1.26451.6 and workload set11.0.100-rc.1.26458.5. Source/test NuGet and CI pins now use these RC versions.
+.NET10 signed APK installed and launched on pixel_7_-_api_35, emulator-5554: PID5493, resumed MainActivity, empty crash buffer; UI dump compat-demo-ui.xml. This establishes launch smoke only.
 
-SDK ZIP SHA512 verified against official metadata: c3eed164874adc524c36345f74b0d865520f44278c1e429daea5b54b94d38bb8f386b75daeb689a0d6bf85ea07f7959c8999ebc5e1e95f2c1665054689823c2f. Isolated host `.toolchains/dotnet11-rc1/dotnet.exe`; workloads installed FileBased into isolated SDK: maui-android and maui-windows, exact set11.0.100-rc.1.26458.5. System SDKs unchanged. Ignored .toolchains directory must not be archived into source handoffs.
+RC demo targets and package references now use net11/RC1; Release module source-generated XAML compiles. Release APK with default ReadyToRun processing builds with 0 errors/32 warnings (compat-rc1-release-demo.log). Signed APK installed successfully on existing API35 emulator5554 and remained running: PID6104, resumed MainActivity, empty crash buffer; UI hierarchy compat-rc1-demo-ui.xml and crash log compat-rc1-demo-crash.log. This establishes startup smoke only. Normal-machine RC installer is a separate worker task; its pending UAC prompt is not bypassed and systemhost validation must wait for verified installation completion.
 
-RC1 results: Prism.Maui.Tests195 passed; Prism.DryIoc.Maui.Tests88 passed/1 existing skipped; Windows library0errors. Layout<View> obsolete compatibility adapter still compiles against actual RC1; retain existing public API. Logs: compat-rc1-sdk.log, compat-rc1-workload-install.log, compat-rc1-maui-tests.log, compat-rc1-dryioc-tests.log, compat-rc1-windows.log.
-
-Default net11.0-android fails XA5207 because RC Android SDK37.0.0-rc.1.2257 requests android-37.0/android.jar, while machine native platforms are36/36.1. MAUI RC release notes listAPI36, but this installed SDK defaultsAPI37.0. JDK21.0.8 and command-line tools19 are installed. Read-only sdkmanager listing confirms stable public platforms;android-37.0 rev2 and build-tools;37.0.0 are available; neither installed at this checkpoint. Log compat-rc1-android.log and compat-rc1-android-packages.log. Explicit net11.0-android36.0 fails NETSDK1140: this RC Android SDK accepts only TargetPlatformVersion37.0. Log compat-rc1-android36.log. It does not replace default Android failure. RC emulator runtime remains unverified. Apple checks remain unverified while Mac offline.
-
-No root SDK pin/rollForward is committed: MAUI CI selects SDK per matrix; local RC checks use the explicit isolated host. GitHub CI execution remains pending. .NET10 baseline test/build and Android smoke results above remain separate from RC1 evidence.
+Apple compilation and iOS visual/runtime checks remain unverified while Mac offline. CI has not executed on GitHub. Android launch smoke does not establish full navigation interactions or Native AOT. No source push, merge, package publication or production deployment occurred. Existing SourceLink dependency Microsoft.Build.Tasks.Git10.0.300 emits NU1902; its version was not changed here.
