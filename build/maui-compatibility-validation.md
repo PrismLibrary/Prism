@@ -36,4 +36,14 @@ Actual RC builds still expose obsolete Compatibility.Layout<View>; retain the pu
 
 RC demo targets and package references now use net11/RC1; Release module source-generated XAML compiles. Release APK with default ReadyToRun processing builds with 0 errors/32 warnings (compat-rc1-release-demo.log). Signed APK installed successfully on existing API35 emulator5554 and remained running: PID6104, resumed MainActivity, empty crash buffer; UI hierarchy compat-rc1-demo-ui.xml and crash log compat-rc1-demo-crash.log. This establishes startup smoke only. Normal-machine RC installer is a separate worker task; its pending UAC prompt is not bypassed and systemhost validation must wait for verified installation completion.
 
-Apple compilation and iOS visual/runtime checks remain unverified while Mac offline. CI has not executed on GitHub. Android launch smoke does not establish full navigation interactions or Native AOT. No source push, merge, package publication or production deployment occurred. Existing SourceLink dependency Microsoft.Build.Tasks.Git10.0.300 emits NU1902; its version was not changed here.
+Apple compilation and iOS visual/runtime checks remain unverified while Mac offline. No GitHub CI result is claimed. Android launch smoke does not establish full navigation interactions or Native AOT. The reviewed source was published as `ds/maui-net11-rc1`; no integration merge, package publication or production deployment occurred. Existing SourceLink dependency Microsoft.Build.Tasks.Git10.0.300 emits NU1902; its version was not changed here.
+
+## Current-master integration provenance
+
+Production source checkpoint: `970079a723677b01cf324686c9d181465f4a575c`. Base: `e7cf2b9d38df6c51a1e15d83e3083525f52b4777`. Verified remote master on 2026-10-01: `300d567936ff65a1069415bd4670d7d371189637`, 18 commits newer than the base.
+
+An isolated `codex/integration-compatibility` worktree merged that exact master without committing. RC Release neutral tests passed against the merged source: MAUI 198/198, DryIoc 88 passed with one existing skip. Exact SDK: `11.0.100-rc.1.26425.128`, invoked from the existing isolated host. Logs: `integration-compatibility-maui-tests.log` and `integration-compatibility-dryioc-tests.log`, retained in the review evidence. These source tests do not establish integrated platform builds or CI behavior.
+
+The only unresolved merge file is `.github/workflows/build_maui.yml`: this branch's explicit .NET10/RC11 matrix conflicts with master's pinned reusable workflow and existing private-feed secret references. Automatic review rejected the proposed feed-configuration resolution; it was not executed or retried. Approval remains pending. No workflow credential configuration was changed. This documentation update does not incorporate master or resolve that conflict.
+
+No PR or GitHub check-run result is associated with these local validation claims. A separate assessment of PR #3412 is in `PR3412-validation.md`; its code was not merged into this compatibility branch.
