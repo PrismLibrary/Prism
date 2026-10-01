@@ -22,7 +22,7 @@ Two Back events during async veto also bypassed the veto: await 14:13:43.495 to 
 
 Source diagnosis at the reviewed revision: `PageNavigationService.GoBackInternal` sets `NavigationSource.NavigationService` before awaiting confirmation; `PrismWindow` handles modal popping only when the source is Device. Another native Back while that await is outstanding can therefore bypass Prism's interception. A bounded repair should keep device-origin interception active while confirmation awaits, coalesce pending device pops, and switch source only around the actual Prism-controlled pop. It needs native allow/veto/repeated-Back regression tests and single lifecycle counts. No speculative source patch was committed or merged during this assessment.
 
-The PR is not fully ready on the strength of the earlier single-Back passes. Review this failure before approving it. Evidence: `pr3412-repeated-native-logcat.txt`, pending/final XML and failure screenshots, retained with the harness source in the review archive.
+The PR is not fully ready on the strength of the earlier single-Back passes. Review this failure before approving it. Evidence: `pr3412-repeated-{allow,veto}-{pending,after}-log.txt`, pending/final XML and failure screenshots, retained with the harness source in the review archive.
 
 Evidence retained for review: harness sources, `PR3412-ANDROID.md`, native logcat, pending/final UI XML, screenshots and hashes. This is native Android hosting of the reviewed navigation implementation, not an Apple test or a full Android Native AOT claim.
 
