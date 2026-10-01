@@ -26,3 +26,15 @@ Existing .NET10 Android demo builds with 0 errors using SDK11 Preview4; its neut
 Signed APK installed successfully on existing pixel_7_-_api_35 (emulator-5554). Launcher event succeeded; PID5493 and resumed MainActivity confirmed. Crash buffer was empty. This is a .NET10 launch smoke, not .NET11 runtime validation, UI interaction coverage, or AOT evidence. Raw logs: compat-demo-net10-android.log, compat-demo-crash.log; UI dump: compat-demo-ui.xml, beside worktree.
 
 User subsequently required latest .NET11 RC; Preview4 matrix is baseline evidence only. Latest RC toolchain/API validation and rerunning matrix are pending and must precede any RC support claim.
+
+## Latest official RC1 checkpoint (2026-10-01)
+
+Official metadata https://builds.dotnet.microsoft.com/dotnet/release-metadata/11.0/releases.json reports latest SDK11.0.100-rc.1.26425.128. https://github.com/dotnet/maui/releases reports MAUI11.0.0-rc.1.26451.6 and workload set11.0.100-rc.1.26458.5. Source/test NuGet and CI pins now use these RC versions.
+
+SDK ZIP SHA512 verified against official metadata: c3eed164874adc524c36345f74b0d865520f44278c1e429daea5b54b94d38bb8f386b75daeb689a0d6bf85ea07f7959c8999ebc5e1e95f2c1665054689823c2f. Isolated host `.toolchains/dotnet11-rc1/dotnet.exe`; workloads installed FileBased into isolated SDK: maui-android and maui-windows, exact set11.0.100-rc.1.26458.5. System SDKs unchanged. Ignored .toolchains directory must not be archived into source handoffs.
+
+RC1 results: Prism.Maui.Tests195 passed; Prism.DryIoc.Maui.Tests88 passed/1 existing skipped; Windows library0errors. Layout<View> obsolete compatibility adapter still compiles against actual RC1; retain existing public API. Logs: compat-rc1-sdk.log, compat-rc1-workload-install.log, compat-rc1-maui-tests.log, compat-rc1-dryioc-tests.log, compat-rc1-windows.log.
+
+Default net11.0-android fails XA5207 because RC Android SDK37.0.0-rc.1.2257 requests android-37.0/android.jar, while machine native platforms are36/36.1. MAUI RC release notes listAPI36, but this installed SDK defaultsAPI37.0. JDK21.0.8 and command-line tools19 are installed. Read-only sdkmanager listing confirms stable public platforms;android-37.0 rev2 and build-tools;37.0.0 are available; neither installed at this checkpoint. Log compat-rc1-android.log and compat-rc1-android-packages.log. Explicit net11.0-android36.0 fails NETSDK1140: this RC Android SDK accepts only TargetPlatformVersion37.0. Log compat-rc1-android36.log. It does not replace default Android failure. RC emulator runtime remains unverified. Apple checks remain unverified while Mac offline.
+
+No root SDK pin/rollForward is committed: MAUI CI selects SDK per matrix; local RC checks use the explicit isolated host. GitHub CI execution remains pending. .NET10 baseline test/build and Android smoke results above remain separate from RC1 evidence.

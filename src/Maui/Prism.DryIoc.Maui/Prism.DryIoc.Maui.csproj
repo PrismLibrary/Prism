@@ -29,7 +29,7 @@
     </When>
     <When Condition="$(TargetFramework.StartsWith('net11'))">
       <ItemGroup>
-        <PackageReference Include="Microsoft.Maui.Controls" VersionOverride="11.0.0-preview.4.26230.3" />
+        <PackageReference Include="Microsoft.Maui.Controls" VersionOverride="11.0.0-rc.1.26451.6" />
       </ItemGroup>
     </When>
   </Choose>

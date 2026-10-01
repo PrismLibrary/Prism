@@ -214,3 +214,6 @@ FakesAssemblies/
 
 # VSCode
 .mono
+
+# Isolated compatibility toolchains (never packaged)
+.toolchains/
