@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net9.0;net10.0;net11.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <UseMaui>true</UseMaui>
     <ImplicitUsings>true</ImplicitUsings>
@@ -25,6 +25,11 @@
     <When Condition="$(TargetFramework.StartsWith('net10'))">
       <ItemGroup>
         <PackageReference Include="Microsoft.Maui.Controls" VersionOverride="10.0.10" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFramework.StartsWith('net11'))">
+      <ItemGroup>
+        <PackageReference Include="Microsoft.Maui.Controls" VersionOverride="11.0.0-preview.4.26230.3" />
       </ItemGroup>
     </When>
   </Choose>
