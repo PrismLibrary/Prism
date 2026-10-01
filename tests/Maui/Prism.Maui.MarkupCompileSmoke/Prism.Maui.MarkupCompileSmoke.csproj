@@ -4,10 +4,11 @@
     <UseMaui>true</UseMaui>
     <IsPackable>false</IsPackable>
     <MauiXamlInflator>SourceGen</MauiXamlInflator>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <WarningsAsErrors>$(WarningsAsErrors);XC0103</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Using Remove="Xunit;Xunit.Abstractions" />
+    <MauiXaml Include="MarkupPage.xaml" />
     <PackageReference Include="Microsoft.Maui.Controls" VersionOverride="10.0.10" />
     <PackageReference Include="xunit" />
     <ProjectReference Include="../../../src/Maui/Prism.Maui/Prism.Maui.csproj" />
