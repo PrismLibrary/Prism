@@ -56,13 +56,24 @@ public class PendingDeviceModalPopTests : TestBase
         try
         {
             Task<INavigationResult> programmaticRequest = null;
+            Task deviceRequest = null;
             if (programmatic)
                 programmaticRequest = modalNavigation.GoBackAsync();
+            else if (wrapped)
+                deviceRequest = MvvmHelpers.HandleNavigationPageGoBack((NavigationPage)modal);
             else
                 await window.Navigation.PopModalAsync();
             await page.Started.Task.WaitAsync(TimeSpan.FromSeconds(5));
-            await window.Navigation.PopModalAsync();
-            await window.Navigation.PopModalAsync();
+            if (wrapped)
+            {
+                await MvvmHelpers.HandleNavigationPageGoBack((NavigationPage)modal).WaitAsync(TimeSpan.FromSeconds(5));
+                await MvvmHelpers.HandleNavigationPageGoBack((NavigationPage)modal).WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            else
+            {
+                await window.Navigation.PopModalAsync();
+                await window.Navigation.PopModalAsync();
+            }
             // A raw modal must still be owned by MAUI, even while a Prism modal awaits confirmation.
             var rawModal = new ContentPage();
             await window.Navigation.PushModalAsync(rawModal);
@@ -98,6 +109,8 @@ public class PendingDeviceModalPopTests : TestBase
             var result = await completion.Task.WaitAsync(TimeSpan.FromSeconds(5));
             if (programmaticRequest is not null)
                 await programmaticRequest;
+            if (deviceRequest is not null)
+                await deviceRequest;
             Assert.Equal(outcome == "allow", result.Result.Success);
             if (outcome == "veto")
                 Assert.True(result.Cancelled);
