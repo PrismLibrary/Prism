@@ -4,7 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              x:Class="Prism.Maui.MarkupCompileSmoke.MarkupPage">
   <VerticalStackLayout>
-    <Label BindingContext="{prism:Parameter Key=message, Value=compiled}" Text="Parameter smoke" />
+    <Button x:Name="ParameterButton" Text="Click Me" Command="{Binding ClickCommand}" CommandParameter="{prism:Parameter Key=Message, Value='Hello World'}" />
     <Button Text="Navigate" Command="{prism:NavigateTo NextPage}" />
     <Button Text="Back" Command="{prism:GoBack}" />
     <Button Text="Dialog" Command="{prism:ShowDialog SampleDialog}" />
