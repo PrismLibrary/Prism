@@ -75,18 +75,21 @@ namespace Prism.Navigation
         {
             if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
             {
-                e.Cancel = true;
                 var dialogModal = IDialogContainer.DialogStack.LastOrDefault();
                 if (dialogModal is not null)
                 {
+                    e.Cancel = true;
                     if (dialogModal.Dismiss.CanExecute(null))
                         dialogModal.Dismiss.Execute(null);
                 }
-                else
+                else if (e.Modal.GetContainerProvider() is { } container)
                 {
-                    var navService = Xaml.Navigation.GetNavigationService(e.Modal);
-                    await navService.GoBackAsync();
+                    e.Cancel = true;
+                    await container.Resolve<INavigationService>().GoBackAsync();
                 }
+
+                // Otherwise the modal was not created by Prism, so there is no navigation service to
+                // go back through. Let MAUI pop it rather than cancel the pop and then throw.
             }
         }
 

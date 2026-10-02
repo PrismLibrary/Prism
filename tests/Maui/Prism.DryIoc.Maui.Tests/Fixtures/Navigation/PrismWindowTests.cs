@@ -101,4 +101,19 @@ public class PrismWindowTests : TestBase
         Assert.IsType<MockHome>(window.Page);
         Assert.True(window.IsRootPage);
     }
+
+    [Fact]
+    public async Task DeviceModalPop_OfPageWithoutContainer_IsNotCancelled()
+    {
+        var mauiApp = CreateBuilder(prism => prism.CreateWindow("MockViewA"))
+            .Build();
+        var window = GetWindow(mauiApp);
+
+        // A modal Prism did not create has no container. Popping it outside Prism is what an
+        // iOS sheet swipe or the Android back button does.
+        await window.Navigation.PushModalAsync(new ContentPage());
+        await window.Navigation.PopModalAsync();
+
+        Assert.Empty(window.Navigation.ModalStack);
+    }
 }
