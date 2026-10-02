@@ -6,6 +6,6 @@ The script runs from this folder so global.json selects exactly SDK **11.0.100-r
 
 Install the official RC SDK and the `maui-android` and `maui-windows` workloads into the normal machine SDK using the supported installer. An isolated SDK in `.toolchains/dotnet11-rc1` remains an explicit optional override. Provide JDK21.0.8 and stable native Android platform37.0/build-tools37.0.0 in `.toolchains/android-rc1` (or specify an existing compatible SDK). The script does not install tooling or accept licenses. Source pins Microsoft.Maui.Controls11.0.0-rc.1.26451.6 for net11; net10 keeps its separate package version.
 
-Official sources: https://builds.dotnet.microsoft.com/dotnet/release-metadata/11.0/releases.json and https://github.com/dotnet/maui/releases. Archive hash and local validation evidence are in ../maui-compatibility-validation.md. `.toolchains` is ignored and must be excluded from source archives. Android API37 is required by the actual RC Android SDK even though the MAUI release overview lists API36.
+Official sources: https://builds.dotnet.microsoft.com/dotnet/release-metadata/11.0/releases.json and https://github.com/dotnet/maui/releases. `.toolchains` is ignored and must be excluded from source archives. Android API37 is required by the actual RC Android SDK even though the MAUI release overview lists API36.
 
 Apple builds and visual/runtime checks require a capable Mac. GitHub CI has been prepared but has not been executed locally. Demo launch smoke does not establish navigation interaction, full UI compatibility, or Native AOT behavior.
