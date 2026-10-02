@@ -1,6 +1,7 @@
 using Prism.Common;
 using Prism.DryIoc.Maui.Tests.Mocks.Navigation;
 using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
+using Prism.DryIoc.Maui.Tests.Mocks.Views;
 using Prism.Events;
 using Prism.Navigation.Xaml;
 
@@ -31,15 +32,15 @@ public class PendingDeviceModalPopTests : TestBase
     [InlineData("exception", true, true)]
     public async Task RepeatedDeviceBack_WaitsForOneConfirmation_AndRecovers(string outcome, bool programmatic, bool wrapped)
     {
-        var app = CreateBuilder(p => p.RegisterTypes(c => c.RegisterForNavigation<PendingPage>())
+        var app = CreateBuilder(p => p.RegisterTypes(c => c.RegisterForNavigation<MockPendingPage>())
             .CreateWindow("NavigationPage/MockViewA")).Build();
         var window = GetWindow(app);
         var root = ((NavigationPage)window.Page).CurrentPage;
         var rootVm = Assert.IsAssignableFrom<MockViewModelBase>(root.BindingContext);
         var navigation = root.GetContainerProvider().Resolve<INavigationService>();
-        Assert.True((await navigation.NavigateAsync(wrapped ? "NavigationPage?useModalNavigation=true/PendingPage" : "PendingPage?useModalNavigation=true")).Success);
+        Assert.True((await navigation.NavigateAsync(wrapped ? "NavigationPage?useModalNavigation=true/MockPendingPage" : "MockPendingPage?useModalNavigation=true")).Success);
         var modal = Assert.Single(window.Navigation.ModalStack);
-        var page = Assert.IsType<PendingPage>(MvvmHelpers.GetCurrentPage(modal));
+        var page = Assert.IsType<MockPendingPage>(MvvmHelpers.GetCurrentPage(modal));
         var modalNavigation = page.GetContainerProvider().Resolve<INavigationService>();
         var rootTo = rootVm.Actions.Count(a => a == nameof(rootVm.OnNavigatedTo));
         var requests = new List<NavigationRequestContext>();
@@ -159,13 +160,13 @@ public class PendingDeviceModalPopTests : TestBase
     [Fact]
     public async Task ProgrammaticConfirmation_MarksTheModalOwningWindow()
     {
-        var app = CreateBuilder(p => p.RegisterTypes(c => c.RegisterForNavigation<PendingPage>())
+        var app = CreateBuilder(p => p.RegisterTypes(c => c.RegisterForNavigation<MockPendingPage>())
             .CreateWindow("NavigationPage/MockViewA")).Build();
         var firstWindow = GetWindow(app);
         var root = ((NavigationPage)firstWindow.Page).CurrentPage;
         var navigation = root.GetContainerProvider().Resolve<INavigationService>();
-        Assert.True((await navigation.NavigateAsync("PendingPage?useModalNavigation=true")).Success);
-        var page = Assert.IsType<PendingPage>(Assert.Single(firstWindow.Navigation.ModalStack));
+        Assert.True((await navigation.NavigateAsync("MockPendingPage?useModalNavigation=true")).Success);
+        var page = Assert.IsType<MockPendingPage>(Assert.Single(firstWindow.Navigation.ModalStack));
         var modalNavigation = page.GetContainerProvider().Resolve<INavigationService>();
         var secondWindow = new PrismWindow("second") { Page = new ContentPage() };
 
@@ -196,34 +197,5 @@ public class PendingDeviceModalPopTests : TestBase
         Assert.Equal(0, page.NavigatedFrom);
         Assert.Equal(0, page.Destroyed);
         Assert.Empty(modalNavigation.GetPops());
-    }
-
-    public sealed class PendingPage : ContentPage, IConfirmNavigationAsync, INavigationAware, IDestructible
-    {
-        public TaskCompletionSource<bool> Decision { get; private set; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        public TaskCompletionSource<bool> Started { get; private set; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        public int Confirmations { get; private set; }
-        public int NavigatedFrom { get; private set; }
-        public int Destroyed { get; private set; }
-
-        public async Task<bool> CanNavigateAsync(INavigationParameters parameters)
-        {
-            Confirmations++;
-            Started.TrySetResult(true);
-            return await Decision.Task;
-        }
-
-        public void ResetConfirmation()
-        {
-            Decision = new(TaskCreationOptions.RunContinuationsAsynchronously);
-            Started = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        }
-
-        public void OnNavigatedTo(INavigationParameters parameters)
-        {
-        }
-
-        public void OnNavigatedFrom(INavigationParameters parameters) => NavigatedFrom++;
-        public void Destroy() => Destroyed++;
     }
 }
