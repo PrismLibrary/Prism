@@ -4,6 +4,7 @@ namespace Prism.Xaml;
 /// <summary>
 /// XAML Extension for INavigation and IDialog parameters
 /// </summary>
+[AcceptEmptyServiceProvider]
 public class ParameterExtension : Parameter, IMarkupExtension<Parameter>
 {
     /// <summary>
