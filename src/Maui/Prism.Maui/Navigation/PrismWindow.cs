@@ -14,6 +14,9 @@ namespace Prism.Navigation
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class PrismWindow : Window
     {
+        private bool _deviceModalPopInProgress;
+        internal Page PendingModalConfirmation { get; set; }
+
         /// <summary>
         /// The default name for the Prism window.
         /// </summary>
@@ -75,6 +78,12 @@ namespace Prism.Navigation
         {
             if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
             {
+                if (e.Modal == PendingModalConfirmation)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
                 var dialogModal = IDialogContainer.DialogStack.LastOrDefault();
                 if (dialogModal is not null)
                 {
@@ -82,10 +91,22 @@ namespace Prism.Navigation
                     if (dialogModal.Dismiss.CanExecute(null))
                         dialogModal.Dismiss.Execute(null);
                 }
-                else if (e.Modal.GetContainerProvider() is { } container)
+                else if ((MvvmHelpers.GetCurrentPage(e.Modal)?.GetContainerProvider() ??
+                    e.Modal.GetContainerProvider()) is { } container)
                 {
                     e.Cancel = true;
-                    await container.Resolve<INavigationService>().GoBackAsync();
+                    if (_deviceModalPopInProgress)
+                        return;
+
+                    _deviceModalPopInProgress = true;
+                    try
+                    {
+                        await container.Resolve<INavigationService>().GoBackAsync();
+                    }
+                    finally
+                    {
+                        _deviceModalPopInProgress = false;
+                    }
                 }
 
                 // Otherwise the modal was not created by Prism, so there is no navigation service to

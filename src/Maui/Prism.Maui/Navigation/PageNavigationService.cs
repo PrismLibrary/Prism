@@ -98,17 +98,33 @@ public class PageNavigationService : INavigationService, IRegistryAware
         {
             parameters ??= new NavigationParameters();
 
-            NavigationSource = PageNavigationSource.NavigationService;
-
             page = GetCurrentPage();
 
             parameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.Back);
 
-            var canNavigate = await MvvmHelpers.CanNavigateAsync(page, parameters);
+            var prismWindow = page?.GetParentWindow() as PrismWindow;
+            var confirmationModal = prismWindow?.Navigation.ModalStack.LastOrDefault(modal =>
+                modal == page || MvvmHelpers.GetCurrentPage(modal) == page);
+            bool canNavigate;
+            if (confirmationModal is not null)
+                prismWindow.PendingModalConfirmation = confirmationModal;
+            try
+            {
+                canNavigate = await MvvmHelpers.CanNavigateAsync(page, parameters);
+            }
+            finally
+            {
+                if (confirmationModal is not null)
+                    prismWindow.PendingModalConfirmation = null;
+            }
             if (!canNavigate)
             {
                 throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, page);
             }
+
+            // Device requests must remain interceptable while confirmation is pending.
+            // Only the approved navigation may bypass device-pop handling.
+            NavigationSource = PageNavigationSource.NavigationService;
 
             var dialogModal = IDialogContainer.DialogStack.LastOrDefault();
             if (dialogModal is not null)

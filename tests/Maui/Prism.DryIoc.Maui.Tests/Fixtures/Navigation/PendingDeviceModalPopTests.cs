@@ -1,0 +1,216 @@
+using Prism.Common;
+using Prism.DryIoc.Maui.Tests.Mocks.Navigation;
+using Prism.DryIoc.Maui.Tests.Mocks.ViewModels;
+using Prism.Events;
+using Prism.Navigation.Xaml;
+
+namespace Prism.DryIoc.Maui.Tests.Fixtures.Navigation;
+
+public class PendingDeviceModalPopTests : TestBase
+{
+    public PendingDeviceModalPopTests(ITestOutputHelper output) : base(output)
+    {
+    }
+
+    [Theory]
+    [InlineData("allow", false, false)]
+    [InlineData("allow", false, true)]
+    [InlineData("allow", true, false)]
+    [InlineData("allow", true, true)]
+    [InlineData("veto", false, false)]
+    [InlineData("veto", false, true)]
+    [InlineData("veto", true, false)]
+    [InlineData("veto", true, true)]
+    [InlineData("cancel", false, false)]
+    [InlineData("cancel", false, true)]
+    [InlineData("cancel", true, false)]
+    [InlineData("cancel", true, true)]
+    [InlineData("exception", false, false)]
+    [InlineData("exception", false, true)]
+    [InlineData("exception", true, false)]
+    [InlineData("exception", true, true)]
+    public async Task RepeatedDeviceBack_WaitsForOneConfirmation_AndRecovers(string outcome, bool programmatic, bool wrapped)
+    {
+        var app = CreateBuilder(p => p.RegisterTypes(c => c.RegisterForNavigation<PendingPage>())
+            .CreateWindow("NavigationPage/MockViewA")).Build();
+        var window = GetWindow(app);
+        var root = ((NavigationPage)window.Page).CurrentPage;
+        var rootVm = Assert.IsAssignableFrom<MockViewModelBase>(root.BindingContext);
+        var navigation = root.GetContainerProvider().Resolve<INavigationService>();
+        Assert.True((await navigation.NavigateAsync(wrapped ? "NavigationPage?useModalNavigation=true/PendingPage" : "PendingPage?useModalNavigation=true")).Success);
+        var modal = Assert.Single(window.Navigation.ModalStack);
+        var page = Assert.IsType<PendingPage>(MvvmHelpers.GetCurrentPage(modal));
+        var modalNavigation = page.GetContainerProvider().Resolve<INavigationService>();
+        var rootTo = rootVm.Actions.Count(a => a == nameof(rootVm.OnNavigatedTo));
+        var requests = new List<NavigationRequestContext>();
+        var completion = new TaskCompletionSource<NavigationRequestContext>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var events = page.GetContainerProvider().Resolve<IEventAggregator>().GetEvent<NavigationRequestEvent>();
+        var token = events.Subscribe(c =>
+        {
+            if (c.Type == NavigationRequestType.GoBack)
+            {
+                requests.Add(c);
+                completion.TrySetResult(c);
+            }
+        });
+        try
+        {
+            Task<INavigationResult> programmaticRequest = null;
+            if (programmatic)
+                programmaticRequest = modalNavigation.GoBackAsync();
+            else
+                await window.Navigation.PopModalAsync();
+            await page.Started.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            await window.Navigation.PopModalAsync();
+            await window.Navigation.PopModalAsync();
+            // A raw modal must still be owned by MAUI, even while a Prism modal awaits confirmation.
+            var rawModal = new ContentPage();
+            await window.Navigation.PushModalAsync(rawModal);
+            Assert.Same(rawModal, await window.Navigation.PopModalAsync());
+            var otherWindow = new PrismWindow { Page = new ContentPage() };
+            await otherWindow.Navigation.PushModalAsync(new ContentPage());
+            await otherWindow.Navigation.PopModalAsync();
+            Assert.Empty(otherWindow.Navigation.ModalStack);
+            Assert.Same(modal, Assert.Single(window.Navigation.ModalStack));
+            Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
+            Assert.Equal(1, page.Confirmations);
+            Assert.Empty(requests);
+            Assert.Empty(modalNavigation.GetPops());
+            Assert.Equal(0, page.NavigatedFrom);
+            Assert.Equal(0, page.Destroyed);
+            Assert.Equal(rootTo, rootVm.Actions.Count(a => a == nameof(rootVm.OnNavigatedTo)));
+
+            switch (outcome)
+            {
+                case "allow":
+                    page.Decision.SetResult(true);
+                    break;
+                case "veto":
+                    page.Decision.SetResult(false);
+                    break;
+                case "cancel":
+                    page.Decision.SetCanceled();
+                    break;
+                default:
+                    page.Decision.SetException(new InvalidOperationException("confirmation failed"));
+                    break;
+            }
+            var result = await completion.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            if (programmaticRequest is not null)
+                await programmaticRequest;
+            Assert.Equal(outcome == "allow", result.Result.Success);
+            if (outcome == "veto")
+                Assert.True(result.Cancelled);
+            if (outcome == "cancel")
+                Assert.IsAssignableFrom<OperationCanceledException>(result.Result.Exception);
+            if (outcome == "exception")
+                Assert.IsType<InvalidOperationException>(result.Result.Exception);
+            Assert.Single(requests);
+            if (outcome != "allow")
+            {
+                Assert.Same(modal, Assert.Single(window.Navigation.ModalStack));
+                Assert.Equal(0, page.NavigatedFrom);
+                Assert.Equal(0, page.Destroyed);
+                Assert.Empty(modalNavigation.GetPops());
+                Assert.Equal(rootTo, rootVm.Actions.Count(a => a == nameof(rootVm.OnNavigatedTo)));
+                // NavigationRequestEvent is raised before the async modal handler completes.
+                // Wait one normal UI navigation interval before sending a fresh device request.
+                await Task.Delay(TimeSpan.FromMilliseconds(200));
+                page.ResetConfirmation();
+                completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
+                // The handler's finally must release its guard after every outcome.
+                await window.Navigation.PopModalAsync();
+                await page.Started.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                page.Decision.SetResult(true);
+                Assert.True((await completion.Task.WaitAsync(TimeSpan.FromSeconds(5))).Result.Success);
+                Assert.Equal(2, page.Confirmations);
+                Assert.Equal(2, requests.Count);
+            }
+            Assert.Empty(window.Navigation.ModalStack);
+            Assert.Single(modalNavigation.GetPops());
+            Assert.Equal(1, page.NavigatedFrom);
+            Assert.Equal(1, page.Destroyed);
+            Assert.Equal(rootTo + 1, rootVm.Actions.Count(a => a == nameof(rootVm.OnNavigatedTo)));
+
+            Assert.True((await navigation.NavigateAsync("MockViewB")).Success);
+            Assert.True((await ((NavigationPage)window.Page).CurrentPage.GetContainerProvider().Resolve<INavigationService>().GoBackAsync()).Success);
+            Assert.Same(root, ((NavigationPage)window.Page).CurrentPage);
+            Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
+        }
+        finally
+        {
+            events.Unsubscribe(token);
+        }
+    }
+
+    [Fact]
+    public async Task ProgrammaticConfirmation_MarksTheModalOwningWindow()
+    {
+        var app = CreateBuilder(p => p.RegisterTypes(c => c.RegisterForNavigation<PendingPage>())
+            .CreateWindow("NavigationPage/MockViewA")).Build();
+        var firstWindow = GetWindow(app);
+        var root = ((NavigationPage)firstWindow.Page).CurrentPage;
+        var navigation = root.GetContainerProvider().Resolve<INavigationService>();
+        Assert.True((await navigation.NavigateAsync("PendingPage?useModalNavigation=true")).Success);
+        var page = Assert.IsType<PendingPage>(Assert.Single(firstWindow.Navigation.ModalStack));
+        var modalNavigation = page.GetContainerProvider().Resolve<INavigationService>();
+        var secondWindow = new PrismWindow("second") { Page = new ContentPage() };
+
+        // Move an already Prism-owned modal to a different window without destroying its scope.
+        PageNavigationService.NavigationSource = PageNavigationSource.NavigationService;
+        try
+        {
+            await firstWindow.Navigation.PopModalAsync();
+            await secondWindow.Navigation.PushModalAsync(page);
+        }
+        finally
+        {
+            PageNavigationService.NavigationSource = PageNavigationSource.Device;
+        }
+
+        Assert.Same(secondWindow, page.GetParentWindow());
+        var request = modalNavigation.GoBackAsync();
+        await page.Started.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        Assert.Same(page, secondWindow.PendingModalConfirmation);
+        Assert.Null(firstWindow.PendingModalConfirmation);
+        await secondWindow.Navigation.PopModalAsync();
+        await secondWindow.Navigation.PopModalAsync();
+        Assert.Same(page, Assert.Single(secondWindow.Navigation.ModalStack));
+        Assert.Equal(1, page.Confirmations);
+        page.Decision.SetResult(false);
+        Assert.False((await request.WaitAsync(TimeSpan.FromSeconds(5))).Success);
+        Assert.Null(secondWindow.PendingModalConfirmation);
+        Assert.Equal(0, page.NavigatedFrom);
+        Assert.Equal(0, page.Destroyed);
+        Assert.Empty(modalNavigation.GetPops());
+    }
+
+    public sealed class PendingPage : ContentPage, IConfirmNavigationAsync, INavigationAware, IDestructible
+    {
+        public TaskCompletionSource<bool> Decision { get; private set; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        public TaskCompletionSource<bool> Started { get; private set; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        public int Confirmations { get; private set; }
+        public int NavigatedFrom { get; private set; }
+        public int Destroyed { get; private set; }
+
+        public async Task<bool> CanNavigateAsync(INavigationParameters parameters)
+        {
+            Confirmations++;
+            Started.TrySetResult(true);
+            return await Decision.Task;
+        }
+
+        public void ResetConfirmation()
+        {
+            Decision = new(TaskCreationOptions.RunContinuationsAsynchronously);
+            Started = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters) => NavigatedFrom++;
+        public void Destroy() => Destroyed++;
+    }
+}
