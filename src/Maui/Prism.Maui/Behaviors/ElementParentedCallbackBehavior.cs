@@ -7,18 +7,21 @@ namespace Prism.Behaviors;
 internal class ElementParentedCallbackBehavior : Behavior<VisualElement>
 {
     private readonly Action _callback;
+    private readonly bool _includeSelf;
     private VisualElement? _target;
 
-    public ElementParentedCallbackBehavior(Action callback)
+    public ElementParentedCallbackBehavior(Action callback, bool includeSelf = false)
     {
         _callback = callback;
+        _includeSelf = includeSelf;
     }
 
     protected override void OnAttachedTo(VisualElement view)
     {
         _target = view;
 
-        if (view.TryGetParentPage(out var page))
+        var page = GetPage(view);
+        if (page is not null)
         {
             var container = page.GetContainerProvider();
             if (container is null)
@@ -44,7 +47,8 @@ internal class ElementParentedCallbackBehavior : Behavior<VisualElement>
         if (view.Parent is VisualElement directParent)
             directParent.ParentChanged -= OnParentChanged;
 
-        if (view.TryGetParentPage(out var page))
+        var page = GetPage(view);
+        if (page is not null)
             page.PropertyChanged -= PagePropertyChanged;
 
         _target = null;
@@ -58,7 +62,8 @@ internal class ElementParentedCallbackBehavior : Behavior<VisualElement>
         if (view?.Parent is null)
             return;
 
-        if (view.TryGetParentPage(out var page))
+        var page = GetPage(view);
+        if (page is not null)
         {
             if (page.GetContainerProvider() is not null)
             {
@@ -81,6 +86,9 @@ internal class ElementParentedCallbackBehavior : Behavior<VisualElement>
 
         view.ParentChanged -= OnParentChanged;
     }
+
+    private Page GetPage(VisualElement view) =>
+        _includeSelf && view is Page page ? page : view.GetParentPage();
 
     private void PagePropertyChanged(object sender, PropertyChangedEventArgs e)
     {

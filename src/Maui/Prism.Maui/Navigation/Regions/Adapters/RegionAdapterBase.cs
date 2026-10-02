@@ -34,7 +34,7 @@ public abstract class RegionAdapterBase<T> : IRegionAdapter where T : VisualElem
     /// <returns>The new instance of <see cref="IRegion"/> that the <paramref name="regionTarget"/> is bound to.</returns>
     public IRegion Initialize(T regionTarget, string regionName)
     {
-        var page = regionTarget.GetParentPage();
+        var page = regionTarget as Page ?? regionTarget.GetParentPage();
         var container = regionTarget.GetContainerProvider();
         IRegion region = CreateRegion(container);
         region.Name = regionName ?? throw new ArgumentNullException(nameof(regionName));
