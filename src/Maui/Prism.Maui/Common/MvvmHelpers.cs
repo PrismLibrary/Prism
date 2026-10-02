@@ -340,6 +340,12 @@ public static class MvvmHelpers
 
     public static async Task HandleNavigationPageGoBack(NavigationPage navigationPage)
     {
+        if (navigationPage.GetParentWindow() is PrismWindow window &&
+            window.PendingModalConfirmation == navigationPage)
+        {
+            return;
+        }
+
         var navigationService = Navigation.Xaml.Navigation.GetNavigationService(navigationPage.CurrentPage);
         var result = await navigationService.GoBackAsync();
         if (result.Exception is NavigationException { Message: NavigationException.CannotPopApplicationMainPage })

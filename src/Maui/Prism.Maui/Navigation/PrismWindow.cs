@@ -14,6 +14,9 @@ namespace Prism.Navigation
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class PrismWindow : Window
     {
+        private bool _deviceModalPopInProgress;
+        internal Page PendingModalConfirmation { get; set; }
+
         /// <summary>
         /// The default name for the Prism window.
         /// </summary>
@@ -75,18 +78,39 @@ namespace Prism.Navigation
         {
             if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
             {
-                e.Cancel = true;
+                if (e.Modal == PendingModalConfirmation)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
                 var dialogModal = IDialogContainer.DialogStack.LastOrDefault();
                 if (dialogModal is not null)
                 {
+                    e.Cancel = true;
                     if (dialogModal.Dismiss.CanExecute(null))
                         dialogModal.Dismiss.Execute(null);
                 }
-                else
+                else if ((MvvmHelpers.GetCurrentPage(e.Modal)?.GetContainerProvider() ??
+                    e.Modal.GetContainerProvider()) is { } container)
                 {
-                    var navService = Xaml.Navigation.GetNavigationService(e.Modal);
-                    await navService.GoBackAsync();
+                    e.Cancel = true;
+                    if (_deviceModalPopInProgress)
+                        return;
+
+                    _deviceModalPopInProgress = true;
+                    try
+                    {
+                        await container.Resolve<INavigationService>().GoBackAsync();
+                    }
+                    finally
+                    {
+                        _deviceModalPopInProgress = false;
+                    }
                 }
+
+                // Otherwise the modal was not created by Prism, so there is no navigation service to
+                // go back through. Let MAUI pop it rather than cancel the pop and then throw.
             }
         }
 
