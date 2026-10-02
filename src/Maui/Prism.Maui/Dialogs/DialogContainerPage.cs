@@ -131,6 +131,11 @@ public class DialogContainerPage : ContentPage, IDialogContainer
         // WidthRequest/HeightRequest bindings and caused tap gestures on
         // the mask to not fire reliably across MAUI platforms.
         var overlay = new Grid();
+#if NET10_0_OR_GREATER
+        // MAUI 10 layouts respect container safe areas by default. The mask must
+        // cover the entire modal; the separate popupArea retains its safe-area behavior.
+        overlay.SafeAreaEdges = Microsoft.Maui.SafeAreaEdges.None;
+#endif
 
         var popupContainer = new DialogContainerView
         {
