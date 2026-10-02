@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <MauiXamlInflator>SourceGen</MauiXamlInflator>
+    <WarningsAsErrors>$(WarningsAsErrors);XC0103</WarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Prism.Maui.MarkupCompileSmoke\Prism.Maui.MarkupCompileSmoke.csproj" />
     <ProjectReference Include="..\..\..\src\Maui\Prism.Maui\Prism.Maui.csproj" />
   </ItemGroup>
 

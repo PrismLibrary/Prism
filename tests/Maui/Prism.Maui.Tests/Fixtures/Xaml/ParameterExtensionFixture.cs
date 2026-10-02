@@ -1,5 +1,5 @@
-using Prism.Maui.MarkupCompileSmoke;
 using Prism.Maui.Tests.Mocks;
+using Prism.Maui.Tests.Mocks.Views;
 using Prism.Xaml;
 
 namespace Prism.Maui.Tests.Fixtures.Xaml;
