@@ -23,6 +23,7 @@ public class RelativeModalNavigationFixture : IDisposable
         ContainerLocator.SetContainerExtension(_container);
         _container.RegisterForNavigation<RelativeNavigationPageMock>("Next");
         _container.RegisterForNavigation<NavigationPageEmptyMock>("NavigationPage");
+        _container.RegisterForNavigation<TabbedPage>("TabbedPage");
     }
 
     [Fact]
@@ -342,6 +343,38 @@ public class RelativeModalNavigationFixture : IDisposable
         Assert.Equal(1, inactive.Destroyed);
         Assert.Equal(0, inactive.NavigatedFromCount);
         Assert.Equal(1, root.NavigatedToCount);
+    }
+
+    [Theory]
+    [InlineData("../TabbedPage?createTab=Unregistered")]
+    [InlineData("../TabbedPage?createTab=NavigationPage%7CUnregistered")]
+    [InlineData("../TabbedPage?createTab=NavigationPage%2FNext%2FUnregistered")]
+    public async Task InvalidCreatedTab_DoesNotMutateStacks(string route)
+    {
+        _app.MainPage = new NavigationPage(new RelativeNavigationPageMock());
+        var modal = await PushModal();
+
+        var result = await ServiceFor(modal).NavigateAsync(route);
+
+        Assert.False(result.Success);
+        Assert.Equal(NavigationException.NoPageIsRegistered, result.Exception.Message);
+        Assert.Same(modal, Assert.Single(_app.Window.Navigation.ModalStack));
+        AssertRetained(modal);
+    }
+
+    [Fact]
+    public async Task InvalidCreatedTabInParameters_DoesNotMutateStacks()
+    {
+        _app.MainPage = new NavigationPage(new RelativeNavigationPageMock());
+        var modal = await PushModal();
+        var parameters = new NavigationParameters { { KnownNavigationParameters.CreateTab, "Unregistered" } };
+
+        var result = await ServiceFor(modal).NavigateAsync("../TabbedPage", parameters);
+
+        Assert.False(result.Success);
+        Assert.Equal(NavigationException.NoPageIsRegistered, result.Exception.Message);
+        Assert.Same(modal, Assert.Single(_app.Window.Navigation.ModalStack));
+        AssertRetained(modal);
     }
 
     private PageNavigationServiceMock ServiceFor(Page page)

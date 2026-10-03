@@ -596,12 +596,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         if (targetIndex < 0 && !replaceRoot)
             throw new NavigationException(NavigationException.CannotPopApplicationMainPage, currentPage);
 
-        foreach (var segment in remainingSegments)
-        {
-            var name = UriParsingHelper.GetSegmentName(segment);
-            if (Registry.GetViewType(name) is null)
-                throw new NavigationException(NavigationException.NoPageIsRegistered, name);
-        }
+        ValidateRelativeNavigationSegments(remainingSegments, parameters);
 
         var navigationParameters = hasDestination
             ? UriParsingHelper.GetSegmentParameters(remainingSegments.Peek(), parameters)
@@ -631,44 +626,87 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
         var target = history[Math.Max(targetIndex, 0)].Target;
         var lastIndexToRemove = replaceRoot ? 1 : targetIndex + 1;
-        for (var index = history.Count - 1; index >= lastIndexToRemove; index--)
+        var removedPages = new List<Page>();
+        try
         {
-            var entry = history[index];
-            var popped = await DoPop(entry.Navigation, entry.Modal,
-                !hasDestination && index == lastIndexToRemove && (animated ?? true));
-            if (popped != entry.Page)
-                throw new NavigationException(NavigationException.UnknownException, entry.Page);
+            for (var index = history.Count - 1; index >= lastIndexToRemove; index--)
+            {
+                var entry = history[index];
+                var popped = await DoPop(entry.Navigation, entry.Modal,
+                    !hasDestination && index == lastIndexToRemove && (animated ?? true));
+                if (popped != entry.Page)
+                    throw new NavigationException(NavigationException.UnknownException, entry.Page);
 
-            MvvmHelpers.OnNavigatedFrom(entry.Target, navigationParameters);
-            MvvmHelpers.DestroyPage(entry.Page);
+                removedPages.Add(entry.Page);
+                MvvmHelpers.OnNavigatedFrom(entry.Target, navigationParameters);
+            }
+
+            if (hasDestination)
+            {
+                // The retained page has been hidden throughout this operation. It
+                // must not veto the caller's request or receive a second departure.
+                var previousTarget = _relativeNavigationTarget;
+                _relativeNavigationTarget = target;
+                try
+                {
+                    await ProcessNavigation(target, remainingSegments, parameters, useModalNavigation, animated);
+                }
+                finally
+                {
+                    _relativeNavigationTarget = previousTarget;
+                }
+
+                if (replaceRoot)
+                {
+                    var root = history[0];
+                    root.Navigation.RemovePage(root.Page);
+                    removedPages.Add(root.Page);
+                    MvvmHelpers.OnNavigatedFrom(root.Target, navigationParameters);
+                }
+            }
+            else
+            {
+                MvvmHelpers.OnNavigatedTo(target, navigationParameters);
+            }
         }
-
-        if (hasDestination)
+        finally
         {
-            // The retained page has been hidden throughout this operation. It
-            // must not veto the caller's request or receive a second departure.
-            var previousTarget = _relativeNavigationTarget;
-            _relativeNavigationTarget = target;
-            try
-            {
-                await ProcessNavigation(target, remainingSegments, parameters, useModalNavigation, animated);
-            }
-            finally
-            {
-                _relativeNavigationTarget = previousTarget;
-            }
-
-            if (replaceRoot)
-            {
-                var root = history[0];
-                root.Navigation.RemovePage(root.Page);
-                MvvmHelpers.OnNavigatedFrom(root.Target, navigationParameters);
-                MvvmHelpers.DestroyPage(root.Page);
-            }
+            // Forward initialization may be asynchronous. Keep the caller's
+            // scope alive until every new page has been resolved and initialized.
+            foreach (var page in removedPages)
+                MvvmHelpers.DestroyPage(page);
         }
-        else
+    }
+
+    private void ValidateRelativeNavigationSegments(IEnumerable<string> segments, INavigationParameters parameters)
+    {
+        foreach (var segment in segments)
         {
-            MvvmHelpers.OnNavigatedTo(target, navigationParameters);
+            var name = UriParsingHelper.GetSegmentName(segment);
+            var type = Registry.GetViewType(name);
+            if (type is null)
+                throw new NavigationException(NavigationException.NoPageIsRegistered, name);
+
+            if (!MvvmHelpers.IsSameOrSubclassOf<TabbedPage>(type))
+                continue;
+
+            var tabParameters = UriParsingHelper.GetSegmentParameters(segment, parameters);
+            foreach (var tab in tabParameters.GetValues<string>(KnownNavigationParameters.CreateTab) ?? Array.Empty<string>())
+            {
+                var tabSegments = HttpUtility.UrlDecode(tab).Split('/', '|');
+                for (var index = 0; index < tabSegments.Length; index++)
+                {
+                    var tabName = UriParsingHelper.GetSegmentName(tabSegments[index]);
+                    var tabType = Registry.GetViewType(tabName);
+                    if (tabType is null)
+                        throw new NavigationException(NavigationException.NoPageIsRegistered, tabName);
+
+                    // ConfigureTabbedPage only processes further segments when
+                    // the first segment supplies a NavigationPage container.
+                    if (index == 0 && !MvvmHelpers.IsSameOrSubclassOf<NavigationPage>(tabType))
+                        break;
+                }
+            }
         }
     }
 
