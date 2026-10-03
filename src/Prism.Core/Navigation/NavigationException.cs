@@ -73,6 +73,16 @@ public class NavigationException : Exception
     public const string UnknownException = "An unknown error occurred. You may need to specify whether to Use Modal Navigation or not.";
 
     /// <summary>
+    /// The error returned when a named navigation source is not on the active navigation path.
+    /// </summary>
+    public const string NavigationSourceNotFound = "No source View was found with the provided navigation name on the active navigation path.";
+
+    /// <summary>
+    /// The error returned when an absolute route is used with a named navigation source.
+    /// </summary>
+    public const string UnsupportedAbsoluteUri = "Absolute Uris are not supported when navigating from a named source View. Please use a relative Uri.";
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="NavigationException"/>
     /// </summary>
     public NavigationException()

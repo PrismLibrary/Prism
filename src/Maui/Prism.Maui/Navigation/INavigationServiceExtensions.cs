@@ -107,6 +107,37 @@ public static class INavigationServiceExtensions
     }
 
     /// <summary>
+    /// Navigates along a relative route from the nearest view registered as <paramref name="viewName"/>.
+    /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views.</param>
+    /// <param name="viewName">The navigation registration name of the source view to retain.</param>
+    /// <param name="uri">The relative route to navigate from the source view.</param>
+    /// <returns>The result of the navigation request.</returns>
+    public static Task<INavigationResult> NavigateFromAsync(this INavigationService navigationService, string viewName, Uri uri) =>
+        navigationService.NavigateFromAsync(viewName, uri, null);
+
+    /// <summary>
+    /// Navigates along a relative route from the nearest view registered as <paramref name="viewName"/>.
+    /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views.</param>
+    /// <param name="viewName">The navigation registration name of the source view to retain.</param>
+    /// <param name="route">The relative route to navigate from the source view.</param>
+    /// <returns>The result of the navigation request.</returns>
+    public static Task<INavigationResult> NavigateFromAsync(this INavigationService navigationService, string viewName, string route) =>
+        navigationService.NavigateFromAsync(viewName, route, null);
+
+    /// <summary>
+    /// Navigates along a relative route from the nearest view registered as <paramref name="viewName"/>.
+    /// </summary>
+    /// <param name="navigationService">Service for handling navigation between views.</param>
+    /// <param name="viewName">The navigation registration name of the source view to retain.</param>
+    /// <param name="route">The relative route to navigate from the source view.</param>
+    /// <param name="parameters">The navigation parameters.</param>
+    /// <returns>The result of the navigation request.</returns>
+    public static Task<INavigationResult> NavigateFromAsync(this INavigationService navigationService, string viewName, string route, INavigationParameters parameters) =>
+        navigationService.NavigateFromAsync(viewName, route is null ? null : UriParsingHelper.Parse(route), parameters);
+
+    /// <summary>
     /// Provides an easy to use way to provide an Error Callback without using await NavigationService
     /// </summary>
     /// <param name="navigationTask">The current Navigation Task</param>

@@ -341,7 +341,8 @@ public static class MvvmHelpers
     public static async Task HandleNavigationPageGoBack(NavigationPage navigationPage)
     {
         if (navigationPage.GetParentWindow() is PrismWindow window &&
-            window.PendingModalConfirmation == navigationPage)
+            window.PendingModalConfirmation is Page pendingModal &&
+            (pendingModal == navigationPage || PageNavigationHistory.IsDescendantOf(navigationPage, pendingModal)))
         {
             return;
         }
