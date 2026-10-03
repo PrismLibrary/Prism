@@ -123,7 +123,10 @@ public class DelayedRegionCreationBehavior
 
             // Build the region
             var container = page.GetContainerProvider();
-            targetElement.SetContainerProvider(container);
+            // Page hosts already resolve their scope, including a flyout menu's
+            // inherited scope, which must remain owned by the FlyoutPage.
+            if (targetElement is not Page)
+                targetElement.SetContainerProvider(container);
             var regionAdapter = _regionAdapterMappings.GetMapping(targetElement.GetType());
             var region = regionAdapter.Initialize(targetElement, regionName);
 

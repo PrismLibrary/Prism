@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui.Controls.Compatibility.Hosting;
 using Prism.Common;
 using Prism.Navigation.Regions;
 using Prism.Navigation.Xaml;
@@ -40,7 +41,10 @@ public class FlyoutRegionFixture : TestBase
 
         var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
         Assert.Equal(detailPage == nameof(RegionDetailPage) ? 3 : 2, regionManager.Regions.Count());
-        Assert.Equal(2, flyout.Flyout.GetChildRegions().Count());
+        // Layout discovery renders the view without activating it. Child regions
+        // enumerate active views, so only the ContentView region contributes here.
+        Assert.Same(views[0], Assert.Single(flyout.Flyout.GetChildRegions()));
+        Assert.Same(views[1], Assert.Single(RegionManager.GetObservableRegion(flyout.LayoutRegion).Value.Views));
     }
 
     [Fact]
@@ -59,6 +63,8 @@ public class FlyoutRegionFixture : TestBase
             var scope = flyout.GetContainerProvider();
             Assert.NotSame(previousFlyout, flyout);
             Assert.NotSame(previousScope, scope);
+            RegionManager.GetObservableRegion(flyout.LayoutRegion).Value.Activate(views[1]);
+            Assert.Equal(2, flyout.Flyout.GetChildRegions().Count());
             var viewModel = Assert.IsType<TrackingViewModel>(views[0].BindingContext);
             var originalDetail = flyout.Detail;
 
@@ -93,17 +99,49 @@ public class FlyoutRegionFixture : TestBase
         }
     }
 
-    private MauiApp CreateFlyoutApp(string detailPage) =>
+    [Fact]
+    public async Task PageHostedFlyoutRegion_InheritsScopeWithoutOwningIt_AndIsDestroyedWithFlyout()
+    {
+        var mauiApp = CreateFlyoutApp("MockViewA", nameof(PageRegionFlyoutPage));
+        var window = GetWindow(mauiApp);
+        var flyout = Assert.IsType<PageRegionFlyoutPage>(window.Page);
+        var menu = Assert.IsType<ContentPage>(flyout.Flyout);
+        var view = Assert.IsType<TrackingView>(menu.Content);
+        var viewModel = Assert.IsType<TrackingViewModel>(view.BindingContext);
+        var scope = flyout.GetContainerProvider();
+
+        Assert.Same(scope, menu.GetContainerProvider());
+        Assert.Same(flyout, scope.Resolve<IPageAccessor>().Page);
+        Assert.Same(flyout, viewModel.PageAccessor.Page);
+        Assert.Same(PageNavigation.GetNavigationService(flyout), viewModel.NavigationService);
+        Assert.NotSame(scope, window.CurrentPage.GetContainerProvider());
+        Assert.Single(menu.GetChildRegions());
+        var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
+        var region = Assert.Single(regionManager.Regions);
+        Assert.Same(menu, Assert.IsAssignableFrom<ITargetAwareRegion>(region).TargetElement);
+
+        var leaveFlyout = await viewModel.NavigationService.NavigateAsync("/MockViewA");
+
+        Assert.True(leaveFlyout.Success, leaveFlyout.Exception?.ToString());
+        Assert.Empty(regionManager.Regions);
+        Assert.Null(menu.GetChildRegions());
+        Assert.Equal(1, view.DestroyCount);
+        Assert.Equal(1, viewModel.DestroyCount);
+    }
+
+    private MauiApp CreateFlyoutApp(string detailPage, string flyoutPage = nameof(RegionFlyoutPage)) =>
         CreateBuilder(prism => prism
             .RegisterTypes(container => container
                 .RegisterForNavigation<RegionFlyoutPage>()
+                .RegisterForNavigation<PageRegionFlyoutPage>()
                 .RegisterForNavigation<RegionDetailPage>()
                 .RegisterForRegionNavigation<TrackingView, TrackingViewModel>())
             .OnInitialized(container => container.Resolve<IRegionManager>()
                 .RegisterViewWithRegion<TrackingView>("LayoutRegionFlyout")
                 .RegisterViewWithRegion<TrackingView>("ContentViewRegionFlyout")
                 .RegisterViewWithRegion<TrackingView>("RegionA"))
-            .CreateWindow($"{nameof(RegionFlyoutPage)}/NavigationPage/{detailPage}"))
+            .CreateWindow($"{flyoutPage}/NavigationPage/{detailPage}"))
+            .UseMauiCompatibility()
             .Build();
 
     private static TrackingView[] AssertMenuPopulated(RegionFlyoutPage flyout)
@@ -139,6 +177,16 @@ public class FlyoutRegionFixture : TestBase
             var region = new ContentView();
             RegionManager.SetRegionName(region, "RegionA");
             Content = region;
+        }
+    }
+
+    public sealed class PageRegionFlyoutPage : FlyoutPage
+    {
+        public PageRegionFlyoutPage()
+        {
+            var menu = new ContentPage { Title = "Menu" };
+            RegionManager.SetRegionName(menu, "ContentViewRegionFlyout");
+            Flyout = menu;
         }
     }
 

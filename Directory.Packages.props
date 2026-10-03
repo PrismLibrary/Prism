@@ -11,7 +11,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.10" Condition="$(TargetFramework.StartsWith('net10.0'))" />
+    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.10" Condition="$(TargetFramework.StartsWith('net10.0'))" />
     <PackageVersion Include="Microsoft.Maui.Controls" Version="11.0.0-rc.1.26451.6" Condition="$(TargetFramework.StartsWith('net11.0'))" />
+    <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="11.0.0-rc.1.26451.6" Condition="$(TargetFramework.StartsWith('net11.0'))" />
   </ItemGroup>
   <!-- Uno
     Note that the $(UnoVersion) comes from the Uno.Sdk. You should not update it manually. To update the version of Uno,
