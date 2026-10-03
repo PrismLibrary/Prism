@@ -2,7 +2,9 @@ namespace Prism.Navigation;
 
 internal static class PageNavigationHistory
 {
-    internal static IEnumerable<Page> GetPages(Page page)
+    internal static IEnumerable<Page> GetPages(Page page) => GetPages(page, false);
+
+    internal static IEnumerable<Page> GetPages(Page page, bool includeInactive)
     {
         if (page is null)
             yield break;
@@ -12,13 +14,13 @@ internal static class PageNavigationHistory
         IEnumerable<Page> children = page switch
         {
             NavigationPage navigation => navigation.Navigation.NavigationStack,
-            TabbedPage tabbed => new[] { tabbed.CurrentPage },
-            FlyoutPage flyout => new[] { flyout.Detail },
+            TabbedPage tabbed => includeInactive ? tabbed.Children : new[] { tabbed.CurrentPage },
+            FlyoutPage flyout => includeInactive ? new[] { flyout.Detail, flyout.Flyout } : new[] { flyout.Detail },
             _ => Array.Empty<Page>()
         };
 
         foreach (var child in children)
-            foreach (var descendant in GetPages(child))
+            foreach (var descendant in GetPages(child, includeInactive))
                 yield return descendant;
     }
 

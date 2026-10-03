@@ -11,6 +11,8 @@ internal sealed class TestPageNavigationService : PageNavigationService
     internal static bool ForceNextDoPopToReturnNull;
     internal static bool ThrowAfterNextPop;
     internal static bool ThrowAfterNextPush;
+    internal static Func<Task> AfterNextPop;
+    internal static Func<Task> AfterNextPush;
 
     public TestPageNavigationService(
         IContainerProvider container,
@@ -36,6 +38,10 @@ internal sealed class TestPageNavigationService : PageNavigationService
 
         var page = await base.DoPop(navigation, useModalNavigation, animated);
         Recorder.Pop(new NavigationPop(page, useModalNavigation, animated));
+        var afterPop = AfterNextPop;
+        AfterNextPop = null;
+        if (afterPop is not null)
+            await afterPop();
         if (ThrowAfterNextPop)
         {
             ThrowAfterNextPop = false;
@@ -48,6 +54,10 @@ internal sealed class TestPageNavigationService : PageNavigationService
     {
         Recorder.Push(new NavigationPush(currentPage, page, useModalNavigation, animated, insertBeforeLast, navigationOffset));
         await base.DoPush(currentPage, page, useModalNavigation, animated, insertBeforeLast, navigationOffset);
+        var afterPush = AfterNextPush;
+        AfterNextPush = null;
+        if (afterPush is not null)
+            await afterPush();
         if (ThrowAfterNextPush)
         {
             ThrowAfterNextPush = false;

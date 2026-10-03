@@ -690,6 +690,182 @@ public class NavigateFromTests : TestBase
         Assert.Equal(0, Assert.IsType<MockNavigateFromPage>(selected).Destroyed);
     }
 
+    [Theory]
+    [InlineData(false, false)]
+    [InlineData(false, true)]
+    [InlineData(true, false)]
+    [InlineData(true, true)]
+    public async Task NavigateFrom_ExternalNavigationDuringInitialization_IsNotOverwritten(bool fail, bool modal)
+    {
+        var window = CreateWindow("NavigationPage/Source/Current");
+        var started = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var created = new List<MockNavigateFromPage>();
+        var parameters = new NavigationParameters
+        {
+            { "createdPages", created },
+            { "duringInitialize", (Func<Task>)(async () => { started.SetResult(true); await release.Task; }) },
+            { "failInitialize", fail }
+        };
+        var current = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        var request = GetService(current).NavigateFromAsync("Source", "Destination", parameters);
+        await started.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        var unrelated = new ContentPage();
+        if (modal)
+            await window.Navigation.PushModalAsync(unrelated);
+        else
+            await window.Page.Navigation.PushAsync(unrelated);
+        release.SetResult(true);
+
+        var result = await request;
+
+        Assert.False(result.Success);
+        if (modal)
+            Assert.Same(unrelated, Assert.Single(window.Navigation.ModalStack));
+        else
+            Assert.Same(unrelated, window.Page.Navigation.NavigationStack.Last());
+        Assert.Equal(0, current.Destroyed);
+        Assert.Equal(1, Assert.Single(created).Destroyed);
+    }
+
+    [Fact]
+    public async Task NavigateFrom_ExternalNavigationDuringRollback_IsNotPopped()
+    {
+        var window = CreateWindow("NavigationPage/Source/Current");
+        var unrelated = new ContentPage();
+        TestPageNavigationService.ThrowAfterNextPush = true;
+        TestPageNavigationService.AfterNextPush = () =>
+        {
+            TestPageNavigationService.AfterNextPop = () => window.Navigation.PushModalAsync(unrelated);
+            return Task.CompletedTask;
+        };
+        try
+        {
+            var result = await GetService(window.CurrentPage).NavigateFromAsync("Source", "Destination?useModalNavigation=true");
+
+            Assert.False(result.Success);
+            Assert.Same(unrelated, Assert.Single(window.Navigation.ModalStack));
+        }
+        finally
+        {
+            TestPageNavigationService.ThrowAfterNextPush = false;
+            TestPageNavigationService.AfterNextPop = null;
+            TestPageNavigationService.AfterNextPush = null;
+        }
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task NavigateFrom_CleanupFailure_DoesNotDestroyTwiceOrMaskOriginalFailure(bool conflict)
+    {
+        var window = CreateWindow("NavigationPage/Source/Current");
+        var created = new List<MockNavigateFromPage>();
+        var started = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var parameters = new NavigationParameters { { "createdPages", created } };
+        if (conflict)
+            parameters.Add("duringInitialize", (Func<Task>)(async () => { started.SetResult(true); await release.Task; }));
+        var unrelated = new ContentPage();
+        var request = GetService(window.CurrentPage).NavigateFromAsync("Source", "Destination?failInitialize=true&failDestroy=true", parameters);
+        if (conflict)
+        {
+            await started.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            await window.Navigation.PushModalAsync(unrelated);
+            release.SetResult(true);
+        }
+
+        var result = await request;
+
+        Assert.False(result.Success);
+        Assert.Contains("Initialization failed.", result.Exception.ToString());
+        Assert.Contains("Destroy failed.", result.Exception.ToString());
+        Assert.Equal(1, Assert.Single(created).Destroyed);
+        if (conflict)
+        {
+            Assert.Contains("Another navigation", result.Exception.ToString());
+            Assert.Same(unrelated, Assert.Single(window.Navigation.ModalStack));
+        }
+    }
+
+    [Fact]
+    public async Task NavigateFrom_ExternalPopDuringInitialization_IsNotUndone()
+    {
+        var window = CreateWindow("NavigationPage/Source/Middle/Current");
+        var navigation = Assert.IsAssignableFrom<NavigationPage>(window.Page);
+        var source = navigation.RootPage;
+        var middle = navigation.Navigation.NavigationStack[1];
+        var started = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var parameters = new NavigationParameters
+        {
+            { "duringInitialize", (Func<Task>)(async () => { started.SetResult(true); await release.Task; }) }
+        };
+        var request = GetService(window.CurrentPage).NavigateFromAsync("Middle", "Destination", parameters);
+        await started.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        Assert.Same(middle, await navigation.PopAsync());
+        release.SetResult(true);
+
+        var result = await request;
+
+        Assert.False(result.Success);
+        Assert.Same(source, Assert.Single(navigation.Navigation.NavigationStack));
+    }
+
+    [Fact]
+    public async Task NavigateFrom_ExternalPopDuringRollback_IsNotUndone()
+    {
+        var window = CreateWindow("NavigationPage/Source/Middle/Current");
+        var navigation = Assert.IsAssignableFrom<NavigationPage>(window.Page);
+        var source = navigation.RootPage;
+        var middle = navigation.Navigation.NavigationStack[1];
+        TestPageNavigationService.ThrowAfterNextPush = true;
+        TestPageNavigationService.AfterNextPush = () =>
+        {
+            TestPageNavigationService.AfterNextPop = async () => Assert.Same(middle, await navigation.PopAsync());
+            return Task.CompletedTask;
+        };
+        try
+        {
+            var result = await GetService(window.CurrentPage).NavigateFromAsync("Middle", "Destination?useModalNavigation=true");
+
+            Assert.False(result.Success);
+            Assert.Same(source, Assert.Single(navigation.Navigation.NavigationStack));
+            Assert.Empty(window.Navigation.ModalStack);
+        }
+        finally
+        {
+            TestPageNavigationService.ThrowAfterNextPush = false;
+            TestPageNavigationService.AfterNextPop = null;
+            TestPageNavigationService.AfterNextPush = null;
+        }
+    }
+
+    [Fact]
+    public async Task NavigateFrom_DestinationPoppedByNativeCallback_DoesNotPublishStaleSuccess()
+    {
+        var window = CreateWindow("NavigationPage/Source/Current");
+        var navigation = Assert.IsAssignableFrom<NavigationPage>(window.Page);
+        var source = navigation.RootPage;
+        var created = new List<MockNavigateFromPage>();
+        TestPageNavigationService.AfterNextPush = async () => await navigation.PopAsync();
+        try
+        {
+            var result = await GetService(window.CurrentPage).NavigateFromAsync("Source", "Destination",
+                new NavigationParameters { { "createdPages", created } });
+
+            Assert.False(result.Success);
+            Assert.Same(source, Assert.Single(navigation.Navigation.NavigationStack));
+            var destination = Assert.Single(created);
+            Assert.Equal(0, destination.NavigatedToCount);
+            Assert.Equal(1, destination.Destroyed);
+        }
+        finally
+        {
+            TestPageNavigationService.AfterNextPush = null;
+        }
+    }
+
     private PrismWindow CreateWindow(string route)
     {
         var app = CreateBuilder(prism => prism.RegisterTypes(container =>

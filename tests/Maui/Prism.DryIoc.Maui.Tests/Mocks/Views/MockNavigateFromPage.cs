@@ -10,17 +10,20 @@ public sealed class MockNavigateFromPage : ContentPage, IInitialize, IInitialize
     public int NavigatedFromCount { get; private set; }
     public int NavigatedToCount { get; private set; }
     public int Destroyed { get; private set; }
+    public bool ThrowOnDestroy { get; private set; }
     public INavigationParameters ReceivedParameters { get; private set; }
 
     public void Initialize(INavigationParameters parameters) => Initialized++;
 
-    public Task InitializeAsync(INavigationParameters parameters)
+    public async Task InitializeAsync(INavigationParameters parameters)
     {
         if (parameters.TryGetValue<List<MockNavigateFromPage>>("createdPages", out var pages))
             pages.Add(this);
+        ThrowOnDestroy = parameters.TryGetValue<bool>("failDestroy", out var failDestroy) && failDestroy;
+        if (parameters.TryGetValue<Func<Task>>("duringInitialize", out var initialize))
+            await initialize();
         if (parameters.TryGetValue<bool>("failInitialize", out var fail) && fail)
             throw new InvalidOperationException("Initialization failed.");
-        return Task.CompletedTask;
     }
 
     public async Task<bool> CanNavigateAsync(INavigationParameters parameters)
@@ -38,5 +41,10 @@ public sealed class MockNavigateFromPage : ContentPage, IInitialize, IInitialize
         ReceivedParameters = parameters;
     }
 
-    public void Destroy() => Destroyed++;
+    public void Destroy()
+    {
+        Destroyed++;
+        if (ThrowOnDestroy)
+            throw new InvalidOperationException("Destroy failed.");
+    }
 }
