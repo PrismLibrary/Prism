@@ -1,12 +1,7 @@
-using System.Windows.Input;
 using Microsoft.Maui.Dispatching;
-using Moq;
 using Prism.Dialogs;
-using Prism.Common;
-using Prism.Events;
 using Prism.Maui.Tests.Mocks;
 using Prism.Navigation;
-using Prism.Navigation.Xaml;
 
 #nullable enable
 namespace Prism.Maui.Tests.Fixtures.Dialogs;
@@ -26,9 +21,9 @@ public class DialogServiceFixture : IDisposable
     public async Task RepeatedCloseDoesNotResetSourceWhileNativePopIsPending()
     {
         var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var host = new DialogHost { PopGate = release.Task };
-        var model = new Model();
-        var test = new DialogTest(host, model);
+        var host = new DialogServiceTestHost { PopGate = release.Task };
+        var model = new DialogServiceTestModel();
+        var test = new DialogServiceTestHarness(host, model);
         test.Show();
         await model.Activated.Task;
         model.RequestClose.Invoke(ButtonResult.OK);
@@ -54,11 +49,11 @@ public class DialogServiceFixture : IDisposable
     public async Task EarlyCloseWaitsForHostingAndActivation(bool fromOnDialogOpened)
     {
         var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var host = new DialogHost { PushGate = release.Task };
-        var model = new Model();
+        var host = new DialogServiceTestHost { PushGate = release.Task };
+        var model = new DialogServiceTestModel();
         if (fromOnDialogOpened) model.Opening = () => model.RequestClose.Invoke();
         else host.AfterPush = () => model.RequestClose.Invoke();
-        var test = new DialogTest(host, model);
+        var test = new DialogServiceTestHarness(host, model);
         test.Show();
         Assert.Equal(0, host.PopCount);
         Assert.False(model.IsActive);
@@ -74,9 +69,9 @@ public class DialogServiceFixture : IDisposable
     public async Task GoBackDuringPendingDialogCloseDoesNotResetItsNavigationSource()
     {
         var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var host = new DialogHost { PopGate = release.Task };
-        var model = new Model();
-        var test = new DialogTest(host, model);
+        var host = new DialogServiceTestHost { PopGate = release.Task };
+        var model = new DialogServiceTestModel();
+        var test = new DialogServiceTestHarness(host, model);
         test.Show();
         await model.Activated.Task;
         model.RequestClose.Invoke();
@@ -98,9 +93,9 @@ public class DialogServiceFixture : IDisposable
     [Fact]
     public async Task VetoCanBeRetriedWithoutCallbackOrLifecycleDuplication()
     {
-        var host = new DialogHost();
-        var model = new Model { AllowClose = false };
-        var test = new DialogTest(host, model);
+        var host = new DialogServiceTestHost();
+        var model = new DialogServiceTestModel { AllowClose = false };
+        var test = new DialogServiceTestHarness(host, model);
         test.Show();
         await model.Activated.Task;
         model.RequestClose.Invoke();
@@ -119,12 +114,12 @@ public class DialogServiceFixture : IDisposable
     [InlineData(true)]
     public async Task FailedOrCanceledRemovalCanBeRetried(bool canceled)
     {
-        var host = new DialogHost
+        var host = new DialogServiceTestHost
         {
             PopGate = canceled ? Task.FromCanceled(new CancellationToken(true)) : Task.FromException(new InvalidOperationException("pop failed"))
         };
-        var model = new Model();
-        var test = new DialogTest(host, model);
+        var model = new DialogServiceTestModel();
+        var test = new DialogServiceTestHarness(host, model);
         test.Show();
         await model.Activated.Task;
         model.RequestClose.Invoke();
@@ -146,13 +141,13 @@ public class DialogServiceFixture : IDisposable
     [InlineData(true)]
     public async Task FailedOrCanceledShowIsTerminalAndResetsSource(bool canceled)
     {
-        var host = new DialogHost
+        var host = new DialogServiceTestHost
         {
             PushGate = canceled ? Task.FromCanceled(new CancellationToken(true)) : Task.FromException(new InvalidOperationException("push failed"))
         };
-        var model = new Model();
+        var model = new DialogServiceTestModel();
         model.Opening = () => model.RequestClose.Invoke();
-        var test = new DialogTest(host, model);
+        var test = new DialogServiceTestHarness(host, model);
         test.Show();
         Assert.NotNull((await test.Result.Task.WaitAsync(TimeSpan.FromSeconds(5))).Exception);
         Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
@@ -167,9 +162,9 @@ public class DialogServiceFixture : IDisposable
     [InlineData(true)]
     public async Task ErrorCallbackCanRetryTheFailedClose(bool asynchronous)
     {
-        var host = new DialogHost { PopGate = Task.FromException(new InvalidOperationException("blocked")) };
-        var model = new Model();
-        var test = new DialogTest(host, model);
+        var host = new DialogServiceTestHost { PopGate = Task.FromException(new InvalidOperationException("blocked")) };
+        var model = new DialogServiceTestModel();
+        var test = new DialogServiceTestHarness(host, model);
         var closed = new TaskCompletionSource<IDialogResult>(TaskCreationOptions.RunContinuationsAsynchronously);
         var errors = 0;
         void Retry()
@@ -192,9 +187,9 @@ public class DialogServiceFixture : IDisposable
     [Fact]
     public async Task LifecycleExceptionAfterRemovalDoesNotAllowAnotherClose()
     {
-        var host = new DialogHost();
-        var model = new Model { Closing = () => throw new InvalidOperationException("lifecycle") };
-        var test = new DialogTest(host, model);
+        var host = new DialogServiceTestHost();
+        var model = new DialogServiceTestModel { Closing = () => throw new InvalidOperationException("lifecycle") };
+        var test = new DialogServiceTestHarness(host, model);
         test.Show();
         await model.Activated.Task;
         model.RequestClose.Invoke();
@@ -208,9 +203,9 @@ public class DialogServiceFixture : IDisposable
     [Fact]
     public async Task ActivationExceptionDoesNotTrapAnAlreadyHostedDialog()
     {
-        var host = new DialogHost();
-        var model = new Model { Activating = () => throw new InvalidOperationException("activation") };
-        var test = new DialogTest(host, model);
+        var host = new DialogServiceTestHost();
+        var model = new DialogServiceTestModel { Activating = () => throw new InvalidOperationException("activation") };
+        var test = new DialogServiceTestHarness(host, model);
         test.Show();
         Assert.NotNull((await test.Result.Task.WaitAsync(TimeSpan.FromSeconds(5))).Exception);
         Assert.Contains(host, IDialogContainer.DialogStack);
@@ -225,11 +220,11 @@ public class DialogServiceFixture : IDisposable
     public async Task CoveredCloseCannotAuthorizeDeviceDismissalOfAnotherDialog()
     {
         var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var lower = new DialogHost { PopGate = release.Task };
-        var upper = new DialogHost();
-        var lowerModel = new Model();
-        var upperModel = new Model { AllowClose = false };
-        var test = new DialogTest(lower, lowerModel);
+        var lower = new DialogServiceTestHost { PopGate = release.Task };
+        var upper = new DialogServiceTestHost();
+        var lowerModel = new DialogServiceTestModel();
+        var upperModel = new DialogServiceTestModel { AllowClose = false };
+        var test = new DialogServiceTestHarness(lower, lowerModel);
         test.Show();
         await lowerModel.Activated.Task;
         test.Add("upper", upper, upperModel);
@@ -259,18 +254,86 @@ public class DialogServiceFixture : IDisposable
         Assert.Equal(1, upperModel.Closed);
     }
 
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task CoveredProductionContainerRetainsStateAndCanBeRetried(bool upperAllowsClose)
+    {
+        var lower = new DialogContainerPage();
+        var upper = new DialogContainerPage();
+        var lowerModel = new DialogServiceTestModel();
+        var upperModel = new DialogServiceTestModel { AllowClose = upperAllowsClose };
+        var test = new DialogServiceTestHarness(lower, lowerModel);
+        test.Page.Resources.Add(Prism.Dialogs.Xaml.DialogLayout.PopupOverlayStyle, new Style(typeof(BoxView)));
+        test.Show();
+        await lowerModel.Activated.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        test.Add("upper", upper, upperModel);
+        test.Show("upper");
+        await upperModel.Activated.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+        lowerModel.RequestClose.Invoke();
+        var result = await test.Result.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        Assert.Contains(lower, IDialogContainer.DialogStack);
+        Assert.Contains(upper, IDialogContainer.DialogStack);
+        Assert.Equal(new Page[] { lower, upper }, test.Page.Navigation.ModalStack);
+        Assert.NotNull(result.Exception);
+        Assert.Equal(0, lowerModel.Closed);
+        Assert.Equal(0, upperModel.Closed);
+
+        upperModel.AllowClose = true;
+        upperModel.RequestClose.Invoke();
+        await upperModel.ClosedTask.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        test.Result = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        lowerModel.RequestClose.Invoke();
+        Assert.Null((await test.Result.Task.WaitAsync(TimeSpan.FromSeconds(5))).Exception);
+        Assert.Empty(test.Page.Navigation.ModalStack);
+        Assert.Equal(1, lowerModel.Closed);
+        Assert.Equal(1, upperModel.Closed);
+    }
+
+    [Fact]
+    public async Task CanceledProductionPopRetainsStateAndCanBeRetried()
+    {
+        var host = new DialogContainerPage();
+        var model = new DialogServiceTestModel();
+        var test = new DialogServiceTestHarness(host, model);
+        test.Page.Resources.Add(Prism.Dialogs.Xaml.DialogLayout.PopupOverlayStyle, new Style(typeof(BoxView)));
+        test.Show();
+        await model.Activated.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        var window = (Window)test.Page.Parent;
+        void CancelPop(object? sender, ModalPoppingEventArgs args) => args.Cancel = true;
+        window.ModalPopping += CancelPop;
+        try
+        {
+            model.RequestClose.Invoke();
+            var result = await test.Result.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            Assert.Contains(host, IDialogContainer.DialogStack);
+            Assert.Same(host, Assert.Single(test.Page.Navigation.ModalStack));
+            Assert.NotNull(result.Exception);
+            Assert.True(model.IsActive);
+            Assert.Equal(0, model.Closed);
+        }
+        finally { window.ModalPopping -= CancelPop; }
+
+        test.Result = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        model.RequestClose.Invoke();
+        Assert.Null((await test.Result.Task.WaitAsync(TimeSpan.FromSeconds(5))).Exception);
+        Assert.Empty(test.Page.Navigation.ModalStack);
+        Assert.Equal(1, model.Closed);
+    }
+
     [Fact]
     public async Task PendingCloseDoesNotAuthorizeAnotherWindowsDevicePop()
     {
-        var otherHost = new DialogHost();
-        var otherModel = new Model { AllowClose = false };
-        var other = new DialogTest(otherHost, otherModel);
+        var otherHost = new DialogServiceTestHost();
+        var otherModel = new DialogServiceTestModel { AllowClose = false };
+        var other = new DialogServiceTestHarness(otherHost, otherModel);
         other.Show();
         await otherModel.Activated.Task;
         var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var host = new DialogHost { PopGate = release.Task };
-        var model = new Model();
-        var test = new DialogTest(host, model);
+        var host = new DialogServiceTestHost { PopGate = release.Task };
+        var model = new DialogServiceTestModel();
+        var test = new DialogServiceTestHarness(host, model);
         test.Show();
         await model.Activated.Task;
         model.RequestClose.Invoke();
@@ -291,110 +354,4 @@ public class DialogServiceFixture : IDisposable
         Assert.Empty(other.Page.Navigation.ModalStack);
     }
 
-    private sealed class DialogTest
-    {
-        private readonly Mock<IContainerProvider> _provider = new();
-        private readonly Mock<IDialogViewRegistry> _registry = new();
-        private readonly Queue<IDialogContainer> _containers = new();
-        private readonly Service _service;
-        public ContentPage Page { get; } = new();
-        public TaskCompletionSource<IDialogResult> Result { get; set; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        public int Callbacks { get; private set; }
-
-        public DialogTest(DialogHost host, Model model)
-        {
-            _ = new PrismWindow { Page = Page };
-            _provider.Setup(p => p.Resolve(typeof(IDialogViewRegistry))).Returns(_registry.Object);
-            _provider.Setup(p => p.Resolve(typeof(IDialogContainer))).Returns(() => _containers.Dequeue());
-            Page.SetContainerProvider(_provider.Object);
-            _service = new Service(Page);
-            Add("dialog", host, model);
-        }
-
-        public void Add(string name, DialogHost host, Model model)
-        {
-            _containers.Enqueue(host);
-            _registry.Setup(r => r.CreateView(_provider.Object, name)).Returns(new ContentView { BindingContext = model });
-        }
-
-        public Task<INavigationResult> GoBackAsync()
-        {
-            var accessor = new Mock<IPageAccessor>();
-            accessor.SetupGet(a => a.Page).Returns(Page);
-            var windows = new Mock<IWindowManager>();
-            windows.SetupGet(w => w.Windows).Returns(new[] { (Window)Page.Parent });
-            return new PageNavigationService(_provider.Object, windows.Object, new EventAggregator(), accessor.Object)
-                .GoBackAsync(new NavigationParameters());
-        }
-
-        public void Show(string name = "dialog", DialogCallback? callback = null) => _service.ShowDialog(name, new DialogParameters(),
-            callback ?? new DialogCallback().OnClose(result => { Callbacks++; Result.TrySetResult(result); }));
-    }
-
-    private sealed class Service(Page page) : DialogServiceBase
-    {
-        protected override Page GetCurrentPage() => page;
-    }
-
-    private sealed class DialogHost : ContentPage, IDialogContainer
-    {
-        public Task PushGate { get; set; } = Task.CompletedTask;
-        public Task PopGate { get; set; } = Task.CompletedTask;
-        public Action? AfterPush { get; set; }
-        public TaskCompletionSource PopEntered { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        public int PopCount { get; private set; }
-        public View DialogView { get; private set; } = null!;
-        public ICommand Dismiss { get; private set; } = null!;
-
-        public async Task ConfigureLayout(Page page, View view, bool hide, ICommand dismiss, IDialogParameters parameters)
-        {
-            DialogView = view;
-            Dismiss = dismiss;
-            Content = view;
-            await PushGate;
-            await page.Navigation.PushModalAsync(this, false);
-            IDialogContainer.DialogStack.Add(this);
-            AfterPush?.Invoke();
-        }
-
-        public async Task DoPop(Page page)
-        {
-            PopCount++;
-            PopEntered.TrySetResult();
-            await PopGate;
-            if (page.Navigation.ModalStack.LastOrDefault() != this)
-                throw new InvalidOperationException("Another modal covers this dialog.");
-            await page.Navigation.PopModalAsync(false);
-            if (page.Navigation.ModalStack.Contains(this))
-                throw new InvalidOperationException("PrismWindow canceled the native pop.");
-            IDialogContainer.DialogStack.Remove(this);
-        }
-    }
-
-    private sealed class Model : IDialogAware, IActiveAware
-    {
-        private bool _active;
-        public List<string> Events { get; } = [];
-        public TaskCompletionSource Activated { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        public TaskCompletionSource ClosedTask { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        public Action? Opening { get; set; }
-        public Action? Closing { get; set; }
-        public Action? Activating { get; set; }
-        public bool AllowClose { get; set; } = true;
-        public int Closed { get; private set; }
-        public int CanCloseChecks { get; private set; }
-        public DialogCloseListener RequestClose { get; }
-        public bool CanCloseDialog() { CanCloseChecks++; return AllowClose; }
-        public void OnDialogOpened(IDialogParameters parameters) { Events.Add("opened"); Opening?.Invoke(); }
-        public void OnDialogClosed() { Closed++; Events.Add("closed"); ClosedTask.TrySetResult(); Closing?.Invoke(); }
-        public bool IsActive
-        {
-            get => _active;
-            set { _active = value; Events.Add(value ? "active" : "inactive"); if (value) { Activating?.Invoke(); Activated.TrySetResult(); } IsActiveChanged?.Invoke(this, EventArgs.Empty); }
-        }
-        public event EventHandler? IsActiveChanged;
-    }
 }
-
-[CollectionDefinition("Dialog service lifecycle", DisableParallelization = true)]
-public class DialogServiceCollection;
