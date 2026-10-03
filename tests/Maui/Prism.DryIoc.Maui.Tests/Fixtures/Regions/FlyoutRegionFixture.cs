@@ -1,11 +1,13 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Maui.Controls.Compatibility.Hosting;
 using Prism.Common;
 using Prism.Navigation.Regions;
 using Prism.Navigation.Xaml;
 using PageNavigation = Prism.Navigation.Xaml.Navigation;
 using RegionManager = Prism.Navigation.Regions.Xaml.RegionManager;
-using StackLayout = Microsoft.Maui.Controls.Compatibility.StackLayout;
+#if NET10_0
+using Microsoft.Maui.Controls.Compatibility.Hosting;
+using LegacyStackLayout = Microsoft.Maui.Controls.Compatibility.StackLayout;
+#endif
 
 namespace Prism.DryIoc.Maui.Tests.Fixtures.Regions;
 
@@ -17,13 +19,19 @@ public class FlyoutRegionFixture : TestBase
     }
 
     [Theory]
-    [InlineData("MockViewA")]
-    [InlineData(nameof(RegionDetailPage))]
-    public void ViewDiscovery_PopulatesFlyoutWithOrWithoutDetailRegions(string detailPage)
+    [InlineData("MockViewA", nameof(RegionFlyoutPage))]
+    [InlineData(nameof(RegionDetailPage), nameof(RegionFlyoutPage))]
+#if NET10_0
+    // The original repro uses the compatibility adapter, which is not supported
+    // by the pinned MAUI 11 RC. The modern adapter is covered on both frameworks.
+    [InlineData("MockViewA", nameof(LegacyRegionFlyoutPage))]
+    [InlineData(nameof(RegionDetailPage), nameof(LegacyRegionFlyoutPage))]
+#endif
+    public void ViewDiscovery_PopulatesFlyoutWithOrWithoutDetailRegions(string detailPage, string flyoutPage)
     {
-        var mauiApp = CreateFlyoutApp(detailPage);
+        var mauiApp = CreateFlyoutApp(detailPage, flyoutPage);
         var window = GetWindow(mauiApp);
-        var flyout = Assert.IsType<RegionFlyoutPage>(window.Page);
+        var flyout = Assert.IsAssignableFrom<RegionFlyoutPage>(window.Page);
 
         // Inspect the controls first: enumerating IRegionManager.Regions would mask #3161.
         var views = AssertMenuPopulated(flyout);
@@ -47,10 +55,14 @@ public class FlyoutRegionFixture : TestBase
         Assert.Same(views[1], Assert.Single(RegionManager.GetObservableRegion(flyout.LayoutRegion).Value.Views));
     }
 
-    [Fact]
-    public async Task FlyoutRegions_SurviveDetailNavigation_AndAreDestroyedAndRecreatedWithFlyout()
+    [Theory]
+    [InlineData(nameof(RegionFlyoutPage))]
+#if NET10_0
+    [InlineData(nameof(LegacyRegionFlyoutPage))]
+#endif
+    public async Task FlyoutRegions_SurviveDetailNavigation_AndAreDestroyedAndRecreatedWithFlyout(string flyoutPage)
     {
-        var mauiApp = CreateFlyoutApp("MockViewA");
+        var mauiApp = CreateFlyoutApp("MockViewA", flyoutPage);
         var window = GetWindow(mauiApp);
         var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
         IContainerProvider previousScope = null;
@@ -58,7 +70,7 @@ public class FlyoutRegionFixture : TestBase
 
         for (var creation = 0; creation < 3; creation++)
         {
-            var flyout = Assert.IsType<RegionFlyoutPage>(window.Page);
+            var flyout = Assert.IsAssignableFrom<RegionFlyoutPage>(window.Page);
             var views = AssertMenuPopulated(flyout);
             var scope = flyout.GetContainerProvider();
             Assert.NotSame(previousFlyout, flyout);
@@ -93,7 +105,7 @@ public class FlyoutRegionFixture : TestBase
             if (creation < 2)
             {
                 var reopen = await PageNavigation.GetNavigationService(window.Page)
-                    .NavigateAsync($"/{nameof(RegionFlyoutPage)}/NavigationPage/MockViewA");
+                    .NavigateAsync($"/{flyoutPage}/NavigationPage/MockViewA");
                 Assert.True(reopen.Success, reopen.Exception?.ToString());
             }
         }
@@ -133,6 +145,9 @@ public class FlyoutRegionFixture : TestBase
         CreateBuilder(prism => prism
             .RegisterTypes(container => container
                 .RegisterForNavigation<RegionFlyoutPage>()
+#if NET10_0
+                .RegisterForNavigation<LegacyRegionFlyoutPage>()
+#endif
                 .RegisterForNavigation<PageRegionFlyoutPage>()
                 .RegisterForNavigation<RegionDetailPage>()
                 .RegisterForRegionNavigation<TrackingView, TrackingViewModel>())
@@ -141,25 +156,41 @@ public class FlyoutRegionFixture : TestBase
                 .RegisterViewWithRegion<TrackingView>("ContentViewRegionFlyout")
                 .RegisterViewWithRegion<TrackingView>("RegionA"))
             .CreateWindow($"{flyoutPage}/NavigationPage/{detailPage}"))
+#if NET10_0
             .UseMauiCompatibility()
+#endif
             .Build();
 
     private static TrackingView[] AssertMenuPopulated(RegionFlyoutPage flyout)
     {
         var contentView = Assert.IsType<TrackingView>(flyout.ContentRegion.Content);
-        var layoutItem = Assert.IsType<ContentView>(Assert.Single(flyout.LayoutRegion.Children));
+        var layoutChildren = flyout.LayoutRegion switch
+        {
+            Layout layout => layout.Children.Cast<View>(),
+#if NET10_0
+            LegacyStackLayout layout => layout.Children,
+#endif
+            _ => throw new NotSupportedException()
+        };
+        var layoutItem = Assert.IsType<ContentView>(Assert.Single(layoutChildren));
         var layoutView = Assert.IsType<TrackingView>(layoutItem.Content);
         return [contentView, layoutView];
     }
 
-    public sealed class RegionFlyoutPage : FlyoutPage
+    public class RegionFlyoutPage : FlyoutPage
     {
-        public StackLayout LayoutRegion { get; } = new();
+        public View LayoutRegion { get; }
 
         public ContentView ContentRegion { get; } = new();
 
         public RegionFlyoutPage()
+            : this(new Microsoft.Maui.Controls.StackLayout())
         {
+        }
+
+        protected RegionFlyoutPage(View layoutRegion)
+        {
+            LayoutRegion = layoutRegion;
             RegionManager.SetRegionName(LayoutRegion, "LayoutRegionFlyout");
             RegionManager.SetRegionName(ContentRegion, "ContentViewRegionFlyout");
             Flyout = new ContentPage
@@ -169,6 +200,16 @@ public class FlyoutRegionFixture : TestBase
             };
         }
     }
+
+#if NET10_0
+    public sealed class LegacyRegionFlyoutPage : RegionFlyoutPage
+    {
+        public LegacyRegionFlyoutPage()
+            : base(new LegacyStackLayout())
+        {
+        }
+    }
+#endif
 
     public sealed class RegionDetailPage : ContentPage
     {
