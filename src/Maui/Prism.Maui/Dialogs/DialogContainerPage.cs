@@ -107,10 +107,16 @@ public class DialogContainerPage : ContentPage, IDialogContainer
     /// <returns>A task representing the asynchronous operation.</returns>
     public virtual async Task DoPop(Page currentPage)
     {
-        _closedBeforeOrDuringPush = true;
         await DispatchModalAsync(currentPage, async () =>
         {
+            if (!ReferenceEquals(currentPage.Navigation.ModalStack.LastOrDefault(), this))
+                throw new InvalidOperationException("Another modal covers this dialog.");
+
             await currentPage.Navigation.PopModalAsync(false);
+            if (currentPage.Navigation.ModalStack.Any(modal => ReferenceEquals(modal, this)))
+                throw new InvalidOperationException("The dialog modal could not be removed.");
+
+            _closedBeforeOrDuringPush = true;
             IDialogContainer.DialogStack.Remove(this);
         });
     }
