@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
     <ImplicitUsings>true</ImplicitUsings>
     <Description>Prism.Maui.Rx is a support package for .NET MAUI developers. This package provides some helpers to access an IObservable for globally handling Navigation Request Results.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -16,17 +16,8 @@
     <PackageReference Include="System.Reactive" />
   </ItemGroup>
 
-  <Choose>
-    <When Condition="$(TargetFramework.StartsWith('net9'))">
-      <ItemGroup>
-        <PackageReference Include="Microsoft.Maui.Controls" VersionOverride="9.0.110" />
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFramework.StartsWith('net10'))">
-      <ItemGroup>
-        <PackageReference Include="Microsoft.Maui.Controls" VersionOverride="10.0.10" />
-      </ItemGroup>
-    </When>
-  </Choose>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" />
+  </ItemGroup>
 
 </Project>

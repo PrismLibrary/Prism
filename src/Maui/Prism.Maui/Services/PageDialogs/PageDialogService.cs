@@ -57,7 +57,7 @@ public class PageDialogService : IPageDialogService
     /// <returns><c>true</c> if non-destructive button pressed; otherwise <c>false</c>/></returns>
     public virtual Task<bool> DisplayAlertAsync(string title, string message, string acceptButton, string cancelButton, FlowDirection flowDirection)
     {
-        return GetPage().DisplayAlert(title, message, acceptButton, cancelButton, (MauiFlow)flowDirection);
+        return GetPage().DisplayAlertAsync(title, message, acceptButton, cancelButton, (MauiFlow)flowDirection);
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public class PageDialogService : IPageDialogService
     /// <returns></returns>
     public virtual Task DisplayAlertAsync(string title, string message, string cancelButton)
     {
-        return GetPage().DisplayAlert(title, message, cancelButton);
+        return GetPage().DisplayAlertAsync(title, message, cancelButton);
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ public class PageDialogService : IPageDialogService
     /// <returns></returns>
     public virtual Task DisplayAlertAsync(string title, string message, string cancelButton, FlowDirection flowDirection)
     {
-        return GetPage().DisplayAlert(title, message, cancelButton, (MauiFlow)flowDirection);
+        return GetPage().DisplayAlertAsync(title, message, cancelButton, (MauiFlow)flowDirection);
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public class PageDialogService : IPageDialogService
     /// <returns>Text for the pressed button</returns>
     public virtual Task<string> DisplayActionSheetAsync(string title, string cancelButton, string destroyButton, FlowDirection flowDirection, params string[] otherButtons)
     {
-        return GetPage().DisplayActionSheet(title, cancelButton, destroyButton, (MauiFlow)flowDirection, otherButtons);
+        return GetPage().DisplayActionSheetAsync(title, cancelButton, destroyButton, (MauiFlow)flowDirection, otherButtons);
     }
 
     /// <summary>
