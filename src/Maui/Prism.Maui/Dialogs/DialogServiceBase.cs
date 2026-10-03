@@ -13,10 +13,14 @@ namespace Prism.Dialogs;
 /// </summary>
 public abstract class DialogServiceBase : IDialogService
 {
+    private static readonly Dictionary<Page, Window> _closingDialogs = new(ReferenceEqualityComparer.Instance);
+
     /// <inheritdoc/>
     public void ShowDialog(string name, IDialogParameters parameters, DialogCallback callback)
     {
         IDialogContainer? dialogModal = null;
+        var ready = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var closeState = 0; // open, closing, closed
         try
         {
             parameters = UriParsingHelper.GetSegmentParameters(name, parameters ?? new DialogParameters());
@@ -35,14 +39,36 @@ public abstract class DialogServiceBase : IDialogService
 
             async Task DialogAware_RequestClose(IDialogResult outResult)
             {
+                // Reject duplicates before CloseDialogAsync changes NavigationSource.
+                if (Interlocked.CompareExchange(ref closeState, 1, 0) != 0)
+                    return;
+                var ownsAttempt = true;
+
+                void ReleaseAttempt()
+                {
+                    if (!ownsAttempt)
+                        return;
+                    ownsAttempt = false;
+                    Interlocked.CompareExchange(ref closeState, 0, 1);
+                }
+
                 try
                 {
-                    var result = await CloseDialogAsync(outResult ?? new DialogResult(), currentPage, dialogModal);
+                    // OnDialogOpened/Loaded can request close before hosting finishes.
+                    // Activate first so a late show continuation cannot reactivate a closed view.
+                    if (!await ready.Task)
+                        return;
+
+                    var result = await CloseDialogAsync(outResult ?? new DialogResult(), currentPage, dialogModal,
+                        () => Interlocked.Exchange(ref closeState, 2));
                     if (result.Exception is DialogException de && de.Message == DialogException.CanCloseIsFalse)
                     {
                         return;
                     }
 
+                    // Native work and NavigationSource cleanup have completed. An error
+                    // callback may correct the problem and immediately request another close.
+                    ReleaseAttempt();
                     // DialogStack is updated when the container removes the overlay (e.g. DialogContainerPage.DoPop).
                     await callback.Invoke(result);
                     GC.Collect();
@@ -63,12 +89,20 @@ public abstract class DialogServiceBase : IDialogService
 
                     if (dex.Message != DialogException.CanCloseIsFalse)
                     {
+                        ReleaseAttempt();
                         await InvokeError(callback, dex, parameters);
                     }
                 }
                 catch (Exception ex)
                 {
+                    ReleaseAttempt();
                     await InvokeError(callback, ex, parameters);
+                }
+                finally
+                {
+                    // Vetoed or failed removals may be retried. A successful removal
+                    // stays terminal, including when lifecycle or result callbacks throw.
+                    ReleaseAttempt();
                 }
             }
 
@@ -87,26 +121,40 @@ public abstract class DialogServiceBase : IDialogService
 
             var dismissCommand = new DelegateCommand(() => dialogAware.RequestClose.Invoke(), dialogAware.CanCloseDialog);
 
-            // ConfigureLayout is async (it awaits DoPush internally). Since ShowDialog is void,
-            // we use ContinueWith to defer post-push work until the modal is actually displayed.
-            // Without this, NavigationSource resets and IsActive updates race ahead of the push.
-            PageNavigationService.NavigationSource = PageNavigationSource.DialogService;
-            dialogModal.ConfigureLayout(currentPage, view, closeOnBackgroundTapped, dismissCommand, parameters)
-                .ContinueWith(t =>
-                {
-                    if (t.IsFaulted)
-                    {
-                        callback.Invoke(t.Exception?.InnerException ?? t.Exception);
-                        return;
-                    }
+            _ = InitializeDialogAsync();
 
-                    PageNavigationService.NavigationSource = PageNavigationSource.Device;
+            async Task InitializeDialogAsync()
+            {
+                Exception? error = null;
+                var hosted = false;
+                try
+                {
+                    PageNavigationService.NavigationSource = PageNavigationSource.DialogService;
+                    await dialogModal.ConfigureLayout(currentPage, view, closeOnBackgroundTapped, dismissCommand, parameters);
+                    hosted = true;
                     MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(currentPage, aa => aa.IsActive = false);
                     MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(view, aa => aa.IsActive = true);
-                }, TaskScheduler.FromCurrentSynchronizationContext());
+                }
+                catch (Exception ex)
+                {
+                    error = ex;
+                    if (!hosted)
+                        Interlocked.Exchange(ref closeState, 2);
+                }
+                finally
+                {
+                    PageNavigationService.NavigationSource = PageNavigationSource.Device;
+                }
+
+                ready.TrySetResult(hosted);
+                if (error is not null)
+                    await InvokeError(callback, error, parameters);
+            }
         }
         catch (Exception ex)
         {
+            Interlocked.Exchange(ref closeState, 2);
+            ready.TrySetResult(false);
             callback.Invoke(ex);
         }
     }
@@ -128,8 +176,10 @@ public abstract class DialogServiceBase : IDialogService
         await callback.Invoke(result);
     }
 
-    private static async Task<IDialogResult> CloseDialogAsync(IDialogResult result, Page currentPage, IDialogContainer dialogModal)
+    private static async Task<IDialogResult> CloseDialogAsync(IDialogResult result, Page currentPage, IDialogContainer dialogModal, Action onClosed)
     {
+        Page? closingPage = null;
+        var ownsModal = false;
         try
         {
             PageNavigationService.NavigationSource = PageNavigationSource.DialogService;
@@ -153,8 +203,20 @@ public abstract class DialogServiceBase : IDialogService
                 throw new DialogException(DialogException.CanCloseIsFalse);
             }
 
+            // Bind permission to this dialog's verified visual host and window, never
+            // the current top modal (which may belong to a different popup).
+            closingPage = GetDialogPage(dialogModal);
+            if (closingPage?.GetParentWindow() is Window window && window.Navigation.ModalStack.Any(modal => ReferenceEquals(modal, closingPage)))
+            {
+                lock (_closingDialogs)
+                    ownsModal = _closingDialogs.TryAdd(closingPage, window);
+                if (!ownsModal)
+                    throw new DialogException(DialogException.CanCloseIsFalse);
+            }
+
             PageNavigationService.NavigationSource = PageNavigationSource.DialogService;
             await dialogModal.DoPop(currentPage);
+            onClosed();
             PageNavigationService.NavigationSource = PageNavigationSource.Device;
 
             MvvmHelpers.InvokeViewAndViewModelAction<IActiveAware>(view, aa => aa.IsActive = false);
@@ -179,7 +241,29 @@ public abstract class DialogServiceBase : IDialogService
         finally
         {
             PageNavigationService.NavigationSource = PageNavigationSource.Device;
+            if (ownsModal)
+            {
+                lock (_closingDialogs)
+                    _closingDialogs.Remove(closingPage!);
+            }
         }
+    }
+
+    internal static bool IsDialogClosing(Page modal, Window window)
+    {
+        lock (_closingDialogs)
+            return _closingDialogs.TryGetValue(modal, out var owner) && ReferenceEquals(owner, window);
+    }
+
+    internal static Page? GetDialogPage(IDialogContainer dialog)
+    {
+        Page? page = null;
+        for (Element? element = dialog.DialogView; element is not null && element is not Window; element = element.Parent)
+        {
+            if (element is Page ancestor)
+                page = ancestor;
+        }
+        return page;
     }
 
     private static IDialogAware GetDialogController(View view)
