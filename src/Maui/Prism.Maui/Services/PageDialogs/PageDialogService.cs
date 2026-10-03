@@ -57,11 +57,7 @@ public class PageDialogService : IPageDialogService
     /// <returns><c>true</c> if non-destructive button pressed; otherwise <c>false</c>/></returns>
     public virtual Task<bool> DisplayAlertAsync(string title, string message, string acceptButton, string cancelButton, FlowDirection flowDirection)
     {
-#if NET10_0_OR_GREATER
         return GetPage().DisplayAlertAsync(title, message, acceptButton, cancelButton, (MauiFlow)flowDirection);
-#else
-        return GetPage().DisplayAlert(title, message, acceptButton, cancelButton, (MauiFlow)flowDirection);
-#endif
     }
 
     /// <summary>
@@ -76,11 +72,7 @@ public class PageDialogService : IPageDialogService
     /// <returns></returns>
     public virtual Task DisplayAlertAsync(string title, string message, string cancelButton)
     {
-#if NET10_0_OR_GREATER
         return GetPage().DisplayAlertAsync(title, message, cancelButton);
-#else
-        return GetPage().DisplayAlert(title, message, cancelButton);
-#endif
     }
 
     /// <summary>
@@ -96,11 +88,7 @@ public class PageDialogService : IPageDialogService
     /// <returns></returns>
     public virtual Task DisplayAlertAsync(string title, string message, string cancelButton, FlowDirection flowDirection)
     {
-#if NET10_0_OR_GREATER
         return GetPage().DisplayAlertAsync(title, message, cancelButton, (MauiFlow)flowDirection);
-#else
-        return GetPage().DisplayAlert(title, message, cancelButton, (MauiFlow)flowDirection);
-#endif
     }
 
     /// <summary>
@@ -127,11 +115,7 @@ public class PageDialogService : IPageDialogService
     /// <returns>Text for the pressed button</returns>
     public virtual Task<string> DisplayActionSheetAsync(string title, string cancelButton, string destroyButton, FlowDirection flowDirection, params string[] otherButtons)
     {
-#if NET10_0_OR_GREATER
         return GetPage().DisplayActionSheetAsync(title, cancelButton, destroyButton, (MauiFlow)flowDirection, otherButtons);
-#else
-        return GetPage().DisplayActionSheet(title, cancelButton, destroyButton, (MauiFlow)flowDirection, otherButtons);
-#endif
     }
 
     /// <summary>

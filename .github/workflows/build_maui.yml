@@ -7,6 +7,7 @@ on:
       - master
     paths:
       - .github/workflows/build_maui.yml
+      - global.json
       - Directory.Build.props
       - Directory.Build.targets
       - Directory.Packages.props
@@ -17,6 +18,7 @@ on:
       - 'src/Maui/**'
       - 'tests/Containers/**'
       - 'tests/Maui/**'
+      - 'e2e/Maui/**'
 
 jobs:
   build-prism-maui:
@@ -24,11 +26,13 @@ jobs:
     with:
       name: Build Prism.Maui
       solution-path: PrismLibrary_Maui.slnf
-      install-workload: maui maui-tizen
+      install-workload: maui maui-tizen --version 11.0.100-rc.1.26458.5
       test-projects: |
         tests/Maui/Prism.Maui.Tests/Prism.Maui.Tests.csproj
         tests/Maui/Prism.DryIoc.Maui.Tests/Prism.DryIoc.Maui.Tests.csproj
-      dotnet-version: 10.0.100
+      dotnet-version: |
+        10.0.100
+        11.0.100-rc.1.26425.128
     secrets:
       nugetFeedUrl: ${{ secrets.IN_HOUSE_NUGET_FEED }}
       nugetUserName: ${{ secrets.IN_HOUSE_USER }}
