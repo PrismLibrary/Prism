@@ -5,6 +5,7 @@ using Prism.Common;
 using Prism.Dialogs;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Navigation.Regions;
 using Application = Microsoft.Maui.Controls.Application;
 using XamlTab = Prism.Navigation.Xaml.TabbedPage;
 
@@ -699,8 +700,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
 
         var topPage = currentPage.Navigation.NavigationStack.LastOrDefault();
-        var nextPageType = Registry.GetViewType(UriParsingHelper.GetSegmentName(nextSegment));
-        if (topPage?.GetType() == nextPageType)
+        if (IsSamePage(topPage, nextSegment))
         {
             if (clearNavigationStack)
                 destroyPages.Remove(destroyPages.Last());
@@ -797,9 +797,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
                 {
                     //if we weren't forced to reuse the NavPage, then let's check the NavPage.CurrentPage against the next segment type as we don't want to recreate the entire nav stack
                     //just in case the user is trying to navigate to the same page which may be nested in a NavPage
-                    var nextPageType = Registry.GetViewType(UriParsingHelper.GetSegmentName(segments.Peek()));
-                    var currentPageType = navPage.CurrentPage.GetType();
-                    if (nextPageType == currentPageType)
+                    if (IsSamePage(navPage.CurrentPage, segments.Peek()))
                     {
                         reuseNavPage = true;
                     }
@@ -807,7 +805,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             }
         }
 
-        if ((detailIsNavPage && reuseNavPage) || (!detailIsNavPage && detail.GetType() == nextSegmentType))
+        if ((detailIsNavPage && reuseNavPage) || (!detailIsNavPage && IsSamePage(detail, nextSegment)))
         {
             await ProcessNavigation(detail, segments, parameters, useModalNavigation, animated);
             await DoNavigateAction(null, nextSegment, detail, parameters, onNavigationActionCompleted: (p) =>
@@ -839,6 +837,20 @@ public class PageNavigationService : INavigationService, IRegistryAware
             });
             return;
         }
+    }
+
+    private bool IsSamePage(Page page, string segment)
+    {
+        var name = UriParsingHelper.GetSegmentName(segment);
+        if (page is null || page.GetType() != Registry.GetViewType(name))
+            return false;
+
+        var currentName = ViewModelLocator.GetNavigationName(page);
+        // Generated region pages share RegionPage, but each registration configures a different region.
+        if (Registry.Registrations.Any(x => x.View == typeof(RegionPage) && (x.Name == name || x.Name == currentName)))
+            return currentName == name;
+
+        return true;
     }
 
     protected static bool GetFlyoutPageIsPresented(FlyoutPage page)
@@ -1123,13 +1135,17 @@ public class PageNavigationService : INavigationService, IRegistryAware
     private static bool IsPage(Page referencePage, string name) =>
         ViewModelLocator.GetNavigationName(referencePage) == name || referencePage.GetType().Name == name || referencePage.GetType().FullName == name;
 
-    private static bool IsPage(Page referencePage, ViewRegistration registration, string name)
+    private bool IsPage(Page referencePage, ViewRegistration registration, string name)
     {
         var referenceType = referencePage.GetType();
         if (registration is not null)
         {
             // We're allowing an empty string here for cases where someone has a manually constructed TabbedPage
             var navigationName = ViewModelLocator.GetNavigationName(referencePage);
+            if (registration.View == typeof(RegionPage) ||
+                Registry.Registrations.Any(x => x.View == typeof(RegionPage) && x.Name == navigationName))
+                return registration.View == referenceType && navigationName == name;
+
             // registration.Name matches the navigation key (e.g. "Tab2") even when NavigationName still defaults to CLR type name ("Tab2Mock")
             if (registration.View == referenceType && (string.IsNullOrEmpty(navigationName) || navigationName == name || registration.Name == name))
                 return true;

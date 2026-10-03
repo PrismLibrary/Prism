@@ -121,6 +121,15 @@ namespace Prism.Properties {
         }
         
         /// <summary>
+        /// Looks up the error for an already populated ContentPage region host.
+        /// </summary>
+        internal static string ContentPageHasContentException {
+            get {
+                return ResourceManager.GetString("ContentPageHasContentException", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to ContentView&apos;s Content property is not empty. 
         ///    This control is being associated with a region, but the control is already bound to something else. 
         ///    If you did not explicitly set the control&apos;s Content property, 

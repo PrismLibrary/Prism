@@ -165,6 +165,12 @@
     If you did not explicitly set the control's Content property, 
     this exception may be caused by a change in the value of the inherited RegionManager attached property.</value>
   </data>
+  <data name="ContentPageHasContentException" xml:space="preserve">
+    <value>ContentPage's Content property is not empty.
+    This control is being associated with a region, but the control is already bound to something else.
+    If you did not explicitly set the control's Content property,
+    this exception may be caused by a change in the value of the inherited RegionManager attached property.</value>
+  </data>
   <data name="DeactiveNotPossibleException" xml:space="preserve">
     <value>Deactivation is not possible in this type of region.</value>
   </data>
