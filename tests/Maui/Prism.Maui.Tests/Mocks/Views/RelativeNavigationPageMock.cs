@@ -2,7 +2,7 @@ using Prism.Navigation;
 
 namespace Prism.Maui.Tests.Mocks.Views;
 
-public class RelativeNavigationPageMock : ContentPage, IInitialize, INavigationAware, IConfirmNavigationAsync, IDestructible
+public class RelativeNavigationPageMock : ContentPage, IInitialize, IInitializeAsync, INavigationAware, IConfirmNavigationAsync, IDestructible
 {
     public bool CanNavigate { get; set; } = true;
     public TaskCompletionSource<bool> Confirmation { get; set; }
@@ -22,7 +22,17 @@ public class RelativeNavigationPageMock : ContentPage, IInitialize, INavigationA
         return Confirmation?.Task ?? Task.FromResult(CanNavigate);
     }
 
-    public void Initialize(INavigationParameters parameters) => Initialized++;
+    public void Initialize(INavigationParameters parameters)
+    {
+        Initialized++;
+        if (parameters.TryGetValue<Action<RelativeNavigationPageMock>>("initializeObserver", out var observer))
+            observer(this);
+    }
+
+    public Task InitializeAsync(INavigationParameters parameters) =>
+        parameters.TryGetValue<bool>("throwOnInitialize", out var shouldThrow) && shouldThrow
+            ? Task.FromException(new InvalidOperationException("Destination initialization failed."))
+            : Task.CompletedTask;
 
     public void OnNavigatedFrom(INavigationParameters parameters)
     {

@@ -56,4 +56,44 @@ public class RelativeModalScopeTests : TestBase
             DispatcherProvider.SetCurrent(TestDispatcher.Provider);
         }
     }
+    [Fact]
+    public async Task FailedInitialization_RestoresOriginalScopedPageWithoutDisposingIt()
+    {
+        var dispatcher = new DeferredCleanupDispatcher();
+        DispatcherProvider.SetCurrent(dispatcher);
+        try
+        {
+            var app = CreateBuilder(prism => prism.RegisterTypes(container =>
+                    container.RegisterForNavigation<MockSlowRelativePage>())
+                .CreateWindow("NavigationPage/MockViewA")).Build();
+            var window = GetWindow(app);
+            var root = window.CurrentPage;
+            Assert.True((await root.GetContainerProvider().Resolve<INavigationService>()
+                .NavigateAsync("MockViewB?useModalNavigation=true")).Success);
+            var modal = window.CurrentPage;
+            var viewModel = modal.BindingContext;
+            var scope = modal.GetContainerProvider();
+            var service = scope.Resolve<INavigationService>();
+            var parameters = new NavigationParameters
+            {
+                { "checkScope", (Action)(() => throw new InvalidOperationException("Initialization failed.")) }
+            };
+
+            var result = await service.NavigateAsync("../MockViewC/MockSlowRelativePage", parameters);
+
+            Assert.False(result.Success);
+            dispatcher.RunPending();
+            Assert.Same(modal, Assert.Single(window.Navigation.ModalStack));
+            Assert.Same(root, Assert.Single(window.Page.Navigation.NavigationStack));
+            Assert.Same(scope, modal.GetContainerProvider());
+            Assert.Same(modal, scope.Resolve<IPageAccessor>().Page);
+            Assert.Same(viewModel, modal.BindingContext);
+            Assert.True((await service.GoBackAsync()).Success);
+        }
+        finally
+        {
+            DispatcherProvider.SetCurrent(TestDispatcher.Provider);
+        }
+    }
+
 }

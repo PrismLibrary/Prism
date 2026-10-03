@@ -340,10 +340,13 @@ public static class MvvmHelpers
 
     public static async Task HandleNavigationPageGoBack(NavigationPage navigationPage)
     {
-        if (navigationPage.GetParentWindow() is PrismWindow window &&
-            window.PendingModalConfirmation == navigationPage)
+        if (navigationPage.GetParentWindow() is PrismWindow { PendingModalConfirmation: { } pendingModal })
         {
-            return;
+            for (Element? current = navigationPage; current is not null; current = current.Parent)
+            {
+                if (current == pendingModal)
+                    return;
+            }
         }
 
         var navigationService = Navigation.Xaml.Navigation.GetNavigationService(navigationPage.CurrentPage);
