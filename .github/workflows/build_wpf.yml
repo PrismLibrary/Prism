@@ -25,6 +25,7 @@ jobs:
       solution-path: PrismLibrary_Wpf.slnf
       test-projects: |
         tests/Wpf/Prism.Wpf.Tests/Prism.Wpf.Tests.csproj
+        tests/Wpf/Prism.Wpf.Modularity.Tests/Prism.Wpf.Modularity.Tests.csproj
         tests/Wpf/Prism.DryIoc.Wpf.Tests/Prism.DryIoc.Wpf.Tests.csproj
         tests/Wpf/Prism.Unity.Wpf.Tests/Prism.Unity.Wpf.Tests.csproj
       dotnet-version: 10.0.100
