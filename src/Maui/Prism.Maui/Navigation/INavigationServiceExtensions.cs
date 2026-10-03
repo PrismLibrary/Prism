@@ -82,6 +82,11 @@ public static class INavigationServiceExtensions
     /// <param name="navigationService">Service for handling navigation between views</param>
     /// <param name="name">The name of the target to navigate to.</param>
     /// <param name="parameters">The navigation parameters</param>
+    /// <remarks>
+    /// Leading <c>../</c> segments remove pages from the current navigation or modal stack.
+    /// Removing a modal NavigationPage's root also dismisses its container. Any following
+    /// pages are pushed relative to the remaining page, using its navigation context.
+    /// </remarks>
     public static Task<INavigationResult> NavigateAsync(this INavigationService navigationService, string name, INavigationParameters parameters)
     {
         if (name.StartsWith(PageNavigationService.RemovePageRelativePath))
