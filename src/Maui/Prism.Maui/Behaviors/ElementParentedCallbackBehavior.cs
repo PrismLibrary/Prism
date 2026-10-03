@@ -8,6 +8,7 @@ internal class ElementParentedCallbackBehavior : Behavior<VisualElement>
 {
     private readonly Action _callback;
     private readonly bool _includeSelf;
+    private readonly List<Element> _observedElements = new();
     private VisualElement? _target;
 
     public ElementParentedCallbackBehavior(Action callback, bool includeSelf = false)
@@ -19,72 +20,56 @@ internal class ElementParentedCallbackBehavior : Behavior<VisualElement>
     protected override void OnAttachedTo(VisualElement view)
     {
         _target = view;
-
-        var page = GetPage(view);
-        if (page is not null)
-        {
-            var container = page.GetContainerProvider();
-            if (container is null)
-            {
-                page.PropertyChanged -= PagePropertyChanged;
-                page.PropertyChanged += PagePropertyChanged;
-            }
-            else
-            {
-                view.SetContainerProvider(container);
-                _callback();
-            }
-        }
-        else
-        {
-            view.ParentChanged += OnParentChanged;
-        }
+        TryInvokeCallback();
     }
 
     protected override void OnDetachingFrom(VisualElement view)
     {
-        view.ParentChanged -= OnParentChanged;
-        if (view.Parent is VisualElement directParent)
-            directParent.ParentChanged -= OnParentChanged;
-
-        var page = GetPage(view);
-        if (page is not null)
-            page.PropertyChanged -= PagePropertyChanged;
-
+        StopObserving();
         _target = null;
         base.OnDetachingFrom(view);
     }
 
-    private void OnParentChanged(object sender, EventArgs e)
+    private void OnParentChanged(object sender, EventArgs e) => TryInvokeCallback();
+
+    private void TryInvokeCallback()
     {
-        // Use _target: when listening on Parent.ParentChanged, sender is the parent, not the region host (#3332).
+        StopObserving();
+
+        // An ancestor may have raised the event; always resolve the original target's page.
         var view = _target;
-        if (view?.Parent is null)
+        if (view is null)
             return;
 
         var page = GetPage(view);
-        if (page is not null)
+        var container = page?.GetContainerProvider();
+        if (container is not null)
         {
-            if (page.GetContainerProvider() is not null)
-            {
-                view.ParentChanged -= OnParentChanged;
-                if (view.Parent is VisualElement directParent)
-                    directParent.ParentChanged -= OnParentChanged;
+            // Pages already own a scope, or inherit the flyout scope without owning it.
+            if (view is not Page)
+                view.SetContainerProvider(container);
 
-                _callback();
-                return;
-            }
-
-            page.PropertyChanged -= PagePropertyChanged;
-            page.PropertyChanged += PagePropertyChanged;
-        }
-        else if (view.Parent is VisualElement parent)
-        {
-            parent.ParentChanged -= OnParentChanged;
-            parent.ParentChanged += OnParentChanged;
+            _callback();
+            return;
         }
 
-        view.ParentChanged -= OnParentChanged;
+        // A flyout menu inherits its FlyoutPage's scope, whose notification
+        // does not propagate to the menu's attached property (#3161).
+        var scopePage = page;
+        while (scopePage?.Parent is FlyoutPage flyout && flyout.Flyout == scopePage)
+            scopePage = flyout;
+
+        for (Element element = view; element is not null; element = element.Parent)
+        {
+            _observedElements.Add(element);
+            element.ParentChanged += OnParentChanged;
+
+            if (element is Page parentPage)
+                parentPage.PropertyChanged += PagePropertyChanged;
+
+            if (element == scopePage)
+                break;
+        }
     }
 
     private Page GetPage(VisualElement view) =>
@@ -92,15 +77,19 @@ internal class ElementParentedCallbackBehavior : Behavior<VisualElement>
 
     private void PagePropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (sender is not Page page || e.PropertyName != Navigation.Xaml.Navigation.PrismContainerProvider)
-            return;
+        if (e.PropertyName == Navigation.Xaml.Navigation.PrismContainerProvider)
+            TryInvokeCallback();
+    }
 
-        var container = page.GetContainerProvider();
-
-        if (container is not null)
+    private void StopObserving()
+    {
+        foreach (var element in _observedElements)
         {
-            page.PropertyChanged -= PagePropertyChanged;
-            _callback();
+            element.ParentChanged -= OnParentChanged;
+            if (element is Page page)
+                page.PropertyChanged -= PagePropertyChanged;
         }
+
+        _observedElements.Clear();
     }
 }
