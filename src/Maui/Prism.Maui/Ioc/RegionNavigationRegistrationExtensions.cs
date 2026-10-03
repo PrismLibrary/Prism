@@ -26,13 +26,11 @@ public static class RegionNavigationRegistrationExtensions
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ArgumentException.ThrowIfNullOrWhiteSpace(regionName);
 
-        containerRegistry.Register<ContentPage>()
-            .RegisterInstance<ViewRegistration>(new RegionPageRegistration
+        containerRegistry.RegisterForNavigation<RegionPage, RegionPageViewModel>(name)
+            .RegisterPageBehaviorFactory(page =>
             {
-                Type = ViewType.Page,
-                Name = name,
-                View = typeof(ContentPage),
-                RegionName = regionName
+                if (page is RegionPage && ViewModelLocator.GetNavigationName(page) == name)
+                    Navigation.Regions.Xaml.RegionManager.SetRegionName(page, regionName);
             });
 
         return containerRegistry;
@@ -52,13 +50,11 @@ public static class RegionNavigationRegistrationExtensions
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ArgumentException.ThrowIfNullOrWhiteSpace(regionName);
 
-        services.AddTransient<ContentPage>()
-            .AddSingleton<ViewRegistration>(new RegionPageRegistration
+        services.RegisterForNavigation<RegionPage, RegionPageViewModel>(name)
+            .RegisterPageBehaviorFactory(page =>
             {
-                Type = ViewType.Page,
-                Name = name,
-                View = typeof(ContentPage),
-                RegionName = regionName
+                if (page is RegionPage && ViewModelLocator.GetNavigationName(page) == name)
+                    Navigation.Regions.Xaml.RegionManager.SetRegionName(page, regionName);
             });
 
         return services;

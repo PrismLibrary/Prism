@@ -18,6 +18,76 @@ public class ContentPageRegionFixture : TestBase
     {
     }
 
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task RegionPage_UsesInjectedViewModelAndTitleLifecycle(bool useServiceCollection)
+    {
+        var builder = CreateBuilder(prism => prism
+            .RegisterTypes(container =>
+            {
+                if (!useServiceCollection)
+                    container.RegisterRegionPage("RegionPage", "MainRegion");
+                container.RegisterForNavigation<ContentPage>("PlainPage");
+            })
+            .CreateWindow("NavigationPage/RegionPage?title=Initial"));
+        if (useServiceCollection)
+            builder.Services.RegisterRegionPage("RegionPage", "MainRegion");
+
+        var mauiApp = builder.Build();
+        var navigationPage = Assert.IsAssignableFrom<NavigationPage>(GetWindow(mauiApp).Page);
+        var page = Assert.IsType<RegionPage>(navigationPage.CurrentPage);
+        var viewModel = Assert.IsType<RegionPageViewModel>(page.BindingContext);
+        Assert.Equal("Initial", viewModel.Title);
+        Assert.Equal("Initial", page.Title);
+        Assert.Equal("MainRegion", RegionManager.GetRegionName(page));
+        Assert.All(mauiApp.Services.GetRequiredService<INavigationRegistry>().Registrations,
+            registration => Assert.IsType<ViewRegistration>(registration));
+
+        var notifications = 0;
+        viewModel.PropertyChanged += (_, args) =>
+        {
+            if (args.PropertyName == nameof(RegionPageViewModel.Title))
+                notifications++;
+        };
+        foreach (var title in new[] { "Updated", "Updated", null })
+        {
+            var push = await PageNavigation.GetNavigationService(page).NavigateAsync("PlainPage");
+            Assert.True(push.Success, push.Exception?.ToString());
+            var parameters = new NavigationParameters();
+            if (title is not null)
+                parameters.Add(KnownNavigationParameters.Title, title);
+            var back = await PageNavigation.GetNavigationService(navigationPage.CurrentPage).GoBackAsync(parameters);
+            Assert.True(back.Success, back.Exception?.ToString());
+            Assert.Same(page, navigationPage.CurrentPage);
+            Assert.Same(viewModel, page.BindingContext);
+            Assert.Equal("Updated", viewModel.Title);
+            Assert.Equal("Updated", page.Title);
+        }
+        Assert.Equal(1, notifications);
+    }
+
+    [Fact]
+    public void RegionPageViewModel_InitializationAndNavigationPreserveMissingOrUnchangedTitle()
+    {
+        var viewModel = new RegionPageViewModel();
+        viewModel.Initialize(new NavigationParameters());
+        Assert.Null(viewModel.Title);
+        var notifications = 0;
+        viewModel.PropertyChanged += (_, _) => notifications++;
+        var parameters = new NavigationParameters { { KnownNavigationParameters.Title, "Initial" } };
+        viewModel.Initialize(parameters);
+        viewModel.OnNavigatedTo(parameters);
+        viewModel.Initialize(new NavigationParameters());
+        viewModel.OnNavigatedTo(new NavigationParameters());
+        viewModel.OnNavigatedFrom(new NavigationParameters { { KnownNavigationParameters.Title, "Ignored" } });
+        Assert.Equal("Initial", viewModel.Title);
+        Assert.Equal(1, notifications);
+        viewModel.OnNavigatedTo(new NavigationParameters { { KnownNavigationParameters.Title, "Updated" } });
+        Assert.Equal("Updated", viewModel.Title);
+        Assert.Equal(2, notifications);
+    }
+
     [Fact]
     public void RegisterRegionPage_ReturnsContainerRegistry()
     {
@@ -127,8 +197,8 @@ public class ContentPageRegionFixture : TestBase
         var mauiApp = builder.Build();
         var window = GetWindow(mauiApp);
         var navigationPage = Assert.IsAssignableFrom<NavigationPage>(window.Page);
-        var firstPage = Assert.IsType<ContentPage>(navigationPage.RootPage);
-        var secondPage = Assert.IsType<ContentPage>(navigationPage.CurrentPage);
+        var firstPage = Assert.IsAssignableFrom<ContentPage>(navigationPage.RootPage);
+        var secondPage = Assert.IsAssignableFrom<ContentPage>(navigationPage.CurrentPage);
         var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
         var firstRegion = Assert.Single(regionManager.Regions, region => region.Name == "FirstRegion");
         var secondRegion = Assert.Single(regionManager.Regions, region => region.Name == "SecondRegion");
@@ -166,7 +236,7 @@ public class ContentPageRegionFixture : TestBase
             .Build();
         var window = GetWindow(mauiApp);
         var tabbedPage = Assert.IsType<TabbedPage>(window.Page);
-        var selectedPage = Assert.IsType<ContentPage>(window.CurrentPage);
+        var selectedPage = Assert.IsAssignableFrom<ContentPage>(window.CurrentPage);
 
         Assert.Equal(2, tabbedPage.Children.Count);
         Assert.Same(tabbedPage.Children[1], tabbedPage.CurrentPage);
@@ -187,7 +257,7 @@ public class ContentPageRegionFixture : TestBase
             .Build();
         var window = GetWindow(mauiApp);
         var tabbedPage = Assert.IsType<TabbedPage>(window.Page);
-        var selectedPage = Assert.IsType<ContentPage>(window.CurrentPage);
+        var selectedPage = Assert.IsAssignableFrom<ContentPage>(window.CurrentPage);
 
         Assert.Same(tabbedPage.Children[1], tabbedPage.CurrentPage);
         Assert.Equal("PlainPage", ViewModelLocator.GetNavigationName(selectedPage));
@@ -245,7 +315,7 @@ public class ContentPageRegionFixture : TestBase
     {
         var mauiApp = CreateRegionApp(uri);
         var window = GetWindow(mauiApp);
-        var page = Assert.IsType<ContentPage>(window.CurrentPage);
+        var page = Assert.IsAssignableFrom<ContentPage>(window.CurrentPage);
         var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
         var region = Assert.IsType<SingleActiveRegion>(Assert.Single(regionManager.Regions));
         var container = page.GetContainerProvider();
@@ -288,7 +358,7 @@ public class ContentPageRegionFixture : TestBase
             .CreateWindow("RegionPage"))
             .Build();
         var window = GetWindow(mauiApp);
-        var page = Assert.IsType<ContentPage>(window.Page);
+        var page = Assert.IsAssignableFrom<ContentPage>(window.Page);
         var view = Assert.IsType<TrackingRegionView>(page.Content);
         var viewModel = Assert.IsType<TrackingRegionViewModel>(view.BindingContext);
 
@@ -307,7 +377,7 @@ public class ContentPageRegionFixture : TestBase
             .Build();
         var window = GetWindow(mauiApp);
         var navigationPage = Assert.IsAssignableFrom<NavigationPage>(window.Page);
-        var page = Assert.IsType<ContentPage>(navigationPage.CurrentPage);
+        var page = Assert.IsAssignableFrom<ContentPage>(navigationPage.CurrentPage);
 
         Assert.Equal("PlainPage", ViewModelLocator.GetNavigationName(page));
         Assert.Null(RegionManager.GetRegionName(page));
@@ -320,7 +390,7 @@ public class ContentPageRegionFixture : TestBase
     public void Region_ActivatesFirstView_AndDisplaysOnlyActiveView()
     {
         var mauiApp = CreateRegionApp("RegionPage");
-        var page = Assert.IsType<ContentPage>(GetWindow(mauiApp).Page);
+        var page = Assert.IsAssignableFrom<ContentPage>(GetWindow(mauiApp).Page);
         var region = Assert.IsType<SingleActiveRegion>(RegionManager.GetObservableRegion(page).Value);
         var firstView = new ContentView();
         var secondView = new ContentView();
@@ -434,14 +504,14 @@ public class ContentPageRegionFixture : TestBase
             .Build();
         var window = GetWindow(mauiApp);
         var flyout = Assert.IsType<MockHome>(window.Page);
-        var firstPage = Assert.IsType<ContentPage>(window.CurrentPage);
+        var firstPage = Assert.IsAssignableFrom<ContentPage>(window.CurrentPage);
         var firstRegion = RegionManager.GetObservableRegion(firstPage).Value;
         var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
 
         var result = await PageNavigation.GetNavigationService(flyout).NavigateAsync($"{prefix}OtherRegionPage");
 
         Assert.True(result.Success, result.Exception?.ToString());
-        var secondPage = Assert.IsType<ContentPage>(window.CurrentPage);
+        var secondPage = Assert.IsAssignableFrom<ContentPage>(window.CurrentPage);
         var secondRegion = Assert.Single(regionManager.Regions);
         Assert.NotSame(firstPage, secondPage);
         Assert.NotSame(firstRegion, secondRegion);
@@ -462,7 +532,7 @@ public class ContentPageRegionFixture : TestBase
     {
         var mauiApp = CreateRegionApp(uri);
         var window = GetWindow(mauiApp);
-        var page = Assert.IsType<ContentPage>(window.CurrentPage);
+        var page = Assert.IsAssignableFrom<ContentPage>(window.CurrentPage);
         var regionManager = mauiApp.Services.GetRequiredService<IRegionManager>();
         var region = Assert.Single(regionManager.Regions);
         region.Add(nameof(TrackingRegionView));
@@ -497,7 +567,7 @@ public class ContentPageRegionFixture : TestBase
             var result = await navigationService.NavigateAsync("RegionPage");
 
             Assert.True(result.Success, result.Exception?.ToString());
-            var page = Assert.IsType<ContentPage>(navigationPage.CurrentPage);
+            var page = Assert.IsAssignableFrom<ContentPage>(navigationPage.CurrentPage);
             var region = Assert.Single(regionManager.Regions);
             var container = page.GetContainerProvider();
             Assert.Equal("MainRegion", region.Name);

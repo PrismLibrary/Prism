@@ -2,7 +2,6 @@
 using Prism.Common;
 using Prism.Mvvm;
 using Prism.Navigation.Xaml;
-using Prism.Navigation.Regions;
 using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
 
 namespace Prism.Navigation;
@@ -17,10 +16,6 @@ internal class NavigationRegistry : ViewRegistryBase, INavigationRegistry
     protected override void ConfigureView(BindableObject bindable, IContainerProvider container)
     {
         ConfigurePage(container, bindable as Page);
-
-        var name = ViewModelLocator.GetNavigationName(bindable);
-        if (GetRegistration(name) is RegionPageRegistration registration)
-            Regions.Xaml.RegionManager.SetRegionName((Page)bindable, registration.RegionName);
     }
 
     private static void ConfigurePage(IContainerProvider container, Page page)

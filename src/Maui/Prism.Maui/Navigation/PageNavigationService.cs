@@ -846,8 +846,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
             return false;
 
         var currentName = ViewModelLocator.GetNavigationName(page);
-        // Generated region pages share ContentPage, but each registration configures a different region.
-        if (Registry.Registrations.Any(x => x is RegionPageRegistration && (x.Name == name || x.Name == currentName)))
+        // Generated region pages share RegionPage, but each registration configures a different region.
+        if (Registry.Registrations.Any(x => x.View == typeof(RegionPage) && (x.Name == name || x.Name == currentName)))
             return currentName == name;
 
         return true;
@@ -1142,8 +1142,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
         {
             // We're allowing an empty string here for cases where someone has a manually constructed TabbedPage
             var navigationName = ViewModelLocator.GetNavigationName(referencePage);
-            if (registration is RegionPageRegistration ||
-                Registry.Registrations.Any(x => x is RegionPageRegistration && x.Name == navigationName))
+            if (registration.View == typeof(RegionPage) ||
+                Registry.Registrations.Any(x => x.View == typeof(RegionPage) && x.Name == navigationName))
                 return registration.View == referenceType && navigationName == name;
 
             // registration.Name matches the navigation key (e.g. "Tab2") even when NavigationName still defaults to CLR type name ("Tab2Mock")
