@@ -76,7 +76,13 @@ namespace Prism.Navigation
 
         private async void PrismWindow_ModalPopping(object sender, ModalPoppingEventArgs e)
         {
-            if (PageNavigationService.NavigationSource == PageNavigationSource.Device)
+            // A second navigation request can reset the global source while a dialog
+            // close awaits native completion. Only its exact modal/window may bypass
+            // device handling; another popup or window still gets its own veto check.
+            if (DialogServiceBase.IsDialogClosing(e.Modal, this))
+                return;
+
+            if (PageNavigationService.NavigationSource is PageNavigationSource.Device or PageNavigationSource.DialogService)
             {
                 if (e.Modal == PendingModalConfirmation)
                 {
@@ -84,7 +90,8 @@ namespace Prism.Navigation
                     return;
                 }
 
-                var dialogModal = IDialogContainer.DialogStack.LastOrDefault();
+                var dialogModal = IDialogContainer.DialogStack.LastOrDefault(dialog =>
+                    ReferenceEquals(DialogServiceBase.GetDialogPage(dialog)?.GetParentWindow(), this));
                 if (dialogModal is not null)
                 {
                     e.Cancel = true;
