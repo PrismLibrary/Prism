@@ -23,10 +23,12 @@
     <MauiXaml Include="..\..\..\tests\Maui\Prism.Maui.Tests\Mocks\Views\GlobalNamespacePage.xaml" Link="GlobalNamespacePage.xaml" />
   </ItemGroup>
   <ItemGroup Condition=" '$(OwnGlobalMapping)' == 'true' ">
-    <AssemblyAttribute Include="Microsoft.Maui.Controls.XmlnsDefinitionAttribute">
+    <_OwnedGlobalXmlnsNamespace Include="Prism.Xaml;Prism.Mvvm;Prism.Dialogs.Xaml">
       <_Parameter1>http://schemas.microsoft.com/dotnet/maui/global</_Parameter1>
-      <_Parameter2>http://prismlibrary.com</_Parameter2>
-    </AssemblyAttribute>
+      <_Parameter2>%(Identity)</_Parameter2>
+      <AssemblyName>Prism.Maui</AssemblyName>
+    </_OwnedGlobalXmlnsNamespace>
+    <AssemblyAttribute Include="@(_OwnedGlobalXmlnsNamespace->'Microsoft.Maui.Controls.XmlnsDefinitionAttribute')" />
   </ItemGroup>
   <ItemGroup Condition=" '$(AmbiguousGlobalNamespace)' != 'true' ">
     <MauiXaml Remove="AmbiguousPage.xaml" />

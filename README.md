@@ -98,9 +98,11 @@ A detailed overview of each assembly per package is available [here](http://pris
 
 ### MAUI global XAML namespaces
 
-On .NET MAUI 10 and later, Prism.Maui adds its canonical `http://prismlibrary.com` schema to the consuming project's global XAML namespace. Use `xmlns="http://schemas.microsoft.com/dotnet/maui/global"` at the root of a XAML page to use Prism types and markup extensions without a prefix. Existing `xmlns:prism="http://prismlibrary.com"` declarations continue to work and can disambiguate type names shared with other libraries.
+On .NET MAUI 10 and later, Prism.Maui adds its XAML namespaces to the consuming project's global XAML namespace. Use `xmlns="http://schemas.microsoft.com/dotnet/maui/global"` at the root of a XAML page to use globally mapped Prism types and markup extensions without a prefix. Existing `xmlns:prism="http://prismlibrary.com"` declarations continue to work and can disambiguate type names shared with other libraries.
 
-Set `<PrismMauiGlobalXmlns>false</PrismMauiGlobalXmlns>` in your project to disable the generated mapping, including when you already declare it in your own `GlobalXmlns.cs`. This support uses generated assembly metadata and requires the default `GenerateAssemblyInfo=true`. Omitting the root namespace declarations is a separate MAUI feature; see the [MAUI XAML documentation](https://learn.microsoft.com/dotnet/maui/xaml/fundamentals/get-started).
+`Prism.Navigation.Xaml` remains available through the canonical `prism:` prefix because its `TabbedPage` attached-property helper conflicts with MAUI's `TabbedPage` control. Use `{prism:NavigateTo NextPage}`, `{prism:GoBack}`, and `prism:TabbedPage.Title` alongside unprefixed MAUI controls and globally mapped Prism types such as `{Parameter ...}`, `{ShowDialog ...}`, and `ViewModelLocator`.
+
+Set `<PrismMauiGlobalXmlns>false</PrismMauiGlobalXmlns>` in your project to disable the generated mappings, including when you already declare your own mappings in `GlobalXmlns.cs`. This support uses generated assembly metadata and requires the default `GenerateAssemblyInfo=true`. Omitting the root namespace declarations is a separate MAUI feature; see the [MAUI XAML documentation](https://learn.microsoft.com/dotnet/maui/xaml/fundamentals/get-started).
 
 For stable samples be sure to check out the samples repo for the platform you are most interested in.
 

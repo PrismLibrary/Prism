@@ -27,5 +27,7 @@ public class GlobalNamespaceFixture
         Assert.Equal(2, behaviors.Count);
         Assert.IsType<EventToCommandBehavior>(behaviors[0]);
         Assert.IsType<Mocks.Xaml.EventToCommandBehavior>(behaviors[1]);
+        var tabs = Assert.IsType<Microsoft.Maui.Controls.TabbedPage>(page.Resources["Tabs"]);
+        Assert.Equal("Prism Tab", Prism.Navigation.Xaml.TabbedPage.GetTitle(Assert.Single(tabs.Children)));
     }
 }
