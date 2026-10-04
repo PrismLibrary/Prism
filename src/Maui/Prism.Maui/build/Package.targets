@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project>
+  <!-- MAUI resolves global mappings only from the assembly containing the XAML.
+       Set PrismMauiGlobalXmlns=false when the application owns this mapping. -->
+  <ItemGroup Condition=" '$(UseMaui)' == 'true' AND '$(PrismMauiGlobalXmlns)' != 'false' AND '$(TargetFramework)' != '' AND $([MSBuild]::VersionGreaterThanOrEquals('$(TargetFrameworkVersion)', '10.0')) ">
+    <AssemblyAttribute Include="Microsoft.Maui.Controls.XmlnsDefinitionAttribute">
+      <_Parameter1>http://schemas.microsoft.com/dotnet/maui/global</_Parameter1>
+      <_Parameter2>http://prismlibrary.com</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
   <ItemGroup Condition=" '$(ImplicitUsings)' == 'true' OR '$(ImplicitUsings)' == 'enable' ">
     <Using Include="Prism.AppModel" />
     <Using Include="Prism.Services" />
