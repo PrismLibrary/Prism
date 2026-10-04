@@ -8,6 +8,24 @@ namespace Prism.Navigation;
 public static class INavigationServiceExtensions
 {
     /// <summary>
+    /// Gets the absolute navigation path to the page associated with this service.
+    /// </summary>
+    /// <remarks>
+    /// Uses registered navigation names and the owning window's current page stack.
+    /// Returns an empty string before the page is attached to a window. Navigation
+    /// parameters supplied by the caller are not retained in the path.
+    /// </remarks>
+    /// <exception cref="NotSupportedException">The service is not a page navigation service.</exception>
+    public static string GetNavigationUriPath(this INavigationService navigationService)
+    {
+        ArgumentNullException.ThrowIfNull(navigationService);
+        if (navigationService is not PageNavigationService pageNavigationService)
+            throw new NotSupportedException("The navigation service does not expose a page navigation path.");
+
+        return pageNavigationService.GetNavigationUriPath();
+    }
+
+    /// <summary>
     /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
     /// </summary>
     /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>

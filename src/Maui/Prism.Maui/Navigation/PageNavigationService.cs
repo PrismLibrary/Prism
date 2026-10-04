@@ -70,6 +70,17 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// </summary>
     public IViewRegistry Registry => _container.Resolve<INavigationRegistry>();
 
+    internal string GetNavigationUriPath()
+    {
+        var page = _pageAccessor.Page;
+        var window = page is null ? Window : page.GetParentWindow();
+        if (window?.Page is null)
+            return string.Empty;
+
+        page ??= MvvmHelpers.GetCurrentPage(window.Navigation.ModalStack.LastOrDefault() ?? window.Page);
+        return page is null ? string.Empty : PageNavigationPath.GetPath(window, page);
+    }
+
     /// <summary>
     /// Constructs a new instance of the <see cref="PageNavigationService"/>.
     /// </summary>
