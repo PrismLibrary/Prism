@@ -27,13 +27,16 @@ internal static class PageNavigationPath
 
     // Include the preceding stack entries but stop at the scoped page. An inactive
     // tab's service must describe that tab, rather than the window's selected tab.
-    private static bool Append(Page page, Page target, List<string> segments)
+    private static bool Append(Page page, Page target, List<string> segments, bool includeName = true)
     {
         if (page is null)
             return false;
 
         var name = ViewModelLocator.GetNavigationName(page);
-        segments.Add(name);
+        // A tab's root name is already carried by selectedTab. A nested TabbedPage
+        // still needs its own segment to carry its independent selectedTab query.
+        if (includeName || page is TabbedPage)
+            segments.Add(Uri.EscapeDataString(name));
         if (ReferenceEquals(page, target))
             return true;
 
@@ -64,17 +67,12 @@ internal static class PageNavigationPath
                             return true;
                         foreach (var child in tabNavigation.Navigation.NavigationStack)
                         {
-                            if (ReferenceEquals(child, tabNavigation.RootPage))
-                            {
-                                if (ReferenceEquals(child, target))
-                                    return true;
-                            }
-                            else if (Append(child, target, segments))
+                            if (Append(child, target, segments, !ReferenceEquals(child, tabNavigation.RootPage)))
                                 return true;
                         }
                     }
                     else
-                        return ReferenceEquals(tab, target);
+                        return Append(tab, target, segments, false);
                 }
                 break;
         }

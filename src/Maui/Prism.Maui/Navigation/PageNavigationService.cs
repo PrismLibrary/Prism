@@ -2090,7 +2090,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             var segment = navigationStack.Pop();
             var nextPage = CreatePageFromSegment(segment);
             if (nextPage is TabbedPage tabbedPage)
-                await ConfigureTabbedPage(tabbedPage, nextSegment, parameters);
+                await ConfigureTabbedPage(tabbedPage, segment, parameters);
             await DoNavigationAction(onNavigatedFromTarget, segment, nextPage, parameters, async () =>
             {
                 await DoPush(currentPage, nextPage, useModalNavigation, animated, insertBefore, pageOffset);

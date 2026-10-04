@@ -87,6 +87,86 @@ public class NavigationUriPathFixture : IDisposable
     }
 
     [Fact]
+    public async Task FlyoutTabDescendantsAndNavigationTabContainerRootsRemainInPath()
+    {
+        var leaf = Named(new ContentPage(), "Leaf");
+        var start = Named(new ContentPage(), "Start");
+        var detailNavigation = Named(new NavigationPage(start), "DetailStack");
+        await detailNavigation.PushAsync(leaf);
+        var flyout = Named(new FlyoutPage
+        {
+            Flyout = Named(new ContentPage { Title = "Menu" }, "MenuOnly"),
+            Detail = detailNavigation
+        }, "FlyoutTab");
+        var tabs = Named(new TabbedPage(), "OuterTabs");
+        tabs.Children.Add(flyout);
+        _app.MainPage = tabs;
+        Assert.Equal("/OuterTabs?selectedTab=FlyoutTab/DetailStack/Start/Leaf", ServiceFor(leaf).GetNavigationUriPath());
+        Assert.Equal(string.Empty, ServiceFor(flyout.Flyout).GetNavigationUriPath());
+
+        tabs.Children.Clear();
+        var tabNavigation = Named(new NavigationPage(flyout), "TabStack");
+        tabs.Children.Add(tabNavigation);
+        Assert.Equal("/OuterTabs?selectedTab=TabStack%7CFlyoutTab/DetailStack/Start/Leaf", ServiceFor(leaf).GetNavigationUriPath());
+    }
+
+    [Fact]
+    public async Task NestedTabbedSelectionUnderNavigationTabRootAndModalsUsesEachBranch()
+    {
+        var leaf = Named(new ContentPage(), "DeepLeaf");
+        var innerStack = Named(new NavigationPage(leaf), "InnerStack");
+        await innerStack.PushAsync(Named(new ContentPage(), "End"));
+        var innerTabs = Named(new TabbedPage(), "InnerTabs");
+        innerTabs.Children.Add(Named(new ContentPage(), "Inactive"));
+        innerTabs.Children.Add(innerStack);
+        innerTabs.CurrentPage = innerStack;
+        var outerStack = Named(new NavigationPage(innerTabs), "OuterStack");
+        var outerTabs = Named(new TabbedPage(), "OuterTabs");
+        outerTabs.Children.Add(outerStack);
+        _app.MainPage = outerTabs;
+        var path = "/OuterTabs?selectedTab=OuterStack%7CInnerTabs/InnerTabs?selectedTab=InnerStack%7CDeepLeaf/End";
+        Assert.Equal(path, ServiceFor(innerStack.CurrentPage).GetNavigationUriPath());
+        var modal = Named(new ContentPage(), "TopModal");
+        await _app.Window.Navigation.PushModalAsync(modal);
+        Assert.Equal(path + "/TopModal?useModalNavigation=true", ServiceFor(modal).GetNavigationUriPath());
+        Assert.Equal(path, ServiceFor(innerStack.CurrentPage).GetNavigationUriPath());
+    }
+
+    [Fact]
+    public void SelectedTabEscapesNamesWithoutRetainingUserParameters()
+    {
+        var root = Named(new ContentPage(), "Root & More");
+        var stack = Named(new NavigationPage(root), "Nav + More");
+        var tabs = Named(new TabbedPage(), "Tabs");
+        tabs.Children.Add(stack);
+        _app.MainPage = tabs;
+        Assert.Equal("/Tabs?selectedTab=Nav%20%2B%20More%7CRoot%20%26%20More", ServiceFor(root).GetNavigationUriPath());
+    }
+
+    [Fact]
+    public async Task EachWindowKeepsItsOwnNavigationAndModalStackForScopedAndUnscopedReads()
+    {
+        var firstRoot = Named(new ContentPage(), "FirstRoot");
+        var secondRoot = Named(new ContentPage(), "SecondRoot");
+        _app.MainPage = Named(new NavigationPage(firstRoot), "FirstStack");
+        var second = new PrismWindow { Page = Named(new NavigationPage(secondRoot), "SecondStack") };
+        var firstModal = Named(new ContentPage(), "FirstModal");
+        var secondModal = Named(new NavigationPage(Named(new ContentPage(), "SecondModalRoot")), "SecondModalStack");
+        await _app.Window.Navigation.PushModalAsync(firstModal);
+        await second.Navigation.PushModalAsync(secondModal);
+        await secondModal.PushAsync(Named(new ContentPage(), "SecondModalEnd"));
+        var secondService = ServiceFor(secondModal.CurrentPage);
+        Assert.Equal("/FirstStack/FirstRoot", ServiceFor(firstRoot).GetNavigationUriPath());
+        Assert.Equal("/SecondStack/SecondRoot", ServiceFor(secondRoot).GetNavigationUriPath());
+        Assert.Equal("/FirstStack/FirstRoot/FirstModal?useModalNavigation=true", ServiceFor(firstModal).GetNavigationUriPath());
+        Assert.Equal("/FirstStack/FirstRoot/FirstModal?useModalNavigation=true", ServiceFor(null).GetNavigationUriPath());
+        Assert.Equal("/SecondStack/SecondRoot/SecondModalStack?useModalNavigation=true/SecondModalRoot/SecondModalEnd", secondService.GetNavigationUriPath());
+        await second.Navigation.PopModalAsync();
+        Assert.Equal(string.Empty, secondService.GetNavigationUriPath());
+        Assert.Equal("/FirstStack/FirstRoot/FirstModal?useModalNavigation=true", ServiceFor(null).GetNavigationUriPath());
+    }
+
+    [Fact]
     public void UnattachedScopeDoesNotReadAnotherWindow()
     {
         _app.MainPage = Named(new ContentPage(), "OtherWindow");

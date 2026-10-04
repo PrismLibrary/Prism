@@ -10,7 +10,7 @@ public interface INavigationService
     /// </summary>
     /// <returns>The current navigation path, or an empty string before the page is attached to a window.</returns>
     /// <remarks>
-    /// Uses registered navigation names and the owning window's current page stack,
+    /// Uses URI-escaped registered navigation names and the owning window's current page stack,
     /// including tab selection and modal boundaries. Navigation parameters supplied
     /// by the caller are not retained in the path.
     /// </remarks>
