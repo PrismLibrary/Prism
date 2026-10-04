@@ -11,11 +11,6 @@ public static class NavigationObserverRegistrationExtensions
         });
     }
 
-    /// <summary>Observes tab selection changes after a tabbed page is displayed.</summary>
-    public static PrismAppBuilder AddGlobalTabChangedObserver(this PrismAppBuilder builder, Action<IObservable<TabChangedContext>> addObservable) =>
-        builder.RegisterGlobalNavigationObserver()
-        .OnInitialized(c => addObservable(c.Resolve<IGlobalNavigationObserver>().TabChanged));
-
     public static PrismAppBuilder AddGlobalNavigationObserver(this PrismAppBuilder builder, Action<IObservable<NavigationRequestContext>> addObservable) =>
         builder.RegisterGlobalNavigationObserver()
         .OnInitialized(c =>

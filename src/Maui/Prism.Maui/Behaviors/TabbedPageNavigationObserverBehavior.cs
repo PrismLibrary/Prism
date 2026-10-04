@@ -41,8 +41,11 @@ public class TabbedPageNavigationObserverBehavior : BehaviorBase<TabbedPage>
         if (page.Window is null || previousTab is null || currentTab is null || previousTab == currentTab)
             return;
 
-        _eventAggregator.GetEvent<TabChangedEvent>().Publish(new TabChangedContext
+        _eventAggregator.GetEvent<NavigationRequestEvent>().Publish(new NavigationRequestContext
         {
+            Type = NavigationRequestType.TabChanged,
+            Parameters = new NavigationParameters(),
+            Result = new NavigationResult(),
             TabbedPage = page,
             PreviousTab = previousTab,
             CurrentTab = currentTab,

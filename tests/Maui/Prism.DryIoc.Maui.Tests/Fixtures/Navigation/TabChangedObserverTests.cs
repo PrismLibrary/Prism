@@ -17,23 +17,33 @@ public class TabChangedObserverTests : TestBase
         // Each app must register its own observer, regardless of previous builders.
         for (var appIndex = 0; appIndex < 2; appIndex++)
         {
-            var changes = new List<TabChangedContext>();
+            var changes = new List<NavigationRequestContext>();
             var requests = new List<NavigationRequestContext>();
+            var otherSubscriber = new List<NavigationRequestContext>();
             IGlobalNavigationObserver observer = null;
             var selectedTab = secondTab.Replace("%2F", "|");
             using var app = CreateBuilder(prism => prism
                 .AddGlobalNavigationObserver((c, observable) =>
                 {
                     observer = c.Resolve<IGlobalNavigationObserver>();
-                    observable.Subscribe(requests.Add);
+                    observable.Subscribe(context =>
+                    {
+                        requests.Add(context);
+                        if (context.Type == NavigationRequestType.TabChanged)
+                            changes.Add(context);
+                    });
                 })
-                .AddGlobalTabChangedObserver(observable => observable.Subscribe(changes.Add))
+                .AddGlobalNavigationObserver(observable => observable.Subscribe(otherSubscriber.Add))
                 .CreateWindow($"TabbedPage?createTab=MockViewA&createTab={secondTab}&selectedTab={selectedTab}"))
                 .Build();
             var window = GetWindow(app);
             var tabs = Assert.IsType<TabbedPage>(window.Page);
             Assert.Empty(changes);
             Assert.Single(requests);
+            Assert.Equal(NavigationRequestType.Navigate, requests[0].Type);
+            Assert.Null(requests[0].TabbedPage);
+            Assert.Null(requests[0].PreviousTab);
+            Assert.Null(requests[0].CurrentTab);
 
             var first = tabs.Children[0];
             var second = tabs.Children[1];
@@ -44,7 +54,14 @@ public class TabChangedObserverTests : TestBase
             Assert.Same(tabs, change.TabbedPage);
             Assert.Same(second, change.PreviousTab);
             Assert.Same(first, change.CurrentTab);
-            Assert.Single(requests);
+            Assert.Equal(NavigationRequestType.TabChanged, change.Type);
+            Assert.True(change.Result.Success);
+            Assert.Null(change.Result.Exception);
+            Assert.False(change.Cancelled);
+            Assert.Null(change.Uri);
+            Assert.Empty(change.Parameters);
+            Assert.Equal(2, requests.Count);
+            Assert.Equal(requests, otherSubscriber);
 
             tabs.CurrentPage = first;
             Assert.Single(changes);
@@ -54,12 +71,16 @@ public class TabChangedObserverTests : TestBase
             Assert.Equal(2, changes.Count);
             Assert.Same(first, changes[1].PreviousTab);
             Assert.Same(second, changes[1].CurrentTab);
+            Assert.Equal(3, requests.Count);
+            Assert.Equal(requests, otherSubscriber);
 
             var disposable = Assert.IsAssignableFrom<IDisposable>(observer);
             disposable.Dispose();
             disposable.Dispose();
             tabs.CurrentPage = first;
             Assert.Equal(2, changes.Count);
+            Assert.Equal(3, requests.Count);
+            Assert.Equal(requests, otherSubscriber);
         }
     }
 }
