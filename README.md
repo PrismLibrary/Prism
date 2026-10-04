@@ -96,6 +96,12 @@ A detailed overview of each assembly per package is available [here](http://pris
 
 ## Samples
 
+### MAUI global XAML namespaces
+
+On .NET MAUI 10 and later, Prism.Maui adds its canonical `http://prismlibrary.com` schema to the consuming project's global XAML namespace. Use `xmlns="http://schemas.microsoft.com/dotnet/maui/global"` at the root of a XAML page to use Prism types and markup extensions without a prefix. Existing `xmlns:prism="http://prismlibrary.com"` declarations continue to work and can disambiguate type names shared with other libraries.
+
+Set `<PrismMauiGlobalXmlns>false</PrismMauiGlobalXmlns>` in your project to disable the generated mapping, including when you already declare it in your own `GlobalXmlns.cs`. This support uses generated assembly metadata and requires the default `GenerateAssemblyInfo=true`. Omitting the root namespace declarations is a separate MAUI feature; see the [MAUI XAML documentation](https://learn.microsoft.com/dotnet/maui/xaml/fundamentals/get-started).
+
 For stable samples be sure to check out the samples repo for the platform you are most interested in.
 
 - [Prism for WPF Samples](https://github.com/PrismLibrary/Prism-Samples-Wpf)

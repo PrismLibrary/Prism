@@ -1,6 +1,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/maui/global"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:local="clr-namespace:Prism.Maui.Tests.Mocks.Xaml"
              x:Class="Prism.Maui.Tests.Mocks.Views.GlobalNamespacePage"
              ViewModelLocator.AutowireViewModel="Disabled">
   <VerticalStackLayout>
@@ -11,7 +12,8 @@
     <Button x:Name="DialogButton" Command="{ShowDialog SampleDialog}" />
     <Button x:Name="BehaviorButton">
       <Button.Behaviors>
-        <EventToCommandBehavior EventName="Clicked" />
+        <prism:EventToCommandBehavior EventName="Clicked" />
+        <local:EventToCommandBehavior />
       </Button.Behaviors>
     </Button>
   </VerticalStackLayout>

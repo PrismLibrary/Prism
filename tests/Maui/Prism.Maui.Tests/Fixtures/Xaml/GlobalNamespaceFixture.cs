@@ -23,6 +23,9 @@ public class GlobalNamespaceFixture
         Assert.NotNull(page.FindByName<Button>("NavigationButton").Command);
         Assert.NotNull(page.FindByName<Button>("BackButton").Command);
         Assert.NotNull(page.FindByName<Button>("DialogButton").Command);
-        Assert.IsType<EventToCommandBehavior>(Assert.Single(page.FindByName<Button>("BehaviorButton").Behaviors));
+        var behaviors = page.FindByName<Button>("BehaviorButton").Behaviors;
+        Assert.Equal(2, behaviors.Count);
+        Assert.IsType<EventToCommandBehavior>(behaviors[0]);
+        Assert.IsType<Mocks.Xaml.EventToCommandBehavior>(behaviors[1]);
     }
 }
