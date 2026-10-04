@@ -20,12 +20,13 @@ namespace Prism.Dialogs
 
         public async void ShowDialog(string name, IDialogParameters parameters, DialogCallback callback)
         {
+            IDialogWindow? dialogWindow = null;
             try
             {
                 parameters ??= new DialogParameters();
                 var windowName = parameters.TryGetValue<string>(KnownDialogParameters.WindowName, out var wName) ? wName : null;
 
-                var dialogWindow = CreateDialogWindow(windowName);
+                dialogWindow = CreateDialogWindow(windowName);
                 if (dialogWindow is ContentDialog contentDialog)
                 {
                     contentDialog.XamlRoot = _containerProvider.Resolve<Window>().Content.XamlRoot;
@@ -40,6 +41,8 @@ namespace Prism.Dialogs
             }
             catch (Exception ex)
             {
+                if (dialogWindow?.DataContext is IDialogAware dialogAware)
+                    DialogUtilities.ClearListener(dialogAware);
                 var str = ex.ToString();
                 await callback.Invoke(ex);
             }
@@ -74,21 +77,41 @@ namespace Prism.Dialogs
         void ConfigureDialogWindowEvents(IDialogWindow contentDialog, DialogCallback callback)
         {
             IDialogResult? result = null;
+            var closed = false;
 
-            void RequestCloseHandler(IDialogResult r)
+            Task RequestCloseHandler(IDialogResult r)
             {
-                result = r ?? new DialogResult();
-                contentDialog.Hide();
+                void Close()
+                {
+                    if (closed)
+                        return;
+                    result = r ?? new DialogResult();
+                    contentDialog.Hide();
+                }
+                if (contentDialog is DependencyObject dependencyObject && !dependencyObject.DispatcherQueue.HasThreadAccess)
+                {
+                    var completion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+                    if (!dependencyObject.DispatcherQueue.TryEnqueue(() =>
+                    {
+                        try { Close(); completion.TrySetResult(true); }
+                        catch (Exception ex) { completion.TrySetException(ex); }
+                    }))
+                        completion.TrySetException(new InvalidOperationException("The dialog dispatcher is unavailable."));
+                    return completion.Task;
+                }
+                Close();
+                return Task.CompletedTask;
             }
 
             RoutedEventHandler loadedHandler = null!;
-            loadedHandler = (o, e) =>
+            loadedHandler = async (o, e) =>
             {
                 contentDialog.Loaded -= loadedHandler;
 
                 if (contentDialog.DataContext is IDialogAware dialogAware)
                 {
                     DialogUtilities.InitializeListener(dialogAware, RequestCloseHandler);
+                    await callback.InvokeOpened(dialogAware.RequestClose);
                 }
             };
 
@@ -108,20 +131,26 @@ namespace Prism.Dialogs
             TypedEventHandler<ContentDialog, ContentDialogClosedEventArgs> closedHandler = null!;
             closedHandler = async (o, e) =>
             {
+                closed = true;
+                contentDialog.Loaded -= loadedHandler;
                 contentDialog.Closed -= closedHandler;
                 contentDialog.Closing -= ClosingHandler;
 
-                if (contentDialog.DataContext is IDialogAware dialogAware)
+                try
                 {
-                    dialogAware.OnDialogClosed();
+                    if (contentDialog.DataContext is IDialogAware dialogAware)
+                    {
+                        DialogUtilities.ClearListener(dialogAware);
+                        dialogAware.OnDialogClosed();
+                    }
+                    result ??= new DialogResult();
+                    await callback.Invoke(result);
                 }
-
-                result ??= new DialogResult();
-
-                await callback.Invoke(result);
-
-                contentDialog.DataContext = null;
-                contentDialog.Content = null;
+                finally
+                {
+                    contentDialog.DataContext = null;
+                    contentDialog.Content = null;
+                }
             };
             contentDialog.Closed += closedHandler;
         }

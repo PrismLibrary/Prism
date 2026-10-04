@@ -38,10 +38,18 @@ namespace Prism.Dialogs
             var windowName = parameters.TryGetValue<string>(KnownDialogParameters.WindowName, out var wName) ? wName : null;
 
             IDialogWindow dialogWindow = CreateDialogWindow(windowName);
-            ConfigureDialogWindowEvents(dialogWindow, callback);
-            ConfigureDialogWindowContent(name, dialogWindow, parameters);
-
-            ShowDialogWindow(dialogWindow, isModal);
+            try
+            {
+                ConfigureDialogWindowEvents(dialogWindow, callback);
+                ConfigureDialogWindowContent(name, dialogWindow, parameters);
+                ShowDialogWindow(dialogWindow, isModal);
+            }
+            catch
+            {
+                if (dialogWindow.DataContext is IDialogAware dialogAware)
+                    DialogUtilities.ClearListener(dialogAware);
+                throw;
+            }
         }
 
         /// <summary>
@@ -97,17 +105,29 @@ namespace Prism.Dialogs
         /// <param name="callback">The action to perform when the dialog is closed.</param>
         protected virtual void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, DialogCallback callback)
         {
-            Action<IDialogResult> requestCloseHandler = (r) =>
+            var closed = false;
+            Func<IDialogResult, Task> requestCloseHandler = async (r) =>
             {
-                dialogWindow.Result = r;
-                dialogWindow.Close();
+                void Close()
+                {
+                    if (closed)
+                        return;
+                    dialogWindow.Result = r;
+                    dialogWindow.Close();
+                }
+                if (dialogWindow is System.Windows.Threading.DispatcherObject dispatcherObject
+                    && !dispatcherObject.Dispatcher.CheckAccess())
+                    await dispatcherObject.Dispatcher.InvokeAsync(Close);
+                else
+                    Close();
             };
 
             RoutedEventHandler loadedHandler = null;
-            loadedHandler = (o, e) =>
+            loadedHandler = async (o, e) =>
             {
                 dialogWindow.Loaded -= loadedHandler;
                 DialogUtilities.InitializeListener(dialogWindow.GetDialogViewModel(), requestCloseHandler);
+                await callback.InvokeOpened(dialogWindow.GetDialogViewModel().RequestClose);
             };
             dialogWindow.Loaded += loadedHandler;
 
@@ -122,18 +142,25 @@ namespace Prism.Dialogs
             EventHandler closedHandler = null;
             closedHandler = async (o, e) =>
                 {
+                    closed = true;
+                    dialogWindow.Loaded -= loadedHandler;
                     dialogWindow.Closed -= closedHandler;
                     dialogWindow.Closing -= closingHandler;
 
-                    dialogWindow.GetDialogViewModel().OnDialogClosed();
+                    DialogUtilities.ClearListener(dialogWindow.GetDialogViewModel());
 
-                    if (dialogWindow.Result == null)
-                        dialogWindow.Result = new DialogResult();
-
-                    await callback.Invoke(dialogWindow.Result);
-
-                    dialogWindow.DataContext = null;
-                    dialogWindow.Content = null;
+                    try
+                    {
+                        dialogWindow.GetDialogViewModel().OnDialogClosed();
+                        if (dialogWindow.Result == null)
+                            dialogWindow.Result = new DialogResult();
+                        await callback.Invoke(dialogWindow.Result);
+                    }
+                    finally
+                    {
+                        dialogWindow.DataContext = null;
+                        dialogWindow.Content = null;
+                    }
                 };
             dialogWindow.Closed += closedHandler;
         }

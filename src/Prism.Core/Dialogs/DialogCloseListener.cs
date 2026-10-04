@@ -10,7 +10,11 @@ namespace Prism.Dialogs;
 /// </summary>
 public struct DialogCloseListener
 {
-    private readonly MulticastDelegate? _callback;
+    private readonly DialogCloseListenerState? _state;
+
+    internal bool IsClosed => _state?.IsClosed == true;
+
+    internal void Clear() => _state?.Clear();
 
     /// <summary>
     /// Creates a default instance of the <see cref="DialogCloseListener"/>
@@ -21,12 +25,12 @@ public struct DialogCloseListener
 
     internal DialogCloseListener(Action<IDialogResult> callback)
     {
-        _callback = callback;
+        _state = new DialogCloseListenerState(callback);
     }
 
     internal DialogCloseListener(Func<IDialogResult, Task> callback)
     {
-        _callback = callback;
+        _state = new DialogCloseListenerState(callback);
     }
 
     /// <summary>
@@ -60,16 +64,17 @@ public struct DialogCloseListener
     /// <param name="result"></param>
     public async void Invoke(IDialogResult result)
     {
-        switch(_callback)
-        {
-            case Action<IDialogResult> actionCallback:
-                actionCallback(result);
-                break;
-            case Func<IDialogResult, Task> taskCallback:
-                await taskCallback(result);
-                break;
-            default:
-                throw new InvalidOperationException("The DialogCloseCallback has not been properly initialized. This must be initialized by the DialogService, and should not be set by user code.");
-        }
+        await InvokeAsync(result);
+    }
+
+    /// <summary>
+    /// Requests closure of this dialog and awaits the close attempt. A closed dialog
+    /// ignores subsequent requests; a vetoed close may be retried.
+    /// </summary>
+    public Task InvokeAsync(IDialogResult? result = null)
+    {
+        if (_state is null)
+            throw new InvalidOperationException("The DialogCloseCallback has not been properly initialized. This must be initialized by the DialogService, and should not be set by user code.");
+        return _state.InvokeAsync(result ?? new DialogResult());
     }
 }

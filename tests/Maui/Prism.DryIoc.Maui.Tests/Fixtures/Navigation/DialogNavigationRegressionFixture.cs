@@ -15,6 +15,33 @@ public class DialogNavigationRegressionFixture : TestBase
     }
 
     [Fact]
+    public async Task CallerClosesRegisteredDialogWithConstructorInjectedService()
+    {
+        var app = CreateBuilder(prism => prism
+                .RegisterTypes(c => c.RegisterDialog<Border, CallerDialogViewModel>("Busy"))
+                .CreateWindow("NavigationPage/MockViewA"))
+            .Build();
+        var window = GetWindow(app);
+        var page = Assert.IsAssignableFrom<NavigationPage>(window.Page).CurrentPage;
+        var dialogService = page.GetContainerProvider().Resolve<IDialogService>();
+        var completed = new TaskCompletionSource<IDialogResult>(TaskCreationOptions.RunContinuationsAsynchronously);
+        dialogService.ShowDialog("Busy", new DialogParameters(), new DialogCallback()
+            .OnOpenedAsync(async listener =>
+            {
+                var host = Assert.Single(IDialogContainer.DialogStack);
+                var model = Assert.IsType<CallerDialogViewModel>(host.DialogView.BindingContext);
+                Assert.NotNull(model.DialogService);
+                await listener.InvokeAsync(new DialogResult(ButtonResult.OK));
+            })
+            .OnClose(result => completed.TrySetResult(result)));
+        var result = await completed.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        Assert.Null(result.Exception);
+        Assert.Equal(ButtonResult.OK, result.Result);
+        Assert.Empty(window.Navigation.ModalStack);
+        Assert.Empty(IDialogContainer.DialogStack);
+    }
+
+    [Fact]
     public async Task Issue3395_GoBackAsync_After_ShowDialogAsync_Completes_Pops_Navigation_Page()
     {
         var mauiApp = CreateBuilder(prism => prism

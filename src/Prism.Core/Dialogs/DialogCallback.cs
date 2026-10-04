@@ -15,6 +15,7 @@ public readonly struct DialogCallback
 {
     private readonly bool _empty = false;
     private readonly List<MulticastDelegate> _callbacks = new ();
+    private readonly List<MulticastDelegate> _openedCallbacks = new ();
     private readonly MulticastExceptionHandler _errorCallbacks = new ();
 
     /// <summary>
@@ -47,7 +48,7 @@ public readonly struct DialogCallback
     [EditorBrowsable(EditorBrowsableState.Never)]
     public async Task Invoke(IDialogResult result)
     {
-        if (_empty || (result.Exception is DialogException && result.Exception.Message == DialogException.CanCloseIsFalse))
+        if (_empty || _callbacks is null || (result.Exception is DialogException && result.Exception.Message == DialogException.CanCloseIsFalse))
         {
             return;
         }
@@ -56,7 +57,7 @@ public readonly struct DialogCallback
             await _errorCallbacks.HandleAsync(result.Exception, result);
             return;
         }
-        else if(_callbacks.Any())
+        else if(_callbacks?.Any() == true)
         {
             foreach(var callback in _callbacks)
             {
@@ -81,6 +82,53 @@ public readonly struct DialogCallback
     /// Provides an empty DialogCallback that will not execute any 
     /// </summary>
     public static DialogCallback Empty => new DialogCallback(true);
+
+    /// <summary>
+    /// Registers a callback after the dialog is displayed. The listener closes only
+    /// this dialog and continues to honor <see cref="IDialogAware.CanCloseDialog"/>.
+    /// </summary>
+    public DialogCallback OnOpened(Action<DialogCloseListener> action)
+    {
+        if (action is null) throw new ArgumentNullException(nameof(action));
+        _openedCallbacks.Add(action);
+        return this;
+    }
+
+    /// <summary>
+    /// Registers asynchronous work after the dialog is displayed. Use the listener
+    /// in a finally block to request closure when the work completes.
+    /// </summary>
+    public DialogCallback OnOpenedAsync(Func<DialogCloseListener, Task> func)
+    {
+        if (func is null) throw new ArgumentNullException(nameof(func));
+        _openedCallbacks.Add(func);
+        return this;
+    }
+
+    /// <summary>Invokes callbacks after the platform has displayed the dialog.</summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public async Task InvokeOpened(DialogCloseListener listener)
+    {
+        if (_empty || _openedCallbacks is null)
+            return;
+
+        try
+        {
+            foreach (var callback in _openedCallbacks)
+            {
+                if (listener.IsClosed)
+                    break;
+                if (callback is Action<DialogCloseListener> action)
+                    action(listener);
+                else if (callback is Func<DialogCloseListener, Task> func)
+                    await func(listener);
+            }
+        }
+        catch (Exception ex)
+        {
+            await Invoke(ex);
+        }
+    }
 
     /// <summary>
     /// Provides a delegate callback method when the Dialog is closed

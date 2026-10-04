@@ -12,6 +12,10 @@ namespace Prism.Dialogs;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public static class DialogUtilities
 {
+    /// <summary>Releases all copies of the listener when a dialog closes or fails to open.</summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void ClearListener(IDialogAware dialogAware) => dialogAware.RequestClose.Clear();
+
     /// <summary>
     /// Initializes <see cref="IDialogAware.RequestClose"/>
     /// </summary>

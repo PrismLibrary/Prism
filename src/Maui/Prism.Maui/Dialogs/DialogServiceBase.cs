@@ -4,6 +4,7 @@ using Prism.Dialogs.Xaml;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Navigation.Xaml;
+using Microsoft.Maui.Dispatching;
 
 #nullable enable
 namespace Prism.Dialogs;
@@ -21,6 +22,7 @@ public abstract class DialogServiceBase : IDialogService
         IDialogContainer? dialogModal = null;
         var ready = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
         var closeState = 0; // open, closing, closed
+        IDialogAware? controller = null;
         try
         {
             parameters = UriParsingHelper.GetSegmentParameters(name, parameters ?? new DialogParameters());
@@ -36,6 +38,7 @@ public abstract class DialogServiceBase : IDialogService
 
             dialogModal = container.Resolve<IDialogContainer>();
             var dialogAware = GetDialogController(view);
+            controller = dialogAware;
 
             async Task DialogAware_RequestClose(IDialogResult outResult)
             {
@@ -60,7 +63,11 @@ public abstract class DialogServiceBase : IDialogService
                         return;
 
                     var result = await CloseDialogAsync(outResult ?? new DialogResult(), currentPage, dialogModal,
-                        () => Interlocked.Exchange(ref closeState, 2));
+                        () =>
+                        {
+                            Interlocked.Exchange(ref closeState, 2);
+                            DialogUtilities.ClearListener(dialogAware);
+                        });
                     if (result.Exception is DialogException de && de.Message == DialogException.CanCloseIsFalse)
                     {
                         return;
@@ -106,7 +113,9 @@ public abstract class DialogServiceBase : IDialogService
                 }
             }
 
-            DialogUtilities.InitializeListener(dialogAware, DialogAware_RequestClose);
+            DialogUtilities.InitializeListener(dialogAware, result => currentPage.Dispatcher.IsDispatchRequired
+                ? currentPage.Dispatcher.DispatchAsync(() => DialogAware_RequestClose(result))
+                : DialogAware_RequestClose(result));
 
             dialogAware.OnDialogOpened(parameters);
 
@@ -139,7 +148,10 @@ public abstract class DialogServiceBase : IDialogService
                 {
                     error = ex;
                     if (!hosted)
+                    {
                         Interlocked.Exchange(ref closeState, 2);
+                        DialogUtilities.ClearListener(dialogAware);
+                    }
                 }
                 finally
                 {
@@ -149,12 +161,16 @@ public abstract class DialogServiceBase : IDialogService
                 ready.TrySetResult(hosted);
                 if (error is not null)
                     await InvokeError(callback, error, parameters);
+                else if (hosted && Volatile.Read(ref closeState) == 0)
+                    await callback.InvokeOpened(dialogAware.RequestClose);
             }
         }
         catch (Exception ex)
         {
             Interlocked.Exchange(ref closeState, 2);
             ready.TrySetResult(false);
+            if (controller is not null)
+                DialogUtilities.ClearListener(controller);
             callback.Invoke(ex);
         }
     }
