@@ -60,7 +60,7 @@ public class XamlNamespaceFixture
     }
 
     [Fact]
-    public void ConsumerGlobalMappingsFollowTheDisableProperty()
+    public void OnlyEnabledApplicationHeadsExportGlobalMappings()
     {
         var assembly = typeof(Xaml.ExplicitNamespaces).Assembly;
         var globalUri = Assert.Single(assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
