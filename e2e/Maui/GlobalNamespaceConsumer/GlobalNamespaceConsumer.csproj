@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
+    <UseMaui>true</UseMaui>
+    <IsTestProject>true</IsTestProject>
+    <MauiXamlInflator>SourceGen</MauiXamlInflator>
+    <WarningsAsErrors>$(WarningsAsErrors);XC0103</WarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Prism.Maui" VersionOverride="$(PrismMauiPackageVersion)" />
+    <PackageReference Include="Microsoft.Maui.Controls" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+    <Using Include="Xunit" />
+    <Using Include="Microsoft.Maui.Dispatching" />
+    <Compile Include="..\..\..\tests\Maui\Prism.Maui.Tests\Mocks\TestDispatcher.cs" Link="TestDispatcher.cs" />
+    <Compile Include="..\..\..\tests\Maui\Prism.Maui.Tests\Mocks\Xaml\*.cs" Link="Mocks\%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(CanonicalOnly)' != 'true' ">
+    <Compile Include="..\..\..\tests\Maui\Prism.Maui.Tests\Mocks\Views\GlobalNamespacePage.xaml.cs" Link="GlobalNamespacePage.xaml.cs" />
+    <Compile Include="..\..\..\tests\Maui\Prism.Maui.Tests\Fixtures\Xaml\GlobalNamespaceFixture.cs" Link="GlobalNamespaceFixture.cs" />
+    <MauiXaml Include="..\..\..\tests\Maui\Prism.Maui.Tests\Mocks\Views\GlobalNamespacePage.xaml" Link="GlobalNamespacePage.xaml" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(OwnGlobalMapping)' == 'true' ">
+    <AssemblyAttribute Include="Microsoft.Maui.Controls.XmlnsDefinitionAttribute">
+      <_Parameter1>http://schemas.microsoft.com/dotnet/maui/global</_Parameter1>
+      <_Parameter2>http://prismlibrary.com</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(AmbiguousGlobalNamespace)' != 'true' ">
+    <MauiXaml Remove="AmbiguousPage.xaml" />
+    <Compile Remove="AmbiguousPage.xaml.cs" />
+  </ItemGroup>
+</Project>
