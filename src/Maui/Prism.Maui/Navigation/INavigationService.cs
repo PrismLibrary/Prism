@@ -6,6 +6,17 @@ namespace Prism.Navigation;
 public interface INavigationService
 {
     /// <summary>
+    /// Gets the absolute navigation path to the page associated with this service.
+    /// </summary>
+    /// <returns>The current navigation path, or an empty string before the page is attached to a window.</returns>
+    /// <remarks>
+    /// Uses URI-escaped registered navigation names and the owning window's current page stack,
+    /// including tab selection and modal boundaries. Navigation parameters supplied
+    /// by the caller are not retained in the path.
+    /// </remarks>
+    string GetNavigationUriPath();
+
+    /// <summary>
     /// Navigates to the most recent entry in the back navigation history by popping the calling Page off the navigation stack.
     /// </summary>
     /// <param name="parameters">The navigation parameters</param>

@@ -70,6 +70,18 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// </summary>
     public IViewRegistry Registry => _container.Resolve<INavigationRegistry>();
 
+    /// <inheritdoc/>
+    public virtual string GetNavigationUriPath()
+    {
+        var page = _pageAccessor.Page;
+        var window = page is null ? Window : page.GetParentWindow();
+        if (window?.Page is null)
+            return string.Empty;
+
+        page ??= MvvmHelpers.GetCurrentPage(window.Navigation.ModalStack.LastOrDefault() ?? window.Page);
+        return page is null ? string.Empty : PageNavigationPath.GetPath(window, page);
+    }
+
     /// <summary>
     /// Constructs a new instance of the <see cref="PageNavigationService"/>.
     /// </summary>
@@ -2078,7 +2090,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             var segment = navigationStack.Pop();
             var nextPage = CreatePageFromSegment(segment);
             if (nextPage is TabbedPage tabbedPage)
-                await ConfigureTabbedPage(tabbedPage, nextSegment, parameters);
+                await ConfigureTabbedPage(tabbedPage, segment, parameters);
             await DoNavigationAction(onNavigatedFromTarget, segment, nextPage, parameters, async () =>
             {
                 await DoPush(currentPage, nextPage, useModalNavigation, animated, insertBefore, pageOffset);
