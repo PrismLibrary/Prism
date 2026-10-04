@@ -195,7 +195,7 @@ public abstract class DialogServiceBase : IDialogService
                 };
             }
 
-            var view = dialogModal.DialogView;
+            var view = dialogModal.DialogView ?? throw new DialogException(DialogException.HostPageIsNotDialogHost);
             var dialogAware = GetDialogController(view);
 
             if (!dialogAware.CanCloseDialog())

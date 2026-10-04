@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Prism.Common;
 
 namespace Prism.Navigation;
@@ -40,7 +41,8 @@ public class NavigationParameters : ParametersBase, INavigationParameters, INavi
         return _internalParameters.ContainsKey(key);
     }
 
-    T INavigationParametersInternal.GetValue<T>(string key)
+    [return: MaybeNull]
+    T INavigationParametersInternal.GetValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(string key)
     {
         return _internalParameters.GetValue<T>(key);
     }

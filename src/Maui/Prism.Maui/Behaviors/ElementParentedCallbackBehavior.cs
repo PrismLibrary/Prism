@@ -2,6 +2,7 @@
 using Prism.Extensions;
 using Prism.Navigation.Xaml;
 
+#nullable enable
 namespace Prism.Behaviors;
 
 internal class ElementParentedCallbackBehavior : Behavior<VisualElement>
@@ -30,7 +31,7 @@ internal class ElementParentedCallbackBehavior : Behavior<VisualElement>
         base.OnDetachingFrom(view);
     }
 
-    private void OnParentChanged(object sender, EventArgs e) => TryInvokeCallback();
+    private void OnParentChanged(object? sender, EventArgs e) => TryInvokeCallback();
 
     private void TryInvokeCallback()
     {
@@ -59,7 +60,7 @@ internal class ElementParentedCallbackBehavior : Behavior<VisualElement>
         while (scopePage?.Parent is FlyoutPage flyout && flyout.Flyout == scopePage)
             scopePage = flyout;
 
-        for (Element element = view; element is not null; element = element.Parent)
+        for (Element? element = view; element is not null; element = element.Parent)
         {
             _observedElements.Add(element);
             element.ParentChanged += OnParentChanged;
@@ -72,10 +73,10 @@ internal class ElementParentedCallbackBehavior : Behavior<VisualElement>
         }
     }
 
-    private Page GetPage(VisualElement view) =>
+    private Page? GetPage(VisualElement view) =>
         _includeSelf && view is Page page ? page : view.GetParentPage();
 
-    private void PagePropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void PagePropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == Navigation.Xaml.Navigation.PrismContainerProvider)
             TryInvokeCallback();

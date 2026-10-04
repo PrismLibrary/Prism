@@ -22,6 +22,8 @@
     <PolySharpIncludeGeneratedTypes>
       System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembersAttribute;
       System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes;
+      System.Diagnostics.CodeAnalysis.FeatureSwitchDefinitionAttribute;
+      System.Diagnostics.CodeAnalysis.MaybeNullAttribute;
       System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute;
       System.Runtime.CompilerServices.IsExternalInit;
     </PolySharpIncludeGeneratedTypes>

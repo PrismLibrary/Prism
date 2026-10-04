@@ -22,12 +22,12 @@ public interface IDialogContainer
     /// <summary>
     /// Gets the view associated with the currently displayed dialog.
     /// </summary>
-    View DialogView { get; }
+    View? DialogView { get; }
 
     /// <summary>
     /// Gets a command that can be used to dismiss the currently displayed dialog.
     /// </summary>
-    ICommand Dismiss { get; }
+    ICommand? Dismiss { get; }
 
     /// <summary>
     /// Configures the layout and behavior of the dialog.

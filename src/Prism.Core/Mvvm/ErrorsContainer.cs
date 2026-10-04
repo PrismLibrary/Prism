@@ -135,7 +135,7 @@ namespace Prism.Mvvm
 
             if (hasCurrentValidationResults || hasNewValidationResults)
             {
-                if (hasNewValidationResults)
+                if (newValidationResults is not null && hasNewValidationResults)
                 {
                     this.validationResults[localPropertyName] = new List<T>(newValidationResults);
                     this.raiseErrorsChanged(localPropertyName);

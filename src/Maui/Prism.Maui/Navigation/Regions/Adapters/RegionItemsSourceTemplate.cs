@@ -15,7 +15,7 @@ internal class RegionItemsSourceTemplate : DataTemplate
     private static View ViewTemplate()
     {
         var view = new ContentView();
-        view.SetBinding(ContentView.ContentProperty, new Binding("."));
+        view.SetBinding(ContentView.ContentProperty, static (View content) => content, BindingMode.OneWay);
         return view;
     }
 }

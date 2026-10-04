@@ -4,6 +4,23 @@ namespace Prism.Maui.Tests.Fixtures.Common;
 #nullable enable
 public class UriParsingHelperFixture
 {
+    [Fact]
+    public void SegmentCopiesPreserveExplicitNullNavigationAndDialogParameters()
+    {
+        INavigationParameters navigation = new NavigationParameters();
+        navigation.Add("value", null);
+        IDialogParameters dialog = new Prism.Dialogs.DialogParameters();
+        dialog.Add("value", null);
+
+        var navigationCopy = UriParsingHelper.GetSegmentParameters("Page", navigation);
+        var dialogCopy = UriParsingHelper.GetSegmentParameters("Dialog", dialog);
+
+        Assert.True(navigationCopy.ContainsKey("value"));
+        Assert.Null(Assert.Single(navigationCopy).Value);
+        Assert.True(dialogCopy.ContainsKey("value"));
+        Assert.Null(Assert.Single(dialogCopy).Value);
+    }
+
     const string _relativeUri = "MainPage?id=3&name=dan";
     const string _absoluteUriWithOutProtocol = "/MainPage?id=3&name=dan";
     const string _absoluteUri = "htp://www.dansiegel.net/MainPage?id=3&name=dan";

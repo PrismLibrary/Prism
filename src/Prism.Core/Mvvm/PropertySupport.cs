@@ -54,6 +54,9 @@ namespace Prism.Mvvm
                 throw new ArgumentException(Resources.PropertySupport_ExpressionNotProperty_Exception, nameof(expression));
 
             var getMethod = property.GetMethod;
+            if (getMethod == null)
+                throw new ArgumentException(Resources.PropertySupport_ExpressionNotProperty_Exception, nameof(expression));
+
             if (getMethod.IsStatic)
                 throw new ArgumentException(Resources.PropertySupport_StaticExpression_Exception, nameof(expression));
 

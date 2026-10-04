@@ -104,7 +104,7 @@ namespace Prism.Common
         /// </summary>
         /// <param name="key">The key to reference this value in the parameters collection.</param>
         /// <param name="value">The value of the parameter to store.</param>
-        public void Add(string key, object value) =>
+        public void Add(string key, object? value) =>
             _entries.Add(new KeyValuePair<string, object?>(key, value));
 
         /// <summary>
@@ -128,7 +128,8 @@ namespace Prism.Common
         /// <typeparam name="T">The type of object to be returned.</typeparam>
         /// <param name="key">The key for the value to be returned.</param>
         /// <returns>Returns a matching parameter of <typeparamref name="T"/> if one exists in the Collection.</returns>
-        public T GetValue<T>(string key) =>
+        [return: MaybeNull]
+        public T GetValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(string key) =>
             _entries.GetValue<T>(key);
 
         /// <summary>
@@ -137,7 +138,7 @@ namespace Prism.Common
         /// <typeparam name="T">The type for the values to be returned.</typeparam>
         /// <param name="key">The key for the values to be returned.</param>
         ///<returns>Returns a IEnumerable of all the instances of type <typeparamref name="T"/>.</returns>
-        public IEnumerable<T> GetValues<T>(string key) =>
+        public IEnumerable<T> GetValues<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(string key) =>
             _entries.GetValues<T>(key);
 
         /// <summary>
@@ -146,7 +147,7 @@ namespace Prism.Common
         /// <typeparam name="T">The type for the values to be returned.</typeparam>
         /// <param name="key">The key for the value to be returned.</param>
         /// <param name="value">Value of the returned parameter if it exists.</param>
-        public bool TryGetValue<T>(string key, [MaybeNullWhen(false)] out T value) =>
+        public bool TryGetValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(string key, [MaybeNullWhen(false)] out T value) =>
             _entries.TryGetValue(key, out value);
 
         IEnumerator IEnumerable.GetEnumerator() =>

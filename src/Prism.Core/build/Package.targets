@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project>
+  <!-- Mono full AOT can still use preserved reflection metadata. Disable this path only for Native AOT. -->
+  <ItemGroup Condition="'$(PublishAot)' == 'true'">
+    <RuntimeHostConfigurationOption Include="Prism.Mvvm.ReflectionBasedViewModelLocationEnabled" Value="false" Trim="true" />
+  </ItemGroup>
   <ItemGroup Condition=" '$(ImplicitUsings)' == 'true' OR '$(ImplicitUsings)' == 'enable' ">
     <Using Include="Prism" />
     <Using Include="Prism.Commands" />
