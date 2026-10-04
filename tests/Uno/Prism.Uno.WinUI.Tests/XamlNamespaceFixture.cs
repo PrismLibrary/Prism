@@ -8,14 +8,12 @@ public class XamlNamespaceFixture
 {
     private const string GlobalUri = "http://schemas.microsoft.com/winfx/2006/xaml/presentation/global";
 
-    [Theory]
-    [InlineData("http://prismlibrary.com")]
-    [InlineData(GlobalUri)]
-    public void CanonicalAndGlobalSchemasExportCurrentPublicNamespaces(string uri)
+    [Fact]
+    public void CanonicalSchemaExportsCurrentPublicNamespaces()
     {
         var assembly = typeof(PrismApplicationBase).Assembly;
         var namespaces = assembly.GetCustomAttributes<XmlnsDefinitionAttribute>()
-            .Where(attribute => attribute.XmlNamespace == uri)
+            .Where(attribute => attribute.XmlNamespace == "http://prismlibrary.com")
             .Select(attribute => attribute.ClrNamespace)
             .OrderBy(value => value, StringComparer.Ordinal)
             .ToArray();
@@ -25,29 +23,28 @@ public class XamlNamespaceFixture
     }
 
     [Fact]
-    public void OnlyCanonicalPrismSchemasAndUnoGlobalSchemaAreExported()
+    public void PrismAssembliesExportOnlyTheCanonicalSchema()
     {
         foreach (var assembly in new[] { typeof(PrismApplicationBase).Assembly, typeof(DryIoc.PrismApplication).Assembly })
         {
             Assert.All(assembly.GetCustomAttributes<XmlnsDefinitionAttribute>(), attribute =>
-                Assert.Contains(attribute.XmlNamespace, new[] { "http://prismlibrary.com", GlobalUri }));
+                Assert.Equal("http://prismlibrary.com", attribute.XmlNamespace));
         }
     }
 
-    [Theory]
-    [InlineData("http://prismlibrary.com")]
-    [InlineData(GlobalUri)]
-    public void DryIocExportsItsActualPublicNamespace(string uri)
+    [Fact]
+    public void DryIocExportsItsActualPublicNamespace()
     {
         var attribute = Assert.Single(typeof(DryIoc.PrismApplication).Assembly
-            .GetCustomAttributes<XmlnsDefinitionAttribute>().Where(attribute => attribute.XmlNamespace == uri));
+            .GetCustomAttributes<XmlnsDefinitionAttribute>());
         Assert.Equal(typeof(DryIoc.PrismApplication).Namespace, attribute.ClrNamespace);
     }
 
     [Fact]
     public void AssembliesDoNotEmitDuplicateNamespaceMappings()
     {
-        foreach (var assembly in new[] { typeof(PrismApplicationBase).Assembly, typeof(DryIoc.PrismApplication).Assembly })
+        foreach (var assembly in new[] { typeof(PrismApplicationBase).Assembly, typeof(DryIoc.PrismApplication).Assembly,
+            typeof(XamlConsumer.ExplicitNamespaces).Assembly })
         {
             var mappings = assembly.GetCustomAttributes<XmlnsDefinitionAttribute>()
                 .Select(attribute => (attribute.XmlNamespace, attribute.ClrNamespace))
@@ -61,7 +58,31 @@ public class XamlNamespaceFixture
     {
         Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(XamlConsumer.ExplicitNamespaces)));
         Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(XamlConsumer.ExplicitUsingNamespaces)));
-        Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(XamlConsumer.ImplicitNamespaces)));
         Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(XamlConsumer.CollisionNamespaces)));
+    }
+
+    [Fact]
+    public void ConsumerGlobalMappingsFollowTheDisableProperty()
+    {
+        var assembly = typeof(XamlConsumer.ExplicitNamespaces).Assembly;
+        var namespaces = assembly.GetCustomAttributes<XmlnsDefinitionAttribute>()
+            .Where(attribute => attribute.XmlNamespace == GlobalUri && !attribute.ClrNamespace.StartsWith("Prism.Uno.XamlConsumer."))
+            .Select(attribute => attribute.ClrNamespace)
+            .OrderBy(value => value, StringComparer.Ordinal)
+            .ToArray();
+        var implicitPage = assembly.GetType("Prism.Uno.XamlConsumer.ImplicitNamespaces");
+        var enabled = Assert.Single(assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
+            .Where(attribute => attribute.Key == "PrismUnoGlobalXmlns")).Value != "false";
+        if (!enabled)
+        {
+            Assert.Empty(namespaces);
+            Assert.Null(implicitPage);
+        }
+        else
+        {
+            Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(implicitPage));
+            Assert.Equal(new[] { "Prism", "Prism.Dialogs", "Prism.DryIoc", "Prism.Interactivity", "Prism.Ioc",
+                "Prism.Mvvm", "Prism.Navigation.Regions", "Prism.Navigation.Regions.Behaviors" }, namespaces);
+        }
     }
 }

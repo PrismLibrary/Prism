@@ -1,0 +1,33 @@
+<Project>
+  <!-- Generate consumer-owned global mappings so applications can disable them. -->
+  <ItemGroup Condition=" '$(IsUnoProject)' == 'true' AND '$(PrismUnoGlobalXmlns)' != 'false' AND '$(TargetFramework)' != '' AND !$(TargetFramework.Contains('windows10')) ">
+    <AssemblyAttribute Include="System.Windows.Markup.XmlnsDefinitionAttribute">
+      <_Parameter1>http://schemas.microsoft.com/winfx/2006/xaml/presentation/global</_Parameter1>
+      <_Parameter2>Prism</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Windows.Markup.XmlnsDefinitionAttribute">
+      <_Parameter1>http://schemas.microsoft.com/winfx/2006/xaml/presentation/global</_Parameter1>
+      <_Parameter2>Prism.Navigation.Regions</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Windows.Markup.XmlnsDefinitionAttribute">
+      <_Parameter1>http://schemas.microsoft.com/winfx/2006/xaml/presentation/global</_Parameter1>
+      <_Parameter2>Prism.Navigation.Regions.Behaviors</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Windows.Markup.XmlnsDefinitionAttribute">
+      <_Parameter1>http://schemas.microsoft.com/winfx/2006/xaml/presentation/global</_Parameter1>
+      <_Parameter2>Prism.Mvvm</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Windows.Markup.XmlnsDefinitionAttribute">
+      <_Parameter1>http://schemas.microsoft.com/winfx/2006/xaml/presentation/global</_Parameter1>
+      <_Parameter2>Prism.Interactivity</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Windows.Markup.XmlnsDefinitionAttribute">
+      <_Parameter1>http://schemas.microsoft.com/winfx/2006/xaml/presentation/global</_Parameter1>
+      <_Parameter2>Prism.Dialogs</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Windows.Markup.XmlnsDefinitionAttribute">
+      <_Parameter1>http://schemas.microsoft.com/winfx/2006/xaml/presentation/global</_Parameter1>
+      <_Parameter2>Prism.Ioc</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+</Project>

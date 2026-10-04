@@ -3,4 +3,11 @@
     <Using Include="DryIoc" />
     <Using Include="Prism.DryIoc" />
   </ItemGroup>
+  <!-- Generate consumer-owned global mappings so applications can disable them. -->
+  <ItemGroup Condition=" '$(IsUnoProject)' == 'true' AND '$(PrismUnoGlobalXmlns)' != 'false' AND '$(TargetFramework)' != '' AND !$(TargetFramework.Contains('windows10')) ">
+    <AssemblyAttribute Include="System.Windows.Markup.XmlnsDefinitionAttribute">
+      <_Parameter1>http://schemas.microsoft.com/winfx/2006/xaml/presentation/global</_Parameter1>
+      <_Parameter2>Prism.DryIoc</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>

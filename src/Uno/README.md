@@ -12,13 +12,25 @@ Use `http://prismlibrary.com` to reference Prism types and attached properties:
 </Page>
 ```
 
-Prism also registers Uno's default global URI, so the prefix can be omitted:
+The Prism packages generate global mappings in your Uno project by default,
+so the prefix can be omitted:
 
 ```xml
 <Page x:Class="MyApp.MainPage" ViewModelLocator.AutowireViewModel="False">
     <ContentControl RegionManager.RegionName="MainRegion" />
 </Page>
 ```
+
+To disable Prism's global mappings, set this property in your project:
+
+```xml
+<PropertyGroup>
+    <PrismUnoGlobalXmlns>false</PrismUnoGlobalXmlns>
+</PropertyGroup>
+```
+
+The canonical `http://prismlibrary.com` mappings remain available. The property
+can also be supplied on the command line with `-p:PrismUnoGlobalXmlns=false`.
 
 Use explicit prefixes to disambiguate library types with the same name. Built-in
 WinUI types take precedence over globally registered library types.

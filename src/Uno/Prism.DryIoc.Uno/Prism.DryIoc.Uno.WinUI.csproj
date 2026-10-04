@@ -25,10 +25,6 @@ Prism provides an implementation of a collection of design patterns that are hel
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="build\*.targets" Pack="true" PackagePath="buildTransitive" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Prism.Container.DryIoc" />
   </ItemGroup>
 
