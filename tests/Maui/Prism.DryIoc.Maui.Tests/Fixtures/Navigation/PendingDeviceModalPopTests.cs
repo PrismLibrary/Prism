@@ -14,6 +14,46 @@ public class PendingDeviceModalPopTests : TestBase
     }
 
     [Theory]
+    [InlineData(false, false)]
+    [InlineData(false, true)]
+    [InlineData(true, false)]
+    [InlineData(true, true)]
+    public async Task RelativeNestedModal_DeviceBackMustNotQueueAnotherNavigation(bool flyout, bool allow)
+    {
+        var app = CreateBuilder(p => p.RegisterTypes(c => c.RegisterForNavigation<MockPendingPage>())
+            .CreateWindow("NavigationPage/MockViewA")).Build();
+        var window = GetWindow(app);
+        var rootNavigation = window.CurrentPage.GetContainerProvider().Resolve<INavigationService>();
+        var route = flyout
+            ? "MockHome?useModalNavigation=true/NavigationPage/MockPendingPage"
+            : "TabbedPage?useModalNavigation=true&createTab=NavigationPage%7CMockPendingPage";
+        Assert.True((await rootNavigation.NavigateAsync(route)).Success);
+        var outer = Assert.Single(window.Navigation.ModalStack);
+        var inner = Assert.IsAssignableFrom<NavigationPage>(flyout
+            ? Assert.IsType<MockHome>(outer).Detail
+            : Assert.IsAssignableFrom<Microsoft.Maui.Controls.TabbedPage>(outer).CurrentPage);
+        var page = Assert.IsType<MockPendingPage>(inner.CurrentPage);
+        var navigation = page.GetContainerProvider().Resolve<INavigationService>();
+        var request = navigation.NavigateAsync("../MockViewC?useModalNavigation=true");
+        await page.Started.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+        var firstBack = MvvmHelpers.HandleNavigationPageGoBack(inner);
+        var secondBack = MvvmHelpers.HandleNavigationPageGoBack(inner);
+        var anotherNavigationQueued = !firstBack.IsCompleted || !secondBack.IsCompleted;
+        page.Decision.SetResult(allow);
+        var result = await request.WaitAsync(TimeSpan.FromSeconds(5));
+        await Task.WhenAll(firstBack, secondBack).WaitAsync(TimeSpan.FromSeconds(5));
+
+        Assert.False(anotherNavigationQueued);
+        Assert.Equal(allow, result.Success);
+        Assert.Equal(1, page.Confirmations);
+        if (allow)
+            Assert.IsType<MockViewC>(Assert.Single(window.Navigation.ModalStack));
+        else
+            Assert.Same(outer, Assert.Single(window.Navigation.ModalStack));
+    }
+
+    [Theory]
     [InlineData("allow", false, false)]
     [InlineData("allow", false, true)]
     [InlineData("allow", true, false)]

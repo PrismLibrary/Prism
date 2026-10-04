@@ -866,6 +866,55 @@ public class NavigateFromTests : TestBase
         }
     }
 
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task RelativeAndNamedNavigation_FailedRequestRestoresScopeForOtherApi(bool relativeFirst)
+    {
+        var window = CreateWindow("NavigationPage/Source");
+        var source = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        Assert.True((await GetService(source).NavigateAsync("Current?useModalNavigation=true")).Success);
+        var current = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        var scope = current.GetContainerProvider();
+        var service = GetService(current);
+        var created = new List<MockNavigateFromPage>();
+        var parameters = new NavigationParameters
+        {
+            { "createdPages", created },
+            { "failInitialize", true }
+        };
+        var from = current.NavigatedFromCount;
+
+        var failed = relativeFirst
+            ? await service.NavigateAsync("../Destination", parameters)
+            : await service.NavigateFromAsync("Source", "Destination", parameters);
+
+        Assert.False(failed.Success);
+        Assert.Same(current, Assert.Single(window.Navigation.ModalStack));
+        Assert.Same(source, Assert.Single(window.Page.Navigation.NavigationStack));
+        Assert.Same(scope, current.GetContainerProvider());
+        Assert.Same(current, scope.Resolve<IPageAccessor>().Page);
+        Assert.Equal(from, current.NavigatedFromCount);
+        Assert.Equal(0, current.Destroyed);
+        var failedDestination = Assert.Single(created);
+        Assert.Equal(1, failedDestination.Destroyed);
+        Assert.Equal(0, failedDestination.NavigatedToCount);
+
+        var succeeded = relativeFirst
+            ? await service.NavigateFromAsync("Source", "Destination")
+            : await service.NavigateAsync("../Destination");
+
+        Assert.True(succeeded.Success, succeeded.Exception?.ToString());
+        Assert.Empty(window.Navigation.ModalStack);
+        Assert.Collection(window.Page.Navigation.NavigationStack,
+            page => Assert.Same(source, page),
+            page => Assert.Equal("Destination", ViewModelLocator.GetNavigationName(page)));
+        Assert.Equal(from + 1, current.NavigatedFromCount);
+        Assert.Equal(1, current.Destroyed);
+        Assert.Equal(0, source.Destroyed);
+        Assert.Equal(1, Assert.IsType<MockNavigateFromPage>(window.CurrentPage).NavigatedToCount);
+    }
+
     private PrismWindow CreateWindow(string route)
     {
         var app = CreateBuilder(prism => prism.RegisterTypes(container =>
