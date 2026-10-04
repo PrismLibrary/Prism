@@ -34,8 +34,8 @@ internal static class PageNavigationPath
 
         var name = ViewModelLocator.GetNavigationName(page);
         // A tab's root name is already carried by selectedTab. A nested TabbedPage
-        // still needs its own segment to carry its independent selectedTab query.
-        if (includeName || page is TabbedPage)
+        // needs its own segment only when continuing into its selected child.
+        if (includeName || page is TabbedPage && !ReferenceEquals(page, target))
             segments.Add(Uri.EscapeDataString(name));
         if (ReferenceEquals(page, target))
             return true;

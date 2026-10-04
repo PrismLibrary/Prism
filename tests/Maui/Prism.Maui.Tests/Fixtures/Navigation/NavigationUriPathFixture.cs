@@ -124,12 +124,26 @@ public class NavigationUriPathFixture : IDisposable
         var outerTabs = Named(new TabbedPage(), "OuterTabs");
         outerTabs.Children.Add(outerStack);
         _app.MainPage = outerTabs;
+        Assert.Equal("/OuterTabs?selectedTab=OuterStack%7CInnerTabs", ServiceFor(innerTabs).GetNavigationUriPath());
         var path = "/OuterTabs?selectedTab=OuterStack%7CInnerTabs/InnerTabs?selectedTab=InnerStack%7CDeepLeaf/End";
         Assert.Equal(path, ServiceFor(innerStack.CurrentPage).GetNavigationUriPath());
         var modal = Named(new ContentPage(), "TopModal");
         await _app.Window.Navigation.PushModalAsync(modal);
         Assert.Equal(path + "/TopModal?useModalNavigation=true", ServiceFor(modal).GetNavigationUriPath());
         Assert.Equal(path, ServiceFor(innerStack.CurrentPage).GetNavigationUriPath());
+    }
+
+    [Fact]
+    public void NestedTabContainerScopeStopsAtItsOuterSelection()
+    {
+        var leaf = Named(new ContentPage(), "Leaf");
+        var inner = Named(new TabbedPage(), "Inner");
+        inner.Children.Add(leaf);
+        var outer = Named(new TabbedPage(), "Outer");
+        outer.Children.Add(inner);
+        _app.MainPage = outer;
+        Assert.Equal("/Outer?selectedTab=Inner", ServiceFor(inner).GetNavigationUriPath());
+        Assert.Equal("/Outer?selectedTab=Inner/Inner?selectedTab=Leaf", ServiceFor(leaf).GetNavigationUriPath());
     }
 
     [Fact]
