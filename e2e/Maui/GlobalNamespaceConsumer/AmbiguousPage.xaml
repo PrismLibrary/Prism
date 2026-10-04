@@ -1,9 +1,0 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/maui/global"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GlobalNamespaceConsumer.AmbiguousPage">
-  <Button>
-    <Button.Behaviors>
-      <EventToCommandBehavior />
-    </Button.Behaviors>
-  </Button>
-</ContentPage>

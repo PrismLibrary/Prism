@@ -1,6 +1,0 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             x:Class="GlobalNamespaceConsumer.CanonicalPage">
-  <Button x:Name="ParameterButton" CommandParameter="{prism:Parameter Key=Message, Value=Canonical}" />
-</ContentPage>

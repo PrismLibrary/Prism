@@ -22,6 +22,7 @@ public static class MauiProgram
                 {
                     containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
                     containerRegistry.RegisterForNavigation<RootPage, RootPageViewModel>();
+                    containerRegistry.RegisterForNavigation<GlobalNamespacesPage>();
                     containerRegistry.RegisterForNavigation<SamplePage>();
                     containerRegistry.RegisterForNavigation<SplashPage, SplashPageViewModel>();
                 })

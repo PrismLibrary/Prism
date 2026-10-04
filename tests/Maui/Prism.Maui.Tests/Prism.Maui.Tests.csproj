@@ -6,6 +6,16 @@
     <WarningsAsErrors>$(WarningsAsErrors);XC0103</WarningsAsErrors>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(PrismMauiGlobalXmlns)' != 'false' ">
+    <DefineConstants>$(DefineConstants);PRISM_MAUI_GLOBAL_XMLNS</DefineConstants>
+  </PropertyGroup>
+
+  <!-- Canonical XAML tests also compile and run when global mappings are disabled. -->
+  <ItemGroup Condition=" '$(PrismMauiGlobalXmlns)' == 'false' ">
+    <MauiXaml Remove="Mocks\Views\GlobalNamespacePage.xaml" />
+    <Compile Remove="Mocks\Views\GlobalNamespacePage.xaml.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" />
     <PackageReference Include="GitHubActionsTestLogger">
