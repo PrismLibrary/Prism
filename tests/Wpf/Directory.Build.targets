@@ -1,0 +1,8 @@
+<Project>
+  <Import Project="../Directory.Build.targets" />
+
+  <PropertyGroup>
+    <RunSettingsFilePath>$(MSBuildThisFileDirectory)Wpf.runsettings</RunSettingsFilePath>
+    <RunSettingsFilePath Condition="$(TargetFramework.StartsWith('net4'))">$(MSBuildThisFileDirectory)Wpf.NetFramework.runsettings</RunSettingsFilePath>
+  </PropertyGroup>
+</Project>
