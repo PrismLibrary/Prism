@@ -50,11 +50,12 @@ public abstract class TestBase
                             .CreateLogger(GetType().Name);
                         var message = context.Type == NavigationRequestType.Navigate ? $"{context.Type}: {context.Uri}" : $"{context.Type}";
 
-                        message += context.Cancelled ? " - Cancelled" : context.Result.Exception is null ? " - Success" : " - Error";
+                        var result = context.Result;
+                        message += context.Cancelled ? " - Cancelled" : result is null ? " - No Result" : result.Exception is null ? " - Success" : " - Error";
                         logger.LogInformation(message);
-                        if (!context.Cancelled && context.Result.Exception is not null)
+                        if (!context.Cancelled && result?.Exception is Exception exception)
                         {
-                            var ex = context.Result.Exception;
+                            var ex = exception;
                             while(ex is not null)
                             {
                                 logger.LogError(ex, "Navigation Error");
