@@ -70,7 +70,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// </summary>
     public IViewRegistry Registry => _container.Resolve<INavigationRegistry>();
 
-    internal string GetNavigationUriPath()
+    /// <inheritdoc/>
+    public virtual string GetNavigationUriPath()
     {
         var page = _pageAccessor.Page;
         var window = page is null ? Window : page.GetParentWindow();

@@ -23,6 +23,18 @@ public class NavigationUriPathFixture : IDisposable
     }
 
     [Fact]
+    public void ViewModelCanReadPathFromInterfaceTestDouble()
+    {
+        var service = new Mock<INavigationService>(MockBehavior.Strict);
+        service.Setup(navigation => navigation.GetNavigationUriPath()).Returns("/NavigationPage/Login");
+        var model = new Prism.Maui.Tests.Navigation.Mocks.ViewModels.NavigationPathPageMockViewModel(service.Object);
+
+        Assert.Equal("/NavigationPage/Login", model.NavigationService.GetNavigationUriPath());
+        service.Verify(navigation => navigation.GetNavigationUriPath(), Times.Once);
+        service.VerifyNoOtherCalls();
+    }
+
+    [Fact]
     public async Task PathStopsAtScopedPageAndReflectsBackStackChanges()
     {
         var welcome = Named(new ContentPage(), "Welcome");
@@ -83,8 +95,6 @@ public class NavigationUriPathFixture : IDisposable
         var ownWindow = new PrismWindow { Page = ownPage };
         Assert.Equal("/OwnWindow", ServiceFor(ownPage).GetNavigationUriPath());
         GC.KeepAlive(ownWindow);
-        Assert.Throws<ArgumentNullException>(() => INavigationServiceExtensions.GetNavigationUriPath(null));
-        Assert.Throws<NotSupportedException>(() => new Mock<INavigationService>().Object.GetNavigationUriPath());
     }
 
     private INavigationService ServiceFor(Page page)
