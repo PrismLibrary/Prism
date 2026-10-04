@@ -26,7 +26,9 @@ XAML can use Prism types and attached properties without per-file declarations:
 </Page>
 ```
 
-Explicit namespaces remain available when implicit namespaces are disabled.
+In Uno 6.6, custom schema resolution is part of the implicit namespace feature.
+Keep `UnoEnableImplicitXamlNamespaces` enabled for canonical Prism URIs and global
+mappings. When opting out, explicit `using:` namespace declarations remain valid.
 Built-in WinUI types take precedence over globally registered types of the same
 name. Use explicit `xmlns` prefixes to disambiguate types from other libraries.
 A consumer that customizes `UnoGlobalXamlNamespaceUri` must register its desired
@@ -79,5 +81,5 @@ dotnet build tests/Uno/Prism.Uno.XamlConsumer/Prism.Uno.XamlConsumer.csproj -f n
 To verify opt-out compatibility, build only the explicit namespace example:
 
 ```powershell
-dotnet build tests/Uno/Prism.Uno.XamlConsumer/Prism.Uno.XamlConsumer.csproj -f net10.0 -p:UnoTargetFrameworks=net10.0 -p:XamlConsumerCase=ExplicitNamespaces -p:UnoEnableImplicitXamlNamespaces=false
+dotnet build tests/Uno/Prism.Uno.XamlConsumer/Prism.Uno.XamlConsumer.csproj -f net10.0 -p:UnoTargetFrameworks=net10.0 -p:XamlConsumerCase=ExplicitUsingNamespaces -p:UnoEnableImplicitXamlNamespaces=false
 ```

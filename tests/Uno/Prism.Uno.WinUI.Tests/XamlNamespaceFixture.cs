@@ -50,8 +50,8 @@ public class XamlNamespaceFixture
     public void ConsumerXamlCompilesAgainstReferencedPrismAssemblies()
     {
         Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(XamlConsumer.ExplicitNamespaces)));
+        Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(XamlConsumer.ExplicitUsingNamespaces)));
         Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(XamlConsumer.ImplicitNamespaces)));
         Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(XamlConsumer.CollisionNamespaces)));
-
     }
 }
