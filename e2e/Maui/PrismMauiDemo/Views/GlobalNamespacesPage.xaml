@@ -1,0 +1,23 @@
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/maui/global"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:prism="http://prismlibrary.com"
+            x:Class="PrismMauiDemo.Views.GlobalNamespacesPage"
+            ViewModelLocator.AutowireViewModel="Disabled"
+            Title="XAML namespaces">
+  <ContentPage Title="Global types" prism:TabbedPage.Title="Prism tab title">
+    <VerticalStackLayout Padding="20" Spacing="15">
+      <Label Text="Prism types in the MAUI global namespace" />
+      <Button Text="Back to root"
+              Command="{prism:NavigateTo /RootPage}"
+              CommandParameter="{Parameter Key=Message, Value=Global}" />
+    </VerticalStackLayout>
+  </ContentPage>
+  <ContentPage Title="Canonical schema">
+    <VerticalStackLayout Padding="20" Spacing="15">
+      <Label Text="Existing canonical Prism XAML" />
+      <Button Text="Back to root"
+              Command="{prism:NavigateTo /RootPage}"
+              CommandParameter="{prism:Parameter Key=Message, Value=Canonical}" />
+    </VerticalStackLayout>
+  </ContentPage>
+</TabbedPage>

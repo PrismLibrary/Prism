@@ -1,5 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project>
+  <!-- MAUI resolves global mappings only from the assembly containing the XAML.
+       Prism.Navigation.Xaml remains explicit because its TabbedPage helper
+       collides with the MAUI control. Preserve its existing public canonical mapping.
+       Set PrismMauiGlobalXmlns=false when the application owns these mappings. -->
+  <ItemGroup Condition=" '$(UseMaui)' == 'true' AND '$(PrismMauiGlobalXmlns)' != 'false' AND '$(TargetFramework)' != '' AND $([MSBuild]::VersionGreaterThanOrEquals('$(TargetFrameworkVersion)', '10.0')) ">
+    <_PrismMauiGlobalXmlnsNamespace Include="Prism;Prism.Behaviors;Prism.Controls;Prism.Ioc;Prism.Modularity;Prism.Mvvm;Prism.Navigation.Regions.Xaml;Prism.Dialogs.Xaml;Prism.Xaml">
+      <_Parameter1>http://schemas.microsoft.com/dotnet/maui/global</_Parameter1>
+      <_Parameter2>%(Identity)</_Parameter2>
+      <AssemblyName>Prism.Maui</AssemblyName>
+    </_PrismMauiGlobalXmlnsNamespace>
+    <AssemblyAttribute Include="@(_PrismMauiGlobalXmlnsNamespace->'Microsoft.Maui.Controls.XmlnsDefinitionAttribute')" />
+  </ItemGroup>
   <ItemGroup Condition=" '$(ImplicitUsings)' == 'true' OR '$(ImplicitUsings)' == 'enable' ">
     <Using Include="Prism.AppModel" />
     <Using Include="Prism.Services" />

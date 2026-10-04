@@ -1,0 +1,23 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/maui/global"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             x:Class="Prism.Maui.Tests.Mocks.Views.GlobalNamespacePage"
+             ViewModelLocator.AutowireViewModel="Disabled">
+  <ContentPage.Resources>
+    <TabbedPage x:Key="Tabs">
+      <ContentPage prism:TabbedPage.Title="Prism Tab" />
+    </TabbedPage>
+  </ContentPage.Resources>
+  <VerticalStackLayout>
+    <Button x:Name="GlobalParameterButton" CommandParameter="{Parameter Key=Message, Value=Global}" />
+    <Button x:Name="CanonicalParameterButton" CommandParameter="{prism:Parameter Key=Message, Value=Canonical}" />
+    <Button x:Name="NavigationButton" Command="{prism:NavigateTo NextPage}" />
+    <Button x:Name="BackButton" Command="{prism:GoBack}" />
+    <Button x:Name="DialogButton" Command="{ShowDialog SampleDialog}" />
+    <Button x:Name="BehaviorButton">
+      <Button.Behaviors>
+        <EventToCommandBehavior EventName="Clicked" />
+      </Button.Behaviors>
+    </Button>
+  </VerticalStackLayout>
+</ContentPage>
