@@ -1,0 +1,6 @@
+<Page x:Class="Prism.Uno.XamlConsumer.Codeplex"
+      xmlns:legacy="http://www.codeplex.com/prism">
+    <Page.Resources>
+        <legacy:InvokeCommandAction x:Key="MustNotResolve" />
+    </Page.Resources>
+</Page>

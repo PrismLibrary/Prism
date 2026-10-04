@@ -1,0 +1,12 @@
+<Page x:Class="Prism.Uno.XamlConsumer.ExplicitNamespaces"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:prism="http://prismlibrary.com"
+      xmlns:wpf="http://prismlibrary.com/"
+      prism:ViewModelLocator.AutowireViewModel="False">
+    <Page.Resources>
+        <prism:InvokeCommandAction x:Key="Action" />
+        <wpf:InvokeCommandAction x:Key="WpfSpellingAction" />
+    </Page.Resources>
+    <ContentControl prism:RegionManager.RegionName="CanonicalRegion" />
+</Page>

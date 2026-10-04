@@ -1,0 +1,11 @@
+<Page x:Class="Prism.Uno.XamlConsumer.CollisionNamespaces"
+      xmlns:a="using:Prism.Uno.XamlConsumer.First"
+      xmlns:b="using:Prism.Uno.XamlConsumer.Second"
+      xmlns:local="using:Prism.Uno.XamlConsumer.First">
+    <StackPanel>
+        <Button Content="WinUI takes precedence" />
+        <local:Button />
+        <a:SharedControl />
+        <b:SharedControl />
+    </StackPanel>
+</Page>
