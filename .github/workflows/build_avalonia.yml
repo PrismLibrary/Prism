@@ -15,6 +15,7 @@ on:
       - 'src/Prism.Events/**'
       - 'tests/Prism.Core.Tests/**'
       - 'src/Avalonia/**'
+      - 'src/Wpf/Prism.Wpf/Modularity/**'
       - 'tests/Avalonia/**'
 
 jobs:
