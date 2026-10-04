@@ -64,5 +64,6 @@
     <Project Path="tests/Wpf/Prism.IocContainer.Wpf.Tests.Support/Prism.IocContainer.Wpf.Tests.Support.csproj" />
     <Project Path="tests/Wpf/Prism.Unity.Wpf.Tests/Prism.Unity.Wpf.Tests.csproj" />
     <Project Path="tests/Wpf/Prism.Wpf.Tests/Prism.Wpf.Tests.csproj" />
+    <Project Path="tests/Wpf/Prism.Wpf.Modularity.Tests/Prism.Wpf.Modularity.Tests.csproj" />
   </Folder>
 </Solution>

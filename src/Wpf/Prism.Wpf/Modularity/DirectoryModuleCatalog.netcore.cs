@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using Prism.Properties;
 
 namespace Prism.Modularity
@@ -15,10 +16,10 @@ namespace Prism.Modularity
     /// <remarks>
     /// The directory catalog will scan the contents of a directory, locating classes that implement
     /// <see cref="IModule"/> and add them to the catalog based on contents in their associated <see cref="ModuleAttribute"/>.
-    /// Assemblies are loaded into a new application domain with ReflectionOnlyLoad.  The application domain is destroyed
-    /// once the assemblies have been discovered.
+    /// Assemblies are discovered in a collectible <see cref="AssemblyLoadContext"/> whose unloading is initiated
+    /// after discovery. Discovery does not instantiate modules or their attributes.
     ///
-    /// The directory catalog does not continue to monitor the directory after it has created the initialize catalog.
+    /// The directory catalog does not continue to monitor the directory after it has created the initial catalog.
     /// </remarks>
     public class DirectoryModuleCatalog : ModuleCatalog
     {
@@ -28,7 +29,7 @@ namespace Prism.Modularity
         public string ModulePath { get; set; }
 
         /// <summary>
-        /// Drives the main logic of building the child domain and searching for the assemblies.
+        /// Searches the directory for module assemblies in an isolated assembly load context.
         /// </summary>
         protected override void InnerLoad()
         {
@@ -39,31 +40,22 @@ namespace Prism.Modularity
                 throw new InvalidOperationException(
                     string.Format(CultureInfo.CurrentCulture, Resources.DirectoryNotFound, ModulePath));
 
-            AppDomain childDomain = AppDomain.CurrentDomain;
-
             try
             {
-                List<string> loadedAssemblies = new List<string>();
+                var directory = new DirectoryInfo(ModulePath);
+                var loadedAssemblies = AssemblyLoadContext.GetLoadContext(typeof(DirectoryModuleCatalog).Assembly)
+                    .Assemblies.Concat(AssemblyLoadContext.Default.Assemblies)
+                    .Append(typeof(IModule).Assembly)
+                    .Where(assembly => !assembly.IsDynamic).Distinct().ToArray();
+                var loadContext = new DirectoryModuleCatalogAssemblyLoadContext(directory.FullName, loadedAssemblies);
 
-                var assemblies = (
-                    from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
-                    where !(assembly is System.Reflection.Emit.AssemblyBuilder)
-                        && assembly.GetType().FullName != "System.Reflection.Emit.InternalAssemblyBuilder"
-                        && !String.IsNullOrEmpty(assembly.Location)
-                    select assembly.Location
-                );
-
-                loadedAssemblies.AddRange(assemblies);
-
-                Type loaderType = typeof(InnerModuleInfoLoader);
-
-                if (loaderType.Assembly != null)
+                try
                 {
-                    var loader =
-                        (InnerModuleInfoLoader)
-                        childDomain.CreateInstanceFrom(loaderType.Assembly.Location, loaderType.FullName).Unwrap();
-
-                    Items.AddRange(loader.GetModuleInfos(ModulePath));
+                    Items.AddRange(GetModuleInfos(directory, loadedAssemblies, loadContext));
+                }
+                finally
+                {
+                    loadContext.Unload();
                 }
             }
             catch (Exception ex)
@@ -72,142 +64,81 @@ namespace Prism.Modularity
             }
         }
 
-        private class InnerModuleInfoLoader : MarshalByRefObject
+        private static ModuleInfo[] GetModuleInfos(DirectoryInfo directory, Assembly[] loadedAssemblies,
+            AssemblyLoadContext loadContext)
         {
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-            internal ModuleInfo[] GetModuleInfos(string path)
+            var loadedFileNames = new HashSet<string>(loadedAssemblies
+                .Where(assembly => !string.IsNullOrEmpty(assembly.Location))
+                .Select(assembly => Path.GetFileName(assembly.Location)), StringComparer.OrdinalIgnoreCase);
+            var assemblies = new List<Assembly>();
+
+            foreach (FileInfo file in directory.GetFiles("*.dll").Where(file => !loadedFileNames.Contains(file.Name)))
             {
-                DirectoryInfo directory = new DirectoryInfo(path);
-
-                ResolveEventHandler resolveEventHandler =
-                    delegate (object sender, ResolveEventArgs args) { return OnReflectionOnlyResolve(args, directory); };
-
-                AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += resolveEventHandler;
-
-                Assembly moduleReflectionOnlyAssembly = AppDomain.CurrentDomain.GetAssemblies().First(asm => asm.FullName == typeof(IModule).Assembly.FullName);
-                Type IModuleType = moduleReflectionOnlyAssembly.GetType(typeof(IModule).FullName);
-
-                IEnumerable<ModuleInfo> modules = GetNotAlreadyLoadedModuleInfos(directory, IModuleType);
-
-                var array = modules.ToArray();
-                AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve -= resolveEventHandler;
-                return array;
+                try
+                {
+                    assemblies.Add(loadContext.LoadFromAssemblyPath(file.FullName));
+                }
+                catch (BadImageFormatException)
+                {
+                    // Skip native DLLs and other files that are not managed assemblies.
+                }
             }
 
-            private static IEnumerable<ModuleInfo> GetNotAlreadyLoadedModuleInfos(DirectoryInfo directory, Type IModuleType)
+            // Materialize metadata before unloading so no reflected types escape the discovery context.
+            return assemblies.SelectMany(assembly => assembly.GetExportedTypes())
+                .Where(type => typeof(IModule).IsAssignableFrom(type) && type != typeof(IModule) && !type.IsAbstract)
+                .Select(CreateModuleInfo)
+                .ToArray();
+        }
+
+        private static ModuleInfo CreateModuleInfo(Type type)
+        {
+            string moduleName = type.Name;
+            List<string> dependsOn = new List<string>();
+            bool onDemand = false;
+            var moduleAttribute =
+                CustomAttributeData.GetCustomAttributes(type).FirstOrDefault(
+                    cad => cad.Constructor.DeclaringType.FullName == typeof(ModuleAttribute).FullName);
+
+            if (moduleAttribute != null)
             {
-                List<Assembly> validAssemblies = new List<Assembly>();
-                Assembly[] alreadyLoadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(p => !p.IsDynamic).ToArray();
-
-                var fileInfos = directory.GetFiles("*.dll")
-                    .Where(file => alreadyLoadedAssemblies.FirstOrDefault(
-                        assembly => String.Compare(Path.GetFileName(assembly.Location),
-                        file.Name, StringComparison.OrdinalIgnoreCase) == 0) == null).ToList();
-
-                foreach (FileInfo fileInfo in fileInfos)
+                foreach (CustomAttributeNamedArgument argument in moduleAttribute.NamedArguments)
                 {
-                    try
+                    string argumentName = argument.MemberInfo.Name;
+                    switch (argumentName)
                     {
-                        validAssemblies.Add(Assembly.LoadFrom(fileInfo.FullName));
-                    }
-                    catch (BadImageFormatException)
-                    {
-                        // skip non-.NET Dlls
-                    }
-                }
+                        case "ModuleName":
+                            moduleName = (string)argument.TypedValue.Value;
+                            break;
 
-                return validAssemblies.SelectMany(assembly => assembly
-                            .GetExportedTypes()
-                            .Where(IModuleType.IsAssignableFrom)
-                            .Where(t => t != IModuleType)
-                            .Where(t => !t.IsAbstract)
-                            .Select(type => CreateModuleInfo(type)));
-            }
+                        case "OnDemand":
+                            onDemand = (bool)argument.TypedValue.Value;
+                            break;
 
-            private static Assembly OnReflectionOnlyResolve(ResolveEventArgs args, DirectoryInfo directory)
-            {
-                Assembly loadedAssembly = AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies().FirstOrDefault(
-                    asm => string.Equals(asm.FullName, args.Name, StringComparison.OrdinalIgnoreCase));
-                if (loadedAssembly != null)
-                {
-                    return loadedAssembly;
-                }
-
-                AssemblyName assemblyName = new AssemblyName(args.Name);
-                string dependentAssemblyFilename = Path.Combine(directory.FullName, assemblyName.Name + ".dll");
-                if (File.Exists(dependentAssemblyFilename))
-                {
-                    return Assembly.ReflectionOnlyLoadFrom(dependentAssemblyFilename);
-                }
-
-                return Assembly.ReflectionOnlyLoad(args.Name);
-            }
-
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-            internal void LoadAssemblies(IEnumerable<string> assemblies)
-            {
-                foreach (string assemblyPath in assemblies)
-                {
-                    try
-                    {
-                        Assembly.ReflectionOnlyLoadFrom(assemblyPath);
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        // Continue loading assemblies even if an assembly can not be loaded in the new AppDomain
+                        case "StartupLoaded":
+                            onDemand = !((bool)argument.TypedValue.Value);
+                            break;
                     }
                 }
             }
 
-            private static ModuleInfo CreateModuleInfo(Type type)
+            var moduleDependencyAttributes =
+                CustomAttributeData.GetCustomAttributes(type).Where(
+                    cad => cad.Constructor.DeclaringType.FullName == typeof(ModuleDependencyAttribute).FullName);
+
+            foreach (CustomAttributeData cad in moduleDependencyAttributes)
             {
-                string moduleName = type.Name;
-                List<string> dependsOn = new List<string>();
-                bool onDemand = false;
-                var moduleAttribute =
-                    CustomAttributeData.GetCustomAttributes(type).FirstOrDefault(
-                        cad => cad.Constructor.DeclaringType.FullName == typeof(ModuleAttribute).FullName);
-
-                if (moduleAttribute != null)
-                {
-                    foreach (CustomAttributeNamedArgument argument in moduleAttribute.NamedArguments)
-                    {
-                        string argumentName = argument.MemberInfo.Name;
-                        switch (argumentName)
-                        {
-                            case "ModuleName":
-                                moduleName = (string)argument.TypedValue.Value;
-                                break;
-
-                            case "OnDemand":
-                                onDemand = (bool)argument.TypedValue.Value;
-                                break;
-
-                            case "StartupLoaded":
-                                onDemand = !((bool)argument.TypedValue.Value);
-                                break;
-                        }
-                    }
-                }
-
-                var moduleDependencyAttributes =
-                    CustomAttributeData.GetCustomAttributes(type).Where(
-                        cad => cad.Constructor.DeclaringType.FullName == typeof(ModuleDependencyAttribute).FullName);
-
-                foreach (CustomAttributeData cad in moduleDependencyAttributes)
-                {
-                    dependsOn.Add((string)cad.ConstructorArguments[0].Value);
-                }
-
-                ModuleInfo moduleInfo = new ModuleInfo(moduleName, type.AssemblyQualifiedName)
-                {
-                    InitializationMode = onDemand ? InitializationMode.OnDemand : InitializationMode.WhenAvailable,
-                    Ref = type.Assembly.EscapedCodeBase,
-                };
-
-                moduleInfo.DependsOn.AddRange(dependsOn);
-                return moduleInfo;
+                dependsOn.Add((string)cad.ConstructorArguments[0].Value);
             }
+
+            ModuleInfo moduleInfo = new ModuleInfo(moduleName, type.AssemblyQualifiedName)
+            {
+                InitializationMode = onDemand ? InitializationMode.OnDemand : InitializationMode.WhenAvailable,
+                Ref = new Uri(type.Assembly.Location).AbsoluteUri,
+            };
+
+            moduleInfo.DependsOn.AddRange(dependsOn);
+            return moduleInfo;
         }
     }
 }
