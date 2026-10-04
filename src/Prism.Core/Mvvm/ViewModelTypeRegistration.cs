@@ -8,6 +8,4 @@ internal sealed class ViewModelTypeRegistration
 
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
     public Type Type { get; }
-
-    public object CreateInstance() => Activator.CreateInstance(Type)!;
 }

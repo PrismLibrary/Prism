@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 #nullable enable
 namespace Prism.Mvvm
@@ -60,22 +59,22 @@ namespace Prism.Mvvm
         /// </summary>
         static Func<Type, Type?> _defaultViewTypeToViewModelTypeResolver = DefaultViewTypeToViewModel;
 
+        [FeatureSwitchDefinition("Prism.Mvvm.ReflectionBasedViewModelLocationEnabled")]
+        private static bool IsReflectionBasedViewModelLocationEnabled =>
+            !AppContext.TryGetSwitch("Prism.Mvvm.ReflectionBasedViewModelLocationEnabled", out var enabled) || enabled;
+
         private static object CreateViewModel(Type type)
         {
             if (_registeredViewModelTypes.TryGetValue(type, out var registration))
-                return registration.CreateInstance();
+                return Activator.CreateInstance(registration.Type)!;
 
             if (ContainerAot.TryGetImplementationType(type, out var preservedType))
                 return Activator.CreateInstance(preservedType)!;
 
-#if NETFRAMEWORK
-            return CreateViewModelUsingReflection(type);
-#else
-            if (RuntimeFeature.IsDynamicCodeSupported)
+            if (IsReflectionBasedViewModelLocationEnabled)
                 return CreateViewModelUsingReflection(type);
 
             throw new InvalidOperationException($"ViewModel '{type}' must be registered with ViewModelLocationProvider or preserved by the Prism container generator before default activation in Native AOT.");
-#endif
         }
 
 #if !NETFRAMEWORK
@@ -87,11 +86,21 @@ namespace Prism.Mvvm
         {
             var viewName = viewType.FullName;
             viewName = viewName?.Replace(".Views.", ".ViewModels.");
-            var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+            var viewAssembly = viewType.GetTypeInfo().Assembly;
             var suffix = viewName != null && viewName.EndsWith("View") ? "Model" : "ViewModel";
-            var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", viewName, suffix, viewAssemblyName);
-            return Type.GetType(viewModelName);
+            var viewModelFullName = string.Concat(viewName, suffix);
+
+            if (ContainerAot.TryGetImplementationType(viewModelFullName, viewAssembly, out var preservedType))
+                return preservedType;
+
+            return IsReflectionBasedViewModelLocationEnabled ? FindViewModelUsingReflection(viewModelFullName, viewAssembly) : null;
         }
+
+#if !NETFRAMEWORK
+        [RequiresUnreferencedCode("Convention-based ViewModel lookup requires preserving the ViewModel type.")]
+#endif
+        private static Type? FindViewModelUsingReflection(string fullName, Assembly assembly) =>
+            Type.GetType(string.Format(CultureInfo.InvariantCulture, "{0}, {1}", fullName, assembly.FullName));
 
         static Func<object, Type?> _defaultViewToViewModelTypeResolver = view => null;
 
