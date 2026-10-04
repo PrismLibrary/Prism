@@ -221,7 +221,7 @@ public class NavigationTests : TestBase
         TestPage(currentPage);
     }
 
-    [Fact(Skip = "No longer blocked by dotnet/maui/issues/8157. Not yet implemented.")]
+    [Fact]
     public async Task RelativeNavigation_RemovesPage_AndNavigatesModally()
     {
         Exception startupEx = null;

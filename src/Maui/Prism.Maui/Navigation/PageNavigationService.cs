@@ -40,6 +40,13 @@ public class PageNavigationService : INavigationService, IRegistryAware
     private bool _navigateFromExternalChange;
 
     private Window _window;
+    private Page _relativeNavigationTarget;
+    private List<Action> _relativeNavigationNotifications;
+    private List<Page> _relativeNavigationCreatedPages;
+    private List<Page> _relativeNavigationArrivals;
+    private List<Page> _relativeNavigationDeferredDestruction;
+    private Action<Page> _validateRelativeNavigation;
+    private Func<bool, Action> _captureRelativeNavigationState;
     protected Window Window
     {
         get
@@ -437,7 +444,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
             // Resolve registration names before removing anything. A misspelled forward route must
             // not discard the existing stack merely because its named source could be found.
-            ValidateNavigateFromSegments(segments, parameters);
+            ValidateNavigationSegments(segments, parameters);
 
             var confirmationParameters = UriParsingHelper.GetSegmentParameters(segments.FirstOrDefault(), parameters);
             confirmationParameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode,
@@ -542,7 +549,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
                         _navigateFromCreatedPages.Where(page => page.Parent is null && IsOwnedNavigateFromTree(page)).ToList();
                     try
                     {
-                        DestroyNavigateFromPages(cleanupPages);
+                        DestroyNavigationPages(cleanupPages);
                     }
                     catch (Exception cleanupException)
                     {
@@ -563,9 +570,9 @@ public class PageNavigationService : INavigationService, IRegistryAware
                 try
                 {
                     var notified = new HashSet<object>(ReferenceEqualityComparer.Instance);
-                    NotifyNavigateFromDeparture(origin, confirmationParameters, notified);
+                    NotifyNavigationDeparture(origin, confirmationParameters, notified);
                     foreach (var page in _navigateFromDestroyedPages)
-                        NotifyNavigateFromDeparture(page, confirmationParameters, notified);
+                        NotifyNavigationDeparture(page, confirmationParameters, notified);
                     foreach (var notification in _navigateFromNotifications)
                         notification();
                     if (!hasDestination)
@@ -573,7 +580,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
                 }
                 finally
                 {
-                    DestroyNavigateFromPages(_navigateFromDestroyedPages);
+                    DestroyNavigationPages(_navigateFromDestroyedPages);
                 }
             }
             finally
@@ -602,7 +609,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
-    private void ValidateNavigateFromSegments(IEnumerable<string> segments, INavigationParameters parameters)
+    private void ValidateNavigationSegments(IEnumerable<string> segments, INavigationParameters parameters)
     {
         foreach (var segment in segments)
         {
@@ -830,6 +837,15 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
     protected virtual Task ProcessNavigationForRemovePageSegments(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
+        var removeCount = 1 + segments.TakeWhile(x => x == RemovePageSegment).Count();
+        var window = currentPage.GetParentWindow();
+        if (window?.Navigation.ModalStack.Count > 0 &&
+            (!MvvmHelpers.HasDirectNavigationPageParent(currentPage) ||
+                removeCount >= currentPage.Navigation.NavigationStack.Count))
+        {
+            return RemoveAcrossModalStack(currentPage, segments, parameters, useModalNavigation, animated, removeCount, window);
+        }
+
         if (!MvvmHelpers.HasDirectNavigationPageParent(currentPage))
         {
             throw new NavigationException(NavigationException.RelativeNavigationRequiresNavigationPage, currentPage);
@@ -839,6 +855,408 @@ public class PageNavigationService : INavigationService, IRegistryAware
             ? RemoveAndPush(currentPage, nextSegment, segments, parameters, useModalNavigation, animated)
             : RemoveAndGoBack(currentPage, nextSegment, segments, parameters, useModalNavigation, animated);
     }
+
+    private async Task RemoveAcrossModalStack(Page currentPage, Queue<string> segments, INavigationParameters parameters,
+        bool? useModalNavigation, bool? animated, int removeCount, Window window)
+    {
+        var history = new List<(Page Page, Page Target, INavigation Navigation, bool Modal)>();
+        var unrepresentedStacks = new HashSet<Page>();
+        AddRelativeNavigationLayer(window.Page, false, window.Navigation, history, unrepresentedStacks);
+        var originalModals = window.Navigation.ModalStack.ToList();
+        foreach (var modal in originalModals)
+            AddRelativeNavigationLayer(modal, true, window.Navigation, history, unrepresentedStacks);
+
+        var origin = GetRelativeNavigationTarget(currentPage);
+        if (history.Count == 0 || history[^1].Target != origin)
+            throw new NavigationException("Relative navigation must start from the current page.", currentPage);
+
+        var originalRoot = window.Page;
+        var originalPages = GetRelativeNavigationPages(originalRoot)
+            .Concat(originalModals.SelectMany(GetRelativeNavigationPages)).ToHashSet();
+        var originalNavigationStacks = originalPages.OfType<NavigationPage>()
+            .ToDictionary(page => page, page => page.Navigation.NavigationStack.ToList());
+        var originalBranches = originalPages.Where(page => page is TabbedPage or FlyoutPage)
+            .ToDictionary(page => page, page => page is TabbedPage tabbed ? tabbed.CurrentPage : ((FlyoutPage)page).Detail);
+
+        var remainingSegments = new Queue<string>(segments.Skip(removeCount - 1));
+        var hasDestination = remainingSegments.Count > 0;
+        var targetIndex = history.Count - removeCount - 1;
+        // An inner stack can add back steps that this history does not model.
+        // Retaining its current page is safe; removing the collapsed entry is not.
+        if (history.Skip(Math.Max(targetIndex + 1, 0)).Any(entry => unrepresentedStacks.Contains(entry.Page)))
+            throw new NavigationException("Relative navigation cannot cross a nested navigation stack with multiple pages.", currentPage);
+        // A forward navigation can replace the root of a NavigationPage, but a
+        // relative back operation must never remove the application's root.
+        var replaceRoot = targetIndex == -1 && hasDestination && history[0].Page.Parent is NavigationPage;
+        if (targetIndex < 0 && !replaceRoot)
+            throw new NavigationException(NavigationException.CannotPopApplicationMainPage, currentPage);
+        if (replaceRoot)
+        {
+            var targetNavigation = history[0].Target as NavigationPage;
+            if (targetNavigation is null)
+                MvvmHelpers.HasNavigationPageParent(history[0].Target, out targetNavigation);
+            if (targetNavigation != history[0].Page.Parent)
+                throw new NavigationException("Relative navigation cannot replace a root through a different navigation stack.", currentPage);
+        }
+
+        ValidateNavigationSegments(remainingSegments, parameters);
+
+        var navigationParameters = hasDestination
+            ? UriParsingHelper.GetSegmentParameters(remainingSegments.Peek(), parameters)
+            : parameters;
+        navigationParameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode,
+            hasDestination ? NavigationMode.New : NavigationMode.Back);
+
+        if (replaceRoot && navigationParameters.TryGetValue<bool>(KnownNavigationParameters.UseModalNavigation, out var forceModal) && forceModal)
+            throw new NavigationException(NavigationException.CannotPopApplicationMainPage, currentPage);
+
+        var prismWindow = window as PrismWindow;
+        var confirmationModal = originalModals.Last();
+        if (prismWindow is not null)
+            prismWindow.PendingModalConfirmation = confirmationModal;
+        NavigationSource = PageNavigationSource.Device;
+        try
+        {
+            if (!await MvvmHelpers.CanNavigateAsync(currentPage, navigationParameters))
+                throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, currentPage);
+        }
+        finally
+        {
+            if (prismWindow is not null)
+                prismWindow.PendingModalConfirmation = null;
+            NavigationSource = PageNavigationSource.NavigationService;
+        }
+
+        if (window.Page != originalRoot || !window.Navigation.ModalStack.SequenceEqual(originalModals) ||
+            originalBranches.Any(branch => branch.Value != (branch.Key is TabbedPage tabbed ? tabbed.CurrentPage : ((FlyoutPage)branch.Key).Detail)) ||
+            originalNavigationStacks.Any(stack => !stack.Key.Navigation.NavigationStack.SequenceEqual(stack.Value)))
+        {
+            throw new NavigationException("The navigation stack changed while confirmation was pending.", currentPage);
+        }
+
+        var target = history[Math.Max(targetIndex, 0)].Target;
+        var lastIndexToRemove = replaceRoot ? 1 : targetIndex + 1;
+        var removedPages = new List<(Page Page, Page Target, INavigation Navigation, bool Modal)>();
+        var createdPages = new List<Page>();
+        var arrivals = new List<Page>();
+        var deferredDestruction = new List<Page>();
+        var notifications = new List<Action>();
+        var previousTarget = _relativeNavigationTarget;
+        var previousNotifications = _relativeNavigationNotifications;
+        var previousCreatedPages = _relativeNavigationCreatedPages;
+        var previousArrivals = _relativeNavigationArrivals;
+        var previousDestruction = _relativeNavigationDeferredDestruction;
+        var previousValidation = _validateRelativeNavigation;
+        var previousCapture = _captureRelativeNavigationState;
+        _relativeNavigationTarget = target;
+        _relativeNavigationNotifications = notifications;
+        _relativeNavigationCreatedPages = createdPages;
+        _relativeNavigationArrivals = arrivals;
+        _relativeNavigationDeferredDestruction = deferredDestruction;
+        var interrupted = false;
+        _captureRelativeNavigationState = ignoreCreated =>
+        {
+            var state = CaptureCurrentState(ignoreCreated);
+            return () => ValidateExpectedState(state.IsCurrent);
+        };
+        _validateRelativeNavigation = page =>
+        {
+            ValidateCurrentState();
+            // Initialization may compose children within a new, detached destination.
+            // It must not adopt pages from a live navigation surface.
+            if (createdPages.Contains(page) && page.GetParentWindow() is null)
+            {
+                var children = GetRelativeNavigationPages(page).ToArray();
+                ValidateExpectedState(!children.Any(originalPages.Contains));
+                createdPages.AddRange(children);
+            }
+        };
+        RelativeNavigationState CaptureCurrentState(bool ignoreCreated = false) => new(window,
+            originalPages.Concat(GetRelativeNavigationPages(window.Page))
+                .Concat(window.Navigation.ModalStack.SelectMany(GetRelativeNavigationPages)),
+            ignoreCreated ? createdPages : null);
+        void ValidateExpectedState(bool unchanged)
+        {
+            if (!unchanged)
+            {
+                interrupted = true;
+                throw new NavigationException("Unrelated navigation changed the stack while the route was pending.", currentPage);
+            }
+        }
+        void ValidateCurrentState()
+        {
+            var ownedPages = originalPages.Concat(createdPages).ToHashSet();
+            var currentPages = GetRelativeNavigationPages(window.Page)
+                .Concat(window.Navigation.ModalStack.SelectMany(GetRelativeNavigationPages))
+                .Concat(originalNavigationStacks.Keys.SelectMany(GetRelativeNavigationPages));
+            if (interrupted || window.Page != originalRoot || currentPages.Any(page => !ownedPages.Contains(page)) ||
+                originalBranches.Any(branch => branch.Value != (branch.Key is TabbedPage tabbed ? tabbed.CurrentPage : ((FlyoutPage)branch.Key).Detail)))
+            {
+                throw new NavigationException("Unrelated navigation changed the stack while the route was pending.", currentPage);
+            }
+        }
+        async Task<Page> PopRelativePage(INavigation navigation, bool modal, bool animate)
+        {
+            ValidateCurrentState();
+            var expected = modal ? navigation.ModalStack.Last() : navigation.NavigationStack.Last();
+            var state = CaptureCurrentState();
+            try
+            {
+                var popped = await DoPop(navigation, modal, animate);
+                ValidateExpectedState(state.IsCurrentAfterPop(popped));
+                return popped;
+            }
+            catch
+            {
+                if (!state.IsCurrent && !state.IsCurrentAfterPop(expected))
+                    interrupted = true;
+                throw;
+            }
+        }
+        try
+        {
+            try
+            {
+                for (var index = history.Count - 1; index >= lastIndexToRemove; index--)
+                {
+                    ValidateCurrentState();
+                    var entry = history[index];
+                    var popped = await PopRelativePage(entry.Navigation, entry.Modal,
+                        !hasDestination && index == lastIndexToRemove && (animated ?? true));
+                    if (popped != entry.Page)
+                        throw new NavigationException(NavigationException.UnknownException, entry.Page);
+
+                    removedPages.Add(entry);
+                }
+
+                if (hasDestination)
+                {
+                    await ProcessNavigation(target, remainingSegments, parameters, useModalNavigation, animated);
+                    if (replaceRoot)
+                    {
+                        var root = history[0];
+                        root.Navigation.RemovePage(root.Page);
+                        removedPages.Add(root);
+                    }
+                }
+                ValidateCurrentState();
+                var livePages = GetRelativeNavigationPages(window.Page)
+                    .Concat(window.Navigation.ModalStack.SelectMany(GetRelativeNavigationPages)).ToHashSet();
+                ValidateExpectedState(arrivals.All(livePages.Contains));
+            }
+            catch (Exception navigationException)
+            {
+                try
+                {
+                    ValidateCurrentState();
+                    await RestoreRelativeNavigation(window, originalModals, originalNavigationStacks,
+                        PopRelativePage, () => CaptureCurrentState(), ValidateExpectedState, ValidateCurrentState);
+                }
+                catch (Exception restoreException)
+                {
+                    // A foreign navigation owns the current stack. Clean up only detached
+                    // destinations, preserving its pages and the original page scopes.
+                    var errors = new List<Exception> { navigationException, restoreException };
+                    try
+                    {
+                        DestroyNavigationPages(createdPages.Where(page => page.Parent is null &&
+                            GetRelativeNavigationPages(page).All(createdPages.Contains)).ToList());
+                    }
+                    catch (Exception cleanupException)
+                    {
+                        errors.Add(cleanupException);
+                    }
+                    throw new NavigationException("Unable to restore the previous navigation stack.", currentPage,
+                        new AggregateException(errors));
+                }
+                try
+                {
+                    DestroyNavigationPages(createdPages);
+                }
+                catch (Exception cleanupException)
+                {
+                    throw new NavigationException("Unable to clean up destination pages.", currentPage,
+                        new AggregateException(navigationException, cleanupException));
+                }
+                throw;
+            }
+
+            // Commit lifecycle notifications only after the entire route succeeds.
+            // Shared container/leaf view models must receive one departure callback.
+            try
+            {
+                var notified = new HashSet<object>(ReferenceEqualityComparer.Instance);
+                foreach (var entry in removedPages)
+                {
+                    NotifyNavigationDeparture(entry.Page, navigationParameters, notified);
+                    if (entry.Target != entry.Page)
+                        NotifyNavigationDeparture(entry.Target, navigationParameters, notified);
+                }
+
+                foreach (var notification in notifications)
+                    notification();
+                if (!hasDestination)
+                    MvvmHelpers.OnNavigatedTo(target, navigationParameters);
+            }
+            finally
+            {
+                // Retain the caller's scope through asynchronous destination initialization.
+                DestroyNavigationPages(removedPages.Select(entry => entry.Page)
+                    .Concat(deferredDestruction).ToList());
+            }
+        }
+        finally
+        {
+            _relativeNavigationTarget = previousTarget;
+            _relativeNavigationNotifications = previousNotifications;
+            _relativeNavigationCreatedPages = previousCreatedPages;
+            _relativeNavigationArrivals = previousArrivals;
+            _relativeNavigationDeferredDestruction = previousDestruction;
+            _validateRelativeNavigation = previousValidation;
+            _captureRelativeNavigationState = previousCapture;
+        }
+    }
+
+    private async Task RestoreRelativeNavigation(Window window, IReadOnlyList<Page> originalModals,
+        Dictionary<NavigationPage, List<Page>> originalNavigationStacks,
+        Func<INavigation, bool, bool, Task<Page>> pop, Func<RelativeNavigationState> capture,
+        Action<bool> validateExpectedState, Action validateCurrentState)
+    {
+        var commonModals = window.Navigation.ModalStack.Zip(originalModals)
+            .TakeWhile(pair => pair.First == pair.Second).Count();
+        while (window.Navigation.ModalStack.Count > commonModals)
+        {
+            var modal = window.Navigation.ModalStack.Last();
+            if (await pop(window.Navigation, true, false) != modal)
+                throw new NavigationException(NavigationException.UnsupportedMauiNavigation, modal);
+        }
+
+        foreach (var (navigationPage, originalPages) in originalNavigationStacks)
+        {
+            var navigation = navigationPage.Navigation;
+            for (var index = 0; index < originalPages.Count; index++)
+            {
+                var page = originalPages[index];
+                if (navigation.NavigationStack.Contains(page))
+                    continue;
+
+                validateCurrentState();
+                var state = capture();
+                var nextPage = originalPages.Skip(index + 1).FirstOrDefault(navigation.NavigationStack.Contains);
+                if (nextPage is not null)
+                    navigation.InsertPageBefore(page, nextPage);
+                else
+                    await navigation.PushAsync(page, false);
+                validateExpectedState(state.IsCurrentAfterPush(page, navigationPage, nextPage));
+            }
+
+            foreach (var page in navigation.NavigationStack.Reverse().ToArray())
+            {
+                if (originalPages.Contains(page))
+                    continue;
+
+                validateCurrentState();
+                if (navigationPage.CurrentPage == page)
+                {
+                    if (await pop(navigation, false, false) != page)
+                        throw new NavigationException(NavigationException.UnsupportedMauiNavigation, page);
+                }
+                else
+                {
+                    var state = capture();
+                    navigation.RemovePage(page);
+                    validateExpectedState(state.IsCurrentAfterPop(page));
+                }
+            }
+        }
+
+        // Use snapshots rather than completed-pop records: a native operation can
+        // change its stack and then throw before returning the removed page.
+        foreach (var modal in originalModals.Skip(commonModals))
+        {
+            validateCurrentState();
+            var state = capture();
+            await window.Navigation.PushModalAsync(modal, false);
+            validateExpectedState(state.IsCurrentAfterPush(modal));
+        }
+    }
+
+    private void DestroyNavigationPage(Page page)
+    {
+        if (_relativeNavigationDeferredDestruction is not null)
+            _relativeNavigationDeferredDestruction.Add(page);
+        else if (_navigateFromDestroyedPages is not null)
+            _navigateFromDestroyedPages.Add(page);
+        else
+            MvvmHelpers.DestroyPage(page);
+    }
+
+    private static void AddRelativeNavigationLayer(Page root, bool modal, INavigation modalNavigation,
+        List<(Page Page, Page Target, INavigation Navigation, bool Modal)> history, HashSet<Page> unrepresentedStacks)
+    {
+        var page = root;
+        while (page is FlyoutPage || page is TabbedPage)
+        {
+            var child = page is FlyoutPage flyout ? flyout.Detail : ((TabbedPage)page).CurrentPage;
+            if (child is null)
+                break;
+            page = child;
+        }
+
+        if (page is NavigationPage navigationPage)
+        {
+            var stack = navigationPage.Navigation.NavigationStack;
+            if (stack.Count == 0)
+                history.Add((root, navigationPage, modalNavigation, modal));
+            for (var index = 0; index < stack.Count; index++)
+            {
+                // The root content and its modal container represent one back
+                // step. Destroying the container also cleans up inactive tabs.
+                history.Add(index == 0 && modal
+                    ? (root, GetRelativeNavigationTarget(stack[index]), modalNavigation, true)
+                    : (stack[index], GetRelativeNavigationTarget(stack[index]), navigationPage.Navigation, false));
+                if (HasUnrepresentedNavigationStack(stack[index]))
+                    unrepresentedStacks.Add(index == 0 && modal ? root : stack[index]);
+            }
+        }
+        else
+        {
+            history.Add((root, GetRelativeNavigationTarget(root), modalNavigation, modal));
+        }
+    }
+
+    private static bool HasUnrepresentedNavigationStack(Page page)
+    {
+        while (page is not null)
+        {
+            if (page is NavigationPage nestedNavigation && nestedNavigation.Navigation.NavigationStack.Count > 1)
+                return true;
+            page = page switch
+            {
+                NavigationPage navigation => navigation.CurrentPage,
+                TabbedPage tabbed => tabbed.CurrentPage,
+                FlyoutPage flyout => flyout.Detail,
+                _ => null
+            };
+        }
+        return false;
+    }
+
+    private static Page GetRelativeNavigationTarget(Page page)
+    {
+        var child = page switch
+        {
+            NavigationPage navigation => navigation.CurrentPage,
+            TabbedPage tabbed => tabbed.CurrentPage,
+            FlyoutPage flyout => flyout.Detail,
+            ContentPage => null,
+            _ => MvvmHelpers.GetTarget(page)
+        };
+        return child is null ? page : GetRelativeNavigationTarget(child);
+    }
+
+    private static IEnumerable<Page> GetRelativeNavigationPages(Page page) =>
+        PageNavigationHistory.GetPages(page, true);
 
     private static bool CanRemoveAndPush(Queue<string> segments)
     {
@@ -898,7 +1316,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         foreach (var page in pagesToRemove)
         {
             navigationPage.Navigation.RemovePage(page);
-            DestroyNavigateFromPage(page);
+            DestroyNavigationPage(page);
         }
     }
 
@@ -1004,7 +1422,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
         foreach (var destroyPage in destroyPages)
         {
-            DestroyNavigateFromPage(destroyPage);
+            DestroyNavigationPage(destroyPage);
         }
     }
 
@@ -1104,11 +1522,17 @@ public class PageNavigationService : INavigationService, IRegistryAware
             await DoNavigationAction(detail, nextSegment, newDetail, parameters, onNavigationActionCompleted: (p) =>
             {
                 if (detailIsNavPage && _navigateFromSourcePages is null)
-                    OnNavigatedFrom(((NavigationPage)detail).CurrentPage, p);
+                {
+                    var departingPage = ((NavigationPage)detail).CurrentPage;
+                    if (_relativeNavigationNotifications is null)
+                        OnNavigatedFrom(departingPage, p);
+                    else
+                        _relativeNavigationNotifications.Add(() => OnNavigatedFrom(departingPage, p));
+                }
 
                 currentPage.IsPresented = isPresented;
                 currentPage.Detail = newDetail;
-                DestroyNavigateFromPage(detail);
+                DestroyNavigationPage(detail);
             });
             return;
         }
@@ -1150,14 +1574,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
         return true;
     }
 
-    private async Task DoNavigationAction(Page fromPage, string toSegment, Page toPage, INavigationParameters parameters, Func<Task> navigationAction = null, Action<INavigationParameters> onNavigationActionCompleted = null)
+    private async Task DoNavigateFromAction(Page fromPage, string toSegment, Page toPage, INavigationParameters parameters, Func<Task> navigationAction = null, Action<INavigationParameters> onNavigationActionCompleted = null)
     {
-        if (_navigateFromNotifications is null)
-        {
-            await DoNavigateAction(fromPage, toSegment, toPage, parameters, navigationAction, onNavigationActionCompleted);
-            return;
-        }
-
         EnsureNavigateFromOwnership();
         var segmentParameters = UriParsingHelper.GetSegmentParameters(toSegment, parameters);
         segmentParameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.New);
@@ -1225,15 +1643,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
         return children.All(IsOwnedNavigateFromTree);
     }
 
-    private void DestroyNavigateFromPage(Page page)
-    {
-        if (_navigateFromDestroyedPages is null)
-            MvvmHelpers.DestroyPage(page);
-        else
-            _navigateFromDestroyedPages.Add(page);
-    }
-
-    private static void DestroyNavigateFromPages(List<Page> pages)
+    private static void DestroyNavigationPages(List<Page> pages)
     {
         var failures = new List<Exception>();
         foreach (var page in pages.Distinct().Where(page =>
@@ -1252,7 +1662,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             throw new AggregateException("One or more pages could not be destroyed.", failures);
     }
 
-    private static void NotifyNavigateFromDeparture(Page page, INavigationParameters parameters, HashSet<object> notified)
+    private static void NotifyNavigationDeparture(Page page, INavigationParameters parameters, HashSet<object> notified)
     {
         while (page is not null)
         {
@@ -1271,29 +1681,76 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
-    protected static async Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, INavigationParameters parameters, Func<Task> navigationAction = null, Action<INavigationParameters> onNavigationActionCompleted = null)
+    private async Task DoNavigationAction(Page fromPage, string toSegment, Page toPage, INavigationParameters parameters,
+        Func<Task> navigationAction = null, Action<INavigationParameters> onNavigationActionCompleted = null)
+    {
+        if (_navigateFromNotifications is not null && _relativeNavigationNotifications is null)
+        {
+            await DoNavigateFromAction(fromPage, toSegment, toPage, parameters, navigationAction, onNavigationActionCompleted);
+            return;
+        }
+
+        Action<Action> deferNotification = _relativeNavigationNotifications is null
+            ? null : _relativeNavigationNotifications.Add;
+        await DoNavigateActionCore(fromPage == _relativeNavigationTarget ? null : fromPage,
+            toSegment, toPage, parameters, navigationAction, onNavigationActionCompleted, deferNotification,
+            _validateRelativeNavigation, _captureRelativeNavigationState);
+        _relativeNavigationArrivals?.Add(toPage);
+    }
+
+    protected static Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, INavigationParameters parameters, Func<Task> navigationAction = null, Action<INavigationParameters> onNavigationActionCompleted = null) =>
+        DoNavigateActionCore(fromPage, toSegment, toPage, parameters, navigationAction, onNavigationActionCompleted, null);
+
+    private static async Task DoNavigateActionCore(Page fromPage, string toSegment, Page toPage, INavigationParameters parameters,
+        Func<Task> navigationAction, Action<INavigationParameters> onNavigationActionCompleted, Action<Action> deferNotification,
+        Action<Page> validateNavigation = null, Func<bool, Action> captureNavigationState = null)
     {
         var segmentParameters = UriParsingHelper.GetSegmentParameters(toSegment, parameters);
         segmentParameters.GetNavigationParametersInternal().Add(KnownInternalParameters.NavigationMode, NavigationMode.New);
 
-        var canNavigate = await MvvmHelpers.CanNavigateAsync(fromPage, segmentParameters);
-        if (!canNavigate)
+        await AwaitNavigationOperation(async () =>
         {
-            throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, toPage);
-        }
-
-        await OnInitializedAsync(toPage, segmentParameters);
+            if (!await MvvmHelpers.CanNavigateAsync(fromPage, segmentParameters))
+                throw new NavigationException(NavigationException.IConfirmNavigationReturnedFalse, toPage);
+            await OnInitializedAsync(toPage, segmentParameters);
+        }, captureNavigationState?.Invoke(false));
+        validateNavigation?.Invoke(toPage);
 
         if (navigationAction != null)
-        {
-            await navigationAction();
-        }
+            await AwaitNavigationOperation(navigationAction, captureNavigationState?.Invoke(true));
 
-        OnNavigatedFrom(fromPage, segmentParameters);
+        if (deferNotification is null)
+            OnNavigatedFrom(fromPage, segmentParameters);
+        else
+            deferNotification(() => OnNavigatedFrom(fromPage, segmentParameters));
 
         onNavigationActionCompleted?.Invoke(segmentParameters);
 
-        OnNavigatedTo(toPage, segmentParameters);
+        if (deferNotification is null)
+            OnNavigatedTo(toPage, segmentParameters);
+        else
+            deferNotification(() => OnNavigatedTo(toPage, segmentParameters));
+    }
+
+    private static async Task AwaitNavigationOperation(Func<Task> operation, Action validateState)
+    {
+        try
+        {
+            await operation();
+        }
+        catch (Exception operationException)
+        {
+            try
+            {
+                validateState?.Invoke();
+            }
+            catch (Exception stateException)
+            {
+                throw new AggregateException(operationException, stateException);
+            }
+            throw;
+        }
+        validateState?.Invoke();
     }
 
     static async Task OnInitializedAsync(Page toPage, INavigationParameters parameters)
@@ -1403,6 +1860,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
             throw new NavigationException(NavigationException.NoPageIsRegistered, segmentName, _pageAccessor.Page, innerException);
         }
 
+        _relativeNavigationCreatedPages?.AddRange(GetRelativeNavigationPages(page));
         return page;
     }
 
@@ -1429,7 +1887,9 @@ public class PageNavigationService : INavigationService, IRegistryAware
                 if (i == 0 && child is NavigationPage navPage)
                 {
                     navigationPage = navPage;
-                    await InvokeNavigateFromCallbackAsync(() => MvvmHelpers.OnInitializedAsync(child, childParameters));
+                    await AwaitNavigationOperation(() => InvokeNavigateFromCallbackAsync(() => MvvmHelpers.OnInitializedAsync(child, childParameters)),
+                        _captureRelativeNavigationState?.Invoke(false));
+                    _validateRelativeNavigation?.Invoke(child);
                 }
                 else if(i == 0)
                 {
@@ -1438,7 +1898,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
                 }
                 else if(i > 0 && navigationPage is not null)
                 {
-                    await navigationPage.Navigation.PushAsync(child);
+                    await AwaitNavigationOperation(() => navigationPage.Navigation.PushAsync(child),
+                        _captureRelativeNavigationState?.Invoke(true));
                 }
             }
 
