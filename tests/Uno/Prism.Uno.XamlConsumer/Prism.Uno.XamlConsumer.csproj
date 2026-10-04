@@ -6,12 +6,10 @@
     <IsTestProject>false</IsTestProject>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <RootNamespace>Prism.Uno.XamlConsumer</RootNamespace>
-    <DefaultItemExcludes>$(DefaultItemExcludes);Negative/**</DefaultItemExcludes>
     <DefaultItemExcludes Condition="'$(XamlConsumerCase)' != ''">$(DefaultItemExcludes);**/*.xaml</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Uno\Prism.DryIoc.Uno\Prism.DryIoc.Uno.WinUI.csproj" />
     <Page Include="$(XamlConsumerCase).xaml" Condition="'$(XamlConsumerCase)' != ''" />
-    <Page Include="Negative\$(NegativeNamespaceCase).xaml" Condition="'$(NegativeNamespaceCase)' != ''" />
   </ItemGroup>
 </Project>

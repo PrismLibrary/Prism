@@ -1,6 +1,0 @@
-<Page x:Class="Prism.Uno.XamlConsumer.CompositeWpf"
-      xmlns:legacy="http://www.codeplex.com/CompositeWPF">
-    <Page.Resources>
-        <legacy:InvokeCommandAction x:Key="MustNotResolve" />
-    </Page.Resources>
-</Page>
