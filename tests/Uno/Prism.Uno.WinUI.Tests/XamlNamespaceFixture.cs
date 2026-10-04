@@ -6,8 +6,6 @@ namespace Prism.Uno.WinUI.Tests;
 
 public class XamlNamespaceFixture
 {
-    private const string GlobalUri = "http://schemas.microsoft.com/winfx/2006/xaml/presentation/global";
-
     [Fact]
     public void CanonicalSchemaExportsCurrentPublicNamespaces()
     {
@@ -65,8 +63,10 @@ public class XamlNamespaceFixture
     public void ConsumerGlobalMappingsFollowTheDisableProperty()
     {
         var assembly = typeof(XamlConsumer.ExplicitNamespaces).Assembly;
+        var globalUri = Assert.Single(assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
+            .Where(attribute => attribute.Key == "UnoGlobalXamlNamespaceUri")).Value;
         var namespaces = assembly.GetCustomAttributes<XmlnsDefinitionAttribute>()
-            .Where(attribute => attribute.XmlNamespace == GlobalUri && !attribute.ClrNamespace.StartsWith("Prism.Uno.XamlConsumer."))
+            .Where(attribute => attribute.XmlNamespace == globalUri && !attribute.ClrNamespace.StartsWith("Prism.Uno.XamlConsumer."))
             .Select(attribute => attribute.ClrNamespace)
             .OrderBy(value => value, StringComparer.Ordinal)
             .ToArray();

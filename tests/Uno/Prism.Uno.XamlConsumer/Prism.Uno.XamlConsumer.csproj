@@ -10,6 +10,7 @@
     <DefaultItemExcludes Condition="'$(PrismUnoGlobalXmlns)' == 'false' AND '$(XamlConsumerCase)' == ''">$(DefaultItemExcludes);ImplicitNamespaces.xaml</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>
+    <AssemblyMetadata Include="UnoGlobalXamlNamespaceUri" Value="$(UnoGlobalXamlNamespaceUri)" />
     <AssemblyMetadata Include="PrismUnoGlobalXmlns" Value="true" Condition="'$(PrismUnoGlobalXmlns)' != 'false'" />
     <AssemblyMetadata Include="PrismUnoGlobalXmlns" Value="false" Condition="'$(PrismUnoGlobalXmlns)' == 'false'" />
     <ProjectReference Include="..\..\..\src\Uno\Prism.DryIoc.Uno\Prism.DryIoc.Uno.WinUI.csproj" Condition="'$(PrismPackageVersion)' == ''" />

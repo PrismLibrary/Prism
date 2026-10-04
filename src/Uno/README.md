@@ -13,7 +13,7 @@ Use `http://prismlibrary.com` to reference Prism types and attached properties:
 ```
 
 The Prism packages generate global mappings in your Uno project by default,
-so the prefix can be omitted:
+using Uno's configured `UnoGlobalXamlNamespaceUri`, so the prefix can be omitted:
 
 ```xml
 <Page x:Class="MyApp.MainPage" ViewModelLocator.AutowireViewModel="False">
