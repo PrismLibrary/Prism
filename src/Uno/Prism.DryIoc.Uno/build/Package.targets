@@ -6,11 +6,22 @@
   <PropertyGroup>
     <UnoGlobalXamlNamespaceUri Condition="'$(UnoGlobalXamlNamespaceUri)' == ''">http://schemas.microsoft.com/winfx/2006/xaml/presentation/global</UnoGlobalXamlNamespaceUri>
   </PropertyGroup>
-  <!-- Generate consumer-owned global mappings so applications can disable them. -->
+  <!-- Generate consumer-owned global mappings so each project can disable them. -->
   <ItemGroup Condition=" '$(UsingUnoSdk)' == 'true' AND '$(PrismUnoGlobalXmlns)' != 'false' AND '$(TargetFramework)' != '' AND !$(TargetFramework.Contains('windows10')) ">
-    <AssemblyAttribute Include="System.Windows.Markup.XmlnsDefinitionAttribute">
+    <PrismDryIocUnoGlobalXmlnsAttribute Include="System.Windows.Markup.XmlnsDefinitionAttribute">
       <_Parameter1>$(UnoGlobalXamlNamespaceUri)</_Parameter1>
       <_Parameter2>Prism.DryIoc</_Parameter2>
-    </AssemblyAttribute>
+    </PrismDryIocUnoGlobalXmlnsAttribute>
   </ItemGroup>
+  <Target Name="GeneratePrismDryIocUnoGlobalXmlns"
+          BeforeTargets="BeforeCompile;CoreCompile"
+          DependsOnTargets="PrepareForBuild"
+          Condition="'@(PrismDryIocUnoGlobalXmlnsAttribute)' != ''">
+    <WriteCodeFragment AssemblyAttributes="@(PrismDryIocUnoGlobalXmlnsAttribute)"
+                       Language="$(Language)"
+                       OutputFile="$(IntermediateOutputPath)PrismDryIocUno.GlobalXmlns.g$(DefaultLanguageSourceExtension)">
+      <Output TaskParameter="OutputFile" ItemName="Compile" />
+      <Output TaskParameter="OutputFile" ItemName="FileWrites" />
+    </WriteCodeFragment>
+  </Target>
 </Project>
