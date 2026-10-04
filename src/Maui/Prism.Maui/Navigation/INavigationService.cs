@@ -41,6 +41,24 @@ public interface INavigationService
     Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters);
 
     /// <summary>
+    /// Removes the pages after the nearest named source view and navigates relative to that view.
+    /// </summary>
+    /// <param name="viewName">The navigation registration name of the source view to retain.</param>
+    /// <param name="uri">The relative route to navigate from the source view.</param>
+    /// <param name="parameters">The navigation parameters.</param>
+    /// <returns>The result of the navigation request.</returns>
+    /// <remarks>
+    /// Searches backward through the active navigation path in the calling page's window, including
+    /// modal stacks, the selected tab and the flyout detail. Inactive tabs and the flyout menu are
+    /// not searched. Duplicate names resolve to the nearest matching view. A missing source or an
+    /// absolute route fails without changing the navigation stack. Navigation from a container
+    /// follows the same rules as <see cref="NavigateAsync"/>; it does not implicitly select a tab.
+    /// Leading ../ segments in the route navigate backward from the named source before any
+    /// forward segments are applied. The active departing page is confirmed before either stack changes.
+    /// </remarks>
+    Task<INavigationResult> NavigateFromAsync(string viewName, Uri uri, INavigationParameters parameters);
+
+    /// <summary>
     /// Selects a Tab of the TabbedPage parent and Navigates to a specified Uri
     /// </summary>
     /// <param name="name">The name of the tab to select</param>
