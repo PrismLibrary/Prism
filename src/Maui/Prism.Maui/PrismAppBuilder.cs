@@ -363,6 +363,7 @@ public sealed class PrismAppBuilder
         containerRegistry.RegisterPageBehavior<NavigationPage, NavigationPageActiveAwareBehavior>();
         containerRegistry.RegisterPageBehavior<NavigationPage, NavigationPageTabbedParentBehavior>();
         containerRegistry.RegisterPageBehavior<TabbedPage, TabbedPageActiveAwareBehavior>();
+        containerRegistry.RegisterPageBehavior<TabbedPage, TabbedPageNavigationObserverBehavior>();
         containerRegistry.RegisterPageBehavior<PageLifeCycleAwareBehavior>();
         containerRegistry.RegisterPageBehavior<PageScopeBehavior>();
         containerRegistry.RegisterPageBehavior<RegionCleanupBehavior>();

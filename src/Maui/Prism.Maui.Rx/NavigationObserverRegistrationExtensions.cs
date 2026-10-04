@@ -2,17 +2,19 @@ namespace Prism.Navigation;
 
 public static class NavigationObserverRegistrationExtensions
 {
-    private static bool s_IsRegistered;
-
     private static PrismAppBuilder RegisterGlobalNavigationObserver(this PrismAppBuilder builder)
     {
-        if (s_IsRegistered)
-            return builder;
-
-        s_IsRegistered = true;
         return builder.RegisterTypes(c => 
-            c.RegisterSingleton<IGlobalNavigationObserver, GlobalNavigationObserver>());
+        {
+            if (!c.IsRegistered<IGlobalNavigationObserver>())
+                c.RegisterSingleton<IGlobalNavigationObserver, GlobalNavigationObserver>();
+        });
     }
+
+    /// <summary>Observes tab selection changes after a tabbed page is displayed.</summary>
+    public static PrismAppBuilder AddGlobalTabChangedObserver(this PrismAppBuilder builder, Action<IObservable<TabChangedContext>> addObservable) =>
+        builder.RegisterGlobalNavigationObserver()
+        .OnInitialized(c => addObservable(c.Resolve<IGlobalNavigationObserver>().TabChanged));
 
     public static PrismAppBuilder AddGlobalNavigationObserver(this PrismAppBuilder builder, Action<IObservable<NavigationRequestContext>> addObservable) =>
         builder.RegisterGlobalNavigationObserver()

@@ -824,7 +824,7 @@ public class NavigationTests : TestBase
     {
         var expectedBehaviors = page switch
         {
-            TabbedPage => 4,
+            TabbedPage => 5,
             NavigationPage => 6,
             _ => 3
         };
@@ -849,6 +849,7 @@ public class NavigationTests : TestBase
     private static void TestTabbedPageBehaviors(Page page)
     {
         Assert.NotNull(page.Behaviors.OfType<TabbedPageActiveAwareBehavior>().SingleOrDefault());
+        Assert.NotNull(page.Behaviors.OfType<TabbedPageNavigationObserverBehavior>().SingleOrDefault());
     }
 
     private static void TestNavigationPageBehaviors(Page page)
