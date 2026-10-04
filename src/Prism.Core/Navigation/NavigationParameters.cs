@@ -41,6 +41,7 @@ public class NavigationParameters : ParametersBase, INavigationParameters, INavi
         return _internalParameters.ContainsKey(key);
     }
 
+    [return: MaybeNull]
     T INavigationParametersInternal.GetValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(string key)
     {
         return _internalParameters.GetValue<T>(key);

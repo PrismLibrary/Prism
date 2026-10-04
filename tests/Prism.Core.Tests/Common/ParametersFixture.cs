@@ -8,6 +8,21 @@ namespace Prism.Tests.Common
     public class ParametersFixture
     {
         [Fact]
+        public void InterfaceEnumerationPreservesExplicitNullValues()
+        {
+            IParameters parameters = new MockParameters();
+            parameters.Add("value", null);
+
+            var entry = Assert.Single(parameters);
+            Assert.Equal("value", entry.Key);
+            Assert.Null(entry.Value);
+            Assert.True(parameters.ContainsKey("value"));
+            Assert.Null(parameters.GetValue<string>("value"));
+            Assert.False(parameters.TryGetValue<string>("value", out var value));
+            Assert.Null(value);
+        }
+
+        [Fact]
         public void TryGetValueOfT()
         {
             var parameters = new MockParameters("mock=Foo&mock2=1");
@@ -60,10 +75,10 @@ namespace Prism.Tests.Common
         {
             IParameters parameters = new MockParameters();
             if (addNullParameter)
-                parameters.Add("value", null!);
+                parameters.Add("value", null);
 
             Assert.Equal(42, parameters.GetValue<MockStructWithParameterlessConstructor>("value").Value);
-            Assert.Equal(42, ((MockStructWithParameterlessConstructor)parameters.GetValue("value", typeof(MockStructWithParameterlessConstructor))).Value);
+            Assert.Equal(42, Assert.IsType<MockStructWithParameterlessConstructor>(parameters.GetValue("value", typeof(MockStructWithParameterlessConstructor))).Value);
         }
 
         [Theory]
@@ -73,7 +88,7 @@ namespace Prism.Tests.Common
         {
             IParameters parameters = new MockParameters();
             if (addNullParameter)
-                parameters.Add("value", null!);
+                parameters.Add("value", null);
 
             var success = parameters.TryGetValue<MockStructWithParameterlessConstructor>("value", out var value);
 
@@ -85,7 +100,7 @@ namespace Prism.Tests.Common
         public void GetValuesRunsStructParameterlessConstructorForNullParameter()
         {
             IParameters parameters = new MockParameters();
-            parameters.Add("value", null!);
+            parameters.Add("value", null);
 
             var value = Assert.Single(parameters.GetValues<MockStructWithParameterlessConstructor>("value"));
 
@@ -100,7 +115,7 @@ namespace Prism.Tests.Common
         {
             IParameters parameters = new MockParameters();
             if (addNullParameter)
-                parameters.Add("value", null!);
+                parameters.Add("value", null);
 
             Assert.Null(parameters.GetValue<MockStructWithParameterlessConstructor?>("value"));
             Assert.Null(parameters.GetValue("value", typeof(MockStructWithParameterlessConstructor?)));

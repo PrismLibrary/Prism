@@ -8,6 +8,7 @@ using Prism.Dialogs.Xaml;
 using Application = Microsoft.Maui.Controls.Application;
 using Page = Microsoft.Maui.Controls.Page;
 
+#nullable enable
 namespace Prism.Dialogs;
 
 /// <summary>
@@ -57,12 +58,14 @@ public class DialogContainerPage : ContentPage, IDialogContainer
     /// <summary>
     /// Gets the dialog view displayed in the container page.
     /// </summary>
-    public View DialogView { get; private set; }
+    /// <remarks>Returns null until <see cref="ConfigureLayout"/> configures the dialog.</remarks>
+    public View? DialogView { get; private set; }
 
     /// <summary>
     /// Gets the command used to dismiss the dialog.
     /// </summary>
-    public ICommand Dismiss { get; private set; }
+    /// <remarks>Returns null until <see cref="ConfigureLayout"/> configures the dialog.</remarks>
+    public ICommand? Dismiss { get; private set; }
 
     /// <summary>
     /// Configures the layout of the dialog container page.
@@ -244,8 +247,11 @@ public class DialogContainerPage : ContentPage, IDialogContainer
     /// </summary>
     /// <param name="element">The element.</param>
     /// <returns>The style for the specified element.</returns>
-    private static Style GetStyle(Element element)
+    private static Style GetStyle(Element? element)
     {
+        if (element is null)
+            return DefaultStyle();
+
         if (element is Page page && page.Resources.ContainsKey(DialogLayout.PopupOverlayStyle) && page.Resources[DialogLayout.PopupOverlayStyle] is Style pageStyle)
             return pageStyle;
         else if (element is Application app)

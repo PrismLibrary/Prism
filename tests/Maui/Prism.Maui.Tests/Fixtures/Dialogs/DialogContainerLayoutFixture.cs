@@ -10,6 +10,25 @@ namespace Prism.Maui.Tests.Fixtures.Dialogs;
 public class DialogContainerLayoutFixture
 {
     [Fact]
+    public void UnconfiguredContainerHasNoDialogOrDismissCommand()
+    {
+        IDialogContainer container = new DialogContainerPage();
+
+        Assert.Null(container.DialogView);
+        Assert.Null(container.Dismiss);
+    }
+
+    [Fact]
+    public void UnparentedPageUsesDefaultOverlayStyle()
+    {
+        var overlay = new LayoutContainer().CreateLayout(new ContentView(), false, new Command(() => { }));
+
+        var mask = Assert.IsType<BoxView>(overlay.Children[0]);
+        Assert.NotNull(mask.Style);
+        Assert.Contains(mask.Style.Setters, setter => setter.Property == BoxView.OpacityProperty && Equals(setter.Value, 0.75));
+    }
+
+    [Fact]
     public void MaskCoversSafeAreaWithoutChangingPopupPositioning()
     {
         var dialog = new ContentView();

@@ -1,4 +1,6 @@
 #nullable enable
+using System.Diagnostics.CodeAnalysis;
+
 namespace Prism.IoC;
 
 /// <summary>
@@ -53,6 +55,7 @@ public class ContainerProvider<T>
     /// Resolves the specified type from the Application's Container
     /// </summary>
     /// <param name="containerProvider"></param>
+    [return: MaybeNull]
     public static implicit operator T(ContainerProvider<T> containerProvider)
     {
         var container = ContainerLocator.Container;

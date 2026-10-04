@@ -6,14 +6,14 @@ namespace Prism.Common
     /// <summary>
     /// Defines a contract for specifying values associated with a unique key.
     /// </summary>
-    public interface IParameters : IEnumerable<KeyValuePair<string, object>>
+    public interface IParameters : IEnumerable<KeyValuePair<string, object?>>
     {
         /// <summary>
         /// Adds the specified key and value to the parameter collection.
         /// </summary>
         /// <param name="key">The key of the parameter to add.</param>
         /// <param name="value">The value of the parameter to add.</param>
-        void Add(string key, object value);
+        void Add(string key, object? value);
 
         /// <summary>
         /// Determines whether the <see cref="IParameters"/> contains the specified <paramref name="key"/>.
@@ -38,6 +38,7 @@ namespace Prism.Common
         /// <typeparam name="T">The type of the parameter to get.</typeparam>
         /// <param name="key">The key of the parameter to find.</param>
         /// <returns>A matching value of <typeparamref name="T"/> if it exists.</returns>
+        [return: MaybeNull]
         T GetValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(string key);
 
         /// <summary>

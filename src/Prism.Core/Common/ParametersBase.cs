@@ -104,7 +104,7 @@ namespace Prism.Common
         /// </summary>
         /// <param name="key">The key to reference this value in the parameters collection.</param>
         /// <param name="value">The value of the parameter to store.</param>
-        public void Add(string key, object value) =>
+        public void Add(string key, object? value) =>
             _entries.Add(new KeyValuePair<string, object?>(key, value));
 
         /// <summary>
@@ -128,6 +128,7 @@ namespace Prism.Common
         /// <typeparam name="T">The type of object to be returned.</typeparam>
         /// <param name="key">The key for the value to be returned.</param>
         /// <returns>Returns a matching parameter of <typeparamref name="T"/> if one exists in the Collection.</returns>
+        [return: MaybeNull]
         public T GetValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(string key) =>
             _entries.GetValue<T>(key);
 

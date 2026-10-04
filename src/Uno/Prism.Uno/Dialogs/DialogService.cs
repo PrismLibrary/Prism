@@ -28,13 +28,17 @@ namespace Prism.Dialogs
                 var dialogWindow = CreateDialogWindow(windowName);
                 if (dialogWindow is ContentDialog contentDialog)
                 {
-                    contentDialog.XamlRoot = _containerProvider.Resolve<Window>().Content.XamlRoot;
+                    var windowContent = _containerProvider.Resolve<Window>().Content;
+                    if (windowContent is null)
+                        throw new InvalidOperationException("A dialog requires a window with content.");
+
+                    contentDialog.XamlRoot = windowContent.XamlRoot;
                 }
                 ConfigureDialogWindowEvents(dialogWindow, callback);
                 ConfigureDialogWindowContent(name, dialogWindow, parameters);
 
                 var placement = parameters.ContainsKey(KnownDialogParameters.DialogPlacement) ?
-                    (parameters[KnownDialogParameters.DialogPlacement] is ContentDialogPlacement placementValue ? placementValue : Enum.Parse<ContentDialogPlacement>(parameters[KnownDialogParameters.DialogPlacement].ToString() ?? string.Empty)) : ContentDialogPlacement.Popup;
+                    (parameters[KnownDialogParameters.DialogPlacement] is ContentDialogPlacement placementValue ? placementValue : Enum.Parse<ContentDialogPlacement>(parameters[KnownDialogParameters.DialogPlacement]?.ToString() ?? string.Empty)) : ContentDialogPlacement.Popup;
 
                 await dialogWindow.ShowAsync(placement);
             }
