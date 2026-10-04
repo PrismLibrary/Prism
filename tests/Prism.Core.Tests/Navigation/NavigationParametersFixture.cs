@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Prism.Navigation;
+using Prism.Tests.Common.Mocks;
 using Xunit;
 
 namespace Prism.Tests.Navigation
@@ -282,6 +283,42 @@ namespace Prism.Tests.Navigation
             var result = parameters.ToString();
 
             Assert.Equal("?id1=1&id2=&id3=3", result);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void InternalGetValueRunsStructParameterlessConstructorForMissingOrNullParameter(bool addNullParameter)
+        {
+            INavigationParametersInternal parameters = new NavigationParameters();
+            if (addNullParameter)
+                parameters.Add("value", null);
+
+            Assert.Equal(42, parameters.GetValue<MockStructWithParameterlessConstructor>("value").Value);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void InternalGetValueReturnsNullForMissingOrNullNullableParameter(bool addNullParameter)
+        {
+            INavigationParametersInternal parameters = new NavigationParameters();
+            if (addNullParameter)
+                parameters.Add("value", null);
+
+            Assert.Null(parameters.GetValue<MockStructWithParameterlessConstructor?>("value"));
+        }
+
+        [Fact]
+        public void InternalGetValueConvertsValueFromInternalCollection()
+        {
+            var parameters = new NavigationParameters();
+            parameters.Add("value", 7);
+            INavigationParametersInternal internalParameters = parameters;
+            internalParameters.Add("value", "42");
+
+            Assert.Equal(42, internalParameters.GetValue<int>("value"));
+            Assert.Equal(7, parameters.GetValue<int>("value"));
         }
     }
 

@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 #nullable enable
 namespace Prism.Mvvm
@@ -26,7 +27,8 @@ namespace Prism.Mvvm
         {
             _factories = new Dictionary<string, Func<object>>();
             _typeFactories = new Dictionary<string, Type>();
-            _defaultViewModelFactory = type => Activator.CreateInstance(type);
+            _registeredViewModelTypes = new Dictionary<Type, ViewModelTypeRegistration>();
+            _defaultViewModelFactory = CreateViewModel;
             _defaultViewModelFactoryWithViewParameter = null;
             _defaultViewTypeToViewModelTypeResolver = DefaultViewTypeToViewModel;
         }
@@ -41,10 +43,12 @@ namespace Prism.Mvvm
         /// </summary>
         static Dictionary<string, Type> _typeFactories = new Dictionary<string, Type>();
 
+        static Dictionary<Type, ViewModelTypeRegistration> _registeredViewModelTypes = new Dictionary<Type, ViewModelTypeRegistration>();
+
         /// <summary>
         /// The default view model factory which provides the ViewModel type as a parameter.
         /// </summary>
-        static Func<Type, object> _defaultViewModelFactory = type => Activator.CreateInstance(type);
+        static Func<Type, object> _defaultViewModelFactory = CreateViewModel;
 
         /// <summary>
         /// ViewModelFactory that provides the View instance and ViewModel type as parameters.
@@ -55,6 +59,29 @@ namespace Prism.Mvvm
         /// Default view type to view model type resolver, assumes the view model is in same assembly as the view type, but in the "ViewModels" namespace.
         /// </summary>
         static Func<Type, Type?> _defaultViewTypeToViewModelTypeResolver = DefaultViewTypeToViewModel;
+
+        private static object CreateViewModel(Type type)
+        {
+            if (_registeredViewModelTypes.TryGetValue(type, out var registration))
+                return registration.CreateInstance();
+
+            if (ContainerAot.TryGetImplementationType(type, out var preservedType))
+                return Activator.CreateInstance(preservedType)!;
+
+#if NETFRAMEWORK
+            return CreateViewModelUsingReflection(type);
+#else
+            if (RuntimeFeature.IsDynamicCodeSupported)
+                return CreateViewModelUsingReflection(type);
+
+            throw new InvalidOperationException($"ViewModel '{type}' must be registered with ViewModelLocationProvider or preserved by the Prism container generator before default activation in Native AOT.");
+#endif
+        }
+
+#if !NETFRAMEWORK
+        [RequiresUnreferencedCode("The ViewModel's public parameterless constructor must be preserved.")]
+#endif
+        private static object CreateViewModelUsingReflection(Type type) => Activator.CreateInstance(type)!;
 
         private static Type? DefaultViewTypeToViewModel(Type viewType)
         {
@@ -212,7 +239,14 @@ namespace Prism.Mvvm
         /// <param name="viewModelType">The ViewModel type</param>
         public static void Register(string viewTypeName, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModelType)
         {
+            _typeFactories.TryGetValue(viewTypeName, out var previousType);
             _typeFactories[viewTypeName] = viewModelType;
+
+            if (viewModelType is not null)
+                _registeredViewModelTypes[viewModelType] = new ViewModelTypeRegistration(viewModelType);
+
+            if (previousType is not null && previousType != viewModelType && !_typeFactories.ContainsValue(previousType))
+                _registeredViewModelTypes.Remove(previousType);
         }
     }
 }

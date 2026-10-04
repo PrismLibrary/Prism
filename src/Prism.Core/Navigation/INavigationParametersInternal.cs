@@ -1,4 +1,6 @@
-﻿namespace Prism.Navigation;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Prism.Navigation;
 
 /// <summary>
 /// Used to set internal parameters used by Prism
@@ -25,5 +27,5 @@ public interface INavigationParametersInternal
     /// <typeparam name="T">The type of object to be returned</typeparam>
     /// <param name="key">The key for the value to be returned</param>
     /// <returns>Returns a matching parameter of <typeparamref name="T"/> if one exists in the Collection</returns>
-    T GetValue<T>(string key);
+    T GetValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(string key);
 }

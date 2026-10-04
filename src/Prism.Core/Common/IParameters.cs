@@ -38,7 +38,7 @@ namespace Prism.Common
         /// <typeparam name="T">The type of the parameter to get.</typeparam>
         /// <param name="key">The key of the parameter to find.</param>
         /// <returns>A matching value of <typeparamref name="T"/> if it exists.</returns>
-        T GetValue<T>(string key);
+        T GetValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(string key);
 
         /// <summary>
         /// Gets the parameter associated with the specified <paramref name="key"/>.
@@ -46,7 +46,7 @@ namespace Prism.Common
         /// <typeparam name="T">The type of the parameter to get.</typeparam>
         /// <param name="key">The key of the parameter to find.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of all the values referenced by key.</returns>
-        IEnumerable<T> GetValues<T>(string key);
+        IEnumerable<T> GetValues<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(string key);
 
         /// <summary>
         /// Gets the parameter associated with the specified <paramref name="key"/>.
@@ -58,7 +58,7 @@ namespace Prism.Common
         /// if the key is found; otherwise, the default value for the type of the value parameter.
         /// </param>
         /// <returns>true if the <see cref="IParameters"/> contains a parameter with the specified key; otherwise, false.</returns>
-        bool TryGetValue<T>(string key, [MaybeNullWhen(false)] out T value);
+        bool TryGetValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>(string key, [MaybeNullWhen(false)] out T value);
 
         /// <summary>
         /// Gets the parameter associated with the specified key (legacy).

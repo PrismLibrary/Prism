@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using Prism.Common;
 using Prism.Tests.Common.Mocks;
 using Xunit;
 
@@ -50,6 +51,104 @@ namespace Prism.Tests.Common
             Assert.Null(ex);
             Assert.Equal(MockEnum.Foo, value);
             Assert.Equal(MockEnum.Bar, value1);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void GetValueRunsStructParameterlessConstructorForMissingOrNullParameter(bool addNullParameter)
+        {
+            IParameters parameters = new MockParameters();
+            if (addNullParameter)
+                parameters.Add("value", null!);
+
+            Assert.Equal(42, parameters.GetValue<MockStructWithParameterlessConstructor>("value").Value);
+            Assert.Equal(42, ((MockStructWithParameterlessConstructor)parameters.GetValue("value", typeof(MockStructWithParameterlessConstructor))).Value);
+        }
+
+        [Theory]
+        [InlineData(false, 0)]
+        [InlineData(true, 42)]
+        public void TryGetValuePreservesMissingAndNullStructDefaults(bool addNullParameter, int expectedValue)
+        {
+            IParameters parameters = new MockParameters();
+            if (addNullParameter)
+                parameters.Add("value", null!);
+
+            var success = parameters.TryGetValue<MockStructWithParameterlessConstructor>("value", out var value);
+
+            Assert.Equal(addNullParameter, success);
+            Assert.Equal(expectedValue, value.Value);
+        }
+
+        [Fact]
+        public void GetValuesRunsStructParameterlessConstructorForNullParameter()
+        {
+            IParameters parameters = new MockParameters();
+            parameters.Add("value", null!);
+
+            var value = Assert.Single(parameters.GetValues<MockStructWithParameterlessConstructor>("value"));
+
+            Assert.Equal(42, value.Value);
+            Assert.Empty(parameters.GetValues<MockStructWithParameterlessConstructor>("missing"));
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void NullableAndReferenceDefaultsRemainNullForMissingOrNullParameter(bool addNullParameter)
+        {
+            IParameters parameters = new MockParameters();
+            if (addNullParameter)
+                parameters.Add("value", null!);
+
+            Assert.Null(parameters.GetValue<MockStructWithParameterlessConstructor?>("value"));
+            Assert.Null(parameters.GetValue("value", typeof(MockStructWithParameterlessConstructor?)));
+            Assert.False(parameters.TryGetValue<MockStructWithParameterlessConstructor?>("value", out var nullableValue));
+            Assert.Null(nullableValue);
+            Assert.Empty(parameters.GetValues<MockStructWithParameterlessConstructor?>("value"));
+            Assert.Null(parameters.GetValue<object>("value"));
+            Assert.False(parameters.TryGetValue<object>("value", out var referenceValue));
+            Assert.Null(referenceValue);
+            Assert.Empty(parameters.GetValues<object>("value"));
+        }
+
+        [Fact]
+        public void ConvertibleInterfaceDoesNotConvertPlainObject()
+        {
+            IParameters parameters = new MockParameters();
+            parameters.Add("value", new object());
+
+            Assert.False(parameters.TryGetValue<IConvertible>("value", out var value));
+            Assert.Null(value);
+            Assert.Empty(parameters.GetValues<IConvertible>("value"));
+            var exception = Assert.Throws<InvalidCastException>(() => parameters.GetValue<IConvertible>("value"));
+            Assert.Contains("Unable to convert the value of Type", exception.Message);
+        }
+
+        [Fact]
+        public void ConvertibleInterfaceReturnsAssignableValue()
+        {
+            IParameters parameters = new MockParameters();
+            object storedValue = 42;
+            parameters.Add("value", storedValue);
+
+            Assert.Same(storedValue, parameters.GetValue<IConvertible>("value"));
+            Assert.True(parameters.TryGetValue<IConvertible>("value", out var value));
+            Assert.Same(storedValue, value);
+            Assert.Same(storedValue, Assert.Single(parameters.GetValues<IConvertible>("value")));
+        }
+
+        [Fact]
+        public void ConvertibleTargetStillConvertsStringToInteger()
+        {
+            IParameters parameters = new MockParameters("value=42");
+
+            Assert.Equal(42, parameters.GetValue<int>("value"));
+            Assert.Equal(42, parameters.GetValue("value", typeof(int)));
+            Assert.True(parameters.TryGetValue<int>("value", out var value));
+            Assert.Equal(42, value);
+            Assert.Equal(42, Assert.Single(parameters.GetValues<int>("value")));
         }
     }
 }
