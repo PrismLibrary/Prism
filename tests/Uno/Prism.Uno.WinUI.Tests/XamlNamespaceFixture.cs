@@ -10,7 +10,6 @@ public class XamlNamespaceFixture
 
     [Theory]
     [InlineData("http://prismlibrary.com")]
-    [InlineData("http://prismlibrary.com/")]
     [InlineData(GlobalUri)]
     public void CanonicalAndGlobalSchemasExportCurrentPublicNamespaces(string uri)
     {
@@ -31,19 +30,30 @@ public class XamlNamespaceFixture
         foreach (var assembly in new[] { typeof(PrismApplicationBase).Assembly, typeof(DryIoc.PrismApplication).Assembly })
         {
             Assert.All(assembly.GetCustomAttributes<XmlnsDefinitionAttribute>(), attribute =>
-                Assert.Contains(attribute.XmlNamespace, new[] { "http://prismlibrary.com", "http://prismlibrary.com/", GlobalUri }));
+                Assert.Contains(attribute.XmlNamespace, new[] { "http://prismlibrary.com", GlobalUri }));
         }
     }
 
     [Theory]
     [InlineData("http://prismlibrary.com")]
-    [InlineData("http://prismlibrary.com/")]
     [InlineData(GlobalUri)]
     public void DryIocExportsItsActualPublicNamespace(string uri)
     {
         var attribute = Assert.Single(typeof(DryIoc.PrismApplication).Assembly
             .GetCustomAttributes<XmlnsDefinitionAttribute>().Where(attribute => attribute.XmlNamespace == uri));
         Assert.Equal(typeof(DryIoc.PrismApplication).Namespace, attribute.ClrNamespace);
+    }
+
+    [Fact]
+    public void AssembliesDoNotEmitDuplicateNamespaceMappings()
+    {
+        foreach (var assembly in new[] { typeof(PrismApplicationBase).Assembly, typeof(DryIoc.PrismApplication).Assembly })
+        {
+            var mappings = assembly.GetCustomAttributes<XmlnsDefinitionAttribute>()
+                .Select(attribute => (attribute.XmlNamespace, attribute.ClrNamespace))
+                .ToArray();
+            Assert.Equal(mappings.Length, mappings.Distinct().Count());
+        }
     }
 
     [Fact]
