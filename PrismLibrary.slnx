@@ -55,7 +55,6 @@
     <Project Path="tests/Maui/Prism.Maui.Tests/Prism.Maui.Tests.csproj" />
   </Folder>
   <Folder Name="/tests/Uno/">
-    <Project Path="tests/Uno/Prism.Uno.XamlConsumer/Prism.Uno.XamlConsumer.csproj" />
     <Project Path="tests/Uno/Prism.DryIoc.Uno.WinUI.Tests/Prism.DryIoc.Uno.WinUI.Tests.csproj" />
     <Project Path="tests/Uno/Prism.Uno.WinUI.Tests/Prism.Uno.WinUI.Tests.csproj" />
   </Folder>

@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Uno\Prism.Uno\Prism.Uno.WinUI.csproj" />
-    <ProjectReference Include="..\Prism.Uno.XamlConsumer\Prism.Uno.XamlConsumer.csproj" />
   </ItemGroup>
 
 </Project>

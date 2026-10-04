@@ -6,19 +6,6 @@ Prism is a framework for building loosely coupled, maintainable, and testable XA
 
 The Prism Team would first and foremost like to thank all of those developers who have stepped up over the past 4 years with GitHub Sponsors. We are committed to ensuring the longevity and success of the Prism Library. As a result Prism 9.0 is now [Dual License](LICENSE). We continue to offer a FREE Community License for the vast majority of our community, while the Commercial License will now be required by larger organizations to help fund and support the development of Prism. We additionally have the Commercial Plus License which grants access to a number of additional support libraries that build on top of Prism as well as a private Discord channel where you can ask questions and interact with the Prism Team.
 
-## Uno XAML namespaces
-
-Use `xmlns:prism="http://prismlibrary.com"` for Prism types and attached properties.
-Uno projects also receive global mappings by default, allowing Prism types to be
-used without a prefix. To disable Prism global mappings while keeping the
-canonical namespace available, add this property to your project:
-
-```xml
-<PropertyGroup>
-    <PrismUnoGlobalXmlns>false</PrismUnoGlobalXmlns>
-</PropertyGroup>
-```
-
 ## Build Status
 
 |          | Status |

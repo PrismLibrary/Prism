@@ -1,4 +1,4 @@
-<Page x:Class="Prism.Uno.XamlConsumer.ImplicitNamespaces"
+<Page x:Class="Prism.DryIoc.Uno.WinUI.Tests.Xaml.ImplicitNamespaces"
       ViewModelLocator.AutowireViewModel="False">
     <Page.Resources>
         <InvokeCommandAction x:Key="GlobalAction" />

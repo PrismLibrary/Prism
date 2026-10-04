@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Windows.Markup;
 using Xunit;
 
-namespace Prism.Uno.WinUI.Tests;
+namespace Prism.DryIoc.Uno.WinUI.Tests;
 
 public class XamlNamespaceFixture
 {
@@ -23,7 +23,7 @@ public class XamlNamespaceFixture
     [Fact]
     public void PrismAssembliesExportOnlyTheCanonicalSchema()
     {
-        foreach (var assembly in new[] { typeof(PrismApplicationBase).Assembly, typeof(DryIoc.PrismApplication).Assembly })
+        foreach (var assembly in new[] { typeof(PrismApplicationBase).Assembly, typeof(global::Prism.DryIoc.PrismApplication).Assembly })
         {
             Assert.All(assembly.GetCustomAttributes<XmlnsDefinitionAttribute>(), attribute =>
                 Assert.Equal("http://prismlibrary.com", attribute.XmlNamespace));
@@ -33,16 +33,16 @@ public class XamlNamespaceFixture
     [Fact]
     public void DryIocExportsItsActualPublicNamespace()
     {
-        var attribute = Assert.Single(typeof(DryIoc.PrismApplication).Assembly
+        var attribute = Assert.Single(typeof(global::Prism.DryIoc.PrismApplication).Assembly
             .GetCustomAttributes<XmlnsDefinitionAttribute>());
-        Assert.Equal(typeof(DryIoc.PrismApplication).Namespace, attribute.ClrNamespace);
+        Assert.Equal(typeof(global::Prism.DryIoc.PrismApplication).Namespace, attribute.ClrNamespace);
     }
 
     [Fact]
     public void AssembliesDoNotEmitDuplicateNamespaceMappings()
     {
-        foreach (var assembly in new[] { typeof(PrismApplicationBase).Assembly, typeof(DryIoc.PrismApplication).Assembly,
-            typeof(XamlConsumer.ExplicitNamespaces).Assembly })
+        foreach (var assembly in new[] { typeof(PrismApplicationBase).Assembly, typeof(global::Prism.DryIoc.PrismApplication).Assembly,
+            typeof(Xaml.ExplicitNamespaces).Assembly })
         {
             var mappings = assembly.GetCustomAttributes<XmlnsDefinitionAttribute>()
                 .Select(attribute => (attribute.XmlNamespace, attribute.ClrNamespace))
@@ -54,23 +54,23 @@ public class XamlNamespaceFixture
     [Fact]
     public void ConsumerXamlCompilesAgainstReferencedPrismAssemblies()
     {
-        Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(XamlConsumer.ExplicitNamespaces)));
-        Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(XamlConsumer.ExplicitUsingNamespaces)));
-        Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(XamlConsumer.CollisionNamespaces)));
+        Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(Xaml.ExplicitNamespaces)));
+        Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(Xaml.ExplicitUsingNamespaces)));
+        Assert.True(typeof(Microsoft.UI.Xaml.Controls.Page).IsAssignableFrom(typeof(Xaml.CollisionNamespaces)));
     }
 
     [Fact]
     public void ConsumerGlobalMappingsFollowTheDisableProperty()
     {
-        var assembly = typeof(XamlConsumer.ExplicitNamespaces).Assembly;
+        var assembly = typeof(Xaml.ExplicitNamespaces).Assembly;
         var globalUri = Assert.Single(assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
             .Where(attribute => attribute.Key == "UnoGlobalXamlNamespaceUri")).Value;
         var namespaces = assembly.GetCustomAttributes<XmlnsDefinitionAttribute>()
-            .Where(attribute => attribute.XmlNamespace == globalUri && !attribute.ClrNamespace.StartsWith("Prism.Uno.XamlConsumer."))
+            .Where(attribute => attribute.XmlNamespace == globalUri && !attribute.ClrNamespace.StartsWith("Prism.DryIoc.Uno.WinUI.Tests.Xaml."))
             .Select(attribute => attribute.ClrNamespace)
             .OrderBy(value => value, StringComparer.Ordinal)
             .ToArray();
-        var implicitPage = assembly.GetType("Prism.Uno.XamlConsumer.ImplicitNamespaces");
+        var implicitPage = assembly.GetType("Prism.DryIoc.Uno.WinUI.Tests.Xaml.ImplicitNamespaces");
         var enabled = Assert.Single(assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
             .Where(attribute => attribute.Key == "PrismUnoGlobalXmlns")).Value != "false";
         if (!enabled)

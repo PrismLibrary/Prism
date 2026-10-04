@@ -1,0 +1,11 @@
+<Page x:Class="Prism.DryIoc.Uno.WinUI.Tests.Xaml.CollisionNamespaces"
+      xmlns:a="using:Prism.DryIoc.Uno.WinUI.Tests.Xaml.First"
+      xmlns:b="using:Prism.DryIoc.Uno.WinUI.Tests.Xaml.Second"
+      xmlns:local="using:Prism.DryIoc.Uno.WinUI.Tests.Xaml.First">
+    <StackPanel>
+        <Button Content="WinUI takes precedence" />
+        <local:Button />
+        <a:SharedControl />
+        <b:SharedControl />
+    </StackPanel>
+</Page>
