@@ -1,0 +1,12 @@
+<Page x:Class="Prism.DryIoc.Uno.WinUI.Tests.Xaml.ExplicitUsingNamespaces"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mvvm="using:Prism.Mvvm"
+      xmlns:regions="using:Prism.Navigation.Regions"
+      xmlns:interactivity="using:Prism.Interactivity"
+      mvvm:ViewModelLocator.AutowireViewModel="False">
+    <Page.Resources>
+        <interactivity:InvokeCommandAction x:Key="Action" />
+    </Page.Resources>
+    <ContentControl regions:RegionManager.RegionName="ExplicitUsingRegion" />
+</Page>

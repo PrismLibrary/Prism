@@ -45,4 +45,7 @@ Prism provides an implementation of a collection of design patterns that are hel
   <ItemGroup>
     <ProjectReference Include="..\Prism.Uno\Prism.Uno.WinUI.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.Contains('windows10'))">
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
 </Project>

@@ -3,4 +3,25 @@
     <Using Include="DryIoc" />
     <Using Include="Prism.DryIoc" />
   </ItemGroup>
+  <PropertyGroup>
+    <UnoGlobalXamlNamespaceUri Condition="'$(UnoGlobalXamlNamespaceUri)' == ''">http://schemas.microsoft.com/winfx/2006/xaml/presentation/global</UnoGlobalXamlNamespaceUri>
+  </PropertyGroup>
+  <!-- Only app heads aggregate globals; libraries must not override a consuming app's opt-out. -->
+  <Target Name="GeneratePrismDryIocUnoGlobalXmlns"
+          BeforeTargets="BeforeCompile;CoreCompile"
+          DependsOnTargets="PrepareForBuild"
+          Condition="'$(UsingUnoSdk)' == 'true' AND '$(IsUnoHead)' == 'true' AND '$(PrismUnoGlobalXmlns)' != 'false' AND '$(TargetFramework)' != '' AND !$(TargetFramework.Contains('windows10'))">
+    <ItemGroup>
+      <PrismDryIocUnoGlobalXmlnsAttribute Include="System.Windows.Markup.XmlnsDefinitionAttribute">
+        <_Parameter1>$(UnoGlobalXamlNamespaceUri)</_Parameter1>
+        <_Parameter2>Prism.DryIoc</_Parameter2>
+      </PrismDryIocUnoGlobalXmlnsAttribute>
+    </ItemGroup>
+    <WriteCodeFragment AssemblyAttributes="@(PrismDryIocUnoGlobalXmlnsAttribute)"
+                       Language="$(Language)"
+                       OutputFile="$(IntermediateOutputPath)PrismDryIocUno.GlobalXmlns.g$(DefaultLanguageSourceExtension)">
+      <Output TaskParameter="OutputFile" ItemName="Compile" />
+      <Output TaskParameter="OutputFile" ItemName="FileWrites" />
+    </WriteCodeFragment>
+  </Target>
 </Project>

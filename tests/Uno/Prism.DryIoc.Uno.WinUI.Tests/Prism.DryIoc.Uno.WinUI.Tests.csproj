@@ -2,11 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0-desktop</TargetFramework>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
     <IsPackable>false</IsPackable>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+    <DefaultItemExcludes Condition="'$(PrismUnoGlobalXmlns)' == 'false' OR '$(OutputType)' == 'Library'">$(DefaultItemExcludes);Xaml/ImplicitNamespaces.xaml</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>
+    <AssemblyMetadata Include="UnoGlobalXamlNamespaceUri" Value="$(UnoGlobalXamlNamespaceUri)" />
+    <AssemblyMetadata Include="PrismUnoGlobalXmlns" Value="true" Condition="'$(PrismUnoGlobalXmlns)' != 'false' AND '$(OutputType)' != 'Library'" />
+    <AssemblyMetadata Include="PrismUnoGlobalXmlns" Value="false" Condition="'$(PrismUnoGlobalXmlns)' == 'false' OR '$(OutputType)' == 'Library'" />
     <PackageReference Include="coverlet.collector">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -37,4 +43,7 @@
     <Compile Include="..\..\Prism.ViewRegistry.Shared\ViewRegistryFixture.cs" Link="ViewRegistryFixture.cs" />
   </ItemGroup>
 
+  <!-- Project references do not import NuGet buildTransitive assets. -->
+  <Import Project="../../../src/Uno/Prism.Uno/build/Package.targets" />
+  <Import Project="../../../src/Uno/Prism.DryIoc.Uno/build/Package.targets" />
 </Project>

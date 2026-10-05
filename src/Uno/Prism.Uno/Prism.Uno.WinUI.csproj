@@ -75,6 +75,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.Contains('windows10'))">
+    <Compile Remove="Properties\AssemblyInfo.cs" />
     <Page Include="Dialogs\DialogWindow.xaml" />
   </ItemGroup>
 </Project>
