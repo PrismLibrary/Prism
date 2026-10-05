@@ -29,6 +29,9 @@ jobs:
     with:
       name: Build Prism.Core
       solution-path: PrismLibrary_Core.slnf
+      dotnet-version: |
+        6.0.x
+        8.0.201
       code-sign: true
       artifact-name: Core
     secrets:
@@ -43,6 +46,9 @@ jobs:
     with:
       name: Build Prism.Wpf
       solution-path: PrismLibrary_Wpf.slnf
+      dotnet-version: |
+        6.0.x
+        8.0.201
       code-sign: true
       artifact-name: Wpf
     secrets:
@@ -57,6 +63,9 @@ jobs:
     with:
       name: Build Prism.Forms
       solution-path: PrismLibrary_Forms.slnf
+      dotnet-version: |
+        6.0.x
+        8.0.201
       code-sign: true
       artifact-name: Forms
       jdk-version: 13
@@ -93,6 +102,9 @@ jobs:
     with:
       name: Build Prism.Maui
       solution-path: PrismLibrary_Maui.slnf
+      dotnet-version: |
+        6.0.x
+        8.0.201
       install-workload: maui maui-tizen
       code-sign: true
       artifact-name: Maui

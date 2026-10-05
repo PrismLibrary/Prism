@@ -23,4 +23,7 @@ jobs:
     with:
       name: Build Prism.Forms
       solution-path: PrismLibrary_Forms.slnf
+      dotnet-version: |
+        6.0.x
+        8.0.201
       jdk-version: 13
