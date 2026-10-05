@@ -241,16 +241,17 @@ public class AsyncDelegateCommandFixture
             command.CanExecuteChanged += (_, _) => canExecuteStates.Add(command.CanExecute());
 
             var first = command.Execute();
+            var second = command.Execute();
             try
             {
-                await command.Execute();
+                Assert.True(second.IsCompletedSuccessfully);
                 Assert.Equal(new[] { true }, executingStates);
                 Assert.Equal(new[] { false }, canExecuteStates);
             }
             finally
             {
                 completion.SetResult(null);
-                await first;
+                await Task.WhenAll(first, second);
             }
 
             Assert.Equal(new[] { true, false }, executingStates);
