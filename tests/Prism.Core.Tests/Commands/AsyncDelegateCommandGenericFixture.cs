@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,149 +8,8 @@ using Xunit;
 
 namespace Prism.Tests.Commands;
 
-public class AsyncDelegateCommandFixture
+public class AsyncDelegateCommandGenericFixture
 {
-    [Fact]
-    public void WhenConstructedWithDelegate_InitializesValues()
-    {
-        var actual = new AsyncDelegateCommand(() => default);
-
-        Assert.NotNull(actual);
-    }
-
-    [Fact]
-    public async Task CannotExecuteWhileExecuting()
-    {
-        var tcs = new TaskCompletionSource<object>();
-        var command = new AsyncDelegateCommand(async () => await tcs.Task);
-
-        Assert.True(command.CanExecute());
-        var task = command.Execute();
-        Assert.False(command.CanExecute());
-        tcs.SetResult("complete");
-        await task;
-        Assert.True(command.CanExecute());
-    }
-
-    [Fact]
-    public async Task CanExecuteParallelTaskWhenEnabled()
-    {
-        var tcs = new TaskCompletionSource<object>();
-        var command = new AsyncDelegateCommand(async () => await tcs.Task)
-            .EnableParallelExecution();
-
-        Assert.True(command.CanExecute());
-        var task = command.Execute();
-        Assert.True(command.CanExecute());
-        tcs.SetResult("complete");
-        await task;
-        Assert.True(command.CanExecute());
-    }
-
-    [Fact]
-    public async Task CanExecuteChangedFiresWhenExecuting()
-    {
-        var tcs = new TaskCompletionSource<object> ();
-        var command = new AsyncDelegateCommand(async () => await tcs.Task);
-        bool canExecuteChanged = false;
-
-        command.CanExecuteChanged += Command_CanExecuteChanged;
-
-        void Command_CanExecuteChanged(object sender, System.EventArgs e)
-        {
-            canExecuteChanged = true;
-        }
-
-        var task = command.Execute();
-        command.CanExecuteChanged -= Command_CanExecuteChanged;
-
-        Assert.True(command.IsExecuting);
-        Assert.True(canExecuteChanged);
-        tcs.SetResult(null);
-        await task;
-        Assert.False(command.IsExecuting);
-    }
-
-    [Fact]
-    public async Task ExecuteAsync_ShouldExecuteCommandAsynchronously()
-    {
-        // Arrange
-        bool executed = false;
-        var tcs = new TaskCompletionSource<object>();
-        var command = new AsyncDelegateCommand(async (_) =>
-        {
-            await tcs.Task;
-            executed = true;
-        });
-
-        // Act
-        var task = command.Execute();
-        Assert.False(executed);
-        tcs.SetResult("complete");
-        await task;
-
-        // Assert
-        Assert.True(executed);
-    }
-
-    [Fact]
-    public async Task ExecuteAsync_WithCancellationToken_ShouldExecuteCommandAsynchronously()
-    {
-        // Arrange
-        bool executionStarted = false;
-        bool executed = false;
-        bool taskCancelled = false;
-        var command = new AsyncDelegateCommand(Execute)
-            .Catch<TaskCanceledException>(ex =>
-            {
-                taskCancelled = true;
-            });
-
-        async Task Execute(CancellationToken token)
-        {
-            executionStarted = true;
-            await Task.Delay(1000, token);
-            executed = true;
-        }
-
-        // Act
-        using (var cancellationTokenSource = new CancellationTokenSource())
-        {
-            cancellationTokenSource.CancelAfter(50); // Cancel after 50 milliseconds
-            await command.Execute(cancellationTokenSource.Token);
-        }
-
-        // Assert
-        Assert.True(executionStarted);
-        Assert.False(executed);
-        Assert.True(taskCancelled);
-    }
-
-    [Fact]
-    public async Task ICommandExecute_UsesDefaultTokenSourceFactory()
-    {
-        var cts = new CancellationTokenSource();
-        var command = new AsyncDelegateCommand((token) => Task.Delay(1000, token))
-            .CancellationTokenSourceFactory(() => cts.Token);
-        ICommand iCommand = command;
-        iCommand.Execute(null);
-
-        Assert.True(command.IsExecuting);
-        cts.Cancel();
-        await Task.Delay(10);
-
-        Assert.False(command.IsExecuting);
-    }
-
-    [Fact]
-    public void ICommandExecute_HandlesErrorOnce()
-    {
-        var handled = 0;
-        ICommand command = new AsyncDelegateCommand<string>(str => throw new System.Exception("Test"))
-            .Catch(ex => handled++);
-        command.Execute(string.Empty);
-        Assert.Equal(1, handled);
-    }
 
     [Theory]
     [InlineData(false, false)]
@@ -161,7 +20,7 @@ public class AsyncDelegateCommandFixture
     {
         var completion = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
         var executions = 0;
-        var command = new AsyncDelegateCommand(() =>
+        var command = new AsyncDelegateCommand<string>(parameter =>
         {
             executions++;
             return completion.Task;
@@ -170,7 +29,7 @@ public class AsyncDelegateCommandFixture
 
         Task Execute() => useAsyncInterface
             ? useCancellationToken ? asyncCommand.ExecuteAsync("test", CancellationToken.None) : asyncCommand.ExecuteAsync("test")
-            : useCancellationToken ? command.Execute(CancellationToken.None) : command.Execute();
+            : useCancellationToken ? command.Execute("test", CancellationToken.None) : command.Execute("test");
 
         var first = Execute();
         var second = Execute();
@@ -181,7 +40,7 @@ public class AsyncDelegateCommandFixture
             Assert.True(second.IsCompletedSuccessfully);
             Assert.True(third.IsCompletedSuccessfully);
             Assert.True(command.IsExecuting);
-            Assert.False(command.CanExecute());
+            Assert.False(command.CanExecute("test"));
             Assert.Equal(1, executions);
         }
         finally
@@ -191,7 +50,7 @@ public class AsyncDelegateCommandFixture
         }
 
         Assert.False(command.IsExecuting);
-        Assert.True(command.CanExecute());
+        Assert.True(command.CanExecute("test"));
         await Execute();
         Assert.Equal(2, executions);
     }
@@ -201,13 +60,13 @@ public class AsyncDelegateCommandFixture
     {
         var completion = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
         var executions = 0;
-        var command = new AsyncDelegateCommand(() =>
+        var command = new AsyncDelegateCommand<string>(parameter =>
         {
             executions++;
             return completion.Task;
         });
         ICommand iCommand = command;
-        var first = command.Execute();
+        var first = command.Execute("test");
         try
         {
             iCommand.Execute("test");
@@ -230,7 +89,7 @@ public class AsyncDelegateCommandFixture
         await Task.Run(async () =>
         {
             var completion = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var command = new AsyncDelegateCommand(() => completion.Task);
+            var command = new AsyncDelegateCommand<string>(parameter => completion.Task);
             var executingStates = new List<bool>();
             var canExecuteStates = new List<bool>();
             command.PropertyChanged += (_, args) =>
@@ -238,10 +97,10 @@ public class AsyncDelegateCommandFixture
                 if (args.PropertyName == nameof(command.IsExecuting))
                     executingStates.Add(command.IsExecuting);
             };
-            command.CanExecuteChanged += (_, _) => canExecuteStates.Add(command.CanExecute());
+            command.CanExecuteChanged += (_, _) => canExecuteStates.Add(command.CanExecute("test"));
 
-            var first = command.Execute();
-            var second = command.Execute();
+            var first = command.Execute("test");
+            var second = command.Execute("test");
             try
             {
                 Assert.True(second.IsCompletedSuccessfully);
@@ -267,7 +126,7 @@ public class AsyncDelegateCommandFixture
         var reentered = false;
         Task second = Task.CompletedTask;
         Task third = Task.CompletedTask;
-        var command = new AsyncDelegateCommand(() =>
+        var command = new AsyncDelegateCommand<string>(parameter =>
         {
             executions++;
             return completion.Task;
@@ -278,11 +137,11 @@ public class AsyncDelegateCommandFixture
                 return;
 
             reentered = true;
-            second = command.Execute();
-            third = command.Execute();
+            second = command.Execute("test");
+            third = command.Execute("test");
         };
 
-        var first = command.Execute();
+        var first = command.Execute("test");
         try
         {
             Assert.True(reentered);
@@ -311,7 +170,7 @@ public class AsyncDelegateCommandFixture
         var shouldFail = true;
         var handledCount = 0;
         var executions = 0;
-        var command = new AsyncDelegateCommand(() =>
+        var command = new AsyncDelegateCommand<string>(parameter =>
         {
             executions++;
             if (!shouldFail)
@@ -327,10 +186,10 @@ public class AsyncDelegateCommandFixture
                 handledCount++;
             });
 
-        var first = command.Execute();
+        var first = command.Execute("test");
         if (!synchronous)
         {
-            var suppressed = command.Execute();
+            var suppressed = command.Execute("test");
             completion.SetException(exception);
             await suppressed;
         }
@@ -342,10 +201,10 @@ public class AsyncDelegateCommandFixture
 
         Assert.Equal(handled ? 1 : 0, handledCount);
         Assert.False(command.IsExecuting);
-        Assert.True(command.CanExecute());
+        Assert.True(command.CanExecute("test"));
         Assert.Same(handled ? exception : null, caughtException);
         shouldFail = false;
-        await command.Execute();
+        await command.Execute("test");
         Assert.Equal(2, executions);
     }
 
@@ -357,7 +216,7 @@ public class AsyncDelegateCommandFixture
         using var cancellation = new CancellationTokenSource();
         var handledCount = 0;
         var executions = 0;
-        var command = new AsyncDelegateCommand(token =>
+        var command = new AsyncDelegateCommand<string>((parameter, token) =>
         {
             executions++;
             return token.CanBeCanceled ? Task.Delay(Timeout.Infinite, token) : Task.CompletedTask;
@@ -365,8 +224,8 @@ public class AsyncDelegateCommandFixture
         if (handled)
             command.Catch<TaskCanceledException>(_ => handledCount++);
 
-        var first = command.Execute(cancellation.Token);
-        await command.Execute(CancellationToken.None);
+        var first = command.Execute("test", cancellation.Token);
+        await command.Execute("test", CancellationToken.None);
         cancellation.Cancel();
         if (handled)
             await first;
@@ -375,8 +234,8 @@ public class AsyncDelegateCommandFixture
 
         Assert.Equal(handled ? 1 : 0, handledCount);
         Assert.False(command.IsExecuting);
-        Assert.True(command.CanExecute());
-        await command.Execute(CancellationToken.None);
+        Assert.True(command.CanExecute("test"));
+        await command.Execute("test", CancellationToken.None);
         Assert.Equal(2, executions);
     }
 
@@ -385,19 +244,19 @@ public class AsyncDelegateCommandFixture
     {
         var completion = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
         var executions = 0;
-        var command = new AsyncDelegateCommand(() =>
+        var command = new AsyncDelegateCommand<string>(parameter =>
         {
             executions++;
             return completion.Task;
         }).EnableParallelExecution();
 
-        var first = command.Execute();
-        var second = command.Execute();
+        var first = command.Execute("test");
+        var second = command.Execute("test");
         try
         {
             Assert.False(first.IsCompleted);
             Assert.False(second.IsCompleted);
-            Assert.True(command.CanExecute());
+            Assert.True(command.CanExecute("test"));
             Assert.Equal(2, executions);
         }
         finally
@@ -407,6 +266,6 @@ public class AsyncDelegateCommandFixture
         }
 
         Assert.False(command.IsExecuting);
-        Assert.True(command.CanExecute());
+        Assert.True(command.CanExecute("test"));
     }
 }
