@@ -155,7 +155,15 @@ jobs:
 
       - name: Run tests
         if: matrix.test
-        run: dotnet test ${{ matrix.solution }} --configuration Release --no-build --logger GitHubActions --blame-crash --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        run: |
+          # Test each fixture project; helper-only *.Tests.Support projects remain build dependencies.
+          $solution = Get-Content '${{ matrix.solution }}' -Raw | ConvertFrom-Json
+          $projects = @($solution.solution.projects | Where-Object { $_ -like '*.Tests.csproj' })
+          if ($projects.Count -eq 0) { throw 'No test projects found in the solution filter.' }
+          foreach ($project in $projects) {
+            dotnet test $project --configuration Release --no-build --logger GitHubActions --blame-crash --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true RunConfiguration.TreatNoTestsAsError=true DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+            if ($LASTEXITCODE -ne 0) { throw "Tests failed for $project (exit $LASTEXITCODE)." }
+          }
 
       # Package signing is disabled for the 9.0 maintenance line. Strong-name signing stays in the projects.
       - name: Upload artifacts
@@ -230,4 +238,3 @@ jobs:
     secrets:
       feedUrl: ${{ secrets.PRISM_NUGET_FEED }}
       apiKey: ${{ secrets.PRISM_NUGET_TOKEN }}
-
