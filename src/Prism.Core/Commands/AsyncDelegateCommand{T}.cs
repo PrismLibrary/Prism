@@ -92,11 +92,11 @@ public class AsyncDelegateCommand<T> : DelegateCommandBase, IAsyncCommand
     {
         var token = cancellationToken ?? _getCancellationToken();
 
+        if (!_enableParallelExecution && IsExecuting)
+            return;
+
         try
         {
-            if (!_enableParallelExecution && IsExecuting)
-                return;
-
             IsExecuting = true;
             await _executeMethod(parameter, token)
                 .ConfigureAwait(false);

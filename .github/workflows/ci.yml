@@ -24,87 +24,156 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-prism-core:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
-    with:
-      name: Build Prism.Core
-      solution-path: PrismLibrary_Core.slnf
-      code-sign: true
-      artifact-name: Core
-    secrets:
-      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
-      codeSignClientId: ${{ secrets.CodeSignClientId }}
-      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
-      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
-      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
+  build-prism:
+    name: ${{ matrix.job }} / Build Prism.${{ matrix.platform }}
+    runs-on: windows-2022
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: Core
+            job: build-prism-core
+            solution: PrismLibrary_Core.slnf
+            msbuild: false
+            test: true
+            workloads: ''
+          - platform: Wpf
+            job: build-prism-wpf
+            solution: PrismLibrary_Wpf.slnf
+            msbuild: false
+            test: true
+            workloads: ''
+          - platform: Forms
+            job: build-prism-forms
+            solution: PrismLibrary_Forms.slnf
+            msbuild: true
+            test: true
+            workloads: ''
+          - platform: Uno
+            job: build-prism-uno
+            solution: PrismLibrary_Uno.slnf
+            msbuild: true
+            test: false
+            workloads: 'ios android macos maccatalyst wasm-tools'
+          - platform: Maui
+            job: build-prism-maui
+            solution: PrismLibrary_Maui.slnf
+            msbuild: false
+            test: true
+            workloads: 'maui maui-tizen'
+    env:
+      DOTNET_MULTILEVEL_LOOKUP: '0'
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 'true'
+      DOTNET_NOLOGO: 'true'
+      DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
-  build-prism-wpf:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
-    with:
-      name: Build Prism.Wpf
-      solution-path: PrismLibrary_Wpf.slnf
-      code-sign: true
-      artifact-name: Wpf
-    secrets:
-      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
-      codeSignClientId: ${{ secrets.CodeSignClientId }}
-      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
-      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
-      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
+      - name: Select job-local .NET installation
+        run: |
+          $directory = Join-Path $env:RUNNER_TEMP 'prism-9-dotnet'
+          "DOTNET_INSTALL_DIR=$directory" >> $env:GITHUB_ENV
+          "DOTNET_ROOT=$directory" >> $env:GITHUB_ENV
+          "DOTNET_MSBUILD_SDK_RESOLVER_CLI_DIR=$directory" >> $env:GITHUB_ENV
 
-  build-prism-forms:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v1
-    with:
-      name: Build Prism.Forms
-      solution-path: PrismLibrary_Forms.slnf
-      code-sign: true
-      artifact-name: Forms
-      jdk-version: 13
-    secrets:
-      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
-      codeSignClientId: ${{ secrets.CodeSignClientId }}
-      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
-      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
-      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
+      - name: Setup legacy .NET SDK and test runtime
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            6.0.x
+            8.0.x
 
-  build-prism-uno:
-    uses: avantipoint/workflow-templates/.github/workflows/msbuild-build.yml@v1
-    with:
-      name: Build Prism.Uno
-      solution-path: PrismLibrary_Uno.slnf
-      windows-sdk-version: 18362
-      dotnet-version: 8.0.300
-      install-workload: ios android macos maccatalyst wasm-tools
-      uno-check: false
-      uno-check-version: 1.24.0
-      uno-check-parameters: '--skip xcode --skip gtk3 --skip vswin --skip androidemulator --skip androidsdk --skip vsmac --skip dotnetnewunotemplates'
-      run-tests: false
-      code-sign: true
-      artifact-name: Uno
-    secrets:
-      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
-      codeSignClientId: ${{ secrets.CodeSignClientId }}
-      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
-      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
-      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
+      - name: Verify isolated SDK selection
+        run: |
+          $sdk = dotnet --version
+          if ($LASTEXITCODE -ne 0 -or $sdk -notlike '8.*') {
+            throw "Expected the legacy .NET 8 SDK, got '$sdk'."
+          }
+          $expected = Join-Path $env:DOTNET_INSTALL_DIR 'dotnet.exe'
+          if ((Get-Command dotnet).Source -ne $expected) {
+            throw "dotnet resolved outside the job-local installation."
+          }
+          dotnet --info
+          dotnet --list-runtimes
+          "DOTNET_MSBUILD_SDK_RESOLVER_SDKS_DIR=$env:DOTNET_INSTALL_DIR\sdk\$sdk\Sdks" >> $env:GITHUB_ENV
+          "DOTNET_MSBUILD_SDK_RESOLVER_SDKS_VER=$sdk" >> $env:GITHUB_ENV
 
-  build-prism-maui:
-    uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@v1
-    with:
-      name: Build Prism.Maui
-      solution-path: PrismLibrary_Maui.slnf
-      install-workload: maui maui-tizen
-      code-sign: true
-      artifact-name: Maui
-    secrets:
-      codeSignKeyVault: ${{ secrets.CodeSignKeyVault }}
-      codeSignClientId: ${{ secrets.CodeSignClientId }}
-      codeSignTenantId: ${{ secrets.CodeSignTenantId }}
-      codeSignClientSecret: ${{ secrets.CodeSignClientSecret }}
-      codeSignCertificate: ${{ secrets.CodeSignCertificate }}
+      - name: Setup Windows SDK 18362
+        if: matrix.platform == 'Uno'
+        run: |
+          Invoke-WebRequest -UseBasicParsing -Uri https://raw.githubusercontent.com/avantipoint/workflow-templates/v1/build/Install-WindowsSdkISO.ps1 -OutFile Install-WindowsSdkISO.ps1
+          .\Install-WindowsSdkISO.ps1 18362
+
+      - name: Set up OpenJDK 13 for Xamarin.Forms
+        if: matrix.platform == 'Forms'
+        uses: AdoptOpenJDK/install-jdk@v1.1.1
+        with:
+          version: 13
+          architecture: x64
+
+      - name: Install .NET workload
+        if: matrix.workloads != ''
+        run: dotnet workload install ${{ matrix.workloads }}
+
+      - name: Setup Visual Studio 2022 MSBuild
+        if: matrix.msbuild
+        uses: microsoft/setup-msbuild@v3
+        with:
+          vs-version: '[17.0,18.0)'
+
+      - name: Verify Xamarin.Android build prerequisites
+        if: matrix.platform == 'Forms'
+        run: |
+          $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
+          $vs = & $vswhere -latest -version '[17.0,18.0)' -property installationPath
+          if (-not $vs) { throw 'Visual Studio 2022 was not found.' }
+          $targets = Join-Path $vs 'MSBuild\Xamarin\Android\Xamarin.Android.CSharp.targets'
+          $reference = Join-Path $vs 'Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v13.0\Mono.Android.dll'
+          foreach ($path in @($targets, $reference)) {
+            if (-not (Test-Path $path)) { throw "Missing Xamarin.Android prerequisite: $path" }
+            Get-Item $path | Select-Object FullName, Length
+          }
+          msbuild -version
+
+      - name: Restore packages
+        if: ${{ !matrix.msbuild }}
+        run: dotnet restore ${{ matrix.solution }}
+
+      - name: Build packages with .NET SDK
+        if: ${{ !matrix.msbuild }}
+        run: dotnet build ${{ matrix.solution }} --configuration Release --no-restore
+
+      - name: Build packages with Visual Studio
+        if: matrix.msbuild
+        run: msbuild ${{ matrix.solution }} /restore /p:Configuration=Release
+
+      - name: Run tests
+        if: matrix.test
+        run: |
+          # Test each fixture project; helper-only *.Tests.Support projects remain build dependencies.
+          $solution = Get-Content '${{ matrix.solution }}' -Raw | ConvertFrom-Json
+          $projects = @($solution.solution.projects | Where-Object { $_ -like '*.Tests.csproj' })
+          if ($projects.Count -eq 0) { throw 'No test projects found in the solution filter.' }
+          foreach ($project in $projects) {
+            dotnet test $project --configuration Release --no-build --logger GitHubActions --blame-crash --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true RunConfiguration.TreatNoTestsAsError=true DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+            if ($LASTEXITCODE -ne 0) { throw "Tests failed for $project (exit $LASTEXITCODE)." }
+          }
+
+      # Package signing is disabled for the 9.0 maintenance line. Strong-name signing stays in the projects.
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.platform }}
+          path: ./Artifacts/
 
   generate-consolidated-artifacts:
-    needs: [build-prism-core, build-prism-wpf, build-prism-forms, build-prism-uno, build-prism-maui]
+    needs: build-prism
     runs-on: windows-latest
     steps:
       - name: Checkout
