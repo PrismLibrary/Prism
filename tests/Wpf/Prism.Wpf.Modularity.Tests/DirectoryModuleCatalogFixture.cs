@@ -12,10 +12,12 @@ namespace Prism.Wpf.Modularity.Tests;
 public class DirectoryModuleCatalogFixture : IDisposable
 {
     private readonly string _directory = Path.Combine(Path.GetTempPath(), "Prism.ModuleCatalog.Tests", Guid.NewGuid().ToString("N"));
+    private readonly List<WeakReference> _discoveryContexts = new();
 
     public DirectoryModuleCatalogFixture()
     {
         Directory.CreateDirectory(_directory);
+        AppDomain.CurrentDomain.AssemblyLoad += TrackDiscoveryContext;
     }
 
     [Theory]
@@ -306,12 +308,56 @@ public class DirectoryModuleCatalogFixture : IDisposable
         Assert.False(reference.IsAlive);
     }
 
+    [Fact]
+    public void CleanupDoesNotSuppressFileAccessFailures()
+    {
+        string directory = Path.Combine(_directory, "locked");
+        Directory.CreateDirectory(directory);
+        using var stream = File.Open(Path.Combine(directory, "locked.dll"), FileMode.Create, FileAccess.ReadWrite, FileShare.None);
+
+        var exception = Record.Exception(() => DeleteDirectoryAfterUnload(directory));
+
+        Assert.True(exception is IOException or UnauthorizedAccessException);
+    }
+
+    private void TrackDiscoveryContext(object sender, AssemblyLoadEventArgs args)
+    {
+        var assembly = args.LoadedAssembly;
+        if (assembly.IsDynamic || string.IsNullOrEmpty(assembly.Location) ||
+            !assembly.Location.StartsWith(_directory + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+            return;
+
+        var context = AssemblyLoadContext.GetLoadContext(assembly);
+        if (context.IsCollectible)
+            _discoveryContexts.Add(new WeakReference(context));
+    }
+
+    private static void DeleteDirectoryAfterUnload(string directory)
+    {
+        for (int attempt = 0; ; attempt++)
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            try
+            {
+                Directory.Delete(directory, recursive: true);
+                return;
+            }
+            catch (Exception exception) when (attempt < 9 && exception is IOException or UnauthorizedAccessException)
+            {
+                // Windows can retain the image handle briefly after cooperative unloading.
+                // The final attempt still throws if an owned file remains locked.
+                Thread.Sleep(50);
+            }
+        }
+    }
+
     public void Dispose()
     {
-        // Unloading is cooperative; release file handles before deleting the test assemblies on Windows.
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
-        GC.Collect();
-        Directory.Delete(_directory, recursive: true);
+        AppDomain.CurrentDomain.AssemblyLoad -= TrackDiscoveryContext;
+        foreach (var context in _discoveryContexts)
+            AssertCollected(context);
+
+        DeleteDirectoryAfterUnload(_directory);
     }
 }
