@@ -14,6 +14,7 @@ using RegionManager = Prism.Navigation.Regions.Xaml.RegionManager;
 
 namespace Prism.Maui.Tests.Fixtures.Regions;
 
+[Collection(nameof(AutoPopulateDefaultViewCollection))]
 public class AutoPopulateDefaultViewFixture
 {
     private const string RegionName = "MainRegion";
@@ -132,6 +133,40 @@ public class AutoPopulateDefaultViewFixture
         test.Behavior.Attach();
 
         Assert.Same(view, Assert.Single(test.Region.Views));
+    }
+
+    [Fact]
+    public void EqualButDistinctDefaultAndDiscoveredInstancesAreBothAdded()
+    {
+        var discovered = new EqualRegionView();
+        var defaultView = new EqualRegionView();
+        Assert.NotSame(discovered, defaultView);
+        Assert.True(discovered.Equals(defaultView));
+        var test = new TestRegion(defaultView);
+        test.Discovery.RegisterViewWithRegion(RegionName, _ => discovered);
+
+        test.Behavior.Attach();
+
+        Assert.Equal(2, test.Region.Views.Count());
+        Assert.Contains(test.Region.Views, view => ReferenceEquals(view, discovered));
+        Assert.Contains(test.Region.Views, view => ReferenceEquals(view, defaultView));
+    }
+
+    [Fact]
+    public void StringDefaultResolvingAnExistingUnnamedSingletonDoesNotReattachOrRenameIt()
+    {
+        var singleton = new DefaultRegionView();
+        var test = new TestRegion(DefaultViewName);
+        test.Discovery.RegisterViewWithRegion(RegionName, _ => singleton);
+        test.NavigationRegistry.Setup(r => r.CreateView(test.Scope.Object, DefaultViewName)).Returns(singleton);
+
+        test.Behavior.Attach();
+
+        Assert.Same(singleton, Assert.Single(test.Region.Views));
+        // Discovery already added this instance without a name. Default population
+        // leaves existing metadata alone; named lookup applies to newly added defaults.
+        Assert.Null(test.Region.GetView(DefaultViewName));
+        test.NavigationRegistry.Verify(r => r.CreateView(test.Scope.Object, DefaultViewName), Times.Once);
     }
 
     [Fact]
@@ -261,6 +296,12 @@ public class AutoPopulateDefaultViewFixture
 
     private sealed class DefaultRegionView : ContentView { }
 
+    private sealed class EqualRegionView : ContentView
+    {
+        public override bool Equals(object obj) => obj is EqualRegionView;
+        public override int GetHashCode() => typeof(EqualRegionView).GetHashCode();
+    }
+
     private sealed class TestRegion
     {
         public ContentView Host { get; } = new();
@@ -288,3 +329,7 @@ public class AutoPopulateDefaultViewFixture
         }
     }
 }
+
+// Keep dispatcher setup isolated from other lifecycle fixtures.
+[CollectionDefinition(nameof(AutoPopulateDefaultViewCollection), DisableParallelization = true)]
+public class AutoPopulateDefaultViewCollection { }

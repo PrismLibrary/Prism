@@ -97,7 +97,7 @@ public class AutoPopulateRegionBehavior : RegionBehavior, IHostAwareRegionBehavi
             view = defaults.GetContents(Region.Name, Region.Container()).Single();
         }
 
-        if (Region.Views.Contains(view))
+        if (Region.Views.Any(existing => ReferenceEquals(existing, view)))
             return;
 
         // Preserve the named-view lookup supported by MAUI's existing string default.

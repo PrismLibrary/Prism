@@ -16,6 +16,10 @@ using StaTheoryAttribute = Xunit.TheoryAttribute;
 
 namespace Prism.DefaultView.Tests;
 
+[CollectionDefinition("DefaultView lifecycle", DisableParallelization = true)]
+public class DefaultViewLifecycleCollection { }
+
+[Collection("DefaultView lifecycle")]
 public class DefaultViewLifecycleFixture : IDisposable
 {
     private readonly Mock<IContainerExtension> container = new();
@@ -193,6 +197,33 @@ public class DefaultViewLifecycleFixture : IDisposable
     }
 
     [StaFact]
+    public void DistinctInstancesThatCompareEqualAreBothAdded()
+    {
+        var discovered = new EqualView();
+        var declared = new EqualView();
+        registry.RegisterViewWithRegion("Main", () => discovered);
+        var host = new ContentControl();
+        RegionManager.SetDefaultView(host, declared);
+        var region = CreateAdapter().Initialize(host, "Main");
+        Assert.Equal(2, region.Views.Count());
+        Assert.Contains(region.Views, view => ReferenceEquals(view, discovered));
+        Assert.Contains(region.Views, view => ReferenceEquals(view, declared));
+    }
+
+    [StaFact]
+    public void ExistingUnnamedSingletonIsNotReattachedOrRenamedByStringDefault()
+    {
+        var view = new TestView();
+        container.Setup(c => c.Resolve(typeof(TestView))).Returns(view);
+        registry.RegisterViewWithRegion("Main", () => view);
+        var host = new ContentControl();
+        RegionManager.SetDefaultView(host, "Default");
+        var region = CreateAdapter().Initialize(host, "Main");
+        Assert.Same(view, Assert.Single(region.Views));
+        Assert.Null(region.GetView("Default"));
+    }
+
+    [StaFact]
     public void DefaultDoesNotDisplaceDiscoveredContent()
     {
         var discovered = new TestView();
@@ -260,6 +291,12 @@ public class DefaultViewLifecycleFixture : IDisposable
         var behaviors = new RegionBehaviorFactory(container.Object);
         behaviors.AddIfMissing<AutoPopulateRegionBehavior>(AutoPopulateRegionBehavior.BehaviorKey);
         return new ContentControlRegionAdapter(behaviors);
+    }
+
+    public class EqualView
+    {
+        public override bool Equals(object obj) => obj is EqualView;
+        public override int GetHashCode() => 0;
     }
 
     public class TestView : ContentControl { }
