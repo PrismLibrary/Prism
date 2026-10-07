@@ -180,11 +180,11 @@ public class AsyncDelegateCommand : DelegateCommandBase, IAsyncCommand
     /// <summary>
     /// Provides a delegate callback to provide a default CancellationToken when the Command is invoked.
     /// </summary>
-    /// <param name="factory">The default <see cref="CancellationToken"/> Factory.</param>
+    /// <param name="cancellationTokenFactory">The default <see cref="CancellationToken"/> Factory.</param>
     /// <returns>The current instance of <see cref="AsyncDelegateCommand"/>.</returns>
-    public AsyncDelegateCommand CancellationTokenFactory(Func<CancellationToken> factory)
+    public AsyncDelegateCommand CancellationTokenFactory(Func<CancellationToken> cancellationTokenFactory)
     {
-        _getCancellationToken = factory;
+        _getCancellationToken = cancellationTokenFactory;
         return this;
     }
 

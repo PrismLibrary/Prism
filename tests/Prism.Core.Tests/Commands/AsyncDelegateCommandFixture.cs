@@ -141,7 +141,7 @@ public class AsyncDelegateCommandFixture
             return Task.CompletedTask;
         });
 
-        var configuredCommand = command.CancellationTokenFactory(() => ++factoryCalls == 1 ? first.Token : second.Token);
+        var configuredCommand = command.CancellationTokenFactory(cancellationTokenFactory: () => ++factoryCalls == 1 ? first.Token : second.Token);
 
         Assert.Same(command, configuredCommand);
         Assert.Equal(0, factoryCalls);
