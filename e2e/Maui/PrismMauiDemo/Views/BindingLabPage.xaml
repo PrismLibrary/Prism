@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PrismMauiDemo.Views.BindingLabPage"
+             x:DataType="{x:Null}"
+             Title="{Binding Context.Title}"
+             NavigationPage.HasNavigationBar="{Binding Context.IsNavigationVisible, TargetNullValue=True, FallbackValue=True}">
+  <!-- Ordinary bindings intentionally exercise member preservation under NativeAOT. -->
+  <ScrollView>
+    <VerticalStackLayout Padding="20" Spacing="10">
+      <Label Text="NativeAOT binding lab" FontSize="24" />
+      <Label x:Name="ContextTitle" Text="{Binding Context.Title, TargetNullValue='', FallbackValue=''}" />
+      <Label x:Name="NavigationIndicator" Text="Navigation visible" IsVisible="{Binding Context.IsNavigationVisible, TargetNullValue=False, FallbackValue=False}" />
+      <Label Text="{Binding NavigationStatus}" />
+      <Button x:Name="NestedAction" Text="{Binding Context.ActionButton.Text, TargetNullValue='', FallbackValue=''}"
+              Command="{Binding Context.ActionButton.Command}" />
+      <Label x:Name="NestedActionIcon" Text="{Binding Context.ActionButton.Icon, TargetNullValue='', FallbackValue=''}" />
+      <CheckBox x:Name="HasActionIndicator" IsEnabled="False"
+                IsChecked="{Binding Context.HasActionButton, Mode=OneWay, TargetNullValue=False, FallbackValue=False}" />
+      <CheckBox x:Name="HasTitleIndicator" IsEnabled="False"
+                IsChecked="{Binding Context.HasTitle, Mode=OneWay, TargetNullValue=False, FallbackValue=False}" />
+      <Button Text="Run binding checks" Clicked="RunBindingChecks" />
+      <Label x:Name="CheckStatus" Text="Checks not run" AutomationId="BindingCheckStatus" />
+      <Button Text="Update context and first item" Command="{Binding UpdateCommand}" />
+      <Button Text="Replace / restore context" Command="{Binding ReplaceCommand}" />
+      <Button Text="Set context to null" Command="{Binding ClearCommand}" />
+      <Button Text="Toggle navigation visibility" Command="{Binding ToggleNavigationCommand}" />
+      <Button Text="Add collection item" Command="{Binding AddItemCommand}" />
+      <VerticalStackLayout x:Name="Rows" BindableLayout.ItemsSource="{Binding Items}">
+        <BindableLayout.ItemTemplate>
+          <DataTemplate x:DataType="{x:Null}">
+            <Label Text="{Binding Title}" />
+          </DataTemplate>
+        </BindableLayout.ItemTemplate>
+      </VerticalStackLayout>
+      <Button Text="Navigate to named detail" Command="{Binding NavigateCommand}" />
+      <Button Text="Back" Command="{Binding BackCommand}" />
+      <Button Text="Home" Command="{Binding HomeCommand}" />
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

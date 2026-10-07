@@ -31,16 +31,42 @@
     </UnoFeatures>
   </PropertyGroup>
 
+  <!-- Opt in on the app only. Do not pass PublishAot as a global command-line property:
+       it would flow into referenced libraries. -->
+  <PropertyGroup Condition="'$(PrismNativeAotValidation)' == 'true' and ($([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' or $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android')">
+    <PublishAot>true</PublishAot>
+    <DefineConstants>$(DefineConstants);PRISM_NATIVE_AOT_VALIDATION</DefineConstants>
+    <UseInterpreter>false</UseInterpreter>
+  </PropertyGroup>
+
   <ItemGroup Condition="$(TargetFramework.Contains('windows10'))">
     <ApplicationDefinition Include="App.xaml" />
     <Page Include="Views\Shell.xaml" />
+    <Page Include="Views\BindingLabPage.xaml" />
     <Page Include="Styles\ColorPaletteOverride.xaml" />
     <PRIResource Include="Strings\en\Resources.resw" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Prism.Core\Prism.Core.csproj" />
-    <ProjectReference Include="..\..\..\src\Uno\Prism.DryIoc.Uno\Prism.DryIoc.Uno.WinUI.csproj" />
+    <ProjectReference Include="..\..\..\src\Uno\Prism.DryIoc.Uno\Prism.DryIoc.Uno.WinUI.csproj" Condition="'$(PrismNativeAotValidation)' != 'true'" />
+    <ProjectReference Include="..\..\..\src\Uno\Prism.Uno\Prism.Uno.WinUI.csproj" Condition="'$(PrismNativeAotValidation)' == 'true'" />
     <ProjectReference Include="..\Playground.Module\Playground.Module.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="'$(PrismNativeAotValidation)' == 'true' and '$(PrismNativeAotContainerVersion)' != ''">
+    <PackageReference Include="Prism.Container.Microsoft" VersionOverride="$(PrismNativeAotContainerVersion)" />
+  </ItemGroup>
+
+  <Target Name="ValidateNativeAotConfiguration" BeforeTargets="CollectPackageReferences;PrepareForBuild"
+          Condition="'$(PrismNativeAotValidation)' == 'true'">
+    <Error Condition="'$(PrismNativeAotContainerVersion)' == ''"
+           Text="NativeAOT validation requires PrismNativeAotContainerVersion from matching real Prism.Container.Microsoft and Prism.Container.Abstractions local/private packages. See the app's NativeAOT validation instructions; no package version is assumed." />
+  </Target>
+
+  <Target Name="ValidateNativeAotBuild" BeforeTargets="PrepareForBuild"
+          Condition="'$(PrismNativeAotValidation)' == 'true'">
+    <Error Condition="'$(Configuration)' != 'Release' or '$(PublishAot)' != 'true'"
+           Text="PrismNativeAotValidation requires Release and an Android or iOS target framework." />
+  </Target>
+
 </Project>

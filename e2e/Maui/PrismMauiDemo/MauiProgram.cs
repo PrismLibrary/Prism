@@ -12,7 +12,11 @@ public static class MauiProgram
     {
         return MauiApp.CreateBuilder()
             .UseMauiApp<App>()
+#if PRISM_NATIVE_AOT_VALIDATION
+            .UsePrism(new Prism.Container.Microsoft.MicrosoftContainerExtension(), prism =>
+#else
             .UsePrism(prism =>
+#endif
                 prism.ConfigureModuleCatalog(moduleCatalog =>
                 {
                     moduleCatalog.AddModule<MauiAppModule>();
@@ -21,6 +25,8 @@ public static class MauiProgram
                 .RegisterTypes(containerRegistry =>
                 {
                     containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+                    containerRegistry.RegisterForNavigation<BindingLabPage, BindingLabViewModel>("BindingLab");
+                    containerRegistry.RegisterForNavigation<BindingLabPage, BindingLabViewModel>("BindingLabDetail");
                     containerRegistry.RegisterForNavigation<RootPage, RootPageViewModel>();
                     containerRegistry.RegisterForNavigation<GlobalNamespacesPage>();
                     containerRegistry.RegisterForNavigation<SamplePage>();

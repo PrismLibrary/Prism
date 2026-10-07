@@ -1,4 +1,5 @@
 using HelloWorld.Views;
+using HelloWorld.ViewModels;
 using Playground.Module;
 using Serilog;
 using Uno.UI;
@@ -11,6 +12,11 @@ public partial class App : PrismApplication
     {
         InitializeComponent();
     }
+
+#if PRISM_NATIVE_AOT_VALIDATION
+    protected override IContainerExtension CreateContainerExtension() =>
+        new Prism.Container.Microsoft.MicrosoftContainerExtension();
+#endif
 
     protected override UIElement CreateShell()
     {
@@ -50,6 +56,8 @@ public partial class App : PrismApplication
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
+        containerRegistry.RegisterForNavigation<BindingLabPage, BindingLabViewModel>("BindingLab");
+        containerRegistry.RegisterForNavigation<BindingLabPage, BindingLabViewModel>("BindingLabDetail");
     }
 
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

@@ -7,6 +7,7 @@ namespace Prism.Mvvm
     /// <summary>
     /// Implementation of <see cref="INotifyPropertyChanged"/> to simplify models.
     /// </summary>
+    [Bindable(true)]
     public abstract class BindableBase : INotifyPropertyChanged
     {
         /// <summary>
