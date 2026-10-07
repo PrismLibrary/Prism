@@ -93,7 +93,7 @@ namespace Prism.Navigation.Regions.Behaviors
             }
 
             // A supplied instance may already have been populated by view discovery.
-            if (Region.Views.Contains(view))
+            if (Region.Views.Any(existing => ReferenceEquals(existing, view)))
                 return;
 
             if (defaultView is string viewName)
