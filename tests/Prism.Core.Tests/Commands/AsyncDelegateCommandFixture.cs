@@ -126,19 +126,82 @@ public class AsyncDelegateCommandFixture
         Assert.True(taskCancelled);
     }
 
-    [Fact]
-    public async Task ICommandExecute_UsesDefaultTokenSourceFactory()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task CancellationTokenFactory_ReturnsCommandAndProvidesTokenForEachExecution(bool useAsyncInterface)
     {
-        var cts = new CancellationTokenSource();
-        var command = new AsyncDelegateCommand((token) => Task.Delay(1000, token))
-            .CancellationTokenSourceFactory(() => cts.Token);
-        ICommand iCommand = command;
-        iCommand.Execute(null);
+        using var first = new CancellationTokenSource();
+        using var second = new CancellationTokenSource();
+        var tokens = new List<CancellationToken>();
+        var factoryCalls = 0;
+        var command = new AsyncDelegateCommand(token =>
+        {
+            tokens.Add(token);
+            return Task.CompletedTask;
+        });
 
-        Assert.True(command.IsExecuting);
-        cts.Cancel();
-        await Task.Delay(10);
+        var configuredCommand = command.CancellationTokenFactory(cancellationTokenFactory: () => ++factoryCalls == 1 ? first.Token : second.Token);
 
+        Assert.Same(command, configuredCommand);
+        Assert.Equal(0, factoryCalls);
+        IAsyncCommand asyncCommand = command;
+        Task Execute() => useAsyncInterface ? asyncCommand.ExecuteAsync("test") : command.Execute();
+
+        await Execute();
+        await Execute();
+
+        Assert.Equal(2, factoryCalls);
+        Assert.Equal(new[] { first.Token, second.Token }, tokens);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task ExecuteWithExplicitToken_DoesNotInvokeCancellationTokenFactory(bool useAsyncInterface)
+    {
+        using var cancellation = new CancellationTokenSource();
+        var receivedToken = cancellation.Token;
+        var factoryCalls = 0;
+        var command = new AsyncDelegateCommand(token =>
+        {
+            receivedToken = token;
+            return Task.CompletedTask;
+        }).CancellationTokenFactory(() =>
+        {
+            factoryCalls++;
+            return cancellation.Token;
+        });
+
+        if (useAsyncInterface)
+            await ((IAsyncCommand)command).ExecuteAsync("test", CancellationToken.None);
+        else
+            await command.Execute(CancellationToken.None);
+
+        Assert.Equal(CancellationToken.None, receivedToken);
+        Assert.Equal(0, factoryCalls);
+    }
+
+    [Fact]
+    public void ICommandExecute_UsesDefaultTokenFactory()
+    {
+        using var cancellation = new CancellationTokenSource();
+        var receivedToken = CancellationToken.None;
+        var factoryCalls = 0;
+        var command = new AsyncDelegateCommand(token =>
+        {
+            receivedToken = token;
+            return Task.CompletedTask;
+        }).CancellationTokenFactory(() =>
+        {
+            factoryCalls++;
+            return cancellation.Token;
+        });
+
+        ((ICommand)command).Execute("test");
+
+        Assert.Equal(cancellation.Token, receivedToken);
+        Assert.Equal(1, factoryCalls);
         Assert.False(command.IsExecuting);
     }
 
