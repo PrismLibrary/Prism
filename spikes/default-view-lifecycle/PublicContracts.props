@@ -1,0 +1,10 @@
+<Project>
+  <!-- Diagnostic only: the normal build still uses Directory.Packages.props unchanged. -->
+  <Import Project="../../Directory.Packages.props" />
+  <ItemGroup>
+    <PackageVersion Update="Prism.Container.Abstractions" Version="9.0.114" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(MSBuildProjectName)' == 'Prism.Core'">
+    <Compile Include="$(MSBuildThisFileDirectory)ContainerAotCompatibility.cs" />
+  </ItemGroup>
+</Project>

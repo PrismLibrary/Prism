@@ -32,4 +32,8 @@
     <ProjectReference Include="..\..\..\src\Uno\Prism.Uno\Prism.Uno.WinUI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\..\Prism.DefaultView.Shared\DefaultViewLifecycleFixture.cs" Link="Regions\Behaviors\DefaultViewLifecycleFixture.cs" />
+  </ItemGroup>
+
 </Project>

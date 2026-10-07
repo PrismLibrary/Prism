@@ -56,6 +56,11 @@ public static class RegionManager
     /// <summary>
     /// Sets the default view to be displayed in a region when it is created.
     /// </summary>
+    /// <remarks>
+    /// Set this before the region is created. The default belongs to this host, not to the
+    /// application-wide view-discovery registry. Changes after initial population do not
+    /// navigate or replace the existing view. View types must be registered for region navigation.
+    /// </remarks>
     public static readonly BindableProperty DefaultViewProperty =
         BindableProperty.CreateAttached("DefaultView", typeof(object), typeof(RegionManager), null);
 
