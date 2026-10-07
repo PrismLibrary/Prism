@@ -1,9 +1,11 @@
+using Prism.Properties;
+
 namespace Prism.Navigation.Regions.Behaviors
 {
     /// <summary>
     /// Populates the target region with the views registered to it in the <see cref="IRegionViewRegistry"/>.
     /// </summary>
-    public class AutoPopulateRegionBehavior : RegionBehavior
+    public class AutoPopulateRegionBehavior : RegionBehavior, IHostAwareRegionBehavior
     {
         /// <summary>
         /// The key of this behavior.
@@ -11,6 +13,23 @@ namespace Prism.Navigation.Regions.Behaviors
         public const string BehaviorKey = "AutoPopulate";
 
         private readonly IRegionViewRegistry regionViewRegistry;
+        private DependencyObject hostControl;
+        private bool attachStarted;
+
+        /// <summary>
+        /// Gets or sets the host whose DefaultView is used for initial population.
+        /// </summary>
+        public DependencyObject HostControl
+        {
+            get => hostControl;
+            set
+            {
+                if (IsAttached)
+                    throw new InvalidOperationException(Resources.HostControlCannotBeSetAfterAttach);
+
+                hostControl = value;
+            }
+        }
 
         /// <summary>
         /// Creates a new instance of the AutoPopulateRegionBehavior
@@ -27,6 +46,11 @@ namespace Prism.Navigation.Regions.Behaviors
         /// </summary>
         protected override void OnAttach()
         {
+            // RegionBehavior.Attach itself is not idempotent. Do not populate or subscribe twice.
+            if (attachStarted)
+                return;
+
+            attachStarted = true;
             if (string.IsNullOrEmpty(Region.Name))
             {
                 Region.PropertyChanged += Region_PropertyChanged;
@@ -44,7 +68,38 @@ namespace Prism.Navigation.Regions.Behaviors
                 AddViewIntoRegion(view);
             }
 
+            PopulateDefaultView();
             regionViewRegistry.ContentRegistered += OnViewRegistered;
+        }
+
+        private void PopulateDefaultView()
+        {
+            var defaultView = HostControl == null ? null : RegionManager.GetDefaultView(HostControl);
+            if (defaultView == null)
+                return;
+
+            object view = defaultView;
+            if (defaultView is string || defaultView is Type)
+            {
+                // Reuse discovery's resolution/autowiring rules without registering a host's
+                // default in the application-wide, append-only registry.
+                var defaults = new RegionViewRegistry(ContainerLocator.Current);
+                if (defaultView is string name)
+                    defaults.RegisterViewWithRegion(Region.Name, name);
+                else
+                    defaults.RegisterViewWithRegion(Region.Name, (Type)defaultView);
+
+                view = defaults.GetContents(Region.Name).Single();
+            }
+
+            // A supplied instance may already have been populated by view discovery.
+            if (Region.Views.Contains(view))
+                return;
+
+            if (defaultView is string viewName)
+                Region.Add(view, viewName);
+            else
+                AddViewIntoRegion(view);
         }
 
         /// <summary>

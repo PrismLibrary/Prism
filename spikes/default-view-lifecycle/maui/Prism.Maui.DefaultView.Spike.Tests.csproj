@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <Compile Include="../../../tests/Maui/Prism.Maui.Tests/Fixtures/Regions/AutoPopulateDefaultViewFixture.cs" />
+    <Compile Include="../../../tests/Maui/Prism.Maui.Tests/Mocks/TestDispatcher.cs" />
+    <ProjectReference Include="../../../src/Maui/Prism.Maui/Prism.Maui.csproj" />
+  </ItemGroup>
+</Project>

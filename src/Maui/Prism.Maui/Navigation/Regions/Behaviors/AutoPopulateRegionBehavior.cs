@@ -1,12 +1,13 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using Prism.Ioc;
+using Prism.Properties;
 
 namespace Prism.Navigation.Regions.Behaviors;
 
 /// <summary>
 /// Populates the target region with the views registered to it in the <see cref="IRegionViewRegistry"/>.
 /// </summary>
-public class AutoPopulateRegionBehavior : RegionBehavior
+public class AutoPopulateRegionBehavior : RegionBehavior, IHostAwareRegionBehavior
 {
     /// <summary>
     /// The key of this behavior.
@@ -14,6 +15,23 @@ public class AutoPopulateRegionBehavior : RegionBehavior
     public const string BehaviorKey = "AutoPopulate";
 
     private readonly IRegionViewRegistry regionViewRegistry;
+    private VisualElement hostControl;
+    private bool attachStarted;
+
+    /// <summary>
+    /// Gets or sets the host whose DefaultView is used for initial population.
+    /// </summary>
+    public VisualElement HostControl
+    {
+        get => hostControl;
+        set
+        {
+            if (IsAttached)
+                throw new InvalidOperationException(Resources.HostControlCannotBeSetAfterAttach);
+
+            hostControl = value;
+        }
+    }
 
     /// <summary>
     /// Creates a new instance of the AutoPopulateRegionBehavior
@@ -30,6 +48,11 @@ public class AutoPopulateRegionBehavior : RegionBehavior
     /// </summary>
     protected override void OnAttach()
     {
+        // RegionBehavior.Attach itself is not idempotent. Do not populate or subscribe twice.
+        if (attachStarted)
+            return;
+
+        attachStarted = true;
         if (string.IsNullOrEmpty(Region.Name))
         {
             Region.PropertyChanged += Region_PropertyChanged;
@@ -47,27 +70,41 @@ public class AutoPopulateRegionBehavior : RegionBehavior
             AddViewIntoRegion(view);
         }
 
-        if (Region is ITargetAwareRegion targetAware && targetAware.TargetElement.GetValue(Xaml.RegionManager.DefaultViewProperty) != null)
-        {
-            var defaultView = targetAware.TargetElement.GetValue(Xaml.RegionManager.DefaultViewProperty);
-            if (defaultView is string targetName)
-                Region.Add(targetName);
-            else if (defaultView is VisualElement element)
-                Region.Add(element);
-            else if (defaultView is Type type)
-            {
-                var container = targetAware.Container;
-                var registry = container.Resolve<IRegionNavigationRegistry>();
-                var registration = registry.Registrations.FirstOrDefault(x => x.View == type);
-                if (registration is not null)
-                {
-                    var view = registry.CreateView(container, registration.Name) as VisualElement;
-                    Region.Add(view);
-                }
-            }
-        }
+        PopulateDefaultView();
 
         regionViewRegistry.ContentRegistered += OnViewRegistered;
+    }
+
+    private void PopulateDefaultView()
+    {
+        // Keep target-aware custom regions working when this behavior is attached directly.
+        var host = HostControl ?? (Region as ITargetAwareRegion)?.TargetElement;
+        var defaultView = host == null ? null : Xaml.RegionManager.GetDefaultView(host);
+        if (defaultView == null)
+            return;
+
+        object view = defaultView;
+        if (defaultView is string || defaultView is Type)
+        {
+            // Reuse discovery's scoped resolution rules. This registry is method-local and
+            // never retains registrations in the application-wide discovery registry.
+            var defaults = new RegionViewRegistry();
+            if (defaultView is string name)
+                defaults.RegisterViewWithRegion(Region.Name, name);
+            else
+                defaults.RegisterViewWithRegion(Region.Name, (Type)defaultView);
+
+            view = defaults.GetContents(Region.Name, Region.Container()).Single();
+        }
+
+        if (Region.Views.Contains(view))
+            return;
+
+        // Preserve the named-view lookup supported by MAUI's existing string default.
+        if (defaultView is string viewName)
+            Region.Add(view, viewName);
+        else
+            AddViewIntoRegion((VisualElement)view);
     }
 
     /// <summary>
