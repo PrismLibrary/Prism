@@ -57,29 +57,25 @@ an independent INPC model base with inherited title/visibility properties.
 Validation selects the actual `Prism.Container.Microsoft` adapter via
 `CreateContainerExtension` on the container-neutral `PrismApplicationBase`. The
 validation build references Prism.Uno directly and does not reference the DryIoc
-adapter. Supply the required `PrismNativeAotContainerVersion`
-from matching real Microsoft and Abstractions local/private packages; no default
-version is assumed. The same version supplies Abstractions and its shared
-analyzer to the referenced source libraries. Pack the two existing container
-projects from `PrismLibrary/Prism.Containers` branch
-`ds/native-aot-binding-preservation` into a local feed with one intentional local
-prerelease version, then restore this app and its dependencies from that feed.
-Do not publish packages or substitute a container shim. Resolve package/framework
-compatibility before native publishing. Do
+adapter. Central package configuration pins Microsoft and Abstractions, including
+its shared analyzer in referenced source libraries, to published **10.0.94-pre**.
+Restore from a configured Prism package feed containing this version. No version
+override or local container build is needed for this baseline. The optional
+`PrismNativeAotContainerVersion` property selects matching real local packages
+when testing further unpublished container changes. Do not substitute a container
+shim. Resolve package/framework compatibility before native publishing. Do
 not pass `PublishAot` globally, since that propagates to referenced libraries. NativeAOT qualification requires a supported SDK/platform/RID and a
 verified NativeAOT-compatible real container configuration, followed by a local
 publish and device run. Record exact versions and every trimming/AOT warning.
 Cloud source/XML checks are not a NativeAOT or device pass. No mobile CI jobs or
 workflow changes are included.
 
-For a supported Uno iOS NativeAOT toolchain, use the exact local/private package
-version (replace the placeholder):
+For a supported Uno iOS NativeAOT toolchain:
 
 ```sh
 dotnet publish e2e/Uno/HelloWorld/HelloWorld.csproj \
   -c Release -f net10.0-ios -r ios-arm64 \
-  -p:PrismNativeAotValidation=true \
-  -p:PrismNativeAotContainerVersion=YOUR_MATCHING_LOCAL_VERSION
+  -p:PrismNativeAotValidation=true
 ```
 
 [Uno 6.6 NativeAOT guidance](https://platform.uno/docs/articles/features/native-aot.html)
@@ -88,11 +84,11 @@ experimental XA1040 warning. For Android, use the same command with
 `-f net10.0-android -r android-arm64` and inspect the warning and device results.
 Never count an ordinary Android AOT build as NativeAOT validation.
 
-For repeatable source-package preparation, follow the
+For optional unpublished source-package preparation, follow the
 [real local container package commands](../../Maui/PrismMauiDemo/NativeAotValidation.md#build-the-real-local-container-packages).
 Use both projects' normal supported TFMs, then add
 `-p:RestoreAdditionalProjectSources="$PRISM_CONTAINER_FEED"` to the publish
-command. The net10-only package used for cloud generator/core unit tests does
+command together with `-p:PrismNativeAotContainerVersion="$PRISM_CONTAINER_VERSION"`. The net10-only package used for cloud generator/core unit tests does
 not establish a complete multi-target mobile restore or native execution pass.
 
 The nested action checks bind `Context.ActionButton.Text`, `.Icon`, and `.Command`

@@ -29,28 +29,20 @@ project maps this opt-in to `PublishAot=true` and `UseInterpreter=false`. Do not
 pass `PublishAot` globally: that also reaches referenced libraries.
 The opt-in does not set `PublishAot` on libraries. Ordinary sample builds keep
 DryIoc. Validation builds select the real `Prism.Container.Microsoft` adapter;
-`PrismNativeAotContainerVersion` is mandatory and has no guessed default. Central
-package configuration uses this same version for Abstractions in referenced
-source libraries, so they receive the updated shared generator.
+the central package configuration pins Containers **10.0.94-pre**, including
+Abstractions and its shared generator in referenced source libraries.
+Restore from a configured Prism package feed that contains this published version.
+No version override or local container build is needed for this baseline.
+`PrismNativeAotContainerVersion` remains available for deliberate matching local
+Microsoft/Abstractions package builds; see the optional instructions below.
+Do not use stand-in containers or copy implementation types into the demo.
 
-Prepare matching **real** Microsoft and Abstractions packages from the
-`ds/native-aot-binding-preservation` branch of `PrismLibrary/Prism.Containers`.
-Pack both existing projects into a local NuGet feed under one deliberate local
-prerelease version; Abstractions must contain its shared generator/analyzer.
-Alternatively use the exact matching packages from an authorized private feed.
-Do not publish new package versions for this validation. Restore the app and all
-its source dependencies against that feed. Do not use stand-in containers or
-copy implementation types into the demo. Package/framework compatibility and
-feed access must be resolved before treating the native lane as runnable.
-
-For a supported iOS device toolchain, publish the existing app from the repo root
-with the exact version you packed (replace the placeholder):
+For a supported iOS device toolchain, publish the existing app from the repo root:
 
 ```sh
 dotnet publish e2e/Maui/PrismMauiDemo/PrismMauiDemo.csproj \
   -c Release -f net10.0-ios -r ios-arm64 \
-  -p:PrismNativeAotValidation=true \
-  -p:PrismNativeAotContainerVersion=YOUR_MATCHING_LOCAL_VERSION
+  -p:PrismNativeAotValidation=true
 ```
 
 The [MAUI NativeAOT requirements](https://learn.microsoft.com/en-us/dotnet/maui/deployment/nativeaot?view=net-maui-10.0)
@@ -73,14 +65,16 @@ No mobile CI jobs or workflow changes are part of this local validation work.
 
 ## Build the real local container packages
 
+Optional: only needed when testing further unpublished container changes.
+
 Use a full checkout of `PrismLibrary/Prism.Containers` on
-`ds/native-aot-binding-preservation`, with the SDKs required by that checkout's
+the intended source commit (the published baseline is merge `f3e51fbb`), with the SDKs required by that checkout's
 normal supported target frameworks. Do not manufacture netstandard targets or
 replace the container with a shim. From that checkout, choose one local-only
 prerelease version for both existing projects:
 
 ```sh
-export PRISM_CONTAINER_VERSION=10.0.83-bindingfixlocal2
+export PRISM_CONTAINER_VERSION=10.0.95-bindingfixlocal
 export PRISM_CONTAINER_FEED="$HOME/prism-native-aot-packages"
 dotnet pack src/Prism.Container.Abstractions/Prism.Container.Abstractions.csproj \
   -c Release -p:DISABLE_GITVERSIONING=true \

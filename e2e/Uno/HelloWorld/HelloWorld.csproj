@@ -60,7 +60,7 @@
   <Target Name="ValidateNativeAotConfiguration" BeforeTargets="CollectPackageReferences;PrepareForBuild"
           Condition="'$(PrismNativeAotValidation)' == 'true'">
     <Error Condition="'$(PrismNativeAotContainerVersion)' == ''"
-           Text="NativeAOT validation requires PrismNativeAotContainerVersion from matching real Prism.Container.Microsoft and Prism.Container.Abstractions local/private packages. See the app's NativeAOT validation instructions; no package version is assumed." />
+           Text="NativeAOT validation requires matching real Prism.Container.Microsoft and Prism.Container.Abstractions packages. Use the centrally pinned version or set PrismNativeAotContainerVersion to an explicit local build." />
   </Target>
 
   <Target Name="ValidateNativeAotBuild" BeforeTargets="PrepareForBuild"

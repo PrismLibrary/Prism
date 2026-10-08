@@ -1,9 +1,12 @@
 <Project>
+  <PropertyGroup>
+    <PrismNativeAotContainerVersion Condition="'$(PrismNativeAotContainerVersion)' == ''">10.0.94-pre</PrismNativeAotContainerVersion>
+  </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="PolySharp" Version="1.15.0" />
-    <PackageVersion Include="Prism.Container.Abstractions" Version="10.0.82-pre" />
-    <PackageVersion Include="Prism.Container.DryIoc" Version="10.0.82-pre" />
-    <PackageVersion Include="Prism.Container.Unity" Version="10.0.82-pre" />
+    <PackageVersion Include="Prism.Container.Abstractions" Version="10.0.94-pre" />
+    <PackageVersion Include="Prism.Container.DryIoc" Version="10.0.94-pre" />
+    <PackageVersion Include="Prism.Container.Unity" Version="10.0.94-pre" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
     <PackageVersion Include="System.Reactive" Version="6.0.1" />
     <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2401" />
