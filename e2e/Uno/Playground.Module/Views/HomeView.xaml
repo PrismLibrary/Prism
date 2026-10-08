@@ -10,7 +10,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-  <ScrollViewer Padding="24">
+  <ScrollViewer Padding="24" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
     <StackPanel Spacing="16" MaxWidth="720">
       <TextBlock Text="Prism playground" FontSize="28" FontWeight="SemiBold" />
       <TextBlock TextWrapping="Wrap" IsTextSelectionEnabled="True">

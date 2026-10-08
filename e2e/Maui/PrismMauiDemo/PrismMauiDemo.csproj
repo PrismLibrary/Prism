@@ -33,6 +33,14 @@
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
+  <!-- Opt in on the app only. Do not pass PublishAot as a global command-line property:
+       it would flow into referenced libraries. -->
+  <PropertyGroup Condition="'$(PrismNativeAotValidation)' == 'true' and ($([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' or $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android')">
+    <PublishAot>true</PublishAot>
+    <DefineConstants>$(DefineConstants);PRISM_NATIVE_AOT_VALIDATION</DefineConstants>
+    <UseInterpreter>false</UseInterpreter>
+  </PropertyGroup>
+
   <ItemGroup>
     <!-- App Icon -->
     <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" />
@@ -55,11 +63,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Maui\Prism.DryIoc.Maui\Prism.DryIoc.Maui.csproj" />
+    <ProjectReference Include="..\..\..\src\Maui\Prism.DryIoc.Maui\Prism.DryIoc.Maui.csproj" Condition="'$(PrismNativeAotValidation)' != 'true'" />
     <ProjectReference Include="..\..\..\src\Maui\Prism.Maui.Rx\Prism.Maui.Rx.csproj" />
     <ProjectReference Include="..\..\..\src\Maui\Prism.Maui\Prism.Maui.csproj" />
     <ProjectReference Include="..\MauiModule\MauiModule.csproj" />
     <ProjectReference Include="..\MauiRegionsModule\MauiRegionsModule.csproj" />
   </ItemGroup>
+
+  <ItemGroup Condition="'$(PrismNativeAotValidation)' == 'true' and '$(PrismNativeAotContainerVersion)' != ''">
+    <PackageReference Include="Prism.Container.Microsoft" VersionOverride="$(PrismNativeAotContainerVersion)" />
+  </ItemGroup>
+
+  <Target Name="ValidateNativeAotConfiguration" BeforeTargets="CollectPackageReferences;PrepareForBuild"
+          Condition="'$(PrismNativeAotValidation)' == 'true'">
+    <Error Condition="'$(PrismNativeAotContainerVersion)' == ''"
+           Text="NativeAOT validation requires matching real Prism.Container.Microsoft and Prism.Container.Abstractions packages. Use the centrally pinned version or set PrismNativeAotContainerVersion to an explicit local build." />
+  </Target>
+
+  <Target Name="ValidateNativeAotBuild" BeforeTargets="PrepareForBuild"
+          Condition="'$(PrismNativeAotValidation)' == 'true'">
+    <Error Condition="'$(Configuration)' != 'Release' or '$(PublishAot)' != 'true'"
+           Text="PrismNativeAotValidation requires Release and an Android or iOS target framework." />
+  </Target>
 
 </Project>

@@ -15,7 +15,11 @@ global using Windows.ApplicationModel;
 global using Windows.Networking.Connectivity;
 global using Windows.Storage;
 global using Prism;
+#if PRISM_NATIVE_AOT_VALIDATION
+global using PrismApplication = Prism.PrismApplicationBase;
+#else
 global using Prism.DryIoc;
+#endif
 global using Prism.Ioc;
 global using Prism.Modularity;
 global using Prism.Mvvm;

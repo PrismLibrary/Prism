@@ -1,16 +1,22 @@
 using HelloWorld.Views;
+using HelloWorld.ViewModels;
 using Playground.Module;
 using Serilog;
 using Uno.UI;
 
 namespace HelloWorld;
 
-public partial class App : PrismApplication
+public partial class App : PlaygroundApplication
 {
     public App()
     {
         InitializeComponent();
     }
+
+#if PRISM_NATIVE_AOT_VALIDATION
+    protected override IContainerExtension CreateContainerExtension() =>
+        new Prism.Container.Microsoft.MicrosoftContainerExtension();
+#endif
 
     protected override UIElement CreateShell()
     {
@@ -48,8 +54,20 @@ public partial class App : PrismApplication
 #endif
     }
 
+#if PRISM_NATIVE_AOT_VALIDATION
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (Environment.GetEnvironmentVariable("PRISM_NATIVEAOT_AUTORUN") == "1")
+            RegionManager.RequestNavigate("ContentRegion", "BindingLab", result =>
+                Console.WriteLine($"[binding-run] root-navigation success={result.Success}"));
+    }
+#endif
+
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
+        containerRegistry.RegisterForNavigation<BindingLabPage, BindingLabViewModel>("BindingLab");
+        containerRegistry.RegisterForNavigation<BindingLabPage, BindingLabViewModel>("BindingLabDetail");
     }
 
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

@@ -1,13 +1,21 @@
 <Project>
+  <PropertyGroup>
+    <PrismNativeAotContainerVersion Condition="'$(PrismNativeAotContainerVersion)' == ''">10.0.94-pre</PrismNativeAotContainerVersion>
+  </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="PolySharp" Version="1.15.0" />
-    <PackageVersion Include="Prism.Container.Abstractions" Version="10.0.82-pre" />
-    <PackageVersion Include="Prism.Container.DryIoc" Version="10.0.82-pre" />
-    <PackageVersion Include="Prism.Container.Unity" Version="10.0.82-pre" />
+    <PackageVersion Include="Prism.Container.Abstractions" Version="10.0.94-pre" />
+    <PackageVersion Include="Prism.Container.DryIoc" Version="10.0.94-pre" />
+    <PackageVersion Include="Prism.Container.Unity" Version="10.0.94-pre" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
     <PackageVersion Include="System.Reactive" Version="6.0.1" />
     <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
+  </ItemGroup>
+  <!-- Local NativeAOT validation must use the same real container build, including
+       its generator, in the application and every referenced Prism library. -->
+  <ItemGroup Condition="'$(PrismNativeAotValidation)' == 'true' And '$(PrismNativeAotContainerVersion)' != ''">
+    <PackageVersion Update="Prism.Container.Abstractions" Version="$(PrismNativeAotContainerVersion)" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.10" Condition="$(TargetFramework.StartsWith('net10.0'))" />

@@ -12,7 +12,11 @@ public static class MauiProgram
     {
         return MauiApp.CreateBuilder()
             .UseMauiApp<App>()
+#if PRISM_NATIVE_AOT_VALIDATION
+            .UsePrism(new Prism.Container.Microsoft.MicrosoftContainerExtension(), prism =>
+#else
             .UsePrism(prism =>
+#endif
                 prism.ConfigureModuleCatalog(moduleCatalog =>
                 {
                     moduleCatalog.AddModule<MauiAppModule>();
@@ -21,6 +25,8 @@ public static class MauiProgram
                 .RegisterTypes(containerRegistry =>
                 {
                     containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+                    containerRegistry.RegisterForNavigation<BindingLabPage, BindingLabViewModel>("BindingLab");
+                    containerRegistry.RegisterForNavigation<BindingLabPage, BindingLabViewModel>("BindingLabDetail");
                     containerRegistry.RegisterForNavigation<RootPage, RootPageViewModel>();
                     containerRegistry.RegisterForNavigation<GlobalNamespacesPage>();
                     containerRegistry.RegisterForNavigation<SamplePage>();
@@ -39,7 +45,13 @@ public static class MauiProgram
                     if (status == "Failed" && !string.IsNullOrEmpty(x.Result?.Exception?.Message))
                         Console.Error.WriteLine(x.Result.Exception.Message);
                 }))
+#if PRISM_NATIVE_AOT_VALIDATION
+                .CreateWindow(navigationService => Environment.GetEnvironmentVariable("PRISM_NATIVEAOT_AUTORUN") == "1"
+                    ? navigationService.NavigateAsync("/NavigationPage/BindingLab")
+                    : navigationService.CreateBuilder()
+#else
                 .CreateWindow(navigationService => navigationService.CreateBuilder()
+#endif
                     .AddSegment<SplashPageViewModel>()
                 //.CreateWindow(nav => nav.CreateBuilder()
                 //    .AddTabbedSegment(page =>

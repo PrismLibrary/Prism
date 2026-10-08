@@ -1,3 +1,6 @@
+using System.ComponentModel;
+using System.Reflection;
+using Prism.Mvvm;
 using Prism.Tests.Mocks.ViewModels;
 using Xunit;
 
@@ -5,6 +8,13 @@ namespace Prism.Tests.Mvvm
 {
     public class BindableBaseFixture
     {
+        [Fact]
+        public void BindableMarkerIsInheritedByViewModels()
+        {
+            Assert.True(typeof(BindableBase).GetCustomAttribute<BindableAttribute>()?.Bindable);
+            Assert.True(typeof(MockViewModel).GetCustomAttribute<BindableAttribute>(inherit: true)?.Bindable);
+        }
+
         [Fact]
         public void SetPropertyMethodShouldSetTheNewValue()
         {

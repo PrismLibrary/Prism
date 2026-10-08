@@ -19,6 +19,9 @@
             CommandParameter="TabbedPage" />
       <Button Text="XAML namespaces"
               Command="{prism:NavigateTo GlobalNamespacesPage}" />
+      <Button Text="NativeAOT binding lab"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="/NavigationPage/BindingLab" />
       <Button Text="Regions"
             Command="{Binding NavigateCommand}"
             CommandParameter="/RegionHome/NavigationPage/ContentRegionPage" />

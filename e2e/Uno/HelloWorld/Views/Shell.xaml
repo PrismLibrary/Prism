@@ -35,6 +35,7 @@
           <NavigationViewItem Content="Home" Tag="HomeView" />
           <NavigationViewItem Content="Region lab" Tag="RegionLabView" />
           <NavigationViewItem Content="Dialog lab" Tag="DialogLabView" />
+          <NavigationViewItem Content="NativeAOT binding lab" Tag="BindingLab" />
           <NavigationViewItem Content="Module" Tag="ModuleAboutView" />
         </NavigationView.MenuItems>
       </NavigationView>

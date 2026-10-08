@@ -1,0 +1,37 @@
+﻿<Page x:Class="HelloWorld.Views.BindingLabPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mvvm="using:Prism.Mvvm"
+      mvvm:ViewModelLocator.AutowireViewModel="True"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <ScrollViewer Padding="24" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
+    <StackPanel Spacing="10">
+      <TextBlock Text="NativeAOT binding lab" FontSize="24" />
+      <TextBlock x:Name="ContextTitle" Text="{Binding Context.Title, TargetNullValue='', FallbackValue=''}" />
+      <Button x:Name="NavigationIndicator" Content="Navigate to named detail"
+              Visibility="{Binding Context.NavigationVisibility, TargetNullValue=Collapsed, FallbackValue=Collapsed}"
+              Command="{Binding NavigateCommand}" />
+      <TextBlock Text="{Binding NavigationStatus}" />
+      <Button x:Name="NestedAction" Content="{Binding Context.ActionButton.Text, TargetNullValue='', FallbackValue=''}"
+              Command="{Binding Context.ActionButton.Command}" />
+      <TextBlock x:Name="NestedActionIcon" Text="{Binding Context.ActionButton.Icon, TargetNullValue='', FallbackValue=''}" />
+      <CheckBox x:Name="HasActionIndicator" IsEnabled="False"
+                IsChecked="{Binding Context.HasActionButton, Mode=OneWay, TargetNullValue=False, FallbackValue=False}" />
+      <CheckBox x:Name="HasTitleIndicator" IsEnabled="False"
+                IsChecked="{Binding Context.HasTitle, Mode=OneWay, TargetNullValue=False, FallbackValue=False}" />
+      <Button Content="Run binding checks" Click="RunBindingChecks" />
+      <TextBlock x:Name="CheckStatus" Text="Checks not run" AutomationProperties.AutomationId="BindingCheckStatus" />
+      <Button Content="Update context and first item" Command="{Binding UpdateCommand}" />
+      <Button Content="Replace / restore context" Command="{Binding ReplaceCommand}" />
+      <Button Content="Set context to null" Command="{Binding ClearCommand}" />
+      <Button Content="Toggle navigation visibility" Command="{Binding ToggleNavigationCommand}" />
+      <Button Content="Add collection item" Command="{Binding AddItemCommand}" />
+      <ItemsControl x:Name="Rows" ItemsSource="{Binding Items}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate><TextBlock Text="{Binding Title}" /></DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <Button x:Name="BackButton" Content="Back" Command="{Binding BackCommand}" />
+    </StackPanel>
+  </ScrollViewer>
+</Page>
