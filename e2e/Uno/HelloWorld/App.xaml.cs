@@ -54,6 +54,16 @@ public partial class App : PlaygroundApplication
 #endif
     }
 
+#if PRISM_NATIVE_AOT_VALIDATION
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (Environment.GetEnvironmentVariable("PRISM_NATIVEAOT_AUTORUN") == "1")
+            RegionManager.RequestNavigate("ContentRegion", "BindingLab", result =>
+                Console.WriteLine($"[binding-run] root-navigation success={result.Success}"));
+    }
+#endif
+
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
         containerRegistry.RegisterForNavigation<BindingLabPage, BindingLabViewModel>("BindingLab");

@@ -31,7 +31,7 @@
           <DataTemplate><TextBlock Text="{Binding Title}" /></DataTemplate>
         </ItemsControl.ItemTemplate>
       </ItemsControl>
-      <Button Content="Back" Command="{Binding BackCommand}" />
+      <Button x:Name="BackButton" Content="Back" Command="{Binding BackCommand}" />
     </StackPanel>
   </ScrollViewer>
 </Page>

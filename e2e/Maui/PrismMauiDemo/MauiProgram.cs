@@ -45,7 +45,13 @@ public static class MauiProgram
                     if (status == "Failed" && !string.IsNullOrEmpty(x.Result?.Exception?.Message))
                         Console.Error.WriteLine(x.Result.Exception.Message);
                 }))
+#if PRISM_NATIVE_AOT_VALIDATION
+                .CreateWindow(navigationService => Environment.GetEnvironmentVariable("PRISM_NATIVEAOT_AUTORUN") == "1"
+                    ? navigationService.NavigateAsync("/NavigationPage/BindingLab")
+                    : navigationService.CreateBuilder()
+#else
                 .CreateWindow(navigationService => navigationService.CreateBuilder()
+#endif
                     .AddSegment<SplashPageViewModel>()
                 //.CreateWindow(nav => nav.CreateBuilder()
                 //    .AddTabbedSegment(page =>

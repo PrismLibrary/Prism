@@ -9,7 +9,17 @@ public sealed partial class BindingLabPage : ContentPage
 
     public BindingLabPage() => InitializeComponent();
 
-    private async void RunBindingChecks(object sender, EventArgs e)
+#if PRISM_NATIVE_AOT_VALIDATION
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await AutoRunAsync();
+    }
+#endif
+
+    private async void RunBindingChecks(object sender, EventArgs e) => await RunBindingChecksAsync();
+
+    private async Task RunBindingChecksAsync()
     {
         if (_checking) return;
         _checking = true;
@@ -65,16 +75,68 @@ public sealed partial class BindingLabPage : ContentPage
             vm.Items.RemoveAt(0);
             await Expect(() => Rows.Children.Count == 1 && Rows.Children[0] is Label { Text: "Added item" }, "collection remove notification");
             CheckStatus.Text = "PASS: 15 rendered binding checks. Now navigate to named detail, then Back.";
+            Console.WriteLine("[binding-check] PASS: 15 rendered checks");
         }
         catch (Exception error)
         {
             CheckStatus.Text = $"FAIL: {error.Message}";
+            Console.WriteLine($"[binding-check] FAIL: {error.Message}");
         }
         finally
         {
             _checking = false;
         }
     }
+
+
+#if PRISM_NATIVE_AOT_VALIDATION
+    private static BindingLabPage? _current;
+    private static BindingLabPage? _root;
+
+    private async Task AutoRunAsync()
+    {
+        if (Environment.GetEnvironmentVariable("PRISM_NATIVEAOT_AUTORUN") != "1") return;
+        _current = this;
+        if (_root is not null) return;
+        _root = this;
+        try
+        {
+            Console.WriteLine($"[binding-run] dynamic-code={System.Runtime.CompilerServices.RuntimeFeature.IsDynamicCodeSupported}");
+            await RunBindingChecksAsync();
+            RequirePassed(this);
+            var rootModel = (BindingLabViewModel)BindingContext;
+            var rootContext = rootModel.Context;
+            for (var visit = 1; visit <= 2; visit++)
+            {
+                Console.WriteLine($"[binding-run] detail-{visit} navigate-enter");
+                await ((Prism.Commands.IAsyncCommand)NavigateButton.Command!).ExecuteAsync(null);
+                await Expect(() => _current is not null && !ReferenceEquals(_current, this), "named detail appeared");
+                var detail = _current!;
+                if (ReferenceEquals(detail.BindingContext, rootModel)) throw new InvalidOperationException("detail reused root model");
+                await Expect(() => detail.ContextTitle.Text == "Initial context", "fresh detail context");
+                await detail.RunBindingChecksAsync();
+                RequirePassed(detail);
+                await ((Prism.Commands.IAsyncCommand)detail.BackButton.Command!).ExecuteAsync(null);
+                await Expect(() => ReferenceEquals(_current, this), "Back restored root view");
+                await Expect(() => ReferenceEquals(BindingContext, rootModel) && ReferenceEquals(rootModel.Context, rootContext) && ContextTitle.Text == "Action command invoked", "Back preserved root model and rendered state");
+                RequirePassed(this);
+                Console.WriteLine($"[binding-run] detail-{visit} Back PASS");
+            }
+            Console.WriteLine("[binding-run] COMPLETE root + two named detail / Back visits");
+        }
+        catch (Exception error)
+        {
+            Console.WriteLine($"[binding-run] FAIL: {error.Message}");
+            CheckStatus.Text = $"FAIL: {error.Message}";
+        }
+    }
+
+    private static void RequirePassed(BindingLabPage page)
+    {
+        if (!page.CheckStatus.Text.StartsWith("PASS:", StringComparison.Ordinal))
+            throw new InvalidOperationException(page.CheckStatus.Text);
+    }
+#endif
 
     private static async Task Expect(Func<bool> condition, string scenario)
     {

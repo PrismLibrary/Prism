@@ -7,9 +7,17 @@ public sealed partial class BindingLabPage : Page
 {
     private bool _checking;
 
-    public BindingLabPage() => InitializeComponent();
+    public BindingLabPage()
+    {
+        InitializeComponent();
+#if PRISM_NATIVE_AOT_VALIDATION
+        Loaded += async (_, _) => await AutoRunAsync();
+#endif
+    }
 
-    private async void RunBindingChecks(object sender, RoutedEventArgs e)
+    private async void RunBindingChecks(object sender, RoutedEventArgs e) => await RunBindingChecksAsync();
+
+    private async Task RunBindingChecksAsync()
     {
         if (_checking) return;
         _checking = true;
@@ -65,16 +73,75 @@ public sealed partial class BindingLabPage : Page
             vm.Items.RemoveAt(0);
             await Expect(() => Rows.Items.Count == 1 && !HasRowText("Updated item") && HasRowText("Added item"), "collection remove notification");
             CheckStatus.Text = "PASS: 15 rendered binding checks. Now navigate to named detail, then Back.";
+            Console.WriteLine("[binding-check] PASS: 15 rendered checks");
         }
         catch (Exception error)
         {
             CheckStatus.Text = $"FAIL: {error.Message}";
+            Console.WriteLine($"[binding-check] FAIL: {error.Message}");
         }
         finally
         {
             _checking = false;
         }
     }
+
+
+#if PRISM_NATIVE_AOT_VALIDATION
+    private static BindingLabPage? _current;
+    private static BindingLabPage? _root;
+
+    private async Task AutoRunAsync()
+    {
+        if (Environment.GetEnvironmentVariable("PRISM_NATIVEAOT_AUTORUN") != "1") return;
+        _current = this;
+        if (_root is not null) return;
+        _root = this;
+        try
+        {
+            Console.WriteLine($"[binding-run] dynamic-code={System.Runtime.CompilerServices.RuntimeFeature.IsDynamicCodeSupported}");
+            await RunBindingChecksAsync();
+            RequirePassed(this);
+            var rootModel = (BindingLabViewModel)DataContext;
+            var rootContext = rootModel.Context;
+            BindingLabPage? previousDetail = null;
+            for (var visit = 1; visit <= 2; visit++)
+            {
+                Console.WriteLine($"[binding-run] detail-{visit} navigate-enter");
+                NavigationIndicator.Command!.Execute(null);
+                await Expect(() => _current is not null && !ReferenceEquals(_current, this), "named detail appeared");
+                var detail = _current!;
+                if (ReferenceEquals(detail.DataContext, rootModel)) throw new InvalidOperationException("detail reused root model");
+                if (!ReferenceEquals(detail, previousDetail))
+                    await Expect(() => detail.ContextTitle.Text == "Initial context", "fresh detail context");
+                else
+                    await Expect(() => detail.ContextTitle.Text == "Action command invoked", "reused detail retained rendered state");
+                await detail.RunBindingChecksAsync();
+                RequirePassed(detail);
+                previousDetail = detail;
+                Console.WriteLine($"[binding-run] detail-{visit} rendered PASS");
+                await Task.Delay(1000);
+                detail.BackButton.Command!.Execute(null);
+                await Expect(() => ReferenceEquals(_current, this), "Back restored root view");
+                await Expect(() => ReferenceEquals(DataContext, rootModel) && ReferenceEquals(rootModel.Context, rootContext) && ContextTitle.Text == "Action command invoked", "Back preserved root model and rendered state");
+                RequirePassed(this);
+                Console.WriteLine($"[binding-run] detail-{visit} Back PASS");
+            }
+            Console.WriteLine("[binding-run] COMPLETE root + two named detail / Back visits");
+        }
+        catch (Exception error)
+        {
+            Console.WriteLine($"[binding-run] FAIL: {error.Message}");
+            CheckStatus.Text = $"FAIL: {error.Message}";
+        }
+    }
+
+    private static void RequirePassed(BindingLabPage page)
+    {
+        if (!page.CheckStatus.Text.StartsWith("PASS:", StringComparison.Ordinal))
+            throw new InvalidOperationException(page.CheckStatus.Text);
+    }
+#endif
 
     private static async Task Expect(Func<bool> condition, string scenario)
     {

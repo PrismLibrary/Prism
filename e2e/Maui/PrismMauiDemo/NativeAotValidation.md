@@ -109,3 +109,16 @@ check the exact installed SDK's support before selecting another RID. An earlier
 native publish, a later non-native simulator login, or an existing generated
 metadata file cannot qualify the current source changes. Capture a fresh native
 publish and these rendered checks on that exact resulting binary.
+
+### CLI driven physical-device checks
+
+In a Release NativeAOT validation build, set `PRISM_NATIVEAOT_AUTORUN=1` when
+launching the existing app. The app opens the binding lab, runs its 15 rendered
+control assertions, navigates through the buttons' actual bound commands to
+named detail, runs the assertions there, and returns through Back twice. Console
+markers report each result and confirm that Back restores the original root
+view model, context and rendered state. This opt-in does not replace manual
+portrait/landscape, scrolling, accessibility or touch interaction checks.
+
+On Android, launch the existing main activity with the boolean Intent extra
+`prism-nativeaot-autorun=true`; it sets the same opt-in before UI initialization.

@@ -33,8 +33,8 @@
           </DataTemplate>
         </BindableLayout.ItemTemplate>
       </VerticalStackLayout>
-      <Button Text="Navigate to named detail" Command="{Binding NavigateCommand}" />
-      <Button Text="Back" Command="{Binding BackCommand}" />
+      <Button x:Name="NavigateButton" Text="Navigate to named detail" Command="{Binding NavigateCommand}" />
+      <Button x:Name="BackButton" Text="Back" Command="{Binding BackCommand}" />
       <Button Text="Home" Command="{Binding HomeCommand}" />
     </VerticalStackLayout>
   </ScrollView>
