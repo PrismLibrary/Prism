@@ -14,7 +14,7 @@ rather than compiled bindings to exercise generated member preservation.
    values; inherited INPC title/visibility changes; replacing the context and
    detaching the old model; null and restored context; and collection item
    changes, additions, and removals. The context inherits from an independent
-   INPC base, not `BindableBase`.
+   closed generic INPC base (`NotifyingContext<string>`), not `BindableBase`.
 3. Choose **Navigate to named detail**. A new lab page must open with initial
    context and `Arrived through Prism navigation`. Run its checks, then **Back**.
    The first page and its restored context must return. Repeat the navigation.

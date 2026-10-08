@@ -6,7 +6,7 @@ using Uno.UI;
 
 namespace HelloWorld;
 
-public partial class App : PrismApplication
+public partial class App : PlaygroundApplication
 {
     public App()
     {

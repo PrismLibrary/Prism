@@ -37,7 +37,8 @@ https://aka.platform.uno/using-uno-sdk
 
 Open **NativeAOT binding lab** from the existing navigation menu. This uses the
 app's real container, named region navigation, ordinary `{Binding}` paths, and
-an independent INPC model base with inherited title/visibility properties.
+an independent closed generic INPC model base (`NotifyingContext<string>`) with
+inherited title/visibility properties.
 
 - **Run binding checks** must report `PASS: 15 rendered binding checks`. It reads
   rendered title/visibility and collection-template controls after initial
