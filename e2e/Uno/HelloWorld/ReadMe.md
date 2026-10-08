@@ -2,6 +2,12 @@
 
 Single-project Uno sample: **regions** (`NavigationView` + nested `ContentControl`), **dialogs**, **modularity** (`Playground.Module`), **DryIoc**, **`ILoadableShell`** / splash, and **`InvokeCommandAction`** on Home.
 
+The pages preserve their content's natural dimensions and allow horizontal and
+vertical scrolling when the available space is smaller. In portrait and
+landscape, expand and collapse the navigation pane, then scroll the page to
+reach its complete button labels and content. Existing page maximum widths,
+font sizes, and binding scenarios stay the same.
+
 ## Build from repo root
 
 Prism packages are **project references**; builds compile `src/Uno` as needed.

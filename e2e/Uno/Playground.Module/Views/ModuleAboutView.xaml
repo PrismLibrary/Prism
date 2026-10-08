@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-  <ScrollViewer Padding="24">
+  <ScrollViewer Padding="24" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
     <StackPanel Spacing="12" MaxWidth="720">
       <TextBlock Text="Module" FontSize="28" FontWeight="SemiBold" />
       <TextBlock Text="{Binding Body}" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
