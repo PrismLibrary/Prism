@@ -6,6 +6,12 @@ public API comments, malformed XML, invalid or ambiguous `cref` references,
 misplaced comments, invalid include files, and incorrect parameter/type parameter
 tags. Keep these diagnostics out of project `NoWarn` lists.
 
+`src/Directory.Build.targets` reapplies the policy immediately before compilation
+and removes documentation diagnostics from `NoWarn`, including numeric forms.
+This is necessary because SDK imports can add their own suppressions after Prism's
+props are evaluated: .NET 10 Android adds CS1573 and CS1591 for XML output.
+Unrelated suppressions remain intact.
+
 Follow Microsoft's [recommended XML documentation tags](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags):
 
 - Describe public types and members with meaningful summaries and complete sentences.
@@ -34,12 +40,15 @@ dotnet restore src/Prism.Events/Prism.Events.csproj
 
 The check first builds the real Prism.Events project using its normal build
 imports. It adds temporary source files to demonstrate that missing documentation
-fails with **CS1591** and malformed XML fails with **CS1570**, removes them in a
-`finally` block, and verifies the project builds again. It does not create or
+fails with **CS1591**, malformed XML fails with **CS1570**, and incomplete parameter
+documentation fails with **CS1573**. It repeats the probes with a late-imported
+`NoWarn` setting to reproduce SDK suppressions, verifies unrelated suppressions
+remain intact, removes temporary files in a `finally` block, and verifies the
+project builds again. It does not create or
 commit a smoke application, and it does not pass a separate warnings-as-errors
 setting that could mask a broken repository policy. Run it in an isolated checkout
 without another build of Prism.Events running concurrently.
 
 The Core pull request workflow runs this check. Each library workflow also watches
-`src/Directory.Build.props`, so changes to the shared documentation policy trigger
-the relevant builds.
+`src/Directory.Build.props` and `src/Directory.Build.targets`, so changes to the
+shared documentation policy trigger the relevant builds.

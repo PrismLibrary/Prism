@@ -14,6 +14,7 @@ on:
       - 'src/Prism.Core/**'
       - 'src/Prism.Events/**'
       - src/Directory.Build.props
+      - src/Directory.Build.targets
       - build/Test-XmlDocumentationPolicy.ps1
       - 'tests/Prism.Core.Tests/**'
 

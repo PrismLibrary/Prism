@@ -9,6 +9,7 @@ on:
       - .github/workflows/build_avalonia.yml
       - Directory.Build.props
       - src/Directory.Build.props
+      - src/Directory.Build.targets
       - Directory.Build.targets
       - Directory.Packages.props
       - xunit.runner.json
