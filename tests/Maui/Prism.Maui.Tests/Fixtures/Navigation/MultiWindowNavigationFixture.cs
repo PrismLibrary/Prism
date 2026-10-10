@@ -87,6 +87,7 @@ public class MultiWindowNavigationFixture : IDisposable
         Assert.NotNull(result.Exception);
         Assert.Same(primaryRoot, primary.Page);
         Assert.False(primaryRoot.DestroyCalled);
+        Assert.Null(_container.CurrentScope);
     }
 
     public void Dispose()

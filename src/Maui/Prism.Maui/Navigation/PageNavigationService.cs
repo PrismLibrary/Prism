@@ -1338,6 +1338,9 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
     protected virtual Task ProcessNavigationForAbsoluteUri(Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
+        if (_pageAccessor.Page is not null && Window is null)
+            throw new InvalidNavigationException("The scoped page is not attached to a window.");
+
         return ProcessNavigation(null, segments, parameters, useModalNavigation, animated);
     }
 
@@ -2120,9 +2123,6 @@ public class PageNavigationService : INavigationService, IRegistryAware
             {
                 if (Window is null)
                 {
-                    if (_pageAccessor.Page is not null)
-                        throw new InvalidNavigationException("The scoped page is not attached to a window.");
-
                     _window = new PrismWindow
                     {
                         Page = page
