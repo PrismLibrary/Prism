@@ -1622,7 +1622,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
     }
 
     /// <summary>Reads the post-navigation flyout presentation option from the page or its binding context.</summary>
-    /// <param name="page">The page to inspect or add to the stack.</param>
+    /// <param name="page">The flyout page whose presentation option is inspected.</param>
     /// <returns>The configured presentation value, or false if no option is supplied.</returns>
     protected static bool GetFlyoutPageIsPresented(FlyoutPage page)
     {
@@ -1636,7 +1636,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
     }
 
     /// <summary>Reads the stack-clearing option from the navigation page or its binding context.</summary>
-    /// <param name="page">The page to inspect or add to the stack.</param>
+    /// <param name="page">The navigation page whose stack-clearing option is inspected.</param>
     /// <returns>The configured stack-clearing value, or true if no option is supplied.</returns>
     protected static bool GetClearNavigationPageNavigationStack(NavigationPage page)
     {
@@ -2191,8 +2191,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
     /// <summary>Adds a page to a window or navigation stack using the selected modal and animation options.</summary>
     /// <param name="navigationOffset">The stack offset used when inserting a page.</param>
     /// <param name="animated">The animation choice; null uses the navigation default.</param>
-    /// <param name="page">The page to inspect or add to the stack.</param>
-    /// <param name="currentPage">The page from which navigation is being processed.</param>
+    /// <param name="page">The destination page to display.</param>
+    /// <param name="currentPage">The current navigation context, or null when assigning a root page.</param>
     /// <param name="useModalNavigation">The modal navigation choice; null allows the page hierarchy to determine the choice.</param>
     /// <param name="insertBeforeLast">Whether to insert the page before the last stack entry instead of pushing it.</param>
     /// <returns>A task completing when this navigation step finishes.</returns>
@@ -2268,8 +2268,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
     }
 
     /// <summary>Inserts a page before the stack entry at the specified offset.</summary>
-    /// <param name="page">The page to inspect or add to the stack.</param>
-    /// <param name="currentPage">The page from which navigation is being processed.</param>
+    /// <param name="page">The page to insert.</param>
+    /// <param name="currentPage">The page providing the navigation stack to modify.</param>
     /// <param name="pageOffset">The zero-based stack index of the page before which to insert.</param>
     /// <returns>A task completing when this navigation step finishes.</returns>
     protected virtual Task InsertPageBefore(Page currentPage, Page page, int pageOffset)
@@ -2388,7 +2388,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
     /// <summary>Determines whether a page is the root of the active branch of a window page hierarchy.</summary>
     /// <param name="mainPage">The root page hierarchy to inspect.</param>
-    /// <param name="currentPage">The page from which navigation is being processed.</param>
+    /// <param name="currentPage">The page to test as a root of the active hierarchy branch.</param>
     /// <returns>True when the page is the root of the selected hierarchy branch; otherwise false.</returns>
     protected static bool IsRoot(Page mainPage, Page currentPage)
     {

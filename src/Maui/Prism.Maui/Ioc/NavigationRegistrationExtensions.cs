@@ -4,6 +4,13 @@ using Prism.Mvvm;
 namespace Prism.Ioc;
 
 /// <summary>Registers pages and their view models for named navigation.</summary>
+/// <example>
+/// Register a page with a stable route name, then use that name when navigating:
+/// <code>
+/// container.RegisterForNavigation&lt;DetailsPage, DetailsViewModel&gt;("details");
+/// await navigationService.NavigateAsync(new Uri("details?id=42", UriKind.Relative), new NavigationParameters());
+/// </code>
+/// </example>
 public static class NavigationRegistrationExtensions
 {
     /// <summary>Registers a page for navigation using an explicit name or the page type name.</summary>

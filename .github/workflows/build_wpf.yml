@@ -8,6 +8,7 @@ on:
     paths:
       - .github/workflows/build_wpf.yml
       - Directory.Build.props
+      - src/Directory.Build.props
       - Directory.Build.targets
       - Directory.Packages.props
       - xunit.runner.json
