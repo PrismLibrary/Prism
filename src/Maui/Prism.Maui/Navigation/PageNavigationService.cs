@@ -51,13 +51,16 @@ public class PageNavigationService : INavigationService, IRegistryAware
     {
         get
         {
-            if(_window is null && _pageAccessor.Page is not null)
+            if (_pageAccessor.Page is not null)
             {
-                _window = _pageAccessor.Page.GetParentWindow();
+                // A page-scoped service belongs to that page's window, even when
+                // another window is first in the application or becomes active.
+                _window ??= _pageAccessor.Page.GetParentWindow();
             }
             else
             {
-                _window = _windowManager.Windows.OfType<PrismWindow>().FirstOrDefault();
+                _window ??= _windowManager.Current ??
+                    _windowManager.Windows.OfType<PrismWindow>().FirstOrDefault();
             }
 
             return _window;
@@ -155,7 +158,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
             // Only the approved navigation may bypass device-pop handling.
             NavigationSource = PageNavigationSource.NavigationService;
 
-            var dialogModal = IDialogContainer.DialogStack.LastOrDefault();
+            var dialogModal = IDialogContainer.DialogStack.LastOrDefault(dialog =>
+                ReferenceEquals(DialogServiceBase.GetDialogPage(dialog)?.GetParentWindow(), Window));
             if (dialogModal is not null)
             {
                 if (dialogModal.Dismiss.CanExecute(null))
@@ -2114,11 +2118,11 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
             if (currentPage is null)
             {
-                if (_windowManager.Windows.OfType<PrismWindow>().Any(x => x.Name == PrismWindow.DefaultWindowName))
-                    _window = _windowManager.Windows.OfType<PrismWindow>().First(x => x.Name == PrismWindow.DefaultWindowName);
-
                 if (Window is null)
                 {
+                    if (_pageAccessor.Page is not null)
+                        throw new InvalidNavigationException("The scoped page is not attached to a window.");
+
                     _window = new PrismWindow
                     {
                         Page = page

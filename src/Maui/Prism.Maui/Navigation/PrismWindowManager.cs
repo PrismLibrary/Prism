@@ -1,6 +1,3 @@
-using Prism.Behaviors;
-using Prism.Extensions;
-
 namespace Prism.Navigation;
 
 internal sealed class PrismWindowManager : IWindowCreator, IWindowManager
@@ -13,6 +10,7 @@ internal sealed class PrismWindowManager : IWindowCreator, IWindowManager
     }
 
     private Window _initialWindow;
+    private readonly HashSet<Window> _trackedWindows = new();
 
     private Window _current;
     public Window Current => _current ?? _initialWindow;
@@ -24,7 +22,11 @@ internal sealed class PrismWindowManager : IWindowCreator, IWindowManager
         if (_initialWindow is not null)
             return _initialWindow;
         else if (app.Windows.OfType<PrismWindow>().Any())
-            return _initialWindow = app.Windows.OfType<PrismWindow>().First();
+        {
+            _initialWindow = app.Windows.OfType<PrismWindow>().First();
+            TrackWindow(_initialWindow);
+            return _initialWindow;
+        }
 
         activationState.Context.Services.GetRequiredService<PrismAppBuilder>().OnCreateWindow();
 
@@ -33,22 +35,59 @@ internal sealed class PrismWindowManager : IWindowCreator, IWindowManager
 
     public void OpenWindow(Window window)
     {
+        ArgumentNullException.ThrowIfNull(window);
+        TrackWindow(window);
+
         if (_initialWindow is null)
             _initialWindow = window;
         else
             _application.OpenWindow(window);
-
-        foreach(var pWindow in Windows.OfType<PrismWindow>().Where(x => x.IsActive))
-        {
-            pWindow.IsActive = window.Equals(pWindow);
-        }
     }
 
     public void CloseWindow(Window window)
     {
-        if (_initialWindow == window)
+        ArgumentNullException.ThrowIfNull(window);
+        _application.CloseWindow(window);
+        ForgetWindow(window);
+    }
+
+    private void TrackWindow(Window window)
+    {
+        if (!_trackedWindows.Add(window))
+            return;
+
+        window.Activated += OnWindowActivated;
+        window.Deactivated += OnWindowDeactivated;
+        window.Destroying += OnWindowDestroying;
+    }
+
+    private void OnWindowActivated(object sender, EventArgs args)
+    {
+        _current = (Window)sender;
+    }
+
+    private void OnWindowDeactivated(object sender, EventArgs args)
+    {
+        if (ReferenceEquals(_current, sender))
+            _current = null;
+    }
+
+    private void OnWindowDestroying(object sender, EventArgs args)
+    {
+        ForgetWindow((Window)sender);
+    }
+
+    private void ForgetWindow(Window window)
+    {
+        if (ReferenceEquals(_initialWindow, window))
             _initialWindow = null;
 
-        _application.CloseWindow(window);
+        if (ReferenceEquals(_current, window))
+            _current = null;
+
+        _trackedWindows.Remove(window);
+        window.Activated -= OnWindowActivated;
+        window.Deactivated -= OnWindowDeactivated;
+        window.Destroying -= OnWindowDestroying;
     }
 }

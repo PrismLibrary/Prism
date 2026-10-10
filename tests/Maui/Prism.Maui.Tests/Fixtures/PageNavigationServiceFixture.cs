@@ -866,6 +866,7 @@ namespace Prism.Maui.Tests.Navigation
         {
             var navigationService = new PageNavigationServiceMock(_container, _app);
             var rootPage = new ContentPage();
+            _app.MainPage = rootPage;
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync("/NavigationPage/ContentPage");
@@ -882,6 +883,7 @@ namespace Prism.Maui.Tests.Navigation
         {
             var navigationService = new PageNavigationServiceMock(_container, _app);
             var rootPage = new ContentPage();
+            _app.MainPage = rootPage;
             ((IPageAware)navigationService).Page = rootPage;
 
             await navigationService.NavigateAsync(new Uri("http://localhost/NavigationPage/ContentPage", UriKind.Absolute));

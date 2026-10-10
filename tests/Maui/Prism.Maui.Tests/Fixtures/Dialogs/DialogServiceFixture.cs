@@ -18,6 +18,33 @@ public class DialogServiceFixture : IDisposable
     }
 
     [Fact]
+    public async Task GoBackDismissesOnlyDialogInCallingWindow()
+    {
+        var firstHost = new DialogServiceTestHost();
+        var firstModel = new DialogServiceTestModel();
+        var first = new DialogServiceTestHarness(firstHost, firstModel);
+        var secondHost = new DialogServiceTestHost();
+        var secondModel = new DialogServiceTestModel();
+        var second = new DialogServiceTestHarness(secondHost, secondModel);
+        first.Show();
+        await firstModel.Activated.Task;
+        second.Show();
+        await secondModel.Activated.Task;
+
+        var result = await first.GoBackAsync();
+
+        Assert.True(result.Success, result.Exception?.ToString());
+        Assert.Equal(1, firstHost.PopCount);
+        Assert.Equal(0, secondHost.PopCount);
+        await first.Result.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        Assert.Empty(first.Page.Navigation.ModalStack);
+        Assert.Same(secondHost, Assert.Single(second.Page.Navigation.ModalStack));
+
+        secondModel.RequestClose.Invoke();
+        await second.Result.Task.WaitAsync(TimeSpan.FromSeconds(5));
+    }
+
+    [Fact]
     public async Task RepeatedCloseDoesNotResetSourceWhileNativePopIsPending()
     {
         var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
