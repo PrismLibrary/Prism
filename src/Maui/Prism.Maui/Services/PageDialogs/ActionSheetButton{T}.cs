@@ -5,6 +5,7 @@
 /// </summary>
 public class ActionSheetButton<T> : ActionSheetButtonBase
 {
+    /// <summary>Initializes an action sheet button whose callbacks receive a typed parameter.</summary>
     protected internal ActionSheetButton()
     {
 
@@ -16,6 +17,8 @@ public class ActionSheetButton<T> : ActionSheetButtonBase
     /// <value>The action.</value>
     public Action<T> Action { get; set; }
 
+    /// <summary>Gets or sets the asynchronous callback invoked after <see cref="Action"/> when the button is pressed.</summary>
+    /// <remarks>The callback receives <see cref="Parameter"/> and is awaited before button execution completes.</remarks>
     public Func<T, Task> AsyncCallback { get; set; }
 
     /// <summary>

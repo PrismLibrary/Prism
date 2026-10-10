@@ -10,10 +10,12 @@ namespace Prism.Dialogs
     /// </summary>
     public partial class DialogWindow : ContentDialog, IDialogWindow
     {
+        /// <summary>Initializes the default Prism content dialog host.</summary>
         public DialogWindow()
         {
             this.InitializeComponent();
         }
+        /// <inheritdoc/>
         public IDialogResult? Result { get; set; }
 
         event RoutedEventHandler IDialogWindow.Loaded

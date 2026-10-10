@@ -17,8 +17,8 @@ namespace Prism.Unity
         }
 
         /// <summary>
-        /// Registers the <see cref="Type"/>s of the Exceptions that are not considered 
-        /// root exceptions by the <see cref="ExceptionExtensions"/>.
+        /// Registers <see cref="ResolutionFailedException"/> as a framework exception so
+        /// exception unwrapping can report the underlying application error.
         /// </summary>
         protected override void RegisterFrameworkExceptionTypes()
         {

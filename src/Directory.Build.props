@@ -34,6 +34,8 @@
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Keep missing documentation, malformed XML, and invalid references from shipping. -->
+    <WarningsAsErrors>$(WarningsAsErrors);CS0419;CS1570;CS1571;CS1572;CS1573;CS1574;CS1580;CS1581;CS1584;CS1587;CS1589;CS1590;CS1591;CS1592;CS1658;CS1710;CS1711;CS1712;CS1723;CS1734;CS1735</WarningsAsErrors>
     <GeneratePackageOnBuild>$(IsPackable)</GeneratePackageOnBuild>
   </PropertyGroup>
 

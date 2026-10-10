@@ -1,5 +1,6 @@
 ﻿namespace Prism.Navigation;
 
+/// <summary>Defines parameter keys that control Prism page navigation and tab creation.</summary>
 public static class KnownNavigationParameters
 {
     /// <summary>

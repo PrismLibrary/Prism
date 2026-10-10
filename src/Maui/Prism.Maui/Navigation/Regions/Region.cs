@@ -28,6 +28,7 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
         _sort = DefaultSortComparison;
     }
 
+    /// <inheritdoc/>
     public VisualElement TargetElement { get; set; }
 
     private ViewsCollection _views;
@@ -211,6 +212,9 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
         }
     }
 
+    /// <summary>Creates a registered region view using the hosting element's container and adds it to this region.</summary>
+    /// <param name="viewName">The registered name of the view to create.</param>
+    /// <returns>The region manager assigned to the added view.</returns>
     public IRegionManager Add(string viewName)
     {
         var container = TargetElement.GetContainerProvider();
@@ -412,6 +416,10 @@ public class Region : BindableBase, IRegion, ITargetAwareRegion
         }
     }
 
+    /// <summary>Requests navigation in this region and reports its result to a callback.</summary>
+    /// <param name="target">The URI identifying the destination view.</param>
+    /// <param name="navigationCallback">The callback receiving the completed navigation result.</param>
+    /// <param name="navigationParameters">The parameters supplied to the destination.</param>
     public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, INavigationParameters navigationParameters) =>
         NavigationService.RequestNavigate(target, navigationCallback, navigationParameters);
 }

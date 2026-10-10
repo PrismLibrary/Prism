@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
     <OutputType>Library</OutputType>
-    <NoWarn>$(NoWarn);1591</NoWarn>
     <AssemblyName>Prism.DryIoc.Uno</AssemblyName>
     <PackageId>Prism.DryIoc.Uno.WinUI</PackageId>
     <ImplicitUsings>enable</ImplicitUsings>

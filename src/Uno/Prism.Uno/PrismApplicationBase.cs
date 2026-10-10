@@ -21,6 +21,7 @@ namespace Prism
         private IHost? _host;
         private IRegionManager? _regionManager;
 
+        /// <summary>Creates the container extension and makes it available through the container locator.</summary>
         protected PrismApplicationBase()
         {
             _containerExtension = CreateContainerExtension();

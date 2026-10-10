@@ -82,6 +82,12 @@ public static class RegionNavigationRegistrationExtensions
         where TViewModel : class =>
         containerRegistry.RegisterForNavigationWithViewModel(typeof(TView), typeof(TViewModel), name);
 
+    /// <summary>Registers a view and optional view model for named region navigation.</summary>
+    /// <param name="containerRegistry">The container registry to update.</param>
+    /// <param name="viewType">The view type to register.</param>
+    /// <param name="viewModelType">The associated view model type, or null to use view model location conventions.</param>
+    /// <param name="name">The navigation name; null or whitespace uses the view type name.</param>
+    /// <returns>The same registration collection for additional registrations.</returns>
     public static IContainerRegistry RegisterForRegionNavigation(this IContainerRegistry containerRegistry, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type viewType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModelType, string name = null)
         => containerRegistry.RegisterForNavigationWithViewModel(viewType, viewModelType, name);
 
@@ -127,6 +133,12 @@ public static class RegionNavigationRegistrationExtensions
         where TViewModel : class =>
         services.RegisterForNavigationWithViewModel(typeof(TView), typeof(TViewModel), name);
 
+    /// <summary>Registers a view and optional view model for named region navigation.</summary>
+    /// <param name="services">The service collection to update.</param>
+    /// <param name="viewType">The view type to register.</param>
+    /// <param name="viewModelType">The associated view model type, or null to use view model location conventions.</param>
+    /// <param name="name">The navigation name; null or whitespace uses the view type name.</param>
+    /// <returns>The same registration collection for additional registrations.</returns>
     public static IServiceCollection RegisterForRegionNavigation(this IServiceCollection services, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type viewType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties)] Type viewModelType, string name = null)
         => services.RegisterForNavigationWithViewModel(viewType, viewModelType, name);
 

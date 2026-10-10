@@ -26,14 +26,21 @@ public static class ViewModelLocator
             null,
             propertyChanged: OnViewModelPropertyChanged);
 
+    /// <summary>Identifies the attached navigation registration name, defaulting to the object's type name.</summary>
     public static readonly BindableProperty NavigationNameProperty =
         BindableProperty.CreateAttached("NavigationName", typeof(string), typeof(ViewModelLocator), null, defaultValueCreator: CreateDefaultNavigationName);
 
     private static object CreateDefaultNavigationName(BindableObject bindable) => bindable.GetType().Name;
 
+    /// <summary>Gets the object's navigation registration name.</summary>
+    /// <param name="bindable">The object carrying the attached navigation name.</param>
+    /// <returns>The attached name, or the object's type name when no name has been set.</returns>
     public static string GetNavigationName(BindableObject bindable) =>
         (string)bindable.GetValue(NavigationNameProperty);
 
+    /// <summary>Sets the object's navigation registration name.</summary>
+    /// <param name="bindable">The object carrying the attached navigation name.</param>
+    /// <param name="name">The registered name to use in navigation paths.</param>
     public static void SetNavigationName(BindableObject bindable, string name) =>
         bindable.SetValue(NavigationNameProperty, name);
 
