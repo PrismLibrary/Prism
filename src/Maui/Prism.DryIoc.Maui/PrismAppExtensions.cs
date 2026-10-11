@@ -4,12 +4,12 @@ using Prism;
 namespace Microsoft.Maui;
 
 /// <summary>
-/// Configures a MAUI application to use Prism with the DryIoc container.
+/// Configures the application to use Prism with the DryIoc container.
 /// </summary>
 public static class PrismAppExtensions
 {
     /// <summary>Adds Prism to the application using DryIoc's default Prism configuration.</summary>
-    /// <param name="builder">The MAUI application builder.</param>
+    /// <param name="builder">The application builder.</param>
     /// <param name="configurePrism">The callback registering services, views, modules, and startup navigation.</param>
     /// <returns>The same application builder for further configuration.</returns>
     public static MauiAppBuilder UsePrism(this MauiAppBuilder builder, Action<PrismAppBuilder> configurePrism)
@@ -18,7 +18,7 @@ public static class PrismAppExtensions
     }
 
     /// <summary>Adds Prism to the application using customized DryIoc rules.</summary>
-    /// <param name="builder">The MAUI application builder.</param>
+    /// <param name="builder">The application builder.</param>
     /// <param name="rules">The starting container rules.</param>
     /// <param name="configurePrism">The callback registering services, views, modules, and startup navigation.</param>
     /// <returns>The same application builder for further configuration.</returns>

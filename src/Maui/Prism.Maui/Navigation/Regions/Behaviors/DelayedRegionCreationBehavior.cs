@@ -13,7 +13,7 @@ namespace Prism.Navigation.Regions.Behaviors;
 /// the region. After the region is created, this behavior will detach.
 /// </summary>
 /// <remarks>
-/// Attached property value inheritance is not available in Silverlight, so the current approach walks up the visual tree when requesting a region from a region manager.
+/// Region registration locates the applicable region manager by walking the visual tree.
 /// The <see cref="RegionManagerRegistrationBehavior"/> is now responsible for walking up the Tree.
 /// </remarks>
 public class DelayedRegionCreationBehavior

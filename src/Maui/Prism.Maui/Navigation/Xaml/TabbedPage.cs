@@ -1,7 +1,7 @@
 namespace Prism.Navigation.Xaml;
 
 /// <summary>
-/// Provides attached properties for tabbed page navigation and appearance in .NET MAUI applications.
+/// Provides attached properties for tabbed page navigation and appearance.
 /// </summary>
 public static class TabbedPage
 {

@@ -7,7 +7,7 @@ using Windows.Foundation;
 #nullable enable
 namespace Prism.Dialogs
 {
-    /// <summary>Displays registered dialog views in an Uno content dialog host.</summary>
+    /// <summary>Displays registered dialog views in a content dialog host.</summary>
     public class DialogService : IDialogService
     {
         private readonly IDialogViewRegistry _dialogViewRegistry;

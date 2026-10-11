@@ -3,8 +3,7 @@ using Avalonia.Controls;
 
 namespace Prism
 {
-    /// <summary>AvaloniaObject Extensions.</summary>
-    /// <remarks>Equivalent to WPF's DependencyObject</remarks>
+    /// <summary>Provides binding inspection helpers for controls.</summary>
     internal static partial class AvaloniaObjectExtensions
     {
         /// <summary>Determines if a <see cref="AvaloniaProperty"/> has a binding set.</summary>

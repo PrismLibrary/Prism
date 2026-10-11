@@ -48,7 +48,7 @@ public class NavigationException : Exception
     public const string ErrorCreatingPage = "An error occurred while resolving the page. This is most likely the result of invalid XAML or other type initialization exception";
 
     /// <summary>
-    /// The <see cref="NavigationException"/> Message returned when an unsupported Maui Exception occurred.
+    /// The message returned when the page navigation stack is not supported by the underlying navigation host.
     /// </summary>
     public const string UnsupportedMauiCreation = "An unsupported Maui Exception occurred. This may be due to a bug with MAUI or something that is otherwise not supported by MAUI.";
 

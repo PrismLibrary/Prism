@@ -1,7 +1,7 @@
 namespace Prism.Dialogs.Xaml;
 
 /// <summary>
-/// Provides attached properties for customizing the layout and behavior of dialogs in .NET MAUI.
+/// Provides attached properties for customizing dialog layout and behavior.
 /// </summary>
 public static class DialogLayout
 {

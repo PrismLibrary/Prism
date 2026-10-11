@@ -26,7 +26,7 @@ namespace Prism.Modularity
     /// </list>
     /// The <see cref="ModuleCatalog"/> also serves as a baseclass for more specialized Catalogs .
     /// </summary>
-    /// <remarks>Avalonia does use, System.Windows.Markup. See property, `Items` below.</remarks>
+    /// <remarks>Use the Items collection to configure modules and module groups declaratively.</remarks>
 #if !AVALONIA
     [ContentProperty("Items")]
 #endif

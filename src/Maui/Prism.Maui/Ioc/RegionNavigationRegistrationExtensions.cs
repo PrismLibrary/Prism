@@ -8,7 +8,7 @@ using Prism.Navigation.Regions.Navigation;
 namespace Prism.Ioc;
 
 /// <summary>
-/// Provides common extensions for Service Registrations for Prism.Maui
+/// Registers views and view models for region navigation.
 /// </summary>
 public static class RegionNavigationRegistrationExtensions
 {

@@ -1,9 +1,9 @@
 ﻿namespace Prism.Behaviors;
 
 /// <summary>
-/// Base class that extends on Xamarin Forms Behaviors.
+/// Tracks the attached bindable object and synchronizes the behavior's binding context.
 /// </summary>
-/// <typeparam name="T"></typeparam>
+/// <typeparam name="T">The bindable object type to which the behavior can attach.</typeparam>
 public class BehaviorBase<T> : Behavior<T> where T : BindableObject
 {
     /// <summary>

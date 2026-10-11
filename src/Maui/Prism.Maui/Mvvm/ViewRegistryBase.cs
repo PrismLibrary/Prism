@@ -3,7 +3,7 @@
 namespace Prism.Mvvm;
 
 /// <summary>
-/// Provides MAUI-specific wiring for registered views and their view models.
+/// Connects registered bindable views to their view models and container providers.
 /// </summary>
 public abstract class ViewRegistryBase : ViewRegistryBase<BindableObject>
 {

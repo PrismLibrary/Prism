@@ -95,7 +95,7 @@ namespace Prism.Modularity
         /// <summary>
         /// Reference to the location of the module assembly.
         /// <example>The following are examples of valid <see cref="ModuleInfo.Ref"/> values:
-        /// file://c:/MyProject/Modules/MyModule.dll for a loose DLL in WPF.
+        /// file://c:/MyProject/Modules/MyModule.dll identifies a loose assembly file for a loader that supports file references.
         /// </example>
         /// </summary>
         public string Ref { get; set; }

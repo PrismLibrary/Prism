@@ -9,7 +9,7 @@ using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
 namespace Prism.Navigation
 {
     /// <summary>
-    /// Represents a window used for Prism navigation in a Maui application.
+    /// Represents a window used for Prism navigation.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class PrismWindow : Window

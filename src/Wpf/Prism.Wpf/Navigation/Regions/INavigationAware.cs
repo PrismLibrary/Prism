@@ -7,7 +7,7 @@ namespace Prism.Navigation.Regions
     /// Provides a way for objects involved in navigation to be notified of navigation activities.
     /// </summary>
     /// <remarks>
-    /// Provides compatibility for Legacy Prism.Wpf and Prism.Avalonia apps.
+    /// Provides the legacy navigation contract as an alias for IRegionAware.
     /// </remarks>
     public interface INavigationAware : IRegionAware
     {

@@ -18,9 +18,7 @@ namespace Prism.Modularity
         /// <summary>
         /// A string ref is a location reference to load the module as it may not be already loaded in the Appdomain in some cases may need to be downloaded.
         /// </summary>
-        /// <Remarks>
-        /// This is only used for WPF
-        /// </Remarks>
+        /// <remarks>Support for assembly locations depends on the module loader used by the application.</remarks>
         string Ref { get; set; }
     }
 }

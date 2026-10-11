@@ -13,7 +13,7 @@ public sealed class DialogService : DialogServiceBase
     private readonly IWindowManager _windowManager;
 
     /// <summary>
-    /// Creates a new instance of the <see cref="DialogService"/> for Maui Applications
+    /// Creates a dialog service using the supplied container and page accessor.
     /// </summary>
     /// <param name="pageAccessor">The <see cref="IPageAccessor"/> used to determine where in the Navigation Stack we need to process the Dialog.</param>
     /// <param name="windowManager">The <see cref="IWindowManager"/> used to resolve the current page when the scoped page is no longer attached.</param>
