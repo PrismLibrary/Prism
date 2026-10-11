@@ -5,7 +5,7 @@ Baseline: [`ds/maui-shell` at e06b8ee8](https://github.com/PrismLibrary/Prism/co
 
 ## Developer model
 
-Make Shell an explicit application opt-in. Reuse Prism page/ViewModel registrations, injected `INavigationService`, lifecycle interfaces, and `INavigationResult`. Add three helpers: select a Shell host, map detail routes to Prism registrations, and create scoped root templates.
+Support the developer's existing Shell through generic `CreateWindow<TShell>` startup overloads. Preserve its hierarchy, templates, and developer-defined routes. Reuse injected `INavigationService`, lifecycle interfaces, and `INavigationResult`; do not require a parallel Prism route registry or replacement templates.
 
 Shell owns its visual hierarchy and stacks. Prism supplies page construction, ViewModel wiring, confirmation, navigation callbacks, and disposal. Applications do not implement factories or manage page scopes. The initial proposal supports an explicit navigation subset; unsupported operations fail before mutation.
 
@@ -57,73 +57,72 @@ public static Task<INavigationResult> GoBackAsync(
     this INavigationService navigationService);
 ```
 
-Existing `RegisterForNavigation<TView, TViewModel>(name)` has `where TView : Page`. Its constructor/property preservation annotations remain relevant. Reuse this registry. See [builder](../../src/Maui/Prism.Maui/PrismAppBuilder.cs), [startup extensions](../../src/Maui/Prism.Maui/PrismAppBuilderExtensions.cs), [navigation extensions](../../src/Maui/Prism.Maui/Navigation/INavigationServiceExtensions.cs), and [registrations](../../src/Maui/Prism.Maui/Ioc/NavigationRegistrationExtensions.cs).
+Existing `RegisterForNavigation<TView, TViewModel>(name)` has `where TView : Page`. Its constructor/property preservation annotations remain relevant when an application uses these registrations; this proposal does not require them to redefine Shell routes. See [builder](../../src/Maui/Prism.Maui/PrismAppBuilder.cs), [startup extensions](../../src/Maui/Prism.Maui/PrismAppBuilderExtensions.cs), [navigation extensions](../../src/Maui/Prism.Maui/Navigation/INavigationServiceExtensions.cs), and [registrations](../../src/Maui/Prism.Maui/Ioc/NavigationRegistrationExtensions.cs).
 
-## Proposed public additions
+## Proposed generic startup overloads
 
-PROPOSED extension declarations, absent from the baseline. Suggested namespaces: `Prism` for builder extensions and `Prism.Navigation.Xaml` for the template helper. No new interface is required.
+PROPOSED additions to `PrismAppBuilderExtensions` in namespace `Prism`, absent from the baseline:
 
 ```csharp
-public static PrismAppBuilder UseShell<
+public static PrismAppBuilder CreateWindow<
     [DynamicallyAccessedMembers(
         DynamicallyAccessedMemberTypes.PublicConstructors |
         DynamicallyAccessedMemberTypes.NonPublicConstructors)] TShell>(
-    this PrismAppBuilder builder)
+    this PrismAppBuilder builder,
+    string? defaultRoute = null)
     where TShell : Microsoft.Maui.Controls.Shell;
 
-public static PrismAppBuilder RegisterShellRoute(
-    this PrismAppBuilder builder, string route, string navigationKey);
-
-public static DataTemplate CreatePrismContentTemplate(
-    this Microsoft.Maui.Controls.Shell shell, string navigationKey);
+public static PrismAppBuilder CreateWindow<
+    [DynamicallyAccessedMembers(
+        DynamicallyAccessedMemberTypes.PublicConstructors |
+        DynamicallyAccessedMemberTypes.NonPublicConstructors)] TShell>(
+    this PrismAppBuilder builder,
+    Func<IContainerProvider, INavigationService, Task> createWindow)
+    where TShell : Microsoft.Maui.Controls.Shell;
 ```
 
-These are contract declarations, not complete extension-class implementations. Annotations use `System.Diagnostics.CodeAnalysis`; `DataTemplate` is MAUI's type.
+These are contract declarations, not extension implementations. Annotations use `System.Diagnostics.CodeAnalysis`. No new navigation/result interface is required. The non-generic overloads remain unchanged.
 
-- `UseShell<TShell>` resolves the host through the container and selects the Shell navigation backend. Each Shell window gets a fresh host instance and owner-bound services; reject singleton/reused or already attached instances. Existing `CreateWindow` supplies the initial route after host construction/attachment.
-- `RegisterShellRoute` maps a detail-route name to an existing Prism registration. Validate unknown keys and destination types before navigation. Initially support `ContentPage`; reject `NavigationPage`, `TabbedPage`, `FlyoutPage`, and Shell as routed content.
-- `CreatePrismContentTemplate` creates a lazy root template bound to the supplied Shell. Resolve the owning host on materialization using the detail-route construction rules. Creating the template in the Shell constructor does not require attachment.
+Each startup creates/resolves a fresh Shell through the container, preserving the developer's existing definition, and establishes owner-bound navigation before dispatching the optional route or callback. Reject reused/singleton or already attached host instances. The callback's container is the established Prism provider for that owner; it can resolve application services to choose a route. The callback's navigation service targets this Shell, never whichever Shell is active.
 
-A missing/detached owner fails without using `Shell.Current`, another active window, or a global container. Explicit registrations assist trimming but do not establish NativeAOT support.
+With no `defaultRoute`, show Shell's own initial selection without issuing an extra navigation request. With a route, use the developer's existing Shell route syntax. Unknown routes fail; Prism does not invent or require names. Existing valid Shell definitions, including generated hierarchy routes, are accepted; generated routes retain Shell's own stability limitations. The callback overload invokes the delegate once after host setup. It has no implicit route before or after the delegate, and validates a null delegate as configuration failure. Only one startup configuration is selected for a host.
 
-## HOW TO: configure an opt-in Shell app
+No `UseShell`, `RegisterShellRoute`, or `CreatePrismContentTemplate` helper is proposed in this revision. Developers keep their existing XAML/C# hierarchy, `DataTemplate` declarations, and any detail registrations already needed by MAUI Shell. Prism integration must work with that definition instead of requiring a duplicate route-to-Prism map.
 
-PROPOSED usage within an existing `UsePrism` configuration (`Prism.Ioc` supplies registration extensions):
+## HOW TO: use an existing Shell
+
+PROPOSED usage within existing `UsePrism` configuration:
 
 ```csharp
-prism
-    .RegisterTypes(container =>
-    {
-        container.RegisterForNavigation<HomePage, HomeViewModel>("homePage");
-        container.RegisterForNavigation<DetailPage, DetailViewModel>("detailPage");
-    })
-    .UseShell<AppShell>()
-    .RegisterShellRoute("details", "detailPage")
-    .CreateWindow("//main/home/start");
+// Keep AppShell's existing XAML/C# definition and initial selection.
+prism.CreateWindow<AppShell>();
+
+// Alternative startup: use a route already defined by AppShell.
+prism.CreateWindow<AppShell>("//home");
 ```
 
-Give hierarchy routes explicit names so generated wrappers do not become application contracts. The proposed template extension requires `using Prism.Navigation.Xaml;`:
+These are alternative configurations, not sequential calls. `//home` is illustrative; use the application's actual hierarchy route.
+
+Resolve a service before choosing initial navigation:
 
 ```csharp
-public sealed class AppShell : Microsoft.Maui.Controls.Shell
+prism.CreateWindow<AppShell>(async (container, navigationService) =>
 {
-    public AppShell()
+    var session = container.Resolve<ISessionService>();
+    var route = session.IsSignedIn ? "//home" : "//login";
+    var result = await navigationService.NavigateAsync(route);
+
+    if (!result.Success)
     {
-        var content = new ShellContent
-        {
-            Route = "start",
-            ContentTemplate = this.CreatePrismContentTemplate("homePage")
-        };
-        var section = new ShellSection { Route = "home" };
-        section.Items.Add(content);
-        var item = new FlyoutItem { Route = "main" };
-        item.Items.Add(section);
-        Items.Add(item);
+        throw result.Exception
+            ?? new InvalidOperationException("Initial navigation did not complete.");
     }
-}
+});
 ```
 
-An equivalent XAML Shell can name its `ShellContent` and assign the helper in its constructor. A plain `DataTemplate(typeof(HomePage))` does not guarantee Prism integration. No custom Shell base class, base page, or ViewModel base class is required.
+`ISessionService` and these routes are application-defined. The callback must inspect results; a normally completed delegate alone does not prove navigation succeeded. Default-route startup likewise surfaces failures through the existing startup error policy. Startup failure/cancellation must clean up an unpublished host; define the error policy explicitly rather than display a partially initialized root.
+
+Existing page/ViewModel registrations can still provide Prism construction metadata where the app uses them, but they must not become a second required route-definition system. Pages already created by XAML, Shell templates, or developer factories need a documented attachment policy for ViewModel wiring, injected owner services, initialization, and cleanup. Adopt existing BindingContexts without replacing them; avoid resolving a second ViewModel or recreating the hierarchy.
 
 ## HOW TO: navigate, query, and return values
 
@@ -151,7 +150,7 @@ var back = await navigationService.GoBackAsync(
 var home = await navigationService.NavigateAsync("//main/home/start");
 ```
 
-Inspect each result. `details` is a Shell route; `detailPage` is its mapped Prism key. Receive `id` and the object through `OnNavigatedTo(INavigationParameters)` using `GetValue<string>("id")` and `GetValue<Item>("item")` (where `Item` is the app's type). The returning page receives `saved` through the same Prism callback with Back navigation mode. It must not receive the old forward `item` payload again. These examples require the proposed backend and lifecycle bridge; they are not runnable on the investigation branch.
+Inspect each result. `details` is a route already registered by the developer for MAUI Shell; Prism requires no second mapping. Receive `id` and the object through `OnNavigatedTo(INavigationParameters)` using `GetValue<string>("id")` and `GetValue<Item>("item")` (where `Item` is the app's type). The returning page receives `saved` through the same Prism callback with Back navigation mode. It must not receive the old forward `item` payload again. These examples require the proposed backend and lifecycle bridge; they are not runnable on the investigation branch.
 
 ## Proposed behavior of existing interfaces
 
@@ -159,7 +158,7 @@ Keep `INavigationService` and `INavigationResult` signatures:
 
 | Operation | Proposed initial Shell contract |
 | --- | --- |
-| `NavigateAsync` | Explicit `//` hierarchy routes, registered relative detail routes, validated leading back-relative routes; remain in the owning Shell/window |
+| `NavigateAsync` | Explicit `//` hierarchy routes, developer-registered relative detail routes, validated leading back-relative routes; remain in the owning Shell/window |
 | `GoBackAsync` | Pop one detail page from the active owning section and deliver back parameters; fail before mutation without a supported target |
 | `GoBackToRootAsync` | Pop details to the active section's retained root; preserve other sections and their cached roots |
 | `GetNavigationUriPath` | Associated page's absolute hierarchy/detail path, stopping at that page and excluding parameters; empty before attachment; inactive roots/sections retain their own path. A host/startup service without a page may report its owning Shell's current path |
@@ -182,7 +181,7 @@ Current string extensions are not transparent Shell pass-through:
 
 PROPOSED compatibility behavior: dispatch Shell string calls before ordinary page normalization without changing the classic backend. Accept documented synthetic-localhost and leading remove-token forms from existing URI callers. Preserve `//`, decode URI query values once, and reject arbitrary URL schemes. A real external URL must not become an authorized Shell route merely because its path matches. Already-normalized inputs cannot always recover original query text; escaping and reserved-token collisions require explicit tests.
 
-No public overload is added. `CreateWindow(string)` uses the same helpers, so Shell startup depends on this normalization work. See [string normalization](../../src/Maui/Prism.Maui/Navigation/INavigationServiceExtensions.cs) and [parser](../../src/Prism.Core/Common/UriParsingHelper.cs).
+No navigation overload is added. The proposed generic `CreateWindow` overloads use the same navigation helpers, so their initial routes depend on this normalization work. See [string normalization](../../src/Maui/Prism.Maui/Navigation/INavigationServiceExtensions.cs) and [parser](../../src/Prism.Core/Common/UriParsingHelper.cs).
 
 ### Parameters, outcomes, and cancellation
 
@@ -196,7 +195,7 @@ Current [`NavigationResult.Cancelled`](../../src/Prism.Core/Navigation/Navigatio
 
 Reuse `IInitialize`, `IInitializeAsync`, `IConfirmNavigation`, `IConfirmNavigationAsync`, `INavigatedAware`/`INavigationAware`, and `IDestructible`. Also retain `IPageLifecycleAware.OnAppearing/OnDisappearing` for visibility and `IApplicationLifecycleAware.OnResume/OnSleep` for the owner window's application lifecycle. Do not duplicate these interfaces for Shell.
 
-PROPOSED sequence: validate, confirm departure, construct scoped destination, initialize once, commit navigation, issue committed navigation callbacks, and dispose removed pages. Async confirmation uses a Shell deferral where cancellation is available. A ViewModel can implement the existing signatures:
+PROPOSED sequence: validate, confirm departure, construct or attach the developer-defined destination, initialize once, commit navigation, issue committed navigation callbacks, and dispose removed pages. Async confirmation uses a Shell deferral where cancellation is available. A ViewModel can implement the existing signatures:
 
 ```csharp
 public Task<bool> CanNavigateAsync(INavigationParameters parameters)
@@ -215,7 +214,7 @@ public void OnNavigatedTo(INavigationParameters parameters)
 
 These are illustrative members of an application ViewModel implementing `IConfirmNavigationAsync` and `INavigatedAware`; `HasUnsavedChanges` and `Saved` are application properties. The callback bridge is proposed.
 
-Retain cached root pages/scopes while Shell retains them. Switching tabs or disappearing is not destruction. Popping a detail releases its scope once. Closing the owner destroys cached roots and remaining details and releases owner state. Root-created DI scopes need explicit lifetime ownership.
+Retain cached root pages/scopes while Shell retains them. Switching tabs or disappearing is not destruction. Popping a detail releases its Prism-owned scope once. Externally created pages and dependencies require an explicit ownership policy; do not dispose app-shared services merely because the page disappears. Closing the owner destroys cached roots and remaining details and releases owner state. Root-created DI scopes need explicit lifetime ownership.
 
 Awaiting asynchronous initialization before visibility remains unresolved at synchronous `RouteFactory`/`DataTemplate` boundaries. Startup must safely establish owner context or stage a root that materializes during Shell construction before window attachment. Applications must not supply an `IServiceProvider` to make this work. Current [`PrismAppBuilder.OnCreateWindow`](../../src/Maui/Prism.Maui/PrismAppBuilder.cs) blocks on the startup callback with `.Wait()`; redesign that startup flow before promising safe asynchronous Shell initialization.
 
@@ -223,24 +222,24 @@ Define post-commit callback/disposal failures: a failed result cannot imply roll
 
 ## Compatibility and review decisions
 
-Apps without `UseShell` retain ordinary Prism navigation. Registration/interface signatures remain source-compatible. Opted-in apps accept Shell syntax, duplicate-key rejection, and deferred operations. Services remain owner-bound rather than tracking the active Shell.
+Apps using non-generic startup retain ordinary Prism navigation; generic `CreateWindow<TShell>` selects the Shell backend for its owner. Registration/interface signatures remain source-compatible. Opted-in apps accept Shell syntax, duplicate-key rejection, and deferred operations. Services remain owner-bound rather than tracking the active Shell.
 
-Shell's global route registry must reject unrelated collisions, safely reuse the same Prism mapping across owned hosts, and retain mappings needed by another host. Page materialization uses actual owner services. Applications do not manage registry lifetime.
+The developer retains ownership of existing MAUI Shell route registrations and collisions. Prism must not replace/unregister those routes or require parallel mappings. Any internal construction hooks must preserve developer factories, resolve the actual owner, and avoid global active-host fallback.
 
 Shell and multi-window investigations are separate branches; neither establishes combined behavior. Mixed Shell/classic windows, restoration, dialogs, native lifecycle, and NativeAOT require joint qualification.
 
 Decisions before implementation:
 
-1. Approve these three helpers and existing startup configuration, or choose a separate Shell startup helper?
+1. Confirm generic startup overloads, no-route behavior, callback timing, and failure policy.
 2. Accept the operation subset, or require named Back/source navigation and tab parity?
 3. Establish asynchronous initialization timing and post-commit failure results.
-4. Confirm duplicate-key rejection and global route lifetime/collision rules.
+4. Define attaching Prism services/lifecycle to developer-created pages, preserving existing BindingContexts/factories, and duplicate-key handling.
 
 ## Prototype evidence and acceptance
 
 The baseline has 21 Shell investigation tests, not a finished feature's acceptance suite:
 
-- [Construction tests](../../tests/Maui/Prism.Maui.Tests/Fixtures/Navigation/Shell/ShellRouteConstructionFixture.cs) characterize separate scoped pages/ViewModels, failed construction cleanup, and cached templates.
+- [Construction tests](../../tests/Maui/Prism.Maui.Tests/Fixtures/Navigation/Shell/ShellRouteConstructionFixture.cs) characterize separate scoped pages/ViewModels, failed construction cleanup, and cached templates. These probes do not prove integration with arbitrary developer-created pages.
 - [Parameter tests](../../tests/Maui/Prism.Maui.Tests/Fixtures/Navigation/Shell/ShellParameterTransferFixture.cs) characterize object/null/literal transfer, repeated-key rejection, and fresh Back parameters.
 - [Compatibility tests](../../tests/Maui/Prism.Maui.Tests/Fixtures/Navigation/Shell/ShellCompatibilityFixture.cs) show current traversal rejects Shell, teardown misses cached roots, query delivery omits Prism initialization/navigation callbacks, and cancellation can complete normally or use a deferral.
 - [Back test](../../tests/Maui/Prism.Maui.Tests/Fixtures/Navigation/Shell/ShellBackNavigationFixture.cs) characterizes managed push/back transfer while the departing Prism detail scope stays alive and callbacks are absent.
