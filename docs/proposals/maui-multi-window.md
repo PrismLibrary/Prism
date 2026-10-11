@@ -1,33 +1,29 @@
 # MAUI multi-window public API proposal
 
-**Status: design review. All signatures and usage marked PROPOSED are unimplemented.**
-Baseline: [`ds/maui-multi-window` at cf8d4895](https://github.com/PrismLibrary/Prism/commit/cf8d489563b2274a6bf1c0077f3c608127aff6a5).
+**Status: design review. All proposed signatures, URI syntax, and behavior are unimplemented.**
+Source baseline: [`ds/maui-multi-window` at cf8d4895](https://github.com/PrismLibrary/Prism/commit/cf8d489563b2274a6bf1c0077f3c608127aff6a5).
 
 ## Developer model
 
-Keep page navigation on `INavigationService`. Make window creation and closure explicit asynchronous operations on the window manager. A page's navigation and dialog services stay with its owning window when another window activates. An absolute page route replaces that owner's root; opening a window is a separate operation.
+Use injected `INavigationService` for ordinary and window-directed navigation. Existing `IWindowManager` manages native windows behind those requests. Applications address stable logical names. Proposed contracts do not accept or return MAUI `Window`, a native handle, or a wrapper around one.
 
-Use MAUI `Window` as the explicit handle. No public window context, dispatcher abstraction, or scope tree is proposed.
+Relative navigation, Back, dialogs, and root replacement remain in the injected page service's owning window regardless of activation. An explicit window URI selects another owner for that request only; it does not rebind the calling service.
 
 ## Current contracts
 
-CURRENT at the baseline, with comments omitted:
+CURRENT [`INavigationService`](../../src/Maui/Prism.Maui/Navigation/INavigationService.cs) includes:
 
 ```csharp
-namespace Prism.Navigation;
-
-public interface IWindowManager
-{
-    IReadOnlyList<Window> Windows { get; }
-    Window? Current { get; }
-    void OpenWindow(Window window);
-    void CloseWindow(Window window);
-}
+Task<INavigationResult> NavigateAsync(Uri uri, INavigationParameters parameters);
+Task<INavigationResult> GoBackAsync(INavigationParameters parameters);
+string GetNavigationUriPath();
 ```
 
-[`IWindowManagerExtensions`](../../src/Maui/Prism.Maui/Navigation/IWindowManagerExtensions.cs) exposes `GetCurrentNavigationService()` and `GetCurrentDialogService()`. These resolve the current page at lookup time. They do not address a selected window. `Current` falls back to the initial window when no active window is recorded; it is not a strict foreground guarantee. There is no public focus method or asynchronous route-based opening method.
+Other members cover named Back, Back to root, named-source navigation, and tab selection. Existing [string extensions](../../src/Maui/Prism.Maui/Navigation/INavigationServiceExtensions.cs) normalize routes before calling the URI overload.
 
-The existing result contract is:
+Existing [`IWindowManager`](../../src/Maui/Prism.Maui/Navigation/IWindowManager.cs) already exposes MAUI windows through `Windows`, `Current`, `OpenWindow`, and `CloseWindow`. These compatibility APIs are not a model to expand. No new window lookup result, window result interface, or explicit-window service extension is proposed. Removing existing MAUI types would be a separate breaking change.
+
+Keep existing [`INavigationResult`](../../src/Prism.Core/Navigation/INavigationResult.cs):
 
 ```csharp
 public interface INavigationResult
@@ -39,59 +35,69 @@ public interface INavigationResult
 }
 ```
 
-`NavigationContext` is the existing region-navigation context. See [window interface](../../src/Maui/Prism.Maui/Navigation/IWindowManager.cs), [manager](../../src/Maui/Prism.Maui/Navigation/PrismWindowManager.cs), and [result interface](../../src/Prism.Core/Navigation/INavigationResult.cs).
+`Context` is the existing region context, not a window handle.
 
-## Proposed interface changes
+## Proposed named-window URI grammar
 
-PROPOSED additions to `IWindowManager`, retaining all current members:
+Candidate for review:
 
-```csharp
-Task<IWindowNavigationResult> OpenWindowAsync(
-    string route,
-    INavigationParameters? parameters = null,
-    string? name = null,
-    CancellationToken cancellationToken = default);
-
-Task<INavigationResult> CloseWindowAsync(
-    Window window,
-    CancellationToken cancellationToken = default);
-
-Window? FindWindow(string name);
+```text
+window://{windowName}/{rootRoute}
+window://{windowName}/#{relativeRoute}
 ```
 
-PROPOSED new interface in `Prism.Navigation`:
+| Proposed request | Meaning |
+| --- | --- |
+| `window://editor/NavigationPage/Document?documentId=42` | Replace the existing editor window's root using `/NavigationPage/Document?documentId=42` |
+| `window://editor/#Details?id=42` | Navigate `Details?id=42` relative to editor's active current page |
+| `window://editor/#../` | Back-relative navigation within editor |
+| `window://primary/NavigationPage/Documents` | Replace only the initial window's root |
+
+Authority is the logical name. Path navigation is root-relative within that owner; fragment navigation is relative. The explicit `/#` distinction prevents the absolute outer URI from forcing a root replacement for a relative request.
+
+Require a name and exactly one nonempty route. Reject credentials, ports, mixed path/fragment instructions, `window://editor/`, `window://editor/#`, and `window://editor/Document#Details`. Fragment form requires exactly `/` as the outer path and no outer query; its query goes inside the fragment (`#Details?id=42`). Root form uses the outer path/query. Escape literal parameter `#` as `%23`.
+
+Parse this envelope before ordinary URI dispatch. Preserve nested escaping, split route structure before decoding values once, and retain out-of-band objects in `INavigationParameters`. Names are not titles or focus instructions. Manager controls must not be hidden page query parameters.
+
+## Creation versus targeting
+
+Recommend strict targeting through existing `NavigateAsync`: a missing or closed name fails rather than silently creating a replacement. Explicit creation intent belongs on navigation. This candidate adds a mode overload:
 
 ```csharp
-public interface IWindowNavigationResult : INavigationResult
+// PROPOSED in Prism.Navigation.
+public enum WindowNavigationMode
 {
-    Window? Window { get; }
+    Existing,
+    CreateNew
 }
+
+// PROPOSED INavigationService member.
+Task<INavigationResult> NavigateAsync(
+    Uri uri,
+    INavigationParameters parameters,
+    WindowNavigationMode windowMode);
+
+// PROPOSED string extension.
+public static Task<INavigationResult> NavigateAsync(
+    this INavigationService navigationService,
+    string route,
+    INavigationParameters parameters,
+    WindowNavigationMode windowMode);
 ```
 
-PROPOSED additions to `IWindowManagerExtensions`:
+`Existing` matches the proposed scheme behavior of the current overload. `CreateNew` requires `window://name/rootRoute`; it rejects fragment routes, reserved names, and ordinary page URIs. It always creates a new owner through the existing manager and returns ordinary `INavigationResult`.
+
+This is a review candidate, not an approved signature. An additive extension with internal dispatch could avoid expanding the interface; a dedicated `CreateWindowAsync` extension on navigation is another alternative. Either needs explicit intent and the same results. Creating automatically when a name is missing is shorter but can reopen stale addresses; it is not the recommendation.
+
+## HOW TO: create and target
+
+PROPOSED usage with existing page registrations:
 
 ```csharp
-public static INavigationService GetNavigationService(
-    this IWindowManager windowManager, Window window);
-
-public static IDialogService GetDialogService(
-    this IWindowManager windowManager, Window window);
-```
-
-These extensions resolve the selected window's current page service. A foreign, closed, or rootless window is rejected without falling back to `Current`. Keep the existing `GetCurrent...` conveniences. Retain the `Window` and resolve its current service again after root replacement; do not cache the old page's service.
-
-No members are added to `INavigationService`, `IDialogService`, or `INavigationResult`. The new result provides only the opened window handle.
-
-## HOW TO: open and target a window
-
-PROPOSED usage, assuming existing registrations for `NavigationPage`, `Documents`, `Document`, and `Details`:
-
-```csharp
-var opened = await windowManager.OpenWindowAsync(
-    "/NavigationPage/Document",
+var opened = await navigationService.NavigateAsync(
+    "window://document-42/NavigationPage/Document",
     new NavigationParameters { { "documentId", 42 } },
-    name: "document-42",
-    cancellationToken: cancellationToken);
+    WindowNavigationMode.CreateNew);
 
 if (opened.Cancelled)
 {
@@ -102,109 +108,60 @@ if (!opened.Success)
     throw opened.Exception!;
 }
 
-var documentWindow = opened.Window!;
-var result = await windowManager
-    .GetNavigationService(documentWindow)
-    .NavigateAsync("Details");
+var details = await navigationService.NavigateAsync(
+    "window://document-42/#Details");
+var reset = await navigationService.NavigateAsync(
+    "window://document-42/NavigationPage/Documents");
+var primary = await navigationService.NavigateAsync("window://primary/#Details");
 ```
 
-Inside a page ViewModel, inject `INavigationService` as usual:
+Within a page ViewModel, ordinary calls keep their owner:
 
 ```csharp
-// Existing calls stay in the page's owning window.
 var forward = await navigationService.NavigateAsync("Details");
 var back = await navigationService.GoBackAsync();
 var reset = await navigationService.NavigateAsync("/NavigationPage/Documents");
 ```
 
-An application service can explicitly select the initial window (PROPOSED lookup):
+Inspect every result. The supplied name is the address after successful creation; no window handle is returned. Subsequent ordinary calls still belong to the calling service. `GetNavigationUriPath()` continues describing that page without parameters; window-qualified path reporting is an open question.
 
-```csharp
-var primary = windowManager.FindWindow("primary")
-    ?? throw new InvalidOperationException("The primary window is closed.");
-var result = await windowManager
-    .GetNavigationService(primary)
-    .NavigateAsync("Details");
-var closed = await windowManager.CloseWindowAsync(documentWindow, cancellationToken);
-```
+## Naming, results, and lifetime
 
-Inspect every operation's result. The string navigation and parameterless Back calls are [existing extensions](../../src/Maui/Prism.Maui/Navigation/INavigationServiceExtensions.cs); window lookup/open/close and explicit-window service lookup are proposed.
+- Reserve `primary` for the initial window. Keep existing [`PrismWindow.DefaultWindowName`](../../src/Maui/Prism.Maui/Navigation/PrismWindow.cs), `__PrismRootWindow`, unchanged and map the alias internally. `primary` never migrates after closure.
+- Require case-insensitive URI-safe ASCII names: a letter followed by letters, digits, or hyphens. Recommend lowercase. Creation requires an explicit name to avoid needing a new result type.
+- Names stay stable for the app session, independent of title/activation. Reserve successful names until session end to prevent stale addresses targeting replacements. Failed creation releases its reservation. Cross-process restoration needs a separate policy.
+- Success means `Success = true, Cancelled = false`. Veto/cancellation means `Success = false, Cancelled = true`. Other failures carry useful exceptions with `Cancelled = false`; `Context` is null for MAUI operations.
+- Creation succeeds only after an initialized root and successful native creation; focus is not guaranteed. Unsupported platforms, bad routes, duplicate names, and construction failures leave other owners unchanged and clean up new resources.
+- Confirm the actual departing content in the selected owner for root/relative navigation. Do not confirm the caller's page in another window. A target closed while queued fails without retargeting.
+- No token overload is proposed here. Use existing confirmation/native cancellation outcomes. After irreversible native commit, reconcile and report the committed outcome rather than claim rollback.
+- Ordinary calls from detached/disposed page services fail without choosing the active window. Decide whether an app-level service can dispatch explicit window URIs without a page. Startup still establishes the initial owner.
 
-## Opening, cancellation, and closure
+Closure remains the existing manager's responsibility. A future name-based close API may avoid native handles, but this revision proposes no close signature or URI command. Closure must settle owner work, dismiss its dialogs, destroy pages once, and release lifetimes. Native destruction needs the same idempotent outcome; OS termination cannot guarantee async cleanup. Close veto/completion are open decisions.
 
-- `OpenWindowAsync` requires a root route beginning with `/` and always creates a new window. It never targets an existing name or replaces the caller's root. Empty routes, duplicate names, unsupported platforms, and unknown registrations fail without changing other windows.
-- Success requires an initialized managed root and successful native-window creation. It does not promise focus. `Window` is non-null only on success. Failed or cancelled opening releases newly allocated resources and its address reservation.
-- Success means `Success = true, Cancelled = false`. Cancellation means `Success = false, Cancelled = true`. Other failures mean `Success = false, Cancelled = false` with a useful exception. Cancellation may carry a cause in `Exception`; inspect `Cancelled` first. `Context` is null for these MAUI operations.
-- Honor tokens while queued, during cancellable setup, and before native commit. After an irreversible native transition, finish reconciliation and report the committed outcome. Existing `INavigationService` has no token overloads; this proposal does not claim to cancel an ongoing `NavigateAsync` through a wrapper.
-- `CloseWindowAsync` confirms departing content through Prism's existing confirmation model, closes only the specified owner, and completes after managed teardown. A veto returns cancellation and preserves the window. An already closed window owned by the manager may return success; a foreign window fails.
-- Closure stops new work for that owner, settles pending work, dismisses its dialogs, destroys owned pages once, releases cached roots and scopes, and removes live tracking. Native destruction must have the same idempotent outcome. OS termination cannot guarantee asynchronous confirmation or cleanup.
+## Existing parser incompatibility
 
-Review decision: can all retained pages veto closure, or only active content? Recommend the active page and visible dialogs in a documented order; do not infer a veto from every cached page.
+[`UriParsingHelper`](../../src/Prism.Core/Common/UriParsingHelper.cs) converts leading `/` to absolute `http://localhost/...`, reads only `PathAndQuery`, splits `/`, removes empty segments, and unescapes segments. [`PageNavigationService`](../../src/Maui/Prism.Maui/Navigation/PageNavigationService.cs) dispatches on `IsAbsoluteUri`.
 
-## Stable window identity
+Today `window://editor/NavigationPage/Document` yields absolute page segments `NavigationPage/Document`; editor is not a target. `window://editor/#Details` does not yield a Details segment because the fragment is outside `PathAndQuery`. Neither has the proposed meaning. The envelope must be handled before generic dispatch; retain existing deep-link authority behavior for other schemes. See [parser cases](../../tests/Maui/Prism.Maui.Tests/Fixtures/Common/UriParsingHelperFixture.cs).
 
-PROPOSED addressing rules:
+The earlier operation-authority syntax (`window://new/name/...`) is superseded by named authority. Explicit creation remains an API decision.
 
-- Reserve logical name `primary` for the initial window. Do not introduce a competing `default` alias.
-- Keep existing `PrismWindow.DefaultWindowName = "__PrismRootWindow"` unchanged for source compatibility. Map the initial window to `primary`; do not repurpose the constant.
-- Explicit names are case-insensitive, nonempty URI-safe ASCII identifiers: a letter followed by letters, digits, or hyphens. Recommend lowercase. Generate an address when `name` is omitted.
-- Names are stable for the app session, independent of title and activation. Reserve successfully used names until session end so stale addresses cannot target replacement windows. A closed name resolves to null; failed opening releases its reservation.
-- `primary` never migrates when the initial window closes. Persistence across process restarts requires a separate restoration policy.
+## Compatibility and review decisions
 
-The public [`PrismWindow.Name` and constructor default](../../src/Maui/Prism.Maui/Navigation/PrismWindow.cs) already exist; uniqueness, aliases, and reservation rules are proposals. No separate public ID is required initially: the immutable logical name is the session address, and `Window` is the in-process handle.
+Keep ordinary startup, page strings, and existing manager APIs. Adding an abstract navigation member breaks custom implementations/test doubles; choose a breaking release or additive extension/internal dispatch. No new public contract exposes native windows.
 
-Page services remain pinned to their window. Back, absolute navigation, dialogs, and lifecycle callbacks cannot cross to another active window. Detached/disposed page services fail rather than retarget. Shared application singletons remain possible; pending work and page lifetime belong to the owner.
-
-## Evaluate `window://` syntax
-
-### Current URI semantics
-
-[`UriParsingHelper`](../../src/Prism.Core/Common/UriParsingHelper.cs) converts `/NavigationPage/Documents` to absolute `http://localhost/...`. It reads `PathAndQuery`, splits on `/`, removes empty segments, then unescapes each segment. Scheme and authority do not select a window. [`PageNavigationService`](../../src/Maui/Prism.Maui/Navigation/PageNavigationService.cs) selects absolute navigation using `uri.IsAbsoluteUri`.
-
-| Input | Current parser interpretation |
-| --- | --- |
-| `Details` | Relative page navigation |
-| `/NavigationPage/Documents` | Absolute/root replacement |
-| `window://editor/NavigationPage/Document` | Absolute page route `NavigationPage/Document`; `editor` is ignored for addressing |
-| `window://new/NavigationPage/Document` | Same page route; does not command window creation |
-| `//home/details` | Absolute route with segments `home`, `details`; double slash has no separate segment meaning |
-
-Therefore passing `window://editor/...` to current navigation may replace the caller's owning root; it does not target `editor`. A pathless URI is not a creation command. These conclusions follow from source and a .NET URI parsing check, not execution of a proposed scheme. [Existing parser tests](../../tests/Maui/Prism.Maui.Tests/Fixtures/Common/UriParsingHelperFixture.cs) characterize the deep-link behavior.
-
-### Candidate grammar
-
-UNIMPLEMENTED alternative, invalid as window addressing on the current branch:
-
-```text
-window://new/editor/NavigationPage/Document?documentId=42
-window://existing/editor/navigate/Details
-window://existing/editor/reset/NavigationPage/Documents
-window://existing/primary/navigate/Details
-```
-
-Authority is an operation category (`new` or `existing`); the first path component is a name. `navigate` means relative page navigation in that window; `reset` means root replacement there. Creation with a used name fails. Targeting a missing name fails. Neither operation falls back to the active window or silently performs the other operation. Query values are page parameters; object parameters remain out of band in `INavigationParameters`.
-
-`window://editor/Details` is shorter but leaves creation versus lookup and relative versus root navigation ambiguous. A future opt-in parser must preserve nested route semantics, validate escaping and names, and reject credentials, ports, fragments, or unknown operations before generic absolute dispatch. External deep links must not create/reset windows merely because they contain this scheme; application-authorized dispatch is a separate boundary.
-
-Recommend approving the explicit service contract first and deferring scheme syntax to a thin opt-in adapter. `INavigationResult` has no window handle, so a future scheme exposed through `NavigateAsync` must define result handling or require an explicit name for subsequent lookup. Do not change every page call's result type for this convenience.
-
-## Compatibility and decisions
-
-Adding abstract members to `IWindowManager` breaks third-party implementations and test doubles. Use the direct-interface shape only in a deliberate breaking release. For an additive release, place the same three members on PROPOSED `IAsyncWindowManager : IWindowManager`, registering the built-in manager as both. The new result and explicit-window extensions remain additive. Choose one release model.
-
-Retain synchronous `OpenWindow(Window)` and `CloseWindow(Window)` as low-level compatibility APIs without awaitable result or cancellation guarantees. Synchronous closure is not evidence that teardown has completed. Existing single-window startup and page-navigation strings remain valid.
+Reserving `window://` may conflict with existing app deep links; define opt-in compatibility. External links must not create/reset windows without app-authorized dispatch.
 
 Decisions before implementation:
 
-1. Breaking `IWindowManager` expansion or additive `IAsyncWindowManager`?
-2. Confirm `primary`, session reservations, and handling of manually supplied windows.
-3. Confirm close-veto order and native close completion on each supported platform.
-4. Defer `window://`, or approve its precise opt-in grammar and result policy?
+1. Approve path-for-root and fragment-for-relative syntax and nested escaping.
+2. Choose explicit creation overload or extension, retaining precise missing-name behavior.
+3. Confirm primary naming, reservations, and manually supplied window names.
+4. Define app-level/detached-page dispatch and qualified path reporting.
+5. Define name-based closure, veto order, and native completion separately.
 
-## Evidence and acceptance criteria
+## Evidence and acceptance
 
-Baseline [navigation cases](../../tests/Maui/Prism.Maui.Tests/Fixtures/Navigation/MultiWindowNavigationFixture.cs) cover secondary root replacement, owner-correct Back, and detached absolute navigation before scope allocation. [Manager cases](../../tests/Maui/Prism.Maui.Tests/Fixtures/Navigation/MultiWindowManagerFixture.cs) cover activation and stale-reference removal. These existing regression cases do not establish the proposed APIs.
+Existing [navigation cases](../../tests/Maui/Prism.Maui.Tests/Fixtures/Navigation/MultiWindowNavigationFixture.cs) cover owner-correct replacement/Back and detached absolute navigation before allocation. [Manager cases](../../tests/Maui/Prism.Maui.Tests/Fixtures/Navigation/MultiWindowManagerFixture.cs) cover activation/stale references. They do not establish this scheme or overload.
 
-The proposal remains unimplemented. Current navigation synchronization/source state is static; creation/restoration reuses the initial window; close lacks the proposed lifetime guarantees; [dialog lookup](../../src/Maui/Prism.Maui/Dialogs/DialogService.cs) still falls back to the active window after detachment.
-
-Acceptance must cover two-window opening/closing, activation during awaits, veto/cancellation, duplicate and stale names, failed root construction, native close/restoration, dialog ownership, and exactly-once disposal with Microsoft DI. Platform and NativeAOT runtime qualification remains required. No builds or device tests were run for this documentation proposal.
+Current synchronization/source state remains static, creation/restoration reuses the initial window, close lacks lifetime guarantees, and [dialog lookup](../../src/Maui/Prism.Maui/Dialogs/DialogService.cs) still falls back after detachment. Acceptance requires two owners, queued closure, activation during awaits, fragments/escaping, creation versus targeting, cancellation, stale names, failed construction, dialogs, and exactly-once disposal with Microsoft DI. Native/platform and NativeAOT qualification remains required. This revision is documentation only.
