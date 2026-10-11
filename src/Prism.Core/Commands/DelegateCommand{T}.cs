@@ -13,23 +13,23 @@ namespace Prism.Commands
     /// </summary>
     /// <typeparam name="T">Parameter type.</typeparam>
     /// <remarks>
-    /// The constructor deliberately prevents the use of value types.
+    /// The constructor rejects non-nullable value types.
     /// Because ICommand takes an object, having a value type for T would cause unexpected behavior when CanExecute(null) is called during XAML initialization for command bindings.
     /// Using default(T) was considered and rejected as a solution because the implementor would not be able to distinguish between a valid and defaulted values.
     /// <para/>
     /// Instead, callers should support a value type by using a nullable value type and checking the HasValue property before using the Value property.
     /// <example>
-    ///     <code>
-    /// public MyClass()
-    /// {
-    ///     this.submitCommand = new DelegateCommand&lt;int?&gt;(this.Submit, this.CanSubmit);
-    /// }
-    /// 
-    /// private bool CanSubmit(int? customerId)
-    /// {
-    ///     return (customerId.HasValue &amp;&amp; customers.Contains(customerId.Value));
-    /// }
-    ///     </code>
+    /// Create a command in a view model constructor or factory method. Execution also guards
+    /// the null parameter supplied during command binding initialization.
+    /// <code>
+    /// var submitCommand = new DelegateCommand&lt;int?&gt;(
+    ///     customerId =>
+    ///     {
+    ///         if (customerId.HasValue)
+    ///             Console.WriteLine(customerId.Value);
+    ///     },
+    ///     customerId => customerId.HasValue);
+    /// </code>
     /// </example>
     /// </remarks>
     public class DelegateCommand<T> : DelegateCommandBase
@@ -40,7 +40,7 @@ namespace Prism.Commands
         /// <summary>
         /// Initializes a new instance of <see cref="DelegateCommand{T}"/>.
         /// </summary>
-        /// <param name="executeMethod">Delegate to execute when Execute is called on the command. This can be null to just hook up a CanExecute delegate.</param>
+        /// <param name="executeMethod">Delegate to execute when Execute is called on the command. Must not be null.</param>
         /// <remarks><see cref="CanExecute(T)"/> will always return true.</remarks>
         public DelegateCommand(Action<T> executeMethod)
             : this(executeMethod, (o) => true)
@@ -50,9 +50,9 @@ namespace Prism.Commands
         /// <summary>
         /// Initializes a new instance of <see cref="DelegateCommand{T}"/>.
         /// </summary>
-        /// <param name="executeMethod">Delegate to execute when Execute is called on the command. This can be null to just hook up a CanExecute delegate.</param>
-        /// <param name="canExecuteMethod">Delegate to execute when CanExecute is called on the command. This can be null.</param>
-        /// <exception cref="ArgumentNullException">When both <paramref name="executeMethod"/> and <paramref name="canExecuteMethod"/> are <see langword="null" />.</exception>
+        /// <param name="executeMethod">Delegate to execute when Execute is called on the command. Must not be null.</param>
+        /// <param name="canExecuteMethod">Delegate to execute when CanExecute is called on the command. Must not be null.</param>
+        /// <exception cref="ArgumentNullException">When either <paramref name="executeMethod"/> or <paramref name="canExecuteMethod"/> is <see langword="null" />.</exception>
         public DelegateCommand(Action<T> executeMethod, Func<T, bool> canExecuteMethod)
             : base()
         {

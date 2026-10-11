@@ -5,10 +5,18 @@ namespace Prism.Ioc;
 
 /// <summary>Registers pages and their view models for named navigation.</summary>
 /// <example>
-/// Register a page with a stable route name, then use that name when navigating:
+/// During container configuration, register a page type and its view model under a stable route name.
+/// DetailsPage derives from Page. DetailsViewModel receives navigation parameters through
+/// INavigationAware.OnNavigatedTo when it implements that interface.
 /// <code>
 /// container.RegisterForNavigation&lt;DetailsPage, DetailsViewModel&gt;("details");
-/// await navigationService.NavigateAsync(new Uri("details?id=42", UriKind.Relative), new NavigationParameters());
+/// </code>
+/// Later, in a view model method with an injected navigation service, use the registered name:
+/// <code>
+/// var parameters = new NavigationParameters { { "id", 42 } };
+/// var result = await navigationService.NavigateAsync(new Uri("details", UriKind.Relative), parameters);
+/// if (!result.Success)
+///     Console.WriteLine(result.Exception?.Message);
 /// </code>
 /// </example>
 public static class NavigationRegistrationExtensions

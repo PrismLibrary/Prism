@@ -12,6 +12,18 @@ public static class NavigationBuilderExtensions
     /// </summary>
     /// <param name="navigationService">The <see cref="INavigationService"/>.</param>
     /// <returns><see cref="INavigationBuilder"/></returns>
+    /// <example>
+    /// In a view model method, navigate to a page registered as details. Relative navigation
+    /// uses the current navigation context. This parameter belongs to the details segment;
+    /// use WithParameters for parameters that apply to the entire request.
+    /// <code>
+    /// var result = await navigationService.CreateBuilder()
+    ///     .AddSegment("details", segment => segment.AddParameter("id", 42))
+    ///     .NavigateAsync();
+    /// if (!result.Success)
+    ///     Console.WriteLine(result.Exception?.Message);
+    /// </code>
+    /// </example>
     public static INavigationBuilder CreateBuilder(this INavigationService navigationService) =>
            new NavigationBuilder(navigationService);
 
