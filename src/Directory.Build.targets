@@ -3,10 +3,10 @@
 
   <!-- SDK targets can append documentation diagnostics to NoWarn after our
        props are imported (for example, .NET 10 Android adds CS1573/CS1591).
-       Apply the documentation policy immediately before compilation. -->
+       Apply the documentation policy to packaged libraries before compilation. -->
   <Target Name="EnforceXmlDocumentationDiagnostics"
           BeforeTargets="CoreCompile"
-          Condition=" '$(GenerateDocumentationFile)' == 'true' AND '$(PrismXmlDocumentationDiagnostics)' != '' ">
+          Condition=" $(IsPackable) AND '$(IsTestProject)' != 'true' AND '$(OutputType)' == 'Library' ">
     <ItemGroup>
       <_PrismXmlDocumentationDiagnostic Remove="@(_PrismXmlDocumentationDiagnostic)" />
       <_PrismXmlDocumentationDiagnostic Include="$(PrismXmlDocumentationDiagnostics)" />

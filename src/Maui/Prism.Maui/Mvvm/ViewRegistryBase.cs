@@ -3,15 +3,15 @@
 namespace Prism.Mvvm;
 
 /// <summary>
-/// The Base class for .NET Maui's ViewModel Registry
+/// Provides MAUI-specific wiring for registered views and their view models.
 /// </summary>
 public abstract class ViewRegistryBase : ViewRegistryBase<BindableObject>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ViewRegistryBase"/>
+    /// Initializes a registry using the supplied view registrations.
     /// </summary>
-    /// <param name="registryType">The Registry Type</param>
-    /// <param name="registrations">The ViewRegistration collection</param>
+    /// <param name="registryType">The kind of views managed by this registry.</param>
+    /// <param name="registrations">The registrations used to create views and associate their view model types.</param>
     protected ViewRegistryBase(ViewType registryType, IEnumerable<ViewRegistration> registrations)
         : base(registryType, registrations)
     {

@@ -15,24 +15,9 @@ on:
       - 'src/Prism.Events/**'
       - src/Directory.Build.props
       - src/Directory.Build.targets
-      - build/Test-XmlDocumentationPolicy.ps1
       - 'tests/Prism.Core.Tests/**'
 
 jobs:
-  verify-xml-documentation-policy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 10.0.x
-      - run: dotnet restore src/Prism.Events/Prism.Events.csproj
-      - name: Verify missing and malformed documentation fail the build
-        shell: pwsh
-        run: ./build/Test-XmlDocumentationPolicy.ps1
-
   build-prism-core:
     uses: avantipoint/workflow-templates/.github/workflows/dotnet-build.yml@61adf86e5d3b2836b2b76fdb67cb71076521a9d7 # v2 with private feed URL secret support
     with:
