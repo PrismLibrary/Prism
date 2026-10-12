@@ -52,7 +52,7 @@ public sealed class PrismAppBuilder
         // This is primarily to help with Unit Tests
         IDialogContainer.DialogStack.Clear();
         MauiBuilder = builder;
-        MauiBuilder.ConfigureContainer(new PrismServiceProviderFactory(RegistrationCallback));
+        MauiBuilder.ConfigureContainer(new PrismServiceProviderFactory(containerExtension), RegistrationCallback);
         MauiBuilder.ConfigureLifecycleEvents(lifecycle =>
         {
 #if ANDROID
@@ -329,9 +329,10 @@ public sealed class PrismAppBuilder
     /// </summary>
     /// <param name="configureMappings">Delegate to configure the <see cref="RegionAdapterMappings"/>.</param>
     /// <returns>The <see cref="PrismAppBuilder"/>.</returns>
+    /// <remarks>Callbacks accumulate and run in configuration order on the same mappings.</remarks>
     public PrismAppBuilder ConfigureRegionAdapters(Action<RegionAdapterMappings> configureMappings)
     {
-        _configureAdapters = configureMappings;
+        _configureAdapters += configureMappings;
         return this;
     }
 
@@ -340,9 +341,10 @@ public sealed class PrismAppBuilder
     /// </summary>
     /// <param name="configureBehaviors">Delegate to configure the <see cref="IRegionBehaviorFactory"/>.</param>
     /// <returns>The <see cref="PrismAppBuilder"/>.</returns>
+    /// <remarks>Callbacks accumulate and run in configuration order on the same factory.</remarks>
     public PrismAppBuilder ConfigureRegionBehaviors(Action<IRegionBehaviorFactory> configureBehaviors)
     {
-        _configureBehaviors = configureBehaviors;
+        _configureBehaviors += configureBehaviors;
         return this;
     }
 
