@@ -17,7 +17,7 @@ namespace Prism.Modularity
         /// The assembly that contains the type of the module is currently being loaded.
         /// </summary>
         /// <remarks>
-        /// Used in Wpf to load a module dynamically
+        /// Used by module managers that load module assemblies dynamically.
         /// </remarks>
         LoadingTypes,
 

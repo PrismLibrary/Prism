@@ -1,6 +1,26 @@
 <Project>
   <Import Project="..\Directory.Build.targets" />
 
+  <!-- SDK targets can append documentation diagnostics to NoWarn after our
+       props are imported (for example, .NET 10 Android adds CS1573/CS1591).
+       Apply the documentation policy to packaged libraries before compilation. -->
+  <Target Name="EnforceXmlDocumentationDiagnostics"
+          BeforeTargets="CoreCompile"
+          Condition=" $(IsPackable) AND '$(IsTestProject)' != 'true' AND '$(OutputType)' == 'Library' ">
+    <ItemGroup>
+      <_PrismXmlDocumentationDiagnostic Remove="@(_PrismXmlDocumentationDiagnostic)" />
+      <_PrismXmlDocumentationDiagnostic Include="$(PrismXmlDocumentationDiagnostics)" />
+      <_PrismUnrelatedSuppressedWarnings Remove="@(_PrismUnrelatedSuppressedWarnings)" />
+      <!-- 419 is the unpadded numeric form of CS0419. -->
+      <_PrismUnrelatedSuppressedWarnings Include="$(NoWarn)"
+                                        Exclude="@(_PrismXmlDocumentationDiagnostic);@(_PrismXmlDocumentationDiagnostic->Substring(2));419" />
+    </ItemGroup>
+    <PropertyGroup>
+      <NoWarn>@(_PrismUnrelatedSuppressedWarnings)</NoWarn>
+      <WarningsAsErrors>$(WarningsAsErrors);$(PrismXmlDocumentationDiagnostics)</WarningsAsErrors>
+    </PropertyGroup>
+  </Target>
+
   <Target Name="CopyNuGetReadme"
           BeforeTargets="Build;CoreCompile"
           Condition=" $(IsPackable) == 'true' ">

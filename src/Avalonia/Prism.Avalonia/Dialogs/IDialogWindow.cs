@@ -19,7 +19,7 @@ namespace Prism.Dialogs
         void Close();
 
         /// <summary>The window's owner.</summary>
-        /// <remarks>Avalonia's WindowBase.Owner's property access is { get; protected set; }.</remarks>
+        /// <remarks>The owner is read-only through this contract. Supply it when showing a modal dialog.</remarks>
         WindowBase Owner { get; }
 
         /// <summary>Show a non-modal dialog.</summary>
@@ -33,13 +33,7 @@ namespace Prism.Dialogs
         /// <remarks>The data context must implement <see cref="IDialogAware"/>.</remarks>
         object DataContext { get; set; }
 
-        /// <summary>Called when the window is loaded.</summary>
-        /// <remarks>
-        ///     WPF: event RoutedEventHandler Loaded;
-        ///     Avalonia currently doesn't implement the Loaded event like WPF.
-        ///     Window > WindowBase > TopLevel.Opened
-        ///     Window > WindowBase > TopLevel > Control > InputElement > Interactive > layout > Visual > StyledElement.Initialized
-        /// </remarks>
+        /// <summary>Raised when the dialog window is opened.</summary>
         event EventHandler Opened;
 
         /// <summary>
@@ -53,11 +47,5 @@ namespace Prism.Dialogs
         /// <summary>The result of the dialog.</summary>
         IDialogResult Result { get; set; }
 
-        /////// <summary>The window style.</summary>
-        /////// <remarks>
-        /////// WPF: Window > ContentControl > FrameworkElement
-        /////// Ava: Window > WindowBase > TopLevel > ContentControl > TemplatedControl > Control
-        /////// </remarks>
-        ////Style Style { get; set; }
     }
 }

@@ -134,7 +134,7 @@ namespace Prism
 
         /// <summary>
         /// Registers the <see cref="Type"/>s of the Exceptions that are not considered
-        /// root exceptions by the <see cref="ExceptionExtensions"/>.
+        /// root exceptions by the <c>ExceptionExtensions</c>.
         /// </summary>
         protected virtual void RegisterFrameworkExceptionTypes()
         {

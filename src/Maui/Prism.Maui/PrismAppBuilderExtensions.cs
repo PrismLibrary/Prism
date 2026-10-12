@@ -137,7 +137,7 @@ public static class PrismAppBuilderExtensions
     }
 
     /// <summary>
-    /// Provides a delegate to configure Logging within the Maui application
+    /// Provides a delegate to configure application logging.
     /// </summary>
     /// <param name="builder">The <see cref="PrismAppBuilder"/>.</param>
     /// <param name="configureLogging"></param>

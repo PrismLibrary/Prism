@@ -26,8 +26,11 @@ public class PageNavigationService : INavigationService, IRegistryAware
     internal static PageNavigationSource NavigationSource { get; set; } = PageNavigationSource.Device;
 
     private readonly IContainerProvider _container;
+    /// <summary>The manager of application windows used for navigation.</summary>
     protected readonly IWindowManager _windowManager;
+    /// <summary>The accessor for the page associated with this navigation service.</summary>
     protected readonly IPageAccessor _pageAccessor;
+    /// <summary>The event aggregator used to publish completed navigation requests.</summary>
     protected readonly IEventAggregator _eventAggregator;
 
     private HashSet<Page> _navigateFromSourcePages;
@@ -47,6 +50,7 @@ public class PageNavigationService : INavigationService, IRegistryAware
     private List<Page> _relativeNavigationDeferredDestruction;
     private Action<Page> _validateRelativeNavigation;
     private Func<bool, Action> _captureRelativeNavigationState;
+    /// <summary>Gets the window associated with this service, resolving it from the attached page when necessary.</summary>
     protected Window Window
     {
         get
@@ -847,6 +851,14 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
+    /// <summary>Removes the requested relative page segments, including modal boundaries when necessary.</summary>
+    /// <param name="nextSegment">The next route segment to process.</param>
+    /// <param name="segments">The remaining route segments, consumed as navigation is processed.</param>
+    /// <param name="animated">The animation choice; null uses the navigation default.</param>
+    /// <param name="parameters">The navigation parameters to combine with segment parameters.</param>
+    /// <param name="currentPage">The page from which navigation is being processed.</param>
+    /// <param name="useModalNavigation">The modal navigation choice; null allows the page hierarchy to determine the choice.</param>
+    /// <returns>A task completing when this navigation step finishes.</returns>
     protected virtual Task ProcessNavigationForRemovePageSegments(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         var removeCount = 1 + segments.TakeWhile(x => x == RemovePageSegment).Count();
@@ -1332,11 +1344,24 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
+    /// <summary>Processes an absolute route starting without an existing page.</summary>
+    /// <param name="segments">The remaining route segments, consumed as navigation is processed.</param>
+    /// <param name="animated">The animation choice; null uses the navigation default.</param>
+    /// <param name="parameters">The navigation parameters to combine with segment parameters.</param>
+    /// <param name="useModalNavigation">The modal navigation choice; null allows the page hierarchy to determine the choice.</param>
+    /// <returns>A task completing when this navigation step finishes.</returns>
     protected virtual Task ProcessNavigationForAbsoluteUri(Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         return ProcessNavigation(null, segments, parameters, useModalNavigation, animated);
     }
 
+    /// <summary>Creates and initializes a root page and processes the remaining route before assigning it to a window.</summary>
+    /// <param name="nextSegment">The next route segment to process.</param>
+    /// <param name="segments">The remaining route segments, consumed as navigation is processed.</param>
+    /// <param name="animated">The animation choice; null uses the navigation default.</param>
+    /// <param name="parameters">The navigation parameters to combine with segment parameters.</param>
+    /// <param name="useModalNavigation">The modal navigation choice; null allows the page hierarchy to determine the choice.</param>
+    /// <returns>A task completing when this navigation step finishes.</returns>
     protected virtual async Task ProcessNavigationForRootPage(string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         var nextPage = CreatePageFromSegment(nextSegment);
@@ -1357,6 +1382,14 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
+    /// <summary>Processes navigation from a content page, building nested navigation stacks in reverse when required.</summary>
+    /// <param name="nextSegment">The next route segment to process.</param>
+    /// <param name="segments">The remaining route segments, consumed as navigation is processed.</param>
+    /// <param name="animated">The animation choice; null uses the navigation default.</param>
+    /// <param name="parameters">The navigation parameters to combine with segment parameters.</param>
+    /// <param name="currentPage">The page from which navigation is being processed.</param>
+    /// <param name="useModalNavigation">The modal navigation choice; null allows the page hierarchy to determine the choice.</param>
+    /// <returns>A task completing when this navigation step finishes.</returns>
     protected virtual async Task ProcessNavigationForContentPage(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         var nextPageType = Registry.GetViewType(UriParsingHelper.GetSegmentName(nextSegment));
@@ -1380,6 +1413,14 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
+    /// <summary>Processes navigation within a navigation page, honoring its stack-clearing options.</summary>
+    /// <param name="nextSegment">The next route segment to process.</param>
+    /// <param name="segments">The remaining route segments, consumed as navigation is processed.</param>
+    /// <param name="animated">The animation choice; null uses the navigation default.</param>
+    /// <param name="parameters">The navigation parameters to combine with segment parameters.</param>
+    /// <param name="currentPage">The page from which navigation is being processed.</param>
+    /// <param name="useModalNavigation">The modal navigation choice; null allows the page hierarchy to determine the choice.</param>
+    /// <returns>A task completing when this navigation step finishes.</returns>
     protected virtual async Task ProcessNavigationForNavigationPage(NavigationPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         if (currentPage.Navigation.NavigationStack.Count == 0)
@@ -1438,6 +1479,14 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
+    /// <summary>Creates and navigates to the next page from a tabbed page.</summary>
+    /// <param name="nextSegment">The next route segment to process.</param>
+    /// <param name="segments">The remaining route segments, consumed as navigation is processed.</param>
+    /// <param name="animated">The animation choice; null uses the navigation default.</param>
+    /// <param name="parameters">The navigation parameters to combine with segment parameters.</param>
+    /// <param name="currentPage">The page from which navigation is being processed.</param>
+    /// <param name="useModalNavigation">The modal navigation choice; null allows the page hierarchy to determine the choice.</param>
+    /// <returns>A task completing when this navigation step finishes.</returns>
     protected virtual async Task ProcessNavigationForTabbedPage(TabbedPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         var nextPage = CreatePageFromSegment(nextSegment);
@@ -1450,6 +1499,14 @@ public class PageNavigationService : INavigationService, IRegistryAware
         });
     }
 
+    /// <summary>Processes navigation through a flyout detail, honoring the flyout presentation options.</summary>
+    /// <param name="nextSegment">The next route segment to process.</param>
+    /// <param name="segments">The remaining route segments, consumed as navigation is processed.</param>
+    /// <param name="animated">The animation choice; null uses the navigation default.</param>
+    /// <param name="parameters">The navigation parameters to combine with segment parameters.</param>
+    /// <param name="currentPage">The page from which navigation is being processed.</param>
+    /// <param name="useModalNavigation">The modal navigation choice; null allows the page hierarchy to determine the choice.</param>
+    /// <returns>A task completing when this navigation step finishes.</returns>
     protected virtual async Task ProcessNavigationForFlyoutPage(FlyoutPage currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         bool isPresented = GetFlyoutPageIsPresented(currentPage);
@@ -1564,6 +1621,9 @@ public class PageNavigationService : INavigationService, IRegistryAware
         return true;
     }
 
+    /// <summary>Reads the post-navigation flyout presentation option from the page or its binding context.</summary>
+    /// <param name="page">The flyout page whose presentation option is inspected.</param>
+    /// <returns>The configured presentation value, or false if no option is supplied.</returns>
     protected static bool GetFlyoutPageIsPresented(FlyoutPage page)
     {
         if (page is IFlyoutPageOptions flyoutPageOptions)
@@ -1575,6 +1635,9 @@ public class PageNavigationService : INavigationService, IRegistryAware
         return false;
     }
 
+    /// <summary>Reads the stack-clearing option from the navigation page or its binding context.</summary>
+    /// <param name="page">The navigation page whose stack-clearing option is inspected.</param>
+    /// <returns>The configured stack-clearing value, or true if no option is supplied.</returns>
     protected static bool GetClearNavigationPageNavigationStack(NavigationPage page)
     {
         if (page is INavigationPageOptions iNavigationPage)
@@ -1710,6 +1773,14 @@ public class PageNavigationService : INavigationService, IRegistryAware
         _relativeNavigationArrivals?.Add(toPage);
     }
 
+    /// <summary>Confirms navigation, initializes the destination, performs the navigation action, and notifies navigation callbacks.</summary>
+    /// <param name="navigationAction">The asynchronous action that changes the page hierarchy, or null when no action is required.</param>
+    /// <param name="toPage">The destination page to initialize and notify.</param>
+    /// <param name="parameters">The navigation parameters to combine with segment parameters.</param>
+    /// <param name="toSegment">The destination segment, including its URI parameters.</param>
+    /// <param name="onNavigationActionCompleted">The callback invoked after the navigation action with the combined segment parameters.</param>
+    /// <param name="fromPage">The departing page whose navigation confirmation and departure callbacks are invoked.</param>
+    /// <returns>A task completing when this navigation step finishes.</returns>
     protected static Task DoNavigateAction(Page fromPage, string toSegment, Page toPage, INavigationParameters parameters, Func<Task> navigationAction = null, Action<INavigationParameters> onNavigationActionCompleted = null) =>
         DoNavigateActionCore(fromPage, toSegment, toPage, parameters, navigationAction, onNavigationActionCompleted, null);
 
@@ -1819,6 +1890,9 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
+    /// <summary>Creates a registered page in a new container scope.</summary>
+    /// <param name="segmentName">The registered navigation name of the page.</param>
+    /// <returns>The newly resolved page.</returns>
     protected virtual Page CreatePage(string segmentName)
     {
         try
@@ -1862,6 +1936,9 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
+    /// <summary>Extracts the registration name from a route segment and creates the corresponding page.</summary>
+    /// <param name="segment">The route segment whose page registration name is extracted.</param>
+    /// <returns>The newly created page for the segment.</returns>
     protected virtual Page CreatePageFromSegment(string segment)
     {
         string segmentName = UriParsingHelper.GetSegmentName(segment);
@@ -2027,6 +2104,14 @@ public class PageNavigationService : INavigationService, IRegistryAware
         return IsPage(referencePage, name);
     }
 
+    /// <summary>Builds nested navigation pages from the innermost route segment outward to construct a deep link.</summary>
+    /// <param name="nextSegment">The next route segment to process.</param>
+    /// <param name="segments">The remaining route segments, consumed as navigation is processed.</param>
+    /// <param name="animated">The animation choice; null uses the navigation default.</param>
+    /// <param name="parameters">The navigation parameters to combine with segment parameters.</param>
+    /// <param name="currentPage">The page from which navigation is being processed.</param>
+    /// <param name="useModalNavigation">The modal navigation choice; null allows the page hierarchy to determine the choice.</param>
+    /// <returns>A task completing when this navigation step finishes.</returns>
     protected virtual async Task UseReverseNavigation(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool? animated)
     {
         var navigationStack = new Stack<string>();
@@ -2103,6 +2188,14 @@ public class PageNavigationService : INavigationService, IRegistryAware
             await ProcessNavigation(currentPage.Navigation.NavigationStack.Last(), illegalSegments, parameters, true, animated);
     }
 
+    /// <summary>Adds a page to a window or navigation stack using the selected modal and animation options.</summary>
+    /// <param name="navigationOffset">The stack offset used when inserting a page.</param>
+    /// <param name="animated">The animation choice; null uses the navigation default.</param>
+    /// <param name="page">The destination page to display.</param>
+    /// <param name="currentPage">The current navigation context, or null when assigning a root page.</param>
+    /// <param name="useModalNavigation">The modal navigation choice; null allows the page hierarchy to determine the choice.</param>
+    /// <param name="insertBeforeLast">Whether to insert the page before the last stack entry instead of pushing it.</param>
+    /// <returns>A task completing when this navigation step finishes.</returns>
     protected virtual async Task DoPush(Page currentPage, Page page, bool? useModalNavigation, bool? animated, bool insertBeforeLast = false, int navigationOffset = 0)
     {
         ArgumentNullException.ThrowIfNull(page);
@@ -2174,6 +2267,11 @@ public class PageNavigationService : INavigationService, IRegistryAware
         }
     }
 
+    /// <summary>Inserts a page before the stack entry at the specified offset.</summary>
+    /// <param name="page">The page to insert.</param>
+    /// <param name="currentPage">The page providing the navigation stack to modify.</param>
+    /// <param name="pageOffset">The zero-based stack index of the page before which to insert.</param>
+    /// <returns>A task completing when this navigation step finishes.</returns>
     protected virtual Task InsertPageBefore(Page currentPage, Page page, int pageOffset)
     {
         var firstPage = currentPage.Navigation.NavigationStack.Skip(pageOffset).FirstOrDefault();
@@ -2181,6 +2279,11 @@ public class PageNavigationService : INavigationService, IRegistryAware
         return Task.FromResult(true);
     }
 
+    /// <summary>Pops a page from the modal or ordinary navigation stack.</summary>
+    /// <param name="navigation">The navigation object whose stack is popped.</param>
+    /// <param name="useModalNavigation">Whether to pop the modal stack instead of the ordinary navigation stack.</param>
+    /// <param name="animated">Whether to animate removal of the page.</param>
+    /// <returns>A task completing with the removed page.</returns>
     protected virtual Task<Page> DoPop(INavigation navigation, bool useModalNavigation, bool animated)
     {
         if (useModalNavigation)
@@ -2189,6 +2292,8 @@ public class PageNavigationService : INavigationService, IRegistryAware
             return navigation.PopAsync(animated);
     }
 
+    /// <summary>Gets the page associated with this service, falling back to the current page in its window.</summary>
+    /// <returns>The associated or currently displayed page.</returns>
     protected virtual Page GetCurrentPage()
     {
         return _pageAccessor.Page is not null ? _pageAccessor.Page : GetPageFromWindow();
@@ -2281,6 +2386,10 @@ public class PageNavigationService : INavigationService, IRegistryAware
         return result;
     }
 
+    /// <summary>Determines whether a page is the root of the active branch of a window page hierarchy.</summary>
+    /// <param name="mainPage">The root page hierarchy to inspect.</param>
+    /// <param name="currentPage">The page to test as a root of the active hierarchy branch.</param>
+    /// <returns>True when the page is the root of the selected hierarchy branch; otherwise false.</returns>
     protected static bool IsRoot(Page mainPage, Page currentPage)
     {
         if (mainPage == currentPage)

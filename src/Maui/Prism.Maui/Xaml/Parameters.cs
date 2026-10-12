@@ -133,6 +133,10 @@ public class Parameters : BindableObject, IList<Parameter>
     /// <param name="index">The zero-based index of the parameter to remove.</param>
     public void RemoveAt(int index) => _list.RemoveAt(index);
 
+    /// <summary>Copies the XAML parameter collection into a new Prism parameter container.</summary>
+    /// <typeparam name="T">The parameter container type, which must have a public parameterless constructor.</typeparam>
+    /// <param name="parent">The parent used for binding context propagation if a parent has not already been assigned.</param>
+    /// <returns>A new container holding the current parameter keys and values.</returns>
     public T ToParameters<T>(BindableObject parent)
         where T : Common.ParametersBase
     {

@@ -78,7 +78,7 @@ namespace Prism.Navigation.Regions.Behaviors
         /// <summary>
         /// Handler of the event that fires when a new viewtype is registered to the registry.
         /// </summary>
-        /// <remarks>Although this is a public method to support Weak Delegates in Silverlight, it should not be called by the user.</remarks>
+        /// <remarks>This event handler supports weak subscriptions and is not intended to be called directly.</remarks>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "This has to be public in order to work with weak references in partial trust or Silverlight environments.")]

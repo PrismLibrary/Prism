@@ -6,38 +6,40 @@ namespace Prism.Navigation.Builder;
 public interface ITabbedSegmentBuilder
 {
     /// <summary>
-    /// Creates a new tab with the specified configuration.
+    /// Adds a route describing a tab to create when the tabbed page is navigated to.
     /// </summary>
-    /// <param name="configureSegment">The action to configure the tab.</param>
+    /// <param name="configureSegment">The callback that adds the tab's page segments and parameters.</param>
     /// <returns>The current instance of the <see cref="ITabbedSegmentBuilder"/>.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="configureSegment"/> is null.</exception>
+    /// <remarks>Call this method more than once to create multiple tabs. A tab can contain a single page or a navigation page with child pages.</remarks>
     ITabbedSegmentBuilder CreateTab(Action<ICreateTabBuilder> configureSegment);
 
     /// <summary>
-    /// Sets the selected tab by its name.
+    /// Specifies the existing tab to select when the navigation route is applied.
     /// </summary>
-    /// <param name="segmentName">The name of the tab to select.</param>
+    /// <param name="segmentName">The tab's navigation name, or a navigation page and child page name separated by <c>|</c>.</param>
     /// <returns>The current instance of the <see cref="ITabbedSegmentBuilder"/>.</returns>
     ITabbedSegmentBuilder SelectedTab(string segmentName);
     
     /// <summary>
-    /// Sets the tabbed page title
+    /// Specifies the title to assign to the tabbed page when it is created.
     /// </summary>
     /// <param name="title">The title of the tabbed page.</param>
     /// <returns>The current instance of the <see cref="ITabbedSegmentBuilder"/>.</returns>
     ITabbedSegmentBuilder Title(string title);
 
     /// <summary>
-    /// Adds a parameter to the current tab segment.
+    /// Adds a query parameter to the tabbed page's navigation segment.
     /// </summary>
-    /// <param name="key">The key of the parameter.</param>
-    /// <param name="value">The value of the parameter.</param>
+    /// <param name="key">The parameter name to include in the tabbed page's route.</param>
+    /// <param name="value">The value associated with the parameter.</param>
     /// <returns>The current instance of the <see cref="ITabbedSegmentBuilder"/>.</returns>
     ITabbedSegmentBuilder AddSegmentParameter(string key, object value);
 
     /// <summary>
-    /// Sets whether to use modal navigation for the current tab segment.
+    /// Specifies whether the tabbed page segment uses modal navigation.
     /// </summary>
-    /// <param name="useModalNavigation">A flag indicating whether to use modal navigation.</param>
+    /// <param name="useModalNavigation"><see langword="true"/> to request the modal stack; <see langword="false"/> to request the navigation page stack.</param>
     /// <returns>The current instance of the <see cref="ITabbedSegmentBuilder"/>.</returns>
     ITabbedSegmentBuilder UseModalNavigation(bool useModalNavigation);
 }

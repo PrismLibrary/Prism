@@ -14,8 +14,6 @@ namespace Prism.Mvvm
     /// and also to override the default view model factory and the default view type to view model type resolver.
     /// </summary>
 
-    // Documentation on using the MVVM pattern is at http://go.microsoft.com/fwlink/?LinkID=288814&clcid=0x409
-
     public static class ViewModelLocationProvider
     {
         /// <summary>

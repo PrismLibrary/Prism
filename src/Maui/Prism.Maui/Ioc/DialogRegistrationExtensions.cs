@@ -7,6 +7,13 @@ namespace Prism.Ioc;
 /// <summary>
 /// Provides extension methods for registering dialogs in the Prism container.
 /// </summary>
+/// <example>
+/// During container configuration, register a ContentView and its IDialogAware view model
+/// with the name used by IDialogService.ShowDialog. The dialog view derives from View, not Page.
+/// <code>
+/// containerRegistry.RegisterDialog&lt;ConfirmationView, ConfirmationViewModel&gt;("confirm");
+/// </code>
+/// </example>
 public static class DialogRegistrationExtensions
 {
     /// <summary>

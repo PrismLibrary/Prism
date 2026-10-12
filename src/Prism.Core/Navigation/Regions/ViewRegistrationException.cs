@@ -10,13 +10,10 @@ namespace Prism.Navigation.Regions
 #endif
     public partial class ViewRegistrationException : Exception
     {
-        // TODO: Find updated links as these are dead...
-        //
         // For guidelines regarding the creation of new exception types, see
-        //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconerrorraisinghandlingguidelines.asp
+        //    https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/exceptions
         // and
-        //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dncscol/html/csharp07192001.asp
-        //
+        //    https://learn.microsoft.com/en-us/dotnet/standard/exceptions/how-to-create-user-defined-exceptions
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewRegistrationException"/> class.

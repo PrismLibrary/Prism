@@ -140,8 +140,9 @@ public partial class ModuleInfo : IModuleInfo
     public InitializationMode InitializationMode { get; set; }
 
     /// <summary>
-    /// Reference to the location of the module assembly. Not Supported by Microsoft.Maui
+    /// Represents an assembly location, which this implementation does not support.
     /// </summary>
+    /// <remarks>Reading this property throws <see cref="NotSupportedException"/>. Assignments are ignored; modules are identified by their registered types.</remarks>
     string IModuleInfo.Ref
     {
         get => throw new NotSupportedException(Resources.ModuleRefLocationNotSupported);

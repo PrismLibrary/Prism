@@ -11,8 +11,14 @@ using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
 
 namespace Prism.Common;
 
+/// <summary>Dispatches navigation and lifecycle callbacks to views, view models, and child regions.</summary>
 public static class MvvmHelpers
 {
+    /// <summary>Invokes an action on each matching view, binding context, and child region view.</summary>
+    /// <typeparam name="T">The callback contract to find.</typeparam>
+    /// <param name="view">The view to inspect; null produces no callbacks.</param>
+    /// <param name="action">The action invoked for each matching object.</param>
+    /// <remarks>A view and its binding context are evaluated separately. Child regions are visited recursively after both.</remarks>
     public static void InvokeViewAndViewModelAction<T>(object? view, Action<T> action) where T : class
     {
         if (view is T viewAsT)
@@ -34,6 +40,11 @@ public static class MvvmHelpers
         }
     }
 
+    /// <summary>Sequentially awaits an action on matching views, binding contexts, and child region views.</summary>
+    /// <typeparam name="T">The callback contract to find.</typeparam>
+    /// <param name="view">The view to inspect; null produces no callbacks.</param>
+    /// <param name="action">The asynchronous action invoked for each matching object.</param>
+    /// <returns>A task completing after all matching callbacks finish.</returns>
     public static async Task InvokeViewAndViewModelActionAsync<T>(object? view, Func<T, Task> action) where T : class
     {
         if (view is T viewAsT)
@@ -55,6 +66,9 @@ public static class MvvmHelpers
         }
     }
 
+    /// <summary>Destroys child pages and notifies destructible views and view models before scheduling visual cleanup.</summary>
+    /// <param name="view">The view to destroy.</param>
+    /// <remarks>Visual behaviors and the binding context are cleared after a dispatcher delay to allow transition animations to complete.</remarks>
     public static void DestroyPage(IView? view)
     {
         try
@@ -117,6 +131,9 @@ public static class MvvmHelpers
         }
     }
 
+    /// <summary>Destroys modal pages in reverse stack order, then destroys the underlying page.</summary>
+    /// <param name="page">The underlying page to destroy last.</param>
+    /// <param name="modalStack">The modal pages ordered from bottom to top.</param>
     public static void DestroyWithModalStack(Page? page, IList<Page?> modalStack)
     {
         foreach (var childPage in modalStack.Reverse())
@@ -127,6 +144,10 @@ public static class MvvmHelpers
         DestroyPage(page);
     }
 
+    /// <summary>Finds a callback implementation on a view or its binding context.</summary>
+    /// <typeparam name="T">The callback contract to find.</typeparam>
+    /// <param name="view">The view to inspect.</param>
+    /// <returns>The view when it implements the contract, otherwise its matching binding context, or null.</returns>
     public static T? GetImplementerFromViewOrViewModel<T>(object view)
         where T : class
     {
@@ -143,6 +164,10 @@ public static class MvvmHelpers
         return null;
     }
 
+    /// <summary>Determines whether an existing region view can handle a navigation request.</summary>
+    /// <param name="view">The existing region view.</param>
+    /// <param name="navigationContext">The requested region navigation.</param>
+    /// <returns>The region-aware callback result, or whether the route matches the view's type name when no callback is present.</returns>
     public static bool IsNavigationTarget(object view, NavigationContext navigationContext)
     {
         var implementor = GetImplementerFromViewOrViewModel<IRegionAware>(view);
@@ -158,16 +183,26 @@ public static class MvvmHelpers
         return path == viewType.Name || path == viewType.FullName;
     }
 
+    /// <summary>Notifies region-aware views and view models that navigation is leaving the view.</summary>
+    /// <param name="view">The departing view.</param>
+    /// <param name="navigationContext">The region navigation request.</param>
     public static void OnNavigatedFrom(object? view, NavigationContext navigationContext)
     {
         InvokeViewAndViewModelAction<IRegionAware>(view, x => x.OnNavigatedFrom(navigationContext));
     }
 
+    /// <summary>Notifies region-aware views and view models that navigation has reached the view.</summary>
+    /// <param name="view">The destination view.</param>
+    /// <param name="navigationContext">The region navigation request.</param>
     public static void OnNavigatedTo(object? view, NavigationContext navigationContext)
     {
         InvokeViewAndViewModelAction<IRegionAware>(view, x => x.OnNavigatedTo(navigationContext));
     }
 
+    /// <summary>Asks the page or its view model to confirm navigation asynchronously.</summary>
+    /// <param name="page">The page whose confirmation contract is inspected.</param>
+    /// <param name="parameters">The navigation parameters.</param>
+    /// <returns>The asynchronous confirmation result, falling back to synchronous confirmation or true when neither contract is implemented.</returns>
     public static Task<bool> CanNavigateAsync(object page, INavigationParameters parameters)
     {
         var implementer = GetImplementerFromViewOrViewModel<IConfirmNavigationAsync>(page);
@@ -177,18 +212,29 @@ public static class MvvmHelpers
         return implementer.CanNavigateAsync(parameters);
     }
 
+    /// <summary>Asks the page or its view model to confirm navigation synchronously.</summary>
+    /// <param name="page">The page whose confirmation contract is inspected.</param>
+    /// <param name="parameters">The navigation parameters.</param>
+    /// <returns>The confirmation result, or true when no synchronous confirmation contract is implemented.</returns>
     public static bool CanNavigate(object page, INavigationParameters parameters)
     {
         var implementer = GetImplementerFromViewOrViewModel<IConfirmNavigation>(page);
         return implementer?.CanNavigate(parameters) ?? true;
     }
 
+    /// <summary>Notifies page navigation callbacks that navigation is leaving the page.</summary>
+    /// <param name="page">The departing page.</param>
+    /// <param name="parameters">The navigation parameters.</param>
     public static void OnNavigatedFrom(object? page, INavigationParameters parameters)
     {
         if (page != null)
             InvokeViewAndViewModelAction<INavigatedAware>(page, v => v.OnNavigatedFrom(parameters));
     }
 
+    /// <summary>Invokes synchronous initialization callbacks, then awaits asynchronous initialization callbacks.</summary>
+    /// <param name="page">The page to initialize, including matching view models and child region views.</param>
+    /// <param name="parameters">The initialization parameters.</param>
+    /// <returns>A task completing after all initialization callbacks finish.</returns>
     public static async Task OnInitializedAsync(object? page, INavigationParameters parameters)
     {
         if (page is null) return;
@@ -203,12 +249,20 @@ public static class MvvmHelpers
         return !string.IsNullOrEmpty(key);
     }
 
+    /// <summary>Notifies page navigation callbacks that navigation has reached the page.</summary>
+    /// <param name="page">The destination page.</param>
+    /// <param name="parameters">The navigation parameters.</param>
     public static void OnNavigatedTo(object? page, INavigationParameters parameters)
     {
         if (page != null)
             InvokeViewAndViewModelAction<INavigatedAware>(page, v => v.OnNavigatedTo(parameters));
     }
 
+    /// <summary>Finds the page to notify when back navigation leaves the specified page.</summary>
+    /// <param name="page">The departing page.</param>
+    /// <param name="mainPage">The window's underlying page, used when the modal stack has no preceding page.</param>
+    /// <param name="useModalNavigation">Whether to search the modal stack first.</param>
+    /// <returns>The destination's active child page, or null when no destination is available.</returns>
     public static Page? GetOnNavigatedToTarget(Page page, IView? mainPage, bool useModalNavigation)
     {
         Page? target;
@@ -232,6 +286,9 @@ public static class MvvmHelpers
         return target;
     }
 
+    /// <summary>Descends through flyout detail, selected tabs, and navigation stacks to find the active child page.</summary>
+    /// <param name="target">The destination view to inspect.</param>
+    /// <returns>The active child page, or null if the destination is not a page.</returns>
     public static Page? GetOnNavigatedToTargetFromChild(IView? target)
     {
         Page? child = null;
@@ -252,6 +309,11 @@ public static class MvvmHelpers
         return null;
     }
 
+    /// <summary>Gets the page preceding the current page in a navigation stack.</summary>
+    /// <param name="currentPage">The current page to locate.</param>
+    /// <param name="navStack">The stack ordered from root to current page.</param>
+    /// <returns>The preceding page, or null when no preceding index exists.</returns>
+    /// <remarks>If the current page is absent, the final stack entry is treated as its position.</remarks>
     public static Page? GetPreviousPage(Page currentPage, IReadOnlyList<Page?> navStack)
     {
         Page? previousPage = null;
@@ -264,6 +326,10 @@ public static class MvvmHelpers
         return previousPage;
     }
 
+    /// <summary>Finds the position of a page in a navigation stack.</summary>
+    /// <param name="currentPage">The page to locate.</param>
+    /// <param name="navStack">The navigation stack to search.</param>
+    /// <returns>The matching index, or the final stack index when the page is absent; -1 for an empty stack.</returns>
     public static int GetCurrentPageIndex(Page currentPage, IReadOnlyList<Page?> navStack)
     {
         int stackCount = navStack.Count;
@@ -277,9 +343,15 @@ public static class MvvmHelpers
         return stackCount - 1;
     }
 
+    /// <summary>Gets the currently displayed page using the configured page resolver.</summary>
+    /// <param name="mainPage">The window's root page.</param>
+    /// <returns>The active page returned by the resolver.</returns>
+    /// <remarks>The default resolver considers modal pages, selected tabs, flyout detail, and navigation stacks.</remarks>
     public static Page? GetCurrentPage(Page mainPage) =>
         _getCurrentPage(mainPage);
 
+    /// <summary>Replaces the resolver used to determine the currently displayed page.</summary>
+    /// <param name="getCurrentPageDelegate">The resolver receiving a window's root page.</param>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void SetCurrentPageDelegate(Func<Page, Page?> getCurrentPageDelegate) =>
         _getCurrentPage = getCurrentPageDelegate;
@@ -338,6 +410,10 @@ public static class MvvmHelpers
         return null;
     }
 
+    /// <summary>Routes a platform back request through Prism navigation confirmation and callbacks.</summary>
+    /// <param name="navigationPage">The navigation page receiving the back request.</param>
+    /// <returns>A task completing after the back request is handled.</returns>
+    /// <remarks>A pending modal confirmation prevents a duplicate request. An attempt to pop the application's main page quits the application.</remarks>
     public static async Task HandleNavigationPageGoBack(NavigationPage navigationPage)
     {
         if (navigationPage.GetParentWindow() is PrismWindow window &&
@@ -355,6 +431,9 @@ public static class MvvmHelpers
         }
     }
 
+    /// <summary>Routes dismissal of a navigation page through a modal back navigation request.</summary>
+    /// <param name="navigationPage">The dismissed navigation page.</param>
+    /// <returns>A task completing after the request is handled.</returns>
     public static async Task HandleNavigationPageSwipedAway(NavigationPage navigationPage)
     {
         var navigationService = Navigation.Xaml.Navigation.GetNavigationService(navigationPage.CurrentPage);
@@ -371,6 +450,9 @@ public static class MvvmHelpers
         }
     }
 
+    /// <summary>Notifies navigation callbacks and destroys the departed page after a platform pop.</summary>
+    /// <param name="previousPage">The page removed by platform navigation.</param>
+    /// <param name="currentPage">The view displayed after the pop.</param>
     public static void HandleSystemGoBack(IView? previousPage, IView? currentPage)
     {
         var parameters = new NavigationParameters();

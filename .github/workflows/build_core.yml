@@ -13,6 +13,8 @@ on:
       - xunit.runner.json
       - 'src/Prism.Core/**'
       - 'src/Prism.Events/**'
+      - src/Directory.Build.props
+      - src/Directory.Build.targets
       - 'tests/Prism.Core.Tests/**'
 
 jobs:

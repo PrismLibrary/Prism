@@ -26,7 +26,7 @@ public enum KeyboardType
     Numeric,
 
     /// <summary>
-    /// Returns a new keyboard with None Microsoft.Maui.KeyboardFlags.
+    /// Selects a keyboard with no additional keyboard flags.
     /// </summary>
     Plain,
 

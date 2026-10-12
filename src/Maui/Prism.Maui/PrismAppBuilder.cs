@@ -18,7 +18,7 @@ using TabbedPage = Microsoft.Maui.Controls.TabbedPage;
 namespace Prism;
 
 /// <summary>
-/// A builder for Prism with .NET MAUI cross-platform applications and services.
+/// Configures Prism application services, navigation, and initialization.
 /// </summary>
 public sealed class PrismAppBuilder
 {

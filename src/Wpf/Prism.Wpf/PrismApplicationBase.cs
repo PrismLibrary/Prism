@@ -21,9 +21,9 @@ namespace Prism
         public IContainerProvider Container => _containerExtension;
 
         /// <summary>
-        /// Raises the System.Windows.Application.Startup event.
+        /// Runs the base startup behavior and initializes Prism services and modules.
         /// </summary>
-        /// <param name="e">A System.Windows.StartupEventArgs that contains the event data.</param>
+        /// <param name="e">The startup event data.</param>
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -134,7 +134,7 @@ namespace Prism
 
         /// <summary>
         /// Registers the <see cref="Type"/>s of the Exceptions that are not considered
-        /// root exceptions by the <see cref="ExceptionExtensions"/>.
+        /// root exceptions by the <c>ExceptionExtensions</c>.
         /// </summary>
         protected virtual void RegisterFrameworkExceptionTypes()
         {

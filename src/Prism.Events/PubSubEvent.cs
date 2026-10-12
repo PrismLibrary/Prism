@@ -137,6 +137,29 @@ namespace Prism.Events
     /// Defines a class that manages publication and subscription to events.
     /// </summary>
     /// <typeparam name="TPayload">The type of message that will be passed to the subscribers.</typeparam>
+    /// <example>
+    /// Define a payload-specific event:
+    /// <code>
+    /// using Prism.Events;
+    ///
+    /// public sealed class CustomerSelectedEvent : PubSubEvent&lt;int&gt; { }
+    /// </code>
+    /// In a method receiving the application's shared IEventAggregator, subscribe with a filter.
+    /// This example handles positive identifiers synchronously on the publishing thread.
+    /// Dispose the token when the subscriber no longer needs notifications; the strong subscription
+    /// keeps its delegate target alive until it is removed.
+    /// <code>
+    /// var selected = eventAggregator.GetEvent&lt;CustomerSelectedEvent&gt;();
+    /// using (selected.Subscribe(
+    ///     id => Console.WriteLine(id),
+    ///     ThreadOption.PublisherThread,
+    ///     keepSubscriberReferenceAlive: true,
+    ///     filter: id => id > 0))
+    /// {
+    ///     selected.Publish(42);
+    /// }
+    /// </code>
+    /// </example>
     public class PubSubEvent<TPayload> : EventBase
     {
         /// <summary>

@@ -14,7 +14,7 @@ namespace Prism.Navigation.Regions.Behaviors
     {
 
         /// <summary>The key of this behavior.</summary>
-        /// <remarks>(2024-04-11_Suess): This SHOULD be ''ContextToAvaloniaObject'.</remarks>
+        /// <remarks>The key is retained for compatibility with existing behavior registrations.</remarks>
         public const string BehaviorKey = "ContextToDependencyObject";
 
         /// <summary>Behavior's attached region.</summary>

@@ -30,6 +30,7 @@ public abstract class NavigationExtensionBase : TargetAwareExtensionBase<IComman
     /// <summary>
     /// Gets or sets a value indicating whether navigation should be animated.
     /// </summary>
+    /// <remarks>The default is <see langword="true"/>.</remarks>
     public bool Animated
     {
         get => (bool)GetValue(AnimatedProperty);
@@ -39,6 +40,7 @@ public abstract class NavigationExtensionBase : TargetAwareExtensionBase<IComman
     /// <summary>
     /// Gets or sets a value indicating whether modal navigation should be used.
     /// </summary>
+    /// <remarks>The default is <see langword="null"/>, which leaves the choice of navigation stack to the navigation service.</remarks>
     public bool? UseModalNavigation
     {
         get => (bool?)GetValue(UseModalNavigationProperty);
@@ -46,10 +48,10 @@ public abstract class NavigationExtensionBase : TargetAwareExtensionBase<IComman
     }
 
     /// <summary>
-    /// Determines whether the command can execute in its current state.
+    /// Determines whether the extension has a target page and is ready to start another navigation operation.
     /// </summary>
-    /// <param name="parameter">Data used by the command. If the command does not require data, this object can be set to null.</param>
-    /// <returns>true if the command can execute; otherwise, false.</returns>
+    /// <param name="parameter">The command parameter. This method does not inspect its value.</param>
+    /// <returns><see langword="true"/> if a page has been resolved and no navigation operation is in progress; otherwise, <see langword="false"/>.</returns>
     public bool CanExecute(object parameter) => Page is not null && !IsNavigating;
 
     /// <inheritdoc/>

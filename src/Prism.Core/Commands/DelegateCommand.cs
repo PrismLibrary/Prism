@@ -118,6 +118,28 @@ namespace Prism.Commands
         /// </summary>
         /// <param name="canExecuteExpression">The property expression. Example: ObservesCanExecute(() => PropertyName).</param>
         /// <returns>The current instance of DelegateCommand</returns>
+        /// <example>
+        /// Use a notifying property to update command availability without calling RaiseCanExecuteChanged manually.
+        /// <code>
+        /// using Prism.Commands;
+        ///
+        /// public sealed class SaveViewModel : Prism.Mvvm.BindableBase
+        /// {
+        ///     private bool _canSave = true;
+        ///     public bool CanSave
+        ///     {
+        ///         get => _canSave;
+        ///         set => SetProperty(ref _canSave, value);
+        ///     }
+        ///     public DelegateCommand SaveCommand { get; }
+        ///     public SaveViewModel()
+        ///     {
+        ///         SaveCommand = new DelegateCommand(Save).ObservesCanExecute(() => CanSave);
+        ///     }
+        ///     private void Save() => CanSave = false;
+        /// }
+        /// </code>
+        /// </example>
         public DelegateCommand ObservesCanExecute(Expression<Func<bool>> canExecuteExpression)
         {
             _canExecuteMethod = canExecuteExpression.Compile();

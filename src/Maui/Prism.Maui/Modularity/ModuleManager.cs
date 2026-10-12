@@ -24,8 +24,9 @@ public class ModuleManager : IModuleManager
     public event EventHandler<LoadModuleCompletedEventArgs> LoadModuleCompleted;
 
     /// <summary>
-    /// Not used by Prism.Maui
+    /// Represents download progress notifications, which this implementation does not support.
     /// </summary>
+    /// <remarks>Adding or removing a handler throws <see cref="NotSupportedException"/> because this manager does not download modules.</remarks>
     public event EventHandler<ModuleDownloadProgressChangedEventArgs> ModuleDownloadProgressChanged
     {
         add => throw new NotSupportedException();

@@ -4,6 +4,7 @@ using Prism.Navigation.Builder;
 
 namespace Prism.Navigation;
 
+/// <summary>Builds navigation routes using registered views, view models, navigation pages, and tabs.</summary>
 public static class NavigationBuilderExtensions
 {
     /// <summary>
@@ -11,6 +12,18 @@ public static class NavigationBuilderExtensions
     /// </summary>
     /// <param name="navigationService">The <see cref="INavigationService"/>.</param>
     /// <returns><see cref="INavigationBuilder"/></returns>
+    /// <example>
+    /// In a view model method, navigate to a page registered as details. Relative navigation
+    /// uses the current navigation context. This parameter belongs to the details segment;
+    /// use WithParameters for parameters that apply to the entire request.
+    /// <code>
+    /// var result = await navigationService.CreateBuilder()
+    ///     .AddSegment("details", segment => segment.AddParameter("id", 42))
+    ///     .NavigateAsync();
+    /// if (!result.Success)
+    ///     Console.WriteLine(result.Exception?.Message);
+    /// </code>
+    /// </example>
     public static INavigationBuilder CreateBuilder(this INavigationService navigationService) =>
            new NavigationBuilder(navigationService);
 
@@ -26,6 +39,9 @@ public static class NavigationBuilderExtensions
         return registryAware.Registry.GetViewModelNavigationKey(vmType);
     }
 
+    /// <summary>Adds a parent-navigation segment to the route.</summary>
+    /// <param name="builder">The route builder to update.</param>
+    /// <returns>The same builder with a <c>..</c> segment appended.</returns>
     public static INavigationBuilder RelativeBack(this INavigationBuilder builder) =>
         builder.AddSegment("..");
 
@@ -60,22 +76,49 @@ public static class NavigationBuilderExtensions
     public static ICreateTabBuilder AddSegment<TViewModel>(this ICreateTabBuilder builder)  =>
         builder.AddSegment<TViewModel>(b => { });
 
+    /// <summary>Adds the registered view for a view model to a tab's route and configures the segment.</summary>
+    /// <typeparam name="TViewModel">The registered view model identifying the destination.</typeparam>
+    /// <param name="builder">The tab route builder.</param>
+    /// <param name="configureSegment">The callback configuring segment parameters and options.</param>
+    /// <returns>The updated tab route builder.</returns>
     public static ICreateTabBuilder AddSegment<TViewModel>(this ICreateTabBuilder builder, Action<ISegmentBuilder> configureSegment) =>
         builder.AddSegment(GetNavigationKey<TViewModel>(builder), configureSegment);
 
+    /// <summary>Adds the registered view for a view model to the navigation route.</summary>
+    /// <typeparam name="TViewModel">The registered view model identifying the destination.</typeparam>
+    /// <param name="builder">The route builder.</param>
+    /// <returns>The updated route builder.</returns>
     public static INavigationBuilder AddSegment<TViewModel>(this INavigationBuilder builder) =>
         builder.AddSegment<TViewModel>(b => { });
 
+    /// <summary>Adds the registered view for a view model to the route and configures the segment.</summary>
+    /// <typeparam name="TViewModel">The registered view model identifying the destination.</typeparam>
+    /// <param name="builder">The route builder.</param>
+    /// <param name="configureSegment">The callback configuring segment parameters and options.</param>
+    /// <returns>The updated route builder.</returns>
     public static INavigationBuilder AddSegment<TViewModel>(this INavigationBuilder builder, Action<ISegmentBuilder> configureSegment) =>
         builder.AddSegment(GetNavigationKey<TViewModel>(builder), configureSegment);
 
+    /// <summary>Adds the registered view for a view model with an explicit modal navigation choice.</summary>
+    /// <typeparam name="TViewModel">The registered view model identifying the destination.</typeparam>
+    /// <param name="builder">The route builder.</param>
+    /// <param name="useModalNavigation">Whether the segment uses modal navigation.</param>
+    /// <returns>The updated route builder.</returns>
     public static INavigationBuilder AddSegment<TViewModel>(this INavigationBuilder builder, bool useModalNavigation) =>
         builder.AddSegment<TViewModel>(b => b.UseModalNavigation(useModalNavigation));
 
     // Will check for the Navigation key of a registered NavigationPage
+    /// <summary>Adds the last registered navigation page type to the route.</summary>
+    /// <param name="builder">The route builder.</param>
+    /// <returns>The updated route builder.</returns>
     public static INavigationBuilder AddNavigationPage(this INavigationBuilder builder) =>
         builder.AddNavigationPage(b => { });
 
+    /// <summary>Adds the last registered navigation page type and configures its route segment.</summary>
+    /// <param name="builder">The route builder.</param>
+    /// <param name="configureSegment">The callback configuring segment parameters and options.</param>
+    /// <returns>The updated route builder.</returns>
+    /// <exception cref="NavigationException">No navigation page type is registered.</exception>
     public static INavigationBuilder AddNavigationPage(this INavigationBuilder builder, Action<ISegmentBuilder> configureSegment)
     {
         if (builder is not IRegistryAware registryAware)
@@ -89,9 +132,17 @@ public static class NavigationBuilderExtensions
         return builder.AddSegment(registration.Name, configureSegment);
     }
 
+    /// <summary>Adds the last registered navigation page type to the tab's route.</summary>
+    /// <param name="builder">The tab route builder.</param>
+    /// <returns>The updated tab route builder.</returns>
     public static ICreateTabBuilder AddNavigationPage(this ICreateTabBuilder builder) =>
         builder.AddNavigationPage(b => { });
 
+    /// <summary>Adds the last registered navigation page type to a tab and configures its segment.</summary>
+    /// <param name="builder">The tab route builder.</param>
+    /// <param name="configureSegment">The callback configuring segment parameters and options.</param>
+    /// <returns>The updated tab route builder.</returns>
+    /// <exception cref="NavigationException">No navigation page type is registered.</exception>
     public static ICreateTabBuilder AddNavigationPage(this ICreateTabBuilder builder, Action<ISegmentBuilder> configureSegment)
     {
         if (builder is not IRegistryAware registryAware)
@@ -220,6 +271,10 @@ public static class NavigationBuilderExtensions
     public static ITabbedSegmentBuilder CreateTab(this ITabbedSegmentBuilder builder, string segmentNameOrUri) =>
         builder.CreateTab(o => o.AddSegment(segmentNameOrUri));
 
+    /// <summary>Creates a tab using the registered view for a view model.</summary>
+    /// <typeparam name="TViewModel">The registered view model identifying the tab's page.</typeparam>
+    /// <param name="builder">The tabbed page segment builder.</param>
+    /// <returns>The updated tabbed page segment builder.</returns>
     public static ITabbedSegmentBuilder CreateTab<TViewModel>(this ITabbedSegmentBuilder builder)
     {
         var navigationKey = GetNavigationKey<TViewModel>(builder);

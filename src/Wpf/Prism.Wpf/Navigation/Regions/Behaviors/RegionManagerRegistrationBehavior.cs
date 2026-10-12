@@ -118,7 +118,7 @@ namespace Prism.Navigation.Regions.Behaviors
 
         /// <summary>
         /// This event handler gets called when a RegionManager is requering the instances of a region to be registered if they are not already.
-        /// <remarks>Although this is a public method to support Weak Delegates in Silverlight, it should not be called by the user.</remarks>
+        /// <remarks>This event handler supports weak subscriptions and is not intended to be called directly.</remarks>
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The arguments.</param>

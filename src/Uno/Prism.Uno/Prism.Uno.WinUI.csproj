@@ -14,7 +14,6 @@
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <AssemblyName>Prism.Uno</AssemblyName>
     <RootNamespace>Prism</RootNamespace>
-    <NoWarn>$(NoWarn);1591</NoWarn>
     <PackageId>Prism.Uno.WinUI</PackageId>
     <ImplicitUsings>true</ImplicitUsings>
     <Description>

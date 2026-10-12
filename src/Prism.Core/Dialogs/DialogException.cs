@@ -15,7 +15,7 @@ public class DialogException : Exception
     /// <summary>
     /// The <see cref="DialogException"/> Message returned when the CurrentPage must be a ContentPage
     /// </summary>
-    /// <remarks>Xamarin.Forms &amp; Maui specific</remarks>
+    /// <remarks>Used by dialog services that require a ContentPage as their current page.</remarks>
     public const string RequiresContentPage = "The current page must be a ContentPage";
 
     /// <summary>

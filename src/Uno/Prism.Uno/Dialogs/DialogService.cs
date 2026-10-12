@@ -7,17 +7,23 @@ using Windows.Foundation;
 #nullable enable
 namespace Prism.Dialogs
 {
+    /// <summary>Displays registered dialog views in a content dialog host.</summary>
     public class DialogService : IDialogService
     {
         private readonly IDialogViewRegistry _dialogViewRegistry;
         private readonly IContainerProvider _containerProvider;
 
+        /// <summary>Initializes a dialog service with the application's container and dialog registrations.</summary>
+        /// <param name="containerProvider">The container used to resolve the window and dialog hosts.</param>
+        /// <param name="dialogViewRegistry">The registry used to create dialog views.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="dialogViewRegistry"/> is null.</exception>
         public DialogService(IContainerProvider containerProvider, IDialogViewRegistry dialogViewRegistry)
         {
             _containerProvider = containerProvider;
             _dialogViewRegistry = dialogViewRegistry ?? throw new ArgumentNullException(nameof(dialogViewRegistry));
         }
 
+        /// <inheritdoc/>
         public async void ShowDialog(string name, IDialogParameters parameters, DialogCallback callback)
         {
             try

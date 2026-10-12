@@ -7,7 +7,7 @@ namespace Prism.Common
     /// a Dependency Property on DependencyObjects, and allows other classes to observe any changes in the Value.
     /// </summary>
     /// <remarks>
-    /// This class is required, because in Silverlight, it's not possible to receive Change notifications for Dependency properties that you do not own.
+    /// Exposes value changes through INotifyPropertyChanged so consumers can observe a wrapped value.
     /// </remarks>
     /// <typeparam name="T">The type of the property that's wrapped in the Observable object</typeparam>
     public partial class ObservableObject<T> : FrameworkElement, INotifyPropertyChanged
