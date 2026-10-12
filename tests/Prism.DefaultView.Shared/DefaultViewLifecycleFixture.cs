@@ -1,3 +1,5 @@
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,16 +25,18 @@ public class DefaultViewLifecycleFixture : IDisposable
     private readonly RegionViewRegistry _registry;
 #if UNO_WINUI
     private readonly FieldInfo _threadAccessOverride;
-    private readonly object _previousThreadAccessOverride;
+    private readonly object? _previousThreadAccessOverride;
 #endif
 
     public DefaultViewLifecycleFixture()
     {
 #if UNO_WINUI
         // Grant this test thread headless access and restore its cached value on disposal.
-        var dispatcher = Assembly.Load("Uno.UI.Dispatching").GetType("Uno.UI.Dispatching.NativeDispatcher");
+        var dispatcher = Assembly.Load("Uno.UI.Dispatching").GetType("Uno.UI.Dispatching.NativeDispatcher")
+            ?? throw new TypeLoadException("Uno.UI.Dispatching.NativeDispatcher was not found.");
         _threadAccessOverride = dispatcher.GetField("HasThreadAccessOverride", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
-            ?? dispatcher.GetField("_hasThreadAccess", BindingFlags.Static | BindingFlags.NonPublic);
+            ?? dispatcher.GetField("_hasThreadAccess", BindingFlags.Static | BindingFlags.NonPublic)
+            ?? throw new MissingFieldException("Uno dispatcher thread-access override was not found.");
         _previousThreadAccessOverride = _threadAccessOverride.GetValue(null);
         _threadAccessOverride.SetValue(null, _threadAccessOverride.FieldType == typeof(Func<bool>) ? (object)(Func<bool>)(() => true) : true);
 #endif
@@ -93,7 +97,7 @@ public class DefaultViewLifecycleFixture : IDisposable
     public void RecreatedHostsWithSameNameDoNotAccumulateRegistrations(string form)
     {
         var manager = new RegionManager();
-        object previous = null;
+        object? previous = null;
         for (var i = 0; i < 20; i++)
         {
             var host = new ContentControl();
