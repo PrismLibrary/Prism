@@ -16,41 +16,39 @@ using StaTheoryAttribute = Xunit.TheoryAttribute;
 
 namespace Prism.DefaultView.Tests;
 
-[CollectionDefinition("DefaultView lifecycle", DisableParallelization = true)]
-public class DefaultViewLifecycleCollection { }
-
 [Collection("DefaultView lifecycle")]
 public class DefaultViewLifecycleFixture : IDisposable
 {
-    private readonly Mock<IContainerExtension> container = new();
-    private readonly RegionViewRegistry registry;
+    private readonly Mock<IContainerExtension> _container = new();
+    private readonly RegionViewRegistry _registry;
 #if UNO_WINUI
-    private readonly FieldInfo threadAccessOverride;
-    private readonly object previousThreadAccessOverride;
+    private readonly FieldInfo _threadAccessOverride;
+    private readonly object _previousThreadAccessOverride;
 #endif
 
     public DefaultViewLifecycleFixture()
     {
 #if UNO_WINUI
-        // Same headless dispatcher setup used by Prism.ViewRegistry.Shared.
+        // Grant this test thread headless access and restore its cached value on disposal.
         var dispatcher = Assembly.Load("Uno.UI.Dispatching").GetType("Uno.UI.Dispatching.NativeDispatcher");
-        threadAccessOverride = dispatcher.GetField("HasThreadAccessOverride", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-        previousThreadAccessOverride = threadAccessOverride.GetValue(null);
-        threadAccessOverride.SetValue(null, (Func<bool>)(() => true));
+        _threadAccessOverride = dispatcher.GetField("HasThreadAccessOverride", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+            ?? dispatcher.GetField("_hasThreadAccess", BindingFlags.Static | BindingFlags.NonPublic);
+        _previousThreadAccessOverride = _threadAccessOverride.GetValue(null);
+        _threadAccessOverride.SetValue(null, _threadAccessOverride.FieldType == typeof(Func<bool>) ? (object)(Func<bool>)(() => true) : true);
 #endif
         ContainerLocator.ResetContainer();
         ViewModelLocationProvider.Reset();
-        ContainerLocator.SetContainerExtension(container.Object);
-        registry = new RegionViewRegistry(container.Object);
-        container.Setup(c => c.Resolve(typeof(TestView))).Returns(() => new TestView());
+        ContainerLocator.SetContainerExtension(_container.Object);
+        _registry = new RegionViewRegistry(_container.Object);
+        _container.Setup(c => c.Resolve(typeof(LifecycleTestView))).Returns(() => new LifecycleTestView());
         var navigationRegistry = new RegionNavigationRegistry(new[]
         {
-            new ViewRegistration { Type = ViewType.Region, View = typeof(TestView), Name = "Default" }
+            new ViewRegistration { Type = ViewType.Region, View = typeof(LifecycleTestView), Name = "Default" }
         });
-        container.Setup(c => c.IsRegistered(typeof(IRegionNavigationRegistry))).Returns(true);
-        container.Setup(c => c.Resolve(typeof(IRegionNavigationRegistry))).Returns(navigationRegistry);
-        container.Setup(c => c.Resolve(typeof(AutoPopulateRegionBehavior)))
-            .Returns(() => new AutoPopulateRegionBehavior(registry));
+        _container.Setup(c => c.IsRegistered(typeof(IRegionNavigationRegistry))).Returns(true);
+        _container.Setup(c => c.Resolve(typeof(IRegionNavigationRegistry))).Returns(navigationRegistry);
+        _container.Setup(c => c.Resolve(typeof(AutoPopulateRegionBehavior)))
+            .Returns(() => new AutoPopulateRegionBehavior(_registry));
     }
 
     public void Dispose()
@@ -58,7 +56,7 @@ public class DefaultViewLifecycleFixture : IDisposable
         ContainerLocator.ResetContainer();
         ViewModelLocationProvider.Reset();
 #if UNO_WINUI
-        threadAccessOverride.SetValue(null, previousThreadAccessOverride);
+        _threadAccessOverride.SetValue(null, _previousThreadAccessOverride);
 #endif
     }
 
@@ -77,11 +75,11 @@ public class DefaultViewLifecycleFixture : IDisposable
         behavior.Attach();
         behavior.Attach();
 
-        var view = Assert.IsType<TestView>(Assert.Single(region.Views));
+        var view = Assert.IsType<LifecycleTestView>(Assert.Single(region.Views));
         Assert.Same(host, behavior.HostControl);
         Assert.Same(view, host.Content);
         Assert.Single(region.ActiveViews);
-        Assert.Empty(registry.GetContents("Main"));
+        Assert.Empty(_registry.GetContents("Main"));
         if (form == "instance")
             Assert.Same(declaration, view);
         if (form == "name")
@@ -104,7 +102,7 @@ public class DefaultViewLifecycleFixture : IDisposable
             manager.Regions.Add(region);
             var view = Assert.Single(region.Views);
             Assert.NotSame(previous, view);
-            Assert.Empty(registry.GetContents("Main"));
+            Assert.Empty(_registry.GetContents("Main"));
             region.RemoveAll();
             Assert.Null(host.Content);
             manager.Regions.Remove("Main");
@@ -127,8 +125,8 @@ public class DefaultViewLifecycleFixture : IDisposable
             GC.Collect();
         }
         Assert.All(weak, reference => Assert.False(reference.IsAlive));
-        Assert.Empty(registry.GetContents("Main"));
-        GC.KeepAlive(registry);
+        Assert.Empty(_registry.GetContents("Main"));
+        GC.KeepAlive(_registry);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
@@ -144,7 +142,7 @@ public class DefaultViewLifecycleFixture : IDisposable
         region.RemoveAll();
         manager.Regions.Remove("Main");
         // Moq records resolved return values; those are test-only external roots.
-        container.Invocations.Clear();
+        _container.Invocations.Clear();
         // Do not clear DefaultView: the host/instance cycle itself must be collectible.
         return references;
     }
@@ -155,15 +153,15 @@ public class DefaultViewLifecycleFixture : IDisposable
         var host = new ContentControl();
         RegionManager.SetDefaultView(host, "Default");
         var region = new Region();
-        var behavior = new AutoPopulateRegionBehavior(registry) { Region = region, HostControl = host };
+        var behavior = new AutoPopulateRegionBehavior(_registry) { Region = region, HostControl = host };
         behavior.Attach();
         behavior.Attach();
         Assert.Empty(region.Views);
         region.Name = "Main";
         behavior.Attach();
-        registry.RegisterViewWithRegion("Main", () => new TestView());
+        _registry.RegisterViewWithRegion("Main", () => new LifecycleTestView());
         Assert.Equal(2, region.Views.Count());
-        Assert.Single(registry.GetContents("Main"));
+        Assert.Single(_registry.GetContents("Main"));
     }
 
     [StaFact]
@@ -171,8 +169,8 @@ public class DefaultViewLifecycleFixture : IDisposable
     {
         var first = new ContentControl();
         var second = new ContentControl();
-        var firstDefault = new TestView();
-        var secondDefault = new TestView();
+        var firstDefault = new LifecycleTestView();
+        var secondDefault = new LifecycleTestView();
         RegionManager.SetDefaultView(first, firstDefault);
         RegionManager.SetDefaultView(second, secondDefault);
         var firstRegion = CreateAdapter().Initialize(first, "Main");
@@ -181,27 +179,27 @@ public class DefaultViewLifecycleFixture : IDisposable
         new RegionManager().Regions.Add(secondRegion);
         Assert.Same(firstDefault, Assert.Single(firstRegion.Views));
         Assert.Same(secondDefault, Assert.Single(secondRegion.Views));
-        Assert.Empty(registry.GetContents("Main"));
+        Assert.Empty(_registry.GetContents("Main"));
     }
 
     [StaFact]
     public void DiscoveryKeepsOwnershipAndAnAlreadyAddedInstanceIsNotAddedTwice()
     {
-        var view = new TestView();
-        registry.RegisterViewWithRegion("Main", () => view);
+        var view = new LifecycleTestView();
+        _registry.RegisterViewWithRegion("Main", () => view);
         var host = new ContentControl();
         RegionManager.SetDefaultView(host, view);
         var region = CreateAdapter().Initialize(host, "Main");
         Assert.Same(view, Assert.Single(region.Views));
-        Assert.Same(view, Assert.Single(registry.GetContents("Main")));
+        Assert.Same(view, Assert.Single(_registry.GetContents("Main")));
     }
 
     [StaFact]
     public void DistinctInstancesThatCompareEqualAreBothAdded()
     {
-        var discovered = new EqualView();
-        var declared = new EqualView();
-        registry.RegisterViewWithRegion("Main", () => discovered);
+        var discovered = new LifecycleEqualView();
+        var declared = new LifecycleEqualView();
+        _registry.RegisterViewWithRegion("Main", () => discovered);
         var host = new ContentControl();
         RegionManager.SetDefaultView(host, declared);
         var region = CreateAdapter().Initialize(host, "Main");
@@ -213,9 +211,9 @@ public class DefaultViewLifecycleFixture : IDisposable
     [StaFact]
     public void ExistingUnnamedSingletonIsNotReattachedOrRenamedByStringDefault()
     {
-        var view = new TestView();
-        container.Setup(c => c.Resolve(typeof(TestView))).Returns(view);
-        registry.RegisterViewWithRegion("Main", () => view);
+        var view = new LifecycleTestView();
+        _container.Setup(c => c.Resolve(typeof(LifecycleTestView))).Returns(view);
+        _registry.RegisterViewWithRegion("Main", () => view);
         var host = new ContentControl();
         RegionManager.SetDefaultView(host, "Default");
         var region = CreateAdapter().Initialize(host, "Main");
@@ -226,8 +224,8 @@ public class DefaultViewLifecycleFixture : IDisposable
     [StaFact]
     public void DefaultDoesNotDisplaceDiscoveredContent()
     {
-        var discovered = new TestView();
-        registry.RegisterViewWithRegion("Main", () => discovered);
+        var discovered = new LifecycleTestView();
+        _registry.RegisterViewWithRegion("Main", () => discovered);
         var host = new ContentControl();
         RegionManager.SetDefaultView(host, "Default");
         var region = CreateAdapter().Initialize(host, "Main");
@@ -243,7 +241,7 @@ public class DefaultViewLifecycleFixture : IDisposable
         RegionManager.SetDefaultView(host, "Default");
         var region = CreateAdapter().Initialize(host, "Main");
         var view = Assert.Single(region.Views);
-        RegionManager.SetDefaultView(host, new TestView());
+        RegionManager.SetDefaultView(host, new LifecycleTestView());
         Assert.Same(view, Assert.Single(region.Views));
         region.Remove(view);
         region.Behaviors[AutoPopulateRegionBehavior.BehaviorKey].Attach();
@@ -266,39 +264,30 @@ public class DefaultViewLifecycleFixture : IDisposable
         var host = new ContentControl();
         RegionManager.SetDefaultView(host, "Missing");
         Assert.Throws<KeyNotFoundException>(() => CreateAdapter().Initialize(host, "Main"));
-        Assert.Empty(registry.GetContents("Main"));
+        Assert.Empty(_registry.GetContents("Main"));
     }
 
     [StaFact]
     public void UnregisteredTypeUsesExistingDesktopContainerFallback()
     {
         var host = new ContentControl();
-        container.Setup(c => c.Resolve(typeof(OtherView))).Returns(() => new OtherView());
-        RegionManager.SetDefaultView(host, typeof(OtherView));
+        _container.Setup(c => c.Resolve(typeof(LifecycleOtherView))).Returns(() => new LifecycleOtherView());
+        RegionManager.SetDefaultView(host, typeof(LifecycleOtherView));
         var region = CreateAdapter().Initialize(host, "Main");
-        Assert.IsType<OtherView>(Assert.Single(region.Views));
+        Assert.IsType<LifecycleOtherView>(Assert.Single(region.Views));
     }
 
     private static object Declaration(string form) => form switch
     {
         "name" => "Default",
-        "type" => typeof(TestView),
-        _ => new TestView()
+        "type" => typeof(LifecycleTestView),
+        _ => new LifecycleTestView()
     };
 
     private ContentControlRegionAdapter CreateAdapter()
     {
-        var behaviors = new RegionBehaviorFactory(container.Object);
+        var behaviors = new RegionBehaviorFactory(_container.Object);
         behaviors.AddIfMissing<AutoPopulateRegionBehavior>(AutoPopulateRegionBehavior.BehaviorKey);
         return new ContentControlRegionAdapter(behaviors);
     }
-
-    public class EqualView
-    {
-        public override bool Equals(object obj) => obj is EqualView;
-        public override int GetHashCode() => 0;
-    }
-
-    public class TestView : ContentControl { }
-    public class OtherView : ContentControl { }
 }

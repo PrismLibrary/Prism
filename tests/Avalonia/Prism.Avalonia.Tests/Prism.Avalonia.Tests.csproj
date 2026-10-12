@@ -46,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\Prism.DefaultView.Shared\DefaultViewLifecycleFixture.cs" Link="Regions\Behaviors\DefaultViewLifecycleFixture.cs" />
+    <Compile Include="..\..\Prism.DefaultView.Shared\*.cs" Link="Regions\Behaviors\%(Filename)%(Extension)" />
   </ItemGroup>
 
 </Project>

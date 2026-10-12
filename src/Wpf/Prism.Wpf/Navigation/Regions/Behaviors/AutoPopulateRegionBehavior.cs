@@ -12,22 +12,22 @@ namespace Prism.Navigation.Regions.Behaviors
         /// </summary>
         public const string BehaviorKey = "AutoPopulate";
 
-        private readonly IRegionViewRegistry regionViewRegistry;
-        private DependencyObject hostControl;
-        private bool attachStarted;
+        private readonly IRegionViewRegistry _regionViewRegistry;
+        private DependencyObject _hostControl;
+        private bool _attachStarted;
 
         /// <summary>
         /// Gets or sets the host whose DefaultView is used for initial population.
         /// </summary>
         public DependencyObject HostControl
         {
-            get => hostControl;
+            get => _hostControl;
             set
             {
                 if (IsAttached)
                     throw new InvalidOperationException(Resources.HostControlCannotBeSetAfterAttach);
 
-                hostControl = value;
+                _hostControl = value;
             }
         }
 
@@ -38,7 +38,7 @@ namespace Prism.Navigation.Regions.Behaviors
         /// <param name="regionViewRegistry"><see cref="IRegionViewRegistry"/> that the behavior will monitor for views to populate the region.</param>
         public AutoPopulateRegionBehavior(IRegionViewRegistry regionViewRegistry)
         {
-            this.regionViewRegistry = regionViewRegistry;
+            _regionViewRegistry = regionViewRegistry;
         }
 
         /// <summary>
@@ -47,10 +47,10 @@ namespace Prism.Navigation.Regions.Behaviors
         protected override void OnAttach()
         {
             // RegionBehavior.Attach itself is not idempotent. Do not populate or subscribe twice.
-            if (attachStarted)
+            if (_attachStarted)
                 return;
 
-            attachStarted = true;
+            _attachStarted = true;
             if (string.IsNullOrEmpty(Region.Name))
             {
                 Region.PropertyChanged += Region_PropertyChanged;
@@ -69,7 +69,7 @@ namespace Prism.Navigation.Regions.Behaviors
             }
 
             PopulateDefaultView();
-            regionViewRegistry.ContentRegistered += OnViewRegistered;
+            _regionViewRegistry.ContentRegistered += OnViewRegistered;
         }
 
         private void PopulateDefaultView()
@@ -109,7 +109,7 @@ namespace Prism.Navigation.Regions.Behaviors
         /// <returns></returns>
         protected virtual IEnumerable<object> CreateViewsToAutoPopulate()
         {
-            return regionViewRegistry.GetContents(Region.Name);
+            return _regionViewRegistry.GetContents(Region.Name);
         }
 
         /// <summary>

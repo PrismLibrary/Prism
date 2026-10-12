@@ -17,10 +17,13 @@ namespace Prism.Maui.Tests.Fixtures.Regions;
 [Collection(nameof(AutoPopulateDefaultViewCollection))]
 public class AutoPopulateDefaultViewFixture
 {
-    private const string RegionName = "MainRegion";
-    private const string DefaultViewName = "DefaultRegionView";
+    internal const string RegionName = "MainRegion";
+    internal const string DefaultViewName = "DefaultRegionView";
 
-    public AutoPopulateDefaultViewFixture() => DispatcherProvider.SetCurrent(TestDispatcher.Provider);
+    public AutoPopulateDefaultViewFixture()
+    {
+        DispatcherProvider.SetCurrent(TestDispatcher.Provider);
+    }
 
     [Theory]
     [InlineData("name")]
@@ -41,7 +44,7 @@ public class AutoPopulateDefaultViewFixture
     [InlineData("type")]
     public void DefaultViewUsesTheRegionsContainerAndNavigationRegistration(string form)
     {
-        var test = new TestRegion(DefaultValue(form));
+        var test = new DefaultViewTestRegion(DefaultValue(form));
         var view = new DefaultRegionView();
         test.NavigationRegistry.Setup(r => r.CreateView(test.Scope.Object, DefaultViewName)).Returns(view);
 
@@ -58,7 +61,7 @@ public class AutoPopulateDefaultViewFixture
     public void InstanceDefaultIsAddedWithoutContainerResolution()
     {
         var view = new DefaultRegionView();
-        var test = new TestRegion(view);
+        var test = new DefaultViewTestRegion(view);
 
         test.Behavior.Attach();
 
@@ -76,7 +79,7 @@ public class AutoPopulateDefaultViewFixture
     [InlineData("instance", false)]
     public void RepeatedAttachPopulatesAndSubscribesOnlyOnce(string form, bool namedBeforeAttach)
     {
-        var test = new TestRegion(DefaultValue(form), namedBeforeAttach: namedBeforeAttach);
+        var test = new DefaultViewTestRegion(DefaultValue(form), namedBeforeAttach: namedBeforeAttach);
 
         test.Behavior.Attach();
         test.Behavior.Attach();
@@ -108,7 +111,7 @@ public class AutoPopulateDefaultViewFixture
     [Fact]
     public void TypeDefaultWithoutRegionNavigationRegistrationThrows()
     {
-        var test = new TestRegion(typeof(DefaultRegionView));
+        var test = new DefaultViewTestRegion(typeof(DefaultRegionView));
         // A page registration of the same type must not satisfy a region default.
         test.NavigationRegistry.SetupGet(r => r.Registrations).Returns(new[]
         {
@@ -127,7 +130,7 @@ public class AutoPopulateDefaultViewFixture
     public void ExistingInstanceIsNotAddedAgainAsDefault()
     {
         var view = new DefaultRegionView();
-        var test = new TestRegion(view);
+        var test = new DefaultViewTestRegion(view);
         test.Discovery.RegisterViewWithRegion(RegionName, _ => view);
 
         test.Behavior.Attach();
@@ -142,7 +145,7 @@ public class AutoPopulateDefaultViewFixture
         var defaultView = new EqualRegionView();
         Assert.NotSame(discovered, defaultView);
         Assert.True(discovered.Equals(defaultView));
-        var test = new TestRegion(defaultView);
+        var test = new DefaultViewTestRegion(defaultView);
         test.Discovery.RegisterViewWithRegion(RegionName, _ => discovered);
 
         test.Behavior.Attach();
@@ -156,7 +159,7 @@ public class AutoPopulateDefaultViewFixture
     public void StringDefaultResolvingAnExistingUnnamedSingletonDoesNotReattachOrRenameIt()
     {
         var singleton = new DefaultRegionView();
-        var test = new TestRegion(DefaultViewName);
+        var test = new DefaultViewTestRegion(DefaultViewName);
         test.Discovery.RegisterViewWithRegion(RegionName, _ => singleton);
         test.NavigationRegistry.Setup(r => r.CreateView(test.Scope.Object, DefaultViewName)).Returns(singleton);
 
@@ -173,7 +176,7 @@ public class AutoPopulateDefaultViewFixture
     public void TargetElementIsUsedWhenBehaviorHasNoExplicitHost()
     {
         var view = new DefaultRegionView();
-        var test = new TestRegion(view);
+        var test = new DefaultViewTestRegion(view);
         test.Behavior.HostControl = null;
 
         test.Behavior.Attach();
@@ -186,7 +189,7 @@ public class AutoPopulateDefaultViewFixture
     {
         var targetDefault = new DefaultRegionView();
         var hostDefault = new DefaultRegionView();
-        var test = new TestRegion(targetDefault);
+        var test = new DefaultViewTestRegion(targetDefault);
         var otherHost = new ContentView();
         RegionManager.SetDefaultView(otherHost, hostDefault);
         test.Behavior.HostControl = otherHost;
@@ -199,7 +202,7 @@ public class AutoPopulateDefaultViewFixture
     [Fact]
     public void HostCannotChangeAfterAttach()
     {
-        var test = new TestRegion(new DefaultRegionView(), namedBeforeAttach: false);
+        var test = new DefaultViewTestRegion(new DefaultRegionView(), namedBeforeAttach: false);
         test.Behavior.Attach();
 
         Assert.Throws<InvalidOperationException>(() => test.Behavior.HostControl = new ContentView());
@@ -209,7 +212,7 @@ public class AutoPopulateDefaultViewFixture
     public void ChangingDefaultAfterPopulationDoesNotReplaceOrAddAView()
     {
         var initial = new DefaultRegionView();
-        var test = new TestRegion(initial);
+        var test = new DefaultViewTestRegion(initial);
         test.Behavior.Attach();
 
         RegionManager.SetDefaultView(test.Host, new DefaultRegionView());
@@ -229,9 +232,9 @@ public class AutoPopulateDefaultViewFixture
         var registrations = 0;
         EventHandler<ViewRegisteredEventArgs> registered = (_, _) => registrations++;
         discovery.ContentRegistered += registered;
-        var first = new TestRegion(DefaultValue(form), discovery);
-        var second = new TestRegion(DefaultValue(form), discovery);
-        var withoutDefault = new TestRegion(null, discovery);
+        var first = new DefaultViewTestRegion(DefaultValue(form), discovery);
+        var second = new DefaultViewTestRegion(DefaultValue(form), discovery);
+        var withoutDefault = new DefaultViewTestRegion(null, discovery);
 
         first.Behavior.Attach();
         var firstDefault = Assert.Single(first.Region.Views.OfType<DefaultRegionView>());
@@ -274,7 +277,7 @@ public class AutoPopulateDefaultViewFixture
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static WeakReference[] CreateDiscardedRegion(RegionViewRegistry discovery, string form)
     {
-        var test = new TestRegion(DefaultValue(form), discovery);
+        var test = new DefaultViewTestRegion(DefaultValue(form), discovery);
         test.Behavior.Attach();
         var view = Assert.Single(test.Region.Views);
         return new[]
@@ -293,43 +296,4 @@ public class AutoPopulateDefaultViewFixture
         "instance" => new DefaultRegionView(),
         _ => throw new ArgumentOutOfRangeException(nameof(form))
     };
-
-    private sealed class DefaultRegionView : ContentView { }
-
-    private sealed class EqualRegionView : ContentView
-    {
-        public override bool Equals(object obj) => obj is EqualRegionView;
-        public override int GetHashCode() => typeof(EqualRegionView).GetHashCode();
-    }
-
-    private sealed class TestRegion
-    {
-        public ContentView Host { get; } = new();
-        public Mock<IContainerProvider> Scope { get; } = new(MockBehavior.Strict);
-        public Mock<IRegionNavigationRegistry> NavigationRegistry { get; } = new(MockBehavior.Strict);
-        public RegionViewRegistry Discovery { get; }
-        public Region Region { get; }
-        public AutoPopulateRegionBehavior Behavior { get; }
-
-        public TestRegion(object defaultView, RegionViewRegistry discovery = null, bool namedBeforeAttach = true)
-        {
-            Discovery = discovery ?? new RegionViewRegistry();
-            Scope.Setup(c => c.Resolve(typeof(IRegionNavigationRegistry))).Returns(NavigationRegistry.Object);
-            NavigationRegistry.SetupGet(r => r.Registrations).Returns(new[]
-            {
-                new ViewRegistration { Type = ViewType.Region, View = typeof(DefaultRegionView), Name = DefaultViewName }
-            });
-            NavigationRegistry.Setup(r => r.CreateView(Scope.Object, DefaultViewName)).Returns(() => new DefaultRegionView());
-            Host.SetContainerProvider(Scope.Object);
-            RegionManager.SetDefaultView(Host, defaultView);
-            Region = new Region(Mock.Of<IRegionNavigationService>()) { TargetElement = Host };
-            if (namedBeforeAttach)
-                Region.Name = RegionName;
-            Behavior = new AutoPopulateRegionBehavior(Discovery) { Region = Region, HostControl = Host };
-        }
-    }
 }
-
-// Keep dispatcher setup isolated from other lifecycle fixtures.
-[CollectionDefinition(nameof(AutoPopulateDefaultViewCollection), DisableParallelization = true)]
-public class AutoPopulateDefaultViewCollection { }

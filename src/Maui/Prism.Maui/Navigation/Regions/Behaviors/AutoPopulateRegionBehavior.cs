@@ -14,22 +14,22 @@ public class AutoPopulateRegionBehavior : RegionBehavior, IHostAwareRegionBehavi
     /// </summary>
     public const string BehaviorKey = "AutoPopulate";
 
-    private readonly IRegionViewRegistry regionViewRegistry;
-    private VisualElement hostControl;
-    private bool attachStarted;
+    private readonly IRegionViewRegistry _regionViewRegistry;
+    private VisualElement _hostControl;
+    private bool _attachStarted;
 
     /// <summary>
     /// Gets or sets the host whose DefaultView is used for initial population.
     /// </summary>
     public VisualElement HostControl
     {
-        get => hostControl;
+        get => _hostControl;
         set
         {
             if (IsAttached)
                 throw new InvalidOperationException(Resources.HostControlCannotBeSetAfterAttach);
 
-            hostControl = value;
+            _hostControl = value;
         }
     }
 
@@ -40,7 +40,7 @@ public class AutoPopulateRegionBehavior : RegionBehavior, IHostAwareRegionBehavi
     /// <param name="regionViewRegistry"><see cref="IRegionViewRegistry"/> that the behavior will monitor for views to populate the region.</param>
     public AutoPopulateRegionBehavior(IRegionViewRegistry regionViewRegistry)
     {
-        this.regionViewRegistry = regionViewRegistry;
+        _regionViewRegistry = regionViewRegistry;
     }
 
     /// <summary>
@@ -49,10 +49,10 @@ public class AutoPopulateRegionBehavior : RegionBehavior, IHostAwareRegionBehavi
     protected override void OnAttach()
     {
         // RegionBehavior.Attach itself is not idempotent. Do not populate or subscribe twice.
-        if (attachStarted)
+        if (_attachStarted)
             return;
 
-        attachStarted = true;
+        _attachStarted = true;
         if (string.IsNullOrEmpty(Region.Name))
         {
             Region.PropertyChanged += Region_PropertyChanged;
@@ -72,7 +72,7 @@ public class AutoPopulateRegionBehavior : RegionBehavior, IHostAwareRegionBehavi
 
         PopulateDefaultView();
 
-        regionViewRegistry.ContentRegistered += OnViewRegistered;
+        _regionViewRegistry.ContentRegistered += OnViewRegistered;
     }
 
     private void PopulateDefaultView()
@@ -114,7 +114,7 @@ public class AutoPopulateRegionBehavior : RegionBehavior, IHostAwareRegionBehavi
     /// <returns></returns>
     protected virtual IEnumerable<object> CreateViewsToAutoPopulate()
     {
-        return regionViewRegistry.GetContents(Region.Name, Region.Container());
+        return _regionViewRegistry.GetContents(Region.Name, Region.Container());
     }
 
     /// <summary>

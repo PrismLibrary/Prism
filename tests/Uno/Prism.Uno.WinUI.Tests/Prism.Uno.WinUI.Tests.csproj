@@ -1,7 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Uno.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net10.0-desktop</TargetFramework>
+    <OutputType>Library</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -33,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\Prism.DefaultView.Shared\DefaultViewLifecycleFixture.cs" Link="Regions\Behaviors\DefaultViewLifecycleFixture.cs" />
+    <Compile Include="..\..\Prism.DefaultView.Shared\*.cs" Link="Regions\Behaviors\%(Filename)%(Extension)" />
   </ItemGroup>
 
 </Project>
