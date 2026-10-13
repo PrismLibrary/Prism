@@ -10,6 +10,7 @@ namespace Prism.Modularity
     {
         private readonly IModuleInitializer moduleInitializer;
         private IEnumerable<IModuleTypeLoader> _typeLoaders;
+        private volatile bool _disposed;
         private HashSet<IModuleTypeLoader> subscribedToModuleTypeLoaders = new HashSet<IModuleTypeLoader>();
 
         /// <summary>
@@ -61,8 +62,12 @@ namespace Prism.Modularity
         /// <summary>
         /// Initializes the modules marked as <see cref="InitializationMode.WhenAvailable"/> on the <see cref="ModuleCatalog"/>.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">The module manager has been disposed.</exception>
         public void Run()
         {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(ModuleManager));
+
             ModuleCatalog.Initialize();
 
             LoadModulesWhenAvailable();
@@ -73,8 +78,12 @@ namespace Prism.Modularity
         /// Loads and initializes the module on the <see cref="IModuleCatalog"/> with the name <paramref name="moduleName"/>.
         /// </summary>
         /// <param name="moduleName">Name of the module requested for initialization.</param>
+        /// <exception cref="ObjectDisposedException">The module manager has been disposed.</exception>
         public void LoadModule(string moduleName)
         {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(ModuleManager));
+
             var module = ModuleCatalog.Modules.Where(m => m.ModuleName == moduleName);
             if (module == null || module.Count() != 1)
             {
@@ -191,11 +200,15 @@ namespace Prism.Modularity
 
         private void IModuleTypeLoader_ModuleDownloadProgressChanged(object sender, ModuleDownloadProgressChangedEventArgs e)
         {
+            if (_disposed) return;
+
             RaiseModuleDownloadProgressChanged(e);
         }
 
         private void IModuleTypeLoader_LoadModuleCompleted(object sender, LoadModuleCompletedEventArgs e)
         {
+            if (_disposed) return;
+
             if (e.Error == null)
             {
                 if ((e.ModuleInfo.State != ModuleState.Initializing) && (e.ModuleInfo.State != ModuleState.Initialized))
@@ -294,11 +307,21 @@ namespace Prism.Modularity
         }
 
         /// <summary>
-        /// Disposes the associated <see cref="IModuleTypeLoader"/>s.
+        /// Unsubscribes from module type loaders and disposes the associated <see cref="IModuleTypeLoader"/>s.
         /// </summary>
         /// <param name="disposing">When <see langword="true"/>, it is being called from the Dispose method.</param>
         protected virtual void Dispose(bool disposing)
         {
+            if (!disposing || _disposed) return;
+
+            _disposed = true;
+            foreach (IModuleTypeLoader typeLoader in subscribedToModuleTypeLoaders)
+            {
+                typeLoader.ModuleDownloadProgressChanged -= IModuleTypeLoader_ModuleDownloadProgressChanged;
+                typeLoader.LoadModuleCompleted -= IModuleTypeLoader_LoadModuleCompleted;
+            }
+            subscribedToModuleTypeLoaders.Clear();
+
             foreach (IModuleTypeLoader typeLoader in ModuleTypeLoaders)
             {
                 if (typeLoader is IDisposable disposableTypeLoader)

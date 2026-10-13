@@ -20,6 +20,22 @@ public class ObserverLifetimeFixture
     }
 
     [Fact]
+    public void ClearingSelfReferentialChainIgnoresAlreadyCapturedDetachedHandlers()
+    {
+        var owner = new Node();
+        owner.Child = owner;
+        var command = owner.ObserveDescendant();
+        var notifications = 0;
+        command.CanExecuteChanged += (_, _) => notifications++;
+        owner.Child = null;
+        Assert.Equal(1, notifications);
+        owner.Child = new Node { Child = new Node() };
+        Assert.Equal(2, notifications);
+        owner.Child.Child.Ready = true;
+        Assert.Equal(3, notifications);
+    }
+
+    [Fact]
     public void ReplacingObservedChildReleasesPreviousChild()
     {
         var owner = new Node();

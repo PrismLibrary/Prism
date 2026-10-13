@@ -87,11 +87,7 @@ public class RegionLifetimeFixture
     [StaFact]
     public void ExplicitRepeatedDetachReleasesBehaviorWithBareHostAlive()
     {
-#if AVALONIA
-        var host = new Avalonia.AvaloniaObject();
-#else
         var host = new DependencyObject();
-#endif
         CollectionProbe.Collected(AttachAndDetach(host));
         RegionManager.UpdateRegions();
         GC.KeepAlive(host);
