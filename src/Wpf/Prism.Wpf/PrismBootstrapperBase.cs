@@ -102,7 +102,11 @@ namespace Prism
         protected virtual void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
             if (_moduleCatalog == null)
+                #if AVALONIA
+                throw new InvalidOperationException("IModuleCatalog was null");
+#else
                 throw new InvalidOperationException("IModuleCatalog");
+#endif
 
             containerRegistry.RegisterRequiredTypes(_moduleCatalog);
         }
