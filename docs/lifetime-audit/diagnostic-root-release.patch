@@ -1,0 +1,23 @@
+diff --git a/src/Prism.Core/Commands/PropertyObserverNode.cs b/src/Prism.Core/Commands/PropertyObserverNode.cs
+index 7ec924f8..abb14a80 100644
+--- a/src/Prism.Core/Commands/PropertyObserverNode.cs
++++ b/src/Prism.Core/Commands/PropertyObserverNode.cs
+@@ -54,0 +55 @@ namespace Prism.Commands
++            _inpcObject = null;
+diff --git a/src/Wpf/Prism.Wpf/Navigation/Regions/Behaviors/DelayedRegionCreationBehavior.cs b/src/Wpf/Prism.Wpf/Navigation/Regions/Behaviors/DelayedRegionCreationBehavior.cs
+index f67f899e..9c145a8f 100644
+--- a/src/Wpf/Prism.Wpf/Navigation/Regions/Behaviors/DelayedRegionCreationBehavior.cs
++++ b/src/Wpf/Prism.Wpf/Navigation/Regions/Behaviors/DelayedRegionCreationBehavior.cs
+@@ -179,0 +180 @@ namespace Prism.Navigation.Regions.Behaviors
++            if (TargetElement == null) { Untrack(); return; }
+diff --git a/src/Wpf/Prism.Wpf/Modularity/ModuleManager.cs b/src/Wpf/Prism.Wpf/Modularity/ModuleManager.cs
+index ffaf036a..d98cc8eb 100644
+--- a/src/Wpf/Prism.Wpf/Modularity/ModuleManager.cs
++++ b/src/Wpf/Prism.Wpf/Modularity/ModuleManager.cs
+@@ -301,0 +302,6 @@ namespace Prism.Modularity
++            foreach (var loader in subscribedToModuleTypeLoaders)
++            {
++                loader.ModuleDownloadProgressChanged -= IModuleTypeLoader_ModuleDownloadProgressChanged;
++                loader.LoadModuleCompleted -= IModuleTypeLoader_LoadModuleCompleted;
++            }
++            subscribedToModuleTypeLoaders.Clear();

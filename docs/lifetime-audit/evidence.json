@@ -1,0 +1,345 @@
+[
+  {
+    "host": "Core net10 full controls suite",
+    "sourceState": "baseline",
+    "baseline": "91b8986c",
+    "trx": "tests/Prism.Core.Tests/TestResults/lifetime-core-baseline-suite.trx",
+    "total": 351,
+    "passed": 351,
+    "failed": 0,
+    "lifetimeTests": [
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.PendingExecutionOwnsTargetUntilControlledTaskCompletes",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.ReplacingObservedChildReleasesPreviousChild",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.StrongSubscriptionOwnsSubscriberUntilTokenDisposed",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.QueuedUiDeliveryOwnsSubscriberUntilQueueDrained",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.WeakManagerRemoveAlsoPrunesDeadWrappers",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.StaticFactoryLifetimeFixture.RegisteredCapturingFactoryOwnsTargetUntilRegistrationReplaced",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.DelegateReferenceHonorsRequestedOwnership(strong: False)",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.WeakManagerCollectsTargetsAndPrunesWrappersOnRaise",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.CompletedAsyncCommandReleasesOwnerAfterUnregistration",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.UnregisterDetachesCompositeFromRetainedChildPublisher",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.RetainedAggregatorAllowsWeakActionAndFilterTargetsToCollectAcrossChurn",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.DelegateReferenceHonorsRequestedOwnership(strong: True)",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.RetainedJournalOwnsHistoryPayloadUntilClear",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.RetainedCompositeReleasesUnregisteredCommandsAndOwnersAcrossChurn",
+        "outcome": "Passed",
+        "message": null
+      }
+    ]
+  },
+  {
+    "host": "Core net10 retention",
+    "sourceState": "baseline",
+    "baseline": "91b8986c",
+    "trx": "tests/Prism.Core.Tests/TestResults/lifetime-core-retention-final.trx",
+    "total": 1,
+    "passed": 0,
+    "failed": 1,
+    "lifetimeTests": [
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.ClearingObservedChildShouldReleasePreviousChild",
+        "outcome": "Failed",
+        "message": "Assert.False() Failure\r\nExpected: False\r\nActual:   True"
+      }
+    ]
+  },
+  {
+    "host": "WPF net472 STA",
+    "sourceState": "baseline",
+    "baseline": "91b8986c",
+    "trx": "tests/Wpf/Prism.Wpf.Tests/TestResults/lifetime-wpf-baseline-final.trx",
+    "total": 5,
+    "passed": 3,
+    "failed": 2,
+    "lifetimeTests": [
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.RetainedHostIntentionallyOwnsItsRegion",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.RetainedManagerAndRegistryAllowRemovedHostGraphToCollectAcrossRecreation",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.AbandonedBareHostShouldReleaseDelayedBehaviorAfterRealUpdate",
+        "outcome": "Failed",
+        "message": "Assert.False() Failure\r\nExpected: False\r\nActual:   True"
+      },
+      {
+        "name": "Prism.Tests.Lifetime.ModuleLifetimeFixture.DisposedManagerShouldCollectWithCustomLoaderPublisherAlive",
+        "outcome": "Failed",
+        "message": "Assert.False() Failure\r\nExpected: False\r\nActual:   True"
+      },
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.UnnamedRegionAndPropertyChangedCycleAreCollectibleWithRegistryAlive",
+        "outcome": "Passed",
+        "message": null
+      }
+    ]
+  },
+  {
+    "host": "MAUI net10 managed",
+    "sourceState": "baseline",
+    "baseline": "91b8986c",
+    "trx": "tests/Maui/Prism.Maui.Tests/TestResults/lifetime-maui.trx",
+    "total": 2,
+    "passed": 2,
+    "failed": 0,
+    "lifetimeTests": [
+      {
+        "name": "Prism.Maui.Tests.Fixtures.Lifetime.MauiLifetimeFixture.DeferredDestroyOwnsPageUntilDispatcherDrainedThenReleasesGraph",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Maui.Tests.Fixtures.Lifetime.MauiLifetimeFixture.DetachReleasesBehaviorAndCallbackOwnerWithAncestorPublisherAlive",
+        "outcome": "Passed",
+        "message": null
+      }
+    ]
+  },
+  {
+    "host": "Avalonia net10 managed STA",
+    "sourceState": "baseline",
+    "baseline": "91b8986c",
+    "trx": "tests/Avalonia/Prism.Avalonia.Tests/TestResults/lifetime-avalonia-final.trx",
+    "total": 5,
+    "passed": 3,
+    "failed": 2,
+    "lifetimeTests": [
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.UnnamedRegionAndPropertyChangedCycleAreCollectibleWithRegistryAlive",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.AbandonedBareHostShouldReleaseDelayedBehaviorAfterRealUpdate",
+        "outcome": "Failed",
+        "message": "Assert.False() Failure\r\nExpected: False\r\nActual:   True"
+      },
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.RetainedManagerAndRegistryAllowRemovedHostGraphToCollectAcrossRecreation",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.ModuleLifetimeFixture.DisposedManagerShouldCollectWithCustomLoaderPublisherAlive",
+        "outcome": "Failed",
+        "message": "Assert.False() Failure\r\nExpected: False\r\nActual:   True"
+      },
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.RetainedHostIntentionallyOwnsItsRegion",
+        "outcome": "Passed",
+        "message": null
+      }
+    ]
+  },
+  {
+    "host": "Uno net10 managed; three native host exceptions",
+    "sourceState": "baseline",
+    "baseline": "91b8986c",
+    "trx": "tests/Uno/Prism.Uno.WinUI.Tests/TestResults/lifetime-uno-final.trx",
+    "total": 4,
+    "passed": 1,
+    "failed": 3,
+    "lifetimeTests": [
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.UnnamedRegionAndPropertyChangedCycleAreCollectibleWithRegistryAlive",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.RetainedManagerAndRegistryAllowRemovedHostGraphToCollectAcrossRecreation",
+        "outcome": "Failed",
+        "message": "System.TypeInitializationException : The type initializer for 'Microsoft.UI.Xaml.UIElement' threw an exception.\r\n---- System.TypeInitializationException : The type initializer for 'Microsoft.UI.Xaml.Controls.Control' threw an exception.\r\n-------- System.NotSupportedException : Ref assembly"
+      },
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.RetainedHostIntentionallyOwnsItsRegion",
+        "outcome": "Failed",
+        "message": "System.TypeInitializationException : The type initializer for 'Microsoft.UI.Xaml.UIElement' threw an exception.\r\n---- System.TypeInitializationException : The type initializer for 'Microsoft.UI.Xaml.Controls.Control' threw an exception.\r\n-------- System.NotSupportedException : Ref assembly"
+      },
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.AbandonedBareHostShouldReleaseDelayedBehaviorAfterRealUpdate",
+        "outcome": "Failed",
+        "message": "System.NotSupportedException : Ref assembly"
+      }
+    ]
+  },
+  {
+    "host": "Core net10",
+    "sourceState": "diagnostic-root-release",
+    "baseline": "91b8986c",
+    "trx": "tests/Prism.Core.Tests/TestResults/lifetime-core-experiment.trx",
+    "total": 15,
+    "passed": 15,
+    "failed": 0,
+    "lifetimeTests": [
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.RetainedAggregatorAllowsWeakActionAndFilterTargetsToCollectAcrossChurn",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.QueuedUiDeliveryOwnsSubscriberUntilQueueDrained",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.StaticFactoryLifetimeFixture.RegisteredCapturingFactoryOwnsTargetUntilRegistrationReplaced",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.WeakManagerRemoveAlsoPrunesDeadWrappers",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.RetainedJournalOwnsHistoryPayloadUntilClear",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.RetainedCompositeReleasesUnregisteredCommandsAndOwnersAcrossChurn",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.DelegateReferenceHonorsRequestedOwnership(strong: False)",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.DelegateReferenceHonorsRequestedOwnership(strong: True)",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.WeakManagerCollectsTargetsAndPrunesWrappersOnRaise",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.ReplacingObservedChildReleasesPreviousChild",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.PendingExecutionOwnsTargetUntilControlledTaskCompletes",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.ClearingObservedChildShouldReleasePreviousChild",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.EventLifetimeFixture.StrongSubscriptionOwnsSubscriberUntilTokenDisposed",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.UnregisterDetachesCompositeFromRetainedChildPublisher",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.CommandAndJournalLifetimeFixture.CompletedAsyncCommandReleasesOwnerAfterUnregistration",
+        "outcome": "Passed",
+        "message": null
+      }
+    ]
+  },
+  {
+    "host": "WPF net472 STA",
+    "sourceState": "diagnostic-root-release",
+    "baseline": "91b8986c",
+    "trx": "tests/Wpf/Prism.Wpf.Tests/TestResults/lifetime-wpf-experiment.trx",
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "lifetimeTests": [
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.UnnamedRegionAndPropertyChangedCycleAreCollectibleWithRegistryAlive",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.ModuleLifetimeFixture.DisposedManagerShouldCollectWithCustomLoaderPublisherAlive",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.RetainedHostIntentionallyOwnsItsRegion",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.RetainedManagerAndRegistryAllowRemovedHostGraphToCollectAcrossRecreation",
+        "outcome": "Passed",
+        "message": null
+      },
+      {
+        "name": "Prism.Tests.Lifetime.RegionLifetimeFixture.AbandonedBareHostShouldReleaseDelayedBehaviorAfterRealUpdate",
+        "outcome": "Passed",
+        "message": null
+      }
+    ]
+  }
+]
