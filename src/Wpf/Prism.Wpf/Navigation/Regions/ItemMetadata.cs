@@ -8,14 +8,29 @@ namespace Prism.Navigation.Regions
         /// <summary>
         /// The name of the wrapped item.
         /// </summary>
+#if AVALONIA
+        public static readonly StyledProperty<string> NameProperty =
+            AvaloniaProperty.Register<ItemMetadata, string>(nameof(Name));
+#else
         public static readonly DependencyProperty NameProperty =
             DependencyProperty.Register(nameof(Name), typeof(string), typeof(ItemMetadata), null);
+#endif
 
         /// <summary>
         /// Value indicating whether the wrapped item is considered active.
         /// </summary>
+#if AVALONIA
+        public static readonly StyledProperty<bool> IsActiveProperty =
+            AvaloniaProperty.Register<ItemMetadata, bool>(nameof(IsActive));
+
+        static ItemMetadata()
+        {
+            IsActiveProperty.Changed.Subscribe(args => DependencyPropertyChanged(args?.Sender, args));
+        }
+#else
         public static readonly DependencyProperty IsActiveProperty =
             DependencyProperty.Register(nameof(IsActive), typeof(bool), typeof(ItemMetadata), new PropertyMetadata(defaultValue: false, propertyChangedCallback: DependencyPropertyChanged));
+#endif
 
         /// <summary>
         /// Initializes a new instance of <see cref="ItemMetadata"/>.
