@@ -278,26 +278,104 @@ public class GoBackToRootTests : TestBase
         }
     }
 
-    [Fact]
-    public async Task ExternalModalPushDuringPop_IsNotOverwrittenByRollback()
+    [Theory]
+    [InlineData(1, false, false)]
+    [InlineData(1, true, false)]
+    [InlineData(1, false, true)]
+    [InlineData(1, true, true)]
+    [InlineData(2, false, false)]
+    [InlineData(2, true, false)]
+    [InlineData(2, false, true)]
+    [InlineData(2, true, true)]
+    public async Task ExternalModalPushDuringPop_PreservesAttachedPagesAndFinalizesDetachedPages(
+        int detachedCount, bool nativeFailure, bool lifecycleFailure)
     {
         var window = CreateWindow("Source");
+        var root = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
         Assert.True((await GetService(window.CurrentPage).NavigateAsync("Middle?useModalNavigation=true")).Success);
         var retained = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
-        Assert.True((await GetService(window.CurrentPage).NavigateAsync("Current?useModalNavigation=true")).Success);
-        var current = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        var rootTo = root.NavigatedToCount;
+        var removed = new List<MockNavigateFromPage>();
+        for (var i = 0; i < detachedCount; i++)
+        {
+            Assert.True((await GetService(window.CurrentPage).NavigateAsync("Current?useModalNavigation=true",
+                new NavigationParameters { { "failDeparture", lifecycleFailure && i == detachedCount - 1 },
+                    { "failDestroy", lifecycleFailure && i == detachedCount - 1 } })).Success);
+            removed.Add(Assert.IsType<MockNavigateFromPage>(window.CurrentPage));
+        }
+        var retainedFrom = retained.NavigatedFromCount;
+        var fromCounts = removed.Select(page => page.NavigatedFromCount).ToArray();
         var unrelated = new ContentPage();
-        TestPageNavigationService.AfterNextPop = () => window.Navigation.PushModalAsync(unrelated, false);
+        var pops = 0;
+        Func<Task> afterPop = null;
+        afterPop = async () =>
+        {
+            if (++pops < detachedCount)
+                TestPageNavigationService.AfterNextPop = afterPop;
+            else
+            {
+                await window.Navigation.PushModalAsync(unrelated, false);
+                TestPageNavigationService.ThrowAfterNextPop = nativeFailure;
+            }
+        };
+        TestPageNavigationService.AfterNextPop = afterPop;
 
-        var result = await GetService(current).GoBackToRootAsync();
+        var result = await GetService(removed.Last()).GoBackToRootAsync();
 
         Assert.False(result.Success);
         Assert.Collection(window.Navigation.ModalStack,
             page => Assert.Same(retained, page),
             page => Assert.Same(unrelated, page));
         Assert.Equal(0, retained.Destroyed);
-        Assert.Equal(0, current.Destroyed);
+        Assert.Equal(retainedFrom, retained.NavigatedFromCount);
+        Assert.Equal(rootTo, root.NavigatedToCount);
+        Assert.Equal(0, root.Destroyed);
+        for (var i = 0; i < removed.Count; i++)
+        {
+            Assert.Equal(fromCounts[i] + 1, removed[i].NavigatedFromCount);
+            Assert.Equal(1, removed[i].Destroyed);
+        }
+        if (nativeFailure)
+            Assert.Contains("Native pop failed", result.Exception.ToString());
+        if (lifecycleFailure)
+        {
+            Assert.Contains("Departure failed.", result.Exception.ToString());
+            Assert.Contains("Destroy failed.", result.Exception.ToString());
+        }
+        Assert.Null(window.PendingRootModalConfirmations);
         Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
+        await window.Navigation.PopModalAsync(false);
+        Assert.True((await GetService(retained).GoBackToRootAsync()).Success);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task ExternallyReattachedModalDuringPop_IsNotFinalized(bool replaceRoot)
+    {
+        var window = CreateWindow("Source");
+        Assert.True((await GetService(window.CurrentPage).NavigateAsync("Current?useModalNavigation=true")).Success);
+        var current = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        var fromCount = current.NavigatedFromCount;
+        var unrelated = new ContentPage();
+        Page[] externallyChangedStack = null;
+        TestPageNavigationService.AfterNextPop = async () =>
+        {
+            await window.Navigation.PushModalAsync(unrelated, false);
+            if (replaceRoot)
+                window.Page = current;
+            else
+                await window.Navigation.PushModalAsync(current, false);
+            externallyChangedStack = window.Navigation.ModalStack.ToArray();
+        };
+
+        Assert.False((await GetService(current).GoBackToRootAsync()).Success);
+
+        Assert.Equal(fromCount, current.NavigatedFromCount);
+        Assert.Equal(0, current.Destroyed);
+        Assert.Equal(externallyChangedStack, window.Navigation.ModalStack);
+        Assert.Same(current, replaceRoot ? window.Page : window.Navigation.ModalStack.Last());
+        Assert.Null(window.PendingRootModalConfirmations);
     }
     [Theory]
     [InlineData(false)]
