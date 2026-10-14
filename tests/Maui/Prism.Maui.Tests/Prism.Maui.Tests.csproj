@@ -39,4 +39,7 @@
     <ProjectReference Include="..\..\..\src\Maui\Prism.Maui\Prism.Maui.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\..\Prism.Core.Tests\Lifetime\CollectionProbe.cs" Link="Lifetime\CollectionProbe.cs" />
+  </ItemGroup>
 </Project>
