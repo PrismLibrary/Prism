@@ -10,7 +10,7 @@ public sealed class MockNavigateFromPage : ContentPage, IInitialize, IInitialize
     public int NavigatedFromCount { get; private set; }
     public int NavigatedToCount { get; private set; }
     public int Destroyed { get; private set; }
-    public bool ThrowOnDestroy { get; private set; }
+    public bool ThrowOnDestroy { get; set; }
     public bool ThrowOnDeparture { get; private set; }
     public INavigationParameters ReceivedParameters { get; private set; }
 
