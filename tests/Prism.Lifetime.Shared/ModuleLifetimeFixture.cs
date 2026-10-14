@@ -1,3 +1,5 @@
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,25 +102,28 @@ public class ModuleLifetimeFixture
     {
         public int Loads;
         public bool CompleteOnLoad = true;
-        public IModuleInfo Module;
+        private IModuleInfo? _module;
+        public IModuleInfo Module => _module ?? throw new InvalidOperationException("No module has been loaded.");
         public int ProgressListeners => ModuleDownloadProgressChanged?.GetInvocationList().Length ?? 0;
         public int CompletionListeners => LoadModuleCompleted?.GetInvocationList().Length ?? 0;
         public bool CanLoadModuleType(IModuleInfo info) => true;
         public void LoadModuleType(IModuleInfo info)
         {
             Loads++;
-            Module = info;
+            _module = info;
             if (CompleteOnLoad) LoadModuleCompleted?.Invoke(this, new LoadModuleCompletedEventArgs(info, null));
         }
         public void RaiseProgress()
         {
-            if (Module != null)
-                ModuleDownloadProgressChanged?.Invoke(this, new ModuleDownloadProgressChangedEventArgs(Module, 1, 1));
+            if (_module != null)
+                ModuleDownloadProgressChanged?.Invoke(this, new ModuleDownloadProgressChangedEventArgs(_module, 1, 1));
         }
-        public EventHandler<LoadModuleCompletedEventArgs> CaptureCompletion() => LoadModuleCompleted;
-        public EventHandler<ModuleDownloadProgressChangedEventArgs> CaptureProgress() => ModuleDownloadProgressChanged;
-        public event EventHandler<ModuleDownloadProgressChangedEventArgs> ModuleDownloadProgressChanged;
-        public event EventHandler<LoadModuleCompletedEventArgs> LoadModuleCompleted;
+        public EventHandler<LoadModuleCompletedEventArgs> CaptureCompletion() =>
+            LoadModuleCompleted ?? throw new InvalidOperationException("No completion listener is subscribed.");
+        public EventHandler<ModuleDownloadProgressChangedEventArgs> CaptureProgress() =>
+            ModuleDownloadProgressChanged ?? throw new InvalidOperationException("No progress listener is subscribed.");
+        public event EventHandler<ModuleDownloadProgressChangedEventArgs>? ModuleDownloadProgressChanged;
+        public event EventHandler<LoadModuleCompletedEventArgs>? LoadModuleCompleted;
     }
 
     private sealed class DisposableLoader : RetainedLoader, IDisposable
