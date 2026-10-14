@@ -49,4 +49,9 @@
     <Compile Include="..\..\Prism.DefaultView.Shared\*.cs" Link="Regions\Behaviors\%(Filename)%(Extension)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\..\Prism.Lifetime.Shared\RegionLifetimeFixture.cs" Link="Lifetime\RegionLifetimeFixture.cs" />
+    <Compile Include="..\..\Prism.Lifetime.Shared\ModuleLifetimeFixture.cs" Link="Lifetime\ModuleLifetimeFixture.cs" />
+    <Compile Include="..\..\Prism.Core.Tests\Lifetime\CollectionProbe.cs" Link="Lifetime\CollectionProbe.cs" />
+  </ItemGroup>
 </Project>
