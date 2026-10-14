@@ -449,11 +449,43 @@ public class PageNavigationService : INavigationService, IRegistryAware
 
         // Commit lifecycle changes only after every native pop has succeeded.
         NavigationSource = PageNavigationSource.Device;
-        foreach (var departingPage in departingPages)
-            MvvmHelpers.OnNavigatedFrom(departingPage, parameters);
-        foreach (var modal in modals)
-            MvvmHelpers.DestroyPage(modal);
-        MvvmHelpers.OnNavigatedTo(destination, parameters);
+        var lifecycleFailures = new List<Exception>();
+        try
+        {
+            foreach (var departingPage in departingPages)
+            {
+                try
+                {
+                    MvvmHelpers.OnNavigatedFrom(departingPage, parameters);
+                }
+                catch (Exception ex)
+                {
+                    lifecycleFailures.Add(ex);
+                }
+            }
+            try
+            {
+                MvvmHelpers.OnNavigatedTo(destination, parameters);
+            }
+            catch (Exception ex)
+            {
+                lifecycleFailures.Add(ex);
+            }
+        }
+        finally
+        {
+            try
+            {
+                DestroyNavigationPages(modals.ToList());
+            }
+            catch (Exception ex)
+            {
+                lifecycleFailures.Add(ex);
+            }
+        }
+        if (lifecycleFailures.Count > 0)
+            throw new NavigationException("Unable to complete modal root navigation lifecycle callbacks.", page,
+                new AggregateException(lifecycleFailures));
     }
     /// <summary>
     /// Initiates navigation to the target specified by the <paramref name="uri"/>.
