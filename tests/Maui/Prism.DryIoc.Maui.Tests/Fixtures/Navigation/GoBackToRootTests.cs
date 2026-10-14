@@ -378,6 +378,122 @@ public class GoBackToRootTests : TestBase
         Assert.Null(window.PendingRootModalConfirmations);
     }
     [Theory]
+    [InlineData(false, false, false)]
+    [InlineData(false, true, false)]
+    [InlineData(true, false, false)]
+    [InlineData(true, true, false)]
+    [InlineData(false, false, true)]
+    [InlineData(false, true, true)]
+    [InlineData(true, false, true)]
+    [InlineData(true, true, true)]
+    public async Task ModalTransferredDuringPop_PreservesOtherWindowsPagesAndScopes(
+        bool wrapped, bool replaceRoot, bool changeOriginStack)
+    {
+        var window = CreateWindow("Source");
+        var root = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        Assert.True((await GetService(root).NavigateAsync("Middle?useModalNavigation=true")).Success);
+        var retained = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        Assert.True((await GetService(retained).NavigateAsync(wrapped
+            ? "NavigationPage?useModalNavigation=true/Current"
+            : "Current?useModalNavigation=true")).Success);
+        var modal = window.Navigation.ModalStack.Last();
+        var current = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        var fromCount = current.NavigatedFromCount;
+        var retainedFrom = retained.NavigatedFromCount;
+        var rootTo = root.NavigatedToCount;
+        var provider = current.GetContainerProvider();
+        var service = GetService(current);
+        var model = new DestructionRecorder();
+        current.BindingContext = model;
+        var otherRoot = new ContentPage();
+        var secondWindow = new PrismWindow("second") { Page = otherRoot };
+        var unrelated = new ContentPage();
+        TestPageNavigationService.AfterNextPop = async () =>
+        {
+            if (changeOriginStack)
+                await window.Navigation.PushModalAsync(unrelated, false);
+            if (replaceRoot)
+                secondWindow.Page = modal;
+            else
+                await secondWindow.Navigation.PushModalAsync(modal, false);
+            Assert.Same(secondWindow, current.GetParentWindow());
+        };
+
+        var result = await service.GoBackToRootAsync();
+
+        Assert.False(result.Success);
+        if (changeOriginStack)
+            Assert.Collection(window.Navigation.ModalStack,
+                page => Assert.Same(retained, page), page => Assert.Same(unrelated, page));
+        else
+            Assert.Same(retained, Assert.Single(window.Navigation.ModalStack));
+        Assert.Same(root, window.Page);
+        Assert.Same(modal, replaceRoot ? secondWindow.Page : Assert.Single(secondWindow.Navigation.ModalStack));
+        if (!replaceRoot)
+            Assert.Same(otherRoot, secondWindow.Page);
+        Assert.Same(secondWindow, current.GetParentWindow());
+        Assert.Equal(fromCount, current.NavigatedFromCount);
+        Assert.Equal(retainedFrom, retained.NavigatedFromCount);
+        Assert.Equal(rootTo, root.NavigatedToCount);
+        Assert.Equal(0, current.Destroyed);
+        Assert.Equal(0, model.Destroyed);
+        Assert.Equal(0, retained.Destroyed);
+        Assert.Same(provider, current.GetContainerProvider());
+        Assert.Same(service, GetService(current));
+        Assert.Null(window.PendingRootModalConfirmations);
+        Assert.Null(secondWindow.PendingRootModalConfirmations);
+        Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task EarlierModalTransferredDuringLaterPop_PreservesOwnerAndCleansDetachedSibling(bool nativeFailure)
+    {
+        var window = CreateWindow("Source");
+        var root = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        Assert.True((await GetService(root).NavigateAsync("Middle?useModalNavigation=true")).Success);
+        var middle = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        Assert.True((await GetService(middle).NavigateAsync("Current?useModalNavigation=true")).Success);
+        var current = Assert.IsType<MockNavigateFromPage>(window.CurrentPage);
+        var middleFrom = middle.NavigatedFromCount;
+        var currentFrom = current.NavigatedFromCount;
+        var rootTo = root.NavigatedToCount;
+        var provider = current.GetContainerProvider();
+        var service = GetService(current);
+        var secondWindow = new PrismWindow("second") { Page = new ContentPage() };
+        TestPageNavigationService.AfterNextPop = () =>
+        {
+            TestPageNavigationService.AfterNextPop = () =>
+            {
+                secondWindow.Page = current;
+                TestPageNavigationService.ThrowAfterNextPop = nativeFailure;
+                return Task.CompletedTask;
+            };
+            return Task.CompletedTask;
+        };
+
+        var result = await service.GoBackToRootAsync();
+
+        Assert.False(result.Success);
+        Assert.Empty(window.Navigation.ModalStack);
+        Assert.Same(root, window.Page);
+        Assert.Same(current, secondWindow.Page);
+        Assert.Same(secondWindow, current.GetParentWindow());
+        Assert.Equal(currentFrom, current.NavigatedFromCount);
+        Assert.Equal(0, current.Destroyed);
+        Assert.Equal(middleFrom + 1, middle.NavigatedFromCount);
+        Assert.Equal(1, middle.Destroyed);
+        Assert.Equal(rootTo, root.NavigatedToCount);
+        Assert.Same(provider, current.GetContainerProvider());
+        Assert.Same(service, GetService(current));
+        if (nativeFailure)
+            Assert.Contains("Native pop failed", result.Exception.ToString());
+        Assert.Null(window.PendingRootModalConfirmations);
+        Assert.Equal(PageNavigationSource.Device, PageNavigationService.NavigationSource);
+    }
+
+    [Theory]
     [InlineData(false)]
     [InlineData(true)]
     public async Task InactiveFlyoutBranchChangedDuringConfirmation_IsPreserved(bool replaceMenu)
