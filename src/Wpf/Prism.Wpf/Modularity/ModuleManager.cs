@@ -10,6 +10,9 @@ namespace Prism.Modularity
     {
         private readonly IModuleInitializer moduleInitializer;
         private IEnumerable<IModuleTypeLoader> _typeLoaders;
+        private volatile bool _disposed;
+        private readonly object _callbackLock = new object();
+        private IModuleTypeLoader[] _deferredLoaderDisposal = Array.Empty<IModuleTypeLoader>();
         private HashSet<IModuleTypeLoader> subscribedToModuleTypeLoaders = new HashSet<IModuleTypeLoader>();
 
         /// <summary>
@@ -61,8 +64,12 @@ namespace Prism.Modularity
         /// <summary>
         /// Initializes the modules marked as <see cref="InitializationMode.WhenAvailable"/> on the <see cref="ModuleCatalog"/>.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">The module manager has been disposed.</exception>
         public void Run()
         {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(ModuleManager));
+
             ModuleCatalog.Initialize();
 
             LoadModulesWhenAvailable();
@@ -73,8 +80,12 @@ namespace Prism.Modularity
         /// Loads and initializes the module on the <see cref="IModuleCatalog"/> with the name <paramref name="moduleName"/>.
         /// </summary>
         /// <param name="moduleName">Name of the module requested for initialization.</param>
+        /// <exception cref="ObjectDisposedException">The module manager has been disposed.</exception>
         public void LoadModule(string moduleName)
         {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(ModuleManager));
+
             var module = ModuleCatalog.Modules.Where(m => m.ModuleName == moduleName);
             if (module == null || module.Count() != 1)
             {
@@ -153,7 +164,7 @@ namespace Prism.Modularity
         protected virtual void LoadModulesThatAreReadyForLoad()
         {
             bool keepLoading = true;
-            while (keepLoading)
+            while (keepLoading && !_disposed)
             {
                 keepLoading = false;
                 var availableModules = ModuleCatalog.Modules.Where(m => m.State == ModuleState.ReadyForInitialization);
@@ -191,33 +202,68 @@ namespace Prism.Modularity
 
         private void IModuleTypeLoader_ModuleDownloadProgressChanged(object sender, ModuleDownloadProgressChangedEventArgs e)
         {
-            RaiseModuleDownloadProgressChanged(e);
+            try
+            {
+                lock (_callbackLock)
+                {
+                    if (_disposed) return;
+                    RaiseModuleDownloadProgressChanged(e);
+                }
+            }
+            finally { DisposeDeferredLoaders(); }
         }
 
         private void IModuleTypeLoader_LoadModuleCompleted(object sender, LoadModuleCompletedEventArgs e)
         {
-            if (e.Error == null)
+            try
             {
-                if ((e.ModuleInfo.State != ModuleState.Initializing) && (e.ModuleInfo.State != ModuleState.Initialized))
+                lock (_callbackLock)
                 {
-                    e.ModuleInfo.State = ModuleState.ReadyForInitialization;
-                }
+                    if (_disposed) return;
 
-                // This callback may call back on the UI thread, but we are not guaranteeing it.
-                // If you were to add a custom retriever that retrieved in the background, you
-                // would need to consider dispatching to the UI thread.
-                LoadModulesThatAreReadyForLoad();
+                    if (e.Error == null)
+                    {
+                        if ((e.ModuleInfo.State != ModuleState.Initializing) && (e.ModuleInfo.State != ModuleState.Initialized))
+                        {
+                            e.ModuleInfo.State = ModuleState.ReadyForInitialization;
+                        }
+
+                        // Custom retrievers may complete on a background thread. Disposal waits
+                        // for this callback, while callbacks arriving after disposal do no work.
+                        // Custom retrievers remain responsible for dispatching to the UI thread.
+                        LoadModulesThatAreReadyForLoad();
+                    }
+                    else
+                    {
+                        RaiseLoadModuleCompleted(e);
+
+                        if (!_disposed && !e.IsErrorHandled)
+                        {
+                            HandleModuleTypeLoadingError(e.ModuleInfo, e.Error);
+                        }
+                    }
+                }
             }
-            else
+            finally { DisposeDeferredLoaders(); }
+        }
+
+        private void DisposeDeferredLoaders()
+        {
+            // Nested callbacks must leave cleanup to the outermost callback.
+            if (System.Threading.Monitor.IsEntered(_callbackLock)) return;
+            IModuleTypeLoader[] loaders;
+            lock (_callbackLock)
             {
-                RaiseLoadModuleCompleted(e);
-
-                // If the error is not handled then I log it and raise an exception.
-                if (!e.IsErrorHandled)
-                {
-                    HandleModuleTypeLoadingError(e.ModuleInfo, e.Error);
-                }
+                loaders = _deferredLoaderDisposal;
+                _deferredLoaderDisposal = Array.Empty<IModuleTypeLoader>();
             }
+            DisposeLoaders(loaders);
+        }
+
+        private static void DisposeLoaders(IEnumerable<IModuleTypeLoader> loaders)
+        {
+            foreach (var loader in loaders)
+                if (loader is IDisposable disposableLoader) disposableLoader.Dispose();
         }
 
         /// <summary>
@@ -275,6 +321,8 @@ namespace Prism.Modularity
             if (moduleInfo.State == ModuleState.Initializing)
             {
                 moduleInitializer.Initialize(moduleInfo);
+                // Initializers may synchronously dispose the manager.
+                if (_disposed) return;
                 moduleInfo.State = ModuleState.Initialized;
                 RaiseLoadModuleCompleted(moduleInfo, null);
             }
@@ -294,18 +342,36 @@ namespace Prism.Modularity
         }
 
         /// <summary>
-        /// Disposes the associated <see cref="IModuleTypeLoader"/>s.
+        /// Unsubscribes from module type loaders and disposes the associated <see cref="IModuleTypeLoader"/>s.
         /// </summary>
         /// <param name="disposing">When <see langword="true"/>, it is being called from the Dispose method.</param>
         protected virtual void Dispose(bool disposing)
         {
-            foreach (IModuleTypeLoader typeLoader in ModuleTypeLoaders)
+            if (!disposing) return;
+
+            var calledFromCallback = System.Threading.Monitor.IsEntered(_callbackLock);
+            IModuleTypeLoader[] loaders;
+            lock (_callbackLock)
             {
-                if (typeLoader is IDisposable disposableTypeLoader)
+                if (_disposed) return;
+                _disposed = true;
+                foreach (IModuleTypeLoader typeLoader in subscribedToModuleTypeLoaders)
                 {
-                    disposableTypeLoader.Dispose();
+                    typeLoader.ModuleDownloadProgressChanged -= IModuleTypeLoader_ModuleDownloadProgressChanged;
+                    typeLoader.LoadModuleCompleted -= IModuleTypeLoader_LoadModuleCompleted;
+                }
+                subscribedToModuleTypeLoaders.Clear();
+                loaders = ModuleTypeLoaders.ToArray();
+                if (calledFromCallback)
+                {
+                    _deferredLoaderDisposal = loaders;
+                    return;
                 }
             }
+
+            // A loader may wait for its worker to stop; do not hold the callback lock
+            // while disposing it, so that worker can observe the disposed state.
+            DisposeLoaders(loaders);
         }
 
         #endregion

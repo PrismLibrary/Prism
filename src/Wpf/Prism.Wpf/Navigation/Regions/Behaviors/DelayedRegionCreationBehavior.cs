@@ -20,7 +20,7 @@ namespace Prism.Navigation.Regions.Behaviors
         private bool regionCreated;
 
         private static ICollection<DelayedRegionCreationBehavior> _instanceTracker = new Collection<DelayedRegionCreationBehavior>();
-        private object _trackerLock = new object();
+        private static readonly object _trackerLock = new object();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DelayedRegionCreationBehavior"/> class.
@@ -177,6 +177,9 @@ namespace Prism.Navigation.Regions.Behaviors
 
         private void UnWireTargetElement()
         {
+            // The weak target may already have been collected.
+            Untrack();
+
             FrameworkElement element = TargetElement as FrameworkElement;
             if (element != null)
             {
@@ -196,13 +199,6 @@ namespace Prism.Navigation.Regions.Behaviors
                 return;
             }
 #endif
-
-            DependencyObject depObj = TargetElement as DependencyObject;
-            if (depObj != null)
-            {
-                Untrack();
-                return;
-            }
         }
 
         /// <summary>
