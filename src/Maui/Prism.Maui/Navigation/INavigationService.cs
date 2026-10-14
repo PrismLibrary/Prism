@@ -32,11 +32,20 @@ public interface INavigationService
     Task<INavigationResult> GoBackToAsync(string viewName, INavigationParameters parameters);
 
     /// <summary>
-    /// When navigating inside a NavigationPage: Pops all but the root Page off the navigation stack
+    /// Returns to the navigation root, or dismisses all modals when called from a modal context.
     /// </summary>
     /// <param name="parameters">The navigation parameters</param>
     /// <returns><see cref="INavigationResult"/> indicating whether the request was successful or if there was an encountered <see cref="Exception"/>.</returns>
-    /// <remarks>Only works when called from a View within a NavigationPage</remarks>
+    /// <remarks>
+    /// From a modal page or a child of a modal container, dismisses the entire modal stack in the
+    /// owning window and returns to the active child of Window.Page. The underlying navigation
+    /// stack is retained. Otherwise, pops to the root of the current NavigationPage.
+    /// Only the calling page confirms navigation. A rejected or canceled confirmation leaves
+    /// the stacks unchanged. Removed pages receive OnNavigatedFrom and are destroyed; the
+    /// retained destination receives OnNavigatedTo with the supplied parameters and Back mode.
+    /// No cancellation token is accepted. At a NavigationPage root, existing confirmation and
+    /// destination notification behavior is retained.
+    /// </remarks>
     Task<INavigationResult> GoBackToRootAsync(INavigationParameters parameters);
 
     /// <summary>
