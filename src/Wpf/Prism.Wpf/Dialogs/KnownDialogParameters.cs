@@ -1,7 +1,7 @@
 ﻿namespace Prism.Dialogs;
 
 /// <summary>
-/// Provides Dialog Parameter Keys for well known paramotors used by the <see cref="IDialogService"/>
+/// Provides Dialog Parameter Keys for well known parameters used by the <see cref="IDialogService"/>
 /// </summary>
 public static class KnownDialogParameters
 {
@@ -9,6 +9,13 @@ public static class KnownDialogParameters
     /// The name of the window
     /// </summary>
     public const string WindowName = "windowName";
+
+#if AVALONIA
+    /// <summary>
+    /// The parent window to use when showing a dialog.
+    /// </summary>
+    public const string ParentWindow = "parentWindow";
+#endif
 
 #if UNO_WINUI
     /// <summary>

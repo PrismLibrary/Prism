@@ -4,7 +4,7 @@ namespace Prism.Common
 {
     /// <summary>
     /// Class that wraps an object, so that other classes can notify for Change events. Typically, this class is set as
-    /// a Dependency Property on DependencyObjects, and allows other classes to observe any changes in the Value.
+    /// a property on a view, and allows other classes to observe changes in Value.
     /// </summary>
     /// <remarks>
     /// Exposes value changes through INotifyPropertyChanged so consumers can observe a wrapped value.
@@ -15,9 +15,19 @@ namespace Prism.Common
         /// <summary>
         /// Identifies the Value property of the ObservableObject
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "This is the pattern for WPF dependency properties")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "This is the pattern for observable framework properties")]
+#if AVALONIA
+        public static readonly StyledProperty<T> ValueProperty =
+            AvaloniaProperty.Register<Control, T>(name: nameof(Value));
+
+        static ObservableObject()
+        {
+            ValueProperty.Changed.Subscribe(args => ValueChangedCallback(args?.Sender, args));
+        }
+#else
         public static readonly DependencyProperty ValueProperty =
                 DependencyProperty.Register(nameof(Value), typeof(T), typeof(ObservableObject<T>), new PropertyMetadata(null, ValueChangedCallback));
+#endif
 
         /// <summary>
         /// Event that gets invoked when the Value property changes.
