@@ -164,15 +164,23 @@ namespace Prism
 
                 if (shell is FrameworkElement fe)
                 {
+                    void QueueInitialization()
+                    {
+                        // Host configuration can activate WinRT services. Run after XAML's
+                        // Loaded dispatch has returned to avoid nested XAML initialization.
+                        if (!fe.DispatcherQueue.TryEnqueue(FinalizeInitialization))
+                            throw new InvalidOperationException("Unable to queue application initialization on the shell dispatcher.");
+                    }
+
                     void OnLoaded(object sender, object args)
                     {
-                        FinalizeInitialization();
                         fe.Loaded -= OnLoaded;
+                        QueueInitialization();
                     }
 
                     if (fe.IsLoaded)
                     {
-                        FinalizeInitialization();
+                        QueueInitialization();
                     }
                     else
                     {
