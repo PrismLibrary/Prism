@@ -65,4 +65,8 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\..\Prism.DefaultView.Shared\*.cs" Link="Regions\Behaviors\%(Filename)%(Extension)" />
+  </ItemGroup>
+
 </Project>

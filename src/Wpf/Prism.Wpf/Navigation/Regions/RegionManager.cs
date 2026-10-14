@@ -73,6 +73,48 @@ namespace Prism.Navigation.Regions
             return regionTarget.GetValue(RegionNameProperty) as string;
         }
 
+        /// <summary>
+        /// Identifies the default view to populate when this host's region is created.
+        /// </summary>
+        /// <remarks>
+        /// Set this before the region is created. Accepts a registered view name, a view type,
+        /// or a view instance. This is a host-local default, not a view-discovery registration.
+        /// Changes after initial population do not navigate or replace the existing view.
+        /// </remarks>
+#if !AVALONIA
+        public static readonly DependencyProperty DefaultViewProperty = DependencyProperty.RegisterAttached(
+            "DefaultView", typeof(object), typeof(RegionManager), new PropertyMetadata(null));
+#else
+        public static readonly AvaloniaProperty DefaultViewProperty =
+            AvaloniaProperty.RegisterAttached<AvaloniaObject, object>("DefaultView", typeof(RegionManager));
+#endif
+
+        /// <summary>
+        /// Sets the registered view name, type, or instance to display initially in this host.
+        /// </summary>
+        /// <param name="regionTarget">The object that hosts the region.</param>
+        /// <param name="viewNameTypeOrInstance">The default view, or null for no default.</param>
+        public static void SetDefaultView(DependencyObject regionTarget, object viewNameTypeOrInstance)
+        {
+            if (regionTarget == null)
+                throw new ArgumentNullException(nameof(regionTarget));
+
+            regionTarget.SetValue(DefaultViewProperty, viewNameTypeOrInstance);
+        }
+
+        /// <summary>
+        /// Gets the registered view name, type, or instance to display initially in this host.
+        /// </summary>
+        /// <param name="regionTarget">The object that hosts the region.</param>
+        /// <returns>The host's default view declaration.</returns>
+        public static object GetDefaultView(DependencyObject regionTarget)
+        {
+            if (regionTarget == null)
+                throw new ArgumentNullException(nameof(regionTarget));
+
+            return regionTarget.GetValue(DefaultViewProperty);
+        }
+
 #if !AVALONIA
         private static readonly DependencyProperty ObservableRegionProperty =
         DependencyProperty.RegisterAttached("ObservableRegion", typeof(ObservableObject<IRegion>), typeof(RegionManager), null);
