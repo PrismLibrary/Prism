@@ -21,12 +21,22 @@ using System.Windows.Controls;
 
 namespace Prism.Tests.Lifetime;
 
-public class RegionLifetimeFixture
+[Collection("DefaultView lifecycle")]
+public class RegionLifetimeFixture : IDisposable
 {
+    private bool _usesContainerLocator;
+
+    public void Dispose()
+    {
+        if (_usesContainerLocator) ContainerLocator.ResetContainer();
+    }
+
     [StaFact]
     public void RetainedManagerAndRegistryAllowRemovedHostGraphToCollectAcrossRecreation()
     {
         var container = Mock.Of<IContainerExtension>();
+        ContainerLocator.ResetContainer();
+        _usesContainerLocator = true;
         ContainerLocator.SetContainerExtension(container);
         var manager = new RegionManager();
         var registry = new RegionViewRegistry(container);

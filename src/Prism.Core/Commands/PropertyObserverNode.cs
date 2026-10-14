@@ -23,7 +23,8 @@ namespace Prism.Commands
             _action = () =>
             {
                 action?.Invoke();
-                if (Next == null) return;
+                // A notification subscriber may synchronously detach this node.
+                if (Next == null || _inpcObject == null) return;
                 Next.UnsubscribeListener();
                 GenerateNextNode();
             };

@@ -9,6 +9,34 @@ namespace Prism.Tests.Lifetime;
 public class ObserverLifetimeFixture
 {
     [Fact]
+    public void NotificationCanClearAncestorAndRecreateObservedChain()
+    {
+        var owner = new Node { Child = new Node { Child = new Node() } };
+        var oldChild = owner.Child;
+        var command = owner.ObserveDescendant();
+        var clearAncestor = true;
+        var notifications = 0;
+        command.CanExecuteChanged += (_, _) =>
+        {
+            notifications++;
+            if (clearAncestor)
+            {
+                clearAncestor = false;
+                owner.Child = null;
+            }
+        };
+
+        oldChild.Child = new Node();
+        Assert.Null(owner.Child);
+        Assert.Equal(2, notifications);
+        oldChild.Child.Ready = true;
+        Assert.Equal(2, notifications);
+        owner.Child = new Node { Child = new Node() };
+        owner.Child.Child.Ready = true;
+        Assert.Equal(4, notifications);
+    }
+
+    [Fact]
     public void ClearingObservedChildShouldReleasePreviousChild()
     {
         var owner = new Node();

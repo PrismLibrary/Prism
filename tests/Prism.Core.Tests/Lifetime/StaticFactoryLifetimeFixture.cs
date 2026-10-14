@@ -8,6 +8,10 @@ using Xunit;
 
 namespace Prism.Tests.Lifetime;
 
+[CollectionDefinition("Static factory lifetime", DisableParallelization = true)]
+public class StaticFactoryLifetimeCollection { }
+
+[Collection("Static factory lifetime")]
 public class StaticFactoryLifetimeFixture
 {
     [Fact]
