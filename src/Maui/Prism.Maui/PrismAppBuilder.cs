@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Prism.AppModel;
@@ -52,6 +53,11 @@ public sealed class PrismAppBuilder
         // This is primarily to help with Unit Tests
         IDialogContainer.DialogStack.Clear();
         MauiBuilder = builder;
+#if WINDOWS
+        // Unparented image sources fall back to application services. Prevent auto-resolution
+        // of a native Window there; MAUI's window contexts supply their own actual windows.
+        MauiBuilder.Services.TryAddSingleton<Microsoft.UI.Xaml.Window>(_ => null);
+#endif
         MauiBuilder.ConfigureContainer(new PrismServiceProviderFactory(containerExtension), RegistrationCallback);
         MauiBuilder.ConfigureLifecycleEvents(lifecycle =>
         {
