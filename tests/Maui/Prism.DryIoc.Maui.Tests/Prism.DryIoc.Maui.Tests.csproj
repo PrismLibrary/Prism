@@ -13,6 +13,7 @@
   <!-- Control fixtures run on portable targets; Windows service tests require no native UI. -->
   <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
     <Compile Remove="Fixtures/**/*.cs;Mocks/**/*.cs" />
+    <MauiXaml Remove="Mocks/**/*.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,7 +38,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Maui\Prism.DryIoc.Maui\Prism.DryIoc.Maui.csproj" />
     <ProjectReference Include="..\..\..\src\Maui\Prism.Maui.Rx\Prism.Maui.Rx.csproj" />
-    <ProjectReference Include="..\..\..\src\Maui\Prism.Maui\Prism.Maui.csproj" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" />
+    <ProjectReference Include="..\..\..\src\Maui\Prism.Maui\Prism.Maui.csproj" />
   </ItemGroup>
 
 </Project>
