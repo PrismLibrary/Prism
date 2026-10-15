@@ -68,28 +68,61 @@ public static class MvvmHelpers
 
     /// <summary>Destroys child pages and notifies destructible views and view models before scheduling visual cleanup.</summary>
     /// <param name="view">The view to destroy.</param>
-    /// <remarks>Visual behaviors and the binding context are cleared after a dispatcher delay to allow transition animations to complete.</remarks>
+    /// <remarks>
+    /// Destruction continues through sibling pages, views, view models, and container cleanup when a callback fails.
+    /// Failures are reported after cleanup has been attempted. Visual behaviors and the binding context are cleared
+    /// after a dispatcher delay to allow transition animations to complete.
+    /// </remarks>
     public static void DestroyPage(IView? view)
     {
+        var failures = new List<Exception>();
         try
         {
-            DestroyChildren(view);
-
-            InvokeViewAndViewModelAction<IDestructible>(view, v => v.Destroy());
-
-            //I'm actually not sure if this is necessary, but it seems like a good idea to clear the child regions of the page before we clear the behaviors and binding context of the page itself.
-            if (view is Page page)
-                page.ClearChildRegions();
-
-            if (view is VisualElement visualElement)
-            {
-                DeferredCleanup(visualElement);
-            }
+            DestroyChildren(view, failures);
         }
         catch (Exception ex)
         {
-            throw new Exception($"Cannot destroy {view}.", ex);
+            failures.Add(ex);
         }
+        try
+        {
+            InvokeViewAndViewModelAction<IDestructible>(view, v =>
+            {
+                try
+                {
+                    v.Destroy();
+                }
+                catch (Exception ex)
+                {
+                    failures.Add(ex);
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            failures.Add(ex);
+        }
+        try
+        {
+            if (view is Page page)
+                page.ClearChildRegions();
+        }
+        catch (Exception ex)
+        {
+            failures.Add(ex);
+        }
+        try
+        {
+            if (view is VisualElement visualElement)
+                DeferredCleanup(visualElement);
+        }
+        catch (Exception ex)
+        {
+            failures.Add(ex);
+        }
+        if (failures.Count > 0)
+            throw new Exception($"Cannot destroy {view}.",
+                failures.Count == 1 ? failures[0] : new AggregateException(failures));
     }
 
     private static void DeferredCleanup(VisualElement visualElement)
@@ -106,25 +139,37 @@ public static class MvvmHelpers
         });
     }
 
-    private static void DestroyChildren(IView? page)
+    private static void DestroyChildren(IView? page, List<Exception> failures)
     {
+        void DestroyChild(IView? child)
+        {
+            try
+            {
+                DestroyPage(child);
+            }
+            catch (Exception ex)
+            {
+                failures.Add(ex);
+            }
+        }
+
         switch (page)
         {
             case FlyoutPage flyout:
-                DestroyPage(flyout.Flyout);
-                DestroyPage(flyout.Detail);
+                DestroyChild(flyout.Flyout);
+                DestroyChild(flyout.Detail);
                 break;
             case TabbedPage tabbedPage:
-                foreach (var item in tabbedPage.Children.Reverse())
+                foreach (var item in tabbedPage.Children.Reverse().ToArray())
                 {
-                    DestroyPage(item);
+                    DestroyChild(item);
                 }
 
                 break;
             case NavigationPage navigationPage:
-                foreach (var item in navigationPage.Navigation.NavigationStack.Reverse())
+                foreach (var item in navigationPage.Navigation.NavigationStack.Reverse().ToArray())
                 {
-                    DestroyPage(item);
+                    DestroyChild(item);
                 }
 
                 break;
@@ -417,8 +462,7 @@ public static class MvvmHelpers
     public static async Task HandleNavigationPageGoBack(NavigationPage navigationPage)
     {
         if (navigationPage.GetParentWindow() is PrismWindow window &&
-            window.PendingModalConfirmation is Page pendingModal &&
-            (pendingModal == navigationPage || PageNavigationHistory.IsDescendantOf(navigationPage, pendingModal)))
+            window.IsModalConfirmationPending(navigationPage))
         {
             return;
         }
@@ -436,6 +480,12 @@ public static class MvvmHelpers
     /// <returns>A task completing after the request is handled.</returns>
     public static async Task HandleNavigationPageSwipedAway(NavigationPage navigationPage)
     {
+        if (navigationPage.GetParentWindow() is PrismWindow window &&
+            window.IsModalConfirmationPending(navigationPage))
+        {
+            return;
+        }
+
         var navigationService = Navigation.Xaml.Navigation.GetNavigationService(navigationPage.CurrentPage);
         var navParams = new NavigationParameters()
         {
