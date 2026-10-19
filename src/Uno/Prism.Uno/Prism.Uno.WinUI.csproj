@@ -9,6 +9,8 @@
     <IsWinAppSdk Condition="$(TargetFramework.Contains('windows10'))">true</IsWinAppSdk>
     <!-- WinUI / WindowsAppSDK can double-import default item rules; one explicit Page avoids NETSDK1022 for library XAML. -->
     <EnableDefaultPageItems Condition="$(TargetFramework.Contains('windows10'))">false</EnableDefaultPageItems>
+    <!-- Windows SDK / WinAppSDK supply prebuilt projections; CsWinRT supplies the matching runtime only. -->
+    <CsWinRTGenerateProjection Condition="$(TargetFramework.Contains('windows10'))">false</CsWinRTGenerateProjection>
     <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
     <OutputType>Library</OutputType>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
