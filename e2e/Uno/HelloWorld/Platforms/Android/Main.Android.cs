@@ -9,6 +9,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Microsoft.UI.Xaml.Media;
+using Uno.UI.Hosting;
 
 namespace HelloWorld.Droid;
 
@@ -19,12 +20,17 @@ namespace HelloWorld.Droid;
     HardwareAccelerated = true,
     Theme = "@style/Theme.App.Starting"
 )]
-public class Application : Microsoft.UI.Xaml.NativeApplication
+public class Application : Uno.UI.Runtime.Android.NativeApplication
 {
     public Application(IntPtr javaReference, JniHandleOwnership transfer)
-        : base(() => new global::HelloWorld.App(), javaReference, transfer)
+        : base(javaReference, transfer)
     {
     }
 
+    protected override UnoPlatformHost CreateHost() =>
+        UnoPlatformHostBuilder.Create()
+            .App(() => new global::HelloWorld.App())
+            .UseAndroid()
+            .Build();
 }
 
