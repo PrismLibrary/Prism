@@ -23,46 +23,19 @@
     <PackageVersion Include="Microsoft.Maui.Controls" Version="11.0.0-rc.1.26451.6" Condition="$(TargetFramework.StartsWith('net11.0'))" />
   </ItemGroup>
   <!-- Uno
-    Note that the $(UnoVersion) comes from the Uno.Sdk. You should not update it manually. To update the version of Uno,
-    you should instead update the Sdk version in the global.json file.
+    Uno.Sdk supplies compatible versions for Uno and its companion packages.
+    Update the SDK in global.json rather than pinning its managed packages here.
 
     See https://aka.platform.uno/upgrade-uno-packages for more information.
   -->
   <ItemGroup Condition=" $(IsUnoProject) == 'true' ">
-    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="6.4.11" />
-    <PackageVersion Include="Uno.WinUI.Markup" Version="6.4.11" />
+    <!-- Explicit project references still need central versions. Match Uno.Sdk's package manifest. -->
     <PackageVersion Include="Uno.WinUI" Version="$(UnoVersion)" />
-    <PackageVersion Include="Uno.WinUI.Lottie" Version="$(UnoVersion)" />
-    <PackageVersion Include="Uno.WinUI.Skia.Gtk" Version="$(UnoVersion)" />
-    <PackageVersion Include="Uno.WinUI.Skia.Linux.FrameBuffer" Version="$(UnoVersion)" />
-    <PackageVersion Include="Uno.WinUI.Skia.Wpf" Version="$(UnoVersion)" />
-    <PackageVersion Include="Uno.Wasm.Bootstrap" Version="9.0.20" />
-    <PackageVersion Include="Uno.Wasm.Bootstrap.DevServer" Version="9.0.20" />
-    <PackageVersion Include="Uno.WinUI.WebAssembly" Version="$(UnoVersion)" />
-    <PackageVersion Include="Uno.WinUI.DevServer" Version="$(UnoVersion)" />
-    <PackageVersion Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="$(UnoVersion)" />
-    <PackageVersion Include="Uno.Core.Extensions.Logging.Singleton" Version="4.1.1" />
-    <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.4.2" />
+    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="8.0.0-dev.101" />
+    <PackageVersion Include="Uno.Extensions.Markup.Generators" Version="7.0.0-dev.33" />
+    <PackageVersion Include="Uno.WinUI.Markup" Version="7.0.0-dev.33" />
+    <PackageVersion Include="Uno.Microsoft.Xaml.Behaviors.Interactivity.WinUI" Version="4.0.0-dev.8" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" Condition="$(MSBuildProjectName.Contains('Prism'))" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.7.250909003" Condition="!$(MSBuildProjectName.Contains('Prism'))" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1839" />
-    <PackageVersion Include="SkiaSharp.Views.Uno.WinUI" Version="3.119.1" />
-    <PackageVersion Include="SkiaSharp.Skottie" Version="3.119.1" />
-    <PackageVersion Include="Uno.Resizetizer" Version="1.12.1" />
-    <PackageVersion Include="Uno.Extensions.Logging.OSLog" Version="1.7.0" />
-    <PackageVersion Include="Uno.Extensions.Logging.WinUI" Version="7.2.3" />
-    <PackageVersion Include="Uno.Extensions.Logging.Serilog" Version="7.2.3" />
-    <PackageVersion Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.7.0" />
-    <PackageVersion Include="Uno.Material.WinUI" Version="7.0.3" />
-    <PackageVersion Include="Uno.Toolkit.WinUI.Material" Version="9.0.3" />
-    <PackageVersion Include="Uno.Toolkit.WinUI" Version="9.0.3" />
-    <PackageVersion Include="Uno.Extensions.Hosting.WinUI" Version="7.2.3" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
-    <PackageVersion Include="Xamarin.Google.Android.Material" Version="1.12.0.4" Condition="$(TargetFramework.StartsWith('net9.0'))" />
-    <PackageVersion Include="Xamarin.Google.Android.Material" Version="1.12.0.5" Condition="$(TargetFramework.StartsWith('net10.0'))" />
-    <PackageVersion Include="Uno.UniversalImageLoader" Version="1.9.37" />
-    <PackageVersion Include="Microsoft.Windows.Compatibility" Version="8.0.0" />
   </ItemGroup>
   <!-- Avalonia -->
   <ItemGroup Condition=" $(IsAvaloniaProject) == 'true' ">
