@@ -9,6 +9,8 @@
     <IsWinAppSdk Condition="$(TargetFramework.Contains('windows10'))">true</IsWinAppSdk>
     <!-- WinUI / WindowsAppSDK can double-import default item rules; one explicit Page avoids NETSDK1022 for library XAML. -->
     <EnableDefaultPageItems Condition="$(TargetFramework.Contains('windows10'))">false</EnableDefaultPageItems>
+    <!-- Windows SDK / WinAppSDK supply prebuilt projections; CsWinRT supplies the matching runtime only. -->
+    <CsWinRTGenerateProjection Condition="$(TargetFramework.Contains('windows10'))">false</CsWinRTGenerateProjection>
     <TargetFrameworks>$(UnoTargetFrameworks)</TargetFrameworks>
     <OutputType>Library</OutputType>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
@@ -30,10 +32,12 @@
   </ItemGroup>
 
   <ItemGroup Condition="!$(TargetFramework.Contains('windows10'))">
-    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Interactivity.WinUI" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.Contains('windows10'))">
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" />
+    <!-- Uno 7 Hosting uses WinRT.Runtime 2.3.1; the .NET SDK's Windows projection supplies 2.2.0. -->
+    <PackageReference Include="Microsoft.Windows.CsWinRT" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Wpf\Prism.Wpf\**\*.cs" Exclude="..\..\Wpf\Prism.Wpf\bin\**\*.cs;..\..\Wpf\Prism.Wpf\obj\**\*.cs" />

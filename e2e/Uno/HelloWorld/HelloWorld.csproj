@@ -9,7 +9,7 @@
     <EnableDefaultPriItems Condition="$(TargetFramework.Contains('windows10'))">false</EnableDefaultPriItems>
     <EnableDefaultPageItems Condition="$(TargetFramework.Contains('windows10'))">false</EnableDefaultPageItems>
 
-    <TargetFrameworks>net10.0-desktop;net10.0-android;net10.0-ios;net10.0-windows10.0.26100;net10.0-browserwasm</TargetFrameworks>
+    <TargetFrameworks>$(PrismUnoSampleTargetFrameworks)</TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>

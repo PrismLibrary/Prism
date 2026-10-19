@@ -7,8 +7,8 @@
     <IsWinAppSdk Condition="$(TargetFramework.Contains('windows10'))">true</IsWinAppSdk>
     <EnableDefaultPageItems Condition="$(TargetFramework.Contains('windows10'))">false</EnableDefaultPageItems>
 
-    <!-- TFMs match the consuming app. Omit SkiaRenderer (see HelloWorld.csproj): Uno ReplaceUnoRuntime / RuntimeAssetsSelectorTask fails on Android/iOS when Skia is forced for those heads. -->
-    <TargetFrameworks>net10.0-desktop;net10.0-android;net10.0-ios;net10.0-windows10.0.26100;net10.0-browserwasm</TargetFrameworks>
+    <!-- TFMs match the consuming app; Uno 7 selects Skia implicitly. -->
+    <TargetFrameworks>$(PrismUnoSampleTargetFrameworks)</TargetFrameworks>
     <UnoSingleProject>true</UnoSingleProject>
     <OutputType>Library</OutputType>
     <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="!$(TargetFramework.Contains('windows10'))">
-    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Interactivity.WinUI" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.Contains('windows10'))">
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" />

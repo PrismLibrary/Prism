@@ -1,7 +1,7 @@
 #nullable enable
 using Microsoft.Xaml.Interactivity;
 using Prism.Dialogs;
-using Prism.Interactivity;
+using InvokeCommandAction = Prism.Interactivity.InvokeCommandAction;
 using Xunit;
 
 namespace Prism.Uno.WinUI.Tests;
