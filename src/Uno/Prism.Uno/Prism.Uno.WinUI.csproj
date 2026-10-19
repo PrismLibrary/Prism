@@ -34,6 +34,8 @@
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.Contains('windows10'))">
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" />
+    <!-- Uno 7 Hosting uses WinRT.Runtime 2.3.1; the .NET SDK's Windows projection supplies 2.2.0. -->
+    <PackageReference Include="Microsoft.Windows.CsWinRT" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Wpf\Prism.Wpf\**\*.cs" Exclude="..\..\Wpf\Prism.Wpf\bin\**\*.cs;..\..\Wpf\Prism.Wpf\obj\**\*.cs" />
