@@ -29,6 +29,9 @@ The app automatically checks:
 - The module initializes and the `ContentControl` region registers before that hook.
 - `ILoadableShell.FinishLoading` runs exactly once, after `OnInitialized` returns.
 - Navigation activates both the application-registered and module-registered views.
+- Consumer XAML resolves `ViewModelLocator.AutowireViewModel` and
+  `RegionManager.RegionName` metadata: `HomeView` receives its explicitly registered
+  `HomeViewModel`, and its named nested `ContentControl` registers `NestedSmokeContent`.
 - The first application-level event aggregator resolution can happen on a worker
   thread, and a background publication still reaches a `ThreadOption.UIThread`
   subscriber on the UI dispatcher.

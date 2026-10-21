@@ -26,7 +26,7 @@ public partial class App : Prism.DryIoc.PrismApplication
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
         containerRegistry.RegisterInstance(_state);
-        containerRegistry.RegisterForNavigation<HomeView>();
+        containerRegistry.RegisterForNavigation<HomeView, HomeViewModel>();
         containerRegistry.RegisterDialog<SmokeDialog, SmokeDialogViewModel>();
     }
 
@@ -58,6 +58,7 @@ public partial class App : Prism.DryIoc.PrismApplication
             _state.Check(_state.FinishLoadingCalls == 1,
                 "ILoadableShell.FinishLoading called exactly once after OnInitialized.");
             await NavigateAsync<HomeView>();
+            await CheckHomeViewAsync();
             await NavigateAsync<ModuleView>();
             await CheckUiThreadEventAsync();
             await CheckDialogAsync();
@@ -84,6 +85,40 @@ public partial class App : Prism.DryIoc.PrismApplication
         var result = await completion.Task.WaitAsync(TimeSpan.FromSeconds(10));
         _state.Check(result.Success && _shell!.RegionHost.Content is TView,
             $"Region navigation to {typeof(TView).Name}: {result.Exception?.Message ?? "view activated"}.");
+    }
+
+    private async Task CheckHomeViewAsync()
+    {
+        if (_shell!.RegionHost.Content is not HomeView home)
+        {
+            _state.Check(false, "Home view is unavailable for XAML metadata checks.");
+            return;
+        }
+
+        _state.Check(Prism.Mvvm.ViewModelLocator.GetAutowireViewModel(home) == true &&
+            home.DataContext is HomeViewModel,
+            "XAML ViewModelLocator.AutowireViewModel resolved the registered HomeViewModel.");
+        _state.Check(Prism.Navigation.Regions.RegionManager.GetRegionName(home.NestedRegionHost) == "NestedSmokeContent",
+            "XAML RegionManager.RegionName attached property was applied to the named control.");
+
+        // Navigation may finish before WinUI loads the new view's visual subtree.
+        var loaded = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        void OnLoaded(object sender, RoutedEventArgs args) => loaded.TrySetResult(true);
+        home.NestedRegionHost.Loaded += OnLoaded;
+        try
+        {
+            if (!home.NestedRegionHost.IsLoaded)
+                await loaded.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        }
+        finally
+        {
+            home.NestedRegionHost.Loaded -= OnLoaded;
+        }
+
+        // Also yield a dispatcher turn if the host was already marked loaded.
+        await Task.Yield();
+        _state.Check(RegionManager.Regions.ContainsRegionWithName("NestedSmokeContent"),
+            "XAML RegionManager.RegionName registered the nested ContentControl region.");
     }
 
     private async Task CheckUiThreadEventAsync()

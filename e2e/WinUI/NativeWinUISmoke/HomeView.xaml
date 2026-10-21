@@ -1,0 +1,15 @@
+﻿<UserControl
+    x:Class="NativeWinUISmoke.HomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mvvm="using:Prism.Mvvm"
+    xmlns:regions="using:Prism.Navigation.Regions"
+    mvvm:ViewModelLocator.AutowireViewModel="True">
+  <StackPanel Spacing="8">
+    <TextBlock Text="{Binding Message}" FontSize="18" />
+    <ContentControl
+        x:Name="NestedRegionControl"
+        MinHeight="24"
+        regions:RegionManager.RegionName="NestedSmokeContent" />
+  </StackPanel>
+</UserControl>
