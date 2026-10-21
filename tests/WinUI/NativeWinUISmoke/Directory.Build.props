@@ -1,7 +1,7 @@
 <Project>
   <Import Project="../../../Directory.Build.props" />
   <PropertyGroup>
-    <!-- Classify this sample before NuGet imports the central package versions. -->
+    <!-- Classify this harness before NuGet imports the central package versions. -->
     <IsNativeWinUIProject>true</IsNativeWinUIProject>
   </PropertyGroup>
 </Project>

@@ -1,0 +1,30 @@
+<Page
+    x:Class="Playground.Module.Views.RegionLabView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:prism="using:Prism.Navigation.Regions"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <ScrollViewer Padding="24" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
+    <StackPanel Spacing="16">
+      <TextBlock Text="Region lab" FontSize="28" FontWeight="SemiBold" />
+      <TextBlock TextWrapping="Wrap" IsTextSelectionEnabled="True">
+        Prism’s NavigationView adapter hosts the main pane. This page adds a nested ContentControl region (DetailRegion) using the ContentControlRegionAdapter.
+      </TextBlock>
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Button Content="Alpha detail" Command="{Binding OpenAlphaCommand}" />
+        <Button Content="Beta detail" Command="{Binding OpenBetaCommand}" />
+        <Button Content="Back in detail region" Command="{Binding GoBackDetailCommand}" />
+      </StackPanel>
+      <TextBlock TextWrapping="Wrap" IsTextSelectionEnabled="True" Opacity="0.85">
+        Open Alpha then Beta, then use “Back in detail region” to walk the nested region journal. The shell’s NavigationView back button uses the main ContentRegion journal.
+      </TextBlock>
+      <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Padding="8" MinHeight="220">
+        <ContentControl prism:RegionManager.RegionName="DetailRegion" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</Page>

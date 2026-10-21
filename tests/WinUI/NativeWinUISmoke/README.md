@@ -1,6 +1,8 @@
 # Native WinUI smoke app
 
-This is an unpackaged, Windows-only WinUI 3 application. It references
+This is a focused, unpackaged, Windows-only WinUI 3 regression harness.
+For the interactive API exercise application, use `e2e/WinUI/HelloWorld`.
+This harness is not the end-to-end playground. It references
 `Prism.DryIoc.WinUI` and the centrally versioned `Microsoft.WindowsAppSDK` directly.
 It does not reference Uno, Uno Hosting, Uno Toolkit, or Uno extensions.
 
@@ -15,8 +17,8 @@ Linux runner. Windows App SDK runtime files are included in the output by
 From the repository root, in PowerShell:
 
 ```powershell
-dotnet build e2e/WinUI/NativeWinUISmoke/NativeWinUISmoke.csproj -c Debug -p:Platform=x64 -r win-x64
-$app = 'e2e/WinUI/NativeWinUISmoke/bin/x64/Debug/net10.0-windows10.0.19041.0/win-x64/NativeWinUISmoke.exe'
+dotnet build tests/WinUI/NativeWinUISmoke/NativeWinUISmoke.csproj -c Debug -p:Platform=x64 -r win-x64
+$app = 'tests/WinUI/NativeWinUISmoke/bin/x64/Debug/net10.0-windows10.0.19041.0/win-x64/NativeWinUISmoke.exe'
 & $app
 ```
 
@@ -60,7 +62,7 @@ log is produced. Navigation, event delivery, and dialog completion each have a
 ## Check dependency isolation
 
 ```powershell
-dotnet list e2e/WinUI/NativeWinUISmoke/NativeWinUISmoke.csproj package --include-transitive
+dotnet list tests/WinUI/NativeWinUISmoke/NativeWinUISmoke.csproj package --include-transitive
 ```
 
 There should be no `Uno.*` package. A successful restore or Linux cross-build is

@@ -28,6 +28,12 @@ There is deliberately no `Host`, `ConfigureHost`, `ConfigureApp`, or Uno
 `IApplicationBuilder`. Register application services using `RegisterTypes`.
 Native markup helpers and NativeAOT support are not part of this addition.
 
+## API playground
+
+Open `e2e/WinUI/HelloWorld.slnx` for the manual API exercise application.
+It follows the existing HelloWorld / Playground.Module structure, with native
+WinUI region, navigation, journal, dialog, and modularity examples.
+
 ## Validation
 
 On Windows with the .NET 10 SDK and Windows SDK installed, and the repository's
@@ -39,6 +45,6 @@ powershell -File .\build\Validate-NativeWinUI.ps1
 
 The script builds Release/x64, inspects both restored dependency closures for
 Uno packages, packs both libraries, and checks their nuspec dependencies. See
-`e2e/WinUI/NativeWinUISmoke` for runtime lifecycle, navigation, UI dispatch, and
+`tests/WinUI/NativeWinUISmoke` for runtime lifecycle, navigation, UI dispatch, and
 dialog smoke checks. A successful package build does not substitute for running
 that native UI application on Windows.

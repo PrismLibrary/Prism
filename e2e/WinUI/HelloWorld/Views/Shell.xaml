@@ -1,0 +1,28 @@
+<Page
+    x:Class="HelloWorld.Views.Shell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:prism="using:Prism.Navigation.Regions"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
+    <NavigationView x:Name="MainNavigation"
+                    prism:RegionManager.RegionName="ContentRegion"
+                    IsSettingsVisible="false"
+                    IsBackButtonVisible="Visible"
+                    PaneDisplayMode="Left">
+      <NavigationView.MenuItems>
+        <NavigationViewItem Content="Home" Tag="HomeView" />
+        <NavigationViewItem Content="Region lab" Tag="RegionLabView" />
+        <NavigationViewItem Content="Dialog lab" Tag="DialogLabView" />
+        <NavigationViewItem Content="Module" Tag="ModuleAboutView" />
+      </NavigationView.MenuItems>
+    </NavigationView>
+    <Grid x:Name="LoadingOverlay"
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="16">
+        <ProgressRing x:Name="LoadingProgress" IsActive="True" Width="64" Height="64" />
+        <TextBlock Text="Loading Prism playground..." />
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Page>

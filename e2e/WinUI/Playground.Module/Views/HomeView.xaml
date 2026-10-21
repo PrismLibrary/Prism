@@ -1,0 +1,28 @@
+<Page
+    x:Class="Playground.Module.Views.HomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:prism="using:Prism.Interactivity"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <ScrollViewer Padding="24" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
+    <StackPanel Spacing="16" MaxWidth="720">
+      <TextBlock Text="Prism playground" FontSize="28" FontWeight="SemiBold" />
+      <TextBlock TextWrapping="Wrap" IsTextSelectionEnabled="True">
+        Use the pane to open region, dialog, and module demos. This page includes Prism’s InvokeCommandAction on the button below.
+      </TextBlock>
+      <Button Content="Go to region lab (InvokeCommandAction)">
+        <i:Interaction.Behaviors>
+          <core:EventTriggerBehavior EventName="Click">
+            <prism:InvokeCommandAction Command="{Binding GoToRegionLabCommand}" />
+          </core:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
+      </Button>
+    </StackPanel>
+  </ScrollViewer>
+</Page>
