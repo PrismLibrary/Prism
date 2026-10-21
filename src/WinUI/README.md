@@ -5,6 +5,13 @@
 an Uno package/project. Shared source is linked from the WPF and Uno implementations;
 UI metadata remains in the UI assembly rather than Prism.Core.
 
+The native projects and playground use the current stable packages verified on
+October 21, 2026: [Windows App SDK 2.5.1](https://www.nuget.org/packages/Microsoft.WindowsAppSDK/2.5.1),
+[C#/WinRT 2.3.1](https://www.nuget.org/packages/Microsoft.Windows.CsWinRT/2.3.1),
+and [WinUI managed behaviors 3.0.1](https://www.nuget.org/packages/Microsoft.Xaml.Behaviors.WinUI.Managed/3.0.1).
+These versions are centrally managed only for native WinUI projects; existing Uno
+targets retain their own package settings.
+
 ## Application startup
 
 Derive your App from `Prism.DryIoc.PrismApplication`, using
@@ -74,17 +81,17 @@ Open `e2e/WinUI/HelloWorld.slnx` for the manual API exercise application.
 It follows the existing HelloWorld / Playground.Module structure, with native
 WinUI region, navigation, journal, dialog, and modularity examples.
 
-## Validation
+## Build and test
 
-On Windows with the .NET 10 SDK and Windows SDK installed, and the repository's
-Prism container package feed configured, run:
+On Windows with the .NET 10 SDK, Windows SDK / WinUI build tools, and the
+repository's Prism container package feed configured, build
+`PrismLibrary_WinUI.slnf` using the normal solution/MSBuild workflow:
 
 ```powershell
-powershell -File .\build\Validate-NativeWinUI.ps1
+msbuild .\PrismLibrary_WinUI.slnf -restore -p:Configuration=Release -p:Platform=x64
 ```
 
-The script builds Release/x64, inspects both restored dependency closures for
-Uno packages, packs both libraries, and checks their nuspec dependencies. See
-`tests/WinUI/NativeWinUISmoke` for runtime lifecycle, navigation, UI dispatch, and
-dialog smoke checks. A successful package build does not substitute for running
-that native UI application on Windows.
+Use `e2e/WinUI/HelloWorld.slnx` for the manual playground. See
+`tests/WinUI/NativeWinUISmoke` for the focused Windows runtime checks and their
+build/run instructions. A successful managed-source check or package restore
+does not establish native XAML compilation, packaging, or Windows UI behavior.

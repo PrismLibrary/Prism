@@ -68,8 +68,8 @@ The app automatically checks:
   Its scoped dependencies and the shared root singleton remain undisposed.
 
 The cross-window dialog check is intentional: the pinned native WinUI implementation
-checks existing dialogs through [per-XamlRoot dialog metadata](https://github.com/microsoft/microsoft-ui-xaml/blob/de1b1d8fb7981fc67d984620fe70dd491fc0f32d/src/dxaml/xcp/dxaml/lib/ContentDialog_Partial.cpp#L700-L731),
-which [belongs to each individual XamlRoot](https://github.com/microsoft/microsoft-ui-xaml/blob/de1b1d8fb7981fc67d984620fe70dd491fc0f32d/src/dxaml/xcp/dxaml/lib/XamlRoot_Partial.cpp#L306-L319).
+checks existing dialogs through [per-XamlRoot dialog metadata](https://github.com/microsoft/microsoft-ui-xaml/blob/ba3a8d59e6de4e2b86ca4f61c78bc26ccf129afd/src/dxaml/xcp/dxaml/lib/ContentDialog_Partial.cpp#L700-L731),
+which [belongs to each individual XamlRoot](https://github.com/microsoft/microsoft-ui-xaml/blob/ba3a8d59e6de4e2b86ca4f61c78bc26ccf129afd/src/dxaml/xcp/dxaml/lib/XamlRoot_Partial.cpp#L298-L310).
 Thus requests sharing one window must serialize, while different window roots can
 show dialogs independently. The desktop run verifies that behavior end to end.
 

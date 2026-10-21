@@ -40,7 +40,7 @@
   </ItemGroup>
   <!-- Native WinUI uses the Windows App SDK directly, never Uno.Sdk. -->
   <ItemGroup Condition=" $(IsNativeWinUIProject) == 'true' ">
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
   </ItemGroup>
